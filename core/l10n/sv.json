@@ -339,7 +339,6 @@
     "Get your own free account" : "Skaffa ett eget gratiskonto",
     "%s homepage" : "%s hemsida",
     "Confirm your password" : "Bekräfta ditt lösenord",
-    "%s's homepage" : "%s's hemsida",
     "Connect to your account" : "Anslut ditt konto",
     "Please log in before granting %1$s access to your %2$s account." : "Logga in innan du ger %1$s åtkomst till ditt %2$s konto.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Om du inte försöker konfigurera en ny enhet eller app, försöker någon lura dig att ge dem åtkomst till din data. Fortsätt i så fall inte, utan kontakta istället din systemadministratör.",
@@ -407,6 +406,7 @@
     "More apps menu" : "Fler appar - meny",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
+    "%s's homepage" : "%s's hemsida"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

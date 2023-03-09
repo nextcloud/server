@@ -358,7 +358,6 @@ OC.L10N.register(
     "Get your own free account" : "Создайте свою бесплатную учётную запись",
     "%s homepage" : "Домашняя страница %s",
     "Confirm your password" : "Подтвердите свой пароль",
-    "%s's homepage" : "Домашняя страница %s",
     "Connect to your account" : "Вход в систему",
     "Please log in before granting %1$s access to your %2$s account." : "Для предоставления %1$s доступа к учётной записи %2$s необходимо войти в систему.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Если вы не пытались настроить новое устройство или приложение, значит, кто-то пытается получить доступ к вашим данным. В этом случае свяжитесь с администратором системы.",
@@ -427,6 +426,7 @@ OC.L10N.register(
     "Contacts" : "Контакты",
     "Contacts menu" : "Меню контактов",
     "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}",
+    "%s's homepage" : "Домашняя страница %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

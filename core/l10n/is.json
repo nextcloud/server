@@ -313,7 +313,6 @@
     "Skip to navigation of app" : "Hlaupa yfir í flakk innan forrits",
     "Get your own free account" : "Fáðu þér eigin ókeypis aðgang",
     "Confirm your password" : "Staðfestu lykilorðið þitt",
-    "%s's homepage" : "Heimasíða %s",
     "Connect to your account" : "Tengdu við notandaaðganginn þinn",
     "Please log in before granting %1$s access to your %2$s account." : "Skráðu þig inn áður en þú leyfir %1$s aðgang að %2$s notandaaðgangnum þínum.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ef þú ert ekki að reyna að setja upp nýtt tæki eða forrit, þá er einhver annar að reyna að gabba þig til að gefa þeim aðgang að gögnunum þínum. Ef svo er, skaltu ekki halda áfram í þessu ferli og hafa strax samband við kerfisstjórann þinn.",
@@ -379,6 +378,7 @@
     "More apps menu" : "Valmynd með fleiri forrit",
     "Contacts" : "Tengiliðir",
     "Contacts menu" : "Tengiliðavalmynd",
-    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
+    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
+    "%s's homepage" : "Heimasíða %s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

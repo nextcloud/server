@@ -352,7 +352,6 @@
     "Get your own free account" : "Maak je eigen gratis account",
     "%s homepage" : "%shomepagina",
     "Confirm your password" : "Bevestig je wachtwoord",
-    "%s's homepage" : "%s's homepage",
     "Connect to your account" : "Verbind jouw account",
     "Please log in before granting %1$s access to your %2$s account." : "Eerst inloggen voordat je %1$s toegang geeft tot je %2$s account.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Als u geen nieuw apparaat of nieuwe app probeert in te stellen, probeert iemand je te misleiden om hem toegang tot je gegevens te verlenen. Ga in dat geval niet verder en neem in plaats daarvan contact op met je systeembeheerder.",
@@ -421,6 +420,7 @@
     "Contacts" : "Contactpersonen",
     "Contacts menu" : "Contacten menu",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}",
+    "%s's homepage" : "%s's homepage"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

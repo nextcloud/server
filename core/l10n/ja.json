@@ -355,7 +355,6 @@
     "Get your own free account" : "無料でアカウントを作成",
     "%s homepage" : "%s ホームページ",
     "Confirm your password" : "パスワードを確認",
-    "%s's homepage" : "%sのホームページ",
     "Connect to your account" : "あなたのアカウントに接続する",
     "Please log in before granting %1$s access to your %2$s account." : "あなたの %2$s アカウントに %1$s アクセスを許可する前にログインしてください。",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "新しいデバイスやアプリを設定しようとしていないのに、今この画面が表示された場合、誰かがあなたを騙してデータへのアクセス権を奪取しようとしています。その場合は、ここで止めてシステム管理者に連絡してください。",
@@ -424,6 +423,7 @@
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
+    "%s's homepage" : "%sのホームページ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

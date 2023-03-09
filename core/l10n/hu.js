@@ -353,7 +353,6 @@ OC.L10N.register(
     "Skip to navigation of app" : "Ugrás az alkalmazás navigációjához",
     "Get your own free account" : "Szerezzen saját ingyenes fiókot",
     "Confirm your password" : "Erősítse meg a jelszavát:",
-    "%s's homepage" : "%s honlapja",
     "Connect to your account" : "Kapcsolódás a fiókjához",
     "Please log in before granting %1$s access to your %2$s account." : "Lépjen be mielőtthozzáférést biztosít a(z) %1$s kliensnek a(z) %2$s fiókjához.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ha nem új eszközt vagy alkalmazást próbál beállítani, akkor valaki megpróbálja becsapni, hogy hozzáférést biztosítson számára az adatokhoz. Ebben az esetben ne folytassa, hanem lépjen kapcsolatba a rendszergazdával.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Contacts" : "Névjegyek",
     "Contacts menu" : "Névjegyek menü",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy 32 bites PHP verziót használ. A Nextcloud megfelelő futtatásához 64 bites szükséges. Frissítse 64 bitesre az operációs rendszerét és a PHP-ját. További részletekért olvassa el az {linkstart}erről szóló dokumentációs oldalt ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy 32 bites PHP verziót használ. A Nextcloud megfelelő futtatásához 64 bites szükséges. Frissítse 64 bitesre az operációs rendszerét és a PHP-ját. További részletekért olvassa el az {linkstart}erről szóló dokumentációs oldalt ↗{linkend}.",
+    "%s's homepage" : "%s honlapja"
 },
 "nplurals=2; plural=(n != 1);");

@@ -356,7 +356,6 @@
     "Get your own free account" : "取得免費賬號",
     "%s homepage" : "%s 的首頁",
     "Confirm your password" : "確認密碼",
-    "%s's homepage" : "%s 的主頁",
     "Connect to your account" : "連結您的賬號",
     "Please log in before granting %1$s access to your %2$s account." : "請登入後再授權「%1$s」存取您的 %2$s 賬號",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "若你並未嘗試在新的裝置登入你的賬戶，有什麼人證在嘗試登入你的賬戶並存取你的個人資料。大多數情況你並不用作任何應對，但也可通知你的系統管理員。",
@@ -425,6 +424,7 @@
     "Contacts" : "聯絡人",
     "Contacts menu" : "聯絡人選單",
     "Setup two-factor authentication" : "設定雙重認證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
+    "%s's homepage" : "%s 的主頁"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
