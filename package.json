@@ -78,7 +78,7 @@
     "jquery-ui-dist": "^1.13.2",
     "libphonenumber-js": "^1.10.13",
     "lodash": "^4.17.21",
-    "marked": "^4.0.14",
+    "marked": "^4.2.12",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.38",
     "nextcloud-vue-collections": "^0.10.0",
