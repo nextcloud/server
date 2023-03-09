@@ -26,8 +26,7 @@
 		:title="share.shareWithDisplayName">
 		<template #avatar>
 			<NcAvatar :user="share.shareWith"
-				:aria-label="share.shareWithDisplayName"
-				:title="share.shareWithDisplayName"
+				:display-name="share.shareWithDisplayName"
 				class="sharing-entry__avatar" />
 		</template>
 		<NcActionText icon="icon-user">
