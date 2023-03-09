@@ -49,6 +49,7 @@
     "Repair info:" : "Инфо о поправци:",
     "Repair warning:" : "Упозорење о поправци:",
     "Repair error:" : "Грешка поправке:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php.",
     "Turned on maintenance mode" : "Режим одржавања укључен",
     "Turned off maintenance mode" : "Режим одржавања искључен",
     "Maintenance mode is kept active" : "Режим одржавања се држи активним",
@@ -181,6 +182,7 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Једноставна е-мејл апликација која се лепо интегрише са Фајловима, Контактима и Календаром.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Ћаскање, видео позиви, дељење екрана, састанци на интернету & веб конференције – на десктоп рачунару и преко мобилних апликација.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Заједнички документи, табеле и презентације, изграђени на Collabora Online.",
+    "Distraction free note taking app." : "Апликација за вођење бележака без ометања.",
     "Search contacts" : "Претрага контакта",
     "Forgot password?" : "Заборавили сте лозинку?",
     "Log in with a device" : "Пријава са уређајем",
@@ -212,6 +214,7 @@
     "Settings menu" : "Мени подешавања",
     "Search {types} …" : "Претражи {types}…",
     "Settings" : "Поставке",
+    "Avatar of {fullName}" : "Аватар корисника {fullName}",
     "Could not load your contacts" : "Не могу да учитам Ваше контакте",
     "Search contacts …" : "Претражи контакте ...",
     "No contacts found" : "Контакти нису нађени",
@@ -282,6 +285,7 @@
     "Strong password" : "Јака лозинка",
     "No action available" : "Нема доступне радње",
     "Error fetching contact actions" : "Грешка приликом дохватања акција над контактима",
+    "Close \"{dialogTitle}\" dialog" : "Затвори дијалог „{dialogTitle}”",
     "Non-existing tag #{tag}" : "Непостојећа ознака #{tag}",
     "Restricted" : "Ограничена",
     "Invisible" : "Невидљива",
@@ -352,7 +356,6 @@
     "Get your own free account" : "Узмите бесплатан налог",
     "%s homepage" : "%s почетна страна",
     "Confirm your password" : "Потврдите лозинку",
-    "%s's homepage" : "Почетна страна корисника %s",
     "Connect to your account" : "Повежите се на Ваш налог",
     "Please log in before granting %1$s access to your %2$s account." : "Прво се пријавите пре него што одобрите привилегију %1$s приступ Вашем налогу %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ако не покушавате да подесите нови уређај или апликацију, неко покушава да Вас превари да му дате приступ Вашим подацима. У том случају, не настављајте и контактирајте администратора Вашег система.",
@@ -421,6 +424,7 @@
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени контаката",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}.",
+    "%s's homepage" : "Почетна страна корисника %s"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

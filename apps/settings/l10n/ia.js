@@ -20,6 +20,7 @@ OC.L10N.register(
     "Administrator documentation" : "Documentation de administrator",
     "User documentation" : "Documentation de usator",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Un problema occurreva durante le invio del e-posta. Per favor, revide tu configurationes. (Error: %s)",
+    "Users" : "Usatores",
     "Invalid user" : "Usator invalide",
     "Invalid mail address" : "Adresse de e-posta non valide",
     "Settings saved" : "Configurationes salveguardate",

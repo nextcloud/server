@@ -49,6 +49,7 @@
     "Repair info:" : "Información de reparación:",
     "Repair warning:" : "Advertencia de reparación:",
     "Repair error:" : "Error que reparar:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Por favor use el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "Turned on maintenance mode" : "Modo mantenimiento activado",
     "Turned off maintenance mode" : "Modo mantenimiento desactivado",
     "Maintenance mode is kept active" : "El modo mantenimiento aún está activo.",
@@ -181,6 +182,7 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Simple email app se integra bien con Archivos, Contactos y Calendario.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Mensajes, videollamadas, compartir pantalla, reuniones online y conferencias web – en tu navegador y con apps móviles.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Documentos colaborativos, hojas de cálculo y presentaciones, basadas en Collabora Online.",
+    "Distraction free note taking app." : "App de de notas y escritura libre de distracciones.",
     "Search contacts" : "Buscar contactos",
     "Forgot password?" : "¿Contraseña olvidada?",
     "Log in with a device" : "Iniciar sesión con dispositivo",
@@ -212,6 +214,7 @@
     "Settings menu" : "Menú de configuraciones",
     "Search {types} …" : "Buscar {types}…",
     "Settings" : "Configuraciones",
+    "Avatar of {fullName}" : "Avatar de {fullName}",
     "Could not load your contacts" : "No se han podido cargar los contactos",
     "Search contacts …" : "Buscar contactos...",
     "No contacts found" : "No se han encontrado contactos",
@@ -282,6 +285,7 @@
     "Strong password" : "Contraseña muy buena",
     "No action available" : "No hay acciones disponibles",
     "Error fetching contact actions" : "Error recuperando las acciones de los contactos",
+    "Close \"{dialogTitle}\" dialog" : "Cerrar diálogo \"{dialogTitle}\"",
     "Non-existing tag #{tag}" : "Categoría #{tag} no existente",
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
@@ -352,7 +356,6 @@
     "Get your own free account" : "Consigue tu propia cuenta gratuita",
     "%s homepage" : "Página de inicio de %s",
     "Confirm your password" : "Confirme su contraseña",
-    "%s's homepage" : "%s página de inicio",
     "Connect to your account" : "Conectar a cuenta",
     "Please log in before granting %1$s access to your %2$s account." : "Por favor, inicia sesión antes de conceder a %1$s acceso a tu cuenta %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si no estás intentando añadir un nuevo dispositivo o una nueva app, alguien está intentando engañarte para que proporciones acceso a tus datos. En este caso, no prosigas y en su lugar avisa a tu administrador de sistemas.",
@@ -421,6 +424,7 @@
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de contactos",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud necesita 64 bits para su correcto funcionamiento. ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud necesita 64 bits para su correcto funcionamiento. ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}.",
+    "%s's homepage" : "%s página de inicio"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

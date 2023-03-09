@@ -343,7 +343,6 @@
     "Skip to navigation of app" : "Passa alla navigazione dell'applicazione",
     "Get your own free account" : "Ottieni il tuo account gratuito",
     "Confirm your password" : "Conferma la tua password",
-    "%s's homepage" : "%s's homepage",
     "Connect to your account" : "Connetti il tuo account",
     "Please log in before granting %1$s access to your %2$s account." : "Accedi prima di accordare a %1$s l'accesso al tuo account %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Se non stai tentando di configurare un nuovo dispositivo o applicazione, qualcuno sta provando a ingannarti per ottenere l'accesso ai tuoi dati. In questo caso non procedere e contatta l'amministratore di sistema.",
@@ -411,6 +410,7 @@
     "More apps menu" : "Menu delle altre applicazioni",
     "Contacts" : "Contatti",
     "Contacts menu" : "Menu dei contatti",
-    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori"
+    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
+    "%s's homepage" : "%s's homepage"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
