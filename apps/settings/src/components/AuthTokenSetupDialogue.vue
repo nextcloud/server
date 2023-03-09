@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div v-if="!adding" class="row spacing">
+	<div v-if="!adding" id="generate-app-token-section" class="row spacing">
 		<!-- Port to TextField component when available -->
 		<input v-model="deviceName"
 			type="text"
