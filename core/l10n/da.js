@@ -350,7 +350,6 @@ OC.L10N.register(
     "Skip to navigation of app" : "Skip til navigation af app",
     "Get your own free account" : "Få din egen gratis konto",
     "Confirm your password" : "Bekræft dit password",
-    "%s's homepage" : "%s's hjemmeside",
     "Connect to your account" : "Forbind til din konto",
     "Please log in before granting %1$s access to your %2$s account." : "Log venligst ind for at tildele %1$s adgang til din %2$s konto.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Hvis du ikke er igang med at konfigurerer en ny enhed eller app, så er der nogen som forsøger at snyde dig til at give dem adgang til dine data. I dette filfælde skal du ikke forsætte, men istedet kontakte din system administrator.",
@@ -419,6 +418,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Menuen kontakter",
     "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}.",
+    "%s's homepage" : "%s's hjemmeside"
 },
 "nplurals=2; plural=(n != 1);");

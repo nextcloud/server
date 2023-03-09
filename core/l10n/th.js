@@ -294,7 +294,6 @@ OC.L10N.register(
     "Skip to navigation of app" : "ข้ามไปที่การนำทางของแอป",
     "Get your own free account" : "รับบัญชีฟรีของคุณ",
     "Confirm your password" : "ยืนยันรหัสผ่านของคุณ",
-    "%s's homepage" : "หน้าหลักของ %s",
     "Connect to your account" : "เชื่อมต่อบัญชีของคุณ",
     "Please log in before granting %1$s access to your %2$s account." : "กรุณาเข้าสู่ระบบก่อนอนุญาตให้ %1$s เข้าถึงบัญชี %2$s ของคุณ",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "หากคุณไม่ได้เป็นคนตั้งค่าอุปกรณ์หรือแอปใหม่ อาจมีบุคคลอื่นกำลังหลอกให้คุณอนุญาตให้พวกเขาเข้าถึงข้อมูลของคุณ ในกรณีนี้ห้ามดำเนินการต่อ ให้ติดต่อผู้ดูแลระบบของคุณ",
@@ -360,6 +359,7 @@ OC.L10N.register(
     "More apps menu" : "เมนูแอปเพิ่มเติม",
     "Contacts" : "รายชื่อผู้ติดต่อ",
     "Contacts menu" : "เมนูรายชื่อผู้ติดต่อ",
-    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย"
+    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย",
+    "%s's homepage" : "หน้าหลักของ %s"
 },
 "nplurals=1; plural=0;");

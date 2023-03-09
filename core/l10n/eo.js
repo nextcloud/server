@@ -287,7 +287,6 @@ OC.L10N.register(
     "Skip to navigation of app" : "Iru al la aplikaĵa navigado",
     "Get your own free account" : "Ekhavu vian propran senpagan konton",
     "Confirm your password" : "Konfirmu vian pasvorton",
-    "%s's homepage" : "Ĉefpaĝo de %s",
     "Connect to your account" : "Konekti al via konto",
     "Please log in before granting %1$s access to your %2$s account." : "Bv. unue ensaluti por doni al %1$s aliron al via konto %2$s.",
     "App token" : "Aplikaĵa ĵetono",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "More apps menu" : "Menuo „Pli da aplikaĵoj“",
     "Contacts" : "Kontaktoj",
     "Contacts menu" : "Menuo de kontaktoj",
-    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
+    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon",
+    "%s's homepage" : "Ĉefpaĝo de %s"
 },
 "nplurals=2; plural=(n != 1);");

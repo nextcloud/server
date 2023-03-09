@@ -351,7 +351,6 @@
     "Skip to navigation of app" : "Salto aplikazioaren nabigaziora",
     "Get your own free account" : "Eskuratu zure kontu propioa doan",
     "Confirm your password" : "Berretsi pasahitza",
-    "%s's homepage" : "%s-(r)en hasiera orria",
     "Connect to your account" : "Konektatu zure kontura",
     "Please log in before granting %1$s access to your %2$s account." : "Hasi saioa %1$s-(r)i  zure %2$s kontura sarbidea eman aurretik.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Gailu edo aplikazio berri bat konfiguratzen saiatzen ari ez bazara, norbait zu engainatzen saiatzen ari da zure datuetarako sarbidea eman diezaiozun. Kasu horretan, jarraitu ordez jarri harremanetan sistemaren administratzailearekin.",
@@ -420,6 +419,7 @@
     "Contacts" : "Kontaktuak",
     "Contacts menu" : "Kontaktuen menua",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}.",
+    "%s's homepage" : "%s-(r)en hasiera orria"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

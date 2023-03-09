@@ -358,7 +358,6 @@ OC.L10N.register(
     "Get your own free account" : "Get your own free account",
     "%s homepage" : "%s homepage",
     "Confirm your password" : "Confirm your password",
-    "%s's homepage" : "%s's homepage",
     "Connect to your account" : "Connect to your account",
     "Please log in before granting %1$s access to your %2$s account." : "Please log in before granting %1$s access to your %2$s account.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.",
@@ -427,6 +426,7 @@ OC.L10N.register(
     "Contacts" : "Contacts",
     "Contacts menu" : "Contacts menu",
     "Setup two-factor authentication" : "Setup two-factor authentication",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}.",
+    "%s's homepage" : "%s's homepage"
 },
 "nplurals=2; plural=(n != 1);");

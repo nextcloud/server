@@ -330,7 +330,6 @@ OC.L10N.register(
     "Get your own free account" : "Креирајте ваша сметка",
     "%s homepage" : "Страната на %s",
     "Confirm your password" : "Потврдете ја вашата лозинка",
-    "%s's homepage" : "Страната на %s",
     "Connect to your account" : "Поврзани со вашата сметка",
     "Please log in before granting %1$s access to your %2$s account." : "Ве молиме најавете се пред да доделите пристап на %1$s во вашата %2$s сметка.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Доколку не се обидувате да додадете нов уред, некој се обидува да ве надитри и да обезбеди пристап до вашите податоци. Во тој случај не продолжувајте понатаму и веднаш контактирајте го администраторот.",
@@ -395,6 +394,7 @@ OC.L10N.register(
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација",
+    "%s's homepage" : "Страната на %s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

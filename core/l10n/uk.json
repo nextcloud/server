@@ -350,7 +350,6 @@
     "Skip to navigation of app" : "Перейти до навігації застосунку",
     "Get your own free account" : "Отримати безкоштовний обліковий запис",
     "Confirm your password" : "Підтвердіть пароль",
-    "%s's homepage" : "Домівка %s ",
     "Connect to your account" : "Увійти до вашого облікового запису",
     "Please log in before granting %1$s access to your %2$s account." : "Для надання %1$s доступу до облікового запису %2$s необхідно увійти в систему.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Якщо ви не намагаєтеся налаштувати новий пристрій або програму, хтось намагається обманом змусити вас надати доступ до ваших даних. У цьому випадку не продовжуйте, а зверніться до системного адміністратора.",
@@ -419,6 +418,7 @@
     "Contacts" : "Контакти",
     "Contacts menu" : "Меню контактів",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}.",
+    "%s's homepage" : "Домівка %s "
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

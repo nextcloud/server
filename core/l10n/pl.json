@@ -356,7 +356,6 @@
     "Get your own free account" : "Załóż własne bezpłatne konto",
     "%s homepage" : "Strona główna %s",
     "Confirm your password" : "Potwierdź hasło",
-    "%s's homepage" : "Strona główna %s",
     "Connect to your account" : "Połącz z kontem",
     "Please log in before granting %1$s access to your %2$s account." : "Zaloguj się przed udzieleniem dostępu %1$s do swojego konta %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jeśli nie konfigurujesz nowego urządzenia lub aplikacji, to wynika z tego, że ktoś próbuje, abyś udzielił dostępu do Twoich danych. W takim przypadku nie kontynuuj, tylko skontaktuj się z administratorem systemu.",
@@ -425,6 +424,7 @@
     "Contacts" : "Kontakty",
     "Contacts menu" : "Menu kontaktów",
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
+    "%s's homepage" : "Strona główna %s"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
