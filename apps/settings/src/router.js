@@ -27,6 +27,7 @@ import Router from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
 import { APPS_SECTION_ENUM } from './constants/AppsConstants.js'
 import store from './store/index.js'
+import { setPageHeading } from '../../../core/src/OCP/accessibility.js'
 
 // Dynamic loading
 const Users = () => import(/* webpackChunkName: 'settings-users' */'./views/Users')
@@ -126,6 +127,7 @@ router.afterEach(async (to) => {
 	const metaTitle = await to.meta.title?.(to)
 	if (metaTitle) {
 		document.title = `${metaTitle} - ${baseTitle}`
+		setPageHeading(metaTitle)
 	} else {
 		document.title = baseTitle
 	}
