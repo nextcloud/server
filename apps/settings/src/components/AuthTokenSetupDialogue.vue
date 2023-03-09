@@ -21,18 +21,20 @@
 
 <template>
 	<div v-if="!adding" class="row spacing">
-		<!-- Port to TextField component when available -->
-		<input v-model="deviceName"
-			type="text"
-			:maxlength="120"
-			:disabled="loading"
-			:placeholder="t('settings', 'App name')"
-			@keydown.enter="submit">
-		<NcButton :disabled="loading || deviceName.length === 0"
-			type="primary"
-			@click="submit">
-			{{ t('settings', 'Create new app password') }}
-		</NcButton>
+		<a id="generate-app-token-section">
+			<!-- Port to TextField component when available -->
+			<input v-model="deviceName"
+				type="text"
+				:maxlength="120"
+				:disabled="loading"
+				:placeholder="t('settings', 'App name')"
+				@keydown.enter="submit">
+			<NcButton :disabled="loading || deviceName.length === 0"
+				type="primary"
+				@click="submit">
+				{{ t('settings', 'Create new app password') }}
+			</NcButton>
+		</a>
 	</div>
 	<div v-else class="spacing">
 		{{ t('settings', 'Use the credentials below to configure your app or device.') }}
