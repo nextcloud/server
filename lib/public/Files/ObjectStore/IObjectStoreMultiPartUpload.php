@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\ObjectStore;
 
 use Aws\Result;
@@ -35,6 +36,15 @@ interface IObjectStoreMultiPartUpload {
 
 	/**
 	 * @since 26.0.0
+	 * @return array of the parts in ListParts response
+	 *
+	 * Sample data:
+	 * [[
+	 * 		'PartNumber' => 1,
+	 * 		'LastModified' => '2010-11-10T20:48:34.000Z',
+	 * 		'ETag' => '"7778aef83f66abc1fa1e8477f296d394"',
+	 * 		'Size' => 10485760,
+	 * ]]
 	 */
 	public function getMultipartUploads(string $urn, string $uploadId): array;
 }

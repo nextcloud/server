@@ -11,16 +11,14 @@ use OC\Files\ObjectStore\ObjectStoreStorage;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IStorage;
+use OCP\ICacheFactory;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadFolder implements ICollection {
-	/** @var Directory */
-	private $node;
-	/** @var CleanupService */
-	private $cleanupService;
-	/** @var IStorage */
-	private $storage;
+	private Directory $node;
+	private CleanupService $cleanupService;
+	private IStorage $storage;
 
 	public function __construct(Directory $node, CleanupService $cleanupService, IStorage $storage) {
 		$this->node = $node;
@@ -66,7 +64,7 @@ class UploadFolder implements ICollection {
 			/** @var ObjectStoreStorage $storage */
 			$objectStore = $this->storage->getObjectStore();
 			if ($objectStore instanceof IObjectStoreMultiPartUpload) {
-				$cache = \OC::$server->getMemCacheFactory()->createDistributed(ChunkingV2Plugin::CACHE_KEY);
+				$cache = \OCP\Server::get(ICacheFactory::class)->createDistributed(ChunkingV2Plugin::CACHE_KEY);
 				$uploadSession = $cache->get($this->getName());
 				if ($uploadSession) {
 					$uploadId = $uploadSession[ChunkingV2Plugin::UPLOAD_ID];
@@ -108,7 +106,7 @@ class UploadFolder implements ICollection {
 		return $this->node->getLastModified();
 	}
 
-	public function getStorage() {
+	public function getStorage(): IStorage {
 		return $this->storage;
 	}
 }

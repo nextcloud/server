@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,12 +28,13 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\PreconditionFailed;
-use Sabre\DAV\ICollection;
-use Sabre\DAV\INode;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -40,12 +42,9 @@ use Sabre\HTTP\ResponseInterface;
 use Sabre\Uri;
 
 class ChunkingV2Plugin extends ServerPlugin {
-	/** @var Server */
-	private $server;
-	/** @var UploadFolder */
-	private $uploadFolder;
-	/** @var ICache */
-	private $cache;
+	private ?Server $server = null;
+	private ?UploadFolder $uploadFolder;
+	private ICache $cache;
 
 	private ?string $uploadId = null;
 	private ?string $uploadPath = null;
@@ -59,14 +58,14 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 	private const DESTINATION_HEADER = 'Destination';
 
-	public function __construct(ICacheFactory $cacheFactory) {
+	public function __construct(ICacheFactory $cacheFactory, private LoggerInterface $logger) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$server->on('afterMethod:MKCOL', [$this, 'afterMkcol']);
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);
 		$server->on('beforeMethod:DELETE', [$this, 'beforeDelete']);
@@ -75,12 +74,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$this->server = $server;
 	}
 
-	/**
-	 * @param string $path
-	 * @param bool $createIfNotExists
-	 * @return FutureFile|UploadFile|ICollection|INode
-	 */
-	private function getUploadFile(string $path, bool $createIfNotExists = false) {
+	private function getUploadFile(string $path, bool $createIfNotExists = false): UploadFile|File {
 		try {
 			$actualFile = $this->server->tree->getNodeForPath($path);
 			// Only directly upload to the target file if it is on the same storage
@@ -109,6 +103,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			$this->prepareUpload($request->getPath());
 			$this->checkPrerequisites(false);
 		} catch (BadRequest|StorageInvalidException|NotFound $e) {
+			$this->logger->debug('Preconditions for chunking v2 not matched, fallback to v1', ['exception' => $e]);
 			return true;
 		}
 
@@ -133,12 +128,14 @@ class ChunkingV2Plugin extends ServerPlugin {
 			$this->prepareUpload(dirname($request->getPath()));
 			$this->checkPrerequisites();
 		} catch (StorageInvalidException|BadRequest|NotFound $e) {
+			$this->logger->debug('Preconditions for chunking v2 not matched, fallback to v1', ['exception' => $e]);
 			return true;
 		}
 
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
 		$chunkName = basename($request->getPath());
+		// S3 Multipart upload allows up to 10000 chunks at maximum and required them to be numeric
 		$partId = is_numeric($chunkName) ? (int)$chunkName : -1;
 		if (!($partId >= 1 && $partId <= 10000)) {
 			throw new BadRequest('Invalid chunk name, must be numeric between 1 and 10000');
@@ -151,7 +148,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		if ($this->uploadFolder->childExists(self::TEMP_TARGET) && $this->uploadPath) {
 			/** @var UploadFile $tempTargetFile */
 			$tempTargetFile = $this->uploadFolder->getChild(self::TEMP_TARGET);
-			[$destinationDir, $destinationName] = Uri\split($this->uploadPath);
+			[$destinationDir, ] = Uri\split($this->uploadPath);
 			/** @var Directory $destinationParent */
 			$destinationParent = $this->server->tree->getNodeForPath($destinationDir);
 			$free = $destinationParent->getNode()->getFreeSpace();
@@ -173,14 +170,15 @@ class ChunkingV2Plugin extends ServerPlugin {
 		return false;
 	}
 
-	public function beforeMove($sourcePath, $destination): bool {
+	public function beforeMove(string $sourcePath, string $destination): bool {
 		try {
 			$this->prepareUpload(dirname($sourcePath));
 			$this->checkPrerequisites();
-		} catch (StorageInvalidException|BadRequest|NotFound|PreconditionFailed $e) {
+		} catch (StorageInvalidException|BadRequest|NotFound $e) {
+			$this->logger->debug('Preconditions for chunking v2 not matched, fallback to v1', ['exception' => $e]);
 			return true;
 		}
-		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
+		[$storage, ] = $this->getUploadStorage($this->uploadPath);
 
 		$targetFile = $this->getUploadFile($this->uploadPath);
 
@@ -239,11 +237,12 @@ class ChunkingV2Plugin extends ServerPlugin {
 		return false;
 	}
 
-	public function beforeDelete(RequestInterface $request, ResponseInterface $response) {
+	public function beforeDelete(RequestInterface $request, ResponseInterface $response): bool {
 		try {
 			$this->prepareUpload(dirname($request->getPath()));
 			$this->checkPrerequisites();
 		} catch (StorageInvalidException|BadRequest|NotFound $e) {
+			$this->logger->debug('Preconditions for chunking v2 not matched, fallback to v1', ['exception' => $e]);
 			return true;
 		}
 
@@ -256,6 +255,8 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * @throws BadRequest
 	 * @throws PreconditionFailed
 	 * @throws StorageInvalidException
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
 	private function checkPrerequisites(bool $checkUploadMetadata = true): void {
 		$distributedCacheConfig = \OCP\Server::get(IConfig::class)->getSystemValue('memcache.distributed', null);
@@ -266,10 +267,12 @@ class ChunkingV2Plugin extends ServerPlugin {
 		if (!$this->uploadFolder instanceof UploadFolder || empty($this->server->httpRequest->getHeader(self::DESTINATION_HEADER))) {
 			throw new BadRequest('Skipping chunked file writing as the destination header was not passed');
 		}
-		if (!$this->uploadFolder->getStorage()->instanceOfStorage(IChunkedFileWrite::class)) {
+		/** @var ObjectStoreStorage $storage */
+		$storage = $this->uploadFolder->getStorage();
+		if (!$storage->instanceOfStorage(IChunkedFileWrite::class)) {
 			throw new StorageInvalidException('Storage does not support chunked file writing');
 		}
-		if ($this->uploadFolder->getStorage()->instanceOfStorage(ObjectStoreStorage::class) && !$this->uploadFolder->getStorage()->getObjectStore() instanceof IObjectStoreMultiPartUpload) {
+		if ($storage->instanceOfStorage(ObjectStoreStorage::class) && !$storage->getObjectStore() instanceof IObjectStoreMultiPartUpload) {
 			throw new StorageInvalidException('Storage does not support multi part uploads');
 		}
 
@@ -300,8 +303,12 @@ class ChunkingV2Plugin extends ServerPlugin {
 	/**
 	 * @throws NotFound
 	 */
-	public function prepareUpload($path): void {
-		$this->uploadFolder = $this->server->tree->getNodeForPath($path);
+	public function prepareUpload(string $path): void {
+		$uploadFolder = $this->server->tree->getNodeForPath($path);
+		if (!$uploadFolder instanceof UploadFolder) {
+			throw new \RuntimeException('Unexpected node returned, should be the upload folder');
+		}
+		$this->uploadFolder = $uploadFolder;
 		$uploadMetadata = $this->cache->get($this->uploadFolder->getName());
 		$this->uploadId = $uploadMetadata[self::UPLOAD_ID] ?? null;
 		$this->uploadPath = $uploadMetadata[self::UPLOAD_TARGET_PATH] ?? null;
@@ -329,7 +336,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		try {
 			$uploadFileAbsolutePath = $uploadFile->getFileInfo()->getPath();
 			if ($uploadFileAbsolutePath !== $targetAbsolutePath) {
-				$uploadFile = $rootFolder->get($uploadFile->getFileInfo()->getPath());
+				$uploadFile = $rootFolder->get($uploadFile->getPath());
 				if ($exists) {
 					$uploadFile->copy($targetAbsolutePath);
 				} else {
