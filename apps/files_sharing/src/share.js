@@ -201,6 +201,8 @@ import { getCapabilities } from '@nextcloud/capabilities'
 								hasShares = true
 							} else if (shareType === ShareTypes.SHARE_TYPE_DECK) {
 								hasShares = true
+							} else if (shareType === ShareTypes.SHARE_TYPE_SCIENCEMESH) {
+								hasShares = true
 							}
 						})
 						OCA.Sharing.Util._updateFileActionIcon($tr, hasShares, hasLink)
