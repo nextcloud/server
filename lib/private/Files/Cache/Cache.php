@@ -883,9 +883,23 @@ class Cache implements ICache {
 	 *
 	 * @param string $path
 	 * @param array $entry (optional) meta data of the folder
+	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
 	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
+		return $this->calculateFolderSizeInner($path, $entry);
+	}
+
+
+	/**
+	 * inner function because we can't add new params to the public function without breaking any child classes
+	 *
+	 * @param string $path
+	 * @param array $entry (optional) meta data of the folder
+	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
+	 * @return int
+	 */
+	protected function calculateFolderSizeInner(string $path, array $entry = null, bool $ignoreUnknown = false) {
 		$totalSize = 0;
 		if (is_null($entry) || !isset($entry['fileid'])) {
 			$entry = $this->get($path);
@@ -897,6 +911,9 @@ class Cache implements ICache {
 			$query->select('size', 'unencrypted_size')
 				->from('filecache')
 				->whereParent($id);
+			if ($ignoreUnknown) {
+				$query->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
+			}
 
 			$result = $query->execute();
 			$rows = $result->fetchAll();
@@ -939,9 +956,15 @@ class Cache implements ICache {
 			}
 
 			// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
-			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0;
+			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || $entry['unencrypted_size'] > 0;
 			if ($entry['size'] !== $totalSize || ($entry['unencrypted_size'] !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
 				if ($shouldWriteUnEncryptedSize) {
+
+					// if all children have an unencrypted size of 0, just set the folder unencrypted size to 0 instead of summing the sizes
+					if ($unencryptedMax === 0) {
+						$unencryptedTotal = 0;
+					}
+
 					$this->update($id, [
 						'size' => $totalSize,
 						'unencrypted_size' => $unencryptedTotal,
