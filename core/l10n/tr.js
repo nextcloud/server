@@ -358,7 +358,6 @@ OC.L10N.register(
     "Get your own free account" : "Ücretsiz hesabınızı açın",
     "%s homepage" : "%s web sitesi",
     "Confirm your password" : "Parolanızı onaylayın",
-    "%s's homepage" : "%s web sitesi",
     "Connect to your account" : "Hesabınızı bağlayın",
     "Please log in before granting %1$s access to your %2$s account." : "Lütfen %1$s için %2$s hesabınıza erişim izni vermeden önce oturum açın.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Yeni bir aygıt ya da uygulama kurmaya çalışmıyorsanız, başka biri verilerinize erişmek için sizi kandırmaya çalışıyor. Durum buysa daha ileri gitmeyin ve sistem yöneticiniz ile görüşün.",
@@ -427,6 +426,7 @@ OC.L10N.register(
     "Contacts" : "Kişiler",
     "Contacts menu" : "Kişiler menüsü",
     "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 bit bir PHP sürümü çalıştırıyorsunuz gibi görünüyor. Nextcloud uygulamasının iyi çalışması için 64 bit bir PHP sürümü kullanılmalıdır. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit olacak şekilde yükseltin! Ayrıntılı bilgi almak için {linkstart}ilgili sayfaya bakabilirsiniz ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 bit bir PHP sürümü çalıştırıyorsunuz gibi görünüyor. Nextcloud uygulamasının iyi çalışması için 64 bit bir PHP sürümü kullanılmalıdır. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit olacak şekilde yükseltin! Ayrıntılı bilgi almak için {linkstart}ilgili sayfaya bakabilirsiniz ↗{linkend}.",
+    "%s's homepage" : "%s web sitesi"
 },
 "nplurals=2; plural=(n > 1);");

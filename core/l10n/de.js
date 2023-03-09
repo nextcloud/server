@@ -356,7 +356,6 @@ OC.L10N.register(
     "Get your own free account" : "Hole dir dein eigenes kostenloses Konto",
     "%s homepage" : "%s Internetseite",
     "Confirm your password" : "Bestätige dein Passwort",
-    "%s's homepage" : "Homepage von %s",
     "Connect to your account" : "Verbinde dich mit deinem Konto",
     "Please log in before granting %1$s access to your %2$s account." : "Bitte melde dich an, bevor du %1$s Zugriff auf dein %2$s-Konto gewährst.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Solltest du aktuell nicht versuchen, ein neues Gerät oder eine neue App einzurichten, dann kann es sein, das jemand versucht, dich dazu zu bewegen, ihm Zugriff auf deine Daten zu gewähren. Fahre in diesem Fall nicht fort, sondern wende dich an deinen Administrator.",
@@ -425,6 +424,7 @@ OC.L10N.register(
     "Contacts" : "Kontakte",
     "Contacts menu" : "Kontakte-Menü",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Anscheinend führst du eine 32-Bit-PHP-Version aus. Nextcloud benötigt 64bit, um gut zu laufen. Bitte aktualisiere dein Betriebssystem und PHP auf 64bit! Für weitere Details lese bitte die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Anscheinend führst du eine 32-Bit-PHP-Version aus. Nextcloud benötigt 64bit, um gut zu laufen. Bitte aktualisiere dein Betriebssystem und PHP auf 64bit! Für weitere Details lese bitte die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
+    "%s's homepage" : "Homepage von %s"
 },
 "nplurals=2; plural=(n != 1);");

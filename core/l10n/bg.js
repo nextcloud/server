@@ -354,7 +354,6 @@ OC.L10N.register(
     "Get your own free account" : "Вземете свой собствен безплатен профил",
     "%s homepage" : "%s начална страница",
     "Confirm your password" : "Потвърдете паролата си",
-    "%s's homepage" : "%s's начална страница",
     "Connect to your account" : "Свързване към вашия профил",
     "Please log in before granting %1$s access to your %2$s account." : "Необходимо е да се впишете, преди да дадете достъп на %1$s до вашия %2$s профил.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ако не се опитвате да настроите ново устройство или приложение, някой се опитва да ви подмами, за да му предоставите достъп до вашите данни. В този случай не продължавайте и вместо това се свържете със системния си администратор.",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Контакти",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud се нуждае от 64 бита, за да работи добре. Моля, надстройте вашата операционна система и PHP до 64 бита! За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud се нуждае от 64 бита, за да работи добре. Моля, надстройте вашата операционна система и PHP до 64 бита! За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}.",
+    "%s's homepage" : "%s's начална страница"
 },
 "nplurals=2; plural=(n != 1);");

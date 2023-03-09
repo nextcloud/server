@@ -356,7 +356,6 @@
     "Get your own free account" : "Obtenez votre compte personnel gratuit",
     "%s homepage" : "Page d'accueil de %s",
     "Confirm your password" : "Confirmer votre mot de passe",
-    "%s's homepage" : "Page personnelle de %s",
     "Connect to your account" : "Connectez vous à votre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Veuillez vous connecter avant d'autoriser %1$s à accéder à votre compte %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si vous n'essayez pas d'ajouter un nouveau périphérique ou une nouvelle application, quelqu'un fait une tentative d'accès à vos données. Dans ce cas, ne continuez pas et contactez votre administrateur système.",
@@ -425,6 +424,7 @@
     "Contacts" : "Contacts",
     "Contacts menu" : "Menu des contacts",
     "Setup two-factor authentication" : "Paramétrer l'authentification à double facteur",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Il semble que vous utilisez une version 32-bits de PHP. Nextcloud nécessite une version 64-bits pour bien fonctionner. Merci de mettre à niveau votre système d'exploitation et PHP en 64-bits. Pour plus de détails consultez {linkstart}the documentation page about this ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Il semble que vous utilisez une version 32-bits de PHP. Nextcloud nécessite une version 64-bits pour bien fonctionner. Merci de mettre à niveau votre système d'exploitation et PHP en 64-bits. Pour plus de détails consultez {linkstart}the documentation page about this ↗{linkend}.",
+    "%s's homepage" : "Page personnelle de %s"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

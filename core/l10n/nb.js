@@ -354,7 +354,6 @@ OC.L10N.register(
     "Get your own free account" : "Få din egen gratis konto",
     "%s homepage" : "%s hjemmeside",
     "Confirm your password" : "Bekreft ditt passord",
-    "%s's homepage" : "%s sin hjemmeside",
     "Connect to your account" : "Koble til kontoen din",
     "Please log in before granting %1$s access to your %2$s account." : "Logg inn før du tildeler %1$stilgang til din %2$skonto.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Hvis du ikke prøver å sette opp en ny enhet eller app, så er det noen som nå prøver å lure deg til å gi de tilgang til dine data. Stopp i så fall øyeblikkelig og kontakt din systemadministrator.",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}.",
+    "%s's homepage" : "%s sin hjemmeside"
 },
 "nplurals=2; plural=(n != 1);");

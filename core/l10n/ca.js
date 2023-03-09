@@ -357,7 +357,6 @@ OC.L10N.register(
     "Get your own free account" : "Obtingueu el vostre propi compte gratuït",
     "%s homepage" : "pàgina d'inici de %s",
     "Confirm your password" : "Confirmeu la vostra contrasenya",
-    "%s's homepage" : "Pàgina d'inici de %s",
     "Connect to your account" : "Connecta al vostre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Si us plau inicieu la sessió abans de concedir %1$s accés al vostre compte %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si no intenteu configurar un dispositiu o una aplicació nous, algú intenta enganyar-vos per concedir-lis accés a les vostres dades. En aquest cas, no procediu i, en canvi, poseu-vos en contacte amb l'administrador del sistema.",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú de contactes",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
+    "%s's homepage" : "Pàgina d'inici de %s"
 },
 "nplurals=2; plural=(n != 1);");

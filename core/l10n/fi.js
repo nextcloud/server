@@ -317,7 +317,6 @@ OC.L10N.register(
     "Skip to navigation of app" : "Hyppää sovelluksen navigointiin.",
     "Get your own free account" : "Hanki ilmainen tili itsellesi",
     "Confirm your password" : "Vahvista salasanasi",
-    "%s's homepage" : "Käyttäjän %s kotisivu",
     "Connect to your account" : "Yhdistä tiliisi",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jos et ole asentamassa uutta laitetta tai sovellusta, joku yrittää huijata sinut antamaan käyttöoikeudet tietoihisi. Tässä tapauksessa älä jatka, ota yhteys järjestelmänvalvojaan.",
     "App token" : "Sovellusvaltuutus",
@@ -379,6 +378,7 @@ OC.L10N.register(
     "More apps menu" : "Lisäsovellusvalikko",
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
-    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
+    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
+    "%s's homepage" : "Käyttäjän %s kotisivu"
 },
 "nplurals=2; plural=(n != 1);");

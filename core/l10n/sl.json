@@ -352,7 +352,6 @@
     "Get your own free account" : "Pridobite brezplačni račun",
     "%s homepage" : "Spletna stran %s",
     "Confirm your password" : "Potrdite geslo",
-    "%s's homepage" : "Spletna stran osebe %s",
     "Connect to your account" : "Povežite z računom",
     "Please log in before granting %1$s access to your %2$s account." : "Pred %1$s odobritvijo dostopa %2$s do računa se je treba prijaviti.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Če ne poskušate dodati naprave ali programa, vas poskuša nekdo pretentati v odobritev dostopa do vaših podatkov. Če se vam zdi, da je tako, ne nadaljujte s potrjevanjem, ampak stopite v stik s skrbnikom sistema.",
@@ -421,6 +420,7 @@
     "Contacts" : "Stiki",
     "Contacts menu" : "Meni Stikov",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}.",
+    "%s's homepage" : "Spletna stran osebe %s"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
