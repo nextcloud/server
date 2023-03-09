@@ -395,7 +395,7 @@ class Root extends Folder implements IRootFolder {
 					$folder = $this->newFolder('/' . $userId . '/files');
 				}
 			} else {
-				$folder = new LazyUserFolder($this, $userObject);
+				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
 			}
 
 			$this->userFolderCache->set($userId, $folder);
