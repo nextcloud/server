@@ -79,6 +79,7 @@ import logger from '../logger.js'
 import Navigation from '../services/Navigation.ts'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
+import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 
 export default {
 	name: 'Navigation',
@@ -191,6 +192,7 @@ export default {
 			}
 
 			this.Navigation.setActive(view)
+			setPageHeading(view.name)
 			emit('files:navigation:changed', view)
 		},
 
