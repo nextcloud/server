@@ -51,6 +51,7 @@ OC.L10N.register(
     "Repair info:" : "Información do arranxo:",
     "Repair warning:" : "Aviso de arranxo:",
     "Repair error:" : "Erro do arranxo:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Use o actualizador da liña de comandos porque a actualización a través do navegador está desactivada no seu config.php.",
     "Turned on maintenance mode" : "Modo de mantemento activado",
     "Turned off maintenance mode" : "Modo de mantemento desactivado",
     "Maintenance mode is kept active" : "Mantense activo o modo de mantemento",
@@ -183,6 +184,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Aplicación de correo sinxela e ben integrada con Ficheiros, Contactos e Calendario.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Conversas, videochamadas, compartición de pantalla, xuntanzas en liña e conferencias web;  no seu navegador e con aplicacións móbiles.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Documentos, follas de cálculo e presentacións colaborativas, feitos en Collabora Online.",
+    "Distraction free note taking app." : "Aplicación para tomar notas sen distraccións.",
     "Search contacts" : "Buscar contactos",
     "Forgot password?" : "Esqueceu o contrasinal?",
     "Log in with a device" : "Acceder cun dispositivo",
@@ -214,6 +216,7 @@ OC.L10N.register(
     "Settings menu" : "Menú de axustes",
     "Search {types} …" : "Buscando {types}…",
     "Settings" : "Axustes",
+    "Avatar of {fullName}" : "Avatar de {fullName}",
     "Could not load your contacts" : "Non foi posíbel cargar os seus contactos",
     "Search contacts …" : "Buscar contactos…",
     "No contacts found" : "Non se atoparon contactos",
@@ -284,6 +287,7 @@ OC.L10N.register(
     "Strong password" : "Contrasinal forte",
     "No action available" : "Non hai accións dispoñíbeis",
     "Error fetching contact actions" : "Produciuse un erro ao obter as accións do contacto",
+    "Close \"{dialogTitle}\" dialog" : "Pechar o diálogo \"{dialogTitle}\".",
     "Non-existing tag #{tag}" : "A etiqueta #{tag} non existe",
     "Restricted" : "Restrinxida",
     "Invisible" : "Invisíbel",
@@ -422,7 +426,6 @@ OC.L10N.register(
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de contactos",
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está a executar unha versión de PHP de 32 bits. Nextcloud necesita 64 bits para funcionar ben. Actualiza o teu sistema operativo e PHP a 64 bits. Para obter máis detalles, le {linkstart}a páxina de documentación sobre isto ↗{linkend}.",
-    "%s's homepage" : "Páxina principal de %s"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está a executar unha versión de PHP de 32 bits. Nextcloud necesita 64 bits para funcionar ben. Actualiza o teu sistema operativo e PHP a 64 bits. Para obter máis detalles, le {linkstart}a páxina de documentación sobre isto ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");

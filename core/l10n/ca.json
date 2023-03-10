@@ -423,7 +423,6 @@
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú de contactes",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
-    "%s's homepage" : "Pàgina d'inici de %s"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -418,7 +418,6 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Menuen kontakter",
     "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}.",
-    "%s's homepage" : "%s's hjemmeside"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");

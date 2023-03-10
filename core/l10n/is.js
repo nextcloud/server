@@ -380,7 +380,6 @@ OC.L10N.register(
     "More apps menu" : "Valmynd með fleiri forrit",
     "Contacts" : "Tengiliðir",
     "Contacts menu" : "Tengiliðavalmynd",
-    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
-    "%s's homepage" : "Heimasíða %s"
+    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

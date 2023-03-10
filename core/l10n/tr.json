@@ -424,7 +424,6 @@
     "Contacts" : "Kişiler",
     "Contacts menu" : "Kişiler menüsü",
     "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 bit bir PHP sürümü çalıştırıyorsunuz gibi görünüyor. Nextcloud uygulamasının iyi çalışması için 64 bit bir PHP sürümü kullanılmalıdır. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit olacak şekilde yükseltin! Ayrıntılı bilgi almak için {linkstart}ilgili sayfaya bakabilirsiniz ↗{linkend}.",
-    "%s's homepage" : "%s web sitesi"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 bit bir PHP sürümü çalıştırıyorsunuz gibi görünüyor. Nextcloud uygulamasının iyi çalışması için 64 bit bir PHP sürümü kullanılmalıdır. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit olacak şekilde yükseltin! Ayrıntılı bilgi almak için {linkstart}ilgili sayfaya bakabilirsiniz ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

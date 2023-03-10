@@ -392,7 +392,6 @@ OC.L10N.register(
     "More apps menu" : "더 많은 앱 메뉴",
     "Contacts" : "연락처",
     "Contacts menu" : "연락처 메뉴",
-    "Setup two-factor authentication" : "2단계 인증 설정",
-    "%s's homepage" : "%s의 홈페이지"
+    "Setup two-factor authentication" : "2단계 인증 설정"
 },
 "nplurals=1; plural=0;");
