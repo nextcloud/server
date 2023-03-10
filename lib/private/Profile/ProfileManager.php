@@ -347,6 +347,7 @@ class ProfileManager implements IProfileManager {
 				$this->filterNotStoredProfileConfig($config->getConfigArray()),
 			));
 			$this->configMapper->update($config);
+			$this->configCache[$targetUser->getUID()] = $config;
 			$configArray = $config->getConfigArray();
 		} catch (DoesNotExistException $e) {
 			// Create a new default config if it does not exist
@@ -354,6 +355,7 @@ class ProfileManager implements IProfileManager {
 			$config->setUserId($targetUser->getUID());
 			$config->setConfigArray($defaultProfileConfig);
 			$this->configMapper->insert($config);
+			$this->configCache[$targetUser->getUID()] = $config;
 			$configArray = $config->getConfigArray();
 		}
 
