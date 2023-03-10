@@ -425,7 +425,6 @@ OC.L10N.register(
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
-    "%s's homepage" : "%sのホームページ"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
 },
 "nplurals=1; plural=0;");

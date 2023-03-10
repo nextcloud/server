@@ -420,7 +420,6 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Меню контактів",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}.",
-    "%s's homepage" : "Домівка %s "
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
