@@ -120,6 +120,9 @@ class FileSystemTags implements ICheck, IFileCheck {
 			}
 		}
 
+		if (!$systemTags) {
+			return [];
+		}
 		$systemTags = call_user_func_array('array_merge', $systemTags);
 		$systemTags = array_unique($systemTags);
 		return $systemTags;
