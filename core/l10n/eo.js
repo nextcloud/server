@@ -344,7 +344,6 @@ OC.L10N.register(
     "More apps menu" : "Menuo „Pli da aplikaĵoj“",
     "Contacts" : "Kontaktoj",
     "Contacts menu" : "Menuo de kontaktoj",
-    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon",
-    "%s's homepage" : "Ĉefpaĝo de %s"
+    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
 },
 "nplurals=2; plural=(n != 1);");

@@ -422,7 +422,6 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Контакти",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud се нуждае от 64 бита, за да работи добре. Моля, надстройте вашата операционна система и PHP до 64 бита! За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}.",
-    "%s's homepage" : "%s's начална страница"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud се нуждае от 64 бита, за да работи добре. Моля, надстройте вашата операционна система и PHP до 64 бита! За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");

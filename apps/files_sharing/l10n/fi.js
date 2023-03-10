@@ -231,6 +231,8 @@ OC.L10N.register(
     "Error creating the share" : "Virhe jakoa luotaessa",
     "Error updating the share: {errorMessage}" : "Virhe päivittäessä jakoa: {errorMessage}",
     "Error updating the share" : "Virhe jakoa päivittäessä",
+    "File \"{path}\" has been unshared" : "Tiedoston \"{path}\" jakaminen on lopetettu",
+    "Folder \"{path}\" has been unshared" : "Kansion \"{path}\" jakaminen on lopetettu",
     "Share {propertyName} saved" : "Jako {propertyName} tallennettu",
     "Shared" : "Jaettu",
     "Share" : "Jaa",

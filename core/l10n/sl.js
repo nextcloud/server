@@ -422,7 +422,6 @@ OC.L10N.register(
     "Contacts" : "Stiki",
     "Contacts menu" : "Meni Stikov",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}.",
-    "%s's homepage" : "Spletna stran osebe %s"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

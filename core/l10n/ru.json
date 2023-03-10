@@ -424,7 +424,6 @@
     "Contacts" : "Контакты",
     "Contacts menu" : "Меню контактов",
     "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}",
-    "%s's homepage" : "Домашняя страница %s"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

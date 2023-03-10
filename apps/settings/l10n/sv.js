@@ -445,6 +445,7 @@ OC.L10N.register(
     "Server address" : "Serveradress",
     "Port" : "Port",
     "Authentication method" : "Autentiseringsmetod",
+    "Only applies when authentication is required" : "Gäller endast när autentisering krävs",
     "Authentication required" : "Autentisering krävs",
     "Credentials" : "Inloggningsuppgifter",
     "SMTP Username" : "SMTP-användarnamn",

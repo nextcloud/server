@@ -412,7 +412,6 @@ OC.L10N.register(
     "More apps menu" : "Menu delle altre applicazioni",
     "Contacts" : "Contatti",
     "Contacts menu" : "Menu dei contatti",
-    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
-    "%s's homepage" : "%s's homepage"
+    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
