@@ -5,6 +5,7 @@ services:
     volumes:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker-host.sock
+      - ..:/var/www/html
     command: /bin/sh -c "while sleep 1000; do :; done"
     ports:
       - 80:80
