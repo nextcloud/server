@@ -154,6 +154,51 @@ END:VCALENDAR');
 				->with('user', IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
 		}
 
-		$this->invokePrivate($automation, 'run', [['userId' => 'user']]);
+		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
+	}
+
+	public function testRunNoMoreAvailabilityDefined(): void {
+		$this->config->method('getUserValue')
+			->with('user', 'dav', 'user_status_automation', 'no')
+			->willReturn('yes');
+
+		$this->time->method('getDateTime')
+			->willReturn(new \DateTime('2023-02-24 13:58:24.479357', new \DateTimeZone('UTC')));
+
+		$automation = $this->getAutomationMock(['getAvailabilityFromPropertiesTable']);
+		$automation->method('getAvailabilityFromPropertiesTable')
+			->with('user')
+			->willReturn('BEGIN:VCALENDAR
+PRODID:Nextcloud DAV app
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:CEST
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VAVAILABILITY
+END:VAVAILABILITY
+END:VCALENDAR');
+
+		$this->statusManager->expects($this->once())
+			->method('revertUserStatus')
+			->with('user', IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(UserStatusAutomation::class, ['userId' => 'user']);
+
+		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
 	}
 }
