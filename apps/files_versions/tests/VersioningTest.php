@@ -38,6 +38,7 @@ use OC\Files\Storage\Temporary;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Share\IShare;
+use OCA\Files_Versions\Versions\IVersionManager;
 
 /**
  * Class Test_Files_versions
@@ -647,7 +648,6 @@ class VersioningTest extends \Test\TestCase {
 	public function testRestoreCrossStorage() {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], self::TEST_VERSIONS_USER . '/files/sub');
-		\OC\Files\Filesystem::tearDown();
 
 		$this->doTestRestore();
 	}
