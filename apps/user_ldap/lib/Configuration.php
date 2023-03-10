@@ -133,7 +133,6 @@ class Configuration {
 		'ldapAttributeRole' => null,
 		'ldapAttributeHeadline' => null,
 		'ldapAttributeBiography' => null,
-		'ldapProfileScope' => null,
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -489,7 +488,6 @@ class Configuration {
 			'ldap_attr_role' => '',
 			'ldap_attr_headline' => '',
 			'ldap_attr_biography' => '',
-			'ldap_profile_scope' => '',
 		];
 	}
 
@@ -565,7 +563,6 @@ class Configuration {
 			'ldap_attr_role' => 'ldapAttributeRole',
 			'ldap_attr_headline' => 'ldapAttributeHeadline',
 			'ldap_attr_biography' => 'ldapAttributeBiography',
-			'ldap_profile_scope' => 'ldapProfileScope',
 		];
 		return $array;
 	}

@@ -163,10 +163,6 @@ OCA = OCA || {};
 					$element: $('#ldap_attr_biography'),
 					setMethod: 'setBiographyAttribute'
 				},
-				ldap_profile_scope: {
-					$element: $('#ldap_profile_scope'),
-					setMethod: 'setProfileScope'
-				},
 			};
 			this.setManagedItems(items);
 		},
@@ -487,15 +483,6 @@ OCA = OCA || {};
 		 */
 		setBiographyAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_attr_biography.$element, attribute);
-		},
-
-		/**
-		 * sets the visibility scope for the Nextcloud user profile properties
-		 *
-		 * @param {string} scope
-		 */
-		setProfileScope: function(scope) {
-			this.setElementValue(this.managedItems.ldap_profile_scope.$element, scope);
 		},
 
 		/**

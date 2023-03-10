@@ -47,6 +47,7 @@ use OCP\IUserManager;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -236,62 +237,58 @@ class User {
 		}
 		unset($attr);
 
-		//User profile visibility
-		$profileScope = $this->connection->ldapProfileScope;
-		if (empty($profileScope) || $profileScope === 'unset') {
-			$profileScope = null;
+		// honoring profile disabled in config.php
+		if ($this->config->getSystemValueBool('profile.enabled', true)) {
+			$profileValues = array(); // empty array, to prevent unneccessary call to updateProfile
+			//User Profile Field - Phone number
+			$attr = strtolower($this->connection->ldapAttributePhone);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - website
+			$attr = strtolower($this->connection->ldapAttributeWebsite);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - Address
+			$attr = strtolower($this->connection->ldapAttributeAddress);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - Twitter
+			$attr = strtolower($this->connection->ldapAttributeTwitter);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - fediverse
+			$attr = strtolower($this->connection->ldapAttributeFediverse);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - organisation
+			$attr = strtolower($this->connection->ldapAttributeOrganisation);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - role
+			$attr = strtolower($this->connection->ldapAttributeRole);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - headline
+			$attr = strtolower($this->connection->ldapAttributeHeadline);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE] = $ldapEntry[$attr][0];
+			}
+			//User Profile Field - biography
+			$attr = strtolower($this->connection->ldapAttributeBiography);
+			if (isset($ldapEntry[$attr])) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = $ldapEntry[$attr][0];
+			}
+			// Update user profile
+			$this->updateProfile($profileValues);
+			unset($attr);
 		}
-		$profileValues = array(); // empty array, to prevent unneccessary call to updateProfile
-		//User Profile Field - Phone number
-		$attr = strtolower($this->connection->ldapAttributePhone);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - website
-		$attr = strtolower($this->connection->ldapAttributeWebsite);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - Address
-		$attr = strtolower($this->connection->ldapAttributeAddress);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - Twitter
-		$attr = strtolower($this->connection->ldapAttributeTwitter);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - fediverse
-		$attr = strtolower($this->connection->ldapAttributeFediverse);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - organisation
-		$attr = strtolower($this->connection->ldapAttributeOrganisation);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - role
-		$attr = strtolower($this->connection->ldapAttributeRole);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - headline
-		$attr = strtolower($this->connection->ldapAttributeHeadline);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE] = $ldapEntry[$attr][0];
-		}
-		//User Profile Field - biography
-		$attr = strtolower($this->connection->ldapAttributeBiography);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = $ldapEntry[$attr][0];
-		}
-		// Update user profile
-		if(!empty($profileValues)) {
-			$this->updateProfile($profileValues, $profileScope);
-		}
-		unset($attr);
 
 		//Avatar
 		/** @var Connection $connection */
@@ -577,25 +574,29 @@ class User {
 	/**
 	 * takes values from LDAP and stores it as Nextcloud user profile value
 	 * 
-	 * @param array $profileValues associaive array of property keys and values from LDAP
-	 * @param string|null $profileScope the scope of visibility to set
+	 * @param array $profileValues associative array of property keys and values from LDAP
 	 */
-	private function updateProfile(array $profileValues, ?string $profileScope=null): void {
+	private function updateProfile(array $profileValues): void {
+		// check if given array is empty
+		if (empty($profileValues)) {
+			return; // okay, nothing to do
+		}
 		// check if user profile was refreshed before
 		if ($this->wasRefreshed('profile')) {
-			return;
+			return; // okay, updated before
 		}
 		// fetch/prepare user
 		$user = $this->userManager->get($this->uid);
 		if (is_null($user)) {
-			return;
+			return; // FIXME: I guess userManager::get would never return null here
 		}
 		// prepare AccountManager and Account
-		$accountManager = \OC::$server->get(IAccountManager::class);
+		$accountManager = Server::get(IAccountManager::class);
 		$account = $accountManager->getAccount($user);	// get Account
 		if (is_null($account)) {
-			return;
+			return; // FIXME: I guess getAccount would never return null here
 		}
+		$defaultScopes = array_merge(AccountManager::DEFAULT_SCOPES, $this->config->getSystemValue('account_manager.default_property_scope', []));
 		// loop through the properties and handle them
 		foreach($profileValues as $property => $valueFromLDAP) {
 			// check and update profile properties
@@ -603,17 +604,17 @@ class User {
 			try {
 				$accountProperty = $account->getProperty($property);
 				$currentValue = $accountProperty->getValue();
-				$scope = ($profileScope ? $profileScope : ($accountProperty->getScope() ? $accountProperty->getScope() : AccountManager::DEFAULT_SCOPES[$property]));
+				$scope = ($accountProperty->getScope() ? $accountProperty->getScope() : $defaultScopes[$property]);
 			}
 			catch (PropertyDoesNotExistException $e) { // thrown at getProperty
 				$this->logger->error('property does not exist: '.$property.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
 				$currentValue = '';
-				$scope = ($profileScope ? $profileScope : AccountManager::DEFAULT_SCOPES[$property]);
+				$scope = $defaultScopes[$property];
 			}
 			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what he put there
 			if ($currentValue !== $value) {
 				$account->setProperty($property,$value,$scope,$verified);
-				$this->logger->debug('property updated: '.$property.'='.$value.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
+				$this->logger->debug('update property: '.$property.'='.$value.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
 			}
 		}
 		$accountManager->updateAccount($account);

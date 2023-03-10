@@ -82,7 +82,6 @@ use Psr\Log\LoggerInterface;
  * @property string ldapAttributeRole
  * @property string ldapAttributeHeadline
  * @property string ldapAttributeBiography
- * @property string ldapProfileScope
  */
 class Connection extends LDAPUtility {
 	/**
