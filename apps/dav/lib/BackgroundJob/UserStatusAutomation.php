@@ -139,6 +139,13 @@ class UserStatusAutomation extends TimedJob {
 			}
 		}
 
+		if (empty($nextPotentialToggles)) {
+			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no valid availability rules set');
+			$this->jobList->remove(self::class, $argument);
+			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+			return;
+		}
+
 		$nextAutomaticToggle = min($nextPotentialToggles);
 		$this->setLastRunToNextToggleTime($userId, $nextAutomaticToggle - 1);
 
