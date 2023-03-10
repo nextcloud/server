@@ -25,6 +25,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\Command\IUnavailableInMaintenanceMode;
 use OCP\IUser;
 use OCP\IUserManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -32,7 +33,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Delete extends Base {
+class Delete extends Base implements IUnavailableInMaintenanceMode {
 	/** @var IUserManager */
 	protected $userManager;
 

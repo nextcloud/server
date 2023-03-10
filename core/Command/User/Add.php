@@ -26,6 +26,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Files\Filesystem;
+use OCP\Command\IUnavailableInMaintenanceMode;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -38,7 +39,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class Add extends Command {
+class Add extends Command implements IUnavailableInMaintenanceMode {
 	protected IUserManager $userManager;
 	protected IGroupManager $groupManager;
 

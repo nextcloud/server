@@ -33,13 +33,15 @@ namespace OC\Console;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC_App;
-use OCP\AppFramework\QueryException;
 use OCP\App\IAppManager;
+use OCP\AppFramework\QueryException;
+use OCP\Command\IUnavailableInMaintenanceMode;
 use OCP\Console\ConsoleEvent;
 use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -59,6 +61,8 @@ class Application {
 	/** @var MemoryInfo */
 	private $memoryInfo;
 
+	private bool $maintenanceMode;
+
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $dispatcher,
 								IRequest $request,
@@ -71,6 +75,22 @@ class Application {
 		$this->request = $request;
 		$this->logger = $logger;
 		$this->memoryInfo = $memoryInfo;
+		$this->maintenanceMode = $this->config->getSystemValueBool('maintenance');
+	}
+
+	/**
+	 * Adds a command object.
+	 *
+	 * If a command with the same name already exists, it will be overridden.
+	 * If the command is not enabled it will not be added.
+	 *
+	 * @return Command|null The registered command if enabled or null
+	 */
+	public function add(Command $command) {
+		if ($this->maintenanceMode && $command instanceof IUnavailableInMaintenanceMode) {
+			return null;
+		}
+		return $this->application->add($command);
 	}
 
 	/**
@@ -115,9 +135,7 @@ class Application {
 			if ($this->config->getSystemValueBool('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
-				} elseif ($this->config->getSystemValueBool('maintenance')) {
-					$this->writeMaintenanceModeInfo($input, $output);
-				} else {
+				} elseif (!$this->maintenanceMode) {
 					OC_App::loadApps();
 					$appManager = \OCP\Server::get(IAppManager::class);
 					foreach ($appManager->getInstalledApps() as $app) {
@@ -170,29 +188,6 @@ class Application {
 	}
 
 	/**
-	 * Write a maintenance mode info.
-	 * The commands "_completion" and "maintenance:mode" are excluded.
-	 *
-	 * @param InputInterface $input The input implementation for reading inputs.
-	 * @param ConsoleOutputInterface $output The output implementation
-	 * for writing outputs.
-	 * @return void
-	 */
-	private function writeMaintenanceModeInfo(
-		InputInterface $input, ConsoleOutputInterface $output
-	) {
-		if ($input->getArgument('command') !== '_completion'
-			&& $input->getArgument('command') !== 'maintenance:mode'
-			&& $input->getArgument('command') !== 'status') {
-			$errOutput = $output->getErrorOutput();
-			$errOutput->writeln(
-				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
-				'Cannot perform any command except \'maintenance:mode --off\'</comment>' . PHP_EOL
-			);
-		}
-	}
-
-	/**
 	 * Sets whether to automatically exit after a command execution or not.
 	 *
 	 * @param bool $boolean Whether to automatically exit after a command execution or not
@@ -231,7 +226,7 @@ class Application {
 				}
 			}
 
-			$this->application->add($c);
+			$this->add($c);
 		}
 	}
 }
