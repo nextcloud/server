@@ -662,7 +662,6 @@ class VersioningTest extends \Test\TestCase {
 	public function testRestoreCrossStorage() {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], self::TEST_VERSIONS_USER . '/files/sub');
-		\OC\Files\Filesystem::tearDown();
 
 		$this->doTestRestore();
 	}

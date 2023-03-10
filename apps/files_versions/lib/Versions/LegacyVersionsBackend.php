@@ -69,13 +69,17 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
 			$owner = $storage->getOwner('');
 			$user = $this->userManager->get($owner);
+
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$nodes = $userFolder->getById($file->getId());
+			$file = array_pop($nodes);
+
+			if (!$file) {
+				throw new NotFoundException("version file not found for share owner");
+			}
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$nodes = $userFolder->getById($file->getId());
-		$file2 = array_pop($nodes);
-
-		$versions = $this->getVersionsForFileFromDB($file2, $user);
+		$versions = $this->getVersionsForFileFromDB($file, $user);
 
 		if (count($versions) > 0) {
 			return $versions;
@@ -83,18 +87,18 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 		// Insert the entry in the DB for the current version.
 		$versionEntity = new VersionEntity();
-		$versionEntity->setFileId($file2->getId());
-		$versionEntity->setTimestamp($file2->getMTime());
-		$versionEntity->setSize($file2->getSize());
-		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file2->getMimetype()));
+		$versionEntity->setFileId($file->getId());
+		$versionEntity->setTimestamp($file->getMTime());
+		$versionEntity->setSize($file->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
 		$versionEntity->setMetadata([]);
 		$this->versionsMapper->insert($versionEntity);
 
 		// Insert entries in the DB for existing versions.
-		$versionsOnFS = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file2->getPath()));
+		$versionsOnFS = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file->getPath()));
 		foreach ($versionsOnFS as $version) {
 			$versionEntity = new VersionEntity();
-			$versionEntity->setFileId($file2->getId());
+			$versionEntity->setFileId($file->getId());
 			$versionEntity->setTimestamp((int)$version['version']);
 			$versionEntity->setSize((int)$version['size']);
 			$versionEntity->setMimetype($this->mimeTypeLoader->getId($version['mimetype']));
@@ -102,13 +106,13 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 			$this->versionsMapper->insert($versionEntity);
 		}
 
-		return $this->getVersionsForFileFromDB($file2, $user);
+		return $this->getVersionsForFileFromDB($file, $user);
 	}
 
 	/**
 	 * @return IVersion[]
 	 */
-	private function getVersionsForFileFromDB(Node $file, IUser $user): array {
+	private function getVersionsForFileFromDB(FileInfo $file, IUser $user): array {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 
 		return array_map(
