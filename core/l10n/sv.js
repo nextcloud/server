@@ -408,7 +408,6 @@ OC.L10N.register(
     "More apps menu" : "Fler appar - meny",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
-    "%s's homepage" : "%s's hemsida"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
 },
 "nplurals=2; plural=(n != 1);");

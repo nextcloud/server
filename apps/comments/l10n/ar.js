@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s كتب تعليق على %2$s",
     "{author} commented on {file}" : "{author} علّق على {file}",
     "<strong>Comments</strong> for files" : "<strong>تعليقات</strong> على الملفات",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "تمت الإشارة إليك في \"{file}\" في تعليق لمستخدم. لكن هذا المستخدم تم حذف حسابه بعدها",
     "{user} mentioned you in a comment on \"{file}\"" : "أشار إليك {user} في تعليق على {file}",
     "Files app plugin to add comments to files" : "المكوِّن الإضافي لتطبيق الملفات لإضافة تعليقات إلى الملفات",
     "Edit comment" : "تعديل التعليق",

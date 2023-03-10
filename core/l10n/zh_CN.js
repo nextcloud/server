@@ -414,7 +414,6 @@ OC.L10N.register(
     "Contacts" : "联系人",
     "Contacts menu" : "联系人菜单",
     "Setup two-factor authentication" : "配置两步验证",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。",
-    "%s's homepage" : "%s的主页"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。"
 },
 "nplurals=1; plural=0;");

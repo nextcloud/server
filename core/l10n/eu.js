@@ -421,7 +421,6 @@ OC.L10N.register(
     "Contacts" : "Kontaktuak",
     "Contacts menu" : "Kontaktuen menua",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}.",
-    "%s's homepage" : "%s-(r)en hasiera orria"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");

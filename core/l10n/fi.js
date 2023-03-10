@@ -378,7 +378,6 @@ OC.L10N.register(
     "More apps menu" : "Lisäsovellusvalikko",
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
-    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
-    "%s's homepage" : "Käyttäjän %s kotisivu"
+    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
 },
 "nplurals=2; plural=(n != 1);");

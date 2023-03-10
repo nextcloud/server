@@ -394,7 +394,6 @@ OC.L10N.register(
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација",
-    "%s's homepage" : "Страната на %s"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

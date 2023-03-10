@@ -359,7 +359,6 @@ OC.L10N.register(
     "More apps menu" : "เมนูแอปเพิ่มเติม",
     "Contacts" : "รายชื่อผู้ติดต่อ",
     "Contacts menu" : "เมนูรายชื่อผู้ติดต่อ",
-    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย",
-    "%s's homepage" : "หน้าหลักของ %s"
+    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย"
 },
 "nplurals=1; plural=0;");

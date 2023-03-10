@@ -415,7 +415,6 @@ OC.L10N.register(
     "Contacts" : "Kontakty",
     "Contacts menu" : "Menu kontaktov",
     "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá sa, že používate 32-bitovú verziu PHP. Nextcloud potrebuje 64-bit, aby fungoval dobre. Inovujte svoj OS a PHP na 64-bitové! Ďalšie podrobnosti nájdete na {linkstart}stránke dokumentácie↗{linkend}.",
-    "%s's homepage" : "Domovská stránka užívateľa %s"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá sa, že používate 32-bitovú verziu PHP. Nextcloud potrebuje 64-bit, aby fungoval dobre. Inovujte svoj OS a PHP na 64-bitové! Ďalšie podrobnosti nájdete na {linkstart}stránke dokumentácie↗{linkend}."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
