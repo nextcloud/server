@@ -102,7 +102,7 @@ OC.L10N.register(
     "Stroke" : "Čára",
     "Save image as" : "Uložit obrázek jako",
     "Extension" : "Přípona",
-    "Name is required." : "Jméno je povinné.",
+    "Name is required." : "Je třeba vyplnit název.",
     "Quality" : "Kvalita",
     "Saved image size (width x height)" : "Velikost uloženého obrázku (šířka x výška)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Pozn.: označená oblast ořezu je menší než použitá změna rozlišení, což může způsobit snížení kvality",
