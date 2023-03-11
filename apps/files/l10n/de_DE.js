@@ -193,6 +193,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Use this address to access your Files via WebDAV" : "Benutzen Sie diese Adresse, um via WebDAV auf Ihre Dateien zuzugreifen",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Wenn Sie 2FA aktiviert haben, müssen Sie ein neues App-Passwort erstellen und verwenden, indem Sie hier klicken.",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "WebDAV URL copied to clipboard" : "WebDAV-URL in die Zwischenablage kopiert",
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei kann nicht geändert werden",
