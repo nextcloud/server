@@ -191,6 +191,7 @@
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Use this address to access your Files via WebDAV" : "Använd denna adress för att komma åt dina filer med WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Om du har aktiverat 2FA måste du skapa och använda ett nytt applösenord genom att klicka här.",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
     "WebDAV URL copied to clipboard" : "WebDAV URL kopierad till urklipp",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
