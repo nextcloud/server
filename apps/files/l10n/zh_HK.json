@@ -191,6 +191,7 @@
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "複製到剪貼板",
     "Use this address to access your Files via WebDAV" : "用這位址使用 WebDAV 存取你的檔案。",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "如果您啟用了 2FA，則必須通過單擊此處創建和使用新的應用程式密碼。",
     "Clipboard is not available" : "剪貼板不可用",
     "WebDAV URL copied to clipboard" : "WebDAV 連結已複製到剪貼板",
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",
