@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # PHP
 RUN apt-get update -y
 
-RUN apt install -y apache2 vim software-properties-common
+RUN apt install -y apache2 vim software-properties-common sudo nano
 
 RUN add-apt-repository ppa:ondrej/php
 
@@ -41,6 +41,12 @@ RUN apt-get install --no-install-recommends -y \
 
 RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 RUN echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+
+# Autostart XDebug for apache
+RUN { \
+	echo "xdebug.mode=debug"; \
+	echo "xdebug.start_with_request=yes"; \
+} >> /etc/php/8.1/apache2/conf.d/20-xdebug.ini
 
 # Docker
 RUN apt-get -y install \
