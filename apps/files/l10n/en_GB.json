@@ -191,6 +191,7 @@
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copy to clipboard",
     "Use this address to access your Files via WebDAV" : "Use this address to access your Files via WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "If you have enabled 2FA, you must create and use a new app password by clicking here.",
     "Clipboard is not available" : "Clipboard is not available",
     "WebDAV URL copied to clipboard" : "WebDAV URL copied to clipboard",
     "Unable to change the favourite state of the file" : "Unable to change the favourite state of the file",
