@@ -191,6 +191,7 @@
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Panoya kopyala",
     "Use this address to access your Files via WebDAV" : "Dosyalarınıza WebDAV üzerinden erişmek için bu adresi kullanın",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "İki aşamalı kimlik doğrulamayı etkinleştirdiyseniz buraya tıklayarak yeni bir uygulama parolası oluşturmalısınız.",
     "Clipboard is not available" : "Pano kullanılamıyor",
     "WebDAV URL copied to clipboard" : "WebDAV adresi panoya kopyalandı",
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
