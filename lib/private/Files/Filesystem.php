@@ -420,11 +420,8 @@ class Filesystem {
 	 * return the path to a local version of the file
 	 * we need this because we can't know if a file is stored local or not from
 	 * outside the filestorage and for some purposes a local file is needed
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getLocalFile($path) {
+	public static function getLocalFile(string $path): string|false {
 		return self::$defaultInstance->getLocalFile($path);
 	}
 
@@ -761,11 +758,8 @@ class Filesystem {
 
 	/**
 	 * get the ETag for a file or folder
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getETag($path) {
+	public static function getETag(string $path): string|false {
 		return self::$defaultInstance->getETag($path);
 	}
 }

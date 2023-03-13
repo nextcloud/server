@@ -439,7 +439,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c->get('SystemTagManagerFactory')->getObjectMapper();
 		});
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
-			$manager = \OC\Files\Filesystem::getMountManager(null);
+			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
 			$root = new Root(
 				$manager,

@@ -223,7 +223,7 @@ class View {
 	 *
 	 * @param string $path
 	 */
-	public function getLocalFile($path): string|bool {
+	public function getLocalFile($path): string|false {
 		$parent = substr($path, 0, strrpos($path, '/') ?: 0);
 		$path = $this->getAbsolutePath($path);
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
@@ -333,7 +333,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @return resource
+	 * @return resource|false
 	 */
 	public function opendir($path) {
 		return $this->basicOperation('opendir', $path, ['read']);
@@ -1680,14 +1680,14 @@ class View {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function getETag($path) {
 		[$storage, $internalPath] = $this->resolvePath($path);
 		if ($storage) {
 			return $storage->getETag($internalPath);
 		} else {
-			return null;
+			return false;
 		}
 	}
 
