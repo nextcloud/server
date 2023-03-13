@@ -54,6 +54,8 @@ use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Events\UserIdAssignedEvent;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -69,32 +71,18 @@ use function substr;
 class Access extends LDAPUtility {
 	public const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
 
-	/** @var \OCA\User_LDAP\Connection */
-	public $connection;
-	/** @var Manager */
-	public $userManager;
-	/**
-	 * never ever check this var directly, always use getPagedSearchResultState
-	 * @var ?bool
-	 */
-	protected $pagedSearchedSuccessful;
+	public Connection $connection;
+	public Manager $userManager;
+	/** never ever check this var directly, always use getPagedSearchResultState */
+	protected ?bool $pagedSearchedSuccessful;
+	protected ?AbstractMapping $userMapper;
+	protected ?AbstractMapping $groupMapper;
 
-	/** @var ?AbstractMapping */
-	protected $userMapper;
-
-	/** @var ?AbstractMapping */
-	protected $groupMapper;
-
-	/**
-	 * @var \OCA\User_LDAP\Helper
-	 */
-	private $helper;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $ncUserManager;
-	/** @var LoggerInterface */
-	private $logger;
+	private Helper $helper;
+	private IConfig $config;
+	private IUserManager $ncUserManager;
+	private LoggerInterface $logger;
+	private IEventDispatcher $dispatcher;
 	private string $lastCookie = '';
 
 	public function __construct(
@@ -104,7 +92,8 @@ class Access extends LDAPUtility {
 		Helper $helper,
 		IConfig $config,
 		IUserManager $ncUserManager,
-		LoggerInterface $logger
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher
 	) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
@@ -114,6 +103,7 @@ class Access extends LDAPUtility {
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
 		$this->logger = $logger;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -616,6 +606,9 @@ class Access extends LDAPUtility {
 		bool $isUser
 	): bool {
 		if ($mapper->map($fdn, $name, $uuid)) {
+			if ($isUser) {
+				$this->dispatcher->dispatchTyped(new UserIdAssignedEvent($name));
+			}
 			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
 				$this->cacheUserExists($name);
 				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);

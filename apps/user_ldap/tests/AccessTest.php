@@ -44,12 +44,14 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -61,28 +63,29 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class AccessTest extends TestCase {
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserMapping|MockObject */
 	protected $userMapper;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	protected $shareManager;
-	/** @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var GroupMapping|MockObject */
 	protected $groupMapper;
-	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Connection|MockObject */
 	private $connection;
-	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LDAP|MockObject */
 	private $ldap;
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Manager|MockObject */
 	private $userManager;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Helper|MockObject */
 	private $helper;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IConfig|MockObject */
 	private $config;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $ncUserManager;
 	/** @var LoggerInterface|MockObject */
 	private $logger;
-	/** @var Access */
-	private $access;
+	/** @var IEventDispatcher|MockObject */
+	private $dispatcher;
+	private Access $access;
 
 	protected function setUp(): void {
 		$this->connection = $this->createMock(Connection::class);
@@ -95,6 +98,7 @@ class AccessTest extends TestCase {
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->access = new Access(
 			$this->connection,
@@ -103,8 +107,10 @@ class AccessTest extends TestCase {
 			$this->helper,
 			$this->config,
 			$this->ncUserManager,
-			$this->logger
+			$this->logger,
+			$this->dispatcher
 		);
+		$this->dispatcher->expects($this->any())->method('dispatchTyped');
 		$this->access->setUserMapper($this->userMapper);
 		$this->access->setGroupMapper($this->groupMapper);
 	}
@@ -241,9 +247,9 @@ class AccessTest extends TestCase {
 	 */
 	public function testStringResemblesDN($case) {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
+		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger);
+		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->dispatcher);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -263,10 +269,10 @@ class AccessTest extends TestCase {
 	 */
 	public function testStringResemblesDNLDAPmod($case) {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
+		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
-		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger);
+		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->dispatcher);
 
 		if (!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -291,7 +297,7 @@ class AccessTest extends TestCase {
 			->method('getAttributes')
 			->willReturn(['displayname' => ['bar', 'count' => 1]]);
 
-		/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject $mapperMock */
+		/** @var UserMapping|MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
@@ -336,7 +342,7 @@ class AccessTest extends TestCase {
 	}
 
 	public function testBatchApplyUserAttributesSkipped() {
-		/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject $mapperMock */
+		/** @var UserMapping|MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
@@ -377,7 +383,7 @@ class AccessTest extends TestCase {
 	}
 
 	public function testBatchApplyUserAttributesDontSkip() {
-		/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject $mapperMock */
+		/** @var UserMapping|MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
@@ -433,7 +439,7 @@ class AccessTest extends TestCase {
 	 */
 	public function testSanitizeDN($attribute) {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
+		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);
 
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
@@ -447,7 +453,7 @@ class AccessTest extends TestCase {
 				$attribute => ['count' => 1, $dnFromServer]
 			]);
 
-		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger);
+		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->dispatcher);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
@@ -763,7 +769,7 @@ class AccessTest extends TestCase {
 			->with('detta')
 			->willReturnOnConsecutiveCalls($offlineUserMock, $regularUserMock);
 
-		/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject $mapperMock */
+		/** @var UserMapping|MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
