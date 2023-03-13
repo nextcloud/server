@@ -973,7 +973,7 @@ class Wizard extends LDAPUtility {
 				if (is_array($cns) && count($cns) > 0) {
 					$filter .= '(|';
 					foreach ($cns as $cn) {
-						$filter .= '(cn=' . $cn . ')';
+						$filter .= '(cn=' . ldap_escape($cn, '', LDAP_ESCAPE_FILTER) . ')';
 					}
 					$filter .= ')';
 				}
