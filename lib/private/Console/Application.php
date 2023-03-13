@@ -30,43 +30,48 @@
  */
 namespace OC\Console;
 
+use ArgumentCountError;
+use Exception;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
+use OC\SystemConfig;
 use OC_App;
-use OCP\AppFramework\QueryException;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
+use OCP\Console\ConsoleEventV2;
+use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 	private SymfonyApplication $application;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-	/** @var IRequest */
-	private $request;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var MemoryInfo */
-	private $memoryInfo;
+	private EventDispatcherInterface $legacyDispatcher;
+	private IEventDispatcher $dispatcher;
+	private IRequest $request;
+	private LoggerInterface $logger;
+	private MemoryInfo $memoryInfo;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $dispatcher,
+								EventDispatcherInterface $legacyDispatcher,
+								IEventDispatcher $dispatcher,
 								IRequest $request,
 								LoggerInterface $logger,
-								MemoryInfo $memoryInfo) {
-		$defaults = \OC::$server->getThemingDefaults();
+								MemoryInfo $memoryInfo, Defaults $defaults) {
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
+		$this->legacyDispatcher = $legacyDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->request = $request;
 		$this->logger = $logger;
@@ -76,12 +81,14 @@ class Application {
 	/**
 	 * @param InputInterface $input
 	 * @param ConsoleOutputInterface $output
-	 * @throws \Exception
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws Exception
 	 */
 	public function loadCommands(
 		InputInterface $input,
 		ConsoleOutputInterface $output
-	) {
+	): void {
 		// $application is required to be defined in the register_command scripts
 		$application = $this->application;
 		$inputDefinition = $application->getDefinition();
@@ -119,7 +126,7 @@ class Application {
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
 					OC_App::loadApps();
-					$appManager = \OCP\Server::get(IAppManager::class);
+					$appManager = Server::get(IAppManager::class);
 					foreach ($appManager->getInstalledApps() as $app) {
 						$appPath = \OC_App::getAppPath($app);
 						if ($appPath === false) {
@@ -136,7 +143,7 @@ class Application {
 						if (file_exists($file)) {
 							try {
 								require $file;
-							} catch (\Exception $e) {
+							} catch (Exception $e) {
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
@@ -148,7 +155,7 @@ class Application {
 				$errorOutput = $output->getErrorOutput();
 				$errorOutput->writeln("Nextcloud is not installed - only a limited number of commands are available");
 			}
-		} catch (NeedsUpdateException $e) {
+		} catch (NeedsUpdateException) {
 			if ($input->getArgument('command') !== '_completion') {
 				$errorOutput = $output->getErrorOutput();
 				$errorOutput->writeln("Nextcloud or one of the apps require upgrade - only a limited number of commands are available");
@@ -157,14 +164,14 @@ class Application {
 		}
 
 		if ($input->getFirstArgument() !== 'check') {
-			$errors = \OC_Util::checkServer(\OC::$server->getSystemConfig());
+			$errors = \OC_Util::checkServer(Server::get(SystemConfig::class));
 			if (!empty($errors)) {
 				foreach ($errors as $error) {
 					$output->writeln((string)$error['error']);
 					$output->writeln((string)$error['hint']);
 					$output->writeln('');
 				}
-				throw new \Exception("Environment not properly prepared.");
+				throw new Exception("Environment not properly prepared.");
 			}
 		}
 	}
@@ -193,37 +200,38 @@ class Application {
 	 *
 	 * @param bool $boolean Whether to automatically exit after a command execution or not
 	 */
-	public function setAutoExit($boolean) {
+	public function setAutoExit(bool $boolean): void {
 		$this->application->setAutoExit($boolean);
 	}
 
 	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @return int
-	 * @throws \Exception
+	 * @throws Exception
 	 */
-	public function run(InputInterface $input = null, OutputInterface $output = null) {
-		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, new ConsoleEvent(
+	public function run(InputInterface $input = null, OutputInterface $output = null): int {
+		$this->legacyDispatcher->dispatch(ConsoleEvent::EVENT_RUN, new ConsoleEvent(
 			ConsoleEvent::EVENT_RUN,
 			$this->request->server['argv']
 		));
+		$this->dispatcher->dispatchTyped(new ConsoleEventV2($this->request->server['argv']));
 		return $this->application->run($input, $output);
 	}
 
-	private function loadCommandsFromInfoXml($commands) {
+	/**
+	 * @throws Exception
+	 */
+	private function loadCommandsFromInfoXml($commands): void {
 		foreach ($commands as $command) {
 			try {
-				$c = \OC::$server->query($command);
-			} catch (QueryException $e) {
+				$c = Server::get($command);
+			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($command)) {
 					try {
 						$c = new $command();
-					} catch (\ArgumentCountError $e2) {
-						throw new \Exception("Failed to construct console command '$command': " . $e->getMessage(), 0, $e);
+					} catch (ArgumentCountError) {
+						throw new Exception("Failed to construct console command '$command': " . $e->getMessage(), 0, $e);
 					}
 				} else {
-					throw new \Exception("Console command '$command' is unknown and could not be loaded");
+					throw new Exception("Console command '$command' is unknown and could not be loaded");
 				}
 			}
 

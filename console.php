@@ -34,6 +34,7 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OC\Console\Application;
+use OCP\Server;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -92,9 +93,11 @@ try {
 	$application = new Application(
 		\OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher(),
+		Server::get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getRequest(),
 		\OC::$server->get(\Psr\Log\LoggerInterface::class),
-		\OC::$server->query(\OC\MemoryInfo::class)
+		\OC::$server->query(\OC\MemoryInfo::class),
+		Server::get(\OCP\Defaults::class)
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
