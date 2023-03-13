@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Thomas Citharel <nextcloud@tcit.fr>
  *
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,22 +28,38 @@ namespace OCA\AdminAudit\Listener;
 use OCA\AdminAudit\Actions\Action;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Preview\BeforePreviewFetchedEvent;
+
 
 /**
- * @template-implements UserManagementEventListener<CriticalActionPerformedEvent>
+ * @template-implements UserManagementEventListener<BeforePreviewFetchedEvent>
  */
-class CriticalActionPerformedEventListener extends Action implements IEventListener {
+class FileEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
-		if (!($event instanceof CriticalActionPerformedEvent)) {
-			return;
+		if ($event instanceof BeforePreviewFetchedEvent) {
+			$this->beforePreviewFetched($event);
 		}
+	}
+
+	private function beforePreviewFetched(BeforePreviewFetchedEvent $event): void {
+		$file = $event->getNode();
 
 		$this->log(
-			$event->getLogMessage(),
-			$event->getParameters(),
-			array_keys($event->getParameters()),
-			$event->getObfuscateParameters()
+			'Preview accessed: "%s" (width: "%s", height: "%s" crop: "%s", mode: "%s")',
+			[
+				'path' => mb_substr($file->getInternalPath(), 5),
+				'width' => $event->getWidth(),
+				'height' => $event->getHeight(),
+				'crop' => $event->isCrop(),
+				'mode' => $event->getMode(),
+			],
+			[
+				'path',
+				'width',
+				'height',
+				'crop',
+				'mode'
+			]
 		);
 	}
 }

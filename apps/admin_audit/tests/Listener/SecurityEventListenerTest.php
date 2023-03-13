@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,30 +27,38 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Tests\Actions;
 
-use OCA\AdminAudit\Actions\Security;
+use OCA\AdminAudit\Listener\SecurityEventListener;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserDisabled;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserEnabled;
 use OCP\IUser;
 use OCA\AdminAudit\AuditLogger;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class SecurityTest extends TestCase {
-	/** @var AuditLogger|\PHPUnit\Framework\MockObject\MockObject */
+class SecurityEventListenerTest extends TestCase {
+	/** @var AuditLogger|MockObject */
 	private $logger;
 
-	/** @var Security */
-	private $security;
+	private SecurityEventListener $security;
 
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser|MockObject */
 	private $user;
+
+	/** @var IProvider|(IProvider&MockObject)|MockObject */
+	private $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(AuditLogger::class);
-		$this->security = new Security($this->logger);
+		$this->security = new SecurityEventListener($this->logger);
 
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('myuid');
 		$this->user->method('getDisplayName')->willReturn('mydisplayname');
+		$this->provider = $this->createMock(IProvider::class);
+		$this->provider->method('getDisplayName')->willReturn('myprovider');
 	}
 
 	public function testTwofactorFailed() {
@@ -60,7 +69,7 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->twofactorFailed($this->user, ['provider' => 'myprovider']);
+		$this->security->handle(new TwoFactorProviderForUserEnabled($this->user, $this->provider));
 	}
 
 	public function testTwofactorSuccess() {
@@ -71,6 +80,6 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->twofactorSuccess($this->user, ['provider' => 'myprovider']);
+		$this->security->handle(new TwoFactorProviderForUserDisabled($this->user, $this->provider));
 	}
 }

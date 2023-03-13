@@ -3,11 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Thomas Citharel <nextcloud@tcit.fr>
  *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,13 +23,25 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\AdminAudit\Actions;
+namespace OCA\AdminAudit\Listener;
 
-class Console extends Action {
-	/**
-	 * @param $arguments
-	 */
-	public function runCommand(array $arguments): void {
+use OCA\AdminAudit\Actions\Action;
+use OCP\Console\ConsoleEventV2;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+
+/**
+ * @template-implements UserManagementEventListener<ConsoleEventV2>
+ */
+class ConsoleEventListener extends Action implements IEventListener {
+	public function handle(Event $event): void {
+		if ($event instanceof ConsoleEventV2) {
+			$this->runCommand($event);
+		}
+	}
+
+	private function runCommand(ConsoleEventV2 $event): void {
+		$arguments = $event->getArguments();
 		if (!isset($arguments[1]) || $arguments[1] === '_completion') {
 			// Don't log autocompletion
 			return;
