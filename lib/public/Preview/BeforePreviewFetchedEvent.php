@@ -33,13 +33,23 @@ use OCP\Files\Node;
  */
 class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	private Node $node;
+	private int $width;
+	private int $height;
+	private bool $crop;
+	private string $mode;
+	private ?string $mimeType;
 
 	/**
 	 * @since 25.0.1
 	 */
-	public function __construct(Node $node) {
+	public function __construct(Node $node, int $width, int $height, bool $crop, string $mode, ?string $mimeType) {
 		parent::__construct();
 		$this->node = $node;
+		$this->width = $width;
+		$this->height = $height;
+		$this->crop = $crop;
+		$this->mode = $mode;
+		$this->mimeType = $mimeType;
 	}
 
 	/**
@@ -47,5 +57,40 @@ class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	 */
 	public function getNode(): Node {
 		return $this->node;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getWidth(): int {
+		return $this->width;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getHeight(): int {
+		return $this->height;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function isCrop(): bool {
+		return $this->crop;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getMode(): string {
+		return $this->mode;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getMimeType(): ?string {
+		return $this->mimeType;
 	}
 }

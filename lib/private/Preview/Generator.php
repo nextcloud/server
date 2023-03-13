@@ -109,7 +109,12 @@ class Generator {
 			new GenericEvent($file, $specification)
 		);
 		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
-			$file
+			$file,
+			$width,
+			$height,
+			$crop,
+			$mode,
+			$mimeType
 		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
