@@ -275,6 +275,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Másolás a vágólapra",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
     "Toggle grid view" : "Rácsnézet be/ki",
-    "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó előállításakor"
+    "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó-előállításkor"
 },
 "nplurals=2; plural=(n != 1);");

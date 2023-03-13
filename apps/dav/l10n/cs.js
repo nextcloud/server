@@ -129,7 +129,7 @@ OC.L10N.register(
     "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků",
     "Failed to write file contents: %1$s" : "Nepodařilo se zapsat obsahy souborů: %1$s",
     "File not found: %1$s" : "Soubor nenalezen: %1$s",
-    "System is in maintenance mode." : "Na systému právě probíhá údržba.",
+    "System is in maintenance mode." : "Systém se právě nachází v režimu údržby.",
     "Upgrade needed" : "Je třeba přejít na novější verzi",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Váš %s potřebuje být nastavený aby používal HTTPS, aby bylo možné používat CalDAV a CardDAV s iOS/macOS.",
     "Configures a CalDAV account" : "Nastaví CalDAV účet",
