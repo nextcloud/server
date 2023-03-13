@@ -95,11 +95,14 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
 		$result = $backend->rollback($version);
-		\OC_Hook::emit('\OCP\Versions', 'rollback', [
-			'path' => $version->getVersionPath(),
-			'revision' => $version->getRevisionId(),
-			'node' => $version->getSourceFile(),
-		]);
+		// rollback doesn't have a return type yet and some implementations don't return anything
+		if ($result === null || $result === true) {
+			\OC_Hook::emit('\OCP\Versions', 'rollback', [
+				'path' => $version->getVersionPath(),
+				'revision' => $version->getRevisionId(),
+				'node' => $version->getSourceFile(),
+			]);
+		}
 		return $result;
 	}
 
