@@ -5,8 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Server;
+use OCP\User\Events\BeforeUserIdUnassignedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
 
 // Check user and app status
 \OC_JSON::checkAdminUser();
@@ -17,12 +22,16 @@ $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
 	if ($subject === 'user') {
-		$mapping = \OCP\Server::get(UserMapping::class);
+		$mapping = Server::get(UserMapping::class);
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = Server::get(IEventDispatcher::class);
 		$result = $mapping->clearCb(
-			function ($uid) {
+			function (string $uid) use ($dispatcher): void {
+				$dispatcher->dispatchTyped(new BeforeUserIdUnassignedEvent($uid));
 				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
 			},
-			function ($uid) {
+			function (string $uid) use ($dispatcher): void {
+				$dispatcher->dispatchTyped(new UserIdUnassignedEvent($uid));
 				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);

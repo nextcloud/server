@@ -15,10 +15,12 @@ use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\User\Events\UserIdAssignedEvent;
 use Psr\Log\LoggerInterface;
 use function strlen;
 use function substr;
@@ -42,6 +44,7 @@ class Access extends LDAPUtility {
 
 	/** @var ?AbstractMapping */
 	protected $groupMapper;
+
 	private string $lastCookie = '';
 
 	public function __construct(
@@ -53,15 +56,10 @@ class Access extends LDAPUtility {
 		private IUserManager $ncUserManager,
 		private LoggerInterface $logger,
 		private IAppConfig $appConfig,
+		private IEventDispatcher $dispatcher,
 	) {
 		parent::__construct($ldap);
-		$this->connection = $connection;
-		$this->userManager = $userManager;
 		$this->userManager->setLdapAccess($this);
-		$this->helper = $helper;
-		$this->config = $config;
-		$this->ncUserManager = $ncUserManager;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -630,10 +628,13 @@ class Access extends LDAPUtility {
 		bool $isUser
 	): bool {
 		if ($mapper->map($fdn, $name, $uuid)) {
-			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
+			if ($isUser) {
 				$this->cacheUserExists($name);
-				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
-			} elseif (!$isUser) {
+				$this->dispatcher->dispatchTyped(new UserIdAssignedEvent($name));
+				if ($this->ncUserManager instanceof PublicEmitter) {
+					$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
+				}
+			} else {
 				$this->cacheGroupExists($name);
 			}
 			return true;
