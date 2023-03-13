@@ -195,6 +195,8 @@ OC.L10N.register(
     "(all selected)" : "(semua terpilih)",
     "({count} selected)" : "({count} terpilih)",
     "Error loading file exists template" : "Kesalahan memuat templat berkas yang sudah ada",
+    "Show list view" : "Tampilkan sebagai daftar",
+    "Show grid view" : "Tampilkan sebagai kisi",
     "Pending" : "Terutnda",
     "Home" : "Beranda",
     "Copy to {folder}" : "Salin ke {folder}",

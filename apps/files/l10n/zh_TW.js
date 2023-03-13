@@ -193,6 +193,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "複製到剪貼簿",
     "Use this address to access your Files via WebDAV" : "使用此位置透過 WebDAV 存取您的檔案",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "若您啟用了 2FA，您必須點擊此處建立並使用新的應用程式密碼。",
     "Clipboard is not available" : "剪貼簿無法使用",
     "WebDAV URL copied to clipboard" : "WebDAV URL 已複製到剪貼簿",
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",
