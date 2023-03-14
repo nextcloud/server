@@ -37,13 +37,13 @@ interface IClientService {
 	/**
 	 * @param CookieJarInterface $cookieJar
 	 * @return IClient
-	 * @since 8.1.0 - Since Nextcloud 19.0.0 an optional $cookieJar can be provided
+	 * @since 8.1.0 - Since Nextcloud 27.0.0 an optional $cookieJar can be provided
 	 */
 	public function newClient(?CookieJarInterface $cookieJar = null): IClient;
 
 	/**
 	 * @return CookieJarInterface
-	 * @since 19.0.0
+	 * @since 27.0.0
 	 */
 	public function newCookieJar(): CookieJarInterface;
 }

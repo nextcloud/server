@@ -211,7 +211,7 @@ interface IClient {
 
 	/**
 	 * @return CookieJarInterface|null
-	 * @since 19.0.0
+	 * @since 27.0.0
 	 */
 	public function getCookieJar(): ?CookieJarInterface;
 }
