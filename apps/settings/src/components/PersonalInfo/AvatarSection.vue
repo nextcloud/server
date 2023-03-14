@@ -22,6 +22,7 @@
 
 <template>
 	<section>
+		<h3 class="hidden-visually"> {{ t('settings', 'Your profile information') }} </h3>
 		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
