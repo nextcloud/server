@@ -304,7 +304,7 @@ class Tags implements ITags {
 			return false;
 		}
 		try {
-			$tag = new Tag($this->user, $this->type, $name);
+			$tag = Tag::fromParams(['owner' => $this->user, 'type' => $this->type, 'name' => $name]);
 			$tag = $this->mapper->insert($tag);
 			$this->tags[] = $tag;
 		} catch (\Exception $e) {
@@ -314,8 +314,8 @@ class Tags implements ITags {
 			]);
 			return false;
 		}
-		$this->logger->debug(__METHOD__ . ' Added an tag with ' . $tag->getId(), ['app' => 'core']);
-		return $tag->getId();
+		$this->logger->debug(__METHOD__ . ' Added an tag with ' . ($tag->getId() ?? ''), ['app' => 'core']);
+		return $tag->getId() ?? false;
 	}
 
 	/**
@@ -382,7 +382,7 @@ class Tags implements ITags {
 		$newones = [];
 		foreach ($names as $name) {
 			if (!$this->hasTag($name) && $name !== '') {
-				$newones[] = new Tag($this->user, $this->type, $name);
+				$newones[] = Tag::fromParams(['owner' => $this->user, 'type' => $this->type, 'name' => $name]);
 			}
 			if (!is_null($id)) {
 				// Insert $objectid, $categoryid  pairs if not exist.

@@ -36,22 +36,12 @@ use OCP\AppFramework\Db\Entity;
  * @method void setName(string $name)
  */
 class Tag extends Entity {
-	protected $owner;
-	protected $type;
-	protected $name;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param string $owner The tag's owner
-	 * @param string $type The type of item this tag is used for
-	 * @param string $name The tag's name
-	 */
-	public function __construct($owner = null, $type = null, $name = null) {
-		$this->setOwner($owner);
-		$this->setType($type);
-		$this->setName($name);
-	}
+	/** @psalm-suppress PropertyNotSetInConstructor */
+	protected string $owner;
+	/** @psalm-suppress PropertyNotSetInConstructor */
+	protected string $type;
+	/** @psalm-suppress PropertyNotSetInConstructor */
+	protected string $name;
 
 	/**
 	 * Transform a database columnname to a property
