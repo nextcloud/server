@@ -909,7 +909,7 @@ class Wizard extends LDAPUtility {
 				if (is_array($objcs) && count($objcs) > 0) {
 					$filter .= '(|';
 					foreach ($objcs as $objc) {
-						$filter .= '(objectclass=' . $objc . ')';
+						$filter .= '(objectclass=' . ldap_escape($objc, '', LDAP_ESCAPE_FILTER) . ')';
 					}
 					$filter .= ')';
 					$parts++;
@@ -925,7 +925,7 @@ class Wizard extends LDAPUtility {
 						}
 						$base = $this->configuration->ldapBase[0];
 						foreach ($cns as $cn) {
-							$rr = $this->ldap->search($cr, $base, 'cn=' . $cn, ['dn', 'primaryGroupToken']);
+							$rr = $this->ldap->search($cr, $base, 'cn=' . ldap_escape($cn, '', LDAP_ESCAPE_FILTER), ['dn', 'primaryGroupToken']);
 							if (!$this->ldap->isResource($rr)) {
 								continue;
 							}
@@ -936,10 +936,10 @@ class Wizard extends LDAPUtility {
 							if ($dn === false || $dn === '') {
 								continue;
 							}
-							$filterPart = '(memberof=' . $dn . ')';
+							$filterPart = '(memberof=' . ldap_escape($dn, '', LDAP_ESCAPE_FILTER) . ')';
 							if (isset($attrs['primaryGroupToken'])) {
 								$pgt = $attrs['primaryGroupToken'][0];
-								$primaryFilterPart = '(primaryGroupID=' . $pgt .')';
+								$primaryFilterPart = '(primaryGroupID=' . ldap_escape($pgt, '', LDAP_ESCAPE_FILTER) .')';
 								$filterPart = '(|' . $filterPart . $primaryFilterPart . ')';
 							}
 							$filter .= $filterPart;
@@ -963,7 +963,7 @@ class Wizard extends LDAPUtility {
 				if (is_array($objcs) && count($objcs) > 0) {
 					$filter .= '(|';
 					foreach ($objcs as $objc) {
-						$filter .= '(objectclass=' . $objc . ')';
+						$filter .= '(objectclass=' . ldap_escape($objc, '', LDAP_ESCAPE_FILTER) . ')';
 					}
 					$filter .= ')';
 					$parts++;
