@@ -41,11 +41,16 @@ use Test\TestCase;
  */
 class UserStatusAutomationTest extends TestCase {
 
-	protected MockObject|ITimeFactory $time;
-	protected MockObject|IJobList $jobList;
-	protected MockObject|LoggerInterface $logger;
-	protected MockObject|IManager $statusManager;
-	protected MockObject|IConfig $config;
+	/** @var MockObject|ITimeFactory $time */
+	protected $time;
+	/** @var MockObject|IJobList $jobList */
+	protected $jobList;
+	/** @var MockObject|LoggerInterface $logger */
+	protected $logger;
+	/** @var MockObject|IManager $statusManager */
+	protected $statusManager;
+	/** @var MockObject|IConfig $config */
+	protected $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,7 +63,7 @@ class UserStatusAutomationTest extends TestCase {
 
 	}
 
-	protected function getAutomationMock(array $methods): MockObject|UserStatusAutomation {
+	protected function getAutomationMock(array $methods) {
 		if (empty($methods)) {
 			return new UserStatusAutomation(
 				$this->time,
