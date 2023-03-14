@@ -29,7 +29,7 @@ use function lcfirst;
 use function substr;
 
 /**
- * @method int getId()
+ * @method ?int getId()
  * @method void setId(int $id)
  * @since 7.0.0
  * @psalm-consistent-constructor

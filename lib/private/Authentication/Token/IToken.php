@@ -37,10 +37,8 @@ interface IToken extends JsonSerializable {
 
 	/**
 	 * Get the token ID
-	 *
-	 * @return int
 	 */
-	public function getId(): int;
+	public function getId(): ?int;
 
 	/**
 	 * Get the user UID
@@ -74,6 +72,7 @@ interface IToken extends JsonSerializable {
 	 * Set the timestamp of the last password check
 	 *
 	 * @param int $time
+	 * @return void
 	 */
 	public function setLastCheck(int $time);
 
@@ -95,6 +94,7 @@ interface IToken extends JsonSerializable {
 	 * Set the authentication scope for this token
 	 *
 	 * @param array $scope
+	 * @return void
 	 */
 	public function setScope($scope);
 
@@ -115,6 +115,7 @@ interface IToken extends JsonSerializable {
 	 * Set the token
 	 *
 	 * @param string $token
+	 * @return void
 	 */
 	public function setToken(string $token);
 
@@ -122,6 +123,7 @@ interface IToken extends JsonSerializable {
 	 * Set the password
 	 *
 	 * @param string $password
+	 * @return void
 	 */
 	public function setPassword(string $password);
 
@@ -129,6 +131,7 @@ interface IToken extends JsonSerializable {
 	 * Set the expiration time of the token
 	 *
 	 * @param int|null $expires
+	 * @return void
 	 */
 	public function setExpires($expires);
 }
