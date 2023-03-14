@@ -162,7 +162,7 @@ class Sharing extends Action {
 			);
 		} elseif ($params['shareType'] === IShare::TYPE_SCIENCEMESH) {
 			$this->log(
-				'The %s "%s" with ID "%s" has been shared to the sciencemesh user "%s" with permissions "%s" (Share ID: %s)',
+				'The %s "%s" with ID "%s" has been shared to the ScienceMesh user "%s" with permissions "%s" (Share ID: %s)',
 				$params,
 				[
 					'itemType',
@@ -291,7 +291,7 @@ class Sharing extends Action {
 			);
 		} elseif ($params['shareType'] === IShare::TYPE_SCIENCEMESH) {
 			$this->log(
-				'The %s "%s" with ID "%s" has been unshared from the sciencemesh user "%s" (Share ID: %s)',
+				'The %s "%s" with ID "%s" has been unshared from the ScienceMesh user "%s" (Share ID: %s)',
 				$params,
 				[
 					'itemType',
