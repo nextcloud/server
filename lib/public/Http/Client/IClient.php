@@ -26,8 +26,6 @@ declare(strict_types=1);
  */
 namespace OCP\Http\Client;
 
-use GuzzleHttp\Cookie\CookieJarInterface;
-
 /**
  * Interface IClient
  *
@@ -208,10 +206,4 @@ interface IClient {
 	 * @since 8.1.0
 	 */
 	public function options(string $uri, array $options = []): IResponse;
-
-	/**
-	 * @return CookieJarInterface|null
-	 * @since 27.0.0
-	 */
-	public function getCookieJar(): ?CookieJarInterface;
 }

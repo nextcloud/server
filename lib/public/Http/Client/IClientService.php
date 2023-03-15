@@ -26,8 +26,6 @@ declare(strict_types=1);
  */
 namespace OCP\Http\Client;
 
-use GuzzleHttp\Cookie\CookieJarInterface;
-
 /**
  * Interface IClientService
  *
@@ -35,15 +33,9 @@ use GuzzleHttp\Cookie\CookieJarInterface;
  */
 interface IClientService {
 	/**
-	 * @param CookieJarInterface $cookieJar
+	 * @param bool|null $useCookieJar - keep cookies between requests.
 	 * @return IClient
-	 * @since 8.1.0 - Since Nextcloud 27.0.0 an optional $cookieJar can be provided
+	 * @since 8.1.0 - Since Nextcloud 27.0.0 cookies can be kept with $useCookieJar.
 	 */
-	public function newClient(?CookieJarInterface $cookieJar = null): IClient;
-
-	/**
-	 * @return CookieJarInterface
-	 * @since 27.0.0
-	 */
-	public function newCookieJar(): CookieJarInterface;
+	public function newClient(?bool $useCookieJar = false): IClient;
 }

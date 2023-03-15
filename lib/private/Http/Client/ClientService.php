@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Cookie\CookieJarInterface;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
 use OCP\Http\Client\IClient;
@@ -61,10 +60,10 @@ class ClientService implements IClientService {
 	}
 
 	/**
-	 * @param CookieJarInterface|null $cookieJar
+	 * @param bool|null $useCookieJar - keep cookies between requests
 	 * @return Client
 	 */
-	public function newClient(?CookieJarInterface $cookieJar = null): IClient {
+	public function newClient(?bool $useCookieJar = false): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($this->dnsPinMiddleware->addDnsPinning());
@@ -76,14 +75,7 @@ class ClientService implements IClientService {
 			$this->certificateManager,
 			$client,
 			$this->remoteHostValidator,
-			$cookieJar
+			$useCookieJar
 		);
-	}
-
-	/**
-	 * @return CookieJarInterface
-	 */
-	public function newCookieJar(): CookieJarInterface {
-		return new \GuzzleHttp\Cookie\CookieJar();
 	}
 }
