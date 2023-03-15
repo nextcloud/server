@@ -65,7 +65,7 @@ class Client implements IClient {
 		ICertificateManager $certificateManager,
 		GuzzleClient $client,
 		IRemoteHostValidator $remoteHostValidator,
-		?bool $useCookieJar = false
+		bool $useCookieJar = false
 	) {
 		$this->config = $config;
 		$this->client = $client;

@@ -33,9 +33,10 @@ namespace OCP\Http\Client;
  */
 interface IClientService {
 	/**
-	 * @param bool|null $useCookieJar - keep cookies between requests.
+	 * @param bool $useCookieJar - keep cookies between requests.
 	 * @return IClient
-	 * @since 8.1.0 - Since Nextcloud 27.0.0 cookies can be kept with $useCookieJar.
+	 * @since 8.1.0
+	 * @since 27.0.0 - Parameter $useCookieJar was added
 	 */
-	public function newClient(?bool $useCookieJar = false): IClient;
+	public function newClient(bool $useCookieJar = false): IClient;
 }

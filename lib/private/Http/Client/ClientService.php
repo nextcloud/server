@@ -60,10 +60,10 @@ class ClientService implements IClientService {
 	}
 
 	/**
-	 * @param bool|null $useCookieJar - keep cookies between requests
+	 * @param bool $useCookieJar - keep cookies between requests
 	 * @return Client
 	 */
-	public function newClient(?bool $useCookieJar = false): IClient {
+	public function newClient(bool $useCookieJar = false): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($this->dnsPinMiddleware->addDnsPinning());
