@@ -311,11 +311,23 @@ class LoginController extends Controller {
 							 string $redirect_url = null,
 							 string $timezone = '',
 							 string $timezone_offset = ''): RedirectResponse {
-		// If the user is already logged in and the CSRF check does not pass then
-		// simply redirect the user to the correct page as required. This is the
-		// case when an user has already logged-in, in another tab.
 		if (!$this->request->passesCSRFCheck()) {
-			return $this->generateRedirect($redirect_url);
+			if ($this->userSession->isLoggedIn()) {
+				// If the user is already logged in and the CSRF check does not pass then
+				// simply redirect the user to the correct page as required. This is the
+				// case when a user has already logged-in, in another tab.
+				return $this->generateRedirect($redirect_url);
+			}
+
+			// Clear any auth remnants like cookies to ensure a clean login
+			// For the next attempt
+			$this->userSession->logout();
+			return $this->createLoginFailedResponse(
+				$user,
+				$user,
+				$redirect_url,
+				$this->l10n->t('Please try again')
+			);
 		}
 
 		$data = new LoginData(
