@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable25", "stable24", "stable23"]
+        branches: ["master", "stable26", "stable25", "stable24", "stable23"]
 
     name: update-psalm-baseline-${{ matrix.branches }}
 
