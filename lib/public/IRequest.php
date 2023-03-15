@@ -80,7 +80,7 @@ interface IRequest {
 	/**
 	 * @since 26.0.0
 	 */
-	public const USER_AGENT_TALK_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Talk v.*$/';
+	public const USER_AGENT_TALK_DESKTOP = '/^Mozilla\/5\.0 \((?!Android|iOS)[A-Za-z ]+\) Nextcloud\-Talk v.*$/';
 
 	/**
 	 * @since 9.1.0
