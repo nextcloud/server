@@ -16,6 +16,8 @@ jobs:
   init:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout server
         uses: actions/checkout@v3
