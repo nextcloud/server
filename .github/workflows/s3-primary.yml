@@ -10,6 +10,8 @@ jobs:
   s3-primary-tests-minio:
     runs-on: ubuntu-20.04
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       # do not stop on another job's failure
       fail-fast: false

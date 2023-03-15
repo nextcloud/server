@@ -17,6 +17,8 @@ jobs:
   s3-external-tests-minio:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       # do not stop on another job's failure
       fail-fast: false
@@ -67,6 +69,8 @@ jobs:
           docker logs $(docker ps -aq)
   s3-external-tests-localstack:
     runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       # do not stop on another job's failure
