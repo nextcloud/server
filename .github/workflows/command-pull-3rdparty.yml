@@ -31,13 +31,18 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.COMMAND_BOT_PAT }}
 
+      - name: Setup git
+        run: |
+          git config --local user.email "nextcloud-command@users.noreply.github.com"
+          git config --local user.name "nextcloud-command"
+
       - name: Pull 3rdparty
         run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin ${{ github.event.pull_request.base.ref }}; fi'
 
       - name: Commit and push changes
         run: |
           git add 3rdparty
-          git commit -m "Update submodule 3rdparty to latest ${{ github.event.pull_request.base.ref }}"
+          git commit -s -m "Update submodule 3rdparty to latest ${{ github.event.pull_request.base.ref }}"
           git push
 
       - name: Add reaction on failure
