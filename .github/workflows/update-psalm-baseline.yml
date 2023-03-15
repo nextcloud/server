@@ -9,6 +9,8 @@ jobs:
   update-psalm-baseline:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - uses: actions/checkout@v2
         with:

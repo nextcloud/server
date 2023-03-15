@@ -11,6 +11,8 @@ jobs:
   phpunit-oci:
     runs-on: ubuntu-20.04
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       fail-fast: false
       matrix:
