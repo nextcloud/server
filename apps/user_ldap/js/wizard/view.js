@@ -356,7 +356,6 @@ OCA = OCA || {};
 			this.$settings.tabs({});
 			$('#ldapSettings button:not(.icon-default-style):not(.ui-multiselect)').button();
 			$('#ldapSettings').tabs({ beforeActivate: this.onTabChange });
-			$('#ldapSettings :input').tooltip({placement: "right", container: "body", trigger: "hover"});
 
 			this.initControls();
 			this.disableTabs();
