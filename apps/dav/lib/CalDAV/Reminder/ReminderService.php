@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -221,6 +222,7 @@ class ReminderService {
 		if (!$vcalendar) {
 			return;
 		}
+		$calendarTimeZone = $this->getCalendarTimeZone((int) $objectData['calendarid']);
 
 		$vevents = $this->getAllVEventsFromVCalendar($vcalendar);
 		if (count($vevents) === 0) {
@@ -249,7 +251,7 @@ class ReminderService {
 					continue;
 				}
 
-				$alarms = $this->getRemindersForVAlarm($valarm, $objectData,
+				$alarms = $this->getRemindersForVAlarm($valarm, $objectData, $calendarTimeZone,
 					$eventHash, $alarmHash, true, true);
 				$this->writeRemindersToDatabase($alarms);
 			}
@@ -306,6 +308,16 @@ class ReminderService {
 
 					try {
 						$triggerTime = $valarm->getEffectiveTriggerTime();
+						/**
+						 * @psalm-suppress DocblockTypeContradiction
+						 *   https://github.com/vimeo/psalm/issues/9244
+						 */
+						if ($triggerTime->getTimezone() === false || $triggerTime->getTimezone()->getName() === 'UTC') {
+							$triggerTime = new DateTimeImmutable(
+								$triggerTime->format('Y-m-d H:i:s'),
+								$calendarTimeZone
+							);
+						}
 					} catch (InvalidDataException $e) {
 						continue;
 					}
@@ -324,7 +336,7 @@ class ReminderService {
 						continue;
 					}
 
-					$alarms = $this->getRemindersForVAlarm($valarm, $objectData, $masterHash, $alarmHash, $isRecurring, false);
+					$alarms = $this->getRemindersForVAlarm($valarm, $objectData, $calendarTimeZone, $masterHash, $alarmHash, $isRecurring, false);
 					$this->writeRemindersToDatabase($alarms);
 					$processedAlarms[] = $alarmHash;
 				}
@@ -363,6 +375,7 @@ class ReminderService {
 	/**
 	 * @param VAlarm $valarm
 	 * @param array $objectData
+	 * @param DateTimeZone $calendarTimeZone
 	 * @param string|null $eventHash
 	 * @param string|null $alarmHash
 	 * @param bool $isRecurring
@@ -371,6 +384,7 @@ class ReminderService {
 	 */
 	private function getRemindersForVAlarm(VAlarm $valarm,
 										   array $objectData,
+										   DateTimeZone $calendarTimeZone,
 										   string $eventHash = null,
 										   string $alarmHash = null,
 										   bool $isRecurring = false,
@@ -386,6 +400,16 @@ class ReminderService {
 		$isRelative = $this->isAlarmRelative($valarm);
 		/** @var DateTimeImmutable $notificationDate */
 		$notificationDate = $valarm->getEffectiveTriggerTime();
+		/**
+		 * @psalm-suppress DocblockTypeContradiction
+		 *   https://github.com/vimeo/psalm/issues/9244
+		 */
+		if ($notificationDate->getTimezone() === false || $notificationDate->getTimezone()->getName() === 'UTC') {
+			$notificationDate = new DateTimeImmutable(
+				$notificationDate->format('Y-m-d H:i:s'),
+				$calendarTimeZone
+			);
+		}
 		$clonedNotificationDate = new \DateTime('now', $notificationDate->getTimezone());
 		$clonedNotificationDate->setTimestamp($notificationDate->getTimestamp());
 
@@ -471,6 +495,7 @@ class ReminderService {
 		$vevents = $this->getAllVEventsFromVCalendar($vevent->parent);
 		$recurrenceExceptions = $this->getRecurrenceExceptionFromListOfVEvents($vevents);
 		$now = $this->timeFactory->getDateTime();
+		$calendarTimeZone = $this->getCalendarTimeZone((int) $reminder['calendar_id']);
 
 		try {
 			$iterator = new EventIterator($vevents, $reminder['uid']);
@@ -517,7 +542,7 @@ class ReminderService {
 					$alarms = $this->getRemindersForVAlarm($valarm, [
 						'calendarid' => $reminder['calendar_id'],
 						'id' => $reminder['object_id'],
-					], $reminder['event_hash'], $alarmHash, true, false);
+					], $calendarTimeZone, $reminder['event_hash'], $alarmHash, true, false);
 					$this->writeRemindersToDatabase($alarms);
 
 					// Abort generating reminders after creating one successfully
@@ -824,5 +849,27 @@ class ReminderService {
 	 */
 	private function isRecurring(VEvent $vevent):bool {
 		return isset($vevent->RRULE) || isset($vevent->RDATE);
+	}
+
+	/**
+	 * @param int $calendarid
+	 *
+	 * @return DateTimeZone
+	 */
+	private function getCalendarTimeZone(int $calendarid): DateTimeZone {
+		$calendarInfo = $this->caldavBackend->getCalendarById($calendarid);
+		$tzProp = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
+		if (!isset($calendarInfo[$tzProp])) {
+			// Defaulting to UTC
+			return new DateTimeZone('UTC');
+		}
+		// This property contains a VCALENDAR with a single VTIMEZONE
+		/** @var string $timezoneProp */
+		$timezoneProp = $calendarInfo[$tzProp];
+		/** @var VObject\Component\VCalendar $vtimezoneObj */
+		$vtimezoneObj = VObject\Reader::read($timezoneProp);
+		/** @var VObject\Component\VTimeZone $vtimezone */
+		$vtimezone = $vtimezoneObj->VTIMEZONE;
+		return $vtimezone->getTimeZone();
 	}
 }
