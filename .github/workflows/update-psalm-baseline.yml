@@ -9,6 +9,8 @@ jobs:
   update-psalm-baseline:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       fail-fast: false
       matrix:

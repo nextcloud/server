@@ -5,6 +5,9 @@ on: [pull_request]
 jobs:
     static-code-analysis:
         runs-on: ubuntu-latest
+
+        if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
         steps:
             - uses: actions/checkout@v2
             - name: Checkout submodules
@@ -34,6 +37,9 @@ jobs:
 
     static-code-analysis-ocp:
         runs-on: ubuntu-latest
+
+        if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
         steps:
             - uses: actions/checkout@v2
             - name: Checkout submodules
