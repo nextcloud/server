@@ -695,13 +695,25 @@ class Crypt {
 	}
 
 	/**
-	 * @param string $encKeyFile
-	 * @param string $shareKey
 	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $privateKey
-	 * @return string
 	 * @throws MultiKeyDecryptException
 	 */
-	public function multiKeyDecrypt($encKeyFile, $shareKey, $privateKey) {
+	public function multiKeyDecrypt(string $shareKey, $privateKey): string {
+		$plainContent = '';
+
+		// decrypt the intermediate key with RSA
+		if (openssl_private_decrypt($shareKey, $intermediate, $privateKey, OPENSSL_PKCS1_OAEP_PADDING)) {
+			return $intermediate;
+		} else {
+			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
+		}
+	}
+
+	/**
+	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $privateKey
+	 * @throws MultiKeyDecryptException
+	 */
+	public function multiKeyDecryptLegacy(string $encKeyFile, string $shareKey, $privateKey): string {
 		if (!$encKeyFile) {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
@@ -715,12 +727,53 @@ class Crypt {
 	}
 
 	/**
+	 * @throws MultiKeyEncryptException
+	 */
+	public function multiKeyEncrypt(string $plainContent, array $keyFiles): array {
+		if (empty($plainContent)) {
+			throw new MultiKeyEncryptException('Cannot multikeyencrypt empty plain content');
+		}
+
+		// Set empty vars to be set by openssl by reference
+		$shareKeys = [];
+		$mappedShareKeys = [];
+
+		// make sure that there is at least one public key to use
+		if (count($keyFiles) >= 1) {
+			// prepare the encrypted keys
+			$shareKeys = [];
+
+			// iterate over the public keys and encrypt the intermediate
+			// for each of them with RSA
+			foreach ($keyFiles as $tmp_key) {
+				if (openssl_public_encrypt($plainContent, $tmp_output, $tmp_key, OPENSSL_PKCS1_OAEP_PADDING)) {
+					$shareKeys[] = $tmp_output;
+				}
+			}
+
+			// set the result if everything worked fine
+			if (count($keyFiles) === count($shareKeys)) {
+				$i = 0;
+
+				// Ensure each shareKey is labelled with its corresponding key id
+				foreach ($keyFiles as $userId => $publicKey) {
+					$mappedShareKeys[$userId] = $shareKeys[$i];
+					$i++;
+				}
+
+				return $mappedShareKeys;
+			}
+		}
+		throw new MultiKeyEncryptException('multikeyencryption failed ' . openssl_error_string());
+	}
+
+	/**
 	 * @param string $plainContent
 	 * @param array $keyFiles
 	 * @return array
 	 * @throws MultiKeyEncryptException
 	 */
-	public function multiKeyEncrypt($plainContent, array $keyFiles) {
+	public function multiKeyEncryptLegacy($plainContent, array $keyFiles) {
 		// openssl_seal returns false without errors if plaincontent is empty
 		// so trigger our own error
 		if (empty($plainContent)) {

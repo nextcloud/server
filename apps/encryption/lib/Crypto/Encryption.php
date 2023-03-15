@@ -108,6 +108,8 @@ class Encryption implements IEncryptionModule {
 	/** @var int Current version of the file */
 	private $version = 0;
 
+	private bool $useLegacyFileKey = true;
+
 	/** @var array remember encryption signature version */
 	private static $rememberVersion = [];
 
@@ -182,6 +184,8 @@ class Encryption implements IEncryptionModule {
 		$this->writeCache = '';
 		$this->useLegacyBase64Encoding = true;
 
+		$this->useLegacyFileKey = ($header['useLegacyFileKey'] ?? 'true') !== 'false';
+
 		if (isset($header['encoding'])) {
 			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
 		}
@@ -195,13 +199,17 @@ class Encryption implements IEncryptionModule {
 		}
 
 		if ($this->session->decryptAllModeActivated()) {
-			$encryptedFileKey = $this->keyManager->getEncryptedFileKey($this->path);
 			$shareKey = $this->keyManager->getShareKey($this->path, $this->session->getDecryptAllUid());
-			$this->fileKey = $this->crypt->multiKeyDecrypt($encryptedFileKey,
-				$shareKey,
-				$this->session->getDecryptAllKey());
+			if ($this->useLegacyFileKey) {
+				$encryptedFileKey = $this->keyManager->getEncryptedFileKey($this->path);
+				$this->fileKey = $this->crypt->multiKeyDecryptLegacy($encryptedFileKey,
+					$shareKey,
+					$this->session->getDecryptAllKey());
+			} else {
+				$this->fileKey = $this->crypt->multiKeyDecrypt($shareKey, $this->session->getDecryptAllKey());
+			}
 		} else {
-			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
+			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $this->useLegacyFileKey);
 		}
 
 		// always use the version from the original file, also part files
@@ -239,7 +247,11 @@ class Encryption implements IEncryptionModule {
 			$this->cipher = $this->crypt->getLegacyCipher();
 		}
 
-		$result = ['cipher' => $this->cipher, 'signed' => 'true'];
+		$result = [
+			'cipher' => $this->cipher,
+			'signed' => 'true',
+			'useLegacyFileKey' => 'false',
+		];
 
 		if ($this->useLegacyBase64Encoding !== true) {
 			$result['encoding'] = Crypt::BINARY_ENCODING_FORMAT;
@@ -296,6 +308,7 @@ class Encryption implements IEncryptionModule {
 			}
 
 			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->getOwner($path));
+			//TODO adapt this to new return of the method, same for other calls of multiKeyEncrypt
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
 		}
@@ -315,7 +328,6 @@ class Encryption implements IEncryptionModule {
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next block
 		if ($this->writeCache) {
-
 			// Concat writeCache to start of $data
 			$data = $this->writeCache . $data;
 
@@ -327,7 +339,6 @@ class Encryption implements IEncryptionModule {
 		$encrypted = '';
 		// While there still remains some data to be processed & written
 		while (strlen($data) > 0) {
-
 			// Remaining length for this iteration, not of the
 			// entire file (may be greater than 8192 bytes)
 			$remainingLength = strlen($data);
@@ -335,7 +346,6 @@ class Encryption implements IEncryptionModule {
 			// If data remaining to be written is less than the
 			// size of 1 unencrypted block
 			if ($remainingLength < $this->getUnencryptedBlockSize(true)) {
-
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the
 				// next write round, and added to the start of
@@ -349,7 +359,6 @@ class Encryption implements IEncryptionModule {
 				// Clear $data ready for next round
 				$data = '';
 			} else {
-
 				// Read the chunk from the start of $data
 				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
 
