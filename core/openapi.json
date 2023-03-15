@@ -64,7 +64,8 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "name": {
                         "type": "string"
@@ -72,10 +73,7 @@
                     "resources": {
                         "type": "array",
                         "items": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "object"
-                            }
+                            "$ref": "#/components/schemas/OpenGraphObject"
                         }
                     }
                 }
@@ -225,7 +223,7 @@
                     }
                 }
             },
-            "Reference": {
+            "OpenGraphObject": {
                 "type": "object",
                 "required": [
                     "richObjectType",
@@ -271,6 +269,32 @@
                                 "type": "string"
                             }
                         }
+                    },
+                    "accessible": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Reference": {
+                "type": "object",
+                "required": [
+                    "richObjectType",
+                    "richObject",
+                    "openGraphObject",
+                    "accessible"
+                ],
+                "properties": {
+                    "richObjectType": {
+                        "type": "string"
+                    },
+                    "richObject": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "openGraphObject": {
+                        "$ref": "#/components/schemas/OpenGraphObject"
                     },
                     "accessible": {
                         "type": "boolean"
@@ -485,11 +509,6 @@
                     "200": {
                         "description": "Avatar returned",
                         "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
                             "X-NC-IsCustomAvatar": {
                                 "schema": {
                                     "type": "integer",
@@ -510,10 +529,7 @@
                         "description": "Avatar not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -561,11 +577,6 @@
                     "200": {
                         "description": "Avatar returned",
                         "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
                             "X-NC-IsCustomAvatar": {
                                 "schema": {
                                     "type": "integer",
@@ -586,10 +597,7 @@
                         "description": "Avatar not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -635,13 +643,6 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -653,13 +654,6 @@
                     },
                     "201": {
                         "description": "Avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -724,13 +718,6 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -742,13 +729,6 @@
                     },
                     "201": {
                         "description": "Avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -806,10 +786,7 @@
                         "description": "Login flow not found or completed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -869,7 +846,7 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 1
+                            "default": -1
                         }
                     },
                     {
@@ -895,7 +872,7 @@
                     {
                         "name": "a",
                         "in": "query",
-                        "description": "Not crop the preview",
+                        "description": "Whether to not crop the preview",
                         "schema": {
                             "type": "integer",
                             "default": 0
@@ -923,13 +900,6 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -943,10 +913,7 @@
                         "description": "Getting preview is not possible",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -954,21 +921,15 @@
                         "description": "Getting preview is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
                     "404": {
-                        "description": "File not found",
+                        "description": "Preview not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -978,7 +939,7 @@
         "/index.php/core/preview.png": {
             "get": {
                 "operationId": "preview-get-preview",
-                "summary": "Get a preview by file ID",
+                "summary": "Get a preview by file path",
                 "tags": [
                     "preview"
                 ],
@@ -1023,7 +984,7 @@
                     {
                         "name": "a",
                         "in": "query",
-                        "description": "Not crop the preview",
+                        "description": "Whether to not crop the preview",
                         "schema": {
                             "type": "integer",
                             "default": 0
@@ -1051,13 +1012,6 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1071,10 +1025,7 @@
                         "description": "Getting preview is not possible",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1082,21 +1033,15 @@
                         "description": "Getting preview is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
                     "404": {
-                        "description": "File not found",
+                        "description": "Preview not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1133,15 +1078,8 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
-                            "image/*": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
@@ -1212,10 +1150,7 @@
                         "description": "Device should not be wiped",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1254,10 +1189,7 @@
                         "description": "Wipe finished successfully",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1265,10 +1197,7 @@
                         "description": "Device should not be wiped",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1471,10 +1400,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1574,10 +1500,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1757,8 +1680,7 @@
                                                     "required": [
                                                         "changelogURL",
                                                         "product",
-                                                        "version",
-                                                        "whatsNew"
+                                                        "version"
                                                     ],
                                                     "properties": {
                                                         "changelogURL": {
@@ -1820,10 +1742,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1888,10 +1807,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1978,7 +1894,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to create app password",
+                        "description": "Creating app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2056,7 +1972,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to rotate app password",
+                        "description": "Rotating app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2115,10 +2031,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2127,7 +2040,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to delete app password",
+                        "description": "Deleting app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2244,10 +2157,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2347,10 +2257,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2448,10 +2355,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2479,10 +2383,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2587,10 +2488,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2618,10 +2516,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2735,10 +2630,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2766,10 +2658,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2883,10 +2772,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2914,10 +2800,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3026,10 +2909,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3144,10 +3024,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3175,10 +3052,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3206,10 +3080,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3374,7 +3245,15 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference"
+                                                                "nullable": true,
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    },
+                                                                    {
+                                                                        "type": "object"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3473,8 +3352,15 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    },
+                                                                    {
+                                                                        "type": "object"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3713,10 +3599,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3963,8 +3846,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
+                                                    "nullable": true
                                                 }
                                             }
                                         }
@@ -4318,10 +4200,6 @@
         }
     },
     "tags": [
-        {
-            "name": "lost",
-            "description": "Class LostController\nSuccessfully changing a password will emit the post_passwordReset hook."
-        },
         {
             "name": "avatar",
             "description": "Class AvatarController"

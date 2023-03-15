@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2019, Michael Weimann <mail@michael-weimann.eu>
  *
  * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,6 +26,7 @@ namespace OC\Core\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\IAvatarManager;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -46,14 +48,18 @@ class GuestAvatarController extends Controller {
 	}
 
 	/**
-	 * Returns a guest avatar image response.
+	 * Returns a guest avatar image response
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
 	 * @param string $guestName The guest name, e.g. "Albert"
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
-	 * @return FileDisplayResponse|Http\Response
+	 * @param bool|null $darkTheme Return dark avatar
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 *
+	 * 200: Custom avatar returned
+	 * 201: Avatar returned
 	 */
 	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false) {
 		$size = (int) $size;
@@ -95,8 +101,17 @@ class GuestAvatarController extends Controller {
 	}
 
 	/**
+	 * Returns a dark guest avatar image response
+	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 *
+	 * @param string $guestName The guest name, e.g. "Albert"
+	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 *
+	 * 200: Custom avatar returned
+	 * 201: Avatar returned
 	 */
 	public function getAvatarDark(string $guestName, string $size) {
 		return $this->getAvatar($guestName, $size, true);

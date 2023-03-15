@@ -12,6 +12,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -72,7 +73,14 @@ class AvatarController extends Controller {
 	 * @NoSameSiteCookieRequired
 	 * @PublicPage
 	 *
-	 * @return JSONResponse|FileDisplayResponse
+	 * Get the dark avatar
+	 *
+	 * @param string $userId ID of the user
+	 * @param int $size Size of the avatar
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Avatar returned
+	 * 404: Avatar not found
 	 */
 	public function getAvatarDark(string $userId, int $size) {
 		if ($size <= 64) {
@@ -111,7 +119,14 @@ class AvatarController extends Controller {
 	 * @NoSameSiteCookieRequired
 	 * @PublicPage
 	 *
-	 * @return JSONResponse|FileDisplayResponse
+	 * Get the avatar
+	 *
+	 * @param string $userId ID of the user
+	 * @param int $size Size of the avatar
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Avatar returned
+	 * 404: Avatar not found
 	 */
 	public function getAvatar(string $userId, int $size) {
 		if ($size <= 64) {
