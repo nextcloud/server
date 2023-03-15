@@ -621,13 +621,13 @@
 			if (xhr.status === 200) {
 				var securityHeaders = {
 					'X-Content-Type-Options': ['nosniff'],
-					'X-Robots-Tag': ['none'],
+					'X-Robots-Tag': ['noindex, nofollow'],
 					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
 					'X-Permitted-Cross-Domain-Policies': ['none'],
 				};
 				for (var header in securityHeaders) {
 					var option = securityHeaders[header][0];
-					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== option.toLowerCase()) {
+					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).replace(/, /, ',').toLowerCase() !== option.replace(/, /, ',').toLowerCase()) {
 						var msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
 						if(xhr.getResponseHeader(header) && securityHeaders[header].length > 1 && xhr.getResponseHeader(header).toLowerCase() === securityHeaders[header][1].toLowerCase()) {
 							msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". Some features might not work correctly, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
