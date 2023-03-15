@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -54,6 +55,13 @@ class WhatsNewController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Get the changes
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, \stdClass, array{}>
+	 *
+	 * 200: Changes returned
+	 * 204: No changes
 	 */
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
@@ -64,7 +72,7 @@ class WhatsNewController extends OCSController {
 		$currentVersion = $this->whatsNewService->normalizeVersion($this->config->getSystemValue('version'));
 
 		if (version_compare($lastRead, $currentVersion, '>=')) {
-			return new DataResponse([], Http::STATUS_NO_CONTENT);
+			return new DataResponse(new \stdClass(), Http::STATUS_NO_CONTENT);
 		}
 
 		try {
@@ -85,15 +93,22 @@ class WhatsNewController extends OCSController {
 			} while ($lang !== 'en' && $iterator->valid());
 			return new DataResponse($resultData);
 		} catch (DoesNotExistException $e) {
-			return new DataResponse([], Http::STATUS_NO_CONTENT);
+			return new DataResponse(new \stdClass(), Http::STATUS_NO_CONTENT);
 		}
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
+	 * Dismiss the changes
+	 *
+	 * @param string $version Version to dismiss the changes for
+	 *
+	 * @return DataResponse<Http::STATUS_OK, \stdClass, array{}>
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws DoesNotExistException
+	 *
+	 * 200: Changes dismissed
 	 */
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
@@ -104,6 +119,6 @@ class WhatsNewController extends OCSController {
 		// checks whether it's a valid version, throws an Exception otherwise
 		$this->whatsNewService->getChangesForVersion($version);
 		$this->config->setUserValue($user->getUID(), 'core', 'whatsNewLastRead', $version);
-		return new DataResponse();
+		return new DataResponse(new \stdClass());
 	}
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -40,6 +41,7 @@ class UnsupportedBrowserController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @return Response
 	 */

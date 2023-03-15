@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,7 @@ class ErrorController extends \OCP\AppFramework\Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 */
 	public function error403(): TemplateResponse {
 		$response = new TemplateResponse(
@@ -48,6 +50,7 @@ class ErrorController extends \OCP\AppFramework\Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 */
 	public function error404(): TemplateResponse {
 		$response = new TemplateResponse(

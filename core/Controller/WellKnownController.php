@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -43,6 +44,7 @@ class WellKnownController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @return Response
 	 */

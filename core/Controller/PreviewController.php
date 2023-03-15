@@ -54,7 +54,20 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse|FileDisplayResponse
+	 * Get a preview by file path
+	 *
+	 * @param string $file Path of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param bool $a Whether to crop the preview
+	 * @param bool $forceIcon Force returning an icon
+	 * @param string $mode How to crop the image
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 403: Getting preview is not allowed
+	 * 404: Preview not found
 	 */
 	public function getPreview(
 		string $file = '',
@@ -64,14 +77,14 @@ class PreviewController extends Controller {
 		bool $forceIcon = true,
 		string $mode = 'fill'): Http\Response {
 		if ($file === '' || $x === 0 || $y === 0) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
 			$userFolder = $this->root->getUserFolder($this->userId);
 			$node = $userFolder->get($file);
 		} catch (NotFoundException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode);
@@ -81,7 +94,20 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse|FileDisplayResponse
+	 * Get a preview by file ID
+	 *
+	 * @param int $fileId ID of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param bool $a Whether to crop the preview
+	 * @param bool $forceIcon Force returning an icon
+	 * @param string $mode How to crop the image
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 403: Getting preview is not allowed
+	 * 404: Preview not found
 	 */
 	public function getPreviewByFileId(
 		int $fileId = -1,
@@ -91,14 +117,14 @@ class PreviewController extends Controller {
 		bool $forceIcon = true,
 		string $mode = 'fill') {
 		if ($fileId === -1 || $x === 0 || $y === 0) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		$userFolder = $this->root->getUserFolder($this->userId);
 		$nodes = $userFolder->getById($fileId);
 
 		if (\count($nodes) === 0) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		$node = array_pop($nodes);
@@ -107,7 +133,7 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @return DataResponse|FileDisplayResponse
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, \stdClass, array{}>
 	 */
 	private function fetchPreview(
 		Node $node,
@@ -117,10 +143,10 @@ class PreviewController extends Controller {
 		bool $forceIcon,
 		string $mode) : Http\Response {
 		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 		if (!$node->isReadable()) {
-			return new DataResponse([], Http::STATUS_FORBIDDEN);
+			return new DataResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 		}
 
 		$storage = $node->getStorage();
@@ -129,7 +155,7 @@ class PreviewController extends Controller {
 			$share = $storage->getShare();
 			$attributes = $share->getAttributes();
 			if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
-				return new DataResponse([], Http::STATUS_FORBIDDEN);
+				return new DataResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 			}
 		}
 
@@ -141,9 +167,9 @@ class PreviewController extends Controller {
 			$response->cacheFor(3600 * 24, false, true);
 			return $response;
 		} catch (NotFoundException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 	}
 }

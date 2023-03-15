@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,6 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Core\Db\ProfileConfigMapper;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -53,6 +55,18 @@ class ProfileApiController extends OCSController {
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 * @UserRateThrottle(limit=40, period=600)
+	 *
+	 * Update the visiblity of a parameter
+	 *
+	 * @param string $targetUserId ID of the user
+	 * @param string $paramId ID of the parameter
+	 * @param string $visibility New visibility
+	 * @return DataResponse<Http::STATUS_OK, \stdClass, array{}>
+	 * @throws OCSBadRequestException Updating visibility is not possible
+	 * @throws OCSForbiddenException Not allowed to edit other users visibility
+	 * @throws OCSNotFoundException User not found
+	 *
+	 * 200: Visibility updated successfully
 	 */
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();
@@ -77,6 +91,6 @@ class ProfileApiController extends OCSController {
 		$config->setVisibility($paramId, $visibility);
 		$this->configMapper->update($config);
 
-		return new DataResponse();
+		return new DataResponse(new \stdClass());
 	}
 }

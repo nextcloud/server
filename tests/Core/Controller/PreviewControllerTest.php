@@ -68,21 +68,21 @@ class PreviewControllerTest extends \Test\TestCase {
 
 	public function testInvalidFile() {
 		$res = $this->controller->getPreview('');
-		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
 	public function testInvalidWidth() {
 		$res = $this->controller->getPreview('file', 0);
-		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
 	public function testInvalidHeight() {
 		$res = $this->controller->getPreview('file', 10, 0);
-		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
@@ -98,7 +98,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willThrowException(new NotFoundException());
 
 		$res = $this->controller->getPreview('file');
-		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
 	}
@@ -115,7 +115,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn($folder);
 
 		$res = $this->controller->getPreview('file');
-		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
 	}
@@ -136,7 +136,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$res = $this->controller->getPreview('file', 10, 10, true, false);
-		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
 	}
@@ -160,7 +160,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$res = $this->controller->getPreview('file', 10, 10, true, true);
-		$expected = new DataResponse([], Http::STATUS_FORBIDDEN);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 
 		$this->assertEquals($expected, $res);
 	}
@@ -192,7 +192,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willThrowException(new NotFoundException());
 
 		$res = $this->controller->getPreview('file', 10, 10, true, true, 'myMode');
-		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+		$expected = new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
 	}

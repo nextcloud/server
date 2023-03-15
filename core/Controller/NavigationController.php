@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,6 +23,7 @@
  */
 namespace OC\Core\Controller;
 
+use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -29,6 +31,9 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
+/**
+ * @psalm-import-type CoreNavigationEntry from ResponseDefinitions
+ */
 class NavigationController extends OCSController {
 	public function __construct(
 		string $appName,
@@ -42,6 +47,14 @@ class NavigationController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * Get the apps navigation
+	 *
+	 * @param bool $absolute Rewrite URLs to absolute ones
+	 * @return DataResponse<Http::STATUS_OK, CoreNavigationEntry[], array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, \stdClass, array{}>
+	 *
+	 * 200: Apps navigation returned
+	 * 304: No apps navigation changed
 	 */
 	public function getAppsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll();
@@ -51,7 +64,7 @@ class NavigationController extends OCSController {
 		$navigation = array_values($navigation);
 		$etag = $this->generateETag($navigation);
 		if ($this->request->getHeader('If-None-Match') === $etag) {
-			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_MODIFIED);
 		}
 		$response = new DataResponse($navigation);
 		$response->setETag($etag);
@@ -61,6 +74,14 @@ class NavigationController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * Get the settings navigation
+	 *
+	 * @param bool $absolute Rewrite URLs to absolute ones
+	 * @return DataResponse<Http::STATUS_OK, CoreNavigationEntry[], array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, \stdClass, array{}>
+	 *
+	 * 200: Apps navigation returned
+	 * 304: No apps navigation changed
 	 */
 	public function getSettingsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll('settings');
@@ -70,7 +91,7 @@ class NavigationController extends OCSController {
 		$navigation = array_values($navigation);
 		$etag = $this->generateETag($navigation);
 		if ($this->request->getHeader('If-None-Match') === $etag) {
-			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_MODIFIED);
 		}
 		$response = new DataResponse($navigation);
 		$response->setETag($etag);

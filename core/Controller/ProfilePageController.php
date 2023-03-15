@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -59,6 +60,7 @@ class ProfilePageController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @IgnoreAPI
 	 */
 	public function index(string $targetUserId): TemplateResponse {
 		$profileNotFoundTemplate = new TemplateResponse(

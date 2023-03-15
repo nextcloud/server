@@ -141,6 +141,9 @@ class Entry implements IEntry {
 		return $this->properties[$key];
 	}
 
+	/**
+	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null}
+	 */
 	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
 		$otherActions = array_map(function (IAction $action) {

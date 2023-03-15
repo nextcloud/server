@@ -17,6 +17,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -104,6 +105,7 @@ class LostController extends Controller {
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=passwordResetEmail)
 	 * @AnonRateThrottle(limit=10, period=300)
+	 * @IgnoreAPI
 	 */
 	public function resetform(string $token, string $userId): TemplateResponse {
 		try {

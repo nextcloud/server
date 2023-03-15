@@ -82,7 +82,7 @@ class WipeControllerTest extends TestCase {
 
 		if (!$valid || !$couldPerform) {
 			$this->assertSame(Http::STATUS_NOT_FOUND, $result->getStatus());
-			$this->assertSame([], $result->getData());
+			$this->assertSame(\stdClass, $result->getData());
 		} else {
 			$this->assertSame(Http::STATUS_OK, $result->getStatus());
 			$this->assertSame(['wipe' => true], $result->getData());
@@ -111,10 +111,10 @@ class WipeControllerTest extends TestCase {
 
 		if (!$valid || !$couldPerform) {
 			$this->assertSame(Http::STATUS_NOT_FOUND, $result->getStatus());
-			$this->assertSame([], $result->getData());
+			$this->assertSame(\stdClass, $result->getData());
 		} else {
 			$this->assertSame(Http::STATUS_OK, $result->getStatus());
-			$this->assertSame([], $result->getData());
+			$this->assertSame(\stdClass, $result->getData());
 		}
 	}
 }

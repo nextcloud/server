@@ -64,7 +64,8 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "name": {
                         "type": "string"
@@ -72,10 +73,7 @@
                     "resources": {
                         "type": "array",
                         "items": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "object"
-                            }
+                            "$ref": "#/components/schemas/OpenGraphObject"
                         }
                     }
                 }
@@ -225,7 +223,7 @@
                     }
                 }
             },
-            "Reference": {
+            "OpenGraphObject": {
                 "type": "object",
                 "required": [
                     "richObjectType",
@@ -271,6 +269,32 @@
                                 "type": "string"
                             }
                         }
+                    },
+                    "accessible": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Reference": {
+                "type": "object",
+                "required": [
+                    "richObjectType",
+                    "richObject",
+                    "openGraphObject",
+                    "accessible"
+                ],
+                "properties": {
+                    "richObjectType": {
+                        "type": "string"
+                    },
+                    "richObject": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "openGraphObject": {
+                        "$ref": "#/components/schemas/OpenGraphObject"
                     },
                     "accessible": {
                         "type": "boolean"
@@ -485,11 +509,6 @@
                     "200": {
                         "description": "Avatar returned",
                         "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
                             "X-NC-IsCustomAvatar": {
                                 "schema": {
                                     "type": "integer",
@@ -561,11 +580,6 @@
                     "200": {
                         "description": "Avatar returned",
                         "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
                             "X-NC-IsCustomAvatar": {
                                 "schema": {
                                     "type": "integer",
@@ -635,13 +649,6 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -653,13 +660,6 @@
                     },
                     "201": {
                         "description": "Avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -724,13 +724,6 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -742,13 +735,6 @@
                     },
                     "201": {
                         "description": "Avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -895,7 +881,7 @@
                     {
                         "name": "a",
                         "in": "query",
-                        "description": "Not crop the preview",
+                        "description": "Whether to crop the preview",
                         "schema": {
                             "type": "integer",
                             "default": 0
@@ -923,13 +909,6 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -962,7 +941,7 @@
                         }
                     },
                     "404": {
-                        "description": "File not found",
+                        "description": "Preview not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -978,7 +957,7 @@
         "/index.php/core/preview.png": {
             "get": {
                 "operationId": "preview-get-preview",
-                "summary": "Get a preview by file ID",
+                "summary": "Get a preview by file path",
                 "tags": [
                     "preview"
                 ],
@@ -1023,7 +1002,7 @@
                     {
                         "name": "a",
                         "in": "query",
-                        "description": "Not crop the preview",
+                        "description": "Whether to crop the preview",
                         "schema": {
                             "type": "integer",
                             "default": 0
@@ -1051,13 +1030,6 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1090,7 +1062,7 @@
                         }
                     },
                     "404": {
-                        "description": "File not found",
+                        "description": "Preview not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1133,15 +1105,8 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
-                            "image/*": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
@@ -1757,8 +1722,7 @@
                                                     "required": [
                                                         "changelogURL",
                                                         "product",
-                                                        "version",
-                                                        "whatsNew"
+                                                        "version"
                                                     ],
                                                     "properties": {
                                                         "changelogURL": {
@@ -1978,7 +1942,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to create app password",
+                        "description": "Creating app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2056,7 +2020,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to rotate app password",
+                        "description": "Rotating app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2127,7 +2091,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to delete app password",
+                        "description": "Deleting app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -3374,7 +3338,15 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference"
+                                                                "nullable": true,
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    },
+                                                                    {
+                                                                        "type": "object"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3473,8 +3445,15 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    },
+                                                                    {
+                                                                        "type": "object"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }

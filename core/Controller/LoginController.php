@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Rayn0r <andrew@ilpss8.myfirewall.org>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -112,6 +113,7 @@ class LoginController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
@@ -263,6 +265,7 @@ class LoginController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
+	 * @IgnoreAPI
 	 *
 	 * @return RedirectResponse
 	 */

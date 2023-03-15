@@ -243,6 +243,6 @@ class AppPasswordControllerTest extends TestCase {
 
 		$result = $this->controller->deleteAppPassword();
 
-		$this->assertEquals(new DataResponse(), $result);
+		$this->assertEquals(new DataResponse(new \stdClass()), $result);
 	}
 }

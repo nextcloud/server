@@ -8,6 +8,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -83,6 +84,7 @@ class OCJSController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoTwoFactorRequired
 	 * @PublicPage
+	 * @IgnoreAPI
 	 */
 	public function getConfig(): DataDisplayResponse {
 		$data = $this->helper->getConfig();

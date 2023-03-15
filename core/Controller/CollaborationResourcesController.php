@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,6 +30,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use Exception;
+use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -41,6 +43,10 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @psalm-import-type CoreOpenGraphObject from ResponseDefinitions
+ * @psalm-import-type CoreCollection from ResponseDefinitions
+ */
 class CollaborationResourcesController extends OCSController {
 	public function __construct(
 		string $appName,
@@ -70,14 +76,19 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param int $collectionId
-	 * @return DataResponse
+	 * Get a collection
+	 *
+	 * @param int $collectionId ID of the collection
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 *
+	 * 200: Collection returned
+	 * 404: Collection not found
 	 */
 	public function listCollection(int $collectionId): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		return $this->respondCollection($collection);
@@ -86,14 +97,19 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $filter
-	 * @return DataResponse
+	 * Search for collections
+	 *
+	 * @param string $filter Filter collections
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection[], array{}>|DataResponse<Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Collections returned
+	 * 404: Collection not found
 	 */
 	public function searchCollections(string $filter): DataResponse {
 		try {
 			$collections = $this->manager->searchCollections($this->userSession->getUser(), $filter);
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		return new DataResponse($this->prepareCollections($collections));
@@ -102,22 +118,27 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param int $collectionId
-	 * @param string $resourceType
-	 * @param string $resourceId
-	 * @return DataResponse
+	 * Add a resource to a collection
+	 *
+	 * @param int $collectionId ID of the collection
+	 * @param string $resourceType Name of the resource
+	 * @param string $resourceId ID of the resource
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 *
+	 * 200: Collection returned
+	 * 404: Collection not found or resource inaccessible
 	 */
 	public function addResource(int $collectionId, string $resourceType, string $resourceId): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		$resource = $this->manager->createResource($resourceType, $resourceId);
 
 		if (!$resource->canAccess($this->userSession->getUser())) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		try {
@@ -131,22 +152,27 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param int $collectionId
-	 * @param string $resourceType
-	 * @param string $resourceId
-	 * @return DataResponse
+	 * Remove a resource from a collection
+	 *
+	 * @param int $collectionId ID of the collection
+	 * @param string $resourceType Name of the resource
+	 * @param string $resourceId ID of the resource
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 *
+	 * 200: Collection returned
+	 * 404: Collection or resource not found
 	 */
 	public function removeResource(int $collectionId, string $resourceType, string $resourceId): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		try {
 			$resource = $this->manager->getResourceForUser($resourceType, $resourceId, $this->userSession->getUser());
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		$collection->removeResource($resource);
@@ -157,9 +183,14 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $resourceType
-	 * @param string $resourceId
-	 * @return DataResponse
+	 * Get collections by resource
+	 *
+	 * @param string $resourceType Type of the resource
+	 * @param string $resourceId ID of the resource
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection[], array{}>|DataResponse<Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Collections returned
+	 * 404: Resource not accessible
 	 */
 	public function getCollectionsByResource(string $resourceType, string $resourceId): DataResponse {
 		try {
@@ -169,7 +200,7 @@ class CollaborationResourcesController extends OCSController {
 		}
 
 		if (!$resource->canAccess($this->userSession->getUser())) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		return new DataResponse($this->prepareCollections($resource->getCollections()));
@@ -178,24 +209,30 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $baseResourceType
-	 * @param string $baseResourceId
-	 * @param string $name
-	 * @return DataResponse
+	 * Create a collection for a resource
+	 *
+	 * @param string $baseResourceType Type of the base resource
+	 * @param string $baseResourceId ID of the base resource
+	 * @param string $name Name of the collection
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 *
+	 * 200: Collection returned
+	 * 400: Creating collection is not possible
+	 * 404: Resource inaccessible
 	 */
 	public function createCollectionOnResource(string $baseResourceType, string $baseResourceId, string $name): DataResponse {
 		if (!isset($name[0]) || isset($name[64])) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
 			$resource = $this->manager->createResource($baseResourceType, $baseResourceId);
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		if (!$resource->canAccess($this->userSession->getUser())) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		$collection = $this->manager->newCollection($name);
@@ -207,15 +244,20 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param int $collectionId
-	 * @param string $collectionName
-	 * @return DataResponse
+	 * Rename a collection
+	 *
+	 * @param int $collectionId ID of the collection
+	 * @param string $collectionName New name
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 *
+	 * 200: Collection returned
+	 * 404: Collection not found
 	 */
 	public function renameCollection(int $collectionId, string $collectionName): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
 		} catch (CollectionException $exception) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		$collection->setName($collectionName);
@@ -223,17 +265,23 @@ class CollaborationResourcesController extends OCSController {
 		return $this->respondCollection($collection);
 	}
 
+	/**
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 */
 	protected function respondCollection(ICollection $collection): DataResponse {
 		try {
 			return new DataResponse($this->prepareCollection($collection));
 		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		} catch (Exception $e) {
 			$this->logger->critical($e->getMessage(), ['exception' => $e, 'app' => 'core']);
-			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(new \stdClass(), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	/**
+	 * @return CoreCollection[]
+	 */
 	protected function prepareCollections(array $collections): array {
 		$result = [];
 
@@ -249,6 +297,9 @@ class CollaborationResourcesController extends OCSController {
 		return $result;
 	}
 
+	/**
+	 * @return CoreCollection
+	 */
 	protected function prepareCollection(ICollection $collection): array {
 		if (!$collection->canAccess($this->userSession->getUser())) {
 			throw new CollectionException('Can not access collection');
@@ -261,7 +312,10 @@ class CollaborationResourcesController extends OCSController {
 		];
 	}
 
-	protected function prepareResources(array $resources): ?array {
+	/**
+	 * @return CoreOpenGraphObject[]
+	 */
+	protected function prepareResources(array $resources): array {
 		$result = [];
 
 		foreach ($resources as $resource) {
@@ -276,6 +330,9 @@ class CollaborationResourcesController extends OCSController {
 		return $result;
 	}
 
+	/**
+	 * @return CoreOpenGraphObject
+	 */
 	protected function prepareResource(IResource $resource): array {
 		if (!$resource->canAccess($this->userSession->getUser())) {
 			throw new ResourceException('Can not access resource');

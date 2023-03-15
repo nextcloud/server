@@ -94,7 +94,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->poll('token');
 
-		$this->assertSame([], $result->getData());
+		$this->assertSame(\stdClass, $result->getData());
 		$this->assertSame(Http::STATUS_NOT_FOUND, $result->getStatus());
 	}
 
