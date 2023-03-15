@@ -63,7 +63,7 @@ class Share extends Constants {
 	 * Apps are required to handle permissions on their own, this class only
 	 * stores and manages the permissions of shares
 	 *
-	 * @see lib/public/constants.php
+	 * @see lib/public/Constants.php
 	 */
 
 	/**
