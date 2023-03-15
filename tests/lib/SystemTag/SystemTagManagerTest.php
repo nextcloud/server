@@ -260,6 +260,11 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->createTag($name, $userVisible, $userAssignable);
 	}
 
+	public function testCreateOverlongName() {
+		$tag = $this->tagManager->createTag('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)', true, true);
+		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName()); // 63 characters but 64 bytes due to "á"
+	}
+
 	/**
 	 * @dataProvider oneTagMultipleFlagsProvider
 	 */
@@ -282,14 +287,14 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertSameTag($tag2, $tagList[$tag2->getId()]);
 	}
 
-	
+
 	public function testGetNonExistingTag() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
 		$this->tagManager->getTag('nonexist', false, false);
 	}
 
-	
+
 	public function testGetNonExistingTagsById() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
@@ -297,7 +302,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
 
-	
+
 	public function testGetInvalidTagIdFormat() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -392,7 +397,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEmpty($this->tagManager->getAllTags());
 	}
 
-	
+
 	public function testDeleteNonExistingTag() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
