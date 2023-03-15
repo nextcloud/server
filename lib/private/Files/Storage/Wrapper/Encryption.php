@@ -817,6 +817,16 @@ class Encryption extends Wrapper {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
 				[, $result] = \OC_Helper::streamCopy($source, $target);
+			} catch (\Exception $e) {
+				$this->logger->debug(
+					'Fail to copy ' . $sourceInternalPath . ' to ' . $targetInternalPath, ['exception' => $e]
+				);
+				if ($GLOBALS['ignore-encryption-error']) {
+					fwrite(STDERR, "	- Skipping '$sourceInternalPath'" . $e->getMessage() . PHP_EOL);
+					$result = true;
+				} else {
+					throw $e;
+				}
 			} finally {
 				if (is_resource($source)) {
 					fclose($source);
@@ -825,6 +835,7 @@ class Encryption extends Wrapper {
 					fclose($target);
 				}
 			}
+
 			if ($result) {
 				if ($preserveMtime) {
 					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
