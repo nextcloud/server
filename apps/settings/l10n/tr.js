@@ -445,7 +445,7 @@ OC.L10N.register(
     "Sendmail mode" : "Sendmail kipi",
     "From address" : "Kimden adresi",
     "Server address" : "Sunucu adresi",
-    "Port" : "Kapı numarası",
+    "Port" : "Bağlantı noktası",
     "Authentication method" : "Kimlik doğrulama yöntemi",
     "Only applies when authentication is required" : "Yalnızca kimlik doğrulaması istendiğinde uygulanır",
     "Authentication required" : "Kimlik doğrulaması gerekli",
