@@ -31,7 +31,8 @@ jobs:
             exit 0
           fi
 
-          PREVIOUS_MAJOR="$((env.server_major-1))"
-          if ! php -r 'echo json_encode(require_once "config.php");' | jq --arg version "$PREVIOUS_MAJOR" '.stable[$version]["100"].eol' | grep --silent -i 'false'; then
+          SERVER_MAJOR="${{ env.server_major }}"
+          PREVIOUS_MAJOR="$((SERVER_MAJOR-1))"
+          if ! php -r 'echo json_encode(require_once "config.php");' | jq --arg version "$PREVIOUS_MAJOR" '.beta[$version]["100"].eol' | grep --silent -i 'false'; then
             exit 1
           fi
