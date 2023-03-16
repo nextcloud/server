@@ -440,18 +440,19 @@ class KeyManager {
 	/**
 	 * @param string $path
 	 * @param $uid
+	 * @param ?bool $useLegacyFileKey null means try both
 	 * @return string
 	 */
-	public function getFileKey(string $path, ?string $uid, bool $useLegacyFileKey): string {
+	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey): string {
 		if ($uid === '') {
 			$uid = null;
 		}
 		$publicAccess = is_null($uid);
-
-		if ($useLegacyFileKey) {
+		$encryptedFileKey = '';
+		if ($useLegacyFileKey ?? true) {
 			$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
 
-			if (empty($encryptedFileKey)) {
+			if (empty($encryptedFileKey) && $useLegacyFileKey) {
 				return '';
 			}
 		}
@@ -477,13 +478,14 @@ class KeyManager {
 			$privateKey = $this->session->getPrivateKey();
 		}
 
-		if ($useLegacyFileKey) {
+		if ($useLegacyFileKey ?? true) {
 			if ($encryptedFileKey && $shareKey && $privateKey) {
 				return $this->crypt->multiKeyDecryptLegacy($encryptedFileKey,
 					$shareKey,
 					$privateKey);
 			}
-		} else {
+		}
+		if ($useLegacyFileKey ?? false) {
 			if ($shareKey && $privateKey) {
 				return $this->crypt->multiKeyDecrypt($shareKey, $privateKey);
 			}
@@ -662,6 +664,10 @@ class KeyManager {
 	 */
 	public function deleteAllFileKeys($path) {
 		return $this->keyStorage->deleteAllFileKeys($path);
+	}
+
+	public function deleteLegacyFileKey(string $path): bool {
+		return $this->keyStorage->deleteFileKey($path, $this->fileKeyId, Encryption::ID);
 	}
 
 	/**

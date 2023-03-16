@@ -185,14 +185,9 @@ class Crypt {
 	}
 
 	/**
-	 * @param string $plainContent
-	 * @param string $passPhrase
-	 * @param int $version
-	 * @param int $position
-	 * @return false|string
 	 * @throws EncryptionFailedException
 	 */
-	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version, $position) {
+	public function symmetricEncryptFileContent(string $plainContent, string $passPhrase, int $version, string $position): string|false {
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
 				['app' => 'encryption']);
@@ -409,7 +404,7 @@ class Crypt {
 			$privateKey,
 			$hash,
 			0,
-			0
+			'0'
 		);
 
 		return $encryptedKey;
@@ -537,12 +532,8 @@ class Crypt {
 
 	/**
 	 * create signature
-	 *
-	 * @param string $data
-	 * @param string $passPhrase
-	 * @return string
 	 */
-	private function createSignature($data, $passPhrase) {
+	private function createSignature(string $data, string $passPhrase): string {
 		$passPhrase = hash('sha512', $passPhrase . 'a', true);
 		return hash_hmac('sha256', $data, $passPhrase);
 	}

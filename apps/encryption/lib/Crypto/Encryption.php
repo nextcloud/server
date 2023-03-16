@@ -266,14 +266,14 @@ class Encryption implements IEncryptionModule {
 	 * buffer.
 	 *
 	 * @param string $path to the file
-	 * @param int $position
+	 * @param string $position
 	 * @return string remained data which should be written to the file in case
 	 *                of a write operation
 	 * @throws PublicKeyMissingException
 	 * @throws \Exception
 	 * @throws \OCA\Encryption\Exceptions\MultiKeyEncryptException
 	 */
-	public function end($path, $position = 0) {
+	public function end($path, $position = '0') {
 		$result = '';
 		if ($this->isWriteOperation) {
 			// in case of a part file we remember the new signature versions
@@ -308,11 +308,13 @@ class Encryption implements IEncryptionModule {
 			}
 
 			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->getOwner($path));
-			//TODO adapt this to new return of the method, same for other calls of multiKeyEncrypt
-			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
-			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
+			$shareKeys = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
+			$this->keyManager->deleteLegacyFileKey($this->path);
+			foreach ($shareKeys as $uid => $keyFile) {
+				$this->keyManager->setShareKey($this->path, $uid, $keyFile);
+			}
 		}
-		return $result;
+		return $result ?: '';
 	}
 
 
@@ -362,7 +364,7 @@ class Encryption implements IEncryptionModule {
 				// Read the chunk from the start of $data
 				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
 
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, $position);
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, (string)$position);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
@@ -400,7 +402,7 @@ class Encryption implements IEncryptionModule {
 	 * @param string $path path to the file which should be updated
 	 * @param string $uid of the user who performs the operation
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
-	 * @return boolean
+	 * @return bool
 	 */
 	public function update($path, $uid, array $accessList) {
 		if (empty($accessList)) {
@@ -408,10 +410,10 @@ class Encryption implements IEncryptionModule {
 				$this->keyManager->setVersion($path, self::$rememberVersion[$path], new View());
 				unset(self::$rememberVersion[$path]);
 			}
-			return;
+			return false;
 		}
 
-		$fileKey = $this->keyManager->getFileKey($path, $uid);
+		$fileKey = $this->keyManager->getFileKey($path, $uid, null);
 
 		if (!empty($fileKey)) {
 			$publicKeys = [];
@@ -429,11 +431,13 @@ class Encryption implements IEncryptionModule {
 
 			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->getOwner($path));
 
-			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+			$shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
 			$this->keyManager->deleteAllFileKeys($path);
 
-			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
+			foreach ($shareKeys as $uid => $keyFile) {
+				$this->keyManager->setShareKey($this->path, $uid, $keyFile);
+			}
 		} else {
 			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
 				['file' => $path, 'app' => 'encryption']);

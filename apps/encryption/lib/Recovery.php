@@ -35,8 +35,6 @@ use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 
 class Recovery {
-
-
 	/**
 	 * @var null|IUser
 	 */
@@ -102,7 +100,7 @@ class Recovery {
 		}
 
 		if ($keyManager->checkRecoveryPassword($password)) {
-			$appConfig->setAppValue('encryption', 'recoveryAdminEnabled', 1);
+			$appConfig->setAppValue('encryption', 'recoveryAdminEnabled', '1');
 			return true;
 		}
 
@@ -140,7 +138,7 @@ class Recovery {
 
 		if ($keyManager->checkRecoveryPassword($recoveryPassword)) {
 			// Set recoveryAdmin as disabled
-			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 0);
+			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', '0');
 			return true;
 		}
 		return false;
@@ -169,7 +167,7 @@ class Recovery {
 	 * @return bool
 	 */
 	public function isRecoveryKeyEnabled() {
-		$enabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', 0);
+		$enabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', '0');
 
 		return ($enabled === '1');
 	}
@@ -199,16 +197,15 @@ class Recovery {
 
 	/**
 	 * add recovery key to all encrypted files
-	 * @param string $path
 	 */
-	private function addRecoveryKeys($path) {
+	private function addRecoveryKeys(string $path): void {
 		$dirContent = $this->view->getDirectoryContent($path);
 		foreach ($dirContent as $item) {
 			$filePath = $item->getPath();
 			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$fileKey = $this->keyManager->getFileKey($filePath, $this->user->getUID());
+				$fileKey = $this->keyManager->getFileKey($filePath, $this->user->getUID(), null);
 				if (!empty($fileKey)) {
 					$accessList = $this->file->getAccessList($filePath);
 					$publicKeys = [];
@@ -218,8 +215,11 @@ class Recovery {
 
 					$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->user->getUID());
 
-					$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
-					$this->keyManager->setAllFileKeys($filePath, $encryptedKeyfiles);
+					$shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+					$this->keyManager->deleteLegacyFileKey($filePath);
+					foreach ($shareKeys as $uid => $keyFile) {
+						$this->keyManager->setShareKey($filePath, $uid, $keyFile);
+					}
 				}
 			}
 		}
@@ -227,9 +227,8 @@ class Recovery {
 
 	/**
 	 * remove recovery key to all encrypted files
-	 * @param string $path
 	 */
-	private function removeRecoveryKeys($path) {
+	private function removeRecoveryKeys(string $path): void {
 		$dirContent = $this->view->getDirectoryContent($path);
 		foreach ($dirContent as $item) {
 			$filePath = $item->getPath();
@@ -243,11 +242,8 @@ class Recovery {
 
 	/**
 	 * recover users files with the recovery key
-	 *
-	 * @param string $recoveryPassword
-	 * @param string $user
 	 */
-	public function recoverUsersFiles($recoveryPassword, $user) {
+	public function recoverUsersFiles(string $recoveryPassword, string $user): void {
 		$encryptedKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey, $recoveryPassword);
@@ -258,12 +254,8 @@ class Recovery {
 
 	/**
 	 * recover users files
-	 *
-	 * @param string $path
-	 * @param string $privateKey
-	 * @param string $uid
 	 */
-	private function recoverAllFiles($path, $privateKey, $uid) {
+	private function recoverAllFiles(string $path, string $privateKey, string $uid): void {
 		$dirContent = $this->view->getDirectoryContent($path);
 
 		foreach ($dirContent as $item) {
@@ -279,19 +271,17 @@ class Recovery {
 
 	/**
 	 * recover file
-	 *
-	 * @param string $path
-	 * @param string $privateKey
-	 * @param string $uid
 	 */
-	private function recoverFile($path, $privateKey, $uid) {
+	private function recoverFile(string $path, string $privateKey, string $uid): void {
 		$encryptedFileKey = $this->keyManager->getEncryptedFileKey($path);
 		$shareKey = $this->keyManager->getShareKey($path, $this->keyManager->getRecoveryKeyId());
 
 		if ($encryptedFileKey && $shareKey && $privateKey) {
-			$fileKey = $this->crypt->multiKeyDecrypt($encryptedFileKey,
+			$fileKey = $this->crypt->multiKeyDecryptLegacy($encryptedFileKey,
 				$shareKey,
 				$privateKey);
+		} elseif ($shareKey && $privateKey) {
+			$fileKey = $this->crypt->multiKeyDecrypt($shareKey, $privateKey);
 		}
 
 		if (!empty($fileKey)) {
@@ -303,8 +293,11 @@ class Recovery {
 
 			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);
 
-			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
-			$this->keyManager->setAllFileKeys($path, $encryptedKeyfiles);
+			$shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+			$this->keyManager->deleteLegacyFileKey($path);
+			foreach ($shareKeys as $uid => $keyFile) {
+				$this->keyManager->setShareKey($path, $uid, $keyFile);
+			}
 		}
 	}
 }
