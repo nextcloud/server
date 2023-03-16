@@ -40,7 +40,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Mengaktifkan opsi ini akan mengenkripsi semua berkas yang disimpan pada penyimpanan utama, jika tidak diaktifkan maka hanya berkas pada penyimpanan eksternal saja yang akan dienkripsi.",
     "Enable recovery key" : "Aktifkan kunci pemulihan",
     "Disable recovery key" : "Nonaktifkan kunci pemulihan",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas-berkas pengguna ketika pengguna tersebut melupakan kata sandi mereka.",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas pengguna ketika pengguna tersebut melupakan kata sandi mereka.",
     "Recovery key password" : "Kata sandi kunci pemulihan",
     "Repeat recovery key password" : "Ulangi kata sandi kunci pemulihan",
     "Change recovery key password:" : "Ubah kata sandi kunci pemulihan:",
