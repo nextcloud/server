@@ -298,8 +298,6 @@ class OC_App {
 			require_once $path . '/composer/autoload.php';
 		} else {
 			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
-			// Register on legacy autoloader
-			\OC::$loader->addValidRoot($path);
 		}
 
 		// Register Test namespace only when testing
