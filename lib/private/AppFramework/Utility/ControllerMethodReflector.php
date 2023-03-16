@@ -33,12 +33,15 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Utility;
 
+use Attribute;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 
 /**
  * Reads and parses annotations from doc comments
  */
 class ControllerMethodReflector implements IControllerMethodReflector {
+
+	protected ?\ReflectionMethod $reflection;
 	public $annotations = [];
 	private $types = [];
 	private $parameters = [];
@@ -48,8 +51,8 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param string $method the method which we want to inspect
 	 */
 	public function reflect($object, string $method) {
-		$reflection = new \ReflectionMethod($object, $method);
-		$docs = $reflection->getDocComment();
+		$this->reflection = new \ReflectionMethod($object, $method);
+		$docs = $this->reflection->getDocComment();
 
 		if ($docs !== false) {
 			// extract everything prefixed by @ and first letter uppercase
@@ -76,7 +79,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			$this->types = array_combine($matches['var'], $matches['type']);
 		}
 
-		foreach ($reflection->getParameters() as $param) {
+		foreach ($this->reflection->getParameters() as $param) {
 			// extract type information from PHP 7 scalar types and prefer them over phpdoc annotations
 			$type = $param->getType();
 			if ($type instanceof \ReflectionNamedType) {
@@ -137,5 +140,19 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		}
 
 		return '';
+	}
+
+	/**
+	 * @template T of Attribute
+	 * @param class-string<T> $class
+	 * @return T[]
+	 */
+	public function getAttributes(string $class): array {
+		$attributes = $this->reflection->getAttributes($class);
+		$return = [];
+		foreach ($attributes as $attribute) {
+			$return[] = $attribute->newInstance();
+		}
+		return $return;
 	}
 }

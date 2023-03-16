@@ -41,7 +41,6 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
-use ReflectionMethod;
 
 /**
  * Class BruteForceMiddleware performs the bruteforce protection for controllers
@@ -69,15 +68,11 @@ class BruteForceMiddleware extends Middleware {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $action);
 		} else {
-			$reflectionMethod = new ReflectionMethod($controller, $methodName);
-			$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
+			$attributes = $this->reflector->getAttributes(BruteForceProtection::class);
 
 			if (!empty($attributes)) {
 				$remoteAddress = $this->request->getRemoteAddress();
-
-				foreach ($attributes as $attribute) {
-					/** @var BruteForceProtection $protection */
-					$protection = $attribute->newInstance();
+				foreach ($attributes as $protection) {
 					$action = $protection->getAction();
 					$this->throttler->sleepDelayOrThrowOnMax($remoteAddress, $action);
 				}
@@ -96,16 +91,13 @@ class BruteForceMiddleware extends Middleware {
 				$this->throttler->sleepDelay($ip, $action);
 				$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
 			} else {
-				$reflectionMethod = new ReflectionMethod($controller, $methodName);
-				$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
+				$attributes = $this->reflector->getAttributes(BruteForceProtection::class);
 
 				if (!empty($attributes)) {
 					$ip = $this->request->getRemoteAddress();
 					$metaData = $response->getThrottleMetadata();
 
-					foreach ($attributes as $attribute) {
-						/** @var BruteForceProtection $protection */
-						$protection = $attribute->newInstance();
+					foreach ($attributes as $protection) {
 						$action = $protection->getAction();
 
 						if (!isset($metaData['action']) || $metaData['action'] === $action) {

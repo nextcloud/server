@@ -34,7 +34,6 @@ use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
-use ReflectionMethod;
 
 class SessionMiddleware extends Middleware {
 	/** @var ControllerMethodReflector */
@@ -63,8 +62,7 @@ class SessionMiddleware extends Middleware {
 			return;
 		}
 
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		$hasAttribute = !empty($reflectionMethod->getAttributes(UseSession::class));
+		$hasAttribute = !empty($this->reflector->getAttributes(UseSession::class));
 		if ($hasAttribute) {
 			$this->session->reopen();
 		}
@@ -86,8 +84,7 @@ class SessionMiddleware extends Middleware {
 			return $response;
 		}
 
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		$hasAttribute = !empty($reflectionMethod->getAttributes(UseSession::class));
+		$hasAttribute = !empty($this->reflector->getAttributes(UseSession::class));
 		if ($hasAttribute) {
 			$this->session->close();
 		}

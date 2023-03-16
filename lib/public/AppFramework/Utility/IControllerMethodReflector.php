@@ -27,6 +27,8 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Utility;
 
+use Attribute;
+
 /**
  * Interface ControllerMethodReflector
  *
@@ -75,4 +77,12 @@ interface IControllerMethodReflector {
 	 * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
 	 */
 	public function hasAnnotation(string $name): bool;
+
+	/**
+	 * @template T of Attribute
+	 * @param class-string<T> $class
+	 * @return T[]
+	 * @since 27.0.0
+	 */
+	public function getAttributes(string $class): array;
 }
