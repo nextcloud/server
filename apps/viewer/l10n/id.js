@@ -6,6 +6,7 @@ OC.L10N.register(
     "Open sidebar" : "Buka jendela samping",
     "Download" : "Unduh",
     "Delete" : "Hapus",
+    "View" : "Tampilan",
     "Name" : "Nama",
     "Save" : "Simpan",
     "Back" : "Kembali",
