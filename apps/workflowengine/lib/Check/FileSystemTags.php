@@ -30,7 +30,10 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Cache\ICache;
 use OCP\Files\IHomeStorage;
+use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
@@ -55,16 +58,23 @@ class FileSystemTags implements ICheck, IFileCheck {
 
 	/** @var ISystemTagObjectMapper */
 	protected $systemTagObjectMapper;
+	/** @var IUserSession */
+	protected $userSession;
+	/** @var IGroupManager */
+	protected $groupManager;
 
-	/**
-	 * @param IL10N $l
-	 * @param ISystemTagManager $systemTagManager
-	 * @param ISystemTagObjectMapper $systemTagObjectMapper
-	 */
-	public function __construct(IL10N $l, ISystemTagManager $systemTagManager, ISystemTagObjectMapper $systemTagObjectMapper) {
+	public function __construct(
+		IL10N $l,
+		ISystemTagManager $systemTagManager,
+		ISystemTagObjectMapper $systemTagObjectMapper,
+		IUserSession $userSession,
+		IGroupManager $groupManager
+	) {
 		$this->l = $l;
 		$this->systemTagManager = $systemTagManager;
 		$this->systemTagObjectMapper = $systemTagObjectMapper;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -88,7 +98,18 @@ class FileSystemTags implements ICheck, IFileCheck {
 		}
 
 		try {
-			$this->systemTagManager->getTagsByIds($value);
+			$tags = $this->systemTagManager->getTagsByIds($value);
+
+			$user = $this->userSession->getUser();
+			$isAdmin = $user instanceof IUser && $this->groupManager->isAdmin($user->getUID());
+
+			if (!$isAdmin) {
+				foreach ($tags as $tag) {
+					if (!$tag->isUserVisible()) {
+						throw new \UnexpectedValueException($this->l->t('The given tag id is invalid'), 4);
+					}
+				}
+			}
 		} catch (TagNotFoundException $e) {
 			throw new \UnexpectedValueException($this->l->t('The given tag id is invalid'), 2);
 		} catch (\InvalidArgumentException $e) {
