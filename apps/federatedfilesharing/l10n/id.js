@@ -29,6 +29,8 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
     "HTML Code:" : "Kode HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
+    "Copy to clipboard" : "Salin ke papan klip",
+    "Clipboard is not available" : "Papan klip tidak tersedia",
     "Copied!" : "Tersalin!",
     "Copy" : "Salin",
     "Not supported!" : "Tidak didukung!",

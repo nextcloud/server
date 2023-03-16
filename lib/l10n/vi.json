@@ -16,6 +16,7 @@
     "The following platforms are supported: %s" : "Các nền tảng sau được hỗ trợ: %s",
     "Server version %s or higher is required." : "Yêu cầu máy chủ phiên bản %s hoặc cao hơn.",
     "Server version %s or lower is required." : "Yêu cầu máy chủ phiên bản %s hoặc thấp hơn.",
+    "Authentication" : "Xác thực",
     "Unknown filetype" : "Không biết kiểu tập tin",
     "Invalid image" : "Hình ảnh không hợp lệ",
     "Files" : "Tệp",
