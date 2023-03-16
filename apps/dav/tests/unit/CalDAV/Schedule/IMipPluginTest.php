@@ -204,7 +204,7 @@ class IMipPluginTest extends TestCase {
 			->method('getFrom');
 		$this->service->expects(self::once())
 			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir');
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
 		$this->service->expects(self::once())
 			->method('addBulletList')
 			->with($this->emailTemplate, $newVevent, $data);
@@ -296,7 +296,7 @@ class IMipPluginTest extends TestCase {
 			->method('getFrom');
 		$this->service->expects(self::once())
 			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Elevenses');
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Elevenses', false);
 		$this->service->expects(self::once())
 			->method('addBulletList')
 			->with($this->emailTemplate, $newVevent, $data);
@@ -405,7 +405,7 @@ class IMipPluginTest extends TestCase {
 			->method('getFrom');
 		$this->service->expects(self::once())
 			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir');
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
 		$this->service->expects(self::once())
 			->method('addBulletList')
 			->with($this->emailTemplate, $newVevent, $data);
@@ -480,7 +480,7 @@ class IMipPluginTest extends TestCase {
 			->method('getFrom');
 		$this->service->expects(self::once())
 			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting');
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
 		$this->service->expects(self::once())
 			->method('addBulletList')
 			->with($this->emailTemplate, $newVevent, $data);
@@ -553,7 +553,7 @@ class IMipPluginTest extends TestCase {
 			->method('getFrom');
 		$this->service->expects(self::once())
 			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting');
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
 		$this->service->expects(self::once())
 			->method('addBulletList')
 			->with($this->emailTemplate, $newVevent, $data);

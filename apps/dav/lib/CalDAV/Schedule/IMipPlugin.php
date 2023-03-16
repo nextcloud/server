@@ -183,6 +183,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$vEvent = array_pop($modified['new']);
 		/** @var VEvent $oldVevent */
 		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
+		$isModified = isset($oldVevent);
 
 		// No changed events after all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
@@ -255,7 +256,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
 
-		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title']);
+		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified);
 		$this->imipService->addBulletList($template, $vEvent, $data);
 
 		// Only add response buttons to invitation requests: Fix Issue #11230
