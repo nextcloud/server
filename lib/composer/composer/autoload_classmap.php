@@ -35,6 +35,7 @@ return array(
     'OCP\\AppFramework\\Db\\QBMapper' => $baseDir . '/lib/public/AppFramework/Db/QBMapper.php',
     'OCP\\AppFramework\\Db\\TTransactional' => $baseDir . '/lib/public/AppFramework/Db/TTransactional.php',
     'OCP\\AppFramework\\Http' => $baseDir . '/lib/public/AppFramework/Http.php',
+    'OCP\\AppFramework\\Http\\Attribute\\BruteForceProtection' => $baseDir . '/lib/public/AppFramework/Http/Attribute/BruteForceProtection.php',
     'OCP\\AppFramework\\Http\\Attribute\\UseSession' => $baseDir . '/lib/public/AppFramework/Http/Attribute/UseSession.php',
     'OCP\\AppFramework\\Http\\ContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/ContentSecurityPolicy.php',
     'OCP\\AppFramework\\Http\\DataDisplayResponse' => $baseDir . '/lib/public/AppFramework/Http/DataDisplayResponse.php',
