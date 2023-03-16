@@ -166,6 +166,8 @@
 					})
 				);
 			}
+			var currentItemName = this.$el.find('li[data-id="' + itemId + '"] > a').text();
+			window.OCP.Accessibility.setPageHeading(currentItemName);
 		},
 
 		/**
