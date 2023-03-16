@@ -124,6 +124,14 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('logoUrl', $logoUrl);
 
 			// Add navigation entry
+			$defaultappName = $this->config->getSystemValueString('defaultapp', 'dashboard');
+			$apps = $this->navigationManager->getAll();
+			foreach ($apps as $app) {
+				if ($app['id'] === $defaultappName) {
+					$this->assign('defaultappName', $defaultappName);
+				}
+			}
+
 			$this->assign('application', '');
 			$this->assign('appid', $appId);
 

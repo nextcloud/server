@@ -61,7 +61,7 @@ p($theme->getTitle());
 				<?php p(!empty($_['pageTitle'])?$_['pageTitle']:$theme->getName()); ?>
 			</h1>
 			<div class="header-left">
-				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
+				<a aria-label="<?php print_unescaped($_['defaultappName']); ?>" href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					id="nextcloud">
 					<div class="logo logo-icon">
 						<span class="hidden-visually">
