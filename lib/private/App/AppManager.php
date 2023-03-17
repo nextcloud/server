@@ -40,8 +40,11 @@ namespace OC\App;
 
 use OC\AppConfig;
 use OCP\App\AppPathNotFoundException;
+use OCP\App\Events\AppDisableEvent;
+use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -80,7 +83,9 @@ class AppManager implements IAppManager {
 	private $memCacheFactory;
 
 	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private $legacyDispatcher;
+
+	private IEventDispatcher $dispatcher;
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -108,13 +113,15 @@ class AppManager implements IAppManager {
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $dispatcher,
+								EventDispatcherInterface $legacyDispatcher,
+								IEventDispatcher $dispatcher,
 								LoggerInterface $logger) {
 		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
+		$this->legacyDispatcher = $legacyDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
 	}
@@ -163,7 +170,7 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * @param \OCP\IGroup $group
+	 * @param IGroup $group
 	 * @return array
 	 */
 	public function getEnabledAppsForGroup(IGroup $group): array {
@@ -287,7 +294,7 @@ class AppManager implements IAppManager {
 	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[]|String[] $groups
+	 * @param IGroup[]|String[] $groups
 	 * @return bool
 	 */
 	public function isInstalled($appId) {
@@ -320,7 +327,8 @@ class AppManager implements IAppManager {
 
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
-		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
+		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE, $appId
 		));
 		$this->clearAppsCache();
@@ -345,7 +353,7 @@ class AppManager implements IAppManager {
 	 * Enable an app only for specific groups
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[] $groups
+	 * @param IGroup[] $groups
 	 * @param bool $forceEnable
 	 * @throws \InvalidArgumentException if app can't be enabled for groups
 	 * @throws AppPathNotFoundException
@@ -363,8 +371,9 @@ class AppManager implements IAppManager {
 			$this->ignoreNextcloudRequirementForApp($appId);
 		}
 
+		/** @var string[] $groupIds */
 		$groupIds = array_map(function ($group) {
-			/** @var \OCP\IGroup $group */
+			/** @var IGroup $group */
 			return ($group instanceof IGroup)
 				? $group->getGID()
 				: $group;
@@ -372,7 +381,8 @@ class AppManager implements IAppManager {
 
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
-		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
+		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
+		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
@@ -407,7 +417,8 @@ class AppManager implements IAppManager {
 			\OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
 		}
 
-		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
+		$this->dispatcher->dispatchTyped(new AppDisableEvent($appId));
+		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
 		$this->clearAppsCache();

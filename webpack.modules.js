@@ -52,6 +52,7 @@ module.exports = {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
 		main: path.join(__dirname, 'apps/files/src', 'main.js'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
+		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.js'),
 	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),

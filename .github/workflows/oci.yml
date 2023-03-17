@@ -13,9 +13,11 @@ jobs:
   phpunit-oci:
     runs-on: ubuntu-20.04
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       matrix:
-        php-versions: ['8.0', '8.1']
+        php-versions: ['8.0', '8.1', '8.2']
 
     services:
       oracle:
@@ -36,6 +38,7 @@ jobs:
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, oci8, openssl, pdo_sqlite, posix, sqlite, xml, zip
           tools: phpunit:9
           coverage: none
+          ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,6 +51,10 @@ jobs:
       - name: PHPUnit
         working-directory: tests
         run: phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
+
+      - name: Run repair steps
+        run: |
+          ./occ maintenance:repair --include-expensive
 
   summary:
     permissions:

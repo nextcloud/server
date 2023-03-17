@@ -32,7 +32,6 @@ OC.L10N.register(
     "Reset your password" : "Restablecer tu contraseña",
     "Preparing update" : "Preparando actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s ",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "Turned on maintenance mode" : "Modo mantenimiento activado",
     "Turned off maintenance mode" : "Modo mantenimiento desactivado",
     "Maintenance mode is kept active" : "El modo mantenimiento sigue activo",
@@ -92,6 +91,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
     "Search" : "Buscar",
+    "Settings menu" : "Menú de Configuraciones",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No fue posible cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -130,6 +130,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} seleccionados)",
     "Error loading file exists template" : "Se presentó un error al cargar la plantilla de existe archivo ",
     "Pending" : "Pendiente",
+    "Home" : "Inicio",
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Authentication required" : "Se requiere autenticación",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Detailed logs" : "Bitácoras detalladas",
     "Update needed" : "Se requiere de una actualización",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Favor de usar el actualizador desde la línea de comandos ya que tu instancia cuenta con más de 50 usuarios.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Para más ayuda, por favor consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentación</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Estoy conciente de que si continúo haciendo la actualización vía web, la interfaz de usuario corre el riesgo de que el tiempo de la solicitud expire y cause pérdida de datos, pero cuento con un respaldo y sé como restaurar mi instancia en caso de una falla. ",
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
@@ -231,7 +233,6 @@ OC.L10N.register(
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
     "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de Contactos",
-    "Settings menu" : "Menú de Configuraciones"
+    "Contacts menu" : "Menú de Contactos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

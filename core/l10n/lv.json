@@ -34,7 +34,6 @@
     "Repair info:" : "Labošanas informācija: ",
     "Repair warning:" : "Labošanas brīdinājums:",
     "Repair error:" : "Labošanas  kļūda:",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Lūdzu izmanto komandrindas atjaunināšanu, jo automātiskā atjaunināšana ir atspējota konfigurācijas datnē config.php.",
     "Turned on maintenance mode" : "Ieslēgts uzturēšanas režīms",
     "Turned off maintenance mode" : "Izslēgts uzturēšanas režīms",
     "Maintenance mode is kept active" : "Uzturēšanas režīms ir paturēts aktīvs",
@@ -106,6 +105,7 @@
     "Back" : "Atpakaļ",
     "Edit Profile" : "Rediģēt profilu",
     "Search" : "Meklēt",
+    "Settings menu" : "Iestatījumu izvēlne",
     "Settings" : "Iestatījumi",
     "Could not load your contacts" : "Nevarēja ielādēt visas jūsu kontaktpersonas",
     "Search contacts …" : "Meklēt kontaktpersonu",
@@ -148,6 +148,7 @@
     "Show list view" : "Rādīt saraksta skatu",
     "Show grid view" : "Rādīt režģa skatu",
     "Pending" : "Gaida",
+    "Home" : "Sākums",
     "Copy to {folder}" : "Kopēt uz {folder}",
     "Move to {folder}" : "Pārvietot uz {folder}",
     "Saving …" : "Saglabā ...",
@@ -240,6 +241,7 @@
     "Detailed logs" : "Detalizēti žurnāli",
     "Update needed" : "Nepieciešama atjaunināšana",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Lūdzu, izmantojiet komandrindas atjauninātāju, jo jums ir vairāk nekā 50 lietotāji.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Lūdzu izmanto komandrindas atjaunināšanu, jo automātiskā atjaunināšana ir atspējota konfigurācijas datnē config.php.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Es zinu ka ja es turpināšu atjauninājumu caur tīmekļa atjauninātāju ir risks ka pieprasījumam būs noliedze , kas var radīt  datu zudumu, bet man ir dublējumkopija un es zinu kā atjaunot instanci neveiksmes gadijumā.",
     "Upgrade via web on my own risk" : "Atjaunināt caur tīmekļa atjauninātāju uz mana paša risku.",
     "Maintenance mode" : "Uzturēšanas režīms",
@@ -251,7 +253,6 @@
     "invisible" : "Neredzams",
     "File not found" : "Datne nav atrasta",
     "More" : "Vairāk",
-    "Contacts" : "Kontakti",
-    "Settings menu" : "Iestatījumu izvēlne"
+    "Contacts" : "Kontakti"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

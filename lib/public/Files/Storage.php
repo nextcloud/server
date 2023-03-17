@@ -135,7 +135,7 @@ interface Storage extends IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return false|int|float
 	 * @since 6.0.0
 	 */
 	public function filesize($path);
@@ -462,5 +462,9 @@ interface Storage extends IStorage {
 	 */
 	public function setAvailability($isAvailable);
 
+	/**
+	 * @since 12.0.0
+	 * @return mixed
+	 */
 	public function needsPartFile();
 }

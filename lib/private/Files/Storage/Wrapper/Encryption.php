@@ -133,11 +133,8 @@ class Encryption extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int
 	 */
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		$fullPath = $this->getFullPath($path);
 
 		/** @var CacheEntry $info */
@@ -819,16 +816,13 @@ class Encryption extends Wrapper {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
 				[, $result] = \OC_Helper::streamCopy($source, $target);
-				fclose($source);
-				fclose($target);
-			} catch (\Exception $e) {
+			} finally {
 				if (is_resource($source)) {
 					fclose($source);
 				}
 				if (is_resource($target)) {
 					fclose($target);
 				}
-				throw $e;
 			}
 			if ($result) {
 				if ($preserveMtime) {

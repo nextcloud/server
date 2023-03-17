@@ -24,8 +24,6 @@ OC.L10N.register(
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
     "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Sharing" : "Jakaminen",
     "Federated file sharing" : "Federoitu tiedostojako",
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
@@ -43,6 +41,7 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
     "Copied!" : "Kopioitu!",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Not supported!" : "Ei tuettu!",
     "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
     "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
     "Open documentation" : "Avaa ohje"
 },
 "nplurals=2; plural=(n != 1);");

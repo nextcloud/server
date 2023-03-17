@@ -50,6 +50,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Controller\\ShareController' => __DIR__ . '/..' . '/../lib/Controller/ShareController.php',
         'OCA\\Files_Sharing\\Controller\\ShareInfoController' => __DIR__ . '/..' . '/../lib/Controller/ShareInfoController.php',
         'OCA\\Files_Sharing\\Controller\\ShareesAPIController' => __DIR__ . '/..' . '/../lib/Controller/ShareesAPIController.php',
+        'OCA\\Files_Sharing\\DefaultPublicShareTemplateProvider' => __DIR__ . '/..' . '/../lib/DefaultPublicShareTemplateProvider.php',
         'OCA\\Files_Sharing\\DeleteOrphanedSharesJob' => __DIR__ . '/..' . '/../lib/DeleteOrphanedSharesJob.php',
         'OCA\\Files_Sharing\\Event\\BeforeTemplateRenderedEvent' => __DIR__ . '/..' . '/../lib/Event/BeforeTemplateRenderedEvent.php',
         'OCA\\Files_Sharing\\Event\\ShareLinkAccessedEvent' => __DIR__ . '/..' . '/../lib/Event/ShareLinkAccessedEvent.php',

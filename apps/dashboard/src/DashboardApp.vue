@@ -405,6 +405,7 @@ export default {
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
+	align-self: stretch;
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);

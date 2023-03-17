@@ -163,12 +163,13 @@ class MountProviderTest extends \Test\TestCase {
 			$this->makeMockShare(12, 103, 'user2', '/share7', 31),
 			$this->makeMockShare(13, 103, 'user2', '/share7', 31),
 		];
-		// tests regarding circles are made in the app itself.
+		// tests regarding circles and sciencemesh are made in the apps themselves.
 		$circleShares = [];
+		$sciencemeshShares = [];
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('user1');
-		$this->shareManager->expects($this->exactly(5))
+		$this->shareManager->expects($this->exactly(6))
 			->method('getSharedWith')
 			->withConsecutive(
 				['user1', IShare::TYPE_USER],
@@ -176,12 +177,14 @@ class MountProviderTest extends \Test\TestCase {
 				['user1', IShare::TYPE_CIRCLE, null, -1],
 				['user1', IShare::TYPE_ROOM, null, -1],
 				['user1', IShare::TYPE_DECK, null, -1],
+				['user1', IShare::TYPE_SCIENCEMESH, null, -1],
 			)->willReturnOnConsecutiveCalls(
 				$userShares,
 				$groupShares,
 				$circleShares,
 				$roomShares,
 				$deckShares,
+				$sciencemeshShares
 			);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
@@ -386,7 +389,8 @@ class MountProviderTest extends \Test\TestCase {
 		$circleShares = [];
 		$roomShares = [];
 		$deckShares = [];
-		$this->shareManager->expects($this->exactly(5))
+		$sciencemeshShares = [];
+		$this->shareManager->expects($this->exactly(6))
 			->method('getSharedWith')
 			->withConsecutive(
 				['user1', IShare::TYPE_USER],
@@ -394,12 +398,14 @@ class MountProviderTest extends \Test\TestCase {
 				['user1', IShare::TYPE_CIRCLE, null, -1],
 				['user1', IShare::TYPE_ROOM, null, -1],
 				['user1', IShare::TYPE_DECK, null, -1],
+				['user1', IShare::TYPE_SCIENCEMESH, null, -1],
 			)->willReturnOnConsecutiveCalls(
 				$userShares,
 				$groupShares,
 				$circleShares,
 				$roomShares,
 				$deckShares,
+				$sciencemeshShares
 			);
 		$this->shareManager->expects($this->any())
 			->method('newShare')

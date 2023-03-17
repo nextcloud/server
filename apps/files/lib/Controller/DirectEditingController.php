@@ -35,7 +35,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class DirectEditingController extends OCSController {
-
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -94,14 +93,14 @@ class DirectEditingController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function open(string $path, string $editorId = null): DataResponse {
+	public function open(string $path, string $editorId = null, ?int $fileId = null): DataResponse {
 		if (!$this->directEditingManager->isEnabled()) {
 			return new DataResponse(['message' => 'Direct editing is not enabled'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
-			$token = $this->directEditingManager->open($path, $editorId);
+			$token = $this->directEditingManager->open($path, $editorId, $fileId);
 			return new DataResponse([
 				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', ['token' => $token])
 			]);

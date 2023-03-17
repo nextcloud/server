@@ -182,16 +182,16 @@ OC.L10N.register(
     "Unknown error" : "Nieznany błąd",
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
+    "Select file or folder to link to" : "Wybierz plik lub katalog do linku",
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
     "Files settings" : "Ustawienia Plików",
     "Show hidden files" : "Pokaż ukryte pliki",
     "Crop image previews" : "Przytnij podglądy obrazów",
     "Additional settings" : "Ustawienia dodatkowe",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiuj do schowka",
     "Use this address to access your Files via WebDAV" : "Użyj tego adresu, aby uzyskać dostęp do plików poprzez WebDAV",
     "Clipboard is not available" : "Schowek jest niedostępny",
-    "Webdav URL copied to clipboard" : "Adres URL Webdav został skopiowany do schowka",
     "Unable to change the favourite state of the file" : "Nie można zmienić ulubionego stanu pliku",
     "Error while loading the file data" : "Błąd podczas ładowania danych pliku",
     "Pick a template for {name}" : "Wybierz szablon dla {name}",
@@ -233,7 +233,6 @@ OC.L10N.register(
     "%s used" : "Wykorzystane: %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Wykorzystane: %1$s z %2$s",
-    "Settings" : "Ustawienia",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Ustawienia"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

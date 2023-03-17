@@ -205,6 +205,9 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreateShareLink() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK);
@@ -227,6 +230,9 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreateShareLinkPublicUpload() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
@@ -419,6 +425,7 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
+	 * @group RoutingWeirdness
 	 */
 	public function testPublicLinkUrl() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -837,7 +844,7 @@ class ApiTest extends TestCase {
 
 		// $request = $this->createRequest(['path' => $this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
-		$result1 = $ocs->getShares('false','false','false', $this->subfolder);
+		$result1 = $ocs->getShares('false', 'false', 'false', $this->subfolder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -1050,10 +1057,10 @@ class ApiTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$dateWithinRange = new \DateTime();
-		$dateWithinRange->setTime(0,0,0);
+		$dateWithinRange->setTime(0, 0, 0);
 		$dateWithinRange->add(new \DateInterval('P5D'));
 		$dateOutOfRange = new \DateTime();
-		$dateOutOfRange->setTime(0,0,0);
+		$dateOutOfRange->setTime(0, 0, 0);
 		$dateOutOfRange->add(new \DateInterval('P8D'));
 
 		// update expire date to a valid value
@@ -1290,6 +1297,7 @@ class ApiTest extends TestCase {
 	 * Make sure only ISO 8601 dates are accepted
 	 *
 	 * @dataProvider datesProvider
+	 * @group RoutingWeirdness
 	 */
 	public function testPublicLinkExpireDate($date, $valid) {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -1320,6 +1328,9 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreatePublicLinkExpireDateValid() {
 		$config = \OC::$server->getConfig();
 
@@ -1343,7 +1354,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals($url, $data['url']);
 
 		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 		$this->assertEquals($date, $share->getExpirationDate());
 
 		$this->shareManager->deleteShare($share);

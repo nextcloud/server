@@ -70,17 +70,14 @@
     "Where: %s" : "장소: %s",
     "%1$s via %2$s" : "%1$s(%2$s 경유)",
     "Cancelled: %1$s" : "취소됨:  %1$s",
-    "Invitation canceled" : "초대장 취소됨",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "초대장 업데이트됨",
     "Invitation: %1$s" : "초대: %1$s",
-    "Invitation" : "초대",
+    "Organizer:" : "주최자:",
+    "Attendees:" : "참석자:",
     "Title:" : "제목:",
     "Time:" : "시간:",
     "Location:" : "위치:",
     "Link:" : "링크:",
-    "Organizer:" : "주최자:",
-    "Attendees:" : "참석자:",
     "Accept" : "수락",
     "Decline" : "거절",
     "More options …" : "더 많은 옵션 …",
@@ -189,6 +186,9 @@
     "You solved todo {todo} in list {calendar}" : "목록 {calendar}의 할 일 {todo}을(를) 끝냄",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} 님이 목록 {calendar}의 할 일 {todo}을(를) 다시 염",
     "You reopened todo {todo} in list {calendar}" : "목록 {calendar}의 할 일 {todo}을(를) 다시 염",
-    "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨"
+    "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨",
+    "Invitation canceled" : "초대장 취소됨",
+    "Invitation updated" : "초대장 업데이트됨",
+    "Invitation" : "초대"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

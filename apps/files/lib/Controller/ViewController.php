@@ -137,7 +137,6 @@ class ViewController extends Controller {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	protected function getStorageInfo(string $dir = '/') {
-		\OC_Util::setupFS();
 		$rootInfo = \OC\Files\Filesystem::getFileInfo('/', false);
 
 		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
@@ -189,10 +188,6 @@ class ViewController extends Controller {
 		\OCP\Util::addStyle('files', 'merged');
 		\OCP\Util::addScript('files', 'merged-index', 'files');
 		\OCP\Util::addScript('files', 'main');
-
-		// mostly for the home storage's free space
-		// FIXME: Make non static
-		$storageInfo = $this->getStorageInfo();
 
 		$userId = $this->userSession->getUser()->getUID();
 

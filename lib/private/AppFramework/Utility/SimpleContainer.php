@@ -127,7 +127,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					' Class can not be instantiated');
 			}
 		} catch (ReflectionException $e) {
-			throw new QueryException($baseMsg . ' ' . $e->getMessage());
+			// Class does not exist
+			throw new QueryNotFoundException($baseMsg . ' ' . $e->getMessage());
 		}
 	}
 
@@ -145,7 +146,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			return $object;
 		}
 
-		throw new QueryException('Could not resolve ' . $name . '!');
+		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
 	}
 
 	/**

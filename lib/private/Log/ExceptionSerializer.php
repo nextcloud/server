@@ -100,6 +100,16 @@ class ExceptionSerializer {
 
 		// Preview providers, don't log big data strings
 		'imagecreatefromstring',
+
+		// text: PublicSessionController, SessionController and ApiService
+		'create',
+		'close',
+		'push',
+		'sync',
+		'updateSession',
+		'mention',
+		'loginSessionUser',
+
 	];
 
 	/** @var SystemConfig */

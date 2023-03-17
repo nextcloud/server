@@ -176,6 +176,7 @@ OC.L10N.register(
     "Files settings" : "파일 설정",
     "Show hidden files" : "숨김 파일 보이기",
     "Additional settings" : "고급 설정",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "클립보드로 복사",
     "Use this address to access your Files via WebDAV" : "이 주소를 사용하여 WebDAV를 통해 내 파일에 접근하십시오",
     "Unable to change the favourite state of the file" : "파일의 즐겨찾기 상태를 변경할 수 없음",
@@ -217,7 +218,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
     "%s used" : "%s 사용함",
     "%1$s of %2$s used" : "%2$s 중 %1$s 사용됨",
-    "Settings" : "설정",
-    "WebDAV" : "WebDAV"
+    "Settings" : "설정"
 },
 "nplurals=1; plural=0;");

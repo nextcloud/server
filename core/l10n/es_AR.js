@@ -29,7 +29,6 @@ OC.L10N.register(
     "Nextcloud Server" : "Servidor Nextcloud",
     "Preparing update" : "Preparando actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s ",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Favor de usar el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "Turned on maintenance mode" : "Activar modo mantenimiento",
     "Turned off maintenance mode" : "Desactivar modo mantenimiento",
     "Maintenance mode is kept active" : "El modo mantenimiento sigue activo",
@@ -86,6 +85,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Reset search" : "Restablecer búsqueda",
     "Search" : "Buscar",
+    "Settings menu" : "Menú de configuración",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No se pudieron cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -125,6 +125,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} seleccionados)",
     "Error loading file exists template" : "Se presentó un error al cargar la plantilla de existe archivo ",
     "Pending" : "Pendiente",
+    "Home" : "Casa",
     "Authentication required" : "Se requiere autenticación",
     "This action requires you to confirm your password" : "Esta acción requiere que confirme su contraseña",
     "Confirm" : "Confirmar",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Detailed logs" : "Bitácoras detalladas",
     "Update needed" : "Actualización requerida",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Favor de usar el actualizador desde la línea de comandos ya que su instancia cuenta con más de 50 usuarios.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Favor de usar el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Estoy conciente de que si continuo haciendo la actualización vía web, la interfaz de usuario corre el riesgo de que el tiempo de la solicitud expire y cause pérdida de datos, pero cuento con un respaldo y sé como restaurar mi instancia en caso de una falla. ",
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
@@ -232,7 +234,6 @@ OC.L10N.register(
     "More" : "Más",
     "More apps menu" : "Más menú de apps",
     "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de contactos",
-    "Settings menu" : "Menú de configuración"
+    "Contacts menu" : "Menú de contactos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -26,18 +26,6 @@ object-assign
 */
 
 /*!
-  * Bootstrap tooltip.js v4.6.1 (https://getbootstrap.com/)
-  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  */
-
-/*!
-  * Bootstrap util.js v4.6.1 (https://getbootstrap.com/)
-  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  */
-
-/*!
   * vue-router v3.5.3
   * (c) 2021 Evan You
   * @license MIT
@@ -83,6 +71,14 @@ object-assign
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
+ */
+
+/*!
+ * Toastify js 1.12.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
  */
 
 /*!
@@ -340,6 +336,11 @@ object-assign
 */
 
 /*!
+* focus-trap 7.2.0
+* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+*/
+
+/*!
 * tabbable 6.0.1
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
@@ -368,6 +369,8 @@ object-assign
 
 /*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
 
+/*! For license information please see NcButton.js.LICENSE.txt */
+
 /*! For license information please see NcCheckboxRadioSwitch.js.LICENSE.txt */
 
 /*! For license information please see NcColorPicker.js.LICENSE.txt */
@@ -378,15 +381,13 @@ object-assign
 
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
 
-/*! For license information please see NcListItem.js.LICENSE.txt */
+/*! For license information please see NcLoadingIcon.js.LICENSE.txt */
 
 /*! For license information please see NcModal.js.LICENSE.txt */
 
 /*! For license information please see NcNoteCard.js.LICENSE.txt */
 
 /*! For license information please see NcPasswordField.js.LICENSE.txt */
-
-/*! For license information please see NcRichContenteditable.js.LICENSE.txt */
 
 /*! For license information please see NcSettingsSection.js.LICENSE.txt */
 
@@ -833,12 +834,6 @@ object-assign
  */
 
 /**
- * vue-local-storage v0.6.0
- * (c) 2017 Alexander Avakov
- * @license MIT
- */
-
-/**
 * @license nested-property https://github.com/cosmosio/nested-property
 *
 * The MIT License (MIT)
@@ -880,6 +875,8 @@ object-assign
 
 //! Copyright (c) JS Foundation and other contributors
 
+//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+
 //! github.com/moment/moment-timezone
 
 //! license : MIT
@@ -890,4 +887,8 @@ object-assign
 
 //! moment.js locale configuration
 
+//! momentjs.com
+
 //! version : 0.5.38
+
+//! version : 2.29.4

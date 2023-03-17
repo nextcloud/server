@@ -57,10 +57,17 @@ p($theme->getTitle());
 		</div>
 
 		<header role="banner" id="header">
+			<h1 class="hidden-visually" id="page-heading-level-1">
+				<?php p(!empty($_['pageTitle'])?$_['pageTitle']:$theme->getName()); ?>
+			</h1>
 			<div class="header-left">
 				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					id="nextcloud">
-					<div class="logo logo-icon"></div>
+					<div class="logo logo-icon">
+						<span class="hidden-visually">
+							<?php p($l->t('%s homepage', [$theme->getName()])); ?>
+						</span>
+					</div>
 				</a>
 
 				<nav id="header-left__appmenu"></nav>
@@ -70,45 +77,7 @@ p($theme->getTitle());
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>
-				<div id="settings">
-					<div id="expand" tabindex="0" role="button" class="menutoggle"
-						aria-label="<?php p($l->t('Open settings menu'));?>"
-						aria-haspopup="true" aria-controls="expanddiv" aria-expanded="false">
-						<div id="avatardiv-menu" class="avatardiv<?php if ($_['userAvatarSet']) {
-							print_unescaped(' avatardiv-shown');
-						} else {
-							print_unescaped('" style="display: none');
-						} ?>"
-							 data-user="<?php p($_['user_uid']); ?>"
-							 data-displayname="<?php p($_['user_displayname']); ?>"
-			<?php
-						if ($_['userAvatarSet']) {
-							$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
-			<?php
-						} ?>>
-							<?php
-										if ($_['userAvatarSet']) {?>
-								<img alt="" width="32" height="32"
-								src="<?php p($avatar32);?>"
-								srcset="<?php p($getUserAvatar(64));?> 2x, <?php p($getUserAvatar(128));?> 4x"
-								>
-							<?php } ?>
-						</div>
-					</div>
-					<nav class="settings-menu" id="expanddiv" style="display:none;">
-					<ul>
-					<?php foreach ($_['settingsnavigation'] as $entry):?>
-						<li data-id="<?php p($entry['id']); ?>">
-							<a href="<?php print_unescaped($entry['href'] !== '' ? $entry['href'] : '#'); ?>"
-								<?php if ($entry["active"]): ?> class="active"<?php endif; ?>>
-								<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
-								<?php p($entry['name']) ?>
-							</a>
-						</li>
-					<?php endforeach; ?>
-					</ul>
-					</nav>
-				</div>
+				<div id="user-menu"></div>
 			</div>
 		</header>
 
@@ -123,9 +92,6 @@ p($theme->getTitle());
 		</form>
 
 		<main id="content" class="app-<?php p($_['appid']) ?>">
-			<h1 class="hidden-visually">
-				<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
-			</h1>
 			<?php print_unescaped($_['content']); ?>
 		</main>
 		<div id="profiler-toolbar"></div>

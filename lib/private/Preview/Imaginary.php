@@ -57,7 +57,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|webp)/';
+		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
@@ -81,31 +81,57 @@ class Imaginary extends ProviderV2 {
 
 		$httpClient = $this->service->newClient();
 
+		$convert = false;
+		$autorotate = true;
+
 		switch ($file->getMimeType()) {
+			case 'image/heic':
+				// Autorotate seems to be broken for Heic so disable for that
+				$autorotate = false;
+				$mimeType = 'jpeg';
+				break;
 			case 'image/gif':
 			case 'image/png':
+				$mimeType = 'png';
+				break;
+			case 'image/svg+xml':
+			case 'application/pdf':
+			case 'application/illustrator':
+				$convert = true;
+				// Converted files do not need to be autorotated
+				$autorotate = false;
 				$mimeType = 'png';
 				break;
 			default:
 				$mimeType = 'jpeg';
 		}
+		
+		$operations = [];
+
+		if ($convert) {
+			$operations[] = [
+				'operation' => 'convert',
+				'params' => [
+					'type' => $mimeType,
+				]
+			];
+		} elseif ($autorotate) {
+			$operations[] = [
+				'operation' => 'autorotate',
+			];
+		}
 
 		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
 
-		$operations = [
-			[
-				'operation' => 'autorotate',
-			],
-			[
-				'operation' => ($crop ? 'smartcrop' : 'fit'),
-				'params' => [
-					'width' => $maxX,
-					'height' => $maxY,
-					'stripmeta' => 'true',
-					'type' => $mimeType,
-					'norotation' => 'true',
-					'quality' => $quality,
-				]
+		$operations[] = [
+			'operation' => ($crop ? 'smartcrop' : 'fit'),
+			'params' => [
+				'width' => $maxX,
+				'height' => $maxY,
+				'stripmeta' => 'true',
+				'type' => $mimeType,
+				'norotation' => 'true',
+				'quality' => $quality,
 			]
 		];
 

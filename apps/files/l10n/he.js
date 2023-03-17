@@ -30,6 +30,7 @@ OC.L10N.register(
     "Move" : "העברה",
     "Copy" : "העתקה",
     "Choose target folder" : "נא לבחור תיקיית יעד",
+    "Edit locally" : "עריכה בשולחן העבודה",
     "Open" : "פתיחה",
     "Delete file" : "מחיקת קבצים",
     "Delete folder" : "מחיקת תיקייה",
@@ -153,9 +154,11 @@ OC.L10N.register(
     "Invalid path selected" : "הנתיב שנבחר שגוי",
     "Unknown error" : "שגיאה בלתי ידועה",
     "Ownership transfer request sent" : "נשלחה בקשת העברת בעלות",
+    "Files settings" : "הגדרות לקבצים",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
     "Additional settings" : "הגדרות נוספות",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "העתקה ללוח הגזירים",
     "Use this address to access your Files via WebDAV" : "יש להשתמש בכתובת הזאת כדי לגשת לקבצים שלך דרך WebDAV",
     "Unable to change the favourite state of the file" : "לא ניתן לשנות את מצב ההעדפה של הקובץ",
@@ -189,7 +192,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
     "%s used" : "%s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Settings" : "הגדרות",
-    "WebDAV" : "WebDAV"
+    "Settings" : "הגדרות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

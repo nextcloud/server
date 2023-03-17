@@ -176,7 +176,7 @@ OC.L10N.register(
     "Show hidden files" : "Arată fișierele ascunse",
     "Crop image previews" : "Previzualizarea imaginii decupate",
     "Additional settings" : "Setări adiționale",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiază în clipboard",
     "Use this address to access your Files via WebDAV" : "Folosiți această adresă pentru a accesa fișierele dumneavoastră folosind WebDAV",
     "Unable to change the favourite state of the file" : "Nu s-a putut schimba starea fișierelor favorite",
@@ -219,7 +219,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Nu se poate transfera proprietatea unui fișier sau dosar ce nu le deții",
     "%s used" : "%s folosiți",
     "%1$s of %2$s used" : "%1$s din %2$s utilizat",
-    "Settings" : "Setări",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Setări"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

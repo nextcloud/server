@@ -72,7 +72,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -120,7 +119,6 @@ use function time;
  * @package OCA\DAV\CalDAV
  */
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
-
 	use TTransactional;
 
 	public const CALENDAR_TYPE_CALENDAR = 0;
@@ -346,7 +344,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 
 			$calendar = [
@@ -420,7 +418,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['displayname'] = $row['displayname'] . ' (' . ($this->userManager->getDisplayName($name) ?? ($name ?? '')) . ')';
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 			$calendar = [
 				'id' => $row['id'],
@@ -469,7 +467,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 			$calendar = [
 				'id' => $row['id'],
@@ -521,7 +519,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row['displayname'] = $row['displayname'] . "($name)";
 			$components = [];
 			if ($row['components']) {
-				$components = explode(',',$row['components']);
+				$components = explode(',', $row['components']);
 			}
 			$calendar = [
 				'id' => $row['id'],
@@ -586,7 +584,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row['displayname'] = $row['displayname'] . ' ' . "($name)";
 		$components = [];
 		if ($row['components']) {
-			$components = explode(',',$row['components']);
+			$components = explode(',', $row['components']);
 		}
 		$calendar = [
 			'id' => $row['id'],
@@ -639,7 +637,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row['principaluri'] = (string) $row['principaluri'];
 		$components = [];
 		if ($row['components']) {
-			$components = explode(',',$row['components']);
+			$components = explode(',', $row['components']);
 		}
 
 		$calendar = [
@@ -660,7 +658,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @return array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp }|null
+	 * @return array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string }|null
 	 */
 	public function getCalendarById(int $calendarId): ?array {
 		$fields = array_column($this->propertyMap, 0);
@@ -687,7 +685,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row['principaluri'] = (string) $row['principaluri'];
 		$components = [];
 		if ($row['components']) {
-			$components = explode(',',$row['components']);
+			$components = explode(',', $row['components']);
 		}
 
 		$calendar = [
@@ -779,7 +777,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if (!($properties[$sccs] instanceof SupportedCalendarComponentSet)) {
 				throw new DAV\Exception('The ' . $sccs . ' property must be of type: \Sabre\CalDAV\Property\SupportedCalendarComponentSet');
 			}
-			$values['components'] = implode(',',$properties[$sccs]->getValue());
+			$values['components'] = implode(',', $properties[$sccs]->getValue());
 		} elseif (isset($properties['components'])) {
 			// Allow to provide components internally without having
 			// to create a SupportedCalendarComponentSet object
@@ -797,7 +795,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
-		[$calendarId, $calendarData] = $this->atomic(function() use ($values) {
+		[$calendarId, $calendarData] = $this->atomic(function () use ($values) {
 			$query = $this->db->getQueryBuilder();
 			$query->insert('calendars');
 			foreach ($values as $column => $value) {
@@ -897,7 +895,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->executeStatement();
 
 			$qbDeleteCalendarChanges = $this->db->getQueryBuilder();
-			$qbDeleteCalendarObjects->delete('calendarchanges')
+			$qbDeleteCalendarChanges->delete('calendarchanges')
 				->where($qbDeleteCalendarChanges->expr()->eq('calendarid', $qbDeleteCalendarChanges->createNamedParameter($calendarId)))
 				->andWhere($qbDeleteCalendarChanges->expr()->eq('calendartype', $qbDeleteCalendarChanges->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)))
 				->executeStatement();
@@ -905,7 +903,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$this->calendarSharingBackend->deleteAllShares($calendarId);
 
 			$qbDeleteCalendar = $this->db->getQueryBuilder();
-			$qbDeleteCalendarObjects->delete('calendars')
+			$qbDeleteCalendar->delete('calendars')
 				->where($qbDeleteCalendar->expr()->eq('id', $qbDeleteCalendar->createNamedParameter($calendarId)))
 				->executeStatement();
 
@@ -1225,17 +1223,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 		// For a more specific error message we also try to explicitly look up the UID but as a deleted entry
 		$qbDel = $this->db->getQueryBuilder();
-		$qbDel->select($qb->func()->count('*'))
+		$qbDel->select('*')
 			->from('calendarobjects')
 			->where($qbDel->expr()->eq('calendarid', $qbDel->createNamedParameter($calendarId)))
 			->andWhere($qbDel->expr()->eq('uid', $qbDel->createNamedParameter($extraData['uid'])))
 			->andWhere($qbDel->expr()->eq('calendartype', $qbDel->createNamedParameter($calendarType)))
 			->andWhere($qbDel->expr()->isNotNull('deleted_at'));
 		$result = $qbDel->executeQuery();
-		$count = (int) $result->fetchOne();
+		$found = $result->fetch();
 		$result->closeCursor();
-		if ($count !== 0) {
-			throw new BadRequest('Deleted calendar object with uid already exists in this calendar collection.');
+		if ($found !== false) {
+			// the object existed previously but has been deleted
+			// remove the trashbin entry and continue as if it was a new object
+			$this->deleteCalendarObject($calendarId, $found['uri']);
 		}
 
 		$query = $this->db->getQueryBuilder();
@@ -1712,7 +1712,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$query->expr()->eq('c.calendarid',
 					$query->createNamedParameter($id)),
 				$query->expr()->eq('c.calendartype',
-						$query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
+					$query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
 		}
 		foreach ($sharedCalendars as $id) {
 			$calendarExpressions[] = $query->expr()->andX(
@@ -1860,7 +1860,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
-		if(isset($options['uid'])) {
+		if (isset($options['uid'])) {
 			$outerQuery->andWhere($outerQuery->expr()->eq('uid', $outerQuery->createNamedParameter($options['uid'])));
 		}
 
@@ -2435,7 +2435,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
-		[$subscriptionId, $subscriptionRow] = $this->atomic(function() use ($values) {
+		[$subscriptionId, $subscriptionRow] = $this->atomic(function () use ($values) {
 			$valuesToInsert = [];
 			$query = $this->db->getQueryBuilder();
 			foreach (array_keys($values) as $name) {

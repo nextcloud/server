@@ -44,6 +44,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
@@ -170,6 +171,11 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		$statResult = @stat($fullPath);
+		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
+			$filesize = $this->filesize($path);
+			$statResult['size'] = $filesize;
+			$statResult[7] = $filesize;
+		}
 		if (is_array($statResult)) {
 			$statResult['full_path'] = $fullPath;
 		}
@@ -236,11 +242,15 @@ class Local extends \OC\Files\Storage\Common {
 		return $filetype;
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		if (!$this->is_file($path)) {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
+		if (PHP_INT_SIZE === 4) {
+			$helper = new \OC\LargeFileHelper;
+			return $helper->getFileSize($fullPath) ?? false;
+		}
 		return filesize($fullPath);
 	}
 
@@ -261,6 +271,10 @@ class Local extends \OC\Files\Storage\Common {
 		clearstatcache(true, $fullPath);
 		if (!$this->file_exists($path)) {
 			return false;
+		}
+		if (PHP_INT_SIZE === 4) {
+			$helper = new \OC\LargeFileHelper();
+			return $helper->getFileMtime($fullPath);
 		}
 		return filemtime($fullPath);
 	}
@@ -543,6 +557,16 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
+	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+		return $sourceStorage->instanceOfStorage(Local::class)
+			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
+			// Instead, use the slower recursive copying in php from Common::copyFromStorage with
+			// more permissions checks.
+			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
+			// when moving encrypted files we have to handle keys and the target might not be encrypted
+			&& !$sourceStorage->instanceOfStorage(Encryption::class);
+	}
+
 	/**
 	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
@@ -551,10 +575,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
-		// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
-		// Instead use the slower recursive copying in php from Common::copyFromStorage with
-		// more permissions checks.
-		if ($sourceStorage->instanceOfStorage(Local::class) && !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')) {
+		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
@@ -578,7 +599,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage->instanceOfStorage(Local::class)) {
+		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage

@@ -28,7 +28,7 @@ OC.L10N.register(
     "This week" : "še ta teden",
     "Online" : "Na spletu",
     "Invisible" : "Drugim neviden",
-    "Offline" : "Začasno brez povezave",
+    "Offline" : "Brez povezave",
     "There was an error saving the new status" : "Prišlo je do napake med shranjevanjem novega stanja",
     "30 minutes" : "po 30 minutah",
     "1 hour" : "po 1 uri",

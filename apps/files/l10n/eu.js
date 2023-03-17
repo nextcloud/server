@@ -182,16 +182,16 @@ OC.L10N.register(
     "Unknown error" : "Errore ezezaguna",
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
     "Cannot transfer ownership of a file or folder you do not own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
+    "Select file or folder to link to" : "Hautatu estekatzeko fitxategia edo karpeta",
     "Open the files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
     "Files settings" : "FItxategien ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "Crop image previews" : "Moztu irudien aurrebistak",
     "Additional settings" : "Ezarpen gehiago",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiatu arbelera",
     "Use this address to access your Files via WebDAV" : "Erabili helbide hau WebDAV bidez zure fitxategietara sartzeko",
     "Clipboard is not available" : "Arbela ez dago erabilgarri",
-    "Webdav URL copied to clipboard" : "Webdav URLa arbelean kopiatu da",
     "Unable to change the favourite state of the file" : "Ezin da fitxategiaren gogoko egoera aldatu",
     "Error while loading the file data" : "Errorea fitxategiaren datuak kargatzerakoan",
     "Pick a template for {name}" : "Hautatu {name}(r)entzako txantiloia",
@@ -233,7 +233,6 @@ OC.L10N.register(
     "%s used" : "%s erabilita",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s / %2$s erabilita",
-    "Settings" : "Ezarpenak",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

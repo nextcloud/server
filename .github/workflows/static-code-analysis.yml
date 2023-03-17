@@ -2,10 +2,16 @@ name: Psalm static code analysis
 
 on:
   pull_request:
+  push:
+    branches:
+      - master
+      - stable*
 
 jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout

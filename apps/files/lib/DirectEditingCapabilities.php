@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
@@ -29,7 +30,6 @@ use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IURLGenerator;
 
 class DirectEditingCapabilities implements ICapability, IInitialStateExcludedCapability {
-
 	protected DirectEditingService $directEditingService;
 	protected IURLGenerator $urlGenerator;
 
@@ -43,7 +43,8 @@ class DirectEditingCapabilities implements ICapability, IInitialStateExcludedCap
 			'files' => [
 				'directEditing' => [
 					'url' => $this->urlGenerator->linkToOCSRouteAbsolute('files.DirectEditing.info'),
-					'etag' => $this->directEditingService->getDirectEditingETag()
+					'etag' => $this->directEditingService->getDirectEditingETag(),
+					'supportsFileId' => true,
 				]
 			],
 		];

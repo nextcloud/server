@@ -46,7 +46,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 */
-	public function getSize(): int {
+	public function getSize(): int|float {
 		return $this->file->getSize();
 	}
 

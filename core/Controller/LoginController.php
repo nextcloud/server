@@ -43,6 +43,7 @@ use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -105,10 +106,10 @@ class LoginController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @return RedirectResponse
 	 */
+	#[UseSession]
 	public function logout() {
 		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
@@ -134,13 +135,13 @@ class LoginController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @UseSession
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[UseSession]
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
@@ -283,15 +284,15 @@ class LoginController extends Controller {
 
 	/**
 	 * @PublicPage
-	 * @UseSession
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
 	 *
 	 * @return RedirectResponse
 	 */
+	#[UseSession]
 	public function tryLogin(Chain $loginChain,
-							 string $user,
-							 string $password,
+							 string $user = '',
+							 string $password = '',
 							 string $redirect_url = null,
 							 string $timezone = '',
 							 string $timezone_offset = ''): RedirectResponse {
@@ -368,12 +369,12 @@ class LoginController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 * @BruteForceProtection(action=sudo)
 	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
 	 */
+	#[UseSession]
 	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);

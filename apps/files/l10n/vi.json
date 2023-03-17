@@ -166,6 +166,8 @@
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
     "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
+    "Additional settings" : "Cài đặt bổ sung",
+    "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "‎Sử dụng địa chỉ này để truy cập tệp của bạn thông qua WebDAV‎",
     "Unable to change the favourite state of the file" : "‎Không thể thay đổi trạng thái yêu thích của tệp‎",
     "Error while loading the file data" : "‎Lỗi xảy ra trong khi tải dữ liệu tệp‎",
@@ -206,7 +208,6 @@
     "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
     "%s used" : "%s ‎đã sử dụng‎",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
-    "Settings" : "Cài đặt",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Cài đặt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

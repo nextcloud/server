@@ -29,19 +29,23 @@ namespace OCA\Files_Versions\Sabre;
 use OC\AppFramework\Http\Request;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
+	private Server $server;
+	private IRequest $request;
 
-	/** @var Server */
-	private $server;
-	/** @var IRequest */
-	private $request;
+	public const VERSION_LABEL = '{http://nextcloud.org/ns}version-label';
 
-	public function __construct(IRequest $request) {
+	public function __construct(
+		IRequest $request
+	) {
 		$this->request = $request;
 	}
 
@@ -49,6 +53,8 @@ class Plugin extends ServerPlugin {
 		$this->server = $server;
 
 		$server->on('afterMethod:GET', [$this, 'afterGet']);
+		$server->on('propFind', [$this, 'propFind']);
+		$server->on('propPatch', [$this, 'propPatch']);
 	}
 
 	public function afterGet(RequestInterface $request, ResponseInterface $response) {
@@ -79,6 +85,20 @@ class Plugin extends ServerPlugin {
 		} else {
 			$response->addHeader('Content-Disposition', 'attachment; filename*=UTF-8\'\'' . rawurlencode($filename)
 				. '; filename="' . rawurlencode($filename) . '"');
+		}
+	}
+
+	public function propFind(PropFind $propFind, INode $node): void {
+		if ($node instanceof VersionFile) {
+			$propFind->handle(self::VERSION_LABEL, fn() => $node->getLabel());
+		}
+	}
+
+	public function propPatch($path, PropPatch $propPatch): void {
+		$node = $this->server->tree->getNodeForPath($path);
+
+		if ($node instanceof VersionFile) {
+			$propPatch->handle(self::VERSION_LABEL, fn ($label) => $node->setLabel($label));
 		}
 	}
 }

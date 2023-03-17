@@ -31,6 +31,7 @@ namespace OC\Files\Config;
 use OCP\Cache\CappedMemoryCache;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
@@ -56,19 +57,27 @@ class UserMountCache implements IUserMountCache {
 	private LoggerInterface $logger;
 	/** @var CappedMemoryCache<array> */
 	private CappedMemoryCache $cacheInfoCache;
+	private IEventLogger $eventLogger;
 
 	/**
 	 * UserMountCache constructor.
 	 */
-	public function __construct(IDBConnection $connection, IUserManager $userManager, LoggerInterface $logger) {
+	public function __construct(
+		IDBConnection $connection,
+		IUserManager $userManager,
+		LoggerInterface $logger,
+		IEventLogger $eventLogger
+	) {
 		$this->connection = $connection;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->eventLogger = $eventLogger;
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
 	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null) {
+		$this->eventLogger->start('fs:setup:user:register', 'Registering mounts for user');
 		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
 			return $mount instanceof SharedMount || ($mount->getStorage() && $mount->getStorage()->getCache());
@@ -121,19 +130,27 @@ class UserMountCache implements IUserMountCache {
 
 		$changedMounts = $this->findChangedMounts($newMounts, $cachedMounts);
 
-		foreach ($addedMounts as $mount) {
-			$this->addToCache($mount);
-			/** @psalm-suppress InvalidArgument */
-			$this->mountsForUsers[$user->getUID()][] = $mount;
+		$this->connection->beginTransaction();
+		try {
+			foreach ($addedMounts as $mount) {
+				$this->addToCache($mount);
+				/** @psalm-suppress InvalidArgument */
+				$this->mountsForUsers[$user->getUID()][] = $mount;
+			}
+			foreach ($removedMounts as $mount) {
+				$this->removeFromCache($mount);
+				$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
+				unset($this->mountsForUsers[$user->getUID()][$index]);
+			}
+			foreach ($changedMounts as $mount) {
+				$this->updateCachedMount($mount);
+			}
+			$this->connection->commit();
+		} catch (\Throwable $e) {
+			$this->connection->rollBack();
+			throw $e;
 		}
-		foreach ($removedMounts as $mount) {
-			$this->removeFromCache($mount);
-			$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
-			unset($this->mountsForUsers[$user->getUID()][$index]);
-		}
-		foreach ($changedMounts as $mount) {
-			$this->updateCachedMount($mount);
-		}
+		$this->eventLogger->end('fs:setup:user:register');
 	}
 
 	/**

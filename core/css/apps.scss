@@ -1214,6 +1214,21 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	}
 }
 
+.popovermenu {
+	li {
+		> button,
+		> a,
+		> .menuitem {
+			/* DEPRECATED! old img in popover fallback
+			* TODO: to remove */
+			> img {
+				width: $popoveritem-height;
+				height: $popoveritem-height;
+			}
+		}
+	}
+}
+
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	position: -webkit-sticky;

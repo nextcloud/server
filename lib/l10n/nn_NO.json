@@ -2,6 +2,7 @@
     "Authentication" : "Godkjenning",
     "Unknown filetype" : "Ukjend filtype",
     "Invalid image" : "Ugyldig bilete",
+    "Files" : "Filer",
     "today" : "i dag",
     "yesterday" : "i går",
     "_%n day ago_::_%n days ago_" : ["%n dag sidan","%n dagar sidan"],

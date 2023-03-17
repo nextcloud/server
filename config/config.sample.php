@@ -463,28 +463,23 @@ $CONFIG = [
 'mail_smtptimeout' => 10,
 
 /**
- * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` for SSL/TLS or
- * ``tls`` for STARTTLS, or leave empty for no encryption.
+ * This depends on ``mail_smtpmode``. Specify ``ssl`` when you are using SSL/TLS. Any other value will be ignored.
+ *
+ * If the server advertises STARTTLS capabilities, they might be used, but they cannot be enforced by
+ * this config option.
  *
  * Defaults to ``''`` (empty string)
  */
 'mail_smtpsecure' => '',
 
 /**
+ *
  * This depends on ``mail_smtpmode``. Change this to ``true`` if your mail
  * server requires authentication.
  *
  * Defaults to ``false``
  */
 'mail_smtpauth' => false,
-
-/**
- * This depends on ``mail_smtpmode``. If SMTP authentication is required, choose
- * the authentication type as ``LOGIN`` or ``PLAIN``.
- *
- * Defaults to ``LOGIN``
- */
-'mail_smtpauthtype' => 'LOGIN',
 
 /**
  * This depends on ``mail_smtpauth``. Specify the username for authenticating to
@@ -1190,14 +1185,14 @@ $CONFIG = [
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
 	'--convert-to png --outdir ',
-	
+
 /**
  * custom path for ffmpeg binary
- * 
+ *
  * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
  */
-'preview_ffmpeg_path' => '/usr/bin/ffmpeg',	
-	
+'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
+
 /**
  * Set the URL of the Imaginary service to send image previews to.
  * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
@@ -2223,7 +2218,7 @@ $CONFIG = [
  * scan to sync filesystem and database. Only users with unscanned files
  * (size < 0 in filecache) are included. Maximum 500 users per job.
  *
- * Defaults to ``true``
+ * Defaults to ``false``
  */
 'files_no_background_scan' => false,
 

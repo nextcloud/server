@@ -730,7 +730,7 @@ class Filesystem {
 	 * get the filesystem info
 	 *
 	 * @param string $path
-	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * @param bool|string $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */

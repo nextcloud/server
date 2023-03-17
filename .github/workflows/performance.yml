@@ -6,6 +6,8 @@ jobs:
   performance-testing:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -24,7 +26,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit
+          tools: phpunit:9
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

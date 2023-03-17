@@ -164,7 +164,7 @@ class View {
 	 * get path relative to the root of the view
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return ?string
 	 */
 	public function getRelativePath($path) {
 		$this->assertPathLength($path);
@@ -411,7 +411,7 @@ class View {
 	 * @param string $path
 	 * @return mixed
 	 */
-	public function filesize($path) {
+	public function filesize(string $path) {
 		return $this->basicOperation('filesize', $path);
 	}
 
@@ -1241,7 +1241,7 @@ class View {
 	 * get the path relative to the default root for hook usage
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return ?string
 	 */
 	private function getHookPath($path) {
 		if (!Filesystem::getView()) {
@@ -1372,9 +1372,8 @@ class View {
 	 * get the filesystem info
 	 *
 	 * @param string $path
-	 * @param boolean|string $includeMountPoints true to add mountpoint sizes,
+	 * @param bool|string $includeMountPoints true to add mountpoint sizes,
 	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
-	 * defaults to true
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
@@ -1413,11 +1412,7 @@ class View {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
-					$mounts = Filesystem::getMountManager()->findIn($path);
-					$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
-						$subStorage = $mount->getStorage();
-						return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
-					}));
+					$this->addSubMounts($info, $extOnly);
 				}
 			}
 
@@ -1427,6 +1422,17 @@ class View {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Extend a FileInfo that was previously requested with `$includeMountPoints = false` to include the sub mounts
+	 */
+	public function addSubMounts(FileInfo $info, $extOnly = false): void {
+		$mounts = Filesystem::getMountManager()->findIn($info->getPath());
+		$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
+			$subStorage = $mount->getStorage();
+			return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
+		}));
 	}
 
 	/**

@@ -1234,7 +1234,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if imagick is not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1293,7 +1293,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1403,7 +1403,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
+					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -1569,7 +1569,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Content-Type-Options" HTTP header is not set to "nosniff". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Robots-Tag" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+					msg: 'The "X-Robots-Tag" HTTP header is not set to "noindex, nofollow". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
 					msg: 'The "X-Frame-Options" HTTP header is not set to "SAMEORIGIN". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
@@ -1596,7 +1596,7 @@ describe('OC.SetupChecks tests', function() {
 			suite.server.requests[0].respond(
 				200,
 				{
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000;preload',
 					'X-Permitted-Cross-Domain-Policies': 'none',
@@ -1627,7 +1627,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-Permitted-Cross-Domain-Policies': 'none',
@@ -1641,6 +1641,49 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		describe('check X-Robots-Tag header', function() {
+			it('should return no message if X-Robots-Tag is set to noindex,nofollow without space', function(done) {
+				protocolStub.returns('https');
+				var result = OC.SetupChecks.checkGeneric();
+				suite.server.requests[0].respond(200, {
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-XSS-Protection': '1; mode=block',
+					'X-Content-Type-Options': 'nosniff',
+					'X-Robots-Tag': 'noindex,nofollow',
+					'X-Frame-Options': 'SAMEORIGIN',
+					'X-Permitted-Cross-Domain-Policies': 'none',
+					'Referrer-Policy': 'no-referrer',
+				});
+				result.done(function( data, s, x ){
+					expect(data).toEqual([]);
+					done();
+				});
+			});
+
+			it('should return a message if X-Robots-Tag is set to none', function(done) {
+				protocolStub.returns('https');
+				var result = OC.SetupChecks.checkGeneric();
+				suite.server.requests[0].respond(200, {
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-XSS-Protection': '1; mode=block',
+					'X-Content-Type-Options': 'nosniff',
+					'X-Robots-Tag': 'none',
+					'X-Frame-Options': 'SAMEORIGIN',
+					'X-Permitted-Cross-Domain-Policies': 'none',
+					'Referrer-Policy': 'no-referrer',
+				});
+				result.done(function( data, s, x ){
+					expect(data).toEqual([
+						{
+							msg: 'The "X-Robots-Tag" HTTP header is not set to "noindex, nofollow". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						}
+					]);
+					done();
+				});
+			});
+		});
+
 		describe('check X-XSS-Protection header', function() {
 			it('should return no message if X-XSS-Protection is set to 1; mode=block; report=https://example.com', function(done) {
 				protocolStub.returns('https');
@@ -1650,7 +1693,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block; report=https://example.com',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1670,7 +1713,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1690,7 +1733,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1715,7 +1758,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '0',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1742,7 +1785,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1762,7 +1805,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer-when-downgrade',
@@ -1782,7 +1825,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin',
@@ -1802,7 +1845,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -1822,7 +1865,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'same-origin',
@@ -1842,7 +1885,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin',
@@ -1867,7 +1910,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin-when-cross-origin',
@@ -1892,7 +1935,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'unsafe-url',
@@ -1919,7 +1962,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -1965,7 +2008,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -1990,7 +2033,7 @@ describe('OC.SetupChecks tests', function() {
 				'Strict-Transport-Security': 'max-age=15551999',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -2015,7 +2058,7 @@ describe('OC.SetupChecks tests', function() {
 				'Strict-Transport-Security': 'iAmABogusHeader342',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -2039,7 +2082,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=15768000',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2059,7 +2102,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2079,7 +2122,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2099,7 +2142,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999; preload; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',

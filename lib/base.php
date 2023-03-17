@@ -80,6 +80,7 @@ use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
@@ -762,6 +763,7 @@ class OC {
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
 		self::registerFileReferenceEventListener();
+		self::registerRenderReferenceEventListener();
 		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
@@ -923,6 +925,10 @@ class OC {
 
 	private static function registerFileReferenceEventListener(): void {
 		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
+	}
+
+	private static function registerRenderReferenceEventListener() {
+		\OC\Collaboration\Reference\RenderReferenceEventListener::register(Server::get(IEventDispatcher::class));
 	}
 
 	/**
@@ -1092,7 +1098,9 @@ class OC {
 		try {
 			Server::get(\OC\Route\Router::class)->match('/error/404');
 		} catch (\Exception $e) {
-			logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			if (!$e instanceof MethodNotAllowedException) {
+				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
 				$l->t('404'),

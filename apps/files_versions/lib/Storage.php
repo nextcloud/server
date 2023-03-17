@@ -49,8 +49,10 @@ use OC\Files\View;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
+use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -288,6 +290,17 @@ class Storage {
 			}
 		}
 		unset(self::$deletedFiles[$path]);
+	}
+
+	/**
+	 * Delete a version of a file
+	 */
+	public static function deleteRevision(string $path, int $revision): void {
+		[$uid, $filename] = self::getUidAndFilename($path);
+		$view = new View('/' . $uid . '/files_versions');
+		\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path . $revision, 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
+		self::deleteVersion($view, $filename . '.v' . $revision);
+		\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path . $revision, 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
 	}
 
 	/**
@@ -562,19 +575,44 @@ class Storage {
 			[]
 		));
 
+		/** @var VersionsMapper $versionsMapper */
+		$versionsMapper = \OC::$server->get(VersionsMapper::class);
+		$userFolder = $root->getUserFolder($uid);
+		$versionEntities = [];
+
 		/** @var Node[] $versions */
-		$versions = array_filter($allVersions, function (Node $info) use ($threshold) {
+		$versions = array_filter($allVersions, function (Node $info) use ($threshold, $userFolder, $versionsMapper, $versionsRoot, &$versionEntities) {
+			// Check that the file match '*.v*'
 			$versionsBegin = strrpos($info->getName(), '.v');
 			if ($versionsBegin === false) {
 				return false;
 			}
+
 			$version = (int)substr($info->getName(), $versionsBegin + 2);
+
+			// Check that the version does not have a label.
+			$path = $versionsRoot->getRelativePath($info->getPath());
+			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
+			try {
+				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
+				$versionEntities[$info->getId()] = $versionEntity;
+
+				if ($versionEntity->getLabel() !== '') {
+					return false;
+				}
+			} catch (DoesNotExistException $ex) {
+				// Version on FS can have no equivalent in the DB if they were created before the version naming feature.
+				// So we ignore DoesNotExistException.
+			}
+
+			// Check that the version's timestamp is lower than $threshold
 			return $version < $threshold;
 		});
 
 		foreach ($versions as $version) {
 			$internalPath = $version->getInternalPath();
 			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			$versionsMapper->delete($versionEntities[$version->getId()]);
 			$version->delete();
 			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 		}

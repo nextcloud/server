@@ -51,7 +51,7 @@ class ResponseTest extends \Test\TestCase {
 			'Last-Modified' => 1,
 			'ETag' => 3,
 			'Something-Else' => 'hi',
-			'X-Robots-Tag' => 'none',
+			'X-Robots-Tag' => 'noindex, nofollow',
 		];
 
 		$this->childResponse->setHeaders($expected);

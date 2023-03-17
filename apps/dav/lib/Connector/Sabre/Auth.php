@@ -104,14 +104,11 @@ class Auth extends AbstractBasic {
 		if ($this->userSession->isLoggedIn() &&
 			$this->isDavAuthenticated($this->userSession->getUser()->getUID())
 		) {
-			\OC_Util::setupFS($this->userSession->getUser()->getUID());
 			$this->session->close();
 			return true;
 		} else {
-			\OC_Util::setupFS(); //login hooks may need early access to the filesystem
 			try {
 				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
-					\OC_Util::setupFS($this->userSession->getUser()->getUID());
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
 					$this->session->close();
 					return true;

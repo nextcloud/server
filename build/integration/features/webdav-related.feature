@@ -53,7 +53,7 @@ Feature: webdav-related
 		And User "user0" moves file "/textfile0.txt" to "/testshare/textfile0.txt"
 		And the HTTP status code should be "403"
 		When Downloading file "/testshare/textfile0.txt"
- 		Then the HTTP status code should be "404"
+		Then the HTTP status code should be "404"
 
 	Scenario: Moving a file to overwrite a file in a folder with no permissions
 		Given using old dav path
@@ -191,10 +191,10 @@ Feature: webdav-related
 		And As an "user1"
 		And user "user1" created a folder "/testquota"
 		And as "user1" creating a share with
-		  | path | testquota |
-		  | shareType | 0 |
-		  | permissions | 31 |
-		  | shareWith | user0 |
+			| path | testquota |
+			| shareType | 0 |
+			| permissions | 31 |
+			| shareWith | user0 |
 		And user "user0" accepts last share
 		And As an "user0"
 		When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
@@ -251,7 +251,7 @@ Feature: webdav-related
 			|X-Content-Type-Options |nosniff|
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
-			|X-Robots-Tag|none|
+			|X-Robots-Tag|noindex, nofollow|
 			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
@@ -630,3 +630,99 @@ Feature: webdav-related
 		And As an "user1"
 		And user "user1" created a folder "/testshare	"
 		Then the HTTP status code should be "400"
+
+	@s3-multipart
+	Scenario: Upload chunked file asc with new chunking v2
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a file locally with "3" x 5 MB chunks
+		And user "user0" creates a new chunking v2 upload with id "chunking-42" and destination "/myChunkedFile1.txt"
+		And user "user0" uploads new chunk v2 file "1" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "2" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "3" to id "chunking-42"
+		And user "user0" moves new chunk v2 file with id "chunking-42"
+		Then the S3 multipart upload was successful with status "201"
+		When As an "user0"
+		And Downloading file "/myChunkedFile1.txt"
+		Then Downloaded content should be the created file
+
+	@s3-multipart
+	Scenario: Upload chunked file desc with new chunking v2
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a file locally with "3" x 5 MB chunks
+		And user "user0" creates a new chunking v2 upload with id "chunking-42" and destination "/myChunkedFile.txt"
+		And user "user0" uploads new chunk v2 file "3" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "2" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "1" to id "chunking-42"
+		And user "user0" moves new chunk v2 file with id "chunking-42"
+		Then the S3 multipart upload was successful with status "201"
+		When As an "user0"
+		And Downloading file "/myChunkedFile.txt"
+		Then Downloaded content should be the created file
+
+	@s3-multipart
+	Scenario: Upload chunked file with random chunk sizes
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a new chunking v2 upload with id "chunking-random" and destination "/myChunkedFile.txt"
+		And user user0 creates the chunk 1 with a size of 5 MB
+		And user user0 creates the chunk 2 with a size of 7 MB
+		And user user0 creates the chunk 3 with a size of 9 MB
+		And user user0 creates the chunk 4 with a size of 1 MB
+		And user "user0" uploads new chunk v2 file "1" to id "chunking-random"
+		And user "user0" uploads new chunk v2 file "3" to id "chunking-random"
+		And user "user0" uploads new chunk v2 file "2" to id "chunking-random"
+		And user "user0" uploads new chunk v2 file "4" to id "chunking-random"
+		And user "user0" moves new chunk v2 file with id "chunking-random"
+		Then the S3 multipart upload was successful with status "201"
+		When As an "user0"
+		And Downloading file "/myChunkedFile.txt"
+		Then Downloaded content should be the created file
+
+	@s3-multipart
+	Scenario: Upload chunked file with too low chunk sizes
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a new chunking v2 upload with id "chunking-random" and destination "/myChunkedFile.txt"
+		And user user0 creates the chunk 1 with a size of 5 MB
+		And user user0 creates the chunk 2 with a size of 2 MB
+		And user user0 creates the chunk 3 with a size of 5 MB
+		And user user0 creates the chunk 4 with a size of 1 MB
+		And user "user0" uploads new chunk v2 file "1" to id "chunking-random"
+		And user "user0" uploads new chunk v2 file "3" to id "chunking-random"
+		And user "user0" uploads new chunk v2 file "2" to id "chunking-random"
+		And user "user0" uploads new chunk v2 file "4" to id "chunking-random"
+		And user "user0" moves new chunk v2 file with id "chunking-random"
+    Then the upload should fail on object storage
+
+	@s3-multipart
+	Scenario: Upload chunked file with special characters with new chunking v2
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a file locally with "3" x 5 MB chunks
+		And user "user0" creates a new chunking v2 upload with id "chunking-42" and destination "/äöü.txt"
+		And user "user0" uploads new chunk v2 file "1" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "2" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "3" to id "chunking-42"
+		And user "user0" moves new chunk v2 file with id "chunking-42"
+		Then the S3 multipart upload was successful with status "201"
+		When As an "user0"
+		And Downloading file "/äöü.txt"
+		Then Downloaded content should be the created file
+
+	@s3-multipart
+	Scenario: Upload chunked file with special characters in path with new chunking v2
+		Given using new dav path
+		And user "user0" exists
+		And User "user0" created a folder "üäöé"
+		And user "user0" creates a file locally with "3" x 5 MB chunks
+		And user "user0" creates a new chunking v2 upload with id "chunking-42" and destination "/üäöé/äöü.txt"
+		And user "user0" uploads new chunk v2 file "1" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "2" to id "chunking-42"
+		And user "user0" uploads new chunk v2 file "3" to id "chunking-42"
+		And user "user0" moves new chunk v2 file with id "chunking-42"
+		Then the S3 multipart upload was successful with status "201"
+		When As an "user0"
+		And Downloading file "/üäöé/äöü.txt"
+		Then Downloaded content should be the created file

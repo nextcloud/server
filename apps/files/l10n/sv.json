@@ -180,16 +180,20 @@
     "Unknown error" : "Okänt fel",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
     "Cannot transfer ownership of a file or folder you do not own" : "Det går inte att överföra äganderätten till en fil eller mapp som du inte äger",
+    "Select file or folder to link to" : "Välj fil eller mapp att länka till",
     "Open the files app settings" : "Öppna filappens inställningar",
     "Files settings" : "Filinställningar",
+    "File cannot be accessed" : "Det går inte att komma åt filen",
+    "You might not have have permissions to view it, ask the sender to share it" : "Du kanske inte har behörighet att se den, be avsändaren att dela den",
     "Show hidden files" : "Visa dolda filer",
     "Crop image previews" : "Beskär förhandsgranskningar för bilder",
     "Additional settings" : "Övriga inställningar",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Use this address to access your Files via WebDAV" : "Använd denna adress för att komma åt dina filer med WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Om du har aktiverat 2FA måste du skapa och använda ett nytt applösenord genom att klicka här.",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
-    "Webdav URL copied to clipboard" : "Webdav URL kopierad till urklipp",
+    "WebDAV URL copied to clipboard" : "WebDAV URL kopierad till urklipp",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
     "Pick a template for {name}" : "Välj en mall för {name}",
@@ -231,7 +235,6 @@
     "%s used" : "%s använt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s av %2$s använt",
-    "Settings" : "Inställningar",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Inställningar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

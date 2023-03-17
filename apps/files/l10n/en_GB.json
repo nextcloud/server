@@ -180,16 +180,20 @@
     "Unknown error" : "Unknown error",
     "Ownership transfer request sent" : "Ownership transfer request sent",
     "Cannot transfer ownership of a file or folder you do not own" : "Cannot transfer ownership of a file or folder you do not own",
+    "Select file or folder to link to" : "Select file or folder to link to",
     "Open the files app settings" : "Open the files app settings",
     "Files settings" : "Files settings",
+    "File cannot be accessed" : "File cannot be accessed",
+    "You might not have have permissions to view it, ask the sender to share it" : "You might not have have permissions to view it, ask the sender to share it",
     "Show hidden files" : "Show hidden files",
     "Crop image previews" : "Crop image previews",
     "Additional settings" : "Additional settings",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copy to clipboard",
     "Use this address to access your Files via WebDAV" : "Use this address to access your Files via WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "If you have enabled 2FA, you must create and use a new app password by clicking here.",
     "Clipboard is not available" : "Clipboard is not available",
-    "Webdav URL copied to clipboard" : "Webdav URL copied to clipboard",
+    "WebDAV URL copied to clipboard" : "WebDAV URL copied to clipboard",
     "Unable to change the favourite state of the file" : "Unable to change the favourite state of the file",
     "Error while loading the file data" : "Error while loading the file data",
     "Pick a template for {name}" : "Pick a template for {name}",
@@ -231,7 +235,6 @@
     "%s used" : "%s used",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s of %2$s used",
-    "Settings" : "Settings",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Settings"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

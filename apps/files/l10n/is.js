@@ -146,6 +146,7 @@ OC.L10N.register(
     "Show hidden files" : "Sýna faldar skrár",
     "Crop image previews" : "Skera utan af forskoðun mynda",
     "Additional settings" : "Valfrjálsar stillingar",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Afrita á klippispjald",
     "Use this address to access your Files via WebDAV" : "Notaðu þetta vistfang til að nálgast skrárnar þínar með WebDAV",
     "Error while loading the file data" : "Villa við að hlaða inn skráagögnum",
@@ -185,7 +186,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
     "%s used" : "%s notað",
     "%1$s of %2$s used" : "%1$s af %2$s notað",
-    "Settings" : "Stillingar",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Stillingar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

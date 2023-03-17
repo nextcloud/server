@@ -186,6 +186,8 @@ class Cache implements ICache {
 	 */
 	public static function cacheEntryFromData($data, IMimeTypeLoader $mimetypeLoader) {
 		//fix types
+		$data['name'] = (string)$data['name'];
+		$data['path'] = (string)$data['path'];
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
 		$data['size'] = 0 + $data['size'];
@@ -977,7 +979,12 @@ class Cache implements ICache {
 		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		return $path;
+		if ($path === false) {
+			return false;
+		}
+
+		// Make sure Oracle does not continue with null for empty strings
+		return (string)$path;
 	}
 
 	/**

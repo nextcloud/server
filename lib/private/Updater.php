@@ -137,9 +137,6 @@ class Updater extends BasicEmitter {
 
 		$success = true;
 		try {
-			if (PHP_INT_SIZE < 8 && version_compare($currentVersion, '26.0.0.0', '>=')) {
-				throw new HintException('You are running a 32-bit PHP version. Cannot upgrade to Nextcloud 26 and higher. Please switch to 64-bit PHP.');
-			}
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (HintException $exception) {
 			$this->log->error($exception->getMessage(), [

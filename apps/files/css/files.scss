@@ -10,7 +10,8 @@
 
 /* FILE MENU */
 .actions {
-	padding: 5px;
+	// (50px - 44px) / 2
+	padding: 3px;
 	height: 100%;
 	display: inline-block;
 	float: left;
@@ -826,7 +827,7 @@ table.dragshadow td.size {
 	box-sizing: border-box;
 	position: -webkit-sticky;
 	position: sticky;
-	height: 54px;
+	height: 50px; /* height of the nav toggle button; */
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background-translucent);
@@ -837,7 +838,7 @@ table.dragshadow td.size {
 	user-select: none;
 	display: flex;
 	top: 0;
-	padding-top: 3px;
+	padding-left: 50px; /* width of the nav toggle button; */
 
 	.actions {
 		> div,

@@ -91,7 +91,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
 					'mail_smtphost' => 'mx.nextcloud.org',
-					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => 1,
 					'mail_smtpport' => '25',
 					'mail_sendmailmode' => null,
@@ -102,7 +101,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
 					'mail_smtphost' => 'mx.nextcloud.org',
-					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => null,
 					'mail_smtpport' => '25',
 					'mail_smtpname' => null,
@@ -118,7 +116,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			'NTLM',
 			1,
 			'25',
 			null
@@ -132,7 +129,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			'NTLM',
 			0,
 			'25',
 			null

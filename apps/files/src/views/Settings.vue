@@ -46,7 +46,7 @@
 		</NcAppSettingsSection>
 
 		<!-- Webdav URL-->
-		<NcAppSettingsSection id="webdav" :title="t('files', 'Webdav')">
+		<NcAppSettingsSection id="webdav" :title="t('files', 'WebDAV')">
 			<NcInputField id="webdav-url-input"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
@@ -61,8 +61,17 @@
 				</template>
 			</NcInputField>
 			<em>
-				<a :href="webdavDocs" target="_blank" rel="noreferrer noopener">
+				<a class="setting-link"
+					:href="webdavDocs"
+					target="_blank"
+					rel="noreferrer noopener">
 					{{ t('files', 'Use this address to access your Files via WebDAV') }} ↗
+				</a>
+			</em>
+			<br>
+			<em>
+				<a class="setting-link" :href="appPasswordUrl">
+					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
 				</a>
 			</em>
 		</NcAppSettingsSection>
@@ -119,6 +128,7 @@ export default {
 			// Webdav infos
 			webdavUrl: generateRemoteUrl('dav/files/' + encodeURIComponent(getCurrentUser()?.uid)),
 			webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
+			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
 		}
 	},
@@ -156,7 +166,7 @@ export default {
 
 			await navigator.clipboard.writeText(this.webdavUrl)
 			this.webdavUrlCopied = true
-			showSuccess(t('files', 'Webdav URL copied to clipboard'))
+			showSuccess(t('files', 'WebDAV URL copied to clipboard'))
 			setTimeout(() => {
 				this.webdavUrlCopied = false
 			}, 5000)
@@ -168,5 +178,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.setting-link:hover {
+	text-decoration: underline;
+}
 </style>

@@ -169,6 +169,7 @@ OC.L10N.register(
     "Show hidden files" : "Pokaži skrite datoteke",
     "Crop image previews" : "Obreži slike predogleda",
     "Additional settings" : "Dodatne nastavitve",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiraj v odložišče",
     "Use this address to access your Files via WebDAV" : "Uporabite ta naslov za dostop do datotek z uporabo WebDAV",
     "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
@@ -211,7 +212,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "%s used" : "Uporabljeno %s",
     "%1$s of %2$s used" : "Uporabljeno %1$s od %2$s",
-    "Settings" : "Nastavitve",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Nastavitve"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

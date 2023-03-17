@@ -56,10 +56,10 @@ class ExifProvider implements IMetadataProvider {
 			// But I don't understand why 1 as a special meaning.
 			// Revert right after reading the exif data.
 			$oldBufferSize = stream_set_chunk_size($fileDescriptor, 1);
-			$data = exif_read_data($fileDescriptor, 'ANY_TAG', true);
+			$data = @exif_read_data($fileDescriptor, 'ANY_TAG', true);
 			stream_set_chunk_size($fileDescriptor, $oldBufferSize);
 		} catch (\Exception $ex) {
-			$this->logger->warning("Couldn't extract metadata for ".$file->getId(), ['exception' => $ex]);
+			$this->logger->info("Couldn't extract metadata for ".$file->getId(), ['exception' => $ex]);
 		}
 
 		$size = new FileMetadata();

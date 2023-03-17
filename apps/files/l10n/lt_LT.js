@@ -167,6 +167,7 @@ OC.L10N.register(
     "Show hidden files" : "Rodyti paslėptus failus",
     "Crop image previews" : "Apkirpti paveikslų peržiūras",
     "Additional settings" : "Papildomi nustatymai",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Use this address to access your Files via WebDAV" : "Naudokite šį adresą norėdami pasiekti failus per WebDAV",
     "Clipboard is not available" : "Iškarpinė neprieinama",
@@ -208,7 +209,6 @@ OC.L10N.register(
     "%s used" : "%s panaudota",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
-    "Settings" : "Nustatymai",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Nustatymai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

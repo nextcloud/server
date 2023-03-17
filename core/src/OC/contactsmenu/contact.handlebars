@@ -2,11 +2,11 @@
 	{{#if contact.profileUrl}}
 		{{#if contact.profileTitle}}
 			<a class="profile-link--avatar" href="{{contact.profileUrl}}">
-				<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">
+				<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="{{contact.avatarLabel}}">
 			</a>
 		{{/if}}
 	{{else}}
-		<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">
+		<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="{{contact.avatarLabel}}">
 	{{/if}}
 {{else}}
 	{{#if contact.profileUrl}}

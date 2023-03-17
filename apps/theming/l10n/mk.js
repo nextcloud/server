@@ -64,7 +64,6 @@ OC.L10N.register(
     "Custom background" : "Сопствена позадина",
     "Default background" : "Стандардна позадина",
     "Change color" : "Промени боја",
-    "Remove background" : "Избриши ја позадината",
     "Select a background from your files" : "Избери позадина од датотеките",
     "Select a custom color" : "Избери боја",
     "Reset to default" : "Ресетирај на стандардно",

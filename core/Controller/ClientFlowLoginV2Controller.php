@@ -33,6 +33,7 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
@@ -97,8 +98,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
@@ -114,8 +115,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
@@ -145,11 +146,14 @@ class ClientFlowLoginV2Controller extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
-	public function grantPage(string $stateToken): StandaloneTemplateResponse {
+	#[UseSession]
+	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -181,7 +185,11 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @PublicPage
 	 */
-	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
+
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -222,9 +230,12 @@ class ClientFlowLoginV2Controller extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 */
-	public function generateAppPassword(string $stateToken): Response {
+	#[UseSession]
+	public function generateAppPassword(?string $stateToken): Response {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -295,6 +306,19 @@ class ClientFlowLoginV2Controller extends Controller {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
+	}
+
+	private function stateTokenMissingResponse(): StandaloneTemplateResponse {
+		$response = new StandaloneTemplateResponse(
+			$this->appName,
+			'403',
+			[
+				'message' => $this->l10n->t('State token missing'),
+			],
+			'guest'
+		);
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		return $response;
 	}
 
 	private function stateTokenForbiddenResponse(): StandaloneTemplateResponse {

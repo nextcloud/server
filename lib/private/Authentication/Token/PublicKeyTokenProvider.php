@@ -46,6 +46,8 @@ use OCP\Security\IHasher;
 use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
+	public const TOKEN_MIN_LENGTH = 22;
+
 	use TTransactional;
 
 	/** @var PublicKeyTokenMapper */
@@ -98,12 +100,32 @@ class PublicKeyTokenProvider implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
+			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
+			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
+			throw $exception;
+		}
+
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
 
+		// We need to check against one old token to see if there is a password
+		// hash that we can reuse for detecting outdated passwords
+		$randomOldToken = $this->mapper->getFirstTokenForUser($uid);
+		$oldTokenMatches = $randomOldToken && $randomOldToken->getPasswordHash() && $password !== null && $this->hasher->verify(sha1($password) . $password, $randomOldToken->getPasswordHash());
+
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
+
+		if ($oldTokenMatches) {
+			$dbToken->setPasswordHash($randomOldToken->getPasswordHash());
+		}
+
 		$this->mapper->insert($dbToken);
+
+		if (!$oldTokenMatches && $password !== null) {
+			$this->updatePasswords($uid, $password);
+		}
 
 		// Add the token to the cache
 		$this->cache[$dbToken->getToken()] = $dbToken;
@@ -112,6 +134,27 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function getToken(string $tokenId): IToken {
+		/**
+		 * Token length: 72
+		 * @see \OC\Core\Controller\ClientFlowLoginController::generateAppPassword
+		 * @see \OC\Core\Controller\AppPasswordController::getAppPassword
+		 * @see \OC\Core\Command\User\AddAppPassword::execute
+		 * @see \OC\Core\Service\LoginFlowV2Service::flowDone
+		 * @see \OCA\Talk\MatterbridgeManager::generatePassword
+		 * @see \OCA\Preferred_Providers\Controller\PasswordController::generateAppPassword
+		 * @see \OCA\GlobalSiteSelector\TokenHandler::generateAppPassword
+		 *
+		 * Token length: 22-256 - https://www.php.net/manual/en/session.configuration.php#ini.session.sid-length
+		 * @see \OC\User\Session::createSessionToken
+		 *
+		 * Token length: 29
+		 * @see \OCA\Settings\Controller\AuthSettingsController::generateRandomDeviceToken
+		 * @see \OCA\Registration\Service\RegistrationService::generateAppPassword
+		 */
+		if (strlen($tokenId) < self::TOKEN_MIN_LENGTH) {
+			throw new InvalidTokenException('Token is too short for a generated token, should be the password during basic auth');
+		}
+
 		$tokenHash = $this->hashToken($tokenId);
 
 		if (isset($this->cache[$tokenHash])) {
@@ -122,7 +165,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$token = $this->cache[$tokenHash];
 		} else {
 			try {
-				$token = $this->mapper->getToken($this->hashToken($tokenId));
+				$token = $this->mapper->getToken($tokenHash);
 				$this->cache[$token->getToken()] = $token;
 			} catch (DoesNotExistException $ex) {
 				try {
@@ -289,10 +332,11 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($token->getUID());
+		$hashedPassword = $this->hashPassword($password);
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
 			$t->setPassword($this->encryptPassword($password, $publicKey));
-			$t->setPasswordHash($this->hashPassword($password));
+			$t->setPasswordHash($hashedPassword);
 			$this->updateToken($t);
 		}
 	}
@@ -480,6 +524,13 @@ class PublicKeyTokenProvider implements IProvider {
 				$t->setPasswordInvalid(false);
 				$this->updateToken($t);
 			}
+		}
+
+		// If password hashes are different we update them all to be equal so
+		// that the next execution only needs to verify once
+		if (count($hashNeedsUpdate) > 1) {
+			$newPasswordHash = $this->hashPassword($password);
+			$this->mapper->updateHashesForUser($uid, $newPasswordHash);
 		}
 	}
 

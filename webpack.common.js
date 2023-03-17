@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const modules = require('./webpack.modules.js')
 
 const formatOutputFromModules = (modules) => {
@@ -147,6 +148,7 @@ module.exports = {
 
 	plugins: [
 		new VueLoaderPlugin(),
+		new NodePolyfillPlugin(),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
@@ -158,9 +160,6 @@ module.exports = {
 			// break if two separate versions of the library are used (e.g. bundled one
 			// and global one).
 			ICAL: 'ical.js',
-
-			// https://github.com/webpack/changelog-v5/issues/10
-			Buffer: ['buffer', 'Buffer'],
 		}),
 	],
 	externals: {
@@ -176,9 +175,7 @@ module.exports = {
 		extensions: ['*', '.ts', '.js', '.vue'],
 		symlinks: true,
 		fallback: {
-			buffer: require.resolve('buffer'),
 			fs: false,
-			stream: require.resolve('stream-browserify'),
 		},
 	},
 }

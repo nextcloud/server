@@ -247,13 +247,14 @@ class Setup {
 			];
 		}
 
-		if (PHP_INT_SIZE < 8) {
+		if ($this->iniWrapper->getString('open_basedir') !== '' && PHP_INT_SIZE === 4) {
 			$errors[] = [
 				'error' => $this->l10n->t(
-					'It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher.',
+					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
+					'This will lead to problems with files over 4 GB and is highly discouraged.',
 					[$this->defaults->getProductName()]
 				),
-				'hint' => $this->l10n->t('Please switch to 64-bit PHP.'),
+				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.'),
 			];
 		}
 

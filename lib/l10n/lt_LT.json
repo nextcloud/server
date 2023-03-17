@@ -32,6 +32,7 @@
     "Unknown filetype" : "Nežinomas failo tipas",
     "Invalid image" : "Neteisingas paveikslas",
     "Avatar image is not square" : "Avataro paveikslas nėra kvadratinis",
+    "Files" : "Failai",
     "View profile" : "Rodyti profilį",
     "today" : "šiandien",
     "tomorrow" : "rytoj",
@@ -94,6 +95,7 @@
     "PostgreSQL username and/or password not valid" : "Neteisingas PostgreSQL naudotojo vardas ir/arba slaptažodis",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nėra palaikomas, %s neveiks tinkamai šioje platformoje. Naudodami prisiimate visą riziką !",
     "For the best results, please consider using a GNU/Linux server instead." : "Geriausiems rezultatams, apsvarstykite galimybę, vietoj šio, naudoti GNU/Linux serverį",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Pašalinkite savo php.ini faile open_basedir nustatymą arba persijunkite į 64-bitų PHP.",
     "Set an admin username." : "Nustatyti administratoriaus naudotojo vardą.",
     "Set an admin password." : "Nustatyti administratoriaus slaptažodį.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą:",
@@ -192,7 +194,6 @@
     "%s enter the database username." : "%s įrašykite duomenų bazės naudotojo vardą.",
     "%s enter the database name." : "%s įrašykite duomenų bazės pavadinimą.",
     "%s you may not use dots in the database name" : "%s negalite naudoti taškų duombazės pavadinime",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Pašalinkite savo php.ini faile open_basedir nustatymą arba persijunkite į 64-bitų PHP.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Naudotojo varde leidžiama naudoti tik šiuos simbolius: „a-z“, „A-Z“, „0-9“, ir „_.@-'“"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

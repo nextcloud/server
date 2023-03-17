@@ -209,6 +209,7 @@ class ApiController extends Controller {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH,
 		];
 		$shareTypes = [];
 

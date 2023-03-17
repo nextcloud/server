@@ -66,7 +66,7 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);
 		} else {

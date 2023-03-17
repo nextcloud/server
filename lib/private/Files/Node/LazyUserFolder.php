@@ -26,6 +26,7 @@ namespace OC\Files\Node;
 use OCP\Files\FileInfo;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
 
@@ -33,10 +34,12 @@ class LazyUserFolder extends LazyFolder {
 	private IRootFolder $root;
 	private IUser $user;
 	private string $path;
+	private IMountManager $mountManager;
 
-	public function __construct(IRootFolder $rootFolder, IUser $user) {
+	public function __construct(IRootFolder $rootFolder, IUser $user, IMountManager $mountManager) {
 		$this->root = $rootFolder;
 		$this->user = $user;
+		$this->mountManager = $mountManager;
 		$this->path = '/' . $user->getUID() . '/files';
 		parent::__construct(function () use ($user) {
 			try {
@@ -61,9 +64,20 @@ class LazyUserFolder extends LazyFolder {
 
 	/**
 	 * @param int $id
-	 * @return \OC\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function getById($id) {
 		return $this->root->getByIdInPath((int)$id, $this->getPath());
+	}
+
+	public function getMountPoint() {
+		if ($this->folder !== null) {
+			return $this->folder->getMountPoint();
+		}
+		$mountPoint = $this->mountManager->find('/' . $this->user->getUID());
+		if (is_null($mountPoint)) {
+			throw new \Exception("No mountpoint for user folder");
+		}
+		return $mountPoint;
 	}
 }

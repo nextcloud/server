@@ -134,6 +134,7 @@ OC.L10N.register(
     "Unknown error" : "Nekonata eraro",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Additional settings" : "Plia agordo",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopii tondejen",
     "Unable to change the favourite state of the file" : "Ne eblas ŝanĝi la staton pri pliŝatataĵo de la dosiero",
     "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
@@ -166,7 +167,6 @@ OC.L10N.register(
     "Unlimited" : "Senlima",
     "%s used" : "%s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");
