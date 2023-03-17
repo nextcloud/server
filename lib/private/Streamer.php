@@ -34,6 +34,7 @@ use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\ILogger;
 use OCP\IRequest;
 use ownCloud\TarStreamer\TarStreamer;
 use ZipStreamer\ZipStreamer;
@@ -126,6 +127,9 @@ class Streamer {
 			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
+					if($fh === false) {
+						\OCP\Util::writeLog('core', 'unable to open file for stream: ' . print_r($file, true) , ILogger::ERROR);
+					}
 				} catch (NotPermittedException $e) {
 					continue;
 				}
