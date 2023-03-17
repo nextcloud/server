@@ -485,7 +485,7 @@ class KeyManager {
 					$privateKey);
 			}
 		}
-		if ($useLegacyFileKey ?? false) {
+		if (!($useLegacyFileKey ?? false)) {
 			if ($shareKey && $privateKey) {
 				return $this->crypt->multiKeyDecrypt($shareKey, $privateKey);
 			}
