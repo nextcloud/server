@@ -134,6 +134,11 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
+				'name' => 'api#serviceWorker',
+				'url' => '/preview-service-worker.js',
+				'verb' => 'GET'
+			],
+			[
 				'name' => 'view#index',
 				'url' => '/{view}',
 				'verb' => 'GET',

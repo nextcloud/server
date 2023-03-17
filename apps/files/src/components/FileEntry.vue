@@ -31,10 +31,18 @@
 		<!-- Icon or preview -->
 		<td class="files-list__row-icon">
 			<FolderIcon v-if="source.type === 'folder'" />
+
 			<!-- Decorative image, should not be aria documented -->
-			<span v-else-if="previewUrl"
-				:style="{ backgroundImage: `url('${previewUrl}')` }"
-				class="files-list__row-icon-preview" />
+			<span v-else-if="previewUrl && !backgroundFailed"
+				ref="previewImg"
+				class="files-list__row-icon-preview"
+				:style="{ backgroundImage }" />
+
+			<span v-else-if="mimeUrl"
+				class="files-list__row-icon-preview files-list__row-icon-preview--mime"
+				:style="{ backgroundImage: mimeUrl }" />
+
+			<FileIcon v-else />
 		</td>
 
 		<!-- Link to file and -->
@@ -65,6 +73,7 @@ import { Folder, File } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
 import { translate } from '@nextcloud/l10n'
+import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
@@ -73,19 +82,24 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
-import logger from '../logger'
+import logger from '../logger.js'
 import { useSelectionStore } from '../store/selection'
 import { useFilesStore } from '../store/files'
 import { loadState } from '@nextcloud/initial-state'
+import { debounce } from 'debounce'
 
 // TODO: move to store
 // TODO: watch 'files:config:updated' event
 const userConfig = loadState('files', 'config', {})
 
+// The preview service worker cache name (see webpack config)
+const SWCacheName = 'previews'
+
 export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
+		FileIcon,
 		FolderIcon,
 		Fragment,
 		NcActionButton,
@@ -96,10 +110,6 @@ export default Vue.extend({
 	},
 
 	props: {
-		index: {
-			type: Number,
-			required: true,
-		},
 		source: {
 			type: [File, Folder],
 			required: true,
@@ -118,6 +128,8 @@ export default Vue.extend({
 	data() {
 		return {
 			userConfig,
+			backgroundImage: '',
+			backgroundFailed: false,
 		}
 	},
 
@@ -171,6 +183,32 @@ export default Vue.extend({
 				return null
 			}
 		},
+
+		mimeUrl() {
+			const mimeType = this.source.mime || 'application/octet-stream'
+			const mimeUrl = window.OC?.MimeType?.getIconUrl?.(mimeType)
+			if (mimeUrl) {
+				return `url(${mimeUrl})`
+			}
+			return ''
+		},
+	},
+
+	watch: {
+		source() {
+			this.resetPreview()
+			this.debounceIfNotCached()
+		},
+	},
+
+	mounted() {
+		// Init the debounce function on mount and
+		// not when the module is imported ⚠
+		this.debounceGetPreview = debounce(function() {
+			this.fetchAndApplyPreview()
+		}, 150, false)
+
+		this.debounceIfNotCached()
 	},
 
 	methods: {
@@ -180,8 +218,63 @@ export default Vue.extend({
 		 * @param {number} fileId the file id to get
 		 * @return {Folder|File}
 		 */
-		 getNode(fileId) {
+		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
+		},
+
+		async debounceIfNotCached() {
+			if (!this.previewUrl) {
+				return
+			}
+
+			// Check if we already have this preview cached
+			const isCached = await this.isCachedPreview(this.previewUrl)
+			if (isCached) {
+				logger.debug('Preview already cached', { fileId: this.source.attributes.fileid, backgroundFailed: this.backgroundFailed })
+				this.backgroundImage = `url(${this.previewUrl})`
+				this.backgroundFailed = false
+				return
+			}
+
+			// We don't have this preview cached or it expired, requesting it
+			this.debounceGetPreview()
+		},
+
+		 fetchAndApplyPreview() {
+			logger.debug('Fetching preview', { fileId: this.source.attributes.fileid })
+			this.img = new Image()
+			this.img.onload = () => {
+				this.backgroundImage = `url(${this.previewUrl})`
+			}
+			this.img.onerror = (a, b, c) => {
+				this.backgroundFailed = true
+				logger.error('Failed to fetch preview', { fileId: this.source.attributes.fileid, a, b, c })
+			}
+			this.img.src = this.previewUrl
+		},
+
+		resetPreview() {
+			// Reset the preview
+			this.backgroundImage = ''
+			this.backgroundFailed = false
+
+			// If we're already fetching a preview, cancel it
+			if (this.img) {
+				// Do not fail on cancel
+				this.img.onerror = null
+				this.img.src = ''
+				delete this.img
+			}
+		},
+
+		isCachedPreview(previewUrl) {
+			return caches.open(SWCacheName)
+				.then(function(cache) {
+					return cache.match(previewUrl)
+						.then(function(response) {
+							return !!response // or `return response ? true : false`, or similar.
+						})
+				})
 		},
 
 		t: translate,
@@ -190,5 +283,22 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import '../mixins/fileslist-row.scss'
+@import '../mixins/fileslist-row.scss';
+
+.files-list__row-icon-preview:not([style*="background"]) {
+    background: linear-gradient(110deg, var(--color-loading-dark) 0%, var(--color-loading-dark) 25%, var(--color-loading-light) 50%, var(--color-loading-dark) 75%, var(--color-loading-dark) 100%);
+    background-size: 400%;
+	animation: preview-gradient-slide 1s ease infinite;
+}
+</style>
+
+<style>
+@keyframes preview-gradient-slide {
+    from {
+        background-position: 100% 0%;
+    }
+    to {
+        background-position: 0% 0%;
+    }
+}
 </style>

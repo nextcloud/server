@@ -56,7 +56,7 @@
 		</NcEmptyContent>
 
 		<!-- File list -->
-		<FilesListVirtual v-else :nodes="dirContents" />
+		<FilesListVirtual v-else ref="filesListVirtual" :nodes="dirContents" />
 	</NcAppContent>
 </template>
 
@@ -116,6 +116,8 @@ export default Vue.extend({
 		return {
 			loading: true,
 			promise: null,
+			sortKey: 'basename',
+			sortAsc: true,
 		}
 	},
 
@@ -160,7 +162,18 @@ export default Vue.extend({
 		 * @return {Node[]}
 		 */
 		dirContents() {
-			return (this.currentFolder?.children || []).map(this.getNode)
+			return [...(this.currentFolder?.children || []).map(this.getNode)]
+				.sort((a, b) => {
+					if (a.type === 'folder' && b.type !== 'folder') {
+						return this.sortAsc ? -1 : 1
+					}
+
+					if (a.type !== 'folder' && b.type === 'folder') {
+						return this.sortAsc ? 1 : -1
+					}
+
+					return (a[this.sortKey] || a.basename).localeCompare(b[this.sortKey] || b.basename) * (this.sortAsc ? 1 : -1)
+				})
 		},
 
 		/**
@@ -206,14 +219,11 @@ export default Vue.extend({
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
 			this.fetchContent()
-		},
 
-		paths(paths) {
-			logger.debug('Paths changed', { paths })
-		},
-
-		currentFolder(currentFolder) {
-			logger.debug('currentFolder changed', { currentFolder })
+			// Scroll to top, force virtual scroller to re-render
+			if (this.$refs?.filesListVirtual?.$el) {
+				this.$refs.filesListVirtual.$el.scrollTop = 0
+			}
 		},
 	},
 

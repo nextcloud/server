@@ -20,30 +20,37 @@
   -
   -->
 <template>
-	<VirtualList class="files-list"
-		:data-component="FileEntry"
-		:data-key="getFileId"
-		:data-sources="nodes"
-		:estimate-size="55"
+	<RecycleScroller ref="recycleScroller"
+		class="files-list"
+		key-field="source"
+		:items="nodes"
+		:item-size="55"
 		:table-mode="true"
 		item-class="files-list__row"
-		wrap-class="files-list__body">
-		<template #before>
+		item-tag="tr"
+		list-class="files-list__body"
+		list-tag="tbody"
+		role="table">
+		<template #default="{ item }">
+			<FileEntry :source="item" />
+		</template>
+
+		<!-- <template #before>
 			<caption v-show="false" class="files-list__caption">
 				{{ summary }}
 			</caption>
-		</template>
+		</template> -->
 
-		<template #header>
+		<template #before>
 			<FilesListHeader :nodes="nodes" />
 		</template>
-	</VirtualList>
+	</RecycleScroller>
 </template>
 
 <script lang="ts">
 import { Folder, File } from '@nextcloud/files'
+import { RecycleScroller } from 'vue-virtual-scroller'
 import { translate, translatePlural } from '@nextcloud/l10n'
-import VirtualList from 'vue-virtual-scroll-list'
 import Vue from 'vue'
 
 import FileEntry from './FileEntry.vue'
@@ -53,7 +60,8 @@ export default Vue.extend({
 	name: 'FilesListVirtual',
 
 	components: {
-		VirtualList,
+		RecycleScroller,
+		FileEntry,
 		FilesListHeader,
 	},
 
@@ -69,7 +77,6 @@ export default Vue.extend({
 			FileEntry,
 		}
 	},
-
 	computed: {
 		files() {
 			return this.nodes.filter(node => node.type === 'file')
@@ -88,6 +95,11 @@ export default Vue.extend({
 		},
 	},
 
+	mounted() {
+		// Make the root recycle scroller a table for proper semantics
+		this.$el.querySelector('.vue-recycle-scroller__slot').setAttribute('role', 'thead')
+	},
+
 	methods: {
 		getFileId(node) {
 			return node.attributes.fileid
@@ -101,6 +113,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .files-list {
 	--row-height: 55px;
+
 	--checkbox-padding: calc((var(--row-height) - var(--checkbox-size)) / 2);
 	--checkbox-size: 24px;
 	--clickable-area: 44px;
@@ -111,25 +124,32 @@ export default Vue.extend({
 	height: 100%;
 
 	&::v-deep {
-		tbody, thead, tfoot {
+		tbody, .vue-recycle-scroller__slot {
 			display: flex;
 			flex-direction: column;
 			width: 100%;
+			// Necessary for virtual scrolling absolute
+			position: relative;
 		}
 
-		thead {
+		// Table header
+		.vue-recycle-scroller__slot {
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
 			top: 0;
+			height: var(--row-height);
 			background-color: var(--color-main-background);
 		}
 
 		tr {
+			position: absolute;
 			display: flex;
 			align-items: center;
+			width: 100%;
 			border-bottom: 1px solid var(--color-border);
 		}
 	}
 }
+
 </style>

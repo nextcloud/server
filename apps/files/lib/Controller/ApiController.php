@@ -42,10 +42,12 @@ use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
@@ -416,5 +418,23 @@ class ApiController extends Controller {
 	public function getNodeType($folderpath) {
 		$node = $this->userFolder->get($folderpath);
 		return $node->getType();
+	}
+	
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function serviceWorker(): StreamResponse {
+		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');
+		$response->setHeaders([
+			'Content-Type' => 'application/javascript',
+			'Service-Worker-Allowed' => '/'
+		]);
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedWorkerSrcDomain("'self'");
+		$policy->addAllowedScriptDomain("'self'");
+		$policy->addAllowedConnectDomain("'self'");
+		$response->setContentSecurityPolicy($policy);
+		return $response;
 	}
 }

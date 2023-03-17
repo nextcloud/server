@@ -6,6 +6,7 @@ import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
 import NavigationService from './services/Navigation.ts'
+import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
 import NavigationView from './views/Navigation.vue'
 import FilesListView from './views/FilesList.vue'
@@ -57,3 +58,6 @@ FilesList.$mount('#app-content-vue')
 
 // Init legacy files views
 processLegacyFilesViews()
+
+// Register preview service worker
+registerPreviewServiceWorker()
