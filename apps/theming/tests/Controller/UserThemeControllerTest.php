@@ -131,7 +131,7 @@ class UserThemeControllerTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$expected = new DataResponse();
+		$expected = new DataResponse(new \stdClass());
 		$this->assertEquals($expected, $this->userThemeController->enableTheme($themeId));
 	}
 
@@ -151,7 +151,7 @@ class UserThemeControllerTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$expected = new DataResponse();
+		$expected = new DataResponse(new \stdClass());
 		$this->assertEquals($expected, $this->userThemeController->disableTheme($themeId));
 	}
 }
