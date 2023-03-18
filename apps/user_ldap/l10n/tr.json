@@ -89,6 +89,7 @@
     "Other Attributes:" : "Diğer öznitelikler:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. Oturum açma işleminde \"%%uid\" kullanıcı adı ile değiştirilir. Örnek: \"uid=%%uid\"",
     "Test Loginname" : "Kullanıcı adını sına",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Belirtilen oturum açma adı ve geçerli oturum açma süzgeci için bir etki alanı adı almayı dener",
     "Verify settings" : "Ayarları doğrula",
     "%s. Server:" : "%s. sunucu:",
     "Add a new configuration" : "Yeni bir yapılandırma ekle",
