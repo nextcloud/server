@@ -89,6 +89,7 @@
     "Other Attributes:" : "Další atributy:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Definuje filtr který použít při pokusu o přihlášení. „%%uid“ je nahrazeno uživatelským jménem z přihlašovací akce. Příklad: „uid=%%uid“",
     "Test Loginname" : "Vyzkoušet přihlašovací jméno",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Pokusy získat rozlišené jméno (DN) pro dané přihlašovací jméno a stávající filtr přihlášení",
     "Verify settings" : "Ověřit nastavení",
     "%s. Server:" : "%s. Server:",
     "Add a new configuration" : "Přidat nové nastavení",

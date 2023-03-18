@@ -75,6 +75,8 @@ OC.L10N.register(
     "\"%1$s\" has been canceled" : "„%1$s” је отказано",
     "Re: %1$s" : "Одг: %1$s",
     "%1$s has responded to your invitation" : "%1$s је одговорио на вашу позивницу",
+    "Invitation updated: %1$s" : "Позивница је ажурирана: %1$s",
+    "%1$s updated the event \"%2$s\"" : "%1$s је ажурирао догађај „%2$s”",
     "Invitation: %1$s" : "Позивница: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s жели да вас позове на „%2$s",
     "Organizer:" : "Организатор:",
