@@ -1,13 +1,10 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 # PHP
-RUN apt-get update -y
-
-RUN apt install -y apache2 vim software-properties-common sudo nano
-
-RUN add-apt-repository ppa:ondrej/php
+RUN apt-get update -y && \
+    apt install -y apache2 vim software-properties-common sudo nano
 
 RUN apt-get install --no-install-recommends -y \
     php8.1 \
@@ -39,8 +36,8 @@ RUN apt-get install --no-install-recommends -y \
     nodejs \
     npm
 
-RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
-RUN echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
+    echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
 # Autostart XDebug for apache
 RUN { \
@@ -54,14 +51,14 @@ RUN apt-get -y install \
     ca-certificates \
     curl \
     gnupg-agent \
-    software-properties-common
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN add-apt-repository \
+    software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \    
+    add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
-   stable"
-RUN apt-get update -y
-RUN apt-get install -y docker-ce docker-ce-cli containerd.io
-RUN ln -s /var/run/docker-host.sock /var/run/docker.sock
+   stable" && \
+    apt-get update -y && \
+    apt-get install -y docker-ce docker-ce-cli containerd.io && \
+    ln -s /var/run/docker-host.sock /var/run/docker.sock
 
 WORKDIR /var/www/html
