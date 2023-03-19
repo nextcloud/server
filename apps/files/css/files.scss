@@ -114,6 +114,7 @@
 	// force  the width to be the full width to not go bigger than the screen
 	// flex will grow for the mobile view if necessary
 	width: calc(100% - 300px);
+	overflow-anchor: none;
 }
 
 .file-drag, .file-drag .files-filestable tbody tr, .file-drag .files-filestable tbody tr:hover {
