@@ -52,7 +52,7 @@ OC.L10N.register(
     "e.g. httpd/unix-directory" : "t.ex. httpd/unix-directory",
     "Folder" : "Mapp",
     "Images" : "Bilder",
-    "Office documents" : "Officedokument",
+    "Office documents" : "Office-dokument",
     "PDF documents" : "PDF-dokument",
     "Custom MIME type" : "Anpassad MIME-typ",
     "Custom mimetype" : "Anpassad mimetyp",

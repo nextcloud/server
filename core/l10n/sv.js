@@ -271,6 +271,7 @@ OC.L10N.register(
     "Strong password" : "Starkt lösenord",
     "No action available" : "Ingen åtgärd tillgänglig",
     "Error fetching contact actions" : "Fel vid hämtning av kontakthändelser",
+    "Close \"{dialogTitle}\" dialog" : "Stäng \"{dialogTitle}\"",
     "Non-existing tag #{tag}" : "Icke-existerande tag #{tag}",
     "Restricted" : "Begränsad",
     "Invisible" : "Osynlig",
