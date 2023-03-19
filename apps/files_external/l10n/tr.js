@@ -88,7 +88,7 @@ OC.L10N.register(
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Buket",
     "Hostname" : "Sunucu adı",
-    "Port" : "Kapı numarası",
+    "Port" : "Bağlantı noktası",
     "Region" : "Bölge",
     "Storage Class" : "Depolama sınıfı",
     "Enable SSL" : "SSL kullanılsın",

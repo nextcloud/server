@@ -113,7 +113,7 @@ class PublicKeyTokenProvider implements IProvider {
 		// We need to check against one old token to see if there is a password
 		// hash that we can reuse for detecting outdated passwords
 		$randomOldToken = $this->mapper->getFirstTokenForUser($uid);
-		$oldTokenMatches = $randomOldToken && $randomOldToken->getPasswordHash() && $this->hasher->verify(sha1($password) . $password, $randomOldToken->getPasswordHash());
+		$oldTokenMatches = $randomOldToken && $randomOldToken->getPasswordHash() && $password !== null && $this->hasher->verify(sha1($password) . $password, $randomOldToken->getPasswordHash());
 
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
 

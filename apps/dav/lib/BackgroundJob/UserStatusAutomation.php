@@ -92,7 +92,7 @@ class UserStatusAutomation extends TimedJob {
 		$isCurrentlyAvailable = false;
 		$nextPotentialToggles = [];
 
-		$now = new \DateTime('now');
+		$now = $this->time->getDateTime();
 		$lastMidnight = (clone $now)->setTime(0, 0);
 
 		$vObject = Reader::read($property);
@@ -105,9 +105,16 @@ class UserStatusAutomation extends TimedJob {
 			foreach ($availables as $available) {
 				/** @var Available $available */
 				if ($available->name === 'AVAILABLE') {
-					/** @var \DateTimeInterface $effectiveStart */
-					/** @var \DateTimeInterface $effectiveEnd */
-					[$effectiveStart, $effectiveEnd] = $available->getEffectiveStartEnd();
+					/** @var \DateTimeImmutable $originalStart */
+					/** @var \DateTimeImmutable $originalEnd */
+					[$originalStart, $originalEnd] = $available->getEffectiveStartEnd();
+
+					// Little shenanigans to fix the automation on the day the rules were adjusted
+					// Otherwise the $originalStart would match rules for Thursdays on a Friday, etc.
+					// So we simply wind back a week and then fastForward to the next occurrence
+					// since today's midnight, which then also accounts for the week days.
+					$effectiveStart = \DateTime::createFromImmutable($originalStart)->sub(new \DateInterval('P7D'));
+					$effectiveEnd = \DateTime::createFromImmutable($originalEnd)->sub(new \DateInterval('P7D'));
 
 					try {
 						$it = new RRuleIterator((string) $available->RRULE, $effectiveStart);
@@ -139,12 +146,21 @@ class UserStatusAutomation extends TimedJob {
 			}
 		}
 
+		if (empty($nextPotentialToggles)) {
+			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no valid availability rules set');
+			$this->jobList->remove(self::class, $argument);
+			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+			return;
+		}
+
 		$nextAutomaticToggle = min($nextPotentialToggles);
 		$this->setLastRunToNextToggleTime($userId, $nextAutomaticToggle - 1);
 
 		if ($isCurrentlyAvailable) {
+			$this->logger->debug('User is currently available, reverting DND status if applicable');
 			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
 		} else {
+			$this->logger->debug('User is currently NOT available, reverting call status if applicable and then setting DND');
 			// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
 			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
 			$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);

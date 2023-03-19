@@ -193,6 +193,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Use this address to access your Files via WebDAV" : "Tuto adresu použijte pro přístup k vašim souborům prostřednictvím protokolu WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Pokud jste zapnuli 2FA, je třeba kliknutím sem vytvořit a použít nové heslo pro aplikaci.",
     "Clipboard is not available" : "Schránka není k dispozici",
     "WebDAV URL copied to clipboard" : "WebDAV URL zkopírována do schránky",
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",

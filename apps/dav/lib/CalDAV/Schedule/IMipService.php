@@ -363,9 +363,10 @@ class IMipService {
 	 * @param string $sender
 	 * @param string $summary
 	 * @param string|null $partstat
+	 * @param bool $isModified
 	 */
 	public function addSubjectAndHeading(IEMailTemplate $template,
-		string $method, string $sender, string $summary): void {
+		string $method, string $sender, string $summary, bool $isModified): void {
 		if ($method === IMipPlugin::METHOD_CANCEL) {
 			// TRANSLATORS Subject for email, when an invitation is cancelled. Ex: "Cancelled: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Cancelled: %1$s', [$summary]));
@@ -374,6 +375,10 @@ class IMipService {
 			// TRANSLATORS Subject for email, when an invitation is replied to. Ex: "Re: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Re: %1$s', [$summary]));
 			$template->addHeading($this->l10n->t('%1$s has responded to your invitation', [$sender]));
+		} elseif ($method === IMipPlugin::METHOD_REQUEST && $isModified) {
+			// TRANSLATORS Subject for email, when an invitation is updated. Ex: "Invitation updated: {{Event Name}}"
+			$template->setSubject($this->l10n->t('Invitation updated: %1$s', [$summary]));
+			$template->addHeading($this->l10n->t('%1$s updated the event "%2$s"', [$sender, $summary]));
 		} else {
 			// TRANSLATORS Subject for email, when an invitation is sent. Ex: "Invitation: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Invitation: %1$s', [$summary]));

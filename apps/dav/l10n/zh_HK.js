@@ -75,6 +75,8 @@ OC.L10N.register(
     "\"%1$s\" has been canceled" : "\"%1$s\" 已被取消",
     "Re: %1$s" : "關於: %1$s",
     "%1$s has responded to your invitation" : "%1$s 已回應您的邀請",
+    "Invitation updated: %1$s" : "邀請已更新︰%1$s",
+    "%1$s updated the event \"%2$s\"" : "%1$s 已更新了活動 \"%2$s\"",
     "Invitation: %1$s" : "邀請：%1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s 想邀請您加入“%2$s”",
     "Organizer:" : "主辦單位：",

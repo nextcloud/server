@@ -143,6 +143,7 @@ return array(
     'OCA\\DAV\\Connector\\LegacyDAVACL' => $baseDir . '/../lib/Connector/LegacyDAVACL.php',
     'OCA\\DAV\\Connector\\PublicAuth' => $baseDir . '/../lib/Connector/PublicAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => $baseDir . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\AppleQuirksPlugin' => $baseDir . '/../lib/Connector/Sabre/AppleQuirksPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\Auth' => $baseDir . '/../lib/Connector/Sabre/Auth.php',
     'OCA\\DAV\\Connector\\Sabre\\BearerAuth' => $baseDir . '/../lib/Connector/Sabre/BearerAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\BlockLegacyClientPlugin' => $baseDir . '/../lib/Connector/Sabre/BlockLegacyClientPlugin.php',
