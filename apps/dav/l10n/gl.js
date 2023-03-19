@@ -173,7 +173,7 @@ OC.L10N.register(
     "Notifications are sent via background jobs, so these must occur often enough." : "As notificacións enviaranse mediante procesos en segundo plano, polo que estes teñen que suceder con frecuencia.",
     "Send reminder notifications to calendar sharees as well" : "Envía notificacións de recordatorio tamén aos que comparten calendario",
     "Reminders are always sent to organizers and attendees." : "Os recordatorios sempre se envían aos organizadores e aos asistentes.",
-    "Enable notifications for events via push" : "Activar o envío de notificacións do servidor para eventos",
+    "Enable notifications for events via push" : "Activar o envío de notificacións do automáticas para eventos",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Instale tamén a {calendarappstoreopen}aplicación do Calendario{linkclose} ou {calendardocopen}conecte os seus escritorio e móbil para sincronizalos ↗{linkclose}.",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Asegúrese de ter configurado correctamente {emailopen}o servidor de correo-e{linkclose}.",
     "There was an error updating your attendance status." : "Produciuse un erro ao actualizar o seu estado de asistencia.",
