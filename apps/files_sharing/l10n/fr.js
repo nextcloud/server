@@ -210,7 +210,7 @@ OC.L10N.register(
     "Actions for \"{title}\"" : "Actions pour \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copier le lien public de \"{title}\" dans le presse-papiers",
     "Error, please enter proper password and/or expiration date" : "Erreur. Merci d'entrer un mot de passe valide et/ou une date d'expiration",
-    "Link share created" : "Partage de lien créé",
+    "Link share created" : "Lien de partage créé",
     "Error while creating the share" : "Erreur lors de la création du partage",
     "Search for share recipients" : "Recherche de destinataires de partages",
     "No recommendations. Start typing." : "Aucune recommandation. Commencez à écrire.",

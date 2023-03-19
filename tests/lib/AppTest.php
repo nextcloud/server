@@ -12,6 +12,7 @@ namespace Test;
 use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 
@@ -553,13 +554,14 @@ class AppTest extends \Test\TestCase {
 	 */
 	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService(AppConfig::class, $appConfig);
-		$this->overwriteService(AppManager::class, new \OC\App\AppManager(
+		$this->overwriteService(AppManager::class, new AppManager(
 			\OC::$server->getUserSession(),
 			\OC::$server->getConfig(),
 			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->getEventDispatcher(),
+			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)
 		));
 	}

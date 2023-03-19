@@ -447,6 +447,7 @@ OC.L10N.register(
     "Server address" : "Адрес на сървъра",
     "Port" : "Порт",
     "Authentication method" : "Метод за удостоверяване",
+    "Only applies when authentication is required" : "Прилага се само когато е необходимо удостоверяване",
     "Authentication required" : "Нужно е удостоверяване",
     "Credentials" : "Потребител и парола",
     "SMTP Username" : "SMTP потребител",

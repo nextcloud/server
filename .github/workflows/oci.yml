@@ -13,6 +13,8 @@ jobs:
   phpunit-oci:
     runs-on: ubuntu-20.04
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       matrix:
         php-versions: ['8.0', '8.1', '8.2']

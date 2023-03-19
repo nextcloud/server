@@ -15,6 +15,9 @@ concurrency:
 jobs:
   phpunit-32bits:
     runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     container: shivammathur/node:latest-i386
 
     strategy:

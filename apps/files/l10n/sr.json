@@ -191,6 +191,7 @@
     "WebDAV" : "ВебДАВ",
     "Copy to clipboard" : "Копирај у оставу",
     "Use this address to access your Files via WebDAV" : "Користи ову адресу да приступате Вашим фајловима преко ВебДАВа",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Ако сте укључили 2FA, морате кликом овде да крерате нову лозинку апликације.",
     "Clipboard is not available" : "Клипборд није доступан",
     "WebDAV URL copied to clipboard" : "WebDAV URL је копиран у клипборд",
     "Unable to change the favourite state of the file" : "Неуспела промена стања омиљености фајла",
