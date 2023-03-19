@@ -5,7 +5,8 @@ services:
     volumes:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker-host.sock
-    command: /bin/sh -c "while sleep 1000; do :; done"
+      - ..:/var/www/html
+    command: /bin/sh -c "chown -R www-data:www-data /var/www/html && service apache2 start && while sleep 1000; do :; done"
     ports:
       - 80:80
       - 8080:8080
