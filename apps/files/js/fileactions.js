@@ -716,15 +716,15 @@
 					displayName: function(context) {
 						var locked = context.$file.data('locked');
 						if (!locked) {
-							return t('files', 'Edit locally');
+							return t('files', 'Open locally');
 						}
 					},
 					mime: 'all',
 					order: -23,
-					icon: function(filename, context) {
+					iconClass: function(filename, context) {
 						var locked = context.$file.data('locked');
 						if (!locked) {
-							return OC.imagePath('files', 'computer.svg')
+							return 'icon-computer'
 						}
 					},
 					permissions: OC.PERMISSION_UPDATE,
