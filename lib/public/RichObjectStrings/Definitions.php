@@ -197,7 +197,7 @@ class Definitions {
 					'since' => '27.0.0',
 					'required' => false,
 					'description' => 'The icon url to use as avatar',
-					'example' => 'https://localhost/index.php/api/v1/room/R4nd0mToken/avatar'
+					'example' => 'https://localhost/ocs/v2.php/apps/spreed/api/v1/room/R4nd0mToken/avatar'
 				],
 			],
 		],
