@@ -923,20 +923,31 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param int $operation 1 = add, 2 = modify, 3 = delete
 	 * @return void
 	 */
-	protected function addChange($addressBookId, $objectUri, $operation) {
+	protected function addChange(int $addressBookId, string $objectUri, int $operation): void {
 		$this->atomic(function () use ($addressBookId, $objectUri, $operation) {
-			$sql = 'INSERT INTO `*PREFIX*addressbookchanges`(`uri`, `synctoken`, `addressbookid`, `operation`) SELECT ?, `synctoken`, ?, ? FROM `*PREFIX*addressbooks` WHERE `id` = ?';
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute([
-				$objectUri,
-				$addressBookId,
-				$operation,
-				$addressBookId
-			]);
-			$stmt = $this->db->prepare('UPDATE `*PREFIX*addressbooks` SET `synctoken` = `synctoken` + 1 WHERE `id` = ?');
-			$stmt->execute([
-				$addressBookId
-			]);
+			$query = $this->db->getQueryBuilder();
+			$query->select('synctoken')
+				->from('addressbooks')
+				->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)));
+			$result = $query->executeQuery();
+			$syncToken = (int)$result->fetchOne();
+			$result->closeCursor();
+
+			$query = $this->db->getQueryBuilder();
+			$query->insert('addressbookchanges')
+				->values([
+					'uri' => $query->createNamedParameter($objectUri),
+					'synctoken' => $query->createNamedParameter($syncToken),
+					'addressbookid' => $query->createNamedParameter($addressBookId),
+					'operation' => $query->createNamedParameter($operation),
+				])
+				->executeStatement();
+
+			$query = $this->db->getQueryBuilder();
+			$query->update('addressbooks')
+				->set('synctoken', $query->createNamedParameter($syncToken + 1, IQueryBuilder::PARAM_INT))
+				->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)))
+				->executeStatement();
 		}, $this->db);
 	}
 

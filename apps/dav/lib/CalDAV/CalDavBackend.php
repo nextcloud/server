@@ -2686,10 +2686,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $calendarType
 	 * @return void
 	 */
-	protected function addChange($calendarId, $objectUri, $operation, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
-		$this->atomic(function () use ($calendarId, $objectUri, $operation, $calendarType) {
-			$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
+	protected function addChange(int $calendarId, string $objectUri, int $operation, int $calendarType = self::CALENDAR_TYPE_CALENDAR): void {
+		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
 
+		$this->atomic(function () use ($calendarId, $objectUri, $operation, $calendarType, $table) {
 			$query = $this->db->getQueryBuilder();
 			$query->select('synctoken')
 				->from($table)
@@ -2709,10 +2709,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				])
 				->executeStatement();
 
-			$stmt = $this->db->prepare("UPDATE `*PREFIX*$table` SET `synctoken` = `synctoken` + 1 WHERE `id` = ?");
-			$stmt->execute([
-				$calendarId
-			]);
+			$query = $this->db->getQueryBuilder();
+			$query->update($table)
+				->set('synctoken', $query->createNamedParameter($syncToken + 1, IQueryBuilder::PARAM_INT))
+				->where($query->expr()->eq('id', $query->createNamedParameter($calendarId)))
+				->executeStatement();
 		}, $this->db);
 	}
 
