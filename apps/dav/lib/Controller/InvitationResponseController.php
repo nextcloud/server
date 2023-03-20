@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -71,6 +72,7 @@ class InvitationResponseController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
@@ -95,6 +97,7 @@ class InvitationResponseController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
@@ -120,6 +123,7 @@ class InvitationResponseController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
@@ -133,6 +137,7 @@ class InvitationResponseController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $token
 	 *
