@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -76,6 +77,7 @@ class DashboardController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
+	 * @IgnoreAPI
 	 * @return TemplateResponse
 	 */
 	public function index(): TemplateResponse {
