@@ -718,6 +718,7 @@ class Crypt {
 	}
 
 	/**
+	 * @param array<string,\OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string> $keyFiles
 	 * @throws MultiKeyEncryptException
 	 */
 	public function multiKeyEncrypt(string $plainContent, array $keyFiles): array {
@@ -763,6 +764,7 @@ class Crypt {
 	 * @param array $keyFiles
 	 * @return array
 	 * @throws MultiKeyEncryptException
+	 * @deprecated 27.0.0 use multiKeyEncrypt
 	 */
 	public function multiKeyEncryptLegacy($plainContent, array $keyFiles) {
 		// openssl_seal returns false without errors if plaincontent is empty
@@ -853,6 +855,7 @@ class Crypt {
 	/**
 	 * Custom implementation of openssl_seal()
 	 *
+	 * @deprecated 27.0.0 use multiKeyEncrypt
 	 * @throws EncryptionFailedException
 	 */
 	private function opensslSeal(string $data, string &$sealed_data, array &$encrypted_keys, array $public_key, string $cipher_algo): int|false {
