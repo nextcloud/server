@@ -39,18 +39,25 @@
 namespace OC\App;
 
 use OC\AppConfig;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\ServerNotAvailableException;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
+use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
+use OCP\Diagnostics\IEventLogger;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -67,46 +74,36 @@ class AppManager implements IAppManager {
 		'prevent_group_restriction',
 	];
 
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var AppConfig */
-	private $appConfig;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var ICacheFactory */
-	private $memCacheFactory;
-
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
+	private IUserSession $userSession;
+	private IConfig $config;
+	private AppConfig $appConfig;
+	private IGroupManager $groupManager;
+	private ICacheFactory $memCacheFactory;
+	private EventDispatcherInterface $legacyDispatcher;
 	private IEventDispatcher $dispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var string[] $appId => $enabled */
-	private $installedAppsCache;
+	private array $installedAppsCache = [];
 
-	/** @var string[] */
-	private $shippedApps;
+	/** @var string[]|null */
+	private ?array $shippedApps = null;
 
 	private array $alwaysEnabled = [];
 	private array $defaultEnabled = [];
 
 	/** @var array */
-	private $appInfos = [];
+	private array $appInfos = [];
 
 	/** @var array */
-	private $appVersions = [];
+	private array $appVersions = [];
 
 	/** @var array */
-	private $autoDisabledApps = [];
+	private array $autoDisabledApps = [];
+	private array $appTypes = [];
+
+	/** @var array<string, true> */
+	private array $loadedApps = [];
 
 	public function __construct(IUserSession $userSession,
 								IConfig $config,
@@ -129,7 +126,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @return string[] $appId => $enabled
 	 */
-	private function getInstalledAppsValues() {
+	private function getInstalledAppsValues(): array {
 		if (!$this->installedAppsCache) {
 			$values = $this->appConfig->getValues(false, 'enabled');
 
@@ -182,6 +179,91 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * Loads all apps
+	 *
+	 * @param string[] $types
+	 * @return bool
+	 *
+	 * This function walks through the Nextcloud directory and loads all apps
+	 * it can find. A directory contains an app if the file /appinfo/info.xml
+	 * exists.
+	 *
+	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 */
+	public function loadApps(array $types = []): bool {
+		if ($this->config->getSystemValueBool('maintenance', false)) {
+			return false;
+		}
+		// Load the enabled apps here
+		$apps = \OC_App::getEnabledApps();
+
+		// Add each apps' folder as allowed class path
+		foreach ($apps as $app) {
+			// If the app is already loaded then autoloading it makes no sense
+			if (!$this->isAppLoaded($app)) {
+				$path = \OC_App::getAppPath($app);
+				if ($path !== false) {
+					\OC_App::registerAutoloading($app, $path);
+				}
+			}
+		}
+
+		// prevent app.php from printing output
+		ob_start();
+		foreach ($apps as $app) {
+			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
+				try {
+					$this->loadApp($app);
+				} catch (\Throwable $e) {
+					$this->logger->emergency('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
+			}
+		}
+		ob_end_clean();
+
+		return true;
+	}
+
+	/**
+	 * check if an app is of a specific type
+	 *
+	 * @param string $app
+	 * @param array $types
+	 * @return bool
+	 */
+	public function isType(string $app, array $types): bool {
+		$appTypes = $this->getAppTypes($app);
+		foreach ($types as $type) {
+			if (in_array($type, $appTypes, true)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * get the types of an app
+	 *
+	 * @param string $app
+	 * @return string[]
+	 */
+	private function getAppTypes(string $app): array {
+		//load the cache
+		if (count($this->appTypes) === 0) {
+			$this->appTypes = $this->appConfig->getValues(false, 'types') ?: [];
+		}
+
+		if (isset($this->appTypes[$app])) {
+			return explode(',', $this->appTypes[$app]);
+		}
+
+		return [];
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getAutoDisabledApps(): array {
@@ -228,12 +310,7 @@ class AppManager implements IAppManager {
 		}
 	}
 
-	/**
-	 * @param string $enabled
-	 * @param IUser $user
-	 * @return bool
-	 */
-	private function checkAppForUser($enabled, $user) {
+	private function checkAppForUser(string $enabled, ?IUser $user): bool {
 		if ($enabled === 'yes') {
 			return true;
 		} elseif ($user === null) {
@@ -261,16 +338,9 @@ class AppManager implements IAppManager {
 		}
 	}
 
-	/**
-	 * @param string $enabled
-	 * @param IGroup $group
-	 * @return bool
-	 */
 	private function checkAppForGroups(string $enabled, IGroup $group): bool {
 		if ($enabled === 'yes') {
 			return true;
-		} elseif ($group === null) {
-			return false;
 		} else {
 			if (empty($enabled)) {
 				return false;
@@ -308,6 +378,151 @@ class AppManager implements IAppManager {
 			$ignoreMaxApps[] = $appId;
 			$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
 		}
+	}
+
+	public function loadApp(string $app): void {
+		if (isset($this->loadedApps[$app])) {
+			return;
+		}
+		$this->loadedApps[$app] = true;
+		$appPath = \OC_App::getAppPath($app);
+		if ($appPath === false) {
+			return;
+		}
+		$eventLogger = \OC::$server->get(\OCP\Diagnostics\IEventLogger::class);
+		$eventLogger->start("bootstrap:load_app:$app", "Load $app");
+
+		// in case someone calls loadApp() directly
+		\OC_App::registerAutoloading($app, $appPath);
+
+		/** @var Coordinator $coordinator */
+		$coordinator = \OC::$server->get(Coordinator::class);
+		$isBootable = $coordinator->isBootable($app);
+
+		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
+
+		$eventLogger = \OC::$server->get(IEventLogger::class);
+		$eventLogger->start('bootstrap:load_app_' . $app, 'Load app: ' . $app);
+		if ($isBootable && $hasAppPhpFile) {
+			$this->logger->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
+				'app' => $app,
+			]);
+		} elseif ($hasAppPhpFile) {
+			$eventLogger->start("bootstrap:load_app:$app:app.php", "Load legacy app.php app $app");
+			$this->logger->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
+				'app' => $app,
+			]);
+			try {
+				self::requireAppFile($appPath);
+			} catch (\Throwable $ex) {
+				if ($ex instanceof ServerNotAvailableException) {
+					throw $ex;
+				}
+				if (!$this->isShipped($app) && !$this->isType($app, ['authentication'])) {
+					$this->logger->error("App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(), [
+						'exception' => $ex,
+					]);
+
+					// Only disable apps which are not shipped and that are not authentication apps
+					$this->disableApp($app, true);
+				} else {
+					$this->logger->error("App $app threw an error during app.php load: " . $ex->getMessage(), [
+						'exception' => $ex,
+					]);
+				}
+			}
+			$eventLogger->end("bootstrap:load_app:$app:app.php");
+		}
+
+		$coordinator->bootApp($app);
+
+		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
+		$info = $this->getAppInfo($app);
+		if (!empty($info['activity'])) {
+			$activityManager = \OC::$server->get(IActivityManager::class);
+			if (!empty($info['activity']['filters'])) {
+				foreach ($info['activity']['filters'] as $filter) {
+					$activityManager->registerFilter($filter);
+				}
+			}
+			if (!empty($info['activity']['settings'])) {
+				foreach ($info['activity']['settings'] as $setting) {
+					$activityManager->registerSetting($setting);
+				}
+			}
+			if (!empty($info['activity']['providers'])) {
+				foreach ($info['activity']['providers'] as $provider) {
+					$activityManager->registerProvider($provider);
+				}
+			}
+		}
+
+		if (!empty($info['settings'])) {
+			$settingsManager = \OC::$server->get(ISettingsManager::class);
+			if (!empty($info['settings']['admin'])) {
+				foreach ($info['settings']['admin'] as $setting) {
+					$settingsManager->registerSetting('admin', $setting);
+				}
+			}
+			if (!empty($info['settings']['admin-section'])) {
+				foreach ($info['settings']['admin-section'] as $section) {
+					$settingsManager->registerSection('admin', $section);
+				}
+			}
+			if (!empty($info['settings']['personal'])) {
+				foreach ($info['settings']['personal'] as $setting) {
+					$settingsManager->registerSetting('personal', $setting);
+				}
+			}
+			if (!empty($info['settings']['personal-section'])) {
+				foreach ($info['settings']['personal-section'] as $section) {
+					$settingsManager->registerSection('personal', $section);
+				}
+			}
+		}
+
+		if (!empty($info['collaboration']['plugins'])) {
+			// deal with one or many plugin entries
+			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
+				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			$collaboratorSearch = null;
+			$autoCompleteManager = null;
+			foreach ($plugins as $plugin) {
+				if ($plugin['@attributes']['type'] === 'collaborator-search') {
+					$pluginInfo = [
+						'shareType' => $plugin['@attributes']['share-type'],
+						'class' => $plugin['@value'],
+					];
+					$collaboratorSearch ??= \OC::$server->get(ICollaboratorSearch::class);
+					$collaboratorSearch->registerPlugin($pluginInfo);
+				} elseif ($plugin['@attributes']['type'] === 'autocomplete-sort') {
+					$autoCompleteManager ??= \OC::$server->get(IAutoCompleteManager::class);
+					$autoCompleteManager->registerSorter($plugin['@value']);
+				}
+			}
+		}
+		$eventLogger->end("bootstrap:load_app:$app:info");
+
+		$eventLogger->end("bootstrap:load_app:$app");
+	}
+	/**
+	 * Check if an app is loaded
+	 * @param string $app app id
+	 * @since 26.0.0
+	 */
+	public function isAppLoaded(string $app): bool {
+		return isset($this->loadedApps[$app]);
+	}
+
+	/**
+	 * Load app.php from the given app
+	 *
+	 * @param string $app app name
+	 * @throws \Error
+	 */
+	private static function requireAppFile(string $app): void {
+		// encapsulated here to avoid variable scope conflicts
+		require_once $app . '/appinfo/app.php';
 	}
 
 	/**
@@ -567,7 +782,7 @@ class AppManager implements IAppManager {
 		return in_array($appId, $this->shippedApps, true);
 	}
 
-	private function isAlwaysEnabled($appId) {
+	private function isAlwaysEnabled(string $appId): bool {
 		$alwaysEnabled = $this->getAlwaysEnabledApps();
 		return in_array($appId, $alwaysEnabled, true);
 	}
@@ -576,7 +791,7 @@ class AppManager implements IAppManager {
 	 * In case you change this method, also change \OC\App\CodeChecker\InfoChecker::loadShippedJson()
 	 * @throws \Exception
 	 */
-	private function loadShippedJson() {
+	private function loadShippedJson(): void {
 		if ($this->shippedApps === null) {
 			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
 			if (!file_exists($shippedJson)) {

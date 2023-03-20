@@ -53,11 +53,11 @@ declare(strict_types=1);
 
 use OCP\App\Events\AppUpdateEvent;
 use OCP\AppFramework\QueryException;
+use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
-use OCP\Settings\IManager as ISettingsManager;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
@@ -65,7 +65,6 @@ use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
-use OC\ServerNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -76,8 +75,6 @@ use Psr\Log\LoggerInterface;
 class OC_App {
 	private static $adminForms = [];
 	private static $personalForms = [];
-	private static $appTypes = [];
-	private static $loadedApps = [];
 	private static $altLogin = [];
 	private static $alreadyRegistered = [];
 	public const supportedApp = 300;
@@ -101,9 +98,10 @@ class OC_App {
 	 *
 	 * @param string $app
 	 * @return bool
+	 * @deprecated 26.0.0 use IAppManager::isAppLoaded
 	 */
 	public static function isAppLoaded(string $app): bool {
-		return isset(self::$loadedApps[$app]);
+		return \OC::$server->get(IAppManager::class)->isAppLoaded($app);
 	}
 
 	/**
@@ -119,40 +117,11 @@ class OC_App {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public static function loadApps(array $types = []): bool {
-		if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			// This should be done before calling this method so that appmanager can be used
 			return false;
 		}
-		// Load the enabled apps here
-		$apps = self::getEnabledApps();
-
-		// Add each apps' folder as allowed class path
-		foreach ($apps as $app) {
-			// If the app is already loaded then autoloading it makes no sense
-			if (!isset(self::$loadedApps[$app])) {
-				$path = self::getAppPath($app);
-				if ($path !== false) {
-					self::registerAutoloading($app, $path);
-				}
-			}
-		}
-
-		// prevent app.php from printing output
-		ob_start();
-		foreach ($apps as $app) {
-			if (!isset(self::$loadedApps[$app]) && ($types === [] || self::isType($app, $types))) {
-				try {
-					self::loadApp($app);
-				} catch (\Throwable $e) {
-					\OC::$server->get(LoggerInterface::class)->emergency('Error during app loading: ' . $e->getMessage(), [
-						'exception' => $e,
-						'app' => $app,
-					]);
-				}
-			}
-		}
-		ob_end_clean();
-
-		return true;
+		return \OC::$server->get(IAppManager::class)->loadApps($types);
 	}
 
 	/**
@@ -160,120 +129,10 @@ class OC_App {
 	 *
 	 * @param string $app
 	 * @throws Exception
+	 * @deprecated 26.0.0 use IAppManager::loadApp
 	 */
 	public static function loadApp(string $app): void {
-		if (isset(self::$loadedApps[$app])) {
-			return;
-		}
-		self::$loadedApps[$app] = true;
-		$appPath = self::getAppPath($app);
-		if ($appPath === false) {
-			return;
-		}
-		$eventLogger = \OC::$server->get(\OCP\Diagnostics\IEventLogger::class);
-		$eventLogger->start("bootstrap:load_app:$app", "Load $app");
-
-		// in case someone calls loadApp() directly
-		self::registerAutoloading($app, $appPath);
-
-		/** @var Coordinator $coordinator */
-		$coordinator = \OC::$server->query(Coordinator::class);
-		$isBootable = $coordinator->isBootable($app);
-
-		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
-
-		if ($isBootable && $hasAppPhpFile) {
-			\OC::$server->getLogger()->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
-				'app' => $app,
-			]);
-		} elseif ($hasAppPhpFile) {
-			$eventLogger->start("bootstrap:load_app:$app:app.php", "Load legacy app.php app $app");
-			\OC::$server->getLogger()->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
-				'app' => $app,
-			]);
-			try {
-				self::requireAppFile($appPath);
-			} catch (Throwable $ex) {
-				if ($ex instanceof ServerNotAvailableException) {
-					throw $ex;
-				}
-				if (!\OC::$server->getAppManager()->isShipped($app) && !self::isType($app, ['authentication'])) {
-					\OC::$server->getLogger()->logException($ex, [
-						'message' => "App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(),
-					]);
-
-					// Only disable apps which are not shipped and that are not authentication apps
-					\OC::$server->getAppManager()->disableApp($app, true);
-				} else {
-					\OC::$server->getLogger()->logException($ex, [
-						'message' => "App $app threw an error during app.php load: " . $ex->getMessage(),
-					]);
-				}
-			}
-			$eventLogger->end("bootstrap:load_app:$app:app.php");
-		}
-
-		$coordinator->bootApp($app);
-
-		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
-		$info = self::getAppInfo($app);
-		if (!empty($info['activity']['filters'])) {
-			foreach ($info['activity']['filters'] as $filter) {
-				\OC::$server->getActivityManager()->registerFilter($filter);
-			}
-		}
-		if (!empty($info['activity']['settings'])) {
-			foreach ($info['activity']['settings'] as $setting) {
-				\OC::$server->getActivityManager()->registerSetting($setting);
-			}
-		}
-		if (!empty($info['activity']['providers'])) {
-			foreach ($info['activity']['providers'] as $provider) {
-				\OC::$server->getActivityManager()->registerProvider($provider);
-			}
-		}
-
-		if (!empty($info['settings']['admin'])) {
-			foreach ($info['settings']['admin'] as $setting) {
-				\OC::$server->get(ISettingsManager::class)->registerSetting('admin', $setting);
-			}
-		}
-		if (!empty($info['settings']['admin-section'])) {
-			foreach ($info['settings']['admin-section'] as $section) {
-				\OC::$server->get(ISettingsManager::class)->registerSection('admin', $section);
-			}
-		}
-		if (!empty($info['settings']['personal'])) {
-			foreach ($info['settings']['personal'] as $setting) {
-				\OC::$server->get(ISettingsManager::class)->registerSetting('personal', $setting);
-			}
-		}
-		if (!empty($info['settings']['personal-section'])) {
-			foreach ($info['settings']['personal-section'] as $section) {
-				\OC::$server->get(ISettingsManager::class)->registerSection('personal', $section);
-			}
-		}
-
-		if (!empty($info['collaboration']['plugins'])) {
-			// deal with one or many plugin entries
-			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
-				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
-			foreach ($plugins as $plugin) {
-				if ($plugin['@attributes']['type'] === 'collaborator-search') {
-					$pluginInfo = [
-						'shareType' => $plugin['@attributes']['share-type'],
-						'class' => $plugin['@value'],
-					];
-					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
-				} elseif ($plugin['@attributes']['type'] === 'autocomplete-sort') {
-					\OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
-				}
-			}
-		}
-
-		$eventLogger->end("bootstrap:load_app:$app:info");
-
-		$eventLogger->end("bootstrap:load_app:$app");
+		\OC::$server->get(IAppManager::class)->loadApp($app);
 	}
 
 	/**
@@ -307,50 +166,15 @@ class OC_App {
 	}
 
 	/**
-	 * Load app.php from the given app
-	 *
-	 * @param string $app app name
-	 * @throws Error
-	 */
-	private static function requireAppFile(string $app) {
-		// encapsulated here to avoid variable scope conflicts
-		require_once $app . '/appinfo/app.php';
-	}
-
-	/**
 	 * check if an app is of a specific type
 	 *
 	 * @param string $app
 	 * @param array $types
 	 * @return bool
+	 * @deprecated 26.0.0 use IAppManager::isType
 	 */
 	public static function isType(string $app, array $types): bool {
-		$appTypes = self::getAppTypes($app);
-		foreach ($types as $type) {
-			if (array_search($type, $appTypes) !== false) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * get the types of an app
-	 *
-	 * @param string $app
-	 * @return array
-	 */
-	private static function getAppTypes(string $app): array {
-		//load the cache
-		if (count(self::$appTypes) == 0) {
-			self::$appTypes = \OC::$server->getAppConfig()->getValues(false, 'types');
-		}
-
-		if (isset(self::$appTypes[$app])) {
-			return explode(',', self::$appTypes[$app]);
-		}
-
-		return [];
+		return \OC::$server->get(IAppManager::class)->isType($app, $types);
 	}
 
 	/**
