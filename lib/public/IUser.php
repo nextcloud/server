@@ -270,4 +270,19 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota);
+
+	/**
+	 * returns the timestamp of the user's first login or 0 if the user did never
+	 * login
+	 *
+	 * @return int
+	 * @since 27.0.0
+	 */
+	public function getFirstLogin();
+
+	/**
+	 * updates the timestamp of the first login of this user
+	 * @since 27.0.0
+	 */
+	public function updateFirstLoginTimestamp(int $timestamp);
 }

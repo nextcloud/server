@@ -560,6 +560,7 @@ class Session implements IUserSession, Emitter {
 				// read only uses
 			}
 
+			$user->updateFirstLoginTimestamp($user->getLastLogin());
 			// trigger any other initialization
 			\OC::$server->getEventDispatcher()->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
 		}

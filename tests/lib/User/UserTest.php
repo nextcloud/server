@@ -849,6 +849,26 @@ class UserTest extends TestCase {
 		$this->assertSame(42, $user->getLastLogin());
 	}
 
+	public function testGetFirstLogin() {
+		/**
+		 * @var Backend | MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$config = $this->createMock(IConfig::class);
+		$config->method('getUserValue')
+			->willReturnCallback(function ($uid, $app, $key, $default) {
+				if ($uid === 'foo' && $app === 'login' && $key === 'firstLogin') {
+					return 42;
+				} else {
+					return $default;
+				}
+			});
+
+		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$this->assertSame(42, $user->getFirstLogin());
+	}
+
 	public function testSetEnabled() {
 		/**
 		 * @var Backend | MockObject $backend

@@ -89,6 +89,9 @@ class User implements IUser {
 	/** @var int|null */
 	private $lastLogin;
 
+	/** @var int|null */
+	private $firstLogin;
+
 	/** @var \OCP\IConfig */
 	private $config;
 
@@ -244,6 +247,20 @@ class User implements IUser {
 	}
 
 	/**
+	 * returns the timestamp of the user's first login or 0 if the user did never
+	 * login
+	 *
+	 * @return int
+	 */
+
+	public function getFirstLogin() {
+		if($this->firstLogin === null) {
+			$this->firstLogin = (int) $this->config->getUserValue($this->uid, 'login', 'firstLogin', 0);
+		}
+		return (int) $this->firstLogin;
+	}
+
+	/**
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
@@ -258,6 +275,14 @@ class User implements IUser {
 		}
 
 		return $firstTimeLogin;
+	}
+
+	/**
+	 * updates the timestamp of the most recent login of this user
+	 */
+	public function updateFirstLoginTimestamp(int $timestamp) {
+		$this->firstLogin = $timestamp;
+		$this->config->setUserValue($this->uid, 'login', 'firstLogin', (string)$this->firstLogin);
 	}
 
 	/**

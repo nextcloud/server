@@ -145,4 +145,12 @@ class LazyUser implements IUser {
 	public function setQuota($quota) {
 		$this->getUser()->setQuota($quota);
 	}
+
+	public function getFirstLogin() {
+		return $this->getUser()->getFirstLogin();
+	}
+
+	public function updateFirstLoginTimestamp() {
+		return $this->getUser()->updateFirstLoginTimestamp();
+	}
 }
