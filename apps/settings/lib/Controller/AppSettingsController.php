@@ -13,6 +13,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -42,6 +43,7 @@ use OC_App;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -53,6 +55,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
+#[IgnoreOpenAPI]
 class AppSettingsController extends Controller {
 
 	/** @var \OCP\IL10N */
