@@ -150,7 +150,7 @@ class LazyUser implements IUser {
 		return $this->getUser()->getFirstLogin();
 	}
 
-	public function updateFirstLoginTimestamp() {
-		return $this->getUser()->updateFirstLoginTimestamp();
+	public function updateFirstLoginTimestamp(int $timestamp) {
+		return $this->getUser()->updateFirstLoginTimestamp($timestamp);
 	}
 }

@@ -79,7 +79,8 @@ class Info extends Base {
 			'storage' => $this->getStorageInfo($user),
 			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 			'user_directory' => $user->getHome(),
-			'backend' => $user->getBackendClassName()
+			'backend' => $user->getBackendClassName(),
+			'created' => date(\DateTimeInterface::Atom, $user->getFirstLogin())
 		];
 		$this->writeArrayInOutputFormat($input, $output, $data);
 		return 0;
