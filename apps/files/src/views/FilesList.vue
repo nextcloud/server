@@ -62,23 +62,24 @@
 
 <script lang="ts">
 import { Folder } from '@nextcloud/files'
+import { join } from 'path'
 import { translate } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TrashCan from 'vue-material-design-icons/TrashCan.vue'
+import Vue from 'vue'
 
+import { ContentsWithRoot } from '../services/Navigation'
+import { useFilesStore } from '../store/files'
+import { usePathsStore } from '../store/paths'
+import { useSelectionStore } from '../store/selection'
+import { useSortingStore } from '../store/sorting'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
+import FilesListVirtual from '../components/FilesListVirtual.vue'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation'
-import FilesListVirtual from '../components/FilesListVirtual.vue'
-import { ContentsWithRoot } from '../services/Navigation'
-import { join } from 'path'
-import Vue from 'vue'
-import { usePathsStore } from '../store/paths'
-import { useFilesStore } from '../store/files'
-import { useSelectionStore } from '../store/selection'
 
 export default Vue.extend({
 	name: 'FilesList',
@@ -105,10 +106,12 @@ export default Vue.extend({
 		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const sortingStore = useSortingStore()
 		return {
 			filesStore,
 			pathsStore,
 			selectionStore,
+			sortingStore,
 		}
 	},
 
@@ -116,8 +119,6 @@ export default Vue.extend({
 		return {
 			loading: true,
 			promise: null,
-			sortKey: 'basename',
-			sortAsc: true,
 		}
 	},
 
@@ -162,17 +163,25 @@ export default Vue.extend({
 		 * @return {Node[]}
 		 */
 		dirContents() {
+			const sortAsc = this.sortingStore.isAscSorting === true
+			const sortKey = this.sortingStore.defaultFileSorting || 'basename'
+
 			return [...(this.currentFolder?.children || []).map(this.getNode)]
 				.sort((a, b) => {
+					// Sort folders first
 					if (a.type === 'folder' && b.type !== 'folder') {
-						return this.sortAsc ? -1 : 1
+						return sortAsc ? -1 : 1
 					}
 
 					if (a.type !== 'folder' && b.type === 'folder') {
-						return this.sortAsc ? 1 : -1
+						return sortAsc ? 1 : -1
 					}
 
-					return (a[this.sortKey] || a.basename).localeCompare(b[this.sortKey] || b.basename) * (this.sortAsc ? 1 : -1)
+					if (typeof a[sortKey] === 'number' && typeof b[sortKey] === 'number') {
+						return (a[sortKey] - b[sortKey]) * (sortAsc ? 1 : -1)
+					}
+
+					return (a[sortKey] || a.basename).localeCompare(b[sortKey] || b.basename) * (sortAsc ? 1 : -1)
 				})
 		},
 

@@ -285,7 +285,7 @@ class ApiController extends Controller {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function updateFileSorting($mode, $direction) {
-		$allowedMode = ['name', 'size', 'mtime'];
+		$allowedMode = ['basename', 'size', 'mtime'];
 		$allowedDirection = ['asc', 'desc'];
 		if (!in_array($mode, $allowedMode) || !in_array($direction, $allowedDirection)) {
 			$response = new Response();

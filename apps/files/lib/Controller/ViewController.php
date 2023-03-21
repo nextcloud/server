@@ -249,6 +249,12 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 
+		// File sorting user config
+		$defaultFileSorting = $this->config->getUserValue($userId, 'files', 'file_sorting', 'basename');
+		$defaultFileSortingDirection = $this->config->getUserValue($userId, 'files', 'file_sorting_direction', 'asc');
+		$this->initialState->provideInitialState('defaultFileSorting', $defaultFileSorting === 'name' ? 'basename' : $defaultFileSorting);
+		$this->initialState->provideInitialState('defaultFileSortingDirection', $defaultFileSortingDirection === 'desc' ? 'desc' : 'asc');
+
 		// render the container content for every navigation item
 		foreach ($navItems as $item) {
 			$content = '';

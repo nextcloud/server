@@ -30,6 +30,12 @@ td, th {
 	border: none;
 }
 
+.files-list__row {
+	&--sortable {
+		cursor: pointer;
+	}
+}
+
 .files-list__row-checkbox {
 	width: var(--row-height);
 	&::v-deep .checkbox-radio-switch {

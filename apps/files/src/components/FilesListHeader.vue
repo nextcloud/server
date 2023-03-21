@@ -29,8 +29,13 @@
 		<th class="files-list__row-icon" />
 
 		<!-- Link to file and -->
-		<th class="files-list__row-name">
+		<th class="files-list__row-name files-list__row--sortable"
+			@click="toggleSortBy('basename')">
 			{{ t('files', 'Name') }}
+			<template v-if="defaultFileSorting === 'basename'">
+				<MenuUp v-if="defaultFileSortingDirection === 'asc'" />
+				<MenuDown v-else />
+			</template>
 		</th>
 
 		<!-- Actions -->
@@ -40,18 +45,24 @@
 
 <script lang="ts">
 import { File, Folder } from '@nextcloud/files'
+import { mapState } from 'pinia'
 import { translate } from '@nextcloud/l10n'
+import MenuDown from 'vue-material-design-icons/MenuDown.vue'
+import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
-import logger from '../logger'
-import { useSelectionStore } from '../store/selection'
 import { useFilesStore } from '../store/files'
+import { useSelectionStore } from '../store/selection'
+import { useSortingStore } from '../store/sorting'
+import logger from '../logger.js'
 
 export default Vue.extend({
 	name: 'FilesListHeader',
 
 	components: {
+		MenuDown,
+		MenuUp,
 		NcCheckboxRadioSwitch,
 	},
 
@@ -65,13 +76,17 @@ export default Vue.extend({
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const sortingStore = useSortingStore()
 		return {
 			filesStore,
 			selectionStore,
+			sortingStore,
 		}
 	},
 
 	computed: {
+		...mapState(useSortingStore, ['defaultFileSorting', 'defaultFileSortingDirection']),
+
 		dir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
@@ -107,16 +122,6 @@ export default Vue.extend({
 	},
 
 	methods: {
-		/**
-		 * Get a cached note from the store
-		 *
-		 * @param {number} fileId the file id to get
-		 * @return {Folder|File}
-		 */
-		getNode(fileId) {
-			return this.filesStore.getNode(fileId)
-		},
-
 		onToggleAll(selected) {
 			if (selected) {
 				const selection = this.nodes.map(node => node.attributes.fileid.toString())
@@ -126,6 +131,16 @@ export default Vue.extend({
 				logger.debug('Cleared selection')
 				this.selectionStore.reset()
 			}
+		},
+
+		toggleSortBy(key) {
+			// If we're already sorting by this key, flip the direction
+			if (this.defaultFileSorting === key) {
+				this.sortingStore.toggleSortingDirection()
+				return
+			}
+			// else sort ASC by this new key
+			this.sortingStore.setFileSorting(key)
 		},
 
 		t: translate,
