@@ -717,7 +717,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-				} else {
+				} else if (!/(?:^(?:localhost|127\.0\.0\.1|::1)|\.onion)$/.exec(window.location.hostname)) {
 					messages.push({
 						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}.')
 							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
