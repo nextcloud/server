@@ -565,6 +565,7 @@ class OC {
 
 			// All other endpoints require the lax and the strict cookie
 			if (!$request->passesStrictCookieCheck()) {
+				logger('core')->warning('Request does not pass strict cookie check');
 				self::sendSameSiteCookies();
 				// Debug mode gets access to the resources without strict cookie
 				// due to the fact that the SabreDAV browser also lives there.
