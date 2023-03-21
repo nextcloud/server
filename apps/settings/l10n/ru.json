@@ -36,6 +36,8 @@
     "{actor} changed your email address" : "{actor} изменил(а) ваш адрес электронной почты",
     "You changed your email address" : "Вы изменили свой адрес электронной почты",
     "Your email address was changed by an administrator" : "Ваш адрес электронной почты был изменён администратором",
+    "You created an app password for a session named \"{token}\"" : "Вы создали пароль приложения для сеанса «{token}»",
+    "An administrator created an app password for a session named \"{token}\"" : "Администратор создал пароль приложения для сеанса «{token}»",
     "You deleted app password \"{token}\"" : "Вы удалили пароль приложения «{token}»",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Вы переименовали пароль приложения  «{token}» в «{newToken}»",
     "You granted filesystem access to app password \"{token}\"" : "Вы разрешили доступ к файлам приложению «{token}»",

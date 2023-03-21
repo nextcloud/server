@@ -91,6 +91,7 @@ OC.L10N.register(
     "Other Attributes:" : "Autres attributs :",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Définit le filtre à appliquer lors de la tentative de connexion. \"%%uid\" remplace le nom d'utilisateur lors de l'authentification. Exemple: \"uid=%%uid\"",
     "Test Loginname" : "Loginname de test",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Tente de recevoir un DN pour l'identifiant de connexion donné et le filtre de connexion courant.",
     "Verify settings" : "Tester les paramètres",
     "%s. Server:" : "%s. Serveur :",
     "Add a new configuration" : "Ajouter une nouvelle configuration",
