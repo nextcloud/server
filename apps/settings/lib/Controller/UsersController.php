@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -145,6 +146,7 @@ class UsersController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
+	 * @IgnoreAPI
 	 *
 	 * Display users list template
 	 *
@@ -157,6 +159,7 @@ class UsersController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
+	 * @IgnoreAPI
 	 *
 	 * Display users list template
 	 *

@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -59,6 +60,7 @@ class PersonalSettingsController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @IgnoreAPI
 	 */
 	public function index(string $section): TemplateResponse {
 		return $this->getIndexResponse('personal', $section);

@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -69,6 +70,7 @@ class WebAuthnController extends Controller {
 	 * @PasswordConfirmationRequired
 	 * @UseSession
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 */
 	public function startRegistration(): JSONResponse {
 		$this->logger->debug('Starting WebAuthn registration');

@@ -26,6 +26,7 @@
  * @author Timo Förster <tfoerster@webfoersterei.de>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author MichaIng <micha@dietpi.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -403,6 +404,7 @@ class CheckSetupController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
+	 * @IgnoreAPI
 	 */
 	public function getFailedIntegrityCheckFiles(): DataDisplayResponse {
 		if (!$this->checker->isCodeCheckEnforced()) {

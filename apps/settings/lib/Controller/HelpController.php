@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -75,6 +76,7 @@ class HelpController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @IgnoreAPI
 	 */
 	public function help(string $mode = 'user'): TemplateResponse {
 		$this->navigationManager->setActiveEntry('help');

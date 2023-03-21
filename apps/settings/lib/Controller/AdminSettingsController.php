@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -61,6 +62,7 @@ class AdminSettingsController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @IgnoreAPI
 	 * We are checking the permissions in the getSettings method. If there is no allowed
 	 * settings for the given section. The user will be gretted by an error message.
 	 */

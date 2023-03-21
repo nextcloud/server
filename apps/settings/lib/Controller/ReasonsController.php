@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Jan C. Borchardt <hey@jancborchardt.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -34,6 +35,7 @@ class ReasonsController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @IgnoreAPI
 	 */
 	public function getPdf() {
 		$data = file_get_contents(__DIR__ . '/../../data/Reasons to use Nextcloud.pdf');
