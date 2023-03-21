@@ -278,7 +278,7 @@ class User implements IUser {
 	}
 
 	/**
-	 * updates the timestamp of the most recent login of this user
+	 * updates the timestamp of the first login of this user
 	 */
 	public function updateFirstLoginTimestamp(int $timestamp) {
 		$this->firstLogin = $timestamp;
