@@ -1,4 +1,4 @@
-name: PHPUnit
+name: PHPUnit 32bits
 
 on:
   workflow_dispatch:

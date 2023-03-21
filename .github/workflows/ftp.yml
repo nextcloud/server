@@ -1,4 +1,4 @@
-name: FTP
+name: FTP unit tests
 on:
   push:
     branches:
