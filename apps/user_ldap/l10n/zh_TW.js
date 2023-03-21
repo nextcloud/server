@@ -91,6 +91,7 @@ OC.L10N.register(
     "Other Attributes:" : "其他屬性:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "定義要套用的過濾條件，試圖登入時。\"%%uid\" 會在登入動作時取代使用者名稱。範例：\"uid=%%uid\"",
     "Test Loginname" : "測試登入名稱",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "嘗試接收指定登入名稱與目前登入過濾條件的 DN",
     "Verify settings" : "驗證設定",
     "%s. Server:" : "%s. 伺服器：",
     "Add a new configuration" : "建立一個新的設定",
