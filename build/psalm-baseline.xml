@@ -1598,9 +1598,6 @@
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
-    <TypeDoesNotContainNull occurrences="1">
-      <code>$group === null</code>
-    </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
     <TooManyArguments occurrences="1">
