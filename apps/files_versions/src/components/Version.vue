@@ -23,12 +23,10 @@
 			:force-display-actions="true"
 			data-files-versions-version>
 			<template #icon>
-				<img lazy="true"
-					:src="previewURL"
-					alt=""
-					height="256"
-					width="256"
-					class="version__image">
+				<div role="img"
+					aria-hidden="true"
+					class="version__image"
+					:style="{ backgroundImage: `url(${previewURL})`}" />
 			</template>
 			<template #subtitle>
 				<div class="version__info">
@@ -228,6 +226,10 @@ export default {
 		formattedDate() {
 			return moment(this.version.mtime).format('LLL')
 		},
+
+		emptyValue() {
+			return ''
+		},
 	},
 	methods: {
 		openVersionLabelModal() {
@@ -275,6 +277,7 @@ export default {
 		height: 3rem;
 		border: 1px solid var(--color-border);
 		border-radius: var(--border-radius-large);
+		background-size: 3rem 3rem;
 	}
 }
 
