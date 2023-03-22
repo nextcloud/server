@@ -27,9 +27,9 @@ export function uploadThreeVersions(user) {
 	// within less than one second of each other.
 	// eslint-disable-next-line cypress/no-unnecessary-waiting
 	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-		.wait(1500)
+		.wait(10000)
 		.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-		.wait(1500)
+		.wait(10000)
 		.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', '/test.txt')
 	cy.login(user)
 }
