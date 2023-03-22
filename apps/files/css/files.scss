@@ -114,6 +114,12 @@
 	// force  the width to be the full width to not go bigger than the screen
 	// flex will grow for the mobile view if necessary
 	width: calc(100% - 300px);
+
+	/*
+	 * Set overflow-anchor to none to prevent a bug where users scrolling down would get unintentionally pushed
+	 * all the way to the bottom of the list as additional chunks of files are loaded to the DOM, which quickly became
+	 * unmanageable with very large file lists.
+	 */
 	overflow-anchor: none;
 }
 
