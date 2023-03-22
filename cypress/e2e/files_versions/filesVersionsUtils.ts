@@ -23,15 +23,14 @@
 import path from "path"
 
 export function uploadThreeVersions(user) {
-	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', '/test.txt')
 	// A new version will not be created if the changes occur
 	// within less than one second of each other.
 	// eslint-disable-next-line cypress/no-unnecessary-waiting
-	cy.wait(1500)
-	cy.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-	// eslint-disable-next-line cypress/no-unnecessary-waiting
-	cy.wait(1500)
-	cy.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', '/test.txt')
+	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', '/test.txt')
+		.wait(1500)
+		.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', '/test.txt')
+		.wait(1500)
+		.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', '/test.txt')
 	cy.login(user)
 }
 
@@ -56,7 +55,7 @@ export function openVersionMenu(index: number) {
 		cy.get('[data-files-versions-version]')
 			.eq(index).within(() => {
 				cy.get('.action-item__menutoggle').filter(':visible')
-				.click()
+					.click()
 			})
 	})
 }
@@ -69,7 +68,7 @@ export function clickPopperAction(actionName: string) {
 
 export function nameVersion(index: number, name: string) {
 	openVersionMenu(index)
-	clickPopperAction("Name this version")
+	clickPopperAction('Name this version')
 	cy.get(':focused').type(`${name}{enter}`)
 }
 
@@ -77,7 +76,7 @@ export function assertVersionContent(index: number, expectedContent: string) {
 	const downloadsFolder = Cypress.config('downloadsFolder')
 
 	openVersionMenu(index)
-	clickPopperAction("Download version")
+	clickPopperAction('Download version')
 
 	return cy.readFile(path.join(downloadsFolder, 'test.txt'))
 		.then((versionContent) => expect(versionContent).to.equal(expectedContent))
