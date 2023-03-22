@@ -53,20 +53,21 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function get($key) {
-		$result = $this->getCache()->get($this->getPrefix() . $key);
-		if ($result === false && !$this->getCache()->exists($this->getPrefix() . $key)) {
+		$key = $this->getPrefix() . $key;
+		$result = $this->getCache()->get($key);
+		if ($result === false && !$this->getCache()->exists($key)) {
 			return null;
-		} else {
-			return json_decode($result, true);
 		}
+		return json_decode($result, true);
 	}
 
 	public function set($key, $value, $ttl = 0) {
+		$key = $this->getPrefix() . $key;
+		$value = json_encode($value);
 		if ($ttl > 0) {
-			return $this->getCache()->setex($this->getPrefix() . $key, $ttl, json_encode($value));
-		} else {
-			return $this->getCache()->set($this->getPrefix() . $key, json_encode($value));
+			return $this->getCache()->set($key, $value, $ttl);
 		}
+		return $this->getCache()->set($key, $value);
 	}
 
 	public function hasKey($key) {
@@ -74,11 +75,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function remove($key) {
-		if ($this->getCache()->del($this->getPrefix() . $key)) {
-			return true;
-		} else {
-			return false;
-		}
+		return (bool)$this->getCache()->del($this->getPrefix() . $key);
 	}
 
 	public function clear($prefix = '') {
