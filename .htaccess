@@ -79,6 +79,8 @@
   AddType image/svg+xml svg svgz
   AddType application/wasm wasm
   AddEncoding gzip svgz
+  # Serve ESM javascript files (.mjs) with correct mime type
+  AddType text/javascript js mjs
 </IfModule>
 
 <IfModule mod_dir.c>
