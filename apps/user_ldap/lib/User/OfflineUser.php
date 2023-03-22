@@ -60,6 +60,7 @@ class OfflineUser {
 	 * @var string $foundDeleted the timestamp when the user was detected as unavailable
 	 */
 	protected $foundDeleted;
+	protected ?string $extStorageHome = null;
 	/**
 	 * @var string $email
 	 */
@@ -207,6 +208,13 @@ class OfflineUser {
 		return (int)$this->foundDeleted;
 	}
 
+	public function getExtStorageHome(): string {
+		if ($this->extStorageHome === null) {
+			$this->fetchDetails();
+		}
+		return (string)$this->extStorageHome;
+	}
+
 	/**
 	 * getter for having active shares
 	 * @return bool
@@ -227,6 +235,7 @@ class OfflineUser {
 			'uid' => 'user_ldap',
 			'homePath' => 'user_ldap',
 			'foundDeleted' => 'user_ldap',
+			'extStorageHome' => 'user_ldap',
 			'email' => 'settings',
 			'lastLogin' => 'login',
 		];
