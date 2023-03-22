@@ -882,8 +882,7 @@ class Cache implements ICache {
 	 * calculate the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
@@ -895,11 +894,11 @@ class Cache implements ICache {
 	 * inner function because we can't add new params to the public function without breaking any child classes
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
 	 * @return int
 	 */
-	protected function calculateFolderSizeInner(string $path, array $entry = null, bool $ignoreUnknown = false) {
+	protected function calculateFolderSizeInner(string $path, $entry = null, bool $ignoreUnknown = false) {
 		$totalSize = 0;
 		if (is_null($entry) || !isset($entry['fileid'])) {
 			$entry = $this->get($path);
@@ -959,7 +958,6 @@ class Cache implements ICache {
 			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || $entry['unencrypted_size'] > 0;
 			if ($entry['size'] !== $totalSize || ($entry['unencrypted_size'] !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
 				if ($shouldWriteUnEncryptedSize) {
-
 					// if all children have an unencrypted size of 0, just set the folder unencrypted size to 0 instead of summing the sizes
 					if ($unencryptedMax === 0) {
 						$unencryptedTotal = 0;

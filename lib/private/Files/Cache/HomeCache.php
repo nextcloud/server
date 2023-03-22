@@ -35,7 +35,7 @@ class HomeCache extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
