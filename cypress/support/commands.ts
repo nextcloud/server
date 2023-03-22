@@ -99,33 +99,32 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
  */
 Cypress.Commands.add('uploadContent', (user, blob, mimeType, target) => {
 	cy.clearCookies()
-	.then(async () => {
-		const fileName = basename(target)
+		.then(async () => {
+			const fileName = basename(target)
 
-		// Process paths
-		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
-		const filePath = target.split('/').map(encodeURIComponent).join('/')
-		try {
-		const file = new File([blob], fileName, { type: mimeType })
-			await axios({
-				url: `${rootPath}${filePath}`,
-				method: 'PUT',
-				data: file,
-				headers: {
-					'Content-Type': mimeType,
-				},
-				auth: {
-					username: user.userId,
-					password: user.password,
-				},
-			}).then(response => {
+			// Process paths
+			const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+			const filePath = target.split('/').map(encodeURIComponent).join('/')
+			try {
+				const file = new File([blob], fileName, { type: mimeType })
+				const response = await axios({
+					url: `${rootPath}${filePath}`,
+					method: 'PUT',
+					data: file,
+					headers: {
+						'Content-Type': mimeType,
+					},
+					auth: {
+						username: user.userId,
+						password: user.password,
+					},
+				})
 				cy.log(`Uploaded content as ${fileName}`, response)
-			})
-		} catch (error) {
-			cy.log('error', error)
-			throw new Error(`Unable to process fixture`)
-		}
-	})
+			} catch (error) {
+				cy.log('error', error)
+				throw new Error('Unable to process fixture')
+			}
+		})
 })
 
 /**

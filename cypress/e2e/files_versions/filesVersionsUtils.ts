@@ -24,9 +24,9 @@ import path from "path"
 
 export function uploadThreeVersions(user) {
 	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-	cy.wait(1000)
+	cy.wait(1500)
 	cy.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-	cy.wait(1000)
+	cy.wait(1500)
 	cy.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', '/test.txt')
 	cy.login(user)
 }
