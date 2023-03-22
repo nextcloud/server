@@ -24,8 +24,12 @@ import path from "path"
 
 export function uploadThreeVersions(user) {
 	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', '/test.txt')
+	// A new version will not be created if the changes occur
+	// within less than one second of each other.
+	// eslint-disable-next-line cypress/no-unnecessary-waiting
 	cy.wait(1500)
 	cy.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', '/test.txt')
+	// eslint-disable-next-line cypress/no-unnecessary-waiting
 	cy.wait(1500)
 	cy.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', '/test.txt')
 	cy.login(user)
