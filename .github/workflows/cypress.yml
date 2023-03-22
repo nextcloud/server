@@ -92,12 +92,12 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Extract NC logs
-        if: always()
-        run: docker-compose --project-directory cypress logs > nextcloud.log
+        if: ${{ matrix.containers != 'component' }}
+        run: docker logs nextcloud-cypress-tests-server > nextcloud.log
 
       - name: Upload NC logs
         uses: actions/upload-artifact@v3
-        if: always()
+        if: ${{ matrix.containers != 'component' }}
         with:
           name: nc_logs_${{ matrix.containers }}
           path: nextcloud.log
