@@ -57,7 +57,7 @@ jobs:
       fail-fast: false
       matrix:
         # run multiple copies of the current job in parallel
-        containers: ['component', 1, 2]
+        containers: ["component", 1, 2]
 
     name: runner ${{ matrix.containers }}
 
@@ -90,6 +90,17 @@ jobs:
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Extract NC logs
+        if: always()
+        run: docker-compose --project-directory cypress logs > nextcloud.log
+
+      - name: Upload NC logs
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: nc_logs_${{ matrix.containers }}
+          path: nextcloud.log
 
   summary:
     runs-on: ubuntu-latest
