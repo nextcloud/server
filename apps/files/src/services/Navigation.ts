@@ -35,14 +35,10 @@ export interface Column {
 	id: string
 	/** Translated column title */
 	title: string
-	/**
-	 * Property key from Node main or additional attributes.
-	 * Will be used if no custom sort function is provided.
-	 * Sorting will be done by localCompare
-	 */
-	property: string
-	/** Special function used to sort Nodes between them */
-	sortFunction?: (nodeA: Node, nodeB: Node) => number;
+	/** The content of the cell to render */
+	render: (mount: HTMLTableCellElement, node: Node) => void
+	/** Function used to sort Nodes between them */
+	sort?: (nodeA: Node, nodeB: Node) => number
 	/** Custom summary of the column to display at the end of the list.
 	 Will not be displayed if  nothing is provided */
 	summary?: (node: Node[]) => string
@@ -61,7 +57,7 @@ export interface Navigation {
 	 * You _must_ also return the current directory
 	 * information alongside with its content.
 	 */
-	getContents: (path: string) => Promise<ContentsWithRoot[]>
+	getContents: (path: string) => Promise<ContentsWithRoot>
 	/** The view icon as an inline svg */
 	icon: string
 	/** The view order */
@@ -208,19 +204,19 @@ const isValidNavigation = function(view: Navigation): boolean {
  */
 const isValidColumn = function(column: Column): boolean {
 	if (!column.id || typeof column.id !== 'string') {
-		throw new Error('Column id is required')
+		throw new Error('A column id is required')
 	}
 
 	if (!column.title || typeof column.title !== 'string') {
-		throw new Error('Column title is required')
+		throw new Error('A column title is required')
 	}
 
-	if (!column.property || typeof column.property !== 'string') {
-		throw new Error('Column property is required')
+	if (!column.render || typeof column.render !== 'function') {
+		throw new Error('A render function is required')
 	}
 
 	// Optional properties
-	if (column.sortFunction && typeof column.sortFunction !== 'function') {
+	if (column.sort && typeof column.sort !== 'function') {
 		throw new Error('Column sortFunction must be a function')
 	}
 

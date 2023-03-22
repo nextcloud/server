@@ -313,7 +313,7 @@
 				view: 'files'
 			}, params);
 
-			var lastId = this.navigation.active;
+			var lastId = this.getActiveView();
 			if (!this.navigation.views.find(view => view.id === params.view)) {
 				params.view = 'files';
 			}

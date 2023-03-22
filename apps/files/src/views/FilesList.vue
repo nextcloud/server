@@ -94,14 +94,6 @@ export default Vue.extend({
 		TrashCan,
 	},
 
-	props: {
-		// eslint-disable-next-line vue/prop-name-casing
-		Navigation: {
-			type: Navigation,
-			required: true,
-		},
-	},
-
 	setup() {
 		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
@@ -123,18 +115,10 @@ export default Vue.extend({
 	},
 
 	computed: {
-		currentViewId() {
-			return this.$route.params.view || 'files'
-		},
-
 		/** @return {Navigation} */
 		currentView() {
-			return this.views.find(view => view.id === this.currentViewId)
-		},
-
-		/** @return {Navigation[]} */
-		views() {
-			return this.Navigation.views
+			return this.$navigation.active
+				|| this.$navigation.views.find(view => view.id === 'files')
 		},
 
 		/**
@@ -151,10 +135,14 @@ export default Vue.extend({
 		 * @return {Folder|undefined}
 		 */
 		currentFolder() {
-			if (this.dir === '/') {
-				return this.filesStore.getRoot(this.currentViewId)
+			if (!this.currentView?.id) {
+				return
 			}
-			const fileId = this.pathsStore.getPath(this.currentViewId, this.dir)
+
+			if (this.dir === '/') {
+				return this.filesStore.getRoot(this.currentView.id)
+			}
+			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
 			return this.filesStore.getNode(fileId)
 		},
 

@@ -89,3 +89,11 @@ td, th {
 	flex: 1 1 100%;
 	justify-content: left;
 }
+
+.files-list__row-column--custom {
+	overflow: hidden;
+	flex: 1 1 calc(var(--row-height) * 3);
+	width: auto;
+	min-width: var(--row-height);
+	justify-content: normal;
+}

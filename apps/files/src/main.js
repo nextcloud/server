@@ -23,6 +23,7 @@ window.OCP.Files = window.OCP.Files ?? {}
 // Init Navigation Service
 const Navigation = new NavigationService()
 Object.assign(window.OCP.Files, { Navigation })
+Vue.prototype.$navigation = Navigation
 
 // Init Files App Settings Service
 const Settings = new SettingsService()
@@ -48,9 +49,6 @@ const pinia = createPinia()
 const ListView = Vue.extend(FilesListView)
 const FilesList = new ListView({
 	name: 'FilesListRoot',
-	propsData: {
-		Navigation,
-	},
 	router,
 	pinia,
 })

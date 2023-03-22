@@ -40,6 +40,13 @@
 
 		<!-- Actions -->
 		<th class="files-list__row-actions" />
+
+		<!-- Custom views columns -->
+		<th v-for="column in columns"
+			:key="column.id"
+			:class="`files-list__row-column--custom files-list__row-${currentView.id}-${column.id}`">
+			{{ column.title }}
+		</th>
 	</tr>
 </template>
 
@@ -56,6 +63,7 @@ import { useFilesStore } from '../store/files'
 import { useSelectionStore } from '../store/selection'
 import { useSortingStore } from '../store/sorting'
 import logger from '../logger.js'
+import Navigation from '../services/Navigation'
 
 export default Vue.extend({
 	name: 'FilesListHeader',
@@ -86,6 +94,15 @@ export default Vue.extend({
 
 	computed: {
 		...mapState(useSortingStore, ['defaultFileSorting', 'defaultFileSortingDirection']),
+
+		/** @return {Navigation} */
+		currentView() {
+			return this.$navigation.active
+		},
+
+		columns() {
+			return this.currentView?.columns || []
+		},
 
 		dir() {
 			// Remove any trailing slash but leave root slash

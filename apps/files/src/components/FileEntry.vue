@@ -19,56 +19,7 @@
   - along with this program. If not, see <http://www.gnu.org/licenses/>.
   -
   -->
-<template>
-	<Fragment>
-		<td class="files-list__row-checkbox">
-			<NcCheckboxRadioSwitch :aria-label="t('files', 'Select the row for {displayName}', { displayName })"
-				:checked.sync="selectedFiles"
-				:value="fileid.toString()"
-				name="selectedFiles" />
-		</td>
-
-		<!-- Icon or preview -->
-		<td class="files-list__row-icon">
-			<FolderIcon v-if="source.type === 'folder'" />
-
-			<!-- Decorative image, should not be aria documented -->
-			<span v-else-if="previewUrl && !backgroundFailed"
-				ref="previewImg"
-				class="files-list__row-icon-preview"
-				:style="{ backgroundImage }" />
-
-			<span v-else-if="mimeUrl"
-				class="files-list__row-icon-preview files-list__row-icon-preview--mime"
-				:style="{ backgroundImage: mimeUrl }" />
-
-			<FileIcon v-else />
-		</td>
-
-		<!-- Link to file and -->
-		<td class="files-list__row-name">
-			<a v-bind="linkTo">
-				{{ displayName }}
-			</a>
-		</td>
-
-		<!-- Actions -->
-		<td class="files-list__row-actions">
-			<NcActions>
-				<NcActionButton>
-					{{ t('files', 'Rename') }}
-					<Pencil slot="icon" />
-				</NcActionButton>
-				<NcActionButton>
-					{{ t('files', 'Delete') }}
-					<TrashCan slot="icon" />
-				</NcActionButton>
-			</NcActions>
-		</td>
-	</Fragment>
-</template>
-
-<script lang="ts">
+<script lang='ts'>
 import { Folder, File } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
@@ -134,6 +85,15 @@ export default Vue.extend({
 	},
 
 	computed: {
+		/** @return {Navigation} */
+		currentView() {
+			return this.$navigation.active
+		},
+
+		columns() {
+			return this.currentView?.columns || []
+		},
+
 		dir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
@@ -279,13 +239,120 @@ export default Vue.extend({
 
 		t: translate,
 	},
+
+	/**
+	 * While a bit more complex, this component is pretty straightforward.
+	 * For performance reasons, we're using a render function instead of a template.
+	 */
+	render(createElement) {
+		// Checkbox
+		const checkbox = createElement('td', {
+			staticClass: 'files-list__row-checkbox',
+		}, [createElement('NcCheckboxRadioSwitch', {
+			attrs: {
+				'aria-label': this.t('files', 'Select the row for {displayName}', {
+					displayName: this.displayName,
+				}),
+				checked: this.selectedFiles,
+				value: this.fileid.toString(),
+				name: 'selectedFiles',
+			},
+			on: {
+				'update:checked': ($event) => {
+					this.selectedFiles = $event
+				},
+			},
+		})])
+
+		// Icon
+		const iconContent = () => {
+			// Folder icon
+			if (this.source.type === 'folder') {
+				return createElement('FolderIcon')
+			}
+			// Render cached preview or fallback to mime icon if defined
+			const renderPreview = this.previewUrl && !this.backgroundFailed
+			if (renderPreview || this.mimeUrl) {
+				return createElement('span', {
+					ref: 'previewImg',
+					class: {
+						'files-list__row-icon-preview': true,
+						'files-list__row-icon-preview--mime': !renderPreview,
+					},
+					style: {
+						backgroundImage: renderPreview
+							? this.backgroundImage
+							: this.mimeUrl,
+					},
+				})
+			}
+			// Empty file icon
+			return createElement('FileIcon')
+		}
+		const icon = createElement('td', {
+			staticClass: 'files-list__row-icon',
+		}, [iconContent()])
+
+		// Name
+		const name = createElement('td', {
+			staticClass: 'files-list__row-name',
+		}, [
+			createElement(this.linkTo?.is || 'a', {
+				attrs: this.linkTo,
+			}, this.displayName),
+		])
+
+		// Actions
+		const actions = createElement('td', {
+			staticClass: 'files-list__row-actions',
+		}, [createElement('NcActions', [
+			createElement('NcActionButton', [
+				this.t('files', 'Rename'),
+				createElement('Pencil', {
+					slot: 'icon',
+				}),
+			]),
+			createElement('NcActionButton', [
+				this.t('files', 'Delete'),
+				createElement('TrashCan', {
+					slot: 'icon',
+				}),
+			]),
+		])])
+
+		// Columns
+		const columns = this.columns.map(column => {
+			const td = document.createElement('td')
+			column.render(td, this.source)
+			return createElement('td', {
+				class: {
+					[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
+					'files-list__row-column--custom': true,
+				},
+				key: column.id,
+				domProps: {
+					innerHTML: td.innerHTML,
+				},
+			}, '123')
+		})
+
+		console.debug(columns, this.displayName)
+
+		return createElement('Fragment', [
+			checkbox,
+			icon,
+			name,
+			actions,
+			...columns,
+		])
+	},
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 @import '../mixins/fileslist-row.scss';
 
-.files-list__row-icon-preview:not([style*="background"]) {
+.files-list__row-icon-preview:not([style*='background']) {
     background: linear-gradient(110deg, var(--color-loading-dark) 0%, var(--color-loading-dark) 25%, var(--color-loading-light) 50%, var(--color-loading-dark) 75%, var(--color-loading-dark) 100%);
     background-size: 400%;
 	animation: preview-gradient-slide 1s ease infinite;

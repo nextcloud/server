@@ -166,7 +166,7 @@ export default {
 				return
 			}
 
-			this.Navigation.setActive(view.id)
+			this.Navigation.setActive(view)
 			logger.debug('Navigation changed', { id: view.id, view })
 
 			// debugger

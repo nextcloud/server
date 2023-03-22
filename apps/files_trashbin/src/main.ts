@@ -21,8 +21,9 @@
  */
 import type NavigationService from '../../files/src/services/Navigation'
 
-import { translate as t } from '@nextcloud/l10n'
+import { translate as t, translate } from '@nextcloud/l10n'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
+import moment from '@nextcloud/moment'
 
 import getContents from './services/trashbin'
 
@@ -34,6 +35,26 @@ Navigation.register({
 	icon: DeleteSvg,
 	order: 50,
 	sticky: true,
+
+	columns: [
+		{
+			id: 'deleted',
+			title: t('files_trashbin', 'Deleted'),
+			render(mount, node) {
+				const deletionTime = node.attributes?.['trashbin-deletion-time']
+				if (deletionTime) {
+					mount.innerText = moment.unix(deletionTime).fromNow()
+					return
+				}
+				mount.innerText = translate('files_trashbin', 'Deleted a long time ago')
+			},
+			sort(nodeA, nodeB) {
+				const deletionTimeA = nodeA.attributes?.['trashbin-deletion-time'] || nodeA?.mtime || 0
+				const deletionTimeB = nodeB.attributes?.['trashbin-deletion-time'] || nodeB?.mtime || 0
+				return deletionTimeA - deletionTimeB
+			},
+		},
+	],
 
 	getContents,
 })
