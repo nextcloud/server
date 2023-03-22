@@ -20,24 +20,25 @@
   -
   -->
 <script lang='ts'>
+import { debounce } from 'debounce'
 import { Folder, File } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
+import { loadState } from '@nextcloud/initial-state'
 import { translate } from '@nextcloud/l10n'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import TrashCan from 'vue-material-design-icons/TrashCan.vue'
-import Pencil from 'vue-material-design-icons/Pencil.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import Pencil from 'vue-material-design-icons/Pencil.vue'
+import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 import Vue from 'vue'
 
-import logger from '../logger.js'
-import { useSelectionStore } from '../store/selection'
 import { useFilesStore } from '../store/files'
-import { loadState } from '@nextcloud/initial-state'
-import { debounce } from 'debounce'
+import { useSelectionStore } from '../store/selection'
+import CustomElementRender from './CustomElementRender.vue'
+import logger from '../logger.js'
 
 // TODO: move to store
 // TODO: watch 'files:config:updated' event
@@ -50,6 +51,7 @@ export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
+		CustomElementRender,
 		FileIcon,
 		FolderIcon,
 		Fragment,
@@ -322,21 +324,18 @@ export default Vue.extend({
 
 		// Columns
 		const columns = this.columns.map(column => {
-			const td = document.createElement('td')
-			column.render(td, this.source)
 			return createElement('td', {
 				class: {
 					[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
 					'files-list__row-column--custom': true,
 				},
 				key: column.id,
-				domProps: {
-					innerHTML: td.innerHTML,
+			}, [createElement('CustomElementRender', {
+				props: {
+					element: column.render(this.source),
 				},
-			}, '123')
+			})])
 		})
-
-		console.debug(columns, this.displayName)
 
 		return createElement('Fragment', [
 			checkbox,

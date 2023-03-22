@@ -35,8 +35,8 @@ export interface Column {
 	id: string
 	/** Translated column title */
 	title: string
-	/** The content of the cell to render */
-	render: (mount: HTMLTableCellElement, node: Node) => void
+	/** The content of the cell. The element will be appended within */
+	render: (node: Node) => HTMLElement
 	/** Function used to sort Nodes between them */
 	sort?: (nodeA: Node, nodeB: Node) => number
 	/** Custom summary of the column to display at the end of the list.

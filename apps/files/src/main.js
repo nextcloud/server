@@ -1,5 +1,7 @@
 import './templates.js'
 import './legacy/filelistSearch.js'
+import './actions/deleteAction'
+
 import processLegacyFilesViews from './legacy/navigationMapper.js'
 
 import Vue from 'vue'
@@ -15,6 +17,7 @@ import SettingsService from './services/Settings.js'
 import SettingsModel from './models/Setting.js'
 
 import router from './router/router.js'
+
 
 // Init private and public Files namespace
 window.OCA.Files = window.OCA.Files ?? {}

@@ -20,27 +20,7 @@
   -
   -->
 <template>
-	<VirtualList v-if="false"
-		class="files-list"
-		:data-component="FileEntry"
-		:data-key="getFileId"
-		:data-sources="nodes"
-		:estimate-size="55"
-		:table-mode="true"
-		item-class="files-list__row"
-		wrap-class="files-list__body">
-		<template #before>
-			<caption v-show="false" class="files-list__caption">
-				{{ summary }}
-			</caption>
-		</template>
-
-		<template #header>
-			<FilesListHeader :nodes="nodes" />
-		</template>
-	</VirtualList>
-
-	<RecycleScroller v-else ref="recycleScroller"
+	<RecycleScroller ref="recycleScroller"
 		class="files-list"
 		key-field="source"
 		:items="nodes"
@@ -70,7 +50,6 @@
 <script lang="ts">
 import { Folder, File } from '@nextcloud/files'
 import { RecycleScroller } from 'vue-virtual-scroller'
-import VirtualList from 'vue-virtual-scroll-list'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import Vue from 'vue'
 
@@ -84,7 +63,6 @@ export default Vue.extend({
 		RecycleScroller,
 		FileEntry,
 		FilesListHeader,
-		VirtualList,
 	},
 
 	props: {
