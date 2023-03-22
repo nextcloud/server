@@ -127,12 +127,8 @@ $mail_sendmailmode = [
 					<span class="icon-info" title="<?php p($l->t('Only applies when authentication is required')); ?>"></span>
 			</label>
 			<select name="mail_smtpauthtype" id="mail_smtpauthtype" disabled="disabled">
-				<?php foreach ($mail_smtpauthtype as $authtype => $name):
-					$selected = '';
-					if ($authtype == $_['mail_smtpauthtype']):
-						$selected = 'selected="selected"';
-					endif; ?>
-					<option value="<?php p($authtype) ?>" <?php p($selected) ?>><?php p($name) ?></option>
+				<?php foreach ($mail_smtpauthtype as $authtype => $name): ?>
+						<option value="<?php p($authtype) ?>"><?php p($name) ?></option>
 				<?php endforeach; ?>
 			</select>
 
