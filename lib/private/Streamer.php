@@ -131,6 +131,7 @@ class Streamer {
 					$fh = $file->fopen('r');
 					if($fh === false) {
 						$logger->error('Unable to open file for stream: ' . print_r($file, true));
+						continue;
 					}
 				} catch (NotPermittedException $e) {
 					continue;
