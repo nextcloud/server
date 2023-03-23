@@ -25,12 +25,13 @@
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
-		<!-- Icon or preview -->
-		<th class="files-list__row-icon" />
-
-		<!-- Link to file and -->
+		<!-- Link to file -->
 		<th class="files-list__row-name files-list__row--sortable"
 			@click="toggleSortBy('basename')">
+			<!-- Icon or preview -->
+			<span class="files-list__row-icon" />
+
+			<!-- Name -->
 			{{ t('files', 'Name') }}
 			<template v-if="defaultFileSorting === 'basename'">
 				<MenuUp v-if="defaultFileSortingDirection === 'asc'" />
@@ -40,6 +41,17 @@
 
 		<!-- Actions -->
 		<th class="files-list__row-actions" />
+
+		<!-- Size -->
+		<th v-if="isSizeAvailable"
+			class="files-list__row-size"
+			@click="toggleSortBy('size')">
+			{{ t('files', 'Size') }}
+			<template v-if="defaultFileSorting === 'size'">
+				<MenuUp v-if="defaultFileSortingDirection === 'asc'" />
+				<MenuDown v-else />
+			</template>
+		</th>
 
 		<!-- Custom views columns -->
 		<th v-for="column in columns"
@@ -51,7 +63,6 @@
 </template>
 
 <script lang="ts">
-import { File, Folder } from '@nextcloud/files'
 import { mapState } from 'pinia'
 import { translate } from '@nextcloud/l10n'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
@@ -65,6 +76,8 @@ import { useSortingStore } from '../store/sorting'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation'
 
+Vue.config.performance = true
+
 export default Vue.extend({
 	name: 'FilesListHeader',
 
@@ -75,8 +88,12 @@ export default Vue.extend({
 	},
 
 	props: {
+		isSizeAvailable: {
+			type: Boolean,
+			default: false,
+		},
 		nodes: {
-			type: [File, Folder],
+			type: Array,
 			required: true,
 		},
 	},

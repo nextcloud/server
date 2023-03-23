@@ -144,6 +144,8 @@
 			}
 
 			window._nc_event_bus.emit('files:legacy-view:initialized', this);
+
+			this.navigation = OCP.Files.Navigation
 		},
 
 		/**
@@ -224,7 +226,8 @@
 		 * @return view id
 		 */
 		getActiveView: function() {
-			return this.navigation.active
+			return this.navigation
+				&& this.navigation.active
 				&& this.navigation.active.id;
 		},
 

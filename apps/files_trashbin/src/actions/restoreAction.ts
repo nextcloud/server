@@ -22,26 +22,38 @@
 import { registerFileAction, Permission, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
-import logger from '../logger'
+import History from '@mdi/svg/svg/history.svg?raw'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 
 registerFileAction(new FileAction({
-	id: 'delete',
-	displayName(nodes, view) {
-		return view.id === 'trashbin'
-			? t('files_trashbin', 'Delete permanently')
-			: t('files', 'Delete')
+	id: 'restore',
+	displayName() {
+		return t('files_trashbin', 'Restore')
 	},
-	iconSvgInline: () => TrashCan,
-	enabled(nodes) {
+	iconSvgInline: () => History,
+	enabled(nodes, view) {
+		// Only available in the trashbin view
+		if (view.id !== 'trashbin') {
+			return false
+		}
+
+		// Only available if all nodes have read permission
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
-			.every(permission => (permission & Permission.DELETE) !== 0)
+			.every(permission => (permission & Permission.READ) !== 0)
 	},
 	async exec(node) {
 		// No try...catch here, let the files app handle the error
-		await axios.delete(node.source)
+		await axios({
+			method: 'MOVE',
+			url: node.source,
+			headers: {
+				destination: generateRemoteUrl(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`),
+			},
+		})
 		return true
 	},
-	order: 100,
+	order: 1,
+	inline: () => true,
 }))

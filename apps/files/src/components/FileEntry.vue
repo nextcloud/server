@@ -19,9 +19,95 @@
   - along with this program. If not, see <http://www.gnu.org/licenses/>.
   -
   -->
+
+<template>
+	<Fragment>
+		<td class="files-list__row-checkbox">
+			<NcCheckboxRadioSwitch :aria-label="t('files', 'Select the row for {displayName}', { displayName })"
+				:checked.sync="selectedFiles"
+				:value="fileid.toString()"
+				name="selectedFiles" />
+		</td>
+
+		<!-- Link to file -->
+		<td class="files-list__row-name">
+			<a v-bind="linkTo">
+				<!-- Icon or preview -->
+				<span class="files-list__row-icon">
+					<FolderIcon v-if="source.type === 'folder'" />
+
+					<!-- Decorative image, should not be aria documented -->
+					<span v-else-if="previewUrl && !backgroundFailed"
+						ref="previewImg"
+						class="files-list__row-icon-preview"
+						:style="{ backgroundImage }" />
+
+					<span v-else-if="mimeUrl"
+						class="files-list__row-icon-preview files-list__row-icon-preview--mime"
+						:style="{ backgroundImage: mimeUrl }" />
+
+					<FileIcon v-else />
+				</span>
+
+				<!-- File name -->
+				{{ displayName }}
+			</a>
+		</td>
+
+		<!-- Actions -->
+		<td :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
+			<!-- Inline actions -->
+			<template v-for="action in enabledInlineActions">
+				<CustomElementRender v-if="action.renderInline"
+					:key="action.id"
+					:element="action.renderInline(source, currentView)" />
+				<NcButton v-else
+					:key="action.id"
+					type="tertiary"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<CustomSvgIconRender v-else :svg="action.iconSvgInline([source], currentView)" />
+					</template>
+					{{ action.displayName([source], currentView) }}
+				</NcButton>
+			</template>
+
+			<!-- Menu actions -->
+			<NcActions ref="actionsMenu" :force-menu="true">
+				<NcActionButton v-for="action in enabledMenuActions"
+					:key="action.id"
+					:class="'files-list__row-action-' + action.id"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<CustomSvgIconRender v-else :svg="action.iconSvgInline([source], currentView)" />
+					</template>
+					{{ action.displayName([source], currentView) }}
+				</NcActionButton>
+			</NcActions>
+		</td>
+
+		<!-- Size -->
+		<th v-if="isSizeAvailable"
+			:style="{ opacity: sizeOpacity }"
+			class="files-list__row-size">
+			<span>{{ size }}</span>
+		</th>
+
+		<!-- View columns -->
+		<td v-for="column in columns"
+			:key="column.id"
+			:class="`files-list__row-${currentView?.id}-${column.id}`"
+			class="files-list__row-column--custom">
+			<CustomElementRender :element="column.render(source)" />
+		</td>
+	</Fragment>
+</template>
+
 <script lang='ts'>
 import { debounce } from 'debounce'
-import { Folder, File } from '@nextcloud/files'
+import { Folder, File, getFileActions, formatFileSize } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
 import { loadState } from '@nextcloud/initial-state'
@@ -30,14 +116,16 @@ import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import Pencil from 'vue-material-design-icons/Pencil.vue'
-import TrashCan from 'vue-material-design-icons/TrashCan.vue'
-import Vue from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import Vue, { CreateElement } from 'vue'
+import { showError } from '@nextcloud/dialogs'
 
 import { useFilesStore } from '../store/files'
 import { useSelectionStore } from '../store/selection'
 import CustomElementRender from './CustomElementRender.vue'
+import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
 
 // TODO: move to store
@@ -47,24 +135,32 @@ const userConfig = loadState('files', 'config', {})
 // The preview service worker cache name (see webpack config)
 const SWCacheName = 'previews'
 
+// The registered actions list
+const actions = getFileActions()
+
 export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
 		CustomElementRender,
+		CustomSvgIconRender,
 		FileIcon,
 		FolderIcon,
 		Fragment,
 		NcActionButton,
 		NcActions,
+		NcButton,
 		NcCheckboxRadioSwitch,
-		Pencil,
-		TrashCan,
+		NcLoadingIcon,
 	},
 
 	props: {
+		isSizeAvailable: {
+			type: Boolean,
+			default: false,
+		},
 		source: {
-			type: [File, Folder],
+			type: Object,
 			required: true,
 		},
 	},
@@ -80,9 +176,10 @@ export default Vue.extend({
 
 	data() {
 		return {
-			userConfig,
-			backgroundImage: '',
 			backgroundFailed: false,
+			backgroundImage: '',
+			loading: '',
+			userConfig,
 		}
 	},
 
@@ -108,6 +205,26 @@ export default Vue.extend({
 			return this.source.attributes.displayName
 				|| this.source.basename
 		},
+		size() {
+			const size = parseInt(this.source.size, 10) || 0
+			if (!size || size < 0) {
+				return this.t('files', 'Pending')
+			}
+			return formatFileSize(size, true)
+		},
+
+		sizeOpacity() {
+			const size = parseInt(this.source.size, 10) || 0
+			if (!size || size < 0) {
+				return 1
+			}
+
+			// Whatever theme is active, the contrast will pass WCAG AA
+			// with color main text over main background and an opacity of 0.7
+			const minOpacity = 0.7
+			const maxOpacitySize = 10 * 1024 * 1024
+			return minOpacity + (1 - minOpacity) * Math.pow((this.source.size / maxOpacitySize), 2)
+		},
 
 		linkTo() {
 			if (this.source.type === 'folder') {
@@ -130,7 +247,7 @@ export default Vue.extend({
 				return this.selectionStore.selected
 			},
 			set(selection) {
-				logger.debug('Added node to selection', { selection })
+				logger.debug('Changed nodes selection', { selection })
 				this.selectionStore.set(selection)
 			},
 		},
@@ -154,15 +271,41 @@ export default Vue.extend({
 			}
 			return ''
 		},
+
+		enabledActions() {
+			return actions
+				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		enabledMenuActions() {
+			return actions
+				.filter(action => !action.inline)
+		},
+
+		enabledInlineActions() {
+			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
+		},
+
+		uniqueId() {
+			return this.hashCode(this.source.source)
+		},
 	},
 
 	watch: {
+		/**
+		 * When the source changes, reset the preview
+		 * and fetch the new one.
+		 */
 		source() {
-			this.resetPreview()
+			this.resetState()
 			this.debounceIfNotCached()
 		},
 	},
 
+	/**
+	 * The row is mounted once and reused as we scroll.
+	 */
 	mounted() {
 		// Init the debounce function on mount and
 		// not when the module is imported ⚠
@@ -171,6 +314,10 @@ export default Vue.extend({
 		}, 150, false)
 
 		this.debounceIfNotCached()
+	},
+
+	beforeDestroy() {
+		this.resetState()
 	},
 
 	methods: {
@@ -202,7 +349,7 @@ export default Vue.extend({
 			this.debounceGetPreview()
 		},
 
-		 fetchAndApplyPreview() {
+		fetchAndApplyPreview() {
 			logger.debug('Fetching preview', { fileId: this.source.attributes.fileid })
 			this.img = new Image()
 			this.img.onload = () => {
@@ -215,7 +362,10 @@ export default Vue.extend({
 			this.img.src = this.previewUrl
 		},
 
-		resetPreview() {
+		resetState() {
+			// Reset loading state
+			this.loading = ''
+
 			// Reset the preview
 			this.backgroundImage = ''
 			this.backgroundFailed = false
@@ -227,6 +377,9 @@ export default Vue.extend({
 				this.img.src = ''
 				delete this.img
 			}
+
+			// Close menu
+			this.$refs.actionsMenu.closeMenu()
 		},
 
 		isCachedPreview(previewUrl) {
@@ -239,111 +392,31 @@ export default Vue.extend({
 				})
 		},
 
+		hashCode(str) {
+			let hash = 0
+			for (let i = 0, len = str.length; i < len; i++) {
+				const chr = str.charCodeAt(i)
+				hash = (hash << 5) - hash + chr
+				hash |= 0 // Convert to 32bit integer
+			}
+			return hash
+		},
+
+		async onActionClick(action) {
+			const displayName = action.displayName([this.source], this.currentView)
+			try {
+				this.loading = action.id
+				await action.exec(this.source, this.currentView)
+			} catch (e) {
+				logger.error('Error while executing action', { action, e })
+				showError(this.t('files', 'Error while executing action "{displayName}"', { displayName }))
+			} finally {
+				this.loading = ''
+			}
+		},
+
 		t: translate,
-	},
-
-	/**
-	 * While a bit more complex, this component is pretty straightforward.
-	 * For performance reasons, we're using a render function instead of a template.
-	 */
-	render(createElement) {
-		// Checkbox
-		const checkbox = createElement('td', {
-			staticClass: 'files-list__row-checkbox',
-		}, [createElement('NcCheckboxRadioSwitch', {
-			attrs: {
-				'aria-label': this.t('files', 'Select the row for {displayName}', {
-					displayName: this.displayName,
-				}),
-				checked: this.selectedFiles,
-				value: this.fileid.toString(),
-				name: 'selectedFiles',
-			},
-			on: {
-				'update:checked': ($event) => {
-					this.selectedFiles = $event
-				},
-			},
-		})])
-
-		// Icon
-		const iconContent = () => {
-			// Folder icon
-			if (this.source.type === 'folder') {
-				return createElement('FolderIcon')
-			}
-			// Render cached preview or fallback to mime icon if defined
-			const renderPreview = this.previewUrl && !this.backgroundFailed
-			if (renderPreview || this.mimeUrl) {
-				return createElement('span', {
-					ref: 'previewImg',
-					class: {
-						'files-list__row-icon-preview': true,
-						'files-list__row-icon-preview--mime': !renderPreview,
-					},
-					style: {
-						backgroundImage: renderPreview
-							? this.backgroundImage
-							: this.mimeUrl,
-					},
-				})
-			}
-			// Empty file icon
-			return createElement('FileIcon')
-		}
-		const icon = createElement('td', {
-			staticClass: 'files-list__row-icon',
-		}, [iconContent()])
-
-		// Name
-		const name = createElement('td', {
-			staticClass: 'files-list__row-name',
-		}, [
-			createElement(this.linkTo?.is || 'a', {
-				attrs: this.linkTo,
-			}, this.displayName),
-		])
-
-		// Actions
-		const actions = createElement('td', {
-			staticClass: 'files-list__row-actions',
-		}, [createElement('NcActions', [
-			createElement('NcActionButton', [
-				this.t('files', 'Rename'),
-				createElement('Pencil', {
-					slot: 'icon',
-				}),
-			]),
-			createElement('NcActionButton', [
-				this.t('files', 'Delete'),
-				createElement('TrashCan', {
-					slot: 'icon',
-				}),
-			]),
-		])])
-
-		// Columns
-		const columns = this.columns.map(column => {
-			return createElement('td', {
-				class: {
-					[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
-					'files-list__row-column--custom': true,
-				},
-				key: column.id,
-			}, [createElement('CustomElementRender', {
-				props: {
-					element: column.render(this.source),
-				},
-			})])
-		})
-
-		return createElement('Fragment', [
-			checkbox,
-			icon,
-			name,
-			actions,
-			...columns,
-		])
+		formatFileSize,
 	},
 })
 </script>

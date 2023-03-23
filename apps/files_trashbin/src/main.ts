@@ -27,6 +27,9 @@ import moment from '@nextcloud/moment'
 
 import getContents from './services/trashbin'
 
+// Register restore action
+import './actions/restoreAction'
+
 const Navigation = window.OCP.Files.Navigation as NavigationService
 Navigation.register({
 	id: 'trashbin',
@@ -40,13 +43,16 @@ Navigation.register({
 		{
 			id: 'deleted',
 			title: t('files_trashbin', 'Deleted'),
-			render(mount, node) {
+			render(node) {
 				const deletionTime = node.attributes?.['trashbin-deletion-time']
+				const span = document.createElement('span')
 				if (deletionTime) {
-					mount.innerText = moment.unix(deletionTime).fromNow()
-					return
+					span.title = moment.unix(deletionTime).format('LLL')
+					span.textContent = moment.unix(deletionTime).fromNow()
+					return span
 				}
-				mount.innerText = translate('files_trashbin', 'Deleted a long time ago')
+				span.textContent = translate('files_trashbin', 'Deleted a long time ago')
+				return span
 			},
 			sort(nodeA, nodeB) {
 				const deletionTimeA = nodeA.attributes?.['trashbin-deletion-time'] || nodeA?.mtime || 0

@@ -32,7 +32,7 @@
 		list-tag="tbody"
 		role="table">
 		<template #default="{ item }">
-			<FileEntry :source="item" />
+			<FileEntry :is-size-available="isSizeAvailable" :source="item" />
 		</template>
 
 		<!-- <template #before>
@@ -42,13 +42,12 @@
 		</template> -->
 
 		<template #before>
-			<FilesListHeader :nodes="nodes" />
+			<FilesListHeader :nodes="nodes" :is-size-available="isSizeAvailable" />
 		</template>
 	</RecycleScroller>
 </template>
 
 <script lang="ts">
-import { Folder, File } from '@nextcloud/files'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import Vue from 'vue'
@@ -67,7 +66,7 @@ export default Vue.extend({
 
 	props: {
 		nodes: {
-			type: [File, Folder],
+			type: Array,
 			required: true,
 		},
 	},
@@ -93,6 +92,9 @@ export default Vue.extend({
 		summary() {
 			return translate('files', '{summaryFile} and {summaryFolder}', this)
 		},
+		isSizeAvailable() {
+			return this.nodes.some(node => node.attributes.size !== undefined)
+		},
 	},
 
 	mounted() {
@@ -113,6 +115,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .files-list {
 	--row-height: 55px;
+	--cell-margin: 14px;
 
 	--checkbox-padding: calc((var(--row-height) - var(--checkbox-size)) / 2);
 	--checkbox-size: 24px;

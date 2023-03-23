@@ -22,12 +22,20 @@
 td, th {
 	display: flex;
 	align-items: center;
-	flex: 0 0 var(--row-height);
-	justify-content: center;
+	flex: 0 0 auto;
+	justify-content: left;
 	width: var(--row-height);
 	height: var(--row-height);
+	margin: 0;
 	padding: 0;
+	color: var(--color-text-maxcontrast);
 	border: none;
+
+	span {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
 }
 
 .files-list__row {
@@ -37,7 +45,7 @@ td, th {
 }
 
 .files-list__row-checkbox {
-	width: var(--row-height);
+	justify-content: center;
 	&::v-deep .checkbox-radio-switch {
 		display: flex;
 		justify-content: center;
@@ -58,8 +66,11 @@ td, th {
 }
 
 .files-list__row-icon {
-	flex: 0 0 var(--icon-preview-size);
-	justify-content: left;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--icon-preview-size);
+	height: 100%;
 	// Show same padding as the checkbox right padding for visual balance
 	margin-right: var(--checkbox-padding);
 	color: var(--color-primary-element);
@@ -74,26 +85,49 @@ td, th {
 	}
 
 	&-preview {
+		overflow: hidden;
 		width: var(--icon-preview-size);
 		height: var(--icon-preview-size);
+		border-radius: var(--border-radius);
+		background-repeat: no-repeat;
 		// Center and contain the preview
 		background-position: center;
-		background-repeat: no-repeat;
 		background-size: contain;
-		border-radius: var(--border-radius);
-		overflow: hidden;
 	}
 }
 
 .files-list__row-name {
-	flex: 1 1 100%;
-	justify-content: left;
+	// Prevent link from overflowing
+	overflow: hidden;
+	// Take as much space as possible
+	flex: 1 1 auto;
+
+	a {
+		display: flex;
+		align-items: center;
+		// Fill cell height and width
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.files-list__row-actions {
+	width: auto;
+
+	& ~ td,
+	& ~ th {
+		// Add margin to all cells after the actions
+		margin: 0 var(--cell-margin);
+	}
+}
+
+.files-list__row-size {
+	justify-content: right;
+	width: calc(var(--row-height) * 1.5);
+	// opacity varies with the size
+	color: var(--color-main-text);
 }
 
 .files-list__row-column--custom {
-	overflow: hidden;
-	flex: 1 1 calc(var(--row-height) * 3);
-	width: auto;
-	min-width: var(--row-height);
-	justify-content: normal;
+	width: calc(var(--row-height) * 2);
 }
