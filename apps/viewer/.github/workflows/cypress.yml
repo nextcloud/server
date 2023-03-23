@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@v2.0
+        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7
         id: versions
         with:
           fallbackNode: "^14"
