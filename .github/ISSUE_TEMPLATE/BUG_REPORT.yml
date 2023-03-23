@@ -71,6 +71,20 @@ body:
         - "Community VM appliance"
         - "Other Community project"
   - type: dropdown
+    id: nextcloud-version
+    attributes:
+      label: Nextcloud Server version
+      description: |
+        Select Nextcloud Server version.
+        _Versions not listed here are not maintained and not supported anymore_
+      options:
+        - "24"
+        - "25"
+        - "26"
+        - "master"
+    validations:
+      required: true
+  - type: dropdown
     id: system
     attributes:
       label: Operating system
