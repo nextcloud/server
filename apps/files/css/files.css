@@ -546,7 +546,7 @@ table td.filename .nametext {
 
 .hide-hidden-files .files-filestable .files-fileList tr.hidden-file,
 .hide-hidden-files .files-filestable .files-fileList tr.hidden-file.dragging {
-  display: none;
+  display: none !important;
 }
 
 .files-fileList tr.animate-opacity {
