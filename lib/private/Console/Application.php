@@ -32,6 +32,7 @@ namespace OC\Console;
 
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
+use OC\ServiceUnavailableException;
 use OC_App;
 use OCP\AppFramework\QueryException;
 use OCP\App\IAppManager;
@@ -187,8 +188,9 @@ class Application {
 			$errOutput = $output->getErrorOutput();
 			$errOutput->writeln(
 				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
-				'Cannot perform any command except \'maintenance:mode --off\'</comment>' . PHP_EOL
+				'Cannot perform any command except \'maintenance:mode --off\' and \'status\'</comment>' . PHP_EOL
 			);
+			throw new ServiceUnavailableException();
 		}
 	}
 
