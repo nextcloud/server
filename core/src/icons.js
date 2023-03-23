@@ -1,5 +1,5 @@
 /* eslint-disable quote-props */
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import path from 'path'
 import fs from 'fs'
 import sass from 'sass'
