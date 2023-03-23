@@ -34,9 +34,9 @@ use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\ILogger;
 use OCP\IRequest;
 use ownCloud\TarStreamer\TarStreamer;
+use Psr\Log\LoggerInterface;
 use ZipStreamer\ZipStreamer;
 
 class Streamer {
@@ -123,12 +123,14 @@ class Streamer {
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
+		/** @var LoggerInterface $logger */
+		$logger = OC::$server->query(LoggerInterface::class);
 		foreach ($files as $file) {
 			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
 					if($fh === false) {
-						\OCP\Util::writeLog('core', 'unable to open file for stream: ' . print_r($file, true) , ILogger::ERROR);
+						$logger->error('Unable to open file for stream: ' . print_r($file, true));
 					}
 				} catch (NotPermittedException $e) {
 					continue;
