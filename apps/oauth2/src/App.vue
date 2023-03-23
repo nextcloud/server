@@ -63,11 +63,11 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import OAuthItem from './components/OAuthItem'
+import OAuthItem from './components/OAuthItem.vue'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {

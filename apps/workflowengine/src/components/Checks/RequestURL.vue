@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
-import valueMixin from '../../mixins/valueMixin'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import valueMixin from '../../mixins/valueMixin.js'
 
 export default {
 	name: 'RequestURL',

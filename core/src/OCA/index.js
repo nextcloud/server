@@ -20,7 +20,7 @@
  *
  */
 
-import Search from './search'
+import Search from './search.js'
 
 /**
  * Namespace for apps

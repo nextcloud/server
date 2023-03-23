@@ -20,10 +20,10 @@
  *
  */
 
-import RequestUserAgent from './RequestUserAgent'
-import RequestTime from './RequestTime'
-import RequestURL from './RequestURL'
-import RequestUserGroup from './RequestUserGroup'
+import RequestUserAgent from './RequestUserAgent.vue'
+import RequestTime from './RequestTime.vue'
+import RequestURL from './RequestURL.vue'
+import RequestUserGroup from './RequestUserGroup.vue'
 
 const RequestChecks = [
 	{

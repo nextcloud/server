@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { clearAtFilter } from '../filters/clearAtFilter'
+import { clearAtFilter } from '../filters/clearAtFilter.js'
 
 export default {
 	name: 'PredefinedStatus',

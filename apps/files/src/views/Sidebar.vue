@@ -89,13 +89,13 @@ import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
-import FileInfo from '../services/FileInfo'
-import SidebarTab from '../components/SidebarTab'
-import LegacyView from '../components/LegacyView'
+import FileInfo from '../services/FileInfo.js'
+import SidebarTab from '../components/SidebarTab.vue'
+import LegacyView from '../components/LegacyView.vue'
 
 export default {
 	name: 'Sidebar',

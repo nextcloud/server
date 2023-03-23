@@ -23,7 +23,7 @@
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
-import Dashboard from './views/Dashboard'
+import Dashboard from './views/Dashboard.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())

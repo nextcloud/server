@@ -25,7 +25,7 @@
  *
  */
 
-// eslint-disable-next-line import/no-unresolved, node/no-missing-import
+// eslint-disable-next-line import/no-unresolved, n/no-missing-import
 import PQueue from 'p-queue'
 
 /* eslint-disable */

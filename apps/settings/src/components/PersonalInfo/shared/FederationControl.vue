@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 

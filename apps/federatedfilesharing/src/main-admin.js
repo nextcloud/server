@@ -26,7 +26,7 @@ import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/dist/index.css'
 import { loadState } from '@nextcloud/initial-state'
 
-import AdminSettings from './components/AdminSettings'
+import AdminSettings from './components/AdminSettings.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 

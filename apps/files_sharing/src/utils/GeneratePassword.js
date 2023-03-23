@@ -21,7 +21,7 @@
  */
 
 import axios from '@nextcloud/axios'
-import Config from '../services/ConfigService'
+import Config from '../services/ConfigService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
 const config = new Config()

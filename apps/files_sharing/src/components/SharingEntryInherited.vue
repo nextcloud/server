@@ -48,15 +48,15 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { basename } from '@nextcloud/paths'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 
 // eslint-disable-next-line no-unused-vars
-import Share from '../models/Share'
-import SharesMixin from '../mixins/SharesMixin'
-import SharingEntrySimple from '../components/SharingEntrySimple'
+import Share from '../models/Share.js'
+import SharesMixin from '../mixins/SharesMixin.js'
+import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingEntryInherited',

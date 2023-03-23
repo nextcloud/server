@@ -70,11 +70,11 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import Vue from 'vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
-import logger from '../logger'
+import logger from '../logger.js'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)

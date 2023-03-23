@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
-import valueMixin from './../../mixins/valueMixin'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import valueMixin from './../../mixins/valueMixin.js'
 import { imagePath } from '@nextcloud/router'
 
 export default {

@@ -26,10 +26,10 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/dist/index.css'
 
-import logger from './logger'
+import logger from './logger.js'
 
-import ProfileSettings from './components/BasicSettings/ProfileSettings'
-import BackgroundJob from './components/BasicSettings/BackgroundJob'
+import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
+import BackgroundJob from './components/BasicSettings/BackgroundJob.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 

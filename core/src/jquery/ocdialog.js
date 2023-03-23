@@ -24,7 +24,7 @@
  */
 
 import $ from 'jquery'
-import { isA11yActivation } from '../Util/a11y'
+import { isA11yActivation } from '../Util/a11y.js'
 
 $.widget('oc.ocdialog', {
 	options: {

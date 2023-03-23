@@ -26,7 +26,7 @@ import _ from 'underscore'
 /** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
 
-import { menuSpeed } from './constants'
+import { menuSpeed } from './constants.js'
 
 export let currentMenu = null
 export let currentMenuToggle = null
