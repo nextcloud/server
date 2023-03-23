@@ -102,7 +102,7 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import VueCropper from 'vue-cropperjs'
-// eslint-disable-next-line node/no-extraneous-import
+// eslint-disable-next-line n/no-extraneous-import
 import 'cropperjs/dist/cropper.css'
 
 import Upload from 'vue-material-design-icons/Upload.vue'

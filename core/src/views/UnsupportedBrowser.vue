@@ -124,7 +124,7 @@ export default {
 
 	async beforeMount() {
 		// Dynamic load big list of user agents
-		// eslint-disable-next-line node/no-extraneous-import
+		// eslint-disable-next-line n/no-extraneous-import
 		const { agents } = await import('caniuse-lite')
 		this.agents = agents
 	},

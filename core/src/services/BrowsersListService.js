@@ -21,7 +21,7 @@
  */
 
 import { getUserAgentRegExp } from 'browserslist-useragent-regexp'
-// eslint-disable-next-line node/no-extraneous-import
+// eslint-disable-next-line n/no-extraneous-import
 import browserslist from 'browserslist'
 import browserslistConfig from '@nextcloud/browserslist-config'
 
