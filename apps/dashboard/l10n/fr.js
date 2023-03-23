@@ -4,6 +4,7 @@ OC.L10N.register(
     "Dashboard" : "Tableau de bord",
     "Dashboard app" : "App Tableau de bord",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un\naperçu de vos rendez-vous à venir, des e-mails urgents, des messages de tchat,\ndes tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets\nqu'ils souhaitent et modifier l'arrière-plan à leur guise.",
+    "\"{title} icon\"" : "\"Icône {title}\"",
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
     "Get more widgets from the App Store" : "Obtenez plus de widgets depuis la Boutique d'applications",
