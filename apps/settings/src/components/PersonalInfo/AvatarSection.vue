@@ -46,7 +46,7 @@
 							<Upload :size="20" />
 						</template>
 					</NcButton>
-					<NcButton :aria-label="t('settings', 'Choose profile picture from files')"
+					<NcButton :aria-label="t('settings', 'Choose profile picture from Files')"
 						@click="openFilePicker">
 						<template #icon>
 							<Folder :size="20" />
