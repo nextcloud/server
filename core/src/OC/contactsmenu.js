@@ -27,7 +27,7 @@ import _ from 'underscore'
 import $ from 'jquery'
 import { Collection, Model, View } from 'backbone'
 
-import OC from './index'
+import OC from './index.js'
 
 /**
  * @class Contact

@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import Plus from 'vue-material-design-icons/Plus'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import Plus from 'vue-material-design-icons/Plus.vue'
 
 import FederationControl from './FederationControl.vue'
 

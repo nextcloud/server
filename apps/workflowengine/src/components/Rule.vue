@@ -53,17 +53,17 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import CheckMark from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 
-import Event from './Event'
-import Check from './Check'
-import Operation from './Operation'
+import Event from './Event.vue'
+import Check from './Check.vue'
+import Operation from './Operation.vue'
 
 export default {
 	name: 'Rule',

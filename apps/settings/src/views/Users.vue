@@ -142,22 +142,22 @@
 </template>
 
 <script>
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation'
-import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew'
-import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
+import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
+import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
+import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
 import axios from '@nextcloud/axios'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import { generateUrl } from '@nextcloud/router'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
-import GroupListItem from '../components/GroupListItem'
-import UserList from '../components/UserList'
+import GroupListItem from '../components/GroupListItem.vue'
+import UserList from '../components/UserList.vue'
 
 Vue.use(VueLocalStorage)
 

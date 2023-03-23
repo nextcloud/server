@@ -60,7 +60,7 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
-import Web from 'vue-material-design-icons/Web'
+import Web from 'vue-material-design-icons/Web.vue'
 
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'

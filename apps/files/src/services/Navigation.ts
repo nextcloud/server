@@ -22,7 +22,7 @@
 import type Node from '@nextcloud/files/dist/files/node'
 import isSvg from 'is-svg'
 
-import logger from '../logger'
+import logger from '../logger.js'
 
 export interface Column {
 	/** Unique column ID */

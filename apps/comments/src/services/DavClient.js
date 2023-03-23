@@ -23,7 +23,7 @@
 import { createClient, getPatcher } from 'webdav'
 import axios from '@nextcloud/axios'
 
-import { getRootPath } from '../utils/davUtils'
+import { getRootPath } from '../utils/davUtils.js'
 
 // Add this so the server knows it is an request from the browser
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'

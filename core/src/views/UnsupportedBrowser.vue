@@ -51,8 +51,8 @@
 import { generateUrl } from '@nextcloud/router'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import Web from 'vue-material-design-icons/Web'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import Web from 'vue-material-design-icons/Web.vue'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
