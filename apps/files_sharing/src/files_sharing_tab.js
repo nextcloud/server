@@ -30,7 +30,7 @@ import ExternalLinkActions from './services/ExternalLinkActions.js'
 import ExternalShareActions from './services/ExternalShareActions.js'
 import TabSections from './services/TabSections.js'
 
-// eslint-disable-next-line node/no-missing-import, import/no-unresolved
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 
 // Init Sharing Tab Service
