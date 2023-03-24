@@ -60,9 +60,6 @@
 <script lang="ts">
 import { mapState } from 'pinia'
 import { translate } from '@nextcloud/l10n'
-import MenuDown from 'vue-material-design-icons/MenuDown.vue'
-import MenuUp from 'vue-material-design-icons/MenuUp.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
@@ -168,16 +165,6 @@ export default Vue.extend({
 			}
 		},
 
-		sortAriaLabel(column) {
-			const direction = this.isAscSorting
-				? this.t('files', 'ascending')
-				: this.t('files', 'descending')
-			return this.t('files', 'Sort list by {column} ({direction})', {
-				column,
-				direction,
-			})
-		},
-
 		onToggleAll(selected) {
 			if (selected) {
 				const selection = this.nodes.map(node => node.attributes.fileid.toString())
@@ -187,23 +174,6 @@ export default Vue.extend({
 				logger.debug('Cleared selection')
 				this.selectionStore.reset()
 			}
-		},
-
-		toggleSortBy(key) {
-			// If we're already sorting by this key, flip the direction
-			if (this.sortingMode === key) {
-				this.sortingStore.toggleSortingDirection(this.currentView.id)
-				return
-			}
-			// else sort ASC by this new key
-			this.sortingStore.setSortingBy(key, this.currentView.id)
-		},
-
-		toggleSortByCustomColumn(column) {
-			if (!column.sort) {
-				return
-			}
-			this.toggleSortBy(column.id)
 		},
 
 		t: translate,

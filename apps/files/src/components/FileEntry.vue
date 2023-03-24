@@ -57,12 +57,9 @@
 		<!-- Actions -->
 		<td :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
 			<!-- Inline actions -->
-			<template v-if="false" v-for="action in enabledInlineActions">
-				<CustomElementRender v-if="false"
-					:key="action.id"
-					:element="action.renderInline(source, currentView)" />
-				<NcButton v-else
-					:key="action.id"
+			<template v-for="action in enabledInlineActions">
+				<!-- TODO: implement CustomElementRender -->
+				<NcButton :key="action.id"
 					type="tertiary"
 					@click="onActionClick(action)">
 					<template #icon>

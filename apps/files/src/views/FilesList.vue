@@ -56,7 +56,10 @@
 		</NcEmptyContent>
 
 		<!-- File list -->
-		<FilesListVirtual v-else ref="filesListVirtual" :nodes="dirContents" />
+		<FilesListVirtual v-else
+			ref="filesListVirtual"
+			:current-view="currentView"
+			:nodes="dirContents" />
 	</NcAppContent>
 </template>
 

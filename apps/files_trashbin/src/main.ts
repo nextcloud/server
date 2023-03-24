@@ -35,6 +35,7 @@ const Navigation = window.OCP.Files.Navigation as NavigationService
 Navigation.register({
 	id: 'trashbin',
 	name: t('files_trashbin', 'Deleted files'),
+	caption: t('files_trashbin', 'List of files that have been deleted.'),
 
 	icon: DeleteSvg,
 	order: 50,

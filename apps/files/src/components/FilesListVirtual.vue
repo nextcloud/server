@@ -35,14 +35,20 @@
 			<FileEntry :is-size-available="isSizeAvailable" :source="item" />
 		</template>
 
-		<!-- <template #before>
-			<caption v-show="false" class="files-list__caption">
-				{{ summary }}
-			</caption>
-		</template> -->
-
 		<template #before>
-			<FilesListHeader :nodes="nodes" :is-size-available="isSizeAvailable" />
+			<!-- Accessibility description -->
+			<caption class="hidden-visually">
+				{{ currentView.caption || '' }}
+				{{ t('files', 'This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.') }}
+			</caption>
+
+			<!-- Thead-->
+			<FilesListHeader :is-size-available="isSizeAvailable" :nodes="nodes" />
+		</template>
+
+		<template #after>
+			<!-- Tfoot-->
+			<FilesListFooter :is-size-available="isSizeAvailable" :nodes="nodes" :summary="summary" />
 		</template>
 	</RecycleScroller>
 </template>
@@ -54,6 +60,7 @@ import Vue from 'vue'
 
 import FileEntry from './FileEntry.vue'
 import FilesListHeader from './FilesListHeader.vue'
+import FilesListFooter from './FilesListFooter.vue'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
@@ -62,9 +69,14 @@ export default Vue.extend({
 		RecycleScroller,
 		FileEntry,
 		FilesListHeader,
+		FilesListFooter,
 	},
 
 	props: {
+		currentView: {
+			type: Object,
+			required: true,
+		},
 		nodes: {
 			type: Array,
 			required: true,

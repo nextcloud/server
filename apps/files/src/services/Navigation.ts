@@ -41,7 +41,7 @@ export interface Column {
 	sort?: (nodeA: Node, nodeB: Node) => number
 	/** Custom summary of the column to display at the end of the list.
 	 Will not be displayed if  nothing is provided */
-	summary?: (node: Node[]) => string
+	summary?: (node: Node[], view: Navigation) => string
 }
 
 export interface Navigation {
