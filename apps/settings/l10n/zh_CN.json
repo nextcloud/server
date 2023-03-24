@@ -265,7 +265,6 @@
     "Change password" : "修改密码",
     "Your profile picture" : "您的个人资料图片",
     "Upload profile picture" : "上传个人资料图片",
-    "Choose profile picture from files" : "从文件中选择个人资料图片",
     "Remove profile picture" : "移除个人资料图片",
     "png or jpg, max. 20 MB" : "png 或 jpg 格式，最大 20MB",
     "Picture provided by original account" : "初始账号提供的图片",
@@ -551,6 +550,7 @@
     "It can take up to 24 hours before the account is displayed as verified." : "在账号显示为已验证之前最多可能需要 24 小时。",
     "Link https://…" : "链接 https://…",
     "Change privacy level of Twitter profile" : "更改推特资料的隐私权限",
-    "Twitter handle @…" : "Twitter 用户名 @…"
+    "Twitter handle @…" : "Twitter 用户名 @…",
+    "Choose profile picture from files" : "从文件中选择个人资料图片"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

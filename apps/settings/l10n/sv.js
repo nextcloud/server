@@ -270,7 +270,6 @@ OC.L10N.register(
     "Change password" : "Ändra lösenord",
     "Your profile picture" : "Din profilbild",
     "Upload profile picture" : "Ladda upp profilbild",
-    "Choose profile picture from files" : "Välj profilbild från filer",
     "Remove profile picture" : "Ta bort profilbild",
     "png or jpg, max. 20 MB" : "png eller jpg, max 20 MB",
     "Picture provided by original account" : "Bild gjordes tillgänglig av orginalkonto",
@@ -559,6 +558,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Det kan ta upp till 24 timmar innan kontot visas som verifierat.",
     "Link https://…" : "Länk https://...",
     "Change privacy level of Twitter profile" : "Ända hemlighetsnivå för Twitterprofil",
-    "Twitter handle @…" : "Twitter handle @…"
+    "Twitter handle @…" : "Twitter handle @…",
+    "Choose profile picture from files" : "Välj profilbild från filer"
 },
 "nplurals=2; plural=(n != 1);");

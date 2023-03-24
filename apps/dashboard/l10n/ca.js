@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Tauler",
     "Dashboard app" : "Aplicació tauler",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comença el dia informat\n\nEl tauler de control de Nextcloud és el vostre punt de partida del dia i us ofereix una\nvisió general de les vostres properes cites, correus electrònics urgents, missatges de xat,\ntiquets entrants, els darrers tuits i molt més! Els usuaris poden afegir els widgets\nque els agraden i canviar el fons al seu gust.",
     "Customize" : "Personalitza",
     "Edit widgets" : "Edita els ginys",
     "Get more widgets from the App Store" : "Aconseguiu més widgets de la botiga d'aplicacions",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Bona nit, {name}",
     "Hello" : "Hola",
     "Hello, {name}" : "Hola {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comença el dia informat\n\nEl tauler de control de Nextcloud és el vostre punt de partida del dia i us ofereix una\nvisió general de les vostres properes cites, correus electrònics urgents, missatges de xat,\ntiquets entrants, els darrers tuits i molt més! Els usuaris poden afegir els widgets\nque els agraden i canviar el fons al seu gust.",
     "Change background image" : "Canvia la imatge de fons",
     "Pick from Files" : "Trieu dels fitxers",
     "Default images" : "Imatges per defecte",

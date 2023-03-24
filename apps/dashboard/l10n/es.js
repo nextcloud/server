@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "App Dashboard",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comienza tu día informado\n\nEl Dashboard de Nextcloud es tu punto de partida del día, dándote un\nresumen de tus próximas citas, emails urgentes, mensajes de chat,\npróximos tickets, últimos tweets y mucho más! Los usuarios pueden agregr widgets\nque le gusten y cambiar el fondo a su gusto.",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Conseguir más widgets desde la tienda de Apps",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Buenas tardes, {name}",
     "Hello" : "Hola",
     "Hello, {name}" : "Hola, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comienza tu día informado\n\nEl Dashboard de Nextcloud es tu punto de partida del día, dándote un\nresumen de tus próximas citas, emails urgentes, mensajes de chat,\npróximos tickets, últimos tweets y mucho más! Los usuarios pueden agregr widgets\nque le gusten y cambiar el fondo a su gusto.",
     "Change background image" : "Cambiar imagen de fondo",
     "Pick from Files" : "Elegir de Archivos",
     "Default images" : "Imágenes predeterminadas",

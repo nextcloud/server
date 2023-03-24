@@ -269,7 +269,6 @@ OC.L10N.register(
     "Change password" : "Aldatu pasahitza",
     "Your profile picture" : "Zure profil-irudia",
     "Upload profile picture" : "Kargatu profil-irudia",
-    "Choose profile picture from files" : "Aukeratu profil-irudia fitxategietatik",
     "Remove profile picture" : "Kendu profil-irudia",
     "png or jpg, max. 20 MB" : "png edo jpg, gehienez 20MB",
     "Picture provided by original account" : "Irudia jatorrizko kontutik hartuta",
@@ -557,6 +556,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "24 ordu pasa daitezke kontua ziurtatua bezala agertu baino lehen",
     "Link https://…" : "https://... esteka",
     "Change privacy level of Twitter profile" : "Aldatu Twitter profilaren pribatutasun maila",
-    "Twitter handle @…" : "Twitter heldulekua @..."
+    "Twitter handle @…" : "Twitter heldulekua @...",
+    "Choose profile picture from files" : "Aukeratu profil-irudia fitxategietatik"
 },
 "nplurals=2; plural=(n != 1);");
