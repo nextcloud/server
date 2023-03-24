@@ -232,7 +232,6 @@ OC.L10N.register(
     "Change password" : "تغییر گذر واژه",
     "Your profile picture" : "نگارهٔ نمایه‌تان",
     "Upload profile picture" : "بارگذاری نگارهٔ نمایه",
-    "Choose profile picture from files" : "گزینش نگارهٔ نمایه از پرونده‌ها",
     "Remove profile picture" : "برداشتن نگارهٔ نمایه",
     "png or jpg, max. 20 MB" : "png یا jpg. بیشینه ۲۰ م‌ب",
     "Picture provided by original account" : "نگاره فراهم شده به دست حساب اصلی",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Your postal address" : "آدرس پستی شما",
     "It can take up to 24 hours before the account is displayed as verified." : "24 ساعت طول می کشد تا اعتبار حساب تأیید شود.",
     "Link https://…" : "پیوند https://…",
-    "Twitter handle @…" : "دسته توییتر @…"
+    "Twitter handle @…" : "دسته توییتر @…",
+    "Choose profile picture from files" : "گزینش نگارهٔ نمایه از پرونده‌ها"
 },
 "nplurals=2; plural=(n > 1);");

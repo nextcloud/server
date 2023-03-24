@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Майстерня",
     "Dashboard app" : "Застосунок з панеллю віджетів ",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Почніть свій день інформовано \nІнформаційна панель Nextcloud — це ваша початкова точка дня, яка дає вам змогу огляд ваших майбутніх зустрічей, термінових електронних листів, повідомлень чату, вхідні квитки, останні твіти та багато іншого! Користувачі можуть додавати віджети вони люблять і змінюють фон на свій смак.",
     "Customize" : "Редагувати",
     "Edit widgets" : "Редагувати віджети",
     "Get more widgets from the App Store" : "Більше віджетів у каталозі застосунків",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрий вечір, {name}",
     "Hello" : "Привіт",
     "Hello, {name}" : "Привіт, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Почніть свій день інформовано \nІнформаційна панель Nextcloud — це ваша початкова точка дня, яка дає вам змогу огляд ваших майбутніх зустрічей, термінових електронних листів, повідомлень чату, вхідні квитки, останні твіти та багато іншого! Користувачі можуть додавати віджети вони люблять і змінюють фон на свій смак.",
     "Change background image" : "Змінити зображення тла",
     "Pick from Files" : "Виберіть із файлів",
     "Default images" : "Типові зображення",
