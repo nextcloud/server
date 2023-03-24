@@ -57,8 +57,8 @@
 		<!-- Actions -->
 		<td :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
 			<!-- Inline actions -->
-			<template v-for="action in enabledInlineActions">
-				<CustomElementRender v-if="action.renderInline"
+			<template v-if="false" v-for="action in enabledInlineActions">
+				<CustomElementRender v-if="false"
 					:key="action.id"
 					:element="action.renderInline(source, currentView)" />
 				<NcButton v-else
@@ -100,7 +100,7 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom">
-			<CustomElementRender :element="column.render(source)" />
+			<CustomElementRender :current-view="currentView" :render="column.render" :source="source" />
 		</td>
 	</Fragment>
 </template>

@@ -27,7 +27,7 @@
 
 		<!-- Link to file -->
 		<th class="files-list__column files-list__row-name files-list__column--sortable"
-			@click.exact.stop="toggleSortBy('basename')">
+			@click.stop.prevent="toggleSortBy('basename')">
 			<!-- Icon or preview -->
 			<span class="files-list__row-icon" />
 

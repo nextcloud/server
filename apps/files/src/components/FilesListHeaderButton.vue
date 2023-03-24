@@ -24,7 +24,7 @@
 		:class="{'files-list__column-sort-button--active': sortingMode === mode}"
 		class="files-list__column-sort-button"
 		type="tertiary"
-		@click="toggleSortBy(mode)">
+		@click.stop.prevent="toggleSortBy(mode)">
 		<!-- Sort icon before text as size is align right -->
 		<MenuUp v-if="sortingMode !== mode || isAscSorting" slot="icon" />
 		<MenuDown v-else slot="icon" />
@@ -41,8 +41,6 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Vue from 'vue'
 
 import { useSortingStore } from '../store/sorting'
-
-Vue.config.performance = true
 
 export default Vue.extend({
 	name: 'FilesListHeaderButton',
@@ -107,13 +105,6 @@ export default Vue.extend({
 			}
 			// else sort ASC by this new key
 			this.sortingStore.setSortingBy(key, this.currentView.id)
-		},
-
-		toggleSortByCustomColumn(column) {
-			if (!column.sort) {
-				return
-			}
-			this.toggleSortBy(column.id)
 		},
 
 		t: translate,

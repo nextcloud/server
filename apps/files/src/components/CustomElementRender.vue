@@ -20,20 +20,40 @@
   -
   -->
 <template>
-	<div />
+	<span />
 </template>
 
 <script>
 export default {
 	name: 'CustomElementRender',
 	props: {
-		element: {
-			type: HTMLElement,
+		source: {
+			type: Object,
 			required: true,
+		},
+		currentView: {
+			type: Object,
+			required: true,
+		},
+		render: {
+			type: Function,
+			required: true,
+		},
+	},
+	computed: {
+		element() {
+			return this.render(this.source, this.currentView)
+		},
+	},
+	watch: {
+		element() {
+			this.$el.replaceWith(this.element)
+			this.$el = this.element
 		},
 	},
 	mounted() {
 		this.$el.replaceWith(this.element)
+		this.$el = this.element
 	},
 }
 </script>

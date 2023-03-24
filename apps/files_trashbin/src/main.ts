@@ -54,7 +54,9 @@ Navigation.register({
 					span.textContent = moment.unix(deletionTime).fromNow()
 					return span
 				}
-				span.textContent = translate('files_trashbin', 'Deleted a long time ago')
+
+				// Unknown deletion time
+				span.textContent = translate('files_trashbin', 'A long time ago')
 				return span
 			},
 			sort(nodeA, nodeB) {

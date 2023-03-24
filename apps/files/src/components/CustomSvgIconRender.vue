@@ -35,6 +35,11 @@ export default {
 			required: true,
 		},
 	},
+	watch: {
+		svg() {
+			this.$el.innerHTML = sanitize(this.svg)
+		},
+	},
 	mounted() {
 		this.$el.innerHTML = sanitize(this.svg)
 	},
