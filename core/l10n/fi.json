@@ -47,6 +47,7 @@
     "Repair info:" : "Korjaustiedot:",
     "Repair warning:" : "Korjausvaroitus:",
     "Repair error:" : "Korjausvirhe:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa.",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",
     "Turned off maintenance mode" : "Poistuttu huoltotilasta",
     "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
@@ -73,6 +74,7 @@
     "Missing primary key on table \"{tableName}\"." : "Primary key puuttuu taulusta \"{tableName}\".",
     "Missing optional column \"{columnName}\" in table \"{tableName}\"." : "Valinnainen sarake \"{columnName}\" puuttuu taulusta \"{tableName}\".",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "Tästä instanssista puuttuu joitain suositeltuja PHP-moduuleja. Nykyistä paremman suorituskyvyn ja yhteensopivuuden vuoksi kyseisten moduulien asentaminen on erittäin suositeltavaa.",
+    "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "PHP-moduulit \"gmp\" ja/tai \"bcmath\" eivät ole käytössä. Jos käytät WebAuthn-todennusta (ei salasanaa), nämä moduulit vaaditaan.",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "Palvelimen php-imagick-moduulissa ei ole SVG-tukea. Parempaa yhteensopivuutta varten sen asentaminen on suositeltua.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite on parhaillaan käytössä tietokantaratkaisuna. Suuria asennuksia varten suosittelemme vaihtamaan toiseen tietokantaratkaisuun.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Tämä on suositeltavaa erityisesti silloin, kun työpöytäsovellusta käytetään tiedostojen synkronointiin.",
@@ -246,6 +248,7 @@
     "Strong password" : "Vahva salasana",
     "No action available" : "Toimintoa ei saatavilla",
     "Error fetching contact actions" : "Virhe yhteystiedon toimintojen haussa",
+    "Close \"{dialogTitle}\" dialog" : "Sulje \"{dialogTitle}\"-ikkuna",
     "Non-existing tag #{tag}" : "Ei olemassa oleva tunniste #{tag}",
     "Restricted" : "Rajoitettu",
     "Invisible" : "Näkymätön",
@@ -376,6 +379,7 @@
     "More apps menu" : "Lisäsovellusvalikko",
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
-    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
+    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

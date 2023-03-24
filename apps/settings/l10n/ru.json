@@ -267,7 +267,6 @@
     "Change password" : "Сменить пароль",
     "Your profile picture" : "Изображение профиля",
     "Upload profile picture" : "Загрузить изображение профиля",
-    "Choose profile picture from files" : "Выбрать изображение профиля из загруженных файлов",
     "Remove profile picture" : "Удалить изображение профиля",
     "png or jpg, max. 20 MB" : "png или jpg, макс. 20 МБ",
     "Picture provided by original account" : "Изображение получено из исходной учётной записи",
@@ -548,6 +547,7 @@
     "It can take up to 24 hours before the account is displayed as verified." : "До момента подтверждения аккаунта может пройти до 24 часов.",
     "Link https://…" : "Ссылка https://…",
     "Change privacy level of Twitter profile" : "Изменить уровень конфиденциальности профиля Twitter",
-    "Twitter handle @…" : "Имя в Twitter @…"
+    "Twitter handle @…" : "Имя в Twitter @…",
+    "Choose profile picture from files" : "Выбрать изображение профиля из загруженных файлов"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

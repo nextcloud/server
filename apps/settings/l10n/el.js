@@ -245,7 +245,6 @@ OC.L10N.register(
     "Change password" : "Αλλαγή συνθηματικού",
     "Your profile picture" : "Η εικόνα του προφίλ σας",
     "Upload profile picture" : "Μεταφόρτωση εικόνας προφίλ",
-    "Choose profile picture from files" : "Επιλογή εικόνας προφίλ από το αρχείο",
     "Remove profile picture" : "Αφαίρεση εικόνας προφίλ",
     "png or jpg, max. 20 MB" : "png ή jpg, μεγ. 20 MB",
     "Picture provided by original account" : "Φωτογραφία που παρέχεται από τον πρωτότυπο λογαριασμό",
@@ -517,6 +516,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Η επαλήθευση του λογαριασμού μπορεί να διαρκέσει έως και 24 ώρες.",
     "Link https://…" : "Σύνδεσμος https://…",
     "Change privacy level of Twitter profile" : "Αλλαγή επιπέδου απορρήτου του προφίλ Twitter",
-    "Twitter handle @…" : "Twitter handle @…"
+    "Twitter handle @…" : "Twitter handle @…",
+    "Choose profile picture from files" : "Επιλογή εικόνας προφίλ από το αρχείο"
 },
 "nplurals=2; plural=(n != 1);");

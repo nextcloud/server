@@ -270,7 +270,6 @@ OC.L10N.register(
     "Change password" : "Parola değiştir",
     "Your profile picture" : "Profil görseliniz",
     "Upload profile picture" : "Profil görseli yükle",
-    "Choose profile picture from files" : "Profil görselini dosyalardan seçin",
     "Remove profile picture" : "Profil görselini kaldır",
     "png or jpg, max. 20 MB" : "png ya da jpg, en fazla 20 MB",
     "Picture provided by original account" : "Görsel özgün hesabınız tarafından sağlanıyor",
@@ -559,6 +558,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Hesabın doğrulanması ve görüntülenmesi 24 saate kadar zaman alabilir.",
     "Link https://…" : "Bağlantı https://…",
     "Change privacy level of Twitter profile" : "Twitter profilinin gizlilik düzeyini değiştir",
-    "Twitter handle @…" : "Twitter kodu @…"
+    "Twitter handle @…" : "Twitter kodu @…",
+    "Choose profile picture from files" : "Profil görselini dosyalardan seçin"
 },
 "nplurals=2; plural=(n > 1);");

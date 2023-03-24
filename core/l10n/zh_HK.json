@@ -424,6 +424,7 @@
     "Contacts" : "聯絡人",
     "Contacts menu" : "聯絡人選單",
     "Setup two-factor authentication" : "設定雙重認證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

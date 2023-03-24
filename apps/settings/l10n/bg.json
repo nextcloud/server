@@ -268,7 +268,6 @@
     "Change password" : "Промени паролата",
     "Your profile picture" : "Вашата профилна снимка",
     "Upload profile picture" : "Качване на профилна снимка",
-    "Choose profile picture from files" : "Избор на профилна снимка от файлове",
     "Remove profile picture" : "Премахване на профилна снимка",
     "png or jpg, max. 20 MB" : "png или jpg, макс. 20 MB",
     "Picture provided by original account" : "Снимката е предоставена от оригиналния профил",
@@ -557,6 +556,7 @@
     "It can take up to 24 hours before the account is displayed as verified." : "Може да отнеме до 24 часа, преди профилът да се покаже като потвърден.",
     "Link https://…" : "Връзка https://…",
     "Change privacy level of Twitter profile" : "Промяна на нивото на поверителност на профила в Twitter",
-    "Twitter handle @…" : "Twitter манипулатор @…"
+    "Twitter handle @…" : "Twitter манипулатор @…",
+    "Choose profile picture from files" : "Избор на профилна снимка от файлове"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
