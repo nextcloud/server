@@ -80,7 +80,7 @@ class Info extends Base {
 			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName(),
-			'created' => date(\DateTimeInterface::Atom, $user->getFirstLogin())
+			'created' => date(\DateTimeInterface::ATOM, $user->getFirstLogin())
 		];
 		$this->writeArrayInOutputFormat($input, $output, $data);
 		return 0;
