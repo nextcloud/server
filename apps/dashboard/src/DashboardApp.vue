@@ -17,9 +17,13 @@
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
 					<h2>
-						<div :class="panels[panelId].iconClass" role="img" />
+						<div aria-labelledby="panel--header--icon--description"
+							aria-hidden="true"
+							:class="panels[panelId].iconClass"
+							role="img" />
 						{{ panels[panelId].title }}
 					</h2>
+					<span id="panel--header--icon--description" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
 				</div>
 				<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
 					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
