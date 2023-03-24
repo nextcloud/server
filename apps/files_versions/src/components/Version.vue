@@ -32,7 +32,7 @@
 			</template>
 			<template #subtitle>
 				<div class="version__info">
-					<span v-tooltip="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
+					<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
 					<!-- Separate dot to improve alignement -->
 					<span class="version__info__size">•</span>
 					<span class="version__info__size">{{ version.size | humanReadableSize }}</span>
@@ -223,6 +223,11 @@ export default {
 				return this.version.preview
 			}
 		},
+
+		/** @return {string} */
+		formattedDate() {
+			return moment(this.version.mtime).format('LLL')
+		},
 	},
 	methods: {
 		openVersionLabelModal() {
@@ -244,10 +249,6 @@ export default {
 
 		deleteVersion() {
 			this.$emit('delete', this.version)
-		},
-
-		formattedDate() {
-			return moment(this.version.mtime)
 		},
 	},
 }
