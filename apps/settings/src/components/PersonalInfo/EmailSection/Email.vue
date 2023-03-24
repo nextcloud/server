@@ -89,7 +89,7 @@
 import { NcActions, NcActionButton } from '@nextcloud/vue'
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
-import Check from 'vue-material-design-icons/Check'
+import Check from 'vue-material-design-icons/Check.vue'
 import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 

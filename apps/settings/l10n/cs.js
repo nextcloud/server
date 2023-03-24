@@ -270,7 +270,6 @@ OC.L10N.register(
     "Change password" : "Změnit heslo",
     "Your profile picture" : "Váš profilový obrázek",
     "Upload profile picture" : "Nahrát profilový obrázek",
-    "Choose profile picture from files" : "Zvolit profilový obrázek ze souborů",
     "Remove profile picture" : "Odebrat profilový obrázek",
     "png or jpg, max. 20 MB" : "png nebo jpg, nejvýše 20 MB",
     "Picture provided by original account" : "Obrázek poskytovaný původním účtem",
@@ -559,6 +558,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Může trvat až 24 hodin, než se účet zobrazí jako ověřený.",
     "Link https://…" : "Odkaz https://…",
     "Change privacy level of Twitter profile" : "Změnit úroveň soukromí Twitteru",
-    "Twitter handle @…" : "Přezdívka na Twitteru @…"
+    "Twitter handle @…" : "Přezdívka na Twitteru @…",
+    "Choose profile picture from files" : "Zvolit profilový obrázek ze souborů"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

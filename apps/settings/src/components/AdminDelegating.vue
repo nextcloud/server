@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import GroupSelect from './AdminDelegation/GroupSelect'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import GroupSelect from './AdminDelegation/GroupSelect.vue'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {

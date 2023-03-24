@@ -25,7 +25,7 @@ import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
 
-import AuthTokenSection from './components/AuthTokenSection'
+import AuthTokenSection from './components/AuthTokenSection.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)

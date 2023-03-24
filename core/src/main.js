@@ -24,8 +24,8 @@
  */
 
 import $ from 'jquery'
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
+import 'core-js/stable/index.js'
+import 'regenerator-runtime/runtime.js'
 import './Polyfill/index.js'
 
 // If you remove the line below, tests won't pass

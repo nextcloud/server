@@ -22,7 +22,7 @@
  */
 
 import Vue from 'vue'
-import Root from './components/UpdateNotification'
+import Root from './components/UpdateNotification.vue'
 
 Vue.mixin({
 	methods: {

@@ -20,10 +20,10 @@
  *
  */
 
-import { parseXML, prepareFileFromProps } from 'webdav/dist/node/tools/dav'
-import { processResponsePayload } from 'webdav/dist/node/response'
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities'
-import client from './DavClient'
+import { parseXML, prepareFileFromProps } from 'webdav/dist/node/tools/dav.js'
+import { processResponsePayload } from 'webdav/dist/node/response.js'
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.js'
+import client from './DavClient.js'
 
 export const DEFAULT_LIMIT = 20
 /**

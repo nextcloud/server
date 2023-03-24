@@ -24,14 +24,14 @@
 
 import { loadState } from '@nextcloud/initial-state'
 
-import * as AppConfig from './appconfig'
-import * as Comments from './comments'
-import * as WhatsNew from './whatsnew'
+import * as AppConfig from './appconfig.js'
+import * as Comments from './comments.js'
+import * as WhatsNew from './whatsnew.js'
 
-import Accessibility from './accessibility'
-import Collaboration from './collaboration'
-import Loader from './loader'
-import Toast from './toast'
+import Accessibility from './accessibility.js'
+import Collaboration from './collaboration.js'
+import Loader from './loader.js'
+import Toast from './toast.js'
 
 /** @namespace OCP */
 export default {

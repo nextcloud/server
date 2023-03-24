@@ -30,8 +30,8 @@ import store from './store/index.js'
 import { setPageHeading } from '../../../core/src/OCP/accessibility.js'
 
 // Dynamic loading
-const Users = () => import(/* webpackChunkName: 'settings-users' */'./views/Users')
-const Apps = () => import(/* webpackChunkName: 'settings-apps-view' */'./views/Apps')
+const Users = () => import(/* webpackChunkName: 'settings-users' */'./views/Users.vue')
+const Apps = () => import(/* webpackChunkName: 'settings-apps-view' */'./views/Apps.vue')
 
 Vue.use(Router)
 

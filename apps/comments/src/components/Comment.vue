@@ -104,17 +104,17 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable'
-import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
-import ArrowRight from 'vue-material-design-icons/ArrowRight'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable.js'
+import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
-import Moment from './Moment'
-import CommentMixin from '../mixins/CommentMixin'
+import Moment from './Moment.vue'
+import CommentMixin from '../mixins/CommentMixin.js'
 
 export default {
 	name: 'Comment',

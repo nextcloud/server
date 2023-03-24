@@ -22,7 +22,7 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import VersionTab from './views/VersionTab.vue'
 import VTooltip from 'v-tooltip'
-// eslint-disable-next-line node/no-missing-import, import/no-unresolved
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
 
 Vue.prototype.t = t

@@ -268,7 +268,6 @@
     "Change password" : "更改密碼",
     "Your profile picture" : "您的個人資料圖片",
     "Upload profile picture" : "上傳個人資料圖片",
-    "Choose profile picture from files" : "從檔案選擇個人資料圖片",
     "Remove profile picture" : "移除個人資料圖片",
     "png or jpg, max. 20 MB" : "png 或 jpg，最大 20 MB",
     "Picture provided by original account" : "原始賬戶提供的圖片",
@@ -557,6 +556,7 @@
     "It can take up to 24 hours before the account is displayed as verified." : "該賬戶最多可能需要24小時才能顯示為已驗證。",
     "Link https://…" : "連結 https://…",
     "Change privacy level of Twitter profile" : "更改 Twitter proile 的私隱級別",
-    "Twitter handle @…" : "Twitter 用戶名稱 @..."
+    "Twitter handle @…" : "Twitter 用戶名稱 @...",
+    "Choose profile picture from files" : "從檔案選擇個人資料圖片"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -23,8 +23,8 @@
 
 import moment from 'moment'
 
-import History from './util-history'
-import OC from './index'
+import History from './util-history.js'
+import OC from './index.js'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
 /**

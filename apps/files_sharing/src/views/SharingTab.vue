@@ -87,21 +87,21 @@
 <script>
 import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 
-import Config from '../services/ConfigService'
-import { shareWithTitle } from '../utils/SharedWithMe'
-import Share from '../models/Share'
-import ShareTypes from '../mixins/ShareTypes'
-import SharingEntryInternal from '../components/SharingEntryInternal'
-import SharingEntrySimple from '../components/SharingEntrySimple'
-import SharingInput from '../components/SharingInput'
+import Config from '../services/ConfigService.js'
+import { shareWithTitle } from '../utils/SharedWithMe.js'
+import Share from '../models/Share.js'
+import ShareTypes from '../mixins/ShareTypes.js'
+import SharingEntryInternal from '../components/SharingEntryInternal.vue'
+import SharingEntrySimple from '../components/SharingEntrySimple.vue'
+import SharingInput from '../components/SharingInput.vue'
 
-import SharingInherited from './SharingInherited'
-import SharingLinkList from './SharingLinkList'
-import SharingList from './SharingList'
+import SharingInherited from './SharingInherited.vue'
+import SharingLinkList from './SharingLinkList.vue'
+import SharingList from './SharingList.vue'
 
 export default {
 	name: 'SharingTab',

@@ -75,7 +75,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function remove($key) {
-		return (bool)$this->getCache()->del($this->getPrefix() . $key);
+		return (bool)$this->getCache()->unlink($this->getPrefix() . $key);
 	}
 
 	public function clear($prefix = '') {
@@ -167,7 +167,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		$this->getCache()->watch($this->getPrefix() . $key);
 		if ($this->get($key) === $old) {
 			$result = $this->getCache()->multi()
-				->del($this->getPrefix() . $key)
+				->unlink($this->getPrefix() . $key)
 				->exec();
 			return $result !== false;
 		}

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import PredefinedStatus from './PredefinedStatus'
+import PredefinedStatus from './PredefinedStatus.vue'
 import { mapState } from 'vuex'
 
 export default {

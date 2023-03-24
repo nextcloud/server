@@ -61,8 +61,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 
-import { sendHeartbeat } from './services/heartbeatService'
-import OnlineStatusMixin from './mixins/OnlineStatusMixin'
+import { sendHeartbeat } from './services/heartbeatService.js'
+import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
 
 const { profileEnabled } = loadState('user_status', 'profileEnabled', false)
 
@@ -70,7 +70,7 @@ export default {
 	name: 'UserStatus',
 
 	components: {
-		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal'),
+		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
 	mixins: [OnlineStatusMixin],
 

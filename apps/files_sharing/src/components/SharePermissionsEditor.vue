@@ -104,11 +104,11 @@
 </template>
 
 <script>
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
 
-import SharesMixin from '../mixins/SharesMixin'
+import SharesMixin from '../mixins/SharesMixin.js'
 import {
 	ATOMIC_PERMISSIONS,
 	BUNDLED_PERMISSIONS,
@@ -116,10 +116,10 @@ import {
 	permissionsSetIsValid,
 	togglePermissions,
 	canTogglePermissions,
-} from '../lib/SharePermissionsToolBox'
+} from '../lib/SharePermissionsToolBox.js'
 
-import Tune from 'vue-material-design-icons/Tune'
-import ChevronLeft from 'vue-material-design-icons/ChevronLeft'
+import Tune from 'vue-material-design-icons/Tune.vue'
+import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue'
 
 export default {
 	name: 'SharePermissionsEditor',

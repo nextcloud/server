@@ -267,7 +267,6 @@ OC.L10N.register(
     "Change password" : "パスワードを変更",
     "Your profile picture" : "プロフィール画像",
     "Upload profile picture" : "新しいプロフィール画像のアップロード",
-    "Choose profile picture from files" : "ファイルからプロフィール画像を選択",
     "Remove profile picture" : "プロフィール画像を削除",
     "png or jpg, max. 20 MB" : "pngまたはjpg。最大20MB",
     "Picture provided by original account" : "オリジナルのアカウントで提供されている写真",
@@ -554,6 +553,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "アカウントが確認済みとして表示されるまでには最大24時間かかることがあります。",
     "Link https://…" : "リンク https://...",
     "Change privacy level of Twitter profile" : "Twitterプロフィールのプライバシーレベルを変更",
-    "Twitter handle @…" : "あなたのTwitter ID @..."
+    "Twitter handle @…" : "あなたのTwitter ID @...",
+    "Choose profile picture from files" : "ファイルからプロフィール画像を選択"
 },
 "nplurals=1; plural=0;");
