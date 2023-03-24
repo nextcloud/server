@@ -21,8 +21,12 @@
 -->
 
 <template>
-	<h3 :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
-		<label :for="inputId">
+	<component :is="isHeading ? `h3` : `div`" class="headerbar-label" :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
+		<span v-if="isHeading">
+			<!-- Already translated as required by prop validator -->
+			{{ readable }}
+		</span>
+		<label v-else :for="inputId">
 			<!-- Already translated as required by prop validator -->
 			{{ readable }}
 		</label>
@@ -45,7 +49,7 @@
 				{{ t('settings', 'Add') }}
 			</NcButton>
 		</template>
-	</h3>
+	</component>
 </template>
 
 <script>
@@ -93,6 +97,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		isHeading: {
+			type: Boolean,
+			default: false,
+		}
 	},
 
 	data() {
@@ -124,7 +132,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	h3 {
+	.headerbar-label {
+		font-weight: normal;
 		display: inline-flex;
 		width: 100%;
 		margin: 12px 0 0 0;
