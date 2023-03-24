@@ -2181,8 +2181,10 @@
 
 			if (persist && OC.getCurrentUser().uid) {
 				$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
-					mode: sort,
-					direction: direction
+					// Compatibility with new files-to-vue API
+					mode: sort === 'name' ? 'basename' : sort,
+					direction: direction,
+					view: 'files'
 				});
 			}
 		},

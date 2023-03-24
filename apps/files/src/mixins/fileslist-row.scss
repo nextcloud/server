@@ -19,6 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/**
+ * This file is for every column styling that must be
+ * shared between the files list and the list header.
+ */
 td, th {
 	display: flex;
 	align-items: center;
@@ -31,16 +36,13 @@ td, th {
 	color: var(--color-text-maxcontrast);
 	border: none;
 
+	// Columns should try to add any text
+	// node wrapped in a span. That should help
+	// with the ellipsis on overflow.
 	span {
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-	}
-}
-
-.files-list__row {
-	&--sortable {
-		cursor: pointer;
 	}
 }
 
@@ -122,12 +124,21 @@ td, th {
 }
 
 .files-list__row-size {
-	justify-content: right;
+	// Right align text
+	justify-content: flex-end;
 	width: calc(var(--row-height) * 1.5);
 	// opacity varies with the size
 	color: var(--color-main-text);
+
+	// Icon is before text since size is right aligned
+	::v-deep .files-list__column-sort-button {
+		padding: 0 16px 0 4px !important;
+		.button-vue__wrapper {
+			flex-direction: row;
+		}
+	}
 }
 
-.files-list__row-column--custom {
+.files-list__row-column-custom {
 	width: calc(var(--row-height) * 2);
 }

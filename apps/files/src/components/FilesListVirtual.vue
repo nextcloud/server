@@ -151,6 +151,12 @@ export default Vue.extend({
 			align-items: center;
 			width: 100%;
 			border-bottom: 1px solid var(--color-border);
+
+			&:hover,
+			&:focus,
+			&:active {
+				background-color: var(--color-background-dark);
+			}
 		}
 	}
 }

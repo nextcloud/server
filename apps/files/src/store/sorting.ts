@@ -28,24 +28,34 @@ import axios from '@nextcloud/axios'
 
 type direction = 'asc' | 'desc'
 
-const saveUserConfig = (key: string, direction: direction) => {
+interface SortingConfig {
+	mode: string
+	direction: direction
+}
+
+interface SortingStore {
+	[key: string]: SortingConfig
+}
+
+const saveUserConfig = (mode: string, direction: direction, view: string) => {
 	return axios.post(generateUrl('/apps/files/api/v1/sorting'), {
-		mode: key,
-		direction: direction as string,
+		mode,
+		direction,
+		view,
 	})
 }
 
-const defaultFileSorting = loadState('files', 'defaultFileSorting', 'basename')
-const defaultFileSortingDirection = loadState('files', 'defaultFileSortingDirection', 'asc') as direction
+const filesSortingConfig = loadState('files', 'filesSortingConfig', {}) as SortingStore
+console.debug('filesSortingConfig', filesSortingConfig)
 
 export const useSortingStore = defineStore('sorting', {
 	state: () => ({
-		defaultFileSorting,
-		defaultFileSortingDirection,
+		filesSortingConfig,
 	}),
 
 	getters: {
-		isAscSorting: (state) => state.defaultFileSortingDirection === 'asc',
+		isAscSorting: (state) => (view: string = 'files') => state.filesSortingConfig[view]?.direction !== 'desc',
+		getSortingMode: (state) => (view: string = 'files') => state.filesSortingConfig[view]?.mode,
 	},
 
 	actions: {
@@ -54,19 +64,27 @@ export const useSortingStore = defineStore('sorting', {
 		 * The key param must be a valid key of a File object
 		 * If not found, will be searched within the File attributes
 		 */
-		setSortingBy(key: string) {
-			Vue.set(this, 'defaultFileSorting', key)
-			Vue.set(this, 'defaultFileSortingDirection', 'asc')
-			saveUserConfig(key, 'asc')
+		setSortingBy(key: string = 'basename', view: string = 'files') {
+			const config = this.filesSortingConfig[view] || {}
+			config.mode = key
+			config.direction = 'asc'
+
+			// Save new config
+			Vue.set(this.filesSortingConfig, view, config)
+			saveUserConfig(config.mode, config.direction, view)
 		},
 
 		/**
 		 * Toggle the sorting direction
 		 */
-		toggleSortingDirection() {
-			const newDirection = this.defaultFileSortingDirection === 'asc' ? 'desc' : 'asc'
-			Vue.set(this, 'defaultFileSortingDirection', newDirection)
-			saveUserConfig(this.defaultFileSorting, newDirection)
+		toggleSortingDirection(view: string = 'files') {
+			const config = this.filesSortingConfig[view] || { 'direction': 'asc' }
+			const newDirection = config.direction === 'asc' ? 'desc' : 'asc'
+			config.direction = newDirection
+
+			// Save new config
+			Vue.set(this.filesSortingConfig, view, config)
+			saveUserConfig(config.mode, config.direction, view)
 		}
 	}
 })

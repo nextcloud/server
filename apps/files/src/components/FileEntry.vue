@@ -50,7 +50,7 @@
 				</span>
 
 				<!-- File name -->
-				{{ displayName }}
+				<span>{{ displayName }}</span>
 			</a>
 		</td>
 
@@ -89,17 +89,17 @@
 		</td>
 
 		<!-- Size -->
-		<th v-if="isSizeAvailable"
+		<td v-if="isSizeAvailable"
 			:style="{ opacity: sizeOpacity }"
 			class="files-list__row-size">
 			<span>{{ size }}</span>
-		</th>
+		</td>
 
 		<!-- View columns -->
 		<td v-for="column in columns"
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
-			class="files-list__row-column--custom">
+			class="files-list__row-column-custom">
 			<CustomElementRender :element="column.render(source)" />
 		</td>
 	</Fragment>
@@ -207,7 +207,7 @@ export default Vue.extend({
 		},
 		size() {
 			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
+			if (typeof size !== 'number' || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)

@@ -20,6 +20,7 @@
  *
  */
 import type NavigationService from '../../files/src/services/Navigation'
+import type { Navigation } from '../../files/src/services/Navigation'
 
 import { translate as t, translate } from '@nextcloud/l10n'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
@@ -39,6 +40,8 @@ Navigation.register({
 	order: 50,
 	sticky: true,
 
+	defaultSortKey: 'deleted',
+
 	columns: [
 		{
 			id: 'deleted',
@@ -57,10 +60,10 @@ Navigation.register({
 			sort(nodeA, nodeB) {
 				const deletionTimeA = nodeA.attributes?.['trashbin-deletion-time'] || nodeA?.mtime || 0
 				const deletionTimeB = nodeB.attributes?.['trashbin-deletion-time'] || nodeB?.mtime || 0
-				return deletionTimeA - deletionTimeB
+				return deletionTimeB - deletionTimeA
 			},
 		},
 	],
 
 	getContents,
-})
+} as Navigation)

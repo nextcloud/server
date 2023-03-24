@@ -75,6 +75,12 @@ export interface Navigation {
 	expanded?: boolean
 
 	/**
+	 * Will be used as default if the user
+	 * haven't customized their sorting column
+	 * */
+	defaultSortKey?: string
+
+	/**
 	 * This view is sticky a legacy view.
 	 * Here until all the views are migrated to Vue.
 	 * @deprecated It will be removed in a near future
@@ -193,6 +199,10 @@ const isValidNavigation = function(view: Navigation): boolean {
 
 	if ('expanded' in view && typeof view.expanded !== 'boolean') {
 		throw new Error('Navigation expanded must be a boolean')
+	}
+
+	if (view.defaultSortKey && typeof view.defaultSortKey !== 'string') {
+		throw new Error('Navigation defaultSortKey must be a string')
 	}
 
 	return true

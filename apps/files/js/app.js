@@ -116,7 +116,9 @@
 						},
 					],
 					sorting: {
-						mode: $('#defaultFileSorting').val(),
+						mode: $('#defaultFileSorting').val() === 'basename'
+							? 'name'
+							: $('#defaultFileSorting').val(),
 						direction: $('#defaultFileSortingDirection').val()
 					},
 					config: this._filesConfig,

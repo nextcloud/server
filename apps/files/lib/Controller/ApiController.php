@@ -281,20 +281,29 @@ class ApiController extends Controller {
 	 *
 	 * @param string $mode
 	 * @param string $direction
-	 * @return Response
+	 * @return JSONResponse
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function updateFileSorting($mode, $direction) {
-		$allowedMode = ['basename', 'size', 'mtime'];
+	public function updateFileSorting($mode, string $direction = 'asc', string $view = 'files'): JSONResponse {
 		$allowedDirection = ['asc', 'desc'];
-		if (!in_array($mode, $allowedMode) || !in_array($direction, $allowedDirection)) {
-			$response = new Response();
-			$response->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
-			return $response;
+		if (!in_array($direction, $allowedDirection)) {
+			return  new JSONResponse(['message' => 'Invalid direction parameter'], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting', $mode);
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting_direction', $direction);
-		return new Response();
+
+		$userId = $this->userSession->getUser()->getUID();
+
+		$sortingJson = $this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}');
+		$sortingConfig = json_decode($sortingJson, true) ?: [];
+		$sortingConfig[$view] = [
+			'mode' => $mode,
+			'direction' => $direction,
+		];
+
+		$this->config->setUserValue($userId, 'files', 'files_sorting_configs', json_encode($sortingConfig));
+		return new JSONResponse([
+			'message' => 'ok',
+			'data' => $sortingConfig,
+		]);
 	}
 
 	/**

@@ -63,6 +63,7 @@
 <script lang="ts">
 import { Folder } from '@nextcloud/files'
 import { join } from 'path'
+import { compare, orderBy } from 'natural-orderby'
 import { translate } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -151,26 +152,39 @@ export default Vue.extend({
 		 * @return {Node[]}
 		 */
 		dirContents() {
-			const sortAsc = this.sortingStore.isAscSorting === true
-			const sortKey = this.sortingStore.defaultFileSorting || 'basename'
+			if (!this.currentView) {
+				return []
+			}
 
-			return [...(this.currentFolder?.children || []).map(this.getNode)]
-				.sort((a, b) => {
-					// Sort folders first
-					if (a.type === 'folder' && b.type !== 'folder') {
-						return sortAsc ? -1 : 1
-					}
+			const sortAsc = this.sortingStore.isAscSorting(this.currentView.id) === true
+			const sortKey = this.sortingStore.getSortingMode(this.currentView.id)
+				|| this.currentView.defaultSortKey
+				|| 'basename'
 
-					if (a.type !== 'folder' && b.type === 'folder') {
-						return sortAsc ? 1 : -1
-					}
+			const customColumn = this.currentView.columns
+				.find(column => column.id === sortKey)
 
-					if (typeof a[sortKey] === 'number' && typeof b[sortKey] === 'number') {
-						return (a[sortKey] - b[sortKey]) * (sortAsc ? 1 : -1)
-					}
+			// Custom column must provide their own sorting methods
+			if (customColumn?.sort && typeof customColumn.sort === 'function') {
+				if (sortAsc) {
+					return [...(this.currentFolder?.children || []).map(this.getNode)]
+						.sort(customColumn.sort)
+				}
+				return [...(this.currentFolder?.children || []).map(this.getNode)]
+					.sort(customColumn.sort)
+					.reverse()
+			}
 
-					return (a[sortKey] || a.basename).localeCompare(b[sortKey] || b.basename) * (sortAsc ? 1 : -1)
-				})
+			return orderBy(
+				[...(this.currentFolder?.children || []).map(this.getNode)],
+				[
+					// Sort folders first if sorting by name
+					...sortKey === 'basename' ? [v => v.type !== 'folder'] : [],
+					v => v[sortKey],
+					v => v.basename,
+				],
+				sortAsc ? 'asc' : 'desc',
+			)
 		},
 
 		/**

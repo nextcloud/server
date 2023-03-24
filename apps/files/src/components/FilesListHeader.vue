@@ -21,22 +21,18 @@
   -->
 <template>
 	<tr>
-		<th class="files-list__row-checkbox">
+		<th class="files-list__column files-list__row-checkbox">
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
 		<!-- Link to file -->
-		<th class="files-list__row-name files-list__row--sortable"
-			@click="toggleSortBy('basename')">
+		<th class="files-list__column files-list__row-name files-list__column--sortable"
+			@click.exact.stop="toggleSortBy('basename')">
 			<!-- Icon or preview -->
 			<span class="files-list__row-icon" />
 
 			<!-- Name -->
-			{{ t('files', 'Name') }}
-			<template v-if="defaultFileSorting === 'basename'">
-				<MenuUp v-if="defaultFileSortingDirection === 'asc'" />
-				<MenuDown v-else />
-			</template>
+			<FilesListHeaderButton :name="t('files', 'Name')" mode="basename" />
 		</th>
 
 		<!-- Actions -->
@@ -44,20 +40,19 @@
 
 		<!-- Size -->
 		<th v-if="isSizeAvailable"
-			class="files-list__row-size"
-			@click="toggleSortBy('size')">
-			{{ t('files', 'Size') }}
-			<template v-if="defaultFileSorting === 'size'">
-				<MenuUp v-if="defaultFileSortingDirection === 'asc'" />
-				<MenuDown v-else />
-			</template>
+			:class="{'files-list__column--sortable': isSizeAvailable}"
+			class="files-list__column files-list__row-size">
+			<FilesListHeaderButton :name="t('files', 'Size')" mode="size" />
 		</th>
 
 		<!-- Custom views columns -->
 		<th v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-column--custom files-list__row-${currentView.id}-${column.id}`">
-			{{ column.title }}
+			:class="classForColumn(column)">
+			<FilesListHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
+			<span v-else>
+				{{ column.title }}
+			</span>
 		</th>
 	</tr>
 </template>
@@ -67,6 +62,7 @@ import { mapState } from 'pinia'
 import { translate } from '@nextcloud/l10n'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
@@ -75,15 +71,13 @@ import { useSelectionStore } from '../store/selection'
 import { useSortingStore } from '../store/sorting'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation'
-
-Vue.config.performance = true
+import FilesListHeaderButton from './FilesListHeaderButton.vue'
 
 export default Vue.extend({
 	name: 'FilesListHeader',
 
 	components: {
-		MenuDown,
-		MenuUp,
+		FilesListHeaderButton,
 		NcCheckboxRadioSwitch,
 	},
 
@@ -110,7 +104,7 @@ export default Vue.extend({
 	},
 
 	computed: {
-		...mapState(useSortingStore, ['defaultFileSorting', 'defaultFileSortingDirection']),
+		...mapState(useSortingStore, ['filesSortingConfig']),
 
 		/** @return {Navigation} */
 		currentView() {
@@ -153,9 +147,37 @@ export default Vue.extend({
 		selectedFiles() {
 			return this.selectionStore.selected
 		},
+
+		sortingMode() {
+			return this.sortingStore.getSortingMode(this.currentView.id)
+				|| this.currentView.defaultSortKey
+				|| 'basename'
+		},
+		isAscSorting() {
+			return this.sortingStore.isAscSorting(this.currentView.id) === true
+		},
 	},
 
 	methods: {
+		classForColumn(column) {
+			return {
+				'files-list__column': true,
+				'files-list__column--sortable': !!column.sort,
+				'files-list__row-column-custom': true,
+				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
+			}
+		},
+
+		sortAriaLabel(column) {
+			const direction = this.isAscSorting
+				? this.t('files', 'ascending')
+				: this.t('files', 'descending')
+			return this.t('files', 'Sort list by {column} ({direction})', {
+				column,
+				direction,
+			})
+		},
+
 		onToggleAll(selected) {
 			if (selected) {
 				const selection = this.nodes.map(node => node.attributes.fileid.toString())
@@ -169,12 +191,19 @@ export default Vue.extend({
 
 		toggleSortBy(key) {
 			// If we're already sorting by this key, flip the direction
-			if (this.defaultFileSorting === key) {
-				this.sortingStore.toggleSortingDirection()
+			if (this.sortingMode === key) {
+				this.sortingStore.toggleSortingDirection(this.currentView.id)
 				return
 			}
 			// else sort ASC by this new key
-			this.sortingStore.setFileSorting(key)
+			this.sortingStore.setSortingBy(key, this.currentView.id)
+		},
+
+		toggleSortByCustomColumn(column) {
+			if (!column.sort) {
+				return
+			}
+			this.toggleSortBy(column.id)
 		},
 
 		t: translate,
@@ -183,6 +212,15 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import '../mixins/fileslist-row.scss'
+@import '../mixins/fileslist-row.scss';
+.files-list__column {
+	user-select: none;
+	// Make sure the cell colors don't apply to column headers
+	color: var(--color-text-maxcontrast) !important;
+
+	&--sortable {
+		cursor: pointer;
+	}
+}
 
 </style>

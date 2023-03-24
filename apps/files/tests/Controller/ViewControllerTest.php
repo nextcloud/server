@@ -266,19 +266,6 @@ class ViewControllerTest extends TestCase {
 				'expanded' => false,
 				'unread' => 0,
 			],
-			'trashbin' => [
-				'id' => 'trashbin',
-				'appname' => 'files_trashbin',
-				'script' => 'list.php',
-				'order' => 50,
-				'name' => \OC::$server->getL10N('files_trashbin')->t('Deleted files'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => 'pinned',
-				'expanded' => false,
-				'unread' => 0,
-			],
 			'shareoverview' => [
 				'id' => 'shareoverview',
 				'appname' => 'files_sharing',
@@ -339,7 +326,7 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 				'isPublic' => false,
-				'defaultFileSorting' => 'name',
+				'defaultFileSorting' => 'basename',
 				'defaultFileSortingDirection' => 'asc',
 				'showHiddenFiles' => 0,
 				'cropImagePreviews' => 1,
@@ -361,10 +348,6 @@ class ViewControllerTest extends TestCase {
 					],
 					'systemtagsfilter' => [
 						'id' => 'systemtagsfilter',
-						'content' => null,
-					],
-					'trashbin' => [
-						'id' => 'trashbin',
 						'content' => null,
 					],
 					'sharingout' => [
