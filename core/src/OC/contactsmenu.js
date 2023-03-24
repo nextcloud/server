@@ -83,6 +83,9 @@ const ContactsListView = View.extend({
 	/** @type {array} */
 	_subViews: [],
 
+	/** @type {string} */
+	tagName: 'ul',
+
 	/**
 	 * @param {object} options
 	 * @returns {undefined}
@@ -98,7 +101,6 @@ const ContactsListView = View.extend({
 		var self = this
 		self.$el.html('')
 		self._subViews = []
-
 		self._collection.forEach(function(contact) {
 			var item = new ContactsListItemView({
 				model: contact
@@ -133,6 +135,9 @@ const ContactsListItemView = View.extend({
 
 	/** @type {string} */
 	className: 'contact',
+
+	/** @type {string} */
+	tagName: 'li',
 
 	/** @type {undefined|function} */
 	_template: undefined,
