@@ -199,6 +199,28 @@ Feature: provisioning
 			| value | private |
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | email |
+			| value | no-reply@nextcloud.com |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		# Duplicating primary address
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | additional_mail |
+			| value | no-reply@nextcloud.com |
+		And the OCS status code should be "102"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | additional_mail |
+			| value | no.reply@nextcloud.com |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		# Duplicating another additional address
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | additional_mail |
+			| value | no.reply@nextcloud.com |
+		And the OCS status code should be "102"
+		And the HTTP status code should be "200"
 		Then user "brand-new-user" has
 			| id | brand-new-user |
 			| phoneScope | v2-private |
