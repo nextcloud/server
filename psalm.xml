@@ -6,6 +6,8 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
     errorBaseline="build/psalm-baseline.xml"
+	findUnusedBaselineEntry="true"
+	findUnusedCode="false"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
