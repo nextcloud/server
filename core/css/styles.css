@@ -131,7 +131,7 @@ body {
 
 .two-factor-provider {
   text-align: center;
-  width: 258px !important;
+  width: 100% !important;
   display: inline-block;
   margin-bottom: 0 !important;
   background-color: var(--color-background-darker) !important;
