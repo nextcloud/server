@@ -269,7 +269,6 @@ OC.L10N.register(
     "Change password" : "Змінити пароль",
     "Your profile picture" : "Ваше зображення профілю",
     "Upload profile picture" : "Завантажте зображення профілю",
-    "Choose profile picture from files" : "Виберіть зображення профілю з файлів",
     "Remove profile picture" : "Вилучити зображення профілю",
     "png or jpg, max. 20 MB" : "png або jpg, макс. 20 МБ",
     "Picture provided by original account" : "Картинка надана оригінальним обліковим записом",
@@ -557,6 +556,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Підтвердження облікового запису може тривати до 24 годин.",
     "Link https://…" : "Посилання https://…",
     "Change privacy level of Twitter profile" : "Змінити рівень конфіденційності профілю Twitter",
-    "Twitter handle @…" : "Ім'я в Twitter @…"
+    "Twitter handle @…" : "Ім'я в Twitter @…",
+    "Choose profile picture from files" : "Виберіть зображення профілю з файлів"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -234,7 +234,6 @@ OC.L10N.register(
     "Change password" : "Vaihda salasana",
     "Your profile picture" : "Profiilikuvasi",
     "Upload profile picture" : "Lähetä profiilikuva",
-    "Choose profile picture from files" : "Valitse profiilikuva tiedostoista",
     "Remove profile picture" : "Poista profiilikuva",
     "png or jpg, max. 20 MB" : "png tai jpg, korkeintaan 20 Mt",
     "Picture provided by original account" : "Kuvan tarjoaa alkuperäinen tili",
@@ -488,6 +487,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Saattaa kestää jopa 24 tuntia, ennen kuin tili näytetään vahvistettuna.",
     "Link https://…" : "Linkki https://…",
     "Change privacy level of Twitter profile" : "Muuta Twitter-tunnuksen yksityisyystasoa",
-    "Twitter handle @…" : "Twitter-tunnus @…"
+    "Twitter handle @…" : "Twitter-tunnus @…",
+    "Choose profile picture from files" : "Valitse profiilikuva tiedostoista"
 },
 "nplurals=2; plural=(n != 1);");

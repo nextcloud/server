@@ -269,7 +269,6 @@ OC.L10N.register(
     "Change password" : "Jelszó megváltoztatása",
     "Your profile picture" : "Az Ön profilképe",
     "Upload profile picture" : "Profilkép feltöltése",
-    "Choose profile picture from files" : "Válasszon profilképet a fájlok közül",
     "Remove profile picture" : "Profilkép eltávolítása",
     "png or jpg, max. 20 MB" : "png vagy jpg, legfeljebb 20 MB",
     "Picture provided by original account" : "Az eredeti fiók által biztosított kép.",
@@ -557,6 +556,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "A fiók ellenőrzési folyamata, amíg láthatóvá válik, akár 24 óráig is eltarthat.",
     "Link https://…" : "https:// hivatkozás…",
     "Change privacy level of Twitter profile" : "A Twitter-profil adatvédelmi szintjének módosítása",
-    "Twitter handle @…" : "Twitter azonosító @…"
+    "Twitter handle @…" : "Twitter azonosító @…",
+    "Choose profile picture from files" : "Válasszon profilképet a fájlok közül"
 },
 "nplurals=2; plural=(n != 1);");

@@ -270,7 +270,6 @@ OC.L10N.register(
     "Change password" : "Passwort ändern",
     "Your profile picture" : "Dein Profilbild",
     "Upload profile picture" : "Profilbild hochladen",
-    "Choose profile picture from files" : "Profilbild aus Dateien auswählen",
     "Remove profile picture" : "Profilbild entfernen",
     "png or jpg, max. 20 MB" : "png oder jpg, max. 20 MB",
     "Picture provided by original account" : "Bild von Original-Konto zur Verfügung gestellt",
@@ -559,6 +558,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Es kann bis zu 24 Stunden dauern, bis das Konto als überprüt angezeigt wird.",
     "Link https://…" : "Link https://…",
     "Change privacy level of Twitter profile" : "Datenschutzstufe des Twitter-Profils ändern",
-    "Twitter handle @…" : "Twitter-Handle @…"
+    "Twitter handle @…" : "Twitter-Handle @…",
+    "Choose profile picture from files" : "Profilbild aus Dateien auswählen"
 },
 "nplurals=2; plural=(n != 1);");

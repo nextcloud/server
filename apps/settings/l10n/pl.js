@@ -270,7 +270,6 @@ OC.L10N.register(
     "Change password" : "Zmień hasło",
     "Your profile picture" : "Twoje zdjęcie profilowe",
     "Upload profile picture" : "Wyślij zdjęcie profilowe",
-    "Choose profile picture from files" : "Wybierz zdjęcie profilowe z Plików",
     "Remove profile picture" : "Usuń zdjęcie profilowe",
     "png or jpg, max. 20 MB" : "png lub jpg, maks. 20 MB",
     "Picture provided by original account" : "Zdjęcie dostarczone przez oryginalne konto",
@@ -559,6 +558,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Do 24 godzin konto będzie widoczne jako zweryfikowane.",
     "Link https://…" : "Link https://…",
     "Change privacy level of Twitter profile" : "Zmień poziom prywatności profilu Twitter",
-    "Twitter handle @…" : "Twitter @…"
+    "Twitter handle @…" : "Twitter @…",
+    "Choose profile picture from files" : "Wybierz zdjęcie profilowe z Plików"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

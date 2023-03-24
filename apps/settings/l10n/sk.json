@@ -265,7 +265,6 @@
     "Change password" : "Zmeniť heslo",
     "Your profile picture" : "Váš profilový obrázok",
     "Upload profile picture" : "Nahrať profilový obrázok",
-    "Choose profile picture from files" : "Vybrať profilový obrázok zo súborov",
     "Remove profile picture" : "Odstrániť profilový obrázok",
     "png or jpg, max. 20 MB" : "png alebo jpg, max. 20 MB",
     "Picture provided by original account" : "Obrázok poskytnutý originálnym účtom",
@@ -551,6 +550,7 @@
     "It can take up to 24 hours before the account is displayed as verified." : "Môže trvať až 24 hodín než sa účet zobrazí ako overený.",
     "Link https://…" : "Linka https://…",
     "Change privacy level of Twitter profile" : "Zmeniť úroveň súkromia pre Twitterový profil",
-    "Twitter handle @…" : "Prezývka na Twitteri @…"
+    "Twitter handle @…" : "Prezývka na Twitteri @…",
+    "Choose profile picture from files" : "Vybrať profilový obrázok zo súborov"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
