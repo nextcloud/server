@@ -31,8 +31,8 @@
 		list-class="files-list__body"
 		list-tag="tbody"
 		role="table">
-		<template #default="{ item }">
-			<FileEntry :is-size-available="isSizeAvailable" :source="item" />
+		<template #default="{ item, active }">
+			<FileEntry :active="active" :is-size-available="isSizeAvailable" :source="item" />
 		</template>
 
 		<template #before>

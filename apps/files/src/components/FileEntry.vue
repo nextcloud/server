@@ -23,7 +23,8 @@
 <template>
 	<Fragment>
 		<td class="files-list__row-checkbox">
-			<NcCheckboxRadioSwitch :aria-label="t('files', 'Select the row for {displayName}', { displayName })"
+			<NcCheckboxRadioSwitch v-if="active"
+				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
 				:checked.sync="selectedFiles"
 				:value="fileid.toString()"
 				name="selectedFiles" />
@@ -97,7 +98,7 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom">
-			<CustomElementRender :current-view="currentView" :render="column.render" :source="source" />
+			<CustomElementRender v-if="active" :current-view="currentView" :render="column.render" :source="source" />
 		</td>
 	</Fragment>
 </template>
@@ -116,7 +117,7 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Vue, { CreateElement } from 'vue'
+import Vue from 'vue'
 import { showError } from '@nextcloud/dialogs'
 
 import { useFilesStore } from '../store/files'
@@ -152,6 +153,10 @@ export default Vue.extend({
 	},
 
 	props: {
+		active: {
+			type: Boolean,
+			default: false,
+		},
 		isSizeAvailable: {
 			type: Boolean,
 			default: false,
@@ -290,6 +295,11 @@ export default Vue.extend({
 	},
 
 	watch: {
+		active(active) {
+			if (active === false) {
+				this.resetState()
+			}
+		},
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
