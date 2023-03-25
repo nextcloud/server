@@ -112,6 +112,19 @@ td, th {
 		// Fill cell height and width
 		width: 100%;
 		height: 100%;
+
+		// Keyboard indicator a11y
+		&:focus .files-list__row-name-text,
+		&:focus-visible .files-list__row-name-text {
+			outline: 2px solid var(--color-main-text) !important;
+			border-radius: 20px;
+		}
+	}
+
+	.files-list__row-name-text {
+		// Make some space for the outline
+		padding: 5px 10px;
+		margin-left: -10px;
 	}
 }
 

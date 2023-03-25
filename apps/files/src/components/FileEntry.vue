@@ -51,7 +51,7 @@
 				</span>
 
 				<!-- File name -->
-				<span>{{ displayName }}</span>
+				<span class="files-list__row-name-text">{{ displayName }}</span>
 			</a>
 		</td>
 
@@ -298,7 +298,14 @@ export default Vue.extend({
 		active(active) {
 			if (active === false) {
 				this.resetState()
+
+				// When the row is not active anymore
+				// remove the tabindex from the row
+				this.$el.parentNode.style.display = 'none'
+				return
 			}
+			// Restore default tabindex
+			this.$el.parentNode.style.removeProperty('display')
 		},
 		/**
 		 * When the source changes, reset the preview
