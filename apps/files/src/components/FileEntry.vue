@@ -431,6 +431,16 @@ export default Vue.extend({
 <style scoped lang='scss'>
 @import '../mixins/fileslist-row.scss';
 
+/* Hover effect on tbody lines only */
+tr {
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: var(--color-background-dark);
+	}
+}
+
+/* Preview not loaded animation effect */
 .files-list__row-icon-preview:not([style*='background']) {
     background: linear-gradient(110deg, var(--color-loading-dark) 0%, var(--color-loading-dark) 25%, var(--color-loading-light) 50%, var(--color-loading-dark) 75%, var(--color-loading-dark) 100%);
     background-size: 400%;

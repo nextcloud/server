@@ -24,30 +24,46 @@ import type { PathOptions, ServicesState } from '../types'
 
 import { defineStore } from 'pinia'
 import Vue from 'vue'
+import { subscribe } from '@nextcloud/event-bus'
 
-export const usePathsStore = defineStore('paths', {
-	state: (): ServicesState => ({}),
+export const usePathsStore = () => {
+	const store = defineStore('paths', {
+		state: (): ServicesState => ({}),
 
-	getters: {
-		getPath: (state) => {
-			return (service: string, path: string): number|undefined => {
-				if (!state[service]) {
-					return undefined
+		getters: {
+			getPath: (state) => {
+				return (service: string, path: string): number|undefined => {
+					if (!state[service]) {
+						return undefined
+					}
+					return state[service][path]
 				}
-				return state[service][path]
-			}
+			},
 		},
-	},
 
-	actions: {
-		addPath(payload: PathOptions) {
-			// If it doesn't exists, init the service state
-			if (!this[payload.service]) {
-				Vue.set(this, payload.service, {})
-			}
+		actions: {
+			addPath(payload: PathOptions) {
+				// If it doesn't exists, init the service state
+				if (!this[payload.service]) {
+					Vue.set(this, payload.service, {})
+				}
 
-			// Now we can set the provided path
-			Vue.set(this[payload.service], payload.path, payload.fileid)
-		},
+				// Now we can set the provided path
+				Vue.set(this[payload.service], payload.path, payload.fileid)
+			},
+		}
+	})
+
+	const pathsStore = store()
+	// Make sure we only register the listeners once
+	if (!pathsStore.initialized) {
+		// TODO: watch folders to update paths?
+		// subscribe('files:folder:created', pathsStore.onCreatedNode)
+		// subscribe('files:folder:deleted', pathsStore.onDeletedNode)
+		// subscribe('files:folder:moved', pathsStore.onMovedNode)
+
+		pathsStore.initialized = true
 	}
-})
+
+	return pathsStore
+}

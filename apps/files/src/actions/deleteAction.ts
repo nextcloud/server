@@ -19,28 +19,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { registerFileAction, Permission, FileAction } from '@nextcloud/files'
+import { registerFileAction, Permission, FileAction, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
-import logger from '../logger'
+import { emit } from '@nextcloud/event-bus'
 
 registerFileAction(new FileAction({
 	id: 'delete',
-	displayName(nodes, view) {
+	displayName(nodes: Node[], view) {
 		return view.id === 'trashbin'
 			? t('files_trashbin', 'Delete permanently')
 			: t('files', 'Delete')
 	},
 	iconSvgInline: () => TrashCan,
-	enabled(nodes) {
+	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.DELETE) !== 0)
 	},
-	async exec(node) {
+	async exec(node: Node) {
 		// No try...catch here, let the files app handle the error
 		await axios.delete(node.source)
+
+		// Let's delete even if it's moved to the trashbin
+		// since it has been removed from the current view
+		//  and changing the view will trigger a reload anyway.
+		emit('files:file:deleted', node)
 		return true
 	},
 	order: 100,

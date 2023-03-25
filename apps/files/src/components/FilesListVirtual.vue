@@ -139,6 +139,7 @@ export default Vue.extend({
 	height: 100%;
 
 	&::v-deep {
+		// Table head, body and footer
 		tbody, .vue-recycle-scroller__slot {
 			display: flex;
 			flex-direction: column;
@@ -148,7 +149,7 @@ export default Vue.extend({
 		}
 
 		// Table header
-		.vue-recycle-scroller__slot {
+		.vue-recycle-scroller__slot[role='thead'] {
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
@@ -157,18 +158,17 @@ export default Vue.extend({
 			background-color: var(--color-main-background);
 		}
 
+		/**
+		 * Common row styling. tr are handled by
+		 * vue-virtual-scroller, so we need to
+		 * have those rules in here.
+		 */
 		tr {
 			position: absolute;
 			display: flex;
 			align-items: center;
 			width: 100%;
 			border-bottom: 1px solid var(--color-border);
-
-			&:hover,
-			&:focus,
-			&:active {
-				background-color: var(--color-background-dark);
-			}
 		}
 	}
 }

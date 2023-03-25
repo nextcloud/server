@@ -59,3 +59,15 @@ export interface PathOptions {
 	path: string
 	fileid: number
 }
+
+// Sorting store
+export type direction = 'asc' | 'desc'
+
+export interface SortingConfig {
+	mode: string
+	direction: direction
+}
+
+export interface SortingStore {
+	[key: string]: SortingConfig
+}

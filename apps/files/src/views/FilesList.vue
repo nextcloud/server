@@ -173,13 +173,13 @@ export default Vue.extend({
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...(this.currentFolder?.children || []).map(this.getNode)]
+				const results = [...(this.currentFolder?.children || []).map(this.getNode).filter(file => file)]
 					.sort(customColumn.sort)
 				return this.isAscSorting ? results : results.reverse()
 			}
 
 			return orderBy(
-				[...(this.currentFolder?.children || []).map(this.getNode)],
+				[...(this.currentFolder?.children || []).map(this.getNode).filter(file => file)],
 				[
 					// Sort folders first if sorting by name
 					...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
