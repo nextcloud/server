@@ -25,7 +25,7 @@
 		data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="dir" />
+			<BreadCrumbs :path="dir" @reload="fetchContent" />
 
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />

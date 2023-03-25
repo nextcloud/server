@@ -441,16 +441,20 @@ tr {
 .files-list__row-icon-preview:not([style*='background']) {
     background: linear-gradient(110deg, var(--color-loading-dark) 0%, var(--color-loading-dark) 25%, var(--color-loading-light) 50%, var(--color-loading-dark) 75%, var(--color-loading-dark) 100%);
     background-size: 400%;
-	animation: preview-gradient-slide 1s ease infinite;
+	animation: preview-gradient-slide 1.2s ease-in-out infinite;
 }
 </style>
 
 <style>
 @keyframes preview-gradient-slide {
-    from {
+    0% {
         background-position: 100% 0%;
     }
-    to {
+    50% {
+        background-position: 0% 0%;
+    }
+	/* adds a small delay to the animation */
+    100% {
         background-position: 0% 0%;
     }
 }

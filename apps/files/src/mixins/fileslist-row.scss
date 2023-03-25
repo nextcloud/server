@@ -118,10 +118,21 @@ td, th {
 .files-list__row-actions {
 	width: auto;
 
+	// Add margin to all cells after the actions
 	& ~ td,
 	& ~ th {
-		// Add margin to all cells after the actions
 		margin: 0 var(--cell-margin);
+	}
+
+	&::v-deep > button {
+		.button-vue__text {
+			// Remove bold from default button styling
+			font-weight: normal;
+		}
+		&:not(:hover, :focus, :active) .button-vue__wrapper {
+			// Also apply color-text-maxcontrast to non-active button
+			color: var(--color-text-maxcontrast);
+		}
 	}
 }
 

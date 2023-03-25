@@ -1,24 +1,31 @@
 <template>
 	<NcBreadcrumbs data-cy-files-content-breadcrumbs>
 		<!-- Current path sections -->
-		<NcBreadcrumb v-for="section in sections"
+		<NcBreadcrumb v-for="(section, index) in sections"
 			:key="section.dir"
-			:aria-label="t('files', `Go to the '{dir}' directory`, section)"
+			:aria-label="ariaLabel(section)"
+			:native-title="ariaLabel(section)"
 			v-bind="section"
-			@click="onClick(section.to)" />
+			@click.native="onClick(section.to)">
+			<template v-if="index === 0" #icon>
+				<Home :size="20" />
+			</template>
+		</NcBreadcrumb>
 	</NcBreadcrumbs>
 </template>
 
 <script>
-import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
-import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import { basename } from 'path'
+import Home from 'vue-material-design-icons/Home.vue'
+import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
+import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import Vue from 'vue'
 
 export default Vue.extend({
 	name: 'BreadCrumbs',
 
 	components: {
+		Home,
 		NcBreadcrumbs,
 		NcBreadcrumb,
 	},
@@ -52,10 +59,16 @@ export default Vue.extend({
 
 	methods: {
 		onClick(to) {
-			debugger
 			if (to?.query?.dir === this.$route.query.dir) {
-				alert('You are already here!')
+				this.$emit('reload')
 			}
+		},
+
+		ariaLabel(section) {
+			if (section?.to?.query?.dir === this.$route.query.dir) {
+				return t('files', 'Reload current directory')
+			}
+			return t('files', 'Go to the "{dir}" directory', section)
 		},
 	},
 })
