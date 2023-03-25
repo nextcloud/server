@@ -183,11 +183,7 @@ class View {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->fakeRoot));
-			if (strlen($path) === 0) {
-				return '/';
-			} else {
-				return $path;
-			}
+			return strlen($path) === 0 ? '/' : $path;
 		}
 	}
 
@@ -241,11 +237,10 @@ class View {
 		$parent = substr($path, 0, strrpos($path, '/'));
 		$path = $this->getAbsolutePath($path);
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) and $storage) {
+		if (Filesystem::isValidPath($parent) && $storage) {
 			return $storage->getLocalFile($internalPath);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -256,11 +251,10 @@ class View {
 		$parent = substr($path, 0, strrpos($path, '/'));
 		$path = $this->getAbsolutePath($path);
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) and $storage) {
+		if (Filesystem::isValidPath($parent) && $storage) {
 			return $storage->getLocalFolder($internalPath);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -300,12 +294,12 @@ class View {
 			}
 			$this->unlockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			return $result;
-		} else {
-			// do not allow deleting the storage's root / the mount point
-			// because for some storages it might delete the whole contents
-			// but isn't supposed to work that way
-			return false;
 		}
+
+		// do not allow deleting the storage's root / the mount point
+		// because for some storages it might delete the whole contents
+		// but isn't supposed to work that way
+		return false;
 	}
 
 	public function disableCacheUpdate() {
@@ -347,6 +341,7 @@ class View {
 		if ($mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
+
 		if ($this->is_dir($path)) {
 			$result = $this->basicOperation('rmdir', $path, ['delete']);
 		} else {
@@ -562,7 +557,7 @@ class View {
 	 * @return bool
 	 */
 	public function touch($path, $mtime = null) {
-		if (!is_null($mtime) and !is_numeric($mtime)) {
+		if (!is_null($mtime) && !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
 
@@ -654,7 +649,7 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
-				and !Filesystem::isFileBlacklisted($path)
+				&& !Filesystem::isFileBlacklisted($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
 
@@ -723,11 +718,7 @@ class View {
 		if ($mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
-		if ($this->is_dir($path)) {
-			$result = $this->basicOperation('rmdir', $path, ['delete']);
-		} else {
-			$result = $this->basicOperation('unlink', $path, ['delete']);
-		}
+		$result = $this->is_dir($path) ? $this->basicOperation('rmdir', $path, ['delete']) : $this->basicOperation('unlink', $path, ['delete']);
 		if (!$result && !$this->file_exists($path)) { //clear ghost files from the cache on delete
 			$storage = $mount->getStorage();
 			$internalPath = $mount->getInternalPath($absolutePath);
@@ -761,14 +752,14 @@ class View {
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
-			and Filesystem::isValidPath($source)
-			and !Filesystem::isFileBlacklisted($target)
+			&& Filesystem::isValidPath($source)
+			&& !Filesystem::isFileBlacklisted($target)
 		) {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
 			$exists = $this->file_exists($target);
 
-			if ($source == null or $target == null) {
+			if ($source == null || $target == null) {
 				return false;
 			}
 
@@ -890,13 +881,13 @@ class View {
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
-			and Filesystem::isValidPath($source)
-			and !Filesystem::isFileBlacklisted($target)
+			&& Filesystem::isValidPath($source)
+			&& !Filesystem::isFileBlacklisted($target)
 		) {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
 
-			if ($source == null or $target == null) {
+			if ($source == null || $target == null) {
 				return false;
 			}
 			$run = true;
@@ -1023,19 +1014,17 @@ class View {
 	 */
 	public function toTmpFile($path) {
 		$this->assertPathLength($path);
-		if (Filesystem::isValidPath($path)) {
-			$source = $this->fopen($path, 'r');
-			if ($source) {
-				$extension = pathinfo($path, PATHINFO_EXTENSION);
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
-				file_put_contents($tmpFile, $source);
-				return $tmpFile;
-			} else {
-				return false;
-			}
-		} else {
+		if (!Filesystem::isValidPath($path)) {
 			return false;
 		}
+		$source = $this->fopen($path, 'r');
+		if ($source) {
+			$extension = pathinfo($path, PATHINFO_EXTENSION);
+			$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
+			file_put_contents($tmpFile, $source);
+			return $tmpFile;
+		}
+		return false;
 	}
 
 	/**
@@ -1046,35 +1035,33 @@ class View {
 	 */
 	public function fromTmpFile($tmpFile, $path) {
 		$this->assertPathLength($path);
-		if (Filesystem::isValidPath($path)) {
-			// Get directory that the file is going into
-			$filePath = dirname($path);
-
-			// Create the directories if any
-			if (!$this->file_exists($filePath)) {
-				$result = $this->createParentDirectories($filePath);
-				if ($result === false) {
-					return false;
-				}
-			}
-
-			$source = fopen($tmpFile, 'r');
-			if ($source) {
-				$result = $this->file_put_contents($path, $source);
-				// $this->file_put_contents() might have already closed
-				// the resource, so we check it, before trying to close it
-				// to avoid messages in the error log.
-				if (is_resource($source)) {
-					fclose($source);
-				}
-				unlink($tmpFile);
-				return $result;
-			} else {
-				return false;
-			}
-		} else {
+		if (!Filesystem::isValidPath($path)) {
 			return false;
 		}
+		// Get directory that the file is going into
+		$filePath = dirname($path);
+
+		// Create the directories if any
+		if (!$this->file_exists($filePath)) {
+			$result = $this->createParentDirectories($filePath);
+			if ($result === false) {
+				return false;
+			}
+		}
+
+		$source = fopen($tmpFile, 'r');
+		if (!$source) {
+			return false;
+		}
+		$result = $this->file_put_contents($path, $source);
+		// $this->file_put_contents() might have already closed
+		// the resource, so we check it, before trying to close it
+		// to avoid messages in the error log.
+		if (is_resource($source)) {
+			fclose($source);
+		}
+		unlink($tmpFile);
+		return $result;
 	}
 
 
@@ -1150,7 +1137,7 @@ class View {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
-			and !Filesystem::isFileBlacklisted($path)
+			&& !Filesystem::isFileBlacklisted($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
@@ -1165,7 +1152,7 @@ class View {
 			$run = $this->runHooks($hooks, $path);
 			/** @var \OC\Files\Storage\Storage $storage */
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
-			if ($run and $storage) {
+			if ($run && $storage) {
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
@@ -1176,11 +1163,7 @@ class View {
 					}
 				}
 				try {
-					if (!is_null($extraParam)) {
-						$result = $storage->$operation($internalPath, $extraParam);
-					} else {
-						$result = $storage->$operation($internalPath);
-					}
+					$result = !is_null($extraParam) ? $storage->$operation($internalPath, $extraParam) : $storage->$operation($internalPath);
 				} catch (\Exception $e) {
 					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
@@ -1558,11 +1541,7 @@ class View {
 
 		if ($mimetype_filter) {
 			$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
-				if (strpos($mimetype_filter, '/')) {
-					return $file->getMimetype() === $mimetype_filter;
-				} else {
-					return $file->getMimePart() === $mimetype_filter;
-				}
+				return (strpos($mimetype_filter, '/') ? $file->getMimetype() === $mimetype_filter : $file->getMimePart() === $mimetype_filter);
 			});
 		}
 
