@@ -346,7 +346,6 @@ export default Vue.extend({
 			// Check if we already have this preview cached
 			const isCached = await this.isCachedPreview(this.previewUrl)
 			if (isCached) {
-				logger.debug('Preview already cached', { fileId: this.source.attributes.fileid, backgroundFailed: this.backgroundFailed })
 				this.backgroundImage = `url(${this.previewUrl})`
 				this.backgroundFailed = false
 				return
@@ -357,14 +356,12 @@ export default Vue.extend({
 		},
 
 		fetchAndApplyPreview() {
-			logger.debug('Fetching preview', { fileId: this.source.attributes.fileid })
 			this.img = new Image()
 			this.img.onload = () => {
 				this.backgroundImage = `url(${this.previewUrl})`
 			}
-			this.img.onerror = (a, b, c) => {
+			this.img.onerror = () => {
 				this.backgroundFailed = true
-				logger.error('Failed to fetch preview', { fileId: this.source.attributes.fileid, a, b, c })
 			}
 			this.img.src = this.previewUrl
 		},

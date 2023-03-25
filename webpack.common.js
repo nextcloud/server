@@ -172,6 +172,9 @@ module.exports = {
 			inlineWorkboxRuntime: true,
 			sourcemap: false,
 
+			// Increase perfs with less logging
+			disableDevLogs: true,
+
 			// Define runtime caching rules.
 			runtimeCaching: [{
 				// Match any preview file request
