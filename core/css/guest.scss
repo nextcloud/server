@@ -458,7 +458,9 @@ form .warning input[type='checkbox']+label {
 .two-factor-icon {
 	width: 100px;
 	display: block;
-	margin: 0 auto;
+	margin: 0 auto 10px;
+	background-color: var(--color-primary);
+	border-radius: 10%;
 }
 .two-factor-submit {
 	width: 100%;
