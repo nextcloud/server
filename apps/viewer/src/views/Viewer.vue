@@ -1010,33 +1010,33 @@ export default {
 		requestFullscreen() {
 			const el = document.documentElement
 			if (el.requestFullscreen) {
-				el.requestFullscreen();
+				el.requestFullscreen()
 			} else if (el.webkitRequestFullscreen) {
-				el.webkitRequestFullscreen();
+				el.webkitRequestFullscreen()
 			}
 		},
 
 		exitFullscreen() {
 			if (document.exitFullscreen) {
-				document.exitFullscreen();
+				document.exitFullscreen()
 			} else if (document.webkitExitFullscreen) {
-				document.webkitExitFullscreen();
+				document.webkitExitFullscreen()
 			}
 		},
 
 		addFullscreenEventListeners() {
-			document.addEventListener('fullscreenchange', this.onFullscreenchange);
-			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange);
+			document.addEventListener('fullscreenchange', this.onFullscreenchange)
+			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange)
 		},
 
 		removeFullscreenEventListeners() {
-			document.addEventListener('fullscreenchange', this.onFullscreenchange);
-			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange);
+			document.addEventListener('fullscreenchange', this.onFullscreenchange)
+			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange)
 		},
 
 		onFullscreenchange() {
-			if (document.fullscreenElement === document.documentElement ||
-				document.webkitFullscreenElement === document.documentElement) {
+			if (document.fullscreenElement === document.documentElement
+				|| document.webkitFullscreenElement === document.documentElement) {
 				this.isFullscreenMode = true
 			} else {
 				this.isFullscreenMode = false
