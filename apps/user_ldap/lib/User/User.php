@@ -250,14 +250,20 @@ class User {
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
 			if (isset($ldapEntry[$attr])) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
-					= $ldapEntry[$attr][0];
+				if (str_contains($ldapEntry[$attr][0],' ')) {
+					// drop appended label
+					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
+						= substr($ldapEntry[$attr][0],0,strpos($ldapEntry[$attr][0]," "));
+				} else {
+					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
+						= $ldapEntry[$attr][0];
+				}
 			}
 			//User Profile Field - Address
 			$attr = strtolower($this->connection->ldapAttributeAddress);
 			if (isset($ldapEntry[$attr])) {
-				// basic format conversion from postalAddress syntax to comma delimited
 				if (str_contains($ldapEntry[$attr][0],'$')) {
+					// basic format conversion from postalAddress syntax to commata delimited
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
 						= str_replace('$', ", ", $ldapEntry[$attr][0]);
 				} else {
@@ -298,8 +304,14 @@ class User {
 			//User Profile Field - biography
 			$attr = strtolower($this->connection->ldapAttributeBiography);
 			if (isset($ldapEntry[$attr])) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
-					= $ldapEntry[$attr][0];
+				if (str_contains($ldapEntry[$attr][0],'\r')) {
+					// convert line endings
+					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
+						= str_replace(array("\r\n","\r"), "\n", $ldapEntry[$attr][0]);
+				} else {
+					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
+						= $ldapEntry[$attr][0];
+				}
 			}
 			// Update user profile
 			$this->updateProfile($profileValues);
@@ -481,7 +493,7 @@ class User {
 	 * @brief checks whether an update method specified by feature was run
 	 * already. If not, it will marked like this, because it is expected that
 	 * the method will be run, when false is returned.
-	 * @param string $feature email | quota | avatar (can be extended)
+	 * @param string $feature email | quota | avatar | profile (can be extended)
 	 * @return bool
 	 */
 	private function wasRefreshed($feature) {
@@ -632,7 +644,7 @@ class User {
 					.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
 			}
 		}
-		$accountManager->updateAccount($account);
+		$accountManager->updateAccount($account); // may throw InvalidArgumentException
 	}
 
 	/**
