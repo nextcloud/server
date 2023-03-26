@@ -78,6 +78,22 @@
 				{{ t('viewer', 'Edit') }}
 			</NcActionButton>
 			<!-- Menu items -->
+			<NcActionButton v-if="!isFullscreenMode"
+				:close-after-click="true"
+				@click="requestFullscreen">
+				<template #icon>
+					<Fullscreen :size="20" />
+				</template>
+				{{ t('viewer', 'Full screen') }}
+			</NcActionButton>
+			<NcActionButton v-else
+				:close-after-click="true"
+				@click="exitFullscreen">
+				<template #icon>
+					<FullscreenExit :size="20" />
+				</template>
+				{{ t('viewer', 'Exit full screen') }}
+			</NcActionButton>
 			<NcActionButton v-if="Sidebar && sidebarOpenFilePath && !isSidebarShown"
 				:close-after-click="true"
 				icon="icon-menu-sidebar"
@@ -180,6 +196,8 @@ import logger from '../services/logger.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
+import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
 export default {
@@ -189,6 +207,8 @@ export default {
 		Delete,
 		Download,
 		Error,
+		Fullscreen,
+		FullscreenExit,
 		NcActionButton,
 		NcActionLink,
 		NcModal,
@@ -228,6 +248,7 @@ export default {
 			// Flags
 			sidebarWidth: 0,
 			isSidebarShown: false,
+			isFullscreenMode: false,
 			canSwipe: true,
 			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
 			theme: null,
@@ -447,6 +468,7 @@ export default {
 		window.addEventListener('keydown', this.keyboardDeleteFile)
 		window.addEventListener('keydown', this.keyboardDownloadFile)
 		window.addEventListener('keydown', this.keyboardEditFile)
+		this.addFullscreenEventListeners()
 	},
 
 	beforeDestroy() {
@@ -461,6 +483,7 @@ export default {
 		window.removeEventListener('keydown', this.keyboardDeleteFile)
 		window.removeEventListener('keydown', this.keyboardDownloadFile)
 		window.removeEventListener('keydown', this.keyboardEditFile)
+		this.removeFullscreenEventListeners()
 	},
 
 	methods: {
@@ -803,6 +826,8 @@ export default {
 			if (OCA?.Files?.Sidebar) {
 				OCA.Files.Sidebar.setFullScreenMode(false)
 			}
+
+			this.exitFullscreen()
 		},
 
 		keyboardDeleteFile(event) {
@@ -977,6 +1002,47 @@ export default {
 		handleTrapElementsChange(element) {
 			this.trapElements.push(element)
 		},
+
+		// Support full screen API on standard-compliant browsers and Safari (apparently except iPhone).
+		// Implementation based on:
+		//   https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API/Guide
+
+		requestFullscreen() {
+			const el = document.documentElement
+			if (el.requestFullscreen) {
+				el.requestFullscreen();
+			} else if (el.webkitRequestFullscreen) {
+				el.webkitRequestFullscreen();
+			}
+		},
+
+		exitFullscreen() {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			}
+		},
+
+		addFullscreenEventListeners() {
+			document.addEventListener('fullscreenchange', this.onFullscreenchange);
+			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange);
+		},
+
+		removeFullscreenEventListeners() {
+			document.addEventListener('fullscreenchange', this.onFullscreenchange);
+			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange);
+		},
+
+		onFullscreenchange() {
+			if (document.fullscreenElement === document.documentElement ||
+				document.webkitFullscreenElement === document.documentElement) {
+				this.isFullscreenMode = true
+			} else {
+				this.isFullscreenMode = false
+			}
+		},
+
 	},
 }
 </script>
