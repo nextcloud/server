@@ -49,7 +49,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class Application {
 	/** @var IConfig */
 	private $config;
-	private SymfonyApplication $application;
+	public SymfonyApplication $application;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 	/** @var IRequest */
