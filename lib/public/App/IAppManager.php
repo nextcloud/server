@@ -96,14 +96,14 @@ interface IAppManager {
 	/**
 	 * Load an app, if not already loaded
 	 * @param string $app app id
-	 * @since 26.0.0
+	 * @since 27.0.0
 	 */
 	public function loadApp(string $app): void;
 
 	/**
 	 * Check if an app is loaded
 	 * @param string $app app id
-	 * @since 26.0.0
+	 * @since 27.0.0
 	 */
 	public function isAppLoaded(string $app): bool;
 
@@ -207,13 +207,13 @@ interface IAppManager {
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
-	 * @since 26.0.0
+	 * @since 27.0.0
 	 */
 	public function loadApps(array $types = []): bool;
 
 	/**
 	 * Check if an app is of a specific type
-	 * @since 26.0.0
+	 * @since 27.0.0
 	 */
 	public function isType(string $app, array $types): bool;
 
