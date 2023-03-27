@@ -270,6 +270,7 @@ OC.L10N.register(
     "Change password" : "Измени лозинку",
     "Your profile picture" : "Ваша слика профила",
     "Upload profile picture" : "Отпреми слику профила",
+    "Choose profile picture from Files" : "Изабери слику профила из Фајлова",
     "Remove profile picture" : "Уклони слику профила",
     "png or jpg, max. 20 MB" : "„png“ или „jpg“, макс. 20 МБ",
     "Picture provided by original account" : "Слика оригиналног налога",

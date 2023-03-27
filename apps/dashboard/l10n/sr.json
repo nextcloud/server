@@ -1,6 +1,7 @@
 { "translations": {
     "Dashboard" : "Контролна табла",
     "Dashboard app" : "Апликација контролне табле",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје преглед наредних састанака, хитних и-мејлова, чет порука, придошлих тикета, најновијих твитова и још пуно тога! Корисници могу да додају виџете који им се свиђају и да по жељи измене  позадину.",
     "\"{title} icon\"" : "„{title} икона”",
     "Customize" : "Прилагођавање",
     "Edit widgets" : "Уређивање виџета",

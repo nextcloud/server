@@ -51,6 +51,7 @@ OC.L10N.register(
     "Repair info:" : "Informação do reparo:",
     "Repair warning:" : "Aviso do reparo:",
     "Repair error:" : "Erro do reparo:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Please use the command line updater because updating via the browser is disabled in your config.php.",
     "Turned on maintenance mode" : "Ativar o modo de manutenção",
     "Turned off maintenance mode" : "Desativar o modo de manutenção",
     "Maintenance mode is kept active" : "O modo de manutenção está sendo mantido como ativo",
@@ -183,6 +184,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Aplicativo de e-mail simples e bem integrado com Arquivos, Contatos e Calendário.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Bate-papo, vídeo chamadas, compartilhamento de tela, reuniões online e conferência na web - no seu navegador e com aplicativos móveis.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Documentos colaborativos, planilhas e apresentações, construídos no Collabora Online.",
+    "Distraction free note taking app." : "Distraction free note taking app.",
     "Search contacts" : "Pesquisar contatos",
     "Forgot password?" : "Esqueceu a senha?",
     "Log in with a device" : "Logar-se com um dispositivo",
@@ -214,6 +216,7 @@ OC.L10N.register(
     "Settings menu" : "Menu de configurações",
     "Search {types} …" : "Pesquisar {types}…",
     "Settings" : "Configurações",
+    "Avatar of {fullName}" : "Avatar of {fullName}",
     "Could not load your contacts" : "Não foi possível carregar seus contatos",
     "Search contacts …" : "Procurar contatos...",
     "No contacts found" : "Nenhum contato encontrado",
@@ -284,6 +287,7 @@ OC.L10N.register(
     "Strong password" : "Senha forte",
     "No action available" : "Nenhuma ação disponível",
     "Error fetching contact actions" : "Erro ao obter as ações de contato",
+    "Close \"{dialogTitle}\" dialog" : "Close \"{dialogTitle}\" dialog",
     "Non-existing tag #{tag}" : "Etiqueta inexistente #{tag}",
     "Restricted" : "Restrita",
     "Invisible" : "Invisível",
@@ -422,6 +426,7 @@ OC.L10N.register(
     "Contacts" : "Contatos",
     "Contacts menu" : "Menu de contatos",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud precisa de 64 bits para funcionar bem. Por favor, atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre este ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud precisa de 64 bits para funcionar bem. Por favor, atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre este ↗{linkend}.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -89,6 +89,7 @@
     "Other Attributes:" : "Outros Atributos:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Define o filtro a aplicar quando o login é tentado. \"%%uid\" substitui o nome de usuário durante o login. Por exemplo: \"uid=%%uid\"",
     "Test Loginname" : "Testar nome de login",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Attempts to receive a DN for the given loginname and the current login filter",
     "Verify settings" : "Verificar configurações",
     "%s. Server:" : "%s. Servidor:",
     "Add a new configuration" : "Adiconar uma nova configuração",

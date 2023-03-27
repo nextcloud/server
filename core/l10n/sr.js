@@ -426,6 +426,7 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени контаката",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
