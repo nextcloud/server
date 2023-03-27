@@ -89,6 +89,7 @@
     "Other Attributes:" : "Más attribútumok:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Meghatározza a belépéskor alkalmazandó szűrőt. A „%%uid” lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: „uid=%%uid”",
     "Test Loginname" : "Teszt bejelentkezési név",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Megpróbál fogadni egy DN-t a megadott „loginname” és a jelenlegi bejelentkezési szűrő alapján",
     "Verify settings" : "Beállítások ellenőrzése",
     "%s. Server:" : "%s. szerver:",
     "Add a new configuration" : "Új beállítások hozzáadása",

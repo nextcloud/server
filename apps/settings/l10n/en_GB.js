@@ -270,6 +270,7 @@ OC.L10N.register(
     "Change password" : "Change password",
     "Your profile picture" : "Your profile picture",
     "Upload profile picture" : "Upload profile picture",
+    "Choose profile picture from Files" : "Choose profile picture from Files",
     "Remove profile picture" : "Remove profile picture",
     "png or jpg, max. 20 MB" : "png or jpg, max. 20 MB",
     "Picture provided by original account" : "Picture provided by original account",
