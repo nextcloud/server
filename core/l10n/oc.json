@@ -36,7 +36,7 @@
     "Nextcloud Server" : "Servidor Nextcloud",
     "Some of your link shares have been removed" : "D’unes de vòstres ligams de partiment foguèron tirats",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "A causa d’una avaria de seguretat nos calguèt tirar certans de vòstres ligams de partiment. Vejatz lo ligam per mai d’informacions.",
-    "The user limit of this instance is reached." : "La limita d’utilizaires d’aquesta instància es atenguda.",
+    "The user limit of this instance is reached." : "Lo limit d’utilizaires d’aquesta instància es atengut.",
     "Preparing update" : "Preparacion de la mesa a jorn",
     "[%d / %d]: %s" : "[%d / %d] : %s",
     "Repair step:" : "Etapa de reparacion :",

@@ -270,6 +270,7 @@ OC.L10N.register(
     "Change password" : "Změnit heslo",
     "Your profile picture" : "Váš profilový obrázek",
     "Upload profile picture" : "Nahrát profilový obrázek",
+    "Choose profile picture from Files" : "Zvolit profilový obrázek ze Souborů",
     "Remove profile picture" : "Odebrat profilový obrázek",
     "png or jpg, max. 20 MB" : "png nebo jpg, nejvýše 20 MB",
     "Picture provided by original account" : "Obrázek poskytovaný původním účtem",
