@@ -270,6 +270,7 @@ OC.L10N.register(
     "Change password" : "Ändra lösenord",
     "Your profile picture" : "Din profilbild",
     "Upload profile picture" : "Ladda upp profilbild",
+    "Choose profile picture from Files" : "Välj profilbild från filer",
     "Remove profile picture" : "Ta bort profilbild",
     "png or jpg, max. 20 MB" : "png eller jpg, max 20 MB",
     "Picture provided by original account" : "Bild gjordes tillgänglig av orginalkonto",
