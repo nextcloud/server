@@ -432,11 +432,9 @@ export default {
 		isFullscreenMode(mode) {
 			const modalContainer = document.getElementsByClassName('modal-container').item(0)
 			if (mode) {
-				modalContainer.classList.remove('modal-container-regular')
 				modalContainer.classList.add('modal-container-fullscreen')
 			} else {
 				modalContainer.classList.remove('modal-container-fullscreen')
-				modalContainer.classList.add('modal-container-regular')
 			}
 		},
 
@@ -839,7 +837,9 @@ export default {
 				OCA.Files.Sidebar.setFullScreenMode(false)
 			}
 
-			this.exitFullscreen()
+			if (this.isFullscreenMode) {
+				this.exitFullscreen()
+			}
 		},
 
 		keyboardDeleteFile(event) {
@@ -1077,18 +1077,17 @@ export default {
 
 	:deep(.modal-wrapper) {
 		.modal-container {
-			// let the mime components manage their own background-color
-			background-color: transparent;
-			box-shadow: none;
-		}
-		.modal-container-regular {
 			// Ensure some space at the bottom
 			top: var(--header-height);
 			bottom: var(--header-height);
 			height: auto;
+			// let the mime components manage their own background-color
+			background-color: transparent;
+			box-shadow: none;
 		}
 		.modal-container-fullscreen {
 			top: 0;
+			bottom: 0;
 			height: 100%;
 		}
 	}
