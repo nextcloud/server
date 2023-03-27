@@ -71,7 +71,9 @@ export default defineConfig({
 
 			// Remove container after run
 			on('after:run', () => {
-				stopNextcloud()
+				if (!process.env.CI) {
+					stopNextcloud()
+				}
 			})
 
 			// Before the browser launches

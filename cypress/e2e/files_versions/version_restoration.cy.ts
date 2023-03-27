@@ -24,7 +24,7 @@ import { assertVersionContent, clickPopperAction, openVersionMenu, openVersionsP
 
 function restoreVersion(index: number) {
 	openVersionMenu(index)
-	clickPopperAction("Restore version")
+	clickPopperAction('Restore version')
 }
 
 describe('Versions restoration', () => {

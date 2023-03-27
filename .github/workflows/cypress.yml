@@ -97,7 +97,7 @@ jobs:
 
       - name: Upload NC logs
         uses: actions/upload-artifact@v3
-        if: ${{ matrix.containers != 'component' }}
+        if: ( success() || failure() ) && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
           path: nextcloud.log
