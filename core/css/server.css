@@ -3150,7 +3150,7 @@ kbd {
   width: calc(100% - var(--body-container-margin) * 2);
   height: var(--body-height);
   border-radius: var(--body-container-radius);
-  overflow: hidden;
+  overflow: clip;
 }
 #content:not(.with-sidebar--full) {
   position: fixed;
