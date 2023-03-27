@@ -3,6 +3,7 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "nextclouddev",
 	"postCreateCommand": ".devcontainer/setup.sh",
+	"postStartCommand": "chown -R www-data:www-data /var/www/html",
 	"forwardPorts": [
 		80,
 		8080,
@@ -14,7 +15,8 @@
 				"felixfbecker.php-debug",
 				"felixfbecker.php-intellisense",
 				"ms-azuretools.vscode-docker",
-				"xdebug.php-debug"
+				"xdebug.php-debug",
+				"donjayamanne.githistory"
 			],
 			"settings": {
 				"php.suggest.basic": false
