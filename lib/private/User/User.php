@@ -254,7 +254,7 @@ class User implements IUser {
 	 */
 
 	public function getFirstLogin() {
-		if($this->firstLogin === null) {
+		if ($this->firstLogin === null) {
 			$this->firstLogin = (int) $this->config->getUserValue($this->uid, 'login', 'firstLogin', 0);
 		}
 		return (int) $this->firstLogin;
