@@ -152,6 +152,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Reset and recreate the session
 	 */
 	public function clear() {
+		$reopened = $this->reopen();
 		$requesttoken = $this->get('requesttoken');
 		$this->sessionValues = [];
 		if ($requesttoken !== null) {
@@ -159,6 +160,9 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		}
 		$this->isModified = true;
 		$this->session->clear();
+		if ($reopened) {
+			$this->close();
+		}
 	}
 
 	public function reopen(): bool {
