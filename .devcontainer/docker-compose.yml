@@ -6,7 +6,7 @@ services:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker-host.sock
       - ..:/var/www/html
-    command: /bin/sh -c "chown -R www-data:www-data /var/www/html && service apache2 start && while sleep 1000; do :; done"
+    command: /var/www/html/.devcontainer/entrypoint.sh
     ports:
       - 80:80
       - 8080:8080
@@ -17,6 +17,9 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
     network_mode: service:nextclouddev
 
   adminer:
@@ -28,3 +31,6 @@ services:
     image: mailhog/mailhog
     restart: always
     network_mode: service:nextclouddev
+
+volumes:
+  db:

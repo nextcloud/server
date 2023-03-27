@@ -9,9 +9,10 @@ cp .devcontainer/codespace.config.php config/codespace.config.php
 
 # Set git safe.directory
 git config --global --add safe.directory /var/www/html
+git config --global --add safe.directory /var/www/html/3rdparty
 
 # Onetime installation setup
-if [ ! -f "data/.devcontainer-install-complete" ]; then
+if [[ ! $(sudo -u www-data php occ status) =~ installed:[[:space:]]*true ]]; then
     echo "Running NC installation"
     sudo -u www-data php occ maintenance:install \
         --verbose \
@@ -22,9 +23,7 @@ if [ ! -f "data/.devcontainer-install-complete" ]; then
         --database-user=postgres \
         --database-pass=postgres \
         --admin-user admin \
-        --admin-pass admin && \
-    touch "data/.devcontainer-install-complete"
+        --admin-pass admin
 fi
 
-# Clear caches and stuff ...
 service apache2 restart
