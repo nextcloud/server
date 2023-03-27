@@ -92,7 +92,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Extract NC logs
-        if: ${{ matrix.containers != 'component' }}
+        if: ( success() || failure() ) && matrix.containers != 'component'
         run: docker logs nextcloud-cypress-tests-server > nextcloud.log
 
       - name: Upload NC logs
