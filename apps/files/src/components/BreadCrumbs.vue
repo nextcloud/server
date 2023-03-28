@@ -4,7 +4,7 @@
 		<NcBreadcrumb v-for="(section, index) in sections"
 			:key="section.dir"
 			:aria-label="ariaLabel(section)"
-			:native-title="ariaLabel(section)"
+			:title="ariaLabel(section)"
 			v-bind="section"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
@@ -50,8 +50,9 @@ export default Vue.extend({
 				const to = { ...this.$route, query: { dir } }
 				return {
 					dir,
+					exact: true,
+					name: basename(dir),
 					to,
-					title: basename(dir),
 				}
 			})
 		},
