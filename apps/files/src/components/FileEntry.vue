@@ -58,21 +58,12 @@
 		<!-- Actions -->
 		<td :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
 			<!-- Inline actions -->
-			<template v-for="action in enabledInlineActions">
-				<!-- TODO: implement CustomElementRender -->
-				<NcButton :key="action.id"
-					type="tertiary"
-					@click="onActionClick(action)">
-					<template #icon>
-						<NcLoadingIcon v-if="loading === action.id" :size="18" />
-						<CustomSvgIconRender v-else :svg="action.iconSvgInline([source], currentView)" />
-					</template>
-					{{ action.displayName([source], currentView) }}
-				</NcButton>
-			</template>
+			<!-- TODO: implement CustomElementRender -->
 
 			<!-- Menu actions -->
-			<NcActions ref="actionsMenu" :force-menu="true">
+			<NcActions ref="actionsMenu"
+				:force-title="true"
+				:inline="enabledInlineActions.length">
 				<NcActionButton v-for="action in enabledMenuActions"
 					:key="action.id"
 					:class="'files-list__row-action-' + action.id"
@@ -280,13 +271,15 @@ export default Vue.extend({
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
-		enabledMenuActions() {
-			return actions
-				.filter(action => !action.inline)
-		},
-
 		enabledInlineActions() {
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
+		},
+
+		enabledMenuActions() {
+			return [
+				...this.enabledInlineActions,
+				...actions.filter(action => !action.inline),
+			]
 		},
 
 		uniqueId() {
@@ -305,7 +298,7 @@ export default Vue.extend({
 				return
 			}
 			// Restore default tabindex
-			this.$el.parentNode.style.removeProperty('display')
+			this.$el.parentNode.style.display = ''
 		},
 		/**
 		 * When the source changes, reset the preview
