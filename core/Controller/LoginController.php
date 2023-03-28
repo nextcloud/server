@@ -34,7 +34,6 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Request;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
@@ -125,7 +124,8 @@ class LoginController extends Controller {
 		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
 
-		if (!$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])) {
+		if ($this->request->getServerProtocol() === 'https') {
+			// This feature is available only in secure contexts
 			$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		}
 
