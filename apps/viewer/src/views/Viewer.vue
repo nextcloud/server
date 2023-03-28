@@ -432,9 +432,9 @@ export default {
 		isFullscreenMode(mode) {
 			const modalContainer = document.getElementsByClassName('modal-container').item(0)
 			if (mode) {
-				modalContainer.classList.add('modal-container-fullscreen')
+				modalContainer.classList.add('modal-container--fullscreen')
 			} else {
-				modalContainer.classList.remove('modal-container-fullscreen')
+				modalContainer.classList.remove('modal-container--fullscreen')
 			}
 		},
 
@@ -1085,7 +1085,7 @@ export default {
 			background-color: transparent;
 			box-shadow: none;
 		}
-		.modal-container-fullscreen {
+		.modal-container--fullscreen {
 			top: 0;
 			bottom: 0;
 			height: 100%;
