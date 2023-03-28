@@ -138,7 +138,6 @@ export default Vue.extend({
 		Fragment,
 		NcActionButton,
 		NcActions,
-		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 	},
@@ -328,16 +327,6 @@ export default Vue.extend({
 	},
 
 	methods: {
-		/**
-		 * Get a cached note from the store
-		 *
-		 * @param {number} fileId the file id to get
-		 * @return {Folder|File}
-		 */
-		getNode(fileId) {
-			return this.filesStore.getNode(fileId)
-		},
-
 		async debounceIfNotCached() {
 			if (!this.previewUrl) {
 				return

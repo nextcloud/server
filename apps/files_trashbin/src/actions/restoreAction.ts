@@ -19,13 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { emit } from '@nextcloud/event-bus'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 import { registerFileAction, Permission, FileAction, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import { emit } from '@nextcloud/event-bus'
 
 registerFileAction(new FileAction({
 	id: 'restore',
@@ -33,6 +33,7 @@ registerFileAction(new FileAction({
 		return t('files_trashbin', 'Restore')
 	},
 	iconSvgInline: () => History,
+
 	enabled(nodes: Node[], view) {
 		// Only available in the trashbin view
 		if (view.id !== 'trashbin') {
@@ -44,22 +45,31 @@ registerFileAction(new FileAction({
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.READ) !== 0)
 	},
-	async exec(node: Node) {
-		// No try...catch here, let the files app handle the error
-		const destination = generateRemoteUrl(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`)
-		await axios({
-			method: 'MOVE',
-			url: node.source,
-			headers: {
-				destination,
-			},
-		})
 
-		// Let's pretend the file is deleted since
-		// we don't know the restored location
-		emit('files:file:deleted', node)
-		return true
+	async exec(node: Node) {
+		try {
+			const destination = generateRemoteUrl(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`)
+			await axios({
+				method: 'MOVE',
+				url: node.source,
+				headers: {
+					destination,
+				},
+			})
+
+			// Let's pretend the file is deleted since
+			// we don't know the restored location
+			emit('files:file:deleted', node)
+			return true
+		} catch (error) {
+			console.error(error)
+			return false
+		}
 	},
+	async execBatch(nodes: Node[], view) {
+		return Promise.all(nodes.map(node => this.exec(node, view)))
+	},
+
 	order: 1,
 	inline: () => true,
 }))

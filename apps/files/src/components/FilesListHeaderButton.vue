@@ -123,6 +123,7 @@ export default Vue.extend({
 	.button-vue__wrapper {
 		flex-direction: row-reverse;
 		// Take max inner width for text overflow ellipsis
+		// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
 		width: 100%;
 	}
 
@@ -133,6 +134,7 @@ export default Vue.extend({
 		opacity: 0;
 	}
 
+	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
 	.button-vue__text {
 		overflow: hidden;
 		white-space: nowrap;

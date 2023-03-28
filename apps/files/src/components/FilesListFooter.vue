@@ -149,6 +149,7 @@ tr {
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;
+	border-bottom: none !important;
 }
 
 td {

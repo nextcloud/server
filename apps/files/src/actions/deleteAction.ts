@@ -19,11 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { emit } from '@nextcloud/event-bus'
 import { registerFileAction, Permission, FileAction, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
-import { emit } from '@nextcloud/event-bus'
+
+import logger from '../logger'
 
 registerFileAction(new FileAction({
 	id: 'delete',
@@ -33,20 +35,30 @@ registerFileAction(new FileAction({
 			: t('files', 'Delete')
 	},
 	iconSvgInline: () => TrashCan,
+
 	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.DELETE) !== 0)
 	},
-	async exec(node: Node) {
-		// No try...catch here, let the files app handle the error
-		await axios.delete(node.source)
 
-		// Let's delete even if it's moved to the trashbin
-		// since it has been removed from the current view
-		//  and changing the view will trigger a reload anyway.
-		emit('files:file:deleted', node)
-		return true
+	async exec(node: Node) {
+		try {
+			await axios.delete(node.source)
+
+			// Let's delete even if it's moved to the trashbin
+			// since it has been removed from the current view
+			//  and changing the view will trigger a reload anyway.
+			emit('files:file:deleted', node)
+			return true
+		} catch (error) {
+			logger.error('Error while deleting a file', { error, source: node.source, node })
+			return false
+		}
 	},
+	async execBatch(nodes: Node[], view) {
+		return Promise.all(nodes.map(node => this.exec(node, view)))
+	},
+
 	order: 100,
 }))

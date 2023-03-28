@@ -25,35 +25,43 @@
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
-		<!-- Link to file -->
-		<th class="files-list__column files-list__row-name files-list__column--sortable"
-			@click.stop.prevent="toggleSortBy('basename')">
-			<!-- Icon or preview -->
-			<span class="files-list__row-icon" />
+		<!-- Actions multiple if some are selected -->
+		<FilesListActionsHeader v-if="!isNoneSelected"
+			:current-view="currentView"
+			:selected-nodes="selectedNodes" />
 
-			<!-- Name -->
-			<FilesListHeaderButton :name="t('files', 'Name')" mode="basename" />
-		</th>
+		<!-- Columns display -->
+		<template v-else>
+			<!-- Link to file -->
+			<th class="files-list__column files-list__row-name files-list__column--sortable"
+				@click.stop.prevent="toggleSortBy('basename')">
+				<!-- Icon or preview -->
+				<span class="files-list__row-icon" />
 
-		<!-- Actions -->
-		<th class="files-list__row-actions" />
+				<!-- Name -->
+				<FilesListHeaderButton :name="t('files', 'Name')" mode="basename" />
+			</th>
 
-		<!-- Size -->
-		<th v-if="isSizeAvailable"
-			:class="{'files-list__column--sortable': isSizeAvailable}"
-			class="files-list__column files-list__row-size">
-			<FilesListHeaderButton :name="t('files', 'Size')" mode="size" />
-		</th>
+			<!-- Actions -->
+			<th class="files-list__row-actions" />
 
-		<!-- Custom views columns -->
-		<th v-for="column in columns"
-			:key="column.id"
-			:class="classForColumn(column)">
-			<FilesListHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
-			<span v-else>
-				{{ column.title }}
-			</span>
-		</th>
+			<!-- Size -->
+			<th v-if="isSizeAvailable"
+				:class="{'files-list__column--sortable': isSizeAvailable}"
+				class="files-list__column files-list__row-size">
+				<FilesListHeaderButton :name="t('files', 'Size')" mode="size" />
+			</th>
+
+			<!-- Custom views columns -->
+			<th v-for="column in columns"
+				:key="column.id"
+				:class="classForColumn(column)">
+				<FilesListHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
+				<span v-else>
+					{{ column.title }}
+				</span>
+			</th>
+		</template>
 	</tr>
 </template>
 
@@ -66,9 +74,10 @@ import Vue from 'vue'
 import { useFilesStore } from '../store/files'
 import { useSelectionStore } from '../store/selection'
 import { useSortingStore } from '../store/sorting'
+import FilesListActionsHeader from './FilesListActionsHeader.vue'
+import FilesListHeaderButton from './FilesListHeaderButton.vue'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation'
-import FilesListHeaderButton from './FilesListHeaderButton.vue'
 
 export default Vue.extend({
 	name: 'FilesListHeader',
@@ -76,6 +85,7 @@ export default Vue.extend({
 	components: {
 		FilesListHeaderButton,
 		NcCheckboxRadioSwitch,
+		FilesListActionsHeader,
 	},
 
 	props: {
@@ -129,20 +139,20 @@ export default Vue.extend({
 			}
 		},
 
+		selectedNodes() {
+			return this.selectionStore.selected
+		},
+
 		isAllSelected() {
-			return this.selectedFiles.length === this.nodes.length
+			return this.selectedNodes.length === this.nodes.length
 		},
 
 		isNoneSelected() {
-			return this.selectedFiles.length === 0
+			return this.selectedNodes.length === 0
 		},
 
 		isSomeSelected() {
 			return !this.isAllSelected && !this.isNoneSelected
-		},
-
-		selectedFiles() {
-			return this.selectionStore.selected
 		},
 
 		sortingMode() {
