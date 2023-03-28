@@ -73,18 +73,18 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetProviderIdInt() {
+	public function testSetProviderIdString() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('String expected.');
+		$this->expectExceptionMessage('Int expected.');
 
-		$this->share->setProviderId(42);
+		$this->share->setProviderId('bar');
 	}
 
 
-	public function testSetProviderIdString() {
+	public function testSetProviderIdInt() {
 		$this->share->setProviderId('foo');
-		$this->share->setId('bar');
-		$this->assertEquals('foo:bar', $this->share->getFullId());
+		$this->share->setId(42);
+		$this->assertEquals('foo:42', $this->share->getFullId());
 	}
 
 

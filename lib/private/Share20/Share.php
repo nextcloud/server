@@ -41,7 +41,7 @@ use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 
 class Share implements IShare {
-	/** @var string */
+	/** @var ?int */
 	private $id;
 	/** @var string */
 	private $providerId;
@@ -112,33 +112,33 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function setId($id) {
-		if (is_int($id)) {
-			$id = (string)$id;
+		if (is_string($id)) {
+			$id = (int)$id;
 		}
 
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
+		if (!is_int($id)) {
+			throw new \InvalidArgumentException('Int expected.');
 		}
 
 		if ($this->id !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new internal id to a share');
 		}
 
-		$this->id = trim($id);
+		$this->id = $id;
 		return $this;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getId() {
+	public function getId(): int {
 		return $this->id;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getFullId() {
+	public function getFullId(): string {
 		if ($this->providerId === null || $this->id === null) {
 			throw new \UnexpectedValueException;
 		}

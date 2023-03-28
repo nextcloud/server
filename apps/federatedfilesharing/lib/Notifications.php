@@ -150,7 +150,7 @@ class Notifications {
 	 *
 	 * @param string $token
 	 * @param string $id remote Id
-	 * @param string $shareId internal share Id
+	 * @param int $shareId internal share Id
 	 * @param string $remote remote address of the owner
 	 * @param string $shareWith
 	 * @param int $permission
@@ -159,7 +159,7 @@ class Notifications {
 	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission, $filename) {
+	public function requestReShare($token, $id, int $shareId, $remote, $shareWith, $permission, $filename) {
 		$fields = [
 			'shareWith' => $shareWith,
 			'token' => $token,

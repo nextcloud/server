@@ -201,10 +201,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return parent::instanceOfStorage($class);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getShareId() {
+	public function getShareId(): int {
 		return $this->superShare->getId();
 	}
 

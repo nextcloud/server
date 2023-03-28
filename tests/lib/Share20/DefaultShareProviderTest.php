@@ -1146,7 +1146,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
-		$this->assertSame((string)$id, $share->getId());
+		$this->assertSame($id, $share->getId());
 		$this->assertSame('sharedWith', $share->getSharedWith());
 		$this->assertSame('shareOwner', $share->getShareOwner());
 		$this->assertSame('sharedBy', $share->getSharedBy());

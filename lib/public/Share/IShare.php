@@ -142,21 +142,20 @@ interface IShare {
 	 * It is only allowed to set the internal id of a share once.
 	 * Attempts to override the internal id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
 	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
 	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setId($id);
+	public function setId(int $id);
 
 	/**
 	 * Get the internal id of the share.
 	 *
-	 * @return string
+	 * @return int
 	 * @since 9.0.0
 	 */
-	public function getId();
+	public function getId(): int;
 
 	/**
 	 * Get the full share id. This is the <providerid>:<internalid>.
@@ -166,7 +165,7 @@ interface IShare {
 	 * @since 9.0.0
 	 * @throws \UnexpectedValueException If the fullId could not be constructed
 	 */
-	public function getFullId();
+	public function getFullId(): string;
 
 	/**
 	 * Set the provider id of the share

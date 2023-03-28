@@ -1603,10 +1603,10 @@ class ManagerTest extends \Test\TestCase {
 		$path = $this->createMock(Node::class);
 
 		$share->setSharedWith('sharedWith')->setNode($path)
-			->setProviderId('foo')->setId('bar');
+			->setProviderId('foo')->setId(1);
 
 		$share2->setSharedWith('sharedWith')->setNode($path)
-			->setProviderId('foo')->setId('baz');
+			->setProviderId('foo')->setId(2);
 
 		$this->defaultProvider
 			->method('getSharesByPath')
@@ -1638,13 +1638,13 @@ class ManagerTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setSharedWithDisplayName('userName')
 			->setProviderId('foo')
-			->setId('bar');
+			->setId(1);
 
 		$share2 = $this->manager->newShare();
 		$share2->setShareType(IShare::TYPE_GROUP)
 			->setShareOwner('shareOwner2')
 			->setProviderId('foo')
-			->setId('baz')
+			->setId(2)
 			->setSharedWith('group');
 
 		$group = $this->createMock(IGroup::class);
@@ -1840,12 +1840,12 @@ class ManagerTest extends \Test\TestCase {
 		$share->setSharedWith('sharedWith')
 			->setNode($path)
 			->setProviderId('foo')
-			->setId('bar');
+			->setId(1);
 
 		$share2 = $this->manager->newShare();
 		$share2->setSharedWith('sharedWith')
 			->setProviderId('foo')
-			->setId('baz');
+			->setId(2);
 
 		$this->defaultProvider->method('getSharesByPath')
 			->with($path)
@@ -2347,7 +2347,7 @@ class ManagerTest extends \Test\TestCase {
 							$share->getExpirationDate() === $date &&
 							$share->getPassword() === 'hashed' &&
 							$share->getToken() === 'token' &&
-							$share->getId() === '42' &&
+							$share->getId() === 42 &&
 							$share->getTarget() === '/target';
 					})]
 			);
@@ -2452,7 +2452,7 @@ class ManagerTest extends \Test\TestCase {
 							$share->getExpirationDate() === null &&
 							$share->getPassword() === null &&
 							$share->getToken() === 'token' &&
-							$share->getId() === '42' &&
+							$share->getId() === 42 &&
 							$share->getTarget() === '/target';
 					})],
 			);

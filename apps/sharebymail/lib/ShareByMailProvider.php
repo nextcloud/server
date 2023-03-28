@@ -814,7 +814,7 @@ class ShareByMailProvider implements IShareProvider {
 		} catch (\Exception $e) {
 		}
 
-		$this->removeShareFromTable((int)$share->getId());
+		$this->removeShareFromTable($share->getId());
 	}
 
 	/**

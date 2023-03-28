@@ -303,15 +303,15 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	public function notificationReceived($notificationType, $providerId, array $notification) {
 		switch ($notificationType) {
 			case 'SHARE_ACCEPTED':
-				return $this->shareAccepted($providerId, $notification);
+				return $this->shareAccepted((int)$providerId, $notification);
 			case 'SHARE_DECLINED':
-				return $this->shareDeclined($providerId, $notification);
+				return $this->shareDeclined((int)$providerId, $notification);
 			case 'SHARE_UNSHARED':
 				return $this->unshare($providerId, $notification);
 			case 'REQUEST_RESHARE':
-				return $this->reshareRequested($providerId, $notification);
+				return $this->reshareRequested((int)$providerId, $notification);
 			case 'RESHARE_UNDO':
-				return $this->undoReshare($providerId, $notification);
+				return $this->undoReshare((int)$providerId, $notification);
 			case 'RESHARE_CHANGE_PERMISSION':
 				return $this->updateResharePermissions($providerId, $notification);
 		}
@@ -359,7 +359,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * process notification that the recipient accepted a share
 	 *
-	 * @param string $id
+	 * @param int $id
 	 * @param array $notification
 	 * @return array
 	 * @throws ActionNotSupportedException
@@ -367,7 +367,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws BadRequestException
 	 * @throws HintException
 	 */
-	private function shareAccepted($id, array $notification) {
+	private function shareAccepted(int $id, array $notification) {
 		if (!$this->isS2SEnabled()) {
 			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
 		}
@@ -427,7 +427,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * process notification that the recipient declined a share
 	 *
-	 * @param string $id
+	 * @param int $id
 	 * @param array $notification
 	 * @return array
 	 * @throws ActionNotSupportedException
@@ -437,7 +437,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws HintException
 	 *
 	 */
-	protected function shareDeclined($id, array $notification) {
+	protected function shareDeclined(int $id, array $notification) {
 		if (!$this->isS2SEnabled()) {
 			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
 		}
@@ -503,13 +503,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * received the notification that the owner unshared a file from you
 	 *
-	 * @param string $id
+	 * @param int $id
 	 * @param array $notification
 	 * @return array
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 */
-	private function undoReshare($id, array $notification) {
+	private function undoReshare(int $id, array $notification) {
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
 		}
@@ -613,7 +613,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * recipient of a share request to re-share the file with another user
 	 *
-	 * @param string $id
+	 * @param int $id
 	 * @param array $notification
 	 * @return array
 	 * @throws AuthenticationFailedException
@@ -621,7 +621,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ProviderCouldNotAddShareException
 	 * @throws ShareNotFound
 	 */
-	protected function reshareRequested($id, array $notification) {
+	protected function reshareRequested(int $id, array $notification) {
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
 		}
