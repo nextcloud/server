@@ -23,13 +23,17 @@
 import { nameVersion, openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils'
 
 describe('Versions naming', () => {
+	let randomFileName = ''
+
 	before(() => {
+		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+
 		cy.createRandomUser()
 			.then((user) => {
-				uploadThreeVersions(user)
+				uploadThreeVersions(user, randomFileName)
 				cy.login(user)
 				cy.visit('/apps/files')
-				openVersionsPanel('test.txt')
+				openVersionsPanel(randomFileName)
 			})
 	})
 
