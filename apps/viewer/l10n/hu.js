@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Oldalsáv megnyitása",
     "Download" : "Letöltés",
     "Delete" : "Törlés",
+    "This file no longer exists" : "Ez a fájl már nem létezik",
     "There is no plugin available to display this file type" : "Nincs elérhető bővítmény a fájltípus megjelenítéséhez",
     "View" : "Megtekintés",
     "Name" : "Név",

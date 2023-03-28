@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Abrir barra lateral",
     "Download" : "Baixar",
     "Delete" : "Excluir",
+    "This file no longer exists" : "This file no longer exists",
     "There is no plugin available to display this file type" : "Não há plug-in disponível para exibir este tipo de arquivo",
     "View" : "Visualizar",
     "Name" : "Nome",
