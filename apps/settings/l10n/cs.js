@@ -268,6 +268,7 @@ OC.L10N.register(
     "Current password" : "Stávající heslo",
     "New password" : "Nové heslo",
     "Change password" : "Změnit heslo",
+    "Your profile information" : "Vaše profilové informace",
     "Your profile picture" : "Váš profilový obrázek",
     "Upload profile picture" : "Nahrát profilový obrázek",
     "Choose profile picture from Files" : "Zvolit profilový obrázek ze Souborů",
