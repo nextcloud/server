@@ -37,13 +37,9 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
+	private array|ICacheEntry $data;
 	/**
-	 * @var array $data
-	 */
-	private $data;
-
-	/**
-	 * @var string $path
+	 * @var string
 	 */
 	private $path;
 
@@ -53,7 +49,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private $storage;
 
 	/**
-	 * @var string $internalPath
+	 * @var string
 	 */
 	private $internalPath;
 
@@ -62,22 +58,19 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	private $mount;
 
-	/**
-	 * @var IUser
-	 */
-	private $owner;
+	private ?IUser $owner;
 
 	/**
 	 * @var string[]
 	 */
-	private $childEtags = [];
+	private array $childEtags = [];
 
 	/**
 	 * @var IMountPoint[]
 	 */
-	private $subMounts = [];
+	private array $subMounts = [];
 
-	private $subMountsUsed = false;
+	private bool $subMountsUsed = false;
 
 	/**
 	 * The size of the file/folder without any sub mount
@@ -89,8 +82,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param array|ICacheEntry $data
-	 * @param \OCP\Files\Mount\IMountPoint $mount
-	 * @param \OCP\IUser|null $owner
+	 * @param IMountPoint $mount
+	 * @param ?IUser $owner
 	 */
 	public function __construct($path, $storage, $internalPath, $data, $mount, $owner = null) {
 		$this->path = $path;
@@ -107,6 +100,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function offsetSet($offset, $value): void {
+		if (is_null($offset)) {
+			throw new \TypeError('Null offset not supported');
+		}
 		$this->data[$offset] = $value;
 	}
 
@@ -357,7 +353,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * Get the owner of the file
 	 *
-	 * @return \OCP\IUser
+	 * @return ?IUser
 	 */
 	public function getOwner() {
 		return $this->owner;
@@ -370,7 +366,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->subMounts = $mounts;
 	}
 
-	private function updateEntryfromSubMounts() {
+	private function updateEntryfromSubMounts(): void {
 		if ($this->subMountsUsed) {
 			return;
 		}

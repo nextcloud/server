@@ -254,7 +254,7 @@ interface Storage extends IStorage {
 	/**
 	 * see https://www.php.net/manual/en/function.copy.php
 	 *
-	 * @param string $soruce
+	 * @param string $source
 	 * @param string $target
 	 * @return bool
 	 * @since 6.0.0
