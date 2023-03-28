@@ -23,19 +23,23 @@
 import { assertVersionContent, openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils'
 
 describe('Versions download', () => {
+	let randomFileName = ''
+
 	before(() => {
+		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+
 		cy.createRandomUser()
 			.then((user) => {
-				uploadThreeVersions(user)
+				uploadThreeVersions(user, randomFileName)
 				cy.login(user)
 				cy.visit('/apps/files')
-				openVersionsPanel('test.txt')
+				openVersionsPanel(randomFileName)
 			})
 	})
 
 	it('Download versions and assert there content', () => {
-		assertVersionContent(0, 'v3')
-		assertVersionContent(1, 'v2')
-		assertVersionContent(2, 'v1')
+		assertVersionContent(randomFileName, 0, 'v3')
+		assertVersionContent(randomFileName, 1, 'v2')
+		assertVersionContent(randomFileName, 2, 'v1')
 	})
 })
