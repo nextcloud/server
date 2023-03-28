@@ -360,7 +360,7 @@ class Configuration {
 
 	protected function getSystemValue(string $varName): string {
 		//FIXME: if another system value is added, softcode the default value
-		return \OC::$server->getConfig()->getSystemValue($varName, false);
+		return (string)\OC::$server->getConfig()->getSystemValue($varName, false);
 	}
 
 	protected function getValue(string $varName): string {
@@ -368,7 +368,7 @@ class Configuration {
 		if (is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OC::$server->getConfig()->getAppValue('user_ldap',
+		return (string)\OC::$server->getConfig()->getAppValue('user_ldap',
 			$this->configPrefix.$varName,
 			$defaults[$varName]);
 	}

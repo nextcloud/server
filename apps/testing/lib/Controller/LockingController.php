@@ -206,13 +206,9 @@ class LockingController extends OCSController {
 			if (strpos($lock, 'locking_') === 0) {
 				$path = substr($lock, strlen('locking_'));
 
-				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
-				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
-				} else {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
-				}
+				/** @var ILockingProvider::LOCK_* $value */
+				$value = $this->config->getAppValue('testing', $lock);
+				$lockingProvider->releaseLock($path, $value);
 			}
 		}
 

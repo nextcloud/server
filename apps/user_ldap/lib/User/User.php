@@ -600,6 +600,7 @@ class User {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function getExtStorageHome():string {
+		/** @var string $value */
 		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
 		if ($value !== '') {
 			return $value;

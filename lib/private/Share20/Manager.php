@@ -1443,7 +1443,8 @@ class Manager implements IManager {
 			throw new ShareNotFound();
 		}
 
-		[$providerId, $id] = $this->splitFullId($id);
+		[$providerId, $shareId] = $this->splitFullId($id);
+		$shareId = (int)$shareId;
 
 		try {
 			$provider = $this->factory->getProvider($providerId);
@@ -1451,7 +1452,7 @@ class Manager implements IManager {
 			throw new ShareNotFound();
 		}
 
-		$share = $provider->getShareById($id, $recipient);
+		$share = $provider->getShareById($shareId, $recipient);
 
 		$this->checkExpireDate($share);
 
@@ -1620,6 +1621,7 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
 		$provider->groupDeleted($gid);
 
+		/** @var string $excludedGroups */
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		if ($excludedGroups === '') {
 			return;
@@ -1818,6 +1820,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true) {
+		/** @var string $excludedGroups */
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		if ($excludedGroups !== '' && $checkGroupMembership) {
 			$excludedGroups = json_decode($excludedGroups);

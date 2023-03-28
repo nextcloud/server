@@ -616,6 +616,7 @@ class AppManager implements IAppManager {
 		}
 
 		if ($automaticDisabled) {
+			/** @var string $previousSetting */
 			$previousSetting = $this->appConfig->getValue($appId, 'enabled', 'yes');
 			if ($previousSetting !== 'yes' && $previousSetting !== 'no') {
 				$previousSetting = json_decode($previousSetting, true);
@@ -691,6 +692,7 @@ class AppManager implements IAppManager {
 		$apps = $this->getInstalledApps();
 		foreach ($apps as $appId) {
 			$appInfo = $this->getAppInfo($appId);
+			/** @var string $appDbVersion */
 			$appDbVersion = $this->appConfig->getValue($appId, 'installed_version');
 			if ($appDbVersion
 				&& isset($appInfo['version'])

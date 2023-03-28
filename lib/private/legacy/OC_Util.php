@@ -306,7 +306,7 @@ class OC_Util {
 	 */
 	public static function getChannel() {
 		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValue('updater.release.channel', self::$versionCache['OC_Channel']);
+		return (string)\OC::$server->getConfig()->getSystemValue('updater.release.channel', self::$versionCache['OC_Channel']);
 	}
 
 	/**

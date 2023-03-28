@@ -30,6 +30,8 @@ namespace OCP;
  * This class provides an easy way for apps to store config values in the
  * database.
  * @since 7.0.0
+ *
+ * @psalm-import-type Value from IConfig
  */
 interface IAppConfig {
 	/**
@@ -39,7 +41,7 @@ interface IAppConfig {
 	 * @return bool
 	 * @since 7.0.0
 	 */
-	public function hasKey($app, $key);
+	public function hasKey(string $app, string $key): bool;
 
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
@@ -49,24 +51,24 @@ interface IAppConfig {
 	 * @return array|false
 	 * @since 7.0.0
 	 */
-	public function getValues($app, $key);
+	public function getValues(mixed $app, mixed $key): mixed;
 
 	/**
 	 * get all values of the app or and filters out sensitive data
 	 *
 	 * @param string $app
-	 * @return array
+	 * @return array<string, Value>
 	 * @since 12.0.0
 	 */
-	public function getFilteredValues($app);
+	public function getFilteredValues(string $app): array;
 
 	/**
 	 * Get all apps using the config
-	 * @return array an array of app ids
+	 * @return string[] an array of app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
 	 * @since 7.0.0
 	 */
-	public function getApps();
+	public function getApps(): array;
 }

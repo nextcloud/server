@@ -306,8 +306,8 @@ class Trashbin {
 		}
 
 		$config = \OC::$server->getConfig();
-		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
-		$userTrashbinSize = (int)$config->getUserValue($owner, 'files_trashbin', 'trashbin_size', '-1');
+		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', -1);
+		$userTrashbinSize = (int)$config->getUserValue($owner, 'files_trashbin', 'trashbin_size', -1);
 		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
 		if ($configuredTrashbinSize >= 0 && $sourceInfo->getSize() >= $configuredTrashbinSize) {
 			return false;
@@ -758,11 +758,11 @@ class Trashbin {
 	 */
 	private static function calculateFreeSpace($trashbinSize, $user) {
 		$config = \OC::$server->getConfig();
-		$userTrashbinSize = (int)$config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
+		$userTrashbinSize = (int)$config->getUserValue($user, 'files_trashbin', 'trashbin_size', -1);
 		if ($userTrashbinSize > -1) {
 			return $userTrashbinSize - $trashbinSize;
 		}
-		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', -1);
 		if ($systemTrashbinSize > -1) {
 			return $systemTrashbinSize - $trashbinSize;
 		}

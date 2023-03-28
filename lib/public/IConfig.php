@@ -35,6 +35,8 @@ namespace OCP;
 /**
  * Access to all the configuration options Nextcloud offers.
  * @since 6.0.0
+ *
+ * @psalm-type Value = string|float|int|bool|array|null
  */
 interface IConfig {
 	/**
@@ -56,21 +58,22 @@ interface IConfig {
 	 * Sets a new system wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved
-	 * @param mixed $value the value that should be stored
+	 * @param Value $value the value that should be stored
 	 * @throws HintException if config file is read-only
 	 * @since 8.0.0
 	 */
-	public function setSystemValue($key, $value);
+	public function setSystemValue(string $key, mixed $value);
 
 	/**
 	 * Looks up a system wide defined value
 	 *
+	 * @template T of Value
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T the value or $default
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
 	 */
-	public function getSystemValue($key, $default = '');
+	public function getSystemValue(string $key, mixed $default = ''): mixed;
 
 	/**
 	 * Looks up a boolean system wide defined value
@@ -105,12 +108,13 @@ interface IConfig {
 	/**
 	 * Looks up a system wide defined value and filters out sensitive data
 	 *
+	 * @template T of Value
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 * @param Value $default the default value to be returned if the value isn't set
+	 * @return Value the value or $default
 	 * @since 8.2.0
 	 */
-	public function getFilteredSystemValue($key, $default = '');
+	public function getFilteredSystemValue(string $key, mixed $default = ''): mixed;
 
 	/**
 	 * Delete a system wide defined value
@@ -118,7 +122,7 @@ interface IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 * @since 8.0.0
 	 */
-	public function deleteSystemValue($key);
+	public function deleteSystemValue(string $key);
 
 	/**
 	 * Get all keys stored for an app
@@ -127,29 +131,30 @@ interface IConfig {
 	 * @return string[] the keys stored for the app
 	 * @since 8.0.0
 	 */
-	public function getAppKeys($appName);
+	public function getAppKeys(string $appName): array;
 
 	/**
 	 * Writes a new app wide value
 	 *
 	 * @param string $appName the appName that we want to store the value under
-	 * @param string|float|int $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
+	 * @param string $key the key of the value, under which will be saved
+	 * @param Value $value the value that should be stored
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function setAppValue($appName, $key, $value);
+	public function setAppValue(string $appName, string $key, mixed $value): void;
 
 	/**
 	 * Looks up an app wide defined value
 	 *
+	 * @template T of Value
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
-	 * @param string $default the default value to be returned if the value isn't set
-	 * @return string the saved value
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T the saved value
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
 	 */
-	public function getAppValue($appName, $key, $default = '');
+	public function getAppValue(string $appName, string $key, mixed $default = ''): mixed;
 
 	/**
 	 * Delete an app wide defined value
@@ -158,7 +163,7 @@ interface IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 * @since 8.0.0
 	 */
-	public function deleteAppValue($appName, $key);
+	public function deleteAppValue(string $appName, string $key);
 
 	/**
 	 * Removes all keys in appconfig belonging to the app
@@ -166,7 +171,7 @@ interface IConfig {
 	 * @param string $appName the appName the configs are stored under
 	 * @since 8.0.0
 	 */
-	public function deleteAppValues($appName);
+	public function deleteAppValues(string $appName);
 
 
 	/**
@@ -175,36 +180,37 @@ interface IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param string $value the value that you want to store
-	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
+	 * @param Value $value the value that you want to store
+	 * @param ?string $preCondition only update if the config value was previously the value passed as $preCondition
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @since 6.0.0 - parameter $precondition was added in 8.0.0
 	 */
-	public function setUserValue($userId, $appName, $key, $value, $preCondition = null);
+	public function setUserValue(string $userId, string $appName, string $key, mixed $value, string $preCondition = null);
 
 	/**
 	 * Shortcut for getting a user defined value
 	 *
+	 * @template T of Value
 	 * @param ?string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return string
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
 	 */
-	public function getUserValue($userId, $appName, $key, $default = '');
+	public function getUserValue(?string $userId, string $appName, string $key, mixed $default = ''): mixed;
 
 	/**
 	 * Fetches a mapped list of userId -> value, for a specified app and key and a list of user IDs.
 	 *
 	 * @param string $appName app to get the value for
 	 * @param string $key the key to get the value for
-	 * @param array $userIds the user IDs to fetch the values for
-	 * @return array Mapped values: userId => value
+	 * @param string[] $userIds the user IDs to fetch the values for
+	 * @return array<string, Value> Mapped values: userId => value
 	 * @since 8.0.0
 	 */
-	public function getUserValueForUsers($appName, $key, $userIds);
+	public function getUserValueForUsers(string $appName, string $key, array $userIds): array;
 
 	/**
 	 * Get the keys of all stored by an app for the user
@@ -214,14 +220,13 @@ interface IConfig {
 	 * @return string[]
 	 * @since 8.0.0
 	 */
-	public function getUserKeys($userId, $appName);
+	public function getUserKeys(string $userId, string $appName): array;
 
 	/**
 	 * Get all user configs sorted by app of one user
 	 *
 	 * @param string $userId the userId of the user that we want to get all values from
-	 * @psalm-return array<string, array<string, string>>
-	 * @return array[] - 2 dimensional array with the following structure:
+	 * @return array<string, array<string, Value>> - 2 dimensional array with the following structure:
 	 *     [ $appId =>
 	 *         [ $key => $value ]
 	 *     ]
@@ -237,7 +242,7 @@ interface IConfig {
 	 * @param string $key the key under which the value is being stored
 	 * @since 8.0.0
 	 */
-	public function deleteUserValue($userId, $appName, $key);
+	public function deleteUserValue(string $userId, string $appName, string $key);
 
 	/**
 	 * Delete all user values
@@ -245,7 +250,7 @@ interface IConfig {
 	 * @param string $userId the userId of the user that we want to remove all values from
 	 * @since 8.0.0
 	 */
-	public function deleteAllUserValues($userId);
+	public function deleteAllUserValues(string $userId);
 
 	/**
 	 * Delete all user related values of one app
@@ -253,16 +258,16 @@ interface IConfig {
 	 * @param string $appName the appName of the app that we want to remove all values from
 	 * @since 8.0.0
 	 */
-	public function deleteAppFromAllUsers($appName);
+	public function deleteAppFromAllUsers(string $appName);
 
 	/**
 	 * Determines the users that have the given value set for a specific app-key-pair
 	 *
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
-	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @param Value $value the value to get the user for
+	 * @return string[] of user IDs
 	 * @since 8.0.0
 	 */
-	public function getUsersForUserValue($appName, $key, $value);
+	public function getUsersForUserValue(string $appName, string $key, mixed $value): array;
 }

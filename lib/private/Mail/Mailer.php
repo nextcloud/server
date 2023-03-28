@@ -144,6 +144,7 @@ class Mailer implements IMailer {
 	 * @since 12.0.0
 	 */
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
+		/** @var string $class */
 		$class = $this->config->getSystemValue('mail_template_class', '');
 
 		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
@@ -309,6 +310,7 @@ class Mailer implements IMailer {
 			$transport->setPassword($this->config->getSystemValue('mail_smtppassword', ''));
 		}
 
+		/** @var string[] $streamingOptions */
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
 		if (is_array($streamingOptions) && !empty($streamingOptions)) {
 			/** @psalm-suppress InternalMethod */

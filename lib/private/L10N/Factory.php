@@ -198,6 +198,7 @@ class Factory implements IFactory {
 		if ($this->config->getSystemValue('installed', false)) {
 			$userId = !is_null($this->userSession->getUser()) ? $this->userSession->getUser()->getUID() :  null;
 			if (!is_null($userId)) {
+				/** @var ?string $userLang */
 				$userLang = $this->config->getUserValue($userId, 'core', 'lang', null);
 			} else {
 				$userLang = null;
@@ -284,6 +285,7 @@ class Factory implements IFactory {
 
 		if ($this->config->getSystemValue('installed', false)) {
 			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
+			/** @var ?string $userLocale */
 			$userLocale = null;
 			if (null !== $userId) {
 				$userLocale = $this->config->getUserValue($userId, 'core', 'locale', null);

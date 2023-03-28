@@ -355,6 +355,7 @@ class AppSettingsController extends Controller {
 			}
 
 			$currentLanguage = substr(\OC::$server->getL10NFactory()->findLanguage(), 0, 2);
+			/** @var string $enabledValue */
 			$enabledValue = $this->config->getAppValue($app['id'], 'enabled', 'no');
 			$groups = null;
 			if ($enabledValue !== 'no' && $enabledValue !== 'yes') {

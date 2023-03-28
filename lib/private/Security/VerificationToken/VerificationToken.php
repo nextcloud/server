@@ -76,6 +76,7 @@ class VerificationToken implements IVerificationToken {
 			$this->throwInvalidTokenException(InvalidTokenException::USER_UNKNOWN);
 		}
 
+		/** @var ?string $encryptedToken */
 		$encryptedToken = $this->config->getUserValue($user->getUID(), 'core', $subject, null);
 		if ($encryptedToken === null) {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_NOT_FOUND);

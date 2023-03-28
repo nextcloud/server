@@ -203,6 +203,7 @@ class Updater extends BasicEmitter {
 		$version = explode('.', $oldVersion);
 		$majorMinor = $version[0] . '.' . $version[1];
 
+		/** @var string $currentVendor */
 		$currentVendor = $this->config->getAppValue('core', 'vendor', '');
 
 		// Vendor was not set correctly on install, so we have to white-list known versions

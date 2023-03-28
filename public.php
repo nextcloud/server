@@ -54,6 +54,7 @@ try {
 		$pathInfo = trim($pathInfo, '/');
 		[$service] = explode('/', $pathInfo);
 	}
+	/** @var string $file */
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
 	if ($file === '') {
 		http_response_code(404);

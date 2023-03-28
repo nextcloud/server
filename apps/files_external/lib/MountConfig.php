@@ -257,7 +257,9 @@ class MountConfig {
 	 */
 	private static function getCipher() {
 		$cipher = new AES(AES::MODE_CBC);
-		$cipher->setKey(\OC::$server->getConfig()->getSystemValue('passwordsalt', null));
+		/** @var string $value */
+		$value = \OC::$server->getConfig()->getSystemValue('passwordsalt', null);
+		$cipher->setKey($value);
 		return $cipher;
 	}
 

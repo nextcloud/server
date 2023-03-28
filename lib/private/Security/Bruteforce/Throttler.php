@@ -171,7 +171,8 @@ class Throttler implements IThrottler {
 		$ip = inet_pton($ip);
 
 		foreach ($keys as $key) {
-			$cidr = $this->config->getAppValue('bruteForce', $key, null);
+			/** @var string $cidr */
+			$cidr = $this->config->getAppValue('bruteForce', $key, '');
 
 			$cx = explode('/', $cidr);
 			$addr = $cx[0];

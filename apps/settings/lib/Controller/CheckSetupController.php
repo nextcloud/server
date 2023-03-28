@@ -576,7 +576,9 @@ Raw output
 	}
 
 	protected function isSqliteUsed() {
-		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
+		/** @var string $value */
+		$value = $this->config->getSystemValue('dbtype');
+		return str_contains($value, 'sqlite');
 	}
 
 	protected function isReadOnlyConfig(): bool {

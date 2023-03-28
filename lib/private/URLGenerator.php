@@ -306,6 +306,7 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		}
 
+		/** @var string $defaultPage */
 		$defaultPage = $this->config->getAppValue('core', 'defaultpage');
 		if ($defaultPage) {
 			return $this->getAbsoluteURL($defaultPage);

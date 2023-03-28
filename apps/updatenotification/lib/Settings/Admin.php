@@ -78,7 +78,7 @@ class Admin implements ISettings {
 	}
 
 	public function getForm(): TemplateResponse {
-		$lastUpdateCheckTimestamp = $this->config->getAppValue('core', 'lastupdatedat');
+		$lastUpdateCheckTimestamp = (int)$this->config->getAppValue('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
 
 		$channels = [
@@ -97,6 +97,7 @@ class Admin implements ISettings {
 		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
+		/** @var string $updateServerURL */
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
 		$defaultCustomerUpdateServerURLPrefix = 'https://updates.nextcloud.com/customers/';
 

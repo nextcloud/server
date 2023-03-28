@@ -76,7 +76,7 @@ class WhatsNewController extends OCSController {
 		if ($user === null) {
 			throw new \RuntimeException("Acting user cannot be resolved");
 		}
-		$lastRead = $this->config->getUserValue($user->getUID(), 'core', 'whatsNewLastRead', 0);
+		$lastRead = $this->config->getUserValue($user->getUID(), 'core', 'whatsNewLastRead', '0');
 		$currentVersion = $this->whatsNewService->normalizeVersion($this->config->getSystemValue('version'));
 
 		if (version_compare($lastRead, $currentVersion, '>=')) {

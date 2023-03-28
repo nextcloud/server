@@ -40,6 +40,8 @@ use OCP\PreConditionNotMetException;
 
 /**
  * Class to combine all the configuration options ownCloud offers
+ *
+ * @psalm-import-type Value from IConfig
  */
 class AllConfig implements IConfig {
 	private SystemConfig $systemConfig;
@@ -105,20 +107,21 @@ class AllConfig implements IConfig {
 	 * Sets a new system wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved
-	 * @param mixed $value the value that should be stored
+	 * @param Value $value the value that should be stored
 	 */
-	public function setSystemValue($key, $value) {
+	public function setSystemValue(string $key, mixed $value) {
 		$this->systemConfig->setValue($key, $value);
 	}
 
 	/**
 	 * Looks up a system wide defined value
 	 *
+	 * @template T of Value
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T the value or $default
 	 */
-	public function getSystemValue($key, $default = '') {
+	public function getSystemValue(string $key, mixed $default = ''): mixed {
 		return $this->systemConfig->getValue($key, $default);
 	}
 
@@ -167,11 +170,12 @@ class AllConfig implements IConfig {
 	/**
 	 * Looks up a system wide defined value and filters out sensitive data
 	 *
+	 * @template T of Value
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T the value or $default
 	 */
-	public function getFilteredSystemValue($key, $default = '') {
+	public function getFilteredSystemValue(string $key, mixed $default = ''): mixed {
 		return $this->systemConfig->getFilteredValue($key, $default);
 	}
 
@@ -180,7 +184,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 */
-	public function deleteSystemValue($key) {
+	public function deleteSystemValue(string $key) {
 		$this->systemConfig->deleteValue($key);
 	}
 
@@ -190,7 +194,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @return string[] the keys stored for the app
 	 */
-	public function getAppKeys($appName) {
+	public function getAppKeys(string $appName): array {
 		return \OC::$server->get(AppConfig::class)->getKeys($appName);
 	}
 
@@ -199,21 +203,22 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key of the value, under which will be saved
-	 * @param string|float|int $value the value that should be stored
+	 * @param Value $value the value that should be stored
 	 */
-	public function setAppValue($appName, $key, $value) {
+	public function setAppValue(string $appName, string $key, mixed $value): void {
 		\OC::$server->get(AppConfig::class)->setValue($appName, $key, $value);
 	}
 
 	/**
 	 * Looks up an app wide defined value
 	 *
+	 * @template T of Value
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
-	 * @param string $default the default value to be returned if the value isn't set
-	 * @return string the saved value
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T the saved value
 	 */
-	public function getAppValue($appName, $key, $default = '') {
+	public function getAppValue(string $appName, string $key, mixed $default = ''): mixed {
 		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default);
 	}
 
@@ -223,7 +228,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
 	 */
-	public function deleteAppValue($appName, $key) {
+	public function deleteAppValue(string $appName, string $key) {
 		\OC::$server->get(AppConfig::class)->deleteKey($appName, $key);
 	}
 
@@ -232,7 +237,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName the appName the configs are stored under
 	 */
-	public function deleteAppValues($appName) {
+	public function deleteAppValues(string $appName) {
 		\OC::$server->get(AppConfig::class)->deleteApp($appName);
 	}
 
@@ -243,12 +248,12 @@ class AllConfig implements IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param string|float|int $value the value that you want to store
-	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
+	 * @param Value $value the value that you want to store
+	 * @param ?string $preCondition only update if the config value was previously the value passed as $preCondition
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 */
-	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
+	public function setUserValue(string $userId, string $appName, string $key, mixed $value, string $preCondition = null) {
 		if (!is_int($value) && !is_float($value) && !is_string($value)) {
 			throw new \UnexpectedValueException('Only integers, floats and strings are allowed as value');
 		}
@@ -265,7 +270,7 @@ class AllConfig implements IConfig {
 		if ($prevValue !== null) {
 			if ($prevValue === (string)$value) {
 				return;
-			} elseif ($preCondition !== null && $prevValue !== (string)$preCondition) {
+			} elseif ($preCondition !== null && $prevValue !== $preCondition) {
 				throw new PreConditionNotMetException();
 			} else {
 				$qb = $this->connection->getQueryBuilder();
@@ -308,16 +313,19 @@ class AllConfig implements IConfig {
 	/**
 	 * Getting a user defined value
 	 *
+	 * @template T of Value
 	 * @param ?string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return string
+	 * @param T $default the default value to be returned if the value isn't set
+	 * @return T
 	 */
-	public function getUserValue($userId, $appName, $key, $default = '') {
+	public function getUserValue(?string $userId, string $appName, string $key, mixed $default = ''): mixed {
 		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName][$key])) {
-			return $data[$appName][$key];
+			/** @var T $value */
+			$value = $data[$appName][$key];
+			return $value;
 		} else {
 			return $default;
 		}
@@ -330,7 +338,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @return string[]
 	 */
-	public function getUserKeys($userId, $appName) {
+	public function getUserKeys(string $userId, string $appName): array {
 		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName])) {
 			return array_keys($data[$appName]);
@@ -346,7 +354,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 */
-	public function deleteUserValue($userId, $appName, $key) {
+	public function deleteUserValue(string $userId, string $appName, string $key) {
 		// TODO - FIXME
 		$this->fixDIInit();
 
@@ -367,7 +375,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $userId the userId of the user that we want to remove all values from
 	 */
-	public function deleteAllUserValues($userId) {
+	public function deleteAllUserValues(string $userId) {
 		// TODO - FIXME
 		$this->fixDIInit();
 		$qb = $this->connection->getQueryBuilder();
@@ -383,7 +391,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName the appName of the app that we want to remove all values from
 	 */
-	public function deleteAppFromAllUsers($appName) {
+	public function deleteAppFromAllUsers(string $appName) {
 		// TODO - FIXME
 		$this->fixDIInit();
 
@@ -401,8 +409,7 @@ class AllConfig implements IConfig {
 	 * Returns all user configs sorted by app of one user
 	 *
 	 * @param ?string $userId the user ID to get the app configs from
-	 * @psalm-return array<string, array<string, string>>
-	 * @return array[] - 2 dimensional array with the following structure:
+	 * @return array<string, array<string, Value>> - 2 dimensional array with the following structure:
 	 *     [ $appId =>
 	 *         [ $key => $value ]
 	 *     ]
@@ -442,14 +449,14 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName app to get the value for
 	 * @param string $key the key to get the value for
-	 * @param array $userIds the user IDs to fetch the values for
-	 * @return array Mapped values: userId => value
+	 * @param string[] $userIds the user IDs to fetch the values for
+	 * @return array<string, Value> Mapped values: userId => value
 	 */
-	public function getUserValueForUsers($appName, $key, $userIds) {
+	public function getUserValueForUsers(string $appName, string $key, array $userIds): array {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		if (empty($userIds) || !is_array($userIds)) {
+		if (empty($userIds)) {
 			return [];
 		}
 
@@ -482,10 +489,10 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
-	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @param Value $value the value to get the user for
+	 * @return string[] of user IDs
 	 */
-	public function getUsersForUserValue($appName, $key, $value) {
+	public function getUsersForUserValue(string $appName, string $key, mixed $value): array {
 		// TODO - FIXME
 		$this->fixDIInit();
 
@@ -514,9 +521,9 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return string[] of user IDs
 	 */
-	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
+	public function getUsersForUserValueCaseInsensitive(string $appName, string $key, string $value): array {
 		// TODO - FIXME
 		$this->fixDIInit();
 
@@ -543,7 +550,7 @@ class AllConfig implements IConfig {
 		return $userIDs;
 	}
 
-	public function getSystemConfig() {
+	public function getSystemConfig(): SystemConfig {
 		return $this->systemConfig;
 	}
 }

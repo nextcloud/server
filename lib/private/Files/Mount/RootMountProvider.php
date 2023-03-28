@@ -42,7 +42,9 @@ class RootMountProvider implements IRootMountProvider {
 	}
 
 	public function getRootMounts(IStorageFactory $loader): array {
+		/** @var ?array $objectStore */
 		$objectStore = $this->config->getSystemValue('objectstore', null);
+		/** @var ?array $objectStoreMultiBucket */
 		$objectStoreMultiBucket = $this->config->getSystemValue('objectstore_multibucket', null);
 
 		if ($objectStoreMultiBucket) {

@@ -66,7 +66,7 @@ class AppConfig implements IAppConfig {
 	}
 
 	public function getUserValue(string $userId, string $key, string $default = ''): string {
-		return $this->config->getUserValue($userId, $this->appName, $key, $default);
+		return (string)$this->config->getUserValue($userId, $this->appName, $key, $default);
 	}
 
 	public function deleteUserValue(string $userId, string $key): void {

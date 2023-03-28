@@ -671,6 +671,7 @@ class AccountManager implements IAccountManager {
 	 * build default user record in case not data set exists yet
 	 */
 	protected function buildDefaultUserRecord(IUser $user): array {
+		/** @var array<string, string> $scopes */
 		$scopes = array_merge(self::DEFAULT_SCOPES, array_filter($this->config->getSystemValue('account_manager.default_property_scope', []), static function (string $scope, string $property) {
 			return in_array($property, self::ALLOWED_PROPERTIES, true) && in_array($scope, self::ALLOWED_SCOPES, true);
 		}, ARRAY_FILTER_USE_BOTH));

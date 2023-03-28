@@ -99,6 +99,7 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 	}
 
 	protected function getMultiBucketObjectStore(int $number): array {
+		/** @var array $config */
 		$config = $this->config->getSystemValue('objectstore_multibucket');
 
 		// sanity checks
@@ -128,6 +129,7 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 	}
 
 	protected function getMultiBucketObjectStoreForRoot(): array {
+		/** @var array $config */
 		$config = $this->config->getSystemValue('objectstore_multibucket');
 
 		// sanity checks

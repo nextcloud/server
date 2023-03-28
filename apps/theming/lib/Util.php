@@ -139,12 +139,13 @@ class Util {
 
 	/**
 	 * @param string $color rgb color value
-	 * @return int[]
-	 * @psalm-return array{0: int, 1: int, 2: int}
+	 * @return array{0: int, 1: int, 2: int}
 	 */
 	public function hexToRGB(string $color): array {
 		$color = new Color($color);
-		return array_values($color->getRgb());
+		/** @var array{0: int, 1: int, 2: int} $rgb */
+		$rgb = array_values($color->getRgb());
+		return $rgb;
 	}
 
 	/**

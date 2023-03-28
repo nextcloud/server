@@ -624,6 +624,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(string $type = ''): bool {
+		/** @var string $regex */
 		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
@@ -844,6 +845,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return $host;
 		}
 
+		/** @var string[] $trustedList */
 		$trustedList = (array)$this->config->getSystemValue('trusted_domains', []);
 		if (count($trustedList) > 0) {
 			return reset($trustedList);
