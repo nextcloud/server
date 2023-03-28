@@ -102,6 +102,17 @@ jobs:
           name: nc_logs_${{ matrix.containers }}
           path: nextcloud.log
 
+      - name: Create data dir archive
+        if: ( success() || failure() ) && matrix.containers != 'component'
+        run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
+
+      - name: Upload data dir archive
+        uses: actions/upload-artifact@v3
+        if: ( success() || failure() ) && matrix.containers != 'component'
+        with:
+          name: nc_data_${{ matrix.containers }}
+          path: data.tar
+
   summary:
     runs-on: ubuntu-latest
     needs: [init, cypress]
