@@ -1336,7 +1336,7 @@ class View {
 	 * @param string $path
 	 * @param bool|string $includeMountPoints true to add mountpoint sizes,
 	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
-	 * @return \OCP\Files\FileInfo|false False if file does not exist
+	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$this->assertPathLength($path);
@@ -1790,11 +1790,8 @@ class View {
 
 	/**
 	 * Get a fileinfo object for files that are ignored in the cache (part files)
-	 *
-	 * @param string $path
-	 * @return \OCP\Files\FileInfo
 	 */
-	private function getPartFileInfo($path) {
+	private function getPartFileInfo(string $path): \OC\Files\FileInfo {
 		$mount = $this->getMount($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
