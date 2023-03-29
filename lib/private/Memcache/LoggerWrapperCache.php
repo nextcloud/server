@@ -167,8 +167,16 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
-	public function setTTL($key, $ttl) {
+	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
+	}
+
+	public function getTTL(string $key): int|false {
+		return $this->wrappedCache->getTTL($key);
+	}
+
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		return $this->wrappedCache->compareSetTTL($key, $value, $ttl);
 	}
 
 	public static function isAvailable(): bool {
