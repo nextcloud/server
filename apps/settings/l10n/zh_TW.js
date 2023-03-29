@@ -268,6 +268,7 @@ OC.L10N.register(
     "Current password" : "目前密碼",
     "New password" : "新密碼",
     "Change password" : "變更密碼",
+    "Your profile information" : "您的個人檔案資訊",
     "Your profile picture" : "您的個人資料圖片",
     "Upload profile picture" : "上傳個人資料圖片",
     "Choose profile picture from Files" : "從檔案中選擇個人檔案圖片",
