@@ -311,23 +311,7 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL($defaultPage);
 		}
 
-		$appId = 'files';
-		$defaultApps = explode(',', $this->config->getSystemValue('defaultapp', 'dashboard,files'));
-
-		$userId = $this->userSession->isLoggedIn() ? $this->userSession->getUser()->getUID() : null;
-		if ($userId !== null) {
-			$userDefaultApps = explode(',', $this->config->getUserValue($userId, 'core', 'defaultapp'));
-			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
-		}
-
-		// find the first app that is enabled for the current user
-		foreach ($defaultApps as $defaultApp) {
-			$defaultApp = \OC_App::cleanAppId(strip_tags($defaultApp));
-			if (\OC::$server->getAppManager()->isEnabledForUser($defaultApp)) {
-				$appId = $defaultApp;
-				break;
-			}
-		}
+		$appId = $this->getAppManager()->getDefaultAppForUser();
 
 		if ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true
 			|| getenv('front_controller_active') === 'true') {
