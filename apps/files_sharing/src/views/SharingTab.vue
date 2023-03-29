@@ -246,7 +246,7 @@ export default {
 				this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'this share just expired.'))
 			}
 		},
-
+		// .sort((a, b) => b.createdTime - a.createdTime)
 		/**
 		 * Process the current shares data
 		 * and init shares[]
@@ -259,7 +259,7 @@ export default {
 				// create Share objects and sort by newest
 				const shares = data.ocs.data
 					.map(share => new Share(share))
-					.sort((a.title.localeCompare(b.title) === 0 ? b.createdTime - a.createdTime : a.title.localeCompare(b.title)),)
+					.sort((a, b) => a.title.localeCompare(b.title) === 0 ? b.createdTime - a.createdTime : a.title.localeCompare(b.title))
 
 				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)
