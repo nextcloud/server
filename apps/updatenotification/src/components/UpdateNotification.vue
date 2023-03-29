@@ -105,17 +105,18 @@
 
 		<p id="oca_updatenotification_groups">
 			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
-			<NcMultiselect v-model="notifyGroups"
+			<NcSelect v-model="notifyGroups"
 				:options="groups"
 				:multiple="true"
-				:searchable="true"
 				label="displayname"
 				:loading="loadingGroups"
-				:show-no-options="false"
 				:close-on-select="false"
-				track-by="id"
-				:tag-width="75"
-				@search-change="searchGroup" /><br>
+				@search="searchGroup">
+				<template #no-options>
+					{{ t('updatenotification', 'No groups') }}
+				</template>
+			</NcSelect>
+			<br>
 			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notifications for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
 			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
@@ -126,7 +127,7 @@
 <script>
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import ClickOutside from 'vue-click-outside'
@@ -144,7 +145,7 @@ const logger = getLoggerBuilder()
 export default {
 	name: 'UpdateNotification',
 	components: {
-		NcMultiselect,
+		NcSelect,
 		NcPopoverMenu,
 		NcSettingsSection,
 		NcNoteCard,
