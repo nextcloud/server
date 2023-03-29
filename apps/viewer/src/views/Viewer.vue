@@ -78,21 +78,14 @@
 				{{ t('viewer', 'Edit') }}
 			</NcActionButton>
 			<!-- Menu items -->
-			<NcActionButton v-if="!isFullscreenMode"
+			<NcActionButton
 				:close-after-click="true"
-				@click="requestFullscreen">
+				@click="toggleFullScreen">
 				<template #icon>
-					<Fullscreen :size="20" />
+					<Fullscreen v-if="!isFullscreenMode" :size="20" />
+					<FullscreenExit v-else :size="20" />
 				</template>
-				{{ t('viewer', 'Full screen') }}
-			</NcActionButton>
-			<NcActionButton v-else
-				:close-after-click="true"
-				@click="exitFullscreen">
-				<template #icon>
-					<FullscreenExit :size="20" />
-				</template>
-				{{ t('viewer', 'Exit full screen') }}
+				{{ isFullscreenMode ? t('viewer', 'Exit full screen') : t('viewer', 'Full screen') }}
 			</NcActionButton>
 			<NcActionButton v-if="Sidebar && sidebarOpenFilePath && !isSidebarShown"
 				:close-after-click="true"
@@ -1018,6 +1011,14 @@ export default {
 		// Support full screen API on standard-compliant browsers and Safari (apparently except iPhone).
 		// Implementation based on:
 		//   https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API/Guide
+
+		toggleFullScreen() {
+			if (this.isFullscreenMode) {
+				this.exitFullscreen()
+			} else {
+				this.requestFullscreen()
+			}
+		},
 
 		requestFullscreen() {
 			const el = document.documentElement
