@@ -181,6 +181,23 @@ class Redis extends Cache implements IMemcacheTTL {
 		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
 	}
 
+	public function getTTL(string $key): int|false {
+		$ttl = $this->getCache()->ttl($this->getPrefix() . $key);
+		return $ttl > 0 ? (int)$ttl : false;
+	}
+
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		$fullKey = $this->getPrefix() . $key;
+		$redis = $this->getCache();
+		if ($this->get($key) === $value) {
+			$result = $redis->multi()
+				->expire($fullKey, $ttl)
+				->exec();
+			return $result !== false;
+		}
+		return false;
+	}
+
 	public static function isAvailable(): bool {
 		return \OC::$server->getGetRedisFactory()->isAvailable();
 	}
