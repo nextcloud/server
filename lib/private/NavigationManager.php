@@ -61,7 +61,7 @@ class NavigationManager implements INavigationManager {
 	private $l10nFac;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var IGroupManager|Manager */
+	/** @var Manager */
 	private $groupManager;
 	/** @var IConfig */
 	private $config;

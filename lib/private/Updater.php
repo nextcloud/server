@@ -40,7 +40,6 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
@@ -274,7 +273,7 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
-		/** @var IAppManager|AppManager $appManager */
+		/** @var AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
