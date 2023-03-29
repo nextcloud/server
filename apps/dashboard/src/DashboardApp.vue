@@ -2,11 +2,11 @@
 	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
-			<div v-for="status in sortedRegisteredStatus"
+			<li v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
 				<div :ref="'status-' + status" />
-			</div>
+			</li>
 		</ul>
 
 		<Draggable v-model="layout"
@@ -627,7 +627,7 @@ export default {
 	flex-wrap: wrap;
 	margin-bottom: 36px;
 
-	& > div {
+	& > li {
 		margin: 8px;
 	}
 }
