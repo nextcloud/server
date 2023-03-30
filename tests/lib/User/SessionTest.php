@@ -360,7 +360,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -425,7 +425,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -470,7 +470,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -1083,7 +1083,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->exactly(2))
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -1133,7 +1133,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->exactly(2))
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
