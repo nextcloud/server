@@ -66,7 +66,7 @@ abstract class AUserData extends OCSController {
 	protected $userManager;
 	/** @var IConfig */
 	protected $config;
-	/** @var IGroupManager|Manager */ // FIXME Requires a method that is not on the interface
+	/** @var Manager */
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;

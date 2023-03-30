@@ -35,7 +35,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IManager|Manager */
+	/** @var Manager */
 	private $manager;
 
 	public function __construct(IConfig $config, IManager $manager) {

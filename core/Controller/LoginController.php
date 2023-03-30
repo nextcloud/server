@@ -66,7 +66,7 @@ class LoginController extends Controller {
 	private IUserManager $userManager;
 	private IConfig $config;
 	private ISession $session;
-	/** @var IUserSession|Session */
+	/** @var Session */
 	private $userSession;
 	private IURLGenerator $urlGenerator;
 	private Defaults $defaults;

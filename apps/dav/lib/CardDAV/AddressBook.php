@@ -38,7 +38,7 @@ use Sabre\DAV\PropPatch;
  * Class AddressBook
  *
  * @package OCA\DAV\CardDAV
- * @property BackendInterface|CardDavBackend $carddavBackend
+ * @property CardDavBackend $carddavBackend
  */
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 
