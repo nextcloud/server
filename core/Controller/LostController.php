@@ -208,7 +208,7 @@ class LostController extends Controller {
 
 		// FIXME: use HTTP error codes
 		try {
-			$this->sendEmail($user);
+			$this->sendEmail(trim($user));
 		} catch (ResetPasswordException $e) {
 			// Ignore the error since we do not want to leak this info
 			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
