@@ -114,9 +114,15 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
 
-			// set logo link target
+			// Set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
 			$this->assign('logoUrl', $logoUrl);
+
+			// Set default app name
+			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
+			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
+			$l10n = \OC::$server->getL10NFactory()->get($defaultApp);
+			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
 
 			// Add navigation entry
 			$this->assign('application', '');

@@ -208,4 +208,13 @@ interface IAppManager {
 	 * @since 17.0.0
 	 */
 	public function getAppRestriction(string $appId): array;
+
+	/**
+	 * Returns the id of the user's default app
+	 *
+	 * If `user` is not passed, the currently logged in user will be used
+	 *
+	 * @since 25.0.6
+	 */
+	public function getDefaultAppForUser(?IUser $user = null): string;
 }
