@@ -438,7 +438,7 @@ class Session implements IUserSession, Emitter {
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
 		$remoteAddress = $request->getRemoteAddress();
-		$currentDelay = $throttler->sleepDelay($remoteAddress, 'login');
+		$currentDelay = $throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
 			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
@@ -497,7 +497,7 @@ class Session implements IUserSession, Emitter {
 		$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
 
 		if ($currentDelay === 0) {
-			$throttler->sleepDelay($remoteAddress, 'login');
+			$throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 		}
 	}
 
