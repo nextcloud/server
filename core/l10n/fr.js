@@ -356,7 +356,7 @@ OC.L10N.register(
     "Skip to main content" : "Passer au contenu principal",
     "Skip to navigation of app" : "Passer à la navigation d'application",
     "Get your own free account" : "Obtenez votre compte personnel gratuit",
-    "%s homepage" : "Page d'accueil de %s",
+    "Go to %s" : "Aller à %s",
     "Confirm your password" : "Confirmer votre mot de passe",
     "Connect to your account" : "Connectez vous à votre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Veuillez vous connecter avant d'autoriser %1$s à accéder à votre compte %2$s.",
@@ -376,7 +376,6 @@ OC.L10N.register(
     "Email address" : "Adresse e-mail",
     "Password sent!" : "Mot de passe envoyé !",
     "You are not authorized to request a password for this share" : "Vous n'êtes pas autorisé à demander un mot de passe pour ce partage",
-    "Go to %s" : "Aller à %s",
     "Two-factor authentication" : "Second facteur d'authentification",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La sécurité renforcée est activée pour votre compte. Choisissez un second facteur pour l'authentification :",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Impossible de charger au moins l'une de vos méthodes activées d'authentification à deux facteurs . Veuillez contacter votre administrateur.",
@@ -427,6 +426,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu des contacts",
     "Setup two-factor authentication" : "Paramétrer l'authentification à double facteur",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Il semble que vous utilisez une version 32-bits de PHP. Nextcloud nécessite une version 64-bits pour bien fonctionner. Merci de mettre à niveau votre système d'exploitation et PHP en 64-bits. Pour plus de détails consultez {linkstart}the documentation page about this ↗{linkend}.",
+    "%s homepage" : "Page d'accueil de %s",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Veuillez utiliser la mise à jour en ligne de commande, car la mise à jour via le navigateur est désactivée dans votre fichier config.php."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

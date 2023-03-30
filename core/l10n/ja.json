@@ -353,7 +353,7 @@
     "Skip to main content" : "メインコンテンツへスキップ",
     "Skip to navigation of app" : "アプリのナビゲーションにスキップする",
     "Get your own free account" : "無料でアカウントを作成",
-    "%s homepage" : "%s ホームページ",
+    "Go to %s" : "%sに移動",
     "Confirm your password" : "パスワードを確認",
     "Connect to your account" : "あなたのアカウントに接続する",
     "Please log in before granting %1$s access to your %2$s account." : "あなたの %2$s アカウントに %1$s アクセスを許可する前にログインしてください。",
@@ -373,7 +373,6 @@
     "Email address" : "メールアドレス",
     "Password sent!" : "パスワードを送信しました",
     "You are not authorized to request a password for this share" : "この共有のためのパスワードを要求する権限はありません。",
-    "Go to %s" : "%sに移動",
     "Two-factor authentication" : "二要素認証",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "このアカウントは強化セキュリティが適用されています。二要素認証を行ってください。",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "有効な二要素認証方式のうち少なくとも1つをロードできませんでした。 管理者に連絡してください。",
@@ -423,6 +422,7 @@
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
+    "%s homepage" : "%s ホームページ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

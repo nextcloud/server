@@ -268,6 +268,7 @@ OC.L10N.register(
     "Current password" : "Nuvarande lösenord",
     "New password" : "Nytt lösenord",
     "Change password" : "Ändra lösenord",
+    "Your profile information" : "Din profilinformation",
     "Your profile picture" : "Din profilbild",
     "Upload profile picture" : "Ladda upp profilbild",
     "Choose profile picture from Files" : "Välj profilbild från filer",

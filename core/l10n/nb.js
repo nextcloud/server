@@ -352,7 +352,7 @@ OC.L10N.register(
     "Skip to main content" : "Gå til hovedinnhold",
     "Skip to navigation of app" : "Gå til navigasjon av app",
     "Get your own free account" : "Få din egen gratis konto",
-    "%s homepage" : "%s hjemmeside",
+    "Go to %s" : "Gå til %s",
     "Confirm your password" : "Bekreft ditt passord",
     "Connect to your account" : "Koble til kontoen din",
     "Please log in before granting %1$s access to your %2$s account." : "Logg inn før du tildeler %1$stilgang til din %2$skonto.",
@@ -372,7 +372,6 @@ OC.L10N.register(
     "Email address" : "E-post adresse",
     "Password sent!" : "Passord er sendt.",
     "You are not authorized to request a password for this share" : "Du mangler tillatelse for å etterspørre passord til deling. ",
-    "Go to %s" : "Gå til %s",
     "Two-factor authentication" : "Tofaktor-autentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Utvidet sikkerhet er tilgjengelig fo rdin konto. Velg en to-faktor for autentisering.",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Kunne ikke laste minst en av de aktiverte tofaktor metodene. Ta kontakt med administrasjonen din.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}.",
+    "%s homepage" : "%s hjemmeside"
 },
 "nplurals=2; plural=(n != 1);");

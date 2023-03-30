@@ -352,7 +352,7 @@ OC.L10N.register(
     "Skip to main content" : "Ga naar hoofdinhoud",
     "Skip to navigation of app" : "Ga naar navigatie van app",
     "Get your own free account" : "Maak je eigen gratis account",
-    "%s homepage" : "%shomepagina",
+    "Go to %s" : "Ga naar %s",
     "Confirm your password" : "Bevestig je wachtwoord",
     "Connect to your account" : "Verbind jouw account",
     "Please log in before granting %1$s access to your %2$s account." : "Eerst inloggen voordat je %1$s toegang geeft tot je %2$s account.",
@@ -372,7 +372,6 @@ OC.L10N.register(
     "Email address" : "E-mailadres",
     "Password sent!" : "Wachtwoord verzonden!",
     "You are not authorized to request a password for this share" : "U bent niet geauthoriseerd om een wachtwoord aan te vragen voor deze instantie",
-    "Go to %s" : "Ga naar %s",
     "Two-factor authentication" : "Tweefactor authenticatie",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Versterkte beveiliging is ingeschakeld voor je account. Kies een tweede factor voor authenticatie:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Kon niet minimaal één van je ingeschakelde twee-factor auth methoden laden. Neem contact op met je beheerder.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Contacts" : "Contactpersonen",
     "Contacts menu" : "Contacten menu",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}",
+    "%s homepage" : "%shomepagina"
 },
 "nplurals=2; plural=(n != 1);");

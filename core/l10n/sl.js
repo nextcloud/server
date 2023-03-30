@@ -352,7 +352,7 @@ OC.L10N.register(
     "Skip to main content" : "Preskoči na glavno vsebino",
     "Skip to navigation of app" : "Preskoči na program za krmarjenje",
     "Get your own free account" : "Pridobite brezplačni račun",
-    "%s homepage" : "Spletna stran %s",
+    "Go to %s" : "Odpri oblak %s",
     "Confirm your password" : "Potrdite geslo",
     "Connect to your account" : "Povežite z računom",
     "Please log in before granting %1$s access to your %2$s account." : "Pred %1$s odobritvijo dostopa %2$s do računa se je treba prijaviti.",
@@ -372,7 +372,6 @@ OC.L10N.register(
     "Email address" : "Elektronski naslov",
     "Password sent!" : "Geslo je poslano!",
     "You are not authorized to request a password for this share" : "Za zahteve pridobitve gesla ni ustreznih dovoljenj",
-    "Go to %s" : "Odpri oblak %s",
     "Two-factor authentication" : "Dvo-stopenjska overitev",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Za vaš račun je omogočena zahteva za višjo raven varnosti. Izberite drugo stopnjo overitve:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Ni mogoče naložiti niti enega od omogočenih načinov dvostopenjske overitve prijave. Stopite v stik s skrbnikom sistema.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Contacts" : "Stiki",
     "Contacts menu" : "Meni Stikov",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}.",
+    "%s homepage" : "Spletna stran %s"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

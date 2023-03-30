@@ -340,7 +340,7 @@ OC.L10N.register(
     "Skip to main content" : "Skippa till huvudinnehållet",
     "Skip to navigation of app" : "Skippa till navigering av app",
     "Get your own free account" : "Skaffa ett eget gratiskonto",
-    "%s homepage" : "%s hemsida",
+    "Go to %s" : "Gå till %s",
     "Confirm your password" : "Bekräfta ditt lösenord",
     "Connect to your account" : "Anslut ditt konto",
     "Please log in before granting %1$s access to your %2$s account." : "Logga in innan du ger %1$s åtkomst till ditt %2$s konto.",
@@ -360,7 +360,6 @@ OC.L10N.register(
     "Email address" : "E-postadress",
     "Password sent!" : "Lösenord skickat!",
     "You are not authorized to request a password for this share" : "Du har inte behörighet att begära ett lösenord för denna delning",
-    "Go to %s" : "Gå till %s",
     "Two-factor authentication" : "Tvåfaktorsautentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Förbättrad säkerhet är aktiverad för ditt konto. Välj en andra faktor för autentisering:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Det gick inte att läsa in minst en av dina aktiverade tvåfaktorsautentiseringsmetoder. Vänligen kontakta din systemadministratören.",
@@ -409,6 +408,7 @@ OC.L10N.register(
     "More apps menu" : "Fler appar - meny",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
+    "%s homepage" : "%s hemsida"
 },
 "nplurals=2; plural=(n != 1);");

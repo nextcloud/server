@@ -354,7 +354,7 @@
     "Skip to main content" : "Przejdź do głównej zawartości",
     "Skip to navigation of app" : "Przejdź do nawigacji aplikacji",
     "Get your own free account" : "Załóż własne bezpłatne konto",
-    "%s homepage" : "Strona główna %s",
+    "Go to %s" : "Przejdź do %s",
     "Confirm your password" : "Potwierdź hasło",
     "Connect to your account" : "Połącz z kontem",
     "Please log in before granting %1$s access to your %2$s account." : "Zaloguj się przed udzieleniem dostępu %1$s do swojego konta %2$s.",
@@ -374,7 +374,6 @@
     "Email address" : "Adres e-mail",
     "Password sent!" : "Hasło wysłane!",
     "You are not authorized to request a password for this share" : "Nie masz uprawnień do żądania hasła dla tego udostępnienia",
-    "Go to %s" : "Przejdź do %s",
     "Two-factor authentication" : "Uwierzytelnianie dwuskładnikowe",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Dodatkowe zabezpieczenia są włączone dla Twojego konta. Wybierz drugą metodę uwierzytelniania:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Nie można załadować co najmniej jednej z włączonych dwuskładnikowych metod uwierzytelnienia. Skontaktuj się z administratorem.",
@@ -424,6 +423,7 @@
     "Contacts" : "Kontakty",
     "Contacts menu" : "Menu kontaktów",
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
+    "%s homepage" : "Strona główna %s"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
