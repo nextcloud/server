@@ -601,4 +601,28 @@ class AppManager implements IAppManager {
 
 		return $this->defaultEnabled;
 	}
+
+	public function getDefaultAppForUser(?IUser $user = null): string {
+		// Set fallback to always-enabled files app
+		$appId = 'files';
+		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+
+		$user ??= $this->userSession->getUser();
+
+		if ($user !== null) {
+			$userDefaultApps = explode(',', $this->config->getUserValue($user->getUID(), 'core', 'defaultapp'));
+			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
+		}
+
+		// Find the first app that is enabled for the current user
+		foreach ($defaultApps as $defaultApp) {
+			$defaultApp = \OC_App::cleanAppId(strip_tags($defaultApp));
+			if ($this->isEnabledForUser($defaultApp, $user)) {
+				$appId = $defaultApp;
+				break;
+			}
+		}
+
+		return $appId;
+	}
 }

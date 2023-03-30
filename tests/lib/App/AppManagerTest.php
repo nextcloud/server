@@ -601,4 +601,47 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals([], $this->manager->getAppRestriction('test2'));
 		$this->assertEquals(['foo'], $this->manager->getAppRestriction('test3'));
 	}
+
+	public function provideDefaultApps(): array {
+		return [
+			// none specified, default to files
+			[
+				'',
+				'files',
+			],
+			// unexisting or inaccessible app specified, default to files
+			[
+				'unexist',
+				'files',
+			],
+			// non-standard app
+			[
+				'settings',
+				'settings',
+			],
+			// non-standard app with fallback
+			[
+				'unexist,settings',
+				'settings',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideDefaultApps
+	 */
+	public function testGetDefaultAppForUser($defaultApps, $expectedApp) {
+		$user = $this->newUser('user1');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('defaultapp', $this->anything())
+			->willReturn($defaultApps);
+
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
+	}
 }
