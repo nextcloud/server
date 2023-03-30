@@ -51,23 +51,23 @@ class FileMetadataMapperTest extends \Test\TestCase {
 		$file1 = new FileMetadata();
 		$file1->setId(1);
 		$file1->setGroupName('size');
-		$file1->setMetadata([]);
+		$file1->setArrayAsValue([]);
 
 		$file2 = new FileMetadata();
 		$file2->setId(2);
 		$file2->setGroupName('size');
-		$file2->setMetadata(['width' => 293, 'height' => 23]);
+		$file2->setArrayAsValue(['width' => 293, 'height' => 23]);
 
 		// not added, it's the default
 		$file3 = new FileMetadata();
 		$file3->setId(3);
 		$file3->setGroupName('size');
-		$file3->setMetadata([]);
+		$file3->setArrayAsValue([]);
 
 		$file4 = new FileMetadata();
 		$file4->setId(4);
 		$file4->setGroupName('size');
-		$file4->setMetadata(['complex' => ["yes", "maybe" => 34.0]]);
+		$file4->setArrayAsValue(['complex' => ["yes", "maybe" => 34.0]]);
 
 		$this->mapper->insert($file1);
 		$this->mapper->insert($file2);
@@ -75,10 +75,10 @@ class FileMetadataMapperTest extends \Test\TestCase {
 
 		$files = $this->mapper->findForGroupForFiles([1, 2, 3, 4], 'size');
 
-		$this->assertEquals($files[1]->getMetadata(), $file1->getMetadata());
-		$this->assertEquals($files[2]->getMetadata(), $file2->getMetadata());
-		$this->assertEquals($files[3]->getMetadata(), $file3->getMetadata());
-		$this->assertEquals($files[4]->getMetadata(), $file4->getMetadata());
+		$this->assertEquals($files[1]->getValue(), $file1->getValue());
+		$this->assertEquals($files[2]->getValue(), $file2->getValue());
+		$this->assertEquals($files[3]->getDecodedValue(), $file3->getDecodedValue());
+		$this->assertEquals($files[4]->getValue(), $file4->getValue());
 
 		$this->mapper->clear(1);
 		$this->mapper->clear(2);
