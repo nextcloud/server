@@ -42,7 +42,7 @@ class Quota extends Wrapper {
 	/** @var callable|null */
 	protected $quotaCallback;
 	/** @var int|float|null int on 64bits, float on 32bits for bigint */
-	protected $quota;
+	protected int|float|null $quota;
 	protected string $sizeRoot;
 	private SystemConfig $config;
 
@@ -60,7 +60,7 @@ class Quota extends Wrapper {
 	/**
 	 * @return int|float quota value
 	 */
-	public function getQuota() {
+	public function getQuota(): int|float {
 		if ($this->quota === null) {
 			$quotaCallback = $this->quotaCallback;
 			if ($quotaCallback === null) {
