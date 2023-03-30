@@ -1319,7 +1319,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	#app-content.user-list-grid {
 		display: grid;
 		grid-column-gap: 20px;
-		grid-auto-rows: minmax(60px, max-content);
+		grid-auto-rows: minmax(max-content, max-content);
 
 		.row {
 			// TODO replace with css4 subgrid when available
