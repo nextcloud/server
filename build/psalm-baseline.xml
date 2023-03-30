@@ -3154,14 +3154,6 @@
     <InvalidArgument occurrences="1">
       <code>false</code>
     </InvalidArgument>
-    <InvalidOperand occurrences="6">
-      <code>$this-&gt;appendIfExist($this-&gt;serverroot, $script.'.js')</code>
-      <code>$this-&gt;appendIfExist($this-&gt;serverroot, $theme_dir.$script.'.js')</code>
-      <code>$this-&gt;appendIfExist($this-&gt;serverroot, $theme_dir.'apps/'.$script.'.js')</code>
-      <code>$this-&gt;appendIfExist($this-&gt;serverroot, $theme_dir.'core/'.$script.'.js')</code>
-      <code>$this-&gt;appendIfExist($this-&gt;serverroot, 'apps/'.$script.'.js')</code>
-      <code>$this-&gt;appendIfExist($this-&gt;serverroot, 'core/'.$script.'.js')</code>
-    </InvalidOperand>
     <ParamNameMismatch occurrences="2">
       <code>$script</code>
       <code>$script</code>
