@@ -436,7 +436,7 @@ class FilesPlugin extends ServerPlugin {
 						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
 					}
 
-					return json_encode((object)$sizeMetadata->getMetadata(), JSON_THROW_ON_ERROR);
+					return $sizeMetadata->getValue();
 				});
 			}
 		}
