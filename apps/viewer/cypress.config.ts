@@ -22,8 +22,8 @@ export default defineConfig({
 	// Needed to trigger `after:run` events with cypress open
 	experimentalInteractiveRunEvents: true,
 
-	// faster video processing
-	videoCompression: false,
+	// Faster processing, video is broken on GH actions anyway
+	video: false,
 
 	// Visual regression testing
 	env: {
