@@ -112,6 +112,7 @@ class AppConfig implements IAppConfig {
 		'spreed' => [
 			'/^bridge_bot_password$/',
 			'/^hosted-signaling-server-(.*)$/',
+			'/^recording_servers$/',
 			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
 			'/^signaling_token_privkey_(.*)$/',

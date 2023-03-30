@@ -244,7 +244,6 @@ OC.L10N.register(
     "Change password" : "Endre passord",
     "Your profile picture" : "Ditt profilbilde",
     "Upload profile picture" : "Last opp profilbilde",
-    "Choose profile picture from files" : "Velg profilbilde blant filer",
     "Remove profile picture" : "Fjern profilbilde",
     "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
     "Picture provided by original account" : "Bilde kommer fra opprinnelig konto",
@@ -492,6 +491,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Det kan ta opptil ett døgn før kontoen vises som bekreftet.",
     "Link https://…" : "Lenke https://…",
     "Change privacy level of Twitter profile" : "Endre personvernnivået for Twitter-profil",
-    "Twitter handle @…" : "Twitter-konto @ …"
+    "Twitter handle @…" : "Twitter-konto @ …",
+    "Choose profile picture from files" : "Velg profilbilde blant filer"
 },
 "nplurals=2; plural=(n != 1);");

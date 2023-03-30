@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -21,7 +21,7 @@
 
 import * as webdav from 'webdav'
 import axios from '@nextcloud/axios'
-import memoize from 'lodash/fp/memoize'
+import memoize from 'lodash/fp/memoize.js'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 

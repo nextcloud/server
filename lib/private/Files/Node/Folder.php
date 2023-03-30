@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -68,7 +69,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	public function getFullPath($path) {
 		$path = $this->normalizePath($path);
 		if (!$this->isValidPath($path)) {
-			throw new NotPermittedException('Invalid path');
+			throw new NotPermittedException('Invalid path "' . $path . '"');
 		}
 		return $this->path . $path;
 	}
@@ -163,14 +164,14 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
 			if (!$this->view->mkdir($fullPath)) {
-				throw new NotPermittedException('Could not create folder');
+				throw new NotPermittedException('Could not create folder "' . $fullPath . '"');
 			}
 			$parent = dirname($fullPath) === $this->getPath() ? $this : null;
 			$node = new Folder($this->root, $this->view, $fullPath, null, $parent);
 			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
 		} else {
-			throw new NotPermittedException('No create permission for folder');
+			throw new NotPermittedException('No create permission for folder "' . $path . '"');
 		}
 	}
 
@@ -194,13 +195,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 				$result = $this->view->touch($fullPath);
 			}
 			if ($result === false) {
-				throw new NotPermittedException('Could not create path');
+				throw new NotPermittedException('Could not create path "' . $fullPath . '"');
 			}
 			$node = new File($this->root, $this->view, $fullPath, null, $this);
 			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
 		}
-		throw new NotPermittedException('No create permission for path');
+		throw new NotPermittedException('No create permission for path "' . $path . '"');
 	}
 
 	private function queryFromOperator(ISearchOperator $operator, string $uid = null): ISearchQuery {
@@ -230,7 +231,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$limitToHome = $query->limitToHome();
 		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
-			throw new \InvalidArgumentException('searching by owner is only allows on the users home folder');
+			throw new \InvalidArgumentException('searching by owner is only allowed in the users home folder');
 		}
 
 		$rootLength = strlen($this->path);
@@ -392,7 +393,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path, $fileInfo);
 			$this->sendHooks(['postDelete'], [$nonExisting]);
 		} else {
-			throw new NotPermittedException('No delete permission for path');
+			throw new NotPermittedException('No delete permission for path "' . $this->path . '"');
 		}
 	}
 

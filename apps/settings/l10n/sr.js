@@ -268,9 +268,10 @@ OC.L10N.register(
     "Current password" : "Тренутна лозинка",
     "New password" : "Нова лозинка",
     "Change password" : "Измени лозинку",
+    "Your profile information" : "Информације о вашем профилу",
     "Your profile picture" : "Ваша слика профила",
     "Upload profile picture" : "Отпреми слику профила",
-    "Choose profile picture from files" : "Изабери слику профила међу фајловима",
+    "Choose profile picture from Files" : "Изабери слику профила из Фајлова",
     "Remove profile picture" : "Уклони слику профила",
     "png or jpg, max. 20 MB" : "„png“ или „jpg“, макс. 20 МБ",
     "Picture provided by original account" : "Слика оригиналног налога",
@@ -559,6 +560,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Може да прође и до 24h пре него што налог буде потврђен.",
     "Link https://…" : "Веза https://…",
     "Change privacy level of Twitter profile" : "Измена нивоа приватности Twitter профила",
-    "Twitter handle @…" : "Твитер надимак @…"
+    "Twitter handle @…" : "Твитер надимак @…",
+    "Choose profile picture from files" : "Изабери слику профила међу фајловима"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

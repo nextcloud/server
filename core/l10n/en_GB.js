@@ -356,7 +356,7 @@ OC.L10N.register(
     "Skip to main content" : "Skip to main content",
     "Skip to navigation of app" : "Skip to navigation of app",
     "Get your own free account" : "Get your own free account",
-    "%s homepage" : "%s homepage",
+    "Go to %s" : "Go to %s",
     "Confirm your password" : "Confirm your password",
     "Connect to your account" : "Connect to your account",
     "Please log in before granting %1$s access to your %2$s account." : "Please log in before granting %1$s access to your %2$s account.",
@@ -376,7 +376,6 @@ OC.L10N.register(
     "Email address" : "Email address",
     "Password sent!" : "Password sent!",
     "You are not authorized to request a password for this share" : "You are not authorised to request a password for this share",
-    "Go to %s" : "Go to %s",
     "Two-factor authentication" : "Two-factor authentication",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Enhanced security is enabled for your account. Choose a second factor for authentication:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Could not load at least one of your enabled two-factor auth methods. Please contact your admin.",
@@ -426,6 +425,8 @@ OC.L10N.register(
     "Contacts" : "Contacts",
     "Contacts menu" : "Contacts menu",
     "Setup two-factor authentication" : "Setup two-factor authentication",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}.",
+    "%s homepage" : "%s homepage",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php."
 },
 "nplurals=2; plural=(n != 1);");

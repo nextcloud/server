@@ -724,6 +724,12 @@ Raw output
 			$recommendedPHPModules[] = 'sysvsem';
 		}
 
+		if (!extension_loaded('exif')) {
+			// used to extract metadata from images
+			// required for correct orientation of preview images
+			$recommendedPHPModules[] = 'exif';
+		}
+
 		if (!defined('PASSWORD_ARGON2I')) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension

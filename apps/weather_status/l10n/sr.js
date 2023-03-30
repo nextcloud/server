@@ -42,7 +42,7 @@ OC.L10N.register(
     "No weather information found" : "Прогноза није нађена",
     "Location not found" : "Локација није нађена",
     "There was an error setting the location address." : "Грешка приликом постављања адресе локације.",
-    "There was an error setting the location." : "Грешка прилико постављања локације.",
+    "There was an error setting the location." : "Грешка приликом постављања локације.",
     "There was an error saving the mode." : "Грешка приликом чувања режима.",
     "There was an error using personal address." : "Грешка приликом коришћења личне адресе.",
     "Set location for weather" : "Постави локацију за прогнозу"

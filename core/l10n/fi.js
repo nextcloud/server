@@ -49,6 +49,7 @@ OC.L10N.register(
     "Repair info:" : "Korjaustiedot:",
     "Repair warning:" : "Korjausvaroitus:",
     "Repair error:" : "Korjausvirhe:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa.",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",
     "Turned off maintenance mode" : "Poistuttu huoltotilasta",
     "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
@@ -75,6 +76,7 @@ OC.L10N.register(
     "Missing primary key on table \"{tableName}\"." : "Primary key puuttuu taulusta \"{tableName}\".",
     "Missing optional column \"{columnName}\" in table \"{tableName}\"." : "Valinnainen sarake \"{columnName}\" puuttuu taulusta \"{tableName}\".",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "Tästä instanssista puuttuu joitain suositeltuja PHP-moduuleja. Nykyistä paremman suorituskyvyn ja yhteensopivuuden vuoksi kyseisten moduulien asentaminen on erittäin suositeltavaa.",
+    "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "PHP-moduulit \"gmp\" ja/tai \"bcmath\" eivät ole käytössä. Jos käytät WebAuthn-todennusta (ei salasanaa), nämä moduulit vaaditaan.",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "Palvelimen php-imagick-moduulissa ei ole SVG-tukea. Parempaa yhteensopivuutta varten sen asentaminen on suositeltua.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite on parhaillaan käytössä tietokantaratkaisuna. Suuria asennuksia varten suosittelemme vaihtamaan toiseen tietokantaratkaisuun.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Tämä on suositeltavaa erityisesti silloin, kun työpöytäsovellusta käytetään tiedostojen synkronointiin.",
@@ -248,6 +250,7 @@ OC.L10N.register(
     "Strong password" : "Vahva salasana",
     "No action available" : "Toimintoa ei saatavilla",
     "Error fetching contact actions" : "Virhe yhteystiedon toimintojen haussa",
+    "Close \"{dialogTitle}\" dialog" : "Sulje \"{dialogTitle}\"-ikkuna",
     "Non-existing tag #{tag}" : "Ei olemassa oleva tunniste #{tag}",
     "Restricted" : "Rajoitettu",
     "Invisible" : "Näkymätön",
@@ -316,6 +319,7 @@ OC.L10N.register(
     "Skip to main content" : "Siirry pääsisältöön",
     "Skip to navigation of app" : "Hyppää sovelluksen navigointiin.",
     "Get your own free account" : "Hanki ilmainen tili itsellesi",
+    "Go to %s" : "Siirry %s§",
     "Confirm your password" : "Vahvista salasanasi",
     "Connect to your account" : "Yhdistä tiliisi",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jos et ole asentamassa uutta laitetta tai sovellusta, joku yrittää huijata sinut antamaan käyttöoikeudet tietoihisi. Tässä tapauksessa älä jatka, ota yhteys järjestelmänvalvojaan.",
@@ -333,7 +337,6 @@ OC.L10N.register(
     "Email address" : "Sähköpostiosoite",
     "Password sent!" : "Salasana lähetetty!",
     "You are not authorized to request a password for this share" : "Sinulla ei ole valtuutta pyytää salasanaa tähän jakoon",
-    "Go to %s" : "Siirry %s§",
     "Two-factor authentication" : "Kaksivaiheinen tunnistautuminen",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Tilisi tietoturvatasoa on korotettu. Käytä kaksivaiheista tunnistautumista:",
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "Kaksivaiheinen tunnistautuminen on pakotettu, mutta sitä ei ole määritelty tilillesi. Ole yhteydessä ylläpitoon saadaksesi apua.",
@@ -378,6 +381,7 @@ OC.L10N.register(
     "More apps menu" : "Lisäsovellusvalikko",
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
-    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
+    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa."
 },
 "nplurals=2; plural=(n != 1);");

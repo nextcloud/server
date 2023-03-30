@@ -27,7 +27,7 @@ import $ from 'jquery'
 import moment from 'moment'
 import { generateUrl } from '@nextcloud/router'
 
-import OC from './index'
+import OC from './index.js'
 
 /**
  * @namespace OC.PasswordConfirmation

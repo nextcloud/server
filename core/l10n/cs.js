@@ -356,7 +356,7 @@ OC.L10N.register(
     "Skip to main content" : "Přeskočit a přejít k hlavnímu obsahu",
     "Skip to navigation of app" : "Přeskočit na navigaci aplikace",
     "Get your own free account" : "Získejte svůj vlastní účet zdarma",
-    "%s homepage" : "Domovská stránka %s",
+    "Go to %s" : "Jít na %s",
     "Confirm your password" : "Potvrdit heslo",
     "Connect to your account" : "Propojit s vaším účtem",
     "Please log in before granting %1$s access to your %2$s account." : "Přihlaste se abyste mohli %1$s udělit přístup k vašemu %2$s účtu.",
@@ -376,7 +376,6 @@ OC.L10N.register(
     "Email address" : "E-mailová adresa",
     "Password sent!" : "Heslo zasláno!",
     "You are not authorized to request a password for this share" : "Nejste oprávněni vyžádat si heslo pro toto sdílení",
-    "Go to %s" : "Jít na %s",
     "Two-factor authentication" : "Dvoufaktorové přihlášení",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Bylo zapnuto vylepšené zabezpečení pro tento účet. Zvolte druhý faktor pro ověřování:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Nedaří se načíst ani jednu ze zapnutých metod dvouúrovňového ověřování. Obraťte se na svého správce.",
@@ -426,6 +425,8 @@ OC.L10N.register(
     "Contacts" : "Kontakty",
     "Contacts menu" : "Nabídka kontaktů",
     "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Aby správně fungoval, potřebuje Nextcloud 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Aby správně fungoval, potřebuje Nextcloud 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}.",
+    "%s homepage" : "Domovská stránka %s",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Zaktualizujte z příkazového řádku, protože aktualizování z webového prohlížeče je vypnuté ve vašem config.php."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

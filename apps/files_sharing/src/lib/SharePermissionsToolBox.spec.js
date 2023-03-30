@@ -29,7 +29,7 @@ import {
 	permissionsSetIsValid,
 	togglePermissions,
 	canTogglePermissions,
-} from '../lib/SharePermissionsToolBox'
+} from '../lib/SharePermissionsToolBox.js'
 
 describe('SharePermissionsToolBox', () => {
 	test('Adding permissions', () => {

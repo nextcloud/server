@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Nadzorna plošča",
     "Dashboard app" : "Program Nadzorna plošča",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta,\npodrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike\nin spreminja ozadje po svojih željah.",
     "Customize" : "Prilagodi",
     "Edit widgets" : "Izbor gradnikov",
     "Get more widgets from the App Store" : "Pridobi več gradnikov s spletišča App Store",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Dober večer, {name}",
     "Hello" : "Pozdravljeni",
     "Hello, {name}" : "Pozdravljeni, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta,\npodrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike\nin spreminja ozadje po svojih željah.",
     "Change background image" : "Izbor slike ozadja",
     "Pick from Files" : "Izbor iz datotek",
     "Default images" : "Privzete slike",

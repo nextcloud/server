@@ -1071,6 +1071,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1210,6 +1211,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1387,6 +1389,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@nextcloud.com',
 			'displayname' => 'Subadmin User',
+			'display-name' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -3542,6 +3545,7 @@ class UsersControllerTest extends TestCase {
 					'quota' => ['DummyValue'],
 					'email' => 'demo@nextcloud.com',
 					'displayname' => 'Demo User',
+					'display-name' => 'Demo User',
 					'phone' => 'phone',
 					'address' => 'address',
 					'website' => 'website',
@@ -3560,6 +3564,8 @@ class UsersControllerTest extends TestCase {
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
+			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -3570,7 +3576,6 @@ class UsersControllerTest extends TestCase {
 			'headline' => 'headline',
 			'biography' => 'biography',
 			'profile_enabled' => '1',
-			'display-name' => 'Demo User'
 		];
 
 		$this->assertSame($expected, $api->getCurrentUser()->getData());
@@ -3629,6 +3634,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'fediverse' => 'fediverse',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'organisation' => 'organisation',
 			'role' => 'role',
 			'headline' => 'headline',

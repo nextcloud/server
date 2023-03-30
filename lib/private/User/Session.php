@@ -59,6 +59,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\PostLoginEvent;
@@ -426,7 +427,8 @@ class Session implements IUserSession, Emitter {
 								$password,
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
-		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress(), 'login');
+		$remoteAddress = $request->getRemoteAddress();
+		$currentDelay = $throttler->sleepDelay($remoteAddress, 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
 			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
@@ -450,19 +452,12 @@ class Session implements IUserSession, Emitter {
 		if (!$this->login($user, $password)) {
 			// Failed, maybe the user used their email address
 			if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
+				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
 			$users = $this->manager->getByEmail($user);
 			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
-				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
-
-				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
-
-				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
-
-				if ($currentDelay === 0) {
-					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
-				}
+				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
 		}
@@ -475,6 +470,17 @@ class Session implements IUserSession, Emitter {
 		}
 
 		return true;
+	}
+
+	private function handleLoginFailed(IThrottler $throttler, int $currentDelay, string $remoteAddress, string $user, ?string $password) {
+		$this->logger->warning("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core']);
+
+		$throttler->registerAttempt('login', $remoteAddress, ['user' => $user]);
+		$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
+
+		if ($currentDelay === 0) {
+			$throttler->sleepDelay($remoteAddress, 'login');
+		}
 	}
 
 	protected function supportsCookies(IRequest $request) {

@@ -326,7 +326,7 @@
     "Skip to main content" : "Оди до главната содржина",
     "Skip to navigation of app" : "Оди до навигацијата на апликацијата",
     "Get your own free account" : "Креирајте ваша сметка",
-    "%s homepage" : "Страната на %s",
+    "Go to %s" : "Оди до %s",
     "Confirm your password" : "Потврдете ја вашата лозинка",
     "Connect to your account" : "Поврзани со вашата сметка",
     "Please log in before granting %1$s access to your %2$s account." : "Ве молиме најавете се пред да доделите пристап на %1$s во вашата %2$s сметка.",
@@ -346,7 +346,6 @@
     "Email address" : "Е-пошта адреси",
     "Password sent!" : "Лозинка е испратена!",
     "You are not authorized to request a password for this share" : "Не сте авторизиран за да побарате лозинка за ова споделување",
-    "Go to %s" : "Оди до %s",
     "Two-factor authentication" : "Двофакторна автентикација",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Подобрете ја сигурноста на вашата сметка. Изберете двофакторна автентификација:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Неможе да се вчита овозможениот начини за дво-факторна автентификација. Ве молиме контактирајте го администраторот.",
@@ -392,6 +391,7 @@
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација",
+    "%s homepage" : "Страната на %s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

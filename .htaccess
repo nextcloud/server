@@ -41,11 +41,12 @@
 
   # Add cache control for static resources
   <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)$">
-    Header set Cache-Control "max-age=15778463"
-  </FilesMatch>
-
-  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)(\?v=.*)?$">
-    Header set Cache-Control "max-age=15778463, immutable"
+    <If "%{QUERY_STRING} =~ /(^|&)v=/">
+      Header set Cache-Control "max-age=15778463, immutable"
+    </If>
+    <Else>
+      Header set Cache-Control "max-age=15778463"
+    </Else>
   </FilesMatch>
 
   # Let browsers cache WOFF files for a week
@@ -78,6 +79,8 @@
   AddType image/svg+xml svg svgz
   AddType application/wasm wasm
   AddEncoding gzip svgz
+  # Serve ESM javascript files (.mjs) with correct mime type
+  AddType text/javascript js mjs
 </IfModule>
 
 <IfModule mod_dir.c>

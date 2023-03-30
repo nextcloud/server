@@ -83,7 +83,7 @@ import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDia
 import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Clipboard from 'vue-material-design-icons/Clipboard.vue'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import Setting from '../components/Setting.vue'
 
 import { emit } from '@nextcloud/event-bus'

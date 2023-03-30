@@ -89,6 +89,7 @@
     "Other Attributes:" : "Други атрибути:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Определя филтър, който да се приложи при опит за влизане. „%%“ замества името на потребител в действието за влизане. Пример: „uid=%%uid “",
     "Test Loginname" : "Проверка на Потребителско име",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Опити за получаване на DN за даденото име за влизане и текущия филтър за вход",
     "Verify settings" : "Потвърди настройките",
     "%s. Server:" : "%s. Сървър:",
     "Add a new configuration" : "Добавяне на нова конфигурация",

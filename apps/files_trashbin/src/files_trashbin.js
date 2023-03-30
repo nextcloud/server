@@ -20,8 +20,8 @@
  *
  */
 
-import './app'
-import './filelist'
+import './app.js'
+import './filelist.js'
 import './trash.scss'
 
 window.OCA.Trashbin = OCA.Trashbin

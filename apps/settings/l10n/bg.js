@@ -268,9 +268,10 @@ OC.L10N.register(
     "Current password" : "Текуща парола",
     "New password" : "Нова парола",
     "Change password" : "Промени паролата",
+    "Your profile information" : "Информация за вашия профил",
     "Your profile picture" : "Вашата профилна снимка",
     "Upload profile picture" : "Качване на профилна снимка",
-    "Choose profile picture from files" : "Избор на профилна снимка от файлове",
+    "Choose profile picture from Files" : "Избор на профилна снимка от Файлове",
     "Remove profile picture" : "Премахване на профилна снимка",
     "png or jpg, max. 20 MB" : "png или jpg, макс. 20 MB",
     "Picture provided by original account" : "Снимката е предоставена от оригиналния профил",
@@ -447,6 +448,7 @@ OC.L10N.register(
     "Server address" : "Адрес на сървъра",
     "Port" : "Порт",
     "Authentication method" : "Метод за удостоверяване",
+    "Only applies when authentication is required" : "Прилага се само когато е необходимо удостоверяване",
     "Authentication required" : "Нужно е удостоверяване",
     "Credentials" : "Потребител и парола",
     "SMTP Username" : "SMTP потребител",
@@ -558,6 +560,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Може да отнеме до 24 часа, преди профилът да се покаже като потвърден.",
     "Link https://…" : "Връзка https://…",
     "Change privacy level of Twitter profile" : "Промяна на нивото на поверителност на профила в Twitter",
-    "Twitter handle @…" : "Twitter манипулатор @…"
+    "Twitter handle @…" : "Twitter манипулатор @…",
+    "Choose profile picture from files" : "Избор на профилна снимка от файлове"
 },
 "nplurals=2; plural=(n != 1);");

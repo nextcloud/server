@@ -62,12 +62,9 @@ p($theme->getTitle());
 			</h1>
 			<div class="header-left">
 				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
+					aria-label="<?php p($l->t('Go to %s', [$_['logoUrl'] ?: $_['defaultAppName']])); ?>"
 					id="nextcloud">
-					<div class="logo logo-icon">
-						<span class="hidden-visually">
-							<?php p($l->t('%s homepage', [$theme->getName()])); ?>
-						</span>
-					</div>
+					<div class="logo logo-icon"></div>
 				</a>
 
 				<nav id="header-left__appmenu"></nav>

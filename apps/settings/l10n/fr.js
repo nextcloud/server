@@ -160,7 +160,7 @@ OC.L10N.register(
     "Enforced groups" : "Groupes forcés",
     "Two-factor authentication is not enforced for members of the following groups." : "L'authentification à deux facteurs n'est pas forcée pour les membres des groupes suivants : ",
     "Excluded groups" : "Groupes exclus",
-    "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Lorsque des groupes sont forcés/exclus, la logique suivante est utilisée pour déterminer si l'authentification à double facteur (2FA) est imposée à un utilisateur. Si aucun groupe n'est forcé, l'authentification à double facteur est activée pour tous sauf pour les membres des groupes exclus. Si des groupes sont forcés, l'authentification à double facteur est exigée pour tous les membres de ces groupes. Si un utilisateur est à la fois dans un groupe forcé et exclu, c'est le groupe forcé qui prime et l'authentification double facteur est imposée.",
+    "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Lorsque des groupes sont forcés/exclus, la logique suivante est utilisée pour déterminer si l'authentification à double facteur (A2F) est imposée à un utilisateur. Si aucun groupe n'est forcé, l'authentification à double facteur est activée pour tous sauf pour les membres des groupes exclus. Si des groupes sont forcés, l'authentification à double facteur est exigée pour tous les membres de ces groupes. Si un utilisateur est à la fois dans un groupe forcé et exclu, c'est le groupe forcé qui prime et l'authentification double facteur est imposée.",
     "Save changes" : "Enregistrer les modifications",
     "All" : "Tous",
     "Limit app usage to groups" : "Limiter l'utilisation de l'application aux groupes",
@@ -268,9 +268,10 @@ OC.L10N.register(
     "Current password" : "Mot de passe actuel",
     "New password" : "Nouveau mot de passe",
     "Change password" : "Changer de mot de passe",
+    "Your profile information" : "Informations de votre profil",
     "Your profile picture" : "Votre photo de profil",
     "Upload profile picture" : "Téléverser une photo de profil",
-    "Choose profile picture from files" : "Choisir une image parmi les fichiers",
+    "Choose profile picture from Files" : "Choisir une image de profil dans Fichiers",
     "Remove profile picture" : "Retirer la photo de profil",
     "png or jpg, max. 20 MB" : "png ou jpg, max. 20 Mo",
     "Picture provided by original account" : "Photo fournie par le compte original",
@@ -559,6 +560,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Cela peut prendre jusqu'à 24 heures avant que le compte soit affiché comme vérifié.",
     "Link https://…" : "Lien https://…",
     "Change privacy level of Twitter profile" : "Changer le niveau de confidentialité du profil Twitter",
-    "Twitter handle @…" : "Pseudo Twitter @..."
+    "Twitter handle @…" : "Pseudo Twitter @...",
+    "Choose profile picture from files" : "Choisir une image parmi les fichiers"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

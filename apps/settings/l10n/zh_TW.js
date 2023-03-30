@@ -268,9 +268,10 @@ OC.L10N.register(
     "Current password" : "目前密碼",
     "New password" : "新密碼",
     "Change password" : "變更密碼",
+    "Your profile information" : "您的個人檔案資訊",
     "Your profile picture" : "您的個人資料圖片",
     "Upload profile picture" : "上傳個人資料圖片",
-    "Choose profile picture from files" : "從檔案中選擇個人檔案圖片",
+    "Choose profile picture from Files" : "從檔案中選擇個人檔案圖片",
     "Remove profile picture" : "移除個人資料圖片",
     "png or jpg, max. 20 MB" : "png 或 jpg，最大 20 MB",
     "Picture provided by original account" : "原始帳號提供的圖片",
@@ -559,6 +560,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "帳號在顯示為已驗證前可能需要最多24小時。",
     "Link https://…" : "連結 https://...",
     "Change privacy level of Twitter profile" : "變更 Twitter 個人資料的隱私等級",
-    "Twitter handle @…" : "Twitter 使用者名稱 @..."
+    "Twitter handle @…" : "Twitter 使用者名稱 @...",
+    "Choose profile picture from files" : "從檔案中選擇個人檔案圖片"
 },
 "nplurals=1; plural=0;");

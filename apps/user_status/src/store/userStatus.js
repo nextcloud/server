@@ -26,10 +26,10 @@ import {
 	setPredefinedMessage,
 	setCustomMessage,
 	clearMessage,
-} from '../services/statusService'
+} from '../services/statusService.js'
 import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getTimestampForClearAt } from '../services/clearAtService'
+import { getTimestampForClearAt } from '../services/clearAtService.js'
 import { emit } from '@nextcloud/event-bus'
 
 const state = {

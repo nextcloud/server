@@ -20,7 +20,7 @@
  *
  */
 
-import FileChecks from './file'
-import RequestChecks from './request'
+import FileChecks from './file.js'
+import RequestChecks from './request.js'
 
 export default [...FileChecks, ...RequestChecks]

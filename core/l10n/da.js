@@ -211,6 +211,7 @@ OC.L10N.register(
     "Settings menu" : "Indstillingsmenu",
     "Search {types} …" : "Søg {types} …",
     "Settings" : "Indstillinger",
+    "Avatar of {fullName}" : "Avatar tilhørende {fullName}",
     "Could not load your contacts" : "Kunne ikke indlæse kontakter.",
     "Search contacts …" : "Søg efter brugere ...",
     "No contacts found" : "Ingen kontakter",
@@ -281,6 +282,7 @@ OC.L10N.register(
     "Strong password" : "Stærkt kodeord",
     "No action available" : "Ingen funktion tilgængelig",
     "Error fetching contact actions" : "Kunne ikke hente kontakt funktioner",
+    "Close \"{dialogTitle}\" dialog" : "Luk dialogboksen \"{dialogTitle}\".",
     "Non-existing tag #{tag}" : "Ikke-eksisterende mærke #{tag}",
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",
@@ -349,6 +351,7 @@ OC.L10N.register(
     "Skip to main content" : "Skip til hovedindhold",
     "Skip to navigation of app" : "Skip til navigation af app",
     "Get your own free account" : "Få din egen gratis konto",
+    "Go to %s" : "Gå til %s",
     "Confirm your password" : "Bekræft dit password",
     "Connect to your account" : "Forbind til din konto",
     "Please log in before granting %1$s access to your %2$s account." : "Log venligst ind for at tildele %1$s adgang til din %2$s konto.",
@@ -368,7 +371,6 @@ OC.L10N.register(
     "Email address" : "Email adresse",
     "Password sent!" : "Adgangskode sendt!",
     "You are not authorized to request a password for this share" : "Du er ikke godkendt til at anmode om en adgangskode til denne delte mappe",
-    "Go to %s" : "Gå til %s",
     "Two-factor authentication" : "To-faktor autentificering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Forbedret sikkerhed er aktiveret for din konto. Vælg en nummer to faktor til autentifikation.",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Kunne ikke indlæse mindst en af dine aktiverede to-faktor adgangsmetoder. Kontakt venligst din administrator.",
@@ -418,6 +420,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Menuen kontakter",
     "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}.",
+    "%s homepage" : "%s hjemmeside"
 },
 "nplurals=2; plural=(n != 1);");

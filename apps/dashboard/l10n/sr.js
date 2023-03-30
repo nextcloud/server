@@ -3,7 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "Контролна табла",
     "Dashboard app" : "Апликација контролне табле",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје\nпреглед наредних састанака, хитних и-мејлова, чет порука,\nпридошлих тикета, најновијих твитова и још пуно тога! Корисници\nмогу да додају виџете који им се свиђају и да по жељи измене\n позадину.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје преглед наредних састанака, хитних и-мејлова, чет порука, придошлих тикета, најновијих твитова и још пуно тога! Корисници могу да додају виџете који им се свиђају и да по жељи измене  позадину.",
+    "\"{title} icon\"" : "„{title} икона”",
     "Customize" : "Прилагођавање",
     "Edit widgets" : "Уређивање виџета",
     "Get more widgets from the App Store" : "Преузмите још виџета из Продавнице апликација",
@@ -22,6 +23,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Добро вече, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје\nпреглед наредних састанака, хитних и-мејлова, чет порука,\nпридошлих тикета, најновијих твитова и још пуно тога! Корисници\nмогу да додају виџете који им се свиђају и да по жељи измене\n позадину.",
     "Change background image" : "Промените слику позадине",
     "Pick from Files" : "Изаберите из Фајлова",
     "Default images" : "Подразумеване слике",

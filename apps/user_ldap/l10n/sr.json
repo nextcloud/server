@@ -89,6 +89,7 @@
     "Other Attributes:" : "Остали атрибути:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Дефинише филтер који ће се применити, када се покуша пријава. „%%uid“ замењује корисничко име у пријави. Пример: „uid=%%uid“",
     "Test Loginname" : "Испробај име за пријаву",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Покушава да прими Име домена за наведено име пријаве и текући филтер пријаве",
     "Verify settings" : "Провери поставке",
     "%s. Server:" : "%s. Сервер:",
     "Add a new configuration" : "Додај нову поставку",

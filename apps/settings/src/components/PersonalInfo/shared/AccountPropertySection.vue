@@ -74,8 +74,8 @@ import debounce from 'debounce'
 import { showError } from '@nextcloud/dialogs'
 
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
-import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
-import Check from 'vue-material-design-icons/Check'
+import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 
 import HeaderBar from '../shared/HeaderBar.vue'
 

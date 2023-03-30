@@ -47,9 +47,9 @@
 import _ from 'underscore'
 import $ from 'jquery'
 
-import OC from './index'
-import OCA from '../OCA/index'
-import { isA11yActivation } from '../Util/a11y'
+import OC from './index.js'
+import OCA from '../OCA/index.js'
+import { isA11yActivation } from '../Util/a11y.js'
 
 /**
  * this class to ease the usage of jquery dialogs

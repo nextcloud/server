@@ -212,6 +212,7 @@
     "Settings menu" : "Ezarpenen menua",
     "Search {types} …" : "Bilatu  {types} …",
     "Settings" : "Ezarpenak",
+    "Avatar of {fullName}" : "{fullName}-(r)en avatarra",
     "Could not load your contacts" : "Ezin izan dira zure kontaktuak kargatu",
     "Search contacts …" : "Bilatu kontaktuak...",
     "No contacts found" : "Ez da kontakturik aurkitu",
@@ -282,6 +283,7 @@
     "Strong password" : "Pasahitz sendoa",
     "No action available" : "Ez dago ekintzarik eskuragarri",
     "Error fetching contact actions" : "Errorea kontaktu-ekintzak eskuratzean",
+    "Close \"{dialogTitle}\" dialog" : "Itxi \"{dialogTitle}\" elkarrizketa",
     "Non-existing tag #{tag}" : "#{tag} ez da existitzen",
     "Restricted" : "Mugatua",
     "Invisible" : "Ikusezina",
@@ -350,6 +352,7 @@
     "Skip to main content" : "Salto eduki nagusira",
     "Skip to navigation of app" : "Salto aplikazioaren nabigaziora",
     "Get your own free account" : "Eskuratu zure kontu propioa doan",
+    "Go to %s" : "Joan %s-ra",
     "Confirm your password" : "Berretsi pasahitza",
     "Connect to your account" : "Konektatu zure kontura",
     "Please log in before granting %1$s access to your %2$s account." : "Hasi saioa %1$s-(r)i  zure %2$s kontura sarbidea eman aurretik.",
@@ -369,7 +372,6 @@
     "Email address" : "Helbide elektronikoa",
     "Password sent!" : "Pasahitza bidalita!",
     "You are not authorized to request a password for this share" : "Ez duzu baimenik partekatze honetarako pasahitza eskatzeko",
-    "Go to %s" : "Joan %s-ra",
     "Two-factor authentication" : "Bi faktoreko autentifikazioa",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Segurtasun hobetua gaituta dago zure kontuan. Aukeratu autentifikaziorako bigarren faktore bat:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Ezin izan da kargatu zure bi faktoreko autentifikazio metodoetako bat gutxienez. Jarri harremanetan zure administratzailearekin.",
@@ -419,6 +421,7 @@
     "Contacts" : "Kontaktuak",
     "Contacts menu" : "Kontaktuen menua",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}.",
+    "%s homepage" : "%s Hasiera orria"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

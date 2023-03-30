@@ -69,6 +69,7 @@
     "OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function." : "OPcache är konfigurerad för att ta bort kodkommentarer. Med OPcache aktiverat måste <code>opcache.save_comments=1</code> sättas för att Nextcloud ska fungera.",
     "Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "Nextcloud får inte använda OPcache API. Med OPcache aktiverat rekommenderas det starkt att inkludera alla Nextcloud-kataloger med <code>opcache.restrict_api</code> eller avaktivera denna inställning för att inaktivera OPcache API-begränsningar, för att förhindra fel under Nextcloud kärna eller appuppgraderingar.",
     "Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "Nextcloud får inte använda OPcache API. Det rekommenderas starkt att inkludera alla Nextcloud-kataloger med <code>opcache.restrict_api</code> eller avaktivera denna inställning för att inaktivera OPcache API-begränsningar, för att förhindra fel under Nextcloud core eller appuppgraderingar.",
+    "The shared memory based OPcache is disabled. For better performance, it is recommended to apply <code>opcache.file_cache_only=0</code> to your PHP configuration and use the file cache as second level cache only." : "OPcache, som använder delat minne, är avaktiverat. För bättre prestanda rekommenderas att konfigurera <code>opcache.file_cache_only=0</code> i din PHP-konfiguration och att bara använda fil-cache som andrahands cache.",
     "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Det maximala antalet OPcache-nycklar har nästan överskridits. För att säkerställa att alla skript kan behållas i cachen, rekommenderas det att tillämpa <code>opcache.max_accelerated_files</code> i din PHP-konfiguration med ett värde högre än <code>%s</code>.",
     "The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcache-bufferten är nästan full. För att säkerställa att alla skript kan lagras i cache, rekommenderas det att tillämpa <code>opcache.memory_consumption</code> i din PHP-konfiguration med ett värde högre än <code>%s</code>.",
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcachens internerade strängbuffert är nästan full. För att säkerställa att upprepade strängar effektivt kan cachelagras, rekommenderas det att använda <code>opcache.interned_strings_buffer</code> i din PHP-konfiguration med ett värde högre än <code>%s</code>.",
@@ -265,9 +266,10 @@
     "Current password" : "Nuvarande lösenord",
     "New password" : "Nytt lösenord",
     "Change password" : "Ändra lösenord",
+    "Your profile information" : "Din profilinformation",
     "Your profile picture" : "Din profilbild",
     "Upload profile picture" : "Ladda upp profilbild",
-    "Choose profile picture from files" : "Välj profilbild från filer",
+    "Choose profile picture from Files" : "Välj profilbild från filer",
     "Remove profile picture" : "Ta bort profilbild",
     "png or jpg, max. 20 MB" : "png eller jpg, max 20 MB",
     "Picture provided by original account" : "Bild gjordes tillgänglig av orginalkonto",
@@ -302,6 +304,7 @@
     "Unable to delete additional email address" : "Kunde inte ta bort ytterligare e-postadress",
     "No email address set" : "Ingen e-postadress angiven",
     "Additional emails" : "Ytterligare e-postadresser",
+    "Your handle" : "Ditt kontonamn",
     "Your headline" : "Din rubrik",
     "Language" : "Språk",
     "Help translate" : "Hjälp till med översättningarna",
@@ -555,6 +558,7 @@
     "It can take up to 24 hours before the account is displayed as verified." : "Det kan ta upp till 24 timmar innan kontot visas som verifierat.",
     "Link https://…" : "Länk https://...",
     "Change privacy level of Twitter profile" : "Ända hemlighetsnivå för Twitterprofil",
-    "Twitter handle @…" : "Twitter handle @…"
+    "Twitter handle @…" : "Twitter handle @…",
+    "Choose profile picture from files" : "Välj profilbild från filer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

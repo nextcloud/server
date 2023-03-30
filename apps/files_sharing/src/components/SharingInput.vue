@@ -52,11 +52,11 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import Config from '../services/ConfigService'
-import GeneratePassword from '../utils/GeneratePassword'
-import Share from '../models/Share'
-import ShareRequests from '../mixins/ShareRequests'
-import ShareTypes from '../mixins/ShareTypes'
+import Config from '../services/ConfigService.js'
+import GeneratePassword from '../utils/GeneratePassword.js'
+import Share from '../models/Share.js'
+import ShareRequests from '../mixins/ShareRequests.js'
+import ShareTypes from '../mixins/ShareTypes.js'
 
 export default {
 	name: 'SharingInput',

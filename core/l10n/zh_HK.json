@@ -91,7 +91,7 @@
     "The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information." : "PHP OPcache 模塊配置不正確。 請參閱 {linkstart} 文檔 ↗{linkend} 了解更多信息。",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "無法取得 PHP 中的 \"set_time_limit\" 函式。這可能導致執行過程被終止並造成不完整安裝。我們強烈建議啟用該函式。",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "您的 PHP 並未啟用 FreeType 支援，導致大頭貼產生器和設定界面無法使用。",
-    "Missing index \"{indexName}\" in table \"{tableName}\"." : "在資料表 \"{tableName}\" 中，找不到索引值 \"{indexName}\" 。",
+    "Missing index \"{indexName}\" in table \"{tableName}\"." : "在數據庫表 \"{tableName}\" 中，找不到索引值 \"{indexName}\"。",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "數據庫缺少某些索引值。由於將索引添加到大型數據庫表可能需要一段時間，安裝程序因此不會自動添加索引。您可執行 “occ db:add-missing-indices” 來手動新增那些缺少的索引值。當索引值新增完成後，查詢的速度通常會變得快許多",
     "Missing primary key on table \"{tableName}\"." : "數據表 \"{tableName}\" 缺少主鍵。",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "數據庫缺少一些主鍵。由於在大表上添加主鍵可能會花費一些時間，因此我們不會自動添加主鍵。通過運行 “occ db:add-missing-primary-keys”，可以在實例繼續運行的同時手動添加那些缺少的主鍵。",
@@ -102,7 +102,7 @@
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "未啟用 PHP 模組「gmp」與「bcmath」。若您要使用 WebAuthn 免密碼驗證，這些模組就是必要的。",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "本系統安裝的 php-imagick 不支援 SVG，為了更好的相容性，建議安裝它。",
-    "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "數據庫中的某些列缺少對 big int 的轉換。由於更改大表上的列類型可能需要一些時間，因此無法自動更改它們。通過運行 “occ db：convert-filecache-bigint”，可以手動應用這些未決的更改。實例處於脫機狀態時需要執行此操作。有關更多詳細信息，請{linklink}關於此↗{linkend}的文檔頁面。",
+    "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "資料庫的有些欄位缺少 big int 格式轉換。因為欄位格式轉換需要一些時間，所以沒有自動轉換。您可以執行 \"occ db:convert-filecache-bigint\" 手動完成轉換，轉換時 Nextcloud 服務必須處於離線狀態。詳情請參閱{linkstart}關於這個問題的文件頁面 ↗{linkend}。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "目前您的後端數據庫使用 SQLite，在大型服務當中，我們建議您使用其他的數據庫後端。",
     "This is particularly recommended when using the desktop client for file synchronisation." : "若您使用電腦客戶端來同步檔案，非常建議您這麼做。",
     "To migrate to another database use the command line tool: \"occ db:convert-type\", or see the {linkstart}documentation ↗{linkend}." : "要遷移到另一個數據庫，請使用指令工具：“ occ db：convert-type”，或參閱 {linkstart} 說明書↗{linkend}。",
@@ -354,7 +354,7 @@
     "Skip to main content" : "跳到主內容",
     "Skip to navigation of app" : "跳到應用程式導覽",
     "Get your own free account" : "取得免費賬號",
-    "%s homepage" : "%s 的首頁",
+    "Go to %s" : "前往 %s",
     "Confirm your password" : "確認密碼",
     "Connect to your account" : "連結您的賬號",
     "Please log in before granting %1$s access to your %2$s account." : "請登入後再授權「%1$s」存取您的 %2$s 賬號",
@@ -374,7 +374,6 @@
     "Email address" : "電郵地址",
     "Password sent!" : "密碼已傳送！",
     "You are not authorized to request a password for this share" : "您無權為此分享請求密碼",
-    "Go to %s" : "前往 %s",
     "Two-factor authentication" : "雙重認證",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "您的賬號已啟用進階安全機制，請選擇一個雙重認證方法：",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "無法載入任何已啟用的雙重認證方法，請聯絡管理員。",
@@ -424,6 +423,8 @@
     "Contacts" : "聯絡人",
     "Contacts menu" : "聯絡人選單",
     "Setup two-factor authentication" : "設定雙重認證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
+    "%s homepage" : "%s 的首頁",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

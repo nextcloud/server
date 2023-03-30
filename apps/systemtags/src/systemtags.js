@@ -21,10 +21,10 @@
  *
  */
 
-import './app'
-import './systemtagsfilelist'
-import './filesplugin'
-import './systemtagsinfoview'
+import './app.js'
+import './systemtagsfilelist.js'
+import './filesplugin.js'
+import './systemtagsinfoview.js'
 import './css/systemtagsfilelist.scss'
 
 window.OCA.SystemTags = OCA.SystemTags

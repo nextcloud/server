@@ -575,7 +575,7 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Recursively remove all children of a folder
+	 * Remove all children of a folder
 	 *
 	 * @param ICacheEntry $entry the cache entry of the folder to remove the children of
 	 * @throws \OC\DatabaseException
@@ -583,6 +583,8 @@ class Cache implements ICache {
 	private function removeChildren(ICacheEntry $entry) {
 		$parentIds = [$entry->getId()];
 		$queue = [$entry->getId()];
+		$deletedIds = [];
+		$deletedPaths = [];
 
 		// we walk depth first through the file tree, removing all filecache_extended attributes while we walk
 		// and collecting all folder ids to later use to delete the filecache entries
@@ -591,6 +593,12 @@ class Cache implements ICache {
 			$childIds = array_map(function (ICacheEntry $cacheEntry) {
 				return $cacheEntry->getId();
 			}, $children);
+			$childPaths = array_map(function (ICacheEntry $cacheEntry) {
+				return $cacheEntry->getPath();
+			}, $children);
+
+			$deletedIds = array_merge($deletedIds, $childIds);
+			$deletedPaths = array_merge($deletedPaths, $childPaths);
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
@@ -618,6 +626,16 @@ class Cache implements ICache {
 		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->execute();
+		}
+
+		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
+			$cacheEntryRemovedEvent = new CacheEntryRemovedEvent(
+				$this->storage,
+				$filePath,
+				$fileId,
+				$this->getNumericStorageId()
+			);
+			$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
 		}
 	}
 

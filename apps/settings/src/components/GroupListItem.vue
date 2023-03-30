@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 
 export default {
 	name: 'GroupListItem',

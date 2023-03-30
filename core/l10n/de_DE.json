@@ -354,7 +354,7 @@
     "Skip to main content" : "Zum Hauptinhalt springen",
     "Skip to navigation of app" : "Zum Navigationsbereich der App springen",
     "Get your own free account" : "Holen Sie sich Ihr eigenes kostenloses Konto",
-    "%s homepage" : "%s Internetseite",
+    "Go to %s" : "%s aufrufen",
     "Confirm your password" : "Bestätigen Sie Ihr Passwort",
     "Connect to your account" : "Verbinden Sie sich mit Ihrem Konto",
     "Please log in before granting %1$s access to your %2$s account." : "Bitte anmelden, bevor Sie %1$s Zugriff auf Ihr %2$s-Konto gewähren.",
@@ -374,7 +374,6 @@
     "Email address" : "E-Mail-Adresse",
     "Password sent!" : "Passwort versandt!",
     "You are not authorized to request a password for this share" : "Sie sind nicht berechtigt, für diese Freigabe ein Passwort anzufordern.",
-    "Go to %s" : "%s aufrufen",
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Die erweiterte Sicherheit wurde für Ihr Konto aktiviert. Bitte wählen Sie einen zweiten Faktor für die Authentifizierung: ",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Mindestens eine Ihrer Zwei-Faktor-Authentifizierungsmethoden konnte nicht geladen werden. Kontaktieren Sie Ihren Administrator.",
@@ -424,6 +423,8 @@
     "Contacts" : "Kontakte",
     "Contacts menu" : "Kontakte-Menü",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sie scheinen eine 32-Bit PHP-Version auszuführen. Nextcloud benötigt 64-Bit, um gut zu laufen. Bitte aktualisieren Sie Ihr Betriebssystem und PHP auf 64-Bit! Für weitere Details lesen Sie die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sie scheinen eine 32-Bit PHP-Version auszuführen. Nextcloud benötigt 64-Bit, um gut zu laufen. Bitte aktualisieren Sie Ihr Betriebssystem und PHP auf 64-Bit! Für weitere Details lesen Sie die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
+    "%s homepage" : "%s Internetseite",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

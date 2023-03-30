@@ -11,6 +11,8 @@ jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -55,7 +57,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: '8.0'
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          extensions: ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
 
       - name: Composer install

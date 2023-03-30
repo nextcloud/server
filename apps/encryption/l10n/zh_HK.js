@@ -32,7 +32,7 @@ OC.L10N.register(
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法檢視這個檔案，或許這是分享的檔案。請讓檔案所有者與您重新共享檔案。",
     "Default encryption module" : "默認加密模組",
     "Default encryption module for server-side encryption" : "伺服器端的默認加密模組",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "為了使用此加密模組，您需要啟用伺服器端\n管理員設置中的加密設定。啟用後，該模組將加密您的所有之後傳輸的檔案。此加密方式使用AES 256密鑰。\n該模組不會觸及已存在的檔案，只會加密新處理的檔案\n啟用伺服器端加密後。也不可能\n再次停用加密，然後切換回未加密的系統。\n在決定啟用伺服器端加密之前，請閱讀文檔以了解所有含義。",
+    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to a unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "為了使用此加密模組，您需要啟用伺服器端管理員設置中的加密設定。啟用後，該模組將加密您的所有之後傳輸的檔案。此加密方式使用AES 256密鑰。該模組不會觸及已存在的檔案，只會加密新處理的檔案啟用伺服器端加密後。也不可能再次停用加密，然後切換回未加密的系統。在決定啟用伺服器端加密之前，請閱讀文檔以了解所有含義。",
     "Hey there,\n\nThe administration enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.\n\n" : "嗨，\n\n系管理員啟用了伺服器端的加密功能，您的檔案已使用密碼 \"%s\" 加密。\n\n請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。\n",
     "The share will expire on %s." : "這個分享將會於 %s 過期。",
     "Cheers!" : "太棒了！",
@@ -60,6 +60,7 @@ OC.L10N.register(
     "Enable password recovery:" : "啟用密碼還原﹕",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用"
+    "Disabled" : "已停用",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "為了使用此加密模組，您需要啟用伺服器端\n管理員設置中的加密設定。啟用後，該模組將加密您的所有之後傳輸的檔案。此加密方式使用AES 256密鑰。\n該模組不會觸及已存在的檔案，只會加密新處理的檔案\n啟用伺服器端加密後。也不可能\n再次停用加密，然後切換回未加密的系統。\n在決定啟用伺服器端加密之前，請閱讀文檔以了解所有含義。"
 },
 "nplurals=1; plural=0;");

@@ -20,7 +20,7 @@
  *
  */
 
-import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService'
+import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService.js'
 
 const state = {
 	predefinedStatuses: [],

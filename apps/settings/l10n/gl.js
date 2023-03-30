@@ -38,7 +38,7 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} cambiou o seu enderezo de correo",
     "You changed your email address" : "Vostede cambiou o seu enderezo de correo",
     "Your email address was changed by an administrator" : "O seu enderezo de correo foi cambiado por un administrador",
-    "You created an app password for a session named \"{token}\"" : "Creaches un contrasinal de aplicación para unha sesión chamada \"{token}\"",
+    "You created an app password for a session named \"{token}\"" : "Creou un contrasinal de aplicación para unha sesión chamada \"{token}\"",
     "An administrator created an app password for a session named \"{token}\"" : "Un administrador creou un contrasinal de aplicación para unha sesión chamada \"{token}\"",
     "You deleted app password \"{token}\"" : "Vostede eliminou o contrasinal da aplicación «{token}»",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Vostede renomeou o contrasinal da aplicación «{token}» como «{newToken}»",
@@ -194,7 +194,7 @@ OC.L10N.register(
     "Rename" : "Renomear",
     "Revoke" : "Revogar",
     "Wipe device" : "Limpar o dispositivo",
-    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "A revogación deste token pode impedir a eliminación do teu dispositivo se aínda non iniciou a eliminación.",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "A revogación deste testemuño pode impedir a limpeza do seu dispositivo se aínda non iniciou a limpeza.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
@@ -270,7 +270,6 @@ OC.L10N.register(
     "Change password" : "Cambiar o contrasinal",
     "Your profile picture" : "A túa imaxe de perfil",
     "Upload profile picture" : "Subir imaxe de perfil",
-    "Choose profile picture from files" : "Escolle a imaxe de perfil dende Ficheiros",
     "Remove profile picture" : "Eliminar a imaxe de perfil",
     "png or jpg, max. 20 MB" : "png ou jpg, max. 20 MB",
     "Picture provided by original account" : "Imaxe fornecida pola conta orixinal ",
@@ -559,6 +558,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Pode levar ata 24 horas antes de que a conta apareza como como verificada.",
     "Link https://…" : "Ligazón https://…",
     "Change privacy level of Twitter profile" : "Cambia o nivel de privacidade do perfil de Twitter",
-    "Twitter handle @…" : "Usuario do Twitter @…"
+    "Twitter handle @…" : "Usuario do Twitter @…",
+    "Choose profile picture from files" : "Escolle a imaxe de perfil dende Ficheiros"
 },
 "nplurals=2; plural=(n != 1);");

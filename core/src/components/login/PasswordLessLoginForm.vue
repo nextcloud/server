@@ -48,10 +48,10 @@
 import {
 	startAuthentication,
 	finishAuthentication,
-} from '../../services/WebAuthnAuthenticationService'
-import LoginButton from './LoginButton'
-import InformationIcon from 'vue-material-design-icons/Information'
-import LockOpenIcon from 'vue-material-design-icons/LockOpen'
+} from '../../services/WebAuthnAuthenticationService.js'
+import LoginButton from './LoginButton.vue'
+import InformationIcon from 'vue-material-design-icons/Information.vue'
+import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
 
 class NoValidCredentials extends Error {
 

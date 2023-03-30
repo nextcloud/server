@@ -270,7 +270,7 @@ OC.L10N.register(
     "Change password" : "Alterar senha",
     "Your profile picture" : "Sua foto de perfil",
     "Upload profile picture" : "Carregar foto do perfil",
-    "Choose profile picture from files" : "Escolha a foto do perfil dos arquivos",
+    "Choose profile picture from Files" : "Choose profile picture from Files",
     "Remove profile picture" : "Remover foto do perfil",
     "png or jpg, max. 20 MB" : "png ou jpg, max. 20 MB",
     "Picture provided by original account" : "Imagem fornecida pela conta original",
@@ -447,6 +447,7 @@ OC.L10N.register(
     "Server address" : "Endereço do servidor",
     "Port" : "Porta",
     "Authentication method" : "Método de autenticação",
+    "Only applies when authentication is required" : "Only applies when authentication is required",
     "Authentication required" : "Autenticação é necessária",
     "Credentials" : "Credenciais",
     "SMTP Username" : "Nome do Usuário SMTP",
@@ -558,6 +559,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "Pode levar até 24 horas para que a conta seja mostrada como verificada.",
     "Link https://…" : "Link https://…",
     "Change privacy level of Twitter profile" : "Alterar o nível de privacidade do perfil do Twitter ",
-    "Twitter handle @…" : "Twitter handle @…"
+    "Twitter handle @…" : "Twitter handle @…",
+    "Choose profile picture from files" : "Escolha a foto do perfil dos arquivos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

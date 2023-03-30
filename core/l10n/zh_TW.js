@@ -356,7 +356,7 @@ OC.L10N.register(
     "Skip to main content" : "跳到主內容",
     "Skip to navigation of app" : "跳到應用程式導覽",
     "Get your own free account" : "取得免費帳號",
-    "%s homepage" : "%s 的首頁",
+    "Go to %s" : "前往 %s",
     "Confirm your password" : "確認密碼",
     "Connect to your account" : "連結您的帳號",
     "Please log in before granting %1$s access to your %2$s account." : "請登入後再授權「%1$s」存取您的 %2$s 帳號",
@@ -376,7 +376,6 @@ OC.L10N.register(
     "Email address" : "電子郵件地址",
     "Password sent!" : "密碼已傳送！",
     "You are not authorized to request a password for this share" : "您無權為此分享請求密碼",
-    "Go to %s" : "前往 %s",
     "Two-factor authentication" : "雙因素驗證",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "您的帳號已啟用進階安全機制，請選擇一個雙因素驗證方法：",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "無法載入任何一個雙因素認證方法，請聯絡管理員",
@@ -426,6 +425,8 @@ OC.L10N.register(
     "Contacts" : "聯絡人",
     "Contacts menu" : "聯絡人選單",
     "Setup two-factor authentication" : "設定雙因素驗證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。",
+    "%s homepage" : "%s 的首頁",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "因為透過瀏覽器更新的功能已在您的 config.php 中停用，因此請使用命令列更新程式。"
 },
 "nplurals=1; plural=0;");
