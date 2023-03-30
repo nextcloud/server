@@ -166,6 +166,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\Exception\\Forbidden' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/Forbidden.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\InvalidPath' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/InvalidPath.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\PasswordLoginForbidden' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/PasswordLoginForbidden.php',
+        'OCA\\DAV\\Connector\\Sabre\\Exception\\TooManyRequests' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/TooManyRequests.php',
         'OCA\\DAV\\Connector\\Sabre\\Exception\\UnsupportedMediaType' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Exception/UnsupportedMediaType.php',
         'OCA\\DAV\\Connector\\Sabre\\FakeLockerPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/FakeLockerPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\File' => __DIR__ . '/..' . '/../lib/Connector/Sabre/File.php',

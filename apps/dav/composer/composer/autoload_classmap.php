@@ -151,6 +151,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\Exception\\Forbidden' => $baseDir . '/../lib/Connector/Sabre/Exception/Forbidden.php',
     'OCA\\DAV\\Connector\\Sabre\\Exception\\InvalidPath' => $baseDir . '/../lib/Connector/Sabre/Exception/InvalidPath.php',
     'OCA\\DAV\\Connector\\Sabre\\Exception\\PasswordLoginForbidden' => $baseDir . '/../lib/Connector/Sabre/Exception/PasswordLoginForbidden.php',
+    'OCA\\DAV\\Connector\\Sabre\\Exception\\TooManyRequests' => $baseDir . '/../lib/Connector/Sabre/Exception/TooManyRequests.php',
     'OCA\\DAV\\Connector\\Sabre\\Exception\\UnsupportedMediaType' => $baseDir . '/../lib/Connector/Sabre/Exception/UnsupportedMediaType.php',
     'OCA\\DAV\\Connector\\Sabre\\FakeLockerPlugin' => $baseDir . '/../lib/Connector/Sabre/FakeLockerPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\File' => $baseDir . '/../lib/Connector/Sabre/File.php',
