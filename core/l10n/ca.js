@@ -355,7 +355,7 @@ OC.L10N.register(
     "Skip to main content" : "Salta al contingut principal",
     "Skip to navigation of app" : "Salta a la navegació d'aplicació",
     "Get your own free account" : "Obtingueu el vostre propi compte gratuït",
-    "%s homepage" : "pàgina d'inici de %s",
+    "Go to %s" : "Ves a %s",
     "Confirm your password" : "Confirmeu la vostra contrasenya",
     "Connect to your account" : "Connecta al vostre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Si us plau inicieu la sessió abans de concedir %1$s accés al vostre compte %2$s.",
@@ -375,7 +375,6 @@ OC.L10N.register(
     "Email address" : "Adreça de correu",
     "Password sent!" : "S'ha enviat la contrasenya!",
     "You are not authorized to request a password for this share" : "No esteu autoritzat a sol·licitar una contrasenya d'aquesta compartició",
-    "Go to %s" : "Ves a %s",
     "Two-factor authentication" : "Autenticació de doble factor",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La seguretat millorada està habilitada per al vostre compte. Trieu un segon factor d'autenticació:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "No s'ha pogut carregar al menys un dels vostres mètodes d'autenticació de doble factor permesos. Contacteu amb el vostre administrador.",
@@ -425,6 +424,7 @@ OC.L10N.register(
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú de contactes",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
+    "%s homepage" : "pàgina d'inici de %s"
 },
 "nplurals=2; plural=(n != 1);");
