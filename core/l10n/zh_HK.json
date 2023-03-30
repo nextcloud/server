@@ -354,7 +354,7 @@
     "Skip to main content" : "跳到主內容",
     "Skip to navigation of app" : "跳到應用程式導覽",
     "Get your own free account" : "取得免費賬號",
-    "%s homepage" : "%s 的首頁",
+    "Go to %s" : "前往 %s",
     "Confirm your password" : "確認密碼",
     "Connect to your account" : "連結您的賬號",
     "Please log in before granting %1$s access to your %2$s account." : "請登入後再授權「%1$s」存取您的 %2$s 賬號",
@@ -374,7 +374,6 @@
     "Email address" : "電郵地址",
     "Password sent!" : "密碼已傳送！",
     "You are not authorized to request a password for this share" : "您無權為此分享請求密碼",
-    "Go to %s" : "前往 %s",
     "Two-factor authentication" : "雙重認證",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "您的賬號已啟用進階安全機制，請選擇一個雙重認證方法：",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "無法載入任何已啟用的雙重認證方法，請聯絡管理員。",
@@ -425,6 +424,7 @@
     "Contacts menu" : "聯絡人選單",
     "Setup two-factor authentication" : "設定雙重認證",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
+    "%s homepage" : "%s 的首頁",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

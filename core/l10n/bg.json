@@ -354,7 +354,7 @@
     "Skip to main content" : "Преминаване към основното съдържание",
     "Skip to navigation of app" : "Преминаване към навигация на приложението",
     "Get your own free account" : "Вземете свой собствен безплатен профил",
-    "%s homepage" : "%s начална страница",
+    "Go to %s" : "Отидете на %s",
     "Confirm your password" : "Потвърдете паролата си",
     "Connect to your account" : "Свързване към вашия профил",
     "Please log in before granting %1$s access to your %2$s account." : "Необходимо е да се впишете, преди да дадете достъп на %1$s до вашия %2$s профил.",
@@ -374,7 +374,6 @@
     "Email address" : "Имейл адрес",
     "Password sent!" : "Паролата е изпратена!",
     "You are not authorized to request a password for this share" : "Не сте упълномощени да искате парола за това споделяне",
-    "Go to %s" : "Отидете на %s",
     "Two-factor authentication" : "Двустепенно удостоверяване",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Повишената сигурност е активирана за вашия профил. Изберете втори фактор за удостоверяване .",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Невъзможно да се зареди поне един от вашите активирани двустепенни методи за удостоверяване. Моля, свържете се с вашия администратор.",
@@ -425,6 +424,7 @@
     "Contacts menu" : "Контакти",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud се нуждае от 64 бита, за да работи добре. Моля, надстройте вашата операционна система и PHP до 64 бита! За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}.",
+    "%s homepage" : "%s начална страница",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Моля, използвайте програмата за актуализиране от командния ред, тъй като актуализирането чрез браузъра е забранено в config.php."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
