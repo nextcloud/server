@@ -356,7 +356,7 @@ OC.L10N.register(
     "Skip to main content" : "Ir ao conteúdo principal",
     "Skip to navigation of app" : "Ir à navegação do aplicativo",
     "Get your own free account" : "Obtenha uma conta grátis",
-    "%s homepage" : "%s homepage",
+    "Go to %s" : "Ir para %s",
     "Confirm your password" : "Confirme sua senha",
     "Connect to your account" : "Conectar à sua conta",
     "Please log in before granting %1$s access to your %2$s account." : "Logue-se antes de conceder acesso %1$s à sua conta %2$s.",
@@ -376,7 +376,6 @@ OC.L10N.register(
     "Email address" : "Endereço de e-mail",
     "Password sent!" : "Senha enviada!",
     "You are not authorized to request a password for this share" : "Você não está autorizado a solicitar uma senha para este compartilhamento",
-    "Go to %s" : "Ir para %s",
     "Two-factor authentication" : "Autenticação de dois fatores",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "A segurança aprimorada está ativada para sua conta. Escolha um segundo fator para autenticação:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Não foi possível carregar ao menos um dos métodos de autenticação de dois fatores ativados. Por favor, entre em contato com o administrador.",
@@ -427,6 +426,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu de contatos",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud precisa de 64 bits para funcionar bem. Por favor, atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre este ↗{linkend}.",
+    "%s homepage" : "%s homepage",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın.",
     "Channel updated" : "Kanal güncellendi",
-    "Web updater is disabled" : "Web güncelleyici devre dışı bırakılmış",
+    "Web updater is disabled" : "Güncelleyici devre dışı bırakılmış",
     "Update notifications" : "Güncelleme bildirimleri",
     "The update server could not be reached since %d days to check for new updates." : "%d gündür güncellemeleri denetlemek için güncelleme sunucusuna bağlanılamadı.",
     "Please check the Nextcloud and server log files for errors." : "Lütfen sorunu bulmak için Nextcloud ve sunucu günlük dosyalarına bakın.",
@@ -17,7 +17,7 @@ OC.L10N.register(
     "Apps missing compatible version" : "Uyumlu sürümü olmayan uygulamalar",
     "View in store" : "Mağazada görüntüle",
     "Apps with compatible version" : "Uyumlu sürümü olan uygulamalar",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100 kullanıcı üzerinde web güncelleyicinin kullanılmasının önerilmediğini unutmayın! Lütfen bunun yerine komut satırı güncelleyicisini kullanın!",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100 kullanıcı üzerinde site arayüzündeki güncelleyicinin kullanılmasının önerilmediğini unutmayın! Lütfen bunun yerine komut satırı güncelleyicisini kullanın!",
     "Open updater" : "Güncelleyici aç",
     "Download now" : "İndir",
     "Please use the command line updater to update." : "Lütfen güncellemek için komut satırı güncelleyiciyi kullanın.",

@@ -354,7 +354,7 @@
     "Skip to main content" : "Saltar al contenido principal",
     "Skip to navigation of app" : "Saltar a la navegación de la app",
     "Get your own free account" : "Consigue tu propia cuenta gratuita",
-    "%s homepage" : "Página de inicio de %s",
+    "Go to %s" : "Ir a %s",
     "Confirm your password" : "Confirme su contraseña",
     "Connect to your account" : "Conectar a cuenta",
     "Please log in before granting %1$s access to your %2$s account." : "Por favor, inicia sesión antes de conceder a %1$s acceso a tu cuenta %2$s.",
@@ -374,7 +374,6 @@
     "Email address" : "Dirección de correo",
     "Password sent!" : "¡Contraseña enviada!",
     "You are not authorized to request a password for this share" : "No está autorizado a solicitar una contraseña para esta acción",
-    "Go to %s" : "Ir a %s",
     "Two-factor authentication" : "Verificación en dos pasos",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "La seguridad mejorada está habilitada para su cuenta. Elija una segunda forma de autenticación:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "No se pudo cargar al menos uno de sus métodos de autenticación de segundo paso. Por favor, póngase en contacto con un administrador.",
@@ -425,6 +424,7 @@
     "Contacts menu" : "Menú de contactos",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud necesita 64 bits para su correcto funcionamiento. ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}.",
+    "%s homepage" : "Página de inicio de %s",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Por favor, utilice el actualizador de línea de comandos ya que la actualización vía navegador se encuentra deshabilitado en su config.php"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

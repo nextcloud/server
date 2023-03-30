@@ -356,7 +356,7 @@ OC.L10N.register(
     "Skip to main content" : "Прескочи на главни садржај",
     "Skip to navigation of app" : "Прескочи на навигацију апликације",
     "Get your own free account" : "Узмите бесплатан налог",
-    "%s homepage" : "%s почетна страна",
+    "Go to %s" : "Иди на %s",
     "Confirm your password" : "Потврдите лозинку",
     "Connect to your account" : "Повежите се на Ваш налог",
     "Please log in before granting %1$s access to your %2$s account." : "Прво се пријавите пре него што одобрите привилегију %1$s приступ Вашем налогу %2$s.",
@@ -376,7 +376,6 @@ OC.L10N.register(
     "Email address" : "Адреса е-поште",
     "Password sent!" : "Лозинка је послата!",
     "You are not authorized to request a password for this share" : "Немате право да за овај дељени ресурс тражите лозинку",
-    "Go to %s" : "Иди на %s",
     "Two-factor authentication" : "Двофакторска провера идентитета",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Повећана сигурност је омогућена за овај налог. Одаберите други фактор за проверу идентитета:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Није могуће учитати ниједан метод двофакторске провере идентитета. Контактирајте администратора.",
@@ -427,6 +426,7 @@ OC.L10N.register(
     "Contacts menu" : "Мени контаката",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}.",
+    "%s homepage" : "%s почетна страна",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
