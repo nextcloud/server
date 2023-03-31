@@ -20,7 +20,8 @@
   -
   -->
 <template>
-	<div v-show="!deleted"
+	<component :is="tag"
+		v-show="!deleted"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
@@ -157,6 +158,11 @@ export default {
 		autoComplete: {
 			type: Function,
 			required: true,
+		},
+
+		tag: {
+			type: String,
+			default: 'div',
 		},
 	},
 
