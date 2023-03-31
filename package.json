@@ -111,7 +111,7 @@
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "webdav": "^5.0.0-r1"
+    "webdav": "^5.0.0-r3"
   },
   "devDependencies": {
     "@babel/node": "^7.20.7",

@@ -44,8 +44,8 @@ import {
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string'
-import Config from './config'
+} from './query-string.js'
+import Config from './config.js'
 import {
 	coreApps,
 	menuSpeed,
@@ -57,30 +57,30 @@ import {
 	PERMISSION_SHARE,
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
-} from './constants'
-import ContactsMenu from './contactsmenu'
-import { currentUser, getCurrentUser } from './currentuser'
-import Dialogs from './dialogs'
-import EventSource from './eventsource'
-import { get, set } from './get_set'
-import { getCapabilities } from './capabilities'
+} from './constants.js'
+import ContactsMenu from './contactsmenu.js'
+import { currentUser, getCurrentUser } from './currentuser.js'
+import Dialogs from './dialogs.js'
+import EventSource from './eventsource.js'
+import { get, set } from './get_set.js'
+import { getCapabilities } from './capabilities.js'
 import {
 	getHost,
 	getHostName,
 	getPort,
 	getProtocol,
-} from './host'
+} from './host.js'
 import {
 	getToken as getRequestToken,
-} from './requesttoken'
+} from './requesttoken.js'
 import {
 	hideMenus,
 	registerMenu,
 	showMenu,
 	unregisterMenu,
-} from './menu'
-import { isUserAdmin } from './admin'
-import L10N from './l10n'
+} from './menu.js'
+import { isUserAdmin } from './admin.js'
+import L10N from './l10n.js'
 import {
 	getCanonicalLocale,
 	getLanguage,
