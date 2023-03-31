@@ -419,7 +419,6 @@
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}.",
-    "%s homepage" : "%s hjemmeside"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
