@@ -96,6 +96,7 @@ nbproject
 
 # vscode
 .vscode
+*.code-workspace
 
 # geany
 *.geany
