@@ -280,7 +280,7 @@ class Manager {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
 			$tokenId = $token->getId();
-			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $tokenId);
+			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', (string)$tokenId);
 
 			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
 			$this->legacyDispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
@@ -395,7 +395,7 @@ class Manager {
 
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), $this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), (string)$this->timeFactory->getTime());
 	}
 
 	public function clearTwoFactorPending(string $userId) {

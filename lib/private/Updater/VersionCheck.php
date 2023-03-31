@@ -66,10 +66,10 @@ class VersionCheck {
 
 		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
-		$this->config->setAppValue('core', 'lastupdatedat', time());
+		$this->config->setAppValue('core', 'lastupdatedat', (string)time());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
-			$this->config->setAppValue('core', 'installedat', microtime(true));
+			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
 		}
 
 		$version = Util::getVersion();

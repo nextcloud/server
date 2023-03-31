@@ -115,7 +115,7 @@ class Notifier implements INotifier {
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
-			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
+			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
 			if ($errors === 0) {
 				$this->notificationManager->markProcessed($notification);
 				throw new \InvalidArgumentException('Update checked worked again');

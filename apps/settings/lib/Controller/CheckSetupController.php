@@ -632,7 +632,7 @@ Raw output
 	}
 
 	protected function getLastCronInfo(): array {
-		$lastCronRun = $this->config->getAppValue('core', 'lastcron', 0);
+		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
 		return [
 			'diffInSeconds' => time() - $lastCronRun,
 			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
