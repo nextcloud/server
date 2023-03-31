@@ -89,7 +89,10 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom">
-			<CustomElementRender v-if="active" :current-view="currentView" :render="column.render" :source="source" />
+			<CustomElementRender v-if="active"
+				:current-view="currentView"
+				:render="column.render"
+				:source="source" />
 		</td>
 	</Fragment>
 </template>
@@ -99,27 +102,25 @@ import { debounce } from 'debounce'
 import { Folder, File, getFileActions, formatFileSize } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
-import { loadState } from '@nextcloud/initial-state'
+import { mapState } from 'pinia'
+import { showError } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
-import { showError } from '@nextcloud/dialogs'
 
 import { useFilesStore } from '../store/files'
 import { useSelectionStore } from '../store/selection'
+import { useUserConfigStore } from '../store/userconfig'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
+import { UserConfig } from '../types'
 
-// TODO: move to store
-// TODO: watch 'files:config:updated' event
-const userConfig = loadState('files', 'config', {})
 
 // The preview service worker cache name (see webpack config)
 const SWCacheName = 'previews'
@@ -160,9 +161,11 @@ export default Vue.extend({
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const userConfigStore = useUserConfigStore()
 		return {
 			filesStore,
 			selectionStore,
+			userConfigStore,
 		}
 	},
 
@@ -171,11 +174,15 @@ export default Vue.extend({
 			backgroundFailed: false,
 			backgroundImage: '',
 			loading: '',
-			userConfig,
 		}
 	},
 
 	computed: {
+		/** @return {UserConfig} */
+		userConfig() {
+			return this.userConfigStore.userConfig
+		},
+
 		/** @return {Navigation} */
 		currentView() {
 			return this.$navigation.active
@@ -244,11 +251,18 @@ export default Vue.extend({
 			},
 		},
 
+		cropPreviews() {
+			return this.userConfig.crop_image_previews
+		},
+
 		previewUrl() {
 			try {
 				const url = new URL(window.location.origin + this.source.attributes.previewUrl)
-				const cropping = this.userConfig?.crop_image_previews === true
-				url.searchParams.set('a', cropping ? '1' : '0')
+				// Request tiny previews
+				url.searchParams.set('x', '32')
+				url.searchParams.set('y', '32')
+				// Handle cropping
+				url.searchParams.set('a', this.cropPreviews === true ? '1' : '0')
 				return url.href
 			} catch (e) {
 				return null
@@ -287,8 +301,8 @@ export default Vue.extend({
 	},
 
 	watch: {
-		active(active) {
-			if (active === false) {
+		active(active, before) {
+			if (active === false && before === true) {
 				this.resetState()
 
 				// When the row is not active anymore
@@ -296,6 +310,7 @@ export default Vue.extend({
 				this.$el.parentNode.style.display = 'none'
 				return
 			}
+
 			// Restore default tabindex
 			this.$el.parentNode.style.display = ''
 		},
@@ -303,8 +318,8 @@ export default Vue.extend({
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
 		 */
-		source() {
-			this.resetState()
+		previewUrl() {
+			this.clearImg()
 			this.debounceIfNotCached()
 		},
 	},
@@ -313,11 +328,17 @@ export default Vue.extend({
 	 * The row is mounted once and reused as we scroll.
 	 */
 	mounted() {
-		// Init the debounce function on mount and
-		// not when the module is imported ⚠
+		// ⚠ Init the debounce function on mount and
+		// not when the module is imported  to
+		// avoid sharing between recycled components
 		this.debounceGetPreview = debounce(function() {
 			this.fetchAndApplyPreview()
 		}, 150, false)
+
+		// ⚠ Init img on mount and
+		// not when the module is imported to
+		// avoid sharing between recycled components
+		this.img = null
 
 		this.debounceIfNotCached()
 	},
@@ -345,7 +366,18 @@ export default Vue.extend({
 		},
 
 		fetchAndApplyPreview() {
+			// Ignore if no preview
+			if (!this.previewUrl) {
+				return
+			}
+
+			// If any image is being processed, reset it
+			if (this.img) {
+				this.clearImg()
+			}
+
 			this.img = new Image()
+			this.img.fetchpriority = this.active ? 'high' : 'auto'
 			this.img.onload = () => {
 				this.backgroundImage = `url(${this.previewUrl})`
 			}
@@ -360,19 +392,23 @@ export default Vue.extend({
 			this.loading = ''
 
 			// Reset the preview
+			this.clearImg()
+
+			// Close menu
+			this.$refs.actionsMenu.closeMenu()
+		},
+
+		clearImg() {
 			this.backgroundImage = ''
 			this.backgroundFailed = false
 
-			// If we're already fetching a preview, cancel it
 			if (this.img) {
 				// Do not fail on cancel
 				this.img.onerror = null
 				this.img.src = ''
-				delete this.img
 			}
 
-			// Close menu
-			this.$refs.actionsMenu.closeMenu()
+			this.img = null
 		},
 
 		isCachedPreview(previewUrl) {

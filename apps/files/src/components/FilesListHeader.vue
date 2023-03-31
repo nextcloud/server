@@ -26,7 +26,7 @@
 		</th>
 
 		<!-- Actions multiple if some are selected -->
-		<FilesListActionsHeader v-if="!isNoneSelected"
+		<FilesListHeaderActions v-if="!isNoneSelected"
 			:current-view="currentView"
 			:selected-nodes="selectedNodes" />
 
@@ -74,7 +74,7 @@ import Vue from 'vue'
 import { useFilesStore } from '../store/files'
 import { useSelectionStore } from '../store/selection'
 import { useSortingStore } from '../store/sorting'
-import FilesListActionsHeader from './FilesListActionsHeader.vue'
+import FilesListHeaderActions from './FilesListHeaderActions.vue'
 import FilesListHeaderButton from './FilesListHeaderButton.vue'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation'
@@ -85,7 +85,7 @@ export default Vue.extend({
 	components: {
 		FilesListHeaderButton,
 		NcCheckboxRadioSwitch,
-		FilesListActionsHeader,
+		FilesListHeaderActions,
 	},
 
 	props: {

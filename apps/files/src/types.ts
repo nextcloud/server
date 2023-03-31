@@ -71,3 +71,11 @@ export interface SortingConfig {
 export interface SortingStore {
 	[key: string]: SortingConfig
 }
+
+// User config store
+export interface UserConfig {
+	[key: string]: boolean
+}
+export interface UserConfigStore {
+	userConfig: UserConfig
+}

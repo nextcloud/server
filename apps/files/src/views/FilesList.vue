@@ -75,7 +75,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 import Vue from 'vue'
 
-import { ContentsWithRoot } from '../services/Navigation'
+import Navigation, { ContentsWithRoot } from '../services/Navigation'
 import { useFilesStore } from '../store/files'
 import { usePathsStore } from '../store/paths'
 import { useSelectionStore } from '../store/selection'
@@ -83,7 +83,6 @@ import { useSortingStore } from '../store/sorting'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import logger from '../logger.js'
-import Navigation from '../services/Navigation'
 
 export default Vue.extend({
 	name: 'FilesList',
@@ -127,6 +126,7 @@ export default Vue.extend({
 
 		/**
 		 * The current directory query.
+		 *
 		 * @return {string}
 		 */
 		dir() {
@@ -136,6 +136,7 @@ export default Vue.extend({
 
 		/**
 		 * The current folder.
+		 *
 		 * @return {Folder|undefined}
 		 */
 		currentFolder() {
@@ -161,6 +162,7 @@ export default Vue.extend({
 
 		/**
 		 * The current directory contents.
+		 *
 		 * @return {Node[]}
 		 */
 		dirContents() {

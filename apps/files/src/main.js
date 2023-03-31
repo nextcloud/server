@@ -18,10 +18,13 @@ import SettingsModel from './models/Setting.js'
 
 import router from './router/router.js'
 
-
 // Init private and public Files namespace
 window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
+
+// Init Pinia store
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
 
 // Init Navigation Service
 const Navigation = new NavigationService()
@@ -41,12 +44,9 @@ const FilesNavigationRoot = new View({
 		Navigation,
 	},
 	router,
+	pinia,
 })
 FilesNavigationRoot.$mount('#app-navigation-files')
-
-// Init Pinia store
-Vue.use(PiniaVuePlugin)
-const pinia = createPinia()
 
 // Init content list view
 const ListView = Vue.extend(FilesListView)
