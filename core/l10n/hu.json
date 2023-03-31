@@ -424,7 +424,6 @@
     "Contacts menu" : "Névjegyek menü",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy 32 bites PHP verziót használ. A Nextcloud megfelelő futtatásához 64 bites szükséges. Frissítse 64 bitesre az operációs rendszerét és a PHP-ját. További részletekért olvassa el az {linkstart}erről szóló dokumentációs oldalt ↗{linkend}.",
-    "%s homepage" : "%s honlapja",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Használja a parancssoros frissítőt, mert a böngészőbeli frissítés ki van kapcsolva a config.php fájlban."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

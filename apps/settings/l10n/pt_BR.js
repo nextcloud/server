@@ -268,6 +268,7 @@ OC.L10N.register(
     "Current password" : "Senha atual",
     "New password" : "Nova senha",
     "Change password" : "Alterar senha",
+    "Your profile information" : "Suas informações de perfil",
     "Your profile picture" : "Sua foto de perfil",
     "Upload profile picture" : "Carregar foto do perfil",
     "Choose profile picture from Files" : "Choose profile picture from Files",

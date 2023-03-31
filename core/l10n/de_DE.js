@@ -426,7 +426,6 @@ OC.L10N.register(
     "Contacts menu" : "Kontakte-Menü",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sie scheinen eine 32-Bit PHP-Version auszuführen. Nextcloud benötigt 64-Bit, um gut zu laufen. Bitte aktualisieren Sie Ihr Betriebssystem und PHP auf 64-Bit! Für weitere Details lesen Sie die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
-    "%s homepage" : "%s Internetseite",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert."
 },
 "nplurals=2; plural=(n != 1);");
