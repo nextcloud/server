@@ -30,6 +30,9 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<LoginFlowV2>
+ */
 class LoginFlowV2Mapper extends QBMapper {
 	private const lifetime = 1200;
 

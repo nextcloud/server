@@ -30,6 +30,9 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<FileMetadata>
+ */
 class FileMetadataMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'file_metadata', FileMetadata::class);
@@ -109,11 +112,11 @@ class FileMetadataMapper extends QBMapper {
 	 * Updates an entry in the db from an entity
 	 *
 	 * @param Entity $entity the entity that should be created
-	 * @return Entity the saved entity with the set id
+	 * @return FileMetadata the saved entity with the set id
 	 * @throws Exception
 	 * @throws \InvalidArgumentException if entity has no id
 	 */
-	public function update(Entity $entity): Entity {
+	public function update(Entity $entity): FileMetadata {
 		if (!($entity instanceof FileMetadata)) {
 			throw new \Exception("Entity should be a FileMetadata entity");
 		}

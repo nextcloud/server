@@ -28,7 +28,7 @@ namespace OC\Updater;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * Class ChangesResult
+ * Class Changes
  *
  * @package OC\Updater
  * @method string getVersion()=1
@@ -40,7 +40,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string getData()
  * @method void setData(string $data)
  */
-class ChangesResult extends Entity {
+class Changes extends Entity {
 	/** @var string */
 	protected $version = '';
 
