@@ -229,7 +229,7 @@ class FederatedShareProvider implements IShareProvider {
 		if ($remoteShare) {
 			try {
 				$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
-				$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
+				$shareId = (string)$this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
 				$share->setId($shareId);
 				[$token, $remoteId] = $this->askOwnerToReShare($shareWith, $share, $shareId);
 				// remote share was create successfully if we get a valid token as return
@@ -312,7 +312,7 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 		if ($failure) {
-			$this->removeShareFromTableById($shareId);
+			$this->removeShareFromTableById((string)$shareId);
 			$message_t = $this->l->t('Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate.',
 				[$share->getNode()->getName(), $share->getSharedWith()]);
 			throw new \Exception($message_t);
@@ -901,7 +901,7 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	private function createShareObject($data) {
 		$share = new Share($this->rootFolder, $this->userManager);
-		$share->setId((int)$data['id'])
+		$share->setId((string)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])

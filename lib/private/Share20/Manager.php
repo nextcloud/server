@@ -1455,7 +1455,7 @@ class Manager implements IManager {
 			throw new ShareNotFound();
 		}
 
-		$share = $provider->getShareById($id, $recipient);
+		$share = $provider->getShareById((int)$id, $recipient);
 
 		$this->checkExpireDate($share);
 

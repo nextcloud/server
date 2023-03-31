@@ -90,7 +90,7 @@ class Notifications {
 	 * @param string $token
 	 * @param string $shareWith
 	 * @param string $name
-	 * @param string $remoteId
+	 * @param int $remoteId
 	 * @param string $owner
 	 * @param string $ownerFederatedId
 	 * @param string $sharedBy

@@ -134,7 +134,7 @@ class RequestHandlerController extends OCSController {
 		$owner = isset($_POST['owner']) ? $_POST['owner'] : null;
 		$sharedBy = isset($_POST['sharedBy']) ? $_POST['sharedBy'] : null;
 		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
-		$remoteId = isset($_POST['remoteId']) ? (int)$_POST['remoteId'] : null;
+		$remoteId = isset($_POST['remoteId']) ? (string)($_POST['remoteId']) : null;
 		$sharedByFederatedId = isset($_POST['sharedByFederatedId']) ? $_POST['sharedByFederatedId'] : null;
 		$ownerFederatedId = isset($_POST['ownerFederatedId']) ? $_POST['ownerFederatedId'] : null;
 
@@ -186,7 +186,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * create re-share on behalf of another user
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
@@ -195,13 +195,10 @@ class RequestHandlerController extends OCSController {
 	public function reShare($id) {
 		$token = $this->request->getParam('token', null);
 		$shareWith = $this->request->getParam('shareWith', null);
-		$permission = (int)$this->request->getParam('permission', null);
-		$remoteId = (int)$this->request->getParam('remoteId', null);
+		$remoteId = $this->request->getParam('remoteId', null);
 
-		if ($id === null ||
-			$token === null ||
+		if ($token === null ||
 			$shareWith === null ||
-			$permission === null ||
 			$remoteId === null
 		) {
 			throw new OCSBadRequestException();
@@ -210,7 +207,7 @@ class RequestHandlerController extends OCSController {
 		$notification = [
 			'sharedSecret' => $token,
 			'shareWith' => $shareWith,
-			'senderId' => $remoteId,
+			'senderId' => (int)$remoteId,
 			'message' => 'Recipient of a share ask the owner to reshare the file'
 		];
 
@@ -239,7 +236,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * accept server-to-server share
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 * @throws ShareNotFound
@@ -274,7 +271,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * decline server-to-server share
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 */
@@ -307,7 +304,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * remove server-to-server share if it was unshared by the owner
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 */
@@ -343,7 +340,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * federated share was revoked, either by the owner or the re-sharer
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 */
@@ -384,7 +381,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * update share information to keep federated re-shares in sync
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 */
@@ -437,7 +434,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * change the owner of a server-to-server share
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return Http\DataResponse
 	 * @throws \InvalidArgumentException
 	 * @throws OCSException

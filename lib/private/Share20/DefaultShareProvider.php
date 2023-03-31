@@ -255,7 +255,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function update(\OCP\Share\IShare $share) {
-		$originalShare = $this->getShareById($share->getId());
+		$originalShare = $this->getShareById((int)$share->getId());
 
 		$shareAttributes = $this->formatShareAttributes($share->getAttributes());
 
@@ -593,7 +593,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		$qb->execute();
 
-		return $this->getShareById($share->getId(), $recipient);
+		return $this->getShareById((int)$share->getId(), $recipient);
 	}
 
 	/**
@@ -1070,7 +1070,7 @@ class DefaultShareProvider implements IShareProvider {
 	 */
 	private function createShare($data) {
 		$share = new Share($this->rootFolder, $this->userManager);
-		$share->setId((int)$data['id'])
+		$share->setId((string)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])

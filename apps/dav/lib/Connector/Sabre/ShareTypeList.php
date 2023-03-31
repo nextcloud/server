@@ -86,7 +86,7 @@ class ShareTypeList implements Element {
 	 */
 	public function xmlSerialize(Writer $writer) {
 		foreach ($this->shareTypes as $shareType) {
-			$writer->writeElement('{' . self::NS_OWNCLOUD . '}share-type', $shareType);
+			$writer->writeElement('{' . self::NS_OWNCLOUD . '}share-type', (string)$shareType);
 		}
 	}
 }

@@ -378,7 +378,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		$token = $notification['sharedSecret'];
 
-		$share = $this->federatedShareProvider->getShareById($id);
+		$share = $this->federatedShareProvider->getShareById((int)$id);
 
 		$this->verifyShare($share, $token);
 		$this->executeAcceptShare($share);
@@ -448,7 +448,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		$token = $notification['sharedSecret'];
 
-		$share = $this->federatedShareProvider->getShareById($id);
+		$share = $this->federatedShareProvider->getShareById((int)$id);
 
 		$this->verifyShare($share, $token);
 
@@ -515,7 +515,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 		$token = $notification['sharedSecret'];
 
-		$share = $this->federatedShareProvider->getShareById($id);
+		$share = $this->federatedShareProvider->getShareById((int)$id);
 
 		$this->verifyShare($share, $token);
 		$this->federatedShareProvider->removeShareFromTable($share);
@@ -637,7 +637,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 		$senderId = $notification['senderId'];
 
-		$share = $this->federatedShareProvider->getShareById($id);
+		$share = $this->federatedShareProvider->getShareById((int)$id);
 
 		// We have to respect the default share permissions
 		$permissions = $share->getPermissions() & (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);

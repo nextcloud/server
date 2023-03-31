@@ -758,7 +758,7 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return IShare The share object
 	 */
 	public function update(IShare $share, $plainTextPassword = null) {
-		$originalShare = $this->getShareById($share->getId());
+		$originalShare = $this->getShareById((int)$share->getId());
 
 		// a real password was given
 		$validPassword = $plainTextPassword !== null && $plainTextPassword !== '';
@@ -1029,7 +1029,7 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	protected function createShareObject($data) {
 		$share = new Share($this->rootFolder, $this->userManager);
-		$share->setId((int)$data['id'])
+		$share->setId((string)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])

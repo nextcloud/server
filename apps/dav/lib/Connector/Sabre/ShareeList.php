@@ -55,7 +55,7 @@ class ShareeList implements XmlSerializable {
 			$writer->startElement('{' . self::NS_NEXTCLOUD . '}sharee');
 			$writer->writeElement('{' . self::NS_NEXTCLOUD . '}id', $share->getSharedWith());
 			$writer->writeElement('{' . self::NS_NEXTCLOUD . '}display-name', $share->getSharedWithDisplayName());
-			$writer->writeElement('{' . self::NS_NEXTCLOUD . '}type', $share->getShareType());
+			$writer->writeElement('{' . self::NS_NEXTCLOUD . '}type', (string)$share->getShareType());
 			$writer->endElement();
 		}
 	}
