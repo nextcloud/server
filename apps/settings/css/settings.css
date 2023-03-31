@@ -113,7 +113,7 @@ input#openid, input#webdav {
 .personal-settings-setting-box .section {
   padding: 10px 30px;
 }
-.personal-settings-setting-box .section h3 {
+.personal-settings-setting-box .section .headerbar-label {
   margin-bottom: 0;
 }
 .personal-settings-setting-box .section input[type=text], .personal-settings-setting-box .section input[type=email], .personal-settings-setting-box .section input[type=tel], .personal-settings-setting-box .section input[type=url] {
