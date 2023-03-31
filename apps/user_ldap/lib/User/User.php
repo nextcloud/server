@@ -250,10 +250,11 @@ class User {
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
 			if (isset($ldapEntry[$attr])) {
-				if (str_contains($ldapEntry[$attr][0],' ')) {
+				$cutPosition = strpos($ldapEntry[$attr][0]," ");
+				if ($cutPosition) {
 					// drop appended label
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
-						= substr($ldapEntry[$attr][0],0,strpos($ldapEntry[$attr][0]," "));
+						= substr($ldapEntry[$attr][0],0,$cutPosition);
 				} else {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
 						= $ldapEntry[$attr][0];
