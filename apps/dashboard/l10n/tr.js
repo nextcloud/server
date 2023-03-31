@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Pano",
     "Dashboard app" : "Pano uygulaması",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Güne bilgilenerek başlayın\n\nNextcloud Pano, gününüzün başlangıç noktasıdır ve size yaklaşan randevularınız, acil e-postalarınız, sohbet iletileri, gelen destek istekleri, son tweetler gibi pek çok bilgi verir! Kullanıcılar istedikleri başka pano bileşenlerini ekleyebilir ve arka planı değiştirebilir.",
     "\"{title} icon\"" : "\"{title} simgesi\"",
     "Customize" : "Özelleştir",
     "Edit widgets" : "Pano bileşenlerini düzenle",
