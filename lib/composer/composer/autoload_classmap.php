@@ -941,6 +941,7 @@ return array(
     'OC\\Core\\Command\\Group\\Info' => $baseDir . '/core/Command/Group/Info.php',
     'OC\\Core\\Command\\Group\\ListCommand' => $baseDir . '/core/Command/Group/ListCommand.php',
     'OC\\Core\\Command\\Group\\RemoveUser' => $baseDir . '/core/Command/Group/RemoveUser.php',
+    'OC\\Core\\Command\\Info\\File' => $baseDir . '/core/Command/Info/File.php',
     'OC\\Core\\Command\\Integrity\\CheckApp' => $baseDir . '/core/Command/Integrity/CheckApp.php',
     'OC\\Core\\Command\\Integrity\\CheckCore' => $baseDir . '/core/Command/Integrity/CheckCore.php',
     'OC\\Core\\Command\\Integrity\\SignApp' => $baseDir . '/core/Command/Integrity/SignApp.php',
