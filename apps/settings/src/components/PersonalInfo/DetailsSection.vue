@@ -22,7 +22,7 @@
 
 <template>
 	<section>
-		<HeaderBar :readable="t('settings', 'Details')" />
+		<HeaderBar :is-heading="true" :readable="t('settings', 'Details')" />
 
 		<div class="details">
 			<div class="details__groups">
