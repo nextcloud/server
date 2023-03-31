@@ -826,9 +826,22 @@ label.infield {
 	overflow: hidden;
 }
 
-::placeholder,
-::-ms-input-placeholder,
-::-webkit-input-placeholder {
+// when rules are grouped using the comma operator and one selector is invalid / unknown then the whole group is invalidated.
+// https://www.w3.org/TR/selectors-3/#grouping
+// In this case `::-ms-input-placeholder` is unknown to Firefox and Chrome
+@mixin placeholder-style {
 	color: var(--color-text-maxcontrast);
-    font-size: var(--default-font-size);
+	font-size: var(--default-font-size);
+}
+
+::placeholder {
+	@include placeholder-style;
+}
+
+::-ms-input-placeholder {
+	@include placeholder-style;
+}
+
+::-webkit-input-placeholder {
+	@include placeholder-style;
 }
