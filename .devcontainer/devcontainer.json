@@ -3,7 +3,6 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "nextclouddev",
 	"postCreateCommand": ".devcontainer/setup.sh",
-	"postStartCommand": "chown -R www-data:www-data /var/www/html",
 	"forwardPorts": [
 		80,
 		8080,
@@ -23,5 +22,6 @@
 			}
 		}
 	},
-	"workspaceFolder": "/var/www/html"
+	"workspaceFolder": "/var/www/html",
+	"remoteUser": "devcontainer"
 }

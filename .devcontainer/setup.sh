@@ -12,9 +12,9 @@ git config --global --add safe.directory /var/www/html
 git config --global --add safe.directory /var/www/html/3rdparty
 
 # Onetime installation setup
-if [[ ! $(sudo -u www-data php occ status) =~ installed:[[:space:]]*true ]]; then
+if [[ ! $(sudo -u ${APACHE_RUN_USER} php occ status) =~ installed:[[:space:]]*true ]]; then
     echo "Running NC installation"
-    sudo -u www-data php occ maintenance:install \
+    sudo -u ${APACHE_RUN_USER} php occ maintenance:install \
         --verbose \
         --database=pgsql \
         --database-name=postgres \
@@ -26,4 +26,4 @@ if [[ ! $(sudo -u www-data php occ status) =~ installed:[[:space:]]*true ]]; the
         --admin-pass admin
 fi
 
-service apache2 restart
+sudo service apache2 restart
