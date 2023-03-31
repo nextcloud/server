@@ -33,17 +33,14 @@ RUN apt-get install --no-install-recommends -y \
     curl \
     lsof \
     make \
-    nodejs \
-    npm
+	unzip
 
 # Composer
-# Download the Composer installer script to a temporary file
 RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php && \
     curl -sS https://composer.github.io/installer.sig -o /tmp/composer-setup.sig && \
     php -r "if (hash_file('sha384', '/tmp/composer-setup.php') !== trim(file_get_contents('/tmp/composer-setup.sig'))) { echo 'Composer installation failed, invalid hash'; exit(1); }" && \
     php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     rm /tmp/composer-setup.php /tmp/composer-setup.sig
-
 
 RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
     echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
@@ -69,5 +66,20 @@ RUN apt-get -y install \
     apt-get update -y && \
     apt-get install -y docker-ce docker-ce-cli containerd.io && \
     ln -s /var/run/docker-host.sock /var/run/docker.sock
+
+# Dedicated DevContainer user runs Apache
+ENV APACHE_RUN_USER=devcontainer
+ENV APACHE_RUN_GROUP=devcontainer
+RUN useradd -ms /bin/bash ${APACHE_RUN_USER} && \
+	adduser ${APACHE_RUN_USER} sudo && \
+	echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+	sed -ri "s/^export APACHE_RUN_USER=.*$/export APACHE_RUN_USER=${APACHE_RUN_USER}/" "/etc/apache2/envvars" && \
+    sed -ri "s/^export APACHE_RUN_GROUP=.*$/export APACHE_RUN_GROUP=${APACHE_RUN_GROUP}/" "/etc/apache2/envvars"
+
+USER devcontainer
+
+# NVM
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+RUN bash --login -i -c 'source /home/devcontainer/.bashrc && nvm install 16'
 
 WORKDIR /var/www/html
