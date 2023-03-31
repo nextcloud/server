@@ -83,6 +83,9 @@ const ContactsListView = View.extend({
 	/** @type {array} */
 	_subViews: [],
 
+	/** @type {string} */
+	tagName: 'ul',
+
 	/**
 	 * @param {object} options
 	 * @returns {undefined}
@@ -133,6 +136,9 @@ const ContactsListItemView = View.extend({
 
 	/** @type {string} */
 	className: 'contact',
+
+	/** @type {string} */
+	tagName: 'li',
 
 	/** @type {undefined|function} */
 	_template: undefined,
