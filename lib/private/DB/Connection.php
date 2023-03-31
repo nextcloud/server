@@ -40,8 +40,6 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Exception\ConstraintViolationException;
-use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
@@ -381,10 +379,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @param array $values (column name => value)
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
-	 * @throws \Doctrine\DBAL\Exception
+	 * @throws \OCP\DB\Exception
 	 * @throws PreConditionNotMetException
 	 */
-	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
+	public function setValues(string $table, array $keys, array $values, array $updatePreconditionValues = []): int {
 		try {
 			$insertQb = $this->getQueryBuilder();
 			$insertQb->insert($table)
@@ -394,9 +392,15 @@ class Connection extends \Doctrine\DBAL\Connection {
 					}, array_merge($keys, $values))
 				);
 			return $insertQb->executeStatement();
-		} catch (NotNullConstraintViolationException $e) {
-			throw $e;
-		} catch (ConstraintViolationException $e) {
+		} catch (\OCP\DB\Exception $e) {
+			if (!in_array($e->getReason(), [
+				\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
+				\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
+			])
+			) {
+				throw $e;
+			}
+
 			// value already exists, try update
 			$updateQb = $this->getQueryBuilder();
 			$updateQb->update($table);
