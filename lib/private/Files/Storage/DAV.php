@@ -486,7 +486,7 @@ class DAV extends Common {
 	/**
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		$path = $this->cleanPath($path);
