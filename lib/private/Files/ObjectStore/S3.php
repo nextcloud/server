@@ -73,7 +73,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
 			'UploadId' => $uploadId,
-			'MaxParts' => 10000
+			'MaxParts' => 1000
 		]);
 		return $parts->get('Parts') ?? [];
 	}
