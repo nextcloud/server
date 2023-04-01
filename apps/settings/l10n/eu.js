@@ -432,6 +432,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Errorea gertatu da eskaeran. Ezin da jarraitu.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikazioa gaitu da baina eguneratu behar da. Eguneratze orrira joango zara 5 segundotan.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Errorea: aplikazio hau ezin da gaitu zerbitzaria ezegonkorra izatea eragiten duelako",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Eskaera gehiegi zeuden zure saretik. Saiatu beranduago edo kontaktatu zure administrailearekin hau errorea bada.",
     "Documentation" : "Dokumentazioa",
     "Forum" : "Foroa",
     "Login" : "Saio hasiera",

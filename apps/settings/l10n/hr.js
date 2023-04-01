@@ -359,6 +359,7 @@ OC.L10N.register(
     "Never" : "Nikad",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacija je omogućena, ali je treba ažurirati. Za 5 sekundi bit ćete preusmjereni na stranicu za ažuriranje.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Pogreška: ova aplikacija ne može biti omogućena jer čini poslužitelj nestabilnim",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zaprimljeno je previše zahtjeva iz vaše mreže. Pokušajte kasnije ili se obratite administratoru ako se radi o pogrešci.",
     "Documentation" : "Dokumentacija",
     "Forum" : "Forum",
     "Login" : "Prijava",

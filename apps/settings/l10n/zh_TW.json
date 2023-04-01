@@ -433,6 +433,7 @@
     "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "應用程式已啟用但是需要更新。您將會在5秒內被重新導向至更新頁面。",
     "Error: This app cannot be enabled because it makes the server unstable" : "錯誤：此應用程序無法啟用，因為它造成伺服器不穩定",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "有太多請求來自你的網路，請稍後再試，若你認為這不該發生，請回報系統管理員這項錯誤。",
     "Documentation" : "說明文件",
     "Forum" : "論壇",
     "Login" : "登入",

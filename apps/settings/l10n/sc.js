@@ -327,6 +327,7 @@ OC.L10N.register(
     "Never" : "Mai",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "S'aplicatzione est istada ativada ma tenet bisòngiu de un'agiornamentu. T'amus a deretare a sa pàgina de agiornamentu tra 5 segundos.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Tropu rechestas sunt arribadas dae sa rete tua. Torra a proare prus a tardu o cuntata s'amministradore tuo chi ddoe at un'errore.",
     "Documentation" : "Documentatzione",
     "Forum" : "Forum",
     "Login" : "Atzessu",

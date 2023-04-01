@@ -429,6 +429,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "要求中にエラーが発生しました。 続行できません。",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "アプリは有効ですが、更新が必要です。5秒後に更新ページにリダイレクトします。",
     "Error: This app cannot be enabled because it makes the server unstable" : "エラー：このアプリは、サーバーを不安定にするため、有効にすることができません。",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "ネットワークからのリクエストが多すぎました。このようなエラーが発生した場合は、後で再試行するか、管理者に連絡してください。",
     "Documentation" : "ドキュメント",
     "Forum" : "フォーラム",
     "Login" : "ログイン",

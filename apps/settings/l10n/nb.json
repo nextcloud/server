@@ -380,6 +380,7 @@
     "The app will be downloaded from the App Store" : "Appen vil bli lastet ned fra app-butikken",
     "Never" : "Aldri",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Appen er aktivert men må oppdateres. Du vil bli videresendt til oppdateringssiden om 5 sekunder.",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Det var for mange forespørsler fra ditt nettverk. Prøv igjen senere eller kontakt din administrator hvis dette er en feil.",
     "Documentation" : "Dokumentasjon",
     "Forum" : "Forum",
     "Login" : "Innlogging",

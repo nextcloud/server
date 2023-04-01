@@ -435,6 +435,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Ha ocurrido un error durante la solicitud. No se puede continuar.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La app ha sido activada pero tiene que actualizarse. Serás redirigido a la página de actualización en 5 segundos.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Error: Esta app no se puede activar porque hace inestable al servidor",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Hubo demasiadas peticiones desde su red. Vuelva a intentarlo más tarde o póngase en contacto con su administrador si se trata de un error.",
     "Documentation" : "Documentación",
     "Forum" : "Foro",
     "Login" : "Iniciar sesión",

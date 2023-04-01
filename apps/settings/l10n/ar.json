@@ -183,6 +183,7 @@
     "App bundles" : "حُزَم التطبيقات",
     "Hide" : "إخفاء",
     "Never" : "أبدا",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "يوجد طلبات أقصى من الحد المسموح به في الشبكة. أعد المحاولة أو اتصل بمسؤول النظام.",
     "Documentation" : "الدليل",
     "Forum" : "منتدى",
     "Login" : "تسجيل الدخول",
