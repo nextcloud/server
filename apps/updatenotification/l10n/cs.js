@@ -29,6 +29,7 @@ OC.L10N.register(
     "Update channel:" : "Kanál aktualizací:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté už se ale nelze vrátit zpět ke starší verzi ze stabilního kanálu.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupnost aktualizací:",
+    "No groups" : "Žádné skupiny",
     "Only notifications for app updates are available." : "K dispozici jsou upozornění pouze na aktualizace aplikací.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pro zvolený kanál aktualizací se už vyhrazená upozorňování pro server nepoužívají.",
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",

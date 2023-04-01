@@ -242,7 +242,7 @@
     "Error updating the share" : "Erreur lors de la mise à jour du partage",
     "File \"{path}\" has been unshared" : "Le partage du fichier \"{path}\" a été retiré",
     "Folder \"{path}\" has been unshared" : "Le partage du dossier \"{path}\" a été retiré",
-    "Share {propertyName} saved" : "Le partage {nom de la propriété} a été enregistré",
+    "Share {propertyName} saved" : "Le partage {propertyName} a été enregistré",
     "Shared" : "Partagé",
     "Share" : "Partager",
     "Shared with" : "Partagé avec",

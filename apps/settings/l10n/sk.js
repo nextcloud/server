@@ -428,6 +428,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Počas vykonania požiadavky nastala chyba.  Nie je možné pokračovať.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikácia bola povolená, ale vyžaduje sa aktualizácia. Presmerovanie na stránku aktualizácie o 5 sekúnd.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Chyba: aplikáciu nie je možné povoliť, lebo naruší stabilitu servera",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Príliš mnoho požiadaviek z vašej siete. Skúste to znovu neskôr alebo kontaktujte svojho administrátora ak je toto chyba.",
     "Documentation" : "Dokumentácia",
     "Forum" : "Fórum",
     "Login" : "Prihlásenie",

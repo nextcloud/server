@@ -435,6 +435,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "İstek sırasında bir sorun çıktı. İşlem sürdürülemiyor.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Uygulama etkinleştirilmiş fakat güncellenmesi gerekiyor. 5 saniye içinde güncelleme sayfasına yönlendirileceksiniz.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Hata: Bu uygulama sunucuda kararsızlığa yol açtığından etkinleştirilemez",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Ağınızdan çok fazla istekte bulunuldu. Bir süre sonra yeniden deneyin ya da bir sorun olduğunu düşünüyorsanız BT yöneticiniz ile görüşün.",
     "Documentation" : "Belgeler",
     "Forum" : "Forum",
     "Login" : "Oturum açın",

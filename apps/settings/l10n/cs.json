@@ -433,6 +433,7 @@
     "An error occurred during the request. Unable to proceed." : "Během požadavku došlo k chybě. Nelze pokračovat.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikace byla zapnuta ale je třeba ji ještě aktualizovat. Za 5 sekund budete přesměrování na stránku pro aktualizaci.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Chyba: tuto aplikaci nelze zapnout, protože způsobuje nestabilitu serveru",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Z vaší sítě bylo příliš mnoho požadavků. Zkuste to později nebo (pokud je toto chyba) se obraťte na svého správce.",
     "Documentation" : "Dokumentace",
     "Forum" : "Diskuzní fórum",
     "Login" : "Přihlásit",

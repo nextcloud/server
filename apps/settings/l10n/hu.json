@@ -433,6 +433,7 @@
     "An error occurred during the request. Unable to proceed." : "Hiba történt a kérés során. Nem lehet folytatni.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Ez az alkalmazás engedélyezett, de frissíteni kell. 5 másodpercen belül a frissítési oldalra lesz irányítva.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Hiba: az alkalmazás nem nem engedélyezhető, mert instabillá tenné a kiszolgálót",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Túl sok kérés érkezett a hálózatától. Próbálja újra később, vagy ha ez egy hiba, akkor forduljon a rendszergazdához.",
     "Documentation" : "Dokumentáció",
     "Forum" : "Fórum",
     "Login" : "Bejelentkezés",

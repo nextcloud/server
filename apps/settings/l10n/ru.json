@@ -423,6 +423,7 @@
     "Never" : "Никогда",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Приложение было включено, но нуждается в обновлении. В течении 5 секунд будет выполнено перенаправление на страницу обновления.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Ошибка: это приложение не может быть включено, так как оно сделает сервер нестабильным",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Превышено количество запросов из вашей сети. Попробуйте позднее или сообщите администратору об этой ошибке.",
     "Documentation" : "Документация",
     "Forum" : "Форум",
     "Login" : "Логин",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Update channel:" : "Canal de mise à jour :",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vous pouvez à tout moment mettre à jour votre instance Nextcloud vers une version plus récente. Vous ne pourrez cependant jamais revenir à une version antérieure en sélectionnant un canal plus stable.",
     "Notify members of the following groups about available updates:" : "Notifier les membres des groupes suivants des mises à jours disponibles :",
+    "No groups" : "Aucun groupe",
     "Only notifications for app updates are available." : "Seules les notifications de mises à jour d'applications sont disponibles. ",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de mise à jour sélectionné rend obsolètes les notifications dédiées au serveur.",
     "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur.",

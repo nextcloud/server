@@ -432,6 +432,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Під час запиту сталася помилка. Неможливо продовжити.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Застосунок активовано, але його потрібно оновити. Вас буде переспрямовано на сторінку оновлення через 5 секунд.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Помилка: цю програму неможливо ввімкнути, оскільки вона робить сервер нестабільним",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Забагато запитів із вашої мережі. Повторіть спробу пізніше або зверніться до адміністратора, якщо це помилка.",
     "Documentation" : "Документація",
     "Forum" : "Форум",
     "Login" : "Логін",

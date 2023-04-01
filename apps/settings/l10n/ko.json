@@ -389,6 +389,7 @@
     "An error occurred during the request. Unable to proceed." : "요청을 보내는 도중 에러가 발생하였습니다. 더 이상 진행할 수 없습니다.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "앱이 활성화되었지만, 앱을 업데이트해야 합니다. 5초 후 앱 업데이트 페이지로 넘어갑니다.",
     "Error: This app cannot be enabled because it makes the server unstable" : "오류: 이 앱은 서버를 불안정하게 만들 수 있어서 활성화할 수 없습니다",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "이 네트워크에 너무 요청이 많습니다. 나중에 다시 시도하십시오. 이것이 오류일 경우 관리자에게 문의하십시오.",
     "Documentation" : "문서",
     "Forum" : "포럼",
     "Login" : "로그인",

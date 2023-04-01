@@ -285,6 +285,7 @@ OC.L10N.register(
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Þetta forrit er merkt sem ekki samhæft við þína útgáfu af Nextcloud. Ef þú heldur áfram er mögulegt að þú getir samt sett forritið upp. En athugaðu þá að ekki er víst að forritið virki eins og skyldi.",
     "Never" : "Aldrei",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Forritið hefur verið virkjað, en það þarf að uppfæra það. Þú verður áframsendur á uppfærslusíðuna eftir 5 sekúndur.",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Það komu of margar beiðnir frá netkerfinu þínu. Reyndu aftur eða hafðu samband við kerfisstjóra ef þetta er ekki rétt.",
     "Documentation" : "Hjálparskjöl",
     "Forum" : "Vefspjall",
     "Login" : "Innskráning",
