@@ -69,13 +69,24 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 	}
 
 	public function getMultipartUploads(string $urn, string $uploadId): array {
-		$parts = $this->getConnection()->listParts([
-			'Bucket' => $this->bucket,
-			'Key' => $urn,
-			'UploadId' => $uploadId,
-			'MaxParts' => 1000
-		]);
-		return $parts->get('Parts') ?? [];
+		$parts = [];
+		$isTruncated = true;
+		$partNumberMarker = 0;
+
+		while ($isTruncated) {
+			$result = $this->getConnection()->listParts([
+				'Bucket' => $this->bucket,
+				'Key' => $urn,
+				'UploadId' => $uploadId,
+				'MaxParts' => 1000,
+				'PartNumberMarker' => $partNumberMarker
+			]);
+			$parts = array_merge($parts, $result->get('Parts'));
+			$isTruncated = $result->get('IsTruncated');
+			$partNumberMarker = $result->get('NextPartNumberMarker');
+		}
+		
+		return $parts;
 	}
 
 	public function completeMultipartUpload(string $urn, string $uploadId, array $result): int {
