@@ -392,6 +392,7 @@ OC.L10N.register(
     "Never" : "Mai",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'applicazione è stata abilitata, ma deve essere aggiornata. Sarai rediretto alla pagina di aggiornamento in 5 secondi.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Errore: questa applicazione non può essere abilitata perché rende il server instabile",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Sono arrivate troppe richieste dalla tua rete. Riprova più tardi o contatta il tuo amministratore se questo è un errore.",
     "Documentation" : "Documentazione",
     "Forum" : "Forum",
     "Login" : "Login",

@@ -385,6 +385,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Er is een fout opgetreden tijdens het verzoek. Kan niet doorgaan.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "De app is ingeschakeld maar moet worden geüpdate. Je wordt over 5 seconden doorgeleid naar de updatepagina.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Fout: Deze app kan niet ingeschakeld worden, omdat die de server onstabiel maakt",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Er waren te veel aanvragen afkomstig uit uw netwerk. Probeer later opnieuw of contacteer de beheerder als dat niet correct is.",
     "Documentation" : "Documentatie",
     "Forum" : "Forum",
     "Login" : "Login",

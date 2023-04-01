@@ -264,6 +264,7 @@
     "Never" : "ไม่เคย",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอปเปิดใช้งานแล้ว แต่ต้องทำการอัปเดต คุณจะถูกนำไปยังหน้าอัปเดตใน 5 วินาที",
     "Error: This app cannot be enabled because it makes the server unstable" : "ข้อผิดพลาด: ไม่สามารถเปิดใช้งานแอปนี้เพราะทำให้เซิร์ฟเวอร์ไม่เสถียร",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "มีการส่งคำขอจากเครือข่ายของคุณมากเกินไป กรุณาลองอีกครั้งในภายหลัง หรือติดต่อผู้ดูแลระบบหากเป็นข้อผิดพลาด",
     "Documentation" : "เอกสารประกอบ",
     "Forum" : "ฟอรัม",
     "Login" : "เข้าสู่ระบบ",

@@ -432,6 +432,7 @@
     "An error occurred during the request. Unable to proceed." : "Es ist ein Fehler bei der Anfrage aufgetreten. Es kann nicht fortgefahren werden.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Die App wurde aktiviert, muss aber aktualisiert werden. Du wirst in 5 Sekunden zur Aktualisierungsseite weitergeleitet.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Fehler: Diese App kann nicht aktiviert werden, da sie den Server instabil macht. ",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zu viele Anfragen aus deinem Netzwerk. Versuche es später erneut oder wende dich an deinen Administrator, wenn dies ein Fehler sein sollte.",
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
     "Login" : "Anmelden",

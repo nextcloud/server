@@ -435,6 +435,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Ett fel uppstod under begäran. Det gick inte att fortsätta.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Appen har aktiverats men måste uppdateras. Du kommer att omdirigeras till uppdateringssidan om 5 sekunder.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Fel: Denna appen kan inte aktiveras eftersom den gör servern instabil",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Det kom för många förfrågningar från ditt nätverk. Försök senare eller kontakta din administratör om detta är ett fel.",
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
     "Login" : "Logga in",
