@@ -380,6 +380,7 @@
     "An error occurred during the request. Unable to proceed." : "Pyynnön aikana tapahtui virhe. Jatkaminen ei onnistu.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Sovellus on käytössä, mutta se tulee päivittää. Sinut ohjataan sovelluksen päivityssivulle viiden sekunnin kuluttua.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Virhe: Sovellusta ei voida ottaa käyttöön, koska se aiheuttaa palvelimen epävakauden",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Verkostasi tehtiin liian monta pyyntöä. Yritä myöhemmin uudelleen tai ole yhteydessä ylläpitäjään, jos tämä on mielestäsi virhe.",
     "Documentation" : "Dokumentaatio",
     "Forum" : "Keskustelupalsta",
     "Login" : "Kirjaudu",

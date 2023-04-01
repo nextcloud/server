@@ -396,6 +396,7 @@
     "Never" : "Ποτέ",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Η εφαρμογή έχει ενεργοποιηθεί αλλά χρειάζεται ενημέρωση. Θα μεταφερθείτε στη σελίδα ενημέρωσης σε 5 δευτερόλεπτα.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Σφάλμα: Αυτή η εφαρμογή δεν μπορεί να ενεργοποιηθεί γιατί θα καταστήσει ασταθή τον διακομιστή.",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Υπήρχαν πάρα πολλά αιτήματα από το δίκτυό σας. Δοκιμάστε ξανά αργότερα ή επικοινωνήστε με τον διαχειριστή σας εάν πρόκειται για σφάλμα.",
     "Documentation" : "Τεκμηρίωση",
     "Forum" : "Φόρουμ",
     "Login" : "Σύνδεση",

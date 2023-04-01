@@ -428,6 +428,7 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "请求期间发生错误。无法继续。",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "该应用已启用，但是需要更新。5秒后将跳转到更新页面。",
     "Error: This app cannot be enabled because it makes the server unstable" : "错误:这个应用程序不能被启用，因为它使服务器不稳定 ",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "您的网络请求过多。如果出现错误，请稍后重试或与您的管理员联系。",
     "Documentation" : "文档",
     "Forum" : "论坛",
     "Login" : "登录",
