@@ -4332,23 +4332,13 @@
     <InvalidArgument occurrences="1">
       <code>IUser::class . '::firstLogin'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-    </InvalidScalarArgument>
     <NoInterfaceProperties occurrences="2">
       <code>$request-&gt;server</code>
       <code>$request-&gt;server</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <UndefinedMethod occurrences="1">
-      <code>getByEmail</code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/User/User.php">
     <InvalidArgument occurrences="5">
