@@ -246,7 +246,6 @@ export default {
 				this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'this share just expired.'))
 			}
 		},
-		// .sort((a, b) => b.createdTime - a.createdTime)
 		/**
 		 * Process the current shares data
 		 * and init shares[]
