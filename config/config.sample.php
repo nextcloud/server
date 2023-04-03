@@ -304,6 +304,15 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
+ * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
+ *
+ * Disabling this is discouraged for security reasons.
+ *
+ * Defaults to ``true``
+ */
+'ratelimit.protection.enabled' => true,
+
+/**
  * Whether the authtoken v1 provider should be skipped
  *
  * The v1 provider is deprecated and removed in Nextcloud 24 onwards. It can be
