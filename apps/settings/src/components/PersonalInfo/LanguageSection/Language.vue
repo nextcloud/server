@@ -51,12 +51,10 @@
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
-
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { validateLanguage } from '../../../utils/validate.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 export default {
 	name: 'Language',
@@ -133,8 +131,7 @@ export default {
 				// Ensure that local state reflects server state
 				this.initialLanguage = language
 			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 
