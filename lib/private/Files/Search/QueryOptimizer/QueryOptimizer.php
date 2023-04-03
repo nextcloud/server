@@ -39,6 +39,9 @@ class QueryOptimizer {
 
 	public function processOperator(ISearchOperator $operator) {
 		foreach ($this->steps as $step) {
+			$step->inspectOperator($operator);
+		}
+		foreach ($this->steps as $step) {
 			$step->processOperator($operator);
 		}
 	}
