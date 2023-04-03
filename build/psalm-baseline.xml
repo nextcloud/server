@@ -1536,7 +1536,7 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
-      <code>$this</code>
+      <code>$this-&gt;create('core_ajax_update', '/core/ajax/update.php')</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
