@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2021 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
@@ -27,24 +29,25 @@ namespace OC\Security\RateLimiting\Backend;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 
 class DatabaseBackend implements IBackend {
 	private const TABLE_NAME = 'ratelimit_entries';
 
+	/** @var IConfig */
+	private $config;
 	/** @var IDBConnection */
 	private $dbConnection;
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/**
-	 * @param IDBConnection $dbConnection
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(
+		IConfig $config,
 		IDBConnection $dbConnection,
 		ITimeFactory $timeFactory
 	) {
+		$this->config = $config;
 		$this->dbConnection = $dbConnection;
 		$this->timeFactory = $timeFactory;
 	}
@@ -115,7 +118,12 @@ class DatabaseBackend implements IBackend {
 			->values([
 				'hash' => $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR),
 				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATE),
-			])
-			->executeStatement();
+			]);
+
+		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {
+			return;
+		}
+
+		$qb->executeStatement();
 	}
 }
