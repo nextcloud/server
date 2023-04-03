@@ -304,6 +304,15 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
+ * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
+ *
+ * Disabling this is discouraged for security reasons.
+ *
+ * Defaults to ``true``
+ */
+'ratelimit.protection.enabled' => true,
+
+/**
  * By default WebAuthn is available but it can be explicitly disabled by admins
  */
 'auth.webauthn.enabled' => true,
