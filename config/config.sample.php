@@ -295,7 +295,7 @@ $CONFIG = [
 
 /**
  * The interval at which token activity should be updated.
- * Increasing this value means that the last activty on the security page gets
+ * Increasing this value means that the last activity on the security page gets
  * more outdated.
  *
  * Tokens are still checked every 5 minutes for validity
