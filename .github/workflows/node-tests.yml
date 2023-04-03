@@ -1,4 +1,4 @@
-name: Node
+name: Node tests
 
 on:
   pull_request:

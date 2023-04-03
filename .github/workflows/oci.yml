@@ -1,4 +1,4 @@
-name: PHPUnit
+name: PHPUnit oci
 
 on: pull_request
 
