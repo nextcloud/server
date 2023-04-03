@@ -175,6 +175,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	));
 	$application->add(\OC::$server->query(OC\Core\Command\Maintenance\RepairShareOwnership::class));
 
+	$application->add(\OC::$server->get(\OC\Core\Command\Preview\Generate::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
 
