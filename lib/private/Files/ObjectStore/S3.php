@@ -81,7 +81,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 				'MaxParts' => 1000,
 				'PartNumberMarker' => $partNumberMarker
 			]);
-			$parts = array_merge($parts, $result->get('Parts'));
+			$parts = array_merge($parts, $result->get('Parts') ?? []);
 			$isTruncated = $result->get('IsTruncated');
 			$partNumberMarker = $result->get('NextPartNumberMarker');
 		}
