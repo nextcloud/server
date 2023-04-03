@@ -38,7 +38,7 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function copy($newPath) {
+	public function copy($targetPath) {
 		throw new NotFoundException();
 	}
 
@@ -142,11 +142,11 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function search($pattern) {
+	public function search($query) {
 		throw new NotFoundException();
 	}
 
-	public function searchByMime($mime) {
+	public function searchByMime($mimetype) {
 		throw new NotFoundException();
 	}
 

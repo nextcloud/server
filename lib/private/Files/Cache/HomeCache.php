@@ -78,12 +78,12 @@ class HomeCache extends Cache {
 	}
 
 	/**
-	 * @param string $path
+	 * @param string $file
 	 * @return ICacheEntry
 	 */
-	public function get($path) {
-		$data = parent::get($path);
-		if ($path === '' or $path === '/') {
+	public function get($file) {
+		$data = parent::get($file);
+		if ($file === '' or $file === '/') {
 			// only the size of the "files" dir counts
 			$filesData = parent::get('files');
 

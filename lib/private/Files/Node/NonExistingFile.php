@@ -37,7 +37,7 @@ class NonExistingFile extends File {
 		throw new NotFoundException();
 	}
 
-	public function copy($newPath) {
+	public function copy($targetPath) {
 		throw new NotFoundException();
 	}
 
