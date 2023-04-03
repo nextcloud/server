@@ -302,7 +302,7 @@ $CONFIG = [
 
 /**
  * The interval at which token activity should be updated.
- * Increasing this value means that the last activty on the security page gets
+ * Increasing this value means that the last activity on the security page gets
  * more outdated.
  *
  * Tokens are still checked every 5 minutes for validity
@@ -320,6 +320,15 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'auth.bruteforce.protection.enabled' => true,
+
+/**
+ * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
+ *
+ * Disabling this is discouraged for security reasons.
+ *
+ * Defaults to ``true``
+ */
+'ratelimit.protection.enabled' => true,
 
 /**
  * By default, WebAuthn is available, but it can be explicitly disabled by admins
