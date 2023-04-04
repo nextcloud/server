@@ -10,6 +10,7 @@ OC.L10N.register(
     "The given privacy policy address is not a valid URL" : "L'indirizzo dello specifico criterio di riservatezza non è un URL valido",
     "The given slogan is too long" : "Questo slogan è troppo lungo",
     "The given color is invalid" : "Questo colore non è valido",
+    "Disable-user-theming should be true or false" : "Disattiva-temi-utente deve essere true o false",
     "Saved" : "Salvato",
     "The file was uploaded" : "Il file è stato caricato",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Il file caricato supera la direttiva upload_max_filesize in php.ini",
@@ -59,6 +60,8 @@ OC.L10N.register(
     "Favicon" : "Favicon",
     "Upload new favicon" : "Carica nuova favicon",
     "User settings" : "Impostazioni utente",
+    "Disable user theming" : "Disattiva temi utente",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Sebbene tu possa selezionare e personalizzare la tua istanza, gli utenti possono cambiare il loro sfondo e colore. Se vuoi forzare la tua personalizzazione, puoi attivare questo.",
     "Keyboard shortcuts" : "Scorciatoie da tastiera",
     "Background" : "Sfondo",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accesso universale è molto importante per noi. Seguiamo gli standard web e cerchiamo di rendere tutto utilizzabile anche senza mouse, e programmi di assistenza come i lettori dello schermo. Il nostro obiettivo è la compatibilità con la {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 a livello AA, con il tema ad alto contrasto anche a livello AAA. ",
@@ -77,6 +80,7 @@ OC.L10N.register(
     "Pick from Files" : "Scegli da File",
     "Custom color" : "Colore personalizzato",
     "Plain background" : "Sfondo semplice",
-    "Insert from {productName}" : "Inserisci da {productName}"
+    "Insert from {productName}" : "Inserisci da {productName}",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Sebbene tu possa selezionare e personalizzare la tua istanza, gli utenti possono cambiare il loro sfondo e colore. Se vuoi forzare la tua personalizzazione, puoi attivare questa casella."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
