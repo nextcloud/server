@@ -24,17 +24,21 @@ import { assertVersionContent, clickPopperAction, openVersionMenu, openVersionsP
 
 function restoreVersion(index: number) {
 	openVersionMenu(index)
-	clickPopperAction("Restore version")
+	clickPopperAction('Restore version')
 }
 
 describe('Versions restoration', () => {
+	let randomFileName = ''
+
 	before(() => {
+		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+
 		cy.createRandomUser()
 			.then((user) => {
-				uploadThreeVersions(user)
+				uploadThreeVersions(user, randomFileName)
 				cy.login(user)
 				cy.visit('/apps/files')
-				openVersionsPanel('test.txt')
+				openVersionsPanel(randomFileName)
 			})
 	})
 
@@ -48,8 +52,8 @@ describe('Versions restoration', () => {
 	})
 
 	it('Downloads versions and assert there content', () => {
-		assertVersionContent(0, 'v1')
-		assertVersionContent(1, 'v3')
-		assertVersionContent(2, 'v2')
+		assertVersionContent(randomFileName, 0, 'v1')
+		assertVersionContent(randomFileName, 1, 'v3')
+		assertVersionContent(randomFileName, 2, 'v2')
 	})
 })

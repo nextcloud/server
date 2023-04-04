@@ -21,13 +21,17 @@
  */
 
 import path from "path"
+import type { User } from "@nextcloud/cypress"
 
-export function uploadThreeVersions(user) {
-	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-	cy.wait(1000)
-	cy.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', '/test.txt')
-	cy.wait(1000)
-	cy.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', '/test.txt')
+export function uploadThreeVersions(user: User, fileName: string) {
+	// A new version will not be created if the changes occur
+	// within less than one second of each other.
+	// eslint-disable-next-line cypress/no-unnecessary-waiting
+	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', `/${fileName}`)
+		.wait(1100)
+		.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', `/${fileName}`)
+		.wait(1100)
+		.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', `/${fileName}`)
 	cy.login(user)
 }
 
@@ -52,7 +56,7 @@ export function openVersionMenu(index: number) {
 		cy.get('[data-files-versions-version]')
 			.eq(index).within(() => {
 				cy.get('.action-item__menutoggle').filter(':visible')
-				.click()
+					.click()
 			})
 	})
 }
@@ -65,17 +69,17 @@ export function clickPopperAction(actionName: string) {
 
 export function nameVersion(index: number, name: string) {
 	openVersionMenu(index)
-	clickPopperAction("Name this version")
+	clickPopperAction('Name this version')
 	cy.get(':focused').type(`${name}{enter}`)
 }
 
-export function assertVersionContent(index: number, expectedContent: string) {
+export function assertVersionContent(filename: string, index: number, expectedContent: string) {
 	const downloadsFolder = Cypress.config('downloadsFolder')
 
 	openVersionMenu(index)
-	clickPopperAction("Download version")
+	clickPopperAction('Download version')
 
-	return cy.readFile(path.join(downloadsFolder, 'test.txt'))
+	return cy.readFile(path.join(downloadsFolder, filename))
 		.then((versionContent) => expect(versionContent).to.equal(expectedContent))
-		.then(() => cy.exec(`rm ${downloadsFolder}/test.txt`))
+		.then(() => cy.exec(`rm ${downloadsFolder}/${filename}`))
 }
