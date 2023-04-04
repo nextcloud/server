@@ -65,12 +65,12 @@ class ExifProvider implements IMetadataProvider {
 		$size = new FileMetadata();
 		$size->setGroupName('size');
 		$size->setId($file->getId());
-		$size->setMetadata([]);
+		$size->setArrayAsValue([]);
 
 		if (!$data) {
 			$sizeResult = getimagesizefromstring($file->getContent());
 			if ($sizeResult !== false) {
-				$size->setMetadata([
+				$size->setArrayAsValue([
 					'width' => $sizeResult[0],
 					'height' => $sizeResult[1],
 				]);
@@ -79,7 +79,7 @@ class ExifProvider implements IMetadataProvider {
 			}
 		} elseif (array_key_exists('COMPUTED', $data)) {
 			if (array_key_exists('Width', $data['COMPUTED']) && array_key_exists('Height', $data['COMPUTED'])) {
-				$size->setMetadata([
+				$size->setArrayAsValue([
 					'width' => $data['COMPUTED']['Width'],
 					'height' => $data['COMPUTED']['Height'],
 				]);
@@ -95,7 +95,7 @@ class ExifProvider implements IMetadataProvider {
 			$gps = new FileMetadata();
 			$gps->setGroupName('gps');
 			$gps->setId($file->getId());
-			$gps->setMetadata([
+			$gps->setArrayAsValue([
 				'latitude' => $this->gpsDegreesToDecimal($data['GPS']['GPSLatitude'], $data['GPS']['GPSLatitudeRef']),
 				'longitude' => $this->gpsDegreesToDecimal($data['GPS']['GPSLongitude'], $data['GPS']['GPSLongitudeRef']),
 			]);
