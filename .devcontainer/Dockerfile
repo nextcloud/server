@@ -43,7 +43,8 @@ RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php && \
     rm /tmp/composer-setup.php /tmp/composer-setup.sig
 
 RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
-    echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini
+    echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
+	echo "apc.enable_cli=1" >> /etc/php/8.1/cli/conf.d/20-apcu.ini
 
 # Autostart XDebug for apache
 RUN { \
