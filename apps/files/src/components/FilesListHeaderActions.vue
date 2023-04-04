@@ -41,13 +41,13 @@
 
 <script lang="ts">
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { getFileActions } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
+import { getFileActions } from '../services/FileAction'
 import { useFilesStore } from '../store/files'
 import { useSelectionStore } from '../store/selection'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
