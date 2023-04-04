@@ -42,7 +42,6 @@
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 
 import FederationControlAction from './FederationControlAction.vue'
 
@@ -56,7 +55,7 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 const {
 	federationEnabled,
@@ -188,8 +187,7 @@ export default {
 				this.initialScope = scope
 			} else {
 				this.$emit('update:scope', this.initialScope)
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 	},
