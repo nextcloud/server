@@ -769,6 +769,8 @@ class Generator {
 				return 'gif';
 			case 'image/webp':
 				return 'webp';
+			case 'image/avif':
+				return 'avif';
 			default:
 				throw new \InvalidArgumentException('Not a valid mimetype: "' . $mimeType . '"');
 		}

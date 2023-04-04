@@ -1427,6 +1427,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\OCS\\Result' => __DIR__ . '/../../..' . '/lib/private/OCS/Result.php',
         'OC\\PreviewManager' => __DIR__ . '/../../..' . '/lib/private/PreviewManager.php',
         'OC\\PreviewNotAvailableException' => __DIR__ . '/../../..' . '/lib/private/PreviewNotAvailableException.php',
+        'OC\\Preview\\Avif' => __DIR__ . '/../../..' . '/lib/private/Preview/Avif.php',
         'OC\\Preview\\BMP' => __DIR__ . '/../../..' . '/lib/private/Preview/BMP.php',
         'OC\\Preview\\BackgroundCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Preview/BackgroundCleanupJob.php',
         'OC\\Preview\\Bitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/Bitmap.php',

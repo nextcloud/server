@@ -397,6 +397,9 @@ class OC_Image implements \OCP\IImage {
 			case "image/webp":
 				$res = imagewebp($this->resource, null, $quality);
 				break;
+			case "image/avif":
+				$res = imageavif($this->resource, null, $quality);
+				break;
 			default:
 				$res = imagepng($this->resource);
 				$this->logger->info('OC_Image->data. Could not guess mime-type, defaulting to png', ['app' => 'core']);
@@ -760,6 +763,15 @@ class OC_Image implements \OCP\IImage {
 					$this->resource = @imagecreatefromwebp($imagePath);
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, webp images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
+			case IMAGETYPE_AVIF:
+				if (imagetypes() & IMG_AVIF) {
+					if (!$this->checkImageSize($imagePath)) return false;
+
+					$this->resource = imagecreatefromavif($imagePath);
+				} else {
+					$this->logger->debug("OC_Image->loadFromFile: installation does not support AVIF; got $imagePath", ['app' => 'core']);
 				}
 				break;
 				/*

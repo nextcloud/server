@@ -16,6 +16,7 @@
 	"arw": ["image/x-dcraw"],
 	"asciidoc": ["text/asciidoc", "text/plain"],
 	"avi": ["video/x-msvideo"],
+	"avif": ["image/avif"],
 	"bash": ["text/x-shellscript"],
 	"bat": ["application/x-msdos-program"],
 	"bin": ["application/x-bin"],

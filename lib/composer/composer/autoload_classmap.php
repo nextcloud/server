@@ -1394,6 +1394,7 @@ return array(
     'OC\\OCS\\Result' => $baseDir . '/lib/private/OCS/Result.php',
     'OC\\PreviewManager' => $baseDir . '/lib/private/PreviewManager.php',
     'OC\\PreviewNotAvailableException' => $baseDir . '/lib/private/PreviewNotAvailableException.php',
+    'OC\\Preview\\Avif' => $baseDir . '/lib/private/Preview/Avif.php',
     'OC\\Preview\\BMP' => $baseDir . '/lib/private/Preview/BMP.php',
     'OC\\Preview\\BackgroundCleanupJob' => $baseDir . '/lib/private/Preview/BackgroundCleanupJob.php',
     'OC\\Preview\\Bitmap' => $baseDir . '/lib/private/Preview/Bitmap.php',
