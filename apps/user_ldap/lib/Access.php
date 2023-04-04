@@ -589,6 +589,15 @@ class Access extends LDAPUtility {
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
 		if (is_string($altName)) {
 			if ($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+				$this->logger->warning(
+					'Mapped {fdn} as {altName} because of a name collision on {intName}.',
+					[
+						'fdn' => $fdn,
+						'altName' => $altName,
+						'intName' => $intName,
+						'app' => 'user_ldap',
+					]
+				);
 				$newlyMapped = true;
 				return $altName;
 			}
