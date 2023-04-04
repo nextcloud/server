@@ -108,10 +108,11 @@ interface IPreview {
 	 * Check if a preview can be generated for a file
 	 *
 	 * @param \OCP\Files\FileInfo $file
+	 * @param ?string $previewMimeType MIME type of the preview to be generated
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file);
+	public function isAvailable(\OCP\Files\FileInfo $file, string $previewMimeType);
 
 	/**
 	 * Generates previews of a file

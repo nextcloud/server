@@ -243,13 +243,15 @@ class PreviewManager implements IPreview {
 	/**
 	 * Check if a preview can be generated for a file
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file): bool {
+	public function isAvailable(\OCP\Files\FileInfo $file, ?string $previewMimeType = null): bool {
+		if (!$previewMimeType) $previewMimeType = $file->getMimeType();
+
 		if (!$this->config->getSystemValue('enable_previews', true)) {
 			return false;
 		}
 
 		$this->registerCoreProviders();
-		if (!$this->isMimeSupported($file->getMimetype())) {
+		if (!$this->isMimeSupported($previewMimeType)) {
 			return false;
 		}
 
@@ -259,7 +261,7 @@ class PreviewManager implements IPreview {
 		}
 
 		foreach ($this->providers as $supportedMimeType => $providers) {
-			if (preg_match($supportedMimeType, $file->getMimetype())) {
+			if (preg_match($supportedMimeType, $previewMimeType)) {
 				foreach ($providers as $providerClosure) {
 					$provider = $this->helper->getProvider($providerClosure);
 					if (!($provider instanceof IProviderV2)) {
