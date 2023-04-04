@@ -248,6 +248,8 @@ window.addEventListener('DOMContentLoaded', function () {
 		var selectedLocale = $("#localeinput").val(),
 			user = OC.getCurrentUser();
 
+		var errorMessage = t('settings', 'An error occurred while changing your locale. Please reload the page and try again.')
+
 		$.ajax({
 			url: OC.linkToOCS('cloud/users', 2) + user['uid'],
 			method: 'PUT',
@@ -259,8 +261,14 @@ window.addEventListener('DOMContentLoaded', function () {
 				moment.locale(selectedLocale);
 			},
 			fail: function() {
-				OC.Notification.showTemporary(t('settings', 'An error occurred while changing your locale. Please reload the page and try again.'));
-			}
+				OC.Notification.showTemporary(errorMessage);
+			},
+			error: function(xhr) {
+				if (xhr.status === 429) {
+					errorMessage += '\n' + t('settings', 'There were too many requests from your network. Retry later or contact your administrator if this is an error.')
+				}
+				OC.Notification.showTemporary(errorMessage)
+			},
 		});
 	};
 	$("#localeinput").change(updateLocale);

@@ -57,13 +57,13 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
 
 import HeaderBar from './HeaderBar'
 import Email from './Email'
 import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfoService'
 import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import { handleError } from '../../../utils/handlers.js'
 
 const { additionalEmails, primaryEmail, notificationEmail } = loadState('settings', 'emails', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -165,8 +165,7 @@ export default {
 
 		handleResponse(status, errorMessage, error) {
 			if (status !== 'ok') {
-				showError(t('settings', errorMessage))
-				this.logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 
