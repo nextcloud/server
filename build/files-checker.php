@@ -57,7 +57,6 @@ $expectedFiles = [
 	'apps',
 	'autotest-checkers.sh',
 	'autotest-external.sh',
-	'autotest-js.sh',
 	'autotest.sh',
 	'babel.config.js',
 	'build',
