@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Envio (máx. %s)",
     "Accept" : "Aceitar",
     "in %s" : "em %s",
+    "Change" : "Mudar",
     "Transfer" : "Transfere",
     "Unknown error" : "Erro desconhecido",
     "Show hidden files" : "Mostrar ficheiros ocultos",
