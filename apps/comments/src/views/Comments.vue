@@ -40,18 +40,19 @@
 					<MessageReplyTextIcon />
 				</template>
 			</NcEmptyContent>
-
-			<!-- Comments -->
-			<Comment v-for="comment in comments"
-				v-else
-				:key="comment.props.id"
-				v-bind="comment.props"
-				:auto-complete="autoComplete"
-				:message.sync="comment.props.message"
-				:ressource-id="ressourceId"
-				:user-data="genMentionsData(comment.props.mentions)"
-				class="comments__list"
-				@delete="onDelete" />
+			<ul v-else>
+				<!-- Comments -->
+				<Comment v-for="comment in comments"
+					:key="comment.props.id"
+					tag="li"
+					v-bind="comment.props"
+					:auto-complete="autoComplete"
+					:message.sync="comment.props.message"
+					:ressource-id="ressourceId"
+					:user-data="genMentionsData(comment.props.mentions)"
+					class="comments__list"
+					@delete="onDelete" />
+			</ul>
 
 			<!-- Loading more message -->
 			<div v-if="loading && !isFirstLoading" class="comments__info icon-loading" />
