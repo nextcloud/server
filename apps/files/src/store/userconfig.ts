@@ -25,9 +25,8 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
 import axios from '@nextcloud/axios'
-import type { UserConfig, UserConfigStore } from '../types'
+import type { UserConfig, UserConfigStore } from '../types.ts'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import type { update } from 'cypress/types/lodash'
 
 const userConfig = loadState('files', 'config', {
 	show_hidden: false,

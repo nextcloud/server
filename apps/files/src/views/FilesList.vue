@@ -75,11 +75,11 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 import Vue from 'vue'
 
-import Navigation, { ContentsWithRoot } from '../services/Navigation'
-import { useFilesStore } from '../store/files'
-import { usePathsStore } from '../store/paths'
-import { useSelectionStore } from '../store/selection'
-import { useSortingStore } from '../store/sorting'
+import Navigation, { ContentsWithRoot } from '../services/Navigation.ts'
+import { useFilesStore } from '../store/files.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { useSelectionStore } from '../store/selection.ts'
+import { useSortingStore } from '../store/sorting.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import logger from '../logger.js'
@@ -276,7 +276,6 @@ export default Vue.extend({
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
-					console.debug('files', 'Setting root', { service: currentView.id, folder })
 					this.filesStore.setRoot({ service: currentView.id, root: folder })
 				} else
 				// Otherwise, add the folder to the store

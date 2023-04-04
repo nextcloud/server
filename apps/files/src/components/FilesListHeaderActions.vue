@@ -47,9 +47,9 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
-import { getFileActions } from '../services/FileAction'
-import { useFilesStore } from '../store/files'
-import { useSelectionStore } from '../store/selection'
+import { getFileActions } from '../services/FileAction.ts'
+import { useFilesStore } from '../store/files.ts'
+import { useSelectionStore } from '../store/selection.ts'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
 

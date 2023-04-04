@@ -27,7 +27,8 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
-import { registerFileAction, FileAction } from '../../../files/src/services/FileAction'
+import { registerFileAction, FileAction } from '../../../files/src/services/FileAction.ts'
+import logger from '../../../files/src/logger.js'
 
 registerFileAction(new FileAction({
 	id: 'restore',
@@ -64,7 +65,7 @@ registerFileAction(new FileAction({
 			emit('files:file:deleted', node)
 			return true
 		} catch (error) {
-			console.error(error)
+			logger.error(error)
 			return false
 		}
 	},

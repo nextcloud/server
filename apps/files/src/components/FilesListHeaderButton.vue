@@ -40,7 +40,7 @@ import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Vue from 'vue'
 
-import { useSortingStore } from '../store/sorting'
+import { useSortingStore } from '../store/sorting.ts'
 
 export default Vue.extend({
 	name: 'FilesListHeaderButton',

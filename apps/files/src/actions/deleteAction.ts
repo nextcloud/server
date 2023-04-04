@@ -25,8 +25,8 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
-import logger from '../logger'
+import { registerFileAction, FileAction } from '../services/FileAction.ts'
+import logger from '../logger.js'
 
 registerFileAction(new FileAction({
 	id: 'delete',

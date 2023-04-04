@@ -24,6 +24,12 @@
 </template>
 
 <script>
+/**
+ * This component is used to render custom
+ * elements provided by an API. Vue doesn't allow
+ * to directly render an HTMLElement, so we can do
+ * this magic here.
+ */
 export default {
 	name: 'CustomElementRender',
 	props: {

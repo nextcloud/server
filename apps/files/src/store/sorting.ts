@@ -25,7 +25,7 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
 import axios from '@nextcloud/axios'
-import type { direction, SortingStore } from '../types'
+import type { direction, SortingStore } from '../types.ts'
 
 const saveUserConfig = (mode: string, direction: direction, view: string) => {
 	return axios.post(generateUrl('/apps/files/api/v1/sorting'), {

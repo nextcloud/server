@@ -71,13 +71,12 @@ import { translate } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
-import { useFilesStore } from '../store/files'
-import { useSelectionStore } from '../store/selection'
-import { useSortingStore } from '../store/sorting'
+import { useFilesStore } from '../store/files.ts'
+import { useSelectionStore } from '../store/selection.ts'
+import { useSortingStore } from '../store/sorting.ts'
 import FilesListHeaderActions from './FilesListHeaderActions.vue'
 import FilesListHeaderButton from './FilesListHeaderButton.vue'
 import logger from '../logger.js'
-import Navigation from '../services/Navigation'
 
 export default Vue.extend({
 	name: 'FilesListHeader',
@@ -119,7 +118,6 @@ export default Vue.extend({
 	computed: {
 		...mapState(useSortingStore, ['filesSortingConfig']),
 
-		/** @return {Navigation} */
 		currentView() {
 			return this.$navigation.active
 		},

@@ -90,7 +90,7 @@ import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import { useUserConfigStore } from '../store/userconfig'
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default {
 	name: 'Settings',

@@ -162,6 +162,7 @@ export default {
 		currentView(view, oldView) {
 			// If undefined, it means we're initializing the view
 			// This is handled by the legacy-view:initialized event
+			// TODO: remove when legacy views are dropped
 			if (view?.id === oldView?.id) {
 				return
 			}

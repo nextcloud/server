@@ -43,9 +43,9 @@
 						class="files-list__row-icon-preview"
 						:style="{ backgroundImage }" />
 
-					<span v-else-if="mimeUrl"
+					<span v-else-if="mimeIconUrl"
 						class="files-list__row-icon-preview files-list__row-icon-preview--mime"
-						:style="{ backgroundImage: mimeUrl }" />
+						:style="{ backgroundImage: mimeIconUrl }" />
 
 					<FileIcon v-else />
 				</span>
@@ -100,7 +100,7 @@
 
 <script lang='ts'>
 import { debounce } from 'debounce'
-import { Folder, File, formatFileSize } from '@nextcloud/files'
+import { formatFileSize } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
 import { showError } from '@nextcloud/dialogs'
@@ -114,12 +114,11 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
-import { isCachedPreview } from '../services/PreviewService'
-import { getFileActions } from '../services/FileAction'
-import { useFilesStore } from '../store/files'
-import { UserConfig } from '../types'
-import { useSelectionStore } from '../store/selection'
-import { useUserConfigStore } from '../store/userconfig'
+import { isCachedPreview } from '../services/PreviewService.ts'
+import { getFileActions } from '../services/FileAction.ts'
+import { useFilesStore } from '../store/files.ts'
+import { useSelectionStore } from '../store/selection.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
@@ -181,12 +180,10 @@ export default Vue.extend({
 	},
 
 	computed: {
-		/** @return {UserConfig} */
 		userConfig() {
 			return this.userConfigStore.userConfig
 		},
 
-		/** @return {Navigation} */
 		currentView() {
 			return this.$navigation.active
 		},
@@ -272,11 +269,11 @@ export default Vue.extend({
 			}
 		},
 
-		mimeUrl() {
+		mimeIconUrl() {
 			const mimeType = this.source.mime || 'application/octet-stream'
-			const mimeUrl = window.OC?.MimeType?.getIconUrl?.(mimeType)
-			if (mimeUrl) {
-				return `url(${mimeUrl})`
+			const mimeIconUrl = window.OC?.MimeType?.getIconUrl?.(mimeType)
+			if (mimeIconUrl) {
+				return `url(${mimeIconUrl})`
 			}
 			return ''
 		},
@@ -309,7 +306,8 @@ export default Vue.extend({
 				this.resetState()
 
 				// When the row is not active anymore
-				// remove the tabindex from the row
+				// remove the display from the row to prevent
+				// keyboard interaction with it.
 				this.$el.parentNode.style.display = 'none'
 				return
 			}
@@ -376,9 +374,6 @@ export default Vue.extend({
 				this.clearImg()
 			}
 
-			// Ensure max 5 previews are being fetched at the same time
-			const controller = new AbortController()
-
 			// Store the promise to be able to cancel it
 			this.previewPromise = new CancelablePromise((resolve, reject, onCancel) => {
 				const img = new Image()
@@ -400,7 +395,6 @@ export default Vue.extend({
 					img.onerror = null
 					img.onload = null
 					img.src = ''
-					controller.abort()
 				})
 			})
 		},
@@ -413,7 +407,7 @@ export default Vue.extend({
 			this.clearImg()
 
 			// Close menu
-			this.$refs.actionsMenu.closeMenu()
+			this.$refs?.actionsMenu?.closeMenu?.()
 		},
 
 		clearImg() {

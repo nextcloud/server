@@ -3,7 +3,7 @@ import * as L10n from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
 
-import NavigationService from '../services/Navigation'
+import NavigationService from '../services/Navigation.ts'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
 

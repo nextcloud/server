@@ -20,7 +20,7 @@
  *
  */
 /* eslint-disable */
-import type { PathOptions, ServicesState } from '../types'
+import type { PathOptions, ServicesState } from '../types.ts'
 
 import { defineStore } from 'pinia'
 import Vue from 'vue'

@@ -1,6 +1,6 @@
 import './templates.js'
 import './legacy/filelistSearch.js'
-import './actions/deleteAction'
+import './actions/deleteAction.ts'
 
 import processLegacyFilesViews from './legacy/navigationMapper.js'
 

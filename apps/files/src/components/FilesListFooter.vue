@@ -56,9 +56,8 @@ import { formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import Vue from 'vue'
 
-import Navigation from '../services/Navigation'
-import { useFilesStore } from '../store/files'
-import { usePathsStore } from '../store/paths'
+import { useFilesStore } from '../store/files.ts'
+import { usePathsStore } from '../store/paths.ts'
 
 export default Vue.extend({
 	name: 'FilesListFooter',

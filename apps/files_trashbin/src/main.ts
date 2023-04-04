@@ -19,14 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../../files/src/services/Navigation'
-import type { Navigation } from '../../files/src/services/Navigation'
+import type NavigationService from '../../files/src/services/Navigation.ts'
+import type { Navigation } from '../../files/src/services/Navigation.ts'
 
 import { translate as t, translate } from '@nextcloud/l10n'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 import moment from '@nextcloud/moment'
 
-import getContents from './services/trashbin'
+import { getContents } from './services/trashbin'
 
 // Register restore action
 import './actions/restoreAction'
