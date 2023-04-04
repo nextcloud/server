@@ -123,6 +123,10 @@ class OC_Image implements \OCP\IImage {
 		return $this->valid() ? $this->mimeType : null;
 	}
 
+	public function setMimeType(string $mimeType): void {
+		$this->mimeType = $mimeType;
+	}
+
 	/**
 	 * Goofy alias for `mimeType`
 	 * 

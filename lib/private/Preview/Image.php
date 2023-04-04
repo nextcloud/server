@@ -36,7 +36,7 @@ abstract class Image extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+	public function getThumbnail(File $file, int $maxX, int $maxY, string $mimeType = null): ?IImage {
 		$maxSizeForImages = \OC::$server->getConfig()->getSystemValueInt('preview_max_filesize_image', 50);
 		$size = $file->getSize();
 
@@ -55,6 +55,7 @@ abstract class Image extends ProviderV2 {
 
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);
+			if ($mimeType) $image->setMimeType($mimeType);
 
 			return $image;
 		}

@@ -271,7 +271,7 @@ class Generator {
 					continue;
 				}
 
-				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, $crop);
+				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, $crop, $mimeType);
 
 				if (!($preview instanceof IImage)) {
 					continue;
@@ -437,7 +437,17 @@ class Generator {
 				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
 				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
 				try {
-					$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
+					// Although we know the provider here, and it *should* know
+					// its own MIME type, note that it actually doesn't - so we
+					// have to pass it.
+					// 
+					// *`IProviderV2->getMimeType`*
+					// 
+					// > Regex with the mimetypes that are supported by this
+					// provider
+					// 
+					// This is also the case for `$this->getSmallImagePreview`.
+					$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight, false, $mimeType);
 				} finally {
 					self::unguardWithSemaphore($sem);
 				}
