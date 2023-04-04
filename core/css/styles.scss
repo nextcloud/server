@@ -945,8 +945,9 @@ span.ui-icon {
 /* ---- BREADCRUMB ---- */
 .breadcrumb {
 	display: inline-flex;
+	height: 50px;
 }
-div.crumb {
+li.crumb {
 	display: inline-flex;
 	background-image: url('../img/breadcrumb.svg?v=1');
 	background-repeat: no-repeat;
