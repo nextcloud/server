@@ -40,6 +40,7 @@ export default Vue.extend({
 	computed: {
 		dirs() {
 			const cumulativePath = (acc) => (value) => (acc += `${value}/`)
+			// Generate a cumulative path for each path segment: ['/', '/foo', '/foo/bar', ...] etc
 			const paths = this.path.split('/').filter(Boolean).map(cumulativePath('/'))
 			// Strip away trailing slash
 			return ['/', ...paths.map(path => path.replace(/^(.+)\/$/, '$1'))]

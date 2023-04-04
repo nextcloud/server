@@ -20,41 +20,34 @@
   -
   -->
 <template>
-	<RecycleScroller ref="recycleScroller"
-		class="files-list"
-		key-field="source"
-		:items="nodes"
-		:item-size="55"
-		:table-mode="true"
-		item-class="files-list__row"
-		item-tag="tr"
-		list-class="files-list__body"
-		list-tag="tbody"
-		role="table">
-		<template #default="{ item, active, index }">
-			<!-- File row -->
-			<FileEntry :active="active"
-				:index="index"
-				:is-size-available="isSizeAvailable"
-				:source="item" />
-		</template>
+	<table class="files-list">
+		<!-- Accessibility description -->
+		<caption class="hidden-visually">
+			{{ currentView.caption || '' }}
+			{{ t('files', 'This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.') }}
+		</caption>
 
-		<template #before>
-			<!-- Accessibility description -->
-			<caption class="hidden-visually">
-				{{ currentView.caption || '' }}
-				{{ t('files', 'This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.') }}
-			</caption>
-
-			<!-- Thead-->
+		<!-- Header-->
+		<thead>
 			<FilesListHeader :is-size-available="isSizeAvailable" :nodes="nodes" />
-		</template>
+		</thead>
 
-		<template #after>
-			<!-- Tfoot-->
+		<!-- Body-->
+		<tbody class="files-list__body">
+			<tr v-for="item in nodes"
+				:key="item.source"
+				class="files-list__row">
+				<FileEntry :active="true"
+					:is-size-available="isSizeAvailable"
+					:source="item" />
+			</tr>
+		</tbody>
+
+		<!-- Footer-->
+		<tfoot>
 			<FilesListFooter :is-size-available="isSizeAvailable" :nodes="nodes" :summary="summary" />
-		</template>
-	</RecycleScroller>
+		</tfoot>
+	</table>
 </template>
 
 <script lang="ts">
@@ -63,8 +56,8 @@ import { translate, translatePlural } from '@nextcloud/l10n'
 import Vue from 'vue'
 
 import FileEntry from './FileEntry.vue'
-import FilesListFooter from './FilesListFooter.vue'
 import FilesListHeader from './FilesListHeader.vue'
+import FilesListFooter from './FilesListFooter.vue'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
@@ -92,7 +85,6 @@ export default Vue.extend({
 			FileEntry,
 		}
 	},
-
 	computed: {
 		files() {
 			return this.nodes.filter(node => node.type === 'file')
@@ -112,13 +104,6 @@ export default Vue.extend({
 		isSizeAvailable() {
 			return this.nodes.some(node => node.attributes.size !== undefined)
 		},
-	},
-
-	mounted() {
-		// Make the root recycle scroller a table for proper semantics
-		const slots = this.$el.querySelectorAll('.vue-recycle-scroller__slot')
-		slots[0].setAttribute('role', 'thead')
-		slots[1].setAttribute('role', 'tfoot')
 	},
 
 	methods: {
@@ -171,7 +156,6 @@ export default Vue.extend({
 		 * have those rules in here.
 		 */
 		tr {
-			position: absolute;
 			display: flex;
 			align-items: center;
 			width: 100%;

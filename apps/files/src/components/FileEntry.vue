@@ -32,7 +32,7 @@
 
 		<!-- Link to file -->
 		<td class="files-list__row-name">
-			<a v-bind="linkTo">
+			<a ref="name" v-bind="linkTo">
 				<!-- Icon or preview -->
 				<span class="files-list__row-icon">
 					<FolderIcon v-if="source.type === 'folder'" />
@@ -61,7 +61,8 @@
 			<!-- TODO: implement CustomElementRender -->
 
 			<!-- Menu actions -->
-			<NcActions ref="actionsMenu"
+			<NcActions v-if="active"
+				ref="actionsMenu"
 				:force-title="true"
 				:inline="enabledInlineActions.length">
 				<NcActionButton v-for="action in enabledMenuActions"
@@ -99,10 +100,9 @@
 
 <script lang='ts'>
 import { debounce } from 'debounce'
-import { Folder, File, getFileActions, formatFileSize } from '@nextcloud/files'
+import { Folder, File, formatFileSize } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
-import { mapState } from 'pinia'
 import { showError } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -113,17 +113,15 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
+import { isCachedPreview } from '../services/PreviewService'
+import { getFileActions } from '../services/FileAction'
 import { useFilesStore } from '../store/files'
+import { UserConfig } from '../types'
 import { useSelectionStore } from '../store/selection'
 import { useUserConfigStore } from '../store/userconfig'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
-import { UserConfig } from '../types'
-
-
-// The preview service worker cache name (see webpack config)
-const SWCacheName = 'previews'
 
 // The registered actions list
 const actions = getFileActions()
@@ -154,6 +152,10 @@ export default Vue.extend({
 		},
 		source: {
 			type: Object,
+			required: true,
+		},
+		index: {
+			type: Number,
 			required: true,
 		},
 	},
@@ -314,6 +316,7 @@ export default Vue.extend({
 			// Restore default tabindex
 			this.$el.parentNode.style.display = ''
 		},
+
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
@@ -335,11 +338,7 @@ export default Vue.extend({
 			this.fetchAndApplyPreview()
 		}, 150, false)
 
-		// ⚠ Init img on mount and
-		// not when the module is imported to
-		// avoid sharing between recycled components
-		this.img = null
-
+		// Fetch the preview on init
 		this.debounceIfNotCached()
 	},
 
@@ -354,7 +353,7 @@ export default Vue.extend({
 			}
 
 			// Check if we already have this preview cached
-			const isCached = await this.isCachedPreview(this.previewUrl)
+			const isCached = await isCachedPreview(this.previewUrl)
 			if (isCached) {
 				this.backgroundImage = `url(${this.previewUrl})`
 				this.backgroundFailed = false
@@ -372,19 +371,37 @@ export default Vue.extend({
 			}
 
 			// If any image is being processed, reset it
-			if (this.img) {
+			if (this.previewPromise) {
 				this.clearImg()
 			}
 
-			this.img = new Image()
-			this.img.fetchpriority = this.active ? 'high' : 'auto'
-			this.img.onload = () => {
-				this.backgroundImage = `url(${this.previewUrl})`
-			}
-			this.img.onerror = () => {
-				this.backgroundFailed = true
-			}
-			this.img.src = this.previewUrl
+			// Ensure max 5 previews are being fetched at the same time
+			const controller = new AbortController()
+
+			// Store the promise to be able to cancel it
+			this.previewPromise = new CancelablePromise((resolve, reject, onCancel) => {
+				const img = new Image()
+				// If active, load the preview with higher priority
+				img.fetchpriority = this.active ? 'high' : 'auto'
+				img.onload = () => {
+					this.backgroundImage = `url(${this.previewUrl})`
+					this.backgroundFailed = false
+					resolve(img)
+				}
+				img.onerror = () => {
+					this.backgroundFailed = true
+					reject(img)
+				}
+				img.src = this.previewUrl
+
+				// Image loading has been canceled
+				onCancel(() => {
+					img.onerror = null
+					img.onload = null
+					img.src = ''
+					controller.abort()
+				})
+			})
 		},
 
 		resetState() {
@@ -402,23 +419,10 @@ export default Vue.extend({
 			this.backgroundImage = ''
 			this.backgroundFailed = false
 
-			if (this.img) {
-				// Do not fail on cancel
-				this.img.onerror = null
-				this.img.src = ''
+			if (this.previewPromise) {
+				this.previewPromise.cancel()
+				this.previewPromise = null
 			}
-
-			this.img = null
-		},
-
-		isCachedPreview(previewUrl) {
-			return caches.open(SWCacheName)
-				.then(function(cache) {
-					return cache.match(previewUrl)
-						.then(function(response) {
-							return !!response // or `return response ? true : false`, or similar.
-						})
-				})
 		},
 
 		hashCode(str) {
@@ -464,23 +468,21 @@ tr {
 
 /* Preview not loaded animation effect */
 .files-list__row-icon-preview:not([style*='background']) {
-    background: linear-gradient(110deg, var(--color-loading-dark) 0%, var(--color-loading-dark) 25%, var(--color-loading-light) 50%, var(--color-loading-dark) 75%, var(--color-loading-dark) 100%);
-    background-size: 400%;
-	animation: preview-gradient-slide 1.2s ease-in-out infinite;
+    background: var(--color-loading-dark);
+	// animation: preview-gradient-fade 1.2s ease-in-out infinite;
 }
 </style>
 
 <style>
-@keyframes preview-gradient-slide {
+/* @keyframes preview-gradient-fade {
     0% {
-        background-position: 100% 0%;
+        opacity: 1;
     }
     50% {
-        background-position: 0% 0%;
+        opacity: 0.5;
     }
-	/* adds a small delay to the animation */
     100% {
-        background-position: 0% 0%;
+        opacity: 1;
     }
-}
+} */
 </style>

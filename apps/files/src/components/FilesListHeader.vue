@@ -88,6 +88,12 @@ export default Vue.extend({
 		FilesListHeaderActions,
 	},
 
+	provide() {
+		return {
+			toggleSortBy: this.toggleSortBy,
+		}
+	},
+
 	props: {
 		isSizeAvailable: {
 			type: Boolean,
@@ -184,6 +190,16 @@ export default Vue.extend({
 				logger.debug('Cleared selection')
 				this.selectionStore.reset()
 			}
+		},
+
+		toggleSortBy(key) {
+			// If we're already sorting by this key, flip the direction
+			if (this.sortingMode === key) {
+				this.sortingStore.toggleSortingDirection(this.currentView.id)
+				return
+			}
+			// else sort ASC by this new key
+			this.sortingStore.setSortingBy(key, this.currentView.id)
 		},
 
 		t: translate,

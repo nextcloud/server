@@ -51,6 +51,8 @@ export default Vue.extend({
 		NcButton,
 	},
 
+	inject: ['toggleSortBy'],
+
 	props: {
 		name: {
 			type: String,
@@ -95,16 +97,6 @@ export default Vue.extend({
 				column,
 				direction,
 			})
-		},
-
-		toggleSortBy(key) {
-			// If we're already sorting by this key, flip the direction
-			if (this.sortingMode === key) {
-				this.sortingStore.toggleSortingDirection(this.currentView.id)
-				return
-			}
-			// else sort ASC by this new key
-			this.sortingStore.setSortingBy(key, this.currentView.id)
 		},
 
 		t: translate,

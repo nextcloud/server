@@ -53,7 +53,7 @@ const data = `<?xml version="1.0"?>
 const resultToNode = function(node: FileStat): File | Folder {
 	const permissions = parseWebdavPermissions(node.props?.permissions)
 	const owner = getCurrentUser()?.uid as string
-	const previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}x=32&y=32', node.props)
+	const previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32', node.props)
 
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
