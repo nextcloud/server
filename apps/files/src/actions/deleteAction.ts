@@ -20,11 +20,12 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
-import { registerFileAction, Permission, FileAction, Node } from '@nextcloud/files'
+import { Permission, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
 
+import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger'
 
 registerFileAction(new FileAction({

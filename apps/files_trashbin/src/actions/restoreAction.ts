@@ -22,10 +22,12 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { registerFileAction, Permission, FileAction, Node } from '@nextcloud/files'
+import { Permission, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
+
+import { registerFileAction, FileAction } from '../../../files/src/services/FileAction'
 
 registerFileAction(new FileAction({
 	id: 'restore',
