@@ -147,6 +147,10 @@ class CertificateManager implements ICertificateManager {
 		$tmpPath = $certPath . '.tmp' . $this->random->generate(10, ISecureRandom::CHAR_DIGITS);
 		$fhCerts = $this->view->fopen($tmpPath, 'w');
 
+		if (!is_resource($fhCerts)) {
+			throw new \RuntimeException('Unable to open file handler to create certificate bundle "' . $tmpPath . '".');
+		}
+
 		// Write user certificates
 		foreach ($certs as $cert) {
 			$file = $path . '/uploads/' . $cert->getName();
