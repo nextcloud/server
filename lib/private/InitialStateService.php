@@ -64,7 +64,11 @@ class InitialStateService implements IInitialStateService {
 			if (!isset($this->states[$appName])) {
 				$this->states[$appName] = [];
 			}
-			$this->states[$appName][$key] = json_encode($data);
+			try {
+				$this->states[$appName][$key] = json_encode($data, JSON_THROW_ON_ERROR);
+			} catch (\JsonException $e) {
+				$this->logger->error('Invalid '. $key . ' data provided to provideInitialState by ' . $appName, ['exception' => $e]);
+			}
 			return;
 		}
 
