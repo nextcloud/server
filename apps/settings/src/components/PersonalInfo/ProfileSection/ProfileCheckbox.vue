@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService'
 import { validateBoolean } from '../../../utils/validate'
 import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
+import { handleError } from '../../../utils/handlers.js'
 
 export default {
 	name: 'ProfileCheckbox',
@@ -89,8 +89,7 @@ export default {
 				this.initialProfileEnabled = isEnabled
 				emit('settings:profile-enabled:updated', isEnabled)
 			} else {
-				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 	},

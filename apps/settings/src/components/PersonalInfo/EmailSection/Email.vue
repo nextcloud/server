@@ -84,10 +84,10 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
+import { handleError } from '../../../utils/handlers.js'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants'
 import {
@@ -342,8 +342,7 @@ export default {
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
-				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}

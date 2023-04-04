@@ -42,7 +42,6 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 
 import FederationControlAction from './FederationControlAction'
 
@@ -54,6 +53,7 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService'
+import { handleError } from '../../../utils/handlers.js'
 
 const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
 
@@ -172,8 +172,7 @@ export default {
 				this.initialScope = scope
 			} else {
 				this.$emit('update:scope', this.initialScope)
-				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 	},
