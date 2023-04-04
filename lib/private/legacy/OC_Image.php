@@ -124,6 +124,15 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
+	 * Goofy alias for `mimeType`
+	 * 
+	 * @deprecated in favor of `mimeType`
+	 */
+	public function dataMimeType(): ?string {
+		return $this->mimeType();
+	}
+
+	/**
 	 * Returns the width of the image or -1 if no image is loaded.
 	 *
 	 * @return int
@@ -352,23 +361,6 @@ class OC_Image implements \OCP\IImage {
 		return $this->resource;
 	}
 
-	/**
-	 * @return string Returns the mimetype of the data. Returns null if the data is not valid.
-	 */
-	public function dataMimeType(): ?string {
-		if (!$this->valid()) {
-			return null;
-		}
-
-		switch ($this->mimeType) {
-			case 'image/png':
-			case 'image/jpeg':
-			case 'image/gif':
-				return $this->mimeType;
-			default:
-				return 'image/png';
-		}
-	}
 
 	/**
 	 * @return null|string Returns the raw image data.
