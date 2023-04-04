@@ -634,6 +634,7 @@ class UsersController extends AUserData {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=5, period=60)
 	 *
 	 * @throws OCSException
 	 */
@@ -726,6 +727,7 @@ class UsersController extends AUserData {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=50, period=600)
 	 *
 	 * edit users
 	 *
