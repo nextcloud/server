@@ -69,7 +69,9 @@ class Repair {
 	}
 
 	public function tryReadFile(File $node): bool {
-		$this->keyStorage->clearKeyCache();
+		if ($this->keyStorage instanceof Storage) {
+			$this->keyStorage->clearKeyCache();
+		}
 		try {
 			$fh = $node->fopen('r');
 			// read a single chunk
@@ -265,7 +267,7 @@ class Repair {
 		if ($this->needsSystemKey($node->getPath())) {
 			return $this->getSystemKeyPath($node);
 		} else {
-			return $this->getUserKeyRoot($user, $node);
+			return $this->getUserKeyRoot($user);
 		}
 	}
 

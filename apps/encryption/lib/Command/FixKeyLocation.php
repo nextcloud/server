@@ -238,7 +238,7 @@ class FixKeyLocation extends Command {
 	 *
 	 * @param string $basePath
 	 * @param string $name
-	 * @return \Generator<string>
+	 * @return \Iterator<mixed, string>
 	 */
 	public function findKeysByFileName(string $basePath, string $name) {
 		$allKeys = $this->repair->findAllKeysInDirectory($basePath);
