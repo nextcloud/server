@@ -9,6 +9,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -191,6 +192,12 @@ class Definitions {
 					'required' => false,
 					'description' => 'The link to the conversation',
 					'example' => 'https://localhost/index.php/call/R4nd0mToken',
+				],
+				'icon-url' => [
+					'since' => '27.0.0',
+					'required' => false,
+					'description' => 'The icon url to use as avatar',
+					'example' => 'https://localhost/ocs/v2.php/apps/spreed/api/v1/room/R4nd0mToken/avatar'
 				],
 			],
 		],
