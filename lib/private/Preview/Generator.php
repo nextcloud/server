@@ -51,6 +51,8 @@ class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
+	private \OCP\ILogger $logger;
+
 	/** @var IPreview */
 	private $previewManager;
 	/** @var IConfig */
@@ -64,6 +66,14 @@ class Generator {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	/**
+	 * GD image type for the preview format setting
+	 * 
+	 * `null` if the preview format setting is not set (=> use default handling
+	 * instead).
+	 */
+	private null|int $previewImageType;
+
 	public function __construct(
 		IConfig $config,
 		IPreview $previewManager,
@@ -72,12 +82,49 @@ class Generator {
 		EventDispatcherInterface $legacyEventDispatcher,
 		IEventDispatcher $eventDispatcher
 	) {
+		$this->logger = \OC::$server->getLogger();
+
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
 		$this->helper = $helper;
 		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->eventDispatcher = $eventDispatcher;
+
+		$this->setPreviewImageType();
+	}
+
+	private function setPreviewImageType(): void {
+		// Only allow previews to be common image formats that there is a clear
+		// need for.
+		// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#image_types
+		$ALLOWED_FORMATS = ['AVIF', 'GIF', 'JPEG', 'PNG', 'WEBP'];
+		$FALLBACK_MESSAGE = 'Falling back to the default preview format.';
+
+		$this->previewImageType = null;
+
+		$previewFormat = strtoupper(
+			$this->config->getAppValue('preview', 'format')
+		);
+
+		if (!$previewFormat) return;
+		if (!in_array($previewFormat, $ALLOWED_FORMATS)) {
+			$this->logger->error(
+				'Preview format must be one of [' .
+				implode(', ', $ALLOWED_FORMATS) .
+				"]; got $previewFormat. $FALLBACK_MESSAGE"
+			);
+			return;
+		}
+		if (!(imagetypes() & constant("IMG_$previewFormat"))) {
+			$this->logger->error(
+				'The installation does not support preview format ' .
+				"$previewFormat. $FALLBACK_MESSAGE"
+			);
+			return;
+		}
+
+		$this->previewImageType = constant("IMAGETYPE_$previewFormat");
 	}
 
 	/**
@@ -132,8 +179,14 @@ class Generator {
 			throw new NotFoundException('Cannot read file');
 		}
 
-		if ($mimeType === null) {
-			$mimeType = $file->getMimeType();
+		// `$mimeType` argument overrides preview format setting overrides
+		// default to the same MIME type as the file it is a preview for
+		if (!$mimeType) {
+			if (!is_null($this->previewImageType)) {
+				$mimeType = image_type_to_mime_type($this->previewImageType);
+			} else {
+				$mimeType = $file->getMimeType();
+			}
 		}
 
 		$previewFolder = $this->getPreviewFolder($file);
@@ -702,6 +755,9 @@ class Generator {
 	 * @param string $mimeType
 	 * @return null|string
 	 * @throws \InvalidArgumentException
+	 * 
+	 * @deprecated this is goofy
+	 * @see https://www.php.net/manual/en/function.image-type-to-extension.php
 	 */
 	private function getExtention($mimeType) {
 		switch ($mimeType) {
@@ -711,6 +767,8 @@ class Generator {
 				return 'jpg';
 			case 'image/gif':
 				return 'gif';
+			case 'image/webp':
+				return 'webp';
 			default:
 				throw new \InvalidArgumentException('Not a valid mimetype: "' . $mimeType . '"');
 		}
