@@ -92,23 +92,23 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Extract NC logs
-        if: ( success() || failure() ) && matrix.containers != 'component'
+        if: failure() && matrix.containers != 'component'
         run: docker logs nextcloud-cypress-tests-server > nextcloud.log
 
       - name: Upload NC logs
         uses: actions/upload-artifact@v3
-        if: ( success() || failure() ) && matrix.containers != 'component'
+        if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
           path: nextcloud.log
 
       - name: Create data dir archive
-        if: ( success() || failure() ) && matrix.containers != 'component'
+        if: failure() && matrix.containers != 'component'
         run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
         uses: actions/upload-artifact@v3
-        if: ( success() || failure() ) && matrix.containers != 'component'
+        if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}
           path: data.tar
