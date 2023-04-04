@@ -164,6 +164,10 @@
 				} else {
 					self._showInputChangeFail(field);
 				}
+			}).fail(function(data) {
+				if (data.status === 429) {
+					OC.Notification.showTemporary(t('settings', 'There were too many requests from your network. Retry later or contact your administrator if this is an error.'))
+				}
 			});
 		},
 
@@ -181,7 +185,12 @@
 			$('#' + field + 'scope').val(scope);
 
 			// TODO: user loading/success feedback
-			this._config.save();
+			var savingData = this._config.save();
+			$.when(savingData).fail(function(data) {
+				if (data.status === 429) {
+					OC.Notification.showTemporary(t('settings', 'There were too many requests from your network. Retry later or contact your administrator if this is an error.'))
+				}
+			});
 			this._setFieldScopeIcon(field, scope);
 			this._updateVerifyButton(field, scope);
 		},
