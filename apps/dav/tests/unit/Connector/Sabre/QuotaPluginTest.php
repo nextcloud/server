@@ -41,6 +41,14 @@ use Test\TestCase;
  * later.
  * See the COPYING-README file.
  */
+
+/**
+ * Class QuotaPluginTest
+ *
+ * @group DB
+ *
+ */
+
 class QuotaPluginTest extends TestCase {
 
 	/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject */
