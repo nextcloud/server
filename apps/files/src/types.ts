@@ -33,7 +33,7 @@ export type FilesState = {
 }
 
 export type FilesStore = {
-	[id: number]: Node
+	[fileid: number]: Node
 }
 
 export type RootsStore = {
