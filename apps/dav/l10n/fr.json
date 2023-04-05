@@ -35,7 +35,7 @@
     "{actor} restored event {event} of calendar {calendar}" : "{actor} a restauré l'événement {event} dans l'agenda {calendar}",
     "You restored event {event} of calendar {calendar}" : "Vous avez restauré l'événement {event} dans l'agenda {calendar}",
     "Busy" : "Occupé",
-    "{actor} created to-do {todo} in list {calendar}" : "{actor} a créé le pense-bête {todo} dans la liste {calendar}",
+    "{actor} created to-do {todo} in list {calendar}" : "{actor} a créé la tâche {todo} dans la liste {calendar}",
     "You created to-do {todo} in list {calendar}" : "Vous avez créé un pense-bête {todo} dans la liste {calendar}",
     "{actor} deleted to-do {todo} from list {calendar}" : "{actor} a supprimé un pense-bête {todo} de la liste {calendar}",
     "You deleted to-do {todo} from list {calendar}" : "Vous avez supprimé le pense-bête {todo} de la liste {calendar}",
