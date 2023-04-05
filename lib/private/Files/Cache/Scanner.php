@@ -38,6 +38,7 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\Lock\ILockingProvider;
 use OC\Files\Storage\Wrapper\Encoding;
@@ -219,7 +220,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$newData['parent'] = $parentId;
 						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 					}
-					
+
 					$data['oldSize'] = ($cacheData && isset($cacheData['size'])) ? $cacheData['size'] : 0;
 
 					if ($cacheData && isset($cacheData['encrypted'])) {
@@ -328,10 +329,15 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		try {
-			$data = $this->scanFile($path, $reuse, -1, null, $lock);
-			if ($data && $data['mimetype'] === 'httpd/unix-directory') {
-				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data);
-				$data['size'] = $size;
+			try {
+				$data = $this->scanFile($path, $reuse, -1, null, $lock);
+				if ($data && $data['mimetype'] === 'httpd/unix-directory') {
+					$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data);
+					$data['size'] = $size;
+				}
+			} catch (NotFoundException $e) {
+				$this->removeFromCache($path);
+				return null;
 			}
 		} finally {
 			if ($lock) {
