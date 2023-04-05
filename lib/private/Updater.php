@@ -129,7 +129,7 @@ class Updater extends BasicEmitter {
 			}
 		}
 
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
@@ -216,7 +216,7 @@ class Updater extends BasicEmitter {
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
 				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValue('debug', false));
+					$this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
@@ -251,7 +251,7 @@ class Updater extends BasicEmitter {
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
-		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
 		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
@@ -399,7 +399,7 @@ class Updater extends BasicEmitter {
 	 * @return bool
 	 */
 	private function isCodeUpgrade(): bool {
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
 			return true;

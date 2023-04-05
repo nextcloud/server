@@ -63,7 +63,7 @@ class LookupPlugin implements ISearchPlugin {
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
-		$isGlobalScaleEnabled = $this->config->getSystemValue('gs.enabled', false);
+		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
@@ -72,7 +72,7 @@ class LookupPlugin implements ISearchPlugin {
 			return false;
 		}
 
-		$lookupServerUrl = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
+		$lookupServerUrl = $this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com');
 		if (empty($lookupServerUrl)) {
 			return false;
 		}

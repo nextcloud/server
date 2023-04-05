@@ -265,10 +265,10 @@ class PublicKeyTokenProvider implements IProvider {
 	public function invalidateOldTokens() {
 		$this->cache->clear();
 
-		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
+		$olderThan = $this->time->getTime() - $this->config->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
 		$this->mapper->invalidateOld($olderThan, IToken::DO_NOT_REMEMBER);
-		$rememberThreshold = $this->time->getTime() - (int) $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$rememberThreshold = $this->time->getTime() - $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$this->logger->debug('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($rememberThreshold, IToken::REMEMBER);
 	}
@@ -364,7 +364,7 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	private function encrypt(string $plaintext, string $token): string {
-		$secret = $this->config->getSystemValue('secret');
+		$secret = $this->config->getSystemValueString('secret');
 		return $this->crypto->encrypt($plaintext, $token . $secret);
 	}
 
@@ -372,7 +372,7 @@ class PublicKeyTokenProvider implements IProvider {
 	 * @throws InvalidTokenException
 	 */
 	private function decrypt(string $cipherText, string $token): string {
-		$secret = $this->config->getSystemValue('secret');
+		$secret = $this->config->getSystemValueString('secret');
 		try {
 			return $this->crypto->decrypt($cipherText, $token . $secret);
 		} catch (\Exception $ex) {
@@ -402,7 +402,7 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	private function hashToken(string $token): string {
-		$secret = $this->config->getSystemValue('secret');
+		$secret = $this->config->getSystemValueString('secret');
 		return hash('sha512', $token . $secret);
 	}
 

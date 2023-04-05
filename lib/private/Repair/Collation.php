@@ -74,7 +74,7 @@ class Collation implements IRepairStep {
 			return;
 		}
 
-		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
+		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
@@ -112,8 +112,8 @@ class Collation implements IRepairStep {
 	 * @return string[]
 	 */
 	protected function getAllNonUTF8BinTables(IDBConnection $connection) {
-		$dbName = $this->config->getSystemValue("dbname");
-		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
+		$dbName = $this->config->getSystemValueString("dbname");
+		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
 		// fetch tables by columns
 		$statement = $connection->executeQuery(

@@ -221,7 +221,7 @@ class TemplateLayout extends \OC_Template {
 		// TODO: remove deprecated OC_Util injection
 		$jsFiles = self::findJavascriptFiles(array_merge(\OC_Util::$scripts, Util::getScripts()));
 		$this->assign('jsfiles', []);
-		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
+		if ($this->config->getSystemValueBool('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
@@ -304,14 +304,14 @@ class TemplateLayout extends \OC_Template {
 	 * @return string
 	 */
 	protected function getVersionHashSuffix($path = false, $file = false) {
-		if ($this->config->getSystemValue('debug', false)) {
+		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
 		$themingSuffix = '';
 		$v = [];
 
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			if (\OC::$server->getAppManager()->isInstalled('theming')) {
 				$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 			}

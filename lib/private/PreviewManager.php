@@ -113,7 +113,7 @@ class PreviewManager implements IPreview {
 	 * @return void
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable): void {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return;
 		}
 

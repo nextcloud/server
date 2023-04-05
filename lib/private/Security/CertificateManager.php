@@ -67,7 +67,7 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates(): array {
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return [];
 		}
 
@@ -93,7 +93,7 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	private function hasCertificates(): bool {
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return false;
 		}
 

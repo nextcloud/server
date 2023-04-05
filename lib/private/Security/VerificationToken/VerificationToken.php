@@ -82,7 +82,7 @@ class VerificationToken implements IVerificationToken {
 		}
 
 		try {
-			$decryptedToken = $this->crypto->decrypt($encryptedToken, $passwordPrefix.$this->config->getSystemValue('secret'));
+			$decryptedToken = $this->crypto->decrypt($encryptedToken, $passwordPrefix.$this->config->getSystemValueString('secret'));
 		} catch (\Exception $e) {
 			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
 			try {
@@ -115,7 +115,7 @@ class VerificationToken implements IVerificationToken {
 			ISecureRandom::CHAR_UPPER
 		);
 		$tokenValue = $this->timeFactory->getTime() .':'. $token;
-		$encryptedValue = $this->crypto->encrypt($tokenValue, $passwordPrefix . $this->config->getSystemValue('secret'));
+		$encryptedValue = $this->crypto->encrypt($tokenValue, $passwordPrefix . $this->config->getSystemValueString('secret'));
 		$this->config->setUserValue($user->getUID(), 'core', $subject, $encryptedValue);
 		$jobArgs = json_encode([
 			'userId' => $user->getUID(),

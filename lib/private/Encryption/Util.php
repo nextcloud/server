@@ -70,7 +70,7 @@ class Util {
 	protected $config;
 
 	/** @var array paths excluded from encryption */
-	protected $excludedPaths;
+	protected array $excludedPaths = [];
 	protected IGroupManager $groupManager;
 	protected IUserManager $userManager;
 
@@ -94,7 +94,7 @@ class Util {
 		$this->config = $config;
 
 		$this->excludedPaths[] = 'files_encryption';
-		$this->excludedPaths[] = 'appdata_' . $config->getSystemValue('instanceid', null);
+		$this->excludedPaths[] = 'appdata_' . $config->getSystemValueString('instanceid');
 		$this->excludedPaths[] = 'files_external';
 	}
 

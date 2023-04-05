@@ -726,7 +726,7 @@ class Server extends ServerContainer implements IServerContainer {
 			/** @var \OCP\IConfig $config */
 			$config = $c->get(\OCP\IConfig::class);
 
-			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				if (!$config->getSystemValueBool('log_query')) {
 					$v = \OC_App::getAppVersions();
 				} else {
@@ -988,7 +988,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 20.0.0 */
 		$this->registerDeprecatedAlias('IniWrapper', IniGetWrapper::class);
 		$this->registerService(IBus::class, function (ContainerInterface $c) {
-			$busClass = $c->get(\OCP\IConfig::class)->getSystemValue('commandbus');
+			$busClass = $c->get(\OCP\IConfig::class)->getSystemValueString('commandbus');
 			if ($busClass) {
 				[$app, $class] = explode('::', $busClass, 2);
 				if ($c->get(IAppManager::class)->isInstalled($app)) {
@@ -1107,8 +1107,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ILockingProvider::class, function (ContainerInterface $c) {
 			$ini = $c->get(IniGetWrapper::class);
 			$config = $c->get(\OCP\IConfig::class);
-			$ttl = $config->getSystemValue('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
-			if ($config->getSystemValue('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			$ttl = $config->getSystemValueInt('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
+			if ($config->getSystemValueBool('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->get(ICacheFactory::class);
 				$memcache = $memcacheFactory->createLocking('lock');
@@ -1208,7 +1208,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValue('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
 					$c->getAppDataDir('theming'),
