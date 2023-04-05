@@ -133,6 +133,7 @@ OC.L10N.register(
     "Home" : "Inicio",
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Mover a {folder}",
+    "Saving …" : "Saving …",
     "Authentication required" : "Se requiere autenticación",
     "This action requires you to confirm your password" : "Esta acción requiere que confirmes tu contraseña",
     "Confirm" : "Confirmar",

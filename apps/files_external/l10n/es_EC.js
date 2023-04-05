@@ -22,6 +22,7 @@ OC.L10N.register(
     "Admin defined" : "Administrador definido",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Saved" : "Guardado",
+    "Saving …" : "Saving …",
     "Save" : "Guardar",
     "Empty response from the server" : "Respuesta del servidor vacía",
     "Couldn't access. Please log out and in again to activate this mount point" : "No fue posible accesar. Por favor sal de la sesión y vuelve a entrar para activar este punto de montaje",
