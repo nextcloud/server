@@ -995,8 +995,8 @@ table.dragshadow td.size {
 		row-gap: 15px;
 		margin: 15px 0;
 
-		// ensure search still filters tr with .hidden
-		tr:not(.hidden) {
+		// ensure search still filters tr with .hidden-file
+		tr:not(.hidden-file) {
 			display: block;
 			position: relative;
 			height: $grid-size + 44px - $grid-pad;
