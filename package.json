@@ -123,6 +123,7 @@
     "@nextcloud/eslint-config": "^8.2.1",
     "@nextcloud/stylelint-config": "^2.1.2",
     "@nextcloud/webpack-vue-config": "^5.5.0",
+    "@pinia/testing": "^0.0.15",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^5.8.3",

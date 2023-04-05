@@ -2,27 +2,32 @@ import * as InitialState from '@nextcloud/initial-state'
 import * as L10n from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
+import { createTestingPinia } from '@pinia/testing'
 
 import NavigationService from '../services/Navigation.ts'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
 
 describe('Navigation renders', () => {
-	const Navigation = new NavigationService()
+	const Navigation = new NavigationService() as NavigationService
 
 	before(() => {
 		cy.stub(InitialState, 'loadState')
 			.returns({
-				used: 1024 * 1024 * 1024,
+				used: 1000 * 1000 * 1000,
 				quota: -1,
 			})
-
 	})
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
@@ -33,13 +38,13 @@ describe('Navigation renders', () => {
 })
 
 describe('Navigation API', () => {
-	const Navigation = new NavigationService()
+	const Navigation = new NavigationService() as NavigationService
 
 	it('Check API entries rendering', () => {
 		Navigation.register({
 			id: 'files',
 			name: 'Files',
-			getFiles: () => [],
+			getContents: () => Promise.resolve(),
 			icon: FolderSvg,
 			order: 1,
 		})
@@ -47,6 +52,11 @@ describe('Navigation API', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 			router,
 		})
@@ -61,7 +71,7 @@ describe('Navigation API', () => {
 		Navigation.register({
 			id: 'sharing',
 			name: 'Sharing',
-			getFiles: () => [],
+			getContents: () => Promise.resolve(),
 			icon: ShareSvg,
 			order: 2,
 		})
@@ -69,6 +79,11 @@ describe('Navigation API', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 			router,
 		})
@@ -83,7 +98,7 @@ describe('Navigation API', () => {
 		Navigation.register({
 			id: 'sharingin',
 			name: 'Shared with me',
-			getFiles: () => [],
+			getContents: () => Promise.resolve(),
 			parent: 'sharing',
 			icon: ShareSvg,
 			order: 1,
@@ -92,6 +107,11 @@ describe('Navigation API', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 			router,
 		})
@@ -120,7 +140,7 @@ describe('Navigation API', () => {
 			Navigation.register({
 				id: 'files',
 				name: 'Files',
-				getFiles: () => [],
+				getContents: () => Promise.resolve(),
 				icon: FolderSvg,
 				order: 1,
 			})
@@ -151,6 +171,11 @@ describe('Quota rendering', () => {
 			propsData: {
 				Navigation,
 			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
+			},
 		})
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('not.exist')
@@ -160,13 +185,18 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 1024 * 1024 * 1024,
+				used: 1000 * 1000 * 1000,
 				quota: -1,
 			})
 
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
@@ -179,14 +209,19 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 1024 * 1024 * 1024,
-				quota: 5 * 1024 * 1024 * 1024,
+				used: 1000 * 1000 * 1000,
+				quota: 5 * 1000 * 1000 * 1000,
 				relative: 20, // percent
 			})
 
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
@@ -200,14 +235,19 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 5 * 1024 * 1024 * 1024,
-				quota: 1024 * 1024 * 1024,
+				used: 5 * 1000 * 1000 * 1000,
+				quota: 1000 * 1000 * 1000,
 				relative: 500, // percent
 			})
 
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
