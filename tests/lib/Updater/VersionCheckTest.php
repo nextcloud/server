@@ -111,7 +111,7 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
@@ -125,7 +125,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', json_encode($expectedResult)]
 			);
 
@@ -163,7 +163,7 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
@@ -177,7 +177,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', '[]']
 			);
 
@@ -217,7 +217,7 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
@@ -231,7 +231,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', $this->isType('string')]
 			);
 
@@ -270,7 +270,7 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
@@ -284,7 +284,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', json_encode($expectedResult)]
 			);
 
@@ -324,7 +324,7 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
@@ -338,7 +338,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', $this->isType('string')]
 			);
 

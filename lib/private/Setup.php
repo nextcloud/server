@@ -391,8 +391,8 @@ class Setup {
 
 		if (empty($error)) {
 			$config = \OC::$server->getConfig();
-			$config->setAppValue('core', 'installedat', microtime(true));
-			$config->setAppValue('core', 'lastupdatedat', microtime(true));
+			$config->setAppValue('core', 'installedat', (string)microtime(true));
+			$config->setAppValue('core', 'lastupdatedat', (string)microtime(true));
 
 			$vendorData = $this->getVendorData();
 			$config->setAppValue('core', 'vendor', $vendorData['vendor']);
