@@ -136,11 +136,11 @@ export default Vue.extend({
 				}
 
 				// Show success message and clear selection
-				showSuccess(this.t('files', '"{displayName}" batch action successfully executed', { displayName }))
+				showSuccess(this.t('files', '"{displayName}" batch action executed successfully', { displayName }))
 				this.selectionStore.reset()
 			} catch (e) {
 				logger.error('Error while executing action', { action, e })
-				showError(this.t('files', 'Error while executing action "{displayName}"', { displayName }))
+				showError(this.t('files', '"{displayName}" action failed', { displayName }))
 			} finally {
 				this.loading = null
 			}

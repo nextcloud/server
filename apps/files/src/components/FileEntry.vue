@@ -103,7 +103,7 @@ import { debounce } from 'debounce'
 import { formatFileSize } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import CancelablePromise from 'cancelable-promise'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -434,10 +434,15 @@ export default Vue.extend({
 			const displayName = action.displayName([this.source], this.currentView)
 			try {
 				this.loading = action.id
-				await action.exec(this.source, this.currentView)
+				const success = await action.exec(this.source, this.currentView)
+				if (success) {
+					showSuccess(this.t('files', '"{displayName}" action executed successfully', { displayName }))
+					return
+				}
+				showError(this.t('files', '"{displayName}" action failed', { displayName }))
 			} catch (e) {
 				logger.error('Error while executing action', { action, e })
-				showError(this.t('files', 'Error while executing action "{displayName}"', { displayName }))
+				showError(this.t('files', '"{displayName}" action failed', { displayName }))
 			} finally {
 				this.loading = ''
 			}
