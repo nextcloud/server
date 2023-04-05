@@ -62,8 +62,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$view = $this->createMock(View::class);
 		$view->expects($this->once())
 			->method('verifyPath')
-			->with($targetParent)
-			->willReturn(true);
+			->with($targetParent);
 		$view->expects($this->once())
 			->method('file_exists')
 			->with($targetPath)

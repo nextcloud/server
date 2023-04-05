@@ -433,10 +433,6 @@ class Local extends \OC\Files\Storage\Common {
 		return $this->getSourcePath($path);
 	}
 
-	public function getLocalFolder($path) {
-		return $this->getSourcePath($path);
-	}
-
 	/**
 	 * @param string $query
 	 * @param string $dir

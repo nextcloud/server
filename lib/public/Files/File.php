@@ -68,7 +68,7 @@ interface File extends Node {
 	 * Open the file as stream, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|false
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 * @since 6.0.0

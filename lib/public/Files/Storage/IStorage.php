@@ -85,7 +85,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource|false
 	 * @since 9.0.0
 	 */
 	public function opendir($path);
@@ -314,7 +314,7 @@ interface IStorage {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function getLocalFile($path);
@@ -336,7 +336,7 @@ interface IStorage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function getETag($path);

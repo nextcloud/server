@@ -63,7 +63,7 @@ class TestViewDirectory extends \OC\Files\View {
 		return $this->canRename;
 	}
 
-	public function getRelativePath($path) {
+	public function getRelativePath($path): ?string {
 		return $path;
 	}
 }
@@ -73,7 +73,6 @@ class TestViewDirectory extends \OC\Files\View {
  * @group DB
  */
 class DirectoryTest extends \Test\TestCase {
-
 	use UserTrait;
 
 	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */

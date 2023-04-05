@@ -250,7 +250,7 @@ interface FileInfo {
 	/**
 	 * Get the owner of the file
 	 *
-	 * @return \OCP\IUser
+	 * @return ?\OCP\IUser
 	 * @since 9.0.0
 	 */
 	public function getOwner();
