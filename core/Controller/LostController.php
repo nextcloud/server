@@ -200,6 +200,8 @@ class LostController extends Controller {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
 
+		$user = trim($user);
+		
 		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
