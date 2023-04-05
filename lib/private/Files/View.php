@@ -641,7 +641,7 @@ class View {
 					throw $e;
 				}
 
-				/** @var \OC\Files\Storage\Storage $storage */
+				/** @var Storage $storage */
 				[$storage, $internalPath] = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
@@ -1126,7 +1126,7 @@ class View {
 			$run = $this->runHooks($hooks, $path);
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
-				/** @var \OC\Files\Storage\Storage $storage */
+				/** @var Storage $storage */
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
@@ -1296,7 +1296,7 @@ class View {
 	 * If the file is not in cached it will be scanned
 	 * If the file has changed on storage the cache will be updated
 	 *
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param Storage $storage
 	 * @param string $internalPath
 	 * @param string $relativePath
 	 * @return ICacheEntry|bool
@@ -1547,7 +1547,7 @@ class View {
 		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 		/**
-		 * @var \OC\Files\Storage\Storage $storage
+		 * @var Storage $storage
 		 * @var string $internalPath
 		 */
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
