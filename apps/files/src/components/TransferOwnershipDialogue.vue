@@ -42,7 +42,7 @@
 					:options="formatedUserSuggestions"
 					:multiple="false"
 					:searchable="true"
-					:placeholder="t('files', 'Search users')"
+					:placeholder="t('files', 'Search for a user')"
 					:preselect-first="true"
 					:preserve-search="true"
 					:loading="loadingUsers"
