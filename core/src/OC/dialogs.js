@@ -1290,11 +1290,13 @@ const Dialogs = {
 		this.$dirTree.empty()
 		var self = this
 
+		self.$dirTree.append('<nav></nav>')
 		self.$dirTree.append(addButton)
 
 		var dir
 		var path = this.$filePicker.data('path')
-		var $template = $('<div data-dir="{dir}" tabindex="0"><a>{name}</a></div>').addClass('crumb')
+		var $template = $('<li data-dir="{dir}" tabindex="0"><a class="{classList}">{name}</a></li>').addClass('crumb')
+		var $breadcrumbs = $('<ul class="breadcrumb"></ul>')
 		if (path) {
 			var paths = path.split('/')
 			$.each(paths, function(index, dir) {
@@ -1302,18 +1304,20 @@ const Dialogs = {
 				if (dir === '') {
 					return false
 				}
-				self.$dirTree.prepend($template.octemplate({
+				$breadcrumbs.append($template.octemplate({
 					dir: paths.join('/') + '/' + dir,
 					name: dir
 				}))
 			})
 		}
-
 		$template.octemplate({
 			dir: '',
 			name: t('core', 'Home'),
-		}, { escapeFunction: null }).prependTo(this.$dirTree)
+			classList: 'icon-home'
+		}, { escapeFunction: null }).addClass('crumb svg crumbhome').prependTo($breadcrumbs)
 
+
+		this.$dirTree.find('nav').prepend($breadcrumbs)
 	},
 	/**
 	 * handle selection made in the tree list
