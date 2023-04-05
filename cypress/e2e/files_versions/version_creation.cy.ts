@@ -23,18 +23,22 @@
 import { openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils'
 
 describe('Versions creation', () => {
+	let randomFileName = ''
+
 	before(() => {
+		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+
 		cy.createRandomUser()
 			.then((user) => {
-				uploadThreeVersions(user)
+				uploadThreeVersions(user, randomFileName)
 				cy.login(user)
 				cy.visit('/apps/files')
-				openVersionsPanel('test.txt')
+				openVersionsPanel(randomFileName)
 			})
 	})
 
 	it('Opens the versions panel and sees the versions', () => {
-		openVersionsPanel('test.txt')
+		openVersionsPanel(randomFileName)
 
 		cy.get('#tab-version_vue').within(() => {
 			cy.get('[data-files-versions-version]').should('have.length', 3)
