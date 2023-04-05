@@ -128,7 +128,7 @@ class PreviewManager implements IPreview {
 	 * Get all providers
 	 */
 	public function getProviders(): array {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return [];
 		}
 
@@ -219,7 +219,7 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	public function isMimeSupported($mimeType = '*') {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
 
@@ -244,7 +244,7 @@ class PreviewManager implements IPreview {
 	 * Check if a preview can be generated for a file
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file): bool {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
 

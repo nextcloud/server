@@ -36,7 +36,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version')
 			->willReturn('12.0.0.0');
 
