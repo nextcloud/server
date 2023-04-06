@@ -205,6 +205,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, "w");
+		if (!$handle) {
+			return false;
+		}
 		$this->removeCachedFile($path);
 		$count = fwrite($handle, $data);
 		fclose($handle);
