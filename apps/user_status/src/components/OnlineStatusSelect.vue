@@ -29,7 +29,7 @@
 			@change="onChange">
 		<label :for="id" class="user-status-online-select__label">
 			{{ label }}
-			<span :class="icon" role="img" />
+			<span :class="icon" aria-hidden="true" role="img" />
 			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
 	</div>

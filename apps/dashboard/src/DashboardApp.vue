@@ -51,7 +51,7 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<div :class="statusInfo[status].icon" role="img" />
+							<div :class="statusInfo[status].icon" aria-hidden="true" role="img" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -69,7 +69,7 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<div :class="panel.iconClass" role="img" />
+							<div :class="panel.iconClass" aria-hidden="true" role="img" />
 							{{ panel.title }}
 						</label>
 					</li>
