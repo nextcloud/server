@@ -32,6 +32,7 @@ OC.L10N.register(
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法讀取這個檔案，也許這是分享的檔案。請要求檔案所有人重新分享檔案給您。",
     "Default encryption module" : "預設加密模組",
     "Default encryption module for server-side encryption" : "伺服器端加密的預設加密模組",
+    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "為了使用此加密模組，您必須在管理員設定中啟用伺服器端加密。啟用後，此模組將會加密您之後傳輸的所有檔案。此加密是以 AES 256 金鑰為基礎。\n此模組將不會處理既有的檔案，僅會加密在伺服器端加密啟用後的新檔案。同時也無法停用加密並切換回未加密的系統。\n在您決定啟用伺服器端加密前，請閱讀文件得知其實際作用與影響。",
     "Hey there,\n\nThe administration enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.\n\n" : "嗨，請看這裡，\n\n管理員啟用了伺服器端加密的功能，您的檔案將會使用密碼「%s」加密。\n\n請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。\n\n",
     "The share will expire on %s." : "這個分享將會於 %s 過期。",
     "Cheers!" : "太棒了！",

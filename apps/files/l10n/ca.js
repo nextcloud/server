@@ -193,6 +193,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copia-ho al porta-retalls",
     "Use this address to access your Files via WebDAV" : "Utilitzeu aquesta adreça per a accedir als vostres fitxers mitjançant WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Si has habilitat l'autenticació en dos factors 2FA, crea i utilitza una nova contrasenya d'aplicació clicant aquí",
     "Clipboard is not available" : "El porta-retalls no està disponible",
     "WebDAV URL copied to clipboard" : "URL de WebDAV copiat al porta-retalls",
     "Unable to change the favourite state of the file" : "No s'ha pogut canviar l'estat de preferit del fitxer",

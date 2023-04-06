@@ -285,6 +285,7 @@
     "Strong password" : "Contrasenya forta",
     "No action available" : "Cap acció disponible",
     "Error fetching contact actions" : "Error al carregar les accions del contacte",
+    "Close \"{dialogTitle}\" dialog" : "Tanca  \"{dialogTitle}\" diàleg",
     "Non-existing tag #{tag}" : "Etiqueta inexistent #{tag}",
     "Restricted" : "Restringit",
     "Invisible" : "Invisible",
@@ -422,6 +423,7 @@
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú de contactes",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Si us plau, utilitzeu l'actualitzador de línia d'ordres ja que l'actualització via navegador web està deshabilitada al vostre fitxer config.php"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
