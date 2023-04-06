@@ -44,7 +44,6 @@ $expectedFiles = [
 	'.tag',
 	'.tx',
 	'.user.ini',
-	'.vscode',
 	'3rdparty',
 	'AUTHORS',
 	'CHANGELOG.md',
