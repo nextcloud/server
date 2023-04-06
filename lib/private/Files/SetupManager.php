@@ -235,10 +235,12 @@ class SetupManager {
 	 * part of the user setup that is run only once per user
 	 */
 	private function oneTimeUserSetup(IUser $user) {
-		if (in_array($user->getUID(), $this->setupUsers, true)) {
+		if ($this->isSetupStarted($user)) {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
+
+		$this->setupRoot();
 
 		$this->eventLogger->start('fs:setup:user:onetime', 'Onetime filesystem for user');
 
@@ -319,11 +321,7 @@ class SetupManager {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
-		$this->setupRoot();
-
-		if (!$this->isSetupStarted($user)) {
-			$this->oneTimeUserSetup($user);
-		}
+		$this->oneTimeUserSetup($user);
 
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			$mountCallback();
@@ -422,9 +420,7 @@ class SetupManager {
 			return;
 		}
 
-		if (!$this->isSetupStarted($user)) {
-			$this->oneTimeUserSetup($user);
-		}
+		$this->oneTimeUserSetup($user);
 
 		$this->eventLogger->start('fs:setup:user:path', "Setup $path filesystem for user");
 		$this->eventLogger->start('fs:setup:user:path:find', "Find mountpoint for $path");
@@ -512,6 +508,8 @@ class SetupManager {
 		}
 
 		$this->eventLogger->start('fs:setup:user:providers', "Setup filesystem for " . implode(', ', $providers));
+
+		$this->oneTimeUserSetup($user);
 
 		// home providers are always used
 		$providers = array_filter($providers, function (string $provider) {
