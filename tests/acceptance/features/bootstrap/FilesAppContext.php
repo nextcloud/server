@@ -73,7 +73,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function currentSectionMainView() {
-		return Locator::forThe()->xpath("//*[starts-with(@id, 'app-content-')  and not(contains(concat(' ', normalize-space(@class), ' '), ' hidden '))]")->
+		return Locator::forThe()->xpath("//*[starts-with(@id, 'app-content-') and not(@id = 'app-content-vue') and not(contains(concat(' ', normalize-space(@class), ' '), ' hidden '))]")->
 				describedAs("Current section main view in Files app");
 	}
 
