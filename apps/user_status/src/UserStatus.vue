@@ -43,7 +43,7 @@
 				class="user-status-menu-item__toggle"
 				href="#"
 				@click.prevent.stop="openModal">
-				<span :class="statusIcon" class="user-status-menu-item__toggle-icon" />
+				<span aria-hidden="true" :class="statusIcon" class="user-status-menu-item__toggle-icon" />
 				{{ visibleMessage }}
 			</toggle>
 		</div>
