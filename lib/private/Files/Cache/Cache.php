@@ -43,6 +43,7 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -641,6 +642,10 @@ class Cache implements ICache {
 		return [$this->getNumericStorageId(), $path];
 	}
 
+	protected function hasEncryptionWrapper(): bool {
+		return $this->storage->instanceOfStorage(Encryption::class);
+	}
+
 	/**
 	 * Move a file or folder in the cache
 	 *
@@ -692,6 +697,11 @@ class Cache implements ICache {
 					->where($query->expr()->eq('storage', $query->createNamedParameter($sourceStorageId, IQueryBuilder::PARAM_INT)))
 					->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($sourcePath) . '/%')));
 
+				// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+				if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+					$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+				}
+
 				try {
 					$query->execute();
 				} catch (\OC\DatabaseException $e) {
@@ -708,6 +718,12 @@ class Cache implements ICache {
 				->set('name', $query->createNamedParameter(basename($targetPath)))
 				->set('parent', $query->createNamedParameter($newParentId, IQueryBuilder::PARAM_INT))
 				->whereFileId($sourceId);
+
+			// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+			if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+				$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+			}
+
 			$query->execute();
 
 			$this->connection->commit();
@@ -1067,6 +1083,12 @@ class Cache implements ICache {
 			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
 		}
 		$data = $this->cacheEntryToArray($sourceEntry);
+
+		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+			$data['encrypted'] = 0;
+		}
+
 		$fileId = $this->put($targetPath, $data);
 		if ($fileId <= 0) {
 			throw new \RuntimeException("Failed to copy to " . $targetPath . " from cache with source data " . json_encode($data) . " ");
