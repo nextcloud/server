@@ -24,7 +24,7 @@
 		@keyup.enter="select"
 		@keyup.space="select"
 		@click="select">
-		<span class="predefined-status__icon">
+		<span aria-hidden="true" class="predefined-status__icon">
 			{{ icon }}
 		</span>
 		<span class="predefined-status__message">

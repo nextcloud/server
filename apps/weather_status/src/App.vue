@@ -24,32 +24,38 @@
 		<div id="weather-status-menu-item">
 			<NcActions class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
+				:aria-hidden="true"
 				:menu-title="currentWeatherMessage">
 				<NcActionText v-if="gotWeather"
+					:aria-hidden="true"
 					:icon="futureWeatherIcon">
 					{{ forecastMessage }}
 				</NcActionText>
 				<NcActionLink v-if="gotWeather"
 					icon="icon-address"
 					target="_blank"
+					:aria-hidden="true"
 					:href="weatherLinkTarget"
 					:close-after-click="true">
 					{{ locationText }}
 				</NcActionLink>
 				<NcActionButton v-if="gotWeather"
 					:icon="addRemoveFavoriteIcon"
+					:aria-hidden="true"
 					@click="onAddRemoveFavoriteClick">
 					{{ addRemoveFavoriteText }}
 				</NcActionButton>
 				<NcActionSeparator v-if="address && !errorMessage" />
 				<NcActionButton icon="icon-crosshair"
 					:close-after-click="true"
+					:aria-hidden="true"
 					@click="onBrowserLocationClick">
 					{{ t('weather_status', 'Detect location') }}
 				</NcActionButton>
 				<NcActionInput ref="addressInput"
 					:disabled="false"
 					icon="icon-rename"
+					:aria-hidden="true"
 					type="text"
 					value=""
 					@submit="onAddressSubmit">
@@ -57,12 +63,14 @@
 				</NcActionInput>
 				<NcActionButton v-show="favorites.length > 0"
 					:icon="toggleFavoritesIcon"
+					:aria-hidden="true"
 					@click="showFavorites = !showFavorites">
 					{{ t('weather_status', 'Favorites') }}
 				</NcActionButton>
 				<NcActionButton v-for="f in displayedFavorites"
 					:key="f"
 					icon="icon-starred"
+					:aria-hidden="true"
 					@click="onFavoriteClick($event, f)">
 					{{ f }}
 				</NcActionButton>
