@@ -12,6 +12,9 @@ git submodule update --init
 # Codespace config
 cp .devcontainer/codespace.config.php config/codespace.config.php
 
+# VSCode debugger profile
+mkdir -p .vscode && cp .devcontainer/launch.json .vscode/launch.json
+
 # Onetime installation setup
 if [[ ! $(sudo -u ${APACHE_RUN_USER} php occ status) =~ installed:[[:space:]]*true ]]; then
     echo "Running NC installation"
