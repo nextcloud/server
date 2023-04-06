@@ -26,6 +26,12 @@ object-assign
 */
 
 /*!
+  * pinia v2.0.33
+  * (c) 2023 Eduardo San Martin Morote
+  * @license MIT
+  */
+
+/*!
   * vue-router v3.6.5
   * (c) 2022 Evan You
   * @license MIT
@@ -368,6 +374,10 @@ object-assign
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
+
+/*! For license information please see NcBreadcrumb.js.LICENSE.txt */
+
+/*! For license information please see NcBreadcrumbs.js.LICENSE.txt */
 
 /*! For license information please see NcButton.js.LICENSE.txt */
 
@@ -825,12 +835,45 @@ object-assign
  */
 
 /**
+ * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/**
+ * natural-orderby v3.0.2
+ *
+ * Copyright (c) Olaf Ennen
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
  */
 
 /**

@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,9 +19,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+/* eslint-disable */
+import { defineStore } from 'pinia'
+import Vue from 'vue'
 
-import './app.js'
-import './filelist.js'
-import './trash.scss'
+export const useSelectionStore = defineStore('selection', {
+	state: () => ({
+		selected: [] as number[]
+	}),
 
-window.OCA.Trashbin = OCA.Trashbin
+	actions: {
+		/**
+		 * Set the selection of fileIds
+		 */
+		set(selection = [] as number[]) {
+			Vue.set(this, 'selected', selection)
+		},
+
+		/**
+		 * Reset the selection
+		 */
+		reset() {
+			Vue.set(this, 'selected', [])
+		}
+	}
+})

@@ -1,13 +1,11 @@
 <div id="app-navigation-files" role="navigation"></div>
 <div class="hidden">
 	<ul class="with-icon" tabindex="0">
-
 		<?php
-
-		$pinned = 0;
-		foreach ($_['navigationItems'] as $item) {
-			$pinned = NavigationListElements($item, $l, $pinned);
-		}
+			$pinned = 0;
+			foreach ($_['navigationItems'] as $item) {
+				$pinned = NavigationListElements($item, $l, $pinned);
+			}
 		?>
 	</ul>
 </div>

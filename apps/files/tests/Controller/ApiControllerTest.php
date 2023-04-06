@@ -206,37 +206,44 @@ class ApiControllerTest extends TestCase {
 		$mode = 'mtime';
 		$direction = 'desc';
 
-		$this->config->expects($this->exactly(2))
-			->method('setUserValue')
-			->withConsecutive(
-				[$this->user->getUID(), 'files', 'file_sorting', $mode],
-				[$this->user->getUID(), 'files', 'file_sorting_direction', $direction],
-			);
+		$sortingConfig = [];
+		$sortingConfig['files'] = [
+			'mode' => $mode,
+			'direction' => $direction,
+		];
 
-		$expected = new HTTP\Response();
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->user->getUID(), 'files', 'files_sorting_configs', json_encode($sortingConfig));
+
+		$expected = new HTTP\JSONResponse([
+			'message' => 'ok',
+			'data' => $sortingConfig
+		]);
 		$actual = $this->apiController->updateFileSorting($mode, $direction);
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function invalidSortingModeData() {
 		return [
-			['color', 'asc'],
-			['name', 'size'],
-			['foo', 'bar']
+			['size'],
+			['bar']
 		];
 	}
 
 	/**
 	 * @dataProvider invalidSortingModeData
 	 */
-	public function testUpdateInvalidFileSorting($mode, $direction) {
+	public function testUpdateInvalidFileSorting($direction) {
 		$this->config->expects($this->never())
 			->method('setUserValue');
 
-		$expected = new Http\Response(null);
+		$expected = new Http\JSONResponse([
+			'message' => 'Invalid direction parameter'
+		]);
 		$expected->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
 
-		$result = $this->apiController->updateFileSorting($mode, $direction);
+		$result = $this->apiController->updateFileSorting('basename', $direction);
 
 		$this->assertEquals($expected, $result);
 	}

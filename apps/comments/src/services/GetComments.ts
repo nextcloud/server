@@ -20,12 +20,15 @@
  *
  */
 
-import { parseXML, prepareFileFromProps } from 'webdav/dist/node/tools/dav.js'
-import { processResponsePayload } from 'webdav/dist/node/response.js'
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.js'
+import { parseXML, type DAVResult, type FileStat } from 'webdav'
+
+// https://github.com/perry-mitchell/webdav-client/issues/339
+import { processResponsePayload } from '../../../../node_modules/webdav/dist/node/response.js'
+import { prepareFileFromProps } from '../../../../node_modules/webdav/dist/node/tools/dav.js'
 import client from './DavClient.js'
 
 export const DEFAULT_LIMIT = 20
+
 /**
  * Retrieve the comments list
  *
@@ -33,13 +36,13 @@ export const DEFAULT_LIMIT = 20
  * @param {string} data.commentsType the ressource type
  * @param {number} data.ressourceId the ressource ID
  * @param {object} [options] optional options for axios
+ * @param {number} [options.offset] the pagination offset
  * @return {object[]} the comments list
  */
-export default async function({ commentsType, ressourceId }, options = {}) {
-	let response = null
+export const getComments = async function({ commentsType, ressourceId }, options: { offset: number }) {
 	const ressourcePath = ['', commentsType, ressourceId].join('/')
 
-	return await client.customRequest(ressourcePath, Object.assign({
+	const response = await client.customRequest(ressourcePath, Object.assign({
 		method: 'REPORT',
 		data: `<?xml version="1.0"?>
 			<oc:filter-comments
@@ -51,42 +54,30 @@ export default async function({ commentsType, ressourceId }, options = {}) {
 				<oc:offset>${options.offset || 0}</oc:offset>
 			</oc:filter-comments>`,
 	}, options))
-		// See example on how it's done normally
-		// https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/stat.js#L19
-		// Waiting for proper REPORT integration https://github.com/perry-mitchell/webdav-client/issues/207
-		.then(res => {
-			response = res
-			return res.data
-		})
-		.then(parseXML)
-		.then(xml => processMultistatus(xml, true))
-		.then(comments => processResponsePayload(response, comments, true))
-		.then(response => response.data)
+
+	const responseData = await response.text()
+	const result = await parseXML(responseData)
+	const stat = getDirectoryFiles(result, true)
+	return processResponsePayload(response, stat, true)
 }
 
-// https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/directoryContents.js#L32
-/**
- * @param {any} result -
- * @param {any} isDetailed -
- */
-function processMultistatus(result, isDetailed = false) {
+// https://github.com/perry-mitchell/webdav-client/blob/8d9694613c978ce7404e26a401c39a41f125f87f/source/operations/directoryContents.ts
+const getDirectoryFiles = function(
+	result: DAVResult,
+	isDetailed = false,
+): Array<FileStat> {
 	// Extract the response items (directory contents)
 	const {
 		multistatus: { response: responseItems },
 	} = result
+
+	// Map all items to a consistent output structure (results)
 	return responseItems.map(item => {
 		// Each item should contain a stat object
 		const {
 			propstat: { prop: props },
 		} = item
-		// Decode HTML entities
-		const decodedProps = {
-			...props,
-			// Decode twice to handle potentially double-encoded entities
-			// FIXME Remove this once https://github.com/nextcloud/server/issues/29306 is resolved
-			actorDisplayName: decodeHtmlEntities(props.actorDisplayName, 2),
-			message: decodeHtmlEntities(props.message, 2),
-		}
-		return prepareFileFromProps(decodedProps, decodedProps.id.toString(), isDetailed)
+
+		return prepareFileFromProps(props, props.id.toString(), isDetailed)
 	})
 }
