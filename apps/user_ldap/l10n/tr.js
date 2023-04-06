@@ -153,7 +153,7 @@ OC.L10N.register(
     "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "İsteğe bağlı. Görüntülenecek ada parantez içinde eklenecek LDAP özniteliği. Örnek sonuç: »John Doe (john.doe@example.org)«.",
     "Base User Tree" : "Temel Kullanıcı Ağacı",
     "One User Base DN per line" : "Her Satıra Bir Kullanıcı Base DN",
-    "User Search Attributes" : "Kullanıcı Arama Öznitelikleri",
+    "User Search Attributes" : "Kullanıcı arama öznitelikleri",
     "Optional; one attribute per line" : "İsteğe bağlı; her satıra bir öznitelik",
     "Group Display Name Field" : "Görüntülenecek Grup Adı Alanı",
     "The LDAP attribute to use to generate the groups's display name." : "Görüntülenecek grup adını oluşturmak için kullanılacak LDAP özniteliği.",
