@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
@@ -46,6 +45,7 @@ import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { saveProfileParameterVisibility } from '../../../service/ProfileService'
 import { validateStringInput } from '../../../utils/validate'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants'
+import { handleError } from '../../../utils/handlers.js'
 
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
@@ -137,8 +137,7 @@ export default {
 				// Ensure that local state reflects server state
 				this.initialVisibility = visibility
 			} else {
-				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 
