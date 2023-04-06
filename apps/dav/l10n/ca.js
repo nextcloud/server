@@ -75,6 +75,8 @@ OC.L10N.register(
     "\"%1$s\" has been canceled" : "\"%1$s\" s'ha cancel·lat",
     "Re: %1$s" : "Re: %1$s",
     "%1$s has responded to your invitation" : "%1$s ha respost a la teva invitació",
+    "Invitation updated: %1$s" : "Invitació actualitzada: %1$s",
+    "%1$s updated the event \"%2$s\"" : "%1$s ha actualitzat l'esdeveniment \"%2$s\"",
     "Invitation: %1$s" : "Invitació: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s vol convidar-vos a \"%2$s\"",
     "Organizer:" : "Organitzador:",
