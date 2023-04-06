@@ -27,6 +27,7 @@
     "Update channel:" : "Canal d'actualitzacions:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Sempre podeu actualitzar a una versió més recent. Però mai no podeu baixar a una versió més estable.",
     "Notify members of the following groups about available updates:" : "Notifica als membres dels següents grups sobre les actualitzacions disponibles:",
+    "No groups" : "No hi ha grups",
     "Only notifications for app updates are available." : "Només hi ha notificacions per actualitzacions d'aplicacions disponibles.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "El canal d'actualització seleccionat deixa obsoletes les notificacions específiques del servidor.",
     "The selected update channel does not support updates of the server." : "El canal d'actualitzacions seleccionat no admet les actualitzacions del servidor.",

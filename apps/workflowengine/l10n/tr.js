@@ -115,6 +115,6 @@ OC.L10N.register(
     "Select a tag" : "Etiket seçin",
     "No results" : "Herhangi bir sonuç bulunamadı",
     "%s (invisible)" : "%s (görünmez)",
-    "%s (restricted)" : "%s (kısıtlı)"
+    "%s (restricted)" : "%s (kısıtlanmış)"
 },
 "nplurals=2; plural=(n > 1);");
