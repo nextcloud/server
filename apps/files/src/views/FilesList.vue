@@ -175,13 +175,13 @@ export default Vue.extend({
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...(this.currentFolder?.children || []).map(this.getNode).filter(file => file)]
+				const results = [...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)]
 					.sort(customColumn.sort)
 				return this.isAscSorting ? results : results.reverse()
 			}
 
 			return orderBy(
-				[...(this.currentFolder?.children || []).map(this.getNode).filter(file => file)],
+				[...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)],
 				[
 					// Sort folders first if sorting by name
 					...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
@@ -272,7 +272,7 @@ export default Vue.extend({
 				this.filesStore.updateNodes(contents)
 
 				// Define current directory children
-				folder.children = contents.map(node => node.attributes.fileid)
+				folder._children = contents.map(node => node.attributes.fileid)
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {

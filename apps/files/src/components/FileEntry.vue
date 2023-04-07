@@ -63,6 +63,7 @@
 			<!-- Menu actions -->
 			<NcActions v-if="active"
 				ref="actionsMenu"
+				:disabled="source._loading"
 				:force-title="true"
 				:inline="enabledInlineActions.length">
 				<NcActionButton v-for="action in enabledMenuActions"
@@ -433,7 +434,10 @@ export default Vue.extend({
 		async onActionClick(action) {
 			const displayName = action.displayName([this.source], this.currentView)
 			try {
+				// Set the loading marker
 				this.loading = action.id
+				Vue.set(this.source, '_loading', true)
+
 				const success = await action.exec(this.source, this.currentView)
 				if (success) {
 					showSuccess(this.t('files', '"{displayName}" action executed successfully', { displayName }))
@@ -444,7 +448,9 @@ export default Vue.extend({
 				logger.error('Error while executing action', { action, e })
 				showError(this.t('files', '"{displayName}" action failed', { displayName }))
 			} finally {
+				// Reset the loading marker
 				this.loading = ''
+				Vue.set(this.source, '_loading', false)
 			}
 		},
 
