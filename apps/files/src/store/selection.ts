@@ -22,18 +22,30 @@
 /* eslint-disable */
 import { defineStore } from 'pinia'
 import Vue from 'vue'
+import { FileId, SelectionStore } from '../types'
 
 export const useSelectionStore = defineStore('selection', {
 	state: () => ({
-		selected: [] as number[]
-	}),
+		selected: [],
+		lastSelection: [],
+		lastSelectedIndex: null,
+	} as SelectionStore),
 
 	actions: {
 		/**
 		 * Set the selection of fileIds
 		 */
-		set(selection = [] as number[]) {
+		set(selection = [] as FileId[]) {
 			Vue.set(this, 'selected', selection)
+		},
+
+		/**
+		 * Set the last selected index
+		 */
+		setLastIndex(lastSelectedIndex = null as FileId | null) {
+			// Update the last selection if we provided a new selection starting point
+			Vue.set(this, 'lastSelection', lastSelectedIndex ? this.selected : [])
+			Vue.set(this, 'lastSelectedIndex', lastSelectedIndex)
 		},
 
 		/**
@@ -41,6 +53,8 @@ export const useSelectionStore = defineStore('selection', {
 		 */
 		reset() {
 			Vue.set(this, 'selected', [])
+			Vue.set(this, 'lastSelection', [])
+			Vue.set(this, 'lastSelectedIndex', null)
 		}
 	}
 })

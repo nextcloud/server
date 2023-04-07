@@ -25,6 +25,7 @@ import type { PathOptions, ServicesState } from '../types.ts'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
 import { subscribe } from '@nextcloud/event-bus'
+import { FileId } from '../types'
 
 export const usePathsStore = () => {
 	const store = defineStore('paths', {
@@ -32,7 +33,7 @@ export const usePathsStore = () => {
 
 		getters: {
 			getPath: (state) => {
-				return (service: string, path: string): number|undefined => {
+				return (service: string, path: string): FileId|undefined => {
 					if (!state[service]) {
 						return undefined
 					}

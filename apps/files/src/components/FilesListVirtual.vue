@@ -36,6 +36,7 @@
 			<FileEntry :active="active"
 				:index="index"
 				:is-size-available="isSizeAvailable"
+				:nodes="nodes"
 				:source="item" />
 		</template>
 

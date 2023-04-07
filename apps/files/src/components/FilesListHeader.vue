@@ -183,6 +183,7 @@ export default Vue.extend({
 			if (selected) {
 				const selection = this.nodes.map(node => node.attributes.fileid.toString())
 				logger.debug('Added all nodes to selection', { selection })
+				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)
 			} else {
 				logger.debug('Cleared selection')
