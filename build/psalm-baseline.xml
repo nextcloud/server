@@ -2517,12 +2517,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Quota.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$extension === 'part'</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$free</code>
     </InvalidScalarArgument>
