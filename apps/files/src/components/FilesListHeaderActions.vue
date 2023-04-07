@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @author Gary Kim <gary@garykim.dev>
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -24,7 +24,8 @@
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-title="true"
-			:inline="3"
+			:inline="inlineActions"
+			:menu-title="inlineActions === 0 ? t('files', 'Actions') : null"
 			:open.sync="openedMenu">
 			<NcActionButton v-for="action in enabledActions"
 				:key="action.id"
@@ -43,8 +44,8 @@
 <script lang="ts">
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
@@ -52,6 +53,7 @@ import { getFileActions } from '../services/FileAction.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import clientWidthMixin from '../mixins/clientWidth.ts'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
 
@@ -67,6 +69,10 @@ export default Vue.extend({
 		NcActionButton,
 		NcLoadingIcon,
 	},
+
+	mixins: [
+		clientWidthMixin,
+	],
 
 	props: {
 		currentView: {
@@ -121,6 +127,16 @@ export default Vue.extend({
 			set(opened) {
 				this.actionsMenuStore.opened = opened ? 'global' : null
 			},
+		},
+
+		inlineActions() {
+			if (this.clientWidth < 480) {
+				return 1
+			}
+			if (this.clientWidth < 768) {
+				return 2
+			}
+			return 3
 		},
 	},
 

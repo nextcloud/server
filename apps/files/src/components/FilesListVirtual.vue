@@ -226,6 +226,8 @@ export default Vue.extend({
 			// Show same padding as the checkbox right padding for visual balance
 			margin-right: var(--checkbox-padding);
 			color: var(--color-primary-element);
+			// No shrinking or growing allowed
+			flex: 0 0 var(--icon-preview-size);
 
 			& > span {
 				justify-content: flex-start;
@@ -285,7 +287,7 @@ export default Vue.extend({
 				margin: 0 var(--cell-margin);
 			}
 
-			& > button {
+			button {
 				.button-vue__text {
 					// Remove bold from default button styling
 					font-weight: normal;
@@ -316,7 +318,22 @@ export default Vue.extend({
 		.files-list__row-column-custom {
 			width: calc(var(--row-height) * 2);
 		}
+
+		@media (max-width: 768px) {
+			// Hide any column after the size menu on mobile
+			.files-list__row-size ~ td,
+			.files-list__row-size ~ th {
+				display: none;
+			}
+		}
+
+		@media (max-width: 480px) {
+			// Hide any column after the actions menu on short mobile
+			.files-list__row-actions ~ td,
+			.files-list__row-actions ~ th {
+				display: none;
+			}
+		}
 	}
 }
-
 </style>

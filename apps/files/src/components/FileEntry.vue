@@ -115,6 +115,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import isMobileMixin from '@nextcloud/vue/dist/Mixins/isMobile.js'
 import Vue from 'vue'
 
 import { getFileActions } from '../services/FileAction.ts'
@@ -145,6 +146,10 @@ export default Vue.extend({
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 	},
+
+	mixins: [
+		isMobileMixin,
+	],
 
 	props: {
 		active: {
@@ -295,13 +300,20 @@ export default Vue.extend({
 		},
 
 		enabledInlineActions() {
+			if (this.isMobile) {
+				return []
+			}
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
 		},
 
 		enabledMenuActions() {
+			if (this.isMobile) {
+				return this.enabledActions
+			}
+
 			return [
 				...this.enabledInlineActions,
-				...actions.filter(action => !action.inline),
+				...this.enabledActions.filter(action => !action.inline),
 			]
 		},
 
@@ -311,10 +323,10 @@ export default Vue.extend({
 
 		openedMenu: {
 			get() {
-				return this.actionsMenuStore.opened === this
+				return this.actionsMenuStore.opened === this.uniqueId
 			},
 			set(opened) {
-				this.actionsMenuStore.opened = opened ? this : null
+				this.actionsMenuStore.opened = opened ? this.uniqueId : null
 			},
 		},
 	},
@@ -515,7 +527,7 @@ export default Vue.extend({
 
 			// If the clicked row is in the selection, open global menu
 			const isMoreThanOneSelected = this.selectedFiles.length > 1
-			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this
+			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this.uniqueId
 
 			// Prevent any browser defaults
 			event.preventDefault()

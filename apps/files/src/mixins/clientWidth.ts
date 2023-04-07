@@ -12,19 +12,32 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import { defineStore } from 'pinia'
-import type { ActionsMenuStore } from '../types'
 
-export const useActionsMenuStore = defineStore('actionsmenu', {
-	state: () => ({
-		opened: null,
-	} as ActionsMenuStore),
+import Vue from 'vue'
+
+export default Vue.extend({
+	data() {
+		return {
+			clientWidth: null as number | null,
+		}
+	},
+	created() {
+		window.addEventListener('resize', this.handleWindowResize)
+		this.handleWindowResize()
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.handleWindowResize)
+	},
+	methods: {
+		handleWindowResize() {
+			this.clientWidth = document.documentElement.clientWidth
+		},
+	},
 })
