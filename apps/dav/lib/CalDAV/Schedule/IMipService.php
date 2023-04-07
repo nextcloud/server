@@ -598,4 +598,17 @@ class IMipService {
 
 		$template->addBodyText($html, $text);
 	}
+
+	public function getReplyingAttendee(Message $iTipMessage): ?Property {
+		/** @var VEvent $vevent */
+		$vevent = $iTipMessage->message->VEVENT;
+		$attendees = $vevent->select('ATTENDEE');
+		foreach ($attendees as $attendee) {
+			/** @var Property $attendee */
+			if (strcasecmp($attendee->getValue(), $iTipMessage->sender) === 0) {
+				return $attendee;
+			}
+		}
+		return null;
+	}
 }
