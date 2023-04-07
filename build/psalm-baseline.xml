@@ -660,16 +660,10 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$result</code>
-    </FalsableReturnStatement>
-    <ImplementedParamTypeMismatch occurrences="2">
+    <ImplementedParamTypeMismatch occurrences="1">
       <code>$position</code>
       <code>$position</code>
     </ImplementedParamTypeMismatch>
-    <InvalidNullableReturnType occurrences="1">
-      <code>boolean</code>
-    </InvalidNullableReturnType>
   </file>
   <file src="apps/encryption/lib/KeyManager.php">
     <InvalidScalarArgument occurrences="3">
@@ -680,13 +674,6 @@
     <InvalidThrow occurrences="1">
       <code>throw $exception;</code>
     </InvalidThrow>
-  </file>
-  <file src="apps/encryption/lib/Recovery.php">
-    <InvalidScalarArgument occurrences="3">
-      <code>0</code>
-      <code>0</code>
-      <code>1</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/encryption/lib/Session.php">
     <TooManyArguments occurrences="1">
@@ -976,10 +963,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;sourceRootInfo</code>
     </NullableReturnStatement>
-    <ParamNameMismatch occurrences="2">
-      <code>$available</code>
-      <code>$target</code>
-    </ParamNameMismatch>
   </file>
   <file src="apps/files_sharing/lib/Updater.php">
     <UndefinedMethod occurrences="1">
@@ -1116,13 +1099,6 @@
       <code>IDBConnection::CHECK_MISSING_INDEXES_EVENT</code>
       <code>IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT</code>
     </InvalidArgument>
-    <InvalidOperand occurrences="1">
-      <code>$lastCronRun</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="2">
-      <code>$lastCronRun</code>
-      <code>0</code>
-    </InvalidScalarArgument>
     <TooManyArguments occurrences="3">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -1140,9 +1116,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Sharing.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>Constants::PERMISSION_ALL</code>
-    </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
@@ -1159,12 +1132,6 @@
       <code>$event-&gt;getObjectId()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/updatenotification/lib/Controller/AdminController.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-      <code>0</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/updatenotification/lib/Notification/BackgroundJob.php">
     <InvalidArgument occurrences="1">
       <code>false</code>
@@ -1172,21 +1139,6 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;users</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidScalarArgument occurrences="3">
-      <code>$errors</code>
-      <code>0</code>
-      <code>0</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/updatenotification/lib/Notification/Notifier.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>0</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/updatenotification/lib/Settings/Admin.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$lastUpdateCheckTimestamp</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
     <InvalidScalarArgument occurrences="1">
@@ -1229,16 +1181,9 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
-    <InvalidOperand occurrences="2">
+    <InvalidOperand occurrences="1">
       <code>$i</code>
-      <code>$lastChange</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="5">
-      <code>$interval</code>
-      <code>0</code>
-      <code>0</code>
-      <code>self::MIN_INTERVAL</code>
-    </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
@@ -1271,10 +1216,6 @@
     <InvalidReturnType occurrences="1">
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>1</code>
-      <code>true</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -1302,11 +1243,6 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-  </file>
-  <file src="apps/workflowengine/lib/Check/FileMimeType.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$path</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/workflowengine/lib/Check/FileSize.php">
     <FalsableReturnStatement occurrences="1">
@@ -1773,10 +1709,6 @@
       <code>IProvider::EVENT_FAILED</code>
       <code>IProvider::EVENT_SUCCESS</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-      <code>$tokenId</code>
-    </InvalidScalarArgument>
     <TooManyArguments occurrences="2">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -2091,12 +2023,7 @@
     <FalsableReturnStatement occurrences="1">
       <code>$data</code>
     </FalsableReturnStatement>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$path</code>
-    </MoreSpecificImplementedParamType>
-    <ParamNameMismatch occurrences="1">
-      <code>$path</code>
-    </ParamNameMismatch>
+    <MoreSpecificImplementedParamType occurrences="1"/>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
     <InvalidReturnStatement occurrences="1">
@@ -2151,18 +2078,6 @@
     </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/Files/Filesystem.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>self::$defaultInstance-&gt;toTmpFile($path)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>addStorageWrapper</code>
     </TooManyArguments>
@@ -2271,18 +2186,6 @@
       <code>$this-&gt;fileInfo</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Files/Node/NonExistingFile.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$newPath</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Files/Node/NonExistingFolder.php">
-    <ParamNameMismatch occurrences="3">
-      <code>$mime</code>
-      <code>$newPath</code>
-      <code>$pattern</code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Files/Node/Root.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>Node</code>
@@ -2387,7 +2290,7 @@
       <code>getCache</code>
       <code>verifyPath</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="39">
+    <InvalidScalarArgument occurrences="38">
       <code>$this-&gt;e-&gt;getCode()</code>
       <code>$this-&gt;e-&gt;getCode()</code>
       <code>$this-&gt;e-&gt;getCode()</code>
@@ -2514,12 +2417,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Quota.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$extension === 'part'</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$free</code>
     </InvalidScalarArgument>
@@ -2557,23 +2454,9 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/View.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$fileId</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$mtime</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="3">
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-    <RedundantCondition occurrences="1">
-      <code>is_resource($source)</code>
-    </RedundantCondition>
-    <UndefinedDocblockClass occurrences="2">
-      <code>$storage</code>
-      <code>[$storage, $internalPath]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/FullTextSearch/Model/IndexDocument.php">
     <TypeDoesNotContainNull occurrences="1">
@@ -2953,10 +2836,6 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Setup.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>microtime(true)</code>
-      <code>microtime(true)</code>
-    </InvalidScalarArgument>
     <RedundantCondition occurrences="2">
       <code>$content !== ''</code>
       <code>$type === 'pdo'</code>
@@ -3004,9 +2883,8 @@
       <code>'OCP\Share::preShare'</code>
       <code>'OCP\Share::preUnshare'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$id</code>
-      <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="7">
       <code>dispatch</code>
@@ -3176,12 +3054,6 @@
     <InvalidReturnStatement occurrences="1">
       <code>$path</code>
     </InvalidReturnStatement>
-  </file>
-  <file src="lib/private/Updater/VersionCheck.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>microtime(true)</code>
-      <code>time()</code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement occurrences="1">
