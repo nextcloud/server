@@ -115,16 +115,17 @@
     "All files" : "Бүх файлууд",
     "Accept" : "Хүлээн зөвшөөрөх",
     "File Management" : "Файлын удирдлага",
+    "Select all" : "бүгдийг сонгох",
     "Unknown error" : "Үл мэдэгдэх алдаа",
+    "No files in here" : "Энд файл байхгүй байна",
+    "Go back" : "Буцах",
     "Show hidden files" : "Нууцлагдсан файлыг харах",
     "Cancel" : "болиулах",
     "Create" : "Үүсгэх",
-    "No files in here" : "Энд файл байхгүй байна",
+    "Delete permanently" : "бүр мөсөн устгах",
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
-    "Select all" : "бүгдийг сонгох",
     "Upload too large" : "маш том байршуулалт",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
-    "Deleted files" : "Устгасан файлууд",
     "Shares" : "Түгээлтүүд",
     "Shared with others" : "Бусдад түгээсэн",
     "Shared with you" : "тантай хуваалцсан",
@@ -137,6 +138,7 @@
     "New" : "Шинэ",
     "Copied!" : "Хуулсан!",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
-    "Settings" : "Тохиргоо"
+    "Settings" : "Тохиргоо",
+    "Deleted files" : "Устгасан файлууд"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
