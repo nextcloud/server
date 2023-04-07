@@ -140,8 +140,6 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import '../mixins/fileslist-row.scss';
-
 // Scoped row
 tr {
 	padding-bottom: 300px;

@@ -207,7 +207,6 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import '../mixins/fileslist-row.scss';
 .files-list__column {
 	user-select: none;
 	// Make sure the cell colors don't apply to column headers

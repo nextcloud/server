@@ -529,8 +529,6 @@ export default Vue.extend({
 </script>
 
 <style scoped lang='scss'>
-@import '../mixins/fileslist-row.scss';
-
 /* Hover effect on tbody lines only */
 tr {
 	&:hover,
