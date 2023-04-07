@@ -27,14 +27,16 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
-use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\IPreview;
 use Sabre\DAV\INode;
-use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\ServerPlugin;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 
-class PropfindPlugin extends ServerPlugin {
+class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
 	public const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
 	public const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
@@ -56,6 +58,7 @@ class PropfindPlugin extends ServerPlugin {
 		$this->server = $server;
 
 		$this->server->on('propFind', [$this, 'propFind']);
+		$this->server->on('afterMethod:GET', [$this,'httpGet']);
 	}
 
 
@@ -109,5 +112,19 @@ class PropfindPlugin extends ServerPlugin {
 		$propFind->handle(FilesPlugin::MOUNT_TYPE_PROPERTYNAME, function () {
 			return '';
 		});
+	}
+
+	/**
+	 * Set real filename on trashbin download
+	 *
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 */
+	public function httpGet(RequestInterface $request, ResponseInterface $response): void {
+		$path = $request->getPath();
+		$node = $this->server->tree->getNodeForPath($path);
+		if ($node instanceof ITrash) {
+			$response->addHeader('Content-Disposition', 'attachment; filename="' . $node->getFilename() . '"');
+		}
 	}
 }
