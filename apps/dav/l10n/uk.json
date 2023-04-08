@@ -157,7 +157,7 @@
     "Friday" : "П'ятниця",
     "Saturday" : "Субота",
     "Sunday" : "Неділя",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Автоматично встановлюйте статус користувача на \"Не турбувати\" поза доступністю, щоб вимкнути всі сповіщення.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Автоматично встановлюйте статус користувача на \"Не турбувати\", коли ви не доступні, щоб вимкнути усі сповіщення.",
     "Save" : "Зберегти",
     "Failed to load availability" : "Не вдалося завантажити доступність",
     "Saved availability" : "Збережена наявність",

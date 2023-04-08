@@ -13,6 +13,7 @@
     "Error while removing files from trash bin" : "Chyba při odebírání souborů z Koše",
     "This operation is forbidden" : "Tato operace je zakázána",
     "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný – zkontrolujte záznamy událostí nebo se obraťte na správce",
+    "List of files that have been deleted." : "Seznam souborů, které byly smazány",
     "Deleted" : "Smazáno",
     "No deleted files" : "Žádné smazané soubory",
     "You will be able to recover deleted files from here" : "Odtud budete moci obnovovat smazané soubory",
