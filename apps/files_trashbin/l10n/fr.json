@@ -13,6 +13,7 @@
     "Error while removing files from trash bin" : "Erreur à la suppression de fichiers de la corbeille",
     "This operation is forbidden" : "Cette opération est interdite",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ce dossier n'est pas disponible. Consultez les logs ou contactez votre administrateur",
+    "List of files that have been deleted." : "Liste des fichiers qui ont été supprimés.",
     "Deleted" : "Supprimé",
     "No deleted files" : "Aucun fichier supprimé",
     "You will be able to recover deleted files from here" : "Les fichiers supprimés s'afficheront ici et vous pourrez les restaurer.",

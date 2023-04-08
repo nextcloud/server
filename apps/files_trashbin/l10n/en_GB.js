@@ -15,6 +15,7 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Error while removing files from trash bin",
     "This operation is forbidden" : "This operation is forbidden",
     "This directory is unavailable, please check the logs or contact the administrator" : "This directory is unavailable, please check the logs or contact the administrator",
+    "List of files that have been deleted." : "List of files that have been deleted.",
     "Deleted" : "Deleted",
     "No deleted files" : "No deleted files",
     "You will be able to recover deleted files from here" : "You will be able to recover deleted files from here",
