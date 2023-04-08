@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Nadzorna plošča",
     "Dashboard app" : "Program Nadzorna plošča",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta, podrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike in spreminja ozadje po svojih željah.",
     "Customize" : "Prilagodi",
     "Edit widgets" : "Izbor gradnikov",
     "Get more widgets from the App Store" : "Pridobi več gradnikov s spletišča App Store",
