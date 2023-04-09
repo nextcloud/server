@@ -15,6 +15,7 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Dosyalar çöp kutusundan silinirken sorun çıktı",
     "This operation is forbidden" : "Bu işlem yapılamaz",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu klasör kullanılamıyor. Lütfen günlüğü denetleyin ya da BT yöneticiniz ile görüşün",
+    "List of files that have been deleted." : "Silinmiş dosyaların listesi",
     "Deleted" : "Silindi",
     "No deleted files" : "Silinmiş bir dosya yok",
     "You will be able to recover deleted files from here" : "Silinmiş dosyalarınızı buradan geri yükleyebilirsiniz",
