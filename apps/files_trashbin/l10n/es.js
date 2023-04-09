@@ -15,6 +15,7 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Error al eliminar los archivos de la papelera",
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, por favor verifique los registros o contacte con el administrador",
+    "List of files that have been deleted." : "Lista de archivos que han sido eliminados.",
     "Deleted" : "Eliminado",
     "No deleted files" : "No hay archivos eliminados",
     "You will be able to recover deleted files from here" : "Desde aquí se podrán recuperar archivos eliminados",
