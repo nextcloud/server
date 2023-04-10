@@ -678,6 +678,39 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
 
+	public function testNeedsSecondFactorWhileConfiguring() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->session->method('exists')
+			->willReturn(false);
+		$this->session->method('getId')
+			->willReturn('mysessionid');
+
+		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token->method('getId')
+			->willReturn(40);
+
+		$this->tokenProvider->method('getToken')
+			->with('mysessionid')
+			->willReturn($token);
+
+		$this->config->method('getUserKeys')
+			->with('user', 'login_token_2fa')
+			->willReturn([
+				'42', '43', '44'
+			]);
+
+		// the user is still configuring 2FA with token 40
+		$this->session->expects($this->once())
+			->method('set')
+			->with(Manager::SESSION_UID_CONFIGURING, 'user');
+
+		// 2FA should not be required if configuration is not complete
+		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
 	public function testNeedsSecondFactorInvalidToken() {
 		$this->prepareNoProviders();
 
