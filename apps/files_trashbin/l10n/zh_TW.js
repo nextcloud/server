@@ -15,6 +15,7 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "從回收桶移除檔案時發生錯誤",
     "This operation is forbidden" : "此動作被禁止",
     "This directory is unavailable, please check the logs or contact the administrator" : "此目錄不可用，請檢查紀錄檔或聯絡管理員",
+    "List of files that have been deleted." : "已被刪除的檔案清單。",
     "Deleted" : "已刪除",
     "No deleted files" : "沒有已刪除的檔案",
     "You will be able to recover deleted files from here" : "您可以從這裡還原已刪除的檔案",
