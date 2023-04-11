@@ -24,7 +24,8 @@
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-title="true"
-			:inline="3">
+			:inline="3"
+			:open.sync="openedMenu">
 			<NcActionButton v-for="action in enabledActions"
 				:key="action.id"
 				:class="'files-list__row-actions-batch-' + action.id"
@@ -48,6 +49,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
 import { getFileActions } from '../services/FileAction.ts'
+import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
@@ -78,9 +80,11 @@ export default Vue.extend({
 	},
 
 	setup() {
+		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
 		return {
+			actionsMenuStore,
 			filesStore,
 			selectionStore,
 		}
@@ -108,6 +112,15 @@ export default Vue.extend({
 
 		areSomeNodesLoading() {
 			return this.nodes.some(node => node._loading)
+		},
+
+		openedMenu: {
+			get() {
+				return this.actionsMenuStore.opened === 'global'
+			},
+			set(opened) {
+				this.actionsMenuStore.opened = opened ? 'global' : null
+			},
 		},
 	},
 

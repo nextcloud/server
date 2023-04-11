@@ -66,7 +66,8 @@
 				ref="actionsMenu"
 				:disabled="source._loading"
 				:force-title="true"
-				:inline="enabledInlineActions.length">
+				:inline="enabledInlineActions.length"
+				:open.sync="openedMenu">
 				<NcActionButton v-for="action in enabledMenuActions"
 					:key="action.id"
 					:class="'files-list__row-action-' + action.id"
@@ -116,12 +117,13 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
-import { isCachedPreview } from '../services/PreviewService.ts'
 import { getFileActions } from '../services/FileAction.ts'
+import { isCachedPreview } from '../services/PreviewService.ts'
+import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
+import { useKeyboardStore } from '../store/keyboard.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { useKeyboardStore } from '../store/keyboard.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
@@ -168,15 +170,17 @@ export default Vue.extend({
 	},
 
 	setup() {
+		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
+		const keyboardStore = useKeyboardStore()
 		const selectionStore = useSelectionStore()
 		const userConfigStore = useUserConfigStore()
-		const keyboardStore = useKeyboardStore()
 		return {
+			actionsMenuStore,
 			filesStore,
+			keyboardStore,
 			selectionStore,
 			userConfigStore,
-			keyboardStore,
 		}
 	},
 
@@ -253,6 +257,9 @@ export default Vue.extend({
 		selectedFiles() {
 			return this.selectionStore.selected
 		},
+		isSelected() {
+			return this.selectedFiles.includes(this.source?.fileid?.toString?.())
+		},
 
 		cropPreviews() {
 			return this.userConfig.crop_image_previews
@@ -301,6 +308,15 @@ export default Vue.extend({
 		uniqueId() {
 			return this.hashCode(this.source.source)
 		},
+
+		openedMenu: {
+			get() {
+				return this.actionsMenuStore.opened === this
+			},
+			set(opened) {
+				this.actionsMenuStore.opened = opened ? this : null
+			},
+		},
 	},
 
 	watch: {
@@ -342,6 +358,9 @@ export default Vue.extend({
 
 		// Fetch the preview on init
 		this.debounceIfNotCached()
+
+		// Right click watcher on tr
+		this.$el.parentNode?.addEventListener?.('contextmenu', this.onRightClick)
 	},
 
 	beforeDestroy() {
@@ -410,7 +429,7 @@ export default Vue.extend({
 			this.clearImg()
 
 			// Close menu
-			this.$refs?.actionsMenu?.closeMenu?.()
+			this.openedMenu = false
 		},
 
 		clearImg() {
@@ -485,6 +504,22 @@ export default Vue.extend({
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)
 			this.selectionStore.setLastIndex(newSelectedIndex)
+		},
+
+		// Open the actions menu on right click
+		onRightClick(event) {
+			// If already opened, fallback to default browser
+			if (this.openedMenu) {
+				return
+			}
+
+			// If the clicked row is in the selection, open global menu
+			const isMoreThanOneSelected = this.selectedFiles.length > 1
+			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this
+
+			// Prevent any browser defaults
+			event.preventDefault()
+			event.stopPropagation()
 		},
 
 		t: translate,

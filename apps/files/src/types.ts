@@ -22,6 +22,7 @@
 /* eslint-disable */
 import type { Folder } from '@nextcloud/files'
 import type { Node } from '@nextcloud/files'
+import type { ComponentInstance } from 'vue'
 
 // Global definitions
 export type Service = string
@@ -85,4 +86,10 @@ export interface SelectionStore {
 	selected: FileId[]
 	lastSelection: FileId[]
 	lastSelectedIndex: number | null
+}
+
+// Actions menu store
+export type GlobalActions = 'global'
+export interface ActionsMenuStore {
+	opened: ComponentInstance|GlobalActions|null
 }
