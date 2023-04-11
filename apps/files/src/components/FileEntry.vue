@@ -25,9 +25,10 @@
 		<td class="files-list__row-checkbox">
 			<NcCheckboxRadioSwitch v-if="active"
 				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
-				:checked.sync="selectedFiles"
-				:value="fileid.toString()"
-				name="selectedFiles" />
+				:checked="selectedFiles"
+				:value="fileid"
+				name="selectedFiles"
+				@update:checked="onSelectionChange" />
 		</td>
 
 		<!-- Link to file -->
@@ -120,6 +121,7 @@ import { getFileActions } from '../services/FileAction.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { useKeyboardStore } from '../store/keyboard.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
@@ -159,16 +161,22 @@ export default Vue.extend({
 			type: Number,
 			required: true,
 		},
+		nodes: {
+			type: Array,
+			required: true,
+		},
 	},
 
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
 		const userConfigStore = useUserConfigStore()
+		const keyboardStore = useKeyboardStore()
 		return {
 			filesStore,
 			selectionStore,
 			userConfigStore,
+			keyboardStore,
 		}
 	},
 
@@ -199,7 +207,7 @@ export default Vue.extend({
 		},
 
 		fileid() {
-			return this.source.attributes.fileid
+			return this.source?.fileid?.toString?.()
 		},
 		displayName() {
 			return this.source.attributes.displayName
@@ -242,14 +250,8 @@ export default Vue.extend({
 			}
 		},
 
-		selectedFiles: {
-			get() {
-				return this.selectionStore.selected
-			},
-			set(selection) {
-				logger.debug('Changed nodes selection', { selection })
-				this.selectionStore.set(selection)
-			},
+		selectedFiles() {
+			return this.selectionStore.selected
 		},
 
 		cropPreviews() {
@@ -452,6 +454,37 @@ export default Vue.extend({
 				this.loading = ''
 				Vue.set(this.source, '_loading', false)
 			}
+		},
+
+		onSelectionChange(selection) {
+			const newSelectedIndex = this.index
+			const lastSelectedIndex = this.selectionStore.lastSelectedIndex
+
+			// Get the last selected and select all files in between
+			if (this.keyboardStore?.shiftKey && lastSelectedIndex !== null) {
+				const isAlreadySelected = this.selectedFiles.includes(this.fileid)
+
+				const start = Math.min(newSelectedIndex, lastSelectedIndex)
+				const end = Math.max(lastSelectedIndex, newSelectedIndex)
+
+				const lastSelection = this.selectionStore.lastSelection
+				const filesToSelect = this.nodes
+					.map(file => file.fileid?.toString?.())
+					.slice(start, end + 1)
+
+				// If already selected, update the new selection _without_ the current file
+				const selection = [...lastSelection, ...filesToSelect]
+					.filter(fileId => !isAlreadySelected || fileId !== this.fileid)
+
+				logger.debug('Shift key pressed, selecting all files in between', { start, end, filesToSelect, isAlreadySelected })
+				// Keep previous lastSelectedIndex to be use for further shift selections
+				this.selectionStore.set(selection)
+				return
+			}
+
+			logger.debug('Updating selection', { selection })
+			this.selectionStore.set(selection)
+			this.selectionStore.setLastIndex(newSelectedIndex)
 		},
 
 		t: translate,

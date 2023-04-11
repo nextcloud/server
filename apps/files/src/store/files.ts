@@ -27,6 +27,7 @@ import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import logger from '../logger'
+import { FileId } from '../types'
 
 export const useFilesStore = () => {
 	const store = defineStore('files', {
@@ -39,13 +40,13 @@ export const useFilesStore = () => {
 			/**
 			 * Get a file or folder by id
 			 */
-			getNode: (state)  => (id: number): Node|undefined => state.files[id],
+			getNode: (state)  => (id: FileId): Node|undefined => state.files[id],
 
 			/**
 			 * Get a list of files or folders by their IDs
 			 * Does not return undefined values
 			 */
-			getNodes: (state) => (ids: number[]): Node[] => ids
+			getNodes: (state) => (ids: FileId[]): Node[] => ids
 				.map(id => state.files[id])
 				.filter(Boolean),
 			/**

@@ -25,6 +25,7 @@ import type { Node } from '@nextcloud/files'
 
 // Global definitions
 export type Service = string
+export type FileId = number
 
 // Files store
 export type FilesState = {
@@ -33,7 +34,7 @@ export type FilesState = {
 }
 
 export type FilesStore = {
-	[fileid: number]: Node
+	[fileid: FileId]: Node
 }
 
 export type RootsStore = {
@@ -57,7 +58,7 @@ export type PathsStore = {
 export interface PathOptions {
 	service: Service
 	path: string
-	fileid: number
+	fileid: FileId
 }
 
 // Sorting store
@@ -78,4 +79,10 @@ export interface UserConfig {
 }
 export interface UserConfigStore {
 	userConfig: UserConfig
+}
+
+export interface SelectionStore {
+	selected: FileId[]
+	lastSelection: FileId[]
+	lastSelectedIndex: number | null
 }
