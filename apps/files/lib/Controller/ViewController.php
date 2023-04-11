@@ -253,6 +253,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
+		$this->initialState->provideInitialState('favoriteFolders', $favElements['folders'] ?? []);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
