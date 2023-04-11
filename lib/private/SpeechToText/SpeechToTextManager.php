@@ -49,7 +49,8 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
-	) { }
+	) {
+	}
 
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
