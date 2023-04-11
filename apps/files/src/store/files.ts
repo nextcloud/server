@@ -81,34 +81,26 @@ export const useFilesStore = () => {
 				Vue.set(this.roots, service, root)
 			},
 
-			onCreatedNode() {
-				// TODO: do something
-			},
-
 			onDeletedNode(node: Node) {
 				this.deleteNodes([node])
-			},
-
-			onMovedNode() {
-				// TODO: do something
 			},
 		}
 	})
 
 	const fileStore = store()
 	// Make sure we only register the listeners once
-	if (!fileStore.initialized) {
-		subscribe('files:file:created', fileStore.onCreatedNode)
+	if (!fileStore._initialized) {
+		// subscribe('files:file:created', fileStore.onCreatedNode)
 		subscribe('files:file:deleted', fileStore.onDeletedNode)
-		subscribe('files:file:moved', fileStore.onMovedNode)
+		// subscribe('files:file:moved', fileStore.onMovedNode)
 		// subscribe('files:file:updated', fileStore.onUpdatedNode)
 
-		subscribe('files:folder:created', fileStore.onCreatedNode)
+		// subscribe('files:folder:created', fileStore.onCreatedNode)
 		subscribe('files:folder:deleted', fileStore.onDeletedNode)
-		subscribe('files:folder:moved', fileStore.onMovedNode)
+		// subscribe('files:folder:moved', fileStore.onMovedNode)
 		// subscribe('files:folder:updated', fileStore.onUpdatedNode)
 
-		fileStore.initialized = true
+		fileStore._initialized = true
 	}
 
 	return fileStore

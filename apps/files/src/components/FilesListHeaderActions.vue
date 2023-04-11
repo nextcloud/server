@@ -22,7 +22,7 @@
 <template>
 	<th class="files-list__column files-list__row-actions-batch" colspan="2">
 		<NcActions ref="actionsMenu"
-			:disabled="!!loading"
+			:disabled="!!loading || areSomeNodesLoading"
 			:force-title="true"
 			:inline="3">
 			<NcActionButton v-for="action in enabledActions"
@@ -105,6 +105,10 @@ export default Vue.extend({
 				.map(fileid => this.getNode(fileid))
 				.filter(node => node)
 		},
+
+		areSomeNodesLoading() {
+			return this.nodes.some(node => node._loading)
+		},
 	},
 
 	methods: {
@@ -122,9 +126,16 @@ export default Vue.extend({
 			const displayName = action.displayName(this.nodes, this.currentView)
 			const selectionIds = this.selectedNodes
 			try {
+				// Set loading markers
 				this.loading = action.id
+				this.nodes.forEach(node => {
+					Vue.set(node, '_loading', true)
+				})
+
+				// Dispatch action execution
 				const results = await action.execBatch(this.nodes, this.currentView)
 
+				// Handle potential failures
 				if (results.some(result => result !== true)) {
 					// Remove the failed ids from the selection
 					const failedIds = selectionIds
@@ -142,7 +153,11 @@ export default Vue.extend({
 				logger.error('Error while executing action', { action, e })
 				showError(this.t('files', '"{displayName}" action failed', { displayName }))
 			} finally {
+				// Remove loading markers
 				this.loading = null
+				this.nodes.forEach(node => {
+					Vue.set(node, '_loading', false)
+				})
 			}
 		},
 

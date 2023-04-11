@@ -21,6 +21,9 @@ import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import Vue from 'vue'
 
+import { useFilesStore } from '../store/files.ts'
+import { usePathsStore } from '../store/paths.ts'
+
 export default Vue.extend({
 	name: 'BreadCrumbs',
 
@@ -37,7 +40,20 @@ export default Vue.extend({
 		},
 	},
 
+	setup() {
+		const filesStore = useFilesStore()
+		const pathsStore = usePathsStore()
+		return {
+			filesStore,
+			pathsStore,
+		}
+	},
+
 	computed: {
+		currentView() {
+			return this.$navigation.active
+		},
+
 		dirs() {
 			const cumulativePath = (acc) => (value) => (acc += `${value}/`)
 			// Generate a cumulative path for each path segment: ['/', '/foo', '/foo/bar', ...] etc
@@ -52,7 +68,7 @@ export default Vue.extend({
 				return {
 					dir,
 					exact: true,
-					name: basename(dir),
+					name: this.getDirDisplayName(dir),
 					to,
 				}
 			})
@@ -60,6 +76,22 @@ export default Vue.extend({
 	},
 
 	methods: {
+		getNodeFromId(id) {
+			return this.filesStore.getNode(id)
+		},
+		getFileIdFromPath(path) {
+			return this.pathsStore.getPath(this.currentView?.id, path)
+		},
+		getDirDisplayName(path) {
+			if (path === '/') {
+				return t('files', 'Home')
+			}
+
+			const fileId = this.getFileIdFromPath(path)
+			const node = this.getNodeFromId(fileId)
+			return node?.attributes?.displayName || basename(path)
+		},
+
 		onClick(to) {
 			if (to?.query?.dir === this.$route.query.dir) {
 				this.$emit('reload')
