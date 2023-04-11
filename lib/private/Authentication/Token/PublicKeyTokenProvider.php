@@ -327,18 +327,20 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException("Invalid token type");
 		}
 
-		// When changing passwords all temp tokens are deleted
-		$this->mapper->deleteTempToken($token);
+		$this->atomic(function () use ($password, $token) {
+			// When changing passwords all temp tokens are deleted
+			$this->mapper->deleteTempToken($token);
 
-		// Update the password for all tokens
-		$tokens = $this->mapper->getTokenByUser($token->getUID());
-		$hashedPassword = $this->hashPassword($password);
-		foreach ($tokens as $t) {
-			$publicKey = $t->getPublicKey();
-			$t->setPassword($this->encryptPassword($password, $publicKey));
-			$t->setPasswordHash($hashedPassword);
-			$this->updateToken($t);
-		}
+			// Update the password for all tokens
+			$tokens = $this->mapper->getTokenByUser($token->getUID());
+			$hashedPassword = $this->hashPassword($password);
+			foreach ($tokens as $t) {
+				$publicKey = $t->getPublicKey();
+				$t->setPassword($this->encryptPassword($password, $publicKey));
+				$t->setPasswordHash($hashedPassword);
+				$this->updateToken($t);
+			}
+		}, $this->db);
 	}
 
 	private function hashPassword(string $password): string {
@@ -489,49 +491,51 @@ class PublicKeyTokenProvider implements IProvider {
 			return;
 		}
 
-		// Update the password for all tokens
-		$tokens = $this->mapper->getTokenByUser($uid);
-		$newPasswordHash = null;
+		$this->atomic(function () use ($password, $uid) {
+			// Update the password for all tokens
+			$tokens = $this->mapper->getTokenByUser($uid);
+			$newPasswordHash = null;
 
-		/**
-		 * - true: The password hash could not be verified anymore
-		 *     and the token needs to be updated with the newly encrypted password
-		 * - false: The hash could still be verified
-		 * - missing: The hash needs to be verified
-		 */
-		$hashNeedsUpdate = [];
+			/**
+			 * - true: The password hash could not be verified anymore
+			 *     and the token needs to be updated with the newly encrypted password
+			 * - false: The hash could still be verified
+			 * - missing: The hash needs to be verified
+			 */
+			$hashNeedsUpdate = [];
 
-		foreach ($tokens as $t) {
-			if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
-				if ($t->getPasswordHash() === null) {
-					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
-				} elseif (!$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
-					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
-				} else {
-					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = false;
+			foreach ($tokens as $t) {
+				if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
+					if ($t->getPasswordHash() === null) {
+						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+					} elseif (!$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
+						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+					} else {
+						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = false;
+					}
+				}
+				$needsUpdating = $hashNeedsUpdate[$t->getPasswordHash() ?: ''] ?? true;
+
+				if ($needsUpdating) {
+					if ($newPasswordHash === null) {
+						$newPasswordHash = $this->hashPassword($password);
+					}
+
+					$publicKey = $t->getPublicKey();
+					$t->setPassword($this->encryptPassword($password, $publicKey));
+					$t->setPasswordHash($newPasswordHash);
+					$t->setPasswordInvalid(false);
+					$this->updateToken($t);
 				}
 			}
-			$needsUpdating = $hashNeedsUpdate[$t->getPasswordHash() ?: ''] ?? true;
 
-			if ($needsUpdating) {
-				if ($newPasswordHash === null) {
-					$newPasswordHash = $this->hashPassword($password);
-				}
-
-				$publicKey = $t->getPublicKey();
-				$t->setPassword($this->encryptPassword($password, $publicKey));
-				$t->setPasswordHash($newPasswordHash);
-				$t->setPasswordInvalid(false);
-				$this->updateToken($t);
+			// If password hashes are different we update them all to be equal so
+			// that the next execution only needs to verify once
+			if (count($hashNeedsUpdate) > 1) {
+				$newPasswordHash = $this->hashPassword($password);
+				$this->mapper->updateHashesForUser($uid, $newPasswordHash);
 			}
-		}
-
-		// If password hashes are different we update them all to be equal so
-		// that the next execution only needs to verify once
-		if (count($hashNeedsUpdate) > 1) {
-			$newPasswordHash = $this->hashPassword($password);
-			$this->mapper->updateHashesForUser($uid, $newPasswordHash);
-		}
+		}, $this->db);
 	}
 
 	private function logOpensslError() {
