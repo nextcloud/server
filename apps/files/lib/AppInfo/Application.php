@@ -174,11 +174,11 @@ class Application extends App implements IBootstrap {
 		});
 		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
 			return [
-				'id' => 'favorites',
+				'id' => 'oldfavorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
 				'order' => 5,
-				'name' => $l10n->t('Favorites'),
+				'name' => $l10n->t('Favorites (old)'),
 			];
 		});
 	}

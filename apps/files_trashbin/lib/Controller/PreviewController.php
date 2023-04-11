@@ -119,7 +119,7 @@ class PreviewController extends Controller {
 				$mimeType = $this->mimeTypeDetector->detectPath($file->getName());
 			}
 
-			$f = $this->previewManager->getPreview($file, $x, $y, $a, IPreview::MODE_FILL, $mimeType);
+			$f = $this->previewManager->getPreview($file, $x, $y, !$a, IPreview::MODE_FILL, $mimeType);
 			$response = new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 
 			// Cache previews for 24H

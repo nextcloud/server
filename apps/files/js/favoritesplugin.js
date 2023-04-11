@@ -24,10 +24,10 @@
 
 		attach: function() {
 			var self = this;
-			$('#app-content-favorites').on('show.plugin-favorites', function(e) {
+			$('#app-content-oldfavorites').on('show.plugin-oldfavorites', function(e) {
 				self.showFileList($(e.target));
 			});
-			$('#app-content-favorites').on('hide.plugin-favorites', function() {
+			$('#app-content-oldfavorites').on('hide.plugin-oldfavorites', function() {
 				self.hideFileList();
 			});
 		},
@@ -35,9 +35,9 @@
 		detach: function() {
 			if (this.favoritesFileList) {
 				this.favoritesFileList.destroy();
-				OCA.Files.fileActions.off('setDefault.plugin-favorites', this._onActionsUpdated);
-				OCA.Files.fileActions.off('registerAction.plugin-favorites', this._onActionsUpdated);
-				$('#app-content-favorites').off('.plugin-favorites');
+				OCA.Files.fileActions.off('setDefault.plugin-oldfavorites', this._onActionsUpdated);
+				OCA.Files.fileActions.off('registerAction.plugin-oldfavorites', this._onActionsUpdated);
+				$('#app-content-oldfavorites').off('.plugin-oldfavorites');
 				this.favoritesFileList = null;
 			}
 		},

@@ -27,8 +27,8 @@ window.addEventListener('DOMContentLoaded', function() {
 		};
 		FavoritesFileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 			/** @lends OCA.Files.FavoritesFileList.prototype */ {
-			id: 'favorites',
-			appName: t('files','Favorites'),
+			id: 'oldfavorites',
+			appName: t('files','Favorites (old)'),
 
 			_clientSideSort: true,
 			_allowSelection: false,

@@ -230,8 +230,8 @@ class ViewController extends Controller {
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 
 		// add the favorites entry in menu
-		$navItems['favorites']['sublist'] = $favoritesSublistArray;
-		$navItems['favorites']['classes'] = $collapseClasses;
+		$navItems['oldfavorites']['sublist'] = $favoritesSublistArray;
+		$navItems['oldfavorites']['classes'] = $collapseClasses;
 
 		// parse every menu and add the expanded user value
 		foreach ($navItems as $key => $item) {
@@ -253,6 +253,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
+		$this->initialState->provideInitialState('favoriteFolders', $favElements['folders']);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);

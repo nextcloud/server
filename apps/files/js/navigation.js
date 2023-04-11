@@ -42,7 +42,7 @@
 		/**
 		 * Key for the quick-acces-list
 		 */
-		$quickAccessListKey: 'sublist-favorites',
+		$quickAccessListKey: 'sublist-oldfavorites',
 		/**
 		 * Initializes the navigation from the given container
 		 *
