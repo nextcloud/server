@@ -444,7 +444,7 @@ const Dialogs = {
 				self.$filelist = self.$filePicker.find('.filelist tbody')
 				self.$filelistContainer = self.$filePicker.find('.filelist-container')
 				self.$dirTree = self.$filePicker.find('.dirtree')
-				self.$dirTree.on('click keydown', 'div:not(:last-child)', self, function(event) {
+				self.$dirTree.on('click keydown', '.crumb', self, function(event) {
 					if (isA11yActivation(event)) {
 						self._handleTreeListSelect(event, type)
 					}
@@ -1304,7 +1304,7 @@ const Dialogs = {
 				if (dir === '') {
 					return false
 				}
-				$breadcrumbs.append($template.octemplate({
+				$breadcrumbs.prepend($template.octemplate({
 					dir: paths.join('/') + '/' + dir,
 					name: dir
 				}))
@@ -1317,7 +1317,7 @@ const Dialogs = {
 		}, { escapeFunction: null }).addClass('crumb svg crumbhome').prependTo($breadcrumbs)
 
 
-		this.$dirTree.find('nav').prepend($breadcrumbs)
+		this.$dirTree.find('> nav').prepend($breadcrumbs)
 	},
 	/**
 	 * handle selection made in the tree list
