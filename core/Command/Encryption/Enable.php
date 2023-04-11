@@ -59,18 +59,18 @@ class Enable extends Command {
 		if (empty($modules)) {
 			$output->writeln('<error>No encryption module is loaded</error>');
 			return 1;
-		} else {
-			$defaultModule = $this->config->getAppValue('core', 'default_encryption_module', null);
-			if ($defaultModule === null) {
-				$output->writeln('<error>No default module is set</error>');
-				return 1;
-			} elseif (!isset($modules[$defaultModule])) {
-				$output->writeln('<error>The current default module does not exist: ' . $defaultModule . '</error>');
-				return 1;
-			} else {
-				$output->writeln('Default module: ' . $defaultModule);
-			}
 		}
+		$defaultModule = $this->config->getAppValue('core', 'default_encryption_module', null);
+		if ($defaultModule === null) {
+			$output->writeln('<error>No default module is set</error>');
+			return 1;
+		}
+		if (!isset($modules[$defaultModule])) {
+			$output->writeln('<error>The current default module does not exist: ' . $defaultModule . '</error>');
+			return 1;
+		}
+		$output->writeln('Default module: ' . $defaultModule);
+		
 		return 0;
 	}
 }
