@@ -645,7 +645,13 @@ class User {
 					.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
 			}
 		}
-		$accountManager->updateAccount($account); // may throw InvalidArgumentException
+		try {
+			$accountManager->updateAccount($account); // may throw InvalidArgumentException
+		} catch (\InvalidArgumentException $e) {
+			$this->logger->error('invalid data from LDAP: for uid='.$this->uid.''
+				, ['app' => 'user_ldap', 'func' => 'updateProfile'
+				, 'exception' => $e]);
+		}
 	}
 
 	/**
