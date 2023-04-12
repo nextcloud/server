@@ -336,6 +336,7 @@
             <xs:element name="prelogin" minOccurs="0" maxOccurs="1"/>
             <xs:element name="filesystem" minOccurs="0" maxOccurs="1"/>
             <xs:element name="authentication" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="extended_authentication" minOccurs="0" maxOccurs="1"/>
             <xs:element name="logging" minOccurs="0" maxOccurs="1"/>
             <xs:element name="dav" minOccurs="0" maxOccurs="1"/>
             <xs:element name="prevent_group_restriction" minOccurs="0"
