@@ -21,7 +21,6 @@
  */
 /* eslint-disable */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import type { ActionsMenuStore } from '../types'
 
 export const useActionsMenuStore = defineStore('actionsmenu', {

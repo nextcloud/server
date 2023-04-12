@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @author Gary Kim <gary@garykim.dev>
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -207,7 +207,6 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import '../mixins/fileslist-row.scss';
 .files-list__column {
 	user-select: none;
 	// Make sure the cell colors don't apply to column headers
