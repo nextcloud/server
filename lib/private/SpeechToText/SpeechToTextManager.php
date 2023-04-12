@@ -31,6 +31,9 @@ namespace OC\SpeechToText;
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\File;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -49,6 +52,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
+		private IRootFolder $rootFolder,
 	) {
 	}
 
@@ -90,6 +94,14 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
+		try {
+			$node = $this->rootFolder->get($path);
+		} catch (NotFoundException $e) {
+			throw new InvalidArgumentException('File does not exist: ' . $path);
+		}
+		if (!($node instanceof File)) {
+			throw new InvalidArgumentException('Path does not resolve to a file');
+		}
 		$this->jobList->add(TranscriptionJob::class, [ 'path' => $path, 'context' => $context]);
 	}
 
@@ -99,10 +111,14 @@ class SpeechToTextManager implements ISpeechToTextManager {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 
-		if (!file_exists($path)) {
-			throw new InvalidArgumentException('File does not exist');
+		try {
+			$node = $this->rootFolder->get($path);
+			if (!($node instanceof File)) {
+				throw new InvalidArgumentException('Path does not resolve to a file');
+			}
+			return $provider->transcribeFile($node);
+		} catch (NotFoundException $e) {
+			throw new InvalidArgumentException('File does not exist: ' . $path);
 		}
-
-		return $provider->transcribeFile($path);
 	}
 }

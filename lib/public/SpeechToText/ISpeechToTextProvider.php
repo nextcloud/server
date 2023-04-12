@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\SpeechToText;
 
+use OCP\Files\File;
 use RuntimeException;
 
 /**
@@ -41,5 +42,5 @@ interface ISpeechToTextProvider {
 	 * @since 27.0.0
 	 * @throws RuntimeException If the text could not be transcribed
 	 */
-	public function transcribeFile(string $path): string;
+	public function transcribeFile(File $file): string;
 }

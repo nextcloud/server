@@ -43,7 +43,7 @@ interface ISpeechToTextManager {
 	 * Will schedule a transcription process in the background. The result will become available
 	 * with the \OCP\SpeechToText\Events\TranscriptionFinishedEvent
 	 * You should add context information to the context array to re-identify the transcription result as
-	 * as belonging to your transcription request.
+	 * belonging to your transcription request.
 	 *
 	 * @since 27.0.0
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
