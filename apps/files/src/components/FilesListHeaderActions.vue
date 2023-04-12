@@ -25,7 +25,7 @@
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-title="true"
 			:inline="inlineActions"
-			:menu-title="inlineActions === 0 ? t('files', 'Actions') : null"
+			:menu-title="inlineActions <= 1 ? t('files', 'Actions') : null"
 			:open.sync="openedMenu">
 			<NcActionButton v-for="action in enabledActions"
 				:key="action.id"
@@ -53,7 +53,7 @@ import { getFileActions } from '../services/FileAction.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import clientWidthMixin from '../mixins/clientWidth.ts'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
 
@@ -71,7 +71,7 @@ export default Vue.extend({
 	},
 
 	mixins: [
-		clientWidthMixin,
+		filesListWidthMixin,
 	],
 
 	props: {
@@ -130,10 +130,13 @@ export default Vue.extend({
 		},
 
 		inlineActions() {
-			if (this.clientWidth < 480) {
+			if (this.filesListWidth < 512) {
+				return 0
+			}
+			if (this.filesListWidth < 768) {
 				return 1
 			}
-			if (this.clientWidth < 768) {
+			if (this.filesListWidth < 1024) {
 				return 2
 			}
 			return 3
