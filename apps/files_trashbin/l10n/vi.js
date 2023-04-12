@@ -4,9 +4,6 @@ OC.L10N.register(
     "restored" : "khôi phục",
     "Deleted files" : "File đã bị xóa",
     "Restore" : "Khôi phục",
-    "Delete permanently" : "Xóa vĩnh vễn",
-    "This operation is forbidden" : "Thao tác bị cấm",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Thư mục này không sẵn có, hãy kiểm tra log hoặc liên hệ người quản lý",
     "Deleted" : "Đã xóa",
     "No deleted files" : "Không có tập tin bị xóa",
     "You will be able to recover deleted files from here" : "Bạn có thể phục hồi các file đã bị xóa từ đây",
@@ -14,6 +11,9 @@ OC.L10N.register(
     "Select all" : "Chọn tất cả",
     "Name" : "Tên",
     "Actions" : "Hành động",
+    "Delete permanently" : "Xóa vĩnh vễn",
+    "This operation is forbidden" : "Thao tác bị cấm",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Thư mục này không sẵn có, hãy kiểm tra log hoặc liên hệ người quản lý",
     "Delete" : "Xóa"
 },
 "nplurals=1; plural=0;");
