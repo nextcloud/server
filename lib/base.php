@@ -1026,6 +1026,7 @@ class OC {
 
 		// Always load authentication apps
 		OC_App::loadApps(['authentication']);
+		OC_App::loadApps(['extended_authentication']);
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()
