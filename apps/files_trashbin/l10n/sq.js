@@ -4,9 +4,6 @@ OC.L10N.register(
     "restored" : "u rikthye",
     "Deleted files" : "Kartela të fshira",
     "Restore" : "Riktheje",
-    "Delete permanently" : "Fshije përgjithmonë",
-    "This operation is forbidden" : "Ky veprim është i ndaluar",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Kjo drejtori nuk kapet, ju lutemi, kontrolloni regjistrat ose lidhuni me përgjegjësin",
     "Deleted" : "U fshi",
     "No deleted files" : "Pa kartela të fshira",
     "You will be able to recover deleted files from here" : "Që këtu do të jeni në gjendje të rimerrni kartela të fshira",
@@ -14,6 +11,9 @@ OC.L10N.register(
     "Select all" : "Përzgjidhi krejt",
     "Name" : "Emër",
     "Actions" : "Veprimet",
+    "Delete permanently" : "Fshije përgjithmonë",
+    "This operation is forbidden" : "Ky veprim është i ndaluar",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Kjo drejtori nuk kapet, ju lutemi, kontrolloni regjistrat ose lidhuni me përgjegjësin",
     "Delete" : "Fshije"
 },
 "nplurals=2; plural=(n != 1);");

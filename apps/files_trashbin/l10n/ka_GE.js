@@ -4,9 +4,6 @@ OC.L10N.register(
     "restored" : "აღდგენილია",
     "Deleted files" : "წაშლილი ფაილები",
     "Restore" : "აღდგენა",
-    "Delete permanently" : "სამუდამოდ წაშლა",
-    "This operation is forbidden" : "ოპერაცია აკრძალულია",
-    "This directory is unavailable, please check the logs or contact the administrator" : "დირექტორია ხელმიუწვდომელია, გთხოვთ დაათვალიეროთ მოქმედებათა ისტორია ან დაუკავშირდეთ ადმინისტრატორს",
     "Deleted" : "წაშლილი",
     "No deleted files" : "წაშლილი ფაილები ვერ მოიძებნა",
     "You will be able to recover deleted files from here" : "წაშლილი ფაილების აღდგენა შესაძლებელია აქ",
@@ -14,6 +11,9 @@ OC.L10N.register(
     "Select all" : "ყველას მონიშვნა",
     "Name" : "სახელი",
     "Actions" : "მოქმედებები",
+    "Delete permanently" : "სამუდამოდ წაშლა",
+    "This operation is forbidden" : "ოპერაცია აკრძალულია",
+    "This directory is unavailable, please check the logs or contact the administrator" : "დირექტორია ხელმიუწვდომელია, გთხოვთ დაათვალიეროთ მოქმედებათა ისტორია ან დაუკავშირდეთ ადმინისტრატორს",
     "Delete" : "წაშლა"
 },
 "nplurals=2; plural=(n!=1);");
