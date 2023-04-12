@@ -38,9 +38,6 @@ use OCP\User\Events\UserDeletedEvent;
 use OCP\Db\Exception as DBException;
 use Psr\Log\LoggerInterface;
 
-/**
- * @template-implements IEventListener<UserDeletedEvent>
- */
 class TagManager implements ITagManager, IEventListener {
 	private TagMapper $mapper;
 	private IUserSession $userSession;

@@ -33,9 +33,6 @@ use OCP\User\Events\UserDeletedEvent;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-/**
- * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
- */
 class UserDeletedTokenCleanupListener implements IEventListener {
 	/** @var Manager */
 	private $manager;

@@ -34,7 +34,6 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 
-/** @template-implements IEventListener<Event|NodeDeletedEvent|ShareDeletedEvent|ShareCreatedEvent> */
 class FileReferenceEventListener implements IEventListener {
 	private IReferenceManager $manager;
 

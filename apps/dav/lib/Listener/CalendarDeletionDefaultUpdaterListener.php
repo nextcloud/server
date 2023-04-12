@@ -33,9 +33,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use function strpos;
 
-/**
- * @template-implements IEventListener<\OCA\DAV\Events\CalendarDeletedEvent>
- */
 class CalendarDeletionDefaultUpdaterListener implements IEventListener {
 
 	/** @var IConfig */

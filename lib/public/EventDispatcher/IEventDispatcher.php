@@ -61,7 +61,7 @@ interface IEventDispatcher {
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class to listen for
 	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $className fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
-	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener<T>> $className fully qualified class name that can be built by the DI container
+	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener> $className fully qualified class name that can be built by the DI container
 	 * @param int $priority The higher this value, the earlier an event
 	 *                      listener will be triggered in the chain (defaults to 0)
 	 *

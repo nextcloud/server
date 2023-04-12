@@ -40,9 +40,6 @@ use OCP\Mail\IMessage;
 use Psr\Log\LoggerInterface;
 use function substr;
 
-/**
- * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
- */
 class RemoteWipeEmailListener implements IEventListener {
 	/** @var IMailer */
 	private $mailer;

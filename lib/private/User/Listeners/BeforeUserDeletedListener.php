@@ -30,9 +30,6 @@ use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use Psr\Log\LoggerInterface;
 
-/**
- * @template-implements IEventListener<BeforeUserDeletedEvent>
- */
 class BeforeUserDeletedListener implements IEventListener {
 	private IAvatarManager $avatarManager;
 	private LoggerInterface $logger;

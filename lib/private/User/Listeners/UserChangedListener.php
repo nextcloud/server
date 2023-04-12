@@ -29,9 +29,6 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 
-/**
- * @template-implements IEventListener<UserChangedEvent>
- */
 class UserChangedListener implements IEventListener {
 	private IAvatarManager $avatarManager;
 
@@ -43,7 +40,7 @@ class UserChangedListener implements IEventListener {
 		if (!($event instanceof UserChangedEvent)) {
 			return;
 		}
-		
+
 		$user = $event->getUser();
 		$feature = $event->getFeature();
 		$oldValue = $event->getOldValue();

@@ -34,9 +34,6 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
-/**
- * @template-implements IEventListener<\OC\Authentication\Events\AppPasswordCreatedEvent>
- */
 class AppPasswordCreatedActivityListener implements IEventListener {
 	/** @var IActivityManager */
 	private $activityManager;
