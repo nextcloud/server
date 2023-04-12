@@ -4,9 +4,6 @@ OC.L10N.register(
     "restored" : "geriqaytarılıb",
     "Deleted files" : "Silinmiş fayllar",
     "Restore" : "Geri qaytar",
-    "Delete permanently" : "Həmişəlik sil",
-    "This operation is forbidden" : "Bu əməliyyat qadağandır",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Bu qovluq tapılmir. Xahiş olunur jurnalları yoxlayın ya da inzibatçı ilə əlaqə saxlayın",
     "Deleted" : "Silinib",
     "No deleted files" : "Silinmiş fayllar mövcud deyil",
     "You will be able to recover deleted files from here" : "Siz silinmiş faylları burdan bərpa edə bilərsiniz",
@@ -14,6 +11,9 @@ OC.L10N.register(
     "Select all" : "Hamısıı seç",
     "Name" : "Ad",
     "Actions" : "İşlər",
+    "Delete permanently" : "Həmişəlik sil",
+    "This operation is forbidden" : "Bu əməliyyat qadağandır",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Bu qovluq tapılmir. Xahiş olunur jurnalları yoxlayın ya da inzibatçı ilə əlaqə saxlayın",
     "Delete" : "Sil"
 },
 "nplurals=2; plural=(n != 1);");
