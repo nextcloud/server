@@ -95,3 +95,4 @@
 
 AddDefaultCharset utf-8
 Options -Indexes
+LimitRequestBody 0
