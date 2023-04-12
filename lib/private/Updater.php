@@ -333,7 +333,7 @@ class Updater extends BasicEmitter {
 	 */
 	protected function doAppUpgrade(): void {
 		$apps = \OC_App::getEnabledApps();
-		$priorityTypes = ['authentication', 'filesystem', 'logging'];
+		$priorityTypes = ['authentication', 'extended_authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
 		$stacks = [$pseudoOtherType => []];
 
