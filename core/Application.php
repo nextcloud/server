@@ -239,6 +239,9 @@ class Application extends App {
 					if (!$table->hasIndex('mounts_class_index')) {
 						$subject->addHintForMissingSubject($table->getName(), 'mounts_class_index');
 					}
+					if (!$table->hasIndex('mounts_user_root_path_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'mounts_user_root_path_index');
+					}
 				}
 			}
 		);

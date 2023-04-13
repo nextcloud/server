@@ -43,7 +43,7 @@ class Version27000Date20220613163520 extends SimpleMigrationStep {
 		$table = $schema->getTable('mounts');
 		if ($table->hasIndex('mounts_user_root_index')) {
 			$table->dropIndex('mounts_user_root_index');
-			$table->addIndex(['user_id', 'root_id', 'mount_point'], 'mounts_user_root_path_index', [], ['lengths' => [null, null, 128]]);
+			// new index gets added with "add missing indexes"
 		}
 
 		return $schema;
