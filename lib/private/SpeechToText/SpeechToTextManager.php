@@ -86,7 +86,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		if ($context === null) {
 			return false;
 		}
-		return !empty($context->getTranslationProviders());
+		return !empty($context->getSpeechToTextProviders());
 	}
 
 	public function scheduleFileTranscription(File $file): void {
