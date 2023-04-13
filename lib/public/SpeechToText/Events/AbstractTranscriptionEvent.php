@@ -30,15 +30,12 @@ use OCP\EventDispatcher\Event;
 /**
  * @since 27.0.0
  */
-class TranscriptionFinishedEvent extends Event {
+abstract class AbstractTranscriptionEvent extends Event {
 	/**
 	 * @since 27.0.0
 	 */
 	public function __construct(
-		private bool $successful,
-		private string $transcription,
-		private string $errorMessage,
-		private array $context
+		private int $fileIdId
 	) {
 		parent::__construct();
 	}
@@ -46,28 +43,7 @@ class TranscriptionFinishedEvent extends Event {
 	/**
 	 * @since 27.0.0
 	 */
-	public function getContext(): array {
-		return $this->context;
-	}
-
-	/**
-	 * @since 27.0.0
-	 */
-	public function isSuccessful(): bool {
-		return $this->successful;
-	}
-
-	/**
-	 * @since 27.0.0
-	 */
-	public function getErrorMessage(): string {
-		return $this->errorMessage;
-	}
-
-	/**
-	 * @since 27.0.0
-	 */
-	public function getTranscription(): string {
-		return $this->transcription;
+	public function getFileId(): int {
+		return $this->fileIdId;
 	}
 }

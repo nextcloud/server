@@ -5,9 +5,11 @@ namespace OC\SpeechToText;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\PreConditionNotMetException;
-use OCP\SpeechToText\Events\TranscriptionFinishedEvent;
+use OCP\SpeechToText\Events\TranscriptionFailedEvent;
+use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
 use OCP\SpeechToText\ISpeechToTextManager;
 
 class TranscriptionJob extends QueuedJob {
@@ -25,24 +27,30 @@ class TranscriptionJob extends QueuedJob {
 	 * @inheritDoc
 	 */
 	protected function run($argument) {
+		$fileId = $argument['fileId'];
 		try {
-			$file = $this->rootFolder->getById($argument['fileId']);
+			$file = current($this->rootFolder->getById($fileId));
+			if (!($file instanceof File)) {
+				$this->eventDispatcher->dispatchTyped(
+					new TranscriptionFailedEvent(
+						$fileId,
+						'File not found',
+					)
+				);
+				return;
+			}
 			$result = $this->speechToTextManager->transcribeFile($file);
 			$this->eventDispatcher->dispatchTyped(
-				new TranscriptionFinishedEvent(
-					true,
+				new TranscriptionSuccessfulEvent(
+					$fileId,
 					$result,
-					'',
-					$argument['context']
 				)
 			);
 		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException $e) {
 			$this->eventDispatcher->dispatchTyped(
-				new TranscriptionFinishedEvent(
-					false,
-					'',
+				new TranscriptionFailedEvent(
+					$fileId,
 					$e->getMessage(),
-					$argument['context']
 				)
 			);
 		}

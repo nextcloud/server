@@ -33,7 +33,6 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
@@ -96,7 +95,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		}
 		try {
 			$this->jobList->add(TranscriptionJob::class, ['fileId' => $file->getId()]);
-		}catch(NotFoundException|InvalidPathException $e) {
+		} catch (NotFoundException|InvalidPathException $e) {
 			throw new InvalidArgumentException('Invalid file provided for file transcription: ' . $e->getMessage());
 		}
 	}
@@ -109,7 +108,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		try {
 			return $provider->transcribeFile($file);
-		}catch (\Throwable $e) {
+		} catch (\Throwable $e) {
 			$this->logger->info('SpeechToText transcription failed', ['exception' => $e]);
 			throw new \RuntimeException('SpeechToText transcription failed: ' . $e->getMessage());
 		}
