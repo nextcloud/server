@@ -102,7 +102,7 @@
     "vue": "^2.7.14",
     "vue-click-outside": "^1.1.0",
     "vue-cropperjs": "^4.2.0",
-    "vue-fragment": "^1.6.0",
+    "vue-frag": "^1.4.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
     "vue-material-design-icons": "^5.0.0",

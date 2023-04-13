@@ -36,6 +36,7 @@
 			<FileEntry :active="active"
 				:index="index"
 				:is-size-available="isSizeAvailable"
+				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="item" />
 		</template>
@@ -48,12 +49,17 @@
 			</caption>
 
 			<!-- Thead-->
-			<FilesListHeader :is-size-available="isSizeAvailable" :nodes="nodes" />
+			<FilesListHeader :files-list-width="filesListWidth"
+				:is-size-available="isSizeAvailable"
+				:nodes="nodes" />
 		</template>
 
 		<template #after>
 			<!-- Tfoot-->
-			<FilesListFooter :is-size-available="isSizeAvailable" :nodes="nodes" :summary="summary" />
+			<FilesListFooter :files-list-width="filesListWidth"
+				:is-size-available="isSizeAvailable"
+				:nodes="nodes"
+				:summary="summary" />
 		</template>
 	</RecycleScroller>
 </template>
@@ -66,6 +72,7 @@ import Vue from 'vue'
 import FileEntry from './FileEntry.vue'
 import FilesListFooter from './FilesListFooter.vue'
 import FilesListHeader from './FilesListHeader.vue'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
@@ -76,6 +83,10 @@ export default Vue.extend({
 		FilesListHeader,
 		FilesListFooter,
 	},
+
+	mixins: [
+		filesListWidthMixin,
+	],
 
 	props: {
 		currentView: {
@@ -111,6 +122,10 @@ export default Vue.extend({
 			return translate('files', '{summaryFile} and {summaryFolder}', this)
 		},
 		isSizeAvailable() {
+			// Hide size column on narrow screens
+			if (this.filesListWidth < 768) {
+				return false
+			}
 			return this.nodes.some(node => node.attributes.size !== undefined)
 		},
 	},
@@ -317,22 +332,6 @@ export default Vue.extend({
 
 		.files-list__row-column-custom {
 			width: calc(var(--row-height) * 2);
-		}
-
-		@media (max-width: 768px) {
-			// Hide any column after the size menu on mobile
-			.files-list__row-size ~ td,
-			.files-list__row-size ~ th {
-				display: none;
-			}
-		}
-
-		@media (max-width: 480px) {
-			// Hide any column after the actions menu on short mobile
-			.files-list__row-actions ~ td,
-			.files-list__row-actions ~ th {
-				display: none;
-			}
 		}
 	}
 }

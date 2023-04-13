@@ -102,6 +102,10 @@ export default Vue.extend({
 			type: Array,
 			required: true,
 		},
+		filesListWidth: {
+			type: Number,
+			default: 0,
+		},
 	},
 
 	setup() {
@@ -123,6 +127,10 @@ export default Vue.extend({
 		},
 
 		columns() {
+			// Hide columns if the list is too small
+			if (this.filesListWidth < 512) {
+				return []
+			}
 			return this.currentView?.columns || []
 		},
 
