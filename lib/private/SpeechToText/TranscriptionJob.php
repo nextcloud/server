@@ -5,6 +5,7 @@ namespace OC\SpeechToText;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\Events\TranscriptionFinishedEvent;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -14,6 +15,7 @@ class TranscriptionJob extends QueuedJob {
 		ITimeFactory $timeFactory,
 		private ISpeechToTextManager $speechToTextManager,
 		private IEventDispatcher $eventDispatcher,
+		private IRootFolder $rootFolder,
 	) {
 		parent::__construct($timeFactory);
 	}
@@ -24,7 +26,8 @@ class TranscriptionJob extends QueuedJob {
 	 */
 	protected function run($argument) {
 		try {
-			$result = $this->speechToTextManager->transcribeFile($argument['path']);
+			$file = $this->rootFolder->getById($argument['fileId']);
+			$result = $this->speechToTextManager->transcribeFile($file);
 			$this->eventDispatcher->dispatchTyped(
 				new TranscriptionFinishedEvent(
 					true,

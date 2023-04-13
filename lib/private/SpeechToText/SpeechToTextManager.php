@@ -32,6 +32,7 @@ use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\File;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IServerContainer;
@@ -52,7 +53,6 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
-		private IRootFolder $rootFolder,
 	) {
 	}
 
@@ -90,35 +90,28 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		return !empty($context->getTranslationProviders());
 	}
 
-	public function scheduleFileTranscription(string $path, array $context): void {
+	public function scheduleFileTranscription(File $file): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 		try {
-			$node = $this->rootFolder->get($path);
-		} catch (NotFoundException $e) {
-			throw new InvalidArgumentException('File does not exist: ' . $path);
+			$this->jobList->add(TranscriptionJob::class, ['fileId' => $file->getId()]);
+		}catch(NotFoundException|InvalidPathException $e) {
+			throw new InvalidArgumentException('Invalid file provided for file transcription: ' . $e->getMessage());
 		}
-		if (!($node instanceof File)) {
-			throw new InvalidArgumentException('Path does not resolve to a file');
-		}
-		$this->jobList->add(TranscriptionJob::class, [ 'path' => $path, 'context' => $context]);
 	}
 
-	public function transcribeFile(string $path): string {
+	public function transcribeFile(File $file): string {
 		$provider = current($this->getProviders());
 		if (!$provider) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 
 		try {
-			$node = $this->rootFolder->get($path);
-			if (!($node instanceof File)) {
-				throw new InvalidArgumentException('Path does not resolve to a file');
-			}
-			return $provider->transcribeFile($node);
-		} catch (NotFoundException $e) {
-			throw new InvalidArgumentException('File does not exist: ' . $path);
+			return $provider->transcribeFile($file);
+		}catch (\Throwable $e) {
+			$this->logger->info('SpeechToText transcription failed', ['exception' => $e]);
+			throw new \RuntimeException('SpeechToText transcription failed: ' . $e->getMessage());
 		}
 	}
 }

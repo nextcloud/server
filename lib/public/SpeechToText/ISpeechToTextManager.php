@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCP\SpeechToText;
 
 use InvalidArgumentException;
+use OCP\Files\File;
 use OCP\PreConditionNotMetException;
 use RuntimeException;
 
@@ -50,13 +51,15 @@ interface ISpeechToTextManager {
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
 	 * @throws RuntimeException If the transcription failed for other reasons
 	 */
-	public function scheduleFileTranscription(string $path, array $context): void;
+	public function scheduleFileTranscription(File $file): void;
 
 	/**
 	 * @since 27.0.0
+	 * @param File $file The media file to transcribe
+	 * @returns string The transcription of the the passed media file
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
 	 * @throws RuntimeException If the transcription failed for other reasons
 	 */
-	public function transcribeFile(string $path) : string;
+	public function transcribeFile(File $file) : string;
 }
