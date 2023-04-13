@@ -1,6 +1,8 @@
 { "translations": {
     "Dashboard" : "Pulpit",
     "Dashboard app" : "Aplikacja Pulpit",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Rozpocznij dzień poinformowany\n\nPulpit nawigacyjny Nextcloud to Twój punkt wyjścia w ciągu dnia, dający przegląd nadchodzących spotkań, pilnych e-maili, wiadomości na czacie, przychodzących zgłoszeń, najnowszych tweetów i wiele więcej! Użytkownicy mogą dodawać widżety, które im się podobają i zmieniać tło według własnych upodobań.",
+    "\"{title} icon\"" : "\"{title} ikona\"",
     "Customize" : "Dostosuj",
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów z Nextcloud App Store",

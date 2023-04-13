@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "Taboleiro",
     "Dashboard app" : "Aplicación de taboleiro",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comeza o día informado\n\nO Taboleiro de Nextcloud é o teu punto de partida do día, dándoche unha visión xeral das túas próximas citas, correos electrónicos urxentes, mensaxes de chat, tickets entrantes, chíos máis recentes e moito máis. Os usuarios poden engadir os widgets que lles gustan e cambiar o fondo ao seu gusto.",
+    "\"{title} icon\"" : "\"icona {title}\"",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
     "Get more widgets from the App Store" : "Obtén máis widgets da Tenda de Aplicacións",
