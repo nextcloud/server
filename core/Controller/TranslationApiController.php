@@ -52,7 +52,7 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 */
 	public function languages(): DataResponse {
 		return new DataResponse([
@@ -62,7 +62,9 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
+	 * @UserRateThrottle(limit=25, period=120)
+	 * @AnonRateThrottle(limit=10, period=120)
 	 */
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {
