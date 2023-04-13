@@ -131,6 +131,7 @@ OC.L10N.register(
     "Friday" : "Петок",
     "Saturday" : "Сабота",
     "Sunday" : "Недела",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Автоматско поставување на статус во \"Не вознемирувај\" недостапен за да ги занемите сите известувања.",
     "Save" : "Зачувај",
     "Calendar server" : "Календар сервер",
     "Send invitations to attendees" : "Испрати покани на учесниците",
