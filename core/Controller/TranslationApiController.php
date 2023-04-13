@@ -72,9 +72,9 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l->t('No translation provider available')], Http::STATUS_PRECONDITION_FAILED);
 		} catch (InvalidArgumentException) {
-			return new DataResponse(['message' => $this->l->t('Could not detect language')], Http::STATUS_NOT_FOUND);
+			return new DataResponse(['message' => $this->l->t('Could not detect language')], Http::STATUS_BAD_REQUEST);
 		} catch (RuntimeException) {
-			return new DataResponse(['message' => $this->l->t('Unable to translate')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(['message' => $this->l->t('Unable to translate')], Http::STATUS_BAD_REQUEST);
 		}
 	}
 }
