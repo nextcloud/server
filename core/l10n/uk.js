@@ -51,6 +51,7 @@ OC.L10N.register(
     "Repair info:" : "Інформація про відновлення:",
     "Repair warning:" : "Застереження щодо відновлення:",
     "Repair error:" : "Помилка під час відновлення:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Будь ласка, скористайтеся оновленням через командний рядок, оскільки оновлення через бравзер вимкнено у файлі налаштувань config.php.",
     "Turned on maintenance mode" : "Активовано режим технічного обслуговування",
     "Turned off maintenance mode" : "Вимкнено режим технічного обслуговування",
     "Maintenance mode is kept active" : "Режим обслуговування залишається активним",
@@ -101,6 +102,7 @@ OC.L10N.register(
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "У цьому екземплярі відсутні деякі рекомендовані модулі PHP. Для кращої продуктивності та кращої сумісності настійно рекомендується встановити їх.",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP-модуль \"imagick\" не ввімкнено, хоча програму для створення тем. Щоб генерація фавіконів працювала коректно, вам необхідно встановити та ввімкнути цей модуль.",
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "Модулі PHP \"gmp\" і/або \"bcmath\" не ввімкнено. Якщо ви використовуєте автентифікацію без пароля WebAuthn, ці модулі є обов’язковими.",
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "Схоже, що ви використовуєте 32-бітну версію PHP. Для належної роботи Nextcloud потрібна 64-бітна версія. Будь ласка, оновіть вашу операційну систему та PHP до 64-бітної версії. Докладно про це можна дізнатися на {linkstart}сторінці документації↗{linkend}.",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "Модуль php-imagick у цьому випадку не підтримує SVG. Для кращої сумісності рекомендується встановити його.",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "У деяких стовпцях бази даних відсутнє перетворення на big int. Через те, що зміна типів стовпців у великих таблицях могла зайняти деякий час, вони не були змінені автоматично. Для застосування змін, будь ласка, виконайте команду \"occ db:convert-filecache-bigint\". Цю операцію потрібно виконати, коли примірник перебуває в автономному режимі. Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite в даний час використовується як база даних бекенда.  Для великих установок ми рекомендуємо перейти на інший тип серверу баз даних.",
@@ -182,6 +184,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Простий застосунок електронної пошти, добре інтегрований з Файлами, Контактами та Календарем.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Чати, відеовиклики, демонстрація екану, онлайнові зустрічі та вебконференції у вашому браузері та на мобільних застосунках.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Спільні документи, електронні таблиці та презентації, створені на Collabora Online.",
+    "Distraction free note taking app." : "Застосунок для ведення нотаток без зайвих відволікань.",
     "Search contacts" : "Шукати контакти",
     "Forgot password?" : "Забули пароль?",
     "Log in with a device" : "Увійти за допомогою пристрою",
@@ -213,6 +216,7 @@ OC.L10N.register(
     "Settings menu" : "Меню налаштувань",
     "Search {types} …" : "Пошук {types} …",
     "Settings" : "Налаштування",
+    "Avatar of {fullName}" : "Аватарка {fullName}",
     "Could not load your contacts" : "Неможливо завантажити ваші контакти",
     "Search contacts …" : "Пошук контактів...",
     "No contacts found" : "Контактів не знайдено",
@@ -283,6 +287,7 @@ OC.L10N.register(
     "Strong password" : "Надійний пароль",
     "No action available" : "Немає доступних дій",
     "Error fetching contact actions" : "Неможливо отримати дії з контактами",
+    "Close \"{dialogTitle}\" dialog" : "Закрити меню \"{dialogTitle}\"",
     "Non-existing tag #{tag}" : "Ця позначка відсутня #{tag}",
     "Restricted" : "Обмежена",
     "Invisible" : "Невидимка",
@@ -420,6 +425,7 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Меню контактів",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Будь ласка, скористайтеся оновленням через командний рядок, оскільки оновлення через бравзер вимкнено у файлі налаштувань config.php."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
