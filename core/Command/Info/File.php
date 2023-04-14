@@ -40,7 +40,7 @@ class File extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('info:file')
 			->setDescription('get information for a file')
@@ -61,17 +61,24 @@ class File extends Command {
 		$output->writeln("  fileid: " . $node->getId());
 		$output->writeln("  mimetype: " . $node->getMimetype());
 		$output->writeln("  modified: " . (string)$this->l10n->l("datetime", $node->getMTime()));
-		$output->writeln("  size: " . Util::humanFileSize($node->getSize()));
 		$output->writeln("  " . ($node->isEncrypted() ? "encrypted" : "not encrypted"));
+		$output->writeln("  size: " . Util::humanFileSize($node->getSize()));
 		if ($node instanceof Folder) {
 			$children = $node->getDirectoryListing();
+			$childSize = array_sum(array_map(function (Node $node) {
+				return $node->getSize();
+			}, $children));
+			if ($childSize != $node->getSize()) {
+				$output->writeln("    <error>warning: folder has a size of " . Util::humanFileSize($node->getSize()) ." but it's children sum up to " . Util::humanFileSize($childSize) . "</error>.");
+				$output->writeln("    Run <info>occ files:scan --path " . $node->getPath() . "</info> to attempt to resolve this.");
+			}
 			if ($showChildren) {
 				$output->writeln("  children: " . count($children) . ":");
 				foreach ($children as $child) {
 					$output->writeln("  - " . $child->getName());
 				}
 			} else {
-				$output->writeln("  children: " . count($children) . " (--children to list)");
+				$output->writeln("  children: " . count($children) . " (use <info>--children</info> option to list)");
 			}
 		}
 		$this->outputStorageDetails($node->getMountPoint(), $node, $output);
@@ -156,6 +163,10 @@ class File extends Command {
 		return implode(", ", $perms);
 	}
 
+	/**
+	 * @psalm-suppress UndefinedClass
+	 * @psalm-suppress UndefinedInterfaceMethod
+	 */
 	private function formatMountType(IMountPoint $mountPoint): string {
 		$storage = $mountPoint->getStorage();
 		if ($storage && $storage->instanceOfStorage(IHomeStorage::class)) {
@@ -176,7 +187,7 @@ class File extends Command {
 				$description .= " owned by " . $share->getShareOwner();
 			}
 			return $description;
-		} elseif ($mountPoint instanceof GroupMountPoint) { /** @psalm-suppress UndefinedClass */
+		} elseif ($mountPoint instanceof GroupMountPoint) {
 			return "groupfolder " . $mountPoint->getFolderId();
 		} elseif ($mountPoint instanceof ExternalMountPoint) {
 			return "external storage " . $mountPoint->getStorageConfig()->getId();
@@ -203,6 +214,10 @@ class File extends Command {
 		}
 	}
 
+	/**
+	 * @psalm-suppress UndefinedClass
+	 * @psalm-suppress UndefinedInterfaceMethod
+	 */
 	private function outputStorageDetails(IMountPoint $mountPoint, Node $node, OutputInterface $output): void {
 		$storage = $mountPoint->getStorage();
 		if (!$storage) {
@@ -215,6 +230,7 @@ class File extends Command {
 			/** @var ObjectStoreStorage $storage */
 			$objectStoreId = $storage->getObjectStore()->getStorageId();
 			$parts = explode(':', $objectStoreId);
+			/** @var string $bucket */
 			$bucket = array_pop($parts);
 			$output->writeln("  bucket: " . $bucket);
 			if ($node instanceof \OC\Files\Node\File) {
@@ -242,7 +258,7 @@ class File extends Command {
 			$storageConfig = $mountPoint->getStorageConfig();
 			$output->writeln("  external storage id: " . $storageConfig->getId());
 			$output->writeln("  external type: " . $storageConfig->getBackend()->getText());
-		} elseif ($mountPoint instanceof GroupMountPoint) { /** @psalm-suppress UndefinedClass */
+		} elseif ($mountPoint instanceof GroupMountPoint) {
 			$output->writeln("  groupfolder id: " . $mountPoint->getFolderId());
 		}
 	}
