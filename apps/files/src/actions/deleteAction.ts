@@ -50,7 +50,7 @@ registerFileAction(new FileAction({
 			// Let's delete even if it's moved to the trashbin
 			// since it has been removed from the current view
 			//  and changing the view will trigger a reload anyway.
-			emit('files:file:deleted', node)
+			emit('files:node:deleted', node)
 			return true
 		} catch (error) {
 			logger.error('Error while deleting a file', { error, source: node.source, node })

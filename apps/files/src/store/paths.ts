@@ -59,9 +59,9 @@ export const usePathsStore = () => {
 	// Make sure we only register the listeners once
 	if (!pathsStore._initialized) {
 		// TODO: watch folders to update paths?
-		// subscribe('files:folder:created', pathsStore.onCreatedNode)
-		// subscribe('files:folder:deleted', pathsStore.onDeletedNode)
-		// subscribe('files:folder:moved', pathsStore.onMovedNode)
+		// subscribe('files:node:created', pathsStore.onCreatedNode)
+		// subscribe('files:node:deleted', pathsStore.onDeletedNode)
+		// subscribe('files:node:moved', pathsStore.onMovedNode)
 
 		pathsStore._initialized = true
 	}
