@@ -62,7 +62,7 @@ registerFileAction(new FileAction({
 
 			// Let's pretend the file is deleted since
 			// we don't know the restored location
-			emit('files:file:deleted', node)
+			emit('files:node:deleted', node)
 			return true
 		} catch (error) {
 			logger.error(error)

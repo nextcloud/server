@@ -91,15 +91,10 @@ export const useFilesStore = () => {
 	const fileStore = store()
 	// Make sure we only register the listeners once
 	if (!fileStore._initialized) {
-		// subscribe('files:file:created', fileStore.onCreatedNode)
-		subscribe('files:file:deleted', fileStore.onDeletedNode)
-		// subscribe('files:file:moved', fileStore.onMovedNode)
-		// subscribe('files:file:updated', fileStore.onUpdatedNode)
-
-		// subscribe('files:folder:created', fileStore.onCreatedNode)
-		subscribe('files:folder:deleted', fileStore.onDeletedNode)
-		// subscribe('files:folder:moved', fileStore.onMovedNode)
-		// subscribe('files:folder:updated', fileStore.onUpdatedNode)
+		// subscribe('files:node:created', fileStore.onCreatedNode)
+		subscribe('files:node:deleted', fileStore.onDeletedNode)
+		// subscribe('files:node:moved', fileStore.onMovedNode)
+		// subscribe('files:node:updated', fileStore.onUpdatedNode)
 
 		fileStore._initialized = true
 	}

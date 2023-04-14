@@ -80,15 +80,10 @@ export default {
 		 */
 		setInterval(this.throttleUpdateStorageStats, 60 * 1000)
 
-		subscribe('files:file:created', this.throttleUpdateStorageStats)
-		subscribe('files:file:deleted', this.throttleUpdateStorageStats)
-		subscribe('files:file:moved', this.throttleUpdateStorageStats)
-		subscribe('files:file:updated', this.throttleUpdateStorageStats)
-
-		subscribe('files:folder:created', this.throttleUpdateStorageStats)
-		subscribe('files:folder:deleted', this.throttleUpdateStorageStats)
-		subscribe('files:folder:moved', this.throttleUpdateStorageStats)
-		subscribe('files:folder:updated', this.throttleUpdateStorageStats)
+		subscribe('files:node:created', this.throttleUpdateStorageStats)
+		subscribe('files:node:deleted', this.throttleUpdateStorageStats)
+		subscribe('files:node:moved', this.throttleUpdateStorageStats)
+		subscribe('files:node:updated', this.throttleUpdateStorageStats)
 	},
 
 	methods: {
