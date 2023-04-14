@@ -673,7 +673,7 @@ class ManagerTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('set')
-			->with(Manager::SESSION_UID_DONE, 'user');
+			->with(Manager::SESSION_UID_CONFIGURING, 'user');
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
