@@ -71,7 +71,9 @@ export interface Navigation {
 	parent?: string
 	/** This view is sticky (sent at the bottom) */
 	sticky?: boolean
-	/** This view has children and is expanded or not */
+	/** This view has children and is expanded or not,
+	 * will be overridden by user config.
+	 */
 	expanded?: boolean
 
 	/**

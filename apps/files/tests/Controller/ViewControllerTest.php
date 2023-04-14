@@ -35,6 +35,7 @@ namespace OCA\Files\Tests\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
@@ -90,6 +91,8 @@ class ViewControllerTest extends TestCase {
 	private $shareManager;
 	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $userConfig;
+	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $viewConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +116,7 @@ class ViewControllerTest extends TestCase {
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -129,6 +133,7 @@ class ViewControllerTest extends TestCase {
 				$this->templateManager,
 				$this->shareManager,
 				$this->userConfig,
+				$this->viewConfig,
 			])
 		->setMethods([
 			'getStorageInfo',

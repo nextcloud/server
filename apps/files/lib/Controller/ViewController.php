@@ -40,6 +40,7 @@ use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -79,6 +80,7 @@ class ViewController extends Controller {
 	private ITemplateManager $templateManager;
 	private IManager $shareManager;
 	private UserConfig $userConfig;
+	private ViewConfig $viewConfig;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -93,7 +95,8 @@ class ViewController extends Controller {
 		IInitialState $initialState,
 		ITemplateManager $templateManager,
 		IManager $shareManager,
-		UserConfig $userConfig
+		UserConfig $userConfig,
+		ViewConfig $viewConfig
 	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
@@ -108,6 +111,7 @@ class ViewController extends Controller {
 		$this->templateManager = $templateManager;
 		$this->shareManager = $shareManager;
 		$this->userConfig = $userConfig;
+		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -248,6 +252,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
+		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);

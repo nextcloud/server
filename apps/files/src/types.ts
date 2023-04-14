@@ -26,6 +26,7 @@ import type { Node } from '@nextcloud/files'
 // Global definitions
 export type Service = string
 export type FileId = number
+export type ViewId = string
 
 // Files store
 export type FilesState = {
@@ -61,18 +62,6 @@ export interface PathOptions {
 	fileid: FileId
 }
 
-// Sorting store
-export type direction = 'asc' | 'desc'
-
-export interface SortingConfig {
-	mode: string
-	direction: direction
-}
-
-export interface SortingStore {
-	[key: string]: SortingConfig
-}
-
 // User config store
 export interface UserConfig {
 	[key: string]: boolean
@@ -91,4 +80,15 @@ export interface SelectionStore {
 export type GlobalActions = 'global'
 export interface ActionsMenuStore {
 	opened: GlobalActions|string|null
+}
+
+// View config store
+export interface ViewConfig {
+	[key: string]: string|boolean
+}
+export interface ViewConfigs {
+	[viewId: ViewId]: ViewConfig
+}
+export interface ViewConfigStore {
+	viewConfig: ViewConfigs
 }

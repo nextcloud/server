@@ -75,14 +75,15 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 import Vue from 'vue'
 
-import Navigation, { ContentsWithRoot } from '../services/Navigation.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import { useSortingStore } from '../store/sorting.ts'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
+import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
+import Navigation, { ContentsWithRoot } from '../services/Navigation.ts'
 
 export default Vue.extend({
 	name: 'FilesList',
@@ -97,16 +98,20 @@ export default Vue.extend({
 		TrashCan,
 	},
 
+	mixins: [
+		filesSortingMixin,
+	],
+
 	setup() {
 		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
-		const sortingStore = useSortingStore()
+		const viewConfigStore = useViewConfigStore()
 		return {
 			filesStore,
 			pathsStore,
 			selectionStore,
-			sortingStore,
+			viewConfigStore,
 		}
 	},
 
@@ -149,15 +154,6 @@ export default Vue.extend({
 			}
 			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
 			return this.filesStore.getNode(fileId)
-		},
-
-		sortingMode() {
-			return this.sortingStore.getSortingMode(this.currentView.id)
-				|| this.currentView.defaultSortKey
-				|| 'basename'
-		},
-		isAscSorting() {
-			return this.sortingStore.isAscSorting(this.currentView.id) === true
 		},
 
 		/**

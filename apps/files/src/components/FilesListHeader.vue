@@ -66,16 +66,15 @@
 </template>
 
 <script lang="ts">
-import { mapState } from 'pinia'
 import { translate } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import { useSortingStore } from '../store/sorting.ts'
 import FilesListHeaderActions from './FilesListHeaderActions.vue'
 import FilesListHeaderButton from './FilesListHeaderButton.vue'
+import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 
 export default Vue.extend({
@@ -87,11 +86,9 @@ export default Vue.extend({
 		FilesListHeaderActions,
 	},
 
-	provide() {
-		return {
-			toggleSortBy: this.toggleSortBy,
-		}
-	},
+	mixins: [
+		filesSortingMixin,
+	],
 
 	props: {
 		isSizeAvailable: {
@@ -111,17 +108,13 @@ export default Vue.extend({
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
-		const sortingStore = useSortingStore()
 		return {
 			filesStore,
 			selectionStore,
-			sortingStore,
 		}
 	},
 
 	computed: {
-		...mapState(useSortingStore, ['filesSortingConfig']),
-
 		currentView() {
 			return this.$navigation.active
 		},
@@ -166,15 +159,6 @@ export default Vue.extend({
 		isSomeSelected() {
 			return !this.isAllSelected && !this.isNoneSelected
 		},
-
-		sortingMode() {
-			return this.sortingStore.getSortingMode(this.currentView.id)
-				|| this.currentView.defaultSortKey
-				|| 'basename'
-		},
-		isAscSorting() {
-			return this.sortingStore.isAscSorting(this.currentView.id) === true
-		},
 	},
 
 	methods: {
@@ -197,16 +181,6 @@ export default Vue.extend({
 				logger.debug('Cleared selection')
 				this.selectionStore.reset()
 			}
-		},
-
-		toggleSortBy(key) {
-			// If we're already sorting by this key, flip the direction
-			if (this.sortingMode === key) {
-				this.sortingStore.toggleSortingDirection(this.currentView.id)
-				return
-			}
-			// else sort ASC by this new key
-			this.sortingStore.setSortingBy(key, this.currentView.id)
 		},
 
 		t: translate,
