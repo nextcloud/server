@@ -94,8 +94,12 @@ const actions = {
 	 * @return {Promise<void>}
 	 */
 	async fetchBackupFromServer({ commit }) {
-		const status = await fetchBackupStatus(getCurrentUser()?.uid)
-		commit('loadBackupStatusFromServer', status)
+		try {
+			const status = await fetchBackupStatus(getCurrentUser()?.uid)
+			commit('loadBackupStatusFromServer', status)
+		} catch (e) {
+			// Ignore missing user backup status
+		}
 	},
 
 	async revertBackupFromServer({ commit }, { messageId }) {

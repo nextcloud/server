@@ -48,11 +48,11 @@
 					@submit="saveStatus"
 					@select-icon="setIcon" />
 			</div>
-			<div v-if="messageId"
+			<div v-if="hasBackupStatus"
 				class="set-status-modal__automation-hint">
 				{{ $t('user_status', 'Your status was set automatically') }}
 			</div>
-			<PreviousStatus v-if="messageId"
+			<PreviousStatus v-if="hasBackupStatus"
 				:icon="backupIcon"
 				:message="backupMessage"
 				@select="revertBackupFromServer" />
@@ -123,6 +123,9 @@ export default {
 		message() {
 			return this.$store.state.userStatus.message || ''
 		},
+		hasBackupStatus() {
+			return this.messageId && (this.backupIcon || this.backupMessage)
+		},
 		backupIcon() {
 			return this.$store.state.userBackupStatus.icon || ''
 		},
@@ -176,8 +179,11 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
-			this.messageId = null
-			this.icon = icon
+			this.$store.dispatch('setCustomMessage', {
+				message: this.message,
+				icon,
+				clearAt: this.clearAt,
+			})
 			this.$nextTick(() => {
 				this.$refs.customMessageInput.focus()
 			})
@@ -188,8 +194,11 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.messageId = null
-			this.message = message
+			this.$store.dispatch('setCustomMessage', {
+				message,
+				icon: this.icon,
+				clearAt: this.clearAt,
+			})
 		},
 		/**
 		 * Sets a new clearAt value
@@ -205,10 +214,11 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
-			this.messageId = status.id
 			this.clearAt = status.clearAt
-			this.icon = status.icon
-			this.message = status.message
+			this.$store.dispatch('setPredefinedMessage', {
+				messageId: status.id,
+				clearAt: status.clearAt,
+			})
 		},
 		/**
 		 * Saves the status and closes the
