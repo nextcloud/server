@@ -237,9 +237,15 @@ class User {
 		}
 		unset($attr);
 
+		// check for cached profile data
+		$username = $this->getUsername(); // buffer variable, to save resource
+		$cacheKey = 'getUserProfile-'.$username;
+		$profileCached = $this->connection->getFromCache($cacheKey);
 		// honoring profile disabled in config.php and check if user profile was refreshed
 		if ($this->config->getSystemValueBool('profile.enabled', true) &&
+			($profileCached === null) && // no cache or TTL not expired
 			!$this->wasRefreshed('profile')) {
+			// check current data
 			$profileValues = array();
 			//User Profile Field - Phone number
 			$attr = strtolower($this->connection->ldapAttributePhone);
@@ -314,9 +320,25 @@ class User {
 						= $ldapEntry[$attr][0];
 				}
 			}
+			// check for changed data and cache just for TTL checking
+			$checksum = hash('sha256', json_encode($profileValues));
+			$this->connection->writeToCache($cacheKey
+				, $checksum // write array to cache. is waste of cache space
+				, null); // use ldapCacheTTL from configuration
 			// Update user profile
-			$this->updateProfile($profileValues);
+			if ($this->config->getUserValue($username, 'user_ldap', 'lastProfileChecksum', null) !== $checksum) {
+				$this->config->setUserValue($username, 'user_ldap', 'lastProfileChecksum', $checksum);
+				$this->updateProfile($profileValues);
+				$this->logger->info("updated profile uid=$username"
+					, ['app' => 'user_ldap']);
+			} else {
+				$this->logger->debug("profile data from LDAP unchanged"
+					, ['app' => 'user_ldap', 'uid' => $username]);
+			}
 			unset($attr);
+		} elseif ($profileCached !== null) { // message delayed, to declutter log
+			$this->logger->debug("skipping profile check, while cached data exist"
+				, ['app' => 'user_ldap', 'uid' => $username]);
 		}
 
 		//Avatar
