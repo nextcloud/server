@@ -46,6 +46,7 @@ use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use SysvSemaphore;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
@@ -311,7 +312,7 @@ class Generator {
 	 *
 	 * @param int $semId
 	 * @param int $concurrency
-	 * @return false|resource the semaphore on success or false on failure
+	 * @return false|resource|SysvSemaphore the semaphore on success or false on failure
 	 */
 	public static function guardWithSemaphore(int $semId, int $concurrency) {
 		if (!extension_loaded('sysvsem')) {
@@ -330,7 +331,7 @@ class Generator {
 	/**
 	 * Releases the semaphore acquired from {@see Generator::guardWithSemaphore()}.
 	 *
-	 * @param resource|bool $semId the semaphore identifier returned by guardWithSemaphore
+	 * @param SysvSemaphore|bool $semId the semaphore identifier returned by guardWithSemaphore
 	 * @return bool
 	 */
 	public static function unguardWithSemaphore($semId): bool {
