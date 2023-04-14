@@ -108,7 +108,7 @@ class Jail extends Wrapper {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|false
+	 * @return resource|bool
 	 */
 	public function opendir($path) {
 		return $this->getWrapperStorage()->opendir($this->getUnjailedPath($path));

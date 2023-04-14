@@ -85,7 +85,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|false
+	 * @return resource|bool
 	 * @since 9.0.0
 	 */
 	public function opendir($path);

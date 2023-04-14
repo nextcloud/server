@@ -98,7 +98,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|false
+	 * @return resource|bool
 	 */
 	public function opendir($path) {
 		return $this->getWrapperStorage()->opendir($path);
