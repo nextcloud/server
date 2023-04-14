@@ -730,7 +730,13 @@ class Server extends ServerContainer implements IServerContainer {
 
 			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				if (!$config->getSystemValueBool('log_query')) {
-					$v = \OC_App::getAppVersions();
+					try {
+						$v = \OC_App::getAppVersions();
+					} catch (\Doctrine\DBAL\Exception $e) {
+						// Database service probably unavailable
+						// Probably related to https://github.com/nextcloud/server/issues/37424
+						return $arrayCacheFactory;
+					}
 				} else {
 					// If the log_query is enabled, we can not get the app versions
 					// as that does a query, which will be logged and the logging
