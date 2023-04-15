@@ -38,7 +38,7 @@
     "@mdi/svg": "^7.0.96",
     "@nextcloud/auth": "^2.0.0",
     "@nextcloud/axios": "^1.10.0",
-    "@nextcloud/browser-storage": "^0.1.1",
+    "@nextcloud/browser-storage": "^0.2.0",
     "@nextcloud/browserslist-config": "^2.3.0",
     "@nextcloud/calendar-availability-vue": "^0.6.0-alpha1",
     "@nextcloud/capabilities": "^1.0.4",
@@ -173,7 +173,7 @@
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.7.14",
     "wait-on": "^6.0.1",
-    "webpack": "^5.77.0",
+    "webpack": "^5.79.0",
     "webpack-cli": "^5.0.1",
     "webpack-merge": "^5.8.0",
     "workbox-webpack-plugin": "^6.5.4"
