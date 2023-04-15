@@ -92,6 +92,7 @@ OC.L10N.register(
     "Basic settings" : "Thiết lập cơ bản",
     "Sharing" : "Chia sẻ",
     "Calendar" : "Lịch",
+    "Personal info" : "Thông tin cá nhân",
     "Email server" : "Máy chủ mail",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Background jobs" : "Các công việc trong nền",
