@@ -29,8 +29,6 @@ OC.L10N.register(
     "Missing Signature" : "Firma faltante",
     "one-time password for server-side-encryption" : "Contraseña de una-sola-vez para la encripción del lado del servidor",
     "Default encryption module" : "Módulo de encripción predeterminado",
-    "The share will expire on %s." : "El elemento compartido expirará el %s.",
-    "Cheers!" : "¡Saludos!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "La aplicación de encripción esta habilitada pero tus llaves no han sido inicializadas, por favor sal y vuelve a entrar a tu sesión",
     "Encrypt the home storage" : "Encriptar el almacenamiento de inicio",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Habilitar esta opción encripta todos los archivos almacenados en el almacenamiento principal, de otro modo, sólo los archivos en el almacenamiento externo serán encriptados",
@@ -54,6 +52,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción te permitirá volver a tener acceso a tus archivos encriptados en caso de que pierdas la contraseña",
     "Enabled" : "Habilitado",
-    "Disabled" : "Deshabilitado"
+    "Disabled" : "Deshabilitado",
+    "The share will expire on %s." : "El elemento compartido expirará el %s.",
+    "Cheers!" : "¡Saludos!"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
