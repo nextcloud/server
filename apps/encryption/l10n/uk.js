@@ -32,8 +32,6 @@ OC.L10N.register(
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не вдається прочитати цей файл, ймовірно, це файл із загальним доступом. Будь ласка, попросіть власника файлу надати вам спільний доступ до нього. ",
     "Default encryption module" : "Типовий модуль шифрування",
     "Default encryption module for server-side encryption" : "Типовий модуль шифрування для шифрування на стороні сервера",
-    "The share will expire on %s." : "Спільний доступ закінчиться %s.",
-    "Cheers!" : "Будьмо!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Програму для шифрування ввімкнено, але ваші ключі не ініціалізовано. Будь ласка, вийдіть із системи та увійдіть знову",
     "Encrypt the home storage" : "Зашифрувати домашній каталог",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Увімкнення цього параметра шифрує всі файли, що зберігаються в основній пам’яті, інакше будуть зашифровані лише файли на зовнішній пам’яті",
@@ -57,6 +55,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Ввімкнути відновлення паролю:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
     "Enabled" : "Увімкнено",
-    "Disabled" : "Вимкнено"
+    "Disabled" : "Вимкнено",
+    "The share will expire on %s." : "Спільний доступ закінчиться %s.",
+    "Cheers!" : "Будьмо!"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
