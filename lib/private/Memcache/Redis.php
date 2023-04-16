@@ -31,6 +31,22 @@ namespace OC\Memcache;
 
 use OCP\IMemcacheTTL;
 
+/** name => [script, sha1] */
+const LUA_SCRIPTS = [
+	'dec' => [
+		'if redis.call("exists", KEYS[1]) == 1 then return redis.call("decrby", KEYS[1], ARGV[1]) else return "NEX" end',
+		'720b40cb66cef1579f2ef16ec69b3da8c85510e9',
+	],
+	'cas' => [
+		'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("set", KEYS[1], ARGV[2]) return 1 else return 0 end',
+		'94eac401502554c02b811e3199baddde62d976d4',
+	],
+	'cad' => [
+		'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
+		'cf0e94b2e9ffc7e04395cf88f7583fc309985910',
+	],
+];
+
 class Redis extends Cache implements IMemcacheTTL {
 	/**
 	 * @var \Redis $cache
@@ -48,12 +64,13 @@ class Redis extends Cache implements IMemcacheTTL {
 		$result = self::$cache->get($this->getPrefix() . $key);
 		if ($result === false && !self::$cache->exists($this->getPrefix() . $key)) {
 			return null;
-		} else {
-			return json_decode($result, true);
 		}
+
+		return self::decodeValue($result);
 	}
 
 	public function set($key, $value, $ttl = 0) {
+		$value = self::encodeValue($value);
 		if ($ttl > 0) {
 			return self::$cache->setex($this->getPrefix() . $key, $ttl, json_encode($value));
 		} else {
@@ -74,6 +91,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function clear($prefix = '') {
+		// TODO: this is slow and would fail with Redis cluster
 		$prefix = $this->getPrefix() . $prefix . '*';
 		$keys = self::$cache->keys($prefix);
 		$deleted = self::$cache->del($keys);
@@ -90,10 +108,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function add($key, $value, $ttl = 0) {
-		// don't encode ints for inc/dec
-		if (!is_int($value)) {
-			$value = json_encode($value);
-		}
+		$value = self::encodeValue($value);
 
 		$args = ['nx'];
 		if ($ttl !== 0 && is_int($ttl)) {
@@ -176,5 +191,26 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	public static function isAvailable(): bool {
 		return \OC::$server->getGetRedisFactory()->isAvailable();
+	}
+
+	protected function evalLua($scriptName, $keys, $args) {
+		$keys = array_map(fn ($key) => $this->getPrefix() . $key, $keys);
+		$args = array_merge($keys, $args);
+		$script = LUA_SCRIPTS[$scriptName];
+
+		$result = $this->getCache()->evalSha($script[1], $args, count($keys));
+		if (false === $result) {
+			$result = $this->getCache()->eval($script[0], $args, count($keys));
+		}
+
+		return $result;
+	}
+
+	protected static function encodeValue($value) {
+		return is_int($value) ? (string) $value : json_encode($value);
+	}
+
+	protected static function decodeValue($value) {
+		return is_numeric($value) ? (int) $value : json_decode($value, true);
 	}
 }
