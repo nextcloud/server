@@ -292,6 +292,10 @@ export default {
 			return this.currentIndex === this.fileList.length - 1
 		},
 
+		isImage() {
+			return ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
+		},
+
 		/**
 		 * Returns the path to the current opened file in the sidebar.
 		 *
@@ -341,7 +345,7 @@ export default {
 			return !this.isMobile
 				&& canDownload()
 				&& this.currentFile?.permissions?.includes('W')
-				&& ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
+				&& this.isImage
 		},
 
 		modalClass() {
@@ -423,10 +427,21 @@ export default {
 		},
 
 		isFullscreenMode(mode) {
+			if (!this.isImage) {
+				return
+			}
+
+			// Use 100% of screen height to display images and make the header semitransparent
+			//
+			// NOTE: This fragment depends on internal structure of the NcModal component.
+			//
+			const modalHeader = document.getElementsByClassName('modal-header').item(0)
 			const modalContainer = document.getElementsByClassName('modal-container').item(0)
 			if (mode) {
+				modalHeader.classList.add('modal-header--semitransparent')
 				modalContainer.classList.add('modal-container--fullscreen')
 			} else {
+				modalHeader.classList.remove('modal-header--semitransparent')
 				modalContainer.classList.remove('modal-container--fullscreen')
 			}
 		},
@@ -1072,7 +1087,7 @@ export default {
 		cursor: pointer;
 	}
 
-	:deep(.modal-header) {
+	:deep(.modal-header--semitransparent) {
 		background-color: rgba(0, 0, 0, 0.2);
 	}
 
