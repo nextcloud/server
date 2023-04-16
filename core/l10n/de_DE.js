@@ -164,6 +164,7 @@ OC.L10N.register(
     "Your connection is not secure" : "Ihre Verbindung ist nicht sicher",
     "Passwordless authentication is only available over a secure connection." : "Anmeldung ohne Passwort ist nur über eine sichere Verbindung möglich",
     "Reset password" : "Passwort zurücksetzen",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Wenn dieses Konto existiert, wurde eine Nachricht zum Zurücksetzen des Passworts an seine E-Mail-Adresse gesendet. Wenn Sie es nicht erhalten, überprüfen Sie Ihre E-Mail-Adresse und/oder Ihren Kontonamen, überprüfen Sie Ihre Spam-/Junk-Ordner oder bitten Sie Ihre lokale Verwaltung um Hilfe.",
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktieren Sie Ihre Administration.",
     "Password cannot be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator.",
     "Back to login" : "Zurück zur Anmeldung",

@@ -26,6 +26,7 @@
     "Bad Signature" : "Nesprávný podpis",
     "Missing Signature" : "Chybějící podpis",
     "one-time password for server-side-encryption" : "jednorázové heslo pro šifrování na straně serveru",
+    "Encryption password" : "Šifrovací heslo",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento soubor se nedaří rozšifrovat – pravděpodobně se jedná o nasdílený soubor. Požádejte jeho vlastníka, aby vám ho znovu nasdílel.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Z tohoto souboru se nedaří číst – pravděpodobně se jedná o nasdílený soubor. Požádejte jeho vlastníka, aby vám ho znovu nasdílel.",
     "Default encryption module" : "Výchozí šifrovací modul",
