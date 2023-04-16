@@ -118,6 +118,7 @@
     "You cannot share to a Circle if the app is not enabled" : "Ezin duzu zirkulu batekin partekatu aplikazioa gaituta ez badago",
     "Please specify a valid circle" : "Zehaztu baliozko zirkulu bat",
     "Sharing %s failed because the back end does not support room shares" : "%s partekatzeak huts egin du, atzealdeak ez duelako gelak partekatzea onartzen",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "%spartekatzeak huts egin du atzealdeak ez duelako zientzia sareko partekatzea onartzen",
     "Unknown share type" : "Partekatze mota ezezaguna",
     "Not a directory" : "Ez da direktorio bat",
     "Could not lock node" : "Ezin izan da nodoa blokeatu",
@@ -204,7 +205,10 @@
     "Share link ({label})" : "Partekatu ({label}) eskeka",
     "Share link ({index})" : "Partekatu ({index}) esteka",
     "Share link" : "Partekatu esteka",
+    "Actions for \"{title}\"" : "\"{title}\"-ren ekintzak",
+    "Copy public link of \"{title}\" to clipboard" : "Kopiatu \"{title}\"-ren esteka publikoa arbelean",
     "Error, please enter proper password and/or expiration date" : "Errorea, sartu dagokion pasahitza edo/eta iraungitze-data",
+    "Link share created" : "Esteka partekatzea sortu da",
     "Error while creating the share" : "Errore bat gertatu da partekatzea sortzean",
     "Search for share recipients" : "Bilatu partekatze-hartzaileak",
     "No recommendations. Start typing." : "Gomendiorik ez. Hasi idazten.",
@@ -220,6 +224,7 @@
     "Circle" : "Zirkulua",
     "Talk conversation" : "Talk elkarrizketa",
     "Deck board" : "Deck mahaia",
+    "Science Mesh" : "Zientzia sarea",
     "on {server}" : "{server} zerbitzarian",
     "Others with access" : "Sarbidea duten beste erabiltzaileak",
     "No other users with access found" : "Ez da sarbidea duen erabiltzailerik aurkitu",
@@ -237,9 +242,12 @@
     "Error updating the share" : "Errorea partekatzea eguneratzen",
     "File \"{path}\" has been unshared" : "\"{path}\" fitxategiaren partekatzea eten da",
     "Folder \"{path}\" has been unshared" : "\"{path}\" karpetaren partekatzea eten da",
+    "Share {propertyName} saved" : "Partekatu {propertyName} gordeta",
     "Shared" : "Partekatuta",
     "Share" : "Partekatu",
     "Shared with" : "Honekin partekatua",
+    "Password created successfully" : "Pasahitza ongi sortu da",
+    "Error generating password from password policy" : "Errorea pasahitz-gidalerrotik pasahitza sortzean",
     "Shared with you and the group {group} by {owner}" : "{owner} erabiltzaileak zu eta {group} taldearekin partekatuta",
     "Shared with you and {circle} by {owner}" : " {owner} erabiltzaileak zurekin eta {circle} zirkuluarekin partekatua",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} erabiltzaileak zu eta {conversation} elkarrizketarekin partekatua",
@@ -266,6 +274,7 @@
     "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Copy to clipboard" : "Kopiatu arbelera",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
-    "Toggle grid view" : "Txandakatu sareta ikuspegia"
+    "Toggle grid view" : "Txandakatu sareta ikuspegia",
+    "Error generating password from password_policy" : "Errorea pasahitz-gidalerrotik pasahitza sortzean"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

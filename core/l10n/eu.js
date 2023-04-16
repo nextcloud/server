@@ -39,6 +39,9 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Egin klik ondoko botoian zure pasahitza berrezartzeko. Ez baduzu pasahitzaren berrezarpena eskatu, ahaztu mezu elektroniko hau.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Egin klik ondoko estekan zure pasahitza berrezartzeko. Ez baduzu pasahitzaren berrezarpena eskatu, ahaztu mezu elektroniko hau.",
     "Reset your password" : "Berrezarri zure pasahitza",
+    "No translation provider available" : "Ez dago itzulpen-hornitzailerik erabilgarri",
+    "Could not detect language" : "Ezin izan da hizkuntza hauteman",
+    "Unable to translate" : "Ezin izan da itzuli",
     "Nextcloud Server" : "Nextcloud zerbitzaria",
     "Some of your link shares have been removed" : "Zure esteka partekatzeetako batzuk kendu dira",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Segurtasun errore baten ondorioz zure esteka partekatze batzuk kendu ditugu. Ikusi esteka informazio gehiagorako.",
@@ -51,6 +54,7 @@ OC.L10N.register(
     "Repair info:" : "Konponketa informazioa:",
     "Repair warning:" : "Konponketa abisua:",
     "Repair error:" : "Konponketa errorea:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Mesedez, erabili komando-lerroko eguneratzailea, arakatzaile bidez eguneratzea desgaituta dagoelako zure config.php-n.",
     "Turned on maintenance mode" : "Mantentze modua aktibatu da",
     "Turned off maintenance mode" : "Mantentze modua desaktibatu da",
     "Maintenance mode is kept active" : "Mantentze moduak aktibatuta jarraitzen du.",
@@ -160,6 +164,7 @@ OC.L10N.register(
     "Your connection is not secure" : "Zure konexioa ez da segurua",
     "Passwordless authentication is only available over a secure connection." : "Pasahitzik gabeko autentifikazioa konexio seguruetan erabil daiteke soilik.",
     "Reset password" : "Berrezarri pasahitza",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Kontu hau badago, pasahitza berrezartzeko mezua bidali da bere helbide elektronikora. Jasotzen ez baduzu, egiaztatu zure helbide elektronikoa eta/edo kontuaren izena, egiaztatu spam/zabor-karpetak edo eskatu laguntza administrazio lokalari.",
     "Couldn't send reset email. Please contact your administrator." : "Ezin izan da berrezartzeko e-posta bidali. Jarri zure administratzailearekin harremanetan.",
     "Password cannot be changed. Please contact your administrator." : "Ezin da pasahitza aldatu. Jarri harremanetan zure administratzailearekin.",
     "Back to login" : "Itzuli saio hasierara",
@@ -181,6 +186,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Fitxategiak, Kontaktuak eta Egutegiarekin integratutako posta elektronikoko aplikazio soila.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Txata, bideo-deiak, pantaila partekatzea, lineako bilerak eta web konferentziak - zure nabigatzailean eta mugikorrerako aplikazioekin.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Dokumentu, kalkulu-orri eta aurkezpen kolaboratiboak, Collabora Online-en sortuak.",
+    "Distraction free note taking app." : "Distrakziorik gabeko oharrak hartzeko aplikazioa.",
     "Search contacts" : "Bilatu kontaktuak",
     "Forgot password?" : "Pasahitza ahaztu duzu?",
     "Log in with a device" : "Hasi saioa gailu batekin",
@@ -423,6 +429,7 @@ OC.L10N.register(
     "Contacts" : "Kontaktuak",
     "Contacts menu" : "Kontaktuen menua",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Mesedez, erabili komando-lerroko eguneratzailea, arakatzailearen bidez eguneratzea desgaituta dagoelako zure config.php-n."
 },
 "nplurals=2; plural=(n != 1);");
