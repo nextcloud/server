@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Ireki albo-barra",
     "Download" : "Deskargatu",
     "Delete" : "Ezabatu",
+    "This file no longer exists" : "Fitxategi hori ez da existitzen",
     "There is no plugin available to display this file type" : "Ez dago plugin erabilgarririk fitxategi mota hau bistaratzeko",
     "View" : "Ikusi",
     "Name" : "Izena",
