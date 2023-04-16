@@ -162,6 +162,7 @@
     "Your connection is not secure" : "Your connection is not secure",
     "Passwordless authentication is only available over a secure connection." : "Passwordless authentication is only available over a secure connection.",
     "Reset password" : "Reset password",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help.",
     "Couldn't send reset email. Please contact your administrator." : "Couldn't send reset email. Please contact your administrator.",
     "Password cannot be changed. Please contact your administrator." : "Password cannot be changed. Please contact your administrator.",
     "Back to login" : "Back to login",

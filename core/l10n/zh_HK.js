@@ -164,6 +164,7 @@ OC.L10N.register(
     "Your connection is not secure" : "您的連線不安全",
     "Passwordless authentication is only available over a secure connection." : "無密碼身分驗證僅支援經加密的連線。",
     "Reset password" : "重設密碼",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "如果此賬戶存在，密碼重置郵件已發送到其電郵地址。如果您沒有收到，請驗證您的電郵地址和/或賬戶名，檢查您的垃圾郵件/垃圾資料夾或向您當地的管理員協助。",
     "Couldn't send reset email. Please contact your administrator." : "無法寄出重設密碼電郵。請聯絡您的管理員。",
     "Password cannot be changed. Please contact your administrator." : "無法重設密碼，請聯絡管理員。",
     "Back to login" : "回到登入畫面",
