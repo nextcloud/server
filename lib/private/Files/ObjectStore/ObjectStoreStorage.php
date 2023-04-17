@@ -98,6 +98,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	public function mkdir($path) {
 		$path = $this->normalizePath($path);
 		if ($this->file_exists($path)) {
+			$this->logger->warning("Tried to create an object store folder that already exists: $path");
 			return false;
 		}
 
@@ -121,10 +122,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			if ($parentType === false) {
 				if (!$this->mkdir($parent)) {
 					// something went wrong
+					$this->logger->warning("Parent folder ($parent) doesn't exist and couldn't be created");
 					return false;
 				}
 			} elseif ($parentType === 'file') {
 				// parent is a file
+				$this->logger->warning("Parent ($parent) is a file");
 				return false;
 			}
 			// finally create the new dir
