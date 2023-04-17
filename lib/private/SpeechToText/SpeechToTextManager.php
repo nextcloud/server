@@ -101,16 +101,18 @@ class SpeechToTextManager implements ISpeechToTextManager {
 	}
 
 	public function transcribeFile(File $file): string {
-		$provider = current($this->getProviders());
-		if (!$provider) {
+		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 
-		try {
-			return $provider->transcribeFile($file);
-		} catch (\Throwable $e) {
-			$this->logger->info('SpeechToText transcription failed', ['exception' => $e]);
-			throw new \RuntimeException('SpeechToText transcription failed: ' . $e->getMessage());
+		foreach ($this->getProviders() as $provider) {
+			try {
+				return $provider->transcribeFile($file);
+			} catch (\Throwable $e) {
+				$this->logger->info('SpeechToText transcription using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
+			}
 		}
+
+		throw new RuntimeException('Could not transcribe file');
 	}
 }
