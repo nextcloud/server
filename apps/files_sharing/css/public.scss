@@ -40,10 +40,6 @@ $download-button-section-height: 200px;
     min-width: 100px;
 }
 
-#imgframe video {
-	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height} - #{$footer-padding-height});
-}
-
 #imgframe .plyr:fullscreen video {
     max-height: unset;
 }
