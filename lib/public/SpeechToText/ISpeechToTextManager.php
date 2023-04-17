@@ -56,7 +56,7 @@ interface ISpeechToTextManager {
 	/**
 	 * @since 27.0.0
 	 * @param File $file The media file to transcribe
-	 * @returns string The transcription of the the passed media file
+	 * @returns string The transcription of the passed media file
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
 	 * @throws RuntimeException If the transcription failed for other reasons
