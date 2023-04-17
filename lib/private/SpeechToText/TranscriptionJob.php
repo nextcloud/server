@@ -35,6 +35,7 @@ use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\Events\TranscriptionFailedEvent;
 use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
 use OCP\SpeechToText\ISpeechToTextManager;
+use Psr\Log\LoggerInterface;
 
 class TranscriptionJob extends QueuedJob {
 	public function __construct(
@@ -42,6 +43,7 @@ class TranscriptionJob extends QueuedJob {
 		private ISpeechToTextManager $speechToTextManager,
 		private IEventDispatcher $eventDispatcher,
 		private IRootFolder $rootFolder,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($timeFactory);
 	}
@@ -52,12 +54,15 @@ class TranscriptionJob extends QueuedJob {
 	 */
 	protected function run($argument) {
 		$fileId = $argument['fileId'];
+		$file = null;
 		try {
 			$file = current($this->rootFolder->getById($fileId));
 			if (!($file instanceof File)) {
+				$this->logger->warning('Transcription of file ' . $fileId . ' failed. The file could not be found');
 				$this->eventDispatcher->dispatchTyped(
 					new TranscriptionFailedEvent(
 						$fileId,
+						null,
 						'File not found',
 					)
 				);
@@ -67,13 +72,16 @@ class TranscriptionJob extends QueuedJob {
 			$this->eventDispatcher->dispatchTyped(
 				new TranscriptionSuccessfulEvent(
 					$fileId,
+					$file,
 					$result,
 				)
 			);
 		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException $e) {
+			$this->logger->warning('Transcription of file ' . $fileId . ' failed', ['exception' => $e]);
 			$this->eventDispatcher->dispatchTyped(
 				new TranscriptionFailedEvent(
 					$fileId,
+					$file,
 					$e->getMessage(),
 				)
 			);

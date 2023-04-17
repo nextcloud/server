@@ -35,9 +35,10 @@ class TranscriptionSuccessfulEvent extends AbstractTranscriptionEvent {
 	 */
 	public function __construct(
 		int $fileId,
+		?File $file,
 		private string $transcript
 	) {
-		parent::__construct($fileId);
+		parent::__construct($fileId, $file);
 	}
 
 	/**

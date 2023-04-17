@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCP\SpeechToText\Events;
 
+use OCP\Files\File;
+
 class TranscriptionFailedEvent extends AbstractTranscriptionEvent {
 
 	/**
@@ -33,9 +35,10 @@ class TranscriptionFailedEvent extends AbstractTranscriptionEvent {
 	 */
 	public function __construct(
 		int $fileId,
+		?File $file,
 		private string $errorMessage
 	) {
-		parent::__construct($fileId);
+		parent::__construct($fileId, $file);
 	}
 
 	/**

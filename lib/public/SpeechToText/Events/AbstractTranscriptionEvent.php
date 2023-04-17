@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCP\SpeechToText\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\Files\File;
 
 /**
  * @since 27.0.0
@@ -35,7 +36,8 @@ abstract class AbstractTranscriptionEvent extends Event {
 	 * @since 27.0.0
 	 */
 	public function __construct(
-		private int $fileIdId
+		private int $fileIdId,
+		private ?File $file,
 	) {
 		parent::__construct();
 	}
@@ -45,5 +47,12 @@ abstract class AbstractTranscriptionEvent extends Event {
 	 */
 	public function getFileId(): int {
 		return $this->fileIdId;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getFile(): ?File {
+		return $this->file;
 	}
 }
