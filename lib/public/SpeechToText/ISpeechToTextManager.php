@@ -49,7 +49,6 @@ interface ISpeechToTextManager {
 	 * @since 27.0.0
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
-	 * @throws RuntimeException If the transcription failed for other reasons
 	 */
 	public function scheduleFileTranscription(File $file): void;
 
