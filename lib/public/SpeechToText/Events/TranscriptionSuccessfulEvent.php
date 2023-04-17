@@ -28,6 +28,10 @@ namespace OCP\SpeechToText\Events;
 
 use OCP\Files\File;
 
+/**
+ * This Event is emitted when a transcription of a media file happened successfully
+ * @since 27.0.0
+ */
 class TranscriptionSuccessfulEvent extends AbstractTranscriptionEvent {
 
 	/**
