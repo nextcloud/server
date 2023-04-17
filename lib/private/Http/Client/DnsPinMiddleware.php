@@ -101,7 +101,8 @@ class DnsPinMiddleware {
 			}
 		}
 
-		return $targetIps;
+		// Filter out empty IP addresses before returning the result
+		return array_filter($targetIps);
 	}
 
 	public function addDnsPinning() {
