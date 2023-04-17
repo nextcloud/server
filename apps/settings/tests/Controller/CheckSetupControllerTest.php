@@ -504,6 +504,10 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(true);
 		$this->checkSetupController
 			->expects($this->once())
+			->method('hasDBileLocking')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
 			->method('getSuggestedOverwriteCliURL')
 			->willReturn('');
 		$this->checkSetupController
