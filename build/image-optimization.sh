@@ -18,6 +18,13 @@ if ! [ -x "$SCOUR" ]; then
 	exit 3
 fi
 
+REQUIRED_SCOUR_VERSION="0.38.2"
+SCOUR_VERSION=$(scour --version)
+if dpkg --compare-versions $SCOUR_VERSION lt $REQUIRED_SCOUR_VERSION; then
+	echo "scour version $REQUIRED_SCOUR_VERSION or higher is required, found $SCOUR_VERSION" >&2
+	exit 3
+fi
+
 set +e
 
 CHECK_DIR='../'
