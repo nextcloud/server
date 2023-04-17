@@ -9,6 +9,8 @@
 
 namespace Test\Memcache;
 
+use const OC\Memcache\LUA_SCRIPTS;
+
 /**
  * @group Memcache
  * @group Redis
@@ -55,5 +57,11 @@ class RedisTest extends Cache {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new \OC\Memcache\Redis($this->getUniqueID());
+	}
+
+	public function testScriptHashes() {
+		foreach (LUA_SCRIPTS as $script) {
+			$this->assertEquals(sha1($script[0]), $script[1]);
+		}
 	}
 }
