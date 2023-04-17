@@ -1088,7 +1088,12 @@ export default {
 	}
 
 	:deep(.modal-header--semitransparent) {
-		background-color: rgba(0, 0, 0, 0.2);
+		.modal-title {
+			opacity: 0;
+		}
+		.icons-menu {
+			background-color: rgba(0, 0, 0, 0.2);
+		}
 	}
 
 	:deep(.modal-wrapper) {
