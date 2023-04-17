@@ -61,5 +61,5 @@ interface ISpeechToTextManager {
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
 	 * @throws RuntimeException If the transcription failed for other reasons
 	 */
-	public function transcribeFile(File $file) : string;
+	public function transcribeFile(File $file): string;
 }
