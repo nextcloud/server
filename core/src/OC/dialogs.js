@@ -534,9 +534,8 @@ const Dialogs = {
 
 			self.$filePicker.ocdialog({
 				closeOnEscape: true,
-				// max-width of 600
-				width: 600,
-				height: 500,
+				width: '70vw',
+				height: '60vh',
 				modal: modal,
 				buttons: buttonlist,
 				style: {
