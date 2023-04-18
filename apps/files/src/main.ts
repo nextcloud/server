@@ -4,6 +4,7 @@ import './legacy/filelistSearch.js'
 import './actions/deleteAction'
 import './actions/favoriteAction'
 import './actions/sidebarAction'
+import './actions/downloadAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
