@@ -21,18 +21,14 @@
  */
 import Vue from 'vue'
 
+import { mapState } from 'pinia'
 import { useViewConfigStore } from '../store/viewConfig'
-import type { Navigation  } from '../services/Navigation'
+import type { Navigation } from '../services/Navigation'
 
 export default Vue.extend({
-	setup() {
-		const viewConfigStore = useViewConfigStore()
-		return {
-			viewConfigStore,
-		}
-	},
-
 	computed: {
+		...mapState(useViewConfigStore, ['getConfig', 'setSortingBy', 'toggleSortingDirection']),
+
 		currentView(): Navigation {
 			return this.$navigation.active
 		},
@@ -41,7 +37,7 @@ export default Vue.extend({
 		 * Get the sorting mode for the current view
 		 */
 		sortingMode(): string {
-			return this.viewConfigStore.getConfig(this.currentView.id)?.sorting_mode
+			return this.getConfig(this.currentView.id)?.sorting_mode as string
 				|| this.currentView?.defaultSortKey
 				|| 'basename'
 		},
@@ -50,7 +46,7 @@ export default Vue.extend({
 		 * Get the sorting direction for the current view
 		 */
 		isAscSorting(): boolean {
-			const sortingDirection = this.viewConfigStore.getConfig(this.currentView.id)?.sorting_direction
+			const sortingDirection = this.getConfig(this.currentView.id)?.sorting_direction
 			return sortingDirection === 'asc'
 		},
 	},
@@ -59,11 +55,11 @@ export default Vue.extend({
 		toggleSortBy(key: string) {
 			// If we're already sorting by this key, flip the direction
 			if (this.sortingMode === key) {
-				this.viewConfigStore.toggleSortingDirection(this.currentView.id)
+				this.toggleSortingDirection(this.currentView.id)
 				return
 			}
 			// else sort ASC by this new key
-			this.viewConfigStore.setSortingBy(key, this.currentView.id)
+			this.setSortingBy(key, this.currentView.id)
 		},
 	},
 })
