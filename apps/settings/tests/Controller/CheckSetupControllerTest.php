@@ -186,6 +186,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasValidTransactionIsolationLevel',
 				'hasFileinfoInstalled',
 				'hasWorkingFileLocking',
+				'hasDBFileLocking',
 				'getLastCronInfo',
 				'getSuggestedOverwriteCliURL',
 				'getCurlVersion',
@@ -504,6 +505,10 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(true);
 		$this->checkSetupController
 			->expects($this->once())
+			->method('hasDBFileLocking')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
 			->method('getSuggestedOverwriteCliURL')
 			->willReturn('');
 		$this->checkSetupController
@@ -604,6 +609,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasValidTransactionIsolationLevel' => true,
 				'hasFileinfoInstalled' => true,
 				'hasWorkingFileLocking' => true,
+				'hasDBFileLocking' => true,
 				'suggestedOverwriteCliURL' => '',
 				'cronInfo' => [
 					'diffInSeconds' => 123,
