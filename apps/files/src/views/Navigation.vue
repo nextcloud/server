@@ -27,7 +27,7 @@
 				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
 				:icon="view.iconClass"
-				:open="view.expanded"
+				:open="isExpanded(view)"
 				:pinned="view.sticky"
 				:title="view.name"
 				:to="generateToNavigation(view)"
@@ -74,20 +74,18 @@
 
 <script>
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
 import { translate } from '@nextcloud/l10n'
-
-import axios from '@nextcloud/axios'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
+import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation.ts'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
-import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 
 export default {
 	name: 'Navigation',
@@ -107,6 +105,13 @@ export default {
 			type: Navigation,
 			required: true,
 		},
+	},
+
+	setup() {
+		const viewConfigStore = useViewConfigStore()
+		return {
+			viewConfigStore,
+		}
 	},
 
 	data() {
@@ -245,8 +250,22 @@ export default {
 		 */
 		onToggleExpand(view) {
 			// Invert state
-			view.expanded = !view.expanded
-			axios.post(generateUrl(`/apps/files/api/v1/toggleShowFolder/${view.id}`), { show: view.expanded })
+			const isExpanded = this.isExpanded(view)
+			// Update the view expanded state, might not be necessary
+			view.expanded = !isExpanded
+			this.viewConfigStore.update(view.id, 'expanded', !isExpanded)
+		},
+
+		/**
+		 * Check if a view is expanded by user config
+		 * or fallback to the default value.
+		 *
+		 * @param {Navigation} view the view to check
+		 */
+		isExpanded(view) {
+			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
+				? this.viewConfigStore.getConfig(view.id).expanded === true
+				: view.expanded === true
 		},
 
 		/**

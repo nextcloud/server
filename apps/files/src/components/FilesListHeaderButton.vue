@@ -33,14 +33,13 @@
 </template>
 
 <script lang="ts">
-import { mapState } from 'pinia'
 import { translate } from '@nextcloud/l10n'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Vue from 'vue'
 
-import { useSortingStore } from '../store/sorting.ts'
+import filesSortingMixin from '../mixins/filesSorting.ts'
 
 export default Vue.extend({
 	name: 'FilesListHeaderButton',
@@ -51,7 +50,9 @@ export default Vue.extend({
 		NcButton,
 	},
 
-	inject: ['toggleSortBy'],
+	mixins: [
+		filesSortingMixin,
+	],
 
 	props: {
 		name: {
@@ -61,30 +62,6 @@ export default Vue.extend({
 		mode: {
 			type: String,
 			required: true,
-		},
-	},
-
-	setup() {
-		const sortingStore = useSortingStore()
-		return {
-			sortingStore,
-		}
-	},
-
-	computed: {
-		...mapState(useSortingStore, ['filesSortingConfig']),
-
-		currentView() {
-			return this.$navigation.active
-		},
-
-		sortingMode() {
-			return this.sortingStore.getSortingMode(this.currentView.id)
-				|| this.currentView.defaultSortKey
-				|| 'basename'
-		},
-		isAscSorting() {
-			return this.sortingStore.isAscSorting(this.currentView.id) === true
 		},
 	},
 

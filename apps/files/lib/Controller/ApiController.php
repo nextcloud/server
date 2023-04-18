@@ -40,6 +40,7 @@ namespace OCA\Files\Controller;
 use OC\Files\Node\Node;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -71,6 +72,7 @@ class ApiController extends Controller {
 	private IConfig $config;
 	private Folder $userFolder;
 	private UserConfig $userConfig;
+	private ViewConfig $viewConfig;
 
 	/**
 	 * @param string $appName
@@ -90,7 +92,8 @@ class ApiController extends Controller {
 								IManager $shareManager,
 								IConfig $config,
 								Folder $userFolder,
-								UserConfig $userConfig) {
+								UserConfig $userConfig,
+								ViewConfig $viewConfig) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
@@ -99,6 +102,7 @@ class ApiController extends Controller {
 		$this->config = $config;
 		$this->userFolder = $userFolder;
 		$this->userConfig = $userConfig;
+		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -275,39 +279,39 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Change the default sort mode
+	 * Set a user view config
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $mode
-	 * @param string $direction
+	 * @param string $view
+	 * @param string $key
+	 * @param string|bool $value
 	 * @return JSONResponse
-	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function updateFileSorting($mode, string $direction = 'asc', string $view = 'files'): JSONResponse {
-		$allowedDirection = ['asc', 'desc'];
-		if (!in_array($direction, $allowedDirection)) {
-			return  new JSONResponse(['message' => 'Invalid direction parameter'], Http::STATUS_UNPROCESSABLE_ENTITY);
+	public function setViewConfig(string $view, string $key, $value): JSONResponse {
+		try {
+			$this->viewConfig->setConfig($view, $key, (string)$value);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 
-		$userId = $this->userSession->getUser()->getUID();
+		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfig($view)]);
+	}
 
-		$sortingJson = $this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}');
-		$sortingConfig = json_decode($sortingJson, true) ?: [];
-		$sortingConfig[$view] = [
-			'mode' => $mode,
-			'direction' => $direction,
-		];
 
-		$this->config->setUserValue($userId, 'files', 'files_sorting_configs', json_encode($sortingConfig));
-		return new JSONResponse([
-			'message' => 'ok',
-			'data' => $sortingConfig,
-		]);
+	/**
+	 * Get the user view config
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getViewConfigs(): JSONResponse {
+		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfigs()]);
 	}
 
 	/**
-	 * Toggle default files user config
+	 * Set a user config
 	 *
 	 * @NoAdminRequired
 	 *
@@ -387,32 +391,6 @@ class ApiController extends Controller {
 	public function getGridView() {
 		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
 		return new JSONResponse(['gridview' => $status]);
-	}
-
-	/**
-	 * Toggle default for showing/hiding xxx folder
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @param int $show
-	 * @param string $key the key of the folder
-	 *
-	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
-	 */
-	public function toggleShowFolder(int $show, string $key): Response {
-		if ($show !== 0 && $show !== 1) {
-			return new DataResponse([
-				'message' => 'Invalid show value. Only 0 and 1 are allowed.'
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		$userId = $this->userSession->getUser()->getUID();
-
-		// Set the new value and return it
-		// Using a prefix prevents the user from setting arbitrary keys
-		$this->config->setUserValue($userId, 'files', 'show_' . $key, (string)$show);
-		return new JSONResponse([$key => $show]);
 	}
 
 	/**

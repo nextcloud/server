@@ -7,6 +7,7 @@ import { createTestingPinia } from '@pinia/testing'
 import NavigationService from '../services/Navigation.ts'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
+import { useViewConfigStore } from '../store/viewConfig'
 
 describe('Navigation renders', () => {
 	const Navigation = new NavigationService() as NavigationService
@@ -116,23 +117,28 @@ describe('Navigation API', () => {
 			router,
 		})
 
+		cy.wrap(useViewConfigStore()).as('viewConfigStore')
+
 		cy.get('[data-cy-files-navigation]').should('be.visible')
 		cy.get('[data-cy-files-navigation-item]').should('have.length', 3)
-
-		// Intercept collapse preference request
-		cy.intercept('POST', '*/apps/files/api/v1/toggleShowFolder/*', {
-			statusCode: 200,
-		  }).as('toggleShowFolder')
 
 		// Toggle the sharing entry children
 		cy.get('[data-cy-files-navigation-item="sharing"] button.icon-collapse').should('exist')
 		cy.get('[data-cy-files-navigation-item="sharing"] button.icon-collapse').click({ force: true })
-		cy.wait('@toggleShowFolder')
+
+		// Expect store update to be called
+		cy.get('@viewConfigStore').its('update').should('have.been.calledWith', 'sharing', 'expanded', true)
 
 		// Validate children
 		cy.get('[data-cy-files-navigation-item="sharingin"]').should('be.visible')
 		cy.get('[data-cy-files-navigation-item="sharingin"]').should('contain.text', 'Shared with me')
 
+		// Toggle the sharing entry children 🇦again
+		cy.get('[data-cy-files-navigation-item="sharing"] button.icon-collapse').click({ force: true })
+		cy.get('[data-cy-files-navigation-item="sharingin"]').should('not.be.visible')
+
+		// Expect store update to be called
+		cy.get('@viewConfigStore').its('update').should('have.been.calledWith', 'sharing', 'expanded', false)
 	})
 
 	it('Throws when adding a duplicate entry', () => {

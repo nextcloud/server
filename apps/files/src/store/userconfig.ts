@@ -51,7 +51,7 @@ export const useUserConfigStore = () => {
 			 * Update the user config local store AND on server side
 			 */
 			async update(key: string, value: boolean) {
-				await axios.post(generateUrl('/apps/files/api/v1/config/' + key), {
+				await axios.put(generateUrl('/apps/files/api/v1/config/' + key), {
 					value,
 				})
 
