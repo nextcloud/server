@@ -34,6 +34,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>אירוע</strong> ביומן נערך",
     "Contact birthdays" : "ימי הולדת של אנשי קשר",
     "Death of %s" : "הפטירה של %s",
+    "Untitled calendar" : "לוח שנה ללא כותרת",
     "Calendar:" : "לוח שנה:",
     "Date:" : "תאריך:",
     "Where:" : "איפה:",
