@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div v-if="hasLoaded"
+	<div v-if="statusesHaveLoaded"
 		class="predefined-statuses-list">
 		<PredefinedStatus v-for="status in predefinedStatuses"
 			:key="status.id"
@@ -38,7 +38,7 @@
 
 <script>
 import PredefinedStatus from './PredefinedStatus.vue'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
 	name: 'PredefinedStatusesList',
@@ -49,20 +49,13 @@ export default {
 		...mapState({
 			predefinedStatuses: state => state.predefinedStatuses.predefinedStatuses,
 		}),
-		/**
-		 * Indicator whether the predefined statuses have already been loaded
-		 *
-		 * @return {boolean}
-		 */
-		hasLoaded() {
-			return this.predefinedStatuses.length > 0
-		},
+		...mapGetters(['statusesHaveLoaded']),
 	},
 	/**
 	 * Loads all predefined statuses from the server
 	 * when this component is mounted
 	 */
-	mounted() {
+	created() {
 		this.$store.dispatch('loadAllPredefinedStatuses')
 	},
 	methods: {
