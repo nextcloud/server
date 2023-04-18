@@ -540,7 +540,8 @@ $content-max-width: 640px;
 				grid-template-columns: unset;
 
 				&__displayname {
-					margin: 100px 20px 0px;
+					margin: 80px 20px 0px!important;
+					height: 1em;
 					width: unset;
 					display: unset;
 					text-align: center;
@@ -549,7 +550,11 @@ $content-max-width: 640px;
 				&__edit-button {
 					width: fit-content;
 					display: block;
-					margin: 30px auto;
+					margin: 60px auto;
+				}
+
+				&__status-text {
+					margin: 4px auto;
 				}
 			}
 		}
