@@ -68,8 +68,8 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		$this->providers = [];
 
-		foreach ($context->getSpeechToTextProviders() as $providerRegistration) {
-			$class = $providerRegistration->getService();
+		foreach ($context->getSpeechToTextProviders() as $providerServiceRegistration) {
+			$class = $providerServiceRegistration->getService();
 			try {
 				$this->providers[$class] = $this->serverContainer->get($class);
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Throwable $e) {
