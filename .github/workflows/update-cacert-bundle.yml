@@ -3,7 +3,7 @@ name: Update CA certificate bundle
 on:
   workflow_dispatch:
   schedule:
-    - cron: "5 4 * * *"
+    - cron: "5 2 * * *"
 
 jobs:
   update-ca-certificate-bundle:
