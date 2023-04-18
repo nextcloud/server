@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
     "Contact birthdays" : "Kişi doğum günleri",
     "Death of %s" : "%s ölümü",
+    "Untitled calendar" : "Adlandırılmamış takvim",
     "Calendar:" : "Takvim:",
     "Date:" : "Tarih:",
     "Where:" : "Yer:",

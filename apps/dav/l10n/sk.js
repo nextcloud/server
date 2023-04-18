@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Kalendár <strong>úloh</strong> bol upravený",
     "Contact birthdays" : "Narodeniny kontaktu",
     "Death of %s" : "Dátum úmrtia %s",
+    "Untitled calendar" : "Kalendár bez názvu",
     "Calendar:" : "Kalendár:",
     "Date:" : "Dátum:",
     "Where:" : "Kde:",

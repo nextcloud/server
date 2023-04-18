@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "日曆<strong>代辦事項</strong>被修改",
     "Contact birthdays" : "聯絡人生日",
     "Death of %s" : "%s之卒",
+    "Untitled calendar" : "未命名日曆",
     "Calendar:" : "日曆：",
     "Date:" : "日期：",
     "Where:" : "地點：",
