@@ -293,7 +293,7 @@ export default {
 		validQueryTitle() {
 			return this.triggered
 				? t('core', 'No results for {query}', { query: this.query })
-				: t('core', 'Press enter to start searching')
+				: t('core', 'Press Enter to start searching')
 		},
 
 		/**
