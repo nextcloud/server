@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "S'ha modificat una <strong>tasca pendent</strong> del calendari",
     "Contact birthdays" : "Aniversaris dels contactes",
     "Death of %s" : "Mort de %s",
+    "Untitled calendar" : "Calendari sense títol",
     "Calendar:" : "Calendari:",
     "Date:" : "Data:",
     "Where:" : "On:",

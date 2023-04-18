@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "В календаре изменена <strong>задача</strong> ",
     "Contact birthdays" : "Дни рождения контакта",
     "Death of %s" : "Смерть %s",
+    "Untitled calendar" : "Календарь без названия",
     "Calendar:" : "Календарь:",
     "Date:" : "Дата:",
     "Where:" : "Где:",

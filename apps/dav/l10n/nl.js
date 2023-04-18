@@ -48,6 +48,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Een agenda <strong>gebeurtenis</strong> is aangepast",
     "Contact birthdays" : "Verjaardagen",
     "Death of %s" : "Sterfdatum van %s",
+    "Untitled calendar" : "Naamloze calender",
     "Calendar:" : "Agenda",
     "Date:" : "Datum",
     "Where:" : "Waar:",

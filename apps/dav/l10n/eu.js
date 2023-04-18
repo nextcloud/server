@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Egutegi baten <strong>egiteko</strong> bat aldatu da",
     "Contact birthdays" : "Kontaktuen urtebetetzeak",
     "Death of %s" : "%s(r)en heriotza",
+    "Untitled calendar" : "Izenik gabeko egutegia",
     "Calendar:" : "Egutegia:",
     "Date:" : "Data:",
     "Where:" : "Non:",
