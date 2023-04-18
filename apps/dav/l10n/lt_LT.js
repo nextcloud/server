@@ -38,6 +38,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "<strong>Kalendorius</strong> buvo modifikuotas",
     "A calendar <strong>event</strong> was modified" : "Kalendoriaus <strong>įvykis</strong> buvo modifikuotas",
     "Contact birthdays" : "Adresatų gimtadieniai",
+    "Untitled calendar" : "Kalendorius be pavadinimo",
     "Calendar:" : "Kalendorius:",
     "Date:" : "Data:",
     "Where:" : "Kur:",

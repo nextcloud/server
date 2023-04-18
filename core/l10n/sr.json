@@ -162,6 +162,7 @@
     "Your connection is not secure" : "Ваша веза није безбедна",
     "Passwordless authentication is only available over a secure connection." : "Пријављивање без лозинке је доступно само на безбедним конекцијама.",
     "Reset password" : "Ресетуј лозинку",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Ако овај налог постоји, на његову и-мејл адресу је послата порука за ресетовање лозинке. Ако је не примите, потврдите своју и-мејл адресу и/или назив налога, проверите фолдере за нежељену пошту, или потражите помоћ свог локалног администратора.",
     "Couldn't send reset email. Please contact your administrator." : "Не могу да пошаљем поруку за ресетовање. Контактирајте администратора.",
     "Password cannot be changed. Please contact your administrator." : "Лозинка не може да се промени. Молимо вас контактирајте администратора.",
     "Back to login" : "Назад на пријаву",

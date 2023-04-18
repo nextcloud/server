@@ -38,6 +38,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Kalenterin <strong>tapahtumaa</strong> on muokattu",
     "Contact birthdays" : "Yhteystietojen syntymäpäivät",
     "Death of %s" : "%s kuolema",
+    "Untitled calendar" : "Nimetön kalenteri",
     "Calendar:" : "Kalenteri:",
     "Date:" : "Päiväys:",
     "Where:" : "Missä:",
