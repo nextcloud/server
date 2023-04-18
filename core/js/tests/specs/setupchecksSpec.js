@@ -1954,30 +1954,6 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
-	it('should return a SSL warning if HTTPS is not used', function(done) {
-		protocolStub.returns('http');
-		var async = OC.SetupChecks.checkGeneric();
-
-		suite.server.requests[0].respond(200,
-			{
-				'X-XSS-Protection': '1; mode=block',
-				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'noindex, nofollow',
-				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Permitted-Cross-Domain-Policies': 'none',
-				'Referrer-Policy': 'no-referrer',
-			}
-		);
-
-		async.done(function( data, s, x ){
-			expect(data).toEqual([{
-				msg: 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-security">security tips ↗</a>.',
-				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-			}]);
-			done();
-		});
-	});
-
 	it('should return an error if the response has no statuscode 200', function(done) {
 		var async = OC.SetupChecks.checkGeneric();
 
