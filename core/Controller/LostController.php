@@ -308,12 +308,37 @@ class LostController extends Controller {
 			htmlspecialchars($this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.')),
 			$this->l10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
 		);
-
 		$emailTemplate->addBodyButton(
 			htmlspecialchars($this->l10n->t('Reset your password')),
 			$link,
 			false
 		);
+
+		if ($this->request->isUserAgent([IRequest::USER_AGENT_CLIENT_ANDROID])) {
+			$platform = $this->l10n->t('Android client');
+		} elseif ($this->request->isUserAgent([IRequest::USER_AGENT_CLIENT_IOS])) {
+			$platform = $this->l10n->t('iOS client');
+		} elseif ($this->request->isUserAgent([IRequest::USER_AGENT_CLIENT_DESKTOP])) {
+			$platform = $this->l10n->t('desktop client');
+		} elseif ($this->request->isUserAgent(['/Firefox\//'])) {
+			$platform = 'Firefox';
+		} elseif ($this->request->isUserAgent(['/Chromium\//'])) {
+			$platform = 'Chromium';
+		} elseif ($this->request->isUserAgent(['/Safari\//'])) {
+			$platform = 'Safari';
+		} elseif ($this->request->isUserAgent(['/(OPR|Opera)\//'])) {
+			$platform = 'Opera';
+		} elseif ($this->request->isUserAgent(['/Edg.*\//'])) {
+			$platform = 'Edge';
+		} elseif ($this->request->isUserAgent(['/Chrome\//'])) {
+			$platform = 'Chrome';
+		} else {
+			$platform = $this->l10n->t('unknown');
+		}
+		$emailTemplate->addBodyText(
+			htmlspecialchars($this->l10n->t('Security notice: This password reset was requested from %1$s (IP address) using %2$s.', [ $this->request->getRemoteAddress(), $platform ]))
+		);
+
 		$emailTemplate->addFooter();
 
 		try {
