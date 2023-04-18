@@ -41,6 +41,7 @@ use OCP\SpeechToText\ISpeechToTextProvider;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
 
 class SpeechToTextManager implements ISpeechToTextManager {
@@ -73,7 +74,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 				$this->providers[$class] = $this->serverContainer->get($class);
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Throwable $e) {
 				$this->logger->error('Failed to load SpeechToText provider ' . $class, [
-					'exception' => $e
+					'exception' => $e,
 				]);
 			}
 		}
