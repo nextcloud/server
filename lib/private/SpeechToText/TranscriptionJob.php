@@ -29,8 +29,13 @@ namespace OC\SpeechToText;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\ICachedMountFileInfo;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\Events\TranscriptionFailedEvent;
 use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
@@ -44,6 +49,7 @@ class TranscriptionJob extends QueuedJob {
 		private IEventDispatcher $eventDispatcher,
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
+		private IUserMountCache $userMountCache,
 	) {
 		parent::__construct($timeFactory);
 	}
@@ -56,7 +62,7 @@ class TranscriptionJob extends QueuedJob {
 		$fileId = $argument['fileId'];
 		$file = null;
 		try {
-			$file = current($this->rootFolder->getById($fileId));
+			$file = $this->getFileFromId($fileId);
 			if (!($file instanceof File)) {
 				$this->logger->warning('Transcription of file ' . $fileId . ' failed. The file could not be found');
 				$this->eventDispatcher->dispatchTyped(
@@ -76,7 +82,7 @@ class TranscriptionJob extends QueuedJob {
 					$result,
 				)
 			);
-		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException $e) {
+		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException|NotFoundException $e) {
 			$this->logger->warning('Transcription of file ' . $fileId . ' failed', ['exception' => $e]);
 			$this->eventDispatcher->dispatchTyped(
 				new TranscriptionFailedEvent(
@@ -86,5 +92,51 @@ class TranscriptionJob extends QueuedJob {
 				)
 			);
 		}
+	}
+
+	/**
+	 * @throws NotFoundException
+	 */
+	private function getFileFromId(int $fileId): Node {
+		$mountPoints = $this->userMountCache->getMountsForFileId($fileId);
+		if (empty($mountPoints)) {
+			throw new NotFoundException("No mount points found for file $fileId");
+		}
+
+		foreach ($mountPoints as $mountPoint) {
+			try {
+				return $this->getCreatableNodeFromMountPoint($mountPoint, $fileId);
+			} catch (NotPermittedException $e) {
+				// Check the next mount point
+				$this->logger->debug('Mount point ' . ($mountPoint->getMountId() ?? 'null') . ' has no delete permissions for file ' . $fileId);
+			} catch (NotFoundException $e) {
+				// Already logged explicitly inside
+			}
+		}
+
+		throw new NotFoundException("No mount point with delete permissions found for file $fileId");
+	}
+
+	/**
+	 * @throws NotFoundException
+	 */
+	protected function getCreatableNodeFromMountPoint(ICachedMountFileInfo $mountPoint, int $fileId): Node {
+			try {
+				$userId = $mountPoint->getUser()->getUID();
+				$userFolder = $this->rootFolder->getUserFolder($userId);
+				\OC_Util::setupFS($userId);
+			} catch (\Exception $e) {
+				$this->logger->debug($e->getMessage(), [
+					'exception' => $e,
+				]);
+				throw new NotFoundException('Could not get user', 0, $e);
+			}
+
+		$nodes = $userFolder->getById($fileId);
+		if (empty($nodes)) {
+			throw new NotFoundException('No node for file ' . $fileId . ' and user ' . $userId);
+		}
+
+		return array_shift($nodes);
 	}
 }
