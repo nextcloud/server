@@ -429,13 +429,13 @@ class EncryptAll {
 				]);
 
 				$template->setSubject($l->t('one-time password for server-side-encryption'));
-				// 'Hey there,<br><br>The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>
+				// 'Hey there,<br><br>The administrator enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>
 				// Please login to the web interface, go to the section "Basic encryption module" of your personal settings and update your encryption password by entering this password into the "Old log-in password" field and your current login-password.<br><br>'
 				$template->addHeader();
 				$template->addHeading($l->t('Encryption password'));
 				$template->addBodyText(
-					$l->t('The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.', [htmlspecialchars($password)]),
-					$l->t('The administration enabled server-side-encryption. Your files were encrypted using the password "%s".', $password)
+					$l->t('The administrator enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.', [htmlspecialchars($password)]),
+					$l->t('The administrator enabled server-side-encryption. Your files were encrypted using the password "%s".', $password)
 				);
 				$template->addBodyText(
 					$l->t('Please login to the web interface, go to the "Security" section of your personal settings and update your encryption password by entering this password into the "Old log-in password" field and your current login-password.')
