@@ -22,6 +22,9 @@ import router from './router/router.js'
 window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
 
+// Expose router
+Object.assign(window.OCP.Files, { Router: router })
+
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
@@ -57,7 +60,7 @@ const FilesList = new ListView({
 })
 FilesList.$mount('#app-content-vue')
 
-// Init legacy files views
+// Init legacy and new files views
 processLegacyFilesViews()
 
 // Register preview service worker

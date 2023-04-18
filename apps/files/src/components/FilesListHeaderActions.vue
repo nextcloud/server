@@ -167,11 +167,18 @@ export default Vue.extend({
 				// Dispatch action execution
 				const results = await action.execBatch(this.nodes, this.currentView)
 
+				// Check if all actions returned null
+				if (results.filter(result => result !== null).length === 0) {
+					// If the actions returned null, we stay silent
+					this.selectionStore.reset()
+					return
+				}
+
 				// Handle potential failures
-				if (results.some(result => result !== true)) {
+				if (results.some(result => result === false)) {
 					// Remove the failed ids from the selection
 					const failedIds = selectionIds
-						.filter((fileid, index) => results[index] !== true)
+						.filter((fileid, index) => results[index] === false)
 					this.selectionStore.set(failedIds)
 
 					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))

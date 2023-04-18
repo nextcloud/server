@@ -33,7 +33,7 @@
 
 		<!-- Link to file -->
 		<td class="files-list__row-name">
-			<a ref="name" v-bind="linkTo">
+			<a ref="name" v-bind="linkTo" @click="execDefaultAction">
 				<!-- Icon or preview -->
 				<span class="files-list__row-icon">
 					<FolderIcon v-if="source.type === 'folder'" />
@@ -49,6 +49,13 @@
 						:style="{ backgroundImage: mimeIconUrl }" />
 
 					<FileIcon v-else />
+
+					<!-- Favorite icon -->
+					<span v-if="isFavorite"
+						class="files-list__row-icon-favorite"
+						:aria-label="t('files', 'Favorite')">
+						<StarIcon aria-hidden="true" :size="20" />
+					</span>
 				</span>
 
 				<!-- File name -->
@@ -64,6 +71,8 @@
 			<!-- Menu actions -->
 			<NcActions v-if="active"
 				ref="actionsMenu"
+				:boundaries-element="boundariesElement"
+				:container="boundariesElement"
 				:disabled="source._loading"
 				:force-title="true"
 				:inline="enabledInlineActions.length"
@@ -84,7 +93,8 @@
 		<!-- Size -->
 		<td v-if="isSizeAvailable"
 			:style="{ opacity: sizeOpacity }"
-			class="files-list__row-size">
+			class="files-list__row-size"
+			@click="execDefaultAction">
 			<span>{{ size }}</span>
 		</td>
 
@@ -92,7 +102,8 @@
 		<td v-for="column in columns"
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
-			class="files-list__row-column-custom">
+			class="files-list__row-column-custom"
+			@click="execDefaultAction">
 			<CustomElementRender v-if="active"
 				:current-view="currentView"
 				:render="column.render"
@@ -115,9 +126,11 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
 
 import { getFileActions } from '../services/FileAction.ts'
+import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -144,6 +157,7 @@ export default Vue.extend({
 		NcActions,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
+		StarIcon,
 	},
 
 	props: {
@@ -192,6 +206,7 @@ export default Vue.extend({
 		return {
 			backgroundFailed: false,
 			backgroundImage: '',
+			boundariesElement: document.querySelector('.app-content > .files-list'),
 			loading: '',
 		}
 	},
@@ -204,7 +219,6 @@ export default Vue.extend({
 		currentView() {
 			return this.$navigation.active
 		},
-
 		columns() {
 			// Hide columns if the list is too small
 			if (this.filesListWidth < 512) {
@@ -217,7 +231,6 @@ export default Vue.extend({
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
 		},
-
 		fileid() {
 			return this.source?.fileid?.toString?.()
 		},
@@ -225,6 +238,7 @@ export default Vue.extend({
 			return this.source.attributes.displayName
 				|| this.source.basename
 		},
+
 		size() {
 			const size = parseInt(this.source.size, 10) || 0
 			if (typeof size !== 'number' || size < 0) {
@@ -232,7 +246,6 @@ export default Vue.extend({
 			}
 			return formatFileSize(size, true)
 		},
-
 		sizeOpacity() {
 			const size = parseInt(this.source.size, 10) || 0
 			if (!size || size < 0) {
@@ -247,6 +260,15 @@ export default Vue.extend({
 		},
 
 		linkTo() {
+			if (this.enabledDefaultActions.length > 0) {
+				const action = this.enabledDefaultActions[0]
+				const displayName = action.displayName([this.source], this.currentView)
+				return {
+					title: displayName,
+					role: 'button',
+				}
+			}
+
 			if (this.source.type === 'folder') {
 				const to = { ...this.$route, query: { dir: join(this.dir, this.source.basename) } }
 				return {
@@ -272,7 +294,6 @@ export default Vue.extend({
 		cropPreviews() {
 			return this.userConfig.crop_image_previews
 		},
-
 		previewUrl() {
 			try {
 				const url = new URL(window.location.origin + this.source.attributes.previewUrl)
@@ -280,13 +301,12 @@ export default Vue.extend({
 				url.searchParams.set('x', '32')
 				url.searchParams.set('y', '32')
 				// Handle cropping
-				url.searchParams.set('a', this.cropPreviews === true ? '1' : '0')
+				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
 				return url.href
 			} catch (e) {
 				return null
 			}
 		},
-
 		mimeIconUrl() {
 			const mimeType = this.source.mime || 'application/octet-stream'
 			const mimeIconUrl = window.OC?.MimeType?.getIconUrl?.(mimeType)
@@ -301,29 +321,38 @@ export default Vue.extend({
 				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
-
 		enabledInlineActions() {
 			if (this.filesListWidth < 768) {
 				return []
 			}
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
 		},
-
 		enabledMenuActions() {
 			if (this.filesListWidth < 768) {
+				// If we have a default action, do not render the first one
+				if (this.enabledDefaultActions.length > 0) {
+					return this.enabledActions.slice(1)
+				}
 				return this.enabledActions
 			}
 
-			return [
+			const actions = [
 				...this.enabledInlineActions,
 				...this.enabledActions.filter(action => !action.inline),
 			]
-		},
 
-		uniqueId() {
-			return this.hashCode(this.source.source)
-		},
+			// If we have a default action, do not render the first one
+			if (this.enabledDefaultActions.length > 0) {
+				return actions.slice(1)
+			}
 
+			return actions
+		},
+		enabledDefaultActions() {
+			return [
+				...this.enabledActions.filter(action => action.default),
+			]
+		},
 		openedMenu: {
 			get() {
 				return this.actionsMenuStore.opened === this.uniqueId
@@ -331,6 +360,14 @@ export default Vue.extend({
 			set(opened) {
 				this.actionsMenuStore.opened = opened ? this.uniqueId : null
 			},
+		},
+
+		uniqueId() {
+			return hashCode(this.source.source)
+		},
+
+		isFavorite() {
+			return this.source.attributes.favorite === 1
 		},
 	},
 
@@ -457,16 +494,6 @@ export default Vue.extend({
 			}
 		},
 
-		hashCode(str) {
-			let hash = 0
-			for (let i = 0, len = str.length; i < len; i++) {
-				const chr = str.charCodeAt(i)
-				hash = (hash << 5) - hash + chr
-				hash |= 0 // Convert to 32bit integer
-			}
-			return hash
-		},
-
 		async onActionClick(action) {
 			const displayName = action.displayName([this.source], this.currentView)
 			try {
@@ -475,6 +502,12 @@ export default Vue.extend({
 				Vue.set(this.source, '_loading', true)
 
 				const success = await action.exec(this.source, this.currentView)
+
+				// If the action returns null, we stay silent
+				if (success === null) {
+					return
+				}
+
 				if (success) {
 					showSuccess(this.t('files', '"{displayName}" action executed successfully', { displayName }))
 					return
@@ -487,6 +520,14 @@ export default Vue.extend({
 				// Reset the loading marker
 				this.loading = ''
 				Vue.set(this.source, '_loading', false)
+			}
+		},
+		execDefaultAction(event) {
+			if (this.enabledDefaultActions.length > 0) {
+				event.preventDefault()
+				event.stopPropagation()
+				// Execute the first default action if any
+				this.enabledDefaultActions[0].exec(this.source, this.currentView)
 			}
 		},
 
