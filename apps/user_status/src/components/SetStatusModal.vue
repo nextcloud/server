@@ -43,7 +43,7 @@
 			<div class="set-status-modal__custom-input">
 				<CustomMessageInput ref="customMessageInput"
 					:icon="icon"
-					:message="message"
+					:message="editedMessage"
 					@change="setMessage"
 					@submit="saveStatus"
 					@select-icon="setIcon" />
@@ -108,6 +108,7 @@ export default {
 	data() {
 		return {
 			clearAt: null,
+			editedMessage: '',
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -153,6 +154,15 @@ export default {
 		},
 	},
 
+	watch: {
+		message: {
+			immediate: true,
+			handler(newValue) {
+				this.editedMessage = newValue
+			},
+		},
+	},
+
 	/**
 	 * Loads the current status when a user opens dialog
 	 */
@@ -194,11 +204,7 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.$store.dispatch('setCustomMessage', {
-				message,
-				icon: this.icon,
-				clearAt: this.clearAt,
-			})
+			this.editedMessage = message
 		},
 		/**
 		 * Sets a new clearAt value
@@ -240,7 +246,7 @@ export default {
 					})
 				} else {
 					await this.$store.dispatch('setCustomMessage', {
-						message: this.message,
+						message: this.editedMessage,
 						icon: this.icon,
 						clearAt: this.clearAt,
 					})
