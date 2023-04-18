@@ -687,7 +687,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The database is used for transactional file locking. This will lead to performance issues. Use redis for transactional file locking to improve the performance. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
+					msg: 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();

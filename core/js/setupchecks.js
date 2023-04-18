@@ -225,7 +225,7 @@
 					}
 					if(data.hasDBFileLocking) {
 						messages.push({
-							msg: t('core', 'The database is used for transactional file locking. This will lead to performance issues. Use redis for transactional file locking to improve the performance. See the {linkstart}documentation ↗{linkend} for more information.')
+							msg: t('core', 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
