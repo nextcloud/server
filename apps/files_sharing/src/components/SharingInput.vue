@@ -424,7 +424,7 @@ export default {
 			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
 				return {
 					icon: 'icon-sciencemesh',
-					iconTitle: t('files_sharing', 'Science Mesh'),
+					iconTitle: t('files_sharing', 'ScienceMesh'),
 				}
 			default:
 				return {}
