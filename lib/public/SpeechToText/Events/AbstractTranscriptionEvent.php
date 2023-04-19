@@ -38,6 +38,8 @@ abstract class AbstractTranscriptionEvent extends Event {
 	public function __construct(
 		private int $fileIdId,
 		private ?File $file,
+		private string $userId,
+		private string $appId,
 	) {
 		parent::__construct();
 	}
@@ -54,5 +56,19 @@ abstract class AbstractTranscriptionEvent extends Event {
 	 */
 	public function getFile(): ?File {
 		return $this->file;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getUserId(): string {
+		return $this->userId;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getAppId(): string {
+		return $this->appId;
 	}
 }

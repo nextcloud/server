@@ -39,9 +39,11 @@ class TranscriptionFailedEvent extends AbstractTranscriptionEvent {
 	public function __construct(
 		int $fileId,
 		?File $file,
-		private string $errorMessage
+		private string $errorMessage,
+		string $userId,
+		string $appId,
 	) {
-		parent::__construct($fileId, $file);
+		parent::__construct($fileId, $file, $userId, $appId);
 	}
 
 	/**

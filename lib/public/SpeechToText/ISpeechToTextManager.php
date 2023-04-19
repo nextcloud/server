@@ -46,11 +46,14 @@ interface ISpeechToTextManager {
 	 * You should add context information to the context array to re-identify the transcription result as
 	 * belonging to your transcription request.
 	 *
+	 * @param File $file The media file to transcribe
+	 * @param string $userId The user that triggered this request (only for convenience, will be available on the TranscriptEvents)
+	 * @param string $appId The app that triggered this request (only for convenience, will be available on the TranscriptEvents)
 	 * @since 27.0.0
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
 	 */
-	public function scheduleFileTranscription(File $file): void;
+	public function scheduleFileTranscription(File $file, string $userId, string $appId): void;
 
 	/**
 	 * @since 27.0.0

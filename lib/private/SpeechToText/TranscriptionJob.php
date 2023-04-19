@@ -58,6 +58,8 @@ class TranscriptionJob extends QueuedJob {
 	protected function run($argument) {
 		$fileId = $argument['fileId'];
 		$owner = $argument['owner'];
+		$userId = $argument['userId'];
+		$appId = $argument['appId'];
 		$file = null;
 		try {
 			\OC_Util::setupFS($owner);
@@ -70,6 +72,8 @@ class TranscriptionJob extends QueuedJob {
 						$fileId,
 						null,
 						'File not found',
+						$userId,
+						$appId,
 					)
 				);
 				return;
@@ -80,6 +84,8 @@ class TranscriptionJob extends QueuedJob {
 					$fileId,
 					$file,
 					$result,
+					$userId,
+					$appId,
 				)
 			);
 		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException|NotFoundException|NotPermittedException|NoUserException $e) {
@@ -89,6 +95,8 @@ class TranscriptionJob extends QueuedJob {
 					$fileId,
 					$file,
 					$e->getMessage(),
+					$userId,
+					$appId,
 				)
 			);
 		}

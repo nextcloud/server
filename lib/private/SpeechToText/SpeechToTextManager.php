@@ -90,12 +90,17 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		return !empty($context->getSpeechToTextProviders());
 	}
 
-	public function scheduleFileTranscription(File $file): void {
+	public function scheduleFileTranscription(File $file, string $userId, string $appId): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 		try {
-			$this->jobList->add(TranscriptionJob::class, ['fileId' => $file->getId(), 'owner' => $file->getOwner()->getUID()]);
+			$this->jobList->add(TranscriptionJob::class, [
+				'fileId' => $file->getId(),
+				'owner' => $file->getOwner()->getUID(),
+				'userId' => $userId,
+				'appId' => $appId,
+			]);
 		} catch (NotFoundException|InvalidPathException $e) {
 			throw new InvalidArgumentException('Invalid file provided for file transcription: ' . $e->getMessage());
 		}
