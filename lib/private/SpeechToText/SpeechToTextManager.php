@@ -90,7 +90,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		return !empty($context->getSpeechToTextProviders());
 	}
 
-	public function scheduleFileTranscription(File $file, string $userId, string $appId): void {
+	public function scheduleFileTranscription(File $file, ?string $userId, string $appId): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
