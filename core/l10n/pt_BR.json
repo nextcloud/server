@@ -200,7 +200,6 @@
     "Load more results" : "Carregar mais resultados",
     "Search" : "Pesquisar",
     "No results for {query}" : "Sem resultados para {query}",
-    "Press enter to start searching" : "Pressione enter para iniciar a busca",
     "An error occurred while searching for {type}" : "Ocorreu um erro ao pesquisar por {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digite {minSearchLength} caractere ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar"],
     "This browser is not supported" : "Este navegador não é compatível",
@@ -424,6 +423,7 @@
     "Contacts menu" : "Menu de contatos",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud precisa de 64 bits para funcionar bem. Por favor, atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre este ↗{linkend}.",
+    "Press enter to start searching" : "Pressione enter para iniciar a busca",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

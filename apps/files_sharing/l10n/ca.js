@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "No podeu compartir en un cercle si l'aplicació no està activada",
     "Please specify a valid circle" : "Especifiqueu un cercle vàlid",
     "Sharing %s failed because the back end does not support room shares" : "No s'ha pogut compartir %s perquè l'aplicació de fons no permet compartir canals",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "S'ha produït un error en compartir %s perquè el rerefons no admet comparticions de sciencemesh",
     "Unknown share type" : "Tipus de compartició desconegut",
     "Not a directory" : "No és un directori",
     "Could not lock node" : "No s'ha pogut bloquejar el node",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Cercle",
     "Talk conversation" : "Conversa de Talk",
     "Deck board" : "Tauler de Deck",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "a {server}",
     "Others with access" : "Altres amb accés",
     "No other users with access found" : "No s'ha trobat cap altre usuari amb accés",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Copia-ho al porta-papers",
     "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
     "Toggle grid view" : "Commuta la vista de la graella",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "S'ha produït un error en compartir %s perquè el rerefons no admet comparticions de sciencemesh",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "S'ha produït un error en generar la contrasenya des de password_policy"
 },
 "nplurals=2; plural=(n != 1);");

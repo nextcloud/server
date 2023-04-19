@@ -118,7 +118,6 @@
     "You cannot share to a Circle if the app is not enabled" : "當應用未被啟用，你無法分享到circle。",
     "Please specify a valid circle" : "請指定一個有效的circle",
     "Sharing %s failed because the back end does not support room shares" : "分享 %s 失敗，因為後端不支援聊天室分享",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "分享 %s 失敗，因為後端不支援 Science Mesh 分享",
     "Unknown share type" : "未知的分享類型",
     "Not a directory" : "這不是一個資料夾",
     "Could not lock node" : "無法鎖定節點",
@@ -224,7 +223,6 @@
     "Circle" : "社交圈子",
     "Talk conversation" : "Talk 對話",
     "Deck board" : "Deck 面板",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "在 {server} 上",
     "Others with access" : "其他擁有存取權限的人",
     "No other users with access found" : "找不到其他擁有存取權限的用戶",
@@ -275,6 +273,8 @@
     "Copy to clipboard" : "複製到剪貼板",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "分享 %s 失敗，因為後端不支援 Science Mesh 分享",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "從密碼策略生成密碼時出錯"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

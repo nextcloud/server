@@ -200,7 +200,6 @@
     "Load more results" : "Завантажити більше результатів",
     "Search" : "Пошук",
     "No results for {query}" : "Немає результатів для {query}",
-    "Press enter to start searching" : "Натисніть Enter, щоб почати пошук",
     "An error occurred while searching for {type}" : "Завантажити більше результатів",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Для пошуку введіть {minSearchLength} або більше символів","Для пошуку введіть {minSearchLength} або більше символів","Для пошуку введіть {minSearchLength} або більше символів","Для пошуку введіть {minSearchLength} або більше символів"],
     "This browser is not supported" : "Цей бравзер не підтримується",
@@ -424,6 +423,7 @@
     "Contacts menu" : "Меню контактів",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}.",
+    "Press enter to start searching" : "Натисніть Enter, щоб почати пошук",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Будь ласка, скористайтеся оновленням через командний рядок, оскільки оновлення через бравзер вимкнено у файлі налаштувань config.php."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

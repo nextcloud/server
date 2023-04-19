@@ -162,7 +162,6 @@ OC.L10N.register(
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",
     "Change password" : "เปลี่ยนรหัสผ่าน",
-    "png or jpg, max. 20 MB" : "png หรือ jpg สูงสุดไม่เกิน 20 MB",
     "Picture provided by original account" : "ใช้รูปภาพจากบัญชีเดิม",
     "Cancel" : "ยกเลิก",
     "Details" : "รายละเอียด",
@@ -337,6 +336,7 @@ OC.L10N.register(
     "Upload new" : "อัปโหลดใหม่",
     "Select from Files" : "เลือกจากไฟล์",
     "Remove image" : "ลบรูปภาพ",
+    "png or jpg, max. 20 MB" : "png หรือ jpg สูงสุดไม่เกิน 20 MB",
     "Choose as profile picture" : "เลือกเป็นรูปภาพโปรไฟล์"
 },
 "nplurals=1; plural=0;");

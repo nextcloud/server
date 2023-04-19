@@ -168,7 +168,6 @@ OC.L10N.register(
     "Load more results" : "Lataa lisää tuloksia",
     "Search" : "Etsi",
     "No results for {query}" : "Ei tuloksia haulle {query}",
-    "Press enter to start searching" : "Paina enter aloittaaksesi haun",
     "An error occurred while searching for {type}" : "Haettaessa tyyppiä {type} tapahtui virhe.",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Kirjoita vähintään {minSearchLength} merkki etsiäksesi","Kirjoita vähintään {minSearchLength} merkkiä etsiäksesi"],
     "This browser is not supported" : "Tämä selain ei ole tuettu",
@@ -385,6 +384,7 @@ OC.L10N.register(
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
+    "Press enter to start searching" : "Paina enter aloittaaksesi haun",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa."
 },
 "nplurals=2; plural=(n != 1);");

@@ -202,7 +202,6 @@ OC.L10N.register(
     "Load more results" : "Cargando máis resultados",
     "Search" : "Buscar",
     "No results for {query}" : "Non hai resultados para {query}",
-    "Press enter to start searching" : "Preme Intro para comezar a buscar",
     "An error occurred while searching for {type}" : "Produciuse un erro ao buscar por {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduza {minSearchLength} carácter ou máis para buscar","Introduza {minSearchLength} caracteres ou máis para buscar"],
     "This browser is not supported" : "Este navegador non é compatible",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "Contacts menu" : "Menú de contactos",
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está a executar unha versión de PHP de 32 bits. Nextcloud necesita 64 bits para funcionar ben. Actualiza o teu sistema operativo e PHP a 64 bits. Para obter máis detalles, le {linkstart}a páxina de documentación sobre isto ↗{linkend}.",
+    "Press enter to start searching" : "Preme Intro para comezar a buscar",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Use o actualizador da liña de comandos porque a actualización a través do navegador está desactivada no seu config.php."
 },
 "nplurals=2; plural=(n != 1);");

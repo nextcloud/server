@@ -190,6 +190,7 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "選擇要轉移的檔案或資料夾",
     "Change" : "更改",
     "New owner" : "新的擁有者",
+    "Search for an account" : "搜尋賬號",
     "Choose a file or folder to transfer" : "選擇要轉移的檔案或資料夾",
     "Transfer" : "轉移",
     "Transfer {path} to {userid}" : "轉移 \"{path}\" 給 {userid}",

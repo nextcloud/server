@@ -150,7 +150,6 @@ OC.L10N.register(
     "Load more results" : "Cargar mai de resultats",
     "Search" : "Recercar",
     "No results for {query}" : "Cap de resultat per {query}",
-    "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca",
     "An error occurred while searching for {type}" : "Una error s’es producha en cercant {type}",
     "This browser is not supported" : "Aqueste navigador es pas pres en carga",
     "Supported versions" : "Versions presas en carga",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "More apps menu" : "Menú mai d’aplicacions",
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú contactes",
-    "Setup two-factor authentication" : "Parametratge autentificacion dos factors"
+    "Setup two-factor authentication" : "Parametratge autentificacion dos factors",
+    "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca"
 },
 "nplurals=2; plural=(n > 1);");

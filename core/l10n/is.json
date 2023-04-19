@@ -168,7 +168,6 @@
     "Load more results" : "Hlaða inn fleiri niðurstöðum",
     "Search" : "Leita",
     "No results for {query}" : "Engar niðurstöður fyrir {query}",
-    "Press enter to start searching" : "Ýttu á Enter til að hefja leit",
     "An error occurred while searching for {type}" : "Villa kom upp við leit að {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Settu inn {minSearchLength} staf eða fleiri til að leita","Settu inn {minSearchLength} stafi eða fleiri til að leita"],
     "Open settings menu" : "Opna stillingavalmynd",
@@ -378,6 +377,7 @@
     "More apps menu" : "Valmynd með fleiri forrit",
     "Contacts" : "Tengiliðir",
     "Contacts menu" : "Tengiliðavalmynd",
-    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
+    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
+    "Press enter to start searching" : "Ýttu á Enter til að hefja leit"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

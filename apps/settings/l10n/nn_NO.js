@@ -73,7 +73,6 @@ OC.L10N.register(
     "Current password" : "Passord",
     "New password" : "Nytt passord",
     "Change password" : "Endra passord",
-    "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
     "Cancel" : "Avbryt",
     "Details" : "Detaljar",
     "Your email address" : "Di e-postadresse",
@@ -124,6 +123,7 @@ OC.L10N.register(
     "Upload new" : "Last opp ny",
     "Select from Files" : "Vel frå filer",
     "Remove image" : "Fjern bilete",
+    "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
     "Choose as profile picture" : "Vel eit profilbilete"
 },
 "nplurals=2; plural=(n != 1);");

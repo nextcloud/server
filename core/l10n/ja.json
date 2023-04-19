@@ -200,7 +200,6 @@
     "Load more results" : "次の結果を読み込む",
     "Search" : "検索",
     "No results for {query}" : "{query}の検索結果はありません",
-    "Press enter to start searching" : "Enterキーを押して検索を開始します",
     "An error occurred while searching for {type}" : "{type} の検索中にエラーが発生しました",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["検索には、{minSearchLength}文字以上が必要です"],
     "This browser is not supported" : "お使いのブラウザーはサポートされていません",
@@ -422,6 +421,7 @@
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
+    "Press enter to start searching" : "Enterキーを押して検索を開始します"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

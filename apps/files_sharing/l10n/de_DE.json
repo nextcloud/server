@@ -118,7 +118,6 @@
     "You cannot share to a Circle if the app is not enabled" : "Sie können nichts mit einem Kreis teilen, wenn die App nicht aktiviert ist",
     "Please specify a valid circle" : "Bitte einen gültigen Kreis angeben",
     "Sharing %s failed because the back end does not support room shares" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe von Räumen nicht unterstützt",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
     "Unknown share type" : "Unbekannter Freigabetyp",
     "Not a directory" : "Kein Verzeichnis",
     "Could not lock node" : "Knotenpunkt konnte nicht gesperrt werden",
@@ -224,7 +223,6 @@
     "Circle" : "Kreis",
     "Talk conversation" : "Talk-Unterhaltung",
     "Deck board" : "Deck-Board",
-    "Science Mesh" : "ScienceMesh",
     "on {server}" : "auf {server}",
     "Others with access" : "Andere mit Zugriff",
     "No other users with access found" : "Keine anderen Benutzer mit Zugriff gefunden",
@@ -275,6 +273,8 @@
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Toggle grid view" : "Rasteransicht umschalten",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
+    "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "Fehler beim Erzeugen des Passworts basierend auf der Kennwortrichtlinie"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
