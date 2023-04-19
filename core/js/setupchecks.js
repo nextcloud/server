@@ -308,6 +308,14 @@
 							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of {linkstart}performance and security updates provided by the PHP Group ↗{linkend} as soon as your distribution supports it.', { version: data.phpSupported.version })
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
 								.replace('{linkend}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
+					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '8.0') {
+						messages.push({
+							msg: t('core', 'PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible.')
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
+							.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}

@@ -331,7 +331,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 80000;
+		return PHP_VERSION_ID < 80100;
 	}
 
 	/**
