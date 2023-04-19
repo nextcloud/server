@@ -76,9 +76,9 @@ describe('Open non-dav files in viewer', function() {
 		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
 
-	it('Does not see the menu or sidebar button', function() {
-		// Menu does not exist
-		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.exist')
+	it('See the menu but does not see the sidebar button', function() {
+		// Menu exists
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 	})
 

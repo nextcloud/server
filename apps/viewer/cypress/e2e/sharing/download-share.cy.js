@@ -84,11 +84,11 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 	})
 
 	it('See the menu on the viewer header and open it', function() {
-		cy.get(`body > .viewer .modal-header div.action-item div.v-popper`).should('be.visible').click()
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible').click()
 	})
 
 	it('See the full screen and download icons in the menu', function() {
-		cy.get(`body > .v-popper__popper ul span.fullscreen-icon`).should('be.visible')
+		cy.get('body > .v-popper__popper ul span.fullscreen-icon').should('be.visible')
 		cy.get(`body > .v-popper__popper ul a.action-link[href*='/s/${token}/download']`).should('be.visible')
 	})
 
