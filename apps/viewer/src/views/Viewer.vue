@@ -78,8 +78,7 @@
 				{{ t('viewer', 'Edit') }}
 			</NcActionButton>
 			<!-- Menu items -->
-			<NcActionButton
-				:close-after-click="true"
+			<NcActionButton :close-after-click="true"
 				@click="toggleFullScreen">
 				<template #icon>
 					<Fullscreen v-if="!isFullscreenMode" :size="20" />
