@@ -28,7 +28,7 @@ import Vue from 'vue'
  * special keys states. Useful for checking the
  * current status of a key when executing a method.
  */
-export const useKeyboardStore = () => {
+export const useKeyboardStore = function() {
 	const store = defineStore('keyboard', {
 		state: () => ({			
 			altKey: false,
@@ -50,7 +50,7 @@ export const useKeyboardStore = () => {
 		}
 	})
 
-	const keyboardStore = store()
+	const keyboardStore = store(...arguments)
 	// Make sure we only register the listeners once
 	if (!keyboardStore._initialized) {
 		window.addEventListener('keydown', keyboardStore.onEvent)

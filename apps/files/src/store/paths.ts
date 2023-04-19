@@ -23,11 +23,11 @@
 import type { PathOptions, ServicesState } from '../types.ts'
 
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import { subscribe } from '@nextcloud/event-bus'
-import { FileId } from '../types'
+import type { FileId } from '../types'
+import Vue from 'vue'
 
-export const usePathsStore = () => {
+export const usePathsStore = function() {
 	const store = defineStore('paths', {
 		state: (): ServicesState => ({}),
 
@@ -55,7 +55,7 @@ export const usePathsStore = () => {
 		}
 	})
 
-	const pathsStore = store()
+	const pathsStore = store(...arguments)
 	// Make sure we only register the listeners once
 	if (!pathsStore._initialized) {
 		// TODO: watch folders to update paths?
