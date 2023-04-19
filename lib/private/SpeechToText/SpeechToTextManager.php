@@ -95,7 +95,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 		try {
-			$this->jobList->add(TranscriptionJob::class, ['fileId' => $file->getId()]);
+			$this->jobList->add(TranscriptionJob::class, ['fileId' => $file->getId(), 'owner' => $file->getOwner()->getUID()]);
 		} catch (NotFoundException|InvalidPathException $e) {
 			throw new InvalidArgumentException('Invalid file provided for file transcription: ' . $e->getMessage());
 		}
