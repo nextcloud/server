@@ -237,6 +237,9 @@ export default {
 	}
 	&__documentation {
 		padding-top: 20px;
+		a.appslink {
+			display: block;
+		}
 	}
 	&__description {
 		padding-top: 20px;
