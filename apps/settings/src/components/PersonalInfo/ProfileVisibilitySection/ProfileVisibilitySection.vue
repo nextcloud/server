@@ -145,6 +145,9 @@ section {
 	.visibility-dropdowns {
 		display: grid;
 		gap: 10px 40px;
+		.vs--searchable .vs__dropdown-toggle {
+			height: 47px;
+		}
 	}
 
 	@media (min-width: 1200px) {
