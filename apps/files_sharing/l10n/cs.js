@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Do okruhu nemůžete sdílet, pokud není aplikace zapnuta",
     "Please specify a valid circle" : "Zadejte platný okruh",
     "Sharing %s failed because the back end does not support room shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje sdílení místností",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje sciencemesh sdílení",
     "Unknown share type" : "Neznámý typ sdílení",
     "Not a directory" : "Není adresář",
     "Could not lock node" : "Uzel se nedaří uzamknout",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Okruh",
     "Talk conversation" : "Konverzace v Talk",
     "Deck board" : "Tabule aplikace Deck",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "na {server}",
     "Others with access" : "Ostatní, kteří mají přístup",
     "No other users with access found" : "Nenalezeni žádní další uživatelé, kteří mají přístup",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje sciencemesh sdílení",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Chyba při vytváření hesla ze zásady pro hesla"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

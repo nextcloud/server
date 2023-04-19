@@ -204,7 +204,6 @@
     "Load more results" : "További találatok betöltése",
     "Search" : "Keresés",
     "No results for {query}" : "Nincs találat a következőre: {query}",
-    "Press enter to start searching" : "A keresés indításához nyomjon Entert",
     "An error occurred while searching for {type}" : "Hiba történt a(z) {type} keresése sorá",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["A kereséshez írjon be a legalább {minSearchLength} karaktert","A kereséshez írjon be a legalább {minSearchLength} karaktert"],
     "This browser is not supported" : "Ez a böngésző nem támogatott.",
@@ -428,6 +427,7 @@
     "Contacts menu" : "Névjegyek menü",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy 32 bites PHP verziót használ. A Nextcloud megfelelő futtatásához 64 bites szükséges. Frissítse 64 bitesre az operációs rendszerét és a PHP-ját. További részletekért olvassa el az {linkstart}erről szóló dokumentációs oldalt ↗{linkend}.",
+    "Press enter to start searching" : "A keresés indításához nyomjon Entert",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Használja a parancssoros frissítőt, mert a böngészőbeli frissítés ki van kapcsolva a config.php fájlban."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

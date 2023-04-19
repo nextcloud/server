@@ -197,7 +197,6 @@ OC.L10N.register(
     "Load more results" : "Hent flere resultater",
     "Search" : "Søg",
     "No results for {query}" : "Ingen søgeresultater for {query}",
-    "Press enter to start searching" : "Tast retur for at starte søgning",
     "An error occurred while searching for {type}" : "Der opstod en fejl under søgningen efter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Minimum {minSearchLength} karakter eller flere for at søge","Minimum {minSearchLength} karakterer eller flere for at søge"],
     "This browser is not supported" : "Denne browser understøttes ikke",
@@ -420,6 +419,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Menuen kontakter",
     "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det ser ud til, at du kører en 32-bit PHP-version. Nextcloud har brug for 64-bit for at køre godt. Opgrader venligst dit OS og PHP til 64-bit! For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}.",
+    "Press enter to start searching" : "Tast retur for at starte søgning"
 },
 "nplurals=2; plural=(n != 1);");

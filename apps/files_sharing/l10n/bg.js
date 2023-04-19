@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Не можете да споделяте с Кръг, ако приложението не е активирано",
     "Please specify a valid circle" : "Моля, изберете валиден кръг",
     "Sharing %s failed because the back end does not support room shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на стаите",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението sciencemesh",
     "Unknown share type" : "Неизвестен тип споделяне",
     "Not a directory" : "Не е  директория",
     "Could not lock node" : "Възелът не можа да се заключи",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Кръг",
     "Talk conversation" : "Talk разговор",
     "Deck board" : "Deck табло",
-    "Science Mesh" : "Приложение Science Mesh",
     "on {server}" : "на {server}",
     "Others with access" : "Други с достъп",
     "No other users with access found" : "Няма намерени други потребители с достъп",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Копирай",
     "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
     "Toggle grid view" : "Превключи решетъчния изглед",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението sciencemesh",
+    "Science Mesh" : "Приложение Science Mesh",
     "Error generating password from password_policy" : "Грешка при генериране на парола от политиката за пароли"
 },
 "nplurals=2; plural=(n != 1);");

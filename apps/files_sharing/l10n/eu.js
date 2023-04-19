@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Ezin duzu zirkulu batekin partekatu aplikazioa gaituta ez badago",
     "Please specify a valid circle" : "Zehaztu baliozko zirkulu bat",
     "Sharing %s failed because the back end does not support room shares" : "%s partekatzeak huts egin du, atzealdeak ez duelako gelak partekatzea onartzen",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "%spartekatzeak huts egin du atzealdeak ez duelako zientzia sareko partekatzea onartzen",
     "Unknown share type" : "Partekatze mota ezezaguna",
     "Not a directory" : "Ez da direktorio bat",
     "Could not lock node" : "Ezin izan da nodoa blokeatu",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Zirkulua",
     "Talk conversation" : "Talk elkarrizketa",
     "Deck board" : "Deck mahaia",
-    "Science Mesh" : "Zientzia sarea",
     "on {server}" : "{server} zerbitzarian",
     "Others with access" : "Sarbidea duten beste erabiltzaileak",
     "No other users with access found" : "Ez da sarbidea duen erabiltzailerik aurkitu",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiatu arbelera",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "%spartekatzeak huts egin du atzealdeak ez duelako zientzia sareko partekatzea onartzen",
+    "Science Mesh" : "Zientzia sarea",
     "Error generating password from password_policy" : "Errorea pasahitz-gidalerrotik pasahitza sortzean"
 },
 "nplurals=2; plural=(n != 1);");

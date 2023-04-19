@@ -123,7 +123,6 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Contraseña nueva",
     "Change password" : "Camudar contraseña",
-    "png or jpg, max. 20 MB" : "png o jpg, máximu 20 MB",
     "Picture provided by original account" : "Semeya fornida pola cuenta orixinal",
     "Cancel" : "Encaboxar",
     "Details" : "Detalles",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Upload new" : "Xubir otra",
     "Remove image" : "Desaniciar imaxe",
+    "png or jpg, max. 20 MB" : "png o jpg, máximu 20 MB",
     "Your postal address" : "La to direición postal",
     "Link https://…" : "Enllaz https://…"
 },

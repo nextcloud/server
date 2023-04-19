@@ -198,7 +198,6 @@
     "Load more results" : "Laad meer resultaten",
     "Search" : "Zoeken",
     "No results for {query}" : "Geen resultaten voor {query}",
-    "Press enter to start searching" : "Druk op Enter om te beginnen zoeken",
     "An error occurred while searching for {type}" : "Er trad een fout op bij het zoeken naar {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Voer {minSearchLength} tekens of meer in om te zoeken","Voer alstublieft {minSearchLength} tekens of meer in om te zoeken"],
     "This browser is not supported" : "Deze browser wordt niet ondersteunt",
@@ -419,6 +418,7 @@
     "Contacts" : "Contactpersonen",
     "Contacts menu" : "Contacten menu",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}",
+    "Press enter to start searching" : "Druk op Enter om te beginnen zoeken"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

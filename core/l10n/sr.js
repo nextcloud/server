@@ -206,7 +206,6 @@ OC.L10N.register(
     "Load more results" : "Учитај још резултата",
     "Search" : "Претражи",
     "No results for {query}" : "Нема резултата за упит {query}",
-    "Press enter to start searching" : "Притисните ентер да започнете претрагу",
     "An error occurred while searching for {type}" : "Десила се грешка приликом тражења за {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали"],
     "This browser is not supported" : "Овај веб читач није подржан",
@@ -430,6 +429,7 @@ OC.L10N.register(
     "Contacts menu" : "Мени контаката",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}.",
+    "Press enter to start searching" : "Притисните ентер да започнете претрагу",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

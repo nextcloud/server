@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Du kan inte dela till en cirkel om appen inte är aktiverad",
     "Please specify a valid circle" : "Vänligen ange en giltig cirkel",
     "Sharing %s failed because the back end does not support room shares" : "Delning av %s misslyckades eftersom systemet inte stödjer rum-delningar",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Delning av %s misslyckades eftersom servern inte stödjer ScienceMesh-delningar",
     "Unknown share type" : "Ogiltig delningstyp",
     "Not a directory" : "Inte en mapp",
     "Could not lock node" : "Kunde inte låsa nod",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Cirkel",
     "Talk conversation" : "Talk-konversation",
     "Deck board" : "Deck-plank",
-    "Science Mesh" : "ScienceMesh",
     "on {server}" : "på {server}",
     "Others with access" : "Andra med åtkomst",
     "No other users with access found" : "Inga andra användare med åtkomst hittades",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiera till urklipp",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
     "Toggle grid view" : "Växla rutnätsvy",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Delning av %s misslyckades eftersom servern inte stödjer ScienceMesh-delningar",
+    "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "Fel vid generering av lösenord från lösenordspolicy"
 },
 "nplurals=2; plural=(n != 1);");

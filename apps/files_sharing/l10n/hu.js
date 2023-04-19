@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Nem tudja megosztani egy Kör számára, ha az alkalmazás nem engedélyezett",
     "Please specify a valid circle" : "Adjon meg egy érvényes Kört",
     "Sharing %s failed because the back end does not support room shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a szobamegosztásokat",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a szobamegosztásokat",
     "Unknown share type" : "Ismeretlen megosztástípus",
     "Not a directory" : "Nem könyvtár",
     "Could not lock node" : "Nem sikerült zárolni a csomópontot",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Kör",
     "Talk conversation" : "Beszélgetés",
     "Deck board" : "Kártyatábla",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "{server} kiszolgálón",
     "Others with access" : "Mások, akik hozzáféréssel rendelkeznek",
     "No other users with access found" : "Nincs más felhasználó, aki hozzáféréssel rendelkezik",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Másolás a vágólapra",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
     "Toggle grid view" : "Rácsnézet be/ki",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a szobamegosztásokat",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó-előállításkor"
 },
 "nplurals=2; plural=(n != 1);");

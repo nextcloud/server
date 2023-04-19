@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Vous ne pouvez pas partager au Cercle si l'application n'est pas activée",
     "Please specify a valid circle" : "Veuillez entrer un cercle valide",
     "Sharing %s failed because the back end does not support room shares" : "Le partage %s a échoué parce que l'arrière-plan ne prend pas en charge les partages.",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Le partage de %s a échoué car le serveur ne supporte pas les partages sciencemesh",
     "Unknown share type" : "Type de partage inconnu",
     "Not a directory" : "N'est pas un dossier",
     "Could not lock node" : "Impossible de verrouiller le nœud",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Cercle",
     "Talk conversation" : "Conversation Talk",
     "Deck board" : "Tableau Deck",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "sur {server}",
     "Others with access" : "Autres utilisateurs ayant accès",
     "No other users with access found" : "Aucun autre utilisateur ayant un accès n'a été trouvé",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Copier dans le presse-papier",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Le partage de %s a échoué car le serveur ne supporte pas les partages sciencemesh",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Erreur de génération de mot de passe à partir de password_policy"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

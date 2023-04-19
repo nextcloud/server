@@ -205,7 +205,6 @@ OC.L10N.register(
     "Load more results" : "Зареждане на още резултати",
     "Search" : "Търсене",
     "No results for {query}" : "Няма резултати за {query}",
-    "Press enter to start searching" : "Натиснете въведи, за начало на търсенето",
     "An error occurred while searching for {type}" : "Възникна грешка при търсенето на {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Моля, въведете {minSearchLength} знака или повече, за да търсите","Моля, въведете {minSearchLength} знака или повече, за да търсите"],
     "This browser is not supported" : "Този браузър не се поддържа",
@@ -429,6 +428,7 @@ OC.L10N.register(
     "Contacts menu" : "Контакти",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud се нуждае от 64 бита, за да работи добре. Моля, надстройте вашата операционна система и PHP до 64 бита! За повече подробности прочетете {linkstart}страницата с документация за това ↗{linkend}.",
+    "Press enter to start searching" : "Натиснете въведи, за начало на търсенето",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Моля, използвайте програмата за актуализиране от командния ред, тъй като актуализирането чрез браузъра е забранено в config.php."
 },
 "nplurals=2; plural=(n != 1);");
