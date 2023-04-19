@@ -25,11 +25,11 @@ import type { FilesStore, RootsStore, RootOptions, Service, FilesState } from '.
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
-import Vue from 'vue'
 import logger from '../logger'
-import { FileId } from '../types'
+import type { FileId } from '../types'
+import Vue from 'vue'
 
-export const useFilesStore = () => {
+export const useFilesStore = function() {
 	const store = defineStore('files', {
 		state: (): FilesState => ({
 			files: {} as FilesStore,
@@ -88,7 +88,7 @@ export const useFilesStore = () => {
 		}
 	})
 
-	const fileStore = store()
+	const fileStore = store(...arguments)
 	// Make sure we only register the listeners once
 	if (!fileStore._initialized) {
 		// subscribe('files:node:created', fileStore.onCreatedNode)

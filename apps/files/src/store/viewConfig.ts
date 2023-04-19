@@ -27,12 +27,12 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import { ViewConfigs, ViewConfigStore, ViewId } from '../types.ts'
-import { ViewConfig } from '../types'
+import type { ViewConfigs, ViewConfigStore, ViewId } from '../types'
+import type { ViewConfig } from '../types'
 
 const viewConfig = loadState('files', 'viewConfigs', {}) as ViewConfigs
 
-export const useViewConfigStore = () => {
+export const useViewConfigStore = function() {
 	const store = defineStore('viewconfig', {
 		state: () => ({
 			viewConfig,
@@ -46,7 +46,7 @@ export const useViewConfigStore = () => {
 			/**
 			 * Update the view config local store
 			 */
-			onUpdate(view: ViewId, key: string, value: boolean) {
+			onUpdate(view: ViewId, key: string, value: string | number | boolean) {
 				if (!this.viewConfig[view]) {
 					Vue.set(this.viewConfig, view, {})
 				}
@@ -56,7 +56,7 @@ export const useViewConfigStore = () => {
 			/**
 			 * Update the view config local store AND on server side
 			 */
-			async update(view: ViewId, key: string, value: boolean) {
+			async update(view: ViewId, key: string, value: string | number | boolean) {
 				axios.put(generateUrl(`/apps/files/api/v1/views/${view}/${key}`), {
 					value,
 				})
@@ -88,7 +88,7 @@ export const useViewConfigStore = () => {
 		}
 	})
 
-	const viewConfigStore = store()
+	const viewConfigStore = store(...arguments)
 
 	// Make sure we only register the listeners once
 	if (!viewConfigStore._initialized) {

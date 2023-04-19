@@ -33,7 +33,7 @@ const userConfig = loadState('files', 'config', {
 	crop_image_previews: true,
 }) as UserConfig
 
-export const useUserConfigStore = () => {
+export const useUserConfigStore = function() {
 	const store = defineStore('userconfig', {
 		state: () => ({
 			userConfig,
@@ -60,7 +60,7 @@ export const useUserConfigStore = () => {
 		}
 	})
 
-	const userConfigStore = store()
+	const userConfigStore = store(...arguments)
 
 	// Make sure we only register the listeners once
 	if (!userConfigStore._initialized) {
