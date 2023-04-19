@@ -78,17 +78,25 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the download icon and title on the viewer header', function() {
+	it('See the title and the close icon on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
-		cy.get(`body > .viewer .modal-header a.action-item[href*='/s/${token}/download']`).should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
+	})
+
+	it('See the menu on the viewer header and open it', function() {
+		cy.get(`body > .viewer .modal-header div.action-item div.v-popper`).should('be.visible').click()
+	})
+
+	it('See the full screen and download icons in the menu', function() {
+		cy.get(`body > .v-popper__popper ul span.fullscreen-icon`).should('be.visible')
+		cy.get(`body > .v-popper__popper ul a.action-link[href*='/s/${token}/download']`).should('be.visible')
 	})
 
 	it('Download the image', function() {
 		// https://github.com/cypress-io/cypress/issues/14857
 		cy.window().then((win) => { setTimeout(() => { win.location.reload() }, 5000) })
 		// download the file
-		cy.get('body > .viewer .modal-header a.action-item .download-icon').click()
+		cy.get(`body > .v-popper__popper a.action-link[href*='/s/${token}/download']`).click()
 	})
 
 	it('Compare downloaded file with asset by size', function() {
