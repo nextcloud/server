@@ -151,7 +151,6 @@ OC.L10N.register(
     "Load more results" : "Mostrar mais resultados...",
     "Search" : "Procurar",
     "No results for {query}" : "Nenhum resultado para {query}",
-    "Press enter to start searching" : "Pressione ENTER para iniciar a pesquisa",
     "An error occurred while searching for {type}" : "Ocorreu um erro enquanto pesquisava por {type}",
     "This browser is not supported" : "O seu navegador não é suportado.",
     "Your browser is not supported. Please upgrade to a newer version or a supported one." : "A versão do seu navegador não é suportada. Por favor atualize para uma versão mais recente ou para uma que seja suportada.",
@@ -350,6 +349,7 @@ OC.L10N.register(
     "More apps menu" : "Menu de mais aplicações",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menu de contactos",
-    "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
+    "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
+    "Press enter to start searching" : "Pressione ENTER para iniciar a pesquisa"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

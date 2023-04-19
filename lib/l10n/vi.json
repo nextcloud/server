@@ -44,7 +44,6 @@
     "Address" : "Địa chỉ",
     "Profile picture" : "Ảnh đại diện",
     "About" : "Giới thiệu",
-    "Full name" : "Tên đầy đủ",
     "Unknown user" : "Người dùng không tồn tại",
     "Additional settings" : "Cài đặt bổ sung",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Hãy xóa thiết lập open_basedir tại tập tin cấu hình php.ini hoặc chuyển sang dùng PHP 64-bit.",
@@ -98,6 +97,7 @@
     "Authentication error" : "Lỗi xác thực",
     "Token expired. Please reload page." : "Mã Token đã hết hạn. Hãy tải lại trang.",
     "PHP module %s not installed." : "PHP mô đun %s chưa được cài đặt",
-    "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng"
+    "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng",
+    "Full name" : "Tên đầy đủ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

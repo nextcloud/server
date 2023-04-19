@@ -39,6 +39,9 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Для сброса пароля нажмите на кнопку. Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Для сброса пароля нажмите на ссылку. Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.",
     "Reset your password" : "Сбросить пароль",
+    "No translation provider available" : "Поставщик услуг перевода недоступен",
+    "Could not detect language" : "Не удалось определить язык",
+    "Unable to translate" : "Не удается перевести",
     "Nextcloud Server" : "Сервер Nextcloud",
     "Some of your link shares have been removed" : "Некоторые из ваших ссылок на общие ресурсы были удалены",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Из-за ошибки в безопасности нам пришлось удалить некоторые из ваших ссылок на опубликованные файлы или папки. Перейдите по ссылке для получения дополнительной информации.",
@@ -161,6 +164,7 @@ OC.L10N.register(
     "Your connection is not secure" : "Соединение установлено с использованием небезопасного протокола",
     "Passwordless authentication is only available over a secure connection." : "Безпарольная аутентификация доступна только через защищённое соединение",
     "Reset password" : "Сбросить пароль",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Если эта учетная запись существует, на ее адрес электронной почты было отправлено сообщение о сбросе пароля. Если вы его не получили, подтвердите свой адрес электронной почты и/или имя учетной записи, проверьте папки со спамом/нежелательной почтой или обратитесь за помощью к Вашему локальному администратору.",
     "Couldn't send reset email. Please contact your administrator." : "Не удалось отправить письмо для сброса пароля. Свяжитесь со своим администратором.",
     "Password cannot be changed. Please contact your administrator." : "Пароль не может быть изменён. Свяжитесь со своим системным администратором.",
     "Back to login" : "Вернуться на страницу входа",
@@ -202,7 +206,6 @@ OC.L10N.register(
     "Load more results" : "Загрузить дополнительные результаты",
     "Search" : "Найти",
     "No results for {query}" : "По запросу «{query}» ничего не найдено",
-    "Press enter to start searching" : "Нажмите Enter для запуска поиска",
     "An error occurred while searching for {type}" : "Произошла ошибка при поиске {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Чтобы начать поиск необходимо ввести как минимум  {minSearchLength} символ","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символов","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа"],
     "This browser is not supported" : "Используемый браузер не поддерживается",
@@ -425,6 +428,8 @@ OC.L10N.register(
     "Contacts" : "Контакты",
     "Contacts menu" : "Меню контактов",
     "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}",
+    "Press enter to start searching" : "Нажмите Enter для запуска поиска",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Пожалуйста, используйте обновление из терминала, поскольку обновление через браузер отключено в вашем файле конфигурации config.php."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

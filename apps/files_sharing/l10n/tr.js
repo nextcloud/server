@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Uygulama etkinleştirilmemiş ise bir Çevre ile paylaşamazsınız",
     "Please specify a valid circle" : "Lütfen geçerli bir çevre belirtin",
     "Sharing %s failed because the back end does not support room shares" : "Arka uç oda paylaşımlarına izin vermediğinden %s paylaşılamadı",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Arka uç ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
     "Unknown share type" : "Paylaşım türü bilinmiyor",
     "Not a directory" : "Bir klasör değil",
     "Could not lock node" : "Düğüm kilitlenemedi",
@@ -212,7 +211,7 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da son kullanma tarihi yazın",
     "Link share created" : "Paylaşım bağlantısı oluşturuldu",
     "Error while creating the share" : "Paylaşım oluşturulurken sorun çıktı",
-    "Search for share recipients" : "Paylaşım alıcıları arayın",
+    "Search for share recipients" : "Paylaşım alıcıları ara",
     "No recommendations. Start typing." : "Herhangi bir öneri yok. Yazmaya başlayın.",
     "Resharing is not allowed" : "Yeniden paylaşıma izin verilmiyor",
     "Name or email …" : "Ad ya da e-posta adresi …",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Çevre",
     "Talk conversation" : "Talk görüşmesi",
     "Deck board" : "Tahta panosu",
-    "Science Mesh" : "ScienceMesh",
     "on {server}" : "{server} üzerinde",
     "Others with access" : "Erişebilen diğer kişiler",
     "No other users with access found" : "Erişebilen başka bir kullanıcı bulunamadı",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Panoya kopyala",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
     "Toggle grid view" : "Tablo görünümünü değiştir",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Arka uç ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
+    "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "password_policy ile parola oluşturulurken sorun çıktı"
 },
 "nplurals=2; plural=(n > 1);");

@@ -204,7 +204,6 @@
     "Load more results" : "載入更多結果",
     "Search" : "搜尋",
     "No results for {query}" : "{query} 查詢沒有結果",
-    "Press enter to start searching" : "按 Enter 開始搜尋",
     "An error occurred while searching for {type}" : "搜尋 {type} 時發生錯誤",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["請輸入 {minSearchLength} 個或以上字元搜尋"],
     "This browser is not supported" : "不支援此瀏覽器",
@@ -428,6 +427,7 @@
     "Contacts menu" : "聯絡人選單",
     "Setup two-factor authentication" : "設定雙重認證",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
+    "Press enter to start searching" : "按 Enter 開始搜尋",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

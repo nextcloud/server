@@ -188,6 +188,7 @@
     "Choose file or folder to transfer" : "Sahipliği aktarılacak dosya ya da klasörü seçin",
     "Change" : "Değiştir",
     "New owner" : "Yeni sahip",
+    "Search for an account" : "Hesap ara",
     "Choose a file or folder to transfer" : "Sahipliği aktarılacak bir dosya ya da klasör seçin",
     "Transfer" : "Sahipliği aktar",
     "Transfer {path} to {userid}" : "{path} yolunun sahipliğini {userid} kullanıcısına aktar",

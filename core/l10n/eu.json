@@ -204,7 +204,6 @@
     "Load more results" : "Kargatu emaitza gehiago ",
     "Search" : "Bilatu",
     "No results for {query}" : " {query}-(r)entzako emaitzarik ez",
-    "Press enter to start searching" : "Sakatu enter bilaketa hasteko",
     "An error occurred while searching for {type}" : "Errorea gertatu da {type} bilatzean",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Sartu karaktere {minSearchLength} edo gehiago bilatzeko","Sartu {minSearchLength} karaktere edo gehiago bilatzeko"],
     "This browser is not supported" : "Nabigatzaile hau ez da onartzen",
@@ -428,6 +427,7 @@
     "Contacts menu" : "Kontaktuen menua",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}.",
+    "Press enter to start searching" : "Sakatu enter bilaketa hasteko",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Mesedez, erabili komando-lerroko eguneratzailea, arakatzailearen bidez eguneratzea desgaituta dagoelako zure config.php-n."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
