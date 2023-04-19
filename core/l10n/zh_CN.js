@@ -193,7 +193,6 @@ OC.L10N.register(
     "Load more results" : "加载更多结果",
     "Search" : "搜索",
     "No results for {query}" : "没有 '{query}' 的相关结果",
-    "Press enter to start searching" : "按 Enter 开始搜索",
     "An error occurred while searching for {type}" : "搜索 {type} 时出错",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["请输入 {minSearchLength} 个字符或更多字符以进行搜索"],
     "This browser is not supported" : "您的浏览器不受支持！",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Contacts" : "联系人",
     "Contacts menu" : "联系人菜单",
     "Setup two-factor authentication" : "配置两步验证",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。",
+    "Press enter to start searching" : "按 Enter 开始搜索"
 },
 "nplurals=1; plural=0;");

@@ -192,7 +192,6 @@ OC.L10N.register(
     "Load more results" : "Carica più risultati",
     "Search" : "Cerca",
     "No results for {query}" : "Nessun risultato per {query}",
-    "Press enter to start searching" : "Premi invio per avviare la ricerca",
     "An error occurred while searching for {type}" : "Si è verificato un errore durante la ricerca di {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digita {minSearchLength} carattere o più per cercare","Digita {minSearchLength} caratteri o più per cercare","Digita {minSearchLength} caratteri o più per cercare"],
     "This browser is not supported" : "Questo browser non è supportato",
@@ -412,6 +411,7 @@ OC.L10N.register(
     "More apps menu" : "Menu delle altre applicazioni",
     "Contacts" : "Contatti",
     "Contacts menu" : "Menu dei contatti",
-    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori"
+    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
+    "Press enter to start searching" : "Premi invio per avviare la ricerca"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -198,13 +198,12 @@
     "Search starts once you start typing and results may be reached with the arrow keys" : "Arama, yazmaya başladığınızda başlar ve sonuçlara ok tuşları ile erişilebilir",
     "Reset search" : "Aramayı sıfırla",
     "Start search" : "Aramayı başlat",
-    "Search for {name} only" : "Yalnızca {name} için aransın",
+    "Search for {name} only" : "Yalnızca {name} için ara",
     "Start typing to search" : "Aramak için yazmaya başlayın",
     "Loading more results …" : "Diğer sonuçlar yükleniyor…",
     "Load more results" : "Diğer sonuçları yükle",
     "Search" : "Arama",
     "No results for {query}" : "{query} sorgusundan bir sonuç alınamadı",
-    "Press enter to start searching" : "Aramayı başlatmak için Enter tuşuna basın",
     "An error occurred while searching for {type}" : "{type} aranırken bir sorun çıktı",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lütfen aramak için en az {minSearchLength} karakter yazın","Lütfen aramak için en az {minSearchLength} karakter yazın"],
     "This browser is not supported" : "Bu tarayıcı desteklenmiyor",
@@ -428,6 +427,7 @@
     "Contacts menu" : "Kişiler menüsü",
     "Setup two-factor authentication" : "İki adımlı doğrulama kurulumu",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 bit bir PHP sürümü çalıştırıyorsunuz gibi görünüyor. Nextcloud uygulamasının iyi çalışması için 64 bit bir PHP sürümü kullanılmalıdır. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit olacak şekilde yükseltin! Ayrıntılı bilgi almak için {linkstart}ilgili sayfaya bakabilirsiniz ↗{linkend}.",
+    "Press enter to start searching" : "Aramayı başlatmak için Enter tuşuna basın",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Tarayıcı üzerinden güncelleme config.php dosyasında devre dışı bırakılmış olduğundan, komut satırı güncelleyicisini kullanın."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

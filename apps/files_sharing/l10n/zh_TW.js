@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "因為應用程式未啟用，所以您無法分享至小圈圈",
     "Please specify a valid circle" : "請指定有效的小圈圈",
     "Sharing %s failed because the back end does not support room shares" : "分享 %s 失敗，因為後端不支援聊天室分享",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "分享 %s 失敗，因為後端不支援 sciencemesh 分享",
     "Unknown share type" : "未知的分享類型",
     "Not a directory" : "不是目錄",
     "Could not lock node" : "無法鎖定節點",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "圈子",
     "Talk conversation" : "Talk 對話",
     "Deck board" : "看板佈告欄",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "於 {server}",
     "Others with access" : "有存取權的其他人",
     "No other users with access found" : "找不到其他有存取權的使用者",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "複製到剪貼簿",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "分享 %s 失敗，因為後端不支援 sciencemesh 分享",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "從密碼策略產生密碼時發生錯誤"
 },
 "nplurals=1; plural=0;");

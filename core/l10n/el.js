@@ -167,7 +167,6 @@ OC.L10N.register(
     "Load more results" : "Φόρτωση περισσοτέρων αποτελεσμάτων",
     "Search" : "Αναζήτηση",
     "No results for {query}" : "Κανένα αποτέλεσμα για {query}",
-    "Press enter to start searching" : "Πατήστε enter για να ξεκινήσει η αναζήτηση",
     "An error occurred while searching for {type}" : "Παρουσιάστηκε σφάλμα κατά την αναζήτηση για {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength}  χαρακτήρα ή περισσότερους για αναζήτηση.","Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength} χαρακτήρες ή περισσότερους για αναζήτηση."],
     "This browser is not supported" : "Αυτό το πρόγραμμα περιήγησης δεν υποστηρίζεται",
@@ -384,6 +383,7 @@ OC.L10N.register(
     "More apps menu" : "Μενού περισσότερων εφαρμογών",
     "Contacts" : "Επαφές",
     "Contacts menu" : "Μενού επαφών",
-    "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων"
+    "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων",
+    "Press enter to start searching" : "Πατήστε enter για να ξεκινήσει η αναζήτηση"
 },
 "nplurals=2; plural=(n != 1);");

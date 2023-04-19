@@ -189,6 +189,7 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Sélectionnez un fichier ou un dossier à transférer",
     "Change" : "Modifier",
     "New owner" : "Nouveau propriétaire",
+    "Search for an account" : "Chercher un compte",
     "Choose a file or folder to transfer" : "Sélectionnez un fichier ou un dossier à transférer",
     "Transfer" : "Transférer",
     "Transfer {path} to {userid}" : "Transférer {path} à {userid}",

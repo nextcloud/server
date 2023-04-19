@@ -176,7 +176,6 @@ OC.L10N.register(
     "Load more results" : "Вчитај повеќе резултати",
     "Search" : "Барај",
     "No results for {query}" : "Нема резултати за {query}",
-    "Press enter to start searching" : "Притисни Enter за започне пребарувањето",
     "An error occurred while searching for {type}" : "Настана грешка при пребарување за {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Внесете најмалку {minSearchLength} карактер за да пребарувате","Внесете најмалку {minSearchLength} карактери или повеќе за да пребарувате"],
     "This browser is not supported" : "Овој прелистувач не е поддржан",
@@ -393,6 +392,7 @@ OC.L10N.register(
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација",
+    "Press enter to start searching" : "Притисни Enter за започне пребарувањето"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

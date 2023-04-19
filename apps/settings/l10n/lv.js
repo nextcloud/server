@@ -98,7 +98,6 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "png or jpg, max. 20 MB" : "png vai jpg, max. 20 MB",
     "Cancel" : "Atcelt",
     "Details" : "Detaļas",
     "Your email address" : "Jūsu e-pasta adrese",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "Upload new" : "Ielādēt jaunu",
     "Select from Files" : "Izvēlēties no Datnes",
     "Remove image" : "Novākt attēlu",
+    "png or jpg, max. 20 MB" : "png vai jpg, max. 20 MB",
     "Choose as profile picture" : "Izvēlēties kā profila attēlu",
     "Your postal address" : "Jūsu pasta adrese"
 },

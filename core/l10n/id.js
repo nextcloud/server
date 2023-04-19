@@ -150,7 +150,6 @@ OC.L10N.register(
     "Load more results" : "Muat lebih banyak hasil",
     "Search" : "Cari",
     "No results for {query}" : "Tidak ada hasil untuk {query}",
-    "Press enter to start searching" : "Tekan enter untuk mulai mencari",
     "An error occurred while searching for {type}" : "Terjadi kesalahan saat mencari {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Harap masukkan {minSearchLength} karakter atau lebih untuk mencari"],
     "Settings menu" : "Menu Pengaturan",
@@ -359,6 +358,7 @@ OC.L10N.register(
     "More apps menu" : "Menu aplikasi lainnya",
     "Contacts" : "Kontak",
     "Contacts menu" : "Menu Kontak",
-    "Setup two-factor authentication" : "Setel autentikasi faktor-kedua"
+    "Setup two-factor authentication" : "Setel autentikasi faktor-kedua",
+    "Press enter to start searching" : "Tekan enter untuk mulai mencari"
 },
 "nplurals=1; plural=0;");

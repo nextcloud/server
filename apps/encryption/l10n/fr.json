@@ -26,6 +26,7 @@
     "Bad Signature" : "Mauvaise signature",
     "Missing Signature" : "Signature manquante",
     "one-time password for server-side-encryption" : "Mot de passe à usage unique pour le chiffrement côté serveur",
+    "Encryption password" : "Mot de passe de chiffrement",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de décrypter ce fichier, ceci est probablement un fichier partagé. Merci de demander à son propriétaire de repartager le fichier avec vous.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de lire ce fichier, ceci est probablement un fichier partagé. Merci de demander à son propriétaire de repartager le fichier avec vous.",
     "Default encryption module" : "Module de chiffrement par défaut",

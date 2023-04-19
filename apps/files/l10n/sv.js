@@ -190,6 +190,7 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Välj fil eller mapp att överföra",
     "Change" : "Ändra",
     "New owner" : "Ny ägare",
+    "Search for an account" : "Sök efter ett konto",
     "Choose a file or folder to transfer" : "Välj en fil eller mapp att överföra",
     "Transfer" : "Överför",
     "Transfer {path} to {userid}" : "Överför {path} till {userid}",

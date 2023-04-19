@@ -192,7 +192,6 @@
     "Load more results" : "Načítať viac výsledkov",
     "Search" : "Hľadať",
     "No results for {query}" : "Žiadne výsledky pre {query}",
-    "Press enter to start searching" : "Stlačte enter pre vyhľadávanie",
     "An error occurred while searching for {type}" : "Počas hľadania {type} sa vyskytla chyba",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Pre vyhľadávanie zadajte aspoň {minSearchLength} znak","Pre vyhľadávanie zadajte aspoň {minSearchLength} znaky","Pre vyhľadávanie zadajte aspoň {minSearchLength} znakov","Pre vyhľadávanie zadajte aspoň {minSearchLength} znakov"],
     "This browser is not supported" : "Tento prehliadač nie je podporovaný",
@@ -413,6 +412,7 @@
     "Contacts" : "Kontakty",
     "Contacts menu" : "Menu kontaktov",
     "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá sa, že používate 32-bitovú verziu PHP. Nextcloud potrebuje 64-bit, aby fungoval dobre. Inovujte svoj OS a PHP na 64-bitové! Ďalšie podrobnosti nájdete na {linkstart}stránke dokumentácie↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá sa, že používate 32-bitovú verziu PHP. Nextcloud potrebuje 64-bit, aby fungoval dobre. Inovujte svoj OS a PHP na 64-bitové! Ďalšie podrobnosti nájdete na {linkstart}stránke dokumentácie↗{linkend}.",
+    "Press enter to start searching" : "Stlačte enter pre vyhľadávanie"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

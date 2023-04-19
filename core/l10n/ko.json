@@ -177,7 +177,6 @@
     "Load more results" : "더 많은 결과 불러오기",
     "Search" : "검색",
     "No results for {query}" : "{query}에 대한 결과가 없음",
-    "Press enter to start searching" : "엔터를 눌러 검색 시작",
     "An error occurred while searching for {type}" : "{type} 탐색중 오류 발생",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["{minSearchLength}개 이상의 문자를 입럭하시오"],
     "Open settings menu" : "설정 메뉴 열기",
@@ -391,6 +390,7 @@
     "More apps menu" : "더 많은 앱 메뉴",
     "Contacts" : "연락처",
     "Contacts menu" : "연락처 메뉴",
-    "Setup two-factor authentication" : "2단계 인증 설정"
+    "Setup two-factor authentication" : "2단계 인증 설정",
+    "Press enter to start searching" : "엔터를 눌러 검색 시작"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
