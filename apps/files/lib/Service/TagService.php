@@ -44,7 +44,7 @@ class TagService {
 	private $activityManager;
 	/** @var ITags|null */
 	private $tagger;
-	/** @var Folder */
+	/** @var Folder|null */
 	private $homeFolder;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
@@ -53,7 +53,7 @@ class TagService {
 		IUserSession $userSession,
 		IManager $activityManager,
 		?ITags $tagger,
-		Folder $homeFolder,
+		?Folder $homeFolder,
 		EventDispatcherInterface $dispatcher
 	) {
 		$this->userSession = $userSession;
@@ -76,6 +76,9 @@ class TagService {
 	public function updateFileTags($path, $tags) {
 		if ($this->tagger === null) {
 			throw new \RuntimeException('No tagger set');
+		}
+		if ($this->homeFolder === null) {
+			throw new \RuntimeException('No homeFolder set');
 		}
 
 		$fileId = $this->homeFolder->get($path)->getId();
