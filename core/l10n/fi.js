@@ -129,8 +129,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Yhteytesi ei ole turvallinen",
     "Passwordless authentication is only available over a secure connection." : "Tunnistautuminen ilman salasanaa on mahdollista vain salattua yhteyttä käyttäessä.",
     "Reset password" : "Palauta salasana",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Salasanan nollausviesti on lähetetty käyttäjätilin sähköpostiin. Jos et vastaanota sähköpostia, tarkista roskapostikansio tai pyydä apua järjestelmävalvojaltasi.",
-    "If it is not there ask your local administrator." : "Jos se ei ole siellä, niin pyydä järjestelmänvalvojaltasi.",
     "Couldn't send reset email. Please contact your administrator." : "Palautussähköpostin lähettäminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Password cannot be changed. Please contact your administrator." : "Salasanaa ei voi vaihtaa. Ole yhteydessä ylläpitäjään.",
     "Back to login" : "Palaa kirjautumiseen",
@@ -170,7 +168,6 @@ OC.L10N.register(
     "Load more results" : "Lataa lisää tuloksia",
     "Search" : "Etsi",
     "No results for {query}" : "Ei tuloksia haulle {query}",
-    "Press enter to start searching" : "Paina enter aloittaaksesi haun",
     "An error occurred while searching for {type}" : "Haettaessa tyyppiä {type} tapahtui virhe.",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Kirjoita vähintään {minSearchLength} merkki etsiäksesi","Kirjoita vähintään {minSearchLength} merkkiä etsiäksesi"],
     "This browser is not supported" : "Tämä selain ei ole tuettu",
@@ -374,6 +371,8 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tätä yhteisöjulkaisua Nextcloudista ei tueta, ja pikailmoitukset eivät ole saatavilla.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tarkistetaan taulua %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 on viimeinen julkaiusu, joka tukee PHP:n versiota 7.3. Nextcloud 24 vaatii vähintään PHP:n version 7.4.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Salasanan nollausviesti on lähetetty käyttäjätilin sähköpostiin. Jos et vastaanota sähköpostia, tarkista roskapostikansio tai pyydä apua järjestelmävalvojaltasi.",
+    "If it is not there ask your local administrator." : "Jos se ei ole siellä, niin pyydä järjestelmänvalvojaltasi.",
     "Collaboratively edit office documents." : "Muokkaa toimistodokumentteja yhteistyössä.",
     "Local document editing back-end used by the Collabora Online app." : "Collabora Online-sovelluksen käyttämä taustasovellus paikalliseen dokumenttien muokkaamiseen.",
     "restricted" : "rajoitettu",
@@ -385,6 +384,7 @@ OC.L10N.register(
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
+    "Press enter to start searching" : "Paina enter aloittaaksesi haun",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa."
 },
 "nplurals=2; plural=(n != 1);");

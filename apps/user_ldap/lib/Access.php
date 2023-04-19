@@ -1537,14 +1537,19 @@ class Access extends LDAPUtility {
 			}
 		}
 
+		$originalSearch = $search;
 		$search = $this->prepareSearchTerm($search);
 		if (!is_array($searchAttributes) || count($searchAttributes) === 0) {
 			if ($fallbackAttribute === '') {
 				return '';
 			}
+			// wildcards don't work with some attributes
+			$filter[] = $fallbackAttribute . '=' . $originalSearch;
 			$filter[] = $fallbackAttribute . '=' . $search;
 		} else {
 			foreach ($searchAttributes as $attribute) {
+				// wildcards don't work with some attributes
+				$filter[] = $attribute . '=' . $originalSearch;
 				$filter[] = $attribute . '=' . $search;
 			}
 		}

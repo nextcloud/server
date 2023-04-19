@@ -275,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Copia-ho al porta-papers",
     "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
     "Toggle grid view" : "Commuta la vista de la graella",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "S'ha produït un error en compartir %s perquè el rerefons no admet comparticions de sciencemesh",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "S'ha produït un error en generar la contrasenya des de password_policy"
 },
 "nplurals=2; plural=(n != 1);");

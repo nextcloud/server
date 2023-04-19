@@ -98,7 +98,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Properties set by one user, readable by all others
 	 *
-	 * @var array[]
+	 * @var string[]
 	 */
 	private const PUBLISHED_READ_ONLY_PROPERTIES = [
 		'{urn:ietf:params:xml:ns:caldav}calendar-availability',

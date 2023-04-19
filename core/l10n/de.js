@@ -161,8 +161,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Deine Verbindung ist nicht sicher",
     "Passwordless authentication is only available over a secure connection." : "Anmeldung ohne Passwort ist nur über eine sichere Verbindung möglich",
     "Reset password" : "Passwort zurücksetzen",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn du diese nicht erhalten hast, prüfen bitte die Ordner Spam/Junk oder kontaktiere deinen lokalen Administrator für weitere Hilfe.",
-    "If it is not there ask your local administrator." : "Wenn du keine E-Mail bekommen hast, wende dich bitte an deinen lokalen Administrator.",
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht gesendet werden. Bitte kontaktiere deinen Administrator.",
     "Password cannot be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte wende dich an  deinen Administrator.",
     "Back to login" : "Zur Anmeldung wechseln",
@@ -204,7 +202,6 @@ OC.L10N.register(
     "Load more results" : "Weitere Ergebnisse laden",
     "Search" : "Suche",
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
-    "Press enter to start searching" : "Zum Suchen Enter drücken",
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte gebe {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte gebe {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
     "This browser is not supported" : "Dieser Browser wird nicht unterstützt.",
@@ -414,6 +411,8 @@ OC.L10N.register(
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Dies ist der nicht unterstützte Community-Build von Nextcloud. Angesichts der Größe dieser Instanz können Leistung, Zuverlässigkeit und Skalierbarkeit nicht garantiert werden. Push-Benachrichtigungen wurden deaktiviert, um eine Überlastung unseres kostenlosen Dienstes zu vermeiden. Erfahre mehr über die Vorteile von Nextcloud Enterprise unter nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 ist die letzte Version, die PHP 7.3 unterstützt. Nextcloud 24 erfordert mindestens PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Der „{header}“-HTTP-Header ist nicht so konfiguriert, dass er „{expected}“ enthält. Dies ist ein potentielles Sicherheitsrisiko und es wird empfohlen, diese Einstellung zu ändern.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn du diese nicht erhalten hast, prüfen bitte die Ordner Spam/Junk oder kontaktiere deinen lokalen Administrator für weitere Hilfe.",
+    "If it is not there ask your local administrator." : "Wenn du keine E-Mail bekommen hast, wende dich bitte an deinen lokalen Administrator.",
     "Collaboratively edit office documents." : "Gemeinsames Bearbeiten von Office-Dokumenten.",
     "Local document editing back-end used by the Collabora Online app." : "Lokales Dokumentenbearbeitungs-Backend, das von der Collabora Online-Anwendung verwendet wird.",
     "restricted" : "Eingeschränkt",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "Contacts menu" : "Kontakte-Menü",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Anscheinend führst du eine 32-Bit-PHP-Version aus. Nextcloud benötigt 64bit, um gut zu laufen. Bitte aktualisiere dein Betriebssystem und PHP auf 64bit! Für weitere Details lese bitte die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
+    "Press enter to start searching" : "Zum Suchen Enter drücken",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert."
 },
 "nplurals=2; plural=(n != 1);");

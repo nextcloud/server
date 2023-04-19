@@ -45,6 +45,7 @@ OC.L10N.register(
     "HTML Code:" : "HTML 代码：",
     "Share with me through my #Nextcloud Federated Cloud ID" : "通过我的 #Nextcloud 联合云 ID 与我共享",
     "Copy to clipboard" : "复制到剪贴板",
+    "Clipboard is not available" : "剪贴板不可用",
     "Copied!" : "已复制！",
     "Copy" : "复制",
     "Not supported!" : "不支持！",

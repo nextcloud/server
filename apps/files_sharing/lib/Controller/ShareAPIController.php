@@ -704,7 +704,7 @@ class ShareAPIController extends OCSController {
 			try {
 				$this->getSciencemeshShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
 			} catch (QueryException $e) {
-				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support sciencemesh shares', [$node->getPath()]));
+				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support ScienceMesh shares', [$node->getPath()]));
 			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));

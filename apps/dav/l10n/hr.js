@@ -39,6 +39,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Izmijenjen je <strong>događaj</strong> u kalendaru",
     "Contact birthdays" : "Rođendani kontakata",
     "Death of %s" : "Smrt %s",
+    "Untitled calendar" : "Kalendar bez naslova",
     "Calendar:" : "Kalendar:",
     "Date:" : "Datum:",
     "Where:" : "Gdje:",

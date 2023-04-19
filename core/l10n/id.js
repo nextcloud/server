@@ -116,8 +116,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Koneksi Anda tidak aman",
     "Passwordless authentication is only available over a secure connection." : "Otentikasi tanpa kata sandi hanya tersedia melalui koneksi aman.",
     "Reset password" : "Setel ulang kata sandi",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pesan pengaturan ulang kata sandi telah dikirim ke alamat surel akun ini. Jika Anda tidak menerimanya, periksa folder spam/sampah Anda atau minta bantuan administrator lokal Anda.",
-    "If it is not there ask your local administrator." : "Jika Anda tidak mendapatkannya, hubungi administrator Anda.",
     "Couldn't send reset email. Please contact your administrator." : "Tidak dapat mengirim surel setel ulang. Silakan hubungi administrator Anda.",
     "Password cannot be changed. Please contact your administrator." : "Kata sandi tidak dapat diubah. Silakan hubungi administrator Anda.",
     "Back to login" : "Kembali ke log masuk",
@@ -152,7 +150,6 @@ OC.L10N.register(
     "Load more results" : "Muat lebih banyak hasil",
     "Search" : "Cari",
     "No results for {query}" : "Tidak ada hasil untuk {query}",
-    "Press enter to start searching" : "Tekan enter untuk mulai mencari",
     "An error occurred while searching for {type}" : "Terjadi kesalahan saat mencari {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Harap masukkan {minSearchLength} karakter atau lebih untuk mencari"],
     "Settings menu" : "Menu Pengaturan",
@@ -349,6 +346,8 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: Mengecek tabel %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 adalah rilis terakhir yang mendukung PHP 7.3. Nextcloud 24 membutuhkan setidaknya PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP header \"{header}\" tidak memiliki \"{expected}\". Hal ini berpotensi risiko keamanan dan kerahasiaan. Direkomendasikan untuk dapat disesuaikan mengikuti anjuran.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pesan pengaturan ulang kata sandi telah dikirim ke alamat surel akun ini. Jika Anda tidak menerimanya, periksa folder spam/sampah Anda atau minta bantuan administrator lokal Anda.",
+    "If it is not there ask your local administrator." : "Jika Anda tidak mendapatkannya, hubungi administrator Anda.",
     "Collaboratively edit office documents." : "Berkolaborasi edit dokumen perkantoran.",
     "Local document editing back-end used by the Collabora Online app." : "Pengeditan dokumen lokal menggunakan aplikasi Collabora Online sebagai back-end.",
     "restricted" : "terbatas",
@@ -359,6 +358,7 @@ OC.L10N.register(
     "More apps menu" : "Menu aplikasi lainnya",
     "Contacts" : "Kontak",
     "Contacts menu" : "Menu Kontak",
-    "Setup two-factor authentication" : "Setel autentikasi faktor-kedua"
+    "Setup two-factor authentication" : "Setel autentikasi faktor-kedua",
+    "Press enter to start searching" : "Tekan enter untuk mulai mencari"
 },
 "nplurals=1; plural=0;");

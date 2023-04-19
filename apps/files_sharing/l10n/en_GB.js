@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "You cannot share to a Circle if the app is not enabled",
     "Please specify a valid circle" : "Please specify a valid circle",
     "Sharing %s failed because the back end does not support room shares" : "Sharing %s failed because the back end does not support room shares",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Sharing %s failed because the back end does not support sciencemesh shares",
     "Unknown share type" : "Unknown share type",
     "Not a directory" : "Not a directory",
     "Could not lock node" : "Could not lock node",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Circle",
     "Talk conversation" : "Talk conversation",
     "Deck board" : "Deck board",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "on {server}",
     "Others with access" : "Others with access",
     "No other users with access found" : "No other users with access found",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Copy to clipboard",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work any more.",
     "Toggle grid view" : "Toggle grid view",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Sharing %s failed because the back end does not support sciencemesh shares",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Error generating password from password policy"
 },
 "nplurals=2; plural=(n != 1);");

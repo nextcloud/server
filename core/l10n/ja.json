@@ -159,8 +159,6 @@
     "Your connection is not secure" : "この接続は安全ではありません",
     "Passwordless authentication is only available over a secure connection." : "パスワードレス認証は、セキュアな接続でのみ利用可能です。",
     "Reset password" : "パスワードをリセット",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "このアカウントのメールアドレスにパスワードリセットメッセージを送信しました。届かない場合は、スパム/ジャンクフォルダーを確認するか、ローカル管理者にサポートを依頼してください。",
-    "If it is not there ask your local administrator." : "もしそうでない場合は、管理者に問い合わせてください。",
     "Couldn't send reset email. Please contact your administrator." : "リセットメールを送信できませんでした。管理者に問い合わせてください。",
     "Password cannot be changed. Please contact your administrator." : "パスワードは変更できません。管理者に問い合わせてください。",
     "Back to login" : "ログインに戻る",
@@ -202,7 +200,6 @@
     "Load more results" : "次の結果を読み込む",
     "Search" : "検索",
     "No results for {query}" : "{query}の検索結果はありません",
-    "Press enter to start searching" : "Enterキーを押して検索を開始します",
     "An error occurred while searching for {type}" : "{type} の検索中にエラーが発生しました",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["検索には、{minSearchLength}文字以上が必要です"],
     "This browser is not supported" : "お使いのブラウザーはサポートされていません",
@@ -411,6 +408,8 @@
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "このサーバーはNextcloudの未サポートのコミュニティビルドです。このインスタンスのサイズでは、パフォーマンス、信頼性、スケーラビリティは保証されません。サービスに負荷をかけないように、プッシュ通知は無効になっています。Nextcloud Enterpriseのメリットについては、nextcloud.com/enterprise をご覧ください。",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23は、PHP7.3をサポートする最後のリリースです。 Nextcloud24には少なくともPHP7.4が必要です。",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTPヘッダーに \"{expected}\"が含まれていません。 これらは潜在的なセキュリティまたはプライバシーのリスクになります。この設定を調整することをお勧めします。",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "このアカウントのメールアドレスにパスワードリセットメッセージを送信しました。届かない場合は、スパム/ジャンクフォルダーを確認するか、ローカル管理者にサポートを依頼してください。",
+    "If it is not there ask your local administrator." : "もしそうでない場合は、管理者に問い合わせてください。",
     "Collaboratively edit office documents." : "Office 文書を共同で編集します。",
     "Local document editing back-end used by the Collabora Online app." : "Collabora Onlineアプリで使用されるローカルドキュメント編集バックエンド",
     "restricted" : "制限済",
@@ -422,6 +421,7 @@
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
+    "Press enter to start searching" : "Enterキーを押して検索を開始します"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

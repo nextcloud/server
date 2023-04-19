@@ -49,6 +49,7 @@ use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -93,6 +94,7 @@ class Application extends App implements IBootstrap {
 				$c->get(IConfig::class),
 				$server->getUserFolder(),
 				$c->get(UserConfig::class),
+				$c->get(ViewConfig::class),
 			);
 		});
 

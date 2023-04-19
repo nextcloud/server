@@ -1229,6 +1229,17 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	}
 }
 
+#contactsmenu .contact .popovermenu {
+	li {
+		> a {
+			> img {
+				width: 16px;
+				height: 16px;
+			}
+		}
+	}
+}
+
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	position: -webkit-sticky;

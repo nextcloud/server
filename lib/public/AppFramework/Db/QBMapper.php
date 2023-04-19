@@ -55,8 +55,7 @@ abstract class QBMapper {
 	/**
 	 * @param IDBConnection $db Instance of the Db abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity
-	 * @param string|null $entityClass the name of the entity that the sql should be
-	 * @psalm-param class-string<T>|null $entityClass the name of the entity that the sql should be
+	 * @param class-string<T>|null $entityClass the name of the entity that the sql should be
 	 * mapped to queries without using sql
 	 * @since 14.0.0
 	 */

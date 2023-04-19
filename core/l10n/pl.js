@@ -161,8 +161,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Twoje połączenie nie jest bezpieczne",
     "Passwordless authentication is only available over a secure connection." : "Uwierzytelnianie bez hasła jest dostępne tylko przez bezpieczne połączenie.",
     "Reset password" : "Zresetuj hasło",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Wiadomość o zresetowaniu hasła została wysłana na adres e-mail tego konta. Jeśli go nie otrzymałeś, sprawdź katalogi spam/kosz lub poproś lokalnego administratora o pomoc.",
-    "If it is not there ask your local administrator." : "Jeśli nie ma, skontaktuj się z lokalnym administratorem.",
     "Couldn't send reset email. Please contact your administrator." : "Nie mogę wysłać e-maila resetującego hasło. Skontaktuj się z administratorem.",
     "Password cannot be changed. Please contact your administrator." : "Hasło nie może zostać zmienione. Skontaktuj się z administratorem.",
     "Back to login" : "Powrót do logowania",
@@ -204,7 +202,6 @@ OC.L10N.register(
     "Load more results" : "Wczytaj więcej wyników",
     "Search" : "Szukaj",
     "No results for {query}" : "Brak wyników dla {query}",
-    "Press enter to start searching" : "Naciśnij Enter, aby rozpocząć wyszukiwanie",
     "An error occurred while searching for {type}" : "Wystąpił błąd podczas wyszukiwania {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby wyszukać, wprowadź co najmniej {minSearchLength} znak","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaki","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaków","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaków"],
     "This browser is not supported" : "Ta przeglądarka nie jest obsługiwana",
@@ -414,6 +411,8 @@ OC.L10N.register(
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "To jest nieobsługiwana przez społeczność kompilacja Nextcloud. Biorąc pod uwagę rozmiar tego wystąpienia, nie można zagwarantować wydajności, niezawodności i skalowalności. Powiadomienia Push zostały wyłączone, aby uniknąć przeciążenia naszej bezpłatnej usługi. Dowiedz się więcej o zaletach usługi Nextcloud dla firm na stronie nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 to ostatnie wydanie obsługujące PHP 7.3. Nextcloud 24 wymaga co najmniej PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Nagłówek HTTP \"{header}\" nie zawiera \"{expected}\". Jest to potencjalne zagrożenie dla bezpieczeństwa lub prywatności. Dlatego zaleca się odpowiednie dostosowanie tego ustawienia.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Wiadomość o zresetowaniu hasła została wysłana na adres e-mail tego konta. Jeśli go nie otrzymałeś, sprawdź katalogi spam/kosz lub poproś lokalnego administratora o pomoc.",
+    "If it is not there ask your local administrator." : "Jeśli nie ma, skontaktuj się z lokalnym administratorem.",
     "Collaboratively edit office documents." : "Wspólnie edytuj dokumenty biurowe.",
     "Local document editing back-end used by the Collabora Online app." : "Lokalne zaplecze do edycji dokumentów używane przez aplikację Collabora Online.",
     "restricted" : "ograniczony",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu kontaktów",
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
+    "Press enter to start searching" : "Naciśnij Enter, aby rozpocząć wyszukiwanie",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

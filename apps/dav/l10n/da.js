@@ -39,6 +39,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "En kalender <strong>begivenhed</strong> er blevet ændret",
     "Contact birthdays" : "Kontakt fødselsdag",
     "Death of %s" : "Død af%s",
+    "Untitled calendar" : "Unanvngiven kalender",
     "Calendar:" : "Kalender:",
     "Date:" : "Dato:",
     "Where:" : "Hvor:",

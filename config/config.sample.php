@@ -347,6 +347,10 @@ $CONFIG = [
  * characters).
  *
  * By default, the passwords are stored encrypted in the database.
+ *
+ * WARNING: If disabled, password changes on the user back-end (e.g. on LDAP) no
+ * longer log connected clients out automatically. Users can still disconnect
+ * the clients by deleting the app token from the security settings.
  */
 'auth.storeCryptedPassword' => true,
 

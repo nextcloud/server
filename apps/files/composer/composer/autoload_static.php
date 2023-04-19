@@ -74,6 +74,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Service\\OwnershipTransferService' => __DIR__ . '/..' . '/../lib/Service/OwnershipTransferService.php',
         'OCA\\Files\\Service\\TagService' => __DIR__ . '/..' . '/../lib/Service/TagService.php',
         'OCA\\Files\\Service\\UserConfig' => __DIR__ . '/..' . '/../lib/Service/UserConfig.php',
+        'OCA\\Files\\Service\\ViewConfig' => __DIR__ . '/..' . '/../lib/Service/ViewConfig.php',
         'OCA\\Files\\Settings\\PersonalSettings' => __DIR__ . '/..' . '/../lib/Settings/PersonalSettings.php',
     );
 

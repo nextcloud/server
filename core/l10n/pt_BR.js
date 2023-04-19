@@ -161,8 +161,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Sua conexão não é segura",
     "Passwordless authentication is only available over a secure connection." : "A autenticação sem senha está disponível apenas em uma conexão segura.",
     "Reset password" : "Redefinir senha",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Uma mensagem de redefinição de senha foi enviada para o endereço de e-mail desta conta. Se você não o receber, verifique suas pastas de spam/lixo ou peça ajuda ao administrador local. ",
-    "If it is not there ask your local administrator." : "Se não estiver lá, pergunte ao administrador.",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar o e-mail de redefinição. Por favor, contate o administrador.",
     "Password cannot be changed. Please contact your administrator." : "A senha não pôde ser alterada. Por favor contate seu administrador.",
     "Back to login" : "Voltar ao login",
@@ -204,7 +202,6 @@ OC.L10N.register(
     "Load more results" : "Carregar mais resultados",
     "Search" : "Pesquisar",
     "No results for {query}" : "Sem resultados para {query}",
-    "Press enter to start searching" : "Pressione enter para iniciar a busca",
     "An error occurred while searching for {type}" : "Ocorreu um erro ao pesquisar por {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digite {minSearchLength} caractere ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar"],
     "This browser is not supported" : "Este navegador não é compatível",
@@ -414,6 +411,8 @@ OC.L10N.register(
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Este é a construção de uma comunidade sem suporte do Nextcloud. Dado o tamanho desta instância, desempenho, confiabilidade e escalabilidade não podem ser garantidos. As notificações push foram desativadas para evitar sobrecarregar nosso serviço gratuito. Saiba mais sobre os benefícios do Nextcloud Enterprise em nextcloud.com/enterprise. ",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 é a última versão compatível com PHP 7.3. Nextcloud 24 requer pelo menos PHP 7.4. ",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "O cabeçalho HTTP \"{header}\" não contém \"{expected}\". Esse é um risco potencial de segurança ou privacidade. É recomendável ajustar essa configuração de acordo.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Uma mensagem de redefinição de senha foi enviada para o endereço de e-mail desta conta. Se você não o receber, verifique suas pastas de spam/lixo ou peça ajuda ao administrador local. ",
+    "If it is not there ask your local administrator." : "Se não estiver lá, pergunte ao administrador.",
     "Collaboratively edit office documents." : "Edite documentos de escritório colaborativamente.",
     "Local document editing back-end used by the Collabora Online app." : "Backend de edição de documentos local usado pelo aplicativo Collabora Online.",
     "restricted" : "restrito",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu de contatos",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud precisa de 64 bits para funcionar bem. Por favor, atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre este ↗{linkend}.",
+    "Press enter to start searching" : "Pressione enter para iniciar a busca",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

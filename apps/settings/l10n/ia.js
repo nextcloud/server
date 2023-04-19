@@ -73,7 +73,6 @@ OC.L10N.register(
     "Current password" : "Contrasigno actual",
     "New password" : "Nove contrasigno",
     "Change password" : "Cambiar contrasigno",
-    "png or jpg, max. 20 MB" : "formato png o jpg, dimension maxime 20 MB",
     "Picture provided by original account" : "Pictura fornite per conto original",
     "Cancel" : "Cancellar",
     "Details" : "Detalios",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Upload new" : "Incargar nove",
     "Select from Files" : "Selectionar de Files",
     "Remove image" : "Remover imagine",
+    "png or jpg, max. 20 MB" : "formato png o jpg, dimension maxime 20 MB",
     "Choose as profile picture" : "Selectiona como pictura de profilo",
     "Your postal address" : "Tu adresse postal"
 },

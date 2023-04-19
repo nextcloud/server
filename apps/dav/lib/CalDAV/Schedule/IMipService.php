@@ -98,7 +98,7 @@ class IMipService {
 			return $default;
 		}
 		$newstring = $vevent->$property->getValue();
-		if(isset($oldVEvent->$property)) {
+		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring ) {
 			$oldstring = $oldVEvent->$property->getValue();
 			return sprintf($strikethrough, $oldstring, $newstring);
 		}
@@ -128,7 +128,7 @@ class IMipService {
 			$data['meeting_location_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
 
 			$oldUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
-			$data['meeting_url_html'] = !empty($oldUrl) ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
+			$data['meeting_url_html'] = !empty($oldUrl) && $oldUrl !== $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
 
 			$data['meeting_when_html'] =
 				($oldMeetingWhen !== $data['meeting_when'] && $oldMeetingWhen !== null)
@@ -366,7 +366,7 @@ class IMipService {
 	 * @param bool $isModified
 	 */
 	public function addSubjectAndHeading(IEMailTemplate $template,
-		string $method, string $sender, string $summary, bool $isModified): void {
+		string $method, string $sender, string $summary, bool $isModified, ?Property $replyingAttendee = null): void {
 		if ($method === IMipPlugin::METHOD_CANCEL) {
 			// TRANSLATORS Subject for email, when an invitation is cancelled. Ex: "Cancelled: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Cancelled: %1$s', [$summary]));
@@ -374,7 +374,24 @@ class IMipService {
 		} elseif ($method === IMipPlugin::METHOD_REPLY) {
 			// TRANSLATORS Subject for email, when an invitation is replied to. Ex: "Re: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Re: %1$s', [$summary]));
-			$template->addHeading($this->l10n->t('%1$s has responded to your invitation', [$sender]));
+			// Build the strings
+			$partstat = (isset($replyingAttendee)) ? $replyingAttendee->offsetGet('PARTSTAT') : null;
+			$partstat = ($partstat instanceof Parameter) ? $partstat->getValue() : null;
+			switch ($partstat) {
+				case 'ACCEPTED':
+					$template->addHeading($this->l10n->t('%1$s has accepted your invitation', [$sender]));
+					break;
+				case 'TENTATIVE':
+					$template->addHeading($this->l10n->t('%1$s has tentatively accepted your invitation', [$sender]));
+					break;
+				case 'DECLINED':
+					$template->addHeading($this->l10n->t('%1$s has declined your invitation', [$sender]));
+					break;
+				case null:
+				default:
+					$template->addHeading($this->l10n->t('%1$s has responded to your invitation', [$sender]));
+					break;
+			}
 		} elseif ($method === IMipPlugin::METHOD_REQUEST && $isModified) {
 			// TRANSLATORS Subject for email, when an invitation is updated. Ex: "Invitation updated: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Invitation updated: %1$s', [$summary]));
@@ -477,7 +494,7 @@ class IMipService {
 	 */
 	public function addBulletList(IEMailTemplate $template, VEvent $vevent, $data) {
 		$template->addBodyListItem(
-			$data['meeting_title'], $this->l10n->t('Title:'),
+			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
 			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
 		if ($data['meeting_when'] !== '') {
 			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Time:'),
@@ -602,5 +619,18 @@ class IMipService {
 		$text = $this->l10n->t('More options at %s', [$moreOptionsURL]);
 
 		$template->addBodyText($html, $text);
+	}
+
+	public function getReplyingAttendee(Message $iTipMessage): ?Property {
+		/** @var VEvent $vevent */
+		$vevent = $iTipMessage->message->VEVENT;
+		$attendees = $vevent->select('ATTENDEE');
+		foreach ($attendees as $attendee) {
+			/** @var Property $attendee */
+			if (strcasecmp($attendee->getValue(), $iTipMessage->sender) === 0) {
+				return $attendee;
+			}
+		}
+		return null;
 	}
 }

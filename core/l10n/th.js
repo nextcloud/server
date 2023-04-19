@@ -108,8 +108,6 @@ OC.L10N.register(
     "Your connection is not secure" : "การเชื่อมต่อของคุณไม่ปลอดภัย",
     "Passwordless authentication is only available over a secure connection." : "สามารถใช้การรับรองความถูกต้องแบบไร้รหัสผ่านผ่านการเชื่อมต่อที่ปลอดภัยเท่านั้น",
     "Reset password" : "ตั้งรหัสผ่านใหม่",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "ส่งข้อความตั้งรหัสผ่านใหม่ไปยังที่อยู่อีเมลของบัญชีนี้แล้ว หากคุณยังไม่ได้รับ ให้ตรวจสอบโฟลเดอร์สแปม/จดหมายขยะ หรือสอบถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณเพื่อขอความช่วยเหลือ",
-    "If it is not there ask your local administrator." : "หากยังไม่เจอ ถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณ",
     "Couldn't send reset email. Please contact your administrator." : "ไม่สามารถส่งข้อมูลการตั้งค่าไปยังอีเมลของคุณ กรุณาติดต่อผู้ดูแลระบบ",
     "Password cannot be changed. Please contact your administrator." : "ไม่สามารถเปลี่ยนรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ",
     "Back to login" : "กลับสู่หน้าเข้าสู่ระบบ",
@@ -143,7 +141,6 @@ OC.L10N.register(
     "Load more results" : "โหลดผลลัพธ์เพิ่มเติม",
     "Search" : "ค้นหา",
     "No results for {query}" : "ไม่มีผลลัพธ์สำหรับ {query}",
-    "Press enter to start searching" : "กด Enter เพื่อเริ่มค้นหา",
     "An error occurred while searching for {type}" : "เกิดข้อผิดพลาดขณะค้นหา {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["โปรดพิมพ์อย่างน้อย {minSearchLength} ตัวอักษรเพื่อค้นหา"],
     "This browser is not supported" : "เบราว์เซอร์นี้ไม่ได้รับการสนับสนุน",
@@ -350,6 +347,8 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: กำลังตรวจสอบตาราง %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 เป็นรุ่นสุดท้ายที่รองรับ PHP 7.3 Nextcloud 24 จำเป็นต้องใช้ PHP 7.4 เป็นขั้นต่ำ",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "ส่วนหัว HTTP \"{header}\" ไม่มีค่า \"{expected}\" ดังนั้นจึงมีความเสี่ยงด้านความปลอดภัยหรือความเป็นส่วนตัวที่เป็นไปได้ เราแนะนำให้ปรับการตั้งค่านี้",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "ส่งข้อความตั้งรหัสผ่านใหม่ไปยังที่อยู่อีเมลของบัญชีนี้แล้ว หากคุณยังไม่ได้รับ ให้ตรวจสอบโฟลเดอร์สแปม/จดหมายขยะ หรือสอบถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณเพื่อขอความช่วยเหลือ",
+    "If it is not there ask your local administrator." : "หากยังไม่เจอ ถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณ",
     "Collaboratively edit office documents." : "แก้ไขเอกสารสำนักงานร่วมกัน",
     "restricted" : "ถูกจำกัด",
     "invisible" : "ไม่แสดงสถานะ",
@@ -359,6 +358,7 @@ OC.L10N.register(
     "More apps menu" : "เมนูแอปเพิ่มเติม",
     "Contacts" : "รายชื่อผู้ติดต่อ",
     "Contacts menu" : "เมนูรายชื่อผู้ติดต่อ",
-    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย"
+    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย",
+    "Press enter to start searching" : "กด Enter เพื่อเริ่มค้นหา"
 },
 "nplurals=1; plural=0;");

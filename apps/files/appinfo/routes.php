@@ -84,19 +84,29 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
+				'name' => 'API#setViewConfig',
+				'url' => '/api/v1/views/{view}/{key}',
+				'verb' => 'PUT'
+			],
+			[
+				'name' => 'API#getViewConfigs',
+				'url' => '/api/v1/views',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#getViewConfig',
+				'url' => '/api/v1/views/{view}',
+				'verb' => 'GET'
+			],
+			[
 				'name' => 'API#setConfig',
 				'url' => '/api/v1/config/{key}',
-				'verb' => 'POST'
+				'verb' => 'PUT'
 			],
 			[
 				'name' => 'API#getConfigs',
 				'url' => '/api/v1/configs',
 				'verb' => 'GET'
-			],
-			[
-				'name' => 'API#updateFileSorting',
-				'url' => '/api/v1/sorting',
-				'verb' => 'POST'
 			],
 			[
 				'name' => 'API#showHiddenFiles',
@@ -119,11 +129,6 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#toggleShowFolder',
-				'url' => '/api/v1/toggleShowFolder/{key}',
-				'verb' => 'POST'
-			],
-			[
 				'name' => 'API#getNodeType',
 				'url' => '/api/v1/quickaccess/get/NodeType',
 				'verb' => 'GET',
@@ -131,6 +136,11 @@ $application->registerRoutes(
 			[
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'api#serviceWorker',
+				'url' => '/preview-service-worker.js',
 				'verb' => 'GET'
 			],
 			[

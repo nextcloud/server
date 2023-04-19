@@ -63,7 +63,7 @@ module.exports = {
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 	},
 	files_trashbin: {
-		files_trashbin: path.join(__dirname, 'apps/files_trashbin/src', 'files_trashbin.js'),
+		main: path.join(__dirname, 'apps/files_trashbin/src', 'main.ts'),
 	},
 	files_versions: {
 		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions_tab.js'),

@@ -24,7 +24,7 @@
 		@keyup.enter="select"
 		@keyup.space="select"
 		@click="select">
-		<span class="predefined-status__icon">
+		<span aria-hidden="true" class="predefined-status__icon">
 			{{ icon }}
 		</span>
 		<span class="predefined-status__message">
@@ -104,7 +104,7 @@ export default {
 	}
 
 	&__clear-at {
-		opacity: .7;
+		color: var(--color-text-maxcontrast);
 
 		&::before {
 			content: ' – ';

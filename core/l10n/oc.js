@@ -119,7 +119,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Vòstra connexion es pas segura",
     "Passwordless authentication is only available over a secure connection." : "L’autentificacion sens senhal es sonque disponibla via una connexion segura.",
     "Reset password" : "Reïnicializar senhal",
-    "If it is not there ask your local administrator." : "S’es pas enlà, demandatz a vòstre administrator local.",
     "Couldn't send reset email. Please contact your administrator." : "Impossible de mandar lo corrièl de reïnicializacion. Contactatz vòstre administrator.",
     "Password cannot be changed. Please contact your administrator." : "Se pòt pas cambiar lo senhal. Mercés de contactar vòstre administrator.",
     "Back to login" : "Tornar a la connexion",
@@ -151,7 +150,6 @@ OC.L10N.register(
     "Load more results" : "Cargar mai de resultats",
     "Search" : "Recercar",
     "No results for {query}" : "Cap de resultat per {query}",
-    "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca",
     "An error occurred while searching for {type}" : "Una error s’es producha en cercant {type}",
     "This browser is not supported" : "Aqueste navigador es pas pres en carga",
     "Supported versions" : "Versions presas en carga",
@@ -347,6 +345,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactatz l’administrator sistèma s’aqueste messatge ten d’aparéisser o apareis sens rason.",
     "[%d / %d]: Checking table %s" : "[%d / %d] : Verificacion taula %s",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "L’entèsta HTTP « {header} » conten pas « {expected} ». Aquò es un risc potencial de seguretat o de confidencialitat, es recomandat d’ajustar aqueste paramètres en consequéncia.",
+    "If it is not there ask your local administrator." : "S’es pas enlà, demandatz a vòstre administrator local.",
     "Collaboratively edit office documents." : "Modificatz collaborativament de documents burotics.",
     "restricted" : "limitada",
     "invisible" : "invisibla",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "More apps menu" : "Menú mai d’aplicacions",
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú contactes",
-    "Setup two-factor authentication" : "Parametratge autentificacion dos factors"
+    "Setup two-factor authentication" : "Parametratge autentificacion dos factors",
+    "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca"
 },
 "nplurals=2; plural=(n > 1);");

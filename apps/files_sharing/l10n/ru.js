@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Вы не можете поделиться с кругом, если приложение «Круг» не включено",
     "Please specify a valid circle" : "Укажите верный круг",
     "Sharing %s failed because the back end does not support room shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общий доступ такого типа",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общие ресурсы типа Science Mesh",
     "Unknown share type" : "Общий доступ неизвестного типа",
     "Not a directory" : "Это не каталог",
     "Could not lock node" : "Не удалось заблокировать узел",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Круг",
     "Talk conversation" : "Название обсуждения",
     "Deck board" : "Доска",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "на {server}",
     "Others with access" : "Другие пользователи, имеющие доступ",
     "No other users with access found" : "Не найдено пользователей, имеющих доступ",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Копировать в буфер обмена",
     "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
     "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общие ресурсы типа Science Mesh",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Не удалось создать пароль на основе политики"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

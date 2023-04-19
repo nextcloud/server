@@ -70,27 +70,27 @@ class MiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testBeforeController() {
-		$this->middleware->beforeController($this->controller, null);
+	public function testBeforeController(): void {
+		$this->middleware->beforeController($this->controller, '');
 		$this->assertNull(null);
 	}
 
 
-	public function testAfterExceptionRaiseAgainWhenUnhandled() {
+	public function testAfterExceptionRaiseAgainWhenUnhandled(): void {
 		$this->expectException(\Exception::class);
-		$this->middleware->afterException($this->controller, null, $this->exception);
+		$this->middleware->afterException($this->controller, '', $this->exception);
 	}
 
 
-	public function testAfterControllerReturnResponseWhenUnhandled() {
-		$response = $this->middleware->afterController($this->controller, null, $this->response);
+	public function testAfterControllerReturnResponseWhenUnhandled(): void {
+		$response = $this->middleware->afterController($this->controller, '', $this->response);
 
 		$this->assertEquals($this->response, $response);
 	}
 
 
-	public function testBeforeOutputReturnOutputhenUnhandled() {
-		$output = $this->middleware->beforeOutput($this->controller, null, 'test');
+	public function testBeforeOutputReturnOutputhenUnhandled(): void {
+		$output = $this->middleware->beforeOutput($this->controller, '', 'test');
 
 		$this->assertEquals('test', $output);
 	}

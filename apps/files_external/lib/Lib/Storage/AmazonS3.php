@@ -724,7 +724,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'mimetype' => $this->mimeDetector->detectPath($object['Key']),
 			'mtime' => strtotime($object['LastModified']),
 			'storage_mtime' => strtotime($object['LastModified']),
-			'etag' => $object['ETag'],
+			'etag' => trim($object['ETag'], '"'),
 			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			'size' => (int)($object['Size'] ?? $object['ContentLength']),
 		];

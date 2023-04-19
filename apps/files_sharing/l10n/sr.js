@@ -120,7 +120,6 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Не можете делити са Круговима ако та апликација није укључена",
     "Please specify a valid circle" : "Одаберите исправан круг",
     "Sharing %s failed because the back end does not support room shares" : "Није успело дељење %s зато што позадински мотор дељења не подржава дељења у соби",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Дељење %s није успело јер позадински механизам не подржава sciencemesh дељења",
     "Unknown share type" : "Непознат тип дељења",
     "Not a directory" : "Није фасцикла",
     "Could not lock node" : "Не могу да закључам чвор",
@@ -226,7 +225,6 @@ OC.L10N.register(
     "Circle" : "Круг",
     "Talk conversation" : "Talk разговори",
     "Deck board" : "Табла Шпила",
-    "Science Mesh" : "Science Mesh",
     "on {server}" : "на серверу {server}",
     "Others with access" : "Остали са приступом",
     "No other users with access found" : "Нису нађени други корисници са приступом",
@@ -277,6 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Копирај у оставу",
     "Sorry, this link doesn’t seem to work anymore." : "Нажалост, изгледа да веза више не ради.",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Дељење %s није успело јер позадински механизам не подржава sciencemesh дељења",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Грешка приликом креирања лозинке из password_policy"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

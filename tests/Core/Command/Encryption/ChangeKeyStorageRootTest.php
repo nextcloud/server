@@ -75,6 +75,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
 		$outputFormatter->method('format')->willReturnArgument(0);
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')
