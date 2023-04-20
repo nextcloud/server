@@ -10,6 +10,9 @@ module.exports = {
 		firstDay: true,
 		'cypress/globals': true,
 	},
+	parserOptions: {
+		parser: '@typescript-eslint/parser',
+	},
 	plugins: [
 		'cypress',
 	],
