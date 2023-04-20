@@ -598,7 +598,7 @@ class OC {
 
 		// Add default composer PSR-4 autoloader
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix('composer_autoload');
+		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . filemtime(OC::$SERVERROOT . '/version.php')));
 
 		try {
 			self::initPaths();
