@@ -44,6 +44,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	protected $argument;
 	protected ITimeFactory $time;
 	protected bool $allowParallelRuns = true;
+	private ?ILogger $logger = null;
 
 	/**
 	 * @since 15.0.0
@@ -62,6 +63,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 * @since 15.0.0
 	 */
 	public function execute(IJobList $jobList, ILogger $logger = null) {
+		$this->logger = $logger;
 		$this->start($jobList);
 	}
 
@@ -71,7 +73,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 */
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
-		$logger = \OCP\Server::get(LoggerInterface::class);
+		$logger = $this->logger ?? \OCP\Server::get(LoggerInterface::class);
 
 		if (!$this->getAllowParallelRuns() && $jobList->hasReservedJob(get_class($this))) {
 			$logger->debug('Skipping ' . get_class($this) . ' job with ID ' . $this->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
@@ -86,7 +88,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 
 			$logger->debug('Finished ' . get_class($this) . ' job with ID ' . $this->getId() . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
 			$jobList->setExecutionTime($this, $timeTaken);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			if ($logger) {
 				$logger->error('Error while running background job (class: ' . get_class($this) . ', arguments: ' . print_r($this->argument, true) . ')', [
 					'app' => 'core',

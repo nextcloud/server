@@ -33,8 +33,7 @@ class JobTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$logger->expects($this->once())
-			->method('logException')
-			->with($e);
+			->method('error');
 
 		$this->assertCount(1, $jobList->getAll());
 		$job->execute($jobList, $logger);
@@ -54,8 +53,7 @@ class JobTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$logger->expects($this->once())
-			->method('logException')
-			->with($this->isInstanceOf(\Throwable::class));
+			->method('error');
 
 		$this->assertCount(1, $jobList->getAll());
 		$job->execute($jobList, $logger);
@@ -65,7 +63,8 @@ class JobTest extends \Test\TestCase {
 
 	public function testDisallowParallelRunsWithNoOtherJobs() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this);
+		$job = new TestJob($this->timeFactory, $this, function() {
+		});
 		$job->setAllowParallelRuns(false);
 		$jobList->add($job);
 
@@ -77,7 +76,8 @@ class JobTest extends \Test\TestCase {
 
 	public function testAllowParallelRunsWithNoOtherJobs() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this);
+		$job = new TestJob($this->timeFactory, $this, function() {
+		});
 		$job->setAllowParallelRuns(true);
 		$jobList->add($job);
 
@@ -89,7 +89,8 @@ class JobTest extends \Test\TestCase {
 
 	public function testAllowParallelRunsWithOtherJobs() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this);
+		$job = new TestJob($this->timeFactory, $this, function() {
+		});
 		$job->setAllowParallelRuns(true);
 		$jobList->add($job);
 
@@ -101,7 +102,8 @@ class JobTest extends \Test\TestCase {
 
 	public function testDisallowParallelRunsWithOtherJobs() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this);
+		$job = new TestJob($this->timeFactory, $this, function() {
+		});
 		$job->setAllowParallelRuns(false);
 		$jobList->add($job);
 

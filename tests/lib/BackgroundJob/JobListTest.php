@@ -32,6 +32,7 @@ class JobListTest extends TestCase {
 
 	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
+	private bool $ran = false;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -247,7 +248,10 @@ class JobListTest extends TestCase {
 
 	public function testHasReservedJobs() {
 		$this->clearJobsList();
-		$job = new TestJob();
+		$job = new TestJob($this->timeFactory, $this, function () {
+			$this->assertTrue($this->instance->hasReservedJob());
+			$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+		});
 		$this->instance->add($job);
 
 		$this->assertFalse($this->instance->hasReservedJob());
@@ -255,7 +259,10 @@ class JobListTest extends TestCase {
 
 		$job->start($this->instance);
 
-		$this->assertTrue($this->instance->hasReservedJob());
-		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+		$this->assertTrue($this->ran);
+	}
+
+	public function markRun() {
+		$this->ran = true;
 	}
 }
