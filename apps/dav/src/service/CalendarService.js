@@ -20,7 +20,7 @@
  */
 import { getClient } from '../dav/client.js'
 import logger from './logger.js'
-import { parseXML } from 'webdav/dist/node/tools/dav.js'
+import { parseXML } from 'webdav'
 
 import {
 	slotsToVavailability,

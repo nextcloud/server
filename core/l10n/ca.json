@@ -159,8 +159,6 @@
     "Your connection is not secure" : "La vostra connexió no és segura",
     "Passwordless authentication is only available over a secure connection." : "L'autenticació sense contrasenya només està disponible en una connexió segura.",
     "Reset password" : "Reinicialitza la contrasenya",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "S'ha enviat un missatge de reinicialització de la contrasenya a l'adreça de correu electrònic d'aquest compte. Si no el rebeu, comproveu les carpetes de correu brossa o demaneu ajuda al vostre administrador local.",
-    "If it is not there ask your local administrator." : "Si no és allà pregunteu al vostre administrador local.",
     "Couldn't send reset email. Please contact your administrator." : "No s'ha pogut restablir el correu. Contacteu amb l'administrador.",
     "Password cannot be changed. Please contact your administrator." : "No es pot canviar la contrasenya. Contacteu amb el vostre administrador.",
     "Back to login" : "Torna a l'inici de sessió",
@@ -202,7 +200,6 @@
     "Load more results" : "Carrega més resultats",
     "Search" : "Cerca",
     "No results for {query}" : "No hi ha cap resultat per a {query}",
-    "Press enter to start searching" : "Premeu Retorn per a iniciar la cerca",
     "An error occurred while searching for {type}" : "S'ha produït un error mentre es buscava {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduïu el caràcter {minSearchLength} o més per cercar","Introduïu {minSearchLength} caràcters o més per cercar"],
     "This browser is not supported" : "Aquest navegador no és compatible",
@@ -285,6 +282,7 @@
     "Strong password" : "Contrasenya forta",
     "No action available" : "Cap acció disponible",
     "Error fetching contact actions" : "Error al carregar les accions del contacte",
+    "Close \"{dialogTitle}\" dialog" : "Tanca  \"{dialogTitle}\" diàleg",
     "Non-existing tag #{tag}" : "Etiqueta inexistent #{tag}",
     "Restricted" : "Restringit",
     "Invisible" : "Invisible",
@@ -411,6 +409,8 @@
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Aquesta és la creació de comunitat no compatible de Nextcloud. Donada la mida d'aquesta instància, no es pot garantir el rendiment, la fiabilitat i l'escalabilitat. Les notificacions push s'han inhabilitat per evitar sobrecarregar el nostre servei gratuït. Obteniu més informació sobre els avantatges de Nextcloud Enterprise a nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 és l'última versió que admet PHP 7.3. Nextcloud 24 requereix almenys PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "La capçalera HTTP «{header}» no conté «{expected}». Això és un risc potencial de seguretat o privadesa, perquè es recomana ajustar aquest paràmetre adequadament.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "S'ha enviat un missatge de reinicialització de la contrasenya a l'adreça de correu electrònic d'aquest compte. Si no el rebeu, comproveu les carpetes de correu brossa o demaneu ajuda al vostre administrador local.",
+    "If it is not there ask your local administrator." : "Si no és allà pregunteu al vostre administrador local.",
     "Collaboratively edit office documents." : "Edició col·laborativa de documents ofimàtics.",
     "Local document editing back-end used by the Collabora Online app." : "Document local d'edició de back-end utilitzat per l'aplicació Collabora Online.",
     "restricted" : "restringit",
@@ -422,6 +422,8 @@
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú de contactes",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud necessita 64 bits per funcionar bé. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
+    "Press enter to start searching" : "Premeu Retorn per a iniciar la cerca",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Si us plau, utilitzeu l'actualitzador de línia d'ordres ja que l'actualització via navegador web està deshabilitada al vostre fitxer config.php"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

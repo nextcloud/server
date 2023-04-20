@@ -5,7 +5,8 @@ services:
     volumes:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker-host.sock
-    command: /bin/sh -c "while sleep 1000; do :; done"
+      - ..:/var/www/html
+    command: /var/www/html/.devcontainer/entrypoint.sh
     ports:
       - 80:80
       - 8080:8080
@@ -16,6 +17,9 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
     network_mode: service:nextclouddev
 
   adminer:
@@ -27,3 +31,6 @@ services:
     image: mailhog/mailhog
     restart: always
     network_mode: service:nextclouddev
+
+volumes:
+  db:

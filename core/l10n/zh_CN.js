@@ -155,8 +155,6 @@ OC.L10N.register(
     "Your connection is not secure" : "你的连接不安全",
     "Passwordless authentication is only available over a secure connection." : "无密码身份验证仅在安全连接上可用。",
     "Reset password" : "重置密码",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置消息已发送到该帐户的电子邮件地址。如果您没有收到，请检查您的垃圾邮件/垃圾文件夹或向您的本地管理员寻求帮助。 ",
-    "If it is not there ask your local administrator." : "如果它不在此处，请询问您的本地管理员。",
     "Couldn't send reset email. Please contact your administrator." : "未能成功发送重置邮件，请联系管理员。",
     "Password cannot be changed. Please contact your administrator." : "无法更改密码。请联系你的管理员。",
     "Back to login" : "返回登录",
@@ -195,7 +193,6 @@ OC.L10N.register(
     "Load more results" : "加载更多结果",
     "Search" : "搜索",
     "No results for {query}" : "没有 '{query}' 的相关结果",
-    "Press enter to start searching" : "按 Enter 开始搜索",
     "An error occurred while searching for {type}" : "搜索 {type} 时出错",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["请输入 {minSearchLength} 个字符或更多字符以进行搜索"],
     "This browser is not supported" : "您的浏览器不受支持！",
@@ -403,6 +400,8 @@ OC.L10N.register(
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "这是 Nextcloud 不受支持的社区构建。鉴于此实例的大小，无法保证性能、可靠性和可伸缩性。推送通知已被禁用，以避免超量使用我们的免费服务。访问 nextcloud.com/enterprise 了解更多关于企业版的优势。",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 是支持 PHP 7.3 的最后一个版本。Nextcloud 24 需要至少 PHP 7.4。",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP 头 \"{header}\" 未包含 \"{expected}\"。这是一种潜在的安全或隐私风险，因此推荐调整此项设置。",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置消息已发送到该帐户的电子邮件地址。如果您没有收到，请检查您的垃圾邮件/垃圾文件夹或向您的本地管理员寻求帮助。 ",
+    "If it is not there ask your local administrator." : "如果它不在此处，请询问您的本地管理员。",
     "Collaboratively edit office documents." : "协作编辑办公文档。",
     "Local document editing back-end used by the Collabora Online app." : "Collabora Online 应用程序使用的本地文档编辑后端。",
     "restricted" : "受限",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Contacts" : "联系人",
     "Contacts menu" : "联系人菜单",
     "Setup two-factor authentication" : "配置两步验证",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。",
+    "Press enter to start searching" : "按 Enter 开始搜索"
 },
 "nplurals=1; plural=0;");

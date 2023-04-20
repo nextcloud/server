@@ -217,10 +217,12 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$sender = substr($iTipMessage->sender, 7);
 
+		$replyingAttendee = null;
 		switch (strtolower($iTipMessage->method)) {
 			case self::METHOD_REPLY:
 				$method = self::METHOD_REPLY;
 				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
+				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
 				break;
 			case self::METHOD_CANCEL:
 				$method = self::METHOD_CANCEL;
@@ -256,7 +258,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
 
-		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified);
+		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified, $replyingAttendee);
 		$this->imipService->addBulletList($template, $vEvent, $data);
 
 		// Only add response buttons to invitation requests: Fix Issue #11230

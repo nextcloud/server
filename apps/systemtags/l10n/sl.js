@@ -46,6 +46,7 @@ OC.L10N.register(
     "Collaborative tags" : "Sodelovalne oznake",
     "Collaborative tagging functionality which shares tags among users." : "Možnost dodajanja sodelovalnih oznak za souporabo med uporabniki.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Možnost sodelovalnega označevanja, ki omogoča uporabnikom označevanje z oznakami. Odlično za skupinsko delo.\n\t(Priporočljivo je, da ponudniki, ki omogočajo storitve različnim skupinam, možnost onemogočijo, saj je oznake mogoče izmenjevati tudi med njimi.)",
+    "Failed to load tags" : "Nalaganje oznak je spodletelo",
     "Tagged files" : "Označene datoteke",
     "Select tags to filter by" : "Izbor oznak za filtriranje",
     "No tags found" : "Ni najdenih oznak",

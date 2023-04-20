@@ -105,15 +105,12 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
 
-		$previewFolder->method('getDirectoryListing')
-			->willReturn([$maxPreview]);
-
 		$previewFile = $this->createMock(ISimpleFile::class);
 		$previewFile->method('getSize')->willReturn(1000);
+		$previewFile->method('getName')->willReturn('256-256.png');
 
-		$previewFolder->method('getFile')
-			->with($this->equalTo('256-256.png'))
-			->willReturn($previewFile);
+		$previewFolder->method('getDirectoryListing')
+			->willReturn([$maxPreview, $previewFile]);
 
 		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
@@ -344,14 +341,12 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
 
-		$previewFolder->method('getDirectoryListing')
-			->willReturn([$maxPreview]);
-
 		$preview = $this->createMock(ISimpleFile::class);
 		$preview->method('getSize')->willReturn(1000);
-		$previewFolder->method('getFile')
-			->with($this->equalTo('1024-512-crop.png'))
-			->willReturn($preview);
+		$preview->method('getName')->willReturn('1024-512-crop.png');
+
+		$previewFolder->method('getDirectoryListing')
+			->willReturn([$maxPreview, $preview]);
 
 		$this->previewManager->expects($this->never())
 			->method('isMimeSupported');

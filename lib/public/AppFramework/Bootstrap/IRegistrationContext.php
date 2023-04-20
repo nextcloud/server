@@ -39,6 +39,7 @@ use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
+use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Translation\ITranslationProvider;
 
 /**
@@ -207,6 +208,16 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerWellKnownHandler(string $class): void;
+
+	/**
+	 * Register a custom SpeechToText provider class that can provide transcription
+	 * of audio through the OCP\SpeechToText APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ISpeechToTextProvider> $providerClass
+	 * @since 27.0.0
+	 */
+	public function registerSpeechToTextProvider(string $providerClass): void;
 
 	/**
 	 * Register a custom template provider class that is able to inject custom templates

@@ -417,12 +417,6 @@ class Storage {
 
 			$node = $userFolder->get($file);
 
-			// TODO: move away from those legacy hooks!
-			\OC_Hook::emit('\OCP\Versions', 'rollback', [
-				'path' => $filename,
-				'revision' => $revision,
-				'node' => $node,
-			]);
 			return true;
 		} elseif ($versionCreated) {
 			self::deleteVersion($users_view, $version);
@@ -716,7 +710,13 @@ class Storage {
 		}
 
 		foreach ($versions as $key => $version) {
-			if ($expiration->isExpired($version['version'], $quotaExceeded) && !isset($toDelete[$key])) {
+			if (!is_numeric($version['version'])) {
+				\OC::$server->get(LoggerInterface::class)->error(
+					'Found a non-numeric timestamp version: '. json_encode($version),
+					['app' => 'files_versions']);
+				continue;
+			}
+			if ($expiration->isExpired((int)($version['version']), $quotaExceeded) && !isset($toDelete[$key])) {
 				$size += $version['size'];
 				$toDelete[$key] = $version['path'] . '.v' . $version['version'];
 			}

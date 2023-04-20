@@ -24,6 +24,9 @@
  */
 namespace OC\Files\Type;
 
+use OC\DB\Exceptions\DbalException;
+use OCP\AppFramework\Db\TTransactional;
+use OCP\DB\Exception as DBException;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 
@@ -33,6 +36,8 @@ use OCP\IDBConnection;
  * @package OC\Files\Type
  */
 class Loader implements IMimeTypeLoader {
+	use TTransactional;
+
 	/** @var IDBConnection */
 	private $dbConnection;
 
@@ -108,31 +113,49 @@ class Loader implements IMimeTypeLoader {
 	 * Store a mimetype in the DB
 	 *
 	 * @param string $mimetype
-	 * @param int inserted ID
+	 * @return int inserted ID
 	 */
 	protected function store($mimetype) {
-		$this->dbConnection->insertIfNotExist('*PREFIX*mimetypes', [
-			'mimetype' => $mimetype
-		]);
-
-		$fetch = $this->dbConnection->getQueryBuilder();
-		$fetch->select('id')
-			->from('mimetypes')
-			->where(
-				$fetch->expr()->eq('mimetype', $fetch->createNamedParameter($mimetype)
-				));
-
-		$result = $fetch->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
+		$row = $this->atomic(function () use ($mimetype) {
+			try {
+				$insert = $this->dbConnection->getQueryBuilder();
+				$insert->insert('mimetypes')
+					->values([
+						'mimetype' => $insert->createNamedParameter($mimetype)
+					])
+					->executeStatement();
+				return [
+					'mimetype' => $mimetype,
+					'id' => $insert->getLastInsertId(),
+				];
+			} catch (DbalException $e) {
+				if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				$qb = $this->dbConnection->getQueryBuilder();
+				$row = $qb->select('id')
+					->from('mimetypes')
+					->where($qb->expr()->eq('mimetype', $qb->createNamedParameter($mimetype)))
+					->executeQuery()
+					->fetchOne();
+				if ($row) {
+					return [
+						'mimetype' => $mimetype,
+						'id' => $row['id'],
+					];
+				}
+				throw new \Exception("Database threw an unique constraint on inserting a new mimetype, but couldn't return the ID for this very mimetype");
+			}
+		}, $this->dbConnection);
 
 		if (!$row) {
 			throw new \Exception("Failed to get mimetype id for $mimetype after trying to store it");
 		}
+		$mimetypeId = (int) $row['id'];
 
-		$this->mimetypes[$row['id']] = $mimetype;
-		$this->mimetypeIds[$mimetype] = $row['id'];
-		return $row['id'];
+		$this->mimetypes[$mimetypeId] = $mimetype;
+		$this->mimetypeIds[$mimetype] = $mimetypeId;
+		return $mimetypeId;
 	}
 
 	/**

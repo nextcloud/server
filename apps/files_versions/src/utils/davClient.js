@@ -19,16 +19,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createClient, getPatcher } from 'webdav'
+import { createClient } from 'webdav'
 import { generateRemoteUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
+import { getRequestToken } from '@nextcloud/auth'
 
 const rootPath = 'dav'
 
-// force our axios
-const patcher = getPatcher()
-patcher.patch('request', axios)
-
 // init webdav client on default dav endpoint
 const remote = generateRemoteUrl(rootPath)
-export default createClient(remote)
+export default createClient(remote, {
+	headers: {
+		// Add this so the server knows it is an request from the browser
+		'X-Requested-With': 'XMLHttpRequest',
+		// Inject user auth
+		requesttoken: getRequestToken() ?? '',
+	},
+})

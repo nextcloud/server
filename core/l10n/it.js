@@ -154,8 +154,6 @@ OC.L10N.register(
     "Your connection is not secure" : "La tua connessione non è sicura",
     "Passwordless authentication is only available over a secure connection." : "L'autenticazione senza password è disponibile solo su una connessione sicura.",
     "Reset password" : "Ripristina la password",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Abbiamo inviato un messaggio di ripristino della password all'indirizzo di posta di questo account. Se non lo ricevi, controlla le cartelle della posta indesiderata o contatta il tuo amministratore locale.",
-    "If it is not there ask your local administrator." : "Se non c'è, chiedi al tuo amministratore locale.",
     "Couldn't send reset email. Please contact your administrator." : "Impossibile inviare l'email di reimpostazione. Contatta il tuo amministratore.",
     "Password cannot be changed. Please contact your administrator." : "La password non può essere cambiata. Contatta il tuo amministratore.",
     "Back to login" : "Torna alla schermata di accesso",
@@ -194,7 +192,6 @@ OC.L10N.register(
     "Load more results" : "Carica più risultati",
     "Search" : "Cerca",
     "No results for {query}" : "Nessun risultato per {query}",
-    "Press enter to start searching" : "Premi invio per avviare la ricerca",
     "An error occurred while searching for {type}" : "Si è verificato un errore durante la ricerca di {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digita {minSearchLength} carattere o più per cercare","Digita {minSearchLength} caratteri o più per cercare","Digita {minSearchLength} caratteri o più per cercare"],
     "This browser is not supported" : "Questo browser non è supportato",
@@ -402,6 +399,8 @@ OC.L10N.register(
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Questa è la build della community di Nextcloud non supportata. Data la dimensione di questa istanza, non possono essere garantite le prestazioni, l'affidabilità e la scalabilità. Le notifiche push sono state disattivate per evitare di sovraccaricare il nostro servizio gratuito. Maggiori informazioni sui vantaggi di Nextcloud Enterprise su nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 è l'ultima versione che supporta PHP 7.3. Nextcloud 24 richiede almeno PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "L'intestazione HTTP \"{header}\" non contiene \"{expected}\". Questo è un potenziale rischio di sicurezza o di riservatezza, e consigliamo di modificare questa impostazione.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Abbiamo inviato un messaggio di ripristino della password all'indirizzo di posta di questo account. Se non lo ricevi, controlla le cartelle della posta indesiderata o contatta il tuo amministratore locale.",
+    "If it is not there ask your local administrator." : "Se non c'è, chiedi al tuo amministratore locale.",
     "Collaboratively edit office documents." : "Modifica documenti di Office collaborativa.",
     "Local document editing back-end used by the Collabora Online app." : "Il motore di modifica dei documenti locali utilizzato dall'applicazione Collabora Online.",
     "restricted" : "limitato",
@@ -412,6 +411,7 @@ OC.L10N.register(
     "More apps menu" : "Menu delle altre applicazioni",
     "Contacts" : "Contatti",
     "Contacts menu" : "Menu dei contatti",
-    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori"
+    "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
+    "Press enter to start searching" : "Premi invio per avviare la ricerca"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

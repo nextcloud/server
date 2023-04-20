@@ -59,6 +59,7 @@ use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
+use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\LdapInvalidUuids;
@@ -330,7 +331,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 80000;
+		return PHP_VERSION_ID < 80100;
 	}
 
 	/**
@@ -619,6 +620,10 @@ Raw output
 		return !($this->lockingProvider instanceof NoopLockingProvider);
 	}
 
+	protected function hasDBFileLocking(): bool {
+		return ($this->lockingProvider instanceof DBLockingProvider);
+	}
+
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -875,6 +880,7 @@ Raw output
 				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
+				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),

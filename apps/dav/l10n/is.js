@@ -33,6 +33,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "<strong>Dagatali</strong> var breytt",
     "A calendar <strong>event</strong> was modified" : "<strong>Atburði</strong> dagatals var breytt",
     "Contact birthdays" : "Afmælisdagar tengiliðar",
+    "Untitled calendar" : "Ónefnt dagatal",
     "Calendar:" : "Dagatal:",
     "Date:" : "Dagsetning:",
     "Where:" : "Hvar:",

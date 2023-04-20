@@ -37,6 +37,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
+use OCP\PreConditionNotMetException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
@@ -52,7 +53,7 @@ class Node implements \OCP\Files\Node {
 	protected $root;
 
 	/**
-	 * @var string $path
+	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
 	 */
 	protected $path;
 
@@ -72,6 +73,9 @@ class Node implements \OCP\Files\Node {
 	 * @param FileInfo $fileInfo
 	 */
 	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
+			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
+		}
 		$this->view = $view;
 		$this->root = $root;
 		$this->path = $path;

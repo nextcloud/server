@@ -158,8 +158,6 @@
     "Your connection is not secure" : "Tilkoblingen din er ikke sikker",
     "Passwordless authentication is only available over a secure connection." : "Passordløs innlogging støttes kun over en sikker tilkobling.",
     "Reset password" : "Tilbakestill passord",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Melding om tilbakestilling av passord har blitt send til e-postadressen til denne kontoen. Hvis du ikke mottok den, burde du sjekke spam/søppelpost-mappene eller spørre din lokale administrator om hjelp.",
-    "If it is not there ask your local administrator." : "Spør din lokale administrator hvis den ikke er der. ",
     "Couldn't send reset email. Please contact your administrator." : "Klarte ikke å sende e-post for tilbakestilling. Kontakt administratoren.",
     "Password cannot be changed. Please contact your administrator." : "Passordet kan ikke endres. Kontakt administratoren din.",
     "Back to login" : "Tilbake til innlogging",
@@ -200,7 +198,6 @@
     "Load more results" : "Last flere resultater",
     "Search" : "Søk",
     "No results for {query}" : "Ingen resultater for {query}",
-    "Press enter to start searching" : "Trykk enter for å starte søk",
     "An error occurred while searching for {type}" : "Det oppsto en feil ved søk etter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Skriv minst {minSearchLength} bokstav for å søke","Skriv minst {minSearchLength} bokstaver for å søke"],
     "This browser is not supported" : "Denne nettleseren støttes ikke",
@@ -408,6 +405,8 @@
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Dette er en ikke understøttet community-utgave av NextCloud. På grunn an størrelsen på denne installasjonen, kan ytelse, pålitelighet og skalerbarhet ikke garanteres for. Push-varsler har blitt deaktivert for å unngå overbelastning av vår gratis-tjeneste. Lær mer om fordelene med NextCloud Enterprise på nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 er den siste utgivelsen som støtter PHP 7.3. Nextcloud 24 krever minst PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP hode mangler \"{expected}\". Dette er en sikkerhetsrisiko eller personverntrussel. Det er anbefalt å korrigere oppsett.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Melding om tilbakestilling av passord har blitt send til e-postadressen til denne kontoen. Hvis du ikke mottok den, burde du sjekke spam/søppelpost-mappene eller spørre din lokale administrator om hjelp.",
+    "If it is not there ask your local administrator." : "Spør din lokale administrator hvis den ikke er der. ",
     "Collaboratively edit office documents." : "Samarbeid om å redigere dokumenter.",
     "Local document editing back-end used by the Collabora Online app." : "Lokalt dokumentredigerings bakstykke brukt av Collabora Online app",
     "restricted" : "begrenset",
@@ -419,6 +418,7 @@
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}.",
+    "Press enter to start searching" : "Trykk enter for å starte søk"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

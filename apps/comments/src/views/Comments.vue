@@ -94,7 +94,7 @@ import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue
 import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
-import getComments, { DEFAULT_LIMIT } from '../services/GetComments.js'
+import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
 import cancelableRequest from '../utils/cancelableRequest.js'
 
 Vue.use(VTooltip)
@@ -206,14 +206,14 @@ export default {
 				this.error = ''
 
 				// Init cancellable request
-				const { request, cancel } = cancelableRequest(getComments)
-				this.cancelRequest = cancel
+				const { request, abort } = cancelableRequest(getComments)
+				this.cancelRequest = abort
 
 				// Fetch comments
-				const comments = await request({
+				const { data: comments } = await request({
 					commentsType: this.commentsType,
 					ressourceId: this.ressourceId,
-				}, { offset: this.offset })
+				}, { offset: this.offset }) || { data: [] }
 
 				this.logger.debug(`Processed ${comments.length} comments`, { comments })
 

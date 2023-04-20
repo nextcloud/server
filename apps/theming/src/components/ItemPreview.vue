@@ -125,6 +125,11 @@ export default {
 		display: flex;
 		flex-direction: column;
 
+		h3 {
+			font-weight: bold;
+			margin-bottom: 0;
+		}
+
 		label {
 			padding: 12px 0;
 		}

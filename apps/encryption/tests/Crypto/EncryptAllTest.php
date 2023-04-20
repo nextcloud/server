@@ -36,6 +36,7 @@ use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
@@ -106,6 +107,7 @@ class EncryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->mailer = $this->getMockBuilder(IMailer::class)
 			->disableOriginalConstructor()->getMock();
+		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
@@ -119,6 +121,7 @@ class EncryptAllTest extends TestCase {
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
 		$outputFormatter->method('format')->willReturnArgument(0);
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')
@@ -140,6 +143,7 @@ class EncryptAllTest extends TestCase {
 			$this->config,
 			$this->mailer,
 			$this->l,
+			$this->l10nFactory,
 			$this->questionHelper,
 			$this->secureRandom
 		);
@@ -158,6 +162,7 @@ class EncryptAllTest extends TestCase {
 					$this->config,
 					$this->mailer,
 					$this->l,
+					$this->l10nFactory,
 					$this->questionHelper,
 					$this->secureRandom
 				]
@@ -186,6 +191,7 @@ class EncryptAllTest extends TestCase {
 					$this->config,
 					$this->mailer,
 					$this->l,
+					$this->l10nFactory,
 					$this->questionHelper,
 					$this->secureRandom
 				]
@@ -215,6 +221,7 @@ class EncryptAllTest extends TestCase {
 					$this->config,
 					$this->mailer,
 					$this->l,
+					$this->l10nFactory,
 					$this->questionHelper,
 					$this->secureRandom
 				]
@@ -264,6 +271,7 @@ class EncryptAllTest extends TestCase {
 					$this->config,
 					$this->mailer,
 					$this->l,
+					$this->l10nFactory,
 					$this->questionHelper,
 					$this->secureRandom
 				]
@@ -299,6 +307,7 @@ class EncryptAllTest extends TestCase {
 					$this->config,
 					$this->mailer,
 					$this->l,
+					$this->l10nFactory,
 					$this->questionHelper,
 					$this->secureRandom
 				]
@@ -338,9 +347,11 @@ class EncryptAllTest extends TestCase {
 				['/user1/files/foo/subfile'],
 			);
 
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
 		$this->outputInterface->expects($this->any())
 			->method('getFormatter')
-			->willReturn($this->createMock(OutputFormatterInterface::class));
+			->willReturn($outputFormatter);
 		$progressBar = new ProgressBar($this->outputInterface);
 
 		$this->invokePrivate($encryptAll, 'encryptUsersFiles', ['user1', $progressBar, '']);

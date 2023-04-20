@@ -1,6 +1,8 @@
 { "translations": {
-    "Dashboard" : "Tauler",
+    "Dashboard" : "Panell de control",
     "Dashboard app" : "Aplicació tauler",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comença el dia informat\n\nEl tauler de control de Nextcloud és el vostre punt de partida del dia, que us ofereix una visió general de les vostres properes cites, correus electrònics urgents, missatges de xat, tickets entrants, els últims tuits i molt més! Els usuaris poden afegir els ginys que els agradin i canviar el fons al seu gust.",
+    "\"{title} icon\"" : "\"icona {title}\"",
     "Customize" : "Personalitza",
     "Edit widgets" : "Edita els ginys",
     "Get more widgets from the App Store" : "Aconseguiu més widgets de la botiga d'aplicacions",

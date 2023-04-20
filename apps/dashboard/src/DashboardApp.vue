@@ -2,11 +2,11 @@
 	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
-			<div v-for="status in sortedRegisteredStatus"
+			<li v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
 				<div :ref="'status-' + status" />
-			</div>
+			</li>
 		</ul>
 
 		<Draggable v-model="layout"
@@ -51,7 +51,7 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<div :class="statusInfo[status].icon" role="img" />
+							<div :class="statusInfo[status].icon" aria-hidden="true" role="img" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -69,7 +69,7 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<div :class="panel.iconClass" role="img" />
+							<div :class="panel.iconClass" aria-hidden="true" role="img" />
 							{{ panel.title }}
 						</label>
 					</li>
@@ -627,7 +627,7 @@ export default {
 	flex-wrap: wrap;
 	margin-bottom: 36px;
 
-	& > div {
+	& > li {
 		margin: 8px;
 	}
 }

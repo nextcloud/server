@@ -92,6 +92,7 @@ OC.L10N.register(
     "Basic settings" : "Thiết lập cơ bản",
     "Sharing" : "Chia sẻ",
     "Calendar" : "Lịch",
+    "Personal info" : "Thông tin cá nhân",
     "Email server" : "Máy chủ mail",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Background jobs" : "Các công việc trong nền",
@@ -175,7 +176,6 @@ OC.L10N.register(
     "Current password" : "Mật khẩu cũ",
     "New password" : "Mật khẩu mới",
     "Change password" : "Đổi mật khẩu",
-    "png or jpg, max. 20 MB" : "png hoặc jpg, tối đa 20 MB",
     "Cancel" : "Hủy",
     "Details" : "Thông tin",
     "Your email address" : "Email của bạn",
@@ -279,6 +279,7 @@ OC.L10N.register(
     "Upload new" : "Tải lên",
     "Select from Files" : "Chọn từ tập tin",
     "Remove image" : "Xóa ",
+    "png or jpg, max. 20 MB" : "png hoặc jpg, tối đa 20 MB",
     "Choose as profile picture" : "Chọn làm ảnh đại diện"
 },
 "nplurals=1; plural=0;");

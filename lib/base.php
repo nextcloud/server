@@ -570,7 +570,9 @@ class OC {
 				// Debug mode gets access to the resources without strict cookie
 				// due to the fact that the SabreDAV browser also lives there.
 				if (!$config->getSystemValueBool('debug', false)) {
-					http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
+					http_response_code(\OCP\AppFramework\Http::STATUS_PRECONDITION_FAILED);
+					header('Content-Type: application/json');
+					echo json_encode(['error' => 'Strict Cookie has not been found in request']);
 					exit();
 				}
 			}
@@ -1027,6 +1029,7 @@ class OC {
 
 		// Always load authentication apps
 		OC_App::loadApps(['authentication']);
+		OC_App::loadApps(['extended_authentication']);
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()

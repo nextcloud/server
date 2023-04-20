@@ -68,6 +68,7 @@ export default {
 
 		/**
 		 * Return the mtime of the first version to display "Initial version" label
+		 *
 		 * @return {number}
 		 */
 		initialVersionMtime() {

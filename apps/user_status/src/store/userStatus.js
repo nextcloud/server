@@ -35,7 +35,7 @@ import { emit } from '@nextcloud/event-bus'
 const state = {
 	// Status (online / away / dnd / invisible / offline)
 	status: null,
-	// Whether or not the status is user-defined
+	// Whether the status is user-defined
 	statusIsUserDefined: null,
 	// A custom message set by the user
 	message: null,
@@ -43,7 +43,7 @@ const state = {
 	icon: null,
 	// When to automatically clean the status
 	clearAt: null,
-	// Whether or not the message is predefined
+	// Whether the message is predefined
 	// (and can automatically be translated by Nextcloud)
 	messageIsPredefined: null,
 	// The id of the message in case it's predefined

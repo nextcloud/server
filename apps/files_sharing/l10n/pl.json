@@ -118,7 +118,6 @@
     "You cannot share to a Circle if the app is not enabled" : "Nie możesz udostępnić w Kręgach, jeśli aplikacja jest wyłączona",
     "Please specify a valid circle" : "Podaj prawidłowy krąg",
     "Sharing %s failed because the back end does not support room shares" : "Udostępnienie %s nie powiodło się, ponieważ zaplecze nie obsługuje udostępnień pokoju",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępnień Science Mesh",
     "Unknown share type" : "Nieznany typ udostępnienia",
     "Not a directory" : "Nie jest katalogiem",
     "Could not lock node" : "Nie można zablokować powiązania",
@@ -274,6 +273,7 @@
     "Copy to clipboard" : "Kopiuj do schowka",
     "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
     "Toggle grid view" : "Przełącz widok siatki",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępnień Science Mesh",
     "Error generating password from password_policy" : "Błąd podczas generowania hasła z password_policy"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

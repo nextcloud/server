@@ -139,8 +139,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Конекцијата не е безбедна",
     "Passwordless authentication is only available over a secure connection." : "Автентикација без лозинка е достапно доколку користите безбедна конекција.",
     "Reset password" : "Ресетирај лозинка",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката или прашајте го вашиот локален администратор за помош.",
-    "If it is not there ask your local administrator." : "Доколку не е таму, прашајте го вашиот локален администратор.",
     "Couldn't send reset email. Please contact your administrator." : "Не можам да истпратам порака за ресетирање. Ве молам контактирајте го вашиот администратор.",
     "Password cannot be changed. Please contact your administrator." : "Лозинката не може да се промени. Ве молам контактирајте го вашиот администратор.",
     "Back to login" : "Врати се на страната за најавување",
@@ -178,7 +176,6 @@ OC.L10N.register(
     "Load more results" : "Вчитај повеќе резултати",
     "Search" : "Барај",
     "No results for {query}" : "Нема резултати за {query}",
-    "Press enter to start searching" : "Притисни Enter за започне пребарувањето",
     "An error occurred while searching for {type}" : "Настана грешка при пребарување за {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Внесете најмалку {minSearchLength} карактер за да пребарувате","Внесете најмалку {minSearchLength} карактери или повеќе за да пребарувате"],
     "This browser is not supported" : "Овој прелистувач не е поддржан",
@@ -384,6 +381,8 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: Проверка на табела %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 е последна верзија која поддржува PHP 7.3. За Nextcloud 24 потребна е PHP 7.4",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP заглавието \"{header}\" не го содржи \"{expected}\". Ова потенцијално може да ја загрози приватноста и безбедноста, се препорачува соодветно да ја поставите оваа поставка.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката или прашајте го вашиот локален администратор за помош.",
+    "If it is not there ask your local administrator." : "Доколку не е таму, прашајте го вашиот локален администратор.",
     "Collaboratively edit office documents." : "Колаборативно уредување на документи.",
     "restricted" : "ограничено",
     "invisible" : "невидливо",
@@ -393,6 +392,7 @@ OC.L10N.register(
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација",
+    "Press enter to start searching" : "Притисни Enter за започне пребарувањето"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

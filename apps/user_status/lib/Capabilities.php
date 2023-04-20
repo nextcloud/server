@@ -47,6 +47,7 @@ class Capabilities implements ICapability {
 		return [
 			'user_status' => [
 				'enabled' => true,
+				'restore' => true,
 				'supports_emoji' => $this->emojiHelper->doesPlatformSupportEmoji(),
 			],
 		];

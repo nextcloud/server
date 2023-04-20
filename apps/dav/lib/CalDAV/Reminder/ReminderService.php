@@ -147,7 +147,14 @@ class ReminderService {
 				continue;
 			}
 
-			$vevent = $this->getVEventByRecurrenceId($vcalendar, $reminder['recurrence_id'], $reminder['is_recurrence_exception']);
+			try {
+				$vevent = $this->getVEventByRecurrenceId($vcalendar, $reminder['recurrence_id'], $reminder['is_recurrence_exception']);
+			} catch (MaxInstancesExceededException $e) {
+				$this->logger->debug('Recurrence with too many instances detected, skipping VEVENT', ['exception' => $e]);
+				$this->backend->removeReminder($reminder['id']);
+				continue;
+			}
+
 			if (!$vevent) {
 				$this->logger->debug('Reminder {id} does not belong to a valid event', [
 					'id' => $reminder['id'],

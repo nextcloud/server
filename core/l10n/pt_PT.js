@@ -122,8 +122,6 @@ OC.L10N.register(
     "Your connection is not secure" : "A sua ligação não é segura",
     "Passwordless authentication is only available over a secure connection." : "A autenticação sem palavra-passe só está disponível através de uma ligação segura.",
     "Reset password" : "Repor palavra-passe",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada uma mensagem de reposição da sua palavra-passe para o endereço de email desta conta. Se não a receber, verifique as pastas de spam/lixo ou entre em contacto com o administrador local para ajuda.",
-    "If it is not there ask your local administrator." : "Se não estiver aí pergunte ao seu administrador local.",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar a mensagem de reposição. Por favor, contacte o seu administrador.",
     "Password cannot be changed. Please contact your administrator." : "A senha não pode ser alterada. Contacte o seu administrador.",
     "Back to login" : "Voltar à entrada",
@@ -153,7 +151,6 @@ OC.L10N.register(
     "Load more results" : "Mostrar mais resultados...",
     "Search" : "Procurar",
     "No results for {query}" : "Nenhum resultado para {query}",
-    "Press enter to start searching" : "Pressione ENTER para iniciar a pesquisa",
     "An error occurred while searching for {type}" : "Ocorreu um erro enquanto pesquisava por {type}",
     "This browser is not supported" : "O seu navegador não é suportado.",
     "Your browser is not supported. Please upgrade to a newer version or a supported one." : "A versão do seu navegador não é suportada. Por favor atualize para uma versão mais recente ou para uma que seja suportada.",
@@ -342,6 +339,8 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: a verificar a tabela %s",
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Este é a construção de uma comunidade sem suporte do Nextcloud. Dado o tamanho desta instância, desempenho, confiabilidade e escalabilidade não podem ser garantidos. As notificações push foram desativadas para evitar sobrecarregar o nosso serviço gratuito. Saiba mais sobre os benefícios do Nextcloud Enterprise em nextcloud.com/enterprise. ",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "O cabeçalho HTTP \"{header}\" não está definido como \"{expected}\". Isto é um potencial risco de segurança ou privacidade, pelo que se recomenda que ajuste esta opção em conformidade.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada uma mensagem de reposição da sua palavra-passe para o endereço de email desta conta. Se não a receber, verifique as pastas de spam/lixo ou entre em contacto com o administrador local para ajuda.",
+    "If it is not there ask your local administrator." : "Se não estiver aí pergunte ao seu administrador local.",
     "restricted" : "limitado",
     "invisible" : "invisível",
     "File not found" : "Ficheiro não encontrado",
@@ -350,6 +349,7 @@ OC.L10N.register(
     "More apps menu" : "Menu de mais aplicações",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menu de contactos",
-    "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
+    "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
+    "Press enter to start searching" : "Pressione ENTER para iniciar a pesquisa"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

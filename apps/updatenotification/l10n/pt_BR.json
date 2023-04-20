@@ -27,6 +27,7 @@
     "Update channel:" : "Atualizar para:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Sempre é possível atualizar para uma versão mais nova, mas não é possível retroceder para uma versão mais antiga.",
     "Notify members of the following groups about available updates:" : "Notificar membros dos seguintes grupos sobre atualizações disponíveis:",
+    "No groups" : "Nenhum grupo",
     "Only notifications for app updates are available." : "Apenas notificações para atualizações de aplicativos estão disponíveis. ",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A atualização selecionada fornece notificações dedicadas para o servidor desatualizado.",
     "The selected update channel does not support updates of the server." : "A atualização selecionada não fornece suporte a atualizações do servidor.",

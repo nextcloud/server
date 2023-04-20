@@ -135,8 +135,6 @@ OC.L10N.register(
     "Your connection is not secure" : "Tengingin þín er ekki örugg",
     "Passwordless authentication is only available over a secure connection." : "Lykilorðalaus auðkenning er aðeins tiltæk í gegnum örugga tengingu.",
     "Reset password" : "Endursetja lykilorð",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Tengill til að endurstilla lykilorðið þitt hefur verið sendur á tölvupósfang þessa notandaaðgangs. Ef þú færð ekki póstinn, athugaðu þá ruslpóstmöppurnar þínar eða spurðu kerfisstjórann þinn um mögulegar ástæður þess.",
-    "If it is not there ask your local administrator." : "Ef hann er ekki þar, spurðu þá kerfisstjórann þinn. ",
     "Couldn't send reset email. Please contact your administrator." : "Gat ekki sent endurstillingu í tölvupósti. Hafðu samband við kerfisstjóra.",
     "Password cannot be changed. Please contact your administrator." : "Ekki er hægt að breyta lykilorði. Hafðu samband við kerfisstjóra.",
     "Back to login" : "Til baka í innskráningu",
@@ -172,7 +170,6 @@ OC.L10N.register(
     "Load more results" : "Hlaða inn fleiri niðurstöðum",
     "Search" : "Leita",
     "No results for {query}" : "Engar niðurstöður fyrir {query}",
-    "Press enter to start searching" : "Ýttu á Enter til að hefja leit",
     "An error occurred while searching for {type}" : "Villa kom upp við leit að {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Settu inn {minSearchLength} staf eða fleiri til að leita","Settu inn {minSearchLength} stafi eða fleiri til að leita"],
     "Open settings menu" : "Opna stillingavalmynd",
@@ -371,6 +368,8 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: Athuga töflu %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 er síðasta útgáfan sem styður PHP 7.3. Nextcloud 24 krefst að minnsta kosti PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP-hausinn inniheldur ekki \"{expected}\". Þetta er möguleg áhætta varðandi öryggi og gagnaleynd, við mælum með því að laga þessa stillingu.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Tengill til að endurstilla lykilorðið þitt hefur verið sendur á tölvupósfang þessa notandaaðgangs. Ef þú færð ekki póstinn, athugaðu þá ruslpóstmöppurnar þínar eða spurðu kerfisstjórann þinn um mögulegar ástæður þess.",
+    "If it is not there ask your local administrator." : "Ef hann er ekki þar, spurðu þá kerfisstjórann þinn. ",
     "Collaboratively edit office documents." : "Vinna í hóp með skrifstofuskjöl.",
     "restricted" : "takmarkaður aðgangur",
     "invisible" : "ósýnilegt",
@@ -380,6 +379,7 @@ OC.L10N.register(
     "More apps menu" : "Valmynd með fleiri forrit",
     "Contacts" : "Tengiliðir",
     "Contacts menu" : "Tengiliðavalmynd",
-    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
+    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
+    "Press enter to start searching" : "Ýttu á Enter til að hefja leit"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

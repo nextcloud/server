@@ -30,8 +30,19 @@ function recursive_optimize_images() {
 	DIR_NAME=${PWD##*/}
 
 	if [[ "$DIR_NAME" == "node_modules" ]]; then
+		echo "Ignoring node_modules for image optimization"
 		return
 	elif [[ "$DIR_NAME" == "tests" ]]; then
+		echo "Ignoring tests for image optimization"
+		return
+	elif [[ "$DIR_NAME" == "3rdparty" ]]; then
+		echo "Ignoring 3rdparty for image optimization"
+		return
+	elif [[ "$DIR_NAME" == "vendor" ]]; then
+		echo "Ignoring vendor for image optimization"
+		return
+	elif [[ "$DIR_NAME" == "vendor-bin" ]]; then
+		echo "Ignoring vendor-bin for image optimization"
 		return
 	fi
 
@@ -75,6 +86,11 @@ function recursive_optimize_images() {
 		[[ -e "$dir" ]] || break
 
 		if [[ -d "$dir" ]]; then
+			if git check-ignore $dir -q ; then
+				echo "$dir is not shipped. Ignoring image optimization"
+				continue
+			fi
+
 			recursive_optimize_images "$dir"
 			cd ..
 		fi

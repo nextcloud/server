@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Egy <strong>naptárteendő</strong> megváltozott",
     "Contact birthdays" : "Névjegyek születésnapjai",
     "Death of %s" : "%s halála",
+    "Untitled calendar" : "Névtelen naptár",
     "Calendar:" : "Naptár:",
     "Date:" : "Dátum:",
     "Where:" : "Hol:",

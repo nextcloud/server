@@ -91,6 +91,7 @@ OC.L10N.register(
     "Other Attributes:" : "Bestelako atributuak:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Saioa hasten denean aplikatu beharreko iragazkia definitzen du. \"%% uid\" -ek erabiltzaile izena ordezkatzen du saio hasierako ekintzan. Adibidez: \"uid = %% uid\"",
     "Test Loginname" : "Egiaztatu Saioa hasteko izena",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Emandako saio-izenaren eta uneko saio-hasiera-iragazkiaren DN bat jasotzeko saiakera",
     "Verify settings" : "Egiaztatu ezarpenak",
     "%s. Server:" : "%s. Zerbitzaria:",
     "Add a new configuration" : "Gehitu konfigurazio berri bat",

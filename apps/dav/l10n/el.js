@@ -37,6 +37,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Τροποποιήθηκε μια <strong>εκκρεμότητα</strong> ημερολογίου",
     "Contact birthdays" : "Γενέθλια επαφών",
     "Death of %s" : "Θάνατος του %s",
+    "Untitled calendar" : "Ημερολόγιο χωρίς τίτλο",
     "Calendar:" : "Ημερολόγιο:",
     "Date:" : "Ημερομηνία:",
     "Where:" : "Που:",

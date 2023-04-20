@@ -158,8 +158,6 @@
     "Your connection is not secure" : "Vzpostavljena povezava ni varna",
     "Passwordless authentication is only available over a secure connection." : "Brezgeselna overitev je na voljo le prek vzpostavljene varne povezave.",
     "Reset password" : "Ponastavi geslo",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Sporočilo za ponastavitev gesla je bilo poslano na elektronski naslov računa. Če sporočila v kratkem ne prejmete, preverite mape neželene pošte ali pa za pomoč prosite krajevnega skrbnika sistema.",
-    "If it is not there ask your local administrator." : "Če sporočila ni, stopite v stik s skrbnikom sistema.",
     "Couldn't send reset email. Please contact your administrator." : "Ni mogoče poslati elektronskega sporočila za ponastavitev. Stopite v stik s skrbnikom sistema.",
     "Password cannot be changed. Please contact your administrator." : "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom.",
     "Back to login" : "Nazaj na prijavo",
@@ -181,6 +179,7 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Enostaven program za pošto se odlično povezuje z Datotekami, Stiki in Koledarjem.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Klepet, video klici, souporaba zaslonske slike, spletni sestanki in konference – znotraj brskalnika in z mobilnimi napravami.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Sodelovanje pri ustvarjanju dokumentov, preglednic in predstavitev, ki zahtevajo storitev Collabora Online.",
+    "Distraction free note taking app." : "Enostavno beleženje in zapisovanje",
     "Search contacts" : "Poišči med stiki",
     "Forgot password?" : "Ali ste pozabili geslo?",
     "Log in with a device" : "Prijava z napravo",
@@ -200,7 +199,6 @@
     "Load more results" : "Naloži več zadetkov",
     "Search" : "Poišči",
     "No results for {query}" : "Ni zadetkov za poizvedbo {query}",
-    "Press enter to start searching" : "Pritisnite vnosno tipko za začetek iskanja",
     "An error occurred while searching for {type}" : "Prišlo je do napake med iskanjem vrste {type}.",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Vpisati je treba vsaj {minSearchLength} znak za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znaka za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znake za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znakov za začetek iskanja"],
     "This browser is not supported" : "Trenutno uporabljen brskalnik ni podprt!",
@@ -212,6 +210,7 @@
     "Settings menu" : "Meni nastavitev",
     "Search {types} …" : "Poišči {types} …",
     "Settings" : "Nastavitve",
+    "Avatar of {fullName}" : "Podoba osebe {fullName}",
     "Could not load your contacts" : "Stikov ni mogoče naložiti",
     "Search contacts …" : "Poišči med stiki ...",
     "No contacts found" : "Ni najdenih stikov",
@@ -408,6 +407,8 @@
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "To je nepodprta skupnostna izgradnja oblaka Nextcloud. Glede na velikost ni mogoče zagotoviti zmogljivosti, celovite zanesljivosti in razširljivosti. Potisna obvestila so onemogočena zaradi preobremenitve brezplačnih storitev. Več podrobnosti o prednostih poslovnih storitev Nextcloud Enterprise je zbranih na spletni strani nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Okolje Nextcloud 23 je zadnja različica, ki omogoča podporo PHP 7.3. Nextcloud 24 zahteva vsaj različico PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Glava \"{header}\" HTTP ne vsebuje »{expected}«. To je potencialno varnostna luknja, zato priporočamo prilagoditev nastavitev.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Sporočilo za ponastavitev gesla je bilo poslano na elektronski naslov računa. Če sporočila v kratkem ne prejmete, preverite mape neželene pošte ali pa za pomoč prosite krajevnega skrbnika sistema.",
+    "If it is not there ask your local administrator." : "Če sporočila ni, stopite v stik s skrbnikom sistema.",
     "Collaboratively edit office documents." : "Sodelovalno urejanje pisarniških dokumentov.",
     "Local document editing back-end used by the Collabora Online app." : "Ozadnji program za krajevno urejanje dokumentov, ki ga uporablja program Collabora Online.",
     "restricted" : "omejeno",
@@ -419,6 +420,7 @@
     "Contacts" : "Stiki",
     "Contacts menu" : "Meni Stikov",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}.",
+    "Press enter to start searching" : "Pritisnite vnosno tipko za začetek iskanja"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

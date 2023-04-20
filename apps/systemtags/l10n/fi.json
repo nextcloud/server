@@ -44,6 +44,7 @@
     "All tagged %s …" : "Kaikki tunnisteella %s …",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
     "Collaborative tagging functionality which shares tags among users." : "Yhteisöllistä tunnistetoiminnallisuutta, lopputuloksena tunnisteet jaetaan käyttäjien kesken.",
+    "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "Tagged files" : "Tunnisteella merkityt tiedostot",
     "Select tags to filter by" : "Valitse suodatettavat tunnisteet",
     "No tags found" : "Tunnisteita ei löytynyt",

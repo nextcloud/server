@@ -91,11 +91,13 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($info instanceof Folder || $info instanceof File) {
 			$this->node = $info;
 		} else {
+			// The Node API assumes that the view passed doesn't have a fake root
+			$rootView = \OC::$server->get(View::class);
 			$root = \OC::$server->get(IRootFolder::class);
 			if ($info->getType() === FileInfo::TYPE_FOLDER) {
-				$this->node = new Folder($root, $view, $this->path, $info);
+				$this->node = new Folder($root, $rootView, $this->fileView->getAbsolutePath($this->path), $info);
 			} else {
-				$this->node = new File($root, $view, $this->path, $info);
+				$this->node = new File($root, $rootView, $this->fileView->getAbsolutePath($this->path), $info);
 			}
 		}
 	}
@@ -107,10 +109,11 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 		$this->info = $info;
 		$root = \OC::$server->get(IRootFolder::class);
+		$rootView = \OC::$server->get(View::class);
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
-			$this->node = new Folder($root, $this->fileView, $this->path, $this->info);
+			$this->node = new Folder($root, $rootView, $this->path, $this->info);
 		} else {
-			$this->node = new File($root, $this->fileView, $this->path, $this->info);
+			$this->node = new File($root, $rootView, $this->path, $this->info);
 		}
 	}
 

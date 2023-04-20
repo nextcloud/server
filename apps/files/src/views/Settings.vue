@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @author Gary Kim <gary@garykim.dev>
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -26,11 +26,11 @@
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :title="t('files', 'Files settings')">
-			<NcCheckboxRadioSwitch :checked.sync="show_hidden"
+			<NcCheckboxRadioSwitch :checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked.sync="crop_image_previews"
+			<NcCheckboxRadioSwitch :checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
@@ -86,18 +86,11 @@ import Clipboard from 'vue-material-design-icons/Clipboard.vue'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import Setting from '../components/Setting.vue'
 
-import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-
-const userConfig = loadState('files', 'config', {
-	show_hidden: false,
-	crop_image_previews: true,
-})
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default {
 	name: 'Settings',
@@ -117,11 +110,15 @@ export default {
 		},
 	},
 
+	setup() {
+		const userConfigStore = useUserConfigStore()
+		return {
+			userConfigStore,
+		}
+	},
+
 	data() {
 		return {
-
-			...userConfig,
-
 			// Settings API
 			settings: window.OCA?.Files?.Settings?.settings || [],
 
@@ -131,6 +128,12 @@ export default {
 			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
 		}
+	},
+
+	computed: {
+		userConfig() {
+			return this.userConfigStore.userConfig
+		},
 	},
 
 	beforeMount() {
@@ -149,10 +152,7 @@ export default {
 		},
 
 		setConfig(key, value) {
-			emit('files:config:updated', { key, value })
-			axios.post(generateUrl('/apps/files/api/v1/config/' + key), {
-				value,
-			})
+			this.userConfigStore.update(key, value)
 		},
 
 		async copyCloudId() {

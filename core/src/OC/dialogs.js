@@ -444,7 +444,7 @@ const Dialogs = {
 				self.$filelist = self.$filePicker.find('.filelist tbody')
 				self.$filelistContainer = self.$filePicker.find('.filelist-container')
 				self.$dirTree = self.$filePicker.find('.dirtree')
-				self.$dirTree.on('click keydown', 'div:not(:last-child)', self, function(event) {
+				self.$dirTree.on('click keydown', '.crumb', self, function(event) {
 					if (isA11yActivation(event)) {
 						self._handleTreeListSelect(event, type)
 					}
@@ -1172,9 +1172,8 @@ const Dialogs = {
 		// Check if the showHidden input field exist and if it exist follow it
 		// Otherwise just show the hidden files
 		const showHiddenInput = document.getElementById('showHiddenFiles')
-		const showHidden = showHiddenInput === null || showHiddenInput.value === "1"
-		if (!showHidden) {
-			files = files.filter(function(file) {
+		if (showHiddenInput?.value !== "1") {
+			files = files.filter(function (file) {
 				return !file.name.startsWith('.')
 			})
 		}
@@ -1290,11 +1289,13 @@ const Dialogs = {
 		this.$dirTree.empty()
 		var self = this
 
+		self.$dirTree.append('<nav></nav>')
 		self.$dirTree.append(addButton)
 
 		var dir
 		var path = this.$filePicker.data('path')
-		var $template = $('<div data-dir="{dir}" tabindex="0"><a>{name}</a></div>').addClass('crumb')
+		var $template = $('<li data-dir="{dir}" tabindex="0"><a class="{classList}">{name}</a></li>').addClass('crumb')
+		var $breadcrumbs = $('<ul class="breadcrumb"></ul>')
 		if (path) {
 			var paths = path.split('/')
 			$.each(paths, function(index, dir) {
@@ -1302,18 +1303,20 @@ const Dialogs = {
 				if (dir === '') {
 					return false
 				}
-				self.$dirTree.prepend($template.octemplate({
+				$breadcrumbs.prepend($template.octemplate({
 					dir: paths.join('/') + '/' + dir,
 					name: dir
 				}))
 			})
 		}
-
 		$template.octemplate({
 			dir: '',
 			name: t('core', 'Home'),
-		}, { escapeFunction: null }).prependTo(this.$dirTree)
+			classList: 'icon-home'
+		}, { escapeFunction: null }).addClass('crumb svg crumbhome').prependTo($breadcrumbs)
 
+
+		this.$dirTree.find('> nav').prepend($breadcrumbs)
 	},
 	/**
 	 * handle selection made in the tree list
