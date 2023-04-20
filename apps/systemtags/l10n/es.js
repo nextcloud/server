@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Etiquetas colaborativas",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalidad de etiquetado colaborativo que comparte las etiquetas entre usuarios.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidad de etiquetado colaborativo que comparte las etiquetas entre usuarios. Adecuado para equipos.\n\n(Si eres un proveedor con una instalación en multitenencia), se aconseja desactivar esta app pues las etiquetas se comparten).",
+    "Failed to load tags" : "Fallo al cargar etiquetas",
     "Tagged files" : "Archivos etiquetados",
     "Select tags to filter by" : "Seleccionar etiquetas por las que filtrar",
     "No tags found" : "No se encontraron etiquetas",

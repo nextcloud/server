@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Collaborative tags",
     "Collaborative tagging functionality which shares tags among users." : "Collaborative tagging functionality which shares tags among users.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
+    "Failed to load tags" : "Failed to load tags",
     "Tagged files" : "Tagged files",
     "Select tags to filter by" : "Select tags to filter by",
     "No tags found" : "No tags found",

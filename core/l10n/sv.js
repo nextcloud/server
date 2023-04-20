@@ -190,6 +190,7 @@ OC.L10N.register(
     "Load more results" : "Hämta fler resultat",
     "Search" : "Sök",
     "No results for {query}" : "Inga resultat för {query}",
+    "Press Enter to start searching" : "Tryck på enter för att börja söka",
     "An error occurred while searching for {type}" : "Ett fel uppstod vid sökning efter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Ange {minSearchLength} tecken eller mer för att söka","Ange {minSearchLength} tecken eller mer för att söka"],
     "This browser is not supported" : "Den här webbläsaren stöds inte",
