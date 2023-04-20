@@ -38,7 +38,7 @@ use Psr\Log\LoggerInterface;
  *
  * @since 15.0.0
  */
-abstract class Job implements IJob {
+abstract class Job implements IJob, IParallelAwareJob {
 	protected int $id = 0;
 	protected int $lastRun = 0;
 	protected $argument;
@@ -145,7 +145,7 @@ abstract class Job implements IJob {
 	 * @return void
 	 * @since 27.0.0
 	 */
-	public function setAllowParallelRuns(bool $allow) {
+	public function setAllowParallelRuns(bool $allow): void {
 		$this->allowParallelRuns = $allow;
 	}
 
