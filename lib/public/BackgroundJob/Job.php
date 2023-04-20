@@ -43,6 +43,7 @@ abstract class Job implements IJob {
 	protected int $lastRun = 0;
 	protected $argument;
 	protected ITimeFactory $time;
+	protected bool $allowParallelRuns = true;
 
 	/**
 	 * @since 15.0.0
@@ -71,6 +72,11 @@ abstract class Job implements IJob {
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
 		$logger = \OCP\Server::get(LoggerInterface::class);
+
+		if (!$this->getAllowParallelRuns() && $jobList->hasReservedJob(get_class($this))) {
+			$logger->debug('Skipping ' . get_class($this) . ' job with ID ' . $this->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
+			return;
+		}
 
 		try {
 			$jobStartTime = $this->time->getTime();
@@ -130,6 +136,25 @@ abstract class Job implements IJob {
 	 */
 	public function getArgument() {
 		return $this->argument;
+	}
+
+	/**
+	 * Set this to false to prevent two Jobs from this class from running in parallel
+	 *
+	 * @param bool $allow
+	 * @return void
+	 * @since 27.0.0
+	 */
+	public function setAllowParallelRuns(bool $allow) {
+		$this->allowParallelRuns = $allow;
+	}
+
+	/**
+	 * @return bool
+	 * @since 27.0.0
+	 */
+	public function getAllowParallelRuns(): bool {
+		return $this->allowParallelRuns;
 	}
 
 	/**

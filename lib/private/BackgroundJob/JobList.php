@@ -35,6 +35,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -381,5 +382,22 @@ class JobList implements IJobList {
 			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId()), IQueryBuilder::PARAM_INT));
 		$query->executeStatement();
+	}
+
+	public function hasReservedJob(?string $className): bool {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('jobs')
+			->where($query->expr()->neq('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+
+		if ($className !== null) {
+			$query->andWhere($query->expr()->eq('class', $query->createNamedParameter($className)));
+		}
+
+		try {
+			return $query->executeQuery()->rowCount() > 0;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 }
