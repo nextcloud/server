@@ -46,6 +46,7 @@
     "Collaborative tags" : "Samarbetstaggar",
     "Collaborative tagging functionality which shares tags among users." : "Samarbetande tagg-funktionalitet som delar taggar bland användare.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samarbetande tagg-funktionalitet som delar taggar bland användare. Utmärkt för arbetsgrupper.\n\t(Om du är en leverantör med flera kunder, rekommenderas att deaktivera den här appen eftersom taggar delas.)",
+    "Failed to load tags" : "Kunde inte läsa in taggar",
     "Tagged files" : "Taggade filer",
     "Select tags to filter by" : "Välj taggar att filtrera efter",
     "No tags found" : "Inga taggar hittades",
