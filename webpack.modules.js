@@ -50,7 +50,7 @@ module.exports = {
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
-		main: path.join(__dirname, 'apps/files/src', 'main.js'),
+		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
 		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.js'),
 	},

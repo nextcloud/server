@@ -19,12 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-declare module '*.svg?raw' {
-	const content: any
-	export default content
-}
 
-declare module '*.vue' {
-	import Vue from 'vue'
-	export default Vue
+export const hashCode = function(str: string): number {
+	return str.split('').reduce(function(a, b) {
+		a = ((a << 5) - a) + b.charCodeAt(0)
+		return a & a
+	}, 0)
 }

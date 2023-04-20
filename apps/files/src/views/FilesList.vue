@@ -166,7 +166,7 @@ export default Vue.extend({
 				return []
 			}
 
-			const customColumn = this.currentView.columns
+			const customColumn = (this.currentView?.columns || [])
 				.find(column => column.id === this.sortingMode)
 
 			// Custom column must provide their own sorting methods

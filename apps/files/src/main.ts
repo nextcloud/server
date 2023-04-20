@@ -1,26 +1,35 @@
 import './templates.js'
 import './legacy/filelistSearch.js'
-import './actions/deleteAction.ts'
-
-import processLegacyFilesViews from './legacy/navigationMapper.js'
+import './actions/deleteAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
-import NavigationService from './services/Navigation.ts'
-import registerPreviewServiceWorker from './services/ServiceWorker.js'
-
-import NavigationView from './views/Navigation.vue'
 import FilesListView from './views/FilesList.vue'
-
-import SettingsService from './services/Settings.js'
-import SettingsModel from './models/Setting.js'
-
+import NavigationService from './services/Navigation'
+import NavigationView from './views/Navigation.vue'
+import processLegacyFilesViews from './legacy/navigationMapper.js'
+import registerPreviewServiceWorker from './services/ServiceWorker.js'
 import router from './router/router.js'
+import SettingsModel from './models/Setting.js'
+import SettingsService from './services/Settings.js'
+import RouterService from './services/RouterService'
+
+declare global {
+	interface Window {
+		OC: any;
+		OCA: any;
+		OCP: any;
+	}
+}
 
 // Init private and public Files namespace
 window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
+
+// Expose router
+const Router = new RouterService(router)
+Object.assign(window.OCP.Files, { Router })
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
@@ -57,7 +66,7 @@ const FilesList = new ListView({
 })
 FilesList.$mount('#app-content-vue')
 
-// Init legacy files views
+// Init legacy and new files views
 processLegacyFilesViews()
 
 // Register preview service worker

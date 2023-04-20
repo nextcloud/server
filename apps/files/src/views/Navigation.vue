@@ -175,7 +175,6 @@ export default {
 			this.Navigation.setActive(view)
 			logger.debug('Navigation changed', { id: view.id, view })
 
-			// debugger
 			this.showView(view, oldView)
 		},
 	},
