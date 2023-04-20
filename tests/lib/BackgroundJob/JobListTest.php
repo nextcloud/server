@@ -246,6 +246,7 @@ class JobListTest extends TestCase {
 	}
 
 	public function testHasReservedJobs() {
+		$this->clearJobsList();
 		$job = new TestJob();
 		$this->instance->add($job);
 
