@@ -384,7 +384,7 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
-	public function hasReservedJob(?string $className): bool {
+	public function hasReservedJob(?string $className = null): bool {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')

@@ -244,4 +244,17 @@ class JobListTest extends TestCase {
 		$this->assertGreaterThanOrEqual($timeStart, $addedJob->getLastRun());
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
 	}
+
+	public function testHasReservedJobs() {
+		$job = new TestJob();
+		$this->instance->add($job);
+
+		$this->assertFalse($this->instance->hasReservedJob());
+		$this->assertFalse($this->instance->hasReservedJob(TestJob::class));
+
+		$job->start($this->instance);
+
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+	}
 }
