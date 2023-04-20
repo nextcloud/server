@@ -168,7 +168,7 @@ export default Vue.extend({
 				const results = await action.execBatch(this.nodes, this.currentView)
 
 				// Check if all actions returned null
-				if (results.filter(result => result !== null).length === 0) {
+				if (!results.some(result => result !== null)) {
 					// If the actions returned null, we stay silent
 					this.selectionStore.reset()
 					return

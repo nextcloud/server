@@ -20,7 +20,7 @@
  *
  */
 
-import { Node } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
 import logger from '../logger'
 
 declare global {
