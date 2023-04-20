@@ -44,6 +44,7 @@
     "Collaborative tags" : "Oznake za suradnju",
     "Collaborative tagging functionality which shares tags among users." : "Funkcija kolaborativnog označavanja dijeli oznake među korisnicima.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcija kolaborativnog označavanja dijeli oznake među korisnicima. Izvrsna ideja za timove.\n\t(Ako ste davatelj usluga s instalacijom za više stanara, deaktivirajte ovu aplikaciju jer se dijele oznake.)",
+    "Failed to load tags" : "Učitavanje oznaka nije uspjelo",
     "Tagged files" : "Označene datoteke",
     "Select tags to filter by" : "Odaberite oznake za filtriranje",
     "No tags found" : "Nema pronađenih oznaka",

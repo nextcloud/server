@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "Виджеты",
     "Dashboard app" : "Приложение Виджеты",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Начните свой день будучи информированным\n\nПриборная панель Nextcloud - это ваша отправная точка дня, дающая вам обзор предстоящих встреч, срочных электронных писем, сообщений чата, назначенных задач, последних твитов и многое другое! Пользователи могут добавлять виджеты и менять фон на свой вкус.",
+    "\"{title} icon\"" : "\"{title} иконка\"",
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",
     "Get more widgets from the App Store" : "Загрузить виджеты из магазина приложений",
