@@ -803,10 +803,7 @@ code {
 		}
 		tr:last-child td {
 			border-bottom: none;
-		}
-		tr[data-entryname^="."] {
-			display: none;
-		}		
+		}	
 		.filename {
 			overflow: hidden;
 			white-space: nowrap;
