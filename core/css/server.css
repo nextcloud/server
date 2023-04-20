@@ -1995,8 +1995,16 @@ label.infield {
   overflow: hidden;
 }
 
-::placeholder,
-::-ms-input-placeholder,
+::placeholder {
+  color: var(--color-text-maxcontrast);
+  font-size: var(--default-font-size);
+}
+
+::-ms-input-placeholder {
+  color: var(--color-text-maxcontrast);
+  font-size: var(--default-font-size);
+}
+
 ::-webkit-input-placeholder {
   color: var(--color-text-maxcontrast);
   font-size: var(--default-font-size);
