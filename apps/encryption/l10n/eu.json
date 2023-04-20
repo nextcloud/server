@@ -26,6 +26,7 @@
     "Bad Signature" : "Sinadura ezegokia",
     "Missing Signature" : "Sinadura falta da",
     "one-time password for server-side-encryption" : "aldi bateko pasahitzak zerbitzari-aldeko zifratzerako",
+    "Encryption password" : "Zifratze-pasahitza",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ezin izan da fitxategi hau deszifratu, ziur aski partekatutako fitxategia izango da. Mesedez, fitxategiaren jabeari berriz partekatzeko eska iezaiozu.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ezin da fitxategi hau irakurri, ziur aski partekatutako fitxategia izango da. Mesedez, fitxategiaren jabeari berriz partekatzeko eska iezaiozu.",
     "Default encryption module" : "Zifratze-modulu lehenetsia",

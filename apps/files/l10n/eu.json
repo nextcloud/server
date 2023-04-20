@@ -188,6 +188,7 @@
     "Choose file or folder to transfer" : "Aukeratu fitxategia edo karpeta transferitzeko",
     "Change" : "Aldatu",
     "New owner" : "Jabe berria",
+    "Search for an account" : "Bilatu kontu bat",
     "Choose a file or folder to transfer" : "Aukeratu fitxategi edo karpeta bat transferitzeko",
     "Transfer" : "Transferitu",
     "Transfer {path} to {userid}" : "Transfereritu {path}  {userid} erabiltzaileari",

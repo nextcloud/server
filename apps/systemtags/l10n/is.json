@@ -44,6 +44,7 @@
     "Collaborative tags" : "Samstarfsmerkingar",
     "Collaborative tagging functionality which shares tags among users." : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda. Frábært fyrir hópvinnu.\n\t(Ef þú ert þjónustuaðili með margar uppsetningar á sömu þjónum, þá er ráðlagt að gera þetta óvirkt því merkin eru sameiginleg.)",
+    "Failed to load tags" : "Mistókst að hlaða inn merkjum",
     "Tagged files" : "Merktar skrár",
     "Select tags to filter by" : "Veldu merki til að sía eftir",
     "No tags found" : "Engin merki fundust",
