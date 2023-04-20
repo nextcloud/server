@@ -388,7 +388,8 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->neq('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->neq('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->setMaxResults(1);
 
 		if ($className !== null) {
 			$query->andWhere($query->expr()->eq('class', $query->createNamedParameter($className)));
