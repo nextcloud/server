@@ -105,6 +105,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(\OC::$server->get(OC\Core\Command\Info\File::class));
 	$application->add(\OC::$server->get(OC\Core\Command\Info\Space::class));
+	$application->add(\OC::$server->get(OC\Core\Command\Info\Get::class));
 
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
 	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->get(LoggerInterface::class)));
