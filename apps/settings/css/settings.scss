@@ -1414,14 +1414,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.userActions {
 				display: flex;
 				justify-content: flex-end;
-				position: sticky;
 				right: 0px;
 				min-width: 88px;
-				background-color: var(--color-main-background);
-			}
-
-			&.row--editable .userActions {
-				z-index: 10;
 			}
 
 			.subtitle {
