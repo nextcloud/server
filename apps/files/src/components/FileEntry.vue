@@ -95,7 +95,7 @@
 		<td v-if="isSizeAvailable"
 			:style="{ opacity: sizeOpacity }"
 			class="files-list__row-size"
-			@click="execDefaultAction">
+			@click="openDetailsIfAvailable">
 			<span>{{ size }}</span>
 		</td>
 
@@ -104,7 +104,7 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom"
-			@click="execDefaultAction">
+			@click="openDetailsIfAvailable">
 			<CustomElementRender v-if="active"
 				:current-view="currentView"
 				:render="column.render"
@@ -130,6 +130,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
 
+import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
 import { getFileActions } from '../services/FileAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
@@ -529,6 +530,15 @@ export default Vue.extend({
 				event.stopPropagation()
 				// Execute the first default action if any
 				this.enabledDefaultActions[0].exec(this.source, this.currentView)
+			}
+		},
+
+		openDetailsIfAvailable(event) {
+			const detailsAction = this.enabledDefaultActions.find(action => action.id === ACTION_DETAILS)
+			if (detailsAction) {
+				event.preventDefault()
+				event.stopPropagation()
+				detailsAction.exec(this.source, this.currentView)
 			}
 		},
 
