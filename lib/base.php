@@ -68,7 +68,6 @@ declare(strict_types=1);
 
 use OC\Encryption\HookManager;
 use OC\EventDispatcher\SymfonyAdapter;
-use OC\Files\Filesystem;
 use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
@@ -114,6 +113,8 @@ class OC {
 	public static array $APPSROOTS = [];
 
 	public static string $configDir;
+
+	public static int $VERSION_MTIME = 0;
 
 	/**
 	 * requested app
@@ -598,7 +599,8 @@ class OC {
 
 		// Add default composer PSR-4 autoloader
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . filemtime(OC::$SERVERROOT . '/version.php')));
+		OC::$VERSION_MTIME = filemtime(OC::$SERVERROOT . '/version.php');
+		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . OC::$VERSION_MTIME));
 
 		try {
 			self::initPaths();
