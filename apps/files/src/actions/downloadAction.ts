@@ -20,7 +20,7 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node } from '@nextcloud/files'
+import { Permission, Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDown from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -35,6 +35,16 @@ const triggerDownload = function(url: string) {
 	hiddenElement.click()
 }
 
+const downloadNodes = function(dir = '/', nodes: Node[]) {
+	const secret = Math.random().toString(36).substring(2)
+	const url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
+		dir,
+		secret,
+		files: JSON.stringify(nodes.map(node => node.basename)),
+	})
+	triggerDownload(url)
+}
+
 registerFileAction(new FileAction({
 	id: 'download',
 	displayName: () => t('files', 'Download'),
@@ -46,23 +56,23 @@ registerFileAction(new FileAction({
 			.every(permission => (permission & Permission.READ) !== 0)
 	},
 
-	async exec(node: Node) {
+	async exec(node: Node, view: Navigation, dir: string) {
+		if (node.type === FileType.Folder) {
+			downloadNodes(dir, [node])
+			return null
+		}
+
 		triggerDownload(node.source)
 		return null
 	},
+
 	async execBatch(nodes: Node[], view: Navigation, dir: string) {
 		if (nodes.length === 1) {
 			this.exec(nodes[0], view, dir)
 			return [null]
 		}
 
-		const secret = Math.random().toString(36).substring(2)
-		const url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
-			dir,
-			secret,
-			files: JSON.stringify(nodes.map(node => node.basename)),
-		})
-		triggerDownload(url)
+		downloadNodes(dir, nodes)
 		return new Array(nodes.length).fill(null)
 	},
 
