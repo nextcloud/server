@@ -65,6 +65,9 @@ class NullStorage extends Common {
 		return ($path === '') ? 'dir' : false;
 	}
 
+	/**
+	 * @return false|int|float
+	 */
 	public function filesize($path) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}

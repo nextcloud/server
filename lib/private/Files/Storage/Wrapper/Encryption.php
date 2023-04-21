@@ -130,7 +130,7 @@ class Encryption extends Wrapper {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int
+	 * @return false|int|float
 	 */
 	public function filesize($path) {
 		$fullPath = $this->getFullPath($path);

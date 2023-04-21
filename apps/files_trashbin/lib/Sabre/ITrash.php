@@ -39,6 +39,10 @@ interface ITrash {
 
 	public function getDeletionTime(): int;
 
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
 	public function getSize();
 
 	public function getFileId(): int;

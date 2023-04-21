@@ -38,7 +38,7 @@ class Version implements IVersion {
 	/** @var string */
 	private $name;
 
-	/** @var int */
+	/** @var int|float */
 	private $size;
 
 	/** @var string */
@@ -56,11 +56,14 @@ class Version implements IVersion {
 	/** @var IUser */
 	private $user;
 
+	/**
+	 * @param int|float $size
+	 */
 	public function __construct(
 		int $timestamp,
 		$revisionId,
 		string $name,
-		int $size,
+		$size,
 		string $mimetype,
 		string $path,
 		FileInfo $sourceFileInfo,
@@ -94,7 +97,11 @@ class Version implements IVersion {
 		return $this->timestamp;
 	}
 
-	public function getSize(): int {
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
+	public function getSize() {
 		return $this->size;
 	}
 

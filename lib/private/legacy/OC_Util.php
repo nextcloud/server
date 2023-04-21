@@ -145,7 +145,7 @@ class OC_Util {
 	/**
 	 * check if share API enforces a default expire date
 	 *
-	 * @return boolean
+	 * @return bool
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {

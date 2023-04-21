@@ -140,6 +140,9 @@ class FTP extends Common {
 		}
 	}
 
+	/**
+	 * @return false|int|float
+	 */
 	public function filesize($path) {
 		$result = $this->getConnection()->size($this->buildPath($path));
 		if ($result === -1) {

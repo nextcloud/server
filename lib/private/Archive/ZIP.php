@@ -91,7 +91,7 @@ class ZIP extends Archive {
 
 	/**
 	 * get the uncompressed size of a file in the archive
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function filesize(string $path) {
 		$stat = $this->zip->statName($path);

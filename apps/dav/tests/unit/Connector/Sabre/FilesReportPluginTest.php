@@ -259,6 +259,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$filesNode2 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$filesNode2->method('getSize')
+			->willReturn(10);
 
 		$this->userFolder->expects($this->at(0))
 			->method('getById')

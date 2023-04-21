@@ -514,13 +514,17 @@ class User implements IUser {
 	 *
 	 * @param string $quota
 	 * @return void
+	 * @throws InvalidArgumentException
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
-			$quota = OC_Helper::computerFileSize($quota);
-			$quota = OC_Helper::humanFileSize((int)$quota);
+			$bytesQuota = OC_Helper::computerFileSize($quota);
+			if ($bytesQuota === false) {
+				throw new InvalidArgumentException('Failed to set quota to invalid value '.$quota);
+			}
+			$quota = OC_Helper::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);

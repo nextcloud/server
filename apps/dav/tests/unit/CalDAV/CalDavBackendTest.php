@@ -423,7 +423,12 @@ EOD;
 		$events[0] = $this->createEvent($calendarId, '20130912T130000Z', '20130912T140000Z');
 		$events[1] = $this->createEvent($calendarId, '20130912T150000Z', '20130912T170000Z');
 		$events[2] = $this->createEvent($calendarId, '20130912T173000Z', '20130912T220000Z');
-		$events[3] = $this->createEvent($calendarId, '21130912T130000Z', '22130912T130000Z');
+		if (PHP_INT_SIZE > 8) {
+			$events[3] = $this->createEvent($calendarId, '21130912T130000Z', '22130912T130000Z');
+		} else {
+			/* On 32bit we do not support events after 2038 */
+			$events[3] = $this->createEvent($calendarId, '20370912T130000Z', '20370912T130000Z');
+		}
 
 		$result = $this->backend->calendarQuery($calendarId, [
 			'name' => '',
@@ -471,7 +476,7 @@ EOD;
 			'only-events' => [[0, 1, 2, 3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => null, 'end' => null], 'prop-filters' => []]],],
 			'start' => [[1, 2, 3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2013-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
 			'end' => [[0], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => null, 'end' => new DateTime('2013-09-12 14:00:00', new DateTimeZone('UTC'))], 'prop-filters' => []]],],
-			'future' => [[3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2099-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
+			'future' => [[3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2036-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
 		];
 	}
 
@@ -648,8 +653,15 @@ EOS;
 	 * @dataProvider providesCalDataForGetDenormalizedData
 	 */
 	public function testGetDenormalizedData($expected, $key, $calData) {
-		$actual = $this->backend->getDenormalizedData($calData);
-		$this->assertEquals($expected, $actual[$key]);
+		try {
+			$actual = $this->backend->getDenormalizedData($calData);
+			$this->assertEquals($expected, $actual[$key]);
+		} catch (\ValueError $e) {
+			if (($e->getMessage() === 'Epoch doesn\'t fit in a PHP integer') && (PHP_INT_SIZE < 8)) {
+				$this->markTestSkipped('This fail on 32bits because of PHP limitations in DateTime');
+			}
+			throw $e;
+		}
 	}
 
 	public function providesCalDataForGetDenormalizedData() {

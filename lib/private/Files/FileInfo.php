@@ -82,7 +82,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * The size of the file/folder without any sub mount
 	 *
-	 * @var int
+	 * @var int|float
 	 */
 	private $rawSize = 0;
 
@@ -207,7 +207,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	/**
-	 * @return int
+	 * @param bool $includeMounts
+	 * @return int|float
 	 */
 	public function getSize($includeMounts = true) {
 		if ($includeMounts) {

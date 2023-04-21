@@ -48,9 +48,10 @@ interface ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 *
+	 * @return int|float
 	 * @since 11.0.0
 	 */
-	public function getSize(): int;
+	public function getSize();
 
 	/**
 	 * Get the ETag

@@ -361,24 +361,35 @@ class Util {
 	}
 
 	/**
+	 * Converts string to int or float depending if it fits an int
+	 * @param numeric-string|float|int $number numeric string
+	 * @return int|float int if it fits, float if it is too big
+	 * @since 25.0.7
+	 */
+	public static function numericToNumber($number) {
+		/* This is a hack to cast to (int|float) */
+		return 0 + (string)$number;
+	}
+
+	/**
 	 * Make a human file size (2048 to 2 kB)
-	 * @param int $bytes file size in bytes
+	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 * @since 4.0.0
 	 */
-	public static function humanFileSize($bytes) {
+	public static function humanFileSize($bytes): string {
 		return \OC_Helper::humanFileSize($bytes);
 	}
 
 	/**
 	 * Make a computer file size (2 kB to 2048)
 	 * @param string $str file size in a fancy format
-	 * @return float|false a file size in bytes
+	 * @return false|int|float a file size in bytes
 	 *
 	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
-	public static function computerFileSize($str) {
+	public static function computerFileSize(string $str) {
 		return \OC_Helper::computerFileSize($str);
 	}
 
@@ -495,18 +506,18 @@ class Util {
 	 * calculates the maximum upload size respecting system settings, free space and user quota
 	 *
 	 * @param string $dir the current folder where the user currently operates
-	 * @param int $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
-	 * @return int number of bytes representing
+	 * @param int|float|null $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
+	 * @return int|float number of bytes representing
 	 * @since 5.0.0
 	 */
-	public static function maxUploadFilesize($dir, $free = null) {
+	public static function maxUploadFilesize(string $dir, $free = null) {
 		return \OC_Helper::maxUploadFilesize($dir, $free);
 	}
 
 	/**
 	 * Calculate free space left within user quota
 	 * @param string $dir the current folder where the user currently operates
-	 * @return int number of bytes representing
+	 * @return int|float number of bytes representing
 	 * @since 7.0.0
 	 */
 	public static function freeSpace($dir) {
@@ -516,7 +527,7 @@ class Util {
 	/**
 	 * Calculate PHP upload limit
 	 *
-	 * @return int number of bytes representing
+	 * @return int|float number of bytes representing
 	 * @since 7.0.0
 	 */
 	public static function uploadLimit() {

@@ -44,14 +44,13 @@ use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
-use OCP\Share\IShare;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 abstract class Node implements \Sabre\DAV\INode {
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $fileView;
 
@@ -70,7 +69,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	protected $property_cache = null;
 
 	/**
-	 * @var \OCP\Files\FileInfo
+	 * @var FileInfo
 	 */
 	protected $info;
 
@@ -84,8 +83,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Sets up the node, expects a full path name
 	 *
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\FileInfo $info
+	 * @param View $view
+	 * @param FileInfo $info
 	 * @param IManager $shareManager
 	 */
 	public function __construct(View $view, FileInfo $info, IManager $shareManager = null) {
@@ -111,8 +110,12 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 	}
 
-	protected function refreshInfo() {
-		$this->info = $this->fileView->getFileInfo($this->path);
+	protected function refreshInfo(): void {
+		$info = $this->fileView->getFileInfo($this->path);
+		if ($info === false) {
+			throw new \Sabre\DAV\Exception('Failed to get fileinfo for '. $this->path);
+		}
+		$this->info = $info;
 		$root = \OC::$server->get(IRootFolder::class);
 		$rootView = \OC::$server->get(View::class);
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
@@ -236,7 +239,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Returns the size of the node, in bytes
 	 *
-	 * @return integer
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
 	 */
 	public function getSize() {
 		return $this->info->getSize();

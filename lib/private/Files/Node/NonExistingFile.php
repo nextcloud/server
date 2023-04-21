@@ -65,6 +65,10 @@ class NonExistingFile extends File {
 		}
 	}
 
+	/**
+	 * @param bool $includeMounts
+	 * @return int|float
+	 */
 	public function getSize($includeMounts = true) {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);

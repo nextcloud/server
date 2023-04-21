@@ -122,7 +122,6 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		if ($rotateSize === false) {
 			throw new \InvalidArgumentException('Error parsing log rotation file size');
 		}
-		$rotateSize = (int) $rotateSize;
 		if ($rotateSize < 0) {
 			throw new \InvalidArgumentException('Log rotation file size must be non-negative');
 		}

@@ -49,6 +49,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
 use OCP\IUser;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -59,12 +60,12 @@ class OC_Helper {
 
 	/**
 	 * Make a human file size
-	 * @param int $bytes file size in bytes
+	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
-	public static function humanFileSize($bytes) {
+	public static function humanFileSize($bytes): string {
 		if ($bytes < 0) {
 			return "?";
 		}
@@ -387,8 +388,8 @@ class OC_Helper {
 	 * calculates the maximum upload size respecting system settings, free space and user quota
 	 *
 	 * @param string $dir the current folder where the user currently operates
-	 * @param int $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
-	 * @return int number of bytes representing
+	 * @param int|float $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
+	 * @return int|float number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
 		if (is_null($freeSpace) || $freeSpace < 0) {
@@ -401,7 +402,7 @@ class OC_Helper {
 	 * Calculate free space left within user quota
 	 *
 	 * @param string $dir the current folder where the user currently operates
-	 * @return int number of bytes representing
+	 * @return int|float number of bytes representing
 	 */
 	public static function freeSpace($dir) {
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
@@ -416,12 +417,12 @@ class OC_Helper {
 	/**
 	 * Calculate PHP upload limit
 	 *
-	 * @return int PHP upload file size limit
+	 * @return int|float PHP upload file size limit
 	 */
 	public static function uploadLimit() {
 		$ini = \OC::$server->get(IniGetWrapper::class);
-		$upload_max_filesize = (int)OCP\Util::computerFileSize($ini->get('upload_max_filesize'));
-		$post_max_size = (int)OCP\Util::computerFileSize($ini->get('post_max_size'));
+		$upload_max_filesize = Util::computerFileSize($ini->get('upload_max_filesize')) ?: 0;
+		$post_max_size = Util::computerFileSize($ini->get('post_max_size')) ?: 0;
 		if ($upload_max_filesize === 0 && $post_max_size === 0) {
 			return INF;
 		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {

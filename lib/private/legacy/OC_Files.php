@@ -59,7 +59,7 @@ class OC_Files {
 	public const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
 
 
-	private static $multipartBoundary = '';
+	private static string $multipartBoundary = '';
 
 	/**
 	 * @return string
@@ -247,7 +247,7 @@ class OC_Files {
 
 	/**
 	 * @param string $rangeHeaderPos
-	 * @param int $fileSize
+	 * @param int|float $fileSize
 	 * @return array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
 	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize) {

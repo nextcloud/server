@@ -40,7 +40,7 @@ namespace OCA\Files\AppInfo;
 use OCA\Files\Controller\OpenLocalEditorController;
 
 /** @var Application $application */
-$application = \OC::$server->query(Application::class);
+$application = \OC::$server->get(Application::class);
 $application->registerRoutes(
 	$this,
 	[

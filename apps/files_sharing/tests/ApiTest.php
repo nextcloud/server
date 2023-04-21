@@ -205,6 +205,9 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreateShareLink() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK);
@@ -228,6 +231,9 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreateShareLinkPublicUpload() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
@@ -420,6 +426,7 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
+	 * @group RoutingWeirdness
 	 */
 	public function testPublicLinkUrl() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -1291,6 +1298,7 @@ class ApiTest extends TestCase {
 	 * Make sure only ISO 8601 dates are accepted
 	 *
 	 * @dataProvider datesProvider
+	 * @group RoutingWeirdness
 	 */
 	public function testPublicLinkExpireDate($date, $valid) {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -1321,6 +1329,9 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreatePublicLinkExpireDateValid() {
 		$config = \OC::$server->getConfig();
 
