@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Info;
 
-
 use OCP\Files\Folder;
 use OCP\Util;
 use Symfony\Component\Console\Command\Command;
@@ -45,12 +44,14 @@ class Space extends Command {
 			->setName('info:file:space')
 			->setDescription('Summarize space usage of specified folder')
 			->addArgument('file', InputArgument::REQUIRED, "File id or path")
-			->addOption('count', 'c', InputOption::VALUE_REQUIRED, "Number of items to display", 25);
+			->addOption('count', 'c', InputOption::VALUE_REQUIRED, "Number of items to display", 25)
+			->addOption('all', 'a', InputOption::VALUE_NONE, "Display all items");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$count = (int)$input->getOption('count');
+		$all = $input->getOption('all');
 		$node = $this->fileUtils->getNode($fileInput);
 		if (!$node) {
 			$output->writeln("<error>file $fileInput not found</error>");
@@ -58,10 +59,9 @@ class Space extends Command {
 		}
 		$output->writeln($node->getName() . ": <info>" . Util::humanFileSize($node->getSize()) . "</info>");
 		if ($node instanceof Folder) {
-			$limits = array_fill(0, $count - 1, 0);
-			$this->fileUtils->outputLargeFilesTree($output, $node, '', $limits);
+			$limits = $all ? [] : array_fill(0, $count - 1, 0);
+			$this->fileUtils->outputLargeFilesTree($output, $node, '', $limits, $all);
 		}
 		return 0;
 	}
-
 }
