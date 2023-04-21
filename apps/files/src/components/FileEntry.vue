@@ -503,7 +503,7 @@ export default Vue.extend({
 				this.loading = action.id
 				Vue.set(this.source, '_loading', true)
 
-				const success = await action.exec(this.source, this.currentView)
+				const success = await action.exec(this.source, this.currentView, this.dir)
 
 				// If the action returns null, we stay silent
 				if (success === null) {
@@ -529,7 +529,7 @@ export default Vue.extend({
 				event.preventDefault()
 				event.stopPropagation()
 				// Execute the first default action if any
-				this.enabledDefaultActions[0].exec(this.source, this.currentView)
+				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.dir)
 			}
 		},
 
