@@ -116,9 +116,9 @@ class Checker {
 		 */
 		$isIntegrityCheckDisabled = false;
 		if ($this->config !== null) {
-			$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+			$isIntegrityCheckDisabled = $this->config->getSystemValueBool('integrity.check.disabled', false);
 		}
-		if ($isIntegrityCheckDisabled === true) {
+		if ($isIntegrityCheckDisabled) {
 			return false;
 		}
 

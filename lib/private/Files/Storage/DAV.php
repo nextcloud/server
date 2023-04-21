@@ -145,7 +145,7 @@ class DAV extends Common {
 			$settings['authType'] = $this->authType;
 		}
 
-		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
+		$proxy = \OC::$server->getConfig()->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}

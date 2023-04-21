@@ -222,7 +222,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 			->willReturn('');
 
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('htaccess.IgnoreFrontController', $this->anything())
 			->willReturn($ignoreFrontControllerConfig);
 	}

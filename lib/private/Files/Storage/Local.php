@@ -93,7 +93,7 @@ class Local extends \OC\Files\Storage\Common {
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 
 		// support Write-Once-Read-Many file systems
-		$this->unlinkOnTruncate = $this->config->getSystemValue('localstorage.unlink_on_truncate', false);
+		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
 	}
 
 	public function __destruct() {
@@ -486,7 +486,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		$allowSymlinks = $this->config->getSystemValue('localstorage.allowsymlinks', false);
+		$allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
 		if ($allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}

@@ -624,7 +624,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(string $type = ''): bool {
-		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
 		|| $type !== 'protocol';
@@ -636,9 +636,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server protocol (http or https)
 	 */
 	public function getServerProtocol(): string {
-		if ($this->config->getSystemValue('overwriteprotocol') !== ''
+		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
 			&& $this->isOverwriteCondition('protocol')) {
-			return $this->config->getSystemValue('overwriteprotocol');
+			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
@@ -696,7 +696,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
-		if ($this->config->getSystemValue('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
+		if ($this->config->getSystemValueString('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
 			$uri = $this->getScriptName() . substr($uri, \strlen($this->server['SCRIPT_NAME']));
 		}
 		return $uri;
@@ -764,7 +764,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'];
-		$overwriteWebRoot = $this->config->getSystemValue('overwritewebroot');
+		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
 			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
 			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -\strlen('lib/private/appframework/http/')));
@@ -859,8 +859,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * isn't met
 	 */
 	private function getOverwriteHost() {
-		if ($this->config->getSystemValue('overwritehost') !== '' && $this->isOverwriteCondition()) {
-			return $this->config->getSystemValue('overwritehost');
+		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {
+			return $this->config->getSystemValueString('overwritehost');
 		}
 		return null;
 	}

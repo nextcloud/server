@@ -569,7 +569,7 @@ class OC {
 				self::sendSameSiteCookies();
 				// Debug mode gets access to the resources without strict cookie
 				// due to the fact that the SabreDAV browser also lives there.
-				if (!$config->getSystemValue('debug', false)) {
+				if (!$config->getSystemValueBool('debug', false)) {
 					http_response_code(\OCP\AppFramework\Http::STATUS_PRECONDITION_FAILED);
 					header('Content-Type: application/json');
 					echo json_encode(['error' => 'Strict Cookie has not been found in request']);
@@ -674,7 +674,7 @@ class OC {
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
 			);
 			$exceptionHandler = [$errorHandler, 'onException'];
-			if ($config->getSystemValue('debug', false)) {
+			if ($config->getSystemValueBool('debug', false)) {
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
 				if (\OC::$CLI) {
 					$exceptionHandler = ['OC_Template', 'printExceptionErrorPage'];
@@ -735,7 +735,7 @@ class OC {
 					echo('Writing to database failed');
 				}
 				exit(1);
-			} elseif (self::$CLI && $config->getSystemValue('installed', false)) {
+			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
 		}
@@ -805,7 +805,7 @@ class OC {
 		 */
 		if (!OC::$CLI
 			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
-			&& $config->getSystemValue('installed', false)
+			&& $config->getSystemValueBool('installed', false)
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;

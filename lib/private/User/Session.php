@@ -491,8 +491,8 @@ class Session implements IUserSession, Emitter {
 		return false;
 	}
 
-	private function isTokenAuthEnforced() {
-		return $this->config->getSystemValue('token_auth_enforced', false);
+	private function isTokenAuthEnforced(): bool {
+		return $this->config->getSystemValueBool('token_auth_enforced', false);
 	}
 
 	protected function isTwoFactorEnforced($username) {
@@ -958,7 +958,7 @@ class Session implements IUserSession, Emitter {
 			$webRoot = '/';
 		}
 
-		$maxAge = $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		\OC\Http\CookieHelper::setCookie(
 			'nc_username',
 			$username,

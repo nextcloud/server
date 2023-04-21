@@ -67,12 +67,19 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->hasher = \OC::$server->getHasher();
 		$this->crypto = \OC::$server->getCrypto();
 		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', 60 * 60 * 24, 150],
 				['remember_login_cookie_lifetime', 60 * 60 * 24 * 15, 300],
-				['secret', '', '1f4h9s'],
+				['token_auth_activity_update', 60, 60],
+			]);
+		$this->config->method('getSystemValue')
+			->willReturnMap([
 				['openssl', [], []],
+			]);
+		$this->config->method('getSystemValueString')
+			->willReturnMap([
+				['secret', '', '1f4h9s'],
 			]);
 		$this->db = $this->createMock(IDBConnection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -336,7 +343,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$defaultSessionLifetime = 60 * 60 * 24;
 		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],

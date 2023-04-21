@@ -112,7 +112,7 @@ class Application {
 
 		try {
 			require_once __DIR__ . '/../../../core/register_command.php';
-			if ($this->config->getSystemValue('installed', false)) {
+			if ($this->config->getSystemValueBool('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValueBool('maintenance')) {

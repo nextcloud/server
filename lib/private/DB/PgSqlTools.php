@@ -53,7 +53,7 @@ class PgSqlTools {
 		$databaseName = $conn->getDatabase();
 		$conn->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */
-			$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+			$filterExpression = '/^' . preg_quote($this->config->getSystemValueString('dbtableprefix', 'oc_')) . '/';
 			if ($asset instanceof AbstractAsset) {
 				return preg_match($filterExpression, $asset->getName()) !== false;
 			}

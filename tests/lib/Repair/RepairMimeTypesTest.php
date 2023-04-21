@@ -42,7 +42,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version')
 			->willReturn('11.0.0.0');
 

@@ -410,7 +410,7 @@ class Setup {
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
-			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+			file_put_contents($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 			// Update .htaccess files
 			self::updateHtaccess();
@@ -585,7 +585,7 @@ class Setup {
 		$content .= "  IndexIgnore *\n";
 		$content .= "</IfModule>";
 
-		$baseDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$baseDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);
 		file_put_contents($baseDir . '/index.html', '');
 	}

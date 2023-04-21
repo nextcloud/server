@@ -118,7 +118,7 @@ class VersionCheckTest extends \Test\TestCase {
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -170,7 +170,7 @@ class VersionCheckTest extends \Test\TestCase {
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -224,7 +224,7 @@ class VersionCheckTest extends \Test\TestCase {
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -277,7 +277,7 @@ class VersionCheckTest extends \Test\TestCase {
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -331,7 +331,7 @@ class VersionCheckTest extends \Test\TestCase {
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config

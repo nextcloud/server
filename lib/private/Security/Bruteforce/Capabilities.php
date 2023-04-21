@@ -51,7 +51,7 @@ class Capabilities implements IPublicCapability, IInitialStateExcludedCapability
 	}
 
 	public function getCapabilities(): array {
-		if (version_compare(\OC::$server->getConfig()->getSystemValue('version', '0.0.0.0'), '12.0.0.0', '<')) {
+		if (version_compare(\OC::$server->getConfig()->getSystemValueString('version', '0.0.0.0'), '12.0.0.0', '<')) {
 			return [];
 		}
 

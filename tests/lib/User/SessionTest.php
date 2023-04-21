@@ -353,7 +353,7 @@ class SessionTest extends \Test\TestCase {
 			->with('doe')
 			->will($this->throwException(new InvalidTokenException()));
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
 			->willReturn(true);
 		$request
@@ -389,7 +389,7 @@ class SessionTest extends \Test\TestCase {
 			->with('doe')
 			->will($this->throwException(new InvalidTokenException()));
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
 			->willReturn(false);
 		$manager->method('getByEmail')
@@ -457,7 +457,7 @@ class SessionTest extends \Test\TestCase {
 			->with('doe')
 			->will($this->throwException(new InvalidTokenException()));
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
 			->willReturn(false);
 

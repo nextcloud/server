@@ -61,7 +61,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
-		$maxSizeForImages = $this->config->getSystemValue('preview_max_filesize_image', 50);
+		$maxSizeForImages = $this->config->getSystemValueInt('preview_max_filesize_image', 50);
 
 		$size = $file->getSize();
 
@@ -105,7 +105,7 @@ class Imaginary extends ProviderV2 {
 			default:
 				$mimeType = 'jpeg';
 		}
-		
+
 		$operations = [];
 
 		if ($convert) {

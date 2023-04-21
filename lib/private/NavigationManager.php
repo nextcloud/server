@@ -189,7 +189,7 @@ class NavigationManager implements INavigationManager {
 		$this->init = true;
 
 		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValue('knowledgebaseenabled', true)) {
+		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'help',
