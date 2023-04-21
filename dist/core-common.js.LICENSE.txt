@@ -316,17 +316,22 @@
  */
 
 /*!
-* focus-trap 7.1.0
-* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
-*/
-
-/*!
 * focus-trap 7.2.0
 * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
 */
 
 /*!
+* focus-trap 7.4.3
+* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+*/
+
+/*!
 * tabbable 6.0.1
+* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
+*/
+
+/*!
+* tabbable 6.1.2
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
 
