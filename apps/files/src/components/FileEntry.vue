@@ -75,6 +75,7 @@
 				:container="boundariesElement"
 				:disabled="source._loading"
 				:force-title="true"
+				:force-menu="true"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
 				<NcActionButton v-for="action in enabledMenuActions"
