@@ -397,7 +397,9 @@ class JobList implements IJobList {
 
 		try {
 			$result = $query->executeQuery();
-			return count($result->fetchAll()) > 0;
+			$hasReservedJobs = $result->fetch() !== false;
+			$result->closeCursor();
+			return $hasReservedJobs;
 		} catch (Exception $e) {
 			return false;
 		}
