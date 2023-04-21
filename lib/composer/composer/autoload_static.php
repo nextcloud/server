@@ -979,6 +979,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Group\\Info' => __DIR__ . '/../../..' . '/core/Command/Group/Info.php',
         'OC\\Core\\Command\\Group\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/Group/ListCommand.php',
         'OC\\Core\\Command\\Group\\RemoveUser' => __DIR__ . '/../../..' . '/core/Command/Group/RemoveUser.php',
+        'OC\\Core\\Command\\Info\\File' => __DIR__ . '/../../..' . '/core/Command/Info/File.php',
         'OC\\Core\\Command\\Integrity\\CheckApp' => __DIR__ . '/../../..' . '/core/Command/Integrity/CheckApp.php',
         'OC\\Core\\Command\\Integrity\\CheckCore' => __DIR__ . '/../../..' . '/core/Command/Integrity/CheckCore.php',
         'OC\\Core\\Command\\Integrity\\SignApp' => __DIR__ . '/../../..' . '/core/Command/Integrity/SignApp.php',

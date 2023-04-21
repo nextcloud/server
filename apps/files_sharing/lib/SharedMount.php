@@ -254,6 +254,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	}
 
 	/**
+	 * @return \OCP\Share\IShare[]
+	 */
+	public function getGroupedShares(): array {
+		return $this->groupedShares;
+	}
+
+	/**
 	 * Get the file id of the root of the storage
 	 *
 	 * @return int
