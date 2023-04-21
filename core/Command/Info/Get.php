@@ -53,6 +53,11 @@ class Get extends Command {
 		$outputName = $input->getOption('output');
 		$node = $this->fileUtils->getNode($fileInput);
 
+		if (!$node) {
+			$output->writeln("<error>file $fileInput not found</error>");
+			return 1;
+		}
+
 		if ($node instanceof File) {
 			$isTTY = stream_isatty(STDOUT);
 			if ($outputName === null && $isTTY && $node->getMimePart() !== 'text') {
