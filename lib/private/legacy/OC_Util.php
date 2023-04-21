@@ -65,7 +65,6 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use OC\AppFramework\Http\Request;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -327,10 +326,9 @@ class OC_Util {
 			return;
 		}
 
-		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
+		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
