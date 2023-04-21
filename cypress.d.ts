@@ -20,7 +20,7 @@
  *
  */
 /* eslint-disable */
-import { mount } from 'cypress/vue2'
+import { mount } from '@cypress/vue2'
 
 type MountParams = Parameters<typeof mount>;
 type OptionsParam = MountParams[1];

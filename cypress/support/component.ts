@@ -20,8 +20,8 @@
  *
  */
 /* eslint-disable */
-import { mount } from 'cypress/vue2'
-  
+import { mount } from '@cypress/vue2'
+
 // Example use:
 // cy.mount(MyComponent)
 Cypress.Commands.add('mount', (component, optionsOrProps) => {
