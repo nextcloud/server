@@ -95,6 +95,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@use 'sass:math';
+
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
@@ -144,7 +146,7 @@ export default {
 	}
 }
 
-@media (max-width: (1024px / 1.5)) {
+@media (max-width: math.div(1024px, 1.5)) {
 	.theming__preview {
 		flex-direction: column;
 
