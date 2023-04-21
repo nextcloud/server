@@ -268,16 +268,16 @@ export default Vue.extend({
 				this.filesStore.updateNodes(contents)
 
 				// Define current directory children
-				folder._children = contents.map(node => node.attributes.fileid)
+				folder._children = contents.map(node => node.fileid)
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
 					this.filesStore.setRoot({ service: currentView.id, root: folder })
 				} else
 				// Otherwise, add the folder to the store
-				if (folder.attributes.fileid) {
+				if (folder.fileid) {
 					this.filesStore.updateNodes([folder])
-					this.pathsStore.addPath({ service: currentView.id, fileid: folder.attributes.fileid, path: dir })
+					this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
 				} else {
 					// If we're here, the view API messed up
 					logger.error('Invalid root folder returned', { dir, folder, currentView })
@@ -286,7 +286,7 @@ export default Vue.extend({
 				// Update paths store
 				const folders = contents.filter(node => node.type === 'folder')
 				folders.forEach(node => {
-					this.pathsStore.addPath({ service: currentView.id, fileid: node.attributes.fileid, path: join(dir, node.basename) })
+					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid, path: join(dir, node.basename) })
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })

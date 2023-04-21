@@ -173,7 +173,7 @@ export default Vue.extend({
 
 		onToggleAll(selected) {
 			if (selected) {
-				const selection = this.nodes.map(node => node.attributes.fileid.toString())
+				const selection = this.nodes.map(node => node.fileid.toString())
 				logger.debug('Added all nodes to selection', { selection })
 				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)
