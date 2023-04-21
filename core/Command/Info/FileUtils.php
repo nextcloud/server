@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Info;
 
-
 use OC\Files\SetupManager;
 use OCA\Circles\MountManager\CircleMount;
 use OCA\Files_External\Config\ExternalMountPoint;
@@ -195,7 +194,8 @@ class FileUtils {
 		OutputInterface $output,
 		Folder $node,
 		string $prefix,
-		array &$sizeLimits
+		array &$sizeLimits,
+		bool $all,
 	): int {
 		/**
 		 * Algorithm to print the N largest items in a folder without requiring to query or sort the entire three
@@ -220,25 +220,31 @@ class FileUtils {
 			return $b->getSize() <=> $a->getSize();
 		});
 		foreach ($children as $i => $child) {
-			if (count($sizeLimits) === 0 || $child->getSize() < $sizeLimits[0]) {
-				return $count;
+			if (!$all) {
+				if (count($sizeLimits) === 0 || $child->getSize() < $sizeLimits[0]) {
+					return $count;
+				}
+				array_shift($sizeLimits);
 			}
-			array_shift($sizeLimits);
 			$count += 1;
 
 			/** @var Node $child */
 			$output->writeln("$prefix- " . $child->getName() . ": <info>" . Util::humanFileSize($child->getSize()) . "</info>");
 			if ($child instanceof Folder) {
 				$recurseSizeLimits = $sizeLimits;
-				for ($j = 0; $j < count($recurseSizeLimits); $j++) {
-					$nextChildSize = (int)$children[$i + $j + 1]?->getSize();
-					if ($nextChildSize > $recurseSizeLimits[0]) {
-						array_shift($recurseSizeLimits);
-						$recurseSizeLimits[] = $nextChildSize;
+				if (!$all) {
+					for ($j = 0; $j < count($recurseSizeLimits); $j++) {
+						if (isset($children[$i + $j + 1])) {
+							$nextChildSize = $children[$i + $j + 1]->getSize();
+							if ($nextChildSize > $recurseSizeLimits[0]) {
+								array_shift($recurseSizeLimits);
+								$recurseSizeLimits[] = $nextChildSize;
+							}
+						}
 					}
+					sort($recurseSizeLimits);
 				}
-				sort($recurseSizeLimits);
-				$recurseCount = $this->outputLargeFilesTree($output, $child, $prefix . "  ", $recurseSizeLimits);
+				$recurseCount = $this->outputLargeFilesTree($output, $child, $prefix . "  ", $recurseSizeLimits, $all);
 				$sizeLimits = array_slice($sizeLimits, $recurseCount);
 				$count += $recurseCount;
 			}
