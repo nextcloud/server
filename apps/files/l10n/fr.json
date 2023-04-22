@@ -74,7 +74,7 @@
     "_%n folder_::_%n folders_" : ["%n dossier","%n dossiers","%n dossiers"],
     "_%n file_::_%n files_" : ["%n fichier","%n fichiers","%n fichiers"],
     "{dirs} and {files}" : "{dirs} et {files}",
-    "_including %n hidden_::_including %n hidden_" : ["inclus %n masqué","dont %n masqués","dont %n masqués"],
+    "_including %n hidden_::_including %n hidden_" : ["dont %n masqué","dont %n masqués","dont %n masqués"],
     "You do not have permission to upload or create files here" : "Vous n'avez pas la permission de téléverser ou de créer des fichiers ici",
     "_Uploading %n file_::_Uploading %n files_" : ["Téléversement de %n fichier","Envoi de %n fichiers","Envoi de %n fichiers"],
     "New file/folder menu" : "Menu nouveau fichier/dossier",
