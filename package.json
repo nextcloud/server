@@ -153,7 +153,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "jsdoc": "^4.0.2",
     "jsdom": "^21.1.1",
-    "karma": "^6.4.1",
+    "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "2.2.0",
     "karma-jasmine": "^1.1.2",
