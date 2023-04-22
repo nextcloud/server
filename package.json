@@ -89,7 +89,7 @@
     "p-queue": "^7.3.0",
     "path": "^0.12.7",
     "pinia": "^2.0.30",
-    "query-string": "^7.1.1",
+    "query-string": "^8.1.0",
     "regenerator-runtime": "^0.13.9",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
