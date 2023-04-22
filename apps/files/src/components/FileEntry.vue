@@ -75,6 +75,7 @@
 				:container="boundariesElement"
 				:disabled="source._loading"
 				:force-title="true"
+				:force-menu="true"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
 				<NcActionButton v-for="action in enabledMenuActions"
@@ -94,7 +95,7 @@
 		<td v-if="isSizeAvailable"
 			:style="{ opacity: sizeOpacity }"
 			class="files-list__row-size"
-			@click="execDefaultAction">
+			@click="openDetailsIfAvailable">
 			<span>{{ size }}</span>
 		</td>
 
@@ -103,7 +104,7 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom"
-			@click="execDefaultAction">
+			@click="openDetailsIfAvailable">
 			<CustomElementRender v-if="active"
 				:current-view="currentView"
 				:render="column.render"
@@ -129,6 +130,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
 
+import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
 import { getFileActions } from '../services/FileAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
@@ -260,6 +262,15 @@ export default Vue.extend({
 		},
 
 		linkTo() {
+			if (this.source.type === 'folder') {
+				const to = { ...this.$route, query: { dir: join(this.dir, this.source.basename) } }
+				return {
+					is: 'router-link',
+					title: this.t('files', 'Open folder {name}', { name: this.displayName }),
+					to,
+				}
+			}
+
 			if (this.enabledDefaultActions.length > 0) {
 				const action = this.enabledDefaultActions[0]
 				const displayName = action.displayName([this.source], this.currentView)
@@ -269,14 +280,6 @@ export default Vue.extend({
 				}
 			}
 
-			if (this.source.type === 'folder') {
-				const to = { ...this.$route, query: { dir: join(this.dir, this.source.basename) } }
-				return {
-					is: 'router-link',
-					title: this.t('files', 'Open folder {name}', { name: this.displayName }),
-					to,
-				}
-			}
 			return {
 				href: this.source.source,
 				// TODO: Use first action title ?
@@ -501,7 +504,7 @@ export default Vue.extend({
 				this.loading = action.id
 				Vue.set(this.source, '_loading', true)
 
-				const success = await action.exec(this.source, this.currentView)
+				const success = await action.exec(this.source, this.currentView, this.dir)
 
 				// If the action returns null, we stay silent
 				if (success === null) {
@@ -523,11 +526,25 @@ export default Vue.extend({
 			}
 		},
 		execDefaultAction(event) {
+			// Do not execute the default action on the folder, navigate instead
+			if (this.source.type === 'folder') {
+				return
+			}
+
 			if (this.enabledDefaultActions.length > 0) {
 				event.preventDefault()
 				event.stopPropagation()
 				// Execute the first default action if any
-				this.enabledDefaultActions[0].exec(this.source, this.currentView)
+				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.dir)
+			}
+		},
+
+		openDetailsIfAvailable(event) {
+			const detailsAction = this.enabledDefaultActions.find(action => action.id === ACTION_DETAILS)
+			if (detailsAction) {
+				event.preventDefault()
+				event.stopPropagation()
+				detailsAction.exec(this.source, this.currentView)
 			}
 		},
 

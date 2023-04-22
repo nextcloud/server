@@ -1,6 +1,7 @@
 import './templates.js'
 import './legacy/filelistSearch.js'
 import './actions/deleteAction'
+import './actions/sidebarAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -11,9 +12,9 @@ import NavigationView from './views/Navigation.vue'
 import processLegacyFilesViews from './legacy/navigationMapper.js'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 import router from './router/router.js'
+import RouterService from './services/RouterService'
 import SettingsModel from './models/Setting.js'
 import SettingsService from './services/Settings.js'
-import RouterService from './services/RouterService'
 
 declare global {
 	interface Window {

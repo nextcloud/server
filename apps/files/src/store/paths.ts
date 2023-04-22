@@ -24,20 +24,22 @@ import type { PathOptions, ServicesState } from '../types.ts'
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
-import type { FileId } from '../types'
+import type { FileId, PathsStore } from '../types'
 import Vue from 'vue'
 
 export const usePathsStore = function() {
 	const store = defineStore('paths', {
-		state: (): ServicesState => ({}),
+		state: () => ({
+			paths: {} as ServicesState
+		} as PathsStore),
 
 		getters: {
 			getPath: (state) => {
 				return (service: string, path: string): FileId|undefined => {
-					if (!state[service]) {
+					if (!state.paths[service]) {
 						return undefined
 					}
-					return state[service][path]
+					return state.paths[service][path]
 				}
 			},
 		},
@@ -45,12 +47,12 @@ export const usePathsStore = function() {
 		actions: {
 			addPath(payload: PathOptions) {
 				// If it doesn't exists, init the service state
-				if (!this[payload.service]) {
-					Vue.set(this, payload.service, {})
+				if (!this.paths[payload.service]) {
+					Vue.set(this.paths, payload.service, {})
 				}
 
 				// Now we can set the provided path
-				Vue.set(this[payload.service], payload.path, payload.fileid)
+				Vue.set(this.paths[payload.service], payload.path, payload.fileid)
 			},
 		}
 	})

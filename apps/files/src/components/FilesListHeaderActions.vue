@@ -103,6 +103,10 @@ export default Vue.extend({
 	},
 
 	computed: {
+		dir() {
+			// Remove any trailing slash but leave root slash
+			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+		},
 		enabledActions() {
 			return actions
 				.filter(action => action.execBatch)
@@ -165,7 +169,7 @@ export default Vue.extend({
 				})
 
 				// Dispatch action execution
-				const results = await action.execBatch(this.nodes, this.currentView)
+				const results = await action.execBatch(this.nodes, this.currentView, this.dir)
 
 				// Check if all actions returned null
 				if (!results.some(result => result !== null)) {

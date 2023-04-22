@@ -27,10 +27,11 @@ import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
 
 import { registerFileAction, FileAction } from '../services/FileAction.ts'
 import logger from '../logger.js'
+import type { Navigation } from '../services/Navigation.ts'
 
 registerFileAction(new FileAction({
 	id: 'delete',
-	displayName(nodes: Node[], view) {
+	displayName(nodes: Node[], view: Navigation) {
 		return view.id === 'trashbin'
 			? t('files_trashbin', 'Delete permanently')
 			: t('files', 'Delete')
@@ -57,8 +58,8 @@ registerFileAction(new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view) {
-		return Promise.all(nodes.map(node => this.exec(node, view)))
+	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 
 	order: 100,
