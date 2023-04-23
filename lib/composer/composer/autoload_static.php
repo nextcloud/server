@@ -150,6 +150,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AutoloadNotAllowedException' => __DIR__ . '/../../..' . '/lib/public/AutoloadNotAllowedException.php',
         'OCP\\BackgroundJob\\IJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IJob.php',
         'OCP\\BackgroundJob\\IJobList' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IJobList.php',
+        'OCP\\BackgroundJob\\IParallelAwareJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IParallelAwareJob.php',
         'OCP\\BackgroundJob\\Job' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/Job.php',
         'OCP\\BackgroundJob\\QueuedJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/QueuedJob.php',
         'OCP\\BackgroundJob\\TimedJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/TimedJob.php',
