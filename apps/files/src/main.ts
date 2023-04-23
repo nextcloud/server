@@ -2,9 +2,10 @@ import './templates.js'
 import './legacy/filelistSearch.js'
 
 import './actions/deleteAction'
-import './actions/favoriteAction'
-import './actions/sidebarAction'
 import './actions/downloadAction'
+import './actions/favoriteAction'
+import './actions/openFolderAction'
+import './actions/sidebarAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'

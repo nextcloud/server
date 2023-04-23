@@ -262,15 +262,6 @@ export default Vue.extend({
 		},
 
 		linkTo() {
-			if (this.source.type === 'folder') {
-				const to = { ...this.$route, query: { dir: join(this.dir, this.source.basename) } }
-				return {
-					is: 'router-link',
-					title: this.t('files', 'Open folder {name}', { name: this.displayName }),
-					to,
-				}
-			}
-
 			if (this.enabledDefaultActions.length > 0) {
 				const action = this.enabledDefaultActions[0]
 				const displayName = action.displayName([this.source], this.currentView)
@@ -526,11 +517,6 @@ export default Vue.extend({
 			}
 		},
 		execDefaultAction(event) {
-			// Do not execute the default action on the folder, navigate instead
-			if (this.source.type === 'folder') {
-				return
-			}
-
 			if (this.enabledDefaultActions.length > 0) {
 				event.preventDefault()
 				event.stopPropagation()

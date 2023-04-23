@@ -22,59 +22,49 @@
 import { emit } from '@nextcloud/event-bus'
 import { Permission, Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import ArrowDown from '@mdi/svg/svg/arrow-down.svg?raw'
+import Folder from '@mdi/svg/svg/folder.svg?raw'
 
 import { registerFileAction, FileAction } from '../services/FileAction'
-import { generateUrl } from '@nextcloud/router'
-import type { Navigation } from '../services/Navigation.ts'
-
-const triggerDownload = function(url: string) {
-	const hiddenElement = document.createElement('a')
-	hiddenElement.download = ''
-	hiddenElement.href = url
-	hiddenElement.click()
-}
-
-const downloadNodes = function(dir = '/', nodes: Node[]) {
-	const secret = Math.random().toString(36).substring(2)
-	const url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
-		dir,
-		secret,
-		files: JSON.stringify(nodes.map(node => node.basename)),
-	})
-	triggerDownload(url)
-}
+import type { Navigation } from '../services/Navigation.js'
+import { join } from 'path'
 
 registerFileAction(new FileAction({
-	id: 'download',
-	displayName: () => t('files', 'Download'),
-	iconSvgInline: () => ArrowDown,
+	id: 'open-folder',
+	displayName(files: Node[]) {
+		// Only works on single node
+		const displayName = files[0].attributes.displayName || files[0].basename
+		return t('files', 'Open folder {displayName}', { displayName })
+	},
+	iconSvgInline: () => Folder,
 
 	enabled(nodes: Node[]) {
-		return nodes.length > 0 && nodes
-			.map(node => node.permissions)
-			.every(permission => (permission & Permission.READ) !== 0)
+		// Only works on single node
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		const node = nodes[0]
+		return node.type === FileType.Folder
+			&& (node.permissions & Permission.READ) !== 0
 	},
 
 	async exec(node: Node, view: Navigation, dir: string) {
-		if (node.type === FileType.Folder) {
-			downloadNodes(dir, [node])
-			return null
+		if (!node || node.type !== FileType.Folder) {
+			return false
 		}
 
-		triggerDownload(node.source)
+		window.OCP.Files.Router.goToRoute(
+			null,
+			null,
+			{ dir: join(dir, node.basename) },
+		)
 		return null
 	},
-
 	async execBatch(nodes: Node[], view: Navigation, dir: string) {
-		if (nodes.length === 1) {
-			this.exec(nodes[0], view, dir)
-			return [null]
-		}
-
-		downloadNodes(dir, nodes)
-		return new Array(nodes.length).fill(null)
+		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 
-	order: 20,
+	// Main action if enabled, meaning folders only
+	order: -100,
+	default: true,
 }))

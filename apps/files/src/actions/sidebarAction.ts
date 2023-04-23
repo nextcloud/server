@@ -23,7 +23,7 @@ import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 import type { Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction } from '../services/FileAction.ts'
+import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 
 export const ACTION_DETAILS = 'details'

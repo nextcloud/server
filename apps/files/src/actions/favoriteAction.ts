@@ -26,7 +26,7 @@ import Star from '@mdi/svg/svg/star.svg?raw'
 import type { Node } from '@nextcloud/files'
 
 import { generateUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '../services/FileAction.ts'
+import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 import type { Navigation } from '../services/Navigation'
 
