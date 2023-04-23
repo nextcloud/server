@@ -3,6 +3,7 @@ import './legacy/filelistSearch.js'
 
 import './actions/deleteAction'
 import './actions/downloadAction'
+import './actions/editLocallyAction'
 import './actions/favoriteAction'
 import './actions/openFolderAction'
 import './actions/sidebarAction'
