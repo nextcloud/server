@@ -426,7 +426,7 @@
     "Hide" : "Сховати",
     "Download and enable" : "Звантажити та увімкнути",
     "Enable untested app" : "Увімкнути непротестований застосунок",
-    "The app will be downloaded from the App Store" : "Застосунок буде завантажено з App Store",
+    "The app will be downloaded from the App Store" : "Застосунок буде звантажено з App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Відсутня інформація щодо підтримки цього застосунку вашою версією Nextcloud. Ви зможете встановити цей застосунок, проте він може працювати не так, як ви очікуєте.",
     "Never" : "Ніколи",
     "An error occurred during the request. Unable to proceed." : "Під час запиту сталася помилка. Неможливо продовжити.",
