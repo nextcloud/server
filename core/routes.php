@@ -80,6 +80,7 @@ $application->registerRoutes($this, [
 		['name' => 'TwoFactorChallenge#setupProvider', 'url' => 'login/setupchallenge/{providerId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#confirmProviderSetup', 'url' => 'login/setupchallenge/{providerId}', 'verb' => 'POST'],
 		['name' => 'OCJS#getConfig', 'url' => '/core/js/oc.js', 'verb' => 'GET'],
+		['name' => 'Preview#preflighted_cors',  'url' => '/core/preview', 'verb' => 'OPTIONS'],
 		['name' => 'Preview#getPreviewByFileId', 'url' => '/core/preview', 'verb' => 'GET'],
 		['name' => 'Preview#getPreview', 'url' => '/core/preview.png', 'verb' => 'GET'],
 		['name' => 'RecommendedApps#index', 'url' => '/core/apps/recommended', 'verb' => 'GET'],

@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCA\Files_Sharing\SharedStorage;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -39,7 +39,7 @@ use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
 
-class PreviewController extends Controller {
+class PreviewController extends ApiController {
 	private ?string $userId;
 	private IRootFolder $root;
 	private IPreview $preview;
@@ -87,6 +87,7 @@ class PreviewController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @CORS
 	 *
 	 * @return DataResponse|FileDisplayResponse
 	 */
