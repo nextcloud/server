@@ -67,27 +67,17 @@ class ApiController extends Controller {
 	private IPreview $previewManager;
 	private IUserSession $userSession;
 	private IConfig $config;
-	private Folder $userFolder;
+	private ?Folder $userFolder;
 	private UserConfig $userConfig;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param TagService $tagService
-	 * @param IPreview $previewManager
-	 * @param IManager $shareManager
-	 * @param IConfig $config
-	 * @param Folder $userFolder
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IUserSession $userSession,
 								TagService $tagService,
 								IPreview $previewManager,
 								IManager $shareManager,
 								IConfig $config,
-								Folder $userFolder,
+								?Folder $userFolder,
 								UserConfig $userConfig) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
