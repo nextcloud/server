@@ -251,7 +251,7 @@ class User {
 			$attr = strtolower($this->connection->ldapAttributePhone);
 			if (!empty($attr)) { // attribute configured
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE]
-					= (isset($ldapEntry[$attr]) ? $ldapEntry[$attr][0] : "");
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
