@@ -36,14 +36,20 @@ function recursive_optimize_images() {
 	cd "$1" || return
 	DIR_NAME=${PWD##*/}
 
-	if [[ "$DIR_NAME" == "node_modules" ]]; then
+	if [[ "$DIR_NAME" == "3rdparty" ]]; then
+		echo "Ignoring 3rdparty for image optimization"
+		return
+	elif [[ "$DIR_NAME" == "build" ]]; then
+		echo "Ignoring build for image optimization"
+		return
+	elif [[ "$DIR_NAME" == "cypress" ]]; then
+		echo "Ignoring cypress for image optimization"
+		return
+	elif [[ "$DIR_NAME" == "node_modules" ]]; then
 		echo "Ignoring node_modules for image optimization"
 		return
 	elif [[ "$DIR_NAME" == "tests" ]]; then
 		echo "Ignoring tests for image optimization"
-		return
-	elif [[ "$DIR_NAME" == "3rdparty" ]]; then
-		echo "Ignoring 3rdparty for image optimization"
 		return
 	elif [[ "$DIR_NAME" == "vendor" ]]; then
 		echo "Ignoring vendor for image optimization"
