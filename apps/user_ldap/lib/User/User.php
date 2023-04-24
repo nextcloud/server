@@ -286,31 +286,31 @@ class User {
 			$attr = strtolower($this->connection->ldapAttributeTwitter);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER]
-					= (isset($ldapEntry[$attr]) ? $ldapEntry[$attr][0] : "");
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - fediverse
 			$attr = strtolower($this->connection->ldapAttributeFediverse);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE]
-					= (isset($ldapEntry[$attr]) ? $ldapEntry[$attr][0] : "");
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - organisation
 			$attr = strtolower($this->connection->ldapAttributeOrganisation);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION]
-					= (isset($ldapEntry[$attr]) ? $ldapEntry[$attr][0] : "");
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - role
 			$attr = strtolower($this->connection->ldapAttributeRole);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE]
-					= (isset($ldapEntry[$attr]) ? $ldapEntry[$attr][0] : "");
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - headline
 			$attr = strtolower($this->connection->ldapAttributeHeadline);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE]
-					= (isset($ldapEntry[$attr]) ? $ldapEntry[$attr][0] : "");
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - biography
 			$attr = strtolower($this->connection->ldapAttributeBiography);
