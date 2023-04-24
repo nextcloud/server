@@ -36,8 +36,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
-use OCP\IRequest;
 use OCP\IConfig;
+use OCP\IRequest;
 
 /**
  * This middleware sets the correct CORS headers on a response if the
@@ -67,11 +67,11 @@ class CORSMiddleware extends Middleware {
 	 * @param string $app_name
 	 */
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								Session $session,
-								Throttler $throttler,
-								IConfig $config,
-								$app_name) {
+		ControllerMethodReflector $reflector,
+		Session $session,
+		Throttler $throttler,
+		IConfig $config,
+		$app_name) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -181,7 +181,7 @@ class CORSMiddleware extends Middleware {
 	 * @return bool
 	 *	 True if origin is in allowed origins list.
 	 */
-	private function isOriginAllowed($origin, $app = null ): bool {
+	private function isOriginAllowed($origin, $app = null): bool {
 		// Starting with no allowed origins.
 		$allowed_origins = [];
 		// Add first the general allowed origins if defined
