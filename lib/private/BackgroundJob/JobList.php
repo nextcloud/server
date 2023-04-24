@@ -39,16 +39,19 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 class JobList implements IJobList {
 	protected IDBConnection $connection;
 	protected IConfig $config;
 	protected ITimeFactory $timeFactory;
+	protected LoggerInterface $logger;
 
-	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory) {
+	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -401,6 +404,7 @@ class JobList implements IJobList {
 			$result->closeCursor();
 			return $hasReservedJobs;
 		} catch (Exception $e) {
+			$this->logger->debug('Querying reserved jobs failed', ['exception' => $e]);
 			return false;
 		}
 	}
