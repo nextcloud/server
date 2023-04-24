@@ -141,11 +141,11 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	}
 
 	public function hasReservedJob(?string $className = null): bool {
-		return $this->reserved[$className];
+		return $this->reserved[$className ?? ''];
 	}
 
 	public function setHasReservedJob(?string $className, bool $hasReserved): void {
-		$this->reserved[$className] = $hasReserved;
+		$this->reserved[$className ?? ''] = $hasReserved;
 	}
 
 	public function setExecutionTime(IJob $job, $timeTaken): void {
