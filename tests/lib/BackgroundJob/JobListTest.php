@@ -12,6 +12,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -44,7 +45,8 @@ class JobListTest extends TestCase {
 		$this->instance = new \OC\BackgroundJob\JobList(
 			$this->connection,
 			$this->config,
-			$this->timeFactory
+			$this->timeFactory,
+			\OC::$server->get(LoggerInterface::class),
 		);
 	}
 
