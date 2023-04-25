@@ -296,8 +296,8 @@ class Generator {
 	public static function getHardwareConcurrency(): int {
 		static $width;
 		if (!isset($width)) {
-			if (is_file("/proc/cpuinfo")) {
-				$width = substr_count(file_get_contents("/proc/cpuinfo"), "processor");
+			if (function_exists('getconf')) {
+				$width = is_int(getconf('_NPROCESSORS_ONLN')) ?? is_int(getconf('NPROCESSORS_ONLN')) ?? 0;
 			} else {
 				$width = 0;
 			}
