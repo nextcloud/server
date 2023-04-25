@@ -19,36 +19,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate as t } from '@nextcloud/l10n'
-import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
+/* eslint-disable */
+import { defineStore } from 'pinia'
+import { subscribe } from '@nextcloud/event-bus'
 import type { Node } from '@nextcloud/files'
+import type { RenamingStore } from '../types'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
-import logger from '../logger.js'
+export const useRenamingStore = function() {
+	const store = defineStore('renaming', {
+		state: () => ({
+			renamingNode: undefined,
+			newName: '',
+		} as RenamingStore),
+	})
 
-export const ACTION_DETAILS = 'details'
+	const renamingStore = store(...arguments)
 
-registerFileAction(new FileAction({
-	id: ACTION_DETAILS,
-	displayName: () => t('files', 'Open details'),
-	iconSvgInline: () => InformationSvg,
+	// Make sure we only register the listeners once
+	if (!renamingStore._initialized) {
+		subscribe('files:node:rename', function(node: Node) {
+			renamingStore.renamingNode = node
+			renamingStore.newName = node.basename
+		})
+		renamingStore._initialized = true
+	}
 
-	// Sidebar currently supports user folder only, /files/USER
-	enabled: (files: Node[]) => !!window?.OCA?.Files?.Sidebar
-		&& files.some(node => node.root?.startsWith('/files/')),
-
-	async exec(node: Node) {
-		try {
-			// TODO: migrate Sidebar to use a Node instead
-			window?.OCA?.Files?.Sidebar?.open?.(node.path)
-
-			return null
-		} catch (error) {
-			logger.error('Error while opening sidebar', { error })
-			return false
-		}
-	},
-
-	default: true,
-	order: 0,
-}))
+	return renamingStore
+}

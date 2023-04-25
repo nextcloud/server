@@ -19,36 +19,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { Permission, type Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
-import type { Node } from '@nextcloud/files'
+import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
 
+import { emit } from '@nextcloud/event-bus'
 import { registerFileAction, FileAction } from '../services/FileAction'
-import logger from '../logger.js'
 
 export const ACTION_DETAILS = 'details'
 
 registerFileAction(new FileAction({
-	id: ACTION_DETAILS,
-	displayName: () => t('files', 'Open details'),
-	iconSvgInline: () => InformationSvg,
+	id: 'rename',
+	displayName: () => t('files', 'Rename'),
+	iconSvgInline: () => PencilSvg,
 
-	// Sidebar currently supports user folder only, /files/USER
-	enabled: (files: Node[]) => !!window?.OCA?.Files?.Sidebar
-		&& files.some(node => node.root?.startsWith('/files/')),
-
-	async exec(node: Node) {
-		try {
-			// TODO: migrate Sidebar to use a Node instead
-			window?.OCA?.Files?.Sidebar?.open?.(node.path)
-
-			return null
-		} catch (error) {
-			logger.error('Error while opening sidebar', { error })
-			return false
-		}
+	enabled: (nodes: Node[]) => {
+		return nodes.length > 0 && nodes
+			.map(node => node.permissions)
+			.every(permission => (permission & Permission.UPDATE) !== 0)
 	},
 
-	default: true,
-	order: 0,
+	async exec(node: Node) {
+		// Renaming is a built-in feature of the files app
+		emit('files:node:rename', node)
+		return null
+	},
+
+	order: 10,
 }))

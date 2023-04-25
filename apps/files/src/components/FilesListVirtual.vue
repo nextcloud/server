@@ -232,6 +232,7 @@ export default Vue.extend({
 			}
 		}
 
+		// Entry preview or mime icon
 		.files-list__row-icon {
 			position: relative;
 			display: flex;
@@ -246,13 +247,18 @@ export default Vue.extend({
 			margin-right: var(--checkbox-padding);
 			color: var(--color-primary-element);
 
-			& > span {
-				justify-content: flex-start;
+			// Icon is also clickable
+			* {
+				cursor: pointer;
 			}
 
-			&> span:not(.files-list__row-icon-favorite) svg {
-				width: var(--icon-preview-size);
-				height: var(--icon-preview-size);
+			& > span {
+				justify-content: flex-start;
+
+				&:not(.files-list__row-icon-favorite) svg {
+					width: var(--icon-preview-size);
+					height: var(--icon-preview-size);
+				}
 			}
 
 			&-preview {
@@ -274,6 +280,7 @@ export default Vue.extend({
 			}
 		}
 
+		// Entry link
 		.files-list__row-name {
 			// Prevent link from overflowing
 			overflow: hidden;
@@ -286,6 +293,8 @@ export default Vue.extend({
 				// Fill cell height and width
 				width: 100%;
 				height: 100%;
+				// Necessary for flex grow to work
+				min-width: 0;
 
 				// Keyboard indicator a11y
 				&:focus .files-list__row-name-text,
@@ -299,6 +308,29 @@ export default Vue.extend({
 				// Make some space for the outline
 				padding: 5px 10px;
 				margin-left: -10px;
+			}
+
+			.files-list__row-name-ext {
+				color: var(--color-text-maxcontrast);
+			}
+		}
+
+		// Rename form
+		.files-list__row-rename {
+			width: 100%;
+			max-width: 600px;
+			input {
+				width: 100%;
+				// Align with text, 0 - padding - border
+				margin-left: -8px;
+				padding: 2px 6px;
+				border-width: 2px;
+
+				&:invalid {
+					// Show red border on invalid input
+					border-color: var(--color-error);
+					color: red;
+				}
 			}
 		}
 

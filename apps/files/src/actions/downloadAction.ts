@@ -76,5 +76,5 @@ registerFileAction(new FileAction({
 		return new Array(nodes.length).fill(null)
 	},
 
-	order: 20,
+	order: 30,
 }))

@@ -96,3 +96,9 @@ export interface ViewConfigs {
 export interface ViewConfigStore {
 	viewConfig: ViewConfigs
 }
+
+// Renaming store
+export interface RenamingStore {
+	renamingNode?: Node
+	newName: string
+}

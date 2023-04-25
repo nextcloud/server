@@ -91,5 +91,5 @@ registerFileAction(new FileAction({
 		return Promise.all(nodes.map(node => this.exec(node, view)))
 	},
 
-	order: 0,
+	order: -50,
 }))
