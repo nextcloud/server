@@ -191,9 +191,6 @@ class AppManager implements IAppManager {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public function loadApps(array $types = []): bool {
-		if ($this->config->getSystemValueBool('maintenance', false)) {
-			return false;
-		}
 		// Load the enabled apps here
 		$apps = \OC_App::getEnabledApps();
 

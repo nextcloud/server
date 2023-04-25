@@ -115,32 +115,30 @@ class Application {
 			if ($this->config->getSystemValueBool('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
-				} elseif ($this->config->getSystemValueBool('maintenance')) {
-					$this->writeMaintenanceModeInfo($input, $output);
-				} else {
-					OC_App::loadApps();
-					$appManager = \OCP\Server::get(IAppManager::class);
-					foreach ($appManager->getInstalledApps() as $app) {
-						$appPath = \OC_App::getAppPath($app);
-						if ($appPath === false) {
-							continue;
-						}
-						// load commands using info.xml
-						$info = $appManager->getAppInfo($app);
-						if (isset($info['commands'])) {
-							$this->loadCommandsFromInfoXml($info['commands']);
-						}
-						// load from register_command.php
-						\OC_App::registerAutoloading($app, $appPath);
-						$file = $appPath . '/appinfo/register_command.php';
-						if (file_exists($file)) {
-							try {
-								require $file;
-							} catch (\Exception $e) {
-								$this->logger->error($e->getMessage(), [
-									'exception' => $e,
-								]);
-							}
+				}
+
+				OC_App::loadApps();
+				$appManager = \OCP\Server::get(IAppManager::class);
+				foreach ($appManager->getInstalledApps() as $app) {
+					$appPath = \OC_App::getAppPath($app);
+					if ($appPath === false) {
+						continue;
+					}
+					// load commands using info.xml
+					$info = $appManager->getAppInfo($app);
+					if (isset($info['commands'])) {
+						$this->loadCommandsFromInfoXml($info['commands']);
+					}
+					// load from register_command.php
+					\OC_App::registerAutoloading($app, $appPath);
+					$file = $appPath . '/appinfo/register_command.php';
+					if (file_exists($file)) {
+						try {
+							require $file;
+						} catch (\Exception $e) {
+							$this->logger->error($e->getMessage(), [
+								'exception' => $e,
+							]);
 						}
 					}
 				}
