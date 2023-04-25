@@ -27,7 +27,6 @@ use OC\Files\Storage\Wrapper\Availability;
 use OCP\Files\StorageNotAvailableException;
 
 class AvailabilityTest extends \Test\TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject|StorageCache */
 	protected $storageCache;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|Temporary */

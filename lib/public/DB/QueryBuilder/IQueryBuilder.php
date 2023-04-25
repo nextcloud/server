@@ -38,7 +38,6 @@ use OCP\DB\IResult;
  * @psalm-taint-specialize
  */
 interface IQueryBuilder {
-
 	/**
 	 * @since 9.0.0
 	 */

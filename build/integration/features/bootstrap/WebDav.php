@@ -54,6 +54,9 @@ trait WebDav {
 	/** @var int */
 	private $storedFileID = null;
 
+	private string $s3MultipartDestination;
+	private string $uploadId;
+
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
 	 */
@@ -751,6 +754,7 @@ trait WebDav {
 	 * @Given user :user creates a new chunking upload with id :id
 	 */
 	public function userCreatesANewChunkingUploadWithId($user, $id) {
+		$this->parts = [];
 		$destination = '/uploads/' . $user . '/' . $id;
 		$this->makeDavRequest($user, 'MKCOL', $destination, [], null, "uploads");
 	}
@@ -790,6 +794,60 @@ trait WebDav {
 		} catch (\GuzzleHttp\Exception\BadResponseException $ex) {
 			$this->response = $ex->getResponse();
 		}
+	}
+
+
+	/**
+	 * @Given user :user creates a new chunking v2 upload with id :id and destination :targetDestination
+	 */
+	public function userCreatesANewChunkingv2UploadWithIdAndDestination($user, $id, $targetDestination) {
+		$this->s3MultipartDestination = $this->getTargetDestination($user, $targetDestination);
+		$this->newUploadId();
+		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id);
+		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
+			'Destination' => $this->s3MultipartDestination,
+		], null, "uploads");
+	}
+
+	/**
+	 * @Given user :user uploads new chunk v2 file :num to id :id
+	 */
+	public function userUploadsNewChunkv2FileToIdAndDestination($user, $num, $id) {
+		$data = \GuzzleHttp\Psr7\Utils::streamFor(fopen('/tmp/part-upload-' . $num, 'r'));
+		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id) . '/' . $num;
+		$this->response = $this->makeDavRequest($user, 'PUT', $destination, [
+			'Destination' => $this->s3MultipartDestination
+		], $data, "uploads");
+	}
+
+	/**
+	 * @Given user :user moves new chunk v2 file with id :id
+	 */
+	public function userMovesNewChunkv2FileWithIdToMychunkedfileAndDestination($user, $id) {
+		$source = '/uploads/' . $user . '/' . $this->getUploadId($id) . '/.file';
+		try {
+			$this->response = $this->makeDavRequest($user, 'MOVE', $source, [
+				'Destination' => $this->s3MultipartDestination,
+			], null, "uploads");
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	private function getTargetDestination(string $user, string $destination): string {
+		return substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . $destination;
+	}
+
+	private function getUploadId(string $id): string {
+		return $id . '-' . $this->uploadId;
+	}
+
+	private function newUploadId() {
+		$this->uploadId = (string)time();
 	}
 
 	/**
@@ -979,5 +1037,61 @@ trait WebDav {
 	public function userChecksFileIdForPath($user, $path) {
 		$currentFileID = $this->getFileIdForPath($user, $path);
 		Assert::assertEquals($currentFileID, $this->storedFileID);
+	}
+
+	/**
+	 * @Given /^user "([^"]*)" creates a file locally with "([^"]*)" x 5 MB chunks$/
+	 */
+	public function userCreatesAFileLocallyWithChunks($arg1, $chunks) {
+		$this->parts = [];
+		for ($i = 1;$i <= (int)$chunks;$i++) {
+			$randomletter = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 1);
+			file_put_contents('/tmp/part-upload-' . $i, str_repeat($randomletter, 5 * 1024 * 1024));
+			$this->parts[] = '/tmp/part-upload-' . $i;
+		}
+	}
+
+	/**
+	 * @Given user :user creates the chunk :id with a size of :size MB
+	 */
+	public function userCreatesAChunk($user, $id, $size) {
+		$randomletter = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 1);
+		file_put_contents('/tmp/part-upload-' . $id, str_repeat($randomletter, (int)$size * 1024 * 1024));
+		$this->parts[] = '/tmp/part-upload-' . $id;
+	}
+
+	/**
+	 * @Then /^Downloaded content should be the created file$/
+	 */
+	public function downloadedContentShouldBeTheCreatedFile() {
+		$content = '';
+		sort($this->parts);
+		foreach ($this->parts as $part) {
+			$content .= file_get_contents($part);
+		}
+		Assert::assertEquals($content, (string)$this->response->getBody());
+	}
+
+	/**
+	 * @Then /^the S3 multipart upload was successful with status "([^"]*)"$/
+	 */
+	public function theSmultipartUploadWasSuccessful($status) {
+		Assert::assertEquals((int)$status, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Then /^the upload should fail on object storage$/
+	 */
+	public function theUploadShouldFailOnObjectStorage() {
+		$descriptor = [
+			0 => ['pipe', 'r'],
+			1 => ['pipe', 'w'],
+			2 => ['pipe', 'w'],
+		];
+		$process = proc_open('php occ config:system:get objectstore --no-ansi', $descriptor, $pipes, '../../');
+		$lastCode = proc_close($process);
+		if ($lastCode === 0) {
+			$this->theHTTPStatusCodeShouldBe(500);
+		}
 	}
 }

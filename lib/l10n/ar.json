@@ -18,6 +18,7 @@
     "Unknown filetype" : "نوع الملف غير معروف",
     "Invalid image" : "الصورة غير صالحة",
     "Avatar image is not square" : "الصورة الرمزية ليست على شكل مربّع",
+    "Files" : "الملفات",
     "today" : "اليوم",
     "tomorrow" : "غدًا",
     "yesterday" : "يوم أمس",
@@ -49,7 +50,7 @@
     "Address" : "العنوان",
     "Profile picture" : "صورة الملف الشخصي",
     "About" : "عن",
-    "Full name" : "الاسم الكامل",
+    "Display name" : "الاسم المعروض",
     "Role" : "الدور",
     "Unknown user" : "المستخدم غير معروف",
     "Additional settings" : "الإعدادات المتقدمة",
@@ -58,6 +59,7 @@
     "PostgreSQL username and/or password not valid" : "اسم المستخدم / أو كلمة المرور الخاصة بـPostgreSQL غير صحيحة",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "نظام ماك الإصدار X غير مدعوم و %s لن يعمل بشكل صحيح على هذه المنصة.  استخدمه على مسؤوليتك!",
     "For the best results, please consider using a GNU/Linux server instead." : "فضلاً ضع في الاعتبار استخدام نظام GNU/Linux بدل الأنظمة الأخرى للحصول على أفضل النتائج.",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "فضلاً إحذف إعداد open_basedir من ملف php.ini لديك أو حوّل إلى PHP إصدار 64 بت.",
     "Set an admin username." : "اعداد اسم مستخدم للمدير",
     "Set an admin password." : "اعداد كلمة مرور للمدير",
     "Open »%s«" : "فتح »%s«",
@@ -121,11 +123,12 @@
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "تضبيط الإعدادات في ملف php.ini سوف يُمكّن نيكست كلاود من العمل مجدداً",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "نحتاج النسخة 2.7.0 من libxml2 على الأقل. النسخة المتوافرة حالياً هي %s",
     "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
+    "Full name" : "الاسم الكامل",
     "%s enter the database username and name." : "%s أدخِل اسم قاعدة البيانات واسم مستخدمها.",
     "%s enter the database username." : "%s ادخل اسم المستخدم الخاص بقاعدة البيانات.",
     "%s enter the database name." : "%s ادخل اسم فاعدة البيانات",
-    "%s you may not use dots in the database name" : "%s لا يسمح لك باستخدام نقطه (.) في اسم قاعدة البيانات",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "فضلاً إحذف إعداد open_basedir من ملف php.ini لديك أو حوّل إلى PHP إصدار 64 بت."
+    "%s you may not use dots in the database name" : "%s لا يسمح لك باستخدام نقطه (.) في اسم قاعدة البيانات"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

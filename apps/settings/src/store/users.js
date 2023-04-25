@@ -26,10 +26,10 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import logger from '../logger'
+import logger from '../logger.js'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -184,6 +184,10 @@ const mutations = {
 				state.userCount-- // decrement Active Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					if (!group) {
+						console.warn('User group ' + userGroup + ' does not exist during user removal')
+						return
+					}
 					group.usercount-- // decrement group total count
 				})
 			} else {

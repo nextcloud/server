@@ -47,7 +47,6 @@ use function array_map;
 use function array_merge;
 
 class Manager implements IManager {
-
 	/**
 	 * @var ICalendar[] holds all registered calendars
 	 */

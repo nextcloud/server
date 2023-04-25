@@ -59,6 +59,7 @@ use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
+use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\LdapInvalidUuids;
@@ -330,7 +331,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 80000;
+		return PHP_VERSION_ID < 80100;
 	}
 
 	/**
@@ -499,6 +500,8 @@ Raw output
 			}
 		} elseif (!$isPermitted) {
 			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
+		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
+			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply <code>opcache.file_cache_only=0</code> to your PHP configuration and use the file cache as second level cache only.');
 		} else {
 			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
@@ -524,11 +527,11 @@ Raw output
 			}
 
 			if (
-				empty($status['interned_strings_usage']['free_memory']) ||
+				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
+				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') / 4) &&
 				(
-					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9) &&
-					// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-					($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') / 4)
+					empty($status['interned_strings_usage']['free_memory']) ||
+					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
 				)
 			) {
 				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
@@ -617,6 +620,10 @@ Raw output
 		return !($this->lockingProvider instanceof NoopLockingProvider);
 	}
 
+	protected function hasDBFileLocking(): bool {
+		return ($this->lockingProvider instanceof DBLockingProvider);
+	}
+
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -630,7 +637,7 @@ Raw output
 	}
 
 	protected function getLastCronInfo(): array {
-		$lastCronRun = $this->config->getAppValue('core', 'lastcron', 0);
+		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
 		return [
 			'diffInSeconds' => time() - $lastCronRun,
 			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
@@ -722,7 +729,13 @@ Raw output
 			$recommendedPHPModules[] = 'sysvsem';
 		}
 
-		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
+		if (!extension_loaded('exif')) {
+			// used to extract metadata from images
+			// required for correct orientation of preview images
+			$recommendedPHPModules[] = 'exif';
+		}
+
+		if (!defined('PASSWORD_ARGON2I')) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension
 			// and RedHat disabled it so even installing php-sodium won't provide argon2i
@@ -867,6 +880,7 @@ Raw output
 				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
+				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),

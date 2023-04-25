@@ -49,7 +49,6 @@ use OCP\DB\Exception;
  * @psalm-immutable
  */
 class DbalException extends Exception {
-
 	/** @var \Doctrine\DBAL\Exception */
 	private $original;
 

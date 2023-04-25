@@ -55,8 +55,7 @@ input {
 .personal-settings-setting-box {
 	.section {
 		padding: 10px 30px;
-
-		h3 {
+		.headerbar-label {
 			margin-bottom: 0;
 		}
 
@@ -90,6 +89,7 @@ select {
 	padding: 20px;
 	max-width: 1700px;
 	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-column-gap: 10px;
 
 	.section {
 		padding: 10px 10px;
@@ -97,6 +97,12 @@ select {
 
 		h2 {
 			margin-bottom: 12px;
+		}
+
+		h3 {
+			> label {
+				font-weight: bold;
+			}
 		}
 	}
 

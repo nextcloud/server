@@ -1,5 +1,9 @@
 <?php /** @var \OCP\IL10N $l */ ?>
 <?php $_['appNavigation']->printPage(); ?>
+
+<!-- New files vue container -->
+<div id="app-content-vue" class="hidden"></div>
+
 <div id="app-content" tabindex="0">
 
 	<input type="checkbox" class="hidden-visually" id="showgridview"
@@ -8,8 +12,6 @@
 	<label id="view-toggle" for="showgridview" tabindex="0" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
 		title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view'))?>"></label>
 
-	<!-- New files vue container -->
-	<div id="app-content-vue" class="hidden"></div>
 
 	<!-- Legacy views -->
 	<?php foreach ($_['appContents'] as $content) { ?>

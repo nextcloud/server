@@ -41,9 +41,8 @@ export default defineConfig({
 	trashAssetsBeforeRuns: true,
 
 	e2e: {
-		// Enable session management and disable isolation
-		experimentalSessionAndOrigin: true,
-		testIsolation: 'off',
+		// Disable session isolation
+		testIsolation: false,
 
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
@@ -71,7 +70,9 @@ export default defineConfig({
 
 			// Remove container after run
 			on('after:run', () => {
-				stopNextcloud()
+				if (!process.env.CI) {
+					stopNextcloud()
+				}
 			})
 
 			// Before the browser launches
@@ -99,6 +100,20 @@ export default defineConfig({
 				process.env.npm_package_name = 'NcCypress'
 				process.env.npm_package_version = '1.0.0'
 				process.env.NODE_ENV = 'development'
+
+				/**
+				 * Needed for cypress stubbing
+				 *
+				 * @see https://github.com/sinonjs/sinon/issues/1121
+				 * @see https://github.com/cypress-io/cypress/issues/18662
+				 */
+				const babel = require('./babel.config.js')
+				babel.plugins.push([
+					'@babel/plugin-transform-modules-commonjs',
+					{
+						loose: true,
+					},
+				])
 
 				const config = require('@nextcloud/webpack-vue-config')
 				config.module.rules.push({

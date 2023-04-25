@@ -56,7 +56,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Share20
  */
 class ProviderFactory implements IProviderFactory {
-
 	/** @var IServerContainer */
 	private $serverContainer;
 	/** @var DefaultShareProvider */
@@ -341,6 +340,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
 			$provider = $this->getProvider('deck');
+		} elseif ($shareType === IShare::TYPE_SCIENCEMESH) {
+			$provider = $this->getProvider('sciencemesh');
 		}
 
 

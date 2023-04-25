@@ -36,8 +36,10 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\Lock\ILockingProvider;
 use OC\Files\Storage\Wrapper\Encoding;
@@ -91,7 +93,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->cacheActive = !\OC::$server->getConfig()->getSystemValue('filesystem_cache_readonly', false);
+		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 	}
 
@@ -142,7 +144,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		// only proceed if $file is not a partial file, blacklist is handled by the storage
 		if (!self::isPartialFile($file)) {
-
 			// acquire a lock
 			if ($lock) {
 				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
@@ -164,7 +165,6 @@ class Scanner extends BasicEmitter implements IScanner {
 
 			try {
 				if ($data) {
-
 					// pre-emit only if it was a file. By that we avoid counting/treating folders as files
 					if ($data['mimetype'] !== 'httpd/unix-directory') {
 						$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);
@@ -209,9 +209,17 @@ class Scanner extends BasicEmitter implements IScanner {
 								$data['etag'] = $etag;
 							}
 						}
+
+						// we only updated unencrypted_size if it's already set
+						if ($cacheData['unencrypted_size'] === 0) {
+							unset($data['unencrypted_size']);
+						}
+
 						// Only update metadata that has changed
 						$newData = array_diff_assoc($data, $cacheData->getData());
 					} else {
+						// we only updated unencrypted_size if it's already set
+						unset($data['unencrypted_size']);
 						$newData = $data;
 						$fileId = -1;
 					}
@@ -221,7 +229,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$newData['parent'] = $parentId;
 						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 					}
-					
+
 					$data['oldSize'] = ($cacheData && isset($cacheData['size'])) ? $cacheData['size'] : 0;
 
 					if ($cacheData && isset($cacheData['encrypted'])) {
@@ -330,10 +338,15 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		try {
-			$data = $this->scanFile($path, $reuse, -1, null, $lock);
-			if ($data && $data['mimetype'] === 'httpd/unix-directory') {
-				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data);
-				$data['size'] = $size;
+			try {
+				$data = $this->scanFile($path, $reuse, -1, null, $lock);
+				if ($data && $data['mimetype'] === 'httpd/unix-directory') {
+					$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data);
+					$data['size'] = $size;
+				}
+			} catch (NotFoundException $e) {
+				$this->removeFromCache($path);
+				return null;
 			}
 		} finally {
 			if ($lock) {
@@ -392,8 +405,15 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		$oldSize = $data['size'] ?? null;
-		if ($this->cacheActive && $oldSize !== $size) {
-			$this->cache->update($folderId, ['size' => $size]);
+
+		// for encrypted storages, we trigger a regular folder size calculation instead of using the calculated size
+		// to make sure we also updated the unencrypted-size where applicable
+		if ($this->storage->instanceOfStorage(Encryption::class)) {
+			$this->cache->calculateFolderSize($path);
+		} else {
+			if ($this->cacheActive && $oldSize !== $size) {
+				$this->cache->update($folderId, ['size' => $size]);
+			}
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', [$path, $this->storageId]);
 		return $size;

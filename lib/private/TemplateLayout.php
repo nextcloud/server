@@ -79,7 +79,6 @@ class TemplateLayout extends \OC_Template {
 	 * @param string $appId application id
 	 */
 	public function __construct($renderAs, $appId = '') {
-
 		/** @var IConfig */
 		$this->config = \OC::$server->get(IConfig::class);
 
@@ -120,6 +119,16 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
 
+			// Set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
+
+			// Set default app name
+			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
+			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
+			$l10n = \OC::$server->getL10NFactory()->get($defaultApp);
+			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
+
 			// Add navigation entry
 			$this->assign('application', '');
 			$this->assign('appid', $appId);
@@ -127,7 +136,7 @@ class TemplateLayout extends \OC_Template {
 			$navigation = $this->navigationManager->getAll();
 			$this->assign('navigation', $navigation);
 			$settingsNavigation = $this->navigationManager->getAll('settings');
-			$this->assign('settingsnavigation', $settingsNavigation);
+			$this->initialState->provideInitialState('core', 'settingsNavEntries', $settingsNavigation);
 
 			foreach ($navigation as $entry) {
 				if ($entry['active']) {
@@ -190,11 +199,6 @@ class TemplateLayout extends \OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-
-		// set logo link target
-		$logoUrl = $this->config->getSystemValueString('logo_url', '');
-		$this->assign('logoUrl', $logoUrl);
-
 		// Send the language and the locale to our layouts
 		$lang = \OC::$server->getL10NFactory()->findLanguage();
 		$locale = \OC::$server->getL10NFactory()->findLocale($lang);
@@ -217,7 +221,7 @@ class TemplateLayout extends \OC_Template {
 		// TODO: remove deprecated OC_Util injection
 		$jsFiles = self::findJavascriptFiles(array_merge(\OC_Util::$scripts, Util::getScripts()));
 		$this->assign('jsfiles', []);
-		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
+		if ($this->config->getSystemValueBool('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
@@ -270,7 +274,7 @@ class TemplateLayout extends \OC_Template {
 
 		$this->assign('cssfiles', []);
 		$this->assign('printcssfiles', []);
-		$this->assign('versionHash', self::$versionHash);
+		$this->initialState->provideInitialState('core', 'versionHash', self::$versionHash);
 		foreach ($cssFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
@@ -300,14 +304,14 @@ class TemplateLayout extends \OC_Template {
 	 * @return string
 	 */
 	protected function getVersionHashSuffix($path = false, $file = false) {
-		if ($this->config->getSystemValue('debug', false)) {
+		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
 		$themingSuffix = '';
 		$v = [];
 
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			if (\OC::$server->getAppManager()->isInstalled('theming')) {
 				$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 			}

@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joshua Trees <me@jtrees.io>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2023, Joshua Trees <me@jtrees.io>
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -171,6 +173,7 @@ class LostControllerTest extends TestCase {
 				]
 			],
 			'guest');
+		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -719,5 +722,39 @@ class LostControllerTest extends TestCase {
 
 		$result = self::invokePrivate($this->lostController, 'findUserByIdOrMail', ['test@example.com']);
 		$this->assertInstanceOf(IUser::class, $result);
+	}
+
+	public function testTrimEmailInput() {
+		$this->userManager
+				->expects($this->once())
+				->method('getByEmail')
+				->with('test@example.com')
+				->willReturn([$this->existingUser]);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		$response = $this->lostController->email('  test@example.com  ');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testUsernameInput() {
+		$this->userManager
+				->expects($this->once())
+				->method('get')
+				->with('ExistingUser')
+				->willReturn($this->existingUser);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		$response = $this->lostController->email('  ExistingUser  ');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 }

@@ -40,7 +40,6 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
@@ -73,7 +72,6 @@ use Psr\Log\LoggerInterface;
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
-
 	/** @var LoggerInterface */
 	private $log;
 
@@ -131,16 +129,13 @@ class Updater extends BasicEmitter {
 			}
 		}
 
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
 
 		$success = true;
 		try {
-			if (PHP_INT_SIZE < 8 && version_compare($currentVersion, '26.0.0.0', '>=')) {
-				throw new HintException('You are running a 32-bit PHP version. Cannot upgrade to Nextcloud 26 and higher. Please switch to 64-bit PHP.');
-			}
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (HintException $exception) {
 			$this->log->error($exception->getMessage(), [
@@ -221,7 +216,7 @@ class Updater extends BasicEmitter {
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
 				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValue('debug', false));
+					$this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
@@ -256,7 +251,7 @@ class Updater extends BasicEmitter {
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
-		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
 		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
@@ -278,7 +273,7 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
-		/** @var IAppManager|AppManager $appManager */
+		/** @var AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
@@ -336,7 +331,7 @@ class Updater extends BasicEmitter {
 	 */
 	protected function doAppUpgrade(): void {
 		$apps = \OC_App::getEnabledApps();
-		$priorityTypes = ['authentication', 'filesystem', 'logging'];
+		$priorityTypes = ['authentication', 'extended_authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
 		$stacks = [$pseudoOtherType => []];
 
@@ -404,7 +399,7 @@ class Updater extends BasicEmitter {
 	 * @return bool
 	 */
 	private function isCodeUpgrade(): bool {
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
 			return true;

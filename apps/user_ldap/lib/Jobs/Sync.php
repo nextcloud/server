@@ -73,10 +73,10 @@ class Sync extends TimedJob {
 		parent::__construct($time);
 		$this->userManager = $userManager;
 		$this->setInterval(
-			\OC::$server->getConfig()->getAppValue(
+			(int)\OC::$server->getConfig()->getAppValue(
 				'user_ldap',
 				'background_sync_interval',
-				self::MIN_INTERVAL
+				(string)self::MIN_INTERVAL
 			)
 		);
 	}
@@ -97,7 +97,7 @@ class Sync extends TimedJob {
 		$interval = floor(24 * 60 * 60 / $runsPerDay);
 		$interval = min(max($interval, self::MIN_INTERVAL), self::MAX_INTERVAL);
 
-		$this->config->setAppValue('user_ldap', 'background_sync_interval', $interval);
+		$this->config->setAppValue('user_ldap', 'background_sync_interval', (string)$interval);
 	}
 
 	/**
@@ -198,7 +198,7 @@ class Sync extends TimedJob {
 
 		$cycleData = [
 			'prefix' => $this->config->getAppValue('user_ldap', 'background_sync_prefix', null),
-			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', 0),
+			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', '0'),
 		];
 
 		if (
@@ -255,7 +255,7 @@ class Sync extends TimedJob {
 	 * @return bool
 	 */
 	public function qualifiesToRun($cycleData) {
-		$lastChange = $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
+		$lastChange = (int)$this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', '0');
 		if ((time() - $lastChange) > 60 * 30) {
 			return true;
 		}

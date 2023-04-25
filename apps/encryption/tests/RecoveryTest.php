@@ -211,7 +211,8 @@ class RecoveryTest extends TestCase {
 			->willReturn([]);
 
 		$this->cryptMock->expects($this->once())
-			->method('decryptPrivateKey');
+			->method('decryptPrivateKey')
+			->willReturn('privateKey');
 		$this->instance->recoverUsersFiles('password', 'admin');
 		$this->addToAssertionCount(1);
 	}
@@ -226,8 +227,8 @@ class RecoveryTest extends TestCase {
 			->willReturn(true);
 
 		$this->cryptMock->expects($this->once())
-			->method('multiKeyDecrypt')
-			->willReturn(true);
+			->method('multiKeyDecryptLegacy')
+			->willReturn('multiKeyDecryptLegacyResult');
 
 		$this->fileMock->expects($this->once())
 			->method('getAccessList')
@@ -244,10 +245,13 @@ class RecoveryTest extends TestCase {
 
 
 		$this->cryptMock->expects($this->once())
-			->method('multiKeyEncrypt');
+			->method('multiKeyEncrypt')
+			->willReturn(['admin' => 'shareKey']);
 
 		$this->keyManagerMock->expects($this->once())
-			->method('setAllFileKeys');
+			->method('deleteLegacyFileKey');
+		$this->keyManagerMock->expects($this->once())
+			->method('setShareKey');
 
 		$this->assertNull(self::invokePrivate($this->instance,
 			'recoverFile',

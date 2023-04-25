@@ -15,7 +15,7 @@ OC.L10N.register(
     "Print backup codes" : "Skriv ut sikkerhetskoder",
     "Regenerate backup codes" : "Lag sikkerhetskoder på nytt",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Hvis du regenererer nye sikkerhetskoder, blir de gamle kodene ugyldige.",
-    "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskodene",
+    "An error occurred while generating your backup codes" : "En feil oppsto under generering av sikkerhetskodene",
     "{name} backup codes" : "{name} sikkerhetskoder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av sikkerhetskodene du lagret når du opprettet to-faktor autentisering.",
     "Submit" : "Send"

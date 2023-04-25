@@ -2,6 +2,7 @@
     "Cannot write into \"config\" directory!" : "Cannot write into \"config\" directory!",
     "Unknown filetype" : "Unknown filetype",
     "Invalid image" : "Invalid image",
+    "Files" : "Files",
     "View profile" : "View profile",
     "last month" : "last month",
     "seconds ago" : "seconds ago",
@@ -13,11 +14,11 @@
     "Address" : "Address",
     "Profile picture" : "Profil rasmi",
     "About" : "About",
-    "Full name" : "Full name",
     "Unknown user" : "Unknown user",
     "Set an admin password." : "Set an admin password.",
     "January" : "January",
     "Authentication error" : "Authentication error",
-    "Storage is temporarily not available" : "Storage is temporarily not available"
+    "Storage is temporarily not available" : "Storage is temporarily not available",
+    "Full name" : "Full name"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

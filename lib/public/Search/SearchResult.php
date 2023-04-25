@@ -33,7 +33,6 @@ use function array_values;
  * @since 20.0.0
  */
 final class SearchResult implements JsonSerializable {
-
 	/** @var string */
 	private $name;
 

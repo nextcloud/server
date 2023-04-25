@@ -44,7 +44,6 @@
  * NoSuchElementException is thrown.
  */
 class ElementFinder {
-
 	/**
 	 * Finds an element in the given Mink Session.
 	 *

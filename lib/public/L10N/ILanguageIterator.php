@@ -41,7 +41,6 @@ namespace OCP\L10N;
  * @since 14.0.0
  */
 interface ILanguageIterator extends \Iterator {
-
 	/**
 	 * Return the current element
 	 *

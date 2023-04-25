@@ -66,12 +66,12 @@
 <script>
 import { normalize } from 'path'
 import { showError } from '@nextcloud/dialogs'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 
-import { getCurrentDirectory } from '../utils/davUtils'
-import { createFromTemplate, getTemplates } from '../services/Templates'
-import TemplatePreview from '../components/TemplatePreview'
+import { getCurrentDirectory } from '../utils/davUtils.js'
+import { createFromTemplate, getTemplates } from '../services/Templates.js'
+import TemplatePreview from '../components/TemplatePreview.vue'
 
 const border = 2
 const margin = 8

@@ -39,7 +39,6 @@ use Symfony\Component\EventDispatcher\GenericEvent as SymfonyGenericEvent;
 use Test\TestCase;
 
 class SymfonyAdapterTest extends TestCase {
-
 	/** @var EventDispatcher|MockObject */
 	private $eventDispatcher;
 

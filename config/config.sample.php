@@ -139,9 +139,9 @@ $CONFIG = [
 'dbtableprefix' => '',
 
 /**
- *  Enable persistent connexions to the database.
- *  This setting uses the "persistent" option from doctrine dbal, which in turn
- *  uses the PDO::ATTR_PERSISTENT option from de pdo driver.
+ * Enable persistent connexions to the database.
+ * This setting uses the "persistent" option from doctrine dbal, which in turn
+ * uses the PDO::ATTR_PERSISTENT option from the pdo driver.
  */
 'dbpersistent' => '',
 
@@ -165,13 +165,14 @@ $CONFIG = [
 /**
  * This sets the default language on your Nextcloud server, using ISO_639-1
  * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
- * French. It overrides automatic language detection on public pages like login
- * or shared items. User's language preferences configured under "personal ->
- * language" override this setting after they have logged in. Nextcloud has two
- * distinguished language codes for German, 'de' and 'de_DE'. 'de' is used for
- * informal German and 'de_DE' for formal German. By setting this value to 'de_DE'
- * you can enforce the formal version of German unless the user has chosen
- * something different explicitly.
+ * French. The default_language parameter is only used, when the browser does
+ * not send any language, and the user hasn’t configured own language
+ * preferences.
+ *
+ * Nextcloud has two distinguished language codes for German, 'de' and 'de_DE'.
+ * 'de' is used for informal German and 'de_DE' for formal German. By setting
+ * this value to 'de_DE' you can enforce the formal version of German unless
+ * the user has chosen something different explicitly.
  *
  * Defaults to ``en``
  */
@@ -301,7 +302,7 @@ $CONFIG = [
 
 /**
  * The interval at which token activity should be updated.
- * Increasing this value means that the last activty on the security page gets
+ * Increasing this value means that the last activity on the security page gets
  * more outdated.
  *
  * Tokens are still checked every 5 minutes for validity
@@ -321,6 +322,15 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
+ * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
+ *
+ * Disabling this is discouraged for security reasons.
+ *
+ * Defaults to ``true``
+ */
+'ratelimit.protection.enabled' => true,
+
+/**
  * By default, WebAuthn is available, but it can be explicitly disabled by admins
  */
 'auth.webauthn.enabled' => true,
@@ -337,6 +347,10 @@ $CONFIG = [
  * characters).
  *
  * By default, the passwords are stored encrypted in the database.
+ *
+ * WARNING: If disabled, password changes on the user back-end (e.g. on LDAP) no
+ * longer log connected clients out automatically. Users can still disconnect
+ * the clients by deleting the app token from the security settings.
  */
 'auth.storeCryptedPassword' => true,
 
@@ -463,28 +477,23 @@ $CONFIG = [
 'mail_smtptimeout' => 10,
 
 /**
- * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` for SSL/TLS or
- * ``tls`` for STARTTLS, or leave empty for no encryption.
+ * This depends on ``mail_smtpmode``. Specify ``ssl`` when you are using SSL/TLS. Any other value will be ignored.
+ *
+ * If the server advertises STARTTLS capabilities, they might be used, but they cannot be enforced by
+ * this config option.
  *
  * Defaults to ``''`` (empty string)
  */
 'mail_smtpsecure' => '',
 
 /**
+ *
  * This depends on ``mail_smtpmode``. Change this to ``true`` if your mail
  * server requires authentication.
  *
  * Defaults to ``false``
  */
 'mail_smtpauth' => false,
-
-/**
- * This depends on ``mail_smtpmode``. If SMTP authentication is required, choose
- * the authentication type as ``LOGIN`` or ``PLAIN``.
- *
- * Defaults to ``LOGIN``
- */
-'mail_smtpauthtype' => 'LOGIN',
 
 /**
  * This depends on ``mail_smtpauth``. Specify the username for authenticating to
@@ -795,9 +804,10 @@ $CONFIG = [
  * The channel that Nextcloud should use to look for updates
  *
  * Supported values:
- *   - ``daily``
- *   - ``beta``
- *   - ``stable``
+ *
+ * - ``daily``
+ * - ``beta``
+ * - ``stable``
  */
 'updater.release.channel' => 'stable',
 
@@ -1037,10 +1047,11 @@ $CONFIG = [
  * seen in the first-run wizard and on Personal pages.
  *
  * Defaults to:
- *  - Desktop client: ``https://nextcloud.com/install/#install-clients``
- *  - Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
- *  - iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
- *  - iOS client app id: ``1125420102``
+ *
+ * - Desktop client: ``https://nextcloud.com/install/#install-clients``
+ * - Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
+ * - iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ * - iOS client app id: ``1125420102``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -1190,6 +1201,13 @@ $CONFIG = [
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
 	'--convert-to png --outdir ',
+
+/**
+ * custom path for ffmpeg binary
+ *
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
+ */
+'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
@@ -2216,7 +2234,7 @@ $CONFIG = [
  * scan to sync filesystem and database. Only users with unscanned files
  * (size < 0 in filecache) are included. Maximum 500 users per job.
  *
- * Defaults to ``true``
+ * Defaults to ``false``
  */
 'files_no_background_scan' => false,
 

@@ -55,7 +55,6 @@ use Psr\Log\LoggerInterface;
  * This class implements methods to access Avatar functionality
  */
 class AvatarManager implements IAvatarManager {
-
 	/** @var IUserSession */
 	private $userSession;
 

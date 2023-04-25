@@ -20,7 +20,7 @@
  *
  */
 
-import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService'
+import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService.js'
 
 const state = {
 	predefinedStatuses: [],
@@ -39,7 +39,11 @@ const mutations = {
 	},
 }
 
-const getters = {}
+const getters = {
+	statusesHaveLoaded(state) {
+		return state.predefinedStatuses.length > 0
+	},
+}
 
 const actions = {
 

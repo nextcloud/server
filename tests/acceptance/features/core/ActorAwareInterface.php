@@ -22,7 +22,6 @@
  */
 
 interface ActorAwareInterface {
-
 	/**
 	 * @param Actor $actor
 	 */

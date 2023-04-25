@@ -589,6 +589,15 @@ class Access extends LDAPUtility {
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
 		if (is_string($altName)) {
 			if ($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+				$this->logger->warning(
+					'Mapped {fdn} as {altName} because of a name collision on {intName}.',
+					[
+						'fdn' => $fdn,
+						'altName' => $altName,
+						'intName' => $intName,
+						'app' => 'user_ldap',
+					]
+				);
 				$newlyMapped = true;
 				return $altName;
 			}
@@ -1528,14 +1537,19 @@ class Access extends LDAPUtility {
 			}
 		}
 
+		$originalSearch = $search;
 		$search = $this->prepareSearchTerm($search);
 		if (!is_array($searchAttributes) || count($searchAttributes) === 0) {
 			if ($fallbackAttribute === '') {
 				return '';
 			}
+			// wildcards don't work with some attributes
+			$filter[] = $fallbackAttribute . '=' . $originalSearch;
 			$filter[] = $fallbackAttribute . '=' . $search;
 		} else {
 			foreach ($searchAttributes as $attribute) {
+				// wildcards don't work with some attributes
+				$filter[] = $attribute . '=' . $originalSearch;
 				$filter[] = $attribute . '=' . $search;
 			}
 		}

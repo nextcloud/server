@@ -31,7 +31,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class MySqlExpressionBuilder extends ExpressionBuilder {
-
 	/** @var string */
 	protected $collation;
 

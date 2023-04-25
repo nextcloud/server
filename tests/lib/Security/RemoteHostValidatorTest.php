@@ -34,7 +34,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteHostValidatorTest extends TestCase {
-
 	/** @var IConfig|IConfig&MockObject|MockObject */
 	private IConfig $config;
 	/** @var HostnameClassifier|HostnameClassifier&MockObject|MockObject */

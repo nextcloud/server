@@ -23,9 +23,9 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import store from './store'
-import Settings from './components/Workflow'
-import ShippedChecks from './components/Checks'
+import store from './store.js'
+import Settings from './components/Workflow.vue'
+import ShippedChecks from './components/Checks/index.js'
 
 /**
  * A plugin for displaying a custom value field for checks

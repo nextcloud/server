@@ -42,7 +42,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class LocalTimeProviderTest extends TestCase {
-
 	/** @var IActionFactory|MockObject */
 	private $actionFactory;
 	/** @var IL10N|MockObject */

@@ -146,11 +146,11 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 
-import AppManagement from '../mixins/AppManagement'
-import PrefixMixin from './PrefixMixin'
-import Markdown from './Markdown'
+import AppManagement from '../mixins/AppManagement.js'
+import PrefixMixin from './PrefixMixin.vue'
+import Markdown from './Markdown.vue'
 
 export default {
 	name: 'AppDetails',

@@ -78,7 +78,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 	 * @param $node
 	 * @param $expectedSuccessful
 	 */
-	public function testHandleGetProperties($node, $expectedSuccessful) {
+	public function testHandleGetProperties($node, $expectedSuccessful): void {
 		$propFind = $this->getMockBuilder(PropFind::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -108,7 +108,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 	 * @param $fid
 	 * @param $expectedHref
 	 */
-	public function testGetCommentsLink($baseUri, $fid, $expectedHref) {
+	public function testGetCommentsLink($baseUri, $fid, $expectedHref): void {
 		$node = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -139,7 +139,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 	 * @dataProvider userProvider
 	 * @param $user
 	 */
-	public function testGetUnreadCount($user) {
+	public function testGetUnreadCount($user): void {
 		$node = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();

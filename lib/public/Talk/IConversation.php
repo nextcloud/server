@@ -29,7 +29,6 @@ namespace OCP\Talk;
  * @since 24.0.0
  */
 interface IConversation {
-
 	/**
 	 * Get the unique token that identifies this conversation
 	 *

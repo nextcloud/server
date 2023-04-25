@@ -122,7 +122,7 @@ class Client implements IClient {
 		// If the instance is not yet setup we need to use the static path as
 		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiate
 		// a view
-		if ($this->config->getSystemValue('installed', false) === false) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 
@@ -145,14 +145,14 @@ class Client implements IClient {
 	 *
 	 */
 	private function getProxyUri(): ?array {
-		$proxyHost = $this->config->getSystemValue('proxy', '');
+		$proxyHost = $this->config->getSystemValueString('proxy', '');
 
-		if ($proxyHost === '' || $proxyHost === null) {
+		if ($proxyHost === '') {
 			return null;
 		}
 
-		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', '');
-		if ($proxyUserPwd !== '' && $proxyUserPwd !== null) {
+		$proxyUserPwd = $this->config->getSystemValueString('proxyuserpwd', '');
+		if ($proxyUserPwd !== '') {
 			$proxyHost = $proxyUserPwd . '@' . $proxyHost;
 		}
 

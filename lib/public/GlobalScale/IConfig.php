@@ -30,7 +30,6 @@ namespace OCP\GlobalScale;
  * @since 12.0.1
  */
 interface IConfig {
-
 	/**
 	 * check if global scale is enabled
 	 *

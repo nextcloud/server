@@ -165,10 +165,8 @@ class TAR extends Archive {
 
 	/**
 	 * get the uncompressed size of a file in the archive
-	 *
-	 * @return int|false
 	 */
-	public function filesize(string $path) {
+	public function filesize(string $path): false|int|float {
 		$stat = $this->getHeader($path);
 		return $stat['size'] ?? false;
 	}

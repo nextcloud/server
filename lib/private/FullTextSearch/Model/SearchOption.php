@@ -36,8 +36,6 @@ use OCP\FullTextSearch\Model\ISearchOption;
  * @package OC\FullTextSearch\Model
  */
 final class SearchOption implements ISearchOption, JsonSerializable {
-
-
 	/** @var string */
 	private $name = '';
 

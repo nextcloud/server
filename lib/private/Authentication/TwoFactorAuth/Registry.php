@@ -35,7 +35,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 
 class Registry implements IRegistry {
-
 	/** @var ProviderUserAssignmentDao */
 	private $assignmentDao;
 

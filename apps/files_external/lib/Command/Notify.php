@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
@@ -108,9 +111,9 @@ class Notify extends Base {
 		if ($input->getOption('user')) {
 			return (string)$input->getOption('user');
 		} elseif (isset($_ENV['NOTIFY_USER'])) {
-			return (string)$_ENV['NOTIFY_USER'];
+			return $_ENV['NOTIFY_USER'];
 		} elseif (isset($_SERVER['NOTIFY_USER'])) {
-			return (string)$_SERVER['NOTIFY_USER'];
+			return $_SERVER['NOTIFY_USER'];
 		} else {
 			return null;
 		}
@@ -120,9 +123,9 @@ class Notify extends Base {
 		if ($input->getOption('password')) {
 			return (string)$input->getOption('password');
 		} elseif (isset($_ENV['NOTIFY_PASSWORD'])) {
-			return (string)$_ENV['NOTIFY_PASSWORD'];
+			return $_ENV['NOTIFY_PASSWORD'];
 		} elseif (isset($_SERVER['NOTIFY_PASSWORD'])) {
-			return (string)$_SERVER['NOTIFY_PASSWORD'];
+			return $_SERVER['NOTIFY_PASSWORD'];
 		} else {
 			return null;
 		}
@@ -323,7 +326,10 @@ class Notify extends Base {
 
 	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output) {
 		usleep(100 * 1000); //give time for the notify to start
-		$storage->file_put_contents('/.nc_test_file.txt', 'test content');
+		if (!$storage->file_put_contents('/.nc_test_file.txt', 'test content')) {
+			$output->writeln("Failed to create test file for self-test");
+			return;
+		}
 		$storage->mkdir('/.nc_test_folder');
 		$storage->file_put_contents('/.nc_test_folder/subfile.txt', 'test content');
 

@@ -55,7 +55,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			$this->dbConnection, $this->timeFactory);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
 			->with()

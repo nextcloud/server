@@ -145,8 +145,8 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheSharedLinkIWroteDown() {
 		Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/showShare",
-				$this->actor->getSession()->getCurrentUrl());
+			$this->actor->getSharedNotebook()["shared link"] . "/authenticate/showShare",
+			$this->actor->getSession()->getCurrentUrl());
 	}
 
 	/**
@@ -154,8 +154,8 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheDirectDownloadSharedLinkIWroteDown() {
 		Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/downloadShare",
-				$this->actor->getSession()->getCurrentUrl());
+			$this->actor->getSharedNotebook()["shared link"] . "/authenticate/downloadShare",
+			$this->actor->getSession()->getCurrentUrl());
 	}
 
 	/**
@@ -163,8 +163,8 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheSharedLinkIWroteDown() {
 		Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"],
-				$this->actor->getSession()->getCurrentUrl());
+			$this->actor->getSharedNotebook()["shared link"],
+			$this->actor->getSession()->getCurrentUrl());
 
 		$this->setFileListAncestorForActor(null, $this->actor);
 	}
@@ -174,8 +174,8 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheDirectDownloadSharedLinkIWroteDown() {
 		Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/download",
-				$this->actor->getSession()->getCurrentUrl());
+			$this->actor->getSharedNotebook()["shared link"] . "/download",
+			$this->actor->getSession()->getCurrentUrl());
 	}
 
 	/**
@@ -183,7 +183,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatAWrongPasswordForTheSharedFileMessageIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
+			$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
 	}
 
 	/**
@@ -194,7 +194,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 		// the element could be found when it was no made visible yet due to the
 		// command not having been processed by the browser.
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor, self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor, self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The Share menu is not visible yet after $timeout seconds");
 		}
 
@@ -202,14 +202,14 @@ class PublicShareContext implements Context, ActorAwareInterface {
 		// download item should not be shown in the menu (although it will be in
 		// the DOM).
 		Assert::assertFalse(
-				$this->actor->find(self::downloadItemInShareMenu())->isVisible(),
-				"Download item in share menu is visible");
+			$this->actor->find(self::downloadItemInShareMenu())->isVisible(),
+			"Download item in share menu is visible");
 		Assert::assertTrue(
-				$this->actor->find(self::directLinkItemInShareMenu())->isVisible(),
-				"Direct link item in share menu is not visible");
+			$this->actor->find(self::directLinkItemInShareMenu())->isVisible(),
+			"Direct link item in share menu is not visible");
 		Assert::assertTrue(
-				$this->actor->find(self::saveItemInShareMenu())->isVisible(),
-				"Save item in share menu is not visible");
+			$this->actor->find(self::saveItemInShareMenu())->isVisible(),
+			"Save item in share menu is not visible");
 	}
 
 	/**
@@ -218,7 +218,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheShareMenuButtonIsNotShown() {
 		try {
 			Assert::assertFalse(
-					$this->actor->find(self::shareMenuButton())->isVisible());
+				$this->actor->find(self::shareMenuButton())->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -235,7 +235,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheDownloadButtonIsShown() {
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor, self::downloadButton(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor, self::downloadButton(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The download button is not visible yet after $timeout seconds");
 		}
 	}
@@ -246,7 +246,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheDownloadButtonIsNotShown() {
 		try {
 			Assert::assertFalse(
-					$this->actor->find(self::downloadButton())->isVisible());
+				$this->actor->find(self::downloadButton())->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}

@@ -32,6 +32,9 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<OpenLocalEditor>
+ */
 class OpenLocalEditorMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'open_local_editor', OpenLocalEditor::class);

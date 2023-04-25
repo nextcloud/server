@@ -219,6 +219,12 @@ OC.L10N.register(
     "Searching …" : "Keresés…",
     "No elements found." : "Nem található elem.",
     "Search globally" : "Globális keresés",
+    "Guest" : "Vendég",
+    "Group" : "Csoport",
+    "Email" : "E-mail",
+    "Circle" : "Kör",
+    "Talk conversation" : "Beszélgetés",
+    "Deck board" : "Kártyatábla",
     "on {server}" : "{server} kiszolgálón",
     "Others with access" : "Mások, akik hozzáféréssel rendelkeznek",
     "No other users with access found" : "Nincs más felhasználó, aki hozzáféréssel rendelkezik",
@@ -269,9 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Másolás a vágólapra",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
     "Toggle grid view" : "Rácsnézet be/ki",
-    "Copy public link to clipboard" : "Nyilvános hivatkozás másolása a vágólapra",
-    "Share label saved" : "A megosztás címkéje mentve",
-    "Share password saved" : "A megosztás jelszava mentve",
-    "Share note saved" : "A megosztás jegyzete mentve"
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a szobamegosztásokat",
+    "Science Mesh" : "Science Mesh",
+    "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó-előállításkor"
 },
 "nplurals=2; plural=(n != 1);");

@@ -29,7 +29,6 @@ use OCP\IConfig;
 use OCP\ISession;
 
 class SetUserTimezoneCommand extends ALoginCommand {
-
 	/** @var IConfig */
 	private $config;
 

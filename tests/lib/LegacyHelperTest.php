@@ -112,9 +112,9 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(2))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   // Conflict on filename.ext
-			   ['dir/filename.ext'],
-			   ['dir/filename (2).ext'],
+		   	// Conflict on filename.ext
+		   	['dir/filename.ext'],
+		   	['dir/filename (2).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
@@ -123,9 +123,9 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(3))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename.ext'],
-			   ['dir/filename (2).ext'],
-			   ['dir/filename (3).ext'],
+		   	['dir/filename.ext'],
+		   	['dir/filename (2).ext'],
+		   	['dir/filename (3).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, true, false));
 		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
@@ -134,8 +134,8 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(2))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename (1).ext'],
-			   ['dir/filename (2).ext'],
+		   	['dir/filename (1).ext'],
+		   	['dir/filename (2).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (1).ext', $viewMock));
@@ -144,8 +144,8 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(2))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename (2).ext'],
-			   ['dir/filename (3).ext'],
+		   	['dir/filename (2).ext'],
+		   	['dir/filename (3).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
@@ -154,9 +154,9 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(3))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename (2).ext'],
-			   ['dir/filename (3).ext'],
-			   ['dir/filename (4).ext'],
+		   	['dir/filename (2).ext'],
+		   	['dir/filename (3).ext'],
+		   	['dir/filename (4).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, true, false));
 		$this->assertEquals('dir/filename (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
@@ -165,8 +165,8 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(2))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename(1).ext'],
-			   ['dir/filename(2).ext'],
+		   	['dir/filename(1).ext'],
+		   	['dir/filename(2).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename(2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1).ext', $viewMock));
@@ -175,8 +175,8 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(2))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename(1) (1).ext'],
-			   ['dir/filename(1) (2).ext'],
+		   	['dir/filename(1) (1).ext'],
+		   	['dir/filename(1) (2).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename(1) (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
@@ -185,9 +185,9 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(3))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename(1) (1).ext'],
-			   ['dir/filename(1) (2).ext'],
-			   ['dir/filename(1) (3).ext'],
+		   	['dir/filename(1) (1).ext'],
+		   	['dir/filename(1) (2).ext'],
+		   	['dir/filename(1) (3).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, true, false));
 		$this->assertEquals('dir/filename(1) (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
@@ -196,8 +196,8 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock->expects($this->exactly(2))
 		   ->method('file_exists')
 		   ->withConsecutive(
-			   ['dir/filename(1) (2) (3).ext'],
-			   ['dir/filename(1) (2) (4).ext'],
+		   	['dir/filename(1) (2) (3).ext'],
+		   	['dir/filename(1) (2) (4).ext'],
 		   )
 		   ->will($this->onConsecutiveCalls(true, false));
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));

@@ -40,6 +40,7 @@ use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -79,6 +80,7 @@ class ViewController extends Controller {
 	private ITemplateManager $templateManager;
 	private IManager $shareManager;
 	private UserConfig $userConfig;
+	private ViewConfig $viewConfig;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -93,7 +95,8 @@ class ViewController extends Controller {
 		IInitialState $initialState,
 		ITemplateManager $templateManager,
 		IManager $shareManager,
-		UserConfig $userConfig
+		UserConfig $userConfig,
+		ViewConfig $viewConfig
 	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
@@ -108,6 +111,7 @@ class ViewController extends Controller {
 		$this->templateManager = $templateManager;
 		$this->shareManager = $shareManager;
 		$this->userConfig = $userConfig;
+		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -136,11 +140,10 @@ class ViewController extends Controller {
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	protected function getStorageInfo() {
-		\OC_Util::setupFS();
-		$dirInfo = \OC\Files\Filesystem::getFileInfo('/', false);
+	protected function getStorageInfo(string $dir = '/') {
+		$rootInfo = \OC\Files\Filesystem::getFileInfo('/', false);
 
-		return \OC_Helper::getStorageInfo('/', $dirInfo);
+		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
 	}
 
 	/**
@@ -190,10 +193,6 @@ class ViewController extends Controller {
 		\OCP\Util::addScript('files', 'merged-index', 'files');
 		\OCP\Util::addScript('files', 'main');
 
-		// mostly for the home storage's free space
-		// FIXME: Make non static
-		$storageInfo = $this->getStorageInfo();
-
 		$userId = $this->userSession->getUser()->getUID();
 
 		// Get all the user favorites to create a submenu
@@ -241,20 +240,23 @@ class ViewController extends Controller {
 
 		$nav->assign('navigationItems', $navItems);
 
-		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
-		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-			$totalSpace = $this->l10n->t('Unlimited');
-		} else {
-			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
-		}
-		$nav->assign('total_space', $totalSpace);
-		$nav->assign('quota', $storageInfo['quota']);
-		$nav->assign('usage_relative', $storageInfo['relative']);
-
 		$contentItems = [];
 
+		try {
+			// If view is files, we use the directory, otherwise we use the root storage
+			$storageInfo =  $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
+		} catch(\Exception $e) {
+			$storageInfo = $this->getStorageInfo();
+		}
+
+		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
+		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
+
+		// File sorting user config
+		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
+		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
 		// render the container content for every navigation item
 		foreach ($navItems as $item) {
@@ -299,8 +301,8 @@ class ViewController extends Controller {
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
 		$params['isPublic'] = false;
 		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
-		$params['defaultFileSorting'] = $this->config->getUserValue($userId, 'files', 'file_sorting', 'name');
-		$params['defaultFileSortingDirection'] = $this->config->getUserValue($userId, 'files', 'file_sorting_direction', 'asc');
+		$params['defaultFileSorting'] = $filesSortingConfig['files']['mode'] ?? 'basename';
+		$params['defaultFileSortingDirection'] = $filesSortingConfig['files']['direction'] ?? 'asc';
 		$params['showgridview'] = $this->config->getUserValue($userId, 'files', 'show_grid', false);
 		$showHidden = (bool) $this->config->getUserValue($userId, 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;

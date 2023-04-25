@@ -37,7 +37,6 @@ use Psr\Log\LoggerInterface;
  * update encrypted files, e.g. because a file was shared
  */
 class Update {
-
 	/** @var View */
 	protected $view;
 

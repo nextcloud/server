@@ -32,7 +32,6 @@ use OC\SystemConfig;
 use OCP\Log\IWriter;
 
 class Errorlog extends LogDetails implements IWriter {
-
 	/** @var string */
 	protected $tag;
 

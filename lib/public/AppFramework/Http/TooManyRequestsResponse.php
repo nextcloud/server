@@ -32,7 +32,6 @@ use OCP\Template;
  * @since 19.0.0
  */
 class TooManyRequestsResponse extends Response {
-
 	/**
 	 * @since 19.0.0
 	 */

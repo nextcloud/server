@@ -19,6 +19,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -85,7 +86,6 @@ class ShareesAPIController extends OCSController {
 			'emails' => [],
 			'circles' => [],
 			'rooms' => [],
-			'deck' => [],
 		],
 		'users' => [],
 		'groups' => [],
@@ -95,7 +95,6 @@ class ShareesAPIController extends OCSController {
 		'lookup' => [],
 		'circles' => [],
 		'rooms' => [],
-		'deck' => [],
 		'lookupEnabled' => false,
 	];
 
@@ -188,8 +187,8 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
 
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
-				$shareTypes[] = IShare::TYPE_DECK;
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
+				$shareTypes[] = IShare::TYPE_SCIENCEMESH;
 			}
 		} else {
 			if ($this->shareManager->allowGroupSharing()) {
@@ -203,8 +202,8 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
-		if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
-			$shareTypes[] = IShare::TYPE_DECK;
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
+			$shareTypes[] = IShare::TYPE_SCIENCEMESH;
 		}
 
 		if ($shareType !== null && is_array($shareType)) {

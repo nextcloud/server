@@ -15,7 +15,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GroupTest extends \Test\TestCase {
-	
 	/** @var EventDispatcherInterface|MockObject */
 	protected $dispatcher;
 

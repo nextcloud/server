@@ -203,6 +203,10 @@ OC.L10N.register(
     "Searching …" : "Ieškoma…",
     "No elements found." : "Nerasta jokių elementų.",
     "Search globally" : "Ieškoti visur",
+    "Guest" : "Svečias",
+    "Group" : "Grupė",
+    "Email" : "El. paštas",
+    "Circle" : "Ratas",
     "on {server}" : "serveryje {server}",
     "Others with access" : "Kiti asmenys, turintys prieigą",
     "No other users with access found" : "Nerasta kitų naudotojų, turinčių prieigą",
@@ -221,6 +225,7 @@ OC.L10N.register(
     "Shared" : "Bendrinama",
     "Share" : "Dalintis",
     "Shared with" : "Bendrinama su",
+    "Password created successfully" : "Slaptažodis sėkmingai sukurtas",
     "Shared with you and the group {group} by {owner}" : "{owner} pradėjo bendrinti su jumis ir grupe {group}",
     "Shared with you and {circle} by {owner}" : "{owner} pradėjo bendrinti su jumis ir {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} pasidalino su jumis ir pokalbiu {conversation}",
@@ -247,7 +252,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
-    "Toggle grid view" : "Rodyti tinkleliu",
-    "Copy public link to clipboard" : "Kopijuoti viešąją nuorodą į iškarpinę"
+    "Toggle grid view" : "Rodyti tinkleliu"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

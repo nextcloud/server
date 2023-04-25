@@ -46,7 +46,6 @@
  * nothing to be explicitly catched a plain base Exception is used.
  */
 interface NextcloudTestServerHelper {
-
 	/**
 	 * Sets up the Nextcloud test server.
 	 *

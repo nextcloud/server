@@ -42,7 +42,6 @@ namespace OCP;
  * @deprecated 17.0.0
  */
 class Share extends \OC\Share\Constants {
-
 	/**
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
@@ -99,7 +98,6 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
 		$limit = -1, $includeCollections = false) {
-
 		// only used by AppVNCSafe app (https://github.com/vnc-biz/nextcloud-appvncsafe/issues/2) - only here to not break apps syntax
 	}
 

@@ -35,7 +35,6 @@ use OCP\IUser;
  * @since 15.0.0
  */
 interface IAccount extends \JsonSerializable {
-
 	/**
 	 * Set a property with data
 	 *

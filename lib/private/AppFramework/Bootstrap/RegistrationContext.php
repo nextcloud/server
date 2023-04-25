@@ -33,7 +33,9 @@ use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Talk\ITalkBackend;
+use OCP\Translation\ITranslationProvider;
 use RuntimeException;
 use function array_shift;
 use OC\Support\CrashReport\Registry;
@@ -52,13 +54,13 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Share\IPublicShareTemplateProvider;
 use OCP\Support\CrashReport\IReporter;
 use OCP\UserMigration\IMigrator as IUserMigrator;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class RegistrationContext {
-
 	/** @var ServiceRegistration<ICapability>[] */
 	private $capabilities = [];
 
@@ -95,7 +97,7 @@ class RegistrationContext {
 	/** @var EventListenerRegistration[] */
 	private $eventListeners = [];
 
-	/** @var ServiceRegistration<Middleware>[] */
+	/** @var MiddlewareRegistration[] */
 	private $middlewares = [];
 
 	/** @var ServiceRegistration<IProvider>[] */
@@ -110,8 +112,14 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IHandler>[] */
 	private $wellKnownHandlers = [];
 
+	/** @var ServiceRegistration<ISpeechToTextProvider>[] */
+	private $speechToTextProviders = [];
+
 	/** @var ServiceRegistration<ICustomTemplateProvider>[] */
 	private $templateProviders = [];
+
+	/** @var ServiceRegistration<ITranslationProvider>[] */
+	private $translationProviders = [];
 
 	/** @var ServiceRegistration<INotifier>[] */
 	private $notifierServices = [];
@@ -125,8 +133,14 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
 
+
+
+
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
+
+	/** @var ServiceRegistration<IPublicShareTemplateProvider>[] */
+	private $publicShareTemplateProviders = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -206,10 +220,11 @@ class RegistrationContext {
 				);
 			}
 
-			public function registerMiddleware(string $class): void {
+			public function registerMiddleware(string $class, bool $global = false): void {
 				$this->context->registerMiddleware(
 					$this->appId,
-					$class
+					$class,
+					$global,
 				);
 			}
 
@@ -241,8 +256,22 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerSpeechToTextProvider(string $providerClass): void {
+				$this->context->registerSpeechToTextProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
 			public function registerTemplateProvider(string $providerClass): void {
 				$this->context->registerTemplateProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
+			public function registerTranslationProvider(string $providerClass): void {
+				$this->context->registerTranslationProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -326,6 +355,13 @@ class RegistrationContext {
 					$methods
 				);
 			}
+
+			public function registerPublicShareTemplateProvider(string $class): void {
+				$this->context->registerPublicShareTemplateProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -369,8 +405,8 @@ class RegistrationContext {
 	/**
 	 * @psalm-param class-string<Middleware> $class
 	 */
-	public function registerMiddleware(string $appId, string $class): void {
-		$this->middlewares[] = new ServiceRegistration($appId, $class);
+	public function registerMiddleware(string $appId, string $class, bool $global): void {
+		$this->middlewares[] = new MiddlewareRegistration($appId, $class, $global);
 	}
 
 	public function registerSearchProvider(string $appId, string $class) {
@@ -389,8 +425,16 @@ class RegistrationContext {
 		$this->wellKnownHandlers[] = new ServiceRegistration($appId, $class);
 	}
 
+	public function registerSpeechToTextProvider(string $appId, string $class): void {
+		$this->speechToTextProviders[] = new ServiceRegistration($appId, $class);
+	}
+
 	public function registerTemplateProvider(string $appId, string $class): void {
 		$this->templateProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTranslationProvider(string $appId, string $class): void {
+		$this->translationProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerNotifierService(string $appId, string $class): void {
@@ -459,6 +503,10 @@ class RegistrationContext {
 	public function registerSensitiveMethods(string $appId, string $class, array $methods): void {
 		$methods = array_filter($methods, 'is_string');
 		$this->sensitiveMethods[] = new ParameterRegistration($appId, $class, $methods);
+	}
+
+	public function registerPublicShareTemplateProvider(string $appId, string $class): void {
+		$this->publicShareTemplateProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -618,29 +666,10 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @param App[] $apps
+	 * @return MiddlewareRegistration[]
 	 */
-	public function delegateMiddlewareRegistrations(array $apps): void {
-		while (($middleware = array_shift($this->middlewares)) !== null) {
-			$appId = $middleware->getAppId();
-			if (!isset($apps[$appId])) {
-				// If we land here something really isn't right. But at least we caught the
-				// notice that is otherwise emitted for the undefined index
-				$this->logger->error("App $appId not loaded for the container middleware registration");
-
-				continue;
-			}
-
-			try {
-				$apps[$appId]
-					->getContainer()
-					->registerMiddleWare($middleware->getService());
-			} catch (Throwable $e) {
-				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
-					'exception' => $e,
-				]);
-			}
-		}
+	public function getMiddlewareRegistrations(): array {
+		return $this->middlewares;
 	}
 
 	/**
@@ -672,10 +701,24 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<ISpeechToTextProvider>[]
+	 */
+	public function getSpeechToTextProviders(): array {
+		return $this->speechToTextProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<ICustomTemplateProvider>[]
 	 */
 	public function getTemplateProviders(): array {
 		return $this->templateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ITranslationProvider>[]
+	 */
+	public function getTranslationProviders(): array {
+		return $this->translationProviders;
 	}
 
 	/**
@@ -756,5 +799,12 @@ class RegistrationContext {
 	 */
 	public function getSensitiveMethods(): array {
 		return $this->sensitiveMethods;
+	}
+
+	/**
+	 * @return ServiceRegistration<IPublicShareTemplateProvider>[]
+	 */
+	public function getPublicShareTemplateProviders(): array {
+		return $this->publicShareTemplateProviders;
 	}
 }

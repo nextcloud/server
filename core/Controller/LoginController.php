@@ -34,7 +34,6 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Request;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
@@ -43,6 +42,7 @@ use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -66,12 +66,11 @@ class LoginController extends Controller {
 	private IUserManager $userManager;
 	private IConfig $config;
 	private ISession $session;
-	/** @var IUserSession|Session */
+	/** @var Session */
 	private $userSession;
 	private IURLGenerator $urlGenerator;
 	private Defaults $defaults;
 	private Throttler $throttler;
-	private Chain $loginChain;
 	private IInitialStateService $initialStateService;
 	private WebAuthnManager $webAuthnManager;
 	private IManager $manager;
@@ -86,7 +85,6 @@ class LoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								Defaults $defaults,
 								Throttler $throttler,
-								Chain $loginChain,
 								IInitialStateService $initialStateService,
 								WebAuthnManager $webAuthnManager,
 								IManager $manager,
@@ -99,7 +97,6 @@ class LoginController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
 		$this->throttler = $throttler;
-		$this->loginChain = $loginChain;
 		$this->initialStateService = $initialStateService;
 		$this->webAuthnManager = $webAuthnManager;
 		$this->manager = $manager;
@@ -108,10 +105,10 @@ class LoginController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @return RedirectResponse
 	 */
+	#[UseSession]
 	public function logout() {
 		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
@@ -127,7 +124,8 @@ class LoginController extends Controller {
 		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
 
-		if (!$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])) {
+		if ($this->request->getServerProtocol() === 'https') {
+			// This feature is available only in secure contexts
 			$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		}
 
@@ -137,13 +135,13 @@ class LoginController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @UseSession
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[UseSession]
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
@@ -286,28 +284,35 @@ class LoginController extends Controller {
 
 	/**
 	 * @PublicPage
-	 * @UseSession
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
 	 *
-	 * @param string $user
-	 * @param string $password
-	 * @param string $redirect_url
-	 * @param string $timezone
-	 * @param string $timezone_offset
-	 *
 	 * @return RedirectResponse
 	 */
-	public function tryLogin(string $user,
-							 string $password,
+	#[UseSession]
+	public function tryLogin(Chain $loginChain,
+							 string $user = '',
+							 string $password = '',
 							 string $redirect_url = null,
 							 string $timezone = '',
 							 string $timezone_offset = ''): RedirectResponse {
-		// If the user is already logged in and the CSRF check does not pass then
-		// simply redirect the user to the correct page as required. This is the
-		// case when an user has already logged-in, in another tab.
 		if (!$this->request->passesCSRFCheck()) {
-			return $this->generateRedirect($redirect_url);
+			if ($this->userSession->isLoggedIn()) {
+				// If the user is already logged in and the CSRF check does not pass then
+				// simply redirect the user to the correct page as required. This is the
+				// case when a user has already logged-in, in another tab.
+				return $this->generateRedirect($redirect_url);
+			}
+
+			// Clear any auth remnants like cookies to ensure a clean login
+			// For the next attempt
+			$this->userSession->logout();
+			return $this->createLoginFailedResponse(
+				$user,
+				$user,
+				$redirect_url,
+				$this->l10n->t('Please try again')
+			);
 		}
 
 		$data = new LoginData(
@@ -318,7 +323,7 @@ class LoginController extends Controller {
 			$timezone,
 			$timezone_offset
 		);
-		$result = $this->loginChain->process($data);
+		$result = $loginChain->process($data);
 		if (!$result->isSuccess()) {
 			return $this->createLoginFailedResponse(
 				$data->getUsername(),
@@ -364,12 +369,12 @@ class LoginController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 * @BruteForceProtection(action=sudo)
 	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
 	 */
+	#[UseSession]
 	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);

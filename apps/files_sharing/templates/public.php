@@ -115,7 +115,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<div id="drop-upload-done-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploaded files:')) ?></div>
 			<ul id="drop-uploaded-files"></ul>
 
-			<?php if (!empty($_['disclaimer'])) { ?>
+			<?php if ($_['disclaimer'] !== '') { ?>
 				<div>
 					<?php
 						echo $l->t('By uploading files, you agree to the %1$sterms of service%2$s.', [

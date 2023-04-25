@@ -46,8 +46,6 @@ use OCP\FullTextSearch\IFullTextSearchProvider;
  *
  */
 interface ISearchResult {
-
-
 	/**
 	 * Get the original SearchRequest.
 	 *

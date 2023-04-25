@@ -19,9 +19,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<title>
 			<?php
 				p(!empty($_['pageTitle'])?$_['pageTitle'].' - ':'');
-				p(!empty($_['application'])?$_['application'].' - ':'');
-				p($theme->getTitle());
-			?>
+p(!empty($_['application'])?$_['application'].' - ':'');
+p($theme->getTitle());
+?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -43,8 +43,8 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
-				p("data-theme-$themeId ");
-			}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
+		p("data-theme-$themeId ");
+	}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
 	<?php include 'layout.noscript.warning.php'; ?>
 
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
@@ -59,8 +59,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<header role="banner" id="header">
 			<div class="header-left">
 				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
+					aria-label="<?php p($l->t('Go to %s', [$_['logoUrl'] ?: $_['defaultAppName']])); ?>"
 					id="nextcloud">
-					<img class="logo logo-icon" alt="<?php p($l->t('%s logo', [$theme->getName()])); ?>" src="<?= ($_['logoUrl'] ?? '') !== '' ? $_['logoUrl'] : $theme->getLogo(); ?>">
+					<div class="logo logo-icon"></div>
 				</a>
 
 				<nav id="header-left__appmenu"></nav>
@@ -70,45 +71,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>
-				<div id="settings">
-					<div id="expand" tabindex="0" role="button" class="menutoggle"
-						aria-label="<?php p($l->t('Open settings menu'));?>"
-						aria-haspopup="true" aria-controls="expanddiv" aria-expanded="false">
-						<div id="avatardiv-menu" class="avatardiv<?php if ($_['userAvatarSet']) {
-				print_unescaped(' avatardiv-shown');
-			} else {
-				print_unescaped('" style="display: none');
-			} ?>"
-							 data-user="<?php p($_['user_uid']); ?>"
-							 data-displayname="<?php p($_['user_displayname']); ?>"
-			<?php
-			if ($_['userAvatarSet']) {
-				$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
-			<?php
-			} ?>>
-							<?php
-							if ($_['userAvatarSet']) {?>
-								<img alt="" width="32" height="32"
-								src="<?php p($avatar32);?>"
-								srcset="<?php p($getUserAvatar(64));?> 2x, <?php p($getUserAvatar(128));?> 4x"
-								>
-							<?php } ?>
-						</div>
-					</div>
-					<nav class="settings-menu" id="expanddiv" style="display:none;">
-					<ul>
-					<?php foreach ($_['settingsnavigation'] as $entry):?>
-						<li data-id="<?php p($entry['id']); ?>">
-							<a href="<?php print_unescaped($entry['href'] !== '' ? $entry['href'] : '#'); ?>"
-								<?php if ($entry["active"]): ?> class="active"<?php endif; ?>>
-								<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
-								<?php p($entry['name']) ?>
-							</a>
-						</li>
-					<?php endforeach; ?>
-					</ul>
-					</nav>
-				</div>
+				<div id="user-menu"></div>
 			</div>
 		</header>
 
@@ -123,8 +86,8 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		</form>
 
 		<main id="content" class="app-<?php p($_['appid']) ?>">
-			<h1 class="hidden-visually">
-				<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
+			<h1 class="hidden-visually" id="page-heading-level-1">
+				<?php p(!empty($_['pageTitle'])?$_['pageTitle']:$theme->getName()); ?>
 			</h1>
 			<?php print_unescaped($_['content']); ?>
 		</main>

@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "アクションが指定されていません",
     "No configuration specified" : "構成が指定されていません",
     "No data specified" : "データが指定されていません",
+    "Invalid data specified" : "無効なデータが指定されました",
     " Could not set configuration %s" : "構成 %s を設定できませんでした",
     "Action does not exist" : "アクションが存在しません",
     "Renewing …" : "更新中 ...",

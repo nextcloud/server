@@ -380,7 +380,7 @@ EOF;
 		$this->headerAdded = true;
 
 		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
 	}
 
 	/**
@@ -555,7 +555,7 @@ EOF;
 		$this->ensureBodyIsOpened();
 		$this->ensureBodyListClosed();
 
-		$color = $this->themingDefaults->getColorPrimary();
+		$color = $this->themingDefaults->getDefaultColorPrimary();
 		$textColor = $this->themingDefaults->getTextColorPrimary();
 
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
@@ -586,7 +586,7 @@ EOF;
 			$text = htmlspecialchars($text);
 		}
 
-		$color = $this->themingDefaults->getColorPrimary();
+		$color = $this->themingDefaults->getDefaultColorPrimary();
 		$textColor = $this->themingDefaults->getTextColorPrimary();
 		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, $text]);
 

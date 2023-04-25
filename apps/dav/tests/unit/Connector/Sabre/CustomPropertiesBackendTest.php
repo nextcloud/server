@@ -122,7 +122,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 		return $node;
 	}
 
-	private function applyDefaultProps($path = '/dummypath') {
+	private function applyDefaultProps($path = '/dummypath'): void {
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
 			'customprop' => 'value1',
@@ -146,7 +146,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	/**
 	 * Test that propFind on a missing file soft fails
 	 */
-	public function testPropFindMissingFileSoftFail() {
+	public function testPropFindMissingFileSoftFail(): void {
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummypath',
 			[
@@ -174,7 +174,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	/**
 	 * Test setting/getting properties
 	 */
-	public function testSetGetPropertiesForFile() {
+	public function testSetGetPropertiesForFile(): void {
 		$this->applyDefaultProps();
 
 		$propFind = new \Sabre\DAV\PropFind(
@@ -200,7 +200,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	/**
 	 * Test getting properties from directory
 	 */
-	public function testGetPropertiesForDirectory() {
+	public function testGetPropertiesForDirectory(): void {
 		$this->applyDefaultProps('/dummypath');
 		$this->applyDefaultProps('/dummypath/test.txt');
 
@@ -247,7 +247,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	/**
 	 * Test delete property
 	 */
-	public function testDeleteProperty() {
+	public function testDeleteProperty(): void {
 		$this->applyDefaultProps();
 
 		$propPatch = new \Sabre\DAV\PropPatch([

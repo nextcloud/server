@@ -34,7 +34,6 @@ use InvalidArgumentException;
  * @since 15.0.0
  */
 interface IAccountProperty extends \JsonSerializable {
-
 	/**
 	 * Set the value of a property
 	 *

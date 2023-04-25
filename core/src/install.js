@@ -24,17 +24,16 @@
 
 import $ from 'jquery'
 import { translate as t } from '@nextcloud/l10n'
-import { getToken } from './OC/requesttoken'
-import getURLParameter from './Util/get-url-parameter'
+import { getToken } from './OC/requesttoken.js'
+import getURLParameter from './Util/get-url-parameter.js'
 
-import './jquery/showpassword'
+import './jquery/showpassword.js'
 
-import 'jquery-ui/ui/widgets/button'
+import 'jquery-ui/ui/widgets/button.js'
 import 'jquery-ui/themes/base/theme.css'
 import 'jquery-ui/themes/base/button.css'
 
-import 'bootstrap/js/dist/tooltip'
-import './Polyfill/tooltip'
+import './Polyfill/tooltip.js'
 
 import 'strengthify'
 import 'strengthify/strengthify.css'

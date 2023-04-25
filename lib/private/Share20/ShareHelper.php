@@ -31,7 +31,6 @@ use OCP\Share\IManager;
 use OCP\Share\IShareHelper;
 
 class ShareHelper implements IShareHelper {
-
 	/** @var IManager */
 	private $shareManager;
 

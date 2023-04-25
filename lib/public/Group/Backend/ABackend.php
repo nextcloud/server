@@ -31,9 +31,9 @@ use OCP\GroupInterface;
  * @since 14.0.0
  */
 abstract class ABackend implements GroupInterface {
-
 	/**
 	 * @deprecated 14.0.0
+	 * @since 14.0.0
 	 *
 	 * @param int $actions The action to check for
 	 * @return bool

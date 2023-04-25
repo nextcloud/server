@@ -16,7 +16,6 @@ use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
  * @package OC\AppFramework\Http
  */
 class EmptyContentSecurityPolicyTest extends \Test\TestCase {
-
 	/** @var EmptyContentSecurityPolicy */
 	private $contentSecurityPolicy;
 

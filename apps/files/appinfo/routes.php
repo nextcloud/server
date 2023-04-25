@@ -40,12 +40,12 @@ namespace OCA\Files\AppInfo;
 use OCA\Files\Controller\OpenLocalEditorController;
 
 // Legacy routes above
-/** @var $this \OC\Route\Router */
+/** @var \OC\Route\Router $this */
 $this->create('files_ajax_download', 'apps/files/ajax/download.php')
 	->actionInclude('files/ajax/download.php');
 
 /** @var Application $application */
-$application = \OC::$server->query(Application::class);
+$application = \OC::$server->get(Application::class);
 $application->registerRoutes(
 	$this,
 	[
@@ -60,11 +60,6 @@ $application->registerRoutes(
 				'url' => '/f/{fileid}',
 				'verb' => 'GET',
 				'root' => '',
-			],
-			[
-				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats',
-				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#getThumbnail',
@@ -84,19 +79,34 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
+				'name' => 'API#getStorageStats',
+				'url' => '/api/v1/stats',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#setViewConfig',
+				'url' => '/api/v1/views/{view}/{key}',
+				'verb' => 'PUT'
+			],
+			[
+				'name' => 'API#getViewConfigs',
+				'url' => '/api/v1/views',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#getViewConfig',
+				'url' => '/api/v1/views/{view}',
+				'verb' => 'GET'
+			],
+			[
 				'name' => 'API#setConfig',
 				'url' => '/api/v1/config/{key}',
-				'verb' => 'POST'
+				'verb' => 'PUT'
 			],
 			[
 				'name' => 'API#getConfigs',
 				'url' => '/api/v1/configs',
 				'verb' => 'GET'
-			],
-			[
-				'name' => 'API#updateFileSorting',
-				'url' => '/api/v1/sorting',
-				'verb' => 'POST'
 			],
 			[
 				'name' => 'API#showHiddenFiles',
@@ -119,11 +129,6 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#toggleShowFolder',
-				'url' => '/api/v1/toggleShowFolder/{key}',
-				'verb' => 'POST'
-			],
-			[
 				'name' => 'API#getNodeType',
 				'url' => '/api/v1/quickaccess/get/NodeType',
 				'verb' => 'GET',
@@ -131,6 +136,11 @@ $application->registerRoutes(
 			[
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'api#serviceWorker',
+				'url' => '/preview-service-worker.js',
 				'verb' => 'GET'
 			],
 			[

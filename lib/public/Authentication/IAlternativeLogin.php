@@ -29,7 +29,6 @@ namespace OCP\Authentication;
  * @since 20.0.0
  */
 interface IAlternativeLogin {
-
 	/**
 	 * Label shown on the login option
 	 * @return string

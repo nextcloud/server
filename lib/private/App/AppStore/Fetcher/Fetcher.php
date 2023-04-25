@@ -62,10 +62,10 @@ abstract class Fetcher {
 	protected $fileName;
 	/** @var string */
 	protected $endpointName;
-	/** @var string */
-	protected $version;
-	/** @var string */
-	protected $channel;
+	/** @var ?string */
+	protected $version = null;
+	/** @var ?string */
+	protected $channel = null;
 
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
@@ -149,7 +149,7 @@ abstract class Fetcher {
 	 */
 	public function get($allowUnstable = false) {
 		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
-		$internetavailable = $this->config->getSystemValue('has_internet_connection', true);
+		$internetavailable = $this->config->getSystemValueBool('has_internet_connection', true);
 
 		if (!$appstoreenabled || !$internetavailable) {
 			return [];
@@ -167,10 +167,8 @@ abstract class Fetcher {
 
 			// Always get latests apps info if $allowUnstable
 			if (!$allowUnstable && is_array($jsonBlob)) {
-
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
-
 					// If the timestamp is older than 3600 seconds request the files new
 					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS)) {
 						return $jsonBlob['data'];
@@ -220,7 +218,7 @@ abstract class Fetcher {
 	 */
 	protected function getVersion() {
 		if ($this->version === null) {
-			$this->version = $this->config->getSystemValue('version', '0.0.0');
+			$this->version = $this->config->getSystemValueString('version', '0.0.0');
 		}
 		return $this->version;
 	}
@@ -253,6 +251,6 @@ abstract class Fetcher {
 	}
 
 	protected function getEndpoint(): string {
-		return $this->config->getSystemValue('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->endpointName;
+		return $this->config->getSystemValueString('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->endpointName;
 	}
 }

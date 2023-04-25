@@ -100,7 +100,7 @@ class FeedBackHandler {
 if (\OCP\Util::needUpgrade()) {
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
-		$eventSource->send('failure', $l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));
+		$eventSource->send('failure', $l->t('Please use the command line updater because updating via the browser is disabled in your config.php.'));
 		$eventSource->close();
 		exit();
 	}
@@ -112,10 +112,10 @@ if (\OCP\Util::needUpgrade()) {
 	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
 	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
-			$config,
-			\OC::$server->getIntegrityCodeChecker(),
-			$logger,
-			\OC::$server->query(\OC\Installer::class)
+		$config,
+		\OC::$server->getIntegrityCodeChecker(),
+		$logger,
+		\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 

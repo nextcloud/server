@@ -26,7 +26,6 @@ namespace OCP\Contacts\ContactsMenu;
  * @since 12.0
  */
 interface IProvider {
-
 	/**
 	 * @since 12.0
 	 * @param IEntry $entry

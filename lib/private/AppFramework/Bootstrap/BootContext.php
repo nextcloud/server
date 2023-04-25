@@ -31,7 +31,6 @@ use OCP\AppFramework\IAppContainer;
 use OCP\IServerContainer;
 
 class BootContext implements IBootContext {
-
 	/** @var IAppContainer */
 	private $appContainer;
 

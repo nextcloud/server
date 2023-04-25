@@ -31,7 +31,6 @@ use OC\Encryption\File;
 use OCP\Encryption\IEncryptionModule;
 
 class UpdateTest extends TestCase {
-
 	/** @var \OC\Encryption\Update */
 	private $update;
 

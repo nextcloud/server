@@ -19,7 +19,6 @@ use OCP\Support\CrashReport\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class LoggerTest extends TestCase implements IWriter {
-
 	/** @var SystemConfig|MockObject */
 	private $config;
 

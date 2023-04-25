@@ -23,7 +23,6 @@
 namespace OC\OCS;
 
 class Exception extends \Exception {
-
 	/** @var Result */
 	private $result;
 

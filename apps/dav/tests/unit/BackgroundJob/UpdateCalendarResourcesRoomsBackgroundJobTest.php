@@ -116,7 +116,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	 *  [backend4, res9, Beamer2, {}] - []
 	 */
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->createTestResourcesInCache();
 
 		$backend2 = $this->createMock(IBackend::class);

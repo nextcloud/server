@@ -56,21 +56,21 @@ class ExifProvider implements IMetadataProvider {
 			// But I don't understand why 1 as a special meaning.
 			// Revert right after reading the exif data.
 			$oldBufferSize = stream_set_chunk_size($fileDescriptor, 1);
-			$data = exif_read_data($fileDescriptor, 'ANY_TAG', true);
+			$data = @exif_read_data($fileDescriptor, 'ANY_TAG', true);
 			stream_set_chunk_size($fileDescriptor, $oldBufferSize);
 		} catch (\Exception $ex) {
-			$this->logger->warning("Couldn't extract metadata for ".$file->getId(), ['exception' => $ex]);
+			$this->logger->info("Couldn't extract metadata for ".$file->getId(), ['exception' => $ex]);
 		}
 
 		$size = new FileMetadata();
 		$size->setGroupName('size');
 		$size->setId($file->getId());
-		$size->setMetadata([]);
+		$size->setArrayAsValue([]);
 
 		if (!$data) {
 			$sizeResult = getimagesizefromstring($file->getContent());
 			if ($sizeResult !== false) {
-				$size->setMetadata([
+				$size->setArrayAsValue([
 					'width' => $sizeResult[0],
 					'height' => $sizeResult[1],
 				]);
@@ -79,7 +79,7 @@ class ExifProvider implements IMetadataProvider {
 			}
 		} elseif (array_key_exists('COMPUTED', $data)) {
 			if (array_key_exists('Width', $data['COMPUTED']) && array_key_exists('Height', $data['COMPUTED'])) {
-				$size->setMetadata([
+				$size->setArrayAsValue([
 					'width' => $data['COMPUTED']['Width'],
 					'height' => $data['COMPUTED']['Height'],
 				]);
@@ -95,7 +95,7 @@ class ExifProvider implements IMetadataProvider {
 			$gps = new FileMetadata();
 			$gps->setGroupName('gps');
 			$gps->setId($file->getId());
-			$gps->setMetadata([
+			$gps->setArrayAsValue([
 				'latitude' => $this->gpsDegreesToDecimal($data['GPS']['GPSLatitude'], $data['GPS']['GPSLatitudeRef']),
 				'longitude' => $this->gpsDegreesToDecimal($data['GPS']['GPSLongitude'], $data['GPS']['GPSLongitudeRef']),
 			]);

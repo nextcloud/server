@@ -667,7 +667,7 @@ kbd {
 	width: calc(100% - var(--body-container-margin) * 2);
 	height: var(--body-height);
 	border-radius: var(--body-container-radius);
-	overflow: hidden;
+	overflow: clip;
 
 	&:not(.with-sidebar--full) {
 		position: fixed;
@@ -1211,6 +1211,32 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			}
 		}
 
+	}
+}
+
+.popovermenu {
+	li {
+		> button,
+		> a,
+		> .menuitem {
+			/* DEPRECATED! old img in popover fallback
+			* TODO: to remove */
+			> img {
+				width: $popoveritem-height;
+				height: $popoveritem-height;
+			}
+		}
+	}
+}
+
+#contactsmenu .contact .popovermenu {
+	li {
+		> a {
+			> img {
+				width: 16px;
+				height: 16px;
+			}
+		}
 	}
 }
 

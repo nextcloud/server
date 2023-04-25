@@ -23,7 +23,6 @@ use OCP\Migration\IRepairStep;
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairMimeTypesTest extends \Test\TestCase {
-
 	/** @var IRepairStep */
 	private $repair;
 
@@ -43,7 +42,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version')
 			->willReturn('11.0.0.0');
 

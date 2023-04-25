@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use Psr\Container\NotFoundExceptionInterface;
 
 interface TestInterface {
 }
@@ -76,11 +77,31 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 
-
+	/**
+	 * Test querying a class that is not registered without autoload enabled
+	 */
 	public function testNothingRegistered() {
-		$this->expectException(\OCP\AppFramework\QueryException::class);
+		try {
+			$this->container->query('something really hard', false);
+			$this->fail('Expected `QueryException` exception was not thrown');
+		} catch (\Throwable $exception) {
+			$this->assertInstanceOf(\OCP\AppFramework\QueryException::class, $exception);
+			$this->assertInstanceOf(NotFoundExceptionInterface::class, $exception);
+		}
+	}
 
-		$this->container->query('something really hard');
+
+	/**
+	 * Test querying a class that is not registered with autoload enabled
+	 */
+	public function testNothingRegistered_autoload() {
+		try {
+			$this->container->query('something really hard');
+			$this->fail('Expected `QueryException` exception was not thrown');
+		} catch (\Throwable $exception) {
+			$this->assertInstanceOf(\OCP\AppFramework\QueryException::class, $exception);
+			$this->assertInstanceOf(NotFoundExceptionInterface::class, $exception);
+		}
 	}
 
 
@@ -128,9 +149,9 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testConstructorComplexInterface() {
 		$this->container->registerParameter('test', 'abc');
 		$this->container->registerService(
-		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
-			return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
-		});
+			'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
+				return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
+			});
 		$object = $this->container->query(
 			'Test\AppFramework\Utility\ClassInterfaceConstructor'
 		);
@@ -142,13 +163,13 @@ class SimpleContainerTest extends \Test\TestCase {
 
 	public function testOverrideService() {
 		$this->container->registerService(
-		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
-			return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
-		});
+			'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
+				return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
+			});
 		$this->container->registerService(
-		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
-			return $c->query('Test\AppFramework\Utility\ClassEmptyConstructor');
-		});
+			'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
+				return $c->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+			});
 		$object = $this->container->query(
 			'Test\AppFramework\Utility\IInterfaceConstructor'
 		);

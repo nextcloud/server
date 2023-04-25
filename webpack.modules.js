@@ -50,8 +50,9 @@ module.exports = {
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
-		main: path.join(__dirname, 'apps/files/src', 'main.js'),
+		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
+		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.js'),
 	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
@@ -62,7 +63,7 @@ module.exports = {
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 	},
 	files_trashbin: {
-		files_trashbin: path.join(__dirname, 'apps/files_trashbin/src', 'files_trashbin.js'),
+		main: path.join(__dirname, 'apps/files_trashbin/src', 'main.ts'),
 	},
 	files_versions: {
 		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions_tab.js'),

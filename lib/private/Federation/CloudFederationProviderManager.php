@@ -42,7 +42,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Federation
  */
 class CloudFederationProviderManager implements ICloudFederationProviderManager {
-
 	/** @var array list of available cloud federation providers */
 	private $cloudFederationProvider;
 

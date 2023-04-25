@@ -228,6 +228,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -289,6 +290,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -351,6 +353,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -410,6 +413,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: false,
@@ -468,6 +472,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -526,6 +531,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: false,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -570,6 +576,124 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an info if transactional file locking is not set up', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: false,
+					hasDBFileLocking: false,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return an info if database file locking is used', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasDBFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -584,6 +708,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -644,6 +769,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -702,6 +828,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -760,6 +887,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -838,6 +966,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -877,7 +1006,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
 					msg: 'You are currently running PHP 5.4.0. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group ↗</a> as soon as your distribution supports it.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});
@@ -897,6 +1026,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -955,6 +1085,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1013,6 +1144,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1075,6 +1207,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1134,6 +1267,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1190,6 +1324,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1234,7 +1369,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if imagick is not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1249,6 +1384,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1293,7 +1429,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1308,6 +1444,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1366,6 +1503,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1403,7 +1541,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
+					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -1424,6 +1562,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1482,6 +1621,7 @@ describe('OC.SetupChecks tests', function() {
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
@@ -1569,7 +1709,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Content-Type-Options" HTTP header is not set to "nosniff". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Robots-Tag" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+					msg: 'The "X-Robots-Tag" HTTP header is not set to "noindex, nofollow". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
 					msg: 'The "X-Frame-Options" HTTP header is not set to "SAMEORIGIN". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
@@ -1596,7 +1736,7 @@ describe('OC.SetupChecks tests', function() {
 			suite.server.requests[0].respond(
 				200,
 				{
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000;preload',
 					'X-Permitted-Cross-Domain-Policies': 'none',
@@ -1627,7 +1767,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-Permitted-Cross-Domain-Policies': 'none',
@@ -1641,6 +1781,49 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		describe('check X-Robots-Tag header', function() {
+			it('should return no message if X-Robots-Tag is set to noindex,nofollow without space', function(done) {
+				protocolStub.returns('https');
+				var result = OC.SetupChecks.checkGeneric();
+				suite.server.requests[0].respond(200, {
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-XSS-Protection': '1; mode=block',
+					'X-Content-Type-Options': 'nosniff',
+					'X-Robots-Tag': 'noindex,nofollow',
+					'X-Frame-Options': 'SAMEORIGIN',
+					'X-Permitted-Cross-Domain-Policies': 'none',
+					'Referrer-Policy': 'no-referrer',
+				});
+				result.done(function( data, s, x ){
+					expect(data).toEqual([]);
+					done();
+				});
+			});
+
+			it('should return a message if X-Robots-Tag is set to none', function(done) {
+				protocolStub.returns('https');
+				var result = OC.SetupChecks.checkGeneric();
+				suite.server.requests[0].respond(200, {
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-XSS-Protection': '1; mode=block',
+					'X-Content-Type-Options': 'nosniff',
+					'X-Robots-Tag': 'none',
+					'X-Frame-Options': 'SAMEORIGIN',
+					'X-Permitted-Cross-Domain-Policies': 'none',
+					'Referrer-Policy': 'no-referrer',
+				});
+				result.done(function( data, s, x ){
+					expect(data).toEqual([
+						{
+							msg: 'The "X-Robots-Tag" HTTP header is not set to "noindex, nofollow". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						}
+					]);
+					done();
+				});
+			});
+		});
+
 		describe('check X-XSS-Protection header', function() {
 			it('should return no message if X-XSS-Protection is set to 1; mode=block; report=https://example.com', function(done) {
 				protocolStub.returns('https');
@@ -1650,7 +1833,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block; report=https://example.com',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1670,7 +1853,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1690,7 +1873,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1715,7 +1898,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '0',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1742,7 +1925,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1762,7 +1945,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer-when-downgrade',
@@ -1782,7 +1965,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin',
@@ -1802,7 +1985,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -1822,7 +2005,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'same-origin',
@@ -1842,7 +2025,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin',
@@ -1867,7 +2050,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin-when-cross-origin',
@@ -1892,7 +2075,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'unsafe-url',
@@ -1908,30 +2091,6 @@ describe('OC.SetupChecks tests', function() {
 					done();
 				});
 			});
-		});
-	});
-
-	it('should return a SSL warning if HTTPS is not used', function(done) {
-		protocolStub.returns('http');
-		var async = OC.SetupChecks.checkGeneric();
-
-		suite.server.requests[0].respond(200,
-			{
-				'X-XSS-Protection': '1; mode=block',
-				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
-				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Permitted-Cross-Domain-Policies': 'none',
-				'Referrer-Policy': 'no-referrer',
-			}
-		);
-
-		async.done(function( data, s, x ){
-			expect(data).toEqual([{
-				msg: 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-security">security tips ↗</a>.',
-				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-			}]);
-			done();
 		});
 	});
 
@@ -1965,7 +2124,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -1990,7 +2149,7 @@ describe('OC.SetupChecks tests', function() {
 				'Strict-Transport-Security': 'max-age=15551999',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -2015,7 +2174,7 @@ describe('OC.SetupChecks tests', function() {
 				'Strict-Transport-Security': 'iAmABogusHeader342',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -2039,7 +2198,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=15768000',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2059,7 +2218,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2079,7 +2238,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2099,7 +2258,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999; preload; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',

@@ -82,7 +82,7 @@
 			];
 
 			_.each(this._inputFields, function(field) {
-				var $icon = self.$('#' + field + 'form h3 > .federation-menu');
+				var $icon = self.$('#' + field + 'form .headerbar-label > .federation-menu');
 				var excludedScopes = []
 
 				if (fieldsWithV2Private.indexOf(field) === -1) {
@@ -245,7 +245,7 @@
 		},
 
 		_setFieldScopeIcon: function(field, scope) {
-			var $icon = this.$('#' + field + 'form > h3 .icon-federation-menu');
+			var $icon = this.$('#' + field + 'form > .headerbar-label .icon-federation-menu');
 
 			$icon.removeClass('icon-phone');
 			$icon.removeClass('icon-password');

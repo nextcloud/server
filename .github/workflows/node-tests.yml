@@ -1,4 +1,4 @@
-name: Node
+name: Node tests
 
 on:
   pull_request:
@@ -10,6 +10,9 @@ on:
 jobs:
   versions:
     runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     outputs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
@@ -67,7 +70,7 @@ jobs:
         run: npm ci
 
       - name: Test
-        run: ./autotest-js.sh
+        run: npm run test:jsunit
 
   handlebars:
     runs-on: ubuntu-latest

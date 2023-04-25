@@ -19,17 +19,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { mount } from 'cypress/vue2'
+/* eslint-disable */
+import { mount } from '@cypress/vue2'
 
-type MountParams = Parameters<typeof mount>;
-type OptionsParam = MountParams[1];
+// Example use:
+// cy.mount(MyComponent)
+Cypress.Commands.add('mount', (component, optionsOrProps) => {
+	let instance = null
+	const oldMounted = component?.mounted || false
 
-declare global {
-	namespace Cypress {
-		interface Chainable<Subject = any> {
-			mount: typeof mount;
+	// Override the mounted method to expose
+	// the component instance to cypress
+	component.mounted = function() {
+		// eslint-disable-next-line
+		instance = this
+		if (oldMounted) {
+			oldMounted()
 		}
 	}
-}
 
-Cypress.Commands.add('mount', mount);
+	// Expose the component with cy.get('@component')
+	return mount(component, optionsOrProps).then(() => {
+		return cy.wrap(instance).as('component')
+	})
+})

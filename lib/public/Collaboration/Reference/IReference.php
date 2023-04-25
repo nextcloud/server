@@ -30,7 +30,6 @@ use JsonSerializable;
  * @since 25.0.0
  */
 interface IReference extends JsonSerializable {
-
 	/**
 	 * @since 25.0.0
 	 */

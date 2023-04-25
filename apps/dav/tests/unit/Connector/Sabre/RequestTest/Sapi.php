@@ -55,7 +55,7 @@ class Sapi {
 	 * @param \Sabre\HTTP\Response $response
 	 * @return void
 	 */
-	public function sendResponse(Response $response) {
+	public function sendResponse(Response $response): void {
 		// we need to copy the body since we close the source stream
 		$copyStream = fopen('php://temp', 'r+');
 		if (is_string($response->getBody())) {

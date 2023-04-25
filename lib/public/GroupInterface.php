@@ -36,7 +36,6 @@ namespace OCP;
  * @since 4.5.0
  */
 interface GroupInterface {
-
 	/**
 	 * actions that user backends can define
 	 */

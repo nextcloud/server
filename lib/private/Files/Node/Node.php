@@ -37,6 +37,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
+use OCP\PreConditionNotMetException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
@@ -52,19 +53,18 @@ class Node implements \OCP\Files\Node {
 	protected $root;
 
 	/**
-	 * @var string $path
+	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
 	 */
 	protected $path;
 
-	/**
-	 * @var \OCP\Files\FileInfo
-	 */
-	protected $fileInfo;
+	protected ?FileInfo $fileInfo;
 
 	/**
 	 * @var Node|null
 	 */
 	protected $parent;
+
+	private bool $infoHasSubMountsIncluded;
 
 	/**
 	 * @param \OC\Files\View $view
@@ -72,19 +72,23 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null) {
+	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
+			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
+		}
 		$this->view = $view;
 		$this->root = $root;
 		$this->path = $path;
 		$this->fileInfo = $fileInfo;
 		$this->parent = $parent;
+		$this->infoHasSubMountsIncluded = $infoHasSubMountsIncluded;
 	}
 
 	/**
 	 * Creates a Node of the same type that represents a non-existing path
 	 *
 	 * @param string $path path
-	 * @return string non-existing node class
+	 * @return Node non-existing node
 	 * @throws \Exception
 	 */
 	protected function createNonExistingNode($path) {
@@ -98,17 +102,23 @@ class Node implements \OCP\Files\Node {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getFileInfo() {
+	public function getFileInfo(bool $includeMountPoint = true) {
 		if (!$this->fileInfo) {
 			if (!Filesystem::isValidPath($this->path)) {
 				throw new InvalidPathException();
 			}
-			$fileInfo = $this->view->getFileInfo($this->path);
+			$fileInfo = $this->view->getFileInfo($this->path, $includeMountPoint);
+			$this->infoHasSubMountsIncluded = $includeMountPoint;
 			if ($fileInfo instanceof FileInfo) {
 				$this->fileInfo = $fileInfo;
 			} else {
 				throw new NotFoundException();
 			}
+		} elseif ($includeMountPoint && !$this->infoHasSubMountsIncluded && $this instanceof Folder) {
+			if ($this->fileInfo instanceof \OC\Files\FileInfo) {
+				$this->view->addSubMounts($this->fileInfo);
+			}
+			$this->infoHasSubMountsIncluded = true;
 		}
 		return $this->fileInfo;
 	}
@@ -179,7 +189,7 @@ class Node implements \OCP\Files\Node {
 	 * @return string
 	 */
 	public function getInternalPath() {
-		return $this->getFileInfo()->getInternalPath();
+		return $this->getFileInfo(false)->getInternalPath();
 	}
 
 	/**
@@ -188,7 +198,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function getId() {
-		return $this->getFileInfo()->getId();
+		return $this->getFileInfo(false)->getId() ?? -1;
 	}
 
 	/**
@@ -209,11 +219,11 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
@@ -232,7 +242,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function getPermissions() {
-		return $this->getFileInfo()->getPermissions();
+		return $this->getFileInfo(false)->getPermissions();
 	}
 
 	/**
@@ -241,7 +251,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function isReadable() {
-		return $this->getFileInfo()->isReadable();
+		return $this->getFileInfo(false)->isReadable();
 	}
 
 	/**
@@ -250,7 +260,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function isUpdateable() {
-		return $this->getFileInfo()->isUpdateable();
+		return $this->getFileInfo(false)->isUpdateable();
 	}
 
 	/**
@@ -259,7 +269,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function isDeletable() {
-		return $this->getFileInfo()->isDeletable();
+		return $this->getFileInfo(false)->isDeletable();
 	}
 
 	/**
@@ -268,7 +278,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function isShareable() {
-		return $this->getFileInfo()->isShareable();
+		return $this->getFileInfo(false)->isShareable();
 	}
 
 	/**
@@ -277,7 +287,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function isCreatable() {
-		return $this->getFileInfo()->isCreatable();
+		return $this->getFileInfo(false)->isCreatable();
 	}
 
 	/**
@@ -328,42 +338,42 @@ class Node implements \OCP\Files\Node {
 	}
 
 	public function isMounted() {
-		return $this->getFileInfo()->isMounted();
+		return $this->getFileInfo(false)->isMounted();
 	}
 
 	public function isShared() {
-		return $this->getFileInfo()->isShared();
+		return $this->getFileInfo(false)->isShared();
 	}
 
 	public function getMimeType() {
-		return $this->getFileInfo()->getMimetype();
+		return $this->getFileInfo(false)->getMimetype();
 	}
 
 	public function getMimePart() {
-		return $this->getFileInfo()->getMimePart();
+		return $this->getFileInfo(false)->getMimePart();
 	}
 
 	public function getType() {
-		return $this->getFileInfo()->getType();
+		return $this->getFileInfo(false)->getType();
 	}
 
 	public function isEncrypted() {
-		return $this->getFileInfo()->isEncrypted();
+		return $this->getFileInfo(false)->isEncrypted();
 	}
 
 	public function getMountPoint() {
-		return $this->getFileInfo()->getMountPoint();
+		return $this->getFileInfo(false)->getMountPoint();
 	}
 
 	public function getOwner() {
-		return $this->getFileInfo()->getOwner();
+		return $this->getFileInfo(false)->getOwner();
 	}
 
 	public function getChecksum() {
 	}
 
 	public function getExtension(): string {
-		return $this->getFileInfo()->getExtension();
+		return $this->getFileInfo(false)->getExtension();
 	}
 
 	/**

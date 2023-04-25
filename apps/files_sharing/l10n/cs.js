@@ -219,6 +219,12 @@ OC.L10N.register(
     "Searching …" : "Hledání…",
     "No elements found." : "Nenalezeny žádné prvky.",
     "Search globally" : "Hledat všude",
+    "Guest" : "Host",
+    "Group" : "Skupina",
+    "Email" : "E-mail",
+    "Circle" : "Okruh",
+    "Talk conversation" : "Konverzace v Talk",
+    "Deck board" : "Tabule aplikace Deck",
     "on {server}" : "na {server}",
     "Others with access" : "Ostatní, kteří mají přístup",
     "No other users with access found" : "Nenalezeni žádní další uživatelé, kteří mají přístup",
@@ -269,9 +275,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
-    "Copy public link to clipboard" : "Zkopírovat veřejný odkaz do schránky",
-    "Share label saved" : "Štítek sdílení uložen",
-    "Share password saved" : "Heslo ke sdílení uloženo",
-    "Share note saved" : "Poznámka ke sdílení uložena"
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje sciencemesh sdílení",
+    "Science Mesh" : "Science Mesh",
+    "Error generating password from password_policy" : "Chyba při vytváření hesla ze zásady pro hesla"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

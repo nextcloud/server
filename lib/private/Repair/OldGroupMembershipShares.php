@@ -29,7 +29,6 @@ use OCP\Migration\IRepairStep;
 use OCP\Share\IShare;
 
 class OldGroupMembershipShares implements IRepairStep {
-
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 

@@ -31,7 +31,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerTest extends TestCase {
-
 	/** @var MockObject */
 	private LoggerInterface $logger;
 

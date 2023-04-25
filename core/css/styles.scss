@@ -112,7 +112,7 @@ body {
 
 .two-factor-provider {
 	text-align: center;
-	width: 258px !important;
+	width: 100% !important;
 	display: inline-block;
 	margin-bottom: 0 !important;
 	background-color: var(--color-background-darker) !important;
@@ -164,6 +164,10 @@ body {
 ::-webkit-scrollbar {
 	width: 12px;
 	height: 12px
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -645,8 +649,10 @@ code {
 		flex-wrap: wrap;
 		box-sizing: border-box;
 		padding-right: 140px;
+		display: flex;
 
 		div:first-child a {
+			font-size: 0px;
 			background-image: var(--icon-home-dark);
 			background-repeat: no-repeat;
 			background-position: left center;
@@ -797,7 +803,7 @@ code {
 		}
 		tr:last-child td {
 			border-bottom: none;
-		}
+		}	
 		.filename {
 			overflow: hidden;
 			white-space: nowrap;
@@ -940,8 +946,9 @@ span.ui-icon {
 /* ---- BREADCRUMB ---- */
 .breadcrumb {
 	display: inline-flex;
+	height: 50px;
 }
-div.crumb {
+li.crumb {
 	display: inline-flex;
 	background-image: url('../img/breadcrumb.svg?v=1');
 	background-repeat: no-repeat;

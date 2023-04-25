@@ -24,7 +24,8 @@
  */
 
 import $ from 'jquery'
-import { isA11yActivation } from '../Util/a11y'
+import { createFocusTrap } from 'focus-trap'
+import { isA11yActivation } from '../Util/a11y.js'
 
 $.widget('oc.ocdialog', {
 	options: {
@@ -114,9 +115,9 @@ $.widget('oc.ocdialog', {
 
 		this._setOptions(this.options)
 		this._createOverlay()
+		this._useFocusTrap()
 	},
 	_init() {
-		this.$dialog.focus()
 		this._trigger('open')
 	},
 	_setOption(key, value) {
@@ -177,7 +178,8 @@ $.widget('oc.ocdialog', {
 			break
 		case 'closeButton':
 			if (value) {
-				const $closeButton = $('<a class="oc-dialog-close" tabindex="0"></a>')
+				const $closeButton = $('<button class="oc-dialog-close"></button>')
+				$closeButton.attr('aria-label', t('core', 'Close "{dialogTitle}" dialog', { dialogTitle: this.$title || this.options.title }))
 				this.$dialog.prepend($closeButton)
 				$closeButton.on('click keydown', function(event) {
 					if (isA11yActivation(event)) {
@@ -251,6 +253,23 @@ $.widget('oc.ocdialog', {
 			this.overlay = null
 		}
 	},
+	_useFocusTrap() {
+		// Create global stack if undefined
+		Object.assign(window, { _nc_focus_trap: window._nc_focus_trap || [] })
+
+		const dialogElement = this.$dialog[0]
+		this.focusTrap = createFocusTrap(dialogElement, {
+			allowOutsideClick: true,
+			trapStack: window._nc_focus_trap,
+			fallbackFocus: dialogElement,
+		})
+
+		this.focusTrap.activate()
+	},
+	_clearFocusTrap() {
+		this.focusTrap?.deactivate()
+		this.focusTrap = null
+	},
 	widget() {
 		return this.$dialog
 	},
@@ -261,6 +280,7 @@ $.widget('oc.ocdialog', {
 		this.enterCallback = null
 	},
 	close() {
+		this._clearFocusTrap()
 		this._destroyOverlay()
 		const self = this
 		// Ugly hack to catch remaining keyup events.

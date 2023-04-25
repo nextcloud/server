@@ -225,7 +225,7 @@ class LazyFolder implements \OCP\Files\Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

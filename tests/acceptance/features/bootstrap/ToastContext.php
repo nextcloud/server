@@ -49,6 +49,6 @@ class ToastContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheToastIsShown($message) {
 		Assert::assertTrue($this->actor->find(
-				self::toastMessage($message), 10)->isVisible());
+			self::toastMessage($message), 10)->isVisible());
 	}
 }

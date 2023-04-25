@@ -28,7 +28,6 @@ namespace OC\Files\ObjectStore;
 use OC\User\User;
 
 class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IHomeStorage {
-
 	/**
 	 * The home user storage requires a user object to create a unique storage id
 	 * @param array $params

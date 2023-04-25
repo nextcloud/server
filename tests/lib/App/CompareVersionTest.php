@@ -31,7 +31,6 @@ use OC\App\CompareVersion;
 use Test\TestCase;
 
 class CompareVersionTest extends TestCase {
-
 	/** @var CompareVersion */
 	private $compare;
 

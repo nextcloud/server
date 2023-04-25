@@ -28,7 +28,6 @@ namespace OC\Authentication\Login;
 use OC\User\Session;
 
 class CompleteLoginCommand extends ALoginCommand {
-
 	/** @var Session */
 	private $userSession;
 

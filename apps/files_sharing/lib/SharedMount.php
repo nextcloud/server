@@ -104,7 +104,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 		array $mountpoints,
 		CappedMemoryCache $folderExistCache
 	) {
-		$cacheKey = $this->user->getUID() . '/' . $share->getId();
+		$cacheKey = $this->user->getUID() . '/' . $share->getId() . '/' . $share->getTarget();
 		$cached = $this->cache->get($cacheKey);
 		if ($cached !== null) {
 			return $cached;
@@ -251,6 +251,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	public function getShare() {
 		return $this->superShare;
+	}
+
+	/**
+	 * @return \OCP\Share\IShare[]
+	 */
+	public function getGroupedShares(): array {
+		return $this->groupedShares;
 	}
 
 	/**

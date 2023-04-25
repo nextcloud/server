@@ -35,7 +35,6 @@ use Throwable;
  * @since 24.0.0
  */
 trait TTransactional {
-
 	/**
 	 * Run an atomic database operation
 	 *

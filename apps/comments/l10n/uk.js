@@ -25,7 +25,7 @@ OC.L10N.register(
     "Comment" : "Коментар",
     "An error occurred while trying to edit the comment" : "Під час редагування коментаря сталася помилка",
     "Comment deleted" : "Коментар вилучено",
-    "An error occurred while trying to delete the comment" : "Під час спроби видалити коментар сталася помилка",
+    "An error occurred while trying to delete the comment" : "Під час спроби вилучити коментар сталася помилка",
     "An error occurred while trying to create the comment" : "Під час створення коментаря сталася помилка",
     "%1$s commented" : "%1$s прокоментовано"
 },

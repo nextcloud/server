@@ -104,10 +104,10 @@
 </template>
 
 <script>
-import AppItem from './AppList/AppItem'
-import PrefixMixin from './PrefixMixin'
+import AppItem from './AppList/AppItem.vue'
+import PrefixMixin from './PrefixMixin.vue'
 import pLimit from 'p-limit'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppList',

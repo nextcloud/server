@@ -522,7 +522,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 
 		// group restrictions contains something, but not parsable, deny access and log warning
-		$json = json_decode($row['group_restrictions']);
+		$json = json_decode($row['group_restrictions'], null, 512, JSON_THROW_ON_ERROR);
 		if (!\is_array($json)) {
 			$this->logger->info('group_restrictions field could not be parsed for ' . $this->dbTableName . '::' . $row['id'] . ', denying access to resource');
 			return false;

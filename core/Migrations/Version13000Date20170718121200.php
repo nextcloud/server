@@ -39,7 +39,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version13000Date20170718121200 extends SimpleMigrationStep {
-
 	/** @var IDBConnection */
 	private $connection;
 
@@ -263,6 +262,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage', 'mimepart'], 'fs_storage_mimepart');
 			$table->addIndex(['storage', 'size', 'fileid'], 'fs_storage_size');
 			$table->addIndex(['fileid', 'storage', 'size'], 'fs_id_storage_size');
+			$table->addIndex(['parent'], 'fs_parent');
 			$table->addIndex(['mtime'], 'fs_mtime');
 			$table->addIndex(['size'], 'fs_size');
 			if (!$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {

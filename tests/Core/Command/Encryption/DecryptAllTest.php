@@ -31,7 +31,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
@@ -86,7 +85,6 @@ class DecryptAllTest extends TestCase {
 	}
 
 	public function testMaintenanceAndTrashbin() {
-
 		// on construct we enable single-user-mode and disable the trash bin
 		$this->config->expects($this->at(1))
 			->method('setSystemValue')

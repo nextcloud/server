@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import moment from 'moment-timezone'
-import valueMixin from '../../mixins/valueMixin'
+import valueMixin from '../../mixins/valueMixin.js'
 
 const zones = moment.tz.names()
 export default {

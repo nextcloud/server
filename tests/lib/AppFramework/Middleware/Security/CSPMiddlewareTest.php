@@ -37,7 +37,6 @@ use OCP\AppFramework\Http\Response;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CSPMiddlewareTest extends \Test\TestCase {
-
 	/** @var CSPMiddleware|MockObject */
 	private $middleware;
 	/** @var Controller|MockObject */

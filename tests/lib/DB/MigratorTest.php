@@ -76,7 +76,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	private function getUniqueTableName() {
-		return strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));
+		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
 	}
 
 	protected function tearDown(): void {
@@ -160,10 +160,10 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testUpgradeDifferentPrefix() {
-		$oldTablePrefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
+		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
-		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix') . 'test_'));
+		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix') . 'test_'));
 
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
@@ -227,6 +227,30 @@ class MigratorTest extends \Test\TestCase {
 		$table = $endSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('user', 'string', ['length' => 64]);
+		$table->setPrimaryKey(['id']);
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->migrate($endSchema);
+
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * Test for nextcloud/server#36803
+	 */
+	public function testColumnCommentsInUpdate() {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		$table->setPrimaryKey(['id']);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		// Assert adding comments on existing tables work (or at least does not throw)
+		$table->addColumn('time', 'integer', ['comment' => 'unix-timestamp', 'notnull' => false]);
 		$table->setPrimaryKey(['id']);
 
 		$migrator = $this->getMigrator();

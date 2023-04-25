@@ -340,6 +340,7 @@
             <xs:element name="prelogin" minOccurs="0" maxOccurs="1"/>
             <xs:element name="filesystem" minOccurs="0" maxOccurs="1"/>
             <xs:element name="authentication" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="extended_authentication" minOccurs="0" maxOccurs="1"/>
             <xs:element name="logging" minOccurs="0" maxOccurs="1"/>
             <xs:element name="dav" minOccurs="0" maxOccurs="1"/>
             <xs:element name="prevent_group_restriction" minOccurs="0"
@@ -446,7 +447,7 @@
         <xs:sequence>
             <xs:element name="id" type="id" minOccurs="0" maxOccurs="1"/>
             <xs:element name="name" type="non-empty-string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="route" type="route" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="route" type="route" minOccurs="0" maxOccurs="1"/>
             <xs:element name="icon" type="xs:anyURI" minOccurs="0" maxOccurs="1"/>
             <xs:element name="order" type="xs:int" minOccurs="0" maxOccurs="1"/>
             <xs:element name="type" type="navigation-type" minOccurs="0" maxOccurs="1"/>

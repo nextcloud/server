@@ -33,7 +33,6 @@ use OCP\Util;
  * @since 14.0.0
  */
 class ExternalShareMenuAction extends SimpleMenuAction {
-
 	/** @var string */
 	private $owner;
 

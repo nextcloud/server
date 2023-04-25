@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -31,6 +33,7 @@ namespace OC\Security\RateLimiting\Backend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 
 /**
  * Class MemoryCacheBackend uses the configured distributed memory cache for storing
@@ -39,17 +42,18 @@ use OCP\ICacheFactory;
  * @package OC\Security\RateLimiting\Backend
  */
 class MemoryCacheBackend implements IBackend {
+	/** @var IConfig */
+	private $config;
 	/** @var ICache */
 	private $cache;
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/**
-	 * @param ICacheFactory $cacheFactory
-	 * @param ITimeFactory $timeFactory
-	 */
-	public function __construct(ICacheFactory $cacheFactory,
-								ITimeFactory $timeFactory) {
+	public function __construct(
+		IConfig $config,
+		ICacheFactory $cacheFactory,
+		ITimeFactory $timeFactory) {
+		$this->config = $config;
 		$this->cache = $cacheFactory->createDistributed(__CLASS__);
 		$this->timeFactory = $timeFactory;
 	}
@@ -121,6 +125,11 @@ class MemoryCacheBackend implements IBackend {
 
 		// Store the new attempt
 		$existingAttempts[] = (string)($currentTime + $period);
+
+		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {
+			return;
+		}
+
 		$this->cache->set($identifier, json_encode($existingAttempts));
 	}
 }

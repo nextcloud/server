@@ -24,6 +24,7 @@ declare(strict_types=1);
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -77,7 +78,6 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var LoggerInterface */
@@ -374,7 +374,7 @@ class UsersController extends AUserData {
 				$group = $this->groupManager->get($groupid);
 				// Check if group exists
 				if ($group === null) {
-					throw new OCSException('Subadmin group does not exist',  102);
+					throw new OCSException('Subadmin group does not exist', 102);
 				}
 				// Check if trying to make subadmin of admin group
 				if ($group->getGID() === 'admin') {
@@ -546,10 +546,6 @@ class UsersController extends AUserData {
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$data = $this->getUserData($user->getUID(), true);
-			// rename "displayname" to "display-name" only for this call to keep
-			// the API stable.
-			$data['display-name'] = $data['displayname'];
-			unset($data['displayname']);
 			return new DataResponse($data);
 		}
 
@@ -635,6 +631,7 @@ class UsersController extends AUserData {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=5, period=60)
 	 *
 	 * @throws OCSException
 	 */
@@ -727,6 +724,7 @@ class UsersController extends AUserData {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=50, period=600)
 	 *
 	 * edit users
 	 *
@@ -1311,7 +1309,7 @@ class UsersController extends AUserData {
 		}
 		// Check if group exists
 		if ($group === null) {
-			throw new OCSException('Group does not exist',  102);
+			throw new OCSException('Group does not exist', 102);
 		}
 		// Check if trying to make subadmin of admin group
 		if ($group->getGID() === 'admin') {

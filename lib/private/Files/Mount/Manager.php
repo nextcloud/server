@@ -184,8 +184,13 @@ class Manager implements IMountManager {
 	 * @return IMountPoint[]
 	 */
 	public function findByNumericId(int $id): array {
-		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
-		return $this->findByStorageId($storageId);
+		$result = [];
+		foreach ($this->mounts as $mount) {
+			if ($mount->getNumericStorageId() === $id) {
+				$result[] = $mount;
+			}
+		}
+		return $result;
 	}
 
 	/**

@@ -141,7 +141,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given app and file.
 	 */
 	public function linkTo(string $appName, string $file, array $args = []): string {
-		$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
 
 		if ($appName !== '') {
 			$app_path = $this->getAppManager()->getAppPath($appName);
@@ -214,7 +214,7 @@ class URLGenerator implements IURLGenerator {
 
 		// Check if the app is in the app folder
 		$path = '';
-		$themingEnabled = $this->config->getSystemValue('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
+		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
 		$themingImagePath = false;
 		if ($themingEnabled) {
 			$themingDefaults = \OC::$server->getThemingDefaults();
@@ -275,7 +275,7 @@ class URLGenerator implements IURLGenerator {
 		$separator = strpos($url, '/') === 0 ? '' : '/';
 
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
-			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
+			return rtrim($this->config->getSystemValueString('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
 		// The ownCloud web root can already be prepended.
 		if (\OC::$WEBROOT !== '' && strpos($url, \OC::$WEBROOT) === 0) {
@@ -311,25 +311,9 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL($defaultPage);
 		}
 
-		$appId = 'files';
-		$defaultApps = explode(',', $this->config->getSystemValue('defaultapp', 'dashboard,files'));
+		$appId = $this->getAppManager()->getDefaultAppForUser();
 
-		$userId = $this->userSession->isLoggedIn() ? $this->userSession->getUser()->getUID() : null;
-		if ($userId !== null) {
-			$userDefaultApps = explode(',', $this->config->getUserValue($userId, 'core', 'defaultapp'));
-			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
-		}
-
-		// find the first app that is enabled for the current user
-		foreach ($defaultApps as $defaultApp) {
-			$defaultApp = \OC_App::cleanAppId(strip_tags($defaultApp));
-			if (\OC::$server->getAppManager()->isEnabledForUser($defaultApp)) {
-				$appId = $defaultApp;
-				break;
-			}
-		}
-
-		if ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true
+		if ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false)
 			|| getenv('front_controller_active') === 'true') {
 			return $this->getAbsoluteURL('/apps/' . $appId . '/');
 		}

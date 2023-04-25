@@ -36,7 +36,6 @@ use OCP\Calendar\Exceptions\CalendarException;
  * @since 26.0.0
  */
 interface IHandleImipMessage extends ICalendar {
-
 	/**
 	 * Handle an iMIP VEvent for validation and processing
 	 *

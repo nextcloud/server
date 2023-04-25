@@ -2,11 +2,11 @@
 	{{#if contact.profileUrl}}
 		{{#if contact.profileTitle}}
 			<a class="profile-link--avatar" href="{{contact.profileUrl}}">
-				<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">
+				<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="{{contact.avatarLabel}}">
 			</a>
 		{{/if}}
 	{{else}}
-		<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">
+		<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="{{contact.avatarLabel}}">
 	{{/if}}
 {{else}}
 	{{#if contact.profileUrl}}
@@ -28,7 +28,7 @@
 		</a>
 	{{/if}}
 	{{#if contact.topAction}}
-		<a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}">
+		<a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}" aria-label="{{contact.topAction.title}}">
 			<img src="{{contact.topAction.icon}}" alt="{{contact.topAction.title}}">
 		</a>
 	{{/if}}
@@ -49,7 +49,7 @@
 	</div>
 {{/if}}
 {{#if contact.hasTwoActions}}
-<a class="second-action" href="{{contact.secondAction.hyperlink}}" title="{{contact.secondAction.title}}">
+<a class="second-action" href="{{contact.secondAction.hyperlink}}" aria-label="{{contact.secondAction.title}}" title="{{contact.secondAction.title}}">
 	<img src="{{contact.secondAction.icon}}" alt="{{contact.secondAction.title}}">
 </a>
 {{/if}}

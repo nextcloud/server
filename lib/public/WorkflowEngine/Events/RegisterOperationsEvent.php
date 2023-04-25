@@ -33,7 +33,6 @@ use OCP\WorkflowEngine\IOperation;
  * @since 18.0.0
  */
 class RegisterOperationsEvent extends Event {
-
 	/** @var IManager */
 	private $manager;
 

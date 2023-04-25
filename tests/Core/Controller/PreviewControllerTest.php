@@ -37,7 +37,6 @@ use OCP\IPreview;
 use OCP\IRequest;
 
 class PreviewControllerTest extends \Test\TestCase {
-
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 

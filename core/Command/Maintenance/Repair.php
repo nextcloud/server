@@ -53,6 +53,7 @@ class Repair extends Command {
 	private ProgressBar $progress;
 	private OutputInterface $output;
 	private IAppManager $appManager;
+	protected bool $errored = false;
 
 	public function __construct(\OC\Repair $repair, IConfig $config, IEventDispatcher $dispatcher, IAppManager $appManager) {
 		$this->repair = $repair;
@@ -104,6 +105,8 @@ class Repair extends Command {
 			}
 		}
 
+
+
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 
@@ -120,7 +123,7 @@ class Repair extends Command {
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
-		return 0;
+		return $this->errored ? 1 : 0;
 	}
 
 	public function handleRepairFeedBack(Event $event): void {
@@ -136,9 +139,10 @@ class Repair extends Command {
 		} elseif ($event instanceof RepairInfoEvent) {
 			$this->output->writeln('<info>     - ' . $event->getMessage() . '</info>');
 		} elseif ($event instanceof RepairWarningEvent) {
-			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage()) . '</comment>';
+			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage() . '</comment>');
 		} elseif ($event instanceof RepairErrorEvent) {
 			$this->output->writeln('<error>     - ERROR: ' . $event->getMessage() . '</error>');
+			$this->errored = true;
 		}
 	}
 }

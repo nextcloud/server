@@ -23,11 +23,11 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import ClickOutside from 'vue-click-outside'
 
-import View from './views/CollaborationView'
+import View from './views/CollaborationView.vue'
 
 Vue.prototype.t = t
 Tooltip.options.defaultHtml = false

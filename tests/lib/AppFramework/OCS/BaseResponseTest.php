@@ -30,7 +30,6 @@ use OC\AppFramework\OCS\BaseResponse;
 
 class BaseResponseTest extends \Test\TestCase {
 	public function testToXml(): void {
-
 		/** @var BaseResponse $response */
 		$response = $this->createMock(BaseResponse::class);
 

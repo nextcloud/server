@@ -123,7 +123,8 @@ class FTP extends Common {
 					return $item['type'] === 'cdir';
 				}));
 				if ($currentDir) {
-					$time = \DateTime::createFromFormat('YmdHis', $currentDir['modify'] ?? '');
+					[$modify] = explode('.', $currentDir['modify'] ?? '', 2);
+					$time = \DateTime::createFromFormat('YmdHis', $modify);
 					if ($time === false) {
 						throw new \Exception("Invalid date format for directory: $currentDir");
 					}
@@ -140,7 +141,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		$result = $this->getConnection()->size($this->buildPath($path));
 		if ($result === -1) {
 			return false;
@@ -355,10 +356,11 @@ class FTP extends Common {
 
 			$data = [];
 			$data['mimetype'] = $isDir ? FileInfo::MIMETYPE_FOLDER : $mimeTypeDetector->detectPath($name);
-			$data['mtime'] = \DateTime::createFromFormat('YmdGis', $file['modify'])->getTimestamp();
-			if ($data['mtime'] === false) {
-				$data['mtime'] = time();
-			}
+
+			// strip fractional seconds
+			[$modify] = explode('.', $file['modify'], 2);
+			$mtime = \DateTime::createFromFormat('YmdGis', $modify);
+			$data['mtime'] = $mtime === false ? time() : $mtime->getTimestamp();
 			if ($isDir) {
 				$data['size'] = -1; //unknown
 			} elseif (isset($file['size'])) {

@@ -202,9 +202,9 @@ class Root extends Folder implements IRootFolder {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
-			$fileInfo = $this->view->getFileInfo($fullPath);
+			$fileInfo = $this->view->getFileInfo($fullPath, false);
 			if ($fileInfo) {
-				return $this->createNode($fullPath, $fileInfo);
+				return $this->createNode($fullPath, $fileInfo, false);
 			} else {
 				throw new NotFoundException($path);
 			}
@@ -290,9 +290,9 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		return 0;
 	}
 
@@ -395,7 +395,7 @@ class Root extends Folder implements IRootFolder {
 					$folder = $this->newFolder('/' . $userId . '/files');
 				}
 			} else {
-				$folder = new LazyUserFolder($this, $userObject);
+				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
 			}
 
 			$this->userFolderCache->set($userId, $folder);

@@ -86,9 +86,11 @@ class FileSearchBackendTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->view = $this->createMock(View::class);
+
+		$this->view->expects($this->any())
+			->method('getRoot')
+			->willReturn('');
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')
@@ -115,7 +117,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view);
 	}
 
-	public function testSearchFilename() {
+	public function testSearchFilename(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -144,7 +146,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	public function testSearchMimetype() {
+	public function testSearchMimetype(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -173,7 +175,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	public function testSearchSize() {
+	public function testSearchSize(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -202,7 +204,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	public function testSearchMtime() {
+	public function testSearchMtime(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -231,7 +233,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	public function testSearchIsCollection() {
+	public function testSearchIsCollection(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -261,7 +263,7 @@ class FileSearchBackendTest extends TestCase {
 	}
 
 
-	public function testSearchInvalidProp() {
+	public function testSearchInvalidProp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->tree->expects($this->any())
@@ -298,7 +300,7 @@ class FileSearchBackendTest extends TestCase {
 	}
 
 
-	public function testSearchNonFolder() {
+	public function testSearchNonFolder(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$davNode = $this->createMock(File::class);
@@ -311,7 +313,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->search->search($query);
 	}
 
-	public function testSearchLimitOwnerBasic() {
+	public function testSearchLimitOwnerBasic(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -340,7 +342,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEmpty($operator->getArguments());
 	}
 
-	public function testSearchLimitOwnerNested() {
+	public function testSearchLimitOwnerNested(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -388,7 +390,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEmpty($operator->getArguments());
 	}
 
-	public function testSearchOperatorLimit() {
+	public function testSearchOperatorLimit(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);

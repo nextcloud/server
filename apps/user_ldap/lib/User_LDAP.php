@@ -335,8 +335,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
-				$this->access->connection->writeToCache($cacheKey, true);
-				return true;
 			} catch (ServerNotAvailableException $e) {
 				throw $e;
 			} catch (\Exception $e) {

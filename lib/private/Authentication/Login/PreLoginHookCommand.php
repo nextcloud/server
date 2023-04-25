@@ -30,7 +30,6 @@ use OC\Hooks\PublicEmitter;
 use OCP\IUserManager;
 
 class PreLoginHookCommand extends ALoginCommand {
-
 	/** @var IUserManager */
 	private $userManager;
 

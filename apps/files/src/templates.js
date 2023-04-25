@@ -25,11 +25,11 @@ import { getLoggerBuilder } from '@nextcloud/logger'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentDirectory } from './utils/davUtils'
+import { getCurrentDirectory } from './utils/davUtils.js'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import TemplatePickerView from './views/TemplatePicker'
+import TemplatePickerView from './views/TemplatePicker.vue'
 import { showError } from '@nextcloud/dialogs'
 
 // Set up logger

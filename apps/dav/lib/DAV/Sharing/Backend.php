@@ -29,12 +29,15 @@
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class Backend {
+	use TTransactional;
+
 	private IDBConnection $db;
 	private IUserManager $userManager;
 	private IGroupManager $groupManager;
@@ -58,18 +61,20 @@ class Backend {
 	 * @param list<string> $remove
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove): void {
-		foreach ($add as $element) {
-			$principal = $this->principalBackend->findByUri($element['href'], '');
-			if ($principal !== '') {
-				$this->shareWith($shareable, $element);
+		$this->atomic(function () use ($shareable, $add, $remove) {
+			foreach ($add as $element) {
+				$principal = $this->principalBackend->findByUri($element['href'], '');
+				if ($principal !== '') {
+					$this->shareWith($shareable, $element);
+				}
 			}
-		}
-		foreach ($remove as $element) {
-			$principal = $this->principalBackend->findByUri($element, '');
-			if ($principal !== '') {
-				$this->unshare($shareable, $element);
+			foreach ($remove as $element) {
+				$principal = $this->principalBackend->findByUri($element, '');
+				if ($principal !== '') {
+					$this->unshare($shareable, $element);
+				}
 			}
-		}
+		}, $this->db);
 	}
 
 	/**
@@ -184,7 +189,7 @@ class Backend {
 				'status' => 1,
 				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
-				'{http://owncloud.org/ns}group-share' => is_null($p)
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) ? str_starts_with($p['uri'], 'principals/groups') : false
 			];
 		}
 

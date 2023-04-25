@@ -30,7 +30,7 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -70,16 +70,16 @@ class HeartbeatController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param string $status
-	 * @return JSONResponse
+	 * @return DataResponse
 	 */
-	public function heartbeat(string $status): JSONResponse {
+	public function heartbeat(string $status): DataResponse {
 		if (!\in_array($status, [IUserStatus::ONLINE, IUserStatus::AWAY], true)) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		$event = new UserLiveStatusEvent(
@@ -92,11 +92,11 @@ class HeartbeatController extends OCSController {
 
 		$userStatus = $event->getUserStatus();
 		if (!$userStatus) {
-			return new JSONResponse([], Http::STATUS_NO_CONTENT);
+			return new DataResponse([], Http::STATUS_NO_CONTENT);
 		}
 
 		/** @psalm-suppress UndefinedInterfaceMethod */
-		return new JSONResponse($this->formatStatus($userStatus->getInternal()));
+		return new DataResponse($this->formatStatus($userStatus->getInternal()));
 	}
 
 	private function formatStatus(UserStatus $status): array {

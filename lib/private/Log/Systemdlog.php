@@ -78,7 +78,7 @@ class Systemdlog extends LogDetails implements IWriter {
 	public function write(string $app, $message, int $level) {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,
-				'SYSLOG_IDENTIFIER='.$this->syslogId,
-				'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level));
+			'SYSLOG_IDENTIFIER='.$this->syslogId,
+			'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

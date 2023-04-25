@@ -61,7 +61,7 @@ class HookManagerTest extends TestCase {
 			});
 	}
 
-	public function test() {
+	public function test(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -110,7 +110,7 @@ class HookManagerTest extends TestCase {
 		$hm->firstLogin($user);
 	}
 
-	public function testWithExisting() {
+	public function testWithExisting(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -149,7 +149,7 @@ class HookManagerTest extends TestCase {
 		$hm->firstLogin($user);
 	}
 
-	public function testWithBirthdayCalendar() {
+	public function testWithBirthdayCalendar(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -197,7 +197,7 @@ class HookManagerTest extends TestCase {
 		$hm->firstLogin($user);
 	}
 
-	public function testDeleteCalendar() {
+	public function testDeleteCalendar(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();

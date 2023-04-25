@@ -38,7 +38,6 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class CssControllerTest extends TestCase {
-
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 

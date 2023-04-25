@@ -43,7 +43,6 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
  * @since 9.0.0
  */
 interface IShare {
-
 	/**
 	 * @since 17.0.0
 	 */
@@ -117,6 +116,11 @@ interface IShare {
 	 * @since 21.0.0
 	 */
 	public const TYPE_DECK_USER = 13;
+
+	/**
+	 * @since 26.0.0
+	 */
+	public const TYPE_SCIENCEMESH = 15;
 
 	/**
 	 * @since 18.0.0

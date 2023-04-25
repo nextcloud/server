@@ -33,7 +33,6 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
  * Contains all two-factor provider information for the two-factor login challenge
  */
 class ProviderSet {
-
 	/** @var IProvider */
 	private $providers;
 

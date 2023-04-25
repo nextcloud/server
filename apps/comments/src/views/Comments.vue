@@ -40,18 +40,19 @@
 					<MessageReplyTextIcon />
 				</template>
 			</NcEmptyContent>
-
-			<!-- Comments -->
-			<Comment v-for="comment in comments"
-				v-else
-				:key="comment.props.id"
-				v-bind="comment.props"
-				:auto-complete="autoComplete"
-				:message.sync="comment.props.message"
-				:ressource-id="ressourceId"
-				:user-data="genMentionsData(comment.props.mentions)"
-				class="comments__list"
-				@delete="onDelete" />
+			<ul v-else>
+				<!-- Comments -->
+				<Comment v-for="comment in comments"
+					:key="comment.props.id"
+					tag="li"
+					v-bind="comment.props"
+					:auto-complete="autoComplete"
+					:message.sync="comment.props.message"
+					:ressource-id="ressourceId"
+					:user-data="genMentionsData(comment.props.mentions)"
+					class="comments__list"
+					@delete="onDelete" />
+			</ul>
 
 			<!-- Loading more message -->
 			<div v-if="loading && !isFirstLoading" class="comments__info icon-loading" />
@@ -86,14 +87,14 @@ import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import RefreshIcon from 'vue-material-design-icons/Refresh'
-import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText'
-import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
+import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue'
+import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
-import getComments, { DEFAULT_LIMIT } from '../services/GetComments.js'
+import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
 import cancelableRequest from '../utils/cancelableRequest.js'
 
 Vue.use(VTooltip)
@@ -205,14 +206,14 @@ export default {
 				this.error = ''
 
 				// Init cancellable request
-				const { request, cancel } = cancelableRequest(getComments)
-				this.cancelRequest = cancel
+				const { request, abort } = cancelableRequest(getComments)
+				this.cancelRequest = abort
 
 				// Fetch comments
-				const comments = await request({
+				const { data: comments } = await request({
 					commentsType: this.commentsType,
 					ressourceId: this.ressourceId,
-				}, { offset: this.offset })
+				}, { offset: this.offset }) || { data: [] }
 
 				this.logger.debug(`Processed ${comments.length} comments`, { comments })
 

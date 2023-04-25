@@ -58,7 +58,6 @@ use function array_map;
  * @see IProvider::search() for the arguments of the individual search requests
  */
 class SearchComposer {
-
 	/** @var IProvider[] */
 	private $providers = [];
 

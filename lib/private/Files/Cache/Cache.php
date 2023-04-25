@@ -43,6 +43,7 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -186,6 +187,8 @@ class Cache implements ICache {
 	 */
 	public static function cacheEntryFromData($data, IMimeTypeLoader $mimetypeLoader) {
 		//fix types
+		$data['name'] = (string)$data['name'];
+		$data['path'] = (string)$data['path'];
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
 		$data['size'] = 0 + $data['size'];
@@ -573,7 +576,7 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Recursively remove all children of a folder
+	 * Remove all children of a folder
 	 *
 	 * @param ICacheEntry $entry the cache entry of the folder to remove the children of
 	 * @throws \OC\DatabaseException
@@ -581,6 +584,8 @@ class Cache implements ICache {
 	private function removeChildren(ICacheEntry $entry) {
 		$parentIds = [$entry->getId()];
 		$queue = [$entry->getId()];
+		$deletedIds = [];
+		$deletedPaths = [];
 
 		// we walk depth first through the file tree, removing all filecache_extended attributes while we walk
 		// and collecting all folder ids to later use to delete the filecache entries
@@ -589,6 +594,12 @@ class Cache implements ICache {
 			$childIds = array_map(function (ICacheEntry $cacheEntry) {
 				return $cacheEntry->getId();
 			}, $children);
+			$childPaths = array_map(function (ICacheEntry $cacheEntry) {
+				return $cacheEntry->getPath();
+			}, $children);
+
+			$deletedIds = array_merge($deletedIds, $childIds);
+			$deletedPaths = array_merge($deletedPaths, $childPaths);
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
@@ -617,6 +628,16 @@ class Cache implements ICache {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->execute();
 		}
+
+		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
+			$cacheEntryRemovedEvent = new CacheEntryRemovedEvent(
+				$this->storage,
+				$filePath,
+				$fileId,
+				$this->getNumericStorageId()
+			);
+			$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
+		}
 	}
 
 	/**
@@ -637,6 +658,10 @@ class Cache implements ICache {
 	 */
 	protected function getMoveInfo($path) {
 		return [$this->getNumericStorageId(), $path];
+	}
+
+	protected function hasEncryptionWrapper(): bool {
+		return $this->storage->instanceOfStorage(Encryption::class);
 	}
 
 	/**
@@ -690,6 +715,11 @@ class Cache implements ICache {
 					->where($query->expr()->eq('storage', $query->createNamedParameter($sourceStorageId, IQueryBuilder::PARAM_INT)))
 					->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($sourcePath) . '/%')));
 
+				// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+				if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+					$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+				}
+
 				try {
 					$query->execute();
 				} catch (\OC\DatabaseException $e) {
@@ -706,6 +736,12 @@ class Cache implements ICache {
 				->set('name', $query->createNamedParameter(basename($targetPath)))
 				->set('parent', $query->createNamedParameter($newParentId, IQueryBuilder::PARAM_INT))
 				->whereFileId($sourceId);
+
+			// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+			if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+				$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+			}
+
 			$query->execute();
 
 			$this->connection->commit();
@@ -863,10 +899,23 @@ class Cache implements ICache {
 	 * calculate the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
+		return $this->calculateFolderSizeInner($path, $entry);
+	}
+
+
+	/**
+	 * inner function because we can't add new params to the public function without breaking any child classes
+	 *
+	 * @param string $path
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
+	 * @return int
+	 */
+	protected function calculateFolderSizeInner(string $path, $entry = null, bool $ignoreUnknown = false) {
 		$totalSize = 0;
 		if (is_null($entry) || !isset($entry['fileid'])) {
 			$entry = $this->get($path);
@@ -878,6 +927,9 @@ class Cache implements ICache {
 			$query->select('size', 'unencrypted_size')
 				->from('filecache')
 				->whereParent($id);
+			if ($ignoreUnknown) {
+				$query->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
+			}
 
 			$result = $query->execute();
 			$rows = $result->fetchAll();
@@ -918,9 +970,16 @@ class Cache implements ICache {
 				$unencryptedTotal = 0;
 				$unencryptedMax = 0;
 			}
-			if ($entry['size'] !== $totalSize) {
-				// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
-				if ($unencryptedMax > 0 || $totalSize === 0) {
+
+			// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || $entry['unencrypted_size'] > 0;
+			if ($entry['size'] !== $totalSize || ($entry['unencrypted_size'] !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
+				if ($shouldWriteUnEncryptedSize) {
+					// if all children have an unencrypted size of 0, just set the folder unencrypted size to 0 instead of summing the sizes
+					if ($unencryptedMax === 0) {
+						$unencryptedTotal = 0;
+					}
+
 					$this->update($id, [
 						'size' => $totalSize,
 						'unencrypted_size' => $unencryptedTotal,
@@ -977,7 +1036,12 @@ class Cache implements ICache {
 		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		return $path;
+		if ($path === false) {
+			return false;
+		}
+
+		// Make sure Oracle does not continue with null for empty strings
+		return (string)$path;
 	}
 
 	/**
@@ -1060,6 +1124,12 @@ class Cache implements ICache {
 			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
 		}
 		$data = $this->cacheEntryToArray($sourceEntry);
+
+		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+			$data['encrypted'] = 0;
+		}
+
 		$fileId = $this->put($targetPath, $data);
 		if ($fileId <= 0) {
 			throw new \RuntimeException("Failed to copy to " . $targetPath . " from cache with source data " . json_encode($data) . " ");

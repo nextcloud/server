@@ -50,7 +50,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class ProfileManager {
-
 	/** @var IAccountManager */
 	private $accountManager;
 
@@ -441,7 +440,7 @@ class ProfileManager {
 			],
 			IAccountManager::PROPERTY_DISPLAYNAME => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get('lib')->t('Full name'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Display name'),
 			],
 			IAccountManager::PROPERTY_HEADLINE => [
 				'appId' => self::CORE_APP_ID,
