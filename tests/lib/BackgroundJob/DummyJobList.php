@@ -21,6 +21,11 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 */
 	private array $jobs = [];
 
+	/**
+	 * @var bool[]
+	 */
+	private array $reserved = [];
+
 	private int $last = 0;
 
 	public function __construct() {
@@ -133,6 +138,14 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	public function setLastRun(IJob $job): void {
 		$job->setLastRun(time());
+	}
+
+	public function hasReservedJob(?string $className = null): bool {
+		return $this->reserved[$className ?? ''];
+	}
+
+	public function setHasReservedJob(?string $className, bool $hasReserved): void {
+		$this->reserved[$className ?? ''] = $hasReserved;
 	}
 
 	public function setExecutionTime(IJob $job, $timeTaken): void {

@@ -120,6 +120,7 @@ return array(
     'OCP\\AutoloadNotAllowedException' => $baseDir . '/lib/public/AutoloadNotAllowedException.php',
     'OCP\\BackgroundJob\\IJob' => $baseDir . '/lib/public/BackgroundJob/IJob.php',
     'OCP\\BackgroundJob\\IJobList' => $baseDir . '/lib/public/BackgroundJob/IJobList.php',
+    'OCP\\BackgroundJob\\IParallelAwareJob' => $baseDir . '/lib/public/BackgroundJob/IParallelAwareJob.php',
     'OCP\\BackgroundJob\\Job' => $baseDir . '/lib/public/BackgroundJob/Job.php',
     'OCP\\BackgroundJob\\QueuedJob' => $baseDir . '/lib/public/BackgroundJob/QueuedJob.php',
     'OCP\\BackgroundJob\\TimedJob' => $baseDir . '/lib/public/BackgroundJob/TimedJob.php',
