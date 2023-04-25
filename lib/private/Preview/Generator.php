@@ -297,7 +297,7 @@ class Generator {
 		static $width;
 		if (!isset($width)) {
 			if (function_exists('getconf')) {
-				$width = is_int(getconf('_NPROCESSORS_ONLN')) ?? is_int(getconf('NPROCESSORS_ONLN')) ?? 0;
+				$width = getconf('_NPROCESSORS_ONLN');
 			} else {
 				$width = 0;
 			}
