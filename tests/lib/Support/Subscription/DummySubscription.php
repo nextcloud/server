@@ -25,7 +25,6 @@ declare(strict_types=1);
 namespace Test\Support\Subscription;
 
 class DummySubscription implements \OCP\Support\Subscription\ISubscription {
-
 	/** @var bool */
 	private $hasValidSubscription;
 	/** @var bool */

@@ -38,7 +38,6 @@ namespace OCP\Search;
  * @since 20.0.0
  */
 interface ISearchQuery {
-
 	/**
 	 * @since 20.0.0
 	 */

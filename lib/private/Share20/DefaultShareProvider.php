@@ -55,6 +55,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use function str_starts_with;
 
 /**
  * Class DefaultShareProvider
@@ -62,7 +63,6 @@ use OCP\Share\IShareProvider;
  * @package OC\Share20
  */
 class DefaultShareProvider implements IShareProvider {
-
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
@@ -608,7 +608,6 @@ class DefaultShareProvider implements IShareProvider {
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 				->execute();
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
-
 			// Check if there is a usergroup share
 			$qb = $this->dbConn->getQueryBuilder();
 			$stmt = $qb->select('id')
@@ -664,9 +663,9 @@ class DefaultShareProvider implements IShareProvider {
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('s.*',
-				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-				'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-				'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
+			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
 			->from('share', 's')
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
@@ -886,6 +885,11 @@ class DefaultShareProvider implements IShareProvider {
 		// FIXME: would not detect rare md5'd home storage case properly
 		if ($pathSections[0] !== 'files'
 			&& (strpos($data['storage_string_id'], 'home::') === 0 || strpos($data['storage_string_id'], 'object::user') === 0)) {
+			return false;
+		} elseif ($pathSections[0] === '__groupfolders'
+			&& str_starts_with($pathSections[1], 'trash/')
+		) {
+			// exclude shares leading to trashbin on group folders storages
 			return false;
 		}
 		return true;

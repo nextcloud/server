@@ -53,10 +53,8 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\Uri;
 
 class FilesPlugin extends ServerPlugin {
-
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
@@ -321,11 +319,11 @@ class FilesPlugin extends ServerPlugin {
 					$user->getUID()
 				);
 				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
-				return json_encode($ocmPermissions);
+				return json_encode($ocmPermissions, JSON_THROW_ON_ERROR);
 			});
 
 			$propFind->handle(self::SHARE_ATTRIBUTES_PROPERTYNAME, function () use ($node, $httpRequest) {
-				return json_encode($node->getShareAttributes());
+				return json_encode($node->getShareAttributes(), JSON_THROW_ON_ERROR);
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function () use ($node): string {
@@ -350,9 +348,9 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
-				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
+				return json_encode($this->previewManager->isAvailable($node->getFileInfo()), JSON_THROW_ON_ERROR);
 			});
-			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?int {
+			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): int|float {
 				return $node->getSize();
 			});
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
@@ -382,7 +380,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 			/**
 			 * Return file/folder name as displayname. The primary reason to
-			 * implement it this way is to avoid costly fallback to 
+			 * implement it this way is to avoid costly fallback to
 			 * CustomPropertiesBackend (esp. visible when querying all files
 			 * in a folder).
 			 */
@@ -422,7 +420,7 @@ class FilesPlugin extends ServerPlugin {
 			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
 				$propFind->handle(self::FILE_METADATA_SIZE, function () use ($node) {
 					if (!str_starts_with($node->getFileInfo()->getMimetype(), 'image')) {
-						return json_encode((object)[]);
+						return json_encode((object)[], JSON_THROW_ON_ERROR);
 					}
 
 					if ($node->hasMetadata('size')) {
@@ -438,7 +436,7 @@ class FilesPlugin extends ServerPlugin {
 						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
 					}
 
-					return json_encode((object)$sizeMetadata->getMetadata());
+					return $sizeMetadata->getValue();
 				});
 			}
 		}

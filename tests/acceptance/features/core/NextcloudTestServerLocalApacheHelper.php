@@ -47,7 +47,6 @@
  * server can be got from "getBaseUrl".
  */
 class NextcloudTestServerLocalApacheHelper implements NextcloudTestServerHelper {
-
 	/**
 	 * @var string
 	 */

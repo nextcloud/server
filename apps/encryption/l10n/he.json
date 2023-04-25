@@ -28,9 +28,6 @@
     "one-time password for server-side-encryption" : "סיסמא חד פעמית עבור הצפנת צד השרת",
     "Default encryption module" : "מודול ההצפנה כבררת מחדל",
     "Default encryption module for server-side encryption" : "מודול הצפנה כבררת מחדל להצפנה מצד השרת",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "כדי להשתמש במודול הצפנה זה עליך להפעיל הצפנה מצד השרת בהגדרות\n\t\tהניהול. לאחר ההפעלה יצפין מודול זה את כל הקבצים שלך באופן\n\t\tשקוף לחלוטין. ההצפנה מבוססת על מפתחות AES 256.\n\t\tהמודול לא ישפיע על קבצים קיימים, רק קבצים חדשים יוצפנו לאחר\n\t\tהפעלת ההצפנה מצד השרת. כמו כן, לא ניתן להשבית את ההצפנה\n\t\tבחזרה ולשוב למערכת בלתי מוצפנת.\n\t\tנא לקרוא את התיעוד כדי להבין את כל ההשלכות בטרם קבלת ההחלטה\n\t\tלהפעיל הצפנה מצד השרת.",
-    "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
-    "Cheers!" : "לחיים!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "יישומון ההצפנה פעיל אך המפתחות שלך לא אותחלו, נא לצאת מהחשבון ולהיכנס שוב.",
     "Encrypt the home storage" : "הצפנת אחסון הבית",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "הפעלת אפשרות זו מצפינה את כל הקבצים המאוחסנים באחסון המרכזי, אחרת רק הקבצים המאוחסנים בהתקנים חיצוניים יוצפנו",
@@ -54,6 +51,9 @@
     "Enable password recovery:" : "מאפשר שחזור סיסמא:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "הפעלת אפשרות זו תאפשר לך לקבל מחדש גישה לקבצים המוצפנים שלך במקרה שסיסמא נשכחת",
     "Enabled" : "מופעל",
-    "Disabled" : "מנוטרל"
+    "Disabled" : "מנוטרל",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "כדי להשתמש במודול הצפנה זה עליך להפעיל הצפנה מצד השרת בהגדרות\n\t\tהניהול. לאחר ההפעלה יצפין מודול זה את כל הקבצים שלך באופן\n\t\tשקוף לחלוטין. ההצפנה מבוססת על מפתחות AES 256.\n\t\tהמודול לא ישפיע על קבצים קיימים, רק קבצים חדשים יוצפנו לאחר\n\t\tהפעלת ההצפנה מצד השרת. כמו כן, לא ניתן להשבית את ההצפנה\n\t\tבחזרה ולשוב למערכת בלתי מוצפנת.\n\t\tנא לקרוא את התיעוד כדי להבין את כל ההשלכות בטרם קבלת ההחלטה\n\t\tלהפעיל הצפנה מצד השרת.",
+    "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
+    "Cheers!" : "לחיים!"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

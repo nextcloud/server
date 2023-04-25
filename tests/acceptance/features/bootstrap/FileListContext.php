@@ -25,7 +25,6 @@ use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
 
 class FileListContext implements Context, ActorAwareInterface {
-
 	/**
 	 * @var Actor
 	 */
@@ -484,9 +483,9 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileListIsEventuallyLoaded() {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::mainWorkingIcon($this->fileListAncestor),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::mainWorkingIcon($this->fileListAncestor),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The main working icon for the file list is still shown after $timeout seconds");
 		}
 	}
@@ -522,9 +521,9 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileListDoesNotContainAFileNamed($fileName) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::rowForFile($this->fileListAncestor, $fileName),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::rowForFile($this->fileListAncestor, $fileName),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The file list still contains a file named $fileName after $timeout seconds");
 		}
 	}

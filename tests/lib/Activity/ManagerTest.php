@@ -32,7 +32,6 @@ use OCP\RichObjectStrings\IValidator;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var \OC\Activity\Manager */
 	private $activityManager;
 

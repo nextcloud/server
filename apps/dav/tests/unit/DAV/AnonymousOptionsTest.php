@@ -50,49 +50,49 @@ class AnonymousOptionsTest extends TestCase {
 		return $server->httpResponse;
 	}
 
-	public function testAnonymousOptionsRoot() {
+	public function testAnonymousOptionsRoot(): void {
 		$response = $this->sendRequest('OPTIONS', '');
 
 		$this->assertEquals(401, $response->getStatus());
 	}
 
-	public function testAnonymousOptionsNonRoot() {
+	public function testAnonymousOptionsNonRoot(): void {
 		$response = $this->sendRequest('OPTIONS', 'foo');
 
 		$this->assertEquals(401, $response->getStatus());
 	}
 
-	public function testAnonymousOptionsNonRootSubDir() {
+	public function testAnonymousOptionsNonRootSubDir(): void {
 		$response = $this->sendRequest('OPTIONS', 'foo/bar');
 
 		$this->assertEquals(401, $response->getStatus());
 	}
 
-	public function testAnonymousOptionsRootOffice() {
+	public function testAnonymousOptionsRootOffice(): void {
 		$response = $this->sendRequest('OPTIONS', '', 'Microsoft Office does strange things');
 
 		$this->assertEquals(200, $response->getStatus());
 	}
 
-	public function testAnonymousOptionsNonRootOffice() {
+	public function testAnonymousOptionsNonRootOffice(): void {
 		$response = $this->sendRequest('OPTIONS', 'foo', 'Microsoft Office does strange things');
 
 		$this->assertEquals(200, $response->getStatus());
 	}
 
-	public function testAnonymousOptionsNonRootSubDirOffice() {
+	public function testAnonymousOptionsNonRootSubDirOffice(): void {
 		$response = $this->sendRequest('OPTIONS', 'foo/bar', 'Microsoft Office does strange things');
 
 		$this->assertEquals(200, $response->getStatus());
 	}
 
-	public function testAnonymousHead() {
+	public function testAnonymousHead(): void {
 		$response = $this->sendRequest('HEAD', '', 'Microsoft Office does strange things');
 
 		$this->assertEquals(200, $response->getStatus());
 	}
 
-	public function testAnonymousHeadNoOffice() {
+	public function testAnonymousHeadNoOffice(): void {
 		$response = $this->sendRequest('HEAD', '');
 
 		$this->assertEquals(401, $response->getStatus(), 'curl');
@@ -105,6 +105,6 @@ class SapiMock extends Sapi {
 	 *
 	 * @return void
 	 */
-	public static function sendResponse(ResponseInterface $response) {
+	public static function sendResponse(ResponseInterface $response): void {
 	}
 }

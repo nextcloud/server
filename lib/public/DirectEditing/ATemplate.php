@@ -30,7 +30,6 @@ use JsonSerializable;
  * @since 18.0.0
  */
 abstract class ATemplate implements JsonSerializable {
-
 	/**
 	 * Return a unique id so the app can identify the template
 	 *

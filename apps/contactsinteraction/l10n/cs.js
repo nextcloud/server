@@ -2,7 +2,7 @@ OC.L10N.register(
     "contactsinteraction",
     {
     "Recently contacted" : "Nedávno kontaktovaní",
-    "Contacts Interaction" : "Napojení na Kontakty",
+    "Contacts Interaction" : "Interakce s kontakty",
     "Manages interaction between users and contacts" : "Spravuje interakci mezi uživateli a kontakty",
     "Collect data about user and contacts interactions and provide an address book for the data" : "Shromažďuje data o interakcích mezi uživatelem a kontakty a poskytuje pro tato data adresář kontaktů"
 },

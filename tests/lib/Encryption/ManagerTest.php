@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var Manager */
 	private $manager;
 
@@ -67,7 +66,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testManagerIsEnabled() {
-		$this->config->expects($this->any())->method('getSystemValue')->willReturn(true);
+		$this->config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
 		$this->assertTrue($this->manager->isEnabled());
 	}
@@ -200,7 +199,7 @@ class ManagerTest extends TestCase {
 //	 */
 //	public function testModuleRegistration() {
 //		$config = $this->createMock(IConfig::class);
-//		$config->expects($this->any())->method('getSystemValue')->willReturn(true);
+//		$config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 //		$em = $this->createMock(IEncryptionModule::class);
 //		$em->expects($this->any())->method('getId')->willReturn(0);
 //		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
@@ -212,7 +211,7 @@ class ManagerTest extends TestCase {
 //
 //	public function testModuleUnRegistration() {
 //		$config = $this->createMock(IConfig::class);
-//		$config->expects($this->any())->method('getSystemValue')->willReturn(true);
+//		$config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 //		$em = $this->createMock(IEncryptionModule::class);
 //		$em->expects($this->any())->method('getId')->willReturn(0);
 //		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
@@ -229,7 +228,7 @@ class ManagerTest extends TestCase {
 //	 */
 //	public function testGetEncryptionModuleUnknown() {
 //		$config = $this->createMock(IConfig::class);
-//		$config->expects($this->any())->method('getSystemValue')->willReturn(true);
+//		$config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 //		$em = $this->createMock(IEncryptionModule::class);
 //		$em->expects($this->any())->method('getId')->willReturn(0);
 //		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
@@ -241,7 +240,7 @@ class ManagerTest extends TestCase {
 //
 //	public function testGetEncryptionModule() {
 //		$config = $this->createMock(IConfig::class);
-//		$config->expects($this->any())->method('getSystemValue')->willReturn(true);
+//		$config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 //		$em = $this->createMock(IEncryptionModule::class);
 //		$em->expects($this->any())->method('getId')->willReturn(0);
 //		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');

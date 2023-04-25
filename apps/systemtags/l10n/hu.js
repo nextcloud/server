@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Együttműködési címkék",
     "Collaborative tagging functionality which shares tags among users." : "Együttműködő címkézési funkció, amely megosztja a címkéket a felhasználók között.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Együttműködő címkézési funkció, amely megosztja a címkéket a felhasználók között. Nagyszerű a csapatok számára.\n\t(Ha Ön több szervezet számára szolgáltatást nyújtó szolgáltató, akkor ajánlott deaktiválni ezt az alkalmazást, mivel a címkék meg vannak osztva.)",
+    "Failed to load tags" : "A könyvjelző címkéinek betöltése sikertelen",
     "Tagged files" : "Címkézett fájlok",
     "Select tags to filter by" : "Válasszon címkéket a szűréshez:",
     "No tags found" : "Nem találhatók címkék",

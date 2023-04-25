@@ -23,7 +23,7 @@
 
 /* eslint-disable */
 import $ from 'jquery'
-import { filePath } from './routing'
+import { filePath } from './routing.js'
 import { generateFilePath } from "@nextcloud/router"
 
 /**

@@ -31,7 +31,6 @@ use OCP\EventDispatcher\Event;
  * @since 18.0.0
  */
 class GenerateSecurePasswordEvent extends Event {
-
 	/** @var null|string */
 	private $password;
 

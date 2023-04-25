@@ -34,7 +34,7 @@ const sendHeartbeat = async (isAway) => {
 	const response = await HttpClient.put(url, {
 		status: isAway ? 'away' : 'online',
 	})
-	return response.data
+	return response.data.ocs.data
 }
 
 export {

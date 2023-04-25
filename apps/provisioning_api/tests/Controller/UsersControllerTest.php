@@ -73,7 +73,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
-
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var IConfig|MockObject */
@@ -497,7 +496,7 @@ class UsersControllerTest extends TestCase {
 			->method('generate')
 			->with(10)
 			->willReturnCallback(function () {
-				return (string)rand(1000000000, 9999999999);
+				return (string)rand(100000000, 999999999);
 			});
 
 		$this->assertTrue(key_exists(
@@ -1072,6 +1071,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1165,9 +1165,8 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->willReturn('Demo User');
 		$targetUser
-			->expects($this->once())
-			->method('getHome')
-			->willReturn('/var/www/newtcloud/data/UID');
+			->expects($this->never())
+			->method('getHome');
 		$targetUser
 			->expects($this->once())
 			->method('getLastLogin')
@@ -1206,13 +1205,13 @@ class UsersControllerTest extends TestCase {
 		$expected = [
 			'id' => 'UID',
 			'enabled' => true,
-			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => [],
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1349,9 +1348,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 		$targetUser
-			->expects($this->once())
-			->method('getHome')
-			->willReturn('/var/www/newtcloud/data/UID');
+			->expects($this->never())
+			->method('getHome');
 		$targetUser
 			->expects($this->once())
 			->method('getLastLogin')
@@ -1385,13 +1383,13 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
-			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => [],
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@nextcloud.com',
 			'displayname' => 'Subadmin User',
+			'display-name' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -3547,6 +3545,7 @@ class UsersControllerTest extends TestCase {
 					'quota' => ['DummyValue'],
 					'email' => 'demo@nextcloud.com',
 					'displayname' => 'Demo User',
+					'display-name' => 'Demo User',
 					'phone' => 'phone',
 					'address' => 'address',
 					'website' => 'website',
@@ -3565,6 +3564,8 @@ class UsersControllerTest extends TestCase {
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
+			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -3575,7 +3576,6 @@ class UsersControllerTest extends TestCase {
 			'headline' => 'headline',
 			'biography' => 'biography',
 			'profile_enabled' => '1',
-			'display-name' => 'Demo User'
 		];
 
 		$this->assertSame($expected, $api->getCurrentUser()->getData());
@@ -3634,6 +3634,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'fediverse' => 'fediverse',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'organisation' => 'organisation',
 			'role' => 'role',
 			'headline' => 'headline',

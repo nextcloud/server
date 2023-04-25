@@ -44,7 +44,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 export default {
 	name: 'ProfilePreviewCard',

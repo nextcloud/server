@@ -10,7 +10,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Erreur lors de la configuration de OAuth2",
     "Generate keys" : "Générer des clés",
     "Error generating key pair" : "Erreur lors de la génération des clés",
-    "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre.",
+    "Type to select user or group." : "Tapez pour sélectionner un utilisateur ou un groupe.",
     "(Group)" : "(Groupe)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilité avec l'encodage Mac NFD (lent)",
     "Enable encryption" : "Activer le chiffrement",
@@ -90,6 +90,7 @@ OC.L10N.register(
     "Hostname" : "Nom de l'hôte",
     "Port" : "Port",
     "Region" : "Région",
+    "Storage Class" : "Classe de stockage",
     "Enable SSL" : "Activer SSL",
     "Enable Path Style" : "Accès par path",
     "Legacy (v2) authentication" : "Authentification héritée (v2)",
@@ -135,8 +136,10 @@ OC.L10N.register(
     "Available for" : "Disponible pour",
     "Click to recheck the configuration" : "Cliquer pour revérifier la configuration",
     "Add storage" : "Ajouter un support de stockage",
+    "All users" : "Tous les utilisateurs",
     "Advanced settings" : "Paramètres avancés",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
+    "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

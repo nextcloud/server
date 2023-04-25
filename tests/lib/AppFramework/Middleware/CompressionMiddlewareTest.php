@@ -35,7 +35,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class CompressionMiddlewareTest extends \Test\TestCase {
-
 	/** @var IRequest */
 	private $request;
 	/** @var Controller */

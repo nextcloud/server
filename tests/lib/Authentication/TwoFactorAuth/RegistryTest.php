@@ -38,7 +38,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-
 	/** @var ProviderUserAssignmentDao|MockObject */
 	private $dao;
 

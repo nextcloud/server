@@ -38,7 +38,6 @@ use OCP\IUser;
  * https://github.com/nextcloud/server/issues
  */
 class BeforeUserRemovedEvent extends Event {
-
 	/** @var IGroup */
 	private $group;
 

@@ -20,7 +20,7 @@
  *
  */
 
-// eslint-disable-next-line node/no-missing-import, import/no-unresolved
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
 
 // Init Comments tab component

@@ -1,2 +1,4 @@
 /dist/* binary
 /package-lock.json merge=binary
+/core/css/*.css* binary
+/.devcontainer/*.sh text eol=lf

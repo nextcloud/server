@@ -4,7 +4,7 @@
 		"optimize-autoloader": true,
 		"sort-packages": true,
 		"platform": {
-			"php": "7.4"
+			"php": "8.0"
 		},
 		"allow-plugins": {
 			"bamarni/composer-bin-plugin": true
@@ -22,9 +22,11 @@
 		}
 	},
 	"require": {
+		"php": "^8.0",
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
+		"ext-openssl": "*",
 		"ext-pdo": "*",
 		"ext-simplexml": "*",
 		"ext-xmlreader": "*",
@@ -45,7 +47,7 @@
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
-		"psalm": "psalm --threads=1",
-		"psalm:update-baseline": "psalm --threads=1 --update-baseline"
+		"psalm": "psalm --threads=$(nproc)",
+		"psalm:update-baseline": "psalm --threads=$(nproc) --update-baseline"
 	}
 }

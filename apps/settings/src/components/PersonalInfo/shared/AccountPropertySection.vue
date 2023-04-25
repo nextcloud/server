@@ -71,16 +71,15 @@
 
 <script>
 import debounce from 'debounce'
-import { showError } from '@nextcloud/dialogs'
 
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
-import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
-import Check from 'vue-material-design-icons/Check'
+import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 
 import HeaderBar from '../shared/HeaderBar.vue'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 export default {
 	name: 'AccountPropertySection',
@@ -196,8 +195,7 @@ export default {
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
 				this.$emit('update:value', this.initialValue)
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}

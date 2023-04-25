@@ -31,7 +31,6 @@ namespace OCP\Dashboard;
  * @since 20.0.0
  */
 interface IManager {
-
 	/**
 	 * @param string $widgetClass
 	 * @since 20.0.0

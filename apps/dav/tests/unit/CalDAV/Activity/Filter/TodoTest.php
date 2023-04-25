@@ -54,7 +54,7 @@ class TodoTest extends TestCase {
 		);
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->url->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/checkmark.svg')
@@ -82,7 +82,7 @@ class TodoTest extends TestCase {
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
-	public function testFilterTypes($types, $expected) {
+	public function testFilterTypes($types, $expected): void {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}
 }

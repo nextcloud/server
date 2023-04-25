@@ -40,6 +40,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "Modifikuotos failo <strong>sistemos žymės</strong>",
     "Tags" : "Žymės",
     "Collaborative tags" : "Bendradarbiavimo žymės",
+    "Failed to load tags" : "Nepavyko įkelti žymių",
     "Tagged files" : "Pažymėti failai",
     "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
     "No tags found" : "Nerasta jokių žymių",

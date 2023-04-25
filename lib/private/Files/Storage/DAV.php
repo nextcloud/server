@@ -145,7 +145,7 @@ class DAV extends Common {
 			$settings['authType'] = $this->authType;
 		}
 
-		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
+		$proxy = \OC::$server->getConfig()->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
@@ -486,7 +486,7 @@ class DAV extends Common {
 	/**
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		$path = $this->cleanPath($path);

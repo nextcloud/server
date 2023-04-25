@@ -29,7 +29,6 @@ namespace OCP\Group\Backend;
  * @since 14.0.0
  */
 interface IRemoveFromGroupBackend {
-
 	/**
 	 * @since 14.0.0
 	 */

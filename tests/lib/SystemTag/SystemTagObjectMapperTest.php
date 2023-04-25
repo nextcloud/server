@@ -28,7 +28,6 @@ use Test\TestCase;
  * @package Test\SystemTag
  */
 class SystemTagObjectMapperTest extends TestCase {
-
 	/**
 	 * @var ISystemTagManager
 	 **/
@@ -142,6 +141,17 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->assertEquals([], $tagIdMapping);
 	}
 
+	public function testGetTagIdsForALotOfObjects() {
+		$ids = range(1, 10500);
+		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(
+			$ids,
+			'testtype'
+		);
+
+		$this->assertEquals(10500, count($tagIdMapping));
+		$this->assertEquals([$this->tag1->getId(), $this->tag2->getId()], $tagIdMapping[1]);
+	}
+
 	public function testGetObjectsForTags() {
 		$objectIds = $this->tagMapper->getObjectIdsForTags(
 			[$this->tag1->getId(), $this->tag2->getId(), $this->tag3->getId()],
@@ -166,7 +176,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $objectIds);
 	}
 
-	
+
 	public function testGetObjectsForTagsLimitWithMultipleTags() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -190,7 +200,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $objectIds);
 	}
 
-	
+
 	public function testGetObjectsForNonExistingTag() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
@@ -228,7 +238,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->assertTrue(true, 'No error when reassigning/unassigning');
 	}
 
-	
+
 	public function testAssignNonExistingTags() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
@@ -255,7 +265,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $tagIdMapping, 'None of the tags got assigned');
 	}
 
-	
+
 	public function testUnassignNonExistingTags() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
@@ -386,7 +396,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testHaveTagNonExisting() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 

@@ -99,7 +99,7 @@ class Connection extends RawConnection {
 		} else {
 			$error = $this->readError(); // maybe something on stderr
 			if ($error) {
-				throw new ConnectException('Unknown error (' . $error . ')');
+				throw new ConnectException('Unknown error (stderr: ' . $error . ')');
 			} else {
 				throw new ConnectException('Unknown error');
 			}

@@ -33,7 +33,6 @@ use Test\TestCase;
  * @package Test\User
  */
 class UserTest extends TestCase {
-
 	/** @var EventDispatcherInterface|MockObject */
 	protected $dispatcher;
 
@@ -217,7 +216,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testDeleteWithDifferentHome() {
-
 		/** @var ObjectHomeMountProvider $homeProvider */
 		$homeProvider = \OC::$server->get(ObjectHomeMountProvider::class);
 		$user = $this->createMock(IUser::class);
@@ -308,7 +306,7 @@ class UserTest extends TestCase {
 			->method('getUserValue')
 			->willReturn(true);
 		$allConfig->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with($this->equalTo('datadirectory'))
 			->willReturn('arbitrary/path');
 
@@ -366,7 +364,12 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueBool')
+			->with('allow_user_to_change_display_name')
+			->willReturn(true);
+
+		$user = new User('foo', $backend, $this->dispatcher, null, $config);
 		$this->assertTrue($user->canChangeDisplayName());
 	}
 
@@ -535,6 +538,12 @@ class UserTest extends TestCase {
 		$notificationManager = $this->createMock(INotificationManager::class);
 
 		$config->method('getSystemValue')
+			->willReturnArgument(1);
+		$config->method('getSystemValueString')
+			->willReturnArgument(1);
+		$config->method('getSystemValueBool')
+			->willReturnArgument(1);
+		$config->method('getSystemValueInt')
 			->willReturnArgument(1);
 
 		if ($result) {

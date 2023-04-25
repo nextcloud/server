@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import ChevronDownIcon from 'vue-material-design-icons/ChevronDown'
+import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue'
 
 export default {
 	name: 'EditProfileAnchorLink',

@@ -36,7 +36,6 @@ use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 class File implements ICache {
-
 	/** @var View */
 	protected $storage;
 

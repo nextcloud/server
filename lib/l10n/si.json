@@ -7,6 +7,7 @@
     "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s, %2$s, %3$s, %4$s සහ %5$s",
     "Authentication" : "සත්‍යාපනය",
     "Invalid image" : "වලංගු නොවන පින්තූරයකි",
+    "Files" : "ගොනු",
     "today" : "අද",
     "tomorrow" : "හෙට",
     "yesterday" : "ඊයේ",
@@ -27,7 +28,6 @@
     "Website" : "වියමන අඩවිය",
     "Address" : "ලිපිනය",
     "About" : "පිළිබඳව",
-    "Full name" : "සම්පූර්ණ නම",
     "Role" : "කාර්යභාරය",
     "Unknown user" : "නොදන්නා පරිශීලකයෙකි",
     "Additional settings" : "අමතර සැකසුම්",
@@ -63,6 +63,7 @@
     "September" : "සැප්තැම්බර්",
     "October" : "ඔක්තෝම්බර්",
     "November" : "නොවැම්බර්",
-    "December" : "දෙසැම්බර්"
+    "December" : "දෙසැම්බර්",
+    "Full name" : "සම්පූර්ණ නම"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

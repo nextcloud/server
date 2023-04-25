@@ -82,7 +82,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * This class is the communication hub for all sharing related operations.
  */
 class Manager implements IManager {
-
 	/** @var IProviderFactory */
 	private $factory;
 	private LoggerInterface $logger;
@@ -245,6 +244,7 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
 		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
+		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
 		} else {
 			// We cannot handle other types yet
 			throw new \InvalidArgumentException('unknown share type');
@@ -494,7 +494,7 @@ class Manager implements IManager {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0, 0, 0);
 
-			$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', $this->shareApiLinkDefaultExpireDays());
+			$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
 			if ($days > $this->shareApiLinkDefaultExpireDays()) {
 				$days = $this->shareApiLinkDefaultExpireDays();
 			}
@@ -668,7 +668,6 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 */
 	protected function setLinkParent(IShare $share) {
-
 		// No sense in checking if the method is not there.
 		if (method_exists($share, 'setParent')) {
 			$storage = $share->getNode()->getStorage();
@@ -826,7 +825,11 @@ class Manager implements IManager {
 			}
 		} catch (AlreadySharedException $e) {
 			// if a share for the same target already exists, dont create a new one, but do trigger the hooks and notifications again
+			$oldShare = $share;
+
+			// Reuse the node we already have
 			$share = $e->getExistingShare();
+			$share->setNode($oldShare->getNode());
 		}
 
 		// Post share event
@@ -1176,7 +1179,7 @@ class Manager implements IManager {
 	 * Set the share's password expiration time
 	 */
 	private function setSharePasswordExpirationTime(IShare $share): void {
-		if (!$this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false)) {
+		if (!$this->config->getSystemValueBool('sharing.enable_mail_link_password_expiration', false)) {
 			// Sets password expiration date to NULL
 			$share->setPasswordExpirationTime();
 			return;

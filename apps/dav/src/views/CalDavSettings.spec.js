@@ -1,5 +1,5 @@
 import { render } from '@testing-library/vue'
-import CalDavSettings from './CalDavSettings'
+import CalDavSettings from './CalDavSettings.vue'
 // eslint-disable-next-line no-unused-vars
 import { generateUrl } from '@nextcloud/router'
 

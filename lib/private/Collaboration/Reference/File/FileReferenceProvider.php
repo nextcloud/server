@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace OC\Collaboration\Reference\File;
 
 use OC\User\NoUserException;
+use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
-use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Collaboration\Reference\Reference;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
@@ -34,27 +34,34 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 
-class FileReferenceProvider implements IReferenceProvider {
+class FileReferenceProvider extends ADiscoverableReferenceProvider {
 	private IURLGenerator $urlGenerator;
 	private IRootFolder $rootFolder;
 	private ?string $userId;
 	private IPreview $previewManager;
 	private IMimeTypeDetector $mimeTypeDetector;
+	private IL10N $l10n;
 
-	public function __construct(IURLGenerator $urlGenerator,
-								IRootFolder $rootFolder,
-								IUserSession $userSession,
-								IMimeTypeDetector $mimeTypeDetector,
-								IPreview $previewManager) {
+	public function __construct(
+		IURLGenerator $urlGenerator,
+		IRootFolder $rootFolder,
+		IUserSession $userSession,
+		IMimeTypeDetector $mimeTypeDetector,
+		IPreview $previewManager,
+		IFactory $l10n
+	) {
 		$this->urlGenerator = $urlGenerator;
 		$this->rootFolder = $rootFolder;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->previewManager = $previewManager;
 		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->l10n = $l10n->get('files');
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -62,21 +69,21 @@ class FileReferenceProvider implements IReferenceProvider {
 	}
 
 	private function getFilesAppLinkId(string $referenceText): ?int {
-		$start = $this->urlGenerator->getAbsoluteURL('/apps/files');
-		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files');
+		$start = $this->urlGenerator->getAbsoluteURL('/apps/files/');
+		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files/');
 
 		$fileId = null;
 
 		if (mb_strpos($referenceText, $start) === 0) {
 			$parts = parse_url($referenceText);
-			parse_str($parts['query'], $query);
+			parse_str($parts['query'] ?? '', $query);
 			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
 			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
 		}
 
 		if (mb_strpos($referenceText, $startIndex) === 0) {
 			$parts = parse_url($referenceText);
-			parse_str($parts['query'], $query);
+			parse_str($parts['query'] ?? '', $query);
 			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
 			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
 		}
@@ -145,9 +152,10 @@ class FileReferenceProvider implements IReferenceProvider {
 				'id' => $file->getId(),
 				'name' => $file->getName(),
 				'size' => $file->getSize(),
-				'path' => $file->getPath(),
+				'path' => $userFolder->getRelativePath($file->getPath()),
 				'link' => $reference->getUrl(),
 				'mimetype' => $file->getMimetype(),
+				'mtime' => $file->getMTime(),
 				'preview-available' => $this->previewManager->isAvailable($file)
 			]);
 		} catch (InvalidPathException|NotFoundException|NotPermittedException|NoUserException $e) {
@@ -161,5 +169,21 @@ class FileReferenceProvider implements IReferenceProvider {
 
 	public function getCacheKey(string $referenceId): ?string {
 		return $this->userId ?? '';
+	}
+
+	public function getId(): string {
+		return 'files';
+	}
+
+	public function getTitle(): string {
+		return $this->l10n->t('Files');
+	}
+
+	public function getOrder(): int {
+		return 0;
+	}
+
+	public function getIconUrl(): string {
+		return $this->urlGenerator->imagePath('files', 'folder.svg');
 	}
 }

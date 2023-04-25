@@ -35,6 +35,7 @@ namespace OCA\Files\Tests\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
@@ -90,6 +91,8 @@ class ViewControllerTest extends TestCase {
 	private $shareManager;
 	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $userConfig;
+	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $viewConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +116,7 @@ class ViewControllerTest extends TestCase {
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -129,6 +133,7 @@ class ViewControllerTest extends TestCase {
 				$this->templateManager,
 				$this->shareManager,
 				$this->userConfig,
+				$this->viewConfig,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -139,7 +144,7 @@ class ViewControllerTest extends TestCase {
 
 	public function testIndexWithRegularBrowser() {
 		$this->viewController
-			->expects($this->once())
+			->expects($this->any())
 			->method('getStorageInfo')
 			->willReturn([
 				'used' => 123,
@@ -160,17 +165,13 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->config
-				->expects($this->any())
-				->method('getAppValue')
-				->willReturnArgument(2);
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnArgument(2);
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
 		$nav = new Template('files', 'appnavigation');
-		$nav->assign('usage_relative', 123);
-		$nav->assign('usage', '123 B');
-		$nav->assign('quota', 100);
-		$nav->assign('total_space', '100 B');
 		$nav->assign('navigationItems', [
 			'files' => [
 				'id' => 'files',
@@ -270,19 +271,6 @@ class ViewControllerTest extends TestCase {
 				'expanded' => false,
 				'unread' => 0,
 			],
-			'trashbin' => [
-				'id' => 'trashbin',
-				'appname' => 'files_trashbin',
-				'script' => 'list.php',
-				'order' => 50,
-				'name' => \OC::$server->getL10N('files_trashbin')->t('Deleted files'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => 'pinned',
-				'expanded' => false,
-				'unread' => 0,
-			],
 			'shareoverview' => [
 				'id' => 'shareoverview',
 				'appname' => 'files_sharing',
@@ -343,7 +331,7 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 				'isPublic' => false,
-				'defaultFileSorting' => 'name',
+				'defaultFileSorting' => 'basename',
 				'defaultFileSortingDirection' => 'asc',
 				'showHiddenFiles' => 0,
 				'cropImagePreviews' => 1,
@@ -365,10 +353,6 @@ class ViewControllerTest extends TestCase {
 					],
 					'systemtagsfilter' => [
 						'id' => 'systemtagsfilter',
-						'content' => null,
-					],
-					'trashbin' => [
-						'id' => 'trashbin',
 						'content' => null,
 					],
 					'sharingout' => [

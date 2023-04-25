@@ -52,6 +52,19 @@ class OC_Response {
 	 * @param string|int|float $length Length to be sent
 	 */
 	public static function setContentLengthHeader($length) {
+		if (PHP_INT_SIZE === 4) {
+			if ($length > PHP_INT_MAX && stripos(PHP_SAPI, 'apache') === 0) {
+				// Apache PHP SAPI casts Content-Length headers to PHP integers.
+				// This enforces a limit of PHP_INT_MAX (2147483647 on 32-bit
+				// platforms). So, if the length is greater than PHP_INT_MAX,
+				// we just do not send a Content-Length header to prevent
+				// bodies from being received incompletely.
+				return;
+			}
+			// Convert signed integer or float to unsigned base-10 string.
+			$lfh = new \OC\LargeFileHelper;
+			$length = $lfh->formatUnsignedInteger($length);
+		}
 		header('Content-Length: '.$length);
 	}
 
@@ -86,7 +99,7 @@ class OC_Response {
 			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
-			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+			header('X-Robots-Tag: noindex, nofollow'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
 			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
 	}

@@ -63,10 +63,10 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 		);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->willReturnCallback(function ($closure) {
+			->willReturnCallback(function ($closure): void {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);

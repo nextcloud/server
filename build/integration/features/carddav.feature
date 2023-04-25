@@ -46,7 +46,7 @@ Feature: carddav
         |X-Content-Type-Options |nosniff|
         |X-Frame-Options|SAMEORIGIN|
         |X-Permitted-Cross-Domain-Policies|none|
-        |X-Robots-Tag|none|
+        |X-Robots-Tag|noindex, nofollow|
         |X-XSS-Protection|1; mode=block|
 
   Scenario: Exporting the picture of ones own contact
@@ -60,5 +60,5 @@ Feature: carddav
       |X-Content-Type-Options |nosniff|
       |X-Frame-Options|SAMEORIGIN|
       |X-Permitted-Cross-Domain-Policies|none|
-      |X-Robots-Tag|none|
+      |X-Robots-Tag|noindex, nofollow|
       |X-XSS-Protection|1; mode=block|

@@ -73,7 +73,7 @@ class ImageExportPluginTest extends TestCase {
 	 * @dataProvider providesQueryParams
 	 * @param $param
 	 */
-	public function testQueryParams($param) {
+	public function testQueryParams($param): void {
 		$this->request->expects($this->once())->method('getQueryParameters')->willReturn($param);
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertTrue($result);
@@ -87,7 +87,7 @@ class ImageExportPluginTest extends TestCase {
 		];
 	}
 
-	public function testNoCard() {
+	public function testNoCard(): void {
 		$this->request->method('getQueryParameters')
 			->willReturn([
 				'photo'
@@ -119,7 +119,7 @@ class ImageExportPluginTest extends TestCase {
 	 * @param $size
 	 * @param bool $photo
 	 */
-	public function testCard($size, $photo) {
+	public function testCard($size, $photo): void {
 		$query = ['photo' => null];
 		if ($size !== null) {
 			$query['size'] = $size;

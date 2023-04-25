@@ -44,6 +44,7 @@ trait S3ObjectTrait {
 	abstract protected function getConnection();
 
 	abstract protected function getCertificateBundlePath(): ?string;
+	abstract protected function getSSECParameters(bool $copy = false): array;
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -58,7 +59,7 @@ trait S3ObjectTrait {
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			]);
+			] + $this->getSSECParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -106,7 +107,7 @@ trait S3ObjectTrait {
 			'ACL' => 'private',
 			'ContentType' => $mimetype,
 			'StorageClass' => $this->storageClass,
-		]);
+		] + $this->getSSECParameters());
 	}
 
 
@@ -126,7 +127,7 @@ trait S3ObjectTrait {
 			'params' => [
 				'ContentType' => $mimetype,
 				'StorageClass' => $this->storageClass,
-			],
+			] + $this->getSSECParameters(),
 		]);
 
 		try {
@@ -181,10 +182,12 @@ trait S3ObjectTrait {
 	}
 
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
+		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
 	}
 
 	public function copyObject($from, $to) {
-		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
+		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', [
+			'params' => $this->getSSECParameters() + $this->getSSECParameters(true)
+		]);
 	}
 }

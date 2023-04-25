@@ -77,7 +77,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetFileKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 		$this->util->expects($this->any())
@@ -103,7 +103,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetFileOld() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.0');
 		$this->util->expects($this->any())
@@ -145,7 +145,7 @@ class StorageTest extends TestCase {
 	 * @param string $expectedKeyContent
 	 */
 	public function testGetFileKey($path, $strippedPartialName, $originalKeyExists, $expectedKeyContent) {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 		$this->util->expects($this->any())
@@ -201,7 +201,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetFileKeySystemWide() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -233,7 +233,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testGetFileKeySystemWide() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -261,7 +261,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetSystemUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -281,7 +281,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -301,7 +301,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testGetSystemUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -324,7 +324,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testGetUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 

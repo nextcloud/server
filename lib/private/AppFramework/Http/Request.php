@@ -260,6 +260,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					: null;
 			case 'parameters':
 			case 'params':
+				if ($this->isPutStreamContent()) {
+					return $this->items['parameters'];
+				}
 				return $this->getContent();
 			default:
 				return isset($this[$name])
@@ -391,12 +394,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
-		if ($this->method === 'PUT'
-			&& $this->getHeader('Content-Length') !== '0'
-			&& $this->getHeader('Content-Length') !== ''
-			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
-			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
-		) {
+		if ($this->isPutStreamContent()) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
@@ -409,6 +407,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->decodeContent();
 			return $this->items['parameters'];
 		}
+	}
+
+	private function isPutStreamContent(): bool {
+		return $this->method === 'PUT'
+			&& $this->getHeader('Content-Length') !== '0'
+			&& $this->getHeader('Content-Length') !== ''
+			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
+			&& strpos($this->getHeader('Content-Type'), 'application/json') === false;
 	}
 
 	/**
@@ -429,7 +435,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					$this->items['post'] = $params;
 				}
 			}
-			// Handle application/x-www-form-urlencoded for methods other than GET
+		// Handle application/x-www-form-urlencoded for methods other than GET
 		// or post correctly
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
@@ -618,7 +624,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(string $type = ''): bool {
-		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
 		|| $type !== 'protocol';
@@ -630,9 +636,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server protocol (http or https)
 	 */
 	public function getServerProtocol(): string {
-		if ($this->config->getSystemValue('overwriteprotocol') !== ''
+		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
 			&& $this->isOverwriteCondition('protocol')) {
-			return $this->config->getSystemValue('overwriteprotocol');
+			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
@@ -690,7 +696,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
-		if ($this->config->getSystemValue('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
+		if ($this->config->getSystemValueString('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
 			$uri = $this->getScriptName() . substr($uri, \strlen($this->server['SCRIPT_NAME']));
 		}
 		return $uri;
@@ -758,7 +764,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'];
-		$overwriteWebRoot = $this->config->getSystemValue('overwritewebroot');
+		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
 			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
 			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -\strlen('lib/private/appframework/http/')));
@@ -853,8 +859,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * isn't met
 	 */
 	private function getOverwriteHost() {
-		if ($this->config->getSystemValue('overwritehost') !== '' && $this->isOverwriteCondition()) {
-			return $this->config->getSystemValue('overwritehost');
+		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {
+			return $this->config->getSystemValueString('overwritehost');
 		}
 		return null;
 	}

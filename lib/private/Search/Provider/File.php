@@ -42,7 +42,6 @@ use OCP\Search\PagedProvider;
  * @deprecated 20.0.0
  */
 class File extends PagedProvider {
-
 	/**
 	 * Search for files and folders matching the given query
 	 *

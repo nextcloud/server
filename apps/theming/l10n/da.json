@@ -19,8 +19,6 @@
     "Could not write file to disk" : "Kunne ikke skrive fil til disk",
     "A PHP extension stopped the file upload" : "En PHP-udvidelse stoppede filoverførslen",
     "No file uploaded" : "Ingen fil uploadet",
-    "Cleanup old theming cache" : "Opryd gammel theming cache",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Kunne ikke slette mappen: \"%1$s\", fejl: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruger allerede et brugerdefineret tema. Theming app-indstillinger kan blive overskrevet af det.",
     "Theming" : "Temaer",
     "Appearance and accessibility" : "Udseende og tilgængelighed",

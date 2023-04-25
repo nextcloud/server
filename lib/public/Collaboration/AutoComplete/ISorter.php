@@ -30,7 +30,6 @@ namespace OCP\Collaboration\AutoComplete;
  * @since 13.0.0
  */
 interface ISorter {
-
 	/**
 	 * @return string The ID of the sorter, e.g. commenters
 	 * @since 13.0.0

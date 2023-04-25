@@ -23,7 +23,7 @@
 
 import $ from 'jquery'
 
-import OC from '../OC'
+import OC from '../OC/index.js'
 
 /**
  * This plugin inserts the right avatar for the user, depending on, whether a

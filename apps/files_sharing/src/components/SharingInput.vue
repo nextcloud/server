@@ -23,53 +23,46 @@
 <template>
 	<div class="sharing-search">
 		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
-		<NcMultiselect ref="multiselect"
+		<NcSelect ref="select"
 			id="sharing-search-input"
 			class="sharing-search__input"
-			:clear-on-select="true"
 			:disabled="!canReshare"
-			:hide-selected="true"
-			:internal-search="false"
 			:loading="loading"
-			:options="options"
+			:filterable="false"
 			:placeholder="inputPlaceholder"
-			:preselect-first="true"
-			:preserve-search="true"
-			:searchable="true"
+			:clear-search-on-blur="() => false"
 			:user-select="true"
-			open-direction="below"
-			label="displayName"
-			track-by="id"
-			@search-change="asyncFind"
-			@select="addShare">
-			<template #noOptions>
-				{{ t('files_sharing', 'No recommendations. Start typing.') }}
+			:options="options"
+			v-model="value"
+			@open="handleOpen"
+			@search="asyncFind"
+			@option:selected="addShare">
+			<template #no-options="{ search }">
+				{{ search ? noResultText : t('files_sharing', 'No recommendations. Start typing.') }}
 			</template>
-			<template #noResult>
-				{{ noResultText }}
-			</template>
-		</NcMultiselect>
+		</NcSelect>
 	</div>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import Config from '../services/ConfigService'
-import GeneratePassword from '../utils/GeneratePassword'
-import Share from '../models/Share'
-import ShareRequests from '../mixins/ShareRequests'
-import ShareTypes from '../mixins/ShareTypes'
+import Config from '../services/ConfigService.js'
+import GeneratePassword from '../utils/GeneratePassword.js'
+import Share from '../models/Share.js'
+import ShareRequests from '../mixins/ShareRequests.js'
+import ShareTypes from '../mixins/ShareTypes.js'
 
 export default {
 	name: 'SharingInput',
 
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 
 	mixins: [ShareTypes, ShareRequests],
@@ -108,6 +101,7 @@ export default {
 			recommendations: [],
 			ShareSearch: OCA.Sharing.ShareSearch.state,
 			suggestions: [],
+			value: null,
 		}
 	},
 
@@ -161,7 +155,12 @@ export default {
 	},
 
 	methods: {
-		async asyncFind(query, id) {
+		handleOpen() {
+			// Fix dropdown not opening when viewer is open, see https://github.com/nextcloud/viewer/pull/1319
+			emit('viewer:trapElements:changed', this.$refs.select.$el)
+		},
+
+		async asyncFind(query) {
 			// save current query to check if we display
 			// recommendations or search results
 			this.query = query.trim()
@@ -195,6 +194,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
 				this.SHARE_TYPES.SHARE_TYPE_DECK,
+				this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {
@@ -391,21 +391,43 @@ export default {
 				// themselves from it, so let's not display the user icon
 				// case this.SHARE_TYPES.SHARE_TYPE_REMOTE:
 				// case this.SHARE_TYPES.SHARE_TYPE_USER:
-				return 'icon-user'
+				return {
+					icon: 'icon-user',
+					iconTitle: t('files_sharing', 'Guest'),
+				}
 			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
 			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
-				return 'icon-group'
+				return {
+					icon: 'icon-group',
+					iconTitle: t('files_sharing', 'Group'),
+				}
 			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
-				return 'icon-mail'
+				return {
+					icon: 'icon-mail',
+					iconTitle: t('files_sharing', 'Email'),
+				}
 			case this.SHARE_TYPES.SHARE_TYPE_CIRCLE:
-				return 'icon-circle'
+				return {
+					icon: 'icon-circle',
+					iconTitle: t('files_sharing', 'Circle'),
+				}
 			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
-				return 'icon-room'
+				return {
+					icon: 'icon-room',
+					iconTitle: t('files_sharing', 'Talk conversation'),
+				}
 			case this.SHARE_TYPES.SHARE_TYPE_DECK:
-				return 'icon-deck'
-
+				return {
+					icon: 'icon-deck',
+					iconTitle: t('files_sharing', 'Deck board'),
+				}
+			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
+				return {
+					icon: 'icon-sciencemesh',
+					iconTitle: t('files_sharing', 'ScienceMesh'),
+				}
 			default:
-				return ''
+				return {}
 			}
 		},
 
@@ -438,7 +460,7 @@ export default {
 				displayName: result.name || result.label,
 				subtitle,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
-				icon: this.shareTypeToIcon(result.value.shareType),
+				...this.shareTypeToIcon(result.value.shareType),
 			}
 		},
 
@@ -448,12 +470,15 @@ export default {
 		 * @param {object} value the multiselect option
 		 */
 		async addShare(value) {
+			// Clear the displayed selection
+			this.value = null
+
 			if (value.lookup) {
 				await this.getSuggestions(this.query, true)
 
-				// focus the input again
 				this.$nextTick(() => {
-					this.$refs.multiselect.$el.querySelector('.multiselect__input').focus()
+					// open the dropdown again
+					this.$refs.select.$children[0].open = true
 				})
 				return true
 			}
@@ -501,19 +526,12 @@ export default {
 					this.$emit('add:share', share)
 				}
 
-				// reset the search string when done
-				// FIXME: https://github.com/shentao/vue-multiselect/issues/633
-				if (this.$refs.multiselect?.$refs?.VueMultiselect?.search) {
-					this.$refs.multiselect.$refs.VueMultiselect.search = ''
-				}
-
 				await this.getRecommendations()
 			} catch (error) {
-				// focus back if any error
-				const input = this.$refs.multiselect.$el.querySelector('input')
-				if (input) {
-					input.focus()
-				}
+				this.$nextTick(() => {
+					// open the dropdown again on error
+					this.$refs.select.$children[0].open = true
+				})
 				this.query = value.shareWith
 				console.error('Error while adding new share', error)
 			} finally {
@@ -537,19 +555,19 @@ export default {
 	&__input {
 		width: 100%;
 		margin: 10px 0;
+	}
+}
 
-		// properly style the lookup entry
-		.multiselect__option {
-			span[lookup] {
-				.avatardiv {
-					background-image: var(--icon-search-white);
-					background-repeat: no-repeat;
-					background-position: center;
-					background-color: var(--color-text-maxcontrast) !important;
-					div {
-						display: none;
-					}
-				}
+.vs__dropdown-menu {
+	// properly style the lookup entry
+	span[lookup] {
+		.avatardiv {
+			background-image: var(--icon-search-white);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-color: var(--color-text-maxcontrast) !important;
+			div {
+				display: none;
 			}
 		}
 	}

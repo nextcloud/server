@@ -38,7 +38,6 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
-
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;
 	/** @var IDBConnection */

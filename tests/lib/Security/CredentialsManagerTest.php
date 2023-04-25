@@ -24,16 +24,18 @@ declare(strict_types=1);
 
 namespace Test\Security;
 
+use OCP\Security\ICredentialsManager;
+use OCP\Server;
+
 /**
  * @group DB
  */
 class CredentialsManagerTest extends \Test\TestCase {
-
 	/**
 	 * @dataProvider credentialsProvider
 	 */
 	public function testWithDB($userId, $identifier) {
-		$credentialsManager = \OC::$server->getCredentialsManager();
+		$credentialsManager = Server::get(ICredentialsManager::class);
 
 		$secrets = 'Open Sesame';
 
@@ -46,7 +48,23 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->assertSame(1, $removedRows);
 	}
 
-	public function credentialsProvider() {
+	/**
+	 * @dataProvider credentialsProvider
+	 */
+	public function testUpdate($userId, $identifier): void {
+		$credentialsManager = Server::get(ICredentialsManager::class);
+
+		$secrets = 'Open Sesame';
+		$secretsRev = strrev($secrets);
+
+		$credentialsManager->store($userId, $identifier, $secrets);
+		$credentialsManager->store($userId, $identifier, $secretsRev);
+		$received = $credentialsManager->retrieve($userId, $identifier);
+
+		$this->assertSame($secretsRev, $received);
+	}
+
+	public function credentialsProvider(): array {
 		return [
 			[
 				'alice',

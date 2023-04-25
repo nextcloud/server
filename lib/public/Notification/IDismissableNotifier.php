@@ -35,7 +35,6 @@ namespace OCP\Notification;
  * @since 18.0.0
  */
 interface IDismissableNotifier extends INotifier {
-
 	/**
 	 * @param INotification $notification
 	 * @throws \InvalidArgumentException In case the handler can't handle the notification

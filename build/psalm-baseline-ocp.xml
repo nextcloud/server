@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.18.1@dda05fa913f4dc6eb3386f2f7ce5a45d37a71bcb">
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
   <file src="lib/private/legacy/OC_Template.php">
     <UndefinedClass occurrences="1">
       <code>OC</code>
@@ -10,11 +10,6 @@
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
   </file>
-  <file src="lib/public/Server.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
-  </file>
   <file src="lib/public/AppFramework/App.php">
     <InternalMethod occurrences="1">
       <code>new RouteConfig($this-&gt;container, $router, $routes)</code>
@@ -22,11 +17,6 @@
     <UndefinedClass occurrences="1">
       <code>\OC</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/public/AppFramework/Bootstrap/IBootContext.php">
-    <InvalidThrow occurrences="1">
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
   </file>
   <file src="lib/public/AppFramework/Db/Entity.php">
     <InvalidNullableReturnType occurrences="1">
@@ -132,12 +122,6 @@
     <UndefinedClass occurrences="1">
       <code>\OC</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/public/IContainer.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
   </file>
   <file src="lib/public/Template.php">
     <UndefinedFunction occurrences="7">

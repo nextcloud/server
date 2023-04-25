@@ -57,7 +57,7 @@ class LogFactory implements ILogFactory {
 			case 'file':
 				return $this->buildLogFile();
 
-			// Backwards compatibility for old and fallback for unknown log types
+				// Backwards compatibility for old and fallback for unknown log types
 			case 'owncloud':
 			case 'nextcloud':
 			default:

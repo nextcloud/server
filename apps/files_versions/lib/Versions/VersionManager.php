@@ -30,7 +30,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
-class VersionManager implements IVersionManager {
+class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -94,7 +94,16 @@ class VersionManager implements IVersionManager {
 
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		return $backend->rollback($version);
+		$result = $backend->rollback($version);
+		// rollback doesn't have a return type yet and some implementations don't return anything
+		if ($result === null || $result === true) {
+			\OC_Hook::emit('\OCP\Versions', 'rollback', [
+				'path' => $version->getVersionPath(),
+				'revision' => $version->getRevisionId(),
+				'node' => $version->getSourceFile(),
+			]);
+		}
+		return $result;
 	}
 
 	public function read(IVersion $version) {
@@ -109,5 +118,19 @@ class VersionManager implements IVersionManager {
 
 	public function useBackendForStorage(IStorage $storage): bool {
 		return false;
+	}
+
+	public function setVersionLabel(IVersion $version, string $label): void {
+		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
+		if ($backend instanceof INameableVersionBackend) {
+			$backend->setVersionLabel($version, $label);
+		}
+	}
+
+	public function deleteVersion(IVersion $version): void {
+		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
+		if ($backend instanceof IDeletableVersionBackend) {
+			$backend->deleteVersion($version);
+		}
 	}
 }

@@ -5,8 +5,8 @@
 	<title>
 		<?php
 		p(!empty($_['application'])?$_['application'].' - ':'');
-		p($theme->getTitle());
-		?>
+p($theme->getTitle());
+?>
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	<?php if ($theme->getiTunesAppId() !== '') { ?>
@@ -37,8 +37,15 @@
 	</div>
 
 	<header id="header">
-		<div class="header-left" id="nextcloud">
-			<img class="logo logo-icon svg" alt="<?php p($l->t('%s logo', [$theme->getName()])); ?>" src="<?= ($_['logoUrl'] ?? '') !== '' ? $_['logoUrl'] : $theme->getLogo(); ?>">
+		<div class="header-left">
+			<div class="logo logo-icon svg"></div>
+			<span id="nextcloud" class="header-appname">
+				<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
+					<?php p($template->getHeaderTitle()); ?>
+				<?php } else { ?>
+					<?php	p($theme->getName()); ?>
+				<?php } ?>
+			</span>
 			<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
 				<div class="header-shared-by">
 					<?php p($template->getHeaderDetails()); ?>
@@ -48,10 +55,10 @@
 
 		<div class="header-right">
 		<?php
-		/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
-		if (isset($template) && $template->getActionCount() !== 0) {
-			$primary = $template->getPrimaryAction();
-			$others = $template->getOtherActions(); ?>
+/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
+if (isset($template) && $template->getActionCount() !== 0) {
+	$primary = $template->getPrimaryAction();
+	$others = $template->getOtherActions(); ?>
 			<span id="header-primary-action" class="<?php if ($template->getActionCount() === 1) {
 				p($primary->getIcon());
 			} ?>">
@@ -69,13 +76,13 @@
 							foreach ($others as $action) {
 								print_unescaped($action->render());
 							}
-						?>
+				?>
 					</ul>
 				</div>
 			</div>
 			<?php } ?>
 		<?php
-		} ?>
+} ?>
 		</div>
 	</header>
 	<main id="content" class="app-<?php p($_['appid']) ?>">
@@ -92,15 +99,15 @@
 	<footer>
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
 		<?php
-		if ($_['showSimpleSignUpLink']) {
-			?>
+if ($_['showSimpleSignUpLink']) {
+	?>
 			<p>
 				<a href="https://nextcloud.com/signup/" target="_blank" rel="noreferrer noopener">
 					<?php p($l->t('Get your own free account')); ?>
 				</a>
 			</p>
 			<?php
-		}
+}
 		?>
 	</footer>
 	<?php } ?>

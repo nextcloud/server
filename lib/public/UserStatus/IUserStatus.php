@@ -33,7 +33,6 @@ use DateTimeImmutable;
  * @since 20.0.0
  */
 interface IUserStatus {
-
 	/**
 	 * @var string
 	 * @since 20.0.0

@@ -267,7 +267,6 @@ class KeyManagerTest extends TestCase {
 	 * @param bool $useMasterKey
 	 */
 	public function testInit($useMasterKey) {
-
 		/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
@@ -373,14 +372,22 @@ class KeyManagerTest extends TestCase {
 
 	public function dataTestGetFileKey() {
 		return [
-			['user1', false, 'privateKey', true],
-			['user1', false, false, ''],
-			['user1', true, 'privateKey', true],
-			['user1', true, false, ''],
-			[null, false, 'privateKey', true],
-			[null, false, false, ''],
-			[null, true, 'privateKey', true],
-			[null, true, false, '']
+			['user1', false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
+			['user1', false, 'privateKey', '', 'multiKeyDecryptResult'],
+			['user1', false, false, 'legacyKey', ''],
+			['user1', false, false, '', ''],
+			['user1', true, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
+			['user1', true, 'privateKey', '', 'multiKeyDecryptResult'],
+			['user1', true, false, 'legacyKey', ''],
+			['user1', true, false, '', ''],
+			[null, false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
+			[null, false, 'privateKey', '', 'multiKeyDecryptResult'],
+			[null, false, false, 'legacyKey', ''],
+			[null, false, false, '', ''],
+			[null, true, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
+			[null, true, 'privateKey', '', 'multiKeyDecryptResult'],
+			[null, true, false, 'legacyKey', ''],
+			[null, true, false, '', ''],
 		];
 	}
 
@@ -392,7 +399,7 @@ class KeyManagerTest extends TestCase {
 	 * @param $privateKey
 	 * @param $expected
 	 */
-	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $expected) {
+	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $encryptedFileKey, $expected) {
 		$path = '/foo.txt';
 
 		if ($isMasterKeyEnabled) {
@@ -414,8 +421,8 @@ class KeyManagerTest extends TestCase {
 				[$path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE'],
 			)
 			->willReturnOnConsecutiveCalls(
-				true,
-				true,
+				$encryptedFileKey,
+				'fileKey',
 			);
 
 		$this->utilMock->expects($this->any())->method('isMasterKeyEnabled')
@@ -434,17 +441,32 @@ class KeyManagerTest extends TestCase {
 			$this->sessionMock->expects($this->once())->method('getPrivateKey')->willReturn($privateKey);
 		}
 
-		if ($privateKey) {
-			$this->cryptMock->expects($this->once())
-				->method('multiKeyDecrypt')
-				->willReturn(true);
-		} else {
+		if (!empty($encryptedFileKey)) {
 			$this->cryptMock->expects($this->never())
 				->method('multiKeyDecrypt');
+			if ($privateKey) {
+				$this->cryptMock->expects($this->once())
+					->method('multiKeyDecryptLegacy')
+					->willReturn('multiKeyDecryptResult');
+			} else {
+				$this->cryptMock->expects($this->never())
+					->method('multiKeyDecryptLegacy');
+			}
+		} else {
+			$this->cryptMock->expects($this->never())
+				->method('multiKeyDecryptLegacy');
+			if ($privateKey) {
+				$this->cryptMock->expects($this->once())
+					->method('multiKeyDecrypt')
+					->willReturn('multiKeyDecryptResult');
+			} else {
+				$this->cryptMock->expects($this->never())
+					->method('multiKeyDecrypt');
+			}
 		}
 
 		$this->assertSame($expected,
-			$this->instance->getFileKey($path, $uid)
+			$this->instance->getFileKey($path, $uid, null)
 		);
 	}
 
@@ -562,7 +584,6 @@ class KeyManagerTest extends TestCase {
 	 * @param $masterKey
 	 */
 	public function testValidateMasterKey($masterKey) {
-
 		/** @var \OCA\Encryption\KeyManager | \PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(

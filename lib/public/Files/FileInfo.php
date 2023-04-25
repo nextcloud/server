@@ -84,7 +84,7 @@ interface FileInfo {
 	 * Get the size in bytes for the file or folder
 	 *
 	 * @param bool $includeMounts whether or not to include the size of any sub mounts, since 16.0.0
-	 * @return int
+	 * @return int|float
 	 * @since 7.0.0
 	 */
 	public function getSize($includeMounts = true);
@@ -250,7 +250,7 @@ interface FileInfo {
 	/**
 	 * Get the owner of the file
 	 *
-	 * @return \OCP\IUser
+	 * @return ?\OCP\IUser
 	 * @since 9.0.0
 	 */
 	public function getOwner();

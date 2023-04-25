@@ -47,7 +47,6 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
         'OCA\\Files\\Command\\ScanAppData' => __DIR__ . '/..' . '/../lib/Command/ScanAppData.php',
         'OCA\\Files\\Command\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Command/TransferOwnership.php',
-        'OCA\\Files\\Controller\\AjaxController' => __DIR__ . '/..' . '/../lib/Controller/AjaxController.php',
         'OCA\\Files\\Controller\\ApiController' => __DIR__ . '/..' . '/../lib/Controller/ApiController.php',
         'OCA\\Files\\Controller\\DirectEditingController' => __DIR__ . '/..' . '/../lib/Controller/DirectEditingController.php',
         'OCA\\Files\\Controller\\DirectEditingViewController' => __DIR__ . '/..' . '/../lib/Controller/DirectEditingViewController.php',
@@ -66,6 +65,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files\\Listener\\LegacyLoadAdditionalScriptsAdapter' => __DIR__ . '/..' . '/../lib/Listener/LegacyLoadAdditionalScriptsAdapter.php',
         'OCA\\Files\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
+        'OCA\\Files\\Listener\\RenderReferenceEventListener' => __DIR__ . '/..' . '/../lib/Listener/RenderReferenceEventListener.php',
         'OCA\\Files\\Migration\\Version11301Date20191205150729' => __DIR__ . '/..' . '/../lib/Migration/Version11301Date20191205150729.php',
         'OCA\\Files\\Migration\\Version12101Date20221011153334' => __DIR__ . '/..' . '/../lib/Migration/Version12101Date20221011153334.php',
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
@@ -74,6 +74,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Service\\OwnershipTransferService' => __DIR__ . '/..' . '/../lib/Service/OwnershipTransferService.php',
         'OCA\\Files\\Service\\TagService' => __DIR__ . '/..' . '/../lib/Service/TagService.php',
         'OCA\\Files\\Service\\UserConfig' => __DIR__ . '/..' . '/../lib/Service/UserConfig.php',
+        'OCA\\Files\\Service\\ViewConfig' => __DIR__ . '/..' . '/../lib/Service/ViewConfig.php',
         'OCA\\Files\\Settings\\PersonalSettings' => __DIR__ . '/..' . '/../lib/Settings/PersonalSettings.php',
     );
 

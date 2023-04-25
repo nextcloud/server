@@ -29,7 +29,6 @@
  * fluent interface with Locator::forThe().
  */
 class Locator {
-
 	/**
 	 * @var string
 	 */
@@ -102,7 +101,6 @@ class Locator {
 }
 
 class LocatorBuilder {
-
 	/**
 	 * @param string $selector
 	 * @param string|array $locator
@@ -242,7 +240,6 @@ class LocatorBuilder {
 }
 
 class LocatorBuilderSecondStep {
-
 	/**
 	 * @var string
 	 */
@@ -280,7 +277,6 @@ class LocatorBuilderSecondStep {
 }
 
 class LocatorBuilderThirdStep {
-
 	/**
 	 * @var string
 	 */

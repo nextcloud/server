@@ -65,10 +65,10 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
 import _ from 'lodash'

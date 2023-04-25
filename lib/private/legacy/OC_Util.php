@@ -65,7 +65,6 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use OC\AppFramework\Http\Request;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -146,7 +145,7 @@ class OC_Util {
 	/**
 	 * check if share API enforces a default expire date
 	 *
-	 * @return boolean
+	 * @return bool
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
@@ -159,7 +158,7 @@ class OC_Util {
 	 * Get the quota of a user
 	 *
 	 * @param IUser|null $user
-	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false Quota bytes
+	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
@@ -185,7 +184,7 @@ class OC_Util {
 		/** @var LoggerInterface $logger */
 		$logger = \OC::$server->get(LoggerInterface::class);
 
-		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
 		$userLang = \OC::$server->getL10NFactory()->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
@@ -306,7 +305,7 @@ class OC_Util {
 	 */
 	public static function getChannel() {
 		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValue('updater.release.channel', self::$versionCache['OC_Channel']);
+		return \OC::$server->getConfig()->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
 	}
 
 	/**
@@ -327,10 +326,9 @@ class OC_Util {
 			return;
 		}
 
-		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
+		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
@@ -544,7 +542,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
 						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-						[ $urlGenerator->linkToDocs('admin-config') ])
+							[ $urlGenerator->linkToDocs('admin-config') ])
 				];
 			}
 		}
@@ -783,7 +781,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if (\OC::$server->getConfig()->getSystemValue('check_data_directory_permissions', true) === false) {
+		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
 
@@ -839,11 +837,11 @@ class OC_Util {
 		// Check if we are a user
 		if (!\OC::$server->getUserSession()->isLoggedIn()) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
-						'core.login.showLoginForm',
-						[
-							'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
-						]
-					)
+				'core.login.showLoginForm',
+				[
+					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
+				]
+			)
 			);
 			exit();
 		}
@@ -957,7 +955,7 @@ class OC_Util {
 		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
 
 		// creating a test file
-		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
+		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		if (file_exists($testFile)) {// already running this test, possible recursive call
 			return false;
@@ -983,7 +981,7 @@ class OC_Util {
 	 * @throws \OCP\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
-		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
+		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
 			return true;
 		}
 
@@ -993,7 +991,7 @@ class OC_Util {
 		}
 
 		$fileName = '/htaccesstest.txt';
-		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
+		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		// accessing the file via http
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);

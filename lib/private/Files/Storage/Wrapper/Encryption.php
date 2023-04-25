@@ -133,15 +133,14 @@ class Encryption extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int
 	 */
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		$fullPath = $this->getFullPath($path);
 
-		/** @var CacheEntry $info */
 		$info = $this->getCache()->get($path);
+		if ($info === false) {
+			return false;
+		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
 			// update file cache
@@ -183,10 +182,12 @@ class Encryption extends Wrapper {
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$data['encrypted'] = true;
 			$data['size'] = $this->unencryptedSize[$fullPath];
+			$data['unencrypted_size'] = $data['size'];
 		} else {
 			if (isset($info['fileid']) && $info['encrypted']) {
 				$data['size'] = $this->verifyUnencryptedSize($path, $info->getUnencryptedSize());
 				$data['encrypted'] = true;
+				$data['unencrypted_size'] = $data['size'];
 			}
 		}
 
@@ -375,7 +376,6 @@ class Encryption extends Wrapper {
 	 * @throws ModuleDoesNotExistsException
 	 */
 	public function fopen($path, $mode) {
-
 		// check if the file is stored in the array cache, this means that we
 		// copy a file over to the versions folder, in this case we don't want to
 		// decrypt it
@@ -498,7 +498,8 @@ class Encryption extends Wrapper {
 		$result = $unencryptedSize;
 
 		if ($unencryptedSize < 0 ||
-			($size > 0 && $unencryptedSize === $size)
+			($size > 0 && $unencryptedSize === $size) ||
+			$unencryptedSize > $size
 		) {
 			// check if we already calculate the unencrypted size for the
 			// given path to avoid recursions
@@ -685,7 +686,6 @@ class Encryption extends Wrapper {
 		$preserveMtime = false,
 		$isRename = false
 	) {
-
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
 		// - call $this->storage->copyFromStorage() instead of $this->copyBetweenStorage
 		// - copy the file cache update from  $this->copyBetweenStorage to this method
@@ -766,7 +766,6 @@ class Encryption extends Wrapper {
 		$preserveMtime,
 		$isRename
 	) {
-
 		// for versions we have nothing to do, because versions should always use the
 		// key from the original file. Just create a 1:1 copy and done
 		if ($this->isVersion($targetInternalPath) ||
@@ -822,16 +821,13 @@ class Encryption extends Wrapper {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
 				[, $result] = \OC_Helper::streamCopy($source, $target);
-				fclose($source);
-				fclose($target);
-			} catch (\Exception $e) {
+			} finally {
 				if (is_resource($source)) {
 					fclose($source);
 				}
 				if (is_resource($target)) {
 					fclose($target);
 				}
-				throw $e;
 			}
 			if ($result) {
 				if ($preserveMtime) {

@@ -208,9 +208,9 @@ class TagsTest extends \Test\TestCase {
 
 		$conn = \OC::$server->getDatabaseConnection();
 		$statement = $conn->prepare(
-				'INSERT INTO `*PREFIX*vcategory_to_object` ' .
-				'(`objid`, `categoryid`, `type`) VALUES ' .
-				'(?, ?, ?)'
+			'INSERT INTO `*PREFIX*vcategory_to_object` ' .
+			'(`objid`, `categoryid`, `type`) VALUES ' .
+			'(?, ?, ?)'
 		);
 
 		// insert lots of entries

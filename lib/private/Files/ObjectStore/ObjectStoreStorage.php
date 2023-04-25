@@ -27,8 +27,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\ObjectStore;
 
+use Aws\S3\Exception\S3Exception;
+use Aws\S3\Exception\S3MultipartUploadException;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
@@ -37,11 +40,14 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
+use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
+use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 
-class ObjectStoreStorage extends \OC\Files\Storage\Common {
+class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
 
 	/**
@@ -91,8 +97,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		$path = $this->normalizePath($path);
-
 		if ($this->file_exists($path)) {
+			$this->logger->warning("Tried to create an object store folder that already exists: $path");
 			return false;
 		}
 
@@ -116,10 +122,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			if ($parentType === false) {
 				if (!$this->mkdir($parent)) {
 					// something went wrong
+					$this->logger->warning("Parent folder ($parent) doesn't exist and couldn't be created");
 					return false;
 				}
 			} elseif ($parentType === 'file') {
 				// parent is a file
+				$this->logger->warning("Parent ($parent) is a file");
 				return false;
 			}
 			// finally create the new dir
@@ -173,61 +181,63 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function rmdir($path) {
 		$path = $this->normalizePath($path);
+		$entry = $this->getCache()->get($path);
 
-		if (!$this->is_dir($path)) {
+		if (!$entry || $entry->getMimeType() !== ICacheEntry::DIRECTORY_MIMETYPE) {
 			return false;
 		}
 
-		if (!$this->rmObjects($path)) {
-			return false;
-		}
-
-		$this->getCache()->remove($path);
-
-		return true;
+		return $this->rmObjects($entry);
 	}
 
-	private function rmObjects($path) {
-		$children = $this->getCache()->getFolderContents($path);
+	private function rmObjects(ICacheEntry $entry): bool {
+		$children = $this->getCache()->getFolderContentsById($entry->getId());
 		foreach ($children as $child) {
-			if ($child['mimetype'] === 'httpd/unix-directory') {
-				if (!$this->rmObjects($child['path'])) {
+			if ($child->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+				if (!$this->rmObjects($child)) {
 					return false;
 				}
 			} else {
-				if (!$this->unlink($child['path'])) {
+				if (!$this->rmObject($child)) {
 					return false;
 				}
 			}
 		}
+
+		$this->getCache()->remove($entry->getPath());
 
 		return true;
 	}
 
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
-		$stat = $this->stat($path);
+		$entry = $this->getCache()->get($path);
 
-		if ($stat && isset($stat['fileid'])) {
-			if ($stat['mimetype'] === 'httpd/unix-directory') {
-				return $this->rmdir($path);
+		if ($entry instanceof ICacheEntry) {
+			if ($entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+				return $this->rmObjects($entry);
+			} else {
+				return $this->rmObject($entry);
 			}
-			try {
-				$this->objectStore->deleteObject($this->getURN($stat['fileid']));
-			} catch (\Exception $ex) {
-				if ($ex->getCode() !== 404) {
-					$this->logger->logException($ex, [
-						'app' => 'objectstore',
-						'message' => 'Could not delete object ' . $this->getURN($stat['fileid']) . ' for ' . $path,
-					]);
-					return false;
-				}
-				//removing from cache is ok as it does not exist in the objectstore anyway
-			}
-			$this->getCache()->remove($path);
-			return true;
 		}
 		return false;
+	}
+
+	public function rmObject(ICacheEntry $entry): bool {
+		try {
+			$this->objectStore->deleteObject($this->getURN($entry->getId()));
+		} catch (\Exception $ex) {
+			if ($ex->getCode() !== 404) {
+				$this->logger->logException($ex, [
+					'app' => 'objectstore',
+					'message' => 'Could not delete object ' . $this->getURN($entry->getId()) . ' for ' . $entry->getPath(),
+				]);
+				return false;
+			}
+			//removing from cache is ok as it does not exist in the objectstore anyway
+		}
+		$this->getCache()->remove($entry->getPath());
+		return true;
 	}
 
 	public function stat($path) {
@@ -342,7 +352,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				} else {
 					return false;
 				}
-			// no break
+				// no break
 			case 'w':
 			case 'wb':
 			case 'w+':
@@ -553,7 +563,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return $this->objectStore;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(
+		IStorage $sourceStorage,
+		$sourceInternalPath,
+		$targetInternalPath,
+		$preserveMtime = false
+	) {
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
 			if ($sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
@@ -626,5 +641,79 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 			throw $e;
 		}
+	}
+
+	public function startChunkedWrite(string $targetPath): string {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+		return $this->objectStore->initiateMultipartUpload($urn);
+	}
+
+	/**
+	 *
+	 * @throws GenericFileException
+	 */
+	public function putChunkedWritePart(
+		string $targetPath,
+		string $writeToken,
+		string $chunkId,
+		$data,
+		$size = null
+	): ?array {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+
+		$result = $this->objectStore->uploadMultipartPart($urn, $writeToken, (int)$chunkId, $data, $size);
+
+		$parts[$chunkId] = [
+			'PartNumber' => $chunkId,
+			'ETag' => trim($result->get('ETag'), '"'),
+		];
+		return $parts[$chunkId];
+	}
+
+	public function completeChunkedWrite(string $targetPath, string $writeToken): int {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+		$parts = $this->objectStore->getMultipartUploads($urn, $writeToken);
+		$sortedParts = array_values($parts);
+		sort($sortedParts);
+		try {
+			$size = $this->objectStore->completeMultipartUpload($urn, $writeToken, $sortedParts);
+			$stat = $this->stat($targetPath);
+			$mtime = time();
+			if (is_array($stat)) {
+				$stat['size'] = $size;
+				$stat['mtime'] = $mtime;
+				$stat['mimetype'] = $this->getMimeType($targetPath);
+				$this->getCache()->update($stat['fileid'], $stat);
+			}
+		} catch (S3MultipartUploadException|S3Exception $e) {
+			$this->objectStore->abortMultipartUpload($urn, $writeToken);
+			$this->logger->logException($e, [
+				'app' => 'objectstore',
+				'message' => 'Could not compete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
+			]);
+			throw new GenericFileException('Could not write chunked file');
+		}
+		return $size;
+	}
+
+	public function cancelChunkedWrite(string $targetPath, string $writeToken): void {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+		$this->objectStore->abortMultipartUpload($urn, $writeToken);
 	}
 }

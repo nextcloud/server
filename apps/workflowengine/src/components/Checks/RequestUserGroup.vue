@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 

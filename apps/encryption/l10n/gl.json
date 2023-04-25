@@ -28,9 +28,6 @@
     "one-time password for server-side-encryption" : "Contrasinal de só un uso para o cifrado no lado do servidor",
     "Default encryption module" : "Módulo de cifrado predeterminado",
     "Default encryption module for server-side encryption" : "Módulo de cifrado predeterminado para o cifrado no lado do servidor",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Para usar este módulo de cifrado é preciso activar o cifrado no lado\n\t\tdo servidor nos axustes de administración. Una vez activado este módulo cifrará\n\t\ttodos os seus ficheiros de xeito transparente. O cifrado basease en claves AES 256.\n\t\tO módulo non tocará os ficheiros existentes, só se cifran os ficheiros novos\n\t\tapós que se active o cifrado no lado do servidor. Tampouco é posíbel\n\t\tdesactivar o cifrado e volver a un sistema sen cifrar.\n\t\tLea a documentación para coñecer todas as implicacións antes de decidir\n\t\tactivar o cifrado no lado do servidor.",
-    "The share will expire on %s." : "Este recurso compartido caduca o %s.",
-    "Cheers!" : "Saúdos!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as claves non foron preparadas, saia da sesión e volva a acceder de novo",
     "Encrypt the home storage" : "Cifrar o almacenamento persoal",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ao activar esta opción cífranse todos os ficheiros almacenados no almacenamento principal, senón só  se cifran os ficheiros do almacenamento externo.",
@@ -54,6 +51,9 @@
     "Enable password recovery:" : "Activar o  contrasinal de recuperación:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao activar esta opción permitiráselle volver obter acceso aos ficheiros cifrados no caso de perda do contrasinal",
     "Enabled" : "Activado",
-    "Disabled" : "Desactivado"
+    "Disabled" : "Desactivado",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Para usar este módulo de cifrado é preciso activar o cifrado no lado\n\t\tdo servidor nos axustes de administración. Una vez activado este módulo cifrará\n\t\ttodos os seus ficheiros de xeito transparente. O cifrado basease en claves AES 256.\n\t\tO módulo non tocará os ficheiros existentes, só se cifran os ficheiros novos\n\t\tapós que se active o cifrado no lado do servidor. Tampouco é posíbel\n\t\tdesactivar o cifrado e volver a un sistema sen cifrar.\n\t\tLea a documentación para coñecer todas as implicacións antes de decidir\n\t\tactivar o cifrado no lado do servidor.",
+    "The share will expire on %s." : "Este recurso compartido caduca o %s.",
+    "Cheers!" : "Saúdos!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -46,7 +46,7 @@ class LookupServerSendCheck implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 
 		// was added to 22.0.0.3
 		return (version_compare($versionFromBeforeUpdate, '22.0.0.3', '<') && version_compare($versionFromBeforeUpdate, '22.0.0.0', '>='))

@@ -34,6 +34,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OC\Memcache\WithLocalCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
@@ -104,7 +105,7 @@ class Manager extends PublicEmitter implements IUserManager {
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
 		$this->dispatcher = $oldDispatcher;
-		$this->cache = $cacheFactory->createDistributed('user_backend_map');
+		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			/** @var \OC\User\User $user */

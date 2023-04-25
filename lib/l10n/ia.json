@@ -2,6 +2,7 @@
     "Authentication" : "Authentication",
     "Unknown filetype" : "Typo de file incognite",
     "Invalid image" : "Imagine invalide",
+    "Files" : "Files",
     "seconds ago" : "secundas passate",
     "__language_name__" : "Interlingua de IALA",
     "Help" : "Adjuta",
@@ -15,7 +16,6 @@
     "Address" : "Adresse",
     "Profile picture" : "Pictura de profilo",
     "About" : "A proposito",
-    "Full name" : "Nomine complete",
     "Unknown user" : "Usator incognite",
     "Sunday" : "Dominica",
     "Monday" : "Lunedi",
@@ -65,6 +65,7 @@
     "A valid password must be provided" : "Un contrasigno valide debe esser providite",
     "A valid username must be provided" : "Un nomine de usator valide debe esser providite",
     "Authentication error" : "Error in authentication",
-    "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile"
+    "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile",
+    "Full name" : "Nomine complete"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -71,11 +71,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertSame($this->collection->getId(), '19');
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
@@ -90,7 +90,7 @@ class EntityCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildException() {
+	public function testGetChildException(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->commentsManager->expects($this->once())
@@ -101,7 +101,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->collection->getChild('55');
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
 			->with('files', '19')
@@ -117,7 +117,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->assertTrue($result[0] instanceof \OCA\DAV\Comments\CommentNode);
 	}
 
-	public function testFindChildren() {
+	public function testFindChildren(): void {
 		$dt = new \DateTime('2016-01-10 18:48:00');
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
@@ -134,11 +134,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->assertTrue($result[0] instanceof \OCA\DAV\Comments\CommentNode);
 	}
 
-	public function testChildExistsTrue() {
+	public function testChildExistsTrue(): void {
 		$this->assertTrue($this->collection->childExists('44'));
 	}
 
-	public function testChildExistsFalse() {
+	public function testChildExistsFalse(): void {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('44')

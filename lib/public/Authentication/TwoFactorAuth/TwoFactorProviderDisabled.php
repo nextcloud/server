@@ -31,7 +31,6 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 final class TwoFactorProviderDisabled extends Event {
-
 	/** @var string */
 	private $providerId;
 

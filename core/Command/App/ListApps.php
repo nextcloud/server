@@ -107,11 +107,11 @@ class ListApps extends Base {
 
 				$output->writeln('Disabled:');
 				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
-			break;
+				break;
 
 			default:
 				parent::writeArrayInOutputFormat($input, $output, $items);
-			break;
+				break;
 		}
 	}
 

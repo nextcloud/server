@@ -28,7 +28,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 
 class WalledGardenController extends Controller {
-
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired

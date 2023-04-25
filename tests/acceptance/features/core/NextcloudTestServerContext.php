@@ -59,7 +59,6 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  *               - second-parameter-value
  */
 class NextcloudTestServerContext implements Context {
-
 	/**
 	 * @var NextcloudTestServerHelper
 	 */

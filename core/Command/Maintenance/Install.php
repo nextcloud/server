@@ -74,7 +74,6 @@ class Install extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-
 		// validate the environment
 		$server = \OC::$server;
 		$setupHelper = new Setup(
@@ -106,6 +105,9 @@ class Install extends Command {
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
 			return 1;
+		}
+		if ($setupHelper->shouldRemoveCanInstallFile()) {
+			$output->writeln('<warn>Could not remove CAN_INSTALL from the config folder. Please remove this file manually.</warn>');
 		}
 		$output->writeln("Nextcloud was successfully installed");
 		return 0;

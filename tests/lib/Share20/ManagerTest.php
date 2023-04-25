@@ -70,7 +70,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @group DB
  */
 class ManagerTest extends \Test\TestCase {
-
 	/** @var Manager */
 	protected $manager;
 	/** @var LoggerInterface|MockObject */
@@ -552,7 +551,7 @@ class ManagerTest extends \Test\TestCase {
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
 			}
-		);
+			);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 		$this->assertNull($result);
@@ -575,7 +574,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertSame('password', $event->getPassword());
 				throw new HintException('message', 'password not accepted');
 			}
-		);
+			);
 
 		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
@@ -1286,7 +1285,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
-				['core', 'link_defaultExpDays', 3, '3'],
+				['core', 'link_defaultExpDays', '3', '3'],
 			]);
 
 		$expected = new \DateTime();
@@ -1307,7 +1306,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
-				['core', 'link_defaultExpDays', 3, '1'],
+				['core', 'link_defaultExpDays', '3', '1'],
 			]);
 
 		$expected = new \DateTime();
@@ -1417,7 +1416,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturnMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
-				['core', 'link_defaultExpDays', 3, '3'],
+				['core', 'link_defaultExpDays', '3', '3'],
 			]);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
@@ -1446,7 +1445,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturnMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
-				['core', 'link_defaultExpDays', 3, '1'],
+				['core', 'link_defaultExpDays', '3', '1'],
 			]);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
@@ -4639,7 +4638,6 @@ class ManagerTest extends \Test\TestCase {
 }
 
 class DummyFactory implements IProviderFactory {
-
 	/** @var IShareProvider */
 	protected $provider;
 

@@ -22,7 +22,7 @@
 
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import CommentsApp from '../views/Comments'
+import CommentsApp from '../views/Comments.vue'
 import Vue from 'vue'
 
 const logger = getLoggerBuilder()

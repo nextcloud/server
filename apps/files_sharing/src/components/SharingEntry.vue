@@ -25,7 +25,7 @@
 		<NcAvatar class="sharing-entry__avatar"
 			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
 			:user="share.shareWith"
-			:title="share.type === SHARE_TYPES.SHARE_TYPE_USER ? share.shareWithDisplayName : ''"
+			:display-name="share.shareWithDisplayName"
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 
@@ -137,12 +137,12 @@
 </template>
 
 <script>
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable.js'
 
 import SharesMixin from '../mixins/SharesMixin.js'
 

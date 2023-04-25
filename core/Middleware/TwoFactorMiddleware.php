@@ -46,7 +46,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 
 class TwoFactorMiddleware extends Middleware {
-
 	/** @var Manager */
 	private $twoFactorManager;
 

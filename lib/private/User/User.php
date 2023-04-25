@@ -275,7 +275,6 @@ class User implements IUser {
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
-
 			// FIXME: Feels like an hack - suggestions?
 
 			$groupManager = \OC::$server->getGroupManager();
@@ -364,7 +363,7 @@ class User implements IUser {
 			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
-				$this->home = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
+				$this->home = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
 			} else {
 				$this->home = \OC::$SERVERROOT . '/data/' . $this->uid;
 			}
@@ -417,7 +416,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		if ($this->config->getSystemValue('allow_user_to_change_display_name') === false) {
+		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name')) {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
@@ -514,18 +513,23 @@ class User implements IUser {
 	 *
 	 * @param string $quota
 	 * @return void
+	 * @throws InvalidArgumentException
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
-			$quota = OC_Helper::computerFileSize($quota);
-			$quota = OC_Helper::humanFileSize((int)$quota);
+			$bytesQuota = OC_Helper::computerFileSize($quota);
+			if ($bytesQuota === false) {
+				throw new InvalidArgumentException('Failed to set quota to invalid value '.$quota);
+			}
+			$quota = OC_Helper::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
+		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
 	}
 
 	/**

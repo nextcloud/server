@@ -21,5 +21,5 @@
  *
  */
 
-import '../js/app'
-import '../js/sharedfilelist'
+import '../js/app.js'
+import '../js/sharedfilelist.js'

@@ -60,7 +60,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @since 6.0.0
  */
 interface IServerContainer extends ContainerInterface, IContainer {
-
 	/**
 	 * The calendar manager will act as a broker between consumers for calendar information and
 	 * providers which actual deliver the calendar information.

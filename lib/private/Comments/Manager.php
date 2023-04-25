@@ -47,7 +47,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-
 	/** @var  IDBConnection */
 	protected $dbConn;
 
@@ -1032,6 +1031,7 @@ class Manager implements ICommentsManager {
 			->select('message_id')
 			->from('reactions')
 			->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($parentId)))
+			->orderBy('message_id', 'DESC')
 			->executeQuery();
 
 		$commentIds = [];
@@ -1107,22 +1107,29 @@ class Manager implements ICommentsManager {
 		if (!$commentIds) {
 			return [];
 		}
-		$query = $this->dbConn->getQueryBuilder();
 
+		$chunks = array_chunk($commentIds, 500);
+
+		$query = $this->dbConn->getQueryBuilder();
 		$query->select('*')
 			->from('comments')
-			->where($query->expr()->in('id', $query->createNamedParameter($commentIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->where($query->expr()->in('id', $query->createParameter('ids')))
 			->orderBy('creation_timestamp', 'DESC')
 			->addOrderBy('id', 'DESC');
 
 		$comments = [];
-		$result = $query->executeQuery();
-		while ($data = $result->fetch()) {
-			$comment = $this->getCommentFromData($data);
-			$this->cache($comment);
-			$comments[] = $comment;
+		foreach ($chunks as $ids) {
+			$query->setParameter('ids', $ids, IQueryBuilder::PARAM_STR_ARRAY);
+
+			$result = $query->executeQuery();
+			while ($data = $result->fetch()) {
+				$comment = $this->getCommentFromData($data);
+				$this->cache($comment);
+				$comments[] = $comment;
+			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
+
 		return $comments;
 	}
 

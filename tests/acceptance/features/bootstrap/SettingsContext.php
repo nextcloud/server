@@ -182,7 +182,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatSharesAreAcceptedByDefault() {
 		Assert::assertTrue(
-				$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
+			$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
@@ -190,7 +190,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatResharingIsEnabled() {
 		Assert::assertTrue(
-				$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
+			$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
@@ -198,7 +198,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatResharingIsDisabled() {
 		Assert::assertFalse(
-				$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
+			$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
@@ -206,7 +206,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatUsernameAutocompletionIsRestrictedToGroups() {
 		Assert::assertTrue(
-				$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
+			$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
@@ -214,7 +214,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatUsernameAutocompletionIsNotRestrictedToGroups() {
 		Assert::assertFalse(
-				$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
+			$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
@@ -222,7 +222,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatSharesAreNotAcceptedByDefault() {
 		Assert::assertFalse(
-				$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
+			$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
 	}
 
 	/**

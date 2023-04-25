@@ -243,30 +243,77 @@ class ImageManager {
 			throw new \Exception('Unsupported image type');
 		}
 
-		if ($key === 'background' && strpos($detectedMimeType, 'image/svg') === false && strpos($detectedMimeType, 'image/gif') === false) {
-			// Optimize the image since some people may upload images that will be
-			// either to big or are not progressive rendering.
-			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+		if ($key === 'background' && $this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {
+			try {
+				// Optimize the image since some people may upload images that will be
+				// either to big or are not progressive rendering.
+				$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+				if ($newImage === false) {
+					throw new \Exception('Could not read background image, possibly corrupted.');
+				}
 
-			// Preserve transparency
-			imagesavealpha($newImage, true);
-			imagealphablending($newImage, true);
+				// Preserve transparency
+				imagesavealpha($newImage, true);
+				imagealphablending($newImage, true);
 
-			$tmpFile = $this->tempManager->getTemporaryFile();
-			$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
-			$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
-			$outputImage = imagescale($newImage, $newWidth, $newHeight);
+				$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+				$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
+				$outputImage = imagescale($newImage, $newWidth, $newHeight);
+				if ($outputImage === false) {
+					throw new \Exception('Could not scale uploaded background image.');
+				}
 
-			imageinterlace($outputImage, 1);
-			imagepng($outputImage, $tmpFile, 8);
-			imagedestroy($outputImage);
+				$newTmpFile = $this->tempManager->getTemporaryFile();
+				imageinterlace($outputImage, 1);
+				// Keep jpeg images encoded as jpeg
+				if (strpos($detectedMimeType, 'image/jpeg') !== false) {
+					if (!imagejpeg($outputImage, $newTmpFile, 90)) {
+						throw new \Exception('Could not recompress background image as JPEG');
+					}
+				} else {
+					if (!imagepng($outputImage, $newTmpFile, 8)) {
+						throw new \Exception('Could not recompress background image as PNG');
+					}
+				}
+				$tmpFile = $newTmpFile;
+				imagedestroy($outputImage);
+			} catch (\Exception $e) {
+				if (is_resource($outputImage) || $outputImage instanceof \GdImage) {
+					imagedestroy($outputImage);
+				}
 
-			$target->putContent(file_get_contents($tmpFile));
-		} else {
-			$target->putContent(file_get_contents($tmpFile));
+				$this->logger->debug($e->getMessage());
+			}
 		}
 
+		$target->putContent(file_get_contents($tmpFile));
+
 		return $detectedMimeType;
+	}
+
+	/**
+	 * Decide whether an image benefits from shrinking and reconverting
+	 *
+	 * @param string $mimeType the mime type of the image
+	 * @param int $contentSize size of the image file
+	 * @return bool
+	 */
+	private function shouldOptimizeBackgroundImage(string $mimeType, int $contentSize): bool {
+		// Do not touch SVGs
+		if (strpos($mimeType, 'image/svg') !== false) {
+			return false;
+		}
+		// GIF does not benefit from converting
+		if (strpos($mimeType, 'image/gif') !== false) {
+			return false;
+		}
+		// WebP also does not benefit from converting
+		// We could possibly try to convert to progressive image, but normally webP images are quite small
+		if (strpos($mimeType, 'image/webp') !== false) {
+			return false;
+		}
+		// As a rule of thumb background images should be max. 150-300 KiB, small images do not benefit from converting
+		return $contentSize > 150000;
 	}
 
 	/**

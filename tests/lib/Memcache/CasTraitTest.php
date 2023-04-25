@@ -23,6 +23,9 @@ namespace Test\Memcache;
 
 use Test\TestCase;
 
+/**
+ * @group Memcache
+ */
 class CasTraitTest extends TestCase {
 	/**
 	 * @return \OC\Memcache\CasTrait

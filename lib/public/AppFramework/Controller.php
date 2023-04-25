@@ -38,7 +38,6 @@ use OCP\IRequest;
  * @since 6.0.0
  */
 abstract class Controller {
-
 	/**
 	 * app name
 	 * @var string
@@ -91,6 +90,9 @@ abstract class Controller {
 					}
 					if ($data->getLastModified() !== null) {
 						$response->setLastModified($data->getLastModified());
+					}
+					if ($data->isThrottled()) {
+						$response->throttle($data->getThrottleMetadata());
 					}
 
 					return $response;

@@ -75,7 +75,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testBeforeMoveFutureFileSkip() {
+	public function testBeforeMoveFutureFileSkip(): void {
 		$node = $this->createMock(Directory::class);
 
 		$this->tree->expects($this->any())
@@ -88,7 +88,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
-	public function testBeforeMoveDestinationIsDirectory() {
+	public function testBeforeMoveDestinationIsDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('The given destination target is a directory.');
 
@@ -111,7 +111,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
-	public function testBeforeMoveFutureFileSkipNonExisting() {
+	public function testBeforeMoveFutureFileSkipNonExisting(): void {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
@@ -145,7 +145,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
-	public function testBeforeMoveFutureFileMoveIt() {
+	public function testBeforeMoveFutureFileMoveIt(): void {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
@@ -185,7 +185,7 @@ class ChunkingPluginTest extends TestCase {
 	}
 
 
-	public function testBeforeMoveSizeIsWrong() {
+	public function testBeforeMoveSizeIsWrong(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Chunks on server do not sum up to 4 but to 3 bytes');
 

@@ -41,8 +41,6 @@ use OCP\FullTextSearch\Service\ISearchService;
  *
  */
 interface IFullTextSearchManager {
-
-
 	/**
 	 * Register a IProviderService.
 	 *

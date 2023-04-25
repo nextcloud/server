@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,7 +31,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController as Controller;
+use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
@@ -38,7 +39,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\Share\IShare;
 
-class AutoCompleteController extends Controller {
+class AutoCompleteController extends OCSController {
 	private ISearch $collaboratorSearch;
 	private IManager $autoCompleteManager;
 	private IEventDispatcher $dispatcher;

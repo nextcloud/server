@@ -24,8 +24,8 @@
  */
 
 import $ from 'jquery'
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
+import 'core-js/stable/index.js'
+import 'regenerator-runtime/runtime.js'
 import './Polyfill/index.js'
 
 // If you remove the line below, tests won't pass
@@ -35,11 +35,9 @@ import OC from './OC/index.js'
 import './globals.js'
 import './jquery/index.js'
 import { initCore } from './init.js'
-import { registerAppsSlideToggle } from './OC/apps.js'
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
-	registerAppsSlideToggle()
 
 	// fallback to hashchange when no history support
 	if (window.history.pushState) {

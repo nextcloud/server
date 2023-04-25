@@ -36,7 +36,6 @@ use OCP\IServerContainer;
  * @since 11.0.0
  */
 interface ILDAPProviderFactory {
-
 	/**
 	 * Constructor for the LDAP provider factory
 	 *

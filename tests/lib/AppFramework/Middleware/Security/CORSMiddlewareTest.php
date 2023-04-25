@@ -24,7 +24,6 @@ use OCP\IConfig;
 use OCP\IRequestId;
 
 class CORSMiddlewareTest extends \Test\TestCase {
-
 	/** @var ControllerMethodReflector */
 	private $reflector;
 	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
@@ -124,10 +123,12 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	}
 
 	/**
+	 * CORS must not be enforced for anonymous users on public pages
+	 *
 	 * @CORS
 	 * @PublicPage
 	 */
-	public function testNoCORSShouldAllowCookieAuth() {
+	public function testNoCORSOnAnonymousPublicPage() {
 		$request = new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -135,6 +136,9 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$this->session->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
 		$this->session->expects($this->never())
 			->method('logout');
 		$this->session->expects($this->never())
@@ -143,6 +147,35 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->willReturn(true);
 		$this->reflector->reflect($this, __FUNCTION__);
 
+		$middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	/**
+	 * Even on public pages users logged in using session cookies,
+	 * that do not provide a valid CSRF token are disallowed
+	 *
+	 * @CORS
+	 * @PublicPage
+	 */
+	public function testCORSShouldNeverAllowCookieAuth() {
+		$request = new Request(
+			[],
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
+		);
+		$this->reflector->reflect($this, __FUNCTION__);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
+		$this->session->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('logout');
+		$this->session->expects($this->never())
+			->method('logClientIn')
+			->with($this->equalTo('user'), $this->equalTo('pass'))
+			->willReturn(true);
+
+		$this->expectException(SecurityException::class);
 		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 

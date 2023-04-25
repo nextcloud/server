@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -29,7 +32,7 @@ namespace OCA\FederatedFileSharing\Settings;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IL10N;
+use OCP\Defaults;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
@@ -37,22 +40,19 @@ use OCP\Settings\ISettings;
 class Personal implements ISettings {
 	private FederatedShareProvider $federatedShareProvider;
 	private IUserSession $userSession;
-	private IL10N $l;
-	private \OC_Defaults $defaults;
+	private Defaults $defaults;
 	private IInitialState $initialState;
 	private IURLGenerator $urlGenerator;
 
 	public function __construct(
-		FederatedShareProvider $federatedShareProvider, #
+		FederatedShareProvider $federatedShareProvider,
 		IUserSession $userSession,
-		IL10N $l,
-		\OC_Defaults $defaults,
+		Defaults $defaults,
 		IInitialState $initialState,
 		IURLGenerator $urlGenerator
 	) {
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->userSession = $userSession;
-		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->initialState = $initialState;
 		$this->urlGenerator = $urlGenerator;
@@ -62,35 +62,25 @@ class Personal implements ISettings {
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$cloudID = $this->userSession->getUser()->getCloudId();
 		$url = 'https://nextcloud.com/sharing#' . $cloudID;
 
-		$parameters = [
-			'message_with_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]),
-			'message_without_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]),
-			'logoPath' => $this->defaults->getLogo(),
-			'reference' => $url,
-			'cloudId' => $cloudID,
-			'color' => $this->defaults->getColorPrimary(),
-			'textColor' => "#ffffff",
-		];
-
-		$this->initialState->provideInitialState('color', $this->defaults->getColorPrimary());
-		$this->initialState->provideInitialState('textColor', '#fffff');
+		$this->initialState->provideInitialState('color', $this->defaults->getDefaultColorPrimary());
+		$this->initialState->provideInitialState('textColor', $this->defaults->getDefaultTextColorPrimary());
 		$this->initialState->provideInitialState('logoPath', $this->defaults->getLogo());
 		$this->initialState->provideInitialState('reference', $url);
 		$this->initialState->provideInitialState('cloudId', $cloudID);
 		$this->initialState->provideInitialState('docUrlFederated', $this->urlGenerator->linkToDocs('user-sharing-federated'));
 
-		return new TemplateResponse('federatedfilesharing', 'settings-personal', $parameters, '');
+		return new TemplateResponse('federatedfilesharing', 'settings-personal', [], TemplateResponse::RENDER_AS_BLANK);
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 * @since 9.1
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() ||
 			$this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
 			return 'sharing';
@@ -106,7 +96,7 @@ class Personal implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 40;
 	}
 }

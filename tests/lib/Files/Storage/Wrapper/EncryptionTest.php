@@ -24,7 +24,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Files\Storage\Storage;
 
 class EncryptionTest extends Storage {
-
 	/**
 	 * block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
@@ -497,13 +496,13 @@ class EncryptionTest extends Storage {
 		$this->encryptionManager->expects($this->any())->method('isEnabled')->willReturn($encryptionEnabled);
 
 		$encryptionStorage = new \OC\Files\Storage\Wrapper\Encryption(
-					[
-						'storage' => $sourceStorage,
-						'root' => 'foo',
-						'mountPoint' => '/mountPoint',
-						'mount' => $this->mount
-					],
-					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update
+			[
+				'storage' => $sourceStorage,
+				'root' => 'foo',
+				'mountPoint' => '/mountPoint',
+				'mount' => $this->mount
+			],
+			$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update
 		);
 
 
@@ -712,15 +711,15 @@ class EncryptionTest extends Storage {
 	 */
 	public function testParseRawHeader($rawHeader, $expected) {
 		$instance = new \OC\Files\Storage\Wrapper\Encryption(
-					[
-						'storage' => $this->sourceStorage,
-						'root' => 'foo',
-						'mountPoint' => '/',
-						'mount' => $this->mount
-					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
+			[
+				'storage' => $this->sourceStorage,
+				'root' => 'foo',
+				'mountPoint' => '/',
+				'mount' => $this->mount
+			],
+			$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 
-			);
+		);
 
 		$result = $this->invokePrivate($instance, 'parseRawHeader', [$rawHeader]);
 		$this->assertSameSize($expected, $result);

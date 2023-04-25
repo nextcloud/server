@@ -213,6 +213,12 @@ OC.L10N.register(
     "Searching …" : "正在搜索 ...",
     "No elements found." : "未发现元素。",
     "Search globally" : "全局搜索",
+    "Guest" : "访客",
+    "Group" : "群组",
+    "Email" : "电子邮箱",
+    "Circle" : "圈子",
+    "Talk conversation" : "Talk 会话",
+    "Deck board" : "Deck 看板",
     "on {server}" : "在 {server} 上",
     "Others with access" : "其他具有访问权限的人",
     "No other users with access found" : "找不到其他具有访问权限的用户",
@@ -257,7 +263,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
     "Copy to clipboard" : "复制到剪贴板",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。",
-    "Toggle grid view" : "切换网格视图",
-    "Copy public link to clipboard" : "复制公开链接到剪贴板"
+    "Toggle grid view" : "切换网格视图"
 },
 "nplurals=1; plural=0;");

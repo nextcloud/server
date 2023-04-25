@@ -29,7 +29,6 @@ namespace OCP\User\Backend;
  * @since 14.0.0
  */
 interface ICreateUserBackend {
-
 	/**
 	 * @since 14.0.0
 	 *

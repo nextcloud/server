@@ -54,11 +54,11 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 		$this->migration = new RefreshWebcalJobRegistrar($this->db, $this->jobList);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals($this->migration->getName(), 'Registering background jobs to update cache for webcal calendars');
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$output = $this->createMock(IOutput::class);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);

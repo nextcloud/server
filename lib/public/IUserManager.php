@@ -46,7 +46,6 @@ namespace OCP;
  * @since 8.0.0
  */
 interface IUserManager {
-
 	/**
 	 * @since 26.0.0
 	 */

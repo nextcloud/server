@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -65,7 +66,7 @@ abstract class AUserData extends OCSController {
 	protected $userManager;
 	/** @var IConfig */
 	protected $config;
-	/** @var IGroupManager|Manager */ // FIXME Requires a method that is not on the interface
+	/** @var Manager */
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;
@@ -104,6 +105,7 @@ abstract class AUserData extends OCSController {
 	 */
 	protected function getUserData(string $userId, bool $includeScopes = false): array {
 		$currentLoggedInUser = $this->userSession->getUser();
+		assert($currentLoggedInUser !== null, 'No user logged in');
 
 		$data = [];
 
@@ -113,8 +115,8 @@ abstract class AUserData extends OCSController {
 			throw new OCSNotFoundException('User does not exist');
 		}
 
-		// Should be at least Admin Or SubAdmin!
-		if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		if ($isAdmin
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
 			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
 		} else {
@@ -132,13 +134,15 @@ abstract class AUserData extends OCSController {
 			$gids[] = $group->getGID();
 		}
 
-		try {
-			# might be thrown by LDAP due to handling of users disappears
-			# from the external source (reasons unknown to us)
-			# cf. https://github.com/nextcloud/server/issues/12991
-			$data['storageLocation'] = $targetUserObject->getHome();
-		} catch (NoUserException $e) {
-			throw new OCSNotFoundException($e->getMessage(), $e);
+		if ($isAdmin) {
+			try {
+				# might be thrown by LDAP due to handling of users disappears
+				# from the external source (reasons unknown to us)
+				# cf. https://github.com/nextcloud/server/issues/12991
+				$data['storageLocation'] = $targetUserObject->getHome();
+			} catch (NoUserException $e) {
+				throw new OCSNotFoundException($e->getMessage(), $e);
+			}
 		}
 
 		// Find the data
@@ -172,6 +176,7 @@ abstract class AUserData extends OCSController {
 			}
 
 			$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
+			$data[IAccountManager::PROPERTY_DISPLAYNAME_LEGACY] = $data[IAccountManager::PROPERTY_DISPLAYNAME];
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
 			}

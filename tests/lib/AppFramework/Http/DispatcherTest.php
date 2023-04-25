@@ -36,6 +36,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use OCP\IRequestId;
 
@@ -104,10 +105,10 @@ class DispatcherTest extends \Test\TestCase {
 	private $config;
 	/** @var LoggerInterface|MockObject  */
 	private $logger;
-	/**
-	 * @var IEventLogger|MockObject
-	 */
+	/** @var IEventLogger|MockObject */
 	private $eventLogger;
+	/** @var ContainerInterface|MockObject */
+	private $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -116,6 +117,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->eventLogger = $this->createMock(IEventLogger::class);
+		$this->container = $this->createMock(ContainerInterface::class);
 		$app = $this->getMockBuilder(
 			'OC\AppFramework\DependencyInjection\DIContainer')
 			->disableOriginalConstructor()
@@ -154,7 +156,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container,
 		);
 
 		$this->response = $this->createMock(Response::class);
@@ -330,7 +333,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -362,7 +366,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -397,7 +402,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -431,7 +437,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -466,7 +473,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -503,7 +511,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 

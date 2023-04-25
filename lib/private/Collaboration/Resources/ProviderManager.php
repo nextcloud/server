@@ -33,7 +33,6 @@ use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 
 class ProviderManager implements IProviderManager {
-
 	/** @var string[] */
 	protected $providers = [];
 

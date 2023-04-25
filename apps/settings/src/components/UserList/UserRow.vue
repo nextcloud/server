@@ -244,8 +244,8 @@ import {
 	NcActions,
 	NcActionButton,
 } from '@nextcloud/vue'
-import UserRowSimple from './UserRowSimple'
-import UserRowMixin from '../../mixins/UserRowMixin'
+import UserRowSimple from './UserRowSimple.vue'
+import UserRowMixin from '../../mixins/UserRowMixin.js'
 
 export default {
 	name: 'UserRow',

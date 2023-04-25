@@ -34,7 +34,6 @@ use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
-
 	/** @var IFactory */
 	protected $factory;
 

@@ -31,7 +31,6 @@ namespace OCP\Search;
  * @deprecated 20.0.0
  */
 class Result {
-
 	/**
 	 * A unique identifier for the result, usually given as the item ID in its
 	 * corresponding application.

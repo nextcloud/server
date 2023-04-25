@@ -134,7 +134,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		parent::tearDown();
 	}
 
-	public function cleanUpBackend() {
+	public function cleanUpBackend(): void {
 		if (is_null($this->backend)) {
 			return;
 		}

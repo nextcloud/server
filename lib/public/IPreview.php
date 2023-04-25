@@ -38,7 +38,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * @since 6.0.0
  */
 interface IPreview {
-
 	/**
 	 * @since 9.2.0
 	 * @deprecated 22.0.0

@@ -37,7 +37,6 @@ use Throwable;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var array */
 	private $lazyWidgets = [];
 

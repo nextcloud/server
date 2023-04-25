@@ -44,7 +44,6 @@ use PDO;
  * @since 21.0.0
  */
 interface IResult {
-
 	/**
 	 * @return true
 	 *

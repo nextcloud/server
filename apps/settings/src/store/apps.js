@@ -22,7 +22,7 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'

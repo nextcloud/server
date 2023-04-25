@@ -10,7 +10,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
     "Generate keys" : "Schlüssel erzeugen",
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
-    "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben.",
+    "Type to select user or group." : "Eingabe, um Benutzer oder Gruppe auszuwählen.",
     "(Group)" : "(Gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilität mit MAC NFD-Kodierung (langsam)",
     "Enable encryption" : "Verschlüsselung aktivieren",
@@ -90,6 +90,7 @@ OC.L10N.register(
     "Hostname" : "Host-Name",
     "Port" : "Port",
     "Region" : "Region",
+    "Storage Class" : "Speicherklasse",
     "Enable SSL" : "SSL aktivieren",
     "Enable Path Style" : "Pfad-Stil aktivieren",
     "Legacy (v2) authentication" : "Legacy-Authentifizierung (V2)",
@@ -135,8 +136,10 @@ OC.L10N.register(
     "Available for" : "Verfügbar für",
     "Click to recheck the configuration" : "Hier klicken, um die Konfiguration erneut zu prüfen",
     "Add storage" : "Speicher hinzufügen",
+    "All users" : "Alle Benutzer",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
+    "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben."
 },
 "nplurals=2; plural=(n != 1);");

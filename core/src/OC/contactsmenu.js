@@ -27,7 +27,7 @@ import _ from 'underscore'
 import $ from 'jquery'
 import { Collection, Model, View } from 'backbone'
 
-import OC from './index'
+import OC from './index.js'
 
 /**
  * @class Contact
@@ -55,6 +55,11 @@ const Contact = Model.extend({
 		} else {
 			this.set('hasManyActions', true)
 		}
+
+		const fullName = this.get('fullName')
+		if (this.get('avatar') && fullName) {
+			this.set('avatarLabel', t('core', 'Avatar of {fullName}', { fullName }))
+		}
 	}
 })
 
@@ -78,6 +83,9 @@ const ContactsListView = View.extend({
 	/** @type {array} */
 	_subViews: [],
 
+	/** @type {string} */
+	tagName: 'ul',
+
 	/**
 	 * @param {object} options
 	 * @returns {undefined}
@@ -93,7 +101,6 @@ const ContactsListView = View.extend({
 		var self = this
 		self.$el.html('')
 		self._subViews = []
-
 		self._collection.forEach(function(contact) {
 			var item = new ContactsListItemView({
 				model: contact
@@ -128,6 +135,9 @@ const ContactsListItemView = View.extend({
 
 	/** @type {string} */
 	className: 'contact',
+
+	/** @type {string} */
+	tagName: 'li',
 
 	/** @type {undefined|function} */
 	_template: undefined,
@@ -172,11 +182,6 @@ const ContactsListItemView = View.extend({
 
 		// Show placeholder if no avatar is available (avatar is rendered as img, not div)
 		this.$('div.avatar').imageplaceholder(this._model.get('fullName'))
-
-		// Show tooltip for top action
-		this.$('.top-action').tooltip({ placement: 'left' })
-		// Show tooltip for second action
-		this.$('.second-action').tooltip({ placement: 'left' })
 
 		return this
 	},

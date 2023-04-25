@@ -22,7 +22,6 @@
 namespace Test\Files\Stream;
 
 class DummyEncryptionWrapper extends \OC\Files\Stream\Encryption {
-
 	/**
 	 * simulate a non-seekable stream wrapper by always return false
 	 *

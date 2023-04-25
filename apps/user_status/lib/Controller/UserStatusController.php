@@ -185,6 +185,19 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function revertStatus(string $messageId): DataResponse {
+		$backupStatus = $this->service->revertUserStatus($this->userId, $messageId, true);
+		if ($backupStatus) {
+			return new DataResponse($this->formatStatus($backupStatus));
+		}
+		return new DataResponse([]);
+	}
+
+	/**
 	 * @param UserStatus $status
 	 * @return array
 	 */

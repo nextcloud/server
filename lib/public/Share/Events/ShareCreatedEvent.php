@@ -32,7 +32,6 @@ use OCP\Share\IShare;
  * @since 18.0.0
  */
 class ShareCreatedEvent extends Event {
-
 	/** @var IShare */
 	private $share;
 

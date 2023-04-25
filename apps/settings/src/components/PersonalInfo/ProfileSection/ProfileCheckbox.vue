@@ -32,13 +32,12 @@
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import logger from '../../../logger.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import { handleError } from '../../../utils/handlers.js'
 
 export default {
 	name: 'ProfileCheckbox',
@@ -82,8 +81,7 @@ export default {
 			if (status === 'ok') {
 				emit('settings:profile-enabled:updated', isProfileEnabled)
 			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 			this.loading = false
 		},

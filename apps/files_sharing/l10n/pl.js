@@ -219,6 +219,12 @@ OC.L10N.register(
     "Searching …" : "Wyszukiwanie…",
     "No elements found." : "Nie znaleziono elementów.",
     "Search globally" : "Szukaj globalnie",
+    "Guest" : "Gość",
+    "Group" : "Grupa",
+    "Email" : "E-mail",
+    "Circle" : "Krąg",
+    "Talk conversation" : "Rozmowa Talk",
+    "Deck board" : "Tablica Deck",
     "on {server}" : "na {server}",
     "Others with access" : "Inni z dostępem",
     "No other users with access found" : "Nie znaleziono innych użytkowników z dostępem",
@@ -269,9 +275,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiuj do schowka",
     "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
     "Toggle grid view" : "Przełącz widok siatki",
-    "Copy public link to clipboard" : "Kopiuj link publiczny do schowka",
-    "Share label saved" : "Etykieta udostępnienia zapisana",
-    "Share password saved" : "Hasło udostępnienia zapisane",
-    "Share note saved" : "Notatka udostępnienia zapisana"
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępnień Science Mesh",
+    "Error generating password from password_policy" : "Błąd podczas generowania hasła z password_policy"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

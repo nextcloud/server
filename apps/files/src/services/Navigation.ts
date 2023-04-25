@@ -19,25 +19,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type Node from '@nextcloud/files/dist/files/node'
+/* eslint-disable */
+import type { Folder, Node } from '@nextcloud/files'
 import isSvg from 'is-svg'
 
-import logger from '../logger'
+import logger from '../logger.js'
+
+export type ContentsWithRoot = {
+	folder: Folder,
+	contents: Node[]
+}
 
 export interface Column {
 	/** Unique column ID */
 	id: string
 	/** Translated column title */
 	title: string
-	/** Property key from Node main or additional attributes.
-	Will be used if no custom sort function is provided.
-	Sorting will be done by localCompare */
-	property: string
-	/** Special function used to sort Nodes between them */
-	sortFunction?: (nodeA: Node, nodeB: Node) => number;
+	/** The content of the cell. The element will be appended within */
+	render: (node: Node, view: Navigation) => HTMLElement
+	/** Function used to sort Nodes between them */
+	sort?: (nodeA: Node, nodeB: Node) => number
 	/** Custom summary of the column to display at the end of the list.
 	 Will not be displayed if  nothing is provided */
-	summary?: (node: Node[]) => string
+	summary?: (node: Node[], view: Navigation) => string
 }
 
 export interface Navigation {
@@ -45,8 +49,15 @@ export interface Navigation {
 	id: string
 	/** Translated view name */
 	name: string
-	/** Method return the content of the  provided path */
-	getFiles: (path: string) => Node[]
+	/**
+	 * Method return the content of the  provided path
+	 * This ideally should be a cancellable promise.
+	 * promise.cancel(reason) will be called when the directory
+	 * change and the promise is not resolved yet.
+	 * You _must_ also return the current directory
+	 * information alongside with its content.
+	 */
+	getContents: (path: string) => Promise<ContentsWithRoot>
 	/** The view icon as an inline svg */
 	icon: string
 	/** The view order */
@@ -60,8 +71,16 @@ export interface Navigation {
 	parent?: string
 	/** This view is sticky (sent at the bottom) */
 	sticky?: boolean
-	/** This view has children and is expanded or not */
+	/** This view has children and is expanded or not,
+	 * will be overridden by user config.
+	 */
 	expanded?: boolean
+
+	/**
+	 * Will be used as default if the user
+	 * haven't customized their sorting column
+	 * */
+	defaultSortKey?: string
 
 	/**
 	 * This view is sticky a legacy view.
@@ -107,6 +126,13 @@ export default class {
 		this._views.push(view)
 	}
 
+	remove(id: string) {
+		const index = this._views.findIndex(view => view.id === id)
+		if (index !== -1) {
+			this._views.splice(index, 1)
+		}
+	}
+
 	get views(): Navigation[] {
 		return this._views
 	}
@@ -150,8 +176,8 @@ const isValidNavigation = function(view: Navigation): boolean {
 	 * TODO: remove when support for legacy views is removed
 	 */
 	if (!view.legacy) {
-		if (!view.getFiles || typeof view.getFiles !== 'function') {
-			throw new Error('Navigation getFiles is required and must be a function')
+		if (!view.getContents || typeof view.getContents !== 'function') {
+			throw new Error('Navigation getContents is required and must be a function')
 		}
 
 		if (!view.icon || typeof view.icon !== 'string' || !isSvg(view.icon)) {
@@ -184,6 +210,10 @@ const isValidNavigation = function(view: Navigation): boolean {
 		throw new Error('Navigation expanded must be a boolean')
 	}
 
+	if (view.defaultSortKey && typeof view.defaultSortKey !== 'string') {
+		throw new Error('Navigation defaultSortKey must be a string')
+	}
+
 	return true
 }
 
@@ -193,19 +223,19 @@ const isValidNavigation = function(view: Navigation): boolean {
  */
 const isValidColumn = function(column: Column): boolean {
 	if (!column.id || typeof column.id !== 'string') {
-		throw new Error('Column id is required')
+		throw new Error('A column id is required')
 	}
 
 	if (!column.title || typeof column.title !== 'string') {
-		throw new Error('Column title is required')
+		throw new Error('A column title is required')
 	}
 
-	if (!column.property || typeof column.property !== 'string') {
-		throw new Error('Column property is required')
+	if (!column.render || typeof column.render !== 'function') {
+		throw new Error('A render function is required')
 	}
 
 	// Optional properties
-	if (column.sortFunction && typeof column.sortFunction !== 'function') {
+	if (column.sort && typeof column.sort !== 'function') {
 		throw new Error('Column sortFunction must be a function')
 	}
 

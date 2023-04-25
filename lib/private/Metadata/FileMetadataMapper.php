@@ -30,6 +30,9 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<FileMetadata>
+ */
 class FileMetadataMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'file_metadata', FileMetadata::class);
@@ -89,7 +92,7 @@ class FileMetadataMapper extends QBMapper {
 				continue;
 			}
 			$empty = new FileMetadata();
-			$empty->setMetadata([]);
+			$empty->setValue('');
 			$empty->setGroupName($groupName);
 			$empty->setId($id);
 			$metadata[$id] = $empty;
@@ -109,11 +112,11 @@ class FileMetadataMapper extends QBMapper {
 	 * Updates an entry in the db from an entity
 	 *
 	 * @param Entity $entity the entity that should be created
-	 * @return Entity the saved entity with the set id
+	 * @return FileMetadata the saved entity with the set id
 	 * @throws Exception
 	 * @throws \InvalidArgumentException if entity has no id
 	 */
-	public function update(Entity $entity): Entity {
+	public function update(Entity $entity): FileMetadata {
 		if (!($entity instanceof FileMetadata)) {
 			throw new \Exception("Entity should be a FileMetadata entity");
 		}
@@ -132,13 +135,13 @@ class FileMetadataMapper extends QBMapper {
 
 		$idType = $this->getParameterTypeForProperty($entity, 'id');
 		$groupNameType = $this->getParameterTypeForProperty($entity, 'groupName');
-		$metadataValue = $entity->getMetadata();
-		$metadataType = $this->getParameterTypeForProperty($entity, 'metadata');
+		$value = $entity->getValue();
+		$valueType = $this->getParameterTypeForProperty($entity, 'value');
 
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->update($this->tableName)
-			->set('metadata', $qb->createNamedParameter($metadataValue, $metadataType))
+			->set('value', $qb->createNamedParameter($value, $valueType))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, $idType)))
 			->andWhere($qb->expr()->eq('group_name', $qb->createNamedParameter($groupName, $groupNameType)))
 			->executeStatement();

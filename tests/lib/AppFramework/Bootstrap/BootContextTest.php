@@ -32,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BootContextTest extends TestCase {
-
 	/** @var IAppContainer|MockObject */
 	private $appContainer;
 

@@ -48,7 +48,7 @@ class RemoveInvalidSharesTest extends TestCase {
 		]);
 	}
 
-	public function test() {
+	public function test(): void {
 		$db = \OC::$server->getDatabaseConnection();
 		/** @var Principal | \PHPUnit\Framework\MockObject\MockObject $principal */
 		$principal = $this->createMock(Principal::class);

@@ -29,11 +29,12 @@
 		:icon="iconClass"
 		:title="isSupportedScope ? tooltip : tooltipDisabled"
 		@click.stop.prevent="updateScope">
+		{{ isSupportedScope ? tooltip : tooltipDisabled }}
 	</NcActionButton>
 </template>
 
 <script>
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 
 export default {
 	name: 'FederationControlAction',

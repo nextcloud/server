@@ -29,7 +29,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class FixMountStorages implements IRepairStep {
-
 	/** @var IDBConnection */
 	private $db;
 

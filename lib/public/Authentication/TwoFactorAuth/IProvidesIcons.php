@@ -32,7 +32,6 @@ namespace OCP\Authentication\TwoFactorAuth;
  * @since 15.0.0
  */
 interface IProvidesIcons extends IProvider {
-
 	/**
 	 * Get the path to the light (white) icon of this provider
 	 *

@@ -20,15 +20,6 @@
  *
  */
 
-import axios from '@nextcloud/axios'
-
-/**
- * Create a cancel token
- *
- * @return {import('axios').CancelTokenSource}
- */
-const createCancelToken = () => axios.CancelToken.source()
-
 /**
  * Creates a cancelable axios 'request object'.
  *
@@ -36,10 +27,8 @@ const createCancelToken = () => axios.CancelToken.source()
  * @return {object}
  */
 const cancelableRequest = function(request) {
-	/**
-	 * Generate an axios cancel token
-	 */
-	const cancelToken = createCancelToken()
+	const controller = new AbortController()
+	const signal = controller.signal
 
 	/**
 	 * Execute the request
@@ -48,15 +37,16 @@ const cancelableRequest = function(request) {
 	 * @param {object} [options] optional config for the request
 	 */
 	const fetch = async function(url, options) {
-		return request(
+		const response = await request(
 			url,
-			Object.assign({ cancelToken: cancelToken.token }, options)
+			Object.assign({ signal }, options)
 		)
+		return response
 	}
 
 	return {
 		request: fetch,
-		cancel: cancelToken.cancel,
+		abort: () => controller.abort(),
 	}
 }
 

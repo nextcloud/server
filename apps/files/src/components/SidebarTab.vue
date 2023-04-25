@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 export default {
 	name: 'SidebarTab',

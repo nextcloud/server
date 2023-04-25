@@ -32,9 +32,6 @@ OC.L10N.register(
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 읽을 수 없습니다. 공유된 파일이라면 파일 소유자에게 연락하여 다시 공유해 달라고 요청하십시오.",
     "Default encryption module" : "기본 암호화 모듈",
     "Default encryption module for server-side encryption" : "서버 측 암호화용 기본 암호화 모듈",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "이 암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화를 사용해야 합니다.\n\t\t서버 측 암호화를 활성화하면 이 모듈에서 모든 파일을 투명하게 암호화합니다.\n\t\t암호화는 AES 256 키로 진행됩니다. 이 모듈에서는 기존 파일은 암호화하지 않으며,\n\t\t서버 측 암호화를 활성화한 이후 새로 업로드한 파일만 암호화합니다. 한 번 암호화를\n\t\t활성화하면 암호화를 비활성화하고 암호화를 사용하지 않았던 상태로 돌아갈 수\n\t\t없습니다. 서버 측 암호화를 활성화하기 전에 문서를 참조하여 모든 조건과\n\t\t제약 사항을 확인하십시오.",
-    "The share will expire on %s." : "이 공유는 %s에 만료됩니다.",
-    "Cheers!" : "감사합니다!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Encrypt the home storage" : "홈 저장소 암호화",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "이 옵션을 사용하면 주 저장소에 있는 모드 파일을 암호화하며, 사용하지 않으면 외부 저장소의 파일만 암호화합니다",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화"
+    "Disabled" : "비활성화",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "이 암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화를 사용해야 합니다.\n\t\t서버 측 암호화를 활성화하면 이 모듈에서 모든 파일을 투명하게 암호화합니다.\n\t\t암호화는 AES 256 키로 진행됩니다. 이 모듈에서는 기존 파일은 암호화하지 않으며,\n\t\t서버 측 암호화를 활성화한 이후 새로 업로드한 파일만 암호화합니다. 한 번 암호화를\n\t\t활성화하면 암호화를 비활성화하고 암호화를 사용하지 않았던 상태로 돌아갈 수\n\t\t없습니다. 서버 측 암호화를 활성화하기 전에 문서를 참조하여 모든 조건과\n\t\t제약 사항을 확인하십시오.",
+    "The share will expire on %s." : "이 공유는 %s에 만료됩니다.",
+    "Cheers!" : "감사합니다!"
 },
 "nplurals=1; plural=0;");

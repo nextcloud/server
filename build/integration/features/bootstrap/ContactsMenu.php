@@ -23,7 +23,6 @@
 use PHPUnit\Framework\Assert;
 
 trait ContactsMenu {
-
 	// BasicStructure trait is expected to be used in the class that uses this
 	// trait.
 

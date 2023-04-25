@@ -9,7 +9,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Eroare la configurarea OAuth2",
     "Generate keys" : "Generează chei",
     "Error generating key pair" : "Eroarea la generarea cheilor",
-    "All users. Type to select user or group." : "Toți utilizatorii. Începe să scrii pentru a selecta un utilizator sau un grup.",
     "Enable encryption" : "Activează criptarea",
     "Enable previews" : "Activează previzualizările",
     "Enable sharing" : "Activează partajarea",
@@ -77,6 +76,7 @@ OC.L10N.register(
     "Configuration" : "Configurație",
     "Available for" : "Disponibil pentru",
     "Add storage" : "Adauga stocare",
-    "Advanced settings" : "Setări avansate"
+    "Advanced settings" : "Setări avansate",
+    "All users. Type to select user or group." : "Toți utilizatorii. Începe să scrii pentru a selecta un utilizator sau un grup."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
