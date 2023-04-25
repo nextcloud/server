@@ -17,11 +17,12 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\IRequestId;
+use Test\AppFramework\Middleware\Security\Mock\CORSMiddlewareController;
 
 class CORSMiddlewareTest extends \Test\TestCase {
 	/** @var ControllerMethodReflector */
@@ -30,7 +31,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	private $session;
 	/** @var Throttler */
 	private $throttler;
-	/** @var Controller */
+	/** @var CORSMiddlewareController */
 	private $controller;
 
 	protected function setUp(): void {
@@ -38,13 +39,23 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->reflector = new ControllerMethodReflector();
 		$this->session = $this->createMock(Session::class);
 		$this->throttler = $this->createMock(Throttler::class);
-		$this->controller = $this->createMock(Controller::class);
+		$this->controller = new CORSMiddlewareController(
+			'test',
+			$this->createMock(IRequest::class)
+		);
+	}
+
+	public function dataSetCORSAPIHeader(): array {
+		return [
+			['testSetCORSAPIHeader'],
+			['testSetCORSAPIHeaderAttribute'],
+		];
 	}
 
 	/**
-	 * @CORS
+	 * @dataProvider dataSetCORSAPIHeader
 	 */
-	public function testSetCORSAPIHeader() {
+	public function testSetCORSAPIHeader(string $method): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -54,16 +65,15 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
+		$response = $middleware->afterController($this->controller, $method, new Response());
 		$headers = $response->getHeaders();
 		$this->assertEquals('test', $headers['Access-Control-Allow-Origin']);
 	}
 
-
-	public function testNoAnnotationNoCORSHEADER() {
+	public function testNoAnnotationNoCORSHEADER(): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -80,29 +90,41 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
 
+	public function dataNoOriginHeaderNoCORSHEADER(): array {
+		return [
+			['testNoOriginHeaderNoCORSHEADER'],
+			['testNoOriginHeaderNoCORSHEADERAttribute'],
+		];
+	}
 
 	/**
-	 * @CORS
+	 * @dataProvider dataNoOriginHeaderNoCORSHEADER
 	 */
-	public function testNoOriginHeaderNoCORSHEADER() {
+	public function testNoOriginHeaderNoCORSHEADER(string $method): void {
 		$request = new Request(
 			[],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
+		$response = $middleware->afterController($this->controller, $method, new Response());
 		$headers = $response->getHeaders();
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
 
+	public function dataCorsIgnoredIfWithCredentialsHeaderPresent(): array {
+		return [
+			['testCorsIgnoredIfWithCredentialsHeaderPresent'],
+			['testCorsAttributeIgnoredIfWithCredentialsHeaderPresent'],
+		];
+	}
 
 	/**
-	 * @CORS
+	 * @dataProvider dataCorsIgnoredIfWithCredentialsHeaderPresent
 	 */
-	public function testCorsIgnoredIfWithCredentialsHeaderPresent() {
+	public function testCorsIgnoredIfWithCredentialsHeaderPresent(string $method): void {
 		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
 
 		$request = new Request(
@@ -114,27 +136,33 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
 		$response = new Response();
 		$response->addHeader('AcCess-control-Allow-Credentials ', 'TRUE');
-		$middleware->afterController($this->controller, __FUNCTION__, $response);
+		$middleware->afterController($this->controller, $method, $response);
+	}
+
+	public function dataNoCORSOnAnonymousPublicPage(): array {
+		return [
+			['testNoCORSOnAnonymousPublicPage'],
+			['testNoCORSOnAnonymousPublicPageAttribute'],
+			['testNoCORSAttributeOnAnonymousPublicPage'],
+			['testNoCORSAttributeOnAnonymousPublicPageAttribute'],
+		];
 	}
 
 	/**
-	 * CORS must not be enforced for anonymous users on public pages
-	 *
-	 * @CORS
-	 * @PublicPage
+	 * @dataProvider dataNoCORSOnAnonymousPublicPage
 	 */
-	public function testNoCORSOnAnonymousPublicPage() {
+	public function testNoCORSOnAnonymousPublicPage(string $method): void {
 		$request = new Request(
 			[],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 		$this->session->expects($this->once())
 			->method('isLoggedIn')
@@ -145,25 +173,30 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->willReturn(true);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$middleware->beforeController($this->controller, $method);
+	}
+
+	public function dataCORSShouldNeverAllowCookieAuth(): array {
+		return [
+			['testCORSShouldNeverAllowCookieAuth'],
+			['testCORSShouldNeverAllowCookieAuthAttribute'],
+			['testCORSAttributeShouldNeverAllowCookieAuth'],
+			['testCORSAttributeShouldNeverAllowCookieAuthAttribute'],
+		];
 	}
 
 	/**
-	 * Even on public pages users logged in using session cookies,
-	 * that do not provide a valid CSRF token are disallowed
-	 *
-	 * @CORS
-	 * @PublicPage
+	 * @dataProvider dataCORSShouldNeverAllowCookieAuth
 	 */
-	public function testCORSShouldNeverAllowCookieAuth() {
+	public function testCORSShouldNeverAllowCookieAuth(string $method): void {
 		$request = new Request(
 			[],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 		$this->session->expects($this->once())
 			->method('isLoggedIn')
@@ -176,13 +209,20 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->expectException(SecurityException::class);
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$middleware->beforeController($this->controller, $method);
+	}
+
+	public function dataCORSShouldRelogin(): array {
+		return [
+			['testCORSShouldRelogin'],
+			['testCORSAttributeShouldRelogin'],
+		];
 	}
 
 	/**
-	 * @CORS
+	 * @dataProvider dataCORSShouldRelogin
 	 */
-	public function testCORSShouldRelogin() {
+	public function testCORSShouldRelogin(string $method): void {
 		$request = new Request(
 			['server' => [
 				'PHP_AUTH_USER' => 'user',
@@ -197,16 +237,23 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->willReturn(true);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$middleware->beforeController($this->controller, $method);
+	}
+
+	public function dataCORSShouldFailIfPasswordLoginIsForbidden(): array {
+		return [
+			['testCORSShouldFailIfPasswordLoginIsForbidden'],
+			['testCORSAttributeShouldFailIfPasswordLoginIsForbidden'],
+		];
 	}
 
 	/**
-	 * @CORS
+	 * @dataProvider dataCORSShouldFailIfPasswordLoginIsForbidden
 	 */
-	public function testCORSShouldFailIfPasswordLoginIsForbidden() {
+	public function testCORSShouldFailIfPasswordLoginIsForbidden(string $method): void {
 		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
 
 		$request = new Request(
@@ -223,16 +270,23 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException));
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$middleware->beforeController($this->controller, $method);
+	}
+
+	public function dataCORSShouldNotAllowCookieAuth(): array {
+		return [
+			['testCORSShouldNotAllowCookieAuth'],
+			['testCORSAttributeShouldNotAllowCookieAuth'],
+		];
 	}
 
 	/**
-	 * @CORS
+	 * @dataProvider dataCORSShouldNotAllowCookieAuth
 	 */
-	public function testCORSShouldNotAllowCookieAuth() {
+	public function testCORSShouldNotAllowCookieAuth(string $method): void {
 		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
 
 		$request = new Request(
@@ -249,10 +303,10 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->willReturn(false);
-		$this->reflector->reflect($this, __FUNCTION__);
+		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$middleware->beforeController($this->controller, $method);
 	}
 
 	public function testAfterExceptionWithSecurityExceptionNoStatus() {
@@ -286,7 +340,6 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$expected = new JSONResponse(['message' => 'A security exception'], 501);
 		$this->assertEquals($expected, $response);
 	}
-
 
 	public function testAfterExceptionWithRegularException() {
 		$this->expectException(\Exception::class);
