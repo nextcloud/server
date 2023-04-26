@@ -86,11 +86,14 @@ class ContactInteractionListener implements IEventListener {
 		}
 
 		$this->atomic(function () use ($event) {
+			$uid = $event->getUid();
+			$email = $event->getEmail();
+			$federatedCloudId = $event->getFederatedCloudId();
 			$existing = $this->mapper->findMatch(
 				$event->getActor(),
-				$event->getUid(),
-				$event->getEmail(),
-				$event->getFederatedCloudId()
+				$uid,
+				$email,
+				$federatedCloudId
 			);
 			if (!empty($existing)) {
 				$now = $this->timeFactory->getTime();
@@ -104,22 +107,22 @@ class ContactInteractionListener implements IEventListener {
 
 			$contact = new RecentContact();
 			$contact->setActorUid($event->getActor()->getUID());
-			if ($event->getUid() !== null) {
-				$contact->setUid($event->getUid());
+			if ($uid !== null) {
+				$contact->setUid($uid);
 			}
-			if ($event->getEmail() !== null) {
-				$contact->setEmail($event->getEmail());
+			if ($email !== null) {
+				$contact->setEmail($email);
 			}
-			if ($event->getFederatedCloudId() !== null) {
-				$contact->setFederatedCloudId($event->getFederatedCloudId());
+			if ($federatedCloudId !== null) {
+				$contact->setFederatedCloudId($federatedCloudId);
 			}
 			$contact->setLastContact($this->timeFactory->getTime());
 
 			$copy = $this->cardSearchDao->findExisting(
 				$event->getActor(),
-				$event->getUid(),
-				$event->getEmail(),
-				$event->getFederatedCloudId()
+				$uid,
+				$email,
+				$federatedCloudId
 			);
 			if ($copy !== null) {
 				try {
