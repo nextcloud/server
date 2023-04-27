@@ -94,13 +94,6 @@
 				</div>
 			</transition>
 		</div>
-		<div v-else>
-			<transition name="fade" mode="out-in">
-				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
-					{{ t('core', 'Please contact your administrator.') }}
-				</NcNoteCard>
-			</transition>
-		</div>
 
 		<div id="alternative-logins" class="alternative-logins">
 			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
