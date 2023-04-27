@@ -66,7 +66,7 @@
 					</template>
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
-					key="reset"
+					key="reset-pw-less"
 					class="login-additional login-passwordless">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
@@ -83,7 +83,7 @@
 					</NcButton>
 				</div>
 				<div v-else-if="!loading && canResetPassword"
-					key="reset"
+					key="reset-can-reset"
 					class="login-additional">
 					<div class="lost-password-container">
 						<ResetPassword v-if="resetPassword"
@@ -101,8 +101,8 @@
 		</template>
 		<template v-else>
 			<transition name="fade" mode="out-in">
-				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
-					{{ t('core', 'Please contact your administrator.') }}
+				<NcNoteCard type="info" :title="t('core', 'Login form is disabled.')">
+					{{ t('core', 'The Nextcloud login form is disabled. Use another login option if available or contact your administration.') }}
 				</NcNoteCard>
 			</transition>
 		</template>
