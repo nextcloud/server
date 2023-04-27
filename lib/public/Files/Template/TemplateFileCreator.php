@@ -40,7 +40,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	/**
 	 * @since 27.0.0
 	 */
-	protected string $actionLabel;
+	protected string $actionLabel = '';
 
 	/**
 	 * @since 21.0.0
