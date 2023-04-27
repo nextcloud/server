@@ -61,6 +61,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const GROUPS_PROPERTYNAME = '{http://owncloud.org/ns}groups';
 	public const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 	public const SYSTEM_TAGS_PROPERTYNAME = '{http://nextcloud.org/ns}system-tags';
+	public const NUM_FILES_PROPERTYNAME = '{http://nextcloud.org/ns}files-assigned';
+	public const FILEID_PROPERTYNAME = '{http://nextcloud.org/ns}reference-fileid';
 
 	/**
 	 * @var \Sabre\DAV\Server $server
@@ -242,6 +244,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
+		// child nodes from systemtags-current should point to normal tag endpoint
+		if (preg_match('/^systemtags-current\/[0-9]+/', $propFind->getPath())) {
+			$propFind->setPath(str_replace('systemtags-current/', 'systemtags/', $propFind->getPath()));
+		}
+
 		$propFind->handle(self::ID_PROPERTYNAME, function () use ($node) {
 			return $node->getSystemTag()->getId();
 		});
@@ -276,6 +283,16 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 			return implode('|', $groups);
 		});
+
+		if ($node instanceof SystemTagNode) {
+			$propFind->handle(self::NUM_FILES_PROPERTYNAME, function () use ($node): int {
+				return $node->getNumberOfFiles();
+			});
+
+			$propFind->handle(self::FILEID_PROPERTYNAME, function () use ($node): int {
+				return $node->getReferenceFileId();
+			});
+		}
 	}
 
 	private function propfindForFile(PropFind $propFind, Node $node): void {
@@ -370,6 +387,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::USERVISIBLE_PROPERTYNAME,
 			self::USERASSIGNABLE_PROPERTYNAME,
 			self::GROUPS_PROPERTYNAME,
+			self::NUM_FILES_PROPERTYNAME,
+			self::FILEID_PROPERTYNAME,
 		], function ($props) use ($node) {
 			$tag = $node->getSystemTag();
 			$name = $tag->getName();
@@ -404,6 +423,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$propValue = $props[self::GROUPS_PROPERTYNAME];
 				$groupIds = explode('|', $propValue);
 				$this->tagManager->setTagGroups($tag, $groupIds);
+			}
+
+			if (isset($props[self::NUM_FILES_PROPERTYNAME]) || isset($props[self::FILEID_PROPERTYNAME])) {
+				// read-only properties
+				throw new Forbidden();
 			}
 
 			if ($updateTag) {

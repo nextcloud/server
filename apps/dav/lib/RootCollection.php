@@ -48,6 +48,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\SimpleCollection;
@@ -65,6 +66,7 @@ class RootCollection extends SimpleCollection {
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$config = \OC::$server->get(IConfig::class);
 		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+		$rootFolder = \OCP\Server::get(IRootFolder::class);
 
 		$userPrincipalBackend = new Principal(
 			$userManager,
@@ -131,6 +133,10 @@ class RootCollection extends SimpleCollection {
 			$groupManager,
 			\OC::$server->getEventDispatcher()
 		);
+		$systemTagInUseCollection = new SystemTag\SystemTagsInUseCollection(
+			$userSession,
+			$rootFolder
+		);
 		$commentsCollection = new Comments\RootCollection(
 			\OC::$server->getCommentsManager(),
 			$userManager,
@@ -179,6 +185,7 @@ class RootCollection extends SimpleCollection {
 				$systemAddressBookRoot]),
 			$systemTagCollection,
 			$systemTagRelationsCollection,
+			$systemTagInUseCollection,
 			$commentsCollection,
 			$uploadCollection,
 			$avatarCollection,
