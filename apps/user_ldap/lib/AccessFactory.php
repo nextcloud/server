@@ -50,6 +50,7 @@ class AccessFactory {
 	}
 
 	public function get(Connection $connection): Access {
+		/* Each Access instance gets its own Manager instance, see OCA\User_LDAP\AppInfo\Application::register() */
 		return new Access(
 			$connection,
 			$this->ldap,
