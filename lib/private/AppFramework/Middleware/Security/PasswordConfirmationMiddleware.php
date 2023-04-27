@@ -31,6 +31,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\User\Backend\IPasswordConfirmationBackend;
+use Psr\Log\LoggerInterface;
 
 class PasswordConfirmationMiddleware extends Middleware {
 	/** @var ControllerMethodReflector */
@@ -41,25 +42,21 @@ class PasswordConfirmationMiddleware extends Middleware {
 	private $userSession;
 	/** @var ITimeFactory */
 	private $timeFactory;
+	/** @var LoggerInterface */
+	private $logger;
 	/** @var array */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
-	/**
-	 * PasswordConfirmationMiddleware constructor.
-	 *
-	 * @param ControllerMethodReflector $reflector
-	 * @param ISession $session
-	 * @param IUserSession $userSession
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(ControllerMethodReflector $reflector,
 								ISession $session,
 								IUserSession $userSession,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								LoggerInterface $logger) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->timeFactory = $timeFactory;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -85,6 +82,11 @@ class PasswordConfirmationMiddleware extends Middleware {
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
 			// we can't check the password against a SAML backend, so skip password confirmation in this case
 			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
+				$this->logger->warning("User {uid} on backend {backendclass} requires password confirmation for {method}", [
+					"uid" => $user->getUID(),
+					"backendclass" => $backendClassName,
+					"method" => $controller::class . '::' . $methodName,
+				]);
 				throw new NotConfirmedException();
 			}
 		}
