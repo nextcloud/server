@@ -258,8 +258,20 @@ class Generator {
 	public static function getHardwareConcurrency(): int {
 		static $width;
 		if (!isset($width)) {
-			if (is_file("/proc/cpuinfo")) {
-				$width = substr_count(file_get_contents("/proc/cpuinfo"), "processor");
+			if (function_exists('ini_get')) {
+				$openBasedir = ini_get('open_basedir');
+				if ($openBasedir == '') {
+					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
+				} else {
+					$openBasedirPaths = explode(':', $openBasedir);
+					foreach ($openBasedirPaths as $path) {
+						if (strpos($path, '/proc') === 0 || $path === '/proc/cpuinfo') {
+							$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
+						} else {
+							$width = 0;
+						}
+					}
+				}
 			} else {
 				$width = 0;
 			}
