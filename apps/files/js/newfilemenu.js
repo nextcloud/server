@@ -51,6 +51,7 @@
 				templateName: t('files', 'New folder'),
 				iconClass: 'icon-folder',
 				fileType: 'folder',
+				actionLabel: t('files', 'Create new folder'),
 				actionHandler: function(name) {
 					self.fileList.createDirectory(name);
 				}
@@ -112,10 +113,12 @@
 
 			var newName = $target.attr('data-templatename');
 			var fileType = $target.attr('data-filetype');
+			var actionLabel = $target.attr('data-action-label');
 			var $form = $(OCA.Files.Templates['newfilemenu_filename_form']({
 				fileName: newName,
 				cid: this.cid,
-				fileType: fileType
+				fileType: fileType,
+				actionLabel,
 			}));
 
 			//this.trigger('actionPerformed', action);
@@ -207,6 +210,7 @@
 				iconClass: actionSpec.iconClass,
 				fileType: actionSpec.fileType,
 				useInput: actionSpec.useInput,
+				actionLabel: actionSpec.actionLabel,
 				actionHandler: actionSpec.actionHandler,
 				checkFilename: actionSpec.checkFilename,
 				shouldShow: actionSpec.shouldShow,
