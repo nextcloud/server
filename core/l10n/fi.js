@@ -268,7 +268,6 @@ OC.L10N.register(
     "The profile does not exist." : "Profiilia ei ole olemassa",
     "Back to %s" : "Takaisin kohtaan %s",
     "Page not found" : "Sivua ei löytynyt",
-    "The page could not be found on the server." : "Sivua ei löytynyt palvelimelta.",
     "Too many requests" : "Liian monta pyyntöä",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Verkostasi tehtiin liian monta pyyntöä. Yritä myöhemmin uudelleen tai ole yhteydessä ylläpitäjään, jos tämä on mielestäsi virhe.",
     "Error" : "Virhe",
@@ -385,6 +384,7 @@ OC.L10N.register(
     "Contacts menu" : "Yhteystietovalikko",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
     "Press enter to start searching" : "Paina enter aloittaaksesi haun",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa.",
+    "The page could not be found on the server." : "Sivua ei löytynyt palvelimelta."
 },
 "nplurals=2; plural=(n != 1);");

@@ -304,7 +304,6 @@
     "The profile does not exist." : "Profil nie istnieje.",
     "Back to %s" : "Powrót do %s",
     "Page not found" : "Nie znaleziono strony",
-    "The page could not be found on the server." : "Nie znaleziono strony na serwerze.",
     "Too many requests" : "Zbyt wiele żądań",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zbyt wiele żądań z Twojej sieci. Spróbuj ponownie później lub skontaktuj się z administratorem, jeśli jest to błąd.",
     "Error" : "Błąd",
@@ -428,6 +427,7 @@
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
     "Press enter to start searching" : "Naciśnij Enter, aby rozpocząć wyszukiwanie",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php.",
+    "The page could not be found on the server." : "Nie znaleziono strony na serwerze."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
