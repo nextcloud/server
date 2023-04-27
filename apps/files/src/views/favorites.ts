@@ -21,7 +21,7 @@
  */
 import type NavigationService from '../services/Navigation.ts'
 import type { Navigation } from '../services/Navigation.ts'
-import { translate as t } from '@nextcloud/l10n'
+import { getLanguage, translate as t } from '@nextcloud/l10n'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 
@@ -33,7 +33,32 @@ import { subscribe } from '@nextcloud/event-bus'
 import { Node, FileType } from '@nextcloud/files'
 import logger from '../logger'
 
-const favoriteFolders = loadState('files', 'favoriteFolders', [])
+const generateFolderView = function(folder: string, index = 0): Navigation {
+	return {
+		id: generateIdFromPath(folder),
+		name: basename(folder),
+
+		icon: FolderSvg,
+		order: index,
+		params: {
+			dir: folder,
+			view: 'favorites',
+		},
+
+		parent: 'favorites',
+
+		columns: [],
+
+		getContents,
+	} as Navigation
+}
+
+const generateIdFromPath = function(path: string): string {
+	return `favorite-${hashCode(path)}`
+}
+
+const favoriteFolders = loadState('files', 'favoriteFolders', []) as string[]
+const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index))
 
 export default () => {
 	const Navigation = window.OCP.Files.Navigation as NavigationService
@@ -50,9 +75,7 @@ export default () => {
 		getContents,
 	} as Navigation)
 
-	favoriteFolders.forEach((folder) => {
-		Navigation.register(generateFolderView(folder))
-	})
+	favoriteFoldersViews.forEach(view => Navigation.register(view))
 
 	/**
 	 * Update favourites navigation when a new folder is added
@@ -68,7 +91,7 @@ export default () => {
 			return
 		}
 
-		Navigation.register(generateFolderView(node.path))
+		addPathToFavorites(node.path)
 	})
 
 	/**
@@ -85,30 +108,42 @@ export default () => {
 			return
 		}
 
-		Navigation.remove(generateIdFromPath(node.path))
+		removePathFromFavorites(node.path)
 	})
-}
 
-const generateFolderView = function(folder: string): Navigation {
-	return {
-		id: generateIdFromPath(folder),
-		name: basename(folder),
+	/**
+	 * Sort the favorites paths array and
+	 * update the order property of the existing views
+	 */
+	const updateAndSortViews = function() {
+		favoriteFolders.sort((a, b) => a.localeCompare(b, getLanguage(), { ignorePunctuation: true }))
+		favoriteFolders.forEach((folder, index) => {
+			const view = favoriteFoldersViews.find(view => view.id === generateIdFromPath(folder))
+			if (view) {
+				view.order = index
+			}
+		})
+	}
 
-		icon: FolderSvg,
-		order: -100, // always first
-		params: {
-			dir: folder,
-			view: 'favorites',
-		},
+	// Add a folder to the favorites paths array and update the views
+	const addPathToFavorites = function(path: string) {
+		const view = generateFolderView(path)
+		// Update arrays
+		favoriteFolders.push(path)
+		favoriteFoldersViews.push(view)
+		// Update and sort views
+		updateAndSortViews()
+		Navigation.register(view)
+	}
 
-		parent: 'favorites',
-
-		columns: [],
-
-		getContents,
-	} as Navigation
-}
-
-const generateIdFromPath = function(path: string): string {
-	return `favorite-${hashCode(path)}`
+	// Remove a folder from the favorites paths array and update the views
+	const removePathFromFavorites = function(path: string) {
+		const id = generateIdFromPath(path)
+		const index = favoriteFolders.findIndex(f => f === path)
+		// Update arrays
+		favoriteFolders.splice(index, 1)
+		favoriteFoldersViews.splice(index, 1)
+		Navigation.remove(id)
+		updateAndSortViews()
+	}
 }

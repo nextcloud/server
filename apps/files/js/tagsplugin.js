@@ -194,13 +194,25 @@
 					tags = tags.split('|');
 					tags = _.without(tags, '');
 					var isFavorite = tags.indexOf(OC.TAG_FAVORITE) >= 0;
+
+					// Fake Node object for vue compatibility
+					const node = {
+						type: 'folder',
+						path: (dir + '/' + fileName).replace(/\/\/+/g, '/'),
+						root: '/files/' + OC.getCurrentUser().uid
+					}
+
 					if (isFavorite) {
 						// remove tag from list
 						tags = _.without(tags, OC.TAG_FAVORITE);
 						removeFavoriteFromList(dir + '/' + fileName);
+						// vue compatibility
+						window._nc_event_bus.emit('files:favorites:removed', node)
 					} else {
 						tags.push(OC.TAG_FAVORITE);
 						addFavoriteToList(dir + '/' + fileName);
+						// vue compatibility
+						window._nc_event_bus.emit('files:favorites:added', node)
 					}
 
 					// pre-toggle the star
