@@ -31,6 +31,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 const userConfig = loadState('files', 'config', {
 	show_hidden: false,
 	crop_image_previews: true,
+	sort_favorites_first: true,
 }) as UserConfig
 
 export const useUserConfigStore = function() {

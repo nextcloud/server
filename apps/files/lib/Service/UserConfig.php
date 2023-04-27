@@ -41,6 +41,12 @@ class UserConfig {
 			'default' => false,
 			'allowed' => [true, false],
 		],
+		[
+			// Whether to sort favorites first in the list or not
+			'key' => 'sort_favorites_first',
+			'default' => true,
+			'allowed' => [true, false],
+		],
 	];
 
 	protected IConfig $config;
@@ -131,9 +137,10 @@ class UserConfig {
 
 		$userId = $this->user->getUID();
 		$userConfigs = array_map(function(string $key) use ($userId) {
+			/** @var string|bool $value */
 			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, $this->getDefaultConfigValue($key));
 			// If the default is expected to be a boolean, we need to cast the value
-			if (is_bool($this->getDefaultConfigValue($key))) {
+			if (is_bool($this->getDefaultConfigValue($key)) && is_string($value)) {
 				return $value === '1';
 			}
 			return $value;
