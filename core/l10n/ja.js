@@ -301,7 +301,6 @@ OC.L10N.register(
     "The profile does not exist." : "プロフィールはありません",
     "Back to %s" : "%s に戻る",
     "Page not found" : "ページが見つかりません",
-    "The page could not be found on the server." : "ページがサーバー上に見つかりませんでした。",
     "Too many requests" : "要求が多すぎます",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "ネットワークからのリクエストが多すぎました。このようなエラーが発生した場合は、後で再試行するか、管理者に連絡してください。",
     "Error" : "エラー",
@@ -424,6 +423,7 @@ OC.L10N.register(
     "Contacts menu" : "連絡先メニュー",
     "Setup two-factor authentication" : "二要素認証を設定",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
-    "Press enter to start searching" : "Enterキーを押して検索を開始します"
+    "Press enter to start searching" : "Enterキーを押して検索を開始します",
+    "The page could not be found on the server." : "ページがサーバー上に見つかりませんでした。"
 },
 "nplurals=1; plural=0;");

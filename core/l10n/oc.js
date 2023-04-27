@@ -244,7 +244,6 @@ OC.L10N.register(
     "The profile does not exist." : "Lo perfil existís pas.",
     "Back to %s" : "Tornar a %s",
     "Page not found" : "Pagina pas trobada",
-    "The page could not be found on the server." : "Se podiá pas trobar la pagina sul servidor.",
     "Too many requests" : "Tròp de requèstas",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "I a agut tròp de requèstas a partir de vòstre ret. Tornatz ensajar mai tard o contactatz vòstre administrator s’aquò es una error.",
     "Error" : "Error",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú contactes",
     "Setup two-factor authentication" : "Parametratge autentificacion dos factors",
-    "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca"
+    "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca",
+    "The page could not be found on the server." : "Se podiá pas trobar la pagina sul servidor."
 },
 "nplurals=2; plural=(n > 1);");

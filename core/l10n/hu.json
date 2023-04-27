@@ -304,7 +304,6 @@
     "The profile does not exist." : "A profil nem létezik.",
     "Back to %s" : "Vissza ide %s",
     "Page not found" : "Az oldal nem található",
-    "The page could not be found on the server." : "Az oldal nem található a kiszolgálón.",
     "Too many requests" : "Túl sok kérés",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Túl sok kérés érkezett a hálózatától. Próbálja újra később, vagy ha ez egy hiba, akkor forduljon a rendszergazdához.",
     "Error" : "Hiba",
@@ -428,6 +427,7 @@
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy 32 bites PHP verziót használ. A Nextcloud megfelelő futtatásához 64 bites szükséges. Frissítse 64 bitesre az operációs rendszerét és a PHP-ját. További részletekért olvassa el az {linkstart}erről szóló dokumentációs oldalt ↗{linkend}.",
     "Press enter to start searching" : "A keresés indításához nyomjon Entert",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Használja a parancssoros frissítőt, mert a böngészőbeli frissítés ki van kapcsolva a config.php fájlban."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Használja a parancssoros frissítőt, mert a böngészőbeli frissítés ki van kapcsolva a config.php fájlban.",
+    "The page could not be found on the server." : "Az oldal nem található a kiszolgálón."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
