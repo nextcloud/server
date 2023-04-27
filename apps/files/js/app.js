@@ -109,12 +109,14 @@
 							iconClass: 'icon-delete',
 							order: 99,
 						},
-						{
-							name: 'tags',
-							displayName:  t('files', 'Tags'),
-							iconClass: 'icon-tag',
-							order: 100,
-						},
+						...(
+							OCA?.SystemTags === undefined ? [] : ([{
+								name: 'tags',
+								displayName:  t('files', 'Tags'),
+								iconClass: 'icon-tag',
+								order: 100,
+							}])
+						),
 					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),
