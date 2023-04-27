@@ -265,7 +265,6 @@ OC.L10N.register(
     "The profile does not exist." : "Το προφίλ δεν υπάρχει.",
     "Back to %s" : "Πίσω στο %s",
     "Page not found" : "Δεν βρέθηκε η σελίδα",
-    "The page could not be found on the server." : "Δεν ήταν δυνατή η εύρεση της σελίδας στον διακομιστή.",
     "Too many requests" : "Πάρα πολλά αιτήματα",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Υπήρχαν πάρα πολλά αιτήματα από το δίκτυό σας. Δοκιμάστε ξανά αργότερα ή επικοινωνήστε με τον διαχειριστή σας εάν πρόκειται για σφάλμα.",
     "Error" : "Σφάλμα",
@@ -384,6 +383,7 @@ OC.L10N.register(
     "Contacts" : "Επαφές",
     "Contacts menu" : "Μενού επαφών",
     "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων",
-    "Press enter to start searching" : "Πατήστε enter για να ξεκινήσει η αναζήτηση"
+    "Press enter to start searching" : "Πατήστε enter για να ξεκινήσει η αναζήτηση",
+    "The page could not be found on the server." : "Δεν ήταν δυνατή η εύρεση της σελίδας στον διακομιστή."
 },
 "nplurals=2; plural=(n != 1);");

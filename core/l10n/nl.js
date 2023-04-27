@@ -298,7 +298,6 @@ OC.L10N.register(
     "The profile does not exist." : "Het profiel bestaat niet.",
     "Back to %s" : "Terug naar %s",
     "Page not found" : "Pagina niet gevonden",
-    "The page could not be found on the server." : "Deze pagina kon niet gevonden worden op de server",
     "Too many requests" : "Te veel aanvragen",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Er waren te veel aanvragen afkomstig uit uw netwerk. Probeer later opnieuw of contacteer de beheerder als dat niet correct is.",
     "Error" : "Fout",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "Contacts menu" : "Contacten menu",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}",
-    "Press enter to start searching" : "Druk op Enter om te beginnen zoeken"
+    "Press enter to start searching" : "Druk op Enter om te beginnen zoeken",
+    "The page could not be found on the server." : "Deze pagina kon niet gevonden worden op de server"
 },
 "nplurals=2; plural=(n != 1);");

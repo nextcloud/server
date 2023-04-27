@@ -307,7 +307,6 @@
     "The profile does not exist." : "O perfil non existe.",
     "Back to %s" : "Volver a %s",
     "Page not found" : "Non se atopou a páxina",
-    "The page could not be found on the server." : "Non se puido atopar a páxina no servidor.",
     "Too many requests" : "Demasiadas solicitudes",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Houbo demasiadas solicitudes da súa rede. Volva tentalo máis adiante ou póñase en contacto co seu administrador se se trata dun erro.",
     "Error" : "Erro",
@@ -431,6 +430,7 @@
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está a executar unha versión de PHP de 32 bits. Nextcloud necesita 64 bits para funcionar ben. Actualiza o teu sistema operativo e PHP a 64 bits. Para obter máis detalles, le {linkstart}a páxina de documentación sobre isto ↗{linkend}.",
     "Press enter to start searching" : "Preme Intro para comezar a buscar",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Use o actualizador da liña de comandos porque a actualización a través do navegador está desactivada no seu config.php."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Use o actualizador da liña de comandos porque a actualización a través do navegador está desactivada no seu config.php.",
+    "The page could not be found on the server." : "Non se puido atopar a páxina no servidor."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

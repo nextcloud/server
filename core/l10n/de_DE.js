@@ -309,7 +309,6 @@ OC.L10N.register(
     "The profile does not exist." : "Das Profil existiert nicht.",
     "Back to %s" : "Zurück zu %s",
     "Page not found" : "Seite nicht gefunden",
-    "The page could not be found on the server." : "Die Seite konnte auf dem Server nicht gefunden werden.",
     "Too many requests" : "Zu viele Anfragen",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zu viele Anfragen aus Ihrem Netzwerk. Versuchen Sie es später erneut oder wenden Sie sich an Ihren Administrator, wenn dies ein Fehler sein sollte.",
     "Error" : "Fehler",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sie scheinen eine 32-Bit PHP-Version auszuführen. Nextcloud benötigt 64-Bit, um gut zu laufen. Bitte aktualisieren Sie Ihr Betriebssystem und PHP auf 64-Bit! Für weitere Details lesen Sie die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
     "Press enter to start searching" : "Eingabetaste zum Starten der Suche drücken",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert.",
+    "The page could not be found on the server." : "Die Seite konnte auf dem Server nicht gefunden werden."
 },
 "nplurals=2; plural=(n != 1);");

@@ -302,7 +302,6 @@ OC.L10N.register(
     "The profile does not exist." : "Профіль не існує.",
     "Back to %s" : "Назад до %s",
     "Page not found" : "Сторінку не знайдено",
-    "The page could not be found on the server." : "Сторінку не знайдено на сервері.",
     "Too many requests" : "Забагато запитів",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Забагато запитів із вашої мережі. Повторіть спробу пізніше або зверніться до адміністратора, якщо це помилка.",
     "Error" : "Помилка",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}.",
     "Press enter to start searching" : "Натисніть Enter, щоб почати пошук",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Будь ласка, скористайтеся оновленням через командний рядок, оскільки оновлення через бравзер вимкнено у файлі налаштувань config.php."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Будь ласка, скористайтеся оновленням через командний рядок, оскільки оновлення через бравзер вимкнено у файлі налаштувань config.php.",
+    "The page could not be found on the server." : "Сторінку не знайдено на сервері."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
