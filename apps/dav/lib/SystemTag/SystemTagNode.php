@@ -64,6 +64,9 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 */
 	protected $isAdmin;
 
+	protected int $numberOfFiles = -1;
+	protected int $referenceFileId = -1;
+
 	/**
 	 * Sets up the node, expects a full path name
 	 *
@@ -171,5 +174,21 @@ class SystemTagNode implements \Sabre\DAV\INode {
 			// can happen if concurrent deletion occurred
 			throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found', 0, $e);
 		}
+	}
+
+	public function getNumberOfFiles(): int {
+		return $this->numberOfFiles;
+	}
+
+	public function setNumberOfFiles(int $numberOfFiles): void {
+		$this->numberOfFiles = $numberOfFiles;
+	}
+
+	public function getReferenceFileId(): int {
+		return $this->referenceFileId;
+	}
+
+	public function setReferenceFileId(int $referenceFileId): void {
+		$this->referenceFileId = $referenceFileId;
 	}
 }
