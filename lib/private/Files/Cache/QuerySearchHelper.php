@@ -75,6 +75,41 @@ class QuerySearchHelper {
 		);
 	}
 
+	protected function applySearchConstraints(CacheQueryBuilder $query, ISearchQuery $searchQuery, array $caches): void {
+		$storageFilters = array_values(array_map(function (ICache $cache) {
+			return $cache->getQueryFilterForStorage();
+		}, $caches));
+		$storageFilter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters);
+		$filter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [$searchQuery->getSearchOperation(), $storageFilter]);
+		$this->queryOptimizer->processOperator($filter);
+
+		$searchExpr = $this->searchBuilder->searchOperatorToDBExpr($query, $filter);
+		if ($searchExpr) {
+			$query->andWhere($searchExpr);
+		}
+
+		$this->searchBuilder->addSearchOrdersToQuery($query, $searchQuery->getOrder());
+
+		if ($searchQuery->getLimit()) {
+			$query->setMaxResults($searchQuery->getLimit());
+		}
+		if ($searchQuery->getOffset()) {
+			$query->setFirstResult($searchQuery->getOffset());
+		}
+	}
+
+	public function findUsedTagsInCaches(ISearchQuery $searchQuery, array $caches): array {
+		$query = $this->getQueryBuilder();
+		$query->selectTagUsage();
+
+		$this->applySearchConstraints($query, $searchQuery, $caches);
+
+		$result = $query->execute();
+		$tags = $result->fetchAll();
+		$result->closeCursor();
+		return $tags;
+	}
+
 	/**
 	 * Perform a file system search in multiple caches
 	 *
@@ -128,26 +163,7 @@ class QuerySearchHelper {
 				));
 		}
 
-		$storageFilters = array_values(array_map(function (ICache $cache) {
-			return $cache->getQueryFilterForStorage();
-		}, $caches));
-		$storageFilter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters);
-		$filter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [$searchQuery->getSearchOperation(), $storageFilter]);
-		$this->queryOptimizer->processOperator($filter);
-
-		$searchExpr = $this->searchBuilder->searchOperatorToDBExpr($builder, $filter);
-		if ($searchExpr) {
-			$query->andWhere($searchExpr);
-		}
-
-		$this->searchBuilder->addSearchOrdersToQuery($query, $searchQuery->getOrder());
-
-		if ($searchQuery->getLimit()) {
-			$query->setMaxResults($searchQuery->getLimit());
-		}
-		if ($searchQuery->getOffset()) {
-			$query->setFirstResult($searchQuery->getOffset());
-		}
+		$this->applySearchConstraints($query, $searchQuery, $caches);
 
 		$result = $query->execute();
 		$files = $result->fetchAll();
@@ -159,7 +175,7 @@ class QuerySearchHelper {
 		$result->closeCursor();
 
 		// loop through all caches for each result to see if the result matches that storage
-		// results are grouped by the same array keys as the caches argument to allow the caller to distringuish the source of the results
+		// results are grouped by the same array keys as the caches argument to allow the caller to distinguish the source of the results
 		$results = array_fill_keys(array_keys($caches), []);
 		foreach ($rawEntries as $rawEntry) {
 			foreach ($caches as $cacheKey => $cache) {
