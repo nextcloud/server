@@ -325,14 +325,10 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 * {@inheritdoc}
 	 */
 	public function groupsExists(array $gids): array {
-		$existingGroups = [];
-		foreach ($gids as $gid) {
-			$exists = $this->handleRequest($gid, 'groupExists', [$gid]);
-			if ($exists) {
-				$existingGroups[$gid] = $gid;
-			}
-		}
-		return $existingGroups;
+		return array_values(array_filter(
+			$gids,
+			fn (string $gid): bool => $this->handleRequest($gid, 'groupExists', [$gid]),
+		));
 	}
 
 	/**

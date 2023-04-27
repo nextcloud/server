@@ -71,14 +71,10 @@ abstract class ABackend implements GroupInterface {
 	 * @since 26.0.0
 	 */
 	public function groupsExists(array $gids): array {
-		$existingGroups = [];
-		foreach ($gids as $gid) {
-			$exists = $this->groupExists($gid);
-			if ($exists) {
-				$existingGroups[$gid] = $gid;
-			}
-		}
-		return $existingGroups;
+		return array_values(array_filter(
+			$gids,
+			fn (string $gid): bool => $this->groupExists($gid),
+		));
 	}
 
 	/**
