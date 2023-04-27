@@ -203,7 +203,7 @@ class Scan extends Base {
 			return 1;
 		}
 
-		$this->initTools();
+		$this->initTools($output);
 
 		$user_count = 0;
 		foreach ($users as $user) {
@@ -235,15 +235,19 @@ class Scan extends Base {
 	/**
 	 * Initialises some useful tools for the Command
 	 */
-	protected function initTools() {
+	protected function initTools(OutputInterface $output) {
 		// Start the timer
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
-		set_error_handler([$this, 'exceptionErrorHandler'], E_ALL);
+		set_error_handler(
+			fn (int $severity, string $message, string $file, int $line): bool =>
+				$this->exceptionErrorHandler($output, $severity, $message, $file, $line),
+			E_ALL
+		);
 	}
 
 	/**
-	 * Processes PHP errors as exceptions in order to be able to keep track of problems
+	 * Processes PHP errors in order to be able to show them in the output
 	 *
 	 * @see https://www.php.net/manual/en/function.set-error-handler.php
 	 *
@@ -251,15 +255,15 @@ class Scan extends Base {
 	 * @param string $message
 	 * @param string $file the filename that the error was raised in
 	 * @param int $line the line number the error was raised
-	 *
-	 * @throws \ErrorException
 	 */
-	public function exceptionErrorHandler($severity, $message, $file, $line) {
-		if (!(error_reporting() & $severity)) {
-			// This error code is not included in error_reporting
-			return;
+	public function exceptionErrorHandler(OutputInterface $output, int $severity, string $message, string $file, int $line): bool {
+		if (($severity === E_DEPRECATED) || ($severity === E_USER_DEPRECATED)) {
+			// Do not show deprecation warnings
+			return false;
 		}
-		throw new \ErrorException($message, 0, $severity, $file, $line);
+		$e = new \ErrorException($message, 0, $severity, $file, $line);
+		$output->writeln("\t<error>$e</error>");
+		return true;
 	}
 
 	/**
