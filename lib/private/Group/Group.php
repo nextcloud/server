@@ -316,7 +316,7 @@ class Group implements IGroup {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return IUser[]
-	 * @deprecated 26.0.0 Use searchUsers instead (same implementation)
+	 * @deprecated 27.0.0 Use searchUsers instead (same implementation)
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		return $this->searchUsers($search, $limit, $offset);

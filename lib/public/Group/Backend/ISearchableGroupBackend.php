@@ -26,7 +26,7 @@ namespace OCP\Group\Backend;
 use OCP\IUser;
 
 /**
- * @since 26.0.0
+ * @since 27.0.0
  */
 interface ISearchableGroupBackend {
 	/**
@@ -45,7 +45,7 @@ interface ISearchableGroupBackend {
 	 * @param int $limit     The limit of results
 	 * @param int $offset    The offset of the results
 	 * @return array<string,IUser> Users indexed by uid
-	 * @since 26.0.0
+	 * @since 27.0.0
 	 */
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
 }

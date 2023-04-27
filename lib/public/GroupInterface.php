@@ -114,7 +114,7 @@ interface GroupInterface {
 	 * @param int $offset
 	 * @return array<int,string> an array of user ids
 	 * @since 4.5.0
-	 * @deprecated 26.0.0 Use searchInGroup instead, for performance reasons
+	 * @deprecated 27.0.0 Use searchInGroup instead, for performance reasons
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 }

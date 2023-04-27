@@ -299,7 +299,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return IUser[]
-	 * @deprecated since 26.0.0, use searchDisplayName instead
+	 * @deprecated since 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
