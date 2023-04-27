@@ -554,7 +554,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @return string|false
 	 */
 	public static function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);

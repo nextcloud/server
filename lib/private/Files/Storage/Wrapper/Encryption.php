@@ -217,7 +217,7 @@ class Encryption extends Wrapper {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		$encryptionModule = $this->getEncryptionModule($path);

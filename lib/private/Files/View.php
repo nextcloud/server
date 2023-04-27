@@ -564,7 +564,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @return mixed
+	 * @return string|false
 	 * @throws LockedException
 	 */
 	public function file_get_contents($path) {
