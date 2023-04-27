@@ -307,7 +307,6 @@
     "The profile does not exist." : "個人檔案不存在。",
     "Back to %s" : "回到 %s",
     "Page not found" : "找不到頁面",
-    "The page could not be found on the server." : "無法在伺服器上找到此頁面。",
     "Too many requests" : "太多要求",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "有太多請求來自你的網路，請稍後再試，若你認為這不該發生，請回報系統管理員這項錯誤。",
     "Error" : "錯誤",
@@ -431,6 +430,7 @@
     "Setup two-factor authentication" : "設定雙因素驗證",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。",
     "Press enter to start searching" : "按 Enter 以開始搜尋",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "因為透過瀏覽器更新的功能已在您的 config.php 中停用，因此請使用命令列更新程式。"
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "因為透過瀏覽器更新的功能已在您的 config.php 中停用，因此請使用命令列更新程式。",
+    "The page could not be found on the server." : "無法在伺服器上找到此頁面。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

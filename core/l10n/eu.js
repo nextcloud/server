@@ -309,7 +309,6 @@ OC.L10N.register(
     "The profile does not exist." : "Profila ez da existitzen",
     "Back to %s" : "Itzuli %s(e)ra",
     "Page not found" : "Orria ez da aurkitu",
-    "The page could not be found on the server." : "Orria ez da aurkitu zerbitzarian.",
     "Too many requests" : "Eskaera gehiegi",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Eskaera gehiegi zeuden zure saretik. Saiatu beranduago edo kontaktatu zure administrailearekin hau errorea bada.",
     "Error" : "Errorea",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Badirudi 32-bit-eko PHP bertsioa exekutatzen ari zarela. Nextcloudek 64-bit behar ditu ondo funtzionatzeko. Eguneratu zure SE eta PHP 64-bit-etara! Xehetasun gehiagorako irakurri {linkstart}honi buruzko dokumentazioa ↗{linkend}.",
     "Press enter to start searching" : "Sakatu enter bilaketa hasteko",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Mesedez, erabili komando-lerroko eguneratzailea, arakatzailearen bidez eguneratzea desgaituta dagoelako zure config.php-n."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Mesedez, erabili komando-lerroko eguneratzailea, arakatzailearen bidez eguneratzea desgaituta dagoelako zure config.php-n.",
+    "The page could not be found on the server." : "Orria ez da aurkitu zerbitzarian."
 },
 "nplurals=2; plural=(n != 1);");

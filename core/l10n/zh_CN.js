@@ -291,7 +291,6 @@ OC.L10N.register(
     "The profile does not exist." : "个人资料不存在",
     "Back to %s" : "返回 %s",
     "Page not found" : "未找到页面",
-    "The page could not be found on the server." : "无法在服务器上找到此页面",
     "Too many requests" : "请求过多",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "您的网络请求过多。如果出现错误，请稍后重试或与您的管理员联系。",
     "Error" : "错误",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Contacts menu" : "联系人菜单",
     "Setup two-factor authentication" : "配置两步验证",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。",
-    "Press enter to start searching" : "按 Enter 开始搜索"
+    "Press enter to start searching" : "按 Enter 开始搜索",
+    "The page could not be found on the server." : "无法在服务器上找到此页面"
 },
 "nplurals=1; plural=0;");

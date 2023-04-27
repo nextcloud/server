@@ -309,7 +309,6 @@ OC.L10N.register(
     "The profile does not exist." : "The profile does not exist.",
     "Back to %s" : "Back to %s",
     "Page not found" : "Page not found",
-    "The page could not be found on the server." : "The page could not be found on the server.",
     "Too many requests" : "Too many requests",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "There were too many requests from your network. Retry later or contact your administrator if this is an error.",
     "Error" : "Error",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "Setup two-factor authentication",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}.",
     "Press enter to start searching" : "Press enter to start searching",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Please use the command line updater because updating via browser is disabled in your config.php.",
+    "The page could not be found on the server." : "The page could not be found on the server."
 },
 "nplurals=2; plural=(n != 1);");

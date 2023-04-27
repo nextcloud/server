@@ -309,7 +309,6 @@ OC.L10N.register(
     "The profile does not exist." : "個人資料不存在",
     "Back to %s" : "回到 %s",
     "Page not found" : "沒有找到頁面",
-    "The page could not be found on the server." : "無法在伺服器上找到此頁面。",
     "Too many requests" : "太多要求",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "有太多請求來自你的網路，請稍後再試，若你認為這不該發生，請回報系統管理員這項錯誤。",
     "Error" : "錯誤",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "設定雙重認證",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
     "Press enter to start searching" : "按 Enter 開始搜尋",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。"
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。",
+    "The page could not be found on the server." : "無法在伺服器上找到此頁面。"
 },
 "nplurals=1; plural=0;");
