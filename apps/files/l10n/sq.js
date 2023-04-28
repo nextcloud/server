@@ -60,6 +60,7 @@ OC.L10N.register(
     "Favorite" : "E parapëlqyer",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopjo lidhjen e drejtpërdrejtë (funksionon vetëm për përdoruesit që kanë qasje në këtë skedar/dosje)",
     "New folder" : "Dosje e re",
+    "Create new folder" : "Krijo një dosje të re",
     "Upload file" : "Ngarko skedar",
     "Recent" : "Të fundit",
     "Remove from favorites" : "Remove from favorites",

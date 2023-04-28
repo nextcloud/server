@@ -101,6 +101,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "직접 링크 복사(이 파일/폴더에 접근 권한이 있는 사람만)",
     "You can only favorite a single file or folder at a time" : "한번에 한 파일 혹은 한 폴더만 즐겨찾기로 지정할 수 있습니다",
     "New folder" : "새 폴더",
+    "Create new folder" : "새 폴더 생성",
     "Upload file" : "파일 업로드",
     "Recent" : "최근",
     "Not favorited" : "즐겨찾기에 없음",
