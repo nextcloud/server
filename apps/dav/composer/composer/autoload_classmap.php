@@ -304,6 +304,7 @@ return array(
     'OCA\\DAV\\Settings\\AvailabilitySettings' => $baseDir . '/../lib/Settings/AvailabilitySettings.php',
     'OCA\\DAV\\Settings\\CalDAVSettings' => $baseDir . '/../lib/Settings/CalDAVSettings.php',
     'OCA\\DAV\\Storage\\PublicOwnerWrapper' => $baseDir . '/../lib/Storage/PublicOwnerWrapper.php',
+    'OCA\\DAV\\SystemTag\\SystemTagList' => $baseDir . '/../lib/SystemTag/SystemTagList.php',
     'OCA\\DAV\\SystemTag\\SystemTagMappingNode' => $baseDir . '/../lib/SystemTag/SystemTagMappingNode.php',
     'OCA\\DAV\\SystemTag\\SystemTagNode' => $baseDir . '/../lib/SystemTag/SystemTagNode.php',
     'OCA\\DAV\\SystemTag\\SystemTagPlugin' => $baseDir . '/../lib/SystemTag/SystemTagPlugin.php',

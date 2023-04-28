@@ -98,7 +98,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	/**
 	 * @param string $name
 	 * @param resource|string $data Initial payload
-	 * @return null|string
+	 *
+	 * @return never
+	 *
 	 * @throws Forbidden
 	 */
 	public function createFile($name, $data = null) {
@@ -107,7 +109,10 @@ class SystemTagsObjectTypeCollection implements ICollection {
 
 	/**
 	 * @param string $name
+	 *
 	 * @throws Forbidden
+	 *
+	 * @return never
 	 */
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
@@ -133,6 +138,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		);
 	}
 
+	/**
+	 * @return never
+	 */
 	public function getChildren() {
 		// do not list object ids
 		throw new MethodNotAllowed();
@@ -148,6 +156,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		return call_user_func($this->childExistsFunction, $name);
 	}
 
+	/**
+	 * @return never
+	 */
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
@@ -158,7 +169,10 @@ class SystemTagsObjectTypeCollection implements ICollection {
 
 	/**
 	 * @param string $name
+	 *
 	 * @throws Forbidden
+	 *
+	 * @return never
 	 */
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
@@ -167,7 +181,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
-	 * @return int
+	 * @return null
 	 */
 	public function getLastModified() {
 		return null;

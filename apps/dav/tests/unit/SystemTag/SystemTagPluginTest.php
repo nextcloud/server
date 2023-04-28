@@ -36,6 +36,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
@@ -84,6 +85,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
+	/**
+	 * @var ISystemTagObjectMapper
+	 */
+	private $tagMapper;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder(Tree::class)
@@ -108,11 +114,14 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('isLoggedIn')
 			->willReturn(true);
+		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
+			->getMock();
 
 		$this->plugin = new \OCA\DAV\SystemTag\SystemTagPlugin(
 			$this->tagManager,
 			$this->groupManager,
-			$this->userSession
+			$this->userSession,
+			$this->tagMapper
 		);
 		$this->plugin->initialize($this->server);
 	}
@@ -233,7 +242,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result[200]);
 	}
 
-	
+
 	public function testGetPropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -330,7 +339,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals(200, $result[self::USERVISIBLE_PROPERTYNAME]);
 	}
 
-	
+
 	public function testUpdatePropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -537,7 +546,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->method('createTag')
 			->with('Test', $userVisible, $userAssignable)
 			->willReturn($systemTag);
-		
+
 		if (!empty($groups)) {
 			$this->tagManager->expects($this->once())
 				->method('setTagGroups')
@@ -658,7 +667,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testCreateTagToUnknownNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
