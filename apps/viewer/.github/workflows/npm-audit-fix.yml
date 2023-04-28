@@ -7,6 +7,9 @@ name: npm audit fix and compile
 
 on:
   workflow_dispatch:
+  schedule:
+    # At 2:30 on Sundays
+    - cron: '30 2 * * 0'
 
 jobs:
   build:
