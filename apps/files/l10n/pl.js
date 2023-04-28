@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
     "You can only favorite a single file or folder at a time" : "Możesz dodać do ulubionych tylko pojedynczy plik lub katalog",
     "New folder" : "Nowy katalog",
+    "Create new folder" : "Utwórz nowy katalog",
     "Upload file" : "Wyślij plik",
     "Recent" : "Ostatnie",
     "Not favorited" : "Wyłączone z ulubionych",

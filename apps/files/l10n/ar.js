@@ -101,6 +101,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط لـ المستخدمين الذين يمكنهم  الولوج الى هذا الملف/الفايل)",
     "You can only favorite a single file or folder at a time" : "يمكنك فقط تفضيل ملف أو مجلد واحد في المرة الواحدة",
     "New folder" : "مجلد جديد",
+    "Create new folder" : "إنشاء مجلدا جديد",
     "Upload file" : "رفع ملف",
     "Recent" : "الحديثة",
     "Not favorited" : "ازالة من المفضلة",

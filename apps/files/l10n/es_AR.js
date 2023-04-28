@@ -69,6 +69,7 @@ OC.L10N.register(
     "Favorite" : "Favorito",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar link directo (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "New folder" : "Carpeta nueva",
+    "Create new folder" : "Crear nueva carpeta",
     "Upload file" : "Cargar archivo",
     "Recent" : "Reciente",
     "Not favorited" : "No es favorito",

@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a felhasználóknál működik, akiknek hozzáférése van a fájlhoz/mappához)",
     "You can only favorite a single file or folder at a time" : "Egyszerre csak egy fájlt vagy mappát jelölhet meg kedvencként",
     "New folder" : "Új mappa",
+    "Create new folder" : "Új mappa létrehozása",
     "Upload file" : "Fájl feltöltése",
     "Recent" : "Legutóbbi",
     "Not favorited" : "Nincs a kedvencek között",

@@ -98,6 +98,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "You can only favorite a single file or folder at a time" : "Apenas pode definir como favorito um ficheiro ou uma pasta de cada vez",
     "New folder" : "Nova pasta",
+    "Create new folder" : "Criar nova pasta",
     "Upload file" : "Enviar ficheiro",
     "Recent" : "Recentes",
     "Not favorited" : "Não favorito",

@@ -95,6 +95,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Sao chép liên kết trực tiếp (chỉ hoạt động đối với những người dùng có quyền truy cập vào tệp / thư mục này)",
     "You can only favorite a single file or folder at a time" : "‎Bạn chỉ có thể chọn yêu thích một tệp hoặc thư mục duy nhất tại một thời điểm‎",
     "New folder" : "Tạo thư mục",
+    "Create new folder" : "Tạo thư mục mới",
     "Upload file" : "Tải lên tập tin",
     "Recent" : "Gần đây",
     "Not favorited" : "‎Không được yêu thích‎",

@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiatu esteka zuzena (fitxategi/karpeta honetara sarbidea duten erabiltzaileentzat bakarrik balio du)",
     "You can only favorite a single file or folder at a time" : "Fitxategi edo karpeta bakarra markatu dezakezu gogoko gisa aldiko",
     "New folder" : "Karpeta berria",
+    "Create new folder" : "Sortu karpeta berria",
     "Upload file" : "Kargatu fitxategia",
     "Recent" : "Azkenak",
     "Not favorited" : "Ez da gogokoa",
