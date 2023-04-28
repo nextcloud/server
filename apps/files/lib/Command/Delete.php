@@ -21,8 +21,9 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Core\Command\Info;
+namespace OCA\Files\Command;
 
+use OC\Core\Command\Info\FileUtils;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Folder;
 use Symfony\Component\Console\Command\Command;
@@ -43,7 +44,7 @@ class Delete extends Command {
 
 	protected function configure(): void {
 		$this
-			->setName('info:file:delete')
+			->setName('files:delete')
 			->setDescription('Delete a file or folder')
 			->addArgument('file', InputArgument::REQUIRED, "File id or path")
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings");

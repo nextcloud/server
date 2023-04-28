@@ -21,15 +21,14 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Core\Command\Info;
+namespace OCA\Files\Command;
 
 
+use OC\Core\Command\Info\FileUtils;
 use OCP\Files\File;
-use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Get extends Command {
@@ -42,15 +41,15 @@ class Get extends Command {
 
 	protected function configure(): void {
 		$this
-			->setName('info:file:get')
+			->setName('files:get')
 			->setDescription('Get the contents of a file')
 			->addArgument('file', InputArgument::REQUIRED, "File id or path")
-			->addOption('output', 'o', InputOption::VALUE_REQUIRED, "Target file to output to");
+			->addArgument('output', InputArgument::OPTIONAL, "Target file to output to, defaults to STDOUT");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
-		$outputName = $input->getOption('output');
+		$outputName = $input->getArgument('output');
 		$node = $this->fileUtils->getNode($fileInput);
 
 		if (!$node) {
@@ -63,13 +62,13 @@ class Get extends Command {
 			if ($outputName === null && $isTTY && $node->getMimePart() !== 'text') {
 				$output->writeln([
 					"<error>Warning: Binary output can mess up your terminal</error>",
-					"         Use '--output STDOUT' to output it to the terminal anyway",
-					"         Or '--output <FILE>' to save to a file instead"
+					"         Use <info>occ files:get $fileInput -</info> to output it to the terminal anyway",
+					"         Or <info>occ files:get $fileInput <FILE></info> to save to a file instead"
 				]);
 				return 1;
 			}
 			$source = $node->fopen('r');
-			$target = (!$outputName || strtolower($outputName) === 'stdout') ? STDOUT : fopen($outputName, 'w');
+			$target = (!$outputName || strtolower($outputName) === '-') ? STDOUT : fopen($outputName, 'w');
 			stream_copy_to_stream($source, $target);
 			return 0;
 		} else {
