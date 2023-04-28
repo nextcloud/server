@@ -30,6 +30,7 @@ return array(
     'OCA\\Files\\Command\\Delete' => $baseDir . '/../lib/Command/Delete.php',
     'OCA\\Files\\Command\\DeleteOrphanedFiles' => $baseDir . '/../lib/Command/DeleteOrphanedFiles.php',
     'OCA\\Files\\Command\\Get' => $baseDir . '/../lib/Command/Get.php',
+    'OCA\\Files\\Command\\Put' => $baseDir . '/../lib/Command/Put.php',
     'OCA\\Files\\Command\\RepairTree' => $baseDir . '/../lib/Command/RepairTree.php',
     'OCA\\Files\\Command\\Scan' => $baseDir . '/../lib/Command/Scan.php',
     'OCA\\Files\\Command\\ScanAppData' => $baseDir . '/../lib/Command/ScanAppData.php',
