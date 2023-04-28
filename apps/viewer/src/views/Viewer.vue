@@ -354,6 +354,7 @@ export default {
 				'theme--dark': this.theme === 'dark',
 				'theme--light': this.theme === 'light',
 				'theme--default': this.theme === 'default',
+				'image--fullscreen': this.isImage && this.isFullscreenMode,
 			}
 		},
 	},
@@ -422,26 +423,6 @@ export default {
 				if (Array.isArray(list) && list.length > 0) {
 					this.fileList.push(...list)
 				}
-			}
-		},
-
-		isFullscreenMode(mode) {
-			if (!this.isImage) {
-				return
-			}
-
-			// Use 100% of screen height to display images and make the header semitransparent
-			//
-			// NOTE: This fragment depends on internal structure of the NcModal component.
-			//
-			const modalHeader = document.getElementsByClassName('modal-header').item(0)
-			const modalContainer = document.getElementsByClassName('modal-container').item(0)
-			if (mode) {
-				modalHeader.classList.add('modal-header--semitransparent')
-				modalContainer.classList.add('modal-container--fullscreen')
-			} else {
-				modalHeader.classList.remove('modal-header--semitransparent')
-				modalContainer.classList.remove('modal-container--fullscreen')
 			}
 		},
 
@@ -1086,15 +1067,6 @@ export default {
 		cursor: pointer;
 	}
 
-	:deep(.modal-header--semitransparent) {
-		.modal-title {
-			opacity: 0;
-		}
-		.icons-menu {
-			background-color: rgba(0, 0, 0, 0.2);
-		}
-	}
-
 	:deep(.modal-wrapper) {
 		.modal-container {
 			// Ensure some space at the bottom
@@ -1104,11 +1076,6 @@ export default {
 			// let the mime components manage their own background-color
 			background-color: transparent;
 			box-shadow: none;
-		}
-		.modal-container--fullscreen {
-			top: 0;
-			bottom: 0;
-			height: 100%;
 		}
 	}
 
@@ -1168,6 +1135,28 @@ export default {
 
 			button svg, a {
 				color: var(--color-main-text) !important;
+			}
+		}
+	}
+
+	&.image--fullscreen {
+		// Special display mode for images in full screen
+		:deep(.modal-header) {
+			.modal-title {
+				// Hide file name
+				opacity: 0;
+			}
+			.icons-menu {
+				// Semi-transparent background for icons only
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+		}
+		:deep(.modal-wrapper) {
+			.modal-container {
+				// Use entire screen height
+				top: 0;
+				bottom: 0;
+				height: 100%;
 			}
 		}
 	}
