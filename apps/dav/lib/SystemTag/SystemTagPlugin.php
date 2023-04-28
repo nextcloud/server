@@ -28,6 +28,7 @@ namespace OCA\DAV\SystemTag;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -81,9 +82,9 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	protected $groupManager;
 
-	/** @var array<int, int[]> */
+	/** @var array<int, string[]> */
 	private array $cachedTagMappings = [];
-	/** @var array<int, ISystemTag> */
+	/** @var array<string, ISystemTag> */
 	private array $cachedTags = [];
 
 	private ISystemTagObjectMapper $tagMapper;
@@ -225,6 +226,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @param PropFind $propFind
 	 * @param \Sabre\DAV\INode $node
+	 *
+	 * @return void
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
@@ -279,16 +282,19 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		if ($node instanceof Directory
 			&& $propFind->getDepth() !== 0
 			&& !is_null($propFind->getStatus(self::SYSTEM_TAGS_PROPERTYNAME))) {
+			$fileIds = [$node->getId()];
+
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $node->getNode()->getDirectoryListing();
-			$fileIds[] = (int)$node->getId();
 			foreach ($folderContent as $info) {
-				$fileIds[] = (int)$info->getId();
+				$fileIds[] = $info->getId();
 			}
+
 			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
 
 			$this->cachedTagMappings = $this->cachedTagMappings + $tags;
 			$emptyFileIds = array_diff($fileIds, array_keys($tags));
+
 			// also cache the ones that were not found
 			foreach ($emptyFileIds as $fileId) {
 				$this->cachedTagMappings[$fileId] = [];
@@ -296,8 +302,13 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
-			$tags = $this->getTagsForFile($node->getId());
-			return new SystemTagList($tags, $this->tagManager, $this->userSession->getUser());
+			$user = $this->userSession->getUser();
+			if ($user === null) {
+				return;
+			}
+	
+			$tags = $this->getTagsForFile($node->getId(), $user);
+			return new SystemTagList($tags, $this->tagManager, $user);
 		});
 	}
 
@@ -305,8 +316,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param int $fileId
 	 * @return ISystemTag[]
 	 */
-	private function getTagsForFile(int $fileId): array {
-		$user = $this->userSession->getUser();
+	private function getTagsForFile(int $fileId, IUser $user): array {
+
 		if (isset($this->cachedTagMappings[$fileId])) {
 			$tagIds = $this->cachedTagMappings[$fileId];
 		} else {
@@ -318,13 +329,15 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$tagIds = [];
 			}
 		}
-		$tags = array_filter(array_map(function($tagId) {
+
+		$tags = array_filter(array_map(function(string $tagId) {
 			return $this->cachedTags[$tagId] ?? null;
 		}, $tagIds));
 
-		$uncachedTagIds = array_filter($tagIds, function($tagId): bool {
+		$uncachedTagIds = array_filter($tagIds, function(string $tagId): bool {
 			return !isset($this->cachedTags[$tagId]);
 		});
+
 		if (count($uncachedTagIds)) {
 			$retrievedTags = $this->tagManager->getTagsByIds($uncachedTagIds);
 			foreach ($retrievedTags as $tag) {
@@ -332,6 +345,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 			$tags += $retrievedTags;
 		}
+
 		return array_filter($tags, function(ISystemTag $tag) use ($user) {
 			return $this->tagManager->canUserSeeTag($tag, $user);
 		});

@@ -85,7 +85,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
-	private ISystemTagObjectMapper $tagMapper;
+	/**
+	 * @var ISystemTagObjectMapper
+	 */
+	private $tagMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -111,7 +114,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('isLoggedIn')
 			->willReturn(true);
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class);
+		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
+			->getMock();
 
 		$this->plugin = new \OCA\DAV\SystemTag\SystemTagPlugin(
 			$this->tagManager,

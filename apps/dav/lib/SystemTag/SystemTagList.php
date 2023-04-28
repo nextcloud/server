@@ -1,10 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +17,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
  * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
  */
 namespace OCA\DAV\SystemTag;
 
@@ -49,7 +46,10 @@ class SystemTagList implements Element {
 		$this->user = $user;
 	}
 
-	public function getTags() {
+	/**
+	 * @return ISystemTag[]
+	 */
+	public function getTags(): array {
 		return $this->tags;
 	}
 
