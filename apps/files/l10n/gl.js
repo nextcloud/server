@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para usuarios con acceso a este ficheiro/cartafol)",
     "You can only favorite a single file or folder at a time" : "Só pode marcar como favorito un único ficheiro ou cartafol por vez",
     "New folder" : "Novo cartafol",
+    "Create new folder" : "Crear un cartafol novo",
     "Upload file" : "Enviar ficheiro",
     "Recent" : "Recente",
     "Not favorited" : "Non marcado como favorito",

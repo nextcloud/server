@@ -309,6 +309,7 @@ OC.L10N.register(
     "The profile does not exist." : "Профилът не съществува.",
     "Back to %s" : "Обратно към %s",
     "Page not found" : "Страницата не е намерена",
+    "The page could not be found on the server or you may not be allowed to view it." : "Страницата не може да бъде намерена на сървъра или може да не ви е позволено да я видите.",
     "Too many requests" : "Твърде много заявки",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Имаше твърде много заявки от вашата мрежа. Опитайте отново по-късно или се свържете с вашия администратор, ако това е грешка.",
     "Error" : "Грешка",

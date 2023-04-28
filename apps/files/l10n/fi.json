@@ -104,6 +104,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
     "You can only favorite a single file or folder at a time" : "Voit valita suosikiksi vain yhden tiedoston tai kansion kerrallaan",
     "New folder" : "Uusi kansio",
+    "Create new folder" : "Luo uusi kansio",
     "Upload file" : "Lähetä tiedosto",
     "Recent" : "Viimeaikaiset",
     "Not favorited" : "Ei suosikeissa",

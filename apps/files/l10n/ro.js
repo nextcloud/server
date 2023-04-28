@@ -101,6 +101,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiază link direct (funcționeză numai pentru utilizatorii care au acces la acest fișier/director)",
     "You can only favorite a single file or folder at a time" : "Poți adauga la favorite un singur fișier sau director odată",
     "New folder" : "Un nou dosar",
+    "Create new folder" : "Creează director nou",
     "Upload file" : "Încarcă fișier",
     "Recent" : "Recente",
     "Not favorited" : "Scoate de la favorite",

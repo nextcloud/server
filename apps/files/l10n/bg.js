@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Копирай директната връзка (ще работи само за потребители с достъп до файла/папката)",
     "You can only favorite a single file or folder at a time" : "Можете да предпочетете само един файл или папка наведнъж",
     "New folder" : "Нова папка",
+    "Create new folder" : "Създай нова папка",
     "Upload file" : "Качи файл",
     "Recent" : "Последни",
     "Not favorited" : "Премахни от любими",

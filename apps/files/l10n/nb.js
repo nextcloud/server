@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direktelenke (fungerer bare for brukere som har tilgang til denne filen/mappen)",
     "You can only favorite a single file or folder at a time" : "Du kan bare legge til en fil av gangen til favoritter",
     "New folder" : "Ny mappe",
+    "Create new folder" : "Opprett ny mappe",
     "Upload file" : "Last opp fil",
     "Recent" : "Nylig",
     "Not favorited" : "Ikke i favoritter",

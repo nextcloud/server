@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για χρήστες που έχουν πρόσβαση στο αρχείο/φάκελο)",
     "You can only favorite a single file or folder at a time" : "Προσθήκη στα αγαπημένα ενός αρχείου ή φακέλου κάθε φορά",
     "New folder" : "Νέος φάκελος",
+    "Create new folder" : "Δημιουργία νέου φακέλου",
     "Upload file" : "Μεταφόρτωση αρχείου",
     "Recent" : "Πρόσφατα",
     "Not favorited" : "Δεν είναι αγαπημένο",

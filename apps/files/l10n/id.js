@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Salin tautan langsung (hanya berlaku bagi pengguna yang telah memiliki akses ke berkas/folder ini)",
     "You can only favorite a single file or folder at a time" : "Anda hanya dapat memfavoritkan satu berkas atau folder dalam satu waktu",
     "New folder" : "Folder baru",
+    "Create new folder" : "Buat direktori baru",
     "Upload file" : "Unggah berkas",
     "Recent" : "Terbaru",
     "Not favorited" : "Tidak favorit",

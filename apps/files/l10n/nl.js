@@ -103,6 +103,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopieer de link direct (werkt alleen voor gebruikers met toegang tot map/bestand)",
     "You can only favorite a single file or folder at a time" : "Je kunt maar één bestand of map tegelijk favoriet maken",
     "New folder" : "Nieuwe map",
+    "Create new folder" : "Nieuwe map aanmaken",
     "Upload file" : "Bestand uploaden",
     "Recent" : "Recent",
     "Not favorited" : "Niet in favorieten",

@@ -95,6 +95,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)",
     "You can only favorite a single file or folder at a time" : "Kot priljubljeno je mogoče naenkrat označiti le eno datoteko ali mapo.",
     "New folder" : "Nova mapa",
+    "Create new folder" : "Ustvari novo mapo",
     "Upload file" : "Pošlji datoteko",
     "Recent" : "Nedavne",
     "Not favorited" : "Ni priljubljeno",
