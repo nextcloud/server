@@ -249,9 +249,9 @@ class User {
 			$profileValues = array();
 			//User Profile Field - Phone number
 			$attr = strtolower($this->connection->ldapAttributePhone);
-			if (isset($ldapEntry[$attr])) {
+			if (!empty($attr)) { // attribute configured
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE]
-					= $ldapEntry[$attr][0];
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
@@ -265,6 +265,8 @@ class User {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
 						= $ldapEntry[$attr][0];
 				}
+			} elseif (!empty($attr)) {	// configured, but not defined
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = "";
 			}
 			//User Profile Field - Address
 			$attr = strtolower($this->connection->ldapAttributeAddress);
@@ -277,36 +279,38 @@ class User {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
 						= $ldapEntry[$attr][0];
 				}
+			} elseif (!empty($attr)) {	// configured, but not defined
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = "";
 			}
 			//User Profile Field - Twitter
 			$attr = strtolower($this->connection->ldapAttributeTwitter);
-			if (isset($ldapEntry[$attr])) {
+			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER]
-					= $ldapEntry[$attr][0];
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - fediverse
 			$attr = strtolower($this->connection->ldapAttributeFediverse);
-			if (isset($ldapEntry[$attr])) {
+			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE]
-					= $ldapEntry[$attr][0];
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - organisation
 			$attr = strtolower($this->connection->ldapAttributeOrganisation);
-			if (isset($ldapEntry[$attr])) {
+			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION]
-					= $ldapEntry[$attr][0];
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - role
 			$attr = strtolower($this->connection->ldapAttributeRole);
-			if (isset($ldapEntry[$attr])) {
+			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE]
-					= $ldapEntry[$attr][0];
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - headline
 			$attr = strtolower($this->connection->ldapAttributeHeadline);
-			if (isset($ldapEntry[$attr])) {
+			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE]
-					= $ldapEntry[$attr][0];
+					= $ldapEntry[$attr][0] ?? "";
 			}
 			//User Profile Field - biography
 			$attr = strtolower($this->connection->ldapAttributeBiography);
@@ -319,6 +323,8 @@ class User {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
 						= $ldapEntry[$attr][0];
 				}
+			} elseif (!empty($attr)) {	// configured, but not defined
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = "";
 			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));

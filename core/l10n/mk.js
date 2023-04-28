@@ -274,7 +274,6 @@ OC.L10N.register(
     "The profile does not exist." : "Профилот на постои",
     "Back to %s" : "Врати се на %s",
     "Page not found" : "Страницата не е пронајдена",
-    "The page could not be found on the server." : "Страницата не е пронајдена на серверот.",
     "Too many requests" : "Премногу барања",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Има испратено премногу барање од вашата мрежа. Обидете се подоцна повторно или контактирајте го администраторот.",
     "Error" : "Грешка",
@@ -393,6 +392,7 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
     "Setup two-factor authentication" : "Постави двофакторна автентикација",
-    "Press enter to start searching" : "Притисни Enter за започне пребарувањето"
+    "Press enter to start searching" : "Притисни Enter за започне пребарувањето",
+    "The page could not be found on the server." : "Страницата не е пронајдена на серверот."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -203,6 +203,7 @@
     "Load more results" : "Načíst další výsledky",
     "Search" : "Hledat",
     "No results for {query}" : "Pro {query} nic nenalezeno",
+    "Press Enter to start searching" : "Vyhledávání zahájíte stisknutím klávesy Enter",
     "An error occurred while searching for {type}" : "Došlo k chybě při hledání pro {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znak","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaků","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky"],
     "This browser is not supported" : "Tento prohlížeč není podporován",
@@ -303,7 +304,6 @@
     "The profile does not exist." : "Profil neexistuje.",
     "Back to %s" : "Zpět na %s",
     "Page not found" : "Stránka nenalezena",
-    "The page could not be found on the server." : "Stránka nebyla na serveru nalezena.",
     "Too many requests" : "Příliš mnoho požadavků",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Z vaší sítě bylo příliš mnoho požadavků. Zkuste to později nebo (pokud je toto chyba) se obraťte na svého správce.",
     "Error" : "Chyba",
@@ -427,6 +427,7 @@
     "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Aby správně fungoval, potřebuje Nextcloud 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}.",
     "Press enter to start searching" : "Vyhledávání zahájíte stisknutím klávesy Enter",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Zaktualizujte z příkazového řádku, protože aktualizování z webového prohlížeče je vypnuté ve vašem config.php."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Zaktualizujte z příkazového řádku, protože aktualizování z webového prohlížeče je vypnuté ve vašem config.php.",
+    "The page could not be found on the server." : "Stránka nebyla na serveru nalezena."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "You can only favorite a single file or folder at a time" : "Одновременно можно выбрать только один файл или папку",
     "New folder" : "Новый каталог",
+    "Create new folder" : "Создать папку",
     "Upload file" : "Загрузить файл",
     "Recent" : "Недавно изменённые",
     "Not favorited" : "Не избранное",

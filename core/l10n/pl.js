@@ -39,6 +39,9 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Kliknij w przycisk, aby zresetować hasło. Jeśli nie zażądałeś zresetowania hasła, zignoruj tego e-maila.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Kliknij poniższy link, aby zresetować hasło. Jeśli nie zażądałeś zresetowania hasła, zignoruj tego e-maila.",
     "Reset your password" : "Zresetuj hasło",
+    "No translation provider available" : "Brak dostępnych dostawców tłumaczenia",
+    "Could not detect language" : "Nie można wykryć języka",
+    "Unable to translate" : "Nie można przetłumaczyć",
     "Nextcloud Server" : "Serwer Nextcloud",
     "Some of your link shares have been removed" : "Niektóre udostępnienia linków zostały usunięte",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Ze względu na błąd bezpieczeństwa musieliśmy usunąć część Twoich udostępnień linków. Zobacz link, aby uzyskać więcej informacji.",
@@ -202,6 +205,7 @@ OC.L10N.register(
     "Load more results" : "Wczytaj więcej wyników",
     "Search" : "Szukaj",
     "No results for {query}" : "Brak wyników dla {query}",
+    "Press Enter to start searching" : "Naciśnij Enter, aby rozpocząć wyszukiwanie",
     "An error occurred while searching for {type}" : "Wystąpił błąd podczas wyszukiwania {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby wyszukać, wprowadź co najmniej {minSearchLength} znak","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaki","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaków","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaków"],
     "This browser is not supported" : "Ta przeglądarka nie jest obsługiwana",
@@ -302,7 +306,6 @@ OC.L10N.register(
     "The profile does not exist." : "Profil nie istnieje.",
     "Back to %s" : "Powrót do %s",
     "Page not found" : "Nie znaleziono strony",
-    "The page could not be found on the server." : "Nie znaleziono strony na serwerze.",
     "Too many requests" : "Zbyt wiele żądań",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zbyt wiele żądań z Twojej sieci. Spróbuj ponownie później lub skontaktuj się z administratorem, jeśli jest to błąd.",
     "Error" : "Błąd",
@@ -426,6 +429,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
     "Press enter to start searching" : "Naciśnij Enter, aby rozpocząć wyszukiwanie",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php.",
+    "The page could not be found on the server." : "Nie znaleziono strony na serwerze."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

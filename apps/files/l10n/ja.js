@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダーにアクセスできるユーザーのみ)",
     "You can only favorite a single file or folder at a time" : "お気に入りに追加できるファイルまたはフォルダーは一度に1つまでです",
     "New folder" : "新しいフォルダー",
+    "Create new folder" : "新しいフォルダーを作成",
     "Upload file" : "ファイルをアップロード",
     "Recent" : "最新",
     "Not favorited" : "お気に入りではありません",

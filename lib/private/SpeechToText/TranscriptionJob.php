@@ -49,6 +49,7 @@ class TranscriptionJob extends QueuedJob {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($timeFactory);
+		$this->setAllowParallelRuns(false);
 	}
 
 

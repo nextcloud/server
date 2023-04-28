@@ -182,10 +182,12 @@ class Encryption extends Wrapper {
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$data['encrypted'] = true;
 			$data['size'] = $this->unencryptedSize[$fullPath];
+			$data['unencrypted_size'] = $data['size'];
 		} else {
 			if (isset($info['fileid']) && $info['encrypted']) {
 				$data['size'] = $this->verifyUnencryptedSize($path, $info->getUnencryptedSize());
 				$data['encrypted'] = true;
+				$data['unencrypted_size'] = $data['size'];
 			}
 		}
 
@@ -496,7 +498,8 @@ class Encryption extends Wrapper {
 		$result = $unencryptedSize;
 
 		if ($unencryptedSize < 0 ||
-			($size > 0 && $unencryptedSize === $size)
+			($size > 0 && $unencryptedSize === $size) ||
+			$unencryptedSize > $size
 		) {
 			// check if we already calculate the unencrypted size for the
 			// given path to avoid recursions

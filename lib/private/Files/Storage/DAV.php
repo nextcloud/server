@@ -44,6 +44,7 @@ use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
@@ -56,6 +57,7 @@ use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 use Psr\Log\LoggerInterface;
+use Sabre\HTTP\RequestInterface;
 
 /**
  * Class DAV
@@ -87,6 +89,8 @@ class DAV extends Common {
 	protected $httpClientService;
 	/** @var ICertificateManager */
 	protected $certManager;
+	protected LoggerInterface $logger;
+	protected IEventLogger $eventLogger;
 
 	/**
 	 * @param array $params
@@ -128,6 +132,8 @@ class DAV extends Common {
 		} else {
 			throw new \Exception('Invalid webdav storage configuration');
 		}
+		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->eventLogger = \OC::$server->get(IEventLogger::class);
 	}
 
 	protected function init() {
@@ -162,6 +168,18 @@ class DAV extends Common {
 				$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 			}
 		}
+
+		$lastRequestStart = 0;
+		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+			$this->logger->debug("sending dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$lastRequestStart = microtime(true);
+			$this->eventLogger->start('fs:storage:dav:request', "Sending dav request to external storage");
+		});
+		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+			$elapsed = microtime(true) - $lastRequestStart;
+			$this->logger->debug("dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl() . " took " . round($elapsed * 1000, 1) . "ms", ['app' => 'dav']);
+			$this->eventLogger->end('fs:storage:dav:request');
+		});
 	}
 
 	/**

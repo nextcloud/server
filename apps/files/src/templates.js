@@ -80,6 +80,7 @@ window.addEventListener('DOMContentLoaded', function() {
 					templateName: t('files', 'Templates'),
 					iconClass: 'icon-template-add',
 					fileType: 'file',
+					actionLabel: t('files', 'Create new templates folder'),
 					actionHandler(name) {
 						initTemplatesFolder(name)
 						menu.removeMenuEntry('template-init')
@@ -109,6 +110,7 @@ templates.forEach((provider, index) => {
 				templateName: provider.label + provider.extension,
 				iconClass: provider.iconClass || 'icon-file',
 				fileType: 'file',
+				actionLabel: provider.actionLabel,
 				actionHandler(name) {
 					TemplatePicker.open(name, provider)
 				},

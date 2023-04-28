@@ -25,10 +25,14 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Node;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
@@ -56,6 +60,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const USERASSIGNABLE_PROPERTYNAME = '{http://owncloud.org/ns}user-assignable';
 	public const GROUPS_PROPERTYNAME = '{http://owncloud.org/ns}groups';
 	public const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
+	public const SYSTEM_TAGS_PROPERTYNAME = '{http://nextcloud.org/ns}system-tags';
 
 	/**
 	 * @var \Sabre\DAV\Server $server
@@ -77,17 +82,23 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	protected $groupManager;
 
-	/**
-	 * @param ISystemTagManager $tagManager tag manager
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(ISystemTagManager $tagManager,
-								IGroupManager $groupManager,
-								IUserSession $userSession) {
+	/** @var array<int, string[]> */
+	private array $cachedTagMappings = [];
+	/** @var array<string, ISystemTag> */
+	private array $cachedTags = [];
+
+	private ISystemTagObjectMapper $tagMapper;
+
+	public function __construct(
+		ISystemTagManager $tagManager,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		ISystemTagObjectMapper $tagMapper,
+	) {
 		$this->tagManager = $tagManager;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
+		$this->tagMapper = $tagMapper;
 	}
 
 	/**
@@ -215,11 +226,18 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @param PropFind $propFind
 	 * @param \Sabre\DAV\INode $node
+	 *
+	 * @return void
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
 		\Sabre\DAV\INode $node
 	) {
+		if ($node instanceof Node) {
+			$this->propfindForFile($propFind, $node);
+			return;
+		}
+
 		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagMappingNode)) {
 			return;
 		}
@@ -257,6 +275,79 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$groups = $this->tagManager->getTagGroups($node->getSystemTag());
 			}
 			return implode('|', $groups);
+		});
+	}
+
+	private function propfindForFile(PropFind $propFind, Node $node): void {
+		if ($node instanceof Directory
+			&& $propFind->getDepth() !== 0
+			&& !is_null($propFind->getStatus(self::SYSTEM_TAGS_PROPERTYNAME))) {
+			$fileIds = [$node->getId()];
+
+			// note: pre-fetching only supported for depth <= 1
+			$folderContent = $node->getNode()->getDirectoryListing();
+			foreach ($folderContent as $info) {
+				$fileIds[] = $info->getId();
+			}
+
+			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
+
+			$this->cachedTagMappings = $this->cachedTagMappings + $tags;
+			$emptyFileIds = array_diff($fileIds, array_keys($tags));
+
+			// also cache the ones that were not found
+			foreach ($emptyFileIds as $fileId) {
+				$this->cachedTagMappings[$fileId] = [];
+			}
+		}
+
+		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
+			$user = $this->userSession->getUser();
+			if ($user === null) {
+				return;
+			}
+	
+			$tags = $this->getTagsForFile($node->getId(), $user);
+			return new SystemTagList($tags, $this->tagManager, $user);
+		});
+	}
+
+	/**
+	 * @param int $fileId
+	 * @return ISystemTag[]
+	 */
+	private function getTagsForFile(int $fileId, IUser $user): array {
+
+		if (isset($this->cachedTagMappings[$fileId])) {
+			$tagIds = $this->cachedTagMappings[$fileId];
+		} else {
+			$tags = $this->tagMapper->getTagIdsForObjects([$fileId], 'files');
+			$fileTags = current($tags);
+			if ($fileTags) {
+				$tagIds = $fileTags;
+			} else {
+				$tagIds = [];
+			}
+		}
+
+		$tags = array_filter(array_map(function(string $tagId) {
+			return $this->cachedTags[$tagId] ?? null;
+		}, $tagIds));
+
+		$uncachedTagIds = array_filter($tagIds, function(string $tagId): bool {
+			return !isset($this->cachedTags[$tagId]);
+		});
+
+		if (count($uncachedTagIds)) {
+			$retrievedTags = $this->tagManager->getTagsByIds($uncachedTagIds);
+			foreach ($retrievedTags as $tag) {
+				$this->cachedTags[$tag->getId()] = $tag;
+			}
+			$tags += $retrievedTags;
+		}
+
+		return array_filter($tags, function(ISystemTag $tag) use ($user) {
+			return $this->tagManager->canUserSeeTag($tag, $user);
 		});
 	}
 

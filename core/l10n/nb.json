@@ -296,7 +296,6 @@
     "The profile does not exist." : "Profilen finnes ikke",
     "Back to %s" : "Tilbake til %s",
     "Page not found" : "Siden ble ikke funnet",
-    "The page could not be found on the server." : "Siden ble ikke funnet på serveren.",
     "Too many requests" : "For mange forespørsler",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Det var for mange forespørsler fra ditt nettverk. Prøv igjen senere eller kontakt din administrator hvis dette er en feil.",
     "Error" : "Feil",
@@ -419,6 +418,7 @@
     "Contacts menu" : "Kontakter meny",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-bit PHP-versjon. Nextcloud trenger 64-bit for å fungere bra. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}.",
-    "Press enter to start searching" : "Trykk enter for å starte søk"
+    "Press enter to start searching" : "Trykk enter for å starte søk",
+    "The page could not be found on the server." : "Siden ble ikke funnet på serveren."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

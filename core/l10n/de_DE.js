@@ -166,7 +166,7 @@ OC.L10N.register(
     "Your connection is not secure" : "Ihre Verbindung ist nicht sicher",
     "Passwordless authentication is only available over a secure connection." : "Anmeldung ohne Passwort ist nur über eine sichere Verbindung möglich",
     "Reset password" : "Passwort zurücksetzen",
-    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Wenn dieses Konto existiert, wurde eine Nachricht zum Zurücksetzen des Passworts an seine E-Mail-Adresse gesendet. Wenn Sie es nicht erhalten, überprüfen Sie Ihre E-Mail-Adresse und/oder Ihren Kontonamen, überprüfen Sie Ihre Spam-/Junk-Ordner oder bitten Sie Ihre lokale Verwaltung um Hilfe.",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Sofern dieses Konto existiert, wurde eine Nachricht zum Zurücksetzen des Passworts die hinterlegte E-Mail-Adresse gesendet. Wenn Sie diese E-Mail nicht erhalten, überprüfen Sie Ihre E-Mail-Adresse und/oder Ihren Kontonamen sowie Ihren Spam-/Junk-Ordner oder bitten Sie Ihre lokale Administration um Hilfe.",
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktieren Sie Ihre Administration.",
     "Password cannot be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator.",
     "Back to login" : "Zurück zur Anmeldung",
@@ -309,7 +309,7 @@ OC.L10N.register(
     "The profile does not exist." : "Das Profil existiert nicht.",
     "Back to %s" : "Zurück zu %s",
     "Page not found" : "Seite nicht gefunden",
-    "The page could not be found on the server." : "Die Seite konnte auf dem Server nicht gefunden werden.",
+    "The page could not be found on the server or you may not be allowed to view it." : "Die Seite konnte auf dem Server nicht gefunden werden oder Sie sind nicht berechtigt sie anzeigen.",
     "Too many requests" : "Zu viele Anfragen",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zu viele Anfragen aus Ihrem Netzwerk. Versuchen Sie es später erneut oder wenden Sie sich an Ihren Administrator, wenn dies ein Fehler sein sollte.",
     "Error" : "Fehler",
@@ -433,6 +433,7 @@ OC.L10N.register(
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sie scheinen eine 32-Bit PHP-Version auszuführen. Nextcloud benötigt 64-Bit, um gut zu laufen. Bitte aktualisieren Sie Ihr Betriebssystem und PHP auf 64-Bit! Für weitere Details lesen Sie die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
     "Press enter to start searching" : "Eingabetaste zum Starten der Suche drücken",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert."
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert.",
+    "The page could not be found on the server." : "Die Seite konnte auf dem Server nicht gefunden werden."
 },
 "nplurals=2; plural=(n != 1);");

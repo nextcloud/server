@@ -291,7 +291,7 @@ OC.L10N.register(
     "The profile does not exist." : "Profilen existerar inte.",
     "Back to %s" : "Tillbaka till %s",
     "Page not found" : "Sidan hittades inte",
-    "The page could not be found on the server." : "Sidan kunde inte hittas på servern.",
+    "The page could not be found on the server or you may not be allowed to view it." : "Sidan kunde inte hittas på servern eller så kanske du inte har behörighet att se den.",
     "Too many requests" : "För många förfrågningar",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Det kom för många förfrågningar från ditt nätverk. Försök senare eller kontakta din administratör om detta är ett fel.",
     "Error" : "Fel",
@@ -413,6 +413,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
     "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
-    "Press enter to start searching" : "Tryck på enter för att börja söka"
+    "Press enter to start searching" : "Tryck på enter för att börja söka",
+    "The page could not be found on the server." : "Sidan kunde inte hittas på servern."
 },
 "nplurals=2; plural=(n != 1);");

@@ -803,7 +803,7 @@ code {
 		}
 		tr:last-child td {
 			border-bottom: none;
-		}	
+		}
 		.filename {
 			overflow: hidden;
 			white-space: nowrap;
@@ -878,7 +878,10 @@ code {
 							width: 100%;
 						}
 						&.date {
-							display: none;
+							align-self: center;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							min-width: 110px;
 						}
 					}
 				}

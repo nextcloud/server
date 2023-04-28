@@ -90,9 +90,6 @@
     <InvalidArgument occurrences="1">
       <code>CalendarDeletionDefaultUpdaterListener::class</code>
     </InvalidArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getAppDataDir</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
     <UndefinedMethod occurrences="2">
@@ -1060,12 +1057,6 @@
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
   </file>
-  <file src="apps/oauth2/lib/Db/AccessTokenMapper.php">
-    <InvalidCatch occurrences="1"/>
-  </file>
-  <file src="apps/oauth2/lib/Db/ClientMapper.php">
-    <InvalidCatch occurrences="2"/>
-  </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
     <TypeDoesNotContainNull occurrences="2">
       <code>$groupid === null</code>
@@ -1650,14 +1641,6 @@
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
   </file>
-  <file src="lib/private/AppFramework/Middleware/Security/RateLimitingMiddleware.php">
-    <InvalidScalarArgument occurrences="4">
-      <code>$anonLimit</code>
-      <code>$anonPeriod</code>
-      <code>$userLimit</code>
-      <code>$userPeriod</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/AppFramework/Middleware/Security/SecurityMiddleware.php">
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
@@ -1727,9 +1710,6 @@
     <InvalidArrayAccess occurrences="1">
       <code>$provider['provider_id']</code>
     </InvalidArrayAccess>
-  </file>
-  <file src="lib/private/Authentication/WebAuthn/CredentialRepository.php">
-    <InvalidCatch occurrences="2"/>
   </file>
   <file src="lib/private/BackgroundJob/QueuedJob.php">
     <MoreSpecificImplementedParamType occurrences="1">
