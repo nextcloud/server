@@ -185,14 +185,16 @@ class CORSMiddleware extends Middleware {
 		// Starting with no allowed origins.
 		$allowed_origins = [];
 		// Add first the general allowed origins if defined
-		// @TODO need to put the general allowed origin setting in suitable core app.
-		// $allowed_origins = [...$allowed_origins, ...$this->config->getAppValue('suitable_app', 'allowed_origins', [])];
+		$cors_filter_settings_allowed_origins = $this->config->getAppValue('corsOriginFilterSettings', 'allowed_origins', []);
+		$cors_filter_settings_allowed_origins = explode(",", array_map('trim', $cors_filter_settings_allowed_origins));
+		$allowed_origins = [...$allowed_origins, ...$cors_filter_settings_allowed_origins];
 		$allowed_origins = [...$allowed_origins, ...$this->config->getSystemValue('allowed_origins', [])];
 
 		//Then add the app namespace specific allowed origins if defined
 		if ($app !== null) {
-			// @TODO need to put this setting in suitable core app.
-			//$allowed_origins = [...$allowed_origins, ...$this->config->getAppValue('suitable_app', $app . '.allowed_origins', [])];
+			$cors_filter_settings_app_allowed_origins = $this->config->getAppValue('corsOriginFilterSettings', $app . 'allowed_origins', []);
+			$cors_filter_settings_app_allowed_origins = explode(",", array_map('trim', $cors_filter_settings_app_allowed_origins));
+			$allowed_origins = [...$allowed_origins, ...$cors_filter_settings_app_allowed_origins];
 			$allowed_origins = [...$allowed_origins, ...$this->config->getSystemValue($app . '.allowed_origins', [])];
 		}
 		$allowed_origins = array_map('trim', $allowed_origins);
