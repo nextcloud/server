@@ -105,6 +105,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre používateľov, ktorí majú prístup k tomuto súboru/priečinku)",
     "You can only favorite a single file or folder at a time" : "Do obľúbených je možné zaradovať súbory a zložky len jednotlivo",
     "New folder" : "Nový priečinok",
+    "Create new folder" : "Vytvoriť nový priečinok",
     "Upload file" : "Nahrať súbor",
     "Recent" : "Nedávne",
     "Not favorited" : "Nie je obľúbený",

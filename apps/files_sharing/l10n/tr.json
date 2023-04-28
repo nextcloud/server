@@ -235,7 +235,7 @@
     "Expires {relativetime}" : "Geçerlilik süresi sonu {relativetime}",
     "this share just expired." : "bu paylaşımın geçerlilik süresi dolmuş.",
     "Shared with you by {owner}" : "{owner} tarafından sizinle paylaşılmış",
-    "Link to a file" : "Bir dosya ile bağla",
+    "Link to a file" : "Bir dosya bağlantısı",
     "Error creating the share: {errorMessage}" : "Paylaşım oluşturulurken sorun çıktı: {errorMessage}",
     "Error creating the share" : "Paylaşım oluşturulurken sorun çıktı",
     "Error updating the share: {errorMessage}" : "Paylaşım güncellenirken sorun çıktı: {errorMessage}",

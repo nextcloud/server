@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro uživatele, kteří mají přístup k tomuto souboru/složce)",
     "You can only favorite a single file or folder at a time" : "Do oblíbených lze soubory a složky zařazovat jen jednotlivě",
     "New folder" : "Nová složka",
+    "Create new folder" : "Vytvořit novou složku",
     "Upload file" : "Nahrát soubor",
     "Recent" : "Nedávné",
     "Not favorited" : "Nepřidáno do oblíbených",
