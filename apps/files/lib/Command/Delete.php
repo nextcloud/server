@@ -69,7 +69,7 @@ class Delete extends Command {
 			if (!$inputIsId && $storage->instanceOfStorage(SharedStorage::class) && $node->getInternalPath() === '') {
 				/** @var SharedStorage $storage */
 				[,$user] = explode('/', $fileInput, 3);
-				$question = new ConfirmationQuestion("<info>$fileInput</info> in a shared file, do you want to unshare the file <info>$user</info> instead of deleting the source file? [Y/n] ", true);
+				$question = new ConfirmationQuestion("<info>$fileInput</info> in a shared file, do you want to unshare the file from <info>$user</info> instead of deleting the source file? [Y/n] ", true);
 				if ($helper->ask($input, $output, $question)) {
 					$storage->unshareStorage();
 					return 0;
