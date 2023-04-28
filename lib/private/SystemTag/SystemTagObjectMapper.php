@@ -135,6 +135,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		while ($row = $result->fetch()) {
 			$objectIds[] = $row['objectid'];
 		}
+		$result->closeCursor();
 
 		return $objectIds;
 	}
