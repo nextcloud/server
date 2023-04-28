@@ -48,6 +48,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	public const REPORT_NAME = '{http://owncloud.org/ns}filter-files';
 	public const SYSTEMTAG_PROPERTYNAME = '{http://owncloud.org/ns}systemtag';
 	public const CIRCLE_PROPERTYNAME = '{http://owncloud.org/ns}circle';
@@ -186,6 +187,7 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
+		$ncns = '{' . $this::NS_NEXTCLOUD . '}';
 		$requestedProps = [];
 		$filterRules = [];
 
@@ -199,6 +201,14 @@ class FilesReportPlugin extends ServerPlugin {
 				foreach ($reportProps['value'] as $propVal) {
 					$requestedProps[] = $propVal['name'];
 				}
+			} elseif ($name === '{DAV:}limit') {
+				foreach ($reportProps['value'] as $propVal) {
+					if ($propVal['name'] === '{DAV:}nresults') {
+						$limit = (int)$propVal['value'];
+					} elseif ($propVal['name'] === $ncns . 'firstresult') {
+						$offset = (int)$propVal['value'];
+					}
+				}
 			}
 		}
 
@@ -209,13 +219,24 @@ class FilesReportPlugin extends ServerPlugin {
 
 		// gather all file ids matching filter
 		try {
-			$resultFileIds = $this->processFilterRules($filterRules);
+			$resultFileIds = $this->processFilterRulesForFileIDs($filterRules);
+			$resultNodes = $this->processFilterRulesForFileNodes($filterRules, $limit ?? null, $offset ?? null);
 		} catch (TagNotFoundException $e) {
 			throw new PreconditionFailed('Cannot filter by non-existing tag', 0, $e);
 		}
 
+		$results = [];
+		foreach ($resultNodes as $entry) {
+			if ($entry) {
+				$results[] = $this->wrapNode($entry);
+			}
+		}
+
 		// find sabre nodes by file id, restricted to the root node path
-		$results = $this->findNodesByFileIds($reportTargetNode, $resultFileIds);
+		$additionalNodes = $this->findNodesByFileIds($reportTargetNode, $resultFileIds);
+		if (!empty($additionalNodes)) {
+			$results = array_intersect($results, $additionalNodes);
+		}
 
 		$filesUri = $this->getFilesBaseUri($uri, $reportTargetNode->getPath());
 		$responses = $this->prepareResponses($filesUri, $requestedProps, $results);
@@ -264,16 +285,12 @@ class FilesReportPlugin extends ServerPlugin {
 	 *
 	 * @throws TagNotFoundException whenever a tag was not found
 	 */
-	protected function processFilterRules($filterRules) {
+	protected function processFilterRulesForFileIDs($filterRules) {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		$resultFileIds = null;
-		$systemTagIds = [];
 		$circlesIds = [];
 		$favoriteFilter = null;
 		foreach ($filterRules as $filterRule) {
-			if ($filterRule['name'] === $ns . 'systemtag') {
-				$systemTagIds[] = $filterRule['value'];
-			}
 			if ($filterRule['name'] === self::CIRCLE_PROPERTYNAME) {
 				$circlesIds[] = $filterRule['value'];
 			}
@@ -289,15 +306,6 @@ class FilesReportPlugin extends ServerPlugin {
 			}
 		}
 
-		if (!empty($systemTagIds)) {
-			$fileIds = $this->getSystemTagFileIds($systemTagIds);
-			if (empty($resultFileIds)) {
-				$resultFileIds = $fileIds;
-			} else {
-				$resultFileIds = array_intersect($fileIds, $resultFileIds);
-			}
-		}
-
 		if (!empty($circlesIds)) {
 			$fileIds = $this->getCirclesFileIds($circlesIds);
 			if (empty($resultFileIds)) {
@@ -308,6 +316,25 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 
 		return $resultFileIds;
+	}
+
+	protected function processFilterRulesForFileNodes(array $filterRules, ?int $limit, ?int $offset): array {
+		$systemTagIds = [];
+		foreach ($filterRules as $filterRule) {
+			if ($filterRule['name'] === self::SYSTEMTAG_PROPERTYNAME) {
+				$systemTagIds[] = $filterRule['value'];
+			}
+		}
+
+		$nodes = [];
+
+		if (!empty($systemTagIds)) {
+			$tags = $this->tagManager->getTagsByIds($systemTagIds);
+			$tagName = (current($tags))->getName();
+			$nodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
+		}
+
+		return $nodes;
 	}
 
 	private function getSystemTagFileIds($systemTagIds) {
@@ -406,7 +433,10 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param array $fileIds file ids
 	 * @return Node[] array of Sabre nodes
 	 */
-	public function findNodesByFileIds($rootNode, $fileIds) {
+	public function findNodesByFileIds($rootNode, $fileIds): array {
+		if (empty($fileIds)) {
+			return [];
+		}
 		$folder = $this->userFolder;
 		if (trim($rootNode->getPath(), '/') !== '') {
 			$folder = $folder->get($rootNode->getPath());
@@ -417,15 +447,19 @@ class FilesReportPlugin extends ServerPlugin {
 			$entry = $folder->getById($fileId);
 			if ($entry) {
 				$entry = current($entry);
-				if ($entry instanceof \OCP\Files\File) {
-					$results[] = new File($this->fileView, $entry);
-				} elseif ($entry instanceof \OCP\Files\Folder) {
-					$results[] = new Directory($this->fileView, $entry);
-				}
+				$results[] = $this->wrapNode($entry);
 			}
 		}
 
 		return $results;
+	}
+
+	protected function wrapNode(\OCP\Files\File|\OCP\Files\Folder $node): File|Directory {
+		if ($node instanceof \OCP\Files\File) {
+			return new File($this->fileView, $node);
+		} else {
+			return new Directory($this->fileView, $node);
+		}
 	}
 
 	/**
