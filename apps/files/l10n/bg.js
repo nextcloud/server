@@ -230,6 +230,7 @@ OC.L10N.register(
     "Delete permanently" : "Изтрий завинаги",
     "Set up templates folder" : "Настройка на папка за шаблони",
     "Templates" : "Шаблони",
+    "Create new templates folder" : "Създаване на нова папка за шаблони",
     "Unable to initialize the templates directory" : "Неуспешно инициализиране на директорията с шаблони",
     "Toggle %1$s sublist" : "Превключване на %1$s подсписък ",
     "Toggle grid view" : "Превключи решетъчния изглед",

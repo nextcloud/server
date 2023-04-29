@@ -206,7 +206,7 @@
     "Load more results" : "Weitere Ergebnisse laden",
     "Search" : "Suche",
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
-    "Press Enter to start searching" : "Zum Suchen EIngabetaste drücken",
+    "Press Enter to start searching" : "Zum Suchen Eingabetaste drücken",
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
     "This browser is not supported" : "Dieser Browser wird nicht unterstützt",
