@@ -99,9 +99,9 @@ class CORSMiddleware extends Middleware {
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
 		// also Do nothing if HTTP_ORIGIN is not set
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) &&
-			 (!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn()) &&
-       && isset($this->request->server['HTTP_ORIGIN'])) {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) && 
+			(!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn()) &&
+			isset($this->request->server['HTTP_ORIGIN'])) {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
@@ -169,9 +169,10 @@ class CORSMiddleware extends Middleware {
 					}
 				}
 
-			$origin = $this->request->server['HTTP_ORIGIN'];
-			if ($this->isOriginAllowed($origin, $this->appName)) {
-				$response->addHeader('Access-Control-Allow-Origin', $origin);
+				$origin = $this->request->server['HTTP_ORIGIN'];
+				if ($this->isOriginAllowed($origin, $this->appName)) {
+					$response->addHeader('Access-Control-Allow-Origin', $origin);
+				}
 			}
 		}
 		return $response;
