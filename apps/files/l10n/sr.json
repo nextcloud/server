@@ -228,6 +228,7 @@
     "Delete permanently" : "Обриши заувек",
     "Set up templates folder" : "Постављање фолдера са шаблонима",
     "Templates" : "Шаблони",
+    "Create new templates folder" : "Креирај нови фолдер шаблона",
     "Unable to initialize the templates directory" : "Фолдер са шаблонима није могао да се иницијализује",
     "Toggle %1$s sublist" : "Укљ./искљ. %1$s подлисте",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
