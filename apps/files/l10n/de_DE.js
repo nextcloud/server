@@ -230,6 +230,7 @@ OC.L10N.register(
     "Delete permanently" : "Endgültig löschen",
     "Set up templates folder" : "Vorlagenordner einrichten",
     "Templates" : "Vorlagen",
+    "Create new templates folder" : "Neuen Vorlagenordner erstellen",
     "Unable to initialize the templates directory" : "Der Vorlagenordner kann nicht initialisiert werden",
     "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Toggle grid view" : "Rasteransicht umschalten",

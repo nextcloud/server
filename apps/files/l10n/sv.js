@@ -230,6 +230,7 @@ OC.L10N.register(
     "Delete permanently" : "Ta bort permanent",
     "Set up templates folder" : "Skapa en mapp för mallar",
     "Templates" : "Mallar",
+    "Create new templates folder" : "Skapa ny mallmapp",
     "Unable to initialize the templates directory" : "Kunde inte initialisera mall-mappen",
     "Toggle %1$s sublist" : "Växla %1$s sublista",
     "Toggle grid view" : "Växla rutnätsvy",

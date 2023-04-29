@@ -230,6 +230,7 @@ OC.L10N.register(
     "Delete permanently" : "Delete permanently",
     "Set up templates folder" : "Set up templates folder",
     "Templates" : "Templates",
+    "Create new templates folder" : "Create new templates folder",
     "Unable to initialize the templates directory" : "Unable to initialize the templates directory",
     "Toggle %1$s sublist" : "Toggle %1$s sublist",
     "Toggle grid view" : "Toggle grid view",
