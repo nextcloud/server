@@ -12,12 +12,15 @@
 	*/ ?>
 	<input type="hidden" id="permissions" value="">
 	<input type="hidden" id="free_space" value="<?php isset($_['freeSpace']) ? p($_['freeSpace']) : '' ?>">
-	<?php if (isset($_['dirToken'])):?>
-	<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-	<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
-	<?php endif;?>
-	<input type="hidden" class="max_human_file_size"
-		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<?php if (isset($_['dirToken'])) : ?>
+		<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+		<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
+	<?php endif; ?>
+	<input type="hidden" class="max_human_file_size" value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<?php if (!isset($_["isPublic"])) : ?>
+		<input type="checkbox" class="hidden-visually notPublic" id="showgridview" aria-label="<?php p($l->t('Toggle grid view')) ?>" <?php if ($_['showgridview']) { ?>checked="checked" <?php } ?> />
+		<label id="view-toggle" for="showgridview" tabindex="0" class="button notPublic <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>" title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view')) ?>"></label>
+	<?php endif; ?>
 </div>
 <div class="filelist-header"></div>
 
@@ -32,27 +35,27 @@
 	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
 	<p></p>
 </div>
-<table class="files-filestable list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="250" data-preview-y="250">
+<table class="files-filestable list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>" data-allow-public-upload="<?php p($_['publicUploadEnabled']) ?>" data-preview-x="250" data-preview-y="250">
 	<thead>
 		<tr>
 			<th class="hidden column-selection">
-				<input type="checkbox" id="select_all_files" class="select-all checkbox"/>
+				<input type="checkbox" id="select_all_files" class="select-all checkbox" />
 				<label for="select_all_files">
-					<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
+					<span class="hidden-visually"><?php p($l->t('Select all')) ?></span>
 				</label>
 			</th>
 			<th class="hidden column-name">
 				<div class="column-name-container">
 					<a class="name sort columntitle" onclick="event.preventDefault()" href="#" data-sort="name">
-                        <span><?php p($l->t('Name')); ?></span>
-                        <span class="sort-indicator"></span>
+						<span><?php p($l->t('Name')); ?></span>
+						<span class="sort-indicator"></span>
 
-                    </a>
-                    <span class="selectedActions">
-                        <a href="#" onclick="event.preventDefault()" class="actions-selected">
-                            <span class="icon icon-more"></span>
-                            <span><?php p($l->t('Actions'))?></span>
-                        </a>
+					</a>
+					<span class="selectedActions">
+						<a href="#" onclick="event.preventDefault()" class="actions-selected">
+							<span class="icon icon-more"></span>
+							<span><?php p($l->t('Actions')) ?></span>
+						</a>
 					</span>
 				</div>
 			</th>
@@ -73,8 +76,8 @@
 <div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
 </div>
-<div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
+<div id="uploadsize-message" title="<?php p($l->t('Upload too large')) ?>">
 	<p>
-	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>
+		<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.')); ?>
 	</p>
 </div>
