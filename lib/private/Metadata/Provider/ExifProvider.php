@@ -68,7 +68,12 @@ class ExifProvider implements IMetadataProvider {
 		$size->setArrayAsValue([]);
 
 		if (!$data) {
-			$sizeResult = getimagesizefromstring($file->getContent());
+			try {
+				$sizeResult = getimagesizefromstring($file->getContent());
+			} catch (\Exception $ex) {
+				$this->logger->info("Couldn't extract metadata for ".$file->getId(), ['exception' => $ex]);
+				$sizeResult = false;
+			}
 			if ($sizeResult !== false) {
 				$size->setArrayAsValue([
 					'width' => $sizeResult[0],
