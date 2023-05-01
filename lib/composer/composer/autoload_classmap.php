@@ -614,6 +614,7 @@ return array(
     'OCP\\Talk\\IConversationOptions' => $baseDir . '/lib/public/Talk/IConversationOptions.php',
     'OCP\\Talk\\ITalkBackend' => $baseDir . '/lib/public/Talk/ITalkBackend.php',
     'OCP\\Template' => $baseDir . '/lib/public/Template.php',
+    'OCP\\Translation\\CouldNotTranslateException' => $baseDir . '/lib/public/Translation/CouldNotTranslateException.php',
     'OCP\\Translation\\IDetectLanguageProvider' => $baseDir . '/lib/public/Translation/IDetectLanguageProvider.php',
     'OCP\\Translation\\ITranslationManager' => $baseDir . '/lib/public/Translation/ITranslationManager.php',
     'OCP\\Translation\\ITranslationProvider' => $baseDir . '/lib/public/Translation/ITranslationProvider.php',
