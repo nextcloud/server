@@ -210,7 +210,7 @@
     "Device" : "Пристрій",
     "Last activity" : "Остання активність",
     "Devices & sessions" : "Пристрої та сеанси",
-    "Web, desktop and mobile clients currently logged in to your account." : "Веб, настільні та мобільні клієнти, які авторизувалися з вашим обліковим записом.",
+    "Web, desktop and mobile clients currently logged in to your account." : "Вебдоступ, стільничі клієнти та мобільні застосунки, які було авторизовано з вашим обліковим записом.",
     "Do you really want to wipe your data from this device?" : "Ви справді хочете стерти дані з цього пристрою?",
     "Confirm wipe" : "Підтвердити стирання даних",
     "Error while creating device token" : "Помилка під час створення токена пристрою",
