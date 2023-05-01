@@ -63,15 +63,23 @@ class TranslationManager implements ITranslationManager {
 			throw new PreConditionNotMetException('No translation providers available');
 		}
 
-		foreach ($this->getProviders() as $provider) {
-			if ($fromLanguage === null && $provider instanceof IDetectLanguageProvider) {
-				$fromLanguage = $provider->detectLanguage($text);
+		if ($fromLanguage === null) {
+			foreach ($this->getProviders() as $provider) {
+				if ($provider instanceof IDetectLanguageProvider) {
+					$fromLanguage = $provider->detectLanguage($text);
+				}
+
+				if ($fromLanguage !== null) {
+					break;
+				}
 			}
 
 			if ($fromLanguage === null) {
 				throw new InvalidArgumentException('Could not detect language');
 			}
+		}
 
+		foreach ($this->getProviders() as $provider) {
 			try {
 				return $provider->translate($fromLanguage, $toLanguage, $text);
 			} catch (RuntimeException $e) {
