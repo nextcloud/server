@@ -31,15 +31,19 @@ use Exception;
 use OCP\Accounts\IAccountManager;
 use OCP\IImage;
 use OCP\IUser;
+use OCP\IUserManager;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
 
 class Converter {
 	/** @var IAccountManager */
 	private $accountManager;
+	private IUserManager $userManager;
 
-	public function __construct(IAccountManager $accountManager) {
+	public function __construct(IAccountManager $accountManager,
+		IUserManager $userManager) {
 		$this->accountManager = $accountManager;
+		$this->userManager = $userManager;
 	}
 
 	public function createCardFromUser(IUser $user): ?VCard {
@@ -99,6 +103,20 @@ class Converter {
 				case IAccountManager::PROPERTY_ROLE:
 					$vCard->add(new Text($vCard, 'TITLE', $property->getValue(), ['X-NC-SCOPE' => $scope]));
 					break;
+			}
+		}
+
+		// Local properties
+		$managers = $user->getManagerUids();
+		// X-MANAGERSNAME only allows a single value, so we take the first manager
+		if (isset($managers[0])) {
+			$displayName = $this->userManager->getDisplayName($managers[0]);
+			// Only set the manager if a user object is found
+			if ($displayName !== null) {
+				$vCard->add(new Text($vCard, 'X-MANAGERSNAME', $displayName, [
+					'uid' => $managers[0],
+					'X-NC-SCOPE' => IAccountManager::SCOPE_LOCAL,
+				]));
 			}
 		}
 

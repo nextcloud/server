@@ -59,8 +59,12 @@ use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function json_decode;
+use function json_encode;
 
 class User implements IUser {
+	private const CONFIG_KEY_MANAGERS = 'manager';
+
 	/** @var IAccountManager */
 	protected $accountManager;
 	/** @var string */
@@ -530,6 +534,27 @@ class User implements IUser {
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
 		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
+	}
+
+	public function getManagerUids(): array {
+		$encodedUids = $this->config->getUserValue(
+			$this->uid,
+			'settings',
+			self::CONFIG_KEY_MANAGERS,
+			'[]'
+		);
+		return json_decode($encodedUids, false, 512, JSON_THROW_ON_ERROR);
+	}
+
+	public function setManagerUids(array $uids): void {
+		$oldUids = $this->getManagerUids();
+		$this->config->setUserValue(
+			$this->uid,
+			'settings',
+			self::CONFIG_KEY_MANAGERS,
+			json_encode($uids, JSON_THROW_ON_ERROR)
+		);
+		$this->triggerChange('managers', $uids, $oldUids);
 	}
 
 	/**

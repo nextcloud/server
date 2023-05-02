@@ -159,4 +159,12 @@ class LazyUser implements IUser {
 	public function setQuota($quota) {
 		$this->getUser()->setQuota($quota);
 	}
+
+	public function getManagerUids(): array {
+		return $this->getUser()->getManagerUids();
+	}
+
+	public function setManagerUids(array $uids): void {
+		$this->getUser()->setManagerUids($uids);
+	}
 }

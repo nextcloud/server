@@ -338,7 +338,8 @@ class UsersController extends AUserData {
 		array $groups = [],
 		array $subadmin = [],
 		string $quota = '',
-		string $language = ''
+		string $language = '',
+		?string $manager = null,
 	): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
@@ -445,6 +446,15 @@ class UsersController extends AUserData {
 
 			if ($language !== '') {
 				$this->editUser($userid, self::USER_FIELD_LANGUAGE, $language);
+			}
+
+			/**
+			 * null -> nothing sent
+			 * '' -> unset manager
+			 * else -> set manager
+			 */
+			if ($manager !== null) {
+				$this->editUser($userid, self::USER_FIELD_MANAGER, $manager);
 			}
 
 			// Send new user mail only if a mail is set
@@ -800,9 +810,11 @@ class UsersController extends AUserData {
 
 			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
-			// If admin they can edit their own quota
+			// If admin they can edit their own quota and manager
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
+				$permittedFields[] = self::USER_FIELD_MANAGER;
+
 			}
 		} else {
 			// Check if admin / subadmin
@@ -836,6 +848,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
+				$permittedFields[] = self::USER_FIELD_MANAGER;
 			} else {
 				// No rights
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -884,6 +897,9 @@ class UsersController extends AUserData {
 					}
 				}
 				$targetUser->setQuota($quota);
+				break;
+			case self::USER_FIELD_MANAGER:
+				$targetUser->setManagerUids([$value]);
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {

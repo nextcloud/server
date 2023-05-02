@@ -55,7 +55,9 @@
 		<td v-if="showConfig.showLastLogin" :title="userLastLoginTooltip" class="lastLogin">
 			{{ userLastLogin }}
 		</td>
-
+		<td class="managers">
+			{{ user.manager }}
+		</td>
 		<td class="userActions">
 			<div v-if="canEdit && !loading.all" class="toggleUserActions">
 				<NcActions>
