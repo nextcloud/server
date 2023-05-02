@@ -135,8 +135,8 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$this->assertEquals($expectedWebRoot, $webRoot);
 		$this->assertEquals($expectedFile, $file);
 
-		//unlink($new_apps_path_symlink);
-		//$this->rrmdir($new_apps_path);
+		unlink($new_apps_path_symlink);
+		$this->rrmdir($new_apps_path);
 	}
 
 	public function testFindModuleJSWithFallback() {
@@ -164,7 +164,6 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$resources = $locator->getResources();
 		$this->assertCount(3, $resources);
 
-		$expectedRoot = $new_apps_path . '/test-js-app';
 		$expectedWebRoot = \OC::$WEBROOT . '/js-apps-test/test-js-app';
 		$expectedFiles = ['module.mjs', 'both.mjs', 'plain.js'];
 
