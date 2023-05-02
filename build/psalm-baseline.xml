@@ -573,33 +573,13 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/dav/lib/SystemTag/SystemTagsByIdCollection.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>int</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsObjectMappingCollection.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>int</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParamNameMismatch occurrences="2">
       <code>$tagId</code>
       <code>$tagName</code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsObjectTypeCollection.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>int</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParamNameMismatch occurrences="1">
       <code>$objectName</code>
     </ParamNameMismatch>
@@ -2934,20 +2914,11 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/SystemTag/SystemTagManager.php">
-    <FalsableReturnStatement occurrences="3">
-      <code>false</code>
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="3">
       <code>ManagerEvent::EVENT_CREATE</code>
       <code>ManagerEvent::EVENT_DELETE</code>
       <code>ManagerEvent::EVENT_UPDATE</code>
     </InvalidArgument>
-    <InvalidReturnType occurrences="2">
-      <code>bool</code>
-      <code>bool</code>
-    </InvalidReturnType>
     <TooManyArguments occurrences="3">
       <code>dispatch</code>
       <code>dispatch</code>
