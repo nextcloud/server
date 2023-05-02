@@ -202,7 +202,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param bool $cacheUser If false the newly created user object will not be cached
 	 * @return \OC\User\User
 	 */
-	protected function getUserObject($uid, $backend, $cacheUser = true) {
+	public function getUserObject($uid, $backend, $cacheUser = true) {
 		if ($backend instanceof IGetRealUIDBackend) {
 			$uid = $backend->getRealUID($uid);
 		}
@@ -293,12 +293,13 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * search by user id
+	 * Search by user id
 	 *
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
+	 * @deprecated since 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
@@ -306,28 +307,24 @@ class Manager extends PublicEmitter implements IUserManager {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[$uid] = $this->getUserObject($uid, $backend);
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}
 			}
 		}
 
-		uasort($users, function ($a, $b) {
-			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
-			 */
+		uasort($users, function (IUser $a, IUser $b) {
 			return strcasecmp($a->getUID(), $b->getUID());
 		});
 		return $users;
 	}
 
 	/**
-	 * search by displayName
+	 * Search by displayName
 	 *
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
@@ -335,16 +332,12 @@ class Manager extends PublicEmitter implements IUserManager {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = $this->getUserObject($uid, $backend);
+					$users[] = new LazyUser($uid, $this, $displayName, $backend);
 				}
 			}
 		}
 
-		usort($users, function ($a, $b) {
-			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
-			 */
+		usort($users, function (IUser $a, IUser $b) {
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
 		return $users;

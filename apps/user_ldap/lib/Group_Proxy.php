@@ -171,7 +171,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	/**
 	 * get a list of all users in a group
 	 *
-	 * @return string[] with user ids
+	 * @return array<int,string> user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$this->setup();
@@ -333,5 +333,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 */
 	public function getBackendName(): string {
 		return 'LDAP';
+	}
+
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
+		return $this->handleRequest($gid, 'searchInGroup', [$gid, $search, $limit, $offset]);
 	}
 }

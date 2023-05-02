@@ -445,6 +445,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Group\\Backend\\IIsAdminBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IIsAdminBackend.php',
         'OCP\\Group\\Backend\\INamedBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/INamedBackend.php',
         'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
+        'OCP\\Group\\Backend\\ISearchableGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ISearchableGroupBackend.php',
         'OCP\\Group\\Backend\\ISetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ISetDisplayNameBackend.php',
         'OCP\\Group\\Events\\BeforeGroupChangedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/BeforeGroupChangedEvent.php',
         'OCP\\Group\\Events\\BeforeGroupCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/BeforeGroupCreatedEvent.php',
