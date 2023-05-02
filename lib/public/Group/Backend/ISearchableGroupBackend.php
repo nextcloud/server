@@ -44,8 +44,8 @@ interface ISearchableGroupBackend {
 	 *                       want to search. This can be empty to get all the users.
 	 * @param int $limit     The limit of results
 	 * @param int $offset    The offset of the results
-	 * @return array<string,IUser> Users indexed by uid
+	 * @return iterable<string,IUser> Users indexed by uid
 	 * @since 27.0.0
 	 */
-	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): iterable;
 }
