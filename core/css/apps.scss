@@ -728,6 +728,10 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 			}
 		}
 	}
+	
+	&::-webkit-scrollbar-button {
+		height:  var(--body-container-radius);
+	}
 }
 
 /* APP-SIDEBAR ------------------------------------------------------------ */
