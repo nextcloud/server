@@ -230,6 +230,7 @@ OC.L10N.register(
     "Delete permanently" : "永久刪除",
     "Set up templates folder" : "設定範本資料夾",
     "Templates" : "範本",
+    "Create new templates folder" : "建立新的範本資料夾",
     "Unable to initialize the templates directory" : "無法初始化範本目錄",
     "Toggle %1$s sublist" : "切換 %1$s 子列表",
     "Toggle grid view" : "切換網格檢視",
