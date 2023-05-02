@@ -90,6 +90,12 @@ class Converter {
 					case IAccountManager::PROPERTY_TWITTER:
 						$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $property->getValue(), ['TYPE' => 'TWITTER']));
 						break;
+					case IAccountManager::PROPERTY_ORGANISATION:
+						$vCard->add(new Text($vCard, 'ORG', $property->getValue()));
+						break;
+					case IAccountManager::PROPERTY_ROLE:
+						$vCard->add(new Text($vCard, 'TITLE', $property->getValue()));
+						break;
 				}
 			}
 		}
