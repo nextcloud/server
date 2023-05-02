@@ -191,11 +191,6 @@ class Scan extends Base {
 			$users = $input->getArgument('user_id');
 		}
 
-		# restrict the verbosity level to VERBOSITY_VERBOSE
-		if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
-			$output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-		}
-
 		# check quantity of users to be process and show it on the command line
 		$users_total = count($users);
 		if ($users_total === 0) {
@@ -262,7 +257,8 @@ class Scan extends Base {
 			return false;
 		}
 		$e = new \ErrorException($message, 0, $severity, $file, $line);
-		$output->writeln("\t<error>$e</error>");
+		$output->writeln('<error>Error during scan: ' . $e->getMessage() . '</error>');
+		$output->writeln('<error>' . $e->getTraceAsString() . '</error>', OutputInterface::VERBOSITY_VERY_VERBOSE);
 		return true;
 	}
 
