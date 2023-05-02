@@ -310,7 +310,7 @@ class GroupTest extends \Test\TestCase {
 		$users = $group->searchUsers('2');
 
 		$this->assertEquals(1, count($users));
-		$user2 = $users['user2'];
+		$user2 = reset($users);
 		$this->assertEquals('user2', $user2->getUID());
 	}
 
@@ -336,7 +336,7 @@ class GroupTest extends \Test\TestCase {
 		$users = $group->searchUsers('2');
 
 		$this->assertEquals(1, count($users));
-		$user2 = $users['user2'];
+		$user2 = reset($users);
 		$this->assertEquals('user2', $user2->getUID());
 	}
 
@@ -355,7 +355,7 @@ class GroupTest extends \Test\TestCase {
 		$users = $group->searchUsers('user', 1, 1);
 
 		$this->assertEquals(1, count($users));
-		$user2 = $users['user2'];
+		$user2 = reset($users);
 		$this->assertEquals('user2', $user2->getUID());
 	}
 
@@ -381,8 +381,8 @@ class GroupTest extends \Test\TestCase {
 		$users = $group->searchUsers('user', 2, 1);
 
 		$this->assertEquals(2, count($users));
-		$user2 = $users['user2'];
-		$user1 = $users['user1'];
+		$user2 = reset($users);
+		$user1 = next($users);
 		$this->assertEquals('user2', $user2->getUID());
 		$this->assertEquals('user1', $user1->getUID());
 	}

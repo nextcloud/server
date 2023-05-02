@@ -27,12 +27,16 @@ use OC\Group\Database;
 use OC\User\User;
 use OC\User\Manager;
 use OCP\GroupInterface;
+use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
+
+interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterface {
+}
 
 class ManagerTest extends TestCase {
 	/** @var Manager|MockObject */
@@ -79,7 +83,7 @@ class ManagerTest extends TestCase {
 		}
 		// need to declare it this way due to optional methods
 		// thanks to the implementsActions logic
-		$backend = $this->getMockBuilder(GroupInterface::class)
+		$backend = $this->getMockBuilder(ISearchableGroupInterface::class)
 			->disableOriginalConstructor()
 			->setMethods([
 				'getGroupDetails',

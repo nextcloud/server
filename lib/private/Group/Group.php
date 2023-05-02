@@ -251,15 +251,15 @@ class Group implements IGroup {
 		$users = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof ISearchableGroupBackend) {
-				$users = array_merge($users, array_values($backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0)));
+				$users += $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
 			} else {
 				$userIds = $backend->usersInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
 				$userManager = \OCP\Server::get(IUserManager::class);
-				$userObjects = array_map(
-					fn (string $userId): IUser => new LazyUser($userId, $userManager),
-					$userIds
-				);
-				$users = array_merge($users, $userObjects);
+				foreach ($userIds as $userId) {
+					if (!isset($users[$userId])) {
+						$users[$userId] = new LazyUser($userId, $userManager);
+					}
+				}
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return $users;
@@ -375,10 +375,7 @@ class Group implements IGroup {
 	 * @param string[] $userIds an array containing user IDs
 	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
 	 */
-	private function getVerifiedUsers($userIds) {
-		if (!is_array($userIds)) {
-			return [];
-		}
+	private function getVerifiedUsers(array $userIds): array {
 		$users = [];
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);
