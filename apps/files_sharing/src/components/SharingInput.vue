@@ -24,7 +24,7 @@
 	<div class="sharing-search">
 		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
 		<NcSelect ref="select"
-			id="sharing-search-input"
+			input-id="sharing-search-input"
 			class="sharing-search__input"
 			:disabled="!canReshare"
 			:loading="loading"
