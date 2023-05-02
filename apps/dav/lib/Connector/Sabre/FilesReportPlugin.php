@@ -454,10 +454,10 @@ class FilesReportPlugin extends ServerPlugin {
 		return $results;
 	}
 
-	protected function wrapNode(\OCP\Files\File|\OCP\Files\Folder $node): File|Directory {
+	protected function wrapNode(\OCP\Files\Node $node): \Sabre\DAV\INode {
 		if ($node instanceof \OCP\Files\File) {
 			return new File($this->fileView, $node);
-		} else {
+		} elseif ($node instanceof \OCP\Files\Folder) {
 			return new Directory($this->fileView, $node);
 		}
 	}
