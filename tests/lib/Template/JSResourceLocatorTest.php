@@ -135,7 +135,6 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$this->assertEquals($expectedWebRoot, $webRoot);
 		$this->assertEquals($expectedFile, $file);
 
-		array_pop(\OC::$APPSROOTS);
 		//unlink($new_apps_path_symlink);
 		//$this->rrmdir($new_apps_path);
 	}
@@ -173,8 +172,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 			$this->assertEquals($expectedWebRoot, $resources[$idx][1]);
 			$this->assertEquals($expectedFiles[$idx], $resources[$idx][2]);
 		}
-		
-		array_pop(\OC::$APPSROOTS);
+
 		$this->rrmdir($new_apps_path);
 	}
 }
