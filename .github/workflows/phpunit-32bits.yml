@@ -1,6 +1,10 @@
 name: PHPUnit 32bits
 
 on:
+  pull_request:
+    paths:
+      - 'version.php'
+      - '.github/workflows/phpunit-32bits.yml'
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
