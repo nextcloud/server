@@ -651,6 +651,8 @@ class Generator {
 				return 'png';
 			case 'image/jpeg':
 				return 'jpg';
+			case 'image/webp':
+				return 'webp';
 			case 'image/gif':
 				return 'gif';
 			default:
