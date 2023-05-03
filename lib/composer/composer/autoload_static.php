@@ -648,6 +648,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Talk\\IConversationOptions' => __DIR__ . '/../../..' . '/lib/public/Talk/IConversationOptions.php',
         'OCP\\Talk\\ITalkBackend' => __DIR__ . '/../../..' . '/lib/public/Talk/ITalkBackend.php',
         'OCP\\Template' => __DIR__ . '/../../..' . '/lib/public/Template.php',
+        'OCP\\Translation\\CouldNotTranslateException' => __DIR__ . '/../../..' . '/lib/public/Translation/CouldNotTranslateException.php',
         'OCP\\Translation\\IDetectLanguageProvider' => __DIR__ . '/../../..' . '/lib/public/Translation/IDetectLanguageProvider.php',
         'OCP\\Translation\\ITranslationManager' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationManager.php',
         'OCP\\Translation\\ITranslationProvider' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationProvider.php',
