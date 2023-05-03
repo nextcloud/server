@@ -24,6 +24,7 @@
 		<div id="weather-status-menu-item">
 			<NcActions class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
+				:aria-label="currentWeatherMessage"
 				:menu-title="currentWeatherMessage">
 				<NcActionText v-if="gotWeather"
 					:icon="futureWeatherIcon">
