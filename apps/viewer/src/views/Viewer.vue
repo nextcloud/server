@@ -78,6 +78,14 @@
 				{{ t('viewer', 'Edit') }}
 			</NcActionButton>
 			<!-- Menu items -->
+			<NcActionButton :close-after-click="true"
+				@click="toggleFullScreen">
+				<template #icon>
+					<Fullscreen v-if="!isFullscreenMode" :size="20" />
+					<FullscreenExit v-else :size="20" />
+				</template>
+				{{ isFullscreenMode ? t('viewer', 'Exit full screen') : t('viewer', 'Full screen') }}
+			</NcActionButton>
 			<NcActionButton v-if="Sidebar && sidebarOpenFilePath && !isSidebarShown"
 				:close-after-click="true"
 				icon="icon-menu-sidebar"
@@ -180,6 +188,8 @@ import logger from '../services/logger.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
+import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
 export default {
@@ -189,6 +199,8 @@ export default {
 		Delete,
 		Download,
 		Error,
+		Fullscreen,
+		FullscreenExit,
 		NcActionButton,
 		NcActionLink,
 		NcModal,
@@ -228,6 +240,7 @@ export default {
 			// Flags
 			sidebarWidth: 0,
 			isSidebarShown: false,
+			isFullscreenMode: false,
 			canSwipe: true,
 			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
 			theme: null,
@@ -276,6 +289,10 @@ export default {
 		},
 		isEndOfList() {
 			return this.currentIndex === this.fileList.length - 1
+		},
+
+		isImage() {
+			return ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
 		},
 
 		/**
@@ -327,7 +344,7 @@ export default {
 			return !this.isMobile
 				&& canDownload()
 				&& this.currentFile?.permissions?.includes('W')
-				&& ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
+				&& this.isImage
 		},
 
 		modalClass() {
@@ -337,6 +354,7 @@ export default {
 				'theme--dark': this.theme === 'dark',
 				'theme--light': this.theme === 'light',
 				'theme--default': this.theme === 'default',
+				'image--fullscreen': this.isImage && this.isFullscreenMode,
 			}
 		},
 	},
@@ -407,6 +425,7 @@ export default {
 				}
 			}
 		},
+
 	},
 
 	beforeMount() {
@@ -447,6 +466,7 @@ export default {
 		window.addEventListener('keydown', this.keyboardDeleteFile)
 		window.addEventListener('keydown', this.keyboardDownloadFile)
 		window.addEventListener('keydown', this.keyboardEditFile)
+		this.addFullscreenEventListeners()
 	},
 
 	beforeDestroy() {
@@ -461,6 +481,7 @@ export default {
 		window.removeEventListener('keydown', this.keyboardDeleteFile)
 		window.removeEventListener('keydown', this.keyboardDownloadFile)
 		window.removeEventListener('keydown', this.keyboardEditFile)
+		this.removeFullscreenEventListeners()
 	},
 
 	methods: {
@@ -803,6 +824,10 @@ export default {
 			if (OCA?.Files?.Sidebar) {
 				OCA.Files.Sidebar.setFullScreenMode(false)
 			}
+
+			if (this.isFullscreenMode) {
+				this.exitFullscreen()
+			}
 		},
 
 		keyboardDeleteFile(event) {
@@ -977,6 +1002,55 @@ export default {
 		handleTrapElementsChange(element) {
 			this.trapElements.push(element)
 		},
+
+		// Support full screen API on standard-compliant browsers and Safari (apparently except iPhone).
+		// Implementation based on:
+		//   https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API/Guide
+
+		toggleFullScreen() {
+			if (this.isFullscreenMode) {
+				this.exitFullscreen()
+			} else {
+				this.requestFullscreen()
+			}
+		},
+
+		requestFullscreen() {
+			const el = document.documentElement
+			if (el.requestFullscreen) {
+				el.requestFullscreen()
+			} else if (el.webkitRequestFullscreen) {
+				el.webkitRequestFullscreen()
+			}
+		},
+
+		exitFullscreen() {
+			if (document.exitFullscreen) {
+				document.exitFullscreen()
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen()
+			}
+		},
+
+		addFullscreenEventListeners() {
+			document.addEventListener('fullscreenchange', this.onFullscreenchange)
+			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange)
+		},
+
+		removeFullscreenEventListeners() {
+			document.addEventListener('fullscreenchange', this.onFullscreenchange)
+			document.addEventListener('webkitfullscreenchange', this.onFullscreenchange)
+		},
+
+		onFullscreenchange() {
+			if (document.fullscreenElement === document.documentElement
+				|| document.webkitFullscreenElement === document.documentElement) {
+				this.isFullscreenMode = true
+			} else {
+				this.isFullscreenMode = false
+			}
+		},
+
 	},
 }
 </script>
@@ -1061,6 +1135,28 @@ export default {
 
 			button svg, a {
 				color: var(--color-main-text) !important;
+			}
+		}
+	}
+
+	&.image--fullscreen {
+		// Special display mode for images in full screen
+		:deep(.modal-header) {
+			.modal-title {
+				// Hide file name
+				opacity: 0;
+			}
+			.icons-menu {
+				// Semi-transparent background for icons only
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+		}
+		:deep(.modal-wrapper) {
+			.modal-container {
+				// Use entire screen height
+				top: 0;
+				bottom: 0;
+				height: 100%;
 			}
 		}
 	}
