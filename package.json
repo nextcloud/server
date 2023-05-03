@@ -107,6 +107,7 @@
     "vue-localstorage": "^0.6.2",
     "vue-material-design-icons": "^5.0.0",
     "vue-multiselect": "^2.1.6",
+    "vue-observe-visibility": "^1.0.0",
     "vue-router": "^3.6.5",
     "vue-virtual-scroller": "^1.1.2",
     "vuedraggable": "^2.24.3",
