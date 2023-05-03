@@ -237,6 +237,7 @@ OC.L10N.register(
     "Upload profile picture" : "Lähetä profiilikuva",
     "Choose profile picture from Files" : "Valitse profiilikuva tiedostoista",
     "Remove profile picture" : "Poista profiilikuva",
+    "The file must be a PNG or JPG" : "Tiedoston tulee olla PNG tai JPG",
     "Picture provided by original account" : "Kuvan tarjoaa alkuperäinen tili",
     "Cancel" : "Peru",
     "Set as profile picture" : "Aseta profiilikuvaksi",
