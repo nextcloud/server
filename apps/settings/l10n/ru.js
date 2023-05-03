@@ -425,7 +425,7 @@ OC.L10N.register(
     "App bundles" : "Пакеты приложений",
     "Featured apps" : "Рекомендуемые приложения",
     "Show to everyone" : "Видим для всех",
-    "Show to logged in users only" : "Видим только для пользователей, вошедших в систему",
+    "Show to logged in users only" : "Видим только для вошедших в систему",
     "Hide" : "Скрыт",
     "Download and enable" : "Скачать и включить",
     "Enable untested app" : "Включить непроверенное приложение",
