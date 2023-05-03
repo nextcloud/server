@@ -1344,7 +1344,8 @@ class Manager implements ICommentsManager {
 			->set('creation_timestamp', $qb->createNamedParameter($comment->getCreationDateTime(), 'datetime'))
 			->set('latest_child_timestamp', $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'))
 			->set('object_type', $qb->createNamedParameter($comment->getObjectType()))
-			->set('object_id', $qb->createNamedParameter($comment->getObjectId()));
+			->set('object_id', $qb->createNamedParameter($comment->getObjectId()))
+			->set('expire_date', $qb->createNamedParameter($comment->getExpireDate(), 'datetime'));
 
 		if ($tryWritingReferenceId) {
 			$qb->set('reference_id', $qb->createNamedParameter($comment->getReferenceId()));
