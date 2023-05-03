@@ -162,7 +162,7 @@ describe('User select a bright custom color and remove background', function() {
 
 	it('See the header being inverted', function() {
 		cy.waitUntil(() => cy.window().then((win) => {
-			const firstEntry = win.document.querySelector('.app-menu-main li')
+			const firstEntry = win.document.querySelector('.app-menu-main li img')
 			if (!firstEntry) {
 				return false
 			}
