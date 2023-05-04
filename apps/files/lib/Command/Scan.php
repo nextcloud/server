@@ -58,6 +58,7 @@ class Scan extends Base {
 	protected float $execTime = 0;
 	protected int $foldersCounter = 0;
 	protected int $filesCounter = 0;
+	protected int $errorsCounter = 0;
 	private IRootFolder $root;
 	private MetadataManager $metadataManager;
 
@@ -148,10 +149,12 @@ class Scan extends Base {
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
 			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', OutputInterface::VERBOSITY_VERBOSE);
+			++$this->errorsCounter;
 		});
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output) {
 			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
+			++$this->errorsCounter;
 		});
 
 		try {
@@ -163,14 +166,17 @@ class Scan extends Base {
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable or 'files' subdirectory missing</error>");
 			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
+			++$this->errorsCounter;
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('Interrupted by user');
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
+			++$this->errorsCounter;
 		} catch (\Exception $e) {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
+			++$this->errorsCounter;
 		}
 	}
 
@@ -259,6 +265,7 @@ class Scan extends Base {
 		$e = new \ErrorException($message, 0, $severity, $file, $line);
 		$output->writeln('<error>Error during scan: ' . $e->getMessage() . '</error>');
 		$output->writeln('<error>' . $e->getTraceAsString() . '</error>', OutputInterface::VERBOSITY_VERY_VERBOSE);
+		++$this->errorsCounter;
 		return true;
 	}
 
@@ -270,28 +277,18 @@ class Scan extends Base {
 		$this->execTime += microtime(true);
 
 		$headers = [
-			'Folders', 'Files', 'Elapsed time'
+			'Folders',
+			'Files',
+			'Errors',
+			'Elapsed time',
 		];
-
-		$this->showSummary($headers, null, $output);
-	}
-
-	/**
-	 * Shows a summary of operations
-	 *
-	 * @param string[] $headers
-	 * @param string[] $rows
-	 * @param OutputInterface $output
-	 */
-	protected function showSummary($headers, $rows, OutputInterface $output) {
 		$niceDate = $this->formatExecTime();
-		if (!$rows) {
-			$rows = [
-				$this->foldersCounter,
-				$this->filesCounter,
-				$niceDate,
-			];
-		}
+		$rows = [
+			$this->foldersCounter,
+			$this->filesCounter,
+			$this->errorsCounter,
+			$niceDate,
+		];
 		$table = new Table($output);
 		$table
 			->setHeaders($headers)
