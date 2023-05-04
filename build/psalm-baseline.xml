@@ -2875,9 +2875,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
-    <FalsableReturnStatement>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidOperand>
       <code>$result</code>
       <code>$result</code>
@@ -2886,12 +2883,10 @@
     <InvalidReturnStatement>
       <code>$newUnencryptedSize</code>
       <code>$result</code>
-      <code><![CDATA[$this->storage->file_get_contents($path)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>bool</code>
       <code>int</code>
-      <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument>
       <code>$lastChunkPos</code>
