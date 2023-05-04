@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2023, Côme Chilliet <come.chilliet@nextcloud.com>
  *
- * @author essys <essys@users.noreply.github.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,61 +23,39 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Encryption\Command;
 
 use OC\Files\View;
-use OCA\Encryption\Util;
-use OCP\IConfig;
+use OCA\Encryption\KeyManager;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ScanLegacyFormat extends Command {
-	/** @var Util */
-	protected $util;
+class FixLegacyFileKey extends Command {
+	private View $rootView;
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var  QuestionHelper */
-	protected $questionHelper;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var View */
-	private $rootView;
-
-	/**
-	 * @param Util $util
-	 * @param IConfig $config
-	 * @param QuestionHelper $questionHelper
-	 */
-	public function __construct(Util $util,
-								IConfig $config,
-								QuestionHelper $questionHelper,
-								IUserManager $userManager) {
+	public function __construct(
+		private IUserManager $userManager,
+		private KeyManager $keyManager,
+	) {
 		parent::__construct();
 
-		$this->util = $util;
-		$this->config = $config;
-		$this->questionHelper = $questionHelper;
-		$this->userManager = $userManager;
 		$this->rootView = new View();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
-			->setName('encryption:scan:legacy-format')
-			->setDescription('Scan the files for the legacy format');
+			->setName('encryption:fix-legacy-filekey')
+			->setDescription('Scan the files for the legacy filekey format using RC4 and get rid of it (if master key is enabled)');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$result = true;
 
-		$output->writeln('Scanning all files for legacy encryption');
+		$output->writeln('<info>Scanning all files for legacy filekey</info>');
 
 		foreach ($this->userManager->getBackends() as $backend) {
 			$limit = 500;
@@ -120,7 +97,28 @@ class ScanLegacyFormat extends Command {
 				$stats = $this->rootView->stat($path);
 				if (!isset($stats['hasHeader']) || $stats['hasHeader'] === false) {
 					$clean = false;
-					$output->writeln($path . ' does not have a proper header');
+					$output->writeln('<error>' . $path . ' does not have a proper header</error>');
+				} else {
+					try {
+						$legacyFileKey = $this->keyManager->getFileKey($path, null, true);
+						if ($legacyFileKey === '') {
+							$output->writeln('Got an empty legacy filekey for ' . $path . ', continuing', OutputInterface::VERBOSITY_VERBOSE);
+							continue;
+						}
+					} catch (GenericEncryptionException $e) {
+						$output->writeln('Got a decryption error for legacy filekey for ' . $path . ', continuing', OutputInterface::VERBOSITY_VERBOSE);
+						continue;
+					}
+					/* If that did not throw and filekey is not empty, a legacy filekey is used */
+					$clean = false;
+					$output->writeln($path . ' is using a legacy filekey, migrating');
+					$file = $this->rootView->fopen($path, 'w+');
+					if ($file) {
+						fwrite($file, '');
+						fclose($file);
+					} else {
+						$output->writeln('<error>failed to open' . $path . '</error>');
+					}
 				}
 			}
 		}
@@ -130,10 +128,8 @@ class ScanLegacyFormat extends Command {
 
 	/**
 	 * setup user file system
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
