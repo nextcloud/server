@@ -42,7 +42,7 @@ class SystemTagsInUseCollection extends \Sabre\DAV\SimpleCollection {
 		$this->userSession = $userSession;
 		$this->rootFolder = $rootFolder;
 		$this->mediaType = $mediaType;
-		$this->name = 'systemtags-current';
+		$this->name = 'systemtags-assigned';
 		if ($this->mediaType != '') {
 			$this->name .= '/' . $this->mediaType;
 		}
