@@ -52,10 +52,20 @@ class Util {
 	}
 
 	/**
+	 * Should we invert the text on this background color?
 	 * @param string $color rgb color value
 	 * @return bool
 	 */
-	public function invertTextColor($color) {
+	public function invertTextColor(string $color): bool {
+		return $this->isBrightColor($color);
+	}
+
+	/**
+	 * Is this color too bright ?
+	 * @param string $color rgb color value
+	 * @return bool
+	 */
+	public function isBrightColor(string $color): bool {
 		$l = $this->calculateLuma($color);
 		if ($l > 0.6) {
 			return true;
