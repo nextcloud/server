@@ -109,6 +109,8 @@ OC.L10N.register(
     "Create new folder" : "新增資料夾",
     "Upload file" : "上傳檔案",
     "Recent" : "近期",
+    "This file has the tag {tag}" : "此檔案有標籤 {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "此檔案有標籤 {firstTags} 與 {lastTag}",
     "Not favorited" : "未加入至最愛",
     "Remove from favorites" : "從最愛中移除",
     "Add to favorites" : "新增至最愛",
