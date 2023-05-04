@@ -38,8 +38,9 @@ trait CommonThemeTrait {
 	 * will change in between.
 	 */
 	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
+		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
 		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor);
 		$colorPrimaryElementDefault = $this->util->elementColor($this->defaultPrimaryColor);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
@@ -65,13 +66,15 @@ trait CommonThemeTrait {
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-default-hover' => $this->util->mix($colorPrimaryElementDefault, $colorMainBackground, 60),
-			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
 			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
-			'--color-primary-element-light' => $colorPrimaryElementLight,
-			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
+			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
+			'--color-primary-element-light' => $colorPrimaryElementLight,
 			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
+			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+
+			// default global primary element hover. To be used with --color-primary-default
+			'--color-primary-element-default-hover' => $this->util->mix($colorPrimaryElementDefault, $colorMainBackground, 60),
 
 			// to use like this: background-image: var(--gradient-primary-background);
 			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',
