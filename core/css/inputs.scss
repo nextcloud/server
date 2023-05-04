@@ -128,13 +128,13 @@ button:not(
 				box-shadow: 0 0 0 2px var(--color-main-text);
 			}
 			&:active {
-				color: var(--color-primary-text-dark);
+				color: var(--color-primary-element-text-dark);
 			}
 		}
 		&:disabled {
 			// opacity is already defined to .5 if disabled
 			background-color: var(--color-primary-element);
-			color: var(--color-primary-text-dark);
+			color: var(--color-primary-element-text-dark);
 			cursor: default;
 		}
 	}
