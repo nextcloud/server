@@ -109,6 +109,8 @@ OC.L10N.register(
     "Create new folder" : "Skapa ny mapp",
     "Upload file" : "Ladda upp fil",
     "Recent" : "Senaste",
+    "This file has the tag {tag}" : "Den här filen har taggen {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Den här filen har taggarna {firstTags} och {lastTag}",
     "Not favorited" : "Inte favoriserade",
     "Remove from favorites" : "Ta bort från favoriter",
     "Add to favorites" : "Lägg till i favoriter",

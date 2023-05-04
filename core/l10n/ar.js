@@ -221,6 +221,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} تم تحديد)",
     "Error loading file exists template" : "خطأ في تحميل القالب الحالي",
     "Show list view" : "اظهر معاينات الروابط",
+    "Show grid view" : "أعرض شبكياً",
     "Pending" : "معلّق",
     "Home" : "الرئيسية",
     "Copy to {folder}" : "أنسخ إلى {folder}",
