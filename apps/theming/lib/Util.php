@@ -91,7 +91,7 @@ class Util {
 
 		if (!$brightBackground && $luminance < 0.2) {
 			// If the color is too dark in dark mode, we fall back to a brighter gray
-			return '#555555';
+			return '#8c8c8c';
 		}
 
 		return $color;
