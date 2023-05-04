@@ -20,6 +20,7 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use OC\SystemTag\SystemTag;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -58,6 +59,10 @@ class SystemTagList implements Element {
 	}
 
 	public function xmlSerialize(Writer $writer): void {
+		usort($this->tags, function(SystemTag $a, SystemTag $b) {
+			return strnatcmp($a->getName(), $b->getName());
+		});
+
 		foreach ($this->tags as $tag) {
 			$writer->startElement('{' . self::NS_NEXTCLOUD . '}system-tag');
 			$writer->writeAttributes([
