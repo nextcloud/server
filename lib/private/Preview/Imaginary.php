@@ -143,6 +143,8 @@ class Imaginary extends ProviderV2 {
 					'content-type' => $file->getMimeType(),
 					'body' => $stream,
 					'nextcloud' => ['allow_local_address' => true],
+					'timeout' => 120,
+					'connect_timeout' => 3,
 				]);
 		} catch (\Exception $e) {
 			$this->logger->error('Imaginary preview generation failed: ' . $e->getMessage(), [
