@@ -95,15 +95,6 @@ trait CommonThemeTrait {
 		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
 		$variables['--color-background-plain'] = $this->defaultPrimaryColor;
 
-		// If primary as background has been request or if we have a custom primary colour
-		// let's not define the background image
-		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
-			$variables['--image-background-plain'] = 'yes';
-			// If no background image is set, we need to check against the shown primary colour
-			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
-		}
-
 		// Register image variables only if custom-defined
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
@@ -113,8 +104,18 @@ trait CommonThemeTrait {
 			}
 		}
 
+		// If primary as background has been request or if we have a custom primary colour
+		// let's not define the background image
+		if ($backgroundDeleted) {
+			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
+			$variables['--image-background-plain'] = 'yes';
+			$variables['--image-background'] = 'no';
+			// If no background image is set, we need to check against the shown primary colour
+			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
+		}
+
 		if ($hasCustomLogoHeader) {
-			$variables["--image-logoheader-custom"] = 'true';
+			$variables['--image-logoheader-custom'] = 'true';
 		}
 
 		return $variables;
