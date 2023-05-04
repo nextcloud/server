@@ -27,20 +27,31 @@ declare(strict_types=1);
 namespace OCA\DAV\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OC\User\NoUserException;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\SimpleCollection;
 
-class SystemTagsInUseCollection extends \Sabre\DAV\SimpleCollection {
+class SystemTagsInUseCollection extends SimpleCollection {
 	protected IUserSession $userSession;
 	protected IRootFolder $rootFolder;
 	protected string $mediaType;
+	private ISystemTagManager $systemTagManager;
 
-	public function __construct(IUserSession $userSession, IRootFolder $rootFolder, string $mediaType = '') {
+	/** @noinspection PhpMissingParentConstructorInspection */
+	public function __construct(
+		IUserSession $userSession,
+		IRootFolder $rootFolder,
+		ISystemTagManager $systemTagManager,
+		string $mediaType = ''
+	) {
 		$this->userSession = $userSession;
 		$this->rootFolder = $rootFolder;
+		$this->systemTagManager = $systemTagManager;
 		$this->mediaType = $mediaType;
 		$this->name = 'systemtags-assigned';
 		if ($this->mediaType != '') {
@@ -52,25 +63,38 @@ class SystemTagsInUseCollection extends \Sabre\DAV\SimpleCollection {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
-	public function getChild($name) {
+	public function getChild($name): self {
 		if ($this->mediaType !== '') {
 			throw new NotFound('Invalid media type');
 		}
-		return new self($this->userSession, $this->rootFolder, $name);
+		return new self($this->userSession, $this->rootFolder, $this->systemTagManager, $name);
 	}
 
-	public function getChildren() {
+	/**
+	 * @return SystemTagNode[]
+	 * @throws NotPermittedException
+	 * @throws Forbidden
+	 */
+	public function getChildren(): array {
 		$user = $this->userSession->getUser();
-		if ($user === null) {
+		$userFolder = null;
+		try {
+			if ($user) {
+				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			}
+		} catch (NoUserException) {
+			// will throw a Sabre exception in the next step.
+		}
+		if ($user === null || $userFolder === null) {
 			throw new Forbidden('Permission denied to read this collection');
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$result = $userFolder->getSystemTags($this->mediaType);
 		$children = [];
 		foreach ($result as $tagData) {
 			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable']);
-			$node = new SystemTagNode($tag, $user, false, \OCP\Server::get(ISystemTagManager::class));
+			// read only, so we can submit the isAdmin parameter as false generally
+			$node = new SystemTagNode($tag, $user, false, $this->systemTagManager);
 			$node->setNumberOfFiles($tagData['number_files']);
 			$node->setReferenceFileId($tagData['ref_file_id']);
 			$children[] = $node;
