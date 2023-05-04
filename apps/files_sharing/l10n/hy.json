@@ -1,0 +1,8 @@
+{ "translations": {
+    "Cancel" : "Չեղարկել",
+    "Password" : "Գաղտնաբառ",
+    "Name" : "Անուն",
+    "Download" : "Ներբեռնել",
+    "Download %s" : "Ներբեռնել %s"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,175 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author zulan <git@zulan.net>
+ *
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ *
+ */
+namespace OCA\Settings\AppInfo;
+
+use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\Events\AppPasswordCreatedEvent;
+use OC\Authentication\Token\IProvider;
+use OC\Server;
+use OCA\Settings\Hooks;
+use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
+use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\UserAddedToGroupActivityListener;
+use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
+use OCA\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Middleware\SubadminMiddleware;
+use OCA\Settings\Search\AppSearch;
+use OCA\Settings\Search\SectionSearch;
+use OCA\Settings\UserMigration\AccountMigrator;
+use OCA\Settings\WellKnown\ChangePasswordHandler;
+use OCA\Settings\WellKnown\SecurityTxtHandler;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
+use OCP\Defaults;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\IServerContainer;
+use OCP\Settings\IManager;
+use OCP\Util;
+
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'settings';
+
+	/**
+	 * @param array $urlParams
+	 */
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
+	}
+
+	public function register(IRegistrationContext $context): void {
+		// Register Middleware
+		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
+		$context->registerMiddleware(SubadminMiddleware::class);
+		$context->registerSearchProvider(SectionSearch::class);
+		$context->registerSearchProvider(AppSearch::class);
+
+		// Register listeners
+		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
+
+		// Register well-known handlers
+		$context->registerWellKnownHandler(SecurityTxtHandler::class);
+		$context->registerWellKnownHandler(ChangePasswordHandler::class);
+
+		/**
+		 * Core class wrappers
+		 */
+		/** FIXME: Remove once OC_User is non-static and mockable */
+		$context->registerService('isAdmin', function () {
+			return \OC_User::isAdminUser(\OC_User::getUser());
+		});
+		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
+		$context->registerService('isSubAdmin', function () {
+			$userObject = \OC::$server->getUserSession()->getUser();
+			$isSubAdmin = false;
+			if ($userObject !== null) {
+				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
+			}
+			return $isSubAdmin;
+		});
+		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
+			/** @var IServerContainer $serverContainer */
+			$serverContainer = $appContainer->query(IServerContainer::class);
+			return $serverContainer->query(IProvider::class);
+		});
+		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
+			/** @var IServerContainer $serverContainer */
+			$serverContainer = $appContainer->query(IServerContainer::class);
+			return $serverContainer->getSettingsManager();
+		});
+
+		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
+			/** @var Server $server */
+			$server = $appContainer->query(IServerContainer::class);
+			/** @var Defaults $defaults */
+			$defaults = $server->query(Defaults::class);
+
+			return new NewUserMailHelper(
+				$defaults,
+				$server->getURLGenerator(),
+				$server->getL10NFactory(),
+				$server->getMailer(),
+				$server->getSecureRandom(),
+				new TimeFactory(),
+				$server->getConfig(),
+				$server->getCrypto(),
+				Util::getDefaultEmailAddress('no-reply')
+			);
+		});
+
+		$context->registerUserMigrator(AccountMigrator::class);
+	}
+
+	public function boot(IBootContext $context): void {
+		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
+		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
+	}
+
+	/**
+	 * @param array $parameters
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws \Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function onChangePassword(array $parameters) {
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->onChangePassword($parameters['uid']);
+	}
+
+	/**
+	 * @param array $parameters
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws \Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function onChangeInfo(array $parameters) {
+		if ($parameters['feature'] !== 'eMailAddress') {
+			return;
+		}
+
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
+	}
+}

@@ -1,0 +1,22 @@
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+#app-content-systemtagsfilter .select2-container {
+	width: 30%;
+	margin-left: 10px;
+}
+
+#app-sidebar .app-sidebar-header__action .tag-label {
+	cursor: pointer;
+	padding: 13px 0;
+	display: flex;
+	color: var(--color-text-light);
+	position: relative;
+	margin-top: -20px;
+}

@@ -1,0 +1,90 @@
+@use 'variables';
+
+/* 938 = table min-width(688) + app-navigation width: 250\
+	$breakpoint-mobile +1 = size where app-navigation is hidden +1
+	688 = table min-width */
+$min-table-width: 688px;
+@media only screen and (max-width: $min-table-width + variables.$navigation-width) and (min-width: variables.$breakpoint-mobile + 1), only screen and (max-width: $min-table-width) {
+
+.app-files #app-content.dir-drop{
+	background-color: rgba(255, 255, 255, 1)!important;
+}
+
+table th.column-size,
+table td.filesize,
+table th.column-mtime,
+table td.date {
+	display: none;
+}
+
+/* remove padding to let border bottom fill the whole width*/
+table td {
+	padding: 0;
+}
+
+/* remove shift for multiselect bar to account for missing navigation */
+table.multiselect thead {
+	padding-left: 0;
+}
+
+.fileList a.action.action-menu img {
+	padding-left: 0;
+}
+
+.fileList .fileActionsMenu {
+	margin-right: 6px;
+}
+/* hide text of the share action on mobile */
+/* .hidden-visually for accessbility */
+.fileList a.action-share span:not(.icon):not(.avatar) {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+// Hide system tags on mobile
+td.filename a.name .system-tags {
+	display: none;
+}
+
+
+/* shorten elements for mobile */
+#uploadprogressbar, #uploadprogressbar .label.inner {
+	width: 50px;
+}
+/* hide desktop-only parts */
+#uploadprogressbar .desktop {
+	display: none !important;
+}
+#uploadprogressbar .mobile {
+	display: block !important;
+}
+
+/* ensure that it is visible over #app-content */
+table.dragshadow {
+	z-index: 1000;
+}
+
+}
+@media only screen and (max-width: 480px)  {
+	/* Only show icons */
+	table th .selectedActions {
+		float: right;
+	}
+	table th .selectedActions > a span:not(.icon) {
+		display: none;
+	}
+
+	/* Increase touch area for the icons */
+	table th .selectedActions a {
+		padding: 17px 14px;
+	}
+
+	/* Remove the margin to reduce the overlap between the name and the icons */
+	table.multiselect th .columntitle.name {
+		margin-left: 0;
+	}
+}

@@ -1,0 +1,61 @@
+<?php
+declare(strict_types=1);
+/**
+ * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+namespace OCA\Theming\Themes;
+
+use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
+use OCA\Theming\ITheme;
+use OCA\Theming\Themes\DefaultTheme;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IURLGenerator;
+
+class LightTheme extends DefaultTheme implements ITheme {
+
+	public function getId(): string {
+		return 'light';
+	}
+
+	public function getType(): int {
+		return ITheme::TYPE_THEME;
+	}
+
+	public function getTitle(): string {
+		return $this->l->t('Light theme');
+	}
+
+	public function getEnableLabel(): string {
+		return $this->l->t('Enable the default light theme');
+	}
+
+	public function getDescription(): string {
+		return $this->l->t('The default light appearance.');
+	}
+
+	public function getMediaQuery(): string {
+		return '(prefers-color-scheme: light)';
+	}
+}

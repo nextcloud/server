@@ -1,0 +1,17 @@
+{ "translations": {
+    "restored" : "restaurate",
+    "Deleted files" : "Files delite",
+    "Restore" : "Restaurar",
+    "Deleted" : "Delite",
+    "No deleted files" : "Nulle files delite",
+    "You will be able to recover deleted files from here" : "Tu potera recuperar files delite desde ci",
+    "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
+    "Select all" : "Selectionar toto",
+    "Name" : "Nomine",
+    "Actions" : "Actiones",
+    "Delete permanently" : "Deler permanentemente",
+    "This operation is forbidden" : "Iste operation es prohibite",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Iste directorio non es disponibile, per favor verifica le registros o contacta le administrator",
+    "Delete" : "Deler"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

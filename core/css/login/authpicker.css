@@ -1,0 +1,23 @@
+.picker-window {
+	display: inline-block;
+	padding: 16px;
+	margin: 20px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 0 10px var(--color-box-shadow);
+	cursor: default;
+}
+
+.picker-window.small {
+    max-width: 400px;
+}
+
+.picker-window h2 {
+    margin: 20px auto;
+}
+
+.apptoken-link {
+	margin: 20px;
+	display: block;
+}

@@ -1,0 +1,21 @@
+OC.L10N.register(
+    "files_trashbin",
+    {
+    "restored" : "adkrouet",
+    "Deleted files" : "Restroù diverket",
+    "This application enables users to restore files that were deleted from the system." : "Ar meziant-mañ a aotre an implijourienn da adtapout ho restroù a oa bet lamet eus ar sistem.",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Ar meziant-mañ a aotre an implijourienn da adkroui ar restroù a zo bet lamet eus ar sistem. Lak a ra da gwelet ur roll restroù lamet en etrefas web, ha dibaboù adkrouiñ ar restroù lamet en teuliadoù an implijer pe lemel anezho da viken eus ar sistem. Adkrouiñ ar restr a adkrou ivez pep stumm restr liammet, ma ez eus eus ar stumm meziant. Pa e vez lamet ur restr eus ur rannadenn, posupl eo adkrouién anezhañ gant memes doare, mes n'eo ket rannet kenn. dre ziouer, chom a ra ar restroù e pad 30 deiz.\nEvit ampechiñ un implijer da gol plas, ar meziant restroù Lamet n'a implijo nemet 50% eus ar lec'h dieub evit ar restrom lamet. Ma vez tremenet ar vevenn gant ar restroù lamet, lamet e vo ar restroù kozhañ betek ma vint en dro dindan ar vevenn. Muioc'h a ditouroù en dielvadur Restroù Lamet.",
+    "Restore" : "Adkrouiñ",
+    "Deleted" : "Lamet",
+    "No deleted files" : "Restr lemet ebet",
+    "You will be able to recover deleted files from here" : "Posupl a vo deoc'h adtapout restroù lamet diouzh al lec'h mañ",
+    "No entries found in this folder" : "Disoc'h ebet en teuliad-mañ",
+    "Select all" : "Dibab pep tra",
+    "Name" : "Anv",
+    "Actions" : "Oberoù",
+    "Delete permanently" : "Lamet da viken",
+    "This operation is forbidden" : "Difennet eo an ober-mañ",
+    "This directory is unavailable, please check the logs or contact the administrator" : "N'eus ket tu da dizhout an teuliad-mañ, lennit al logoù pe kit e darempred gant ar merour",
+    "Delete" : "Dilemel"
+},
+"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

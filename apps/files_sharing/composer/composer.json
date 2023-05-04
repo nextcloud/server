@@ -1,0 +1,13 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "autoloader-suffix": "Files_Sharing"
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\Files_Sharing\\": "../lib/"
+        }
+    }
+}

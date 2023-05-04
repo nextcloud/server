@@ -1,0 +1,25 @@
+{ "translations": {
+    "Unknown address" : "כתובת לא ידועה",
+    "No result." : "אין תוצאות.",
+    "Malformed JSON data." : "נתוני JSON פגומים.",
+    "Error" : "שגיאה",
+    "Weather status" : "מצב מזג אוויר",
+    "Weather status in your dashboard" : "מצב מזג אוויר בלוח המחוונים שלך.",
+    "Detect location" : "איתור מיקום",
+    "Set custom address" : "הגדרת כתובת משלך",
+    "Favorites" : "מועדפים",
+    "More weather for {adr}" : "מזג אוויר נוסף עבור {adr}",
+    "Loading weather" : "מזג האוויר נטען",
+    "Remove from favorites" : "הסרה מהמועדפים",
+    "Add as favorite" : "הוספה למועדפים",
+    "You are not logged in." : "לא נכנסת.",
+    "There was an error getting the weather status information." : "אירעה שגיאה בקבלת פרטי מצב מזג האוויר.",
+    "No weather information found" : "לא נמצאו פרטי מזג אוויר",
+    "Location not found" : "המיקום לא נמצא",
+    "There was an error setting the location address." : "אירעה שגיאה בהגדרות כתובת המיקום.",
+    "There was an error setting the location." : "אירעה שגיאה בהגדרת המיקום.",
+    "There was an error saving the mode." : "אירעה שגיאה בשמירת המצב.",
+    "There was an error using personal address." : "אירעה שגיאה בשימוש בכתובת האישית.",
+    "Set location for weather" : "הגדרת מיקום למזג האוויר"
+},"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
+}

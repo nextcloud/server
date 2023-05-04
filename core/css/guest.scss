@@ -1,0 +1,837 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ * SPDX-FileCopyrightText: 2022 Carl Schwan <carl@carlschwan.eu>
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+@import 'animations.scss';
+
+$guest-container-padding: 16px;
+
+/* Default and reset */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
+html { height:100%; }
+article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
+body { line-height:1.5; }
+table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
+caption, th, td { text-align:left; font-weight:normal; }
+table, td, th { vertical-align:middle; }
+a { border:0; color: var(--color-main-text); text-decoration:none;}
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
+ul { list-style:none; }
+
+body {
+	font-weight: normal;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
+	line-height: 1.6em;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	color: var(--color-text);
+	text-align: center;
+	/* As guest, there is no color-background-plain */
+	background-color: var(--color-background-plain, var(--color-primary-default, #0082c9));
+	/* As guest, there is no user background (--image-background)
+	1. User background if logged in ('no' if removed, that way the variable is _defined_)
+	2. Empty background if enabled ('yes' is used, that way the variable is _defined_)
+	3. Else default background
+	4. Finally default gradient (should not happened, the background is always defined anyway) */
+	background-image: var(--image-background, var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%))));
+    background-attachment: fixed;
+	min-height: 100%; /* fix sticky footer */
+	height: auto;
+	overflow: auto;
+	position: static;
+}
+
+/* Various fonts settings */
+#body-login {
+	a {
+		font-weight: 600;
+	}
+
+	footer a {
+		color: var(--color-text);
+	}
+
+	a:not(.button):hover,
+	a:not(.button):focus {
+		text-decoration: underline;
+		text-decoration-skip-ink: auto;
+	}
+}
+
+em {
+	font-style: normal;
+	opacity: .5;
+}
+
+/* heading styles */
+h2,
+h3,
+h4 {
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 20px;
+	margin-bottom: 12px;
+	line-height: 140%;
+}
+h3 {
+	font-size: 15px;
+	margin: 12px 0;
+}
+
+/* Global content */
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#header {
+	.logo {
+		background-image: var(--image-logo, url('../../core/img/logo/logo.svg'));
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		width: 175px;
+		height: 130px;
+		margin: 0 auto;
+		position: relative;
+		left: unset;
+	}
+}
+
+.wrapper {
+	width: 100%;
+	max-width: 700px;
+	margin-top: 10vh;
+}
+
+/* Default FORM */
+form {
+	position: relative;
+	margin: auto;
+	padding: 0;
+}
+form.install-form {
+	max-width: 300px;
+}
+
+form.install-form fieldset,
+form.install-form fieldset input {
+	width: 100%;
+}
+form.install-form .strengthify-wrapper {
+	bottom: 17px;
+	width: calc(100% - 8px);
+	left: 4px;
+	top: unset;
+}
+
+form.install-form #show {
+	top: 18px;
+}
+
+form #sqliteInformation {
+	margin-top: 0.5rem;
+	margin-bottom: 20px;
+}
+form #adminaccount, form #use_other_db {
+	margin-bottom: 15px;
+	text-align: left;
+}
+form #adminaccount > legend,
+form #adminlogin {
+	margin-bottom: 1rem;
+}
+form #advancedHeader {
+	width: 100%;
+}
+form fieldset legend, #datadirContent label {
+	width: 100%;
+}
+#datadirContent label {
+	display: block;
+	margin: 0;
+}
+form #datadirField legend {
+	margin-bottom: 15px;
+}
+
+/* View more button */
+#showAdvanced {
+	padding: 13px; /* increase clickable area of Advanced dropdown */
+}
+#showAdvanced img {
+	vertical-align: middle; /* adjust position of Advanced dropdown arrow */
+}
+
+/* Buttons and input */
+#submit-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 5px;
+	position: relative; /* Make the wrapper the containing block of its
+						   absolutely positioned descendant icons */
+}
+
+@media only screen and (max-width: 1024px) {
+	.wrapper {
+		margin-top: 0;
+	}
+}
+
+
+
+#submit-wrapper {
+	margin: 0 auto;
+
+	.submit-icon {
+		position: absolute;
+		right: 24px;
+		transition: right 100ms ease-in-out;
+		pointer-events: none; /* The submit icon is positioned on the submit button.
+							 From the user point of view the icon is part of the
+							 button, so the clicks on the icon have to be
+							 applied to the button instead. */
+	}
+	input.login:hover ~ .submit-icon.icon-confirm-white,
+	input.login:focus ~ .submit-icon.icon-confirm-white,
+	input.login:active ~ .submit-icon.icon-confirm-white {
+		right: 20px;
+	}
+
+	.icon-loading-small {
+		position: absolute;
+		top: 22px;
+		right: 26px;
+	}
+}
+
+
+
+input, textarea, select, button, div[contenteditable=true] {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+input,
+input:not([type='range']),
+input:not([type='text']),
+input:not([type='password']),
+a.button {
+	font-size: 20px;
+	margin: 5px;
+	padding: 5px;
+	outline: none;
+	border-radius: 3px; /* --border-radius */
+	-webkit-appearance: none;
+}
+
+input:not([type='radio']),
+input:not([type='range']) {
+    border-width: 2px;
+}
+
+input:not([type='range']):focus-visible {
+    box-shadow: none !important;
+}
+
+input[type='submit'],
+input[type='submit'].icon-confirm,
+input[type='button'],
+button,
+a.button,
+.button,
+select {
+	display: inline-block;
+	width: auto;
+	min-width: 25px;
+	padding: 12px;
+	background-color: var(--color-main-background);
+	font-weight: bold;
+	color: var(--color-text);
+	border: none;
+	border-radius: 100px; /* --border-radius-pill */
+	cursor: pointer;
+}
+
+.icon-confirm.input-button-inline {
+	position: absolute;
+	right: 3px;
+	top: 5px;
+}
+
+input[type='submit']:focus {
+	box-shadow: 0 0 0 2px inset var(--color-main-text) !important;
+}
+input[type='text'],
+input[type='tel'],
+input[type='password'],
+input[type='email'] {
+	width: 266px;
+	padding: 5px 10px;
+	color: var(--color-text-lighter);
+	cursor: text;
+	font-family: inherit;
+	font-weight: normal;
+	margin-left: 0;
+	margin-right: 0;
+}
+input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
+	width: 238px;
+	padding-right: 40px !important;
+}
+input.login {
+	width: 260px;
+	height: 50px;
+	background-position: right 16px center;
+}
+input[type='submit'],
+input[type='submit'].icon-confirm,
+input.updateButton,
+input.update-continue {
+	padding: 10px 20px; /* larger log in and installation buttons */
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Get rid of the inside dotted line in Firefox */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+}
+
+input.primary:not(:disabled):hover,
+input.primary:not(:disabled):focus,
+button.primary:not(:disabled):hover,
+button.primary:not(:disabled):focus,
+a.primary:not(:disabled):hover,
+a.primary:not(:disabled):focus {
+	color: var(--color-primary-text);
+}
+
+/* Checkboxes - white only for login */
+input[type='checkbox'].checkbox {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+input[type='checkbox'].checkbox + label {
+	user-select: none;
+}
+input[type='checkbox'].checkbox:disabled + label,
+input[type='checkbox'].checkbox:disabled + label:before {
+	cursor: default;
+}
+input[type='checkbox'].checkbox + label:before {
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px;
+	margin-top: 1px;
+	border: 1px solid #888;
+	border-radius: 1px;
+	height: 10px;
+	width: 10px;
+	background-position: center;
+}
+input[type='checkbox'].checkbox--white + label:before {
+	border-color: #ddd;
+}
+input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
+input[type='checkbox'].checkbox--white:focus + label:before {
+	border-color: #fff;
+}
+input[type='checkbox'].checkbox--white:checked + label:before {
+	background-color: #eee;
+	border-color: #eee;
+}
+input[type='checkbox'].checkbox--white:disabled + label:before {
+	background-color: #666 !important;
+	border-color: #999 !important;
+}
+input[type='checkbox'].checkbox--white:checked:disabled + label:before {
+	border-color: #666;
+	background-color: #222;
+}
+input[type='checkbox'].checkbox--white:checked + label:before {
+	background-color: transparent !important;
+	border-color: #fff !important;
+	background-image: url('../img/actions/checkbox-mark-white.svg');
+}
+
+/* Password strength meter */
+.strengthify-wrapper {
+	display: inline-block;
+	position: relative;
+	top: -20px;
+	width: 250px;
+	border-radius: 0 0 3px 3px;
+	overflow: hidden;
+	height: 3px;
+}
+.tooltip-inner {
+	font-weight: bold;
+	padding: 3px 6px;
+	text-align: center;
+}
+
+/* Show password toggle */
+#show, #dbpassword-toggle {
+	position: absolute;
+	right: 2px;
+	top: -3px;
+	display: flex;
+	justify-content: center;
+	width: 44px;
+	align-content: center;
+	padding: 13px;
+}
+
+#pass2, input[name='personal-password-clone'] {
+	padding: .6em 2.5em .4em .4em;
+	width: 8em;
+}
+#personal-show + label {
+	height: 14px;
+	margin-top: -25px;
+	left: 295px;
+	display: block;
+}
+#passwordbutton {
+	margin-left: .5em;
+}
+
+/* Dark subtle label text */
+p.info,
+form fieldset legend,
+#datadirContent label,
+form fieldset .warning-info,
+form input[type='checkbox']+label {
+	text-align: center;
+}
+/* overrides another !important statement that sets this to unreadable black */
+form .warning input[type='checkbox']:hover+label,
+form .warning input[type='checkbox']:focus+label,
+form .warning input[type='checkbox']+label {
+	color: var(--color-primary-text) !important;
+}
+
+.body-login-container.two-factor {
+	max-width: 290px;
+	margin: 15px auto 0;
+}
+.two-factor-provider {
+	display: flex;
+	border-radius: 3px; /* --border-radius */
+	margin: 12px 0;
+	border: 1px solid transparent;
+	text-align: left;
+	align-items: center;
+	text-decoration: none !important;
+
+	&:hover,
+	&:focus,
+	&:active {
+		border: 1px solid #fff;
+	}
+	img {
+		width: 64px;
+		height: 64px;
+		padding: 0 12px;
+	}
+	div {
+		margin: 12px 0;
+	}
+	h3 {
+		margin: 0;
+	}
+	p {
+		font-weight: normal;
+	}
+}
+.two-factor-icon {
+	width: 100px;
+	display: block;
+	margin: 0 auto;
+}
+.two-factor-submit {
+	width: 100%;
+	padding: 10px;
+	margin: 0 0 5px 0;
+	border-radius: 100px; /* --border-radius-pill */
+	font-size: 20px;
+}
+.two-factor-primary {
+	/* Fix for 'Use backup codes' button not taking correct styles */
+	padding: 14px !important;
+	width: 226px;
+}
+.two-factor-secondary {
+	display: inline-block;
+	padding: 12px;
+}
+
+
+/* Additional login options */
+#remember_login {
+	margin: 18px 5px 0 16px !important;
+}
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the ownCloud instance */
+.updateProgress .error {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* Database selector on install page */
+form #selectDbType {
+	text-align:center;
+	white-space: nowrap;
+	margin: 0;
+	display: flex;
+	.info {
+		white-space: normal;
+	}
+	label {
+		flex-grow: 1;
+		margin: 0 -1px 5px;
+		font-size: 12px;
+		background: var(--color-background-hover);
+		color: var(--color-main-text);
+		cursor:pointer;
+		border: 1px solid var(--color-border);
+		padding: 10px 17px;
+	}
+	label.ui-state-hover,
+	label.ui-state-active {
+		font-weight: normal;
+		background: var(--color-background-darker);
+		color: var(--color-main-text);
+	}
+	label span {
+		display: none;
+	}
+}
+
+
+/* Nicely grouping input field sets */
+.grouptop,
+.groupmiddle,
+.groupbottom {
+	position: relative;
+	user-select: none;
+}
+.grouptop, .groupmiddle {
+	margin-bottom: 8px !important;
+}
+.groupbottom {
+	margin-bottom: 13px;
+}
+.groupbottom input[type=submit] {
+	box-shadow: none !important;
+}
+.grouptop.groupbottom input {
+	border-radius: 3px !important;
+	margin: 5px 0 !important;
+}
+
+/* Errors */
+/* Warnings and errors are the same */
+.body-login-container {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	word-wrap: break-word;
+	border-radius: 10px; /* --border-radius-large */
+	cursor: default;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
+
+	/* TODO: Change all .warning/.update/.error to .body-login-container */
+	.icon-big {
+		background-size: 70px;
+		height: 70px;
+	}
+
+	form {
+		width: initial;
+	}
+
+	p:not(:last-child) {
+		margin-bottom: 12px;
+	}
+}
+
+
+/* Various paragraph styles */
+.infogroup {
+	margin: 8px 0;
+}
+.infogroup:last-child {
+	margin-bottom: 0;
+}
+p.info {
+	margin: 20px auto;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Update */
+.update {
+	width: calc(100% - 32px);
+	text-align: center;
+
+	.appList {
+		list-style: disc;
+		text-align: left;
+		margin-left: 25px;
+		margin-right: 25px;
+	}
+
+	img.float-spinner {
+		float: left;
+	}
+
+	a.update-show-detailed {
+		border-bottom: inherit;
+	}
+}
+#update-progress-detailed {
+	text-align: left;
+	margin-bottom: 12px;
+}
+.update-show-detailed {
+	padding: 12px;
+	display: block;
+	opacity: .75;
+
+	.icon-caret-white {
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+#update-progress-icon {
+	height: 32px;
+	margin: 10px;
+	background-size: 32px;
+}
+
+
+/* Icons */
+.icon-info-white {
+	background-image: url('../img/actions/info-white.svg?v=2');
+}
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg?v=1');
+}
+.icon-caret-white {
+	background-image: url('../img/actions/caret-white.svg?v=1');
+}
+.icon-confirm {
+	background-image: url('../img/actions/confirm.svg?v=2');
+}
+.icon-confirm-white {
+	background-image: url('../img/actions/confirm-white.svg?v=2');
+}
+.icon-checkmark-white {
+	background-image: url('../img/actions/checkmark-white.svg?v=1');
+}
+
+
+/* Loading */
+.float-spinner {
+	margin-top: -32px;
+	padding-top: 32px;
+	height: 32px;
+	display: none;
+}
+[class^='icon-'], [class*=' icon-'] {
+	background-repeat: no-repeat;
+	background-position: center;
+	min-width: 16px;
+	min-height: 16px;
+}
+.loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
+	position: relative;
+	filter: var(--background-invert-if-dark)
+}
+.loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
+	z-index: 2;
+	content: '';
+	height: 32px;
+	width: 32px;
+	margin: -17px 0 0 -17px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 100%;
+	-webkit-animation: rotate .8s infinite linear;
+	animation: rotate .8s infinite linear;
+	-webkit-transform-origin: center;
+	-ms-transform-origin: center;
+	transform-origin: center;
+}
+.primary .loading,.primary+.loading,.primary .loading-small,.primary+.loading-small,.primary .icon-loading,.primary+.icon-loading,.primary .icon-loading-dark,.primary+.icon-loading-dark,.primary .icon-loading-small,.primary+.icon-loading-small,.primary .icon-loading-small-dark,.primary+.icon-loading-small-dark {
+    filter: var(--primary-invert-if-bright)
+}
+.loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
+	border: 2px solid rgba(150, 150, 150, 0.5);
+	border-top-color: #646464;
+}
+.icon-loading-dark:after, .icon-loading-small-dark:after {
+	border: 2px solid rgba(187, 187, 187, 0.5);
+	border-top-color: #bbb;
+}
+.icon-loading-small:after, .icon-loading-small-dark:after {
+	height: 16px;
+	width: 16px;
+	margin: -9px 0 0 -9px;
+}
+/* Css replaced elements don't have ::after nor ::before */
+img.icon-loading, object.icon-loading, video.icon-loading, button.icon-loading, textarea.icon-loading, input.icon-loading, select.icon-loading, div[contenteditable=true].icon-loading {
+	background-image: url('../img/loading.gif');
+}
+img.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark, button.icon-loading-dark, textarea.icon-loading-dark, input.icon-loading-dark, select.icon-loading-dark, div[contenteditable=true].icon-loading-dark {
+	background-image: url('../img/loading-dark.gif');
+}
+img.icon-loading-small, object.icon-loading-small, video.icon-loading-small, button.icon-loading-small, textarea.icon-loading-small, input.icon-loading-small, select.icon-loading-small, div[contenteditable=true].icon-loading-small {
+	background-image: url('../img/loading-small.gif');
+}
+img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark, button.icon-loading-small-dark, textarea.icon-loading-small-dark, input.icon-loading-small-dark, select.icon-loading-small-dark, div[contenteditable=true].icon-loading-small-dark {
+	background-image: url('../img/loading-small-dark.gif');
+}
+@-webkit-keyframes rotate {
+	from {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+	}
+	to {
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
+	}
+}
+@keyframes rotate {
+	from {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+	}
+	to {
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
+	}
+}
+
+/* FOOTER */
+footer {
+	min-height: 70px;
+	margin-top: auto;
+	.info .entity-name {
+		font-weight: bold;
+	}
+}
+
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield,
+.hidden-visually {
+	position: absolute;
+	left: -10000px;
+	top: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+a.legal {
+	font-size: smaller;
+}
+
+.notecard {
+	color: var(--color-text-light);
+	background-color: var(--note-background);
+	border-left: 4px solid var(--note-theme);
+	border-radius: var(--border-radius);
+	margin: 1rem 0;
+	padding: 1rem;
+	text-align: left;
+
+	&.success {
+		--note-background: rgba(var(--color-success-rgb), 0.1);
+		--note-theme: var(--color-success);
+	}
+
+	&.error {
+		--note-background: rgba(var(--color-error-rgb), 0.1);
+		--note-theme: var(--color-error);
+	}
+
+	&.warning {
+		--note-background: rgba(var(--color-warning-rgb), 0.1);
+		--note-theme: var(--color-warning);
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	pre {
+		background-color: var(--color-background-dark);
+		margin-top: 1rem;
+		padding: 1em 1.3em;
+		border-radius: var(--border-radius);
+	}
+}
+
+.guest-box, .body-login-container {
+	color: var(--color-main-text);
+	background-color: var(--color-main-background);
+	padding: $guest-container-padding;
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 0 10px var(--color-box-shadow);
+	display: inline-block;
+}
+
+.guest-box {
+	&.wide {
+		display: block;
+		text-align: left;
+	}
+
+	fieldset {
+		margin-top: 0;
+	}
+
+	.pre {
+		overflow-x: scroll;
+	}
+}
+
+button.toggle-password {
+	background-color: transparent;
+	border-width: 0;
+	height: 44px;
+}
+
+/** Utilities */
+.margin-top {
+	margin-top: 1rem !important;
+}
+
+.text-left {
+	text-align: left !important;
+}
+
+.hidden {
+	display: none;
+}

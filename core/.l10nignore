@@ -1,0 +1,5 @@
+# compiled vue templates
+js/dist/
+js/contactsmenu_templates.js
+js/sharetemplates.js
+js/systemtags/templates.js

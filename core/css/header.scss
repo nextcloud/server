@@ -1,0 +1,262 @@
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Jos Poortvliet <jos@opensuse.org>
+ * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2015, Volker E <volker.e@temporaer.net>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+@use 'variables';
+
+/* prevent ugly selection effect on accidental selection */
+#header,
+#expanddiv {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+		outline: none;
+	}
+
+	a:not(.button):focus-visible::after, .button-vue:focus-visible::after, div[role=button]:focus-visible::after {
+		content: " ";
+		position: absolute;
+		transform: translateX(-50%);
+		width: 12px;
+		height: 2px;
+		border-radius: 3px;
+		background-color: var(--color-primary-text);
+		left: 50%;
+		opacity: 1;
+	}
+
+	a:not(.button):focus-visible::after, .button-vue:focus-visible::after {
+		bottom: 2px;
+	}
+
+	.header-right {
+		a:not(.button):focus-visible::after, div[role=button]:focus-visible::after {
+			bottom: 4px;
+		}
+
+		#expand.menutoggle:focus-visible::after {
+			left: 40%;
+		}
+	}
+
+}
+
+/* HEADERS ------------------------------------------------------------------ */
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	display: inline-flex;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 2000;
+	height: variables.$header-height;
+	box-sizing: border-box;
+	justify-content: space-between;
+}
+
+/* LOGO and APP NAME -------------------------------------------------------- */
+#nextcloud {
+	padding: 5px 0;
+	padding-left: 86px; // logo width + 2* pa
+	position: relative;
+	height: calc(100% - 4px);
+	box-sizing: border-box;
+	opacity: 1;
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
+	margin: 2px;
+
+	&:hover, &:active {
+		opacity: 1;
+	}
+}
+
+@mixin header-menu-height() {
+	min-height: calc(44px * 1.5); // show at least 1.5 entries
+	max-height: calc(100vh - #{variables.$header-height} - 8px);
+}
+
+#header {
+	/* Header menu */
+	$header-menu-entry-height: 44px;
+
+	.header-right > div > .menu {
+		background-color: var(--color-main-background);
+		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
+		border-radius: var(--border-radius-large);
+		box-sizing: border-box;
+		z-index: 2000;
+		position: absolute;
+		max-width: 350px;
+		@include header-menu-height();
+		right: 8px; // relative to parent
+		top: variables.$header-height;
+		margin: 0;
+		overflow-y: auto;
+
+		&:not(.popovermenu) {
+			display: none;
+		}
+
+		/* Dropdown arrow */
+		&:after {
+			border: 10px solid transparent;
+			border-bottom-color: var(--color-main-background);
+			bottom: 100%;
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			right: 10px;
+		}
+
+		& > div,
+		& > ul {
+			-webkit-overflow-scrolling: touch;
+			@include header-menu-height();
+		}
+	}
+	.logo {
+		display: inline-flex;
+		background-image: var(--image-logoheader, var(--image-logo, url('../img/logo/logo.svg')));
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		width: 62px;
+		position: absolute;
+		left: 12px;
+		top: 1px;
+		bottom: 1px;
+		// Invert if not customized and background is bright
+		filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
+	}
+
+	.header-appname-container {
+		display: none;
+		padding-right: 10px;
+		flex-shrink: 0;
+	}
+
+	#header-left, .header-left,
+	#header-right, .header-right {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	#header-left, .header-left {
+		flex: 1 0;
+		white-space: nowrap;
+		min-width: 0;
+	}
+
+	#header-right, .header-right {
+		justify-content: flex-end;
+		flex-shrink: 1;
+	}
+
+	/* Right header standard */
+	.header-right {
+		> div,
+		> form {
+			height: 100%;
+			position: relative;
+			> .menutoggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: variables.$header-height;
+				height: 44px;
+				cursor: pointer;
+				opacity: 0.85;
+				padding: 0;
+				margin: 2px 0;
+
+				&:focus {
+					opacity: 1;
+				}
+
+				&:focus-visible {
+					outline: none;
+				}
+			}
+		}
+	}
+}
+
+/* hover effect for app switcher label */
+
+.header-appname-container .header-appname {
+	opacity: .75;
+}
+
+/* TODO: move into minimal css file for public shared template */
+/* only used for public share pages now as we have the app icons when logged in */
+.header-appname {
+	color: var(--color-primary-text);
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	padding-right: 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	// Take full width to push the header-shared-by bellow (if any)
+	flex: 1 1 100%;
+}
+
+.header-shared-by  {
+	color: var(--color-primary-text);
+	position: relative;
+	font-weight: 300;
+	font-size: 11px;
+	line-height: 11px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Skip navigation links – show only on keyboard focus */
+#skip-actions {
+	position: absolute;
+	overflow: hidden;
+	z-index: 9999;
+	top: -999px;
+	left: 3px;
+	padding: 11px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 11px;
+
+	&:focus-within {
+		top: variables.$header-height;
+	}
+}
+
+/* Empty content messages in the header e.g. notifications, contacts menu, … */
+header #emptycontent,
+header .emptycontent {
+	h2 {
+		font-weight: normal;
+		font-size: 16px;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 48px;
+		height: 48px;
+		width: 48px;
+	}
+}

@@ -1,0 +1,16 @@
+.help-includes {
+	overflow: hidden !important;
+}
+
+.help-list__text {
+	margin-left: 24px;
+}
+
+.help-iframe {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	overflow: auto;
+}

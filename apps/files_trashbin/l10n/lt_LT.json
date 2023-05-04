@@ -1,0 +1,24 @@
+{ "translations": {
+    "restored" : "atkurta",
+    "Deleted files" : "Ištrinti failai",
+    "This application enables users to restore files that were deleted from the system." : "Ši programa leidžia vartotojams atkurti iš sistemos ištrintus failus.",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Ši programa leidžia vartotojams atkurti iš sistemos ištrintus failus. Ištrintų failų sąrašas yra gali būti atvaizduojamas žiniatinklyje ir turi nustatymus atkurti ištrintus failus vartotojų failų kataloguose arba visam laikui pašalinti juos iš sistemos. Atkūrus failą, kartu atkuriamos ir failo versijos, jei yra įjungta versijavimo programa. Ištrynus failą iš bendrinimo, jį taip pat galima atkurti , nors jis nebebendrinamas. Pagal numatytuosius nustatymus ištrinti failai lieka šiukšliadėžėje  30 dienų.\nKad naudotojai nepritrūktų vietos diske, programa „Ištrinti failai“ negali naudoti daugiau kaip 50% šiuo metu turimų nemokamų panaikintų failų kvotų. Jei numatyta riba yra viršijama, programa atrenka seniausius failus ir juos ištrina, kad užimata vieta neviršytų numatytosios ribos. Daugiau informacijos galite rasti ištrintų failų dokumentuose.",
+    "Restore" : "Atkurti",
+    "Deleted" : "Ištrinta",
+    "No deleted files" : "Jokių ištrintų failų",
+    "You will be able to recover deleted files from here" : "Čia galėsite atkurti ištrintus failus ",
+    "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
+    "Select all" : "Pažymėti viską",
+    "Name" : "Pavadinimas",
+    "Actions" : "Veiksmai",
+    "Delete permanently" : "Ištrinti negrįžtamai",
+    "Error while restoring file from trash bin" : "Klaida atkuriant failą iš šiukšlinės",
+    "Error while removing file from trash bin" : "Klaida šalinant failą iš šiukšlinės",
+    "Error while restoring files from trash bin" : "Klaida atkuriant failus iš šiukšlinės",
+    "Error while emptying trash bin" : "Klaida išvalant šiukšlinę",
+    "Error while removing files from trash bin" : "Klaida šalinant failus iš šiukšlinės",
+    "This operation is forbidden" : "Ši operacija yra uždrausta",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Šis katalogas neprieinamas, peržiūrėkite žurnalo įrašus arba susisiekite su administratoriumi",
+    "Delete" : "Ištrinti"
+},"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
+}

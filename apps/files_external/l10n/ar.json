@@ -1,0 +1,28 @@
+{ "translations": {
+    "Personal" : "شخصي",
+    "System" : "النظام",
+    "Saved" : "حفظ",
+    "Username" : "إسم المستخدم",
+    "Password" : "كلمة السر",
+    "Save" : "حفظ",
+    "None" : "لا شيء",
+    "App key" : "مفتاح التطبيق",
+    "App secret" : "التطبيق السري",
+    "Bucket" : "الحزمة",
+    "Hostname" : "إسم الإستضافة",
+    "Port" : "المنفذ",
+    "Region" : "المنطقة",
+    "WebDAV" : "WebDAV",
+    "URL" : "عنوان الموقع",
+    "Host" : "المضيف",
+    "Local" : "محلي",
+    "Location" : "المكان",
+    "ownCloud" : "ownCloud",
+    "Share" : "شارك",
+    "Name" : "اسم",
+    "Never" : "أبدا",
+    "Folder name" : "اسم المجلد",
+    "Configuration" : "إعداد",
+    "Delete" : "إلغاء"
+},"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
+}

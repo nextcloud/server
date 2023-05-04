@@ -1,0 +1,19 @@
+OC.L10N.register(
+    "files_trashbin",
+    {
+    "Couldn't delete %s permanently" : "Ne mogu zauvek da obrišem %s",
+    "Couldn't restore %s" : "Ne mogu da vratim %s",
+    "Deleted files" : "Obrisani fajlovi",
+    "Restore" : "Vrati",
+    "Delete" : "Obriši",
+    "Delete permanently" : "Obriši zauvek",
+    "Error" : "Greška",
+    "restored" : "vraćeno",
+    "No deleted files" : "Nema obrisanih fajlova",
+    "You will be able to recover deleted files from here" : "Odavde ćete moći da povratite obrisane fajlove",
+    "No entries found in this folder" : "Nema ničega u ovoj fascikli",
+    "Select all" : "Označi sve",
+    "Name" : "Naziv",
+    "Deleted" : "Obrisano"
+},
+"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

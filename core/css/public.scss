@@ -1,0 +1,91 @@
+$footer-height: 65px;
+
+#body-public {
+	.header-right {
+
+		#header-primary-action a {
+			color: var(--color-primary-text);
+		}
+
+		#header-secondary-action {
+			ul li {
+				min-width: 270px;
+			}
+			#header-actions-toggle {
+				background-color: transparent;
+				border-color: transparent;
+				filter: var(--background-invert-if-dark);
+
+				&:hover,
+				&:focus,
+				&:active {
+					opacity: 1;
+				}
+			}
+			#external-share-menu-item {
+				form {
+					display: flex;
+				}
+				.hidden {
+					display: none;
+				}
+				#save-button-confirm {
+					flex-grow: 0;
+				}
+			}
+		}
+	}
+
+	#content {
+		// 100% - footer
+		min-height: calc(100% - #{$footer-height});
+
+	}
+
+	/** don't apply content header padding on the base layout */
+	&.layout-base #content {
+		padding-top: 0;
+	}
+
+	p.info {
+		margin: 20px auto;
+		text-shadow: 0 0 2px rgba(0, 0, 0, .4);
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	p.info, form fieldset legend,
+	#datadirContent label,
+	form fieldset .warning-info,
+	form input[type='checkbox']+label {
+		text-align: center;
+	}
+
+	/* public footer */
+	footer {
+		position: fixed;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: $footer-height;
+		flex-direction: column;
+		bottom: 0;
+		width: calc(100% - 16px);
+		margin: 8px;
+		background-color: var(--color-main-background);
+		border-radius: var(--border-radius-large);
+		p {
+			text-align: center;
+			color: var(--color-text-lighter);
+			a {
+				color: var(--color-text-lighter);
+				font-weight: bold;
+				white-space: nowrap;
+				/* increasing clickability to more than the text height */
+				padding: 10px;
+				margin: -10px;
+				line-height: 200%;
+			}
+		}
+	}
+}

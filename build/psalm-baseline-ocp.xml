@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
+  <file src="lib/private/legacy/OC_Template.php">
+    <UndefinedClass>
+      <code>OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/AppFramework/ApiController.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/public/AppFramework/App.php">
+    <InternalMethod>
+      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
+    </InternalMethod>
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/AppFramework/Db/Entity.php">
+    <InvalidNullableReturnType>
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code>$column</code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/public/AppFramework/Http/JSONResponse.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->data]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>array</code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/AppFramework/Http/Response.php">
+    <UndefinedClass>
+      <code>\OC</code>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/BackgroundJob/TimedJob.php">
+    <MoreSpecificImplementedParamType>
+      <code>$jobList</code>
+      <code>$jobList</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/public/Cache/CappedMemoryCache.php">
+    <MissingTemplateParam>
+      <code>\ArrayAccess</code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Defaults.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Diagnostics/IQueryLogger.php">
+    <LessSpecificImplementedReturnType>
+      <code>mixed</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/public/EventDispatcher/GenericEvent.php">
+    <MissingTemplateParam>
+      <code>ArrayAccess</code>
+      <code>IteratorAggregate</code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Federation/Exceptions/ActionNotSupportedException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Federation/Exceptions/AuthenticationFailedException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Federation/Exceptions/BadRequestException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Federation/Exceptions/ProviderAlreadyExistsException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Federation/Exceptions/ProviderDoesNotExistsException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files.php">
+    <FalsableReturnStatement>
+      <code>\OC_App::getStorage($app)</code>
+    </FalsableReturnStatement>
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files/Cache/ICacheEntry.php">
+    <MissingTemplateParam>
+      <code>ArrayAccess</code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Files/LockNotAcquiredException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files/StorageAuthException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files/StorageBadConfigException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files/StorageConnectionException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files/StorageNotAvailableException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Files/StorageTimeoutException.php">
+    <UndefinedClass>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/L10N/ILanguageIterator.php">
+    <MissingTemplateParam>
+      <code>\Iterator</code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Template.php">
+    <UndefinedFunction>
+      <code>\html_select_options($options, $selected, $params)</code>
+      <code>\human_file_size($bytes)</code>
+      <code>\image_path($app, $image)</code>
+      <code>\mimetype_icon($mimetype)</code>
+      <code>\preview_icon($path)</code>
+      <code>\publicPreview_icon($path, $token)</code>
+      <code>\relative_modified_date($timestamp, null, $dateOnly)</code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/public/Util.php">
+    <UndefinedClass>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+</files>

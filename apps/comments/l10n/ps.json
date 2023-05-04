@@ -1,0 +1,17 @@
+{ "translations": {
+    "Comments" : "تبصرې",
+    "You commented" : "تاسې تبصره کړې",
+    "{author} commented" : "{author} تبصره کړې",
+    "You commented on %1$s" : "تاسې په %1$s تبصره کړې",
+    "You commented on {file}" : "تاسې په {file} فایل تبصره کړې",
+    "%1$s commented on %2$s" : "%1$s په %2$s تبصره کړې",
+    "{author} commented on {file}" : "{author} په {file} فایل تبصره کړې",
+    "<strong>Comments</strong> for files" : "د فایلونو لپاره <strong>تبصرې</strong>",
+    "Edit comment" : "تبصره سمول",
+    "Delete comment" : "تبسره ړنګول",
+    "No comments yet, start the conversation!" : "تر اوسه تبصره نشته!",
+    "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"],
+    "Comment" : "تبصره",
+    "%1$s commented" : "%1$s تبصره کړې"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,4 @@
+.files-filestable tbody tr.externalErroredRow {
+	/* TODO: As soon as firefox supports it: color-mix(in srgb, var(--color-error) 15%, var(--color-main-background)) */
+	background-color: rgba(255, 0, 0, 0.13);
+}
