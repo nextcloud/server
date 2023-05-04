@@ -25,6 +25,7 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use OC\SystemTag\SystemTag;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
 use OCP\IGroupManager;
@@ -34,6 +35,7 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\Util;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
@@ -306,8 +308,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			if ($user === null) {
 				return;
 			}
-	
+
 			$tags = $this->getTagsForFile($node->getId(), $user);
+			usort($tags, function (SystemTag $tagA, SystemTag $tagB): int {
+				return Util::naturalSortCompare($tagA->getName(), $tagB->getName());
+			});
 			return new SystemTagList($tags, $this->tagManager, $user);
 		});
 	}
