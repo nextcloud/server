@@ -97,6 +97,10 @@ class QuerySearchHelper {
 		}
 	}
 
+
+	/**
+	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
+	 */
 	public function findUsedTagsInCaches(ISearchQuery $searchQuery, array $caches): array {
 		$query = $this->getQueryBuilder();
 		$query->selectTagUsage();

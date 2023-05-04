@@ -31,19 +31,32 @@ use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 
 class SystemTagsInUseCollection extends \Sabre\DAV\SimpleCollection {
 	protected IUserSession $userSession;
 	protected IRootFolder $rootFolder;
+	protected string $mediaType;
 
-	public function __construct(IUserSession $userSession, IRootFolder $rootFolder) {
+	public function __construct(IUserSession $userSession, IRootFolder $rootFolder, string $mediaType = '') {
 		$this->userSession = $userSession;
 		$this->rootFolder = $rootFolder;
+		$this->mediaType = $mediaType;
 		$this->name = 'systemtags-current';
+		if ($this->mediaType != '') {
+			$this->name .= '/' . $this->mediaType;
+		}
 	}
 
 	public function setName($name): void {
 		throw new Forbidden('Permission denied to rename this collection');
+	}
+
+	public function getChild($name) {
+		if ($this->mediaType !== '') {
+			throw new NotFound('Invalid media type');
+		}
+		return new self($this->userSession, $this->rootFolder, $name);
 	}
 
 	public function getChildren() {
@@ -53,7 +66,7 @@ class SystemTagsInUseCollection extends \Sabre\DAV\SimpleCollection {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$result = $userFolder->getSystemTags('image');
+		$result = $userFolder->getSystemTags($this->mediaType);
 		$children = [];
 		foreach ($result as $tagData) {
 			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable']);
