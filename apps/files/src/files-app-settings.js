@@ -52,6 +52,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		appSettingsHeader.addEventListener('click', e => {
 			const opened = e.currentTarget.children[0].classList.contains('opened')
 			OCA.Files.Settings.settings.forEach(e => opened ? e.close() : e.open())
+			e.currentTarget?.children?.[0]?.setAttribute?.('aria-expanded', opened ? 'false' : 'true')
 		})
 	}
 })
