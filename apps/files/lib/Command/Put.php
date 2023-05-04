@@ -47,8 +47,8 @@ class Put extends Command {
 		$this
 			->setName('files:put')
 			->setDescription('Write contents of a file')
-			->addArgument('input', InputArgument::REQUIRED, "Source file to write, use - to read from STDIN")
-			->addArgument('file', InputArgument::REQUIRED, "File path to write to or fileid of existing file");
+			->addArgument('input', InputArgument::REQUIRED, "Source local path, use - to read from STDIN")
+			->addArgument('file', InputArgument::REQUIRED, "Target Nextcloud file path to write to or fileid of existing file");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -65,13 +65,17 @@ class Put extends Command {
 			return 1;
 		}
 
-		$source = (!$inputName || $inputName === '-') ? STDIN : fopen($inputName, 'r');
+		$source = ($inputName === null || $inputName === '-') ? STDIN : fopen($inputName, 'r');
 		if (!$source) {
 			$output->writeln("<error>Failed to open $inputName</error>");
 			return 1;
 		}
 		if ($node instanceof File) {
 			$target = $node->fopen('w');
+			if (!$target) {
+				$output->writeln("<error>Failed to open $fileOutput</error>");
+				return 1;
+			}
 			stream_copy_to_stream($source, $target);
 		} else {
 			$this->rootFolder->newFile($fileOutput, $source);
