@@ -337,10 +337,17 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	/**
-	 * @return Node[]
+	 *
+	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
 	 */
 	public function getSystemTags(string $mediaType, int $limit = 0, int $offset = 0): array {
-		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mediaType . '/%'), null, $limit, $offset);
+		// Currently query has to have exactly one search condition. If no media type is provided,
+		// we fall back to the presence of a systemtag.
+		if (empty($mediaType)) {
+			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%'), null, $limit, $offset);
+		} else {
+			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mediaType . '/%'), null, $limit, $offset);
+		}
 		[$caches, ] = $this->getCachesAndMountpointsForSearch();
 		/** @var QuerySearchHelper $searchHelper */
 		$searchHelper = \OCP\Server::get(QuerySearchHelper::class);
