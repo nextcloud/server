@@ -58,7 +58,7 @@
 		:has-previous="hasPrevious"
 		:inline-actions="canEdit ? 1 : 0"
 		:spread-navigation="true"
-		:style="{ width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null }"
+		:style="{ width: isSidebarShown ? `${sidebarPosition}px` : null }"
 		:title="currentFile.basename"
 		:view="currentFile.modal"
 		class="viewer"
@@ -238,7 +238,7 @@ export default {
 			cancelRequestFolder: () => {},
 
 			// Flags
-			sidebarWidth: 0,
+			sidebarPosition: 0,
 			isSidebarShown: false,
 			isFullscreenMode: false,
 			canSwipe: true,
@@ -953,9 +953,10 @@ export default {
 			this.isSidebarShown = true
 			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
-				this.sidebarWidth = sidebar.offsetWidth
+				this.sidebarPosition = sidebar.getBoundingClientRect().left
 				this.trapElements = [sidebar]
 			}
+			this.updateSidebarPosition()
 		},
 
 		handleAppSidebarClose() {
@@ -963,11 +964,10 @@ export default {
 			this.trapElements = []
 		},
 
-		onResize(event) {
-			// update sidebar width
+		onResize() {
 			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
-				this.sidebarWidth = sidebar.offsetWidth
+				this.sidebarPosition = sidebar.getBoundingClientRect().left
 			}
 		},
 
