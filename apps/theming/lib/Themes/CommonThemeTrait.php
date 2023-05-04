@@ -41,7 +41,6 @@ trait CommonThemeTrait {
 		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
 		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor);
 		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
-		$colorPrimaryElementDefault = $this->util->elementColor($this->defaultPrimaryColor);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
 		// primary related colours
@@ -67,14 +66,13 @@ trait CommonThemeTrait {
 			'--color-primary-element' => $colorPrimaryElement,
 			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
 			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+
 			// used for hover/focus states
 			'--color-primary-element-light' => $colorPrimaryElementLight,
 			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
 			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
+			// mostly used for disabled states
 			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
-
-			// default global primary element hover. To be used with --color-primary-default
-			'--color-primary-element-default-hover' => $this->util->mix($colorPrimaryElementDefault, $colorMainBackground, 60),
 
 			// to use like this: background-image: var(--gradient-primary-background);
 			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',
