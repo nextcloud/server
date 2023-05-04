@@ -25,6 +25,7 @@
 			<NcActions class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
 				:aria-hidden="true"
+				:aria-label="currentWeatherMessage"
 				:menu-title="currentWeatherMessage">
 				<NcActionText v-if="gotWeather"
 					:aria-hidden="true"
