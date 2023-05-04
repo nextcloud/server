@@ -179,7 +179,7 @@ class ReminderService {
 				continue;
 			}
 
-			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedGroupMembers', 'yes') === 'no') {
+			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'no') {
 				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
 			} else {
 				$users = [];
