@@ -112,12 +112,17 @@ class FixLegacyFileKey extends Command {
 					/* If that did not throw and filekey is not empty, a legacy filekey is used */
 					$clean = false;
 					$output->writeln($path . ' is using a legacy filekey, migrating');
-					$file = $this->rootView->fopen($path, 'w+');
+					$file = $this->rootView->fopen($path, 'r+');
 					if ($file) {
-						fwrite($file, '');
+						$firstByte = fread($file, 1);
+						if ($firstByte === false) {
+							$output->writeln('<error>failed to read ' . $path . '</error>');
+							continue;
+						}
+						fwrite($file, $firstByte);
 						fclose($file);
 					} else {
-						$output->writeln('<error>failed to open' . $path . '</error>');
+						$output->writeln('<error>failed to open ' . $path . '</error>');
 					}
 				}
 			}
