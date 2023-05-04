@@ -251,7 +251,12 @@ class CertificateManager implements ICertificateManager {
 					$this->createCertificateBundle();
 				}
 
-				$this->bundlePath = $this->view->getLocalFile($this->getCertificateBundle());
+				$certificateBundle = $this->getCertificateBundle();
+				$this->bundlePath = $this->view->getLocalFile($certificateBundle) ?: null;
+				
+				if ($this->bundlePath === null) {
+					throw new \RuntimeException('Unable to get certificate bundle "' . $certificateBundle . '".');
+				}
 			}
 			return $this->bundlePath;
 		} catch (\Exception $e) {
