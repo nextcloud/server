@@ -244,9 +244,9 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
-		// child nodes from systemtags-current should point to normal tag endpoint
-		if (preg_match('/^systemtags-current\/[0-9]+/', $propFind->getPath())) {
-			$propFind->setPath(str_replace('systemtags-current/', 'systemtags/', $propFind->getPath()));
+		// child nodes from systemtags-assigned should point to normal tag endpoint
+		if (preg_match('/^systemtags-assigned\/[0-9]+/', $propFind->getPath())) {
+			$propFind->setPath(str_replace('systemtags-assigned/', 'systemtags/', $propFind->getPath()));
 		}
 
 		$propFind->handle(self::ID_PROPERTYNAME, function () use ($node) {
