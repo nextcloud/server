@@ -29,10 +29,12 @@ namespace OCA\DAV\CardDAV;
 
 use Exception;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IImage;
 use OCP\IUser;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
+use function array_merge;
 
 class Converter {
 
@@ -44,7 +46,13 @@ class Converter {
 	}
 
 	public function createCardFromUser(IUser $user): ?VCard {
-		$userProperties = $this->accountManager->getAccount($user)->getProperties();
+		$account = $this->accountManager->getAccount($user);
+		$userProperties = $account->getProperties();
+		try {
+			$additionalEmailsCollection = $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+			$userProperties = array_merge($userProperties, $additionalEmailsCollection->getProperties());
+		} catch (PropertyDoesNotExistException $e) {
+		}
 
 		$uid = $user->getUID();
 		$cloudId = $user->getCloudId();
@@ -75,6 +83,7 @@ class Converter {
 							$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 						}
 						break;
+					case IAccountManager::COLLECTION_EMAIL:
 					case IAccountManager::PROPERTY_EMAIL:
 						$vCard->add(new Text($vCard, 'EMAIL', $property->getValue(), ['TYPE' => 'OTHER']));
 						break;
