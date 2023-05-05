@@ -468,6 +468,8 @@ export default {
 				margin-right: 16px;
 				background-position: center;
 				float: left;
+				position: relative;
+				top: -5px;
 			}
 		}
 	}
