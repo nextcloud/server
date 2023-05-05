@@ -115,8 +115,22 @@ export default {
 		width: 230px !important;
 		border-radius: var(--border-radius-large) !important;
 		background-color: var(--color-primary-default) !important;
-		&:hover {
-			background-color: var(--color-primary-element-default-hover) !important;
+
+		// emulated hover state because it would not make sense
+		// to create a dedicated global variable for the color-primary-default
+		&:hover::after {
+			background-color: white;
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			opacity: .2;
+			filter: var(--primary-invert-if-bright);
+		}
+
+		// Above the ::after
+		&::v-deep * {
+			z-index: 1;
 		}
 	}
 }
