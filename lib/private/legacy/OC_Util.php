@@ -692,20 +692,6 @@ class OC_Util {
 			];
 		}
 
-		if (function_exists('xml_parser_create') &&
-			LIBXML_LOADED_VERSION < 20700) {
-			$version = LIBXML_LOADED_VERSION;
-			$major = floor($version / 10000);
-			$version -= ($major * 10000);
-			$minor = floor($version / 100);
-			$version -= ($minor * 100);
-			$patch = $version;
-			$errors[] = [
-				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [$major . '.' . $minor . '.' . $patch]),
-				'hint' => $l->t('To fix this issue update your libxml2 version and restart your web server.')
-			];
-		}
-
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
