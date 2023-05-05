@@ -80,6 +80,10 @@ class TranslationManager implements ITranslationManager {
 			}
 		}
 
+		if ($fromLanguage === $toLanguage) {
+			return $text;
+		}
+
 		foreach ($this->getProviders() as $provider) {
 			try {
 				return $provider->translate($fromLanguage, $toLanguage, $text);
