@@ -1620,6 +1620,7 @@ return array(
     'OC\\SystemTag\\SystemTag' => $baseDir . '/lib/private/SystemTag/SystemTag.php',
     'OC\\SystemTag\\SystemTagManager' => $baseDir . '/lib/private/SystemTag/SystemTagManager.php',
     'OC\\SystemTag\\SystemTagObjectMapper' => $baseDir . '/lib/private/SystemTag/SystemTagObjectMapper.php',
+    'OC\\SystemTag\\SystemTagsInFilesDetector' => $baseDir . '/lib/private/SystemTag/SystemTagsInFilesDetector.php',
     'OC\\TagManager' => $baseDir . '/lib/private/TagManager.php',
     'OC\\Tagging\\Tag' => $baseDir . '/lib/private/Tagging/Tag.php',
     'OC\\Tagging\\TagMapper' => $baseDir . '/lib/private/Tagging/TagMapper.php',

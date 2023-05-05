@@ -33,7 +33,6 @@ namespace OC\Files\Node;
 
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchBinaryOperator;
-use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
@@ -216,37 +215,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	/**
-	 * @psalm-return list{0: array<string, \OCP\Files\Cache\ICache>, 1: array<string, \OCP\Files\Mount\IMountPoint>}
-	 */
-	protected function getCachesAndMountpointsForSearch(bool $limitToHome = false): array {
-		$rootLength = strlen($this->path);
-		$mount = $this->root->getMount($this->path);
-		$storage = $mount->getStorage();
-		$internalPath = $mount->getInternalPath($this->path);
-		if ($internalPath !== '') {
-			// a temporary CacheJail is used to handle filtering down the results to within this folder
-			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
-		} else {
-			$caches = ['' => $storage->getCache('')];
-		}
-		$mountByMountPoint = ['' => $mount];
-
-		if (!$limitToHome) {
-			$mounts = $this->root->getMountsIn($this->path);
-			foreach ($mounts as $mount) {
-				$storage = $mount->getStorage();
-				if ($storage) {
-					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$caches[$relativeMountPoint] = $storage->getCache('');
-					$mountByMountPoint[$relativeMountPoint] = $mount;
-				}
-			}
-		}
-
-		return [$caches, $mountByMountPoint];
-	}
-
-	/**
 	 * search for files with the name matching $query
 	 *
 	 * @param string|ISearchQuery $query
@@ -265,10 +233,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 			throw new \InvalidArgumentException('searching by owner is only allowed in the users home folder');
 		}
 
-		[$caches, $mountByMountPoint] = $this->getCachesAndMountpointsForSearch($limitToHome);
-
 		/** @var QuerySearchHelper $searchHelper */
 		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
 		// loop through all results per-cache, constructing the FileInfo object from the CacheEntry and merge them all
@@ -335,24 +302,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 	public function searchByTag($tag, $userId) {
 		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId);
 		return $this->search($query);
-	}
-
-	/**
-	 *
-	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
-	 */
-	public function getSystemTags(string $mediaType, int $limit = 0, int $offset = 0): array {
-		// Currently query has to have exactly one search condition. If no media type is provided,
-		// we fall back to the presence of a systemtag.
-		if (empty($mediaType)) {
-			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%'), null, $limit, $offset);
-		} else {
-			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mediaType . '/%'), null, $limit, $offset);
-		}
-		[$caches, ] = $this->getCachesAndMountpointsForSearch();
-		/** @var QuerySearchHelper $searchHelper */
-		$searchHelper = \OCP\Server::get(QuerySearchHelper::class);
-		return $searchHelper->findUsedTagsInCaches($query, $caches);
 	}
 
 	/**
