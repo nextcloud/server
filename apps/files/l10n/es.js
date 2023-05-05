@@ -109,6 +109,8 @@ OC.L10N.register(
     "Create new folder" : "Crear nueva carpeta",
     "Upload file" : "Subir archivo",
     "Recent" : "Reciente",
+    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}",
     "Not favorited" : "Quitado como favorito",
     "Remove from favorites" : "Quitar de favoritos",
     "Add to favorites" : "Añadir a favoritos",

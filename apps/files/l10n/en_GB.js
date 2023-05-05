@@ -109,6 +109,8 @@ OC.L10N.register(
     "Create new folder" : "Create new folder",
     "Upload file" : "Upload file",
     "Recent" : "Recent",
+    "This file has the tag {tag}" : "This file has the tag {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "This file has the tags {firstTags} and {lastTag}",
     "Not favorited" : "Not favourited",
     "Remove from favorites" : "Remove from favourites",
     "Add to favorites" : "Add to favourites",
