@@ -1625,6 +1625,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\SystemTag\\SystemTag' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTag.php',
         'OC\\SystemTag\\SystemTagManager' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTagManager.php',
         'OC\\SystemTag\\SystemTagObjectMapper' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTagObjectMapper.php',
+        'OC\\SystemTag\\SystemTagsInFilesDetector' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTagsInFilesDetector.php',
         'OC\\TagManager' => __DIR__ . '/../../..' . '/lib/private/TagManager.php',
         'OC\\Tagging\\Tag' => __DIR__ . '/../../..' . '/lib/private/Tagging/Tag.php',
         'OC\\Tagging\\TagMapper' => __DIR__ . '/../../..' . '/lib/private/Tagging/TagMapper.php',
