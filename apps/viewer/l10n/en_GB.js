@@ -13,6 +13,8 @@ OC.L10N.register(
     "Content of \"{fileName}\"" : "Content of \"{fileName}\"",
     "Your browser does not support videos." : "Your browser does not support videos.",
     "Edit" : "Edit",
+    "Exit full screen" : "Exit full screen",
+    "Full screen" : "Full screen",
     "Open sidebar" : "Open sidebar",
     "Download" : "Download",
     "Delete" : "Delete",

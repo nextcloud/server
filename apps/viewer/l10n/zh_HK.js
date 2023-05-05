@@ -13,6 +13,8 @@ OC.L10N.register(
     "Content of \"{fileName}\"" : "“{fileName}” 的內容",
     "Your browser does not support videos." : "您的瀏覽器不支援視訊。",
     "Edit" : "編輯",
+    "Exit full screen" : "退出全螢幕",
+    "Full screen" : "全螢幕",
     "Open sidebar" : "開啟側邊攔",
     "Download" : "下載",
     "Delete" : "刪除",

@@ -11,6 +11,8 @@
     "Content of \"{fileName}\"" : "Contenu de \"{filename}\"",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Edit" : "Modifier",
+    "Exit full screen" : "Quitter le plein écran",
+    "Full screen" : "Plein écran",
     "Open sidebar" : "Ouvrir le panneau latéral",
     "Download" : "Télécharger",
     "Delete" : "Supprimer",
