@@ -13,6 +13,8 @@ OC.L10N.register(
     "Content of \"{fileName}\"" : "Садржај „{fileName}",
     "Your browser does not support videos." : "Ваш веб читач не подржава видео записе.",
     "Edit" : "Измени",
+    "Exit full screen" : "Напусти пун екран",
+    "Full screen" : "Пун екран",
     "Open sidebar" : "Отвори бочну траку",
     "Download" : "Преузми",
     "Delete" : "Избриши",
