@@ -444,6 +444,7 @@ OC.L10N.register(
     "Allow username autocompletion to users within the same groups" : "Consenti il completamento del nome utente agli utenti degli stessi gruppi",
     "Allow username autocompletion to users based on phone number integration" : "Consenti il completamento del nome utente agli utenti basati sull'integrazione del numero di telefono",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Se completamento di \"stesso gruppo\" e \"integrazione numero di telefono\" sono attivi, una corrispondenza in uno dei due è sufficiente per mostrare l'utente.",
+    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Consenti il completamento automatico quando inserisci il nome completo o l'indirizzo e-mail (ignorando la corrispondenza della rubrica mancante e l'appartenenza allo stesso gruppo)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Mostra il testo della liberatoria sulla pagina di caricamento del collegamento pubblico (visualizzato solo quando l'elenco dei file è nascosto)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Questo testo sarà mostrato sulla pagina di caricamento del collegamento pubblico quando l'elenco dei file è nascosto.",
     "Default share permissions" : "Permessi predefiniti di condivisione",

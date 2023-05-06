@@ -271,6 +271,7 @@
     "Upload profile picture" : "Завантажте зображення профілю",
     "Choose profile picture from Files" : "Виберіть зображення профілю з Файлів",
     "Remove profile picture" : "Вилучити зображення профілю",
+    "The file must be a PNG or JPG" : "Файл повинен бути у форматі PNG або JPG",
     "Picture provided by original account" : "Картинка надана оригінальним обліковим записом",
     "Cancel" : "Скасувати",
     "Set as profile picture" : "Установити як зображення профілю",
