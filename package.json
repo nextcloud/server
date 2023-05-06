@@ -177,7 +177,7 @@
     "vue-template-compiler": "^2.7.14",
     "wait-on": "^7.0.1",
     "webpack": "^5.79.0",
-    "webpack-cli": "^5.0.1",
+    "webpack-cli": "^5.0.2",
     "webpack-merge": "^5.8.0",
     "workbox-webpack-plugin": "^6.5.4"
   },
