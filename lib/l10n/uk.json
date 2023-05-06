@@ -233,8 +233,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Налаштування цього параметра у php.ini змусить Nextcloud запуститися знову",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> замість <code>%s</code> очікуваного значення <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Щоб вирішити цю проблему, установіть для <code>mbstring.func_overload</code> значення <code>0</code> у вашому php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Необхідно libxml2 версії принаймні 2.7.0. На разі встановлена %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Що виправити це оновіть версію libxml2 та перезапустіть веб-сервер.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Схоже, що PHP налаштовано на обрізання блоків вбудованих документів. Це зробить кілька головних застосунків недоступними.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Це, ймовірно, обумовлено використанням кеша/прискорювача такого як Zend OPcache або eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Модулі PHP були встановлені, але вони все ще перераховані як відсутні?",
@@ -266,6 +264,8 @@
     "%s enter the database name." : "%s введіть назву бази даних.",
     "%s you may not use dots in the database name" : "%s не можна використовувати крапки в назві бази даних",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Досягнуто обмеження на кількість користувачів, користувача не було створено. Перевірте сповіщення для докладної інформації.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Тільки такі символи допускаються в імені користувача: \"a-z\", \"A-Z\", \"0-9\", і \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Тільки такі символи допускаються в імені користувача: \"a-z\", \"A-Z\", \"0-9\", і \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Необхідно libxml2 версії принаймні 2.7.0. На разі встановлена %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Що виправити це оновіть версію libxml2 та перезапустіть веб-сервер."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

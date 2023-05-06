@@ -231,8 +231,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "在 php.ini 中调整该设置将导致 Nextcloud 重新运行",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>被设置为<code>%s</code>，而不是预期的 <code>0</code>。",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "为了修正该问题，请在您的 php.ini 中设置<code>mbstring.func_overload</code>为<code>0</code>。",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "至少需要 libxml2 2.7.0. 当前安装 %s。",
-    "To fix this issue update your libxml2 version and restart your web server." : "升级您的 libxml2 版本然后重启 Web 服务器以解决该问题。",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP 被设置为移除内联块，这将导致多个核心应用无法访问。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "这可能由缓存/加速器导致的，例如 Zend OPcache 或 eAccelerator。",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP 模块已经安装，但仍然显示未安装？",
@@ -264,6 +262,8 @@
     "%s enter the database name." : "%s 输入数据库名称。",
     "%s you may not use dots in the database name" : "%s 您不能在数据库名称中使用英文句号。",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "已达到用户上限，未创建该用户。请检查您的通知以了解更多。",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "在用户名中只允许使用以下字符：“a-z”、“A-Z”、“0-9” 和 \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "在用户名中只允许使用以下字符：“a-z”、“A-Z”、“0-9” 和 \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "至少需要 libxml2 2.7.0. 当前安装 %s。",
+    "To fix this issue update your libxml2 version and restart your web server." : "升级您的 libxml2 版本然后重启 Web 服务器以解决该问题。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

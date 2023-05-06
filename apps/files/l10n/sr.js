@@ -109,6 +109,8 @@ OC.L10N.register(
     "Create new folder" : "Направи нову фасциклу",
     "Upload file" : "Отпреми фајл",
     "Recent" : "Скорашњи",
+    "This file has the tag {tag}" : "Овај фајл има ознаку {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}",
     "Not favorited" : "Није омиљено",
     "Remove from favorites" : "Избаци из омиљених",
     "Add to favorites" : "Додај у омиљене",

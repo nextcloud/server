@@ -196,8 +196,6 @@
     "Please ask your server administrator to install the module." : "Pedi a s'amministratzione de serbidore de installare su mòdulu.",
     "PHP setting \"%s\" is not set to \"%s\"." : "S'impostatzione PHP %s no est a \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Assentende cust'impostatzione in php.ini at a torrare a fàghere traballare Nextcloud",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Est rechèdida a su mancu sa versione libxml2 2.7.0. Pro immoe cussa installada est sa%s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Pro assentare custu problema, agiorna sa versione libxml2 e torra a aviare su serbidore ìnternet.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Parit che PHP siat impostadu pro nde bogare is blocos de documentatzione in lìnia. Custu at a impedire s'atzessu a medas aplicatziones printzipales.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Podet èssere causadu dae una memòria temporànea/atzeleradore cales Zend Opcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Is mòdulos PHP sunt istados installados, ma sunt ancora elencados comente mancantes?",
@@ -220,6 +218,8 @@
     "%s enter the database username." : "%s inserta•nche su nùmene utente de sa base de datos.",
     "%s enter the database name." : "%s inserta•nche su nùmene de sa base de datos.",
     "%s you may not use dots in the database name" : "%s no depes impreare puntos in su nùmene de sa base de datos",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Isceti custos caràteres sunt permìtidos in unu nùmene utente: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Isceti custos caràteres sunt permìtidos in unu nùmene utente: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Est rechèdida a su mancu sa versione libxml2 2.7.0. Pro immoe cussa installada est sa%s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Pro assentare custu problema, agiorna sa versione libxml2 e torra a aviare su serbidore ìnternet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
