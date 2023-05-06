@@ -236,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Прилагодувањето на оваа поставка во php.ini ќе направи повторно да работи ",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> е поставено на <code>%s</code> очекувана вредност е <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "За да го поправите ова, поставете вредност за <code>mbstring.func_overload</code> = <code>0</code> во вашата php.ini датотека.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Потербна минимална верзија на libxml2 е 2.7.0. Моментална верзија е %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "За да го поправите овој проблем, ажурирајте ја верзијата на libxml2 и рестартирајте го вашиот веб сервер.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP поставено да ги поставува во линија внатрешните блокови на документите. Ова ќе ги направи неколку основни апликации недостапни.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ова е веројатно предизвикано од кеш-меморија/забрзување како што се Zend OPcache или eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP модулот е инсталиран, но сеуште се прикажува како да недостасува?",
@@ -269,6 +267,8 @@
     "%s enter the database name." : "%s внеси го името на базата.",
     "%s you may not use dots in the database name" : "%s не можеш да користиш точки во името на базата",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Максималниот број на корисници е достигнат. Проверете ги вашите известувања за да дознаете повеќе.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Само следниве карактери се дозволени во корисничкото име:: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Само следниве карактери се дозволени во корисничкото име:: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Потербна минимална верзија на libxml2 е 2.7.0. Моментална верзија е %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "За да го поправите овој проблем, ажурирајте ја верзијата на libxml2 и рестартирајте го вашиот веб сервер."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

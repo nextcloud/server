@@ -123,6 +123,7 @@
     "Due on %s by %s" : "Scade il %s per %s",
     "Due on %s" : "Scade il %s",
     "Migrated calendar (%1$s)" : "Calendario migrato (%1$s)",
+    "Calendars including events, details and attendees" : "Calendari inclusi eventi, dettagli e partecipanti",
     "Contacts and groups" : "Contatti e gruppi",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Terminatore WebDAV",
