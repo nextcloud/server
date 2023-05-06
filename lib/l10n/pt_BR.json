@@ -236,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ajustar a configuração no php.ini fará com que o Nextcloud execute novamente",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> está configurado para <code>%s</code> em vez do valor esperado <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Para corrigir este conjunto de problemas <code>mbstring.func_overload</code> para <code>0</code> no seu php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "A libxml2 2.7.0 é a versão mínima necessária. Atualmente a versão %s está instalada.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Para corrigir este problema, atualize a versão da sua libxml2 e reinicie seu servidor web.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP aparentemente está configurado para retirar blocos doc inline. Isso fará com que vários aplicativos do núcleo fiquem inacessíveis.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Isso provavelmente é causado por um cache/acelerador, como Zend OPcache ou eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Módulos do PHP foram instalados, mas eles ainda estão listados como faltantes?",
@@ -269,6 +267,8 @@
     "%s enter the database name." : "%s insira o nome do banco de dados.",
     "%s you may not use dots in the database name" : "%s você não pode usar pontos no nome do banco de dados",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "O limite de usuários foi atingido e o usuário não foi criado. Verifique suas notificações para saber mais.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Somente os seguintes caracteres são permitidos em um nome de usuário: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Somente os seguintes caracteres são permitidos em um nome de usuário: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "A libxml2 2.7.0 é a versão mínima necessária. Atualmente a versão %s está instalada.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Para corrigir este problema, atualize a versão da sua libxml2 e reinicie seu servidor web."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

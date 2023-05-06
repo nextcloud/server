@@ -233,8 +233,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Použitím týchto nastavení v php.ini dovolí Nextcloudu sa znova spustiť",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> je nastavený na <code>%s</code>, namiesto predpokladanej hodnoty <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Oprava problému spočíva v nastavení <code>mbstring.func_overload</code> na <code>0</code> vo vašom php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vyžadovaná verzia libxml2 je 2.7.0 a vyššia. Momentálne je nainštalovaná verzia %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Pre vyriešenie tohto problému aktualizujte prosím verziu libxml2 a reštartujte webový server.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je zjavne nastavené, aby odstraňovalo bloky vloženej dokumentácie. To zneprístupní niekoľko základných aplikácií.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "To je pravdepodobne spôsobené cache/akcelerátorom ako napr. Zend OPcache alebo eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduly boli nainštalované, ale stále sa tvária, že chýbajú?",
@@ -266,6 +264,8 @@
     "%s enter the database name." : "Zadajte názov databázy pre %s databázy.",
     "%s you may not use dots in the database name" : "V názve databázy %s nemôžete používať bodky",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Bol dosiahnutý limit používateľov a používateľ nebol vytvorený. Pozrite sa do upozornení pre viac informácií.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V mene používateľa je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V mene používateľa je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vyžadovaná verzia libxml2 je 2.7.0 a vyššia. Momentálne je nainštalovaná verzia %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Pre vyriešenie tohto problému aktualizujte prosím verziu libxml2 a reštartujte webový server."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

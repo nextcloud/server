@@ -206,8 +206,6 @@
     "Please ask your server administrator to install the module." : "Obvestite skrbnika strežnika, da je treba namestiti manjkajoč modul.",
     "PHP setting \"%s\" is not set to \"%s\"." : "Nastavitev PHP »%s« ni nastavljena na »%s«.",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Prilagoditev te nastavitve v php.ini vzpostavi ponovno delovanje okolja NextCloud",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Različica knjižnice libxml2 mora biti 2.7.0 ali višja. Trenutno je nameščena %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Za rešitev te težave je treba posodobiti knjižnico libxml2 in nato ponovno zagnati spletni strežnik.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : " Kaže, da je PHP nastavljen tako, da odreže vrstične predmete docblock. To povzroči, da nekateri jedrni programi niso dosegljivi.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Napako je najverjetneje povzročil predpomnilnik ali pospeševalnik, kot sta Zend OPcache ali eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Ali so bili moduli PHP nameščeni, pa so še vedno označeni kot manjkajoči?",
@@ -230,6 +228,8 @@
     "%s enter the database username." : "%s – vnos uporabniškega imena podatkovne zbirke.",
     "%s enter the database name." : "%s – vnos imena podatkovne zbirke.",
     "%s you may not use dots in the database name" : "%s – v imenu podatkovne zbirke ni dovoljeno uporabljati pik.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V uporabniškem imenu je dovoljeno uporabiti le znake: »a–z«, »A–Z«, »0–9« in »_.@-«\"."
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V uporabniškem imenu je dovoljeno uporabiti le znake: »a–z«, »A–Z«, »0–9« in »_.@-«\".",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Različica knjižnice libxml2 mora biti 2.7.0 ali višja. Trenutno je nameščena %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Za rešitev te težave je treba posodobiti knjižnico libxml2 in nato ponovno zagnati spletni strežnik."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

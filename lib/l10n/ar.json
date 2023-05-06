@@ -123,12 +123,12 @@
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "تضبيط الإعدادات في ملف php.ini سوف يُمكّن نيكست كلاود من العمل مجدداً",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "نحتاج النسخة 2.7.0 من libxml2 على الأقل. النسخة المتوافرة حالياً هي %s",
     "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
     "Full name" : "الاسم الكامل",
     "%s enter the database username and name." : "%s أدخِل اسم قاعدة البيانات واسم مستخدمها.",
     "%s enter the database username." : "%s ادخل اسم المستخدم الخاص بقاعدة البيانات.",
     "%s enter the database name." : "%s ادخل اسم فاعدة البيانات",
-    "%s you may not use dots in the database name" : "%s لا يسمح لك باستخدام نقطه (.) في اسم قاعدة البيانات"
+    "%s you may not use dots in the database name" : "%s لا يسمح لك باستخدام نقطه (.) في اسم قاعدة البيانات",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "نحتاج النسخة 2.7.0 من libxml2 على الأقل. النسخة المتوافرة حالياً هي %s"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
