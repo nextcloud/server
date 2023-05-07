@@ -104,7 +104,7 @@ OC.L10N.register(
     "File system tag" : "Dosya sistemi etiketi",
     "is tagged with" : "şununla etiketlenmiş",
     "is not tagged with" : "şununla etiketlenmemiş",
-    "Request URL" : "İstek Adresi",
+    "Request URL" : "İstek adresi",
     "Request time" : "İstek zamanı",
     "between" : "şunların arasında olan",
     "not between" : "şunların arasında olmayan",
