@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Yakın zamandaki durumlar",
+    "Recent statuses" : "Son durumlar",
     "In a meeting" : "Toplantıda",
     "Commuting" : "İşe gidiyor/geliyor",
     "Out sick" : "Hasta",
@@ -26,7 +26,7 @@ OC.L10N.register(
     "There was an error saving the status" : "Durum kaydedilirken bir sorun çıktı",
     "There was an error clearing the status" : "Durum kaldırılırken bir sorun çıktı",
     "There was an error reverting the status" : "Durum geri alınırken bir sorun çıktı",
-    "No recent status changes" : "Yakın zamanda değiştirilmiş bir durum yok",
+    "No recent status changes" : "Son zamanlarda durum değiştirilmemiş",
     "Away" : "Uzakta",
     "Do not disturb" : "Rahatsız etmeyin",
     "{status}, {timestamp}" : "{status}, {timestamp}",
