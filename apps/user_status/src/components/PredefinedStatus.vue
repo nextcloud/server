@@ -19,8 +19,10 @@
   -
   -->
 <template>
-	<div class="predefined-status"
+	<li class="predefined-status"
 		tabindex="0"
+		role="radio"
+		:aria-checked="`${selected}`"
 		@keyup.enter="select"
 		@keyup.space="select"
 		@click="select">
@@ -33,7 +35,7 @@
 		<span class="predefined-status__clear-at">
 			{{ clearAt | clearAtFilter }}
 		</span>
-	</div>
+	</li>
 </template>
 
 <script>
@@ -61,6 +63,11 @@ export default {
 			type: Object,
 			required: false,
 			default: null,
+		},
+		selected: {
+			type: Boolean,
+			required: false,
+			default: false,
 		},
 	},
 	methods: {
