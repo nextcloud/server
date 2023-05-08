@@ -50,4 +50,13 @@ class SystemAddressbook extends AddressBook {
 
 		return parent::getChildren();
 	}
+
+	public function getACL() {
+		return array_filter(parent::getACL(), function($acl) {
+			if (in_array($acl['privilege'], ['{DAV:}write', '{DAV:}all'], true)) {
+				return false;
+			}
+			return true;
+		});
+	}
 }
