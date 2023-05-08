@@ -199,6 +199,12 @@ class Definitions {
 					'description' => 'The icon url to use as avatar',
 					'example' => 'https://localhost/ocs/v2.php/apps/spreed/api/v1/room/R4nd0mToken/avatar'
 				],
+				'message-id' => [
+					'since' => '27.0.0',
+					'required' => false,
+					'description' => 'The id of a message that was referred to',
+					'example' => '12345',
+				],
 			],
 		],
 		'circle' => [
