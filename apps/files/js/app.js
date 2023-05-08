@@ -108,6 +108,12 @@
 							iconClass: 'icon-delete',
 							order: 99,
 						},
+						{
+							name: 'cancel',
+							displayName:  'Cancel',
+							iconClass: 'icon-close',
+							order: 101,
+						},
 						...(
 							OCA?.SystemTags === undefined ? [] : ([{
 								name: 'tags',

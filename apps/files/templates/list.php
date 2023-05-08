@@ -41,19 +41,19 @@
 					<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
 				</label>
 			</th>
+			<th id='allLabel'><?php p($l->t('All')); ?></th>
 			<th class="hidden column-name">
 				<div class="column-name-container">
 					<a class="name sort columntitle" onclick="event.preventDefault()" href="#" data-sort="name">
                         <span><?php p($l->t('Name')); ?></span>
                         <span class="sort-indicator"></span>
+						<span class="column-size-open">(</span>
+						<span class="column-size-count">
+							<?php p($l->t('Size')); ?>
+						</span>
+						<span class="column-size-open">)</span>
 
                     </a>
-                    <span class="selectedActions">
-                        <a href="#" onclick="event.preventDefault()" class="actions-selected">
-                            <span class="icon icon-more"></span>
-                            <span><?php p($l->t('Actions'))?></span>
-                        </a>
-					</span>
 				</div>
 			</th>
 			<th class="hidden column-size">
@@ -61,6 +61,18 @@
 			</th>
 			<th class="hidden column-mtime">
 				<a class="columntitle" href="#" onclick="event.preventDefault()" data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span class="sort-indicator"></span></a>
+			</th>
+			<th class="selected-menu">
+				<div id="selectedActionsList" class="selectedActions">
+				</div>
+			</th>
+			<th>
+				<span id="selectedActionLabel">
+						<a href="#" onclick="event.preventDefault()" class="actions-selected">
+							<span class="icon icon-more"></span>
+							<span><?php p($l->t('Actions'))?></span>
+						</a>
+				</span>
 			</th>
 		</tr>
 	</thead>

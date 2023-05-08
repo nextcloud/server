@@ -2163,6 +2163,28 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect(selectedFiles.length).toEqual(41);
 		});
+
+		/* Date: 05.05.2023 Desc: Added cancel option which will remove any selection */
+		describe('Cancel', function() {
+			it('selection summary hide when "Cancel" clicked', function() {
+				var $summary = $('.column-name a.name>span:first');
+				$('.selectedActions .cancel').click();
+				expect($summary.text()).toEqual('Name');
+			});
+			it('file actions hides when "Cancel" clicked', function() {
+				var $actions = $('.column-name .selectedActions');
+				$('.selectedActions .cancel').click();
+				expect($actions.hasClass('hidden')).toEqual(true);
+			});
+			it('Clicking "cancel" will deselect all files', function() {
+				$('.selectedActions .cancel').click();
+				$('.files-fileList tr input:checkbox').each(function() {
+					expect($(this).prop('checked')).toEqual(false);
+				});
+				expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(0);
+			});
+		});
+
 		describe('clearing the selection', function() {
 			it('clears selected files selected individually calling setFiles()', function() {
 				var selectedFiles;
@@ -2199,14 +2221,18 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .item-copyMove').hasClass('hidden')).toEqual(false);
-				expect(fileList.$el.find('.selectedActions .item-copyMove .label').text()).toEqual('Move or copy');
+				expect(fileList.$el.find('.selectedActions .filesSelectMenu .item-copyMove').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .filesSelectMenu .item-copyMove .label').text()).toEqual('Move or copy');
+				expect(fileList.$el.find('.selectedActions .filesSelectionMenu .item-copyMove').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .filesSelectionMenu .item-copyMove .label').text()).toEqual('Move or copy');
 				testFiles[0].permissions = OC.PERMISSION_READ;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .item-copyMove').hasClass('hidden')).toEqual(false);
-				expect(fileList.$el.find('.selectedActions .item-copyMove .label').text()).toEqual('Copy');
+				expect(fileList.$el.find('.selectedActions .filesSelectMenu .item-copyMove').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .filesSelectMenu .item-copyMove .label').text()).toEqual('Copy');
+				expect(fileList.$el.find('.selectedActions .filesSelectionMenu .item-copyMove').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .filesSelectionMenu .item-copyMove .label').text()).toEqual('Copy');
 				testFiles[0].permissions = OC.PERMISSION_NONE;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);

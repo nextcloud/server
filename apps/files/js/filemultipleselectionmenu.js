@@ -9,9 +9,9 @@
  */
 
 (function() {
-	var FileMultiSelectMenu = OC.Backbone.View.extend({
+	var FileMultipleSelectionMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'filesSelectMenu popovermenu bubble menu-right',
+		className: 'filesSelectionMenu',
 		_scopes: null,
 		initialize: function(menuItems) {
 			this._scopes = menuItems;
@@ -34,17 +34,16 @@
 		 * @param {OCA.Files.FileActionContext} context context
 		 * @param {Object} $trigger trigger element
 		 */
-		show: function(context) {
+		 show: function(context) {
 			this._context = context;
-			this.$el.removeClass('hidden');
-			OC.showMenu(null, this.$el);
 			return false;
 		},
 		toggleItemVisibility: function (itemName, show) {
+			var toggle= $('.filesSelectionMenu');
 			if (show) {
-				this.$el.find('.item-' + itemName).removeClass('hidden');
+				toggle.find('.item-' + itemName).removeClass('hidden-action');
 			} else {
-				this.$el.find('.item-' + itemName).addClass('hidden');
+				toggle.find('.item-' + itemName).addClass('hidden-action');
 			}
 		},
 		updateItemText: function (itemName, translation) {
@@ -88,5 +87,5 @@
 		}
 	});
 
-	OCA.Files.FileMultiSelectMenu = FileMultiSelectMenu;
+	OCA.Files.FileMultipleSelectionMenu = FileMultipleSelectionMenu;
 })(OC, OCA);

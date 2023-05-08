@@ -228,6 +228,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			Util::addScript('files', 'newfilemenu');
 			Util::addScript('files', 'files');
 			Util::addScript('files', 'filemultiselectmenu');
+			Util::addScript('files', 'filemultipleselectionmenu');
 			Util::addScript('files', 'filelist');
 			Util::addScript('files', 'keyboardshortcuts');
 			Util::addScript('files', 'operationprogressbar');

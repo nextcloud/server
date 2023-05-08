@@ -248,11 +248,12 @@ table.multiselect th .columntitle {
 }
 table th .columntitle.name {
 	padding-left: 0;
-	margin-left: 44px;
+	margin-left: 28px;
 }
 
 table.multiselect th .columntitle.name {
 	margin-left: 0;
+	padding-left: 15px;
 }
 
 table th .sort-indicator {
@@ -340,7 +341,7 @@ table.multiselect thead th {
 
 table.multiselect .column-name {
 	position: relative;
-	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
+	width: auto;
 }
 table.multiselect .column-mtime>a {
 	display: none;
@@ -1364,3 +1365,87 @@ table.dragshadow td.size {
 		margin: 0 12px;
 	}
 }
+
+/* Actions for selected files */
+table.multiselect {
+	thead {
+		.selected-menu {
+			width: 100% !important;
+		}
+	}
+}
+
+.multiselect {
+	.sort-indicator {
+		display: none !important;
+	}
+}
+
+#selectedActionLabel {
+	padding-right: 16px;
+	display: none;
+	a {
+		display: inline;
+		line-height: 50px;
+		padding: 16px 5px;
+		img {
+			position: relative;
+			vertical-align: text-bottom;
+			margin-bottom: -1px;
+		}
+	}
+	a.hidden {
+		display: none;
+	}
+	.actions-selected {
+		.icon-more {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
+.selectedActions {
+	.filesSelectionMenu {
+		display: block;
+		ul {
+			li {
+				display: inline;
+				&.hidden {
+					display: none;
+				}
+			}
+		}
+		a {
+			.label {
+					padding-left: 8px;
+					padding-right: 19px;
+			}
+			&:hover {
+				.label {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}
+
+#selectedActionsList {
+	width: 100%;
+	text-align: right;
+	opacity: unset;
+	.popovermenu {
+		right: -70px;
+		top: 45px;
+	}
+}
+
+table.multiselect #allLabel {
+	padding-top: 5px;
+	color: var(--color-main-text);
+}
+
+#allLabel{
+	padding-top: 5px;
+}
+
