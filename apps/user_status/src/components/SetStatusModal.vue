@@ -28,7 +28,9 @@
 			<div class="set-status-modal__header">
 				<h2>{{ $t('user_status', 'Online status') }}</h2>
 			</div>
-			<div class="set-status-modal__online-status">
+			<div class="set-status-modal__online-status"
+				role="radiogroup"
+				:aria-label="$t('user_status', 'Online status')">
 				<OnlineStatusSelect v-for="status in statuses"
 					:key="status.type"
 					v-bind="status"
