@@ -107,6 +107,8 @@
     "Create new folder" : "Δημιουργία νέου φακέλου",
     "Upload file" : "Μεταφόρτωση αρχείου",
     "Recent" : "Πρόσφατα",
+    "This file has the tag {tag}" : "Αυτό το αρχείο έχει την ετικέτα {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Αυτό το αρχείο έχει τις ετικέτες {firstTags} και {lastTag}",
     "Not favorited" : "Δεν είναι αγαπημένο",
     "Remove from favorites" : "Αφαίρεση από τα αγαπημένα",
     "Add to favorites" : "Προσθήκη στα αγαπημένα",
