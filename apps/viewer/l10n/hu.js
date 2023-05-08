@@ -13,6 +13,8 @@ OC.L10N.register(
     "Content of \"{fileName}\"" : "A(z) „{fileName}” tartalma",
     "Your browser does not support videos." : "A böngészője nem támogatja a videókat.",
     "Edit" : "Szerkesztés",
+    "Exit full screen" : "Kilépés a teljes képernyőből",
+    "Full screen" : "Teljes képernyő",
     "Open sidebar" : "Oldalsáv megnyitása",
     "Download" : "Letöltés",
     "Delete" : "Törlés",

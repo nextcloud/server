@@ -13,6 +13,8 @@ OC.L10N.register(
     "Content of \"{fileName}\"" : "\"{fileName}\" dosyasının içeriği",
     "Your browser does not support videos." : "Tarayıcınız görüntüleri desteklemiyor.",
     "Edit" : "Düzenle",
+    "Exit full screen" : "Tam ekrandan çık",
+    "Full screen" : "Tam ekran",
     "Open sidebar" : "Yan çubuğu aç",
     "Download" : "İndir",
     "Delete" : "Sil",
