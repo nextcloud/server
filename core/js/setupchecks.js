@@ -521,6 +521,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
+					if (window.oc_debug) {
+						messages.push({
+							msg: t('core', 'This instance is running in debug mode. Only enable this for local development and not in production environments.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpDefaultCharset', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
