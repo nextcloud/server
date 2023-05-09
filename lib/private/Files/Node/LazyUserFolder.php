@@ -70,7 +70,7 @@ class LazyUserFolder extends LazyFolder {
 	}
 
 	public function get($path) {
-		return $this->root->get('/' . $this->user->getUID() . '/files' . ltrim($path, '/'));
+		return $this->root->get('/' . $this->user->getUID() . '/files/' . ltrim($path, '/'));
 	}
 
 	/**
