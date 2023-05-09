@@ -123,7 +123,7 @@ class Install extends Command {
 		$db = strtolower($input->getOption('database'));
 
 		if (!in_array($db, $supportedDatabases)) {
-			throw new InvalidArgumentException("Database <$db> is not supported.");
+			throw new InvalidArgumentException("Database <$db> is not supported. " . implode(", ", $supportedDatabases) . " are supported.");
 		}
 
 		$dbUser = $input->getOption('database-user');
