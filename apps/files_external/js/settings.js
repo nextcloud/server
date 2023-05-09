@@ -32,7 +32,7 @@ function getSelectedApplicable($row) {
 		// FIXME: don't rely on string parts to detect groups...
 		var pos = (value.indexOf)?value.indexOf('(group)'): -1;
 		if (pos !== -1) {
-			groups.push(value.substr(0, pos));
+			groups.push(value.slice(0, pos));
 		} else {
 			users.push(value);
 		}
