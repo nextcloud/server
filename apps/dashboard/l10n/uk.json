@@ -1,6 +1,8 @@
 { "translations": {
     "Dashboard" : "Майстерня",
     "Dashboard app" : "Застосунок з панеллю віджетів ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Почніть свій день поінформовано\n\nІнформаційна панель Nextcloud - це ваша відправна точка дня, яка дає вам огляд майбутніх зустрічей, термінових електронних листів, повідомлень в чаті, призначених завдань, останніх твітів і багато іншого! Користувачі можуть додавати віджети, які їм подобаються, і змінювати фон на свій смак.",
+    "\"{title} icon\"" : "\"{title} \"іконка\"",
     "Customize" : "Редагувати",
     "Edit widgets" : "Редагувати віджети",
     "Get more widgets from the App Store" : "Більше віджетів у каталозі застосунків",

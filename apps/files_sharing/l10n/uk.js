@@ -120,6 +120,7 @@ OC.L10N.register(
     "You cannot share to a Circle if the app is not enabled" : "Ви не можете поділитися у Circle, оскільки застосунок не активний",
     "Please specify a valid circle" : "Будь ласка, зазначте дійсне коло",
     "Sharing %s failed because the back end does not support room shares" : "Помилка спільного доступу %s, оскільки серверна частина не підтримує спільний доступ до кімнат",
+    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Спільне використання %s не вдалося, оскільки бекенд не підтримує спільне використання ScienceMesh",
     "Unknown share type" : "Невідомий тип спільного ресурсу",
     "Not a directory" : "Не каталог",
     "Could not lock node" : "Не вдалося заблокувати вузол",
@@ -225,6 +226,7 @@ OC.L10N.register(
     "Circle" : "Коло",
     "Talk conversation" : "Розмова Talk",
     "Deck board" : "Дошка Deck",
+    "ScienceMesh" : "ScienceMesh",
     "on {server}" : "на {server}",
     "Others with access" : "Доступ для інших",
     "No other users with access found" : "Більше немає користувачів, які мають доступ",
@@ -275,6 +277,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Копіювати до буферу обміну",
     "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
     "Toggle grid view" : "Перемкнути подання сіткою",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Поширення %s не вдалося, оскільки бекенд не підтримує ресурси типа ScienceMesh",
+    "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Помилка під час створення паролів з password_policy"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
