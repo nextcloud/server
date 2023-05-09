@@ -418,6 +418,14 @@
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
   </file>
+  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
+    <InvalidNullableReturnType>
+      <code>getChanges</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code>null</code>
+    </NullableReturnStatement>
+  </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument>
       <code><![CDATA[$this->principalUri]]></code>
