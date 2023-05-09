@@ -26,11 +26,11 @@
 			<input :id="inputId"
 				ref="email"
 				type="email"
+				autocomplete="email"
 				:placeholder="inputPlaceholder"
 				:value="email"
 				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
 				autocapitalize="none"
-				autocomplete="on"
 				autocorrect="off"
 				@input="onEmailChange">
 
