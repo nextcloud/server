@@ -207,6 +207,9 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getId() {
+		if (isset($this->data['fileid'])) {
+			return $this->data['fileid'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -221,6 +224,9 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getMTime() {
+		if (isset($this->data['mtime'])) {
+			return $this->data['mtime'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -228,6 +234,9 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getSize($includeMounts = true): int|float {
+		if (isset($this->data['size'])) {
+			return $this->data['size'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -235,6 +244,9 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getEtag() {
+		if (isset($this->data['etag'])) {
+			return $this->data['etag'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -299,6 +311,12 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getName() {
+		if (isset($this->data['path'])) {
+			return basename($this->data['path']);
+		}
+		if (isset($this->data['name'])) {
+			return $this->data['name'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
