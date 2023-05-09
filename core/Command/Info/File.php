@@ -54,6 +54,7 @@ class File extends Command {
 		$output->writeln("  modified: " . (string)$this->l10n->l("datetime", $node->getMTime()));
 		$output->writeln("  " . ($node->isEncrypted() ? "encrypted" : "not encrypted"));
 		$output->writeln("  size: " . Util::humanFileSize($node->getSize()));
+		$output->writeln("  etag: " . $node->getEtag());
 		if ($node instanceof Folder) {
 			$children = $node->getDirectoryListing();
 			$childSize = array_sum(array_map(function (Node $node) {
