@@ -532,7 +532,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|wasm|tflite)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status|phpinfo)\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v(1|2)\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots\\.txt";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocm-provider|ocs-provider|updater)/";
