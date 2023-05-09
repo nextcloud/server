@@ -300,7 +300,16 @@ class Node implements INode {
 				return $this->root;
 			}
 
-			$this->parent = $this->root->get($newPath);
+			$parentData = [
+				'path' => $newPath,
+			];
+			if ($this->fileInfo instanceof \OC\Files\FileInfo && isset($this->fileInfo['parent'])) {
+				$parentData['fileid'] = $this->fileInfo['parent'];
+			}
+
+			$this->parent = new LazyFolder(function () use ($newPath) {
+				return $this->root->get($newPath);
+			}, $parentData);
 		}
 
 		return $this->parent;
