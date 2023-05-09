@@ -47,7 +47,7 @@
 		</NcActions>
 
 		<!-- pending actions -->
-		<NcActions v-if="!pending && (pendingPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && (pendingEnforcedPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
@@ -64,7 +64,7 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingPassword" icon="icon-password">
+			<NcActionText v-if="pendingEnforcedPassword" icon="icon-password">
 				{{ t('files_sharing', 'Password protection (enforced)') }}
 			</NcActionText>
 			<NcActionCheckbox v-else-if="config.enableLinkPasswordByDefault"
@@ -75,7 +75,7 @@
 				{{ t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
-			<NcActionInput v-if="pendingPassword || share.password"
+			<NcActionInput v-if="pendingEnforcedPassword || share.password"
 				class="share-link-password"
 				:value.sync="share.password"
 				:disabled="saving"
@@ -516,7 +516,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 */
-		pendingPassword() {
+		pendingEnforcedPassword() {
 			return this.config.enforcePasswordForPublicLink && this.share && !this.share.id
 		},
 		pendingExpirationDate() {
