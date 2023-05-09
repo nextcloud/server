@@ -202,7 +202,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getEstimatedExportSize(IUser $user): int {
+	public function getEstimatedExportSize(IUser $user): int|float {
 		$addressBookExports = $this->getAddressBookExports($user, new NullOutput());
 		$addressBookCount = count($addressBookExports);
 
@@ -217,7 +217,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 		// 350B for each contact
 		$size += ($contactsCount * 350) / 1024;
 
-		return (int)ceil($size);
+		return ceil($size);
 	}
 
 	/**
