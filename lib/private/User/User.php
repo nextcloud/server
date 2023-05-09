@@ -416,7 +416,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name')) {
+		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
