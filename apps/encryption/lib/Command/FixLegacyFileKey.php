@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Command;
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\FileInfo;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
@@ -112,23 +114,30 @@ class FixLegacyFileKey extends Command {
 					/* If that did not throw and filekey is not empty, a legacy filekey is used */
 					$clean = false;
 					$output->writeln($path . ' is using a legacy filekey, migrating');
-					$file = $this->rootView->fopen($path, 'r+');
-					if ($file) {
-						$firstByte = fread($file, 1);
-						if ($firstByte === false) {
-							$output->writeln('<error>failed to read ' . $path . '</error>');
-							continue;
-						}
-						fwrite($file, $firstByte);
-						fclose($file);
-					} else {
-						$output->writeln('<error>failed to open ' . $path . '</error>');
-					}
+					$this->migrateSinglefile($path, $item, $output);
 				}
 			}
 		}
 
 		return $clean;
+	}
+
+	private function migrateSinglefile(string $path, FileInfo $fileInfo, OutputInterface $output): void {
+		$source = $path;
+		$target = $path . '.reencrypted.' . time();
+
+		try {
+			$this->rootView->copy($source, $target);
+			$this->rootView->touch($target, $fileInfo->getMTime());
+			$this->rootView->rename($target, $source);
+			$output->writeln('<info>Migrated ' . $source . '</info>', OutputInterface::VERBOSITY_VERBOSE);
+		} catch (DecryptionFailedException $e) {
+			if ($this->rootView->file_exists($target)) {
+				$this->rootView->unlink($target);
+			}
+			$output->writeln('<error>Failed to migrate ' . $path . '</error>');
+			$output->writeln('<error>' . $e . '</error>', OutputInterface::VERBOSITY_VERBOSE);
+		}
 	}
 
 	/**
