@@ -112,6 +112,7 @@
     "Address" : "Adres",
     "Profile picture" : "Profil görseli",
     "About" : "Hakkında",
+    "Display name" : "Görüntülenecek ad",
     "Headline" : "Başlık",
     "Organisation" : "Kuruluş",
     "Role" : "Pozisyon",
@@ -235,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "php.ini dosyasında bu ayar yapıldığında Nextcloud yeniden çalışır",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>, beklenen <code>0</code> değeri yerine <code>%s</code> olarak ayarlanmış.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Bu sorunu çözmek için php.ini dosyasındaki <code>mbstring.func_overload</code> seçeneğini <code>0</code> olarak ayarlayın.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 sürümü en az 2.7.0 olmalıdır. Şu anda %s kurulu.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Bu sorunu çözmek için libxml2 sürümünüzü güncelleyin ve site sunucusunu yeniden başlatın.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP girintili doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu durum bazı çekirdek uygulamalarına erişilmesini engelleyecek.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu sorun genellikle Zend OPcache ya da eAccelerator gibi bir ön bellek/hızlandırıcı nedeniyle ortaya çıkar.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP modülleri kurulmuş, ancak hala eksik olarak mı görünüyor?",
@@ -268,6 +267,8 @@
     "%s enter the database name." : "%s veri tabanı adını yazın.",
     "%s you may not use dots in the database name" : "%s veri tabanı adında nokta kullanamayabilirsiniz",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Kullanıcı sayısı sınırına ulaşıldığından kullanıcı eklenemedi. Ayrıntılı bilgi almak için bildirimlerinize bakın.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 sürümü en az 2.7.0 olmalıdır. Şu anda %s kurulu.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Bu sorunu çözmek için libxml2 sürümünüzü güncelleyin ve site sunucusunu yeniden başlatın."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

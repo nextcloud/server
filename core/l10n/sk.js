@@ -292,7 +292,6 @@ OC.L10N.register(
     "The profile does not exist." : "Profil neexistuje.",
     "Back to %s" : "Späť na %s",
     "Page not found" : "Stránka nenájdená",
-    "The page could not be found on the server." : "Stránka nebola nájdená na serveri.",
     "Too many requests" : "Priveľa požiadavok",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Príliš mnoho požiadaviek z vašej siete. Skúste to znovu neskôr alebo kontaktujte svojho administrátora ak je toto chyba.",
     "Error" : "Chyba",
@@ -415,6 +414,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu kontaktov",
     "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá sa, že používate 32-bitovú verziu PHP. Nextcloud potrebuje 64-bit, aby fungoval dobre. Inovujte svoj OS a PHP na 64-bitové! Ďalšie podrobnosti nájdete na {linkstart}stránke dokumentácie↗{linkend}.",
-    "Press enter to start searching" : "Stlačte enter pre vyhľadávanie"
+    "Press enter to start searching" : "Stlačte enter pre vyhľadávanie",
+    "The page could not be found on the server." : "Stránka nebola nájdená na serveri."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

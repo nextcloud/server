@@ -12,6 +12,8 @@ OC.L10N.register(
     "View profile" : "Ikusi profila",
     "Clear status after" : "Garbitu egoera honen ondoren",
     "What is your status?" : "Zein da zure egoera?",
+    "Previously set" : "Lehendik ezarrita",
+    "Reset status" : "Berrezarri egoera",
     "Set status" : "Ezarri egoera",
     "Online status" : "Lineako egoera",
     "Status message" : "Egoera-mezua",

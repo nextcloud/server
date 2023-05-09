@@ -139,7 +139,7 @@ export default Vue.extend({
 
 	methods: {
 		getFileId(node) {
-			return node.attributes.fileid
+			return node.fileid
 		},
 
 		t: translate,
@@ -233,22 +233,24 @@ export default Vue.extend({
 		}
 
 		.files-list__row-icon {
+			position: relative;
 			display: flex;
+			overflow: visible;
 			align-items: center;
+			// No shrinking or growing allowed
+			flex: 0 0 var(--icon-preview-size);
 			justify-content: center;
 			width: var(--icon-preview-size);
 			height: 100%;
 			// Show same padding as the checkbox right padding for visual balance
 			margin-right: var(--checkbox-padding);
 			color: var(--color-primary-element);
-			// No shrinking or growing allowed
-			flex: 0 0 var(--icon-preview-size);
 
 			& > span {
 				justify-content: flex-start;
 			}
 
-			svg {
+			&> span:not(.files-list__row-icon-favorite) svg {
 				width: var(--icon-preview-size);
 				height: var(--icon-preview-size);
 			}
@@ -262,6 +264,13 @@ export default Vue.extend({
 				// Center and contain the preview
 				background-position: center;
 				background-size: contain;
+			}
+
+			&-favorite {
+				position: absolute;
+				top: 4px;
+				right: -8px;
+				color: #ffcc00;
 			}
 		}
 

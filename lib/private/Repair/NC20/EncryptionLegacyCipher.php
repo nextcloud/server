@@ -48,7 +48,7 @@ class EncryptionLegacyCipher implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		return version_compare($versionFromBeforeUpdate, '20.0.0.0', '<=');
 	}
 

@@ -942,11 +942,11 @@ class UsersController extends AUserData {
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getSystemEMailAddress()) {
 					$userAccount = $this->accountManager->getAccount($targetUser);
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
-					foreach ($mailCollection->getProperties() as $property) {
-						if ($property->getValue() === $value) {
-							break;
-						}
+
+					if ($mailCollection->getPropertyByValue($value)) {
+						throw new OCSException('', 102);
 					}
+
 					$mailCollection->addPropertyWithDefaults($value);
 					$this->accountManager->updateAccount($userAccount);
 				} else {

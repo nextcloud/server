@@ -247,14 +247,18 @@ $header-icon-size: 20px;
 }
 
 ::v-deep .app-menu-more .button-vue--vue-tertiary {
-	color: var(--color-primary-text);
 	opacity: .7;
 	margin: 3px;
 	filter: var(--background-image-invert-if-bright);
 
-	&:hover {
-		opacity: 1;
-		background-color: transparent !important;
+	/* Remove all background and align text color if not expanded */
+	&:not([aria-expanded="true"]) {
+		color: var(--color-primary-text);
+
+		&:hover {
+			opacity: 1;
+			background-color: transparent !important;
+		}
 	}
 
 	&:focus-visible {
@@ -267,6 +271,8 @@ $header-icon-size: 20px;
 	.app-icon {
 		position: relative;
 		height: 44px;
+		/* Icons are bright so invert them if bright color theme == bright background is used */
+		filter: var(--background-invert-if-bright);
 
 		&.has-unread::after {
 			background-color: var(--color-main-text);

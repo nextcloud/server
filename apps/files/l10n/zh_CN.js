@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "复制直接链接(仅适用于有权访问此文件/文件夹的用户)",
     "You can only favorite a single file or folder at a time" : "您一次只能收藏一个文件或文件夹",
     "New folder" : "新建文件夹",
+    "Create new folder" : "创建新文件夹",
     "Upload file" : "上传文件",
     "Recent" : "最近",
     "Not favorited" : "未收藏",

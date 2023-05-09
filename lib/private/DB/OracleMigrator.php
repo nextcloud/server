@@ -216,6 +216,6 @@ class OracleMigrator extends Migrator {
 	}
 
 	protected function getFilterExpression() {
-		return '/^"' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+		return '/^"' . preg_quote($this->config->getSystemValueString('dbtableprefix', 'oc_')) . '/';
 	}
 }

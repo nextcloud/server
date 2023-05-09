@@ -69,6 +69,7 @@ OC.L10N.register(
     "Favorited" : "Favorīti",
     "Favorite" : "Iecienītais",
     "New folder" : "Jauna mape",
+    "Create new folder" : "Izveidot jaunu mapi",
     "Upload file" : "Augšupielādēt datni",
     "Recent" : "Nesenās",
     "Remove from favorites" : "Noņemt no favorītiem",

@@ -1872,7 +1872,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	}
 
 	public function testGetWithFilter() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
 					return '11.0.0.2';
@@ -1884,8 +1884,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			});
 		$this->config
 			->method('getSystemValueBool')
-			->with('appstoreenabled', true)
-			->willReturn(true);
+			->willReturnArgument(1);
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -1957,7 +1956,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 	public function testAppstoreDisabled() {
 		$this->config
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
 				if ($var === 'version') {
 					return '11.0.0.2';
@@ -1966,8 +1965,14 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			});
 		$this->config
 			->method('getSystemValueBool')
-			->with('appstoreenabled', true)
-			->willReturn(false);
+			->willReturnCallback(function ($var, $default) {
+				if ($var === 'has_internet_connection') {
+					return true;
+				} elseif ($var === 'appstoreenabled') {
+					return false;
+				}
+				return $default;
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
@@ -1978,7 +1983,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 	public function testNoInternet() {
 		$this->config
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;
@@ -1989,8 +1994,14 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			});
 		$this->config
 			->method('getSystemValueBool')
-			->with('appstoreenabled', true)
-			->willReturn(true);
+			->willReturnCallback(function ($var, $default) {
+				if ($var === 'has_internet_connection') {
+					return false;
+				} elseif ($var === 'appstoreenabled') {
+					return true;
+				}
+				return $default;
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
@@ -1999,7 +2010,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	}
 
 	public function testSetVersion() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
 					return '10.0.7.2';
@@ -2011,8 +2022,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			});
 		$this->config
 			->method('getSystemValueBool')
-			->with('appstoreenabled', true)
-			->willReturn(true);
+			->willReturnArgument(1);
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -2084,13 +2094,19 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	}
 
 	public function testGetAppsAllowlist() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
 					return '11.0.0.2';
 				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
 					return 'https://custom.appsstore.endpoint/api/v1';
-				} elseif ($key === 'appsallowlist') {
+				} else {
+					return $default;
+				}
+			});
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'appsallowlist') {
 					return ['contacts'];
 				} else {
 					return $default;
@@ -2098,8 +2114,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			});
 		$this->config
 			->method('getSystemValueBool')
-			->with('appstoreenabled', true)
-			->willReturn(true);
+			->willReturnArgument(1);
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);

@@ -103,6 +103,10 @@ export default Vue.extend({
 	},
 
 	computed: {
+		dir() {
+			// Remove any trailing slash but leave root slash
+			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+		},
 		enabledActions() {
 			return actions
 				.filter(action => action.execBatch)
@@ -165,13 +169,20 @@ export default Vue.extend({
 				})
 
 				// Dispatch action execution
-				const results = await action.execBatch(this.nodes, this.currentView)
+				const results = await action.execBatch(this.nodes, this.currentView, this.dir)
+
+				// Check if all actions returned null
+				if (!results.some(result => result !== null)) {
+					// If the actions returned null, we stay silent
+					this.selectionStore.reset()
+					return
+				}
 
 				// Handle potential failures
-				if (results.some(result => result !== true)) {
+				if (results.some(result => result === false)) {
 					// Remove the failed ids from the selection
 					const failedIds = selectionIds
-						.filter((fileid, index) => results[index] !== true)
+						.filter((fileid, index) => results[index] === false)
 					this.selectionStore.set(failedIds)
 
 					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))

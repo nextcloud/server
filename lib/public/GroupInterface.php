@@ -106,13 +106,15 @@ interface GroupInterface {
 	public function groupExists($gid);
 
 	/**
-	 * get a list of all users in a group
+	 * @brief Get a list of user ids in a group matching the given search parameters.
+	 *
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of user ids
+	 * @return array<int,string> an array of user ids
 	 * @since 4.5.0
+	 * @deprecated 27.0.0 Use searchInGroup instead, for performance reasons
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 }

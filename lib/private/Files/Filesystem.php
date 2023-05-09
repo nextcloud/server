@@ -554,7 +554,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @return string|false
 	 */
 	public static function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);
@@ -642,6 +642,7 @@ class Filesystem {
 	 * @param bool $stripTrailingSlash whether to strip the trailing slash
 	 * @param bool $isAbsolutePath whether the given path is absolute
 	 * @param bool $keepUnicode true to disable unicode normalization
+	 * @psalm-taint-escape file
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {

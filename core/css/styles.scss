@@ -154,7 +154,7 @@ body {
 		color: var(--color-primary-text);
 		border-bottom: 2px dotted var(--color-main-background);
 		&:hover, &:focus {
-			color: var(--color-primary-text-dark);
+			color: var(--color-primary-element-text-dark);
 		}
 	}
 }
@@ -878,7 +878,10 @@ code {
 							width: 100%;
 						}
 						&.date {
-							display: none;
+							align-self: center;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							min-width: 110px;
 						}
 					}
 				}

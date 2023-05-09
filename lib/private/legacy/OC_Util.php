@@ -65,7 +65,6 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use OC\AppFramework\Http\Request;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -185,7 +184,7 @@ class OC_Util {
 		/** @var LoggerInterface $logger */
 		$logger = \OC::$server->get(LoggerInterface::class);
 
-		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
 		$userLang = \OC::$server->getL10NFactory()->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
@@ -306,7 +305,7 @@ class OC_Util {
 	 */
 	public static function getChannel() {
 		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValue('updater.release.channel', self::$versionCache['OC_Channel']);
+		return \OC::$server->getConfig()->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
 	}
 
 	/**
@@ -327,10 +326,9 @@ class OC_Util {
 			return;
 		}
 
-		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
+		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
@@ -694,20 +692,6 @@ class OC_Util {
 			];
 		}
 
-		if (function_exists('xml_parser_create') &&
-			LIBXML_LOADED_VERSION < 20700) {
-			$version = LIBXML_LOADED_VERSION;
-			$major = floor($version / 10000);
-			$version -= ($major * 10000);
-			$minor = floor($version / 100);
-			$version -= ($minor * 100);
-			$patch = $version;
-			$errors[] = [
-				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [$major . '.' . $minor . '.' . $patch]),
-				'hint' => $l->t('To fix this issue update your libxml2 version and restart your web server.')
-			];
-		}
-
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
@@ -783,7 +767,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if (\OC::$server->getConfig()->getSystemValue('check_data_directory_permissions', true) === false) {
+		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
 
@@ -957,7 +941,7 @@ class OC_Util {
 		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
 
 		// creating a test file
-		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
+		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		if (file_exists($testFile)) {// already running this test, possible recursive call
 			return false;
@@ -983,7 +967,7 @@ class OC_Util {
 	 * @throws \OCP\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
-		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
+		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
 			return true;
 		}
 
@@ -993,7 +977,7 @@ class OC_Util {
 		}
 
 		$fileName = '/htaccesstest.txt';
-		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
+		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		// accessing the file via http
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);

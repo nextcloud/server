@@ -273,6 +273,7 @@ OC.L10N.register(
     "Upload profile picture" : "Subir imaxe de perfil",
     "Choose profile picture from Files" : "Escolle a imaxe de perfil de Ficheiros",
     "Remove profile picture" : "Eliminar a imaxe de perfil",
+    "The file must be a PNG or JPG" : "O ficheiro debe ser PNG ou JPG",
     "Picture provided by original account" : "Imaxe fornecida pola conta orixinal ",
     "Cancel" : "Cancelar",
     "Set as profile picture" : "Establecer como imaxe de perfil",

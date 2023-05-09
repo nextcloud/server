@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDav\CalDavBackend;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\DeleteCalendar;
 use OCP\IConfig;
 use OCP\IL10N;

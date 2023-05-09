@@ -20,8 +20,9 @@
  *
  */
 
-import { Node } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
 import logger from '../logger'
+import type { Navigation } from './Navigation'
 
 declare global {
 	interface Window {
@@ -48,13 +49,14 @@ interface FileActionData {
 	 * @returns true if the action was executed, false otherwise
 	 * @throws Error if the action failed
 	 */
-	exec: (file: Node, view) => Promise<boolean>,
+	exec: (file: Node, view: Navigation, dir: string) => Promise<boolean|null>,
 	/**
 	 * Function executed on multiple files action
-	 * @returns true if the action was executed, false otherwise
+	 * @returns true if the action was executed successfully,
+	 * false otherwise and null if the action is silent/undefined.
 	 * @throws Error if the action failed
 	 */
-	execBatch?: (files: Node[], view) => Promise<boolean[]>
+	execBatch?: (files: Node[], view: Navigation, dir: string) => Promise<(boolean|null)[]>
 	/** This action order in the list */
 	order?: number,
 	/** Make this action the default */

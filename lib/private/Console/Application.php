@@ -112,7 +112,7 @@ class Application {
 
 		try {
 			require_once __DIR__ . '/../../../core/register_command.php';
-			if ($this->config->getSystemValue('installed', false)) {
+			if ($this->config->getSystemValueBool('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
@@ -178,17 +178,13 @@ class Application {
 	 * for writing outputs.
 	 * @return void
 	 */
-	private function writeMaintenanceModeInfo(
-		InputInterface $input, ConsoleOutputInterface $output
-	) {
+	private function writeMaintenanceModeInfo(InputInterface $input, ConsoleOutputInterface $output): void {
 		if ($input->getArgument('command') !== '_completion'
 			&& $input->getArgument('command') !== 'maintenance:mode'
 			&& $input->getArgument('command') !== 'status') {
 			$errOutput = $output->getErrorOutput();
-			$errOutput->writeln(
-				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
-				'Cannot perform any command except \'maintenance:mode --off\'</comment>' . PHP_EOL
-			);
+			$errOutput->writeln('<comment>Nextcloud is in maintenance mode, no apps are loaded.</comment>');
+			$errOutput->writeln('<comment>Commands provided by apps are unavailable.</comment>');
 		}
 	}
 

@@ -24,6 +24,7 @@
  */
 
 import $ from 'jquery'
+import { createFocusTrap } from 'focus-trap'
 import { isA11yActivation } from '../Util/a11y.js'
 
 $.widget('oc.ocdialog', {
@@ -114,9 +115,9 @@ $.widget('oc.ocdialog', {
 
 		this._setOptions(this.options)
 		this._createOverlay()
+		this._useFocusTrap()
 	},
 	_init() {
-		this.$dialog.focus()
 		this._trigger('open')
 	},
 	_setOption(key, value) {
@@ -252,6 +253,23 @@ $.widget('oc.ocdialog', {
 			this.overlay = null
 		}
 	},
+	_useFocusTrap() {
+		// Create global stack if undefined
+		Object.assign(window, { _nc_focus_trap: window._nc_focus_trap || [] })
+
+		const dialogElement = this.$dialog[0]
+		this.focusTrap = createFocusTrap(dialogElement, {
+			allowOutsideClick: true,
+			trapStack: window._nc_focus_trap,
+			fallbackFocus: dialogElement,
+		})
+
+		this.focusTrap.activate()
+	},
+	_clearFocusTrap() {
+		this.focusTrap?.deactivate()
+		this.focusTrap = null
+	},
 	widget() {
 		return this.$dialog
 	},
@@ -262,6 +280,7 @@ $.widget('oc.ocdialog', {
 		this.enterCallback = null
 	},
 	close() {
+		this._clearFocusTrap()
 		this._destroyOverlay()
 		const self = this
 		// Ugly hack to catch remaining keyup events.

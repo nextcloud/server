@@ -44,6 +44,7 @@
     "Collaborative tags" : "Systeemtags",
     "Collaborative tagging functionality which shares tags among users." : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers. Perfect voor teams\n(als je een provider met een multi-tenancy installatie bent, adviseren we om deze app uit te schakelen omdat tags worden gedeeld.)",
+    "Failed to load tags" : "Kon tags niet laden",
     "Tagged files" : "Gemarkeerde bestanden",
     "Select tags to filter by" : "Selecteer markering om op te filteren",
     "No tags found" : "Geen tags gevonden",

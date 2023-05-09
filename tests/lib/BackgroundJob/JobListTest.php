@@ -12,6 +12,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -32,6 +33,7 @@ class JobListTest extends TestCase {
 
 	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
+	private bool $ran = false;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,7 +45,8 @@ class JobListTest extends TestCase {
 		$this->instance = new \OC\BackgroundJob\JobList(
 			$this->connection,
 			$this->config,
-			$this->timeFactory
+			$this->timeFactory,
+			\OC::$server->get(LoggerInterface::class),
 		);
 	}
 
@@ -243,5 +246,25 @@ class JobListTest extends TestCase {
 
 		$this->assertGreaterThanOrEqual($timeStart, $addedJob->getLastRun());
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
+	}
+
+	public function testHasReservedJobs() {
+		$this->clearJobsList();
+		$job = new TestJob($this->timeFactory, $this, function () {
+			$this->assertTrue($this->instance->hasReservedJob());
+			$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+		});
+		$this->instance->add($job);
+
+		$this->assertFalse($this->instance->hasReservedJob());
+		$this->assertFalse($this->instance->hasReservedJob(TestJob::class));
+
+		$job->start($this->instance);
+
+		$this->assertTrue($this->ran);
+	}
+
+	public function markRun() {
+		$this->ran = true;
 	}
 }

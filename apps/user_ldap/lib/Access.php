@@ -631,7 +631,7 @@ class Access extends LDAPUtility {
 	 * gives back the user names as they are used ownClod internally
 	 *
 	 * @param array $ldapUsers as returned by fetchList()
-	 * @return array an array with the user names to use in Nextcloud
+	 * @return array<int,string> an array with the user names to use in Nextcloud
 	 *
 	 * gives back the user names as they are used ownClod internally
 	 * @throws \Exception
@@ -644,7 +644,7 @@ class Access extends LDAPUtility {
 	 * gives back the group names as they are used ownClod internally
 	 *
 	 * @param array $ldapGroups as returned by fetchList()
-	 * @return array an array with the group names to use in Nextcloud
+	 * @return array<int,string> an array with the group names to use in Nextcloud
 	 *
 	 * gives back the group names as they are used ownClod internally
 	 * @throws \Exception
@@ -655,6 +655,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @param array[] $ldapObjects as returned by fetchList()
+	 * @return array<int,string>
 	 * @throws \Exception
 	 */
 	private function ldap2NextcloudNames(array $ldapObjects, bool $isUsers): array {

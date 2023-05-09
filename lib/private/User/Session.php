@@ -428,7 +428,7 @@ class Session implements IUserSession, Emitter {
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
 		$remoteAddress = $request->getRemoteAddress();
-		$currentDelay = $throttler->sleepDelay($remoteAddress, 'login');
+		$currentDelay = $throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
 			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
@@ -479,7 +479,7 @@ class Session implements IUserSession, Emitter {
 		$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
 
 		if ($currentDelay === 0) {
-			$throttler->sleepDelay($remoteAddress, 'login');
+			$throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 		}
 	}
 
@@ -491,8 +491,8 @@ class Session implements IUserSession, Emitter {
 		return false;
 	}
 
-	private function isTokenAuthEnforced() {
-		return $this->config->getSystemValue('token_auth_enforced', false);
+	private function isTokenAuthEnforced(): bool {
+		return $this->config->getSystemValueBool('token_auth_enforced', false);
 	}
 
 	protected function isTwoFactorEnforced($username) {
@@ -958,7 +958,7 @@ class Session implements IUserSession, Emitter {
 			$webRoot = '/';
 		}
 
-		$maxAge = $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		\OC\Http\CookieHelper::setCookie(
 			'nc_username',
 			$username,

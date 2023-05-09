@@ -67,7 +67,7 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates(): array {
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return [];
 		}
 
@@ -93,7 +93,7 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	private function hasCertificates(): bool {
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return false;
 		}
 
@@ -137,6 +137,10 @@ class CertificateManager implements ICertificateManager {
 		$certPath = $path . 'rootcerts.crt';
 		$tmpPath = $certPath . '.tmp' . $this->random->generate(10, ISecureRandom::CHAR_DIGITS);
 		$fhCerts = $this->view->fopen($tmpPath, 'w');
+
+		if (!is_resource($fhCerts)) {
+			throw new \RuntimeException('Unable to open file handler to create certificate bundle "' . $tmpPath . '".');
+		}
 
 		// Write user certificates
 		foreach ($certs as $cert) {
@@ -228,7 +232,7 @@ class CertificateManager implements ICertificateManager {
 	 */
 	public function getAbsoluteBundlePath(): string {
 		try {
-			if (!$this->bundlePath) {
+			if ($this->bundlePath === null) {
 				if (!$this->hasCertificates()) {
 					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 				}
@@ -237,13 +241,16 @@ class CertificateManager implements ICertificateManager {
 					$this->createCertificateBundle();
 				}
 
-				$this->bundlePath = $this->view->getLocalFile($this->getCertificateBundle()) ?: null;
-			}
-			if ($this->bundlePath === null) {
-				throw new \Exception('Failed to get absolute bundle path');
+				$certificateBundle = $this->getCertificateBundle();
+				$this->bundlePath = $this->view->getLocalFile($certificateBundle) ?: null;
+
+				if ($this->bundlePath === null) {
+					throw new \RuntimeException('Unable to get certificate bundle "' . $certificateBundle . '".');
+				}
 			}
 			return $this->bundlePath;
 		} catch (\Exception $e) {
+			$this->logger->error('Failed to get absolute bundle path. Fallback to default ca-bundle.crt', ['exception' => $e]);
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 	}

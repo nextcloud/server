@@ -68,7 +68,6 @@ declare(strict_types=1);
 
 use OC\Encryption\HookManager;
 use OC\EventDispatcher\SymfonyAdapter;
-use OC\Files\Filesystem;
 use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
@@ -114,6 +113,8 @@ class OC {
 	public static array $APPSROOTS = [];
 
 	public static string $configDir;
+
+	public static int $VERSION_MTIME = 0;
 
 	/**
 	 * requested app
@@ -569,7 +570,7 @@ class OC {
 				self::sendSameSiteCookies();
 				// Debug mode gets access to the resources without strict cookie
 				// due to the fact that the SabreDAV browser also lives there.
-				if (!$config->getSystemValue('debug', false)) {
+				if (!$config->getSystemValueBool('debug', false)) {
 					http_response_code(\OCP\AppFramework\Http::STATUS_PRECONDITION_FAILED);
 					header('Content-Type: application/json');
 					echo json_encode(['error' => 'Strict Cookie has not been found in request']);
@@ -601,7 +602,8 @@ class OC {
 
 		// Add default composer PSR-4 autoloader
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix('composer_autoload');
+		OC::$VERSION_MTIME = filemtime(OC::$SERVERROOT . '/version.php');
+		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . OC::$VERSION_MTIME));
 
 		try {
 			self::initPaths();
@@ -674,7 +676,7 @@ class OC {
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
 			);
 			$exceptionHandler = [$errorHandler, 'onException'];
-			if ($config->getSystemValue('debug', false)) {
+			if ($config->getSystemValueBool('debug', false)) {
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
 				if (\OC::$CLI) {
 					$exceptionHandler = ['OC_Template', 'printExceptionErrorPage'];
@@ -735,7 +737,7 @@ class OC {
 					echo('Writing to database failed');
 				}
 				exit(1);
-			} elseif (self::$CLI && $config->getSystemValue('installed', false)) {
+			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
 		}
@@ -805,7 +807,7 @@ class OC {
 		 */
 		if (!OC::$CLI
 			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
-			&& $config->getSystemValue('installed', false)
+			&& $config->getSystemValueBool('installed', false)
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;

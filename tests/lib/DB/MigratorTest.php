@@ -76,7 +76,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	private function getUniqueTableName() {
-		return strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));
+		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
 	}
 
 	protected function tearDown(): void {
@@ -160,10 +160,10 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testUpgradeDifferentPrefix() {
-		$oldTablePrefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
+		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
-		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix') . 'test_'));
+		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix') . 'test_'));
 
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();

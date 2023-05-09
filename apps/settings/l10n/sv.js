@@ -273,6 +273,7 @@ OC.L10N.register(
     "Upload profile picture" : "Ladda upp profilbild",
     "Choose profile picture from Files" : "Välj profilbild från filer",
     "Remove profile picture" : "Ta bort profilbild",
+    "The file must be a PNG or JPG" : "Filen måste vara en PNG eller JPG",
     "Picture provided by original account" : "Bild gjordes tillgänglig av orginalkonto",
     "Cancel" : "Avbryt",
     "Set as profile picture" : "Ställ in som profilbild",

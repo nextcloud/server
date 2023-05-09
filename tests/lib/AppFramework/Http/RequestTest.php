@@ -938,7 +938,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithOverride() {
 		$this->config
 			->expects($this->exactly(3))
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturnMap([
 				['overwriteprotocol', '', 'customProtocol'],
 				['overwritecondaddr', '', ''],
@@ -1358,7 +1358,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerHostWithOverwriteHost() {
 		$this->config
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'overwritecondaddr') {
 					return '';
@@ -1513,7 +1513,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetOverwriteHostDefaultNull() {
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('overwritehost')
 			->willReturn('');
 		$request = new Request(
@@ -1530,7 +1530,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetOverwriteHostWithOverwrite() {
 		$this->config
 			->expects($this->exactly(3))
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturnMap([
 				['overwritehost', '', 'www.owncloud.org'],
 				['overwritecondaddr', '', ''],
@@ -1717,7 +1717,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetRequestUriWithoutOverwrite() {
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('overwritewebroot')
 			->willReturn('');
 
@@ -1749,7 +1749,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr) {
 		$this->config
 			->expects($this->exactly(2))
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturnMap([
 				['overwritewebroot', '', $overwriteWebRoot],
 				['overwritecondaddr', '', $overwriteCondAddr],

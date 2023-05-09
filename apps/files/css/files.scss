@@ -436,6 +436,41 @@ table {
 			z-index: 10;
 			padding: 0 20px 0 0;
 		}
+
+		/* System tags */
+		.system-tags {
+			--min-size: 32px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex: 1 1 100%;
+			min-width: calc(var(--min-size) * 2);
+			max-width: 300px;
+
+			.system-tags__tag {
+				padding: 5px 10px;
+				border: 1px solid;
+				border-radius: var(--border-radius-pill);
+				border-color: var(--color-border);
+				color: var(--color-text-maxcontrast);
+				height: var(--min-size);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				line-height: 22px; // min-size - 2 * 5px padding
+				text-align: center;
+
+				&--more {
+					overflow: visible;
+					text-overflow: initial;
+				}
+
+				// Proper spacing if multiple shown
+				& + .system-tags__tag {
+					margin-left: 5px;
+				}
+			}
+		}
 	}
 }
 
@@ -1111,6 +1146,11 @@ table.dragshadow td.size {
 						}
 					}
 
+					/* System tags */
+					.system-tags {
+						display: none;
+					}
+
 					.fileactions {
 						height: initial;
 						margin-top: $grid-size - $grid-pad;
@@ -1244,15 +1284,16 @@ table.dragshadow td.size {
 
 /* Grid view toggle */
 #view-toggle {
-	background-color: transparent;
+	background-color: var(--color-main-background-translucent);
 	border: none;
 	margin: 0;
 	padding: 22px;
 	opacity: .5;
 	float: right;
-	right: calc(var(--default-grid-baseline) * 4);
-	top: calc(var(--header-height) + var(--default-grid-baseline));
+	right: var(--default-grid-baseline);
+	top: var(--default-grid-baseline);
 	z-index: 100;
+	position: sticky;
 
 	&:hover,
 	&:focus,

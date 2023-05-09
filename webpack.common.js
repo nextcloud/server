@@ -89,7 +89,16 @@ module.exports = {
 			},
 			{
 				test: /\.tsx?$/,
-				use: 'babel-loader',
+				use: [
+					'babel-loader',
+					{
+						// Fix TypeScript syntax errors in Vue
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+						},
+					},
+				],
 				exclude: BabelLoaderExcludeNodeModulesExcept([]),
 			},
 			{
@@ -210,6 +219,13 @@ module.exports = {
 			vue$: path.resolve('./node_modules/vue'),
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
+		extensionAlias: {
+			/**
+			 * Resolve TypeScript files when using fully-specified esm import paths
+			 * https://github.com/webpack/webpack/issues/13252
+			 */
+			'.js': ['.js', '.ts'],
+		},
 		symlinks: true,
 		fallback: {
 			fs: false,

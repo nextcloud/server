@@ -353,7 +353,7 @@ class SessionTest extends \Test\TestCase {
 			->with('doe')
 			->will($this->throwException(new InvalidTokenException()));
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
 			->willReturn(true);
 		$request
@@ -362,7 +362,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -389,7 +389,7 @@ class SessionTest extends \Test\TestCase {
 			->with('doe')
 			->will($this->throwException(new InvalidTokenException()));
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
 			->willReturn(false);
 		$manager->method('getByEmail')
@@ -427,7 +427,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -457,7 +457,7 @@ class SessionTest extends \Test\TestCase {
 			->with('doe')
 			->will($this->throwException(new InvalidTokenException()));
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
 			->willReturn(false);
 
@@ -472,7 +472,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -1085,7 +1085,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->exactly(2))
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())
@@ -1135,7 +1135,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->exactly(2))
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
 			->expects($this->any())

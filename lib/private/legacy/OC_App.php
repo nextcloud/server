@@ -85,12 +85,14 @@ class OC_App {
 	 *
 	 * @psalm-taint-escape file
 	 * @psalm-taint-escape include
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape has_quotes
 	 *
 	 * @param string $app AppId that needs to be cleaned
 	 * @return string
 	 */
 	public static function cleanAppId(string $app): string {
-		return str_replace(['\0', '/', '\\', '..'], '', $app);
+		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
 	}
 
 	/**

@@ -49,7 +49,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	 * Check if this repair step should run
 	 */
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 
 		// was added to 25.0.0.10
 		return version_compare($versionFromBeforeUpdate, '25.0.0.10', '<=');

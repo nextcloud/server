@@ -206,7 +206,7 @@ class RegistryTest extends TestCase {
 			->with('one-click-instance')
 			->willReturn(true);
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->with('one-click-instance.user-limit')
 			->willReturn($userLimit);
 		$this->config->expects($this->once())

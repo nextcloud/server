@@ -19,7 +19,6 @@
   - along with this program. If not, see <http://www.gnu.org/licenses/>.
   -
   -->
-
 <template>
 	<div>
 		<NcMultiselect :value="currentValue"
@@ -144,24 +143,24 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-	.multiselect, input[type='text'] {
-		width: 100%;
-	}
-	.multiselect >>> .multiselect__content-wrapper li>span,
-	.multiselect >>> .multiselect__single {
-		display: flex;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+.multiselect, input[type='text'] {
+	width: 100%;
+}
+.multiselect::v-deep .multiselect__content-wrapper li > span,
+.multiselect::v-deep .multiselect__single {
+	display: flex;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
-	.option__icon {
-		display: inline-block;
-		min-width: 30px;
-		background-position: left;
-	}
+.option__icon {
+	display: inline-block;
+	min-width: 30px;
+	background-position: left;
+}
 
-	.option__icon-img {
-		margin-right: 14px;
-	}
+.option__icon-img {
+	margin-right: 14px;
+}
 </style>

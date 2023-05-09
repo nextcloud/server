@@ -290,7 +290,6 @@ OC.L10N.register(
     "The profile does not exist." : "Il profilo non esiste.",
     "Back to %s" : "Torna a %s",
     "Page not found" : "Pagina non trovata",
-    "The page could not be found on the server." : "Impossibile trovare la pagina sul server.",
     "Too many requests" : "Troppe richieste",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Sono arrivate troppe richieste dalla tua rete. Riprova più tardi o contatta il tuo amministratore se questo è un errore.",
     "Error" : "Errore",
@@ -412,6 +411,7 @@ OC.L10N.register(
     "Contacts" : "Contatti",
     "Contacts menu" : "Menu dei contatti",
     "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
-    "Press enter to start searching" : "Premi invio per avviare la ricerca"
+    "Press enter to start searching" : "Premi invio per avviare la ricerca",
+    "The page could not be found on the server." : "Impossibile trovare la pagina sul server."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -71,7 +71,7 @@ class RemoveLinkShares implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 
 		if (version_compare($versionFromBeforeUpdate, '14.0.11', '<')) {
 			return true;

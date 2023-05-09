@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-declare module '*.svg' {
+declare module '*.svg?raw' {
 	const content: any
 	export default content
 }
@@ -28,4 +28,3 @@ declare module '*.vue' {
 	import Vue from 'vue'
 	export default Vue
 }
-

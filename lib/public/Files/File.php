@@ -40,6 +40,7 @@ interface File extends Node {
 	 *
 	 * @return string
 	 * @throws NotPermittedException
+	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @since 6.0.0
 	 */

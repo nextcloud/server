@@ -80,6 +80,7 @@ OC.L10N.register(
     "Favorited" : "برگزیده شده",
     "Favorite" : "برگزیده",
     "New folder" : "پوشه جدید",
+    "Create new folder" : "ساختن پوشه جدید",
     "Upload file" : "بارگذاری پرونده",
     "Recent" : "اخیر",
     "Remove from favorites" : "حذف کردن از برگزیده ها",

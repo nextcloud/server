@@ -298,7 +298,6 @@
     "The profile does not exist." : "Profil ne obstaja.",
     "Back to %s" : "Nazaj na %s",
     "Page not found" : "Strani ni mogoče najti",
-    "The page could not be found on the server." : "Strani na strežniku ni mogoče najti.",
     "Too many requests" : "Zaznanih je preveč sočasnih zahtev",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Iz omrežja je bilo prejetih preveč zahtev. Če je to napaka, stopite v stik s skrbnikom, sicer pa poskusite spet kasneje.",
     "Error" : "Napaka",
@@ -421,6 +420,7 @@
     "Contacts menu" : "Meni Stikov",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Kaže, da uporabljate 32-bitno različico PHP. Oblak Nextcloud zahteva za optimalno delovanje 64-bitno različico, zato je operacijski sistem in PHP priporočljivo nadgraditi! Več podrobnosti je na na voljo na straneh {linkstart}dokumentacije{linkend}.",
-    "Press enter to start searching" : "Pritisnite vnosno tipko za začetek iskanja"
+    "Press enter to start searching" : "Pritisnite vnosno tipko za začetek iskanja",
+    "The page could not be found on the server." : "Strani na strežniku ni mogoče najti."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

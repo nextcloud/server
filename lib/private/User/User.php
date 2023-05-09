@@ -363,7 +363,7 @@ class User implements IUser {
 			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
-				$this->home = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
+				$this->home = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
 			} else {
 				$this->home = \OC::$SERVERROOT . '/data/' . $this->uid;
 			}
@@ -416,7 +416,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		if ($this->config->getSystemValue('allow_user_to_change_display_name') === false) {
+		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name')) {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);

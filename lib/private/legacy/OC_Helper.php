@@ -634,6 +634,6 @@ class OC_Helper {
 	 * @return bool
 	 */
 	public static function isReadOnlyConfigEnabled() {
-		return \OC::$server->getConfig()->getSystemValue('config_is_read_only', false);
+		return \OC::$server->getConfig()->getSystemValueBool('config_is_read_only', false);
 	}
 }

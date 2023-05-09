@@ -126,6 +126,13 @@ export default class {
 		this._views.push(view)
 	}
 
+	remove(id: string) {
+		const index = this._views.findIndex(view => view.id === id)
+		if (index !== -1) {
+			this._views.splice(index, 1)
+		}
+	}
+
 	get views(): Navigation[] {
 		return this._views
 	}

@@ -49,11 +49,15 @@ export interface RootOptions {
 
 // Paths store
 export type ServicesState = {
-	[service: Service]: PathsStore
+	[service: Service]: PathConfig
+}
+
+export type PathConfig = {
+	[path: string]: number
 }
 
 export type PathsStore = {
-	[path: string]: number
+	paths: ServicesState
 }
 
 export interface PathOptions {

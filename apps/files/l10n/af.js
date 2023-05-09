@@ -72,6 +72,7 @@ OC.L10N.register(
     "Favorited" : "As gunsteling ",
     "Favorite" : "Gunsteling",
     "New folder" : "Nuwe gids",
+    "Create new folder" : "Skep nuwe gids",
     "Upload file" : "Laai lêer op",
     "Recent" : "Onlangs",
     "Not favorited" : "Nie as gunsteling",

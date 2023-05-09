@@ -231,8 +231,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ændring af denne indstilling i php.ini vil tillade Nextcloud at køre igen",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> er angivet til <code>%s</code>, i stedet for den forventede værdi <code>0</code>",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "For at rette dette problem, sæt <code>mbstring.func_overload</code> til <code>0</code> i din php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 skal mindst være version 2.7.0. Du har version %s installeret.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Opdater din libxml2 version og genstart webserveren for at løse problemet.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP er tilsyneladende sat op til at fjerne indlejrede doc-blokke. Dette vil gøre adskillige kerneprogrammer utilgængelige.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette er sansynligvis forårsaget af et accelerator eller cache som Zend OPcache eller eAccelerator",
     "PHP modules have been installed, but they are still listed as missing?" : "Der er installeret PHP-moduler, men de fremstår stadig som fraværende?",
@@ -264,6 +262,8 @@
     "%s enter the database name." : "%s indtast database navnet.",
     "%s you may not use dots in the database name" : "%s du må ikke bruge punktummer i databasenavnet.",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Grænsen for brugere er nået, og den nye bruger er ikke blevet oprettet. Læs dine notifikationer for at lære mere.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kun følgende tegn kan indgå i et brugernavn: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kun følgende tegn kan indgå i et brugernavn: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 skal mindst være version 2.7.0. Du har version %s installeret.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Opdater din libxml2 version og genstart webserveren for at løse problemet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

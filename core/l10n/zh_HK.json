@@ -79,6 +79,7 @@
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "您的數據庫並未使用 \"READ COMMITTED\" 的交易隔離等級。當有多個操作平行進行時，這可能會造成問題。",
     "The PHP module \"fileinfo\" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection." : "未偵測到 PHP 模組 'fileinfo'。強烈建議啟用這個模組，以取得最好的 MIME 檔案類型偵測支援。",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems. See the {linkstart}documentation ↗{linkend} for more information." : "交易性檔案上鎖已停用，這可能導致爭用條件問題。在config.php中啟用 “filelocking.enabled” 可以避免這些問題。有關更多信息，請參見{linkstart}文檔↗{linkend}。",
+    "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "數據庫用於事務檔案鎖定。為提高性能，請配置 memcache（如果可用）。有關詳細信息，請參閱{linkstart}說明書 ↗{linkend}。",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"{suggestedOverwriteCliURL}\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "請確保將 config.php 文件中的“overwrite.cli.url”選項設置為您的用戶主要用於訪問此 Nextcloud 的 URL。建議：“{suggestedOverwriteCliURL}”。否則，通過 cron 生成的 URL 可能會出現問題。（但是，建議的 URL 可能不是您的用戶主要用於訪問此 Nextcloud 的 URL。最好是仔細檢查以防萬一。）",
     "Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add \"default_phone_region\" with the respective {linkstart}ISO 3166-1 code ↗{linkend} of the region to your config file." : "你並未設置手機國際冠碼。設置後用戶在個人檔案設定手機號碼時不必再輸入國際冠碼。若要這樣做，請新增「default_phone_region」於設定檔，允許的國家及地區請參閱 {linkstart}ISO 3166-1 code ↗{linkend} 清單。",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : " 無法透過 CLI 來執行排程工作，發生以下技術性錯誤：",
@@ -88,6 +89,7 @@
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the {linkstart}documentation ↗{linkend}." : "尚未配置內存緩存。為了提高性能，請配置內存緩存（如有）。可以在 {linkstart}說明書↗{linkend} 中找到更多資訊。",
     "No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the {linkstart}documentation ↗{linkend}." : "由於安全原因，強烈建議不要使用PHP找到適合隨機性的來源。可以在{linkstart}文檔↗{linkend}中找到更多信息。",
     "You are currently running PHP {version}. Upgrade your PHP version to take advantage of {linkstart}performance and security updates provided by the PHP Group ↗{linkend} as soon as your distribution supports it." : "您當前正在運行PHP {version}。只要您的發行版支持，請升級PHP版本以利用 {linkstart}PHP Group↗提供的性能和安全更新{linkend}。",
+    "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27 現已棄用 PHP 8.0。Nextcloud 28 需要 PHP 8.1 或更高版本。請盡快升級到 {linkstart} PHP Group ↗{linkend} 提供的官方支持的 PHP 版本之一。",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the {linkstart}documentation ↗{linkend}." : "反向代理標頭（reverse proxy header）配置不正確，或者您正在從受信任的代理（trusted proxy）存取 Nextcloud。如果不是這樣，則這是一個安全問題，並且可以使攻擊者欺騙其對 Nextcloud 可見的IP地址。可以在{linkstart}文檔↗{linkend}中找到更多資訊。",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the {linkstart}memcached wiki about both modules ↗{linkend}." : "Memcached 配置為分布式緩存，但是安裝了錯誤的PHP模塊 “memcache”。\\OC\\Memcache\\Memcached 僅支持 “memcached”，不支持 “memcache”。有關這兩個模塊的信息，請參見{linkstart}內存緩存wiki {linkend}。",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})" : "某些檔案未通過完整性檢查。有關如何解決此問題的更多信息，請參見{linkstart1}文檔↗{linkend}。（{linkstart2}無效檔案清單…{linkend} / {linkstart3}重新掃描…{linkend}）",
@@ -204,6 +206,7 @@
     "Load more results" : "載入更多結果",
     "Search" : "搜尋",
     "No results for {query}" : "{query} 查詢沒有結果",
+    "Press Enter to start searching" : "按 Enter 開始搜尋",
     "An error occurred while searching for {type}" : "搜尋 {type} 時發生錯誤",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["請輸入 {minSearchLength} 個或以上字元搜尋"],
     "This browser is not supported" : "不支援此瀏覽器",
@@ -304,7 +307,7 @@
     "The profile does not exist." : "個人資料不存在",
     "Back to %s" : "回到 %s",
     "Page not found" : "沒有找到頁面",
-    "The page could not be found on the server." : "無法在伺服器上找到此頁面。",
+    "The page could not be found on the server or you may not be allowed to view it." : "在伺服器上找不到該頁面，或者您可能無法查看它。",
     "Too many requests" : "太多要求",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "有太多請求來自你的網路，請稍後再試，若你認為這不該發生，請回報系統管理員這項錯誤。",
     "Error" : "錯誤",
@@ -341,7 +344,7 @@
     "Database tablespace" : "數據庫資料表空間",
     "Database host" : "數據庫主機",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "請指定連接埠號與主機名稱（例如：localhost:5432）。",
-    "Performance warning" : "效能警告",
+    "Performance warning" : "性能警告",
     "You chose SQLite as database." : "您選擇了 SQLite 作為數據庫",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite 只適用於小型或是開發用站台，針對上線服務我們建議使用其他數據庫後端。",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "若使用桌面版或是手機版客戶端同步檔案，不建議使用 SQLite",
@@ -428,6 +431,7 @@
     "Setup two-factor authentication" : "設定雙重認證",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。",
     "Press enter to start searching" : "按 Enter 開始搜尋",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。"
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。",
+    "The page could not be found on the server." : "無法在伺服器上找到此頁面。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

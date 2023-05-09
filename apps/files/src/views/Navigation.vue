@@ -44,7 +44,7 @@
 					:title="child.name"
 					:to="generateToNavigation(child)">
 					<!-- Sanitized icon as svg if provided -->
-					<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+					<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
 				</NcAppNavigationItem>
 			</NcAppNavigationItem>
 		</template>
@@ -175,7 +175,6 @@ export default {
 			this.Navigation.setActive(view)
 			logger.debug('Navigation changed', { id: view.id, view })
 
-			// debugger
 			this.showView(view, oldView)
 		},
 	},

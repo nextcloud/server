@@ -112,6 +112,7 @@
     "Address" : "地址",
     "Profile picture" : "個人檔案圖片",
     "About" : "關於",
+    "Display name" : "顯示名稱",
     "Headline" : "標題",
     "Organisation" : "組織",
     "Role" : "角色",
@@ -235,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "調整 php.ini 中的設定，使 Nextcloud 重新運作",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> 被設定為 <code>%s</code> 而非預期中的 <code>0</code>。",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "為了修正這個問題，請到 php.ini 將 <code>mbstring.func_overload</code> 的值改為 <code>0</code>。",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 版本最低需求為 2.7.0。目前安裝版本為 %s 。",
-    "To fix this issue update your libxml2 version and restart your web server." : "修正方式為更新您的 libxml2 為 2.7.0 以上版本，再重啟網頁伺服器。",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP 已經設定成「剪除 inline doc block」模式，這將會使幾個核心應用程式無法使用",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "這大概是由快取或是加速器像是 Zend OPcache, eAccelerator 造成的",
     "PHP modules have been installed, but they are still listed as missing?" : "你已經安裝了指定的 PHP 模組，可是還是顯示為找不到嗎？",
@@ -268,6 +267,8 @@
     "%s enter the database name." : "%s 輸入資料庫名稱",
     "%s you may not use dots in the database name" : "%s 資料庫名稱不能包含小數點",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "已達使用者限制，所以未建立使用者。請檢查您的通知以取得更多資訊。",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "使用者名稱當中只能包含下列字元：\"a-z\", \"A-Z\", \"0-9\", 和 \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "使用者名稱當中只能包含下列字元：\"a-z\", \"A-Z\", \"0-9\", 和 \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 版本最低需求為 2.7.0。目前安裝版本為 %s 。",
+    "To fix this issue update your libxml2 version and restart your web server." : "修正方式為更新您的 libxml2 為 2.7.0 以上版本，再重啟網頁伺服器。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
