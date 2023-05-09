@@ -31,23 +31,23 @@ namespace OC\Memcache;
 
 use OCP\IMemcacheTTL;
 
-/** name => [script, sha1] */
-const LUA_SCRIPTS = [
-	'dec' => [
-		'if redis.call("exists", KEYS[1]) == 1 then return redis.call("decrby", KEYS[1], ARGV[1]) else return "NEX" end',
-		'720b40cb66cef1579f2ef16ec69b3da8c85510e9',
-	],
-	'cas' => [
-		'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("set", KEYS[1], ARGV[2]) return 1 else return 0 end',
-		'94eac401502554c02b811e3199baddde62d976d4',
-	],
-	'cad' => [
-		'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
-		'cf0e94b2e9ffc7e04395cf88f7583fc309985910',
-	],
-];
-
 class Redis extends Cache implements IMemcacheTTL {
+	/** name => [script, sha1] */
+	public const LUA_SCRIPTS = [
+		'dec' => [
+			'if redis.call("exists", KEYS[1]) == 1 then return redis.call("decrby", KEYS[1], ARGV[1]) else return "NEX" end',
+			'720b40cb66cef1579f2ef16ec69b3da8c85510e9',
+		],
+		'cas' => [
+			'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("set", KEYS[1], ARGV[2]) return 1 else return 0 end',
+			'94eac401502554c02b811e3199baddde62d976d4',
+		],
+		'cad' => [
+			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
+			'cf0e94b2e9ffc7e04395cf88f7583fc309985910',
+		],
+	];
+
 	/**
 	 * @var \Redis|\RedisCluster $cache
 	 */
@@ -172,15 +172,9 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function cad($key, $old) {
-		$this->getCache()->watch($this->getPrefix() . $key);
-		if ($this->get($key) === $old) {
-			$result = $this->getCache()->multi()
-				->del($this->getPrefix() . $key)
-				->exec();
-			return $result !== false;
-		}
-		$this->getCache()->unwatch();
-		return false;
+		$old = self::encodeValue($old);
+
+		return $this->evalLua('cad', [$key], [$old]) > 0;
 	}
 
 	public function setTTL($key, $ttl) {
@@ -191,10 +185,10 @@ class Redis extends Cache implements IMemcacheTTL {
 		return \OC::$server->getGetRedisFactory()->isAvailable();
 	}
 
-	protected function evalLua($scriptName, $keys, $args) {
+	protected function evalLua(string $scriptName, array $keys, array $args) {
 		$keys = array_map(fn ($key) => $this->getPrefix() . $key, $keys);
 		$args = array_merge($keys, $args);
-		$script = LUA_SCRIPTS[$scriptName];
+		$script = self::LUA_SCRIPTS[$scriptName];
 
 		$result = $this->getCache()->evalSha($script[1], $args, count($keys));
 		if (false === $result) {
@@ -204,11 +198,11 @@ class Redis extends Cache implements IMemcacheTTL {
 		return $result;
 	}
 
-	protected static function encodeValue($value) {
+	protected static function encodeValue(mixed $value): string {
 		return is_int($value) ? (string) $value : json_encode($value);
 	}
 
-	protected static function decodeValue($value) {
+	protected static function decodeValue(string $value): mixed {
 		return is_numeric($value) ? (int) $value : json_decode($value, true);
 	}
 }
