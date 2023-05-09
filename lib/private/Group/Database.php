@@ -283,7 +283,7 @@ class Database extends ABackend implements
 			)));
 		}
 
-		if (!$limit > 0) {
+		if ($limit > 0) {
 			$query->setMaxResults($limit);
 		}
 		if ($offset > 0) {
