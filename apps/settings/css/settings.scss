@@ -1129,6 +1129,10 @@ table.grid td.date {
 }
 
 #shareAPI {
+	&.loading > div {
+		display: none;
+	}
+
 	p {
 		padding-bottom: 0.8em;
 	}

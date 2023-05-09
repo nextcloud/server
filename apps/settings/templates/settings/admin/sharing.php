@@ -27,7 +27,7 @@
 
 ?>
 
-<div class="section" id="shareAPI">
+<div class="section loading" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
 	<?php if ($_['sharingAppEnabled'] === false) { ?>
 		<p class="warning"><?php p($l->t('You need to enable the File sharing App.')); ?></p>
