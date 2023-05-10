@@ -29,7 +29,7 @@ namespace OCA\AdminAudit\Actions;
 
 class Console extends Action {
 	/**
-	 * @param $arguments
+	 * @param array $arguments
 	 */
 	public function runCommand(array $arguments): void {
 		if (!isset($arguments[1]) || $arguments[1] === '_completion') {
