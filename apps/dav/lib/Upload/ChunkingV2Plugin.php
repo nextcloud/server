@@ -255,17 +255,15 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 	public function beforeDelete(RequestInterface $request, ResponseInterface $response) {
 		try {
-			$this->prepareUpload($request->getPath());
-			if (!$this->uploadFolder instanceof UploadFolder) {
-				return true;
-			}
-
-			[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
-			$storage->cancelChunkedWrite($storagePath, $this->uploadId);
-			return true;
-		} catch (NotFound $e) {
+			$this->prepareUpload(dirname($request->getPath()));
+			$this->checkPrerequisites();
+		} catch (StorageInvalidException|BadRequest|NotFound $e) {
 			return true;
 		}
+
+		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
+		$storage->cancelChunkedWrite($storagePath, $this->uploadId);
+		return true;
 	}
 
 	/**
