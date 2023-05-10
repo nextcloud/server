@@ -76,6 +76,7 @@
 			<form :class="{'icon-loading-small': loading.displayName}"
 				class="displayName"
 				@submit.prevent="updateDisplayName">
+				<label class="hidden-visually" :for="'displayName'+user.id+rand">{{ t('settings', 'Edit display name') }}</label>
 				<input :id="'displayName'+user.id+rand"
 					ref="displayName"
 					:disabled="loading.displayName||loading.all"
@@ -102,6 +103,7 @@
 			:class="{'icon-loading-small': loading.password}"
 			class="password"
 			@submit.prevent="updatePassword">
+			<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
 			<input :id="'password'+user.id+rand"
 				ref="password"
 				:disabled="loading.password || loading.all"
@@ -121,6 +123,7 @@
 		<form :class="{'icon-loading-small': loading.mailAddress}"
 			class="mailAddress"
 			@submit.prevent="updateEmail">
+			<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
 			<input :id="'mailAddress'+user.id+rand"
 				ref="mailAddress"
 				:disabled="loading.mailAddress||loading.all"
@@ -134,7 +137,9 @@
 			<input class="icon-confirm" type="submit" value="">
 		</form>
 		<div :class="{'icon-loading-small': loading.groups}" class="groups">
-			<NcMultiselect :close-on-select="false"
+			<label class="hidden-visually" :for="'groups'+user.id+rand">{{ t('settings', 'Add user to group') }}</label>
+			<NcMultiselect :id="'groups'+user.id+rand"
+				:close-on-select="false"
 				:disabled="loading.groups||loading.all"
 				:limit="2"
 				:multiple="true"
@@ -156,7 +161,9 @@
 		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
 			:class="{'icon-loading-small': loading.subadmins}"
 			class="subadmins">
-			<NcMultiselect :close-on-select="false"
+			<label class="hidden-visually" :for="'subadmins'+user.id+rand">{{ t('settings', 'Set user as admin for') }}</label>
+			<NcMultiselect :id="'subadmins'+user.id+rand"
+				:close-on-select="false"
 				:disabled="loading.subadmins||loading.all"
 				:limit="2"
 				:multiple="true"
@@ -175,7 +182,9 @@
 		<div :title="usedSpace"
 			:class="{'icon-loading-small': loading.quota}"
 			class="quota">
-			<NcMultiselect :allow-empty="false"
+			<label class="hidden-visually" :for="'quota'+user.id+rand">{{ t('settings', 'Select user quota') }}</label>
+			<NcMultiselect :id="'quota'+user.id+rand"
+				:allow-empty="false"
 				:disabled="loading.quota||loading.all"
 				:options="quotaOptions"
 				:placeholder="t('settings', 'Select user quota')"
@@ -191,7 +200,9 @@
 		<div v-if="showConfig.showLanguages"
 			:class="{'icon-loading-small': loading.languages}"
 			class="languages">
-			<NcMultiselect :allow-empty="false"
+			<label class="hidden-visually" :for="'language'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
+			<NcMultiselect :id="'language'+user.id+rand"
+				:allow-empty="false"
 				:disabled="loading.languages||loading.all"
 				:options="languages"
 				:placeholder="t('settings', 'No language set')"
