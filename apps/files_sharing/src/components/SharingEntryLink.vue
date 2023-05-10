@@ -161,6 +161,7 @@
 						class="share-link-password"
 						:class="{ error: errors.password}"
 						:disabled="saving"
+						:show-trailing-button="hasUnsavedPassword"
 						:required="config.enforcePasswordForPublicLink"
 						:value="hasUnsavedPassword ? share.newPassword : '***************'"
 						icon="icon-password"
