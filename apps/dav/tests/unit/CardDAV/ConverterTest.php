@@ -70,17 +70,15 @@ class ConverterTest extends TestCase {
 	public function getAccountManager(IUser $user) {
 		$account = $this->createMock(IAccount::class);
 		$account->expects($this->any())
-			->method('getProperties')
+			->method('getAllProperties')
 			->willReturnCallback(function () use ($user) {
-				return [
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_DISPLAYNAME, $user->getDisplayName(), IAccountManager::SCOPE_FEDERATED),
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_ADDRESS, '', IAccountManager::SCOPE_LOCAL),
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_WEBSITE, '', IAccountManager::SCOPE_LOCAL),
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_EMAIL, $user->getEMailAddress(), IAccountManager::SCOPE_FEDERATED),
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_AVATAR, $user->getAvatarImage(-1)->data(), IAccountManager::SCOPE_FEDERATED),
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_PHONE, '', IAccountManager::SCOPE_LOCAL),
-					$this->getAccountPropertyMock(IAccountManager::PROPERTY_TWITTER, '', IAccountManager::SCOPE_LOCAL),
-				];
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_DISPLAYNAME, $user->getDisplayName(), IAccountManager::SCOPE_FEDERATED);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_ADDRESS, '', IAccountManager::SCOPE_LOCAL);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_WEBSITE, '', IAccountManager::SCOPE_LOCAL);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_EMAIL, $user->getEMailAddress(), IAccountManager::SCOPE_FEDERATED);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_AVATAR, $user->getAvatarImage(-1)->data(), IAccountManager::SCOPE_FEDERATED);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_PHONE, '', IAccountManager::SCOPE_LOCAL);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_TWITTER, '', IAccountManager::SCOPE_LOCAL);
 			});
 
 		$accountManager = $this->getMockBuilder(IAccountManager::class)

@@ -30,8 +30,13 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
+use OCA\Federation\TrustedServers;
+use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\CardDAV\IAddressBook;
@@ -73,7 +78,15 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		/** @var IAddressBook[] $objects */
 		$objects = array_map(function (array $addressBook) {
 			if ($addressBook['principaluri'] === 'principals/system/system') {
-				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
+				$trustedServers = null;
+				$request = null;
+				try {
+					$trustedServers = \OC::$server->get(TrustedServers::class);
+					$request = \OC::$server->get(IRequest::class);
+				} catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
+					// nothing to do, the request / trusted servers don't exist
+				}
+				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config, $request, $trustedServers);
 			}
 
 			return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
