@@ -55,7 +55,6 @@ class CacheQueryBuilder extends QueryBuilder {
 				$this->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
 				$this->expr()->eq('systemtag.visibility', $this->createNamedParameter(true))
 			))
-			->where($this->expr()->like('systemtag.name', $this->createNamedParameter('_%')))
 			->groupBy('systemtag.name', 'systemtag.id', 'systemtag.visibility', 'systemtag.editable');
 
 		return $this;
