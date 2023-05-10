@@ -35,6 +35,9 @@
 		<command>OCA\Files\Command\TransferOwnership</command>
 		<command>OCA\Files\Command\ScanAppData</command>
 		<command>OCA\Files\Command\RepairTree</command>
+		<command>OCA\Files\Command\Get</command>
+		<command>OCA\Files\Command\Put</command>
+		<command>OCA\Files\Command\Delete</command>
 	</commands>
 
 	<activity>
