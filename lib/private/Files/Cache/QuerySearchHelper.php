@@ -35,7 +35,6 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
-use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchQuery;
@@ -229,5 +228,4 @@ class QuerySearchHelper {
 
 		return [$caches, $mountByMountPoint];
 	}
-
 }
