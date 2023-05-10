@@ -329,7 +329,7 @@ export default {
 
 		&__default {
 			background-color: var(--color-primary-default);
-			background-image: var(--image-background-default);
+			background-image: var(--image-background-plain, var(--image-background-default));
 		}
 
 		&__filepicker, &__default, &__color {
