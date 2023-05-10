@@ -629,20 +629,26 @@ class Storage {
 		$diff = time() - $timestamp;
 
 		if ($diff < 60) { // first minute
-			return  $diff . " seconds ago";
-		} elseif ($diff < 3600) { //first hour
-			return round($diff / 60) . " minutes ago";
-		} elseif ($diff < 86400) { // first day
-			return round($diff / 3600) . " hours ago";
-		} elseif ($diff < 604800) { //first week
-			return round($diff / 86400) . " days ago";
-		} elseif ($diff < 2419200) { //first month
-			return round($diff / 604800) . " weeks ago";
-		} elseif ($diff < 29030400) { // first year
-			return round($diff / 2419200) . " months ago";
-		} else {
-			return round($diff / 29030400) . " years ago";
+			return $diff . " seconds ago";
 		}
+
+		$intervals = [
+			['interval' => 60, 'unit' => 'minute'],
+			['interval' => 3600, 'unit' => 'hour'],
+			['interval' => 86400, 'unit' => 'day'],
+			['interval' => 604800, 'unit' => 'week'],
+			['interval' => 2419200, 'unit' => 'month'],
+			['interval' => 29030400, 'unit' => 'year'],
+		];
+
+		foreach ($intervals as $interval) {
+			if ($diff < $interval['interval']) {
+				$value = round($diff / ($interval['interval'] / 60));
+				return $value . ' ' . $interval['unit'] . ($value > 1 ? 's' : '') . ' ago';
+			}
+		}
+
+		return round($diff / 29030400) . " years ago";
 	}
 
 	/**
