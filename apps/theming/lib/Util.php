@@ -85,13 +85,13 @@ class Util {
 		$luminance = $this->calculateLuminance($color);
 
 		if ($brightBackground !== false && $luminance > 0.8) {
-			// If the color is too bright in bright mode, we fall back to a darker gray
-			return '#aaaaaa';
+			// If the color is too bright in bright mode, we fall back to a darkened color
+			return $this->darken($color, 30);
 		}
 
 		if ($brightBackground !== true && $luminance < 0.2) {
-			// If the color is too dark in dark mode, we fall back to a brighter gray
-			return '#8c8c8c';
+			// If the color is too dark in dark mode, we fall back to a brightened color
+			return $this->lighten($color, 30);
 		}
 
 		return $color;
