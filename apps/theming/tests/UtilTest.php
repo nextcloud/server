@@ -105,19 +105,34 @@ class UtilTest extends TestCase {
 		$this->util->invertTextColor('');
 	}
 
-	public function testElementColorDefault() {
+	public function testElementColorDefaultBlack() {
 		$elementColor = $this->util->elementColor("#000000");
+		$this->assertEquals('#4d4d4d', $elementColor);
+	}
+
+	public function testElementColorDefaultWhite() {
+		$elementColor = $this->util->elementColor("#ffffff");
+		$this->assertEquals('#b3b3b3', $elementColor);
+	}
+
+	public function testElementColorBlackOnDarkBackground() {
+		$elementColor = $this->util->elementColor("#000000", false);
+		$this->assertEquals('#4d4d4d', $elementColor);
+	}
+
+	public function testElementColorBlackOnBrightBackground() {
+		$elementColor = $this->util->elementColor("#000000", true);
 		$this->assertEquals('#000000', $elementColor);
 	}
 
-	public function testElementColorOnDarkBackground() {
-		$elementColor = $this->util->elementColor("#000000", false);
-		$this->assertEquals('#8c8c8c', $elementColor);
+	public function testElementColorWhiteOnBrightBackground() {
+		$elementColor = $this->util->elementColor('#ffffff', true);
+		$this->assertEquals('#b3b3b3', $elementColor);
 	}
 
-	public function testElementColorOnBrightBackground() {
-		$elementColor = $this->util->elementColor('#ffffff');
-		$this->assertEquals('#aaaaaa', $elementColor);
+	public function testElementColorWhiteOnDarkBackground() {
+		$elementColor = $this->util->elementColor('#ffffff', false);
+		$this->assertEquals('#ffffff', $elementColor);
 	}
 
 	public function testGenerateRadioButtonWhite() {
