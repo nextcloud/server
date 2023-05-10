@@ -228,7 +228,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 		$addressBookExports = $this->getAddressBookExports($user, $output);
 
-		if (empty($addressBookExports)) {
+		if ($addressBookExports === []) {
 			$output->writeln('No contacts to export…');
 		}
 

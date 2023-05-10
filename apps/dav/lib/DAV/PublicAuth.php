@@ -88,6 +88,6 @@ class PublicAuth implements BackendInterface {
 		$matchingUrls = array_filter($this->publicURLs, function ($publicUrl) use ($url) {
 			return strpos($url, $publicUrl, 0) === 0;
 		});
-		return !empty($matchingUrls);
+		return $matchingUrls !== [];
 	}
 }

@@ -289,7 +289,7 @@ class FilesReportPlugin extends ServerPlugin {
 			}
 		}
 
-		if (!empty($systemTagIds)) {
+		if ($systemTagIds !== []) {
 			$fileIds = $this->getSystemTagFileIds($systemTagIds);
 			if (empty($resultFileIds)) {
 				$resultFileIds = $fileIds;
@@ -298,7 +298,7 @@ class FilesReportPlugin extends ServerPlugin {
 			}
 		}
 
-		if (!empty($circlesIds)) {
+		if ($circlesIds !== []) {
 			$fileIds = $this->getCirclesFileIds($circlesIds);
 			if (empty($resultFileIds)) {
 				$resultFileIds = $fileIds;
@@ -324,7 +324,7 @@ class FilesReportPlugin extends ServerPlugin {
 				}
 			}
 
-			if (!empty($unknownTagIds)) {
+			if ($unknownTagIds !== []) {
 				throw new TagNotFoundException('Tag with ids ' . implode(', ', $unknownTagIds) . ' not found');
 			}
 		}

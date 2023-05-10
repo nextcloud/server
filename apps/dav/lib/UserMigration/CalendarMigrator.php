@@ -241,7 +241,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 		$calendarExports = $this->getCalendarExports($user, $output);
 
-		if (empty($calendarExports)) {
+		if ($calendarExports === []) {
 			$output->writeln('No calendars to export…');
 		}
 

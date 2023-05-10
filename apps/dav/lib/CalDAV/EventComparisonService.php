@@ -106,7 +106,7 @@ class EventComparisonService {
 		}
 
 		$oldEventComponents = $old->getComponents();
-		if(is_array($oldEventComponents) && !empty($oldEventComponents)) {
+		if(is_array($oldEventComponents) && $oldEventComponents !== []) {
 			foreach ($oldEventComponents as $k => $event) {
 				if(!$event instanceof VEvent) {
 					unset($oldEventComponents[$k]);

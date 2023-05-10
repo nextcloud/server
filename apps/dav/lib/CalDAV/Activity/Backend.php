@@ -162,7 +162,7 @@ class Backend {
 			'{http://apple.com/ns/ical/}calendar-color'
 		], array_keys($changedProperties));
 
-		if (empty($shares) || ($action === Calendar::SUBJECT_UPDATE && empty($changedVisibleInformation))) {
+		if ($shares === [] || ($action === Calendar::SUBJECT_UPDATE && $changedVisibleInformation === [])) {
 			$users = [$owner];
 		} else {
 			$users = $this->getUsersForShares($shares);
@@ -645,7 +645,7 @@ class Backend {
 			}
 		}
 
-		if (!empty($groups)) {
+		if ($groups !== []) {
 			foreach ($groups as $gid) {
 				$group = $this->groupManager->get($gid);
 				if ($group instanceof IGroup) {

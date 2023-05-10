@@ -94,7 +94,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 		}
 		$result->closeCursor();
 
-		if (!empty($orphanItems)) {
+		if ($orphanItems !== []) {
 			$qb->delete($childTable)
 				->where($qb->expr()->in('id', $qb->createParameter('ids')));
 

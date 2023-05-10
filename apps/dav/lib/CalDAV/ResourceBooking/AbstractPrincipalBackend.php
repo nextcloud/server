@@ -529,7 +529,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 
 		// empty array => no group restrictions
-		if (empty($json)) {
+		if ($json === []) {
 			return true;
 		}
 

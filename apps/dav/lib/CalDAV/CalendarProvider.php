@@ -53,7 +53,7 @@ class CalendarProvider implements ICalendarProvider {
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
 		$calendarInfos = [];
-		if (empty($calendarUris)) {
+		if ($calendarUris === []) {
 			$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri);
 		} else {
 			foreach ($calendarUris as $calendarUri) {

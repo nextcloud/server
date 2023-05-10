@@ -316,7 +316,7 @@ class RefreshWebcalService {
 	 * @param array $mutations
 	 */
 	private function updateSubscription(array $subscription, array $mutations) {
-		if (empty($mutations)) {
+		if ($mutations === []) {
 			return;
 		}
 

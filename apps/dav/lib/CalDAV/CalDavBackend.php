@@ -1154,7 +1154,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getMultipleCalendarObjects($calendarId, array $uris, $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
-		if (empty($uris)) {
+		if ($uris === []) {
 			return [];
 		}
 
@@ -1851,7 +1851,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$outerQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
 		}
 
-		if (!empty($searchProperties)) {
+		if ($searchProperties !== []) {
 			$or = $innerQuery->expr()->orX();
 			foreach ($searchProperties as $searchProperty) {
 				$or->add($innerQuery->expr()->eq('op.name',

@@ -534,7 +534,7 @@ class Principal implements BackendInterface {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
 		}
 
-		if (!empty($alternativeEmails)) {
+		if ($alternativeEmails !== []) {
 			$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
 		}
 

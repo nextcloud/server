@@ -198,7 +198,7 @@ class ContactsSearchProvider implements IProvider {
 	 */
 	protected function generateSubline(VCard $vCard): string {
 		$emailAddresses = $vCard->select('EMAIL');
-		if (!is_array($emailAddresses) || empty($emailAddresses)) {
+		if (!is_array($emailAddresses) || $emailAddresses === []) {
 			return '';
 		}
 

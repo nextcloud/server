@@ -573,7 +573,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	public function getMultipleCards($addressBookId, array $uris) {
-		if (empty($uris)) {
+		if ($uris === []) {
 			return [];
 		}
 

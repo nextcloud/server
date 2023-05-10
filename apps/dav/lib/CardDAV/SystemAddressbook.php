@@ -79,7 +79,7 @@ class SystemAddressbook extends AddressBook {
 		$children = [];
 		/** @var array $obj */
 		foreach ($objs as $obj) {
-			if (empty($obj)) {
+			if ($obj === []) {
 				continue;
 			}
 			$carddata = $this->extractCarddata($obj);

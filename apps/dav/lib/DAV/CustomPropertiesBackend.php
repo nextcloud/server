@@ -176,7 +176,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			}
 		}
 
-		if (empty($requestedProps)) {
+		if ($requestedProps === []) {
 			return;
 		}
 
@@ -245,7 +245,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	private function getPublishedProperties(string $path, array $requestedProperties): array {
 		$allowedProps = array_intersect(self::PUBLISHED_READ_ONLY_PROPERTIES, $requestedProperties);
 
-		if (empty($allowedProps)) {
+		if ($allowedProps === []) {
 			return [];
 		}
 
@@ -284,7 +284,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$whereValues = [$this->user->getUID(), $this->formatPath($path)];
 		$whereTypes = [null, null];
 
-		if (!empty($requestedProperties)) {
+		if ($requestedProperties !== []) {
 			// request only a subset
 			$sql .= ' AND `propertyname` in (?)';
 			$whereValues[] = $requestedProperties;

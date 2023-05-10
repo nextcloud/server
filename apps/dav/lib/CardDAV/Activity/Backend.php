@@ -137,7 +137,7 @@ class Backend {
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
 		], array_keys($changedProperties));
 
-		if (empty($shares) || ($action === Addressbook::SUBJECT_UPDATE && empty($changedVisibleInformation))) {
+		if ($shares === [] || ($action === Addressbook::SUBJECT_UPDATE && $changedVisibleInformation === [])) {
 			$users = [$owner];
 		} else {
 			$users = $this->getUsersForShares($shares);
@@ -491,7 +491,7 @@ class Backend {
 			}
 		}
 
-		if (!empty($groups)) {
+		if ($groups !== []) {
 			foreach ($groups as $gid) {
 				$group = $this->groupManager->get($gid);
 				if ($group instanceof IGroup) {
