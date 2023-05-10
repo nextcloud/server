@@ -500,14 +500,19 @@ class StatusService {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
-		} catch (DoesNotExistException $ex) {
-			// No user status to revert, do nothing
+		} catch (DoesNotExistException) {
+			// No user status to revert, so we only delete
+			$this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
 			return null;
 		}
 
 		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
 		if (!$deleted) {
 			// Another status is set automatically or no status, do nothing
+			// Check if the backup status is what we are looking for
+			if ($backupUserStatus->getMessageId() === $messageId) {
+				$this->mapper->delete($backupUserStatus);
+			}
 			return null;
 		}
 
@@ -534,8 +539,7 @@ class StatusService {
 
 		$backups = $restoreIds = $statuesToDelete = [];
 		foreach ($userStatuses as $userStatus) {
-			if (!$userStatus->getIsBackup()
-				&& $userStatus->getMessageId() === $messageId) {
+			if ($userStatus->getMessageId() === $messageId) {
 				$statuesToDelete[$userStatus->getUserId()] = $userStatus->getId();
 			} else if ($userStatus->getIsBackup()) {
 				$backups[$userStatus->getUserId()] = $userStatus->getId();
