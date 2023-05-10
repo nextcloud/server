@@ -309,6 +309,7 @@ OC.L10N.register(
     "The profile does not exist." : "Das Profil existiert nicht",
     "Back to %s" : "Zurück zu %s",
     "Page not found" : "Seite nicht gefunden",
+    "The page could not be found on the server or you may not be allowed to view it." : "Die Seite konnte auf dem Server nicht gefunden werden oder du bist nicht berechtigt sie anzusehen.",
     "Too many requests" : "Zu viele Anfragen",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zu viele Anfragen aus deinem Netzwerk. Versuche es später erneut oder wende dich an deinen Administrator, wenn dies ein Fehler sein sollte.",
     "Error" : "Fehler",
