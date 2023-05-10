@@ -87,7 +87,7 @@ interface IEditor {
 	 * Return a template response for displaying the editor
 	 *
 	 * open can only be called once when the client requests the editor with a one-time-use token
-	 * For handling editing and later requests, editors need to impelement their own token handling and take care of invalidation
+	 * For handling editing and later requests, editors need to implement their own token handling and take care of invalidation
 	 *
 	 * This behavior is similar to the current direct editing implementation in collabora where we generate a one-time token and switch over to the regular wopi token for the actual editing/saving process
 	 *

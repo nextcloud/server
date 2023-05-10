@@ -446,7 +446,7 @@ class Generator {
 			$path .= '-max';
 		}
 
-		$ext = $this->getExtention($mimeType);
+		$ext = $this->getExtension($mimeType);
 		$path .= '.' . $ext;
 		return $path;
 	}
@@ -647,7 +647,7 @@ class Generator {
 	 * @return null|string
 	 * @throws \InvalidArgumentException
 	 */
-	private function getExtention($mimeType) {
+	private function getExtension($mimeType) {
 		switch ($mimeType) {
 			case 'image/png':
 				return 'png';

@@ -67,7 +67,7 @@ class HintException extends \Exception {
 
 	/**
 	 * Returns the hint with the intention to be presented to the end user. If
-	 * an empty hint was specified upon instatiation, the message is returned
+	 * an empty hint was specified upon instantiation, the message is returned
 	 * instead.
 	 *
 	 * @since 23.0.0
