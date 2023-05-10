@@ -28,9 +28,11 @@ namespace OC\SystemTag;
 
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Node\Root;
+use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OCP\Files\Folder;
+use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 
 class SystemTagsInFilesDetector {
@@ -43,13 +45,15 @@ class SystemTagsInFilesDetector {
 		int $limit = 0,
 		int $offset = 0
 	): array {
+		$operator = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%');
 		// Currently query has to have exactly one search condition. If no media type is provided,
 		// we fall back to the presence of a system tag.
-		if (empty($filteredMediaType)) {
-			$query = new SearchQuery(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%'), $limit, $offset, []);
-		} else {
-			$query = new SearchQuery(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $filteredMediaType . '/%'), $limit, $offset, []);
+		if ($filteredMediaType !== '') {
+			$mimeOperator = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $filteredMediaType . '/%');
+			$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [$operator, $mimeOperator]);
 		}
+
+		$query = new SearchQuery($operator, $limit, $offset, []);
 		[$caches, ] = $this->searchHelper->getCachesAndMountPointsForSearch(
 			$this->getRootFolder($folder),
 			$folder->getPath(),
