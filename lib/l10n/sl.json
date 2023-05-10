@@ -1,7 +1,6 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "V mapo »config« ni mogoče zapisovati!",
     "See %s" : "Oglejte si %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Datoteke programa %1$s niso bile zamenjane na pravi način. Prepričajte se, da je na strežniku nameščena podprta različica.",
     "Sample configuration detected" : "Zaznana je neustrezna vzorčna nastavitev",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "V sistem je bila kopirana datoteka s vzorčnimi nastavitvami. To lahko vpliva na namestitev in zato možnost ni podprta. Pred spremembami datoteke config.php si natančno preberite dokumentacijo.",
     "The page could not be found on the server." : "Strani na strežniku ni mogoče najti.",
@@ -223,6 +222,7 @@
     "Storage connection error. %s" : "Napaka povezave do shrambe. %s",
     "Storage is temporarily not available" : "Shramba trenutno ni na voljo",
     "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Datoteke programa %1$s niso bile zamenjane na pravi način. Prepričajte se, da je na strežniku nameščena podprta različica.",
     "Full name" : "Polno ime",
     "%s enter the database username and name." : "%s – vnos uporabniškega imena in imena podatkovne zbirke.",
     "%s enter the database username." : "%s – vnos uporabniškega imena podatkovne zbirke.",
