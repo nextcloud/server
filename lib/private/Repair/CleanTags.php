@@ -109,7 +109,7 @@ class CleanTags implements IRepairStep {
 			return false;
 		}
 
-		if (!empty($users)) {
+		if ($users !== []) {
 			$query = $this->connection->getQueryBuilder();
 			$query->delete('vcategory')
 				->where($query->expr()->in('uid', $query->createNamedParameter($users, IQueryBuilder::PARAM_STR_ARRAY)));
@@ -188,7 +188,7 @@ class CleanTags implements IRepairStep {
 			$orphanItems[] = (int) $row[$deleteId];
 		}
 
-		if (!empty($orphanItems)) {
+		if ($orphanItems !== []) {
 			$orphanItemsBatch = array_chunk($orphanItems, 200);
 			foreach ($orphanItemsBatch as $items) {
 				$qb->delete($deleteTable)

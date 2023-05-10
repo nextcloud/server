@@ -131,7 +131,7 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			$files = $userFolder->getById($fileId);
 
-			if (empty($files)) {
+			if ($files === []) {
 				throw new NotFoundException();
 			}
 

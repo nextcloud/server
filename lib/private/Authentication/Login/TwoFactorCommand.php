@@ -61,9 +61,9 @@ class TwoFactorCommand extends ALoginCommand {
 		$providerSet = $this->twoFactorManager->getProviderSet($loginData->getUser());
 		$loginProviders = $this->twoFactorManager->getLoginSetupProviders($loginData->getUser());
 		$providers = $providerSet->getPrimaryProviders();
-		if (empty($providers)
+		if ($providers === []
 			&& !$providerSet->isProviderMissing()
-			&& !empty($loginProviders)
+			&& $loginProviders !== []
 			&& $this->mandatoryTwoFactor->isEnforcedFor($loginData->getUser())) {
 			// No providers set up, but 2FA is enforced and setup providers are available
 			$url = 'core.TwoFactorChallenge.setupProviders';

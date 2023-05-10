@@ -223,7 +223,7 @@ class MigrationService {
 		uasort($files, function ($a, $b) {
 			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($a), $matchA);
 			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($b), $matchB);
-			if (!empty($matchA) && !empty($matchB)) {
+			if ($matchA !== [] && $matchB !== []) {
 				if ($matchA[1] !== $matchB[1]) {
 					return ($matchA[1] < $matchB[1]) ? -1 : 1;
 				}
@@ -433,7 +433,7 @@ class MigrationService {
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 
-		if (empty($toBeExecuted)) {
+		if ($toBeExecuted === []) {
 			return;
 		}
 
@@ -660,7 +660,7 @@ class MigrationService {
 	}
 
 	private function ensureMigrationsAreLoaded() {
-		if (empty($this->migrations)) {
+		if ($this->migrations === []) {
 			$this->migrations = $this->findMigrations();
 		}
 	}

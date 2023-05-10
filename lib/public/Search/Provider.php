@@ -83,7 +83,7 @@ abstract class Provider {
 	 */
 	public function providesResultsFor(array $apps = []) {
 		$forApps = $this->getOption(self::OPTION_APPS);
-		return empty($apps) || empty($forApps) || array_intersect($forApps, $apps);
+		return $apps === [] || empty($forApps) || array_intersect($forApps, $apps);
 	}
 
 	/**

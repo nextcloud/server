@@ -136,7 +136,7 @@ class Dispatcher {
 
 			$response = $this->executeController($controller, $methodName);
 
-			if (!empty($databaseStatsBefore)) {
+			if ($databaseStatsBefore !== []) {
 				$databaseStatsAfter = $this->connection->getInner()->getStats();
 				$numBuilt = $databaseStatsAfter['built'] - $databaseStatsBefore['built'];
 				$numExecuted = $databaseStatsAfter['executed'] - $databaseStatsBefore['executed'];

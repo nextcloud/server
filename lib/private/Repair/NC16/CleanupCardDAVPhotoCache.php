@@ -77,7 +77,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 			return $folder->fileExists('photo.');
 		});
 
-		if (empty($folders)) {
+		if ($folders === []) {
 			return;
 		}
 

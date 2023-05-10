@@ -73,7 +73,7 @@ class GetConfig extends Base {
 			$configValue = $defaultValue;
 		} else {
 			$configValue = $this->systemConfig->getValue($configName);
-			if (!empty($configNames)) {
+			if ($configNames !== []) {
 				foreach ($configNames as $configName) {
 					if (isset($configValue[$configName])) {
 						$configValue = $configValue[$configName];

@@ -148,7 +148,7 @@ class PreviewManager implements IPreview {
 	 */
 	public function hasProviders(): bool {
 		$this->registerCoreProviders();
-		return !empty($this->providers);
+		return $this->providers !== [];
 	}
 
 	private function getGenerator(): Generator {

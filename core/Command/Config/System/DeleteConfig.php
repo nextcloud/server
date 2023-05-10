@@ -93,7 +93,7 @@ class DeleteConfig extends Base {
 
 		if (is_array($currentValue)) {
 			if (isset($currentValue[$nextKey])) {
-				if (empty($keys)) {
+				if ($keys === []) {
 					unset($currentValue[$nextKey]);
 				} else {
 					$currentValue[$nextKey] = $this->removeSubValue($keys, $currentValue[$nextKey], $throwError);

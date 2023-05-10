@@ -101,7 +101,7 @@ class Message implements IMessage {
 	protected function convertAddresses(array $addresses): array {
 		$convertedAddresses = [];
 
-		if (empty($addresses)) {
+		if ($addresses === []) {
 			return [];
 		}
 

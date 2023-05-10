@@ -158,7 +158,7 @@ class Application {
 
 		if ($input->getFirstArgument() !== 'check') {
 			$errors = \OC_Util::checkServer(\OC::$server->getSystemConfig());
-			if (!empty($errors)) {
+			if ($errors !== []) {
 				foreach ($errors as $error) {
 					$output->writeln((string)$error['error']);
 					$output->writeln((string)$error['hint']);

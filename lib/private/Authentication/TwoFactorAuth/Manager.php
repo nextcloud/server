@@ -137,7 +137,7 @@ class Manager {
 		$providerIds = array_keys($enabled);
 		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		$this->userIsTwoFactorAuthenticated[$user->getUID()] = !empty($providerIdsWithoutBackupCodes);
+		$this->userIsTwoFactorAuthenticated[$user->getUID()] = $providerIdsWithoutBackupCodes !== [];
 		return $this->userIsTwoFactorAuthenticated[$user->getUID()];
 	}
 
@@ -222,7 +222,7 @@ class Manager {
 			}
 		}
 
-		if (!empty($missing)) {
+		if ($missing !== []) {
 			// There was at least one provider missing
 			$this->logger->alert(count($missing) . " two-factor auth providers failed to load", ['app' => 'core']);
 

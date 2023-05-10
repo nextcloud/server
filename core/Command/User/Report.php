@@ -69,7 +69,7 @@ class Report extends Command {
 		$table->setHeaders(['User Report', '']);
 		$userCountArray = $this->countUsers();
 		$total = 0;
-		if (!empty($userCountArray)) {
+		if ($userCountArray !== []) {
 			$rows = [];
 			foreach ($userCountArray as $classname => $users) {
 				$total += $users;

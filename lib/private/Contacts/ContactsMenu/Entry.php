@@ -149,7 +149,7 @@ class Entry implements IEntry {
 	 * @return array
 	 */
 	public function jsonSerialize(): array {
-		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
+		$topAction = $this->actions !== [] ? $this->actions[0]->jsonSerialize() : null;
 		$otherActions = array_map(function (IAction $action) {
 			return $action->jsonSerialize();
 		}, array_slice($this->actions, 1));

@@ -273,7 +273,7 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		$attributes = $reflectionMethod->getAttributes(AuthorizedAdminSetting::class);
-		if (!empty($attributes)) {
+		if ($attributes !== []) {
 			foreach ($attributes as $attribute) {
 				/** @var AuthorizedAdminSetting $setting */
 				$setting = $attribute->newInstance();

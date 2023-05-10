@@ -189,7 +189,7 @@ abstract class Fetcher {
 		try {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
-			if (empty($responseJson)) {
+			if ($responseJson === []) {
 				return [];
 			}
 

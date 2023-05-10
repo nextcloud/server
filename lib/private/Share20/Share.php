@@ -189,7 +189,7 @@ class Share implements IShare {
 			}
 
 			$nodes = $userFolder->getById($this->fileId);
-			if (empty($nodes)) {
+			if ($nodes === []) {
 				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
 			}
 

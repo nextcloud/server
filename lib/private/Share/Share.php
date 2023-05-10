@@ -177,7 +177,7 @@ class Share extends Constants {
 				// if it is a mount point we need to get the path from the mount manager
 				$mountManager = \OC\Files\Filesystem::getMountManager();
 				$mountPoint = $mountManager->findByStorageId($row['storage_id']);
-				if (!empty($mountPoint)) {
+				if ($mountPoint !== []) {
 					$path = $mountPoint[0]->getMountPoint();
 					$path = trim($path, '/');
 					$path = substr($path, strlen($owner) + 1); //normalize path to 'files/foo.txt`
@@ -194,7 +194,7 @@ class Share extends Constants {
 		$result->closeCursor();
 
 		// if we didn't found a result then let's look for a group share.
-		if (empty($shares) && $user !== null) {
+		if ($shares === [] && $user !== null) {
 			$userObject = \OC::$server->getUserManager()->get($user);
 			$groups = [];
 			if ($userObject) {
@@ -572,7 +572,7 @@ class Share extends Constants {
 				} else {
 					if (!isset($mounts[$row['storage']])) {
 						$mountPoints = \OC\Files\Filesystem::getMountByNumericId($row['storage']);
-						if (is_array($mountPoints) && !empty($mountPoints)) {
+						if (is_array($mountPoints) && $mountPoints !== []) {
 							$mounts[$row['storage']] = current($mountPoints);
 						}
 					}
@@ -626,7 +626,7 @@ class Share extends Constants {
 			$items = self::groupItems($items, $itemType);
 		}
 
-		if (!empty($items)) {
+		if ($items !== []) {
 			$collectionItems = [];
 			foreach ($items as &$row) {
 				// Check if this is a collection of the requested item type
@@ -689,7 +689,7 @@ class Share extends Constants {
 					}
 				}
 			}
-			if (!empty($collectionItems)) {
+			if ($collectionItems !== []) {
 				$collectionItems = array_unique($collectionItems, SORT_REGULAR);
 				$items = array_merge($items, $collectionItems);
 			}

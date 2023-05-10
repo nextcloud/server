@@ -354,7 +354,7 @@ class AccountManager implements IAccountManager {
 		$accountData = $result->fetchAll();
 		$result->closeCursor();
 
-		if (empty($accountData)) {
+		if ($accountData === []) {
 			$userData = $this->buildDefaultUserRecord($user);
 			if ($insertIfNotExists) {
 				$this->insertNewUser($user, $userData);

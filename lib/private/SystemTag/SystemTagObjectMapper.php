@@ -68,7 +68,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public function getTagIdsForObjects($objIds, string $objectType): array {
 		if (!\is_array($objIds)) {
 			$objIds = [$objIds];
-		} elseif (empty($objIds)) {
+		} elseif ($objIds === []) {
 			return [];
 		}
 
@@ -168,7 +168,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			}
 		}
 
-		if (empty($tagsAssigned)) {
+		if ($tagsAssigned === []) {
 			return;
 		}
 

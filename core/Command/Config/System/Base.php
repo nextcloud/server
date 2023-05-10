@@ -41,14 +41,14 @@ abstract class Base extends \OC\Core\Command\Base {
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'name') {
 			$words = $this->getPreviousNames($context, $context->getWordIndex());
-			if (empty($words)) {
+			if ($words === []) {
 				$completions = $this->systemConfig->getKeys();
 			} else {
 				$key = array_shift($words);
 				$value = $this->systemConfig->getValue($key);
 				$completions = array_keys($value);
 
-				while (!empty($words) && is_array($value)) {
+				while ($words !== [] && is_array($value)) {
 					$key = array_shift($words);
 					if (!isset($value[$key]) || !is_array($value[$key])) {
 						break;

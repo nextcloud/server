@@ -82,7 +82,7 @@ class OC_Files {
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
 		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
-			if (!empty($rangeArray)) {
+			if ($rangeArray !== []) {
 				http_response_code(206);
 				header('Accept-Ranges: bytes', true);
 				if (count($rangeArray) > 1) {
@@ -352,7 +352,7 @@ class OC_Files {
 			return;
 		}
 
-		if (!empty($rangeArray)) {
+		if ($rangeArray !== []) {
 			try {
 				if (count($rangeArray) == 1) {
 					$view->readfilePart($filename, $rangeArray[0]['from'], $rangeArray[0]['to']);

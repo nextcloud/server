@@ -561,7 +561,7 @@ class AppManager implements IAppManager {
 		}
 
 		$protectedTypes = array_intersect($this->protectedAppTypes, $types);
-		return !empty($protectedTypes);
+		return $protectedTypes !== [];
 	}
 
 	/**

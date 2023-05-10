@@ -296,7 +296,7 @@ class SystemTagManager implements ISystemTagManager {
 
 			// Get existing tag objects for the hooks later
 			$existingTags = array_diff($tagIds, $tagNotFoundException->getMissingTags());
-			if (!empty($existingTags)) {
+			if ($existingTags !== []) {
 				try {
 					$tags = $this->getTagsByIds($existingTags);
 				} catch (TagNotFoundException $e) {
@@ -349,9 +349,9 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$groupIds = $this->groupManager->getUserGroupIds($user);
-		if (!empty($groupIds)) {
+		if ($groupIds !== []) {
 			$matchingGroups = array_intersect($groupIds, $this->getTagGroups($tag));
-			if (!empty($matchingGroups)) {
+			if ($matchingGroups !== []) {
 				return true;
 			}
 		}

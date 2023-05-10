@@ -335,7 +335,7 @@ class OC_App {
 			}
 		}
 
-		if (empty($possibleApps)) {
+		if ($possibleApps === []) {
 			return false;
 		} elseif (count($possibleApps) === 1) {
 			$dir = array_shift($possibleApps);
@@ -883,7 +883,7 @@ class OC_App {
 	 * @throws \OC\NeedsUpdateException
 	 */
 	public static function executeRepairSteps(string $appId, array $steps) {
-		if (empty($steps)) {
+		if ($steps === []) {
 			return;
 		}
 		// load the app

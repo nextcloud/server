@@ -102,7 +102,7 @@ class ConvertFilecacheBigInt extends Command {
 			}
 		}
 
-		if (empty($updates)) {
+		if ($updates === []) {
 			$output->writeln('<info>All tables already up to date!</info>');
 			return 0;
 		}

@@ -120,7 +120,7 @@ class Import extends Command implements CompletionAwareInterface {
 	 */
 	protected function validateFileContent($content) {
 		$decodedContent = json_decode($content, true);
-		if (!is_array($decodedContent) || empty($decodedContent)) {
+		if (!is_array($decodedContent) || $decodedContent === []) {
 			throw new \UnexpectedValueException('The file must contain a valid json array');
 		}
 
@@ -138,10 +138,10 @@ class Import extends Command implements CompletionAwareInterface {
 		$arrayKeys = array_keys($array);
 		$additionalKeys = array_diff($arrayKeys, $this->validRootKeys);
 		$commonKeys = array_intersect($arrayKeys, $this->validRootKeys);
-		if (!empty($additionalKeys)) {
+		if ($additionalKeys !== []) {
 			throw new \UnexpectedValueException('Found invalid entries in root: ' . implode(', ', $additionalKeys));
 		}
-		if (empty($commonKeys)) {
+		if ($commonKeys === []) {
 			throw new \UnexpectedValueException('At least one key of the following is expected: ' . implode(', ', $this->validRootKeys));
 		}
 

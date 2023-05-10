@@ -526,7 +526,7 @@ class OC_Util {
 		$urlGenerator = \OC::$server->getURLGenerator();
 
 		$availableDatabases = $setup->getSupportedDatabases();
-		if (empty($availableDatabases)) {
+		if ($availableDatabases === []) {
 			$errors[] = [
 				'error' => $l->t('No database drivers (sqlite, mysql, or postgresql) installed.'),
 				'hint' => '' //TODO: sane hint

@@ -72,7 +72,7 @@ class BruteForceMiddleware extends Middleware {
 			$reflectionMethod = new ReflectionMethod($controller, $methodName);
 			$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
 
-			if (!empty($attributes)) {
+			if ($attributes !== []) {
 				$remoteAddress = $this->request->getRemoteAddress();
 
 				foreach ($attributes as $attribute) {
@@ -99,7 +99,7 @@ class BruteForceMiddleware extends Middleware {
 				$reflectionMethod = new ReflectionMethod($controller, $methodName);
 				$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
 
-				if (!empty($attributes)) {
+				if ($attributes !== []) {
 					$ip = $this->request->getRemoteAddress();
 					$metaData = $response->getThrottleMetadata();
 

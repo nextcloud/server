@@ -309,7 +309,7 @@ class Mailer implements IMailer {
 		}
 
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
-		if (is_array($streamingOptions) && !empty($streamingOptions)) {
+		if (is_array($streamingOptions) && $streamingOptions !== []) {
 			/** @psalm-suppress InternalMethod */
 			$currentStreamingOptions = $stream->getStreamOptions();
 

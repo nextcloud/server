@@ -85,7 +85,7 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		if (empty($response)) {
+		if ($response === []) {
 			return [];
 		}
 
@@ -139,7 +139,7 @@ class AppFetcher extends Fetcher {
 				}
 			}
 
-			if (empty($releases)) {
+			if ($releases === []) {
 				// Remove apps that don't have a matching release
 				$response['data'][$dataKey] = [];
 				continue;

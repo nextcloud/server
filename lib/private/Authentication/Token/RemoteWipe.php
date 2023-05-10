@@ -85,7 +85,7 @@ class RemoteWipe {
 			return $token instanceof IWipeableToken;
 		});
 
-		if (empty($wipeable)) {
+		if ($wipeable === []) {
 			return false;
 		}
 

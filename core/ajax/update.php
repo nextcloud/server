@@ -198,7 +198,7 @@ if (\OCP\Util::needUpgrade()) {
 		$disabledApps[$app] = $l->t('%s (incompatible)', [$app]);
 	}
 
-	if (!empty($disabledApps)) {
+	if ($disabledApps !== []) {
 		$eventSource->send('notice', $l->t('The following apps have been disabled: %s', [implode(', ', $disabledApps)]));
 	}
 } else {

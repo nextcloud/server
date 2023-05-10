@@ -323,7 +323,7 @@ class Manager implements IManager {
 			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), IShare::TYPE_ROOM, $userMountPoint, -1, 0));
 
 			/** @var IShare[] $incomingShares */
-			if (!empty($incomingShares)) {
+			if ($incomingShares !== []) {
 				foreach ($incomingShares as $incomingShare) {
 					$permissions |= $incomingShare->getPermissions();
 				}
@@ -550,7 +550,7 @@ class Manager implements IManager {
 				$this->groupManager->getUserGroupIds($sharedBy),
 				$this->groupManager->getUserGroupIds($sharedWith)
 			);
-			if (empty($groups)) {
+			if ($groups === []) {
 				$message_t = $this->l->t('Sharing is only allowed with group members');
 				throw new \Exception($message_t);
 			}
@@ -948,7 +948,7 @@ class Manager implements IManager {
 		$message->useTemplate($emailTemplate);
 		try {
 			$failedRecipients = $this->mailer->send($message);
-			if (!empty($failedRecipients)) {
+			if ($failedRecipients !== []) {
 				$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
 				return;
 			}
@@ -1386,7 +1386,7 @@ class Manager implements IManager {
 			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
 
 			// No more shares means we are done
-			if (empty($shares)) {
+			if ($shares === []) {
 				break;
 			}
 		}
@@ -2038,11 +2038,11 @@ class Manager implements IManager {
 			}
 			$user = $this->userManager->get($userId);
 			$usersGroups = $this->groupManager->getUserGroupIds($user);
-			if (!empty($usersGroups)) {
+			if ($usersGroups !== []) {
 				$remainingGroups = array_diff($usersGroups, $excludedGroups);
 				// if the user is only in groups which are disabled for sharing then
 				// sharing is also disabled for the user
-				if (empty($remainingGroups)) {
+				if ($remainingGroups === []) {
 					$this->sharingDisabledForUsersCache[$userId] = true;
 					return true;
 				}

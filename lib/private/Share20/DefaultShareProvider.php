@@ -1277,7 +1277,7 @@ class DefaultShareProvider implements IShareProvider {
 		}
 		$cursor->closeCursor();
 
-		if (!empty($ids)) {
+		if ($ids !== []) {
 			$chunks = array_chunk($ids, 100);
 			foreach ($chunks as $chunk) {
 				$qb->delete('share')
@@ -1320,7 +1320,7 @@ class DefaultShareProvider implements IShareProvider {
 		}
 		$cursor->closeCursor();
 
-		if (!empty($ids)) {
+		if ($ids !== []) {
 			$chunks = array_chunk($ids, 100);
 			foreach ($chunks as $chunk) {
 				/*
@@ -1485,7 +1485,7 @@ class DefaultShareProvider implements IShareProvider {
 			}
 		}
 
-		if (empty($toListByLanguage)) {
+		if ($toListByLanguage === []) {
 			return;
 		}
 

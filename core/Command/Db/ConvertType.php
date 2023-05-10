@@ -196,7 +196,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		// warn/fail if there are more tables in 'from' database
 		$extraFromTables = array_diff($fromTables, $toTables);
-		if (!empty($extraFromTables)) {
+		if ($extraFromTables !== []) {
 			$output->writeln('<comment>The following tables will not be converted:</comment>');
 			$output->writeln($extraFromTables);
 			if (!$input->getOption('all-apps')) {

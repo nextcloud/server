@@ -148,6 +148,6 @@ class Registry implements IRegistry {
 	}
 
 	public function hasReporters(): bool {
-		return !empty($this->lazyReporters) || !empty($this->reporters);
+		return $this->lazyReporters !== [] || $this->reporters !== [];
 	}
 }

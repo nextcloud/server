@@ -279,7 +279,7 @@ class Updater extends BasicEmitter {
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps($appManager->getInstalledApps());
 		$autoDisabledApps = $appManager->getAutoDisabledApps();
-		if (!empty($autoDisabledApps)) {
+		if ($autoDisabledApps !== []) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
 		}
 
@@ -422,7 +422,7 @@ class Updater extends BasicEmitter {
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
-				if (!empty($previousEnableStates)) {
+				if ($previousEnableStates !== []) {
 					$ocApp = new \OC_App();
 					if (!empty($previousEnableStates[$app]) && is_array($previousEnableStates[$app])) {
 						$ocApp->enable($app, $previousEnableStates[$app]);

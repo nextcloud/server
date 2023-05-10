@@ -125,7 +125,7 @@ class UserPlugin implements ISearchPlugin {
 
 			if (!$this->shareWithGroupOnly && $this->shareeEnumerationPhone) {
 				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
-				if (!empty($usersTmp)) {
+				if ($usersTmp !== []) {
 					foreach ($usersTmp as $user) {
 						if ($user->isEnabled()) { // Don't keep deactivated users
 							$users[$user->getUID()] = $user;
@@ -217,7 +217,7 @@ class UserPlugin implements ISearchPlugin {
 
 				if (!$addToWideResults && $this->shareeEnumerationInGroupOnly) {
 					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
-					if (!empty($commonGroups)) {
+					if ($commonGroups !== []) {
 						$addToWideResults = true;
 					}
 				}
@@ -248,7 +248,7 @@ class UserPlugin implements ISearchPlugin {
 				if ($this->shareWithGroupOnly) {
 					// Only add, if we have a common group
 					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
-					$addUser = !empty($commonGroups);
+					$addUser = $commonGroups !== [];
 				}
 
 				if ($addUser) {

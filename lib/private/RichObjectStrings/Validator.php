@@ -94,7 +94,7 @@ class Validator implements IValidator {
 		$requiredParameters = $this->getRequiredParameters($parameter['type'], $definition);
 
 		$missingKeys = array_diff($requiredParameters, array_keys($parameter));
-		if (!empty($missingKeys)) {
+		if ($missingKeys !== []) {
 			throw new InvalidObjectExeption('Object is invalid');
 		}
 	}

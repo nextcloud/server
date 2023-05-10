@@ -247,7 +247,7 @@ class ReferenceManager implements IReferenceManager {
 		$matchingProviders = array_filter($providers, static function (IDiscoverableReferenceProvider $provider) use ($providerId) {
 			return $provider->getId() === $providerId;
 		});
-		if (!empty($matchingProviders)) {
+		if ($matchingProviders !== []) {
 			if ($timestamp === null) {
 				$timestamp = time();
 			}

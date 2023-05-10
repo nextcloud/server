@@ -102,7 +102,7 @@ class Collation implements IRepairStep {
 				}
 			}
 		}
-		if (empty($tables)) {
+		if ($tables === []) {
 			$output->info('All tables already have the correct collation -> nothing to do');
 		}
 	}

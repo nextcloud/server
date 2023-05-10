@@ -165,7 +165,7 @@ class Manager implements IManager {
 		}
 		$result->closeCursor();
 
-		if (empty($collections) && $foundResults === $limit) {
+		if ($collections === [] && $foundResults === $limit) {
 			return $this->searchCollections($user, $filter, $limit, $start + $limit);
 		}
 

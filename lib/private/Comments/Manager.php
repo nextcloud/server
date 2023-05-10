@@ -490,7 +490,7 @@ class Manager implements ICommentsManager {
 			$query->setMaxResults($limit);
 		}
 
-		if (!empty($verbs)) {
+		if ($verbs !== []) {
 			$query->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 
@@ -638,7 +638,7 @@ class Manager implements ICommentsManager {
 		if ($objectType !== '') {
 			$query->andWhere($query->expr()->eq('object_type', $query->createNamedParameter($objectType)));
 		}
-		if (!empty($objectIds)) {
+		if ($objectIds !== []) {
 			$query->andWhere($query->expr()->in('object_id', $query->createNamedParameter($objectIds, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 		if ($verb !== '') {
@@ -771,7 +771,7 @@ class Manager implements ICommentsManager {
 			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)));
 
-		if (!empty($verbs)) {
+		if ($verbs !== []) {
 			$query->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 

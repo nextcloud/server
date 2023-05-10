@@ -269,7 +269,7 @@ class Manager implements IManager {
 		}
 
 		$calendars = $this->getCalendarsForPrincipal($principalUri);
-		if (empty($calendars)) {
+		if ($calendars === []) {
 			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
 			return false;
 		}
@@ -283,7 +283,7 @@ class Manager implements IManager {
 			// We should not search in writable calendars
 			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
-				if (!empty($o)) {
+				if ($o !== []) {
 					$found = $calendar;
 					$name = $o[0]['uri'];
 					break;
@@ -347,7 +347,7 @@ class Manager implements IManager {
 
 		// Check if we have a calendar to work with
 		$calendars = $this->getCalendarsForPrincipal($principalUri);
-		if (empty($calendars)) {
+		if ($calendars === []) {
 			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
 			return false;
 		}
@@ -361,7 +361,7 @@ class Manager implements IManager {
 			// We should not search in writable calendars
 			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($recipient, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
-				if (!empty($o)) {
+				if ($o !== []) {
 					$found = $calendar;
 					$name = $o[0]['uri'];
 					break;

@@ -175,7 +175,7 @@ class SetConfig extends Base {
 		if (!is_array($existingValues)) {
 			$existingValues = [];
 		}
-		if (!empty($configNames)) {
+		if ($configNames !== []) {
 			if (isset($existingValues[$configName])) {
 				$existingValue = $existingValues[$configName];
 			} else {

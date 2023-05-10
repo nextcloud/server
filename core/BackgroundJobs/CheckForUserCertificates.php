@@ -71,7 +71,7 @@ class CheckForUserCertificates extends QueuedJob {
 			\OC_Util::tearDownFS();
 		});
 
-		if (empty($uploadList)) {
+		if ($uploadList === []) {
 			$this->config->deleteAppValue('files_external', 'user_certificate_scan');
 		} else {
 			$this->config->setAppValue('files_external', 'user_certificate_scan', json_encode($uploadList));

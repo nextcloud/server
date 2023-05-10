@@ -219,7 +219,7 @@ class OC {
 			OC::$APPSROOTS[] = ['path' => OC::$SERVERROOT . '/apps', 'url' => '/apps', 'writable' => true];
 		}
 
-		if (empty(OC::$APPSROOTS)) {
+		if (OC::$APPSROOTS === []) {
 			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
 				. '. You can also configure the location in the config.php file.');
 		}
@@ -392,7 +392,7 @@ class OC {
 			}
 		}
 
-		if (!empty($incompatibleShippedApps)) {
+		if ($incompatibleShippedApps !== []) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
 			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
@@ -919,7 +919,7 @@ class OC {
 				$key = array_search($group->getGID(), $restrictions);
 				unset($restrictions[$key]);
 				$restrictions = array_values($restrictions);
-				if (empty($restrictions)) {
+				if ($restrictions === []) {
 					$appManager->disableApp($appId);
 				} else {
 					$appManager->enableAppForGroups($appId, $restrictions);

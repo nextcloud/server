@@ -135,42 +135,42 @@ class EmptyFeaturePolicy {
 	public function buildPolicy(): string {
 		$policy = '';
 
-		if (empty($this->autoplayDomains)) {
+		if ($this->autoplayDomains === []) {
 			$policy .= "autoplay 'none';";
 		} else {
 			$policy .= 'autoplay ' . implode(' ', $this->autoplayDomains);
 			$policy .= ';';
 		}
 
-		if (empty($this->cameraDomains)) {
+		if ($this->cameraDomains === []) {
 			$policy .= "camera 'none';";
 		} else {
 			$policy .= 'camera ' . implode(' ', $this->cameraDomains);
 			$policy .= ';';
 		}
 
-		if (empty($this->fullscreenDomains)) {
+		if ($this->fullscreenDomains === []) {
 			$policy .= "fullscreen 'none';";
 		} else {
 			$policy .= 'fullscreen ' . implode(' ', $this->fullscreenDomains);
 			$policy .= ';';
 		}
 
-		if (empty($this->geolocationDomains)) {
+		if ($this->geolocationDomains === []) {
 			$policy .= "geolocation 'none';";
 		} else {
 			$policy .= 'geolocation ' . implode(' ', $this->geolocationDomains);
 			$policy .= ';';
 		}
 
-		if (empty($this->microphoneDomains)) {
+		if ($this->microphoneDomains === []) {
 			$policy .= "microphone 'none';";
 		} else {
 			$policy .= 'microphone ' . implode(' ', $this->microphoneDomains);
 			$policy .= ';';
 		}
 
-		if (empty($this->paymentDomains)) {
+		if ($this->paymentDomains === []) {
 			$policy .= "payment 'none';";
 		} else {
 			$policy .= 'payment ' . implode(' ', $this->paymentDomains);

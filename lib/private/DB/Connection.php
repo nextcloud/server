@@ -425,7 +425,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 			$updateQb->where($where);
 			$affected = $updateQb->executeStatement();
 
-			if ($affected === 0 && !empty($updatePreconditionValues)) {
+			if ($affected === 0 && $updatePreconditionValues !== []) {
 				throw new PreConditionNotMetException();
 			}
 

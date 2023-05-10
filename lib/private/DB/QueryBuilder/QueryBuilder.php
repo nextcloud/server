@@ -212,7 +212,7 @@ class QueryBuilder implements IQueryBuilder {
 						$params[] = $placeholder . ' => \'' . $value . '\'';
 					}
 				}
-				if (empty($params)) {
+				if ($params === []) {
 					$this->logger->debug('DB QueryBuilder: \'{query}\'', [
 						'query' => $this->getSQL(),
 						'app' => 'core',

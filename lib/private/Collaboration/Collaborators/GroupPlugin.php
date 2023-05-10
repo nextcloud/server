@@ -82,7 +82,7 @@ class GroupPlugin implements ISearchPlugin {
 		}
 
 		$userGroups = [];
-		if (!empty($groups) && ($this->shareWithGroupOnly || $this->shareeEnumerationInGroupOnly)) {
+		if ($groups !== [] && ($this->shareWithGroupOnly || $this->shareeEnumerationInGroupOnly)) {
 			// Intersect all the groups that match with the groups this user is a member of
 			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
 			$userGroups = array_map(function (IGroup $group) {

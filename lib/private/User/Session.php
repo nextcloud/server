@@ -504,7 +504,7 @@ class Session implements IUserSession, Emitter {
 		$user = $this->manager->get($username);
 		if (is_null($user)) {
 			$users = $this->manager->getByEmail($username);
-			if (empty($users)) {
+			if ($users === []) {
 				return false;
 			}
 			if (count($users) !== 1) {

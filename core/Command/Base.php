@@ -96,7 +96,7 @@ class Base extends Command implements CompletionAwareInterface {
 			default:
 				$table = new Table($output);
 				$table->setRows($items);
-				if (!empty($items) && is_string(array_key_first(reset($items)))) {
+				if ($items !== [] && is_string(array_key_first(reset($items)))) {
 					$table->setHeaders(array_keys(reset($items)));
 				}
 				$table->render();

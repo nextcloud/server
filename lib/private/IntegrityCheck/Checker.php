@@ -427,7 +427,7 @@ class Checker {
 	 */
 	public function hasPassedCheck(): bool {
 		$results = $this->getResults();
-		if (empty($results)) {
+		if ($results === []) {
 			return true;
 		}
 
@@ -458,7 +458,7 @@ class Checker {
 	private function storeResults(string $scope, array $result) {
 		$resultArray = $this->getResults();
 		unset($resultArray[$scope]);
-		if (!empty($result)) {
+		if ($result !== []) {
 			$resultArray[$scope] = $result;
 		}
 		if ($this->config !== null) {

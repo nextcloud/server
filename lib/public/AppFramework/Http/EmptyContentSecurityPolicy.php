@@ -473,7 +473,7 @@ class EmptyContentSecurityPolicy {
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedStyleDomains) || $this->inlineStyleAllowed) {
+		if ($this->allowedStyleDomains !== [] || $this->inlineStyleAllowed) {
 			$policy .= 'style-src ';
 			if (is_array($this->allowedStyleDomains)) {
 				$policy .= implode(' ', $this->allowedStyleDomains);
@@ -484,43 +484,43 @@ class EmptyContentSecurityPolicy {
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedImageDomains)) {
+		if ($this->allowedImageDomains !== []) {
 			$policy .= 'img-src ' . implode(' ', $this->allowedImageDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedFontDomains)) {
+		if ($this->allowedFontDomains !== []) {
 			$policy .= 'font-src ' . implode(' ', $this->allowedFontDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedConnectDomains)) {
+		if ($this->allowedConnectDomains !== []) {
 			$policy .= 'connect-src ' . implode(' ', $this->allowedConnectDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedMediaDomains)) {
+		if ($this->allowedMediaDomains !== []) {
 			$policy .= 'media-src ' . implode(' ', $this->allowedMediaDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedObjectDomains)) {
+		if ($this->allowedObjectDomains !== []) {
 			$policy .= 'object-src ' . implode(' ', $this->allowedObjectDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedFrameDomains)) {
+		if ($this->allowedFrameDomains !== []) {
 			$policy .= 'frame-src ';
 			$policy .= implode(' ', $this->allowedFrameDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedChildSrcDomains)) {
+		if ($this->allowedChildSrcDomains !== []) {
 			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
 			$policy .= ';';
 		}
 
-		if (!empty($this->allowedFrameAncestors)) {
+		if ($this->allowedFrameAncestors !== []) {
 			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
 			$policy .= ';';
 		} else {
@@ -537,7 +537,7 @@ class EmptyContentSecurityPolicy {
 			$policy .= ';';
 		}
 
-		if (!empty($this->reportTo)) {
+		if ($this->reportTo !== []) {
 			$policy .= 'report-uri ' . implode(' ', $this->reportTo);
 			$policy .= ';';
 		}

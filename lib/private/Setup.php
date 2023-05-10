@@ -308,7 +308,7 @@ class Setup {
 			$error[] = $l->t("Cannot create or write into the data directory %s", [$dataDir]);
 		}
 
-		if (!empty($error)) {
+		if ($error !== []) {
 			return $error;
 		}
 

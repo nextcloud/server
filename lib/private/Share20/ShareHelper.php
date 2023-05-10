@@ -109,13 +109,13 @@ class ShareHelper implements IShareHelper {
 			return $results;
 		}
 
-		if (empty($byId)) {
+		if ($byId === []) {
 			return $results;
 		}
 
 		$item = $node;
 		$appendix = '/' . $node->getName();
-		while (!empty($byId)) {
+		while ($byId !== []) {
 			try {
 				/** @var Node $item */
 				$item = $item->getParent();
@@ -178,7 +178,7 @@ class ShareHelper implements IShareHelper {
 		}
 
 		$item = $node;
-		while (!empty($byId)) {
+		while ($byId !== []) {
 			try {
 				if (!empty($byId[$item->getId()])) {
 					$path = $this->getMountedPath($item);

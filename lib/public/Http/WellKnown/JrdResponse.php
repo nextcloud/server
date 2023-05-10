@@ -162,8 +162,8 @@ final class JrdResponse implements IResponse {
 	 */
 	public function isEmpty(): bool {
 		return $this->expires === null
-			&& empty($this->aliases)
-			&& empty($this->properties)
+			&& $this->aliases === []
+			&& $this->properties === []
 			&& empty($this->links);
 	}
 }

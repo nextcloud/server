@@ -223,7 +223,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$newData = $data;
 						$fileId = -1;
 					}
-					if (!empty($newData)) {
+					if ($newData !== []) {
 						// Reset the checksum if the data has changed
 						$newData['checksum'] = '';
 						$newData['parent'] = $parentId;
