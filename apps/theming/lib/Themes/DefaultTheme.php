@@ -147,6 +147,9 @@ class DefaultTheme implements ITheme {
 			'--color-success' => '#46ba61',
 			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
 			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
+			'--color-info' => '#006aa3',
+			'--color-info-rgb' => join(',', $this->util->hexToRGB('#006aa3')),
+			'--color-info-hover' => $this->util->mix('#006aa3', $colorMainBackground, 60),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
