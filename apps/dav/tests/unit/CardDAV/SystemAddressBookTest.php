@@ -32,6 +32,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\VObject\Component\VCard;
@@ -44,6 +45,7 @@ class SystemAddressBookTest extends TestCase {
 	private array $addressBookInfo;
 	private IL10N|MockObject $l10n;
 	private IConfig|MockObject $config;
+	private IUserSession $userSession;
 	private IRequest|MockObject $request;
 	private array $server;
 	private TrustedServers|MockObject $trustedServers;
@@ -60,6 +62,7 @@ class SystemAddressBookTest extends TestCase {
 		];
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->request = $this->createMock(Request::class);
 		$this->server = [
 			'PHP_AUTH_USER' => 'system',
@@ -73,8 +76,10 @@ class SystemAddressBookTest extends TestCase {
 			$this->addressBookInfo,
 			$this->l10n,
 			$this->config,
+			$this->userSession,
 			$this->request,
 			$this->trustedServers,
+			null,
 		);
 	}
 
