@@ -36,7 +36,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixLegacyFileKey extends Command {
+class DropLegacyFileKey extends Command {
 	private View $rootView;
 
 	public function __construct(
@@ -50,7 +50,7 @@ class FixLegacyFileKey extends Command {
 
 	protected function configure(): void {
 		$this
-			->setName('encryption:fix-legacy-filekey')
+			->setName('encryption:drop-legacy-filekey')
 			->setDescription('Scan the files for the legacy filekey format using RC4 and get rid of it (if master key is enabled)');
 	}
 
@@ -74,7 +74,7 @@ class FixLegacyFileKey extends Command {
 		}
 
 		if ($result) {
-			$output->writeln('All scanned files are properly encrypted. You can disable the legacy compatibility mode.');
+			$output->writeln('All scanned files are properly encrypted.');
 			return 0;
 		}
 
@@ -139,6 +139,7 @@ class FixLegacyFileKey extends Command {
 				return;
 			}
 			$this->rootView->touch($source, $fileInfo->getMTime());
+			$this->rootView->unlink($target);
 			$output->writeln('<info>Migrated ' . $source . '</info>', OutputInterface::VERBOSITY_VERBOSE);
 		} catch (DecryptionFailedException $e) {
 			if ($this->rootView->file_exists($target)) {
