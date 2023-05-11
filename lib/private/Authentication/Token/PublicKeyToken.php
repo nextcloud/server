@@ -118,8 +118,12 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('passwordInvalid', 'bool');
 	}
 
-	public function getId(): ?int {
-		return $this->id;
+	public function getId(): int {
+		if ($this->id !== null) {
+			return $this->id;
+		} else {
+			throw new \InvalidArgumentException('Cannot call getId on an token which was not inserted yet');
+		}
 	}
 
 	public function getUID(): string {

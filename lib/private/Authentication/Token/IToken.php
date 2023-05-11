@@ -38,7 +38,7 @@ interface IToken extends JsonSerializable {
 	/**
 	 * Get the token ID
 	 */
-	public function getId(): ?int;
+	public function getId(): int;
 
 	/**
 	 * Get the user UID
