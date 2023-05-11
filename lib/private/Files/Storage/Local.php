@@ -52,6 +52,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -422,7 +423,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($space === false || is_null($space)) {
 			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}
-		return (int)$space;
+		return Util::numericToNumber($space);
 	}
 
 	public function search($query) {

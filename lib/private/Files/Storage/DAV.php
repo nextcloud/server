@@ -51,6 +51,7 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
@@ -451,7 +452,7 @@ class DAV extends Common {
 				return FileInfo::SPACE_UNKNOWN;
 			}
 			if (isset($response['{DAV:}quota-available-bytes'])) {
-				return (int)$response['{DAV:}quota-available-bytes'];
+				return Util::numericToNumber($response['{DAV:}quota-available-bytes']);
 			} else {
 				return FileInfo::SPACE_UNKNOWN;
 			}
@@ -605,7 +606,7 @@ class DAV extends Common {
 			}
 			return [
 				'mtime' => isset($response['{DAV:}getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : null,
-				'size' => (int)($response['{DAV:}getcontentlength'] ?? 0),
+				'size' => Util::numericToNumber($response['{DAV:}getcontentlength'] ?? 0),
 			];
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
