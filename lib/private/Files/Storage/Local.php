@@ -52,6 +52,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -60,6 +60,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -189,8 +190,8 @@ class Cache implements ICache {
 		//fix types
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
-		$data['size'] = 0 + $data['size'];
-		$data['unencrypted_size'] = 0 + ($data['unencrypted_size'] ?? 0);
+		$data['size'] = Util::numericToNumber($data['size']);
+		$data['unencrypted_size'] = Util::numericToNumber($data['unencrypted_size'] ?? 0);
 		$data['mtime'] = (int)$data['mtime'];
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
@@ -901,13 +902,13 @@ class Cache implements ICache {
 
 			if ($rows) {
 				$sizes = array_map(function (array $row) {
-					return (int)$row['size'];
+					return Util::numericToNumber($row['size']);
 				}, $rows);
 				$unencryptedOnlySizes = array_map(function (array $row) {
-					return (int)$row['unencrypted_size'];
+					return Util::numericToNumber($row['unencrypted_size']);
 				}, $rows);
 				$unencryptedSizes = array_map(function (array $row) {
-					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
+					return Util::numericToNumber(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
 				}, $rows);
 
 				$sum = array_sum($sizes);
