@@ -15,7 +15,14 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 4. 🎉 Partytime!
 
 ### 🧙 Advanced development stuff
-To build the Javascript whenever you make changes, you can also run `npm run dev` for developement builds.
+To build the Javascript whenever you make changes, you can also run `npm run dev` for development builds.
+
+### 📷 Running cypress tests
+To run e2e cypress tests, execute `npm run cypress`.
+
+The `visual-regression` tests require additional care as they depend on installation of fonts in the application. To achieve repeatable results run the tests using `npm run cypress:visual-regression`. This will build the app with the required fonts and run the tests.
+
+If changes are required to the reference (base) screenshots used by the `visual-regression` tests, run `cypress:update-snapshots` and commit the updated screenshots.
 
 ## API
 
