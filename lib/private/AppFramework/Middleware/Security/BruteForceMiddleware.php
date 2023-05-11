@@ -87,8 +87,16 @@ class BruteForceMiddleware extends Middleware {
 		if ($this->reflector->hasAnnotation('BruteForceProtection') && $response->isThrottled()) {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$ip = $this->request->getRemoteAddress();
-			$this->throttler->sleepDelay($ip, $action);
 			$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
+			try {
+				$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+			} catch (MaxDelayReached $e) {
+				if ($controller instanceof OCSController) {
+					throw new OCSException($e->getMessage(), Http::STATUS_TOO_MANY_REQUESTS);
+				}
+
+				return new TooManyRequestsResponse();
+			}
 		}
 
 		return parent::afterController($controller, $methodName, $response);
