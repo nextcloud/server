@@ -267,8 +267,9 @@ export default {
 	z-index: 10101 !important;
 }
 
-.SfxPopper-wrapper {
-	z-index: 10102 !important;
+#SfxPopper {
+	z-index: 10102;
+	position: relative;
 }
 
 // Default styling
