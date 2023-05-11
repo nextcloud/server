@@ -163,14 +163,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	 *
 	 * @param string $path
 	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\ObjectStore\NoopScanner
+	 * @return \OC\Files\ObjectStore\ObjectStoreScanner
 	 */
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
 		if (!isset($this->scanner)) {
-			$this->scanner = new NoopScanner($storage);
+			$this->scanner = new ObjectStoreScanner($storage);
 		}
 		return $this->scanner;
 	}

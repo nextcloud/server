@@ -1258,7 +1258,7 @@ return array(
     'OC\\Files\\ObjectStore\\Azure' => $baseDir . '/lib/private/Files/ObjectStore/Azure.php',
     'OC\\Files\\ObjectStore\\HomeObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/HomeObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\Mapper' => $baseDir . '/lib/private/Files/ObjectStore/Mapper.php',
-    'OC\\Files\\ObjectStore\\NoopScanner' => $baseDir . '/lib/private/Files/ObjectStore/NoopScanner.php',
+    'OC\\Files\\ObjectStore\\ObjectStoreScanner' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreScanner.php',
     'OC\\Files\\ObjectStore\\ObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\S3' => $baseDir . '/lib/private/Files/ObjectStore/S3.php',
     'OC\\Files\\ObjectStore\\S3ConnectionTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',

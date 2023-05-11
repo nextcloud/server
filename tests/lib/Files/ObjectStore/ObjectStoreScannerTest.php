@@ -12,18 +12,29 @@
 
 namespace Test\Files\ObjectStore;
 
-class NoopScannerTest extends \Test\TestCase {
-	/** @var \OC\Files\Storage\Storage $storage */
-	private $storage;
+use OC\Files\Cache\Scanner;
+use OC\Files\ObjectStore\ObjectStoreScanner;
+use OC\Files\Storage\Temporary;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Storage\IStorage;
+use Test\TestCase;
 
-	/** @var \OC\Files\ObjectStore\NoopScanner $scanner */
-	private $scanner;
+/**
+ * @group DB
+ */
+class ObjectStoreScannerTest extends TestCase {
+	private IStorage $storage;
+	private ICache $cache;
+	private ObjectStoreScanner $scanner;
+	private Scanner $realScanner;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary([]);
-		$this->scanner = new \OC\Files\ObjectStore\NoopScanner($this->storage);
+		$this->storage = new Temporary([]);
+		$this->cache = $this->storage->getCache();
+		$this->scanner = new ObjectStoreScanner($this->storage);
+		$this->realScanner = new Scanner($this->storage);
 	}
 
 	public function testFile() {
@@ -61,17 +72,16 @@ class NoopScannerTest extends \Test\TestCase {
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
 
-		$this->assertEquals(
-			[],
-			$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW),
-			'Asserting that no error occurred while scan(SCAN_SHALLOW)'
-		);
+		$this->realScanner->scan('');
+
+		$this->assertEquals(6, $this->cache->get('folder2')->getSize());
+
+		$this->cache->put('folder2', ['size' => -1]);
+
+		$this->assertEquals(-1, $this->cache->get('folder2')->getSize());
 
 		$this->scanner->backgroundScan();
 
-		$this->assertTrue(
-			true,
-			'Asserting that no error occurred while backgroundScan()'
-		);
+		$this->assertEquals(6, $this->cache->get('folder2')->getSize());
 	}
 }
