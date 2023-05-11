@@ -153,25 +153,30 @@ class QuerySearchHelper {
 			if ($user === null) {
 				throw new \InvalidArgumentException("Searching by tag requires the user to be set in the query");
 			}
-			if ($searchQuery->getSearchOperation() instanceof ISearchComparison && $searchQuery->getSearchOperation()->getField() === 'systemtag') {
-				$query
-					->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $builder->expr()->andX(
-						$builder->expr()->eq('file.fileid', $builder->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
-						$builder->expr()->eq('systemtagmap.objecttype', $builder->createNamedParameter('files'))
-					))
-					->leftJoin('systemtagmap', 'systemtag', 'systemtag', $builder->expr()->andX(
-						$builder->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
-						$builder->expr()->eq('systemtag.visibility', $builder->createNamedParameter(true))
-					));
-			} else {
-				$query
-					->leftJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
-					->leftJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
-						$builder->expr()->eq('tagmap.type', 'tag.type'),
-						$builder->expr()->eq('tagmap.categoryid', 'tag.id'),
-						$builder->expr()->eq('tag.type', $builder->createNamedParameter('files')),
-						$builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID()))
-					));
+			if ($searchQuery->getSearchOperation() instanceof ISearchComparison) {
+				switch ($searchQuery->getSearchOperation()->getField()) {
+					case 'systemtag':
+						$query
+							->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $builder->expr()->andX(
+								$builder->expr()->eq('file.fileid', $builder->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+								$builder->expr()->eq('systemtagmap.objecttype', $builder->createNamedParameter('files'))
+							))
+							->leftJoin('systemtagmap', 'systemtag', 'systemtag', $builder->expr()->andX(
+								$builder->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
+								$builder->expr()->eq('systemtag.visibility', $builder->createNamedParameter(true))
+							));
+						break;
+					case 'tagname':
+						$query
+							->leftJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
+							->leftJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
+								$builder->expr()->eq('tagmap.type', 'tag.type'),
+								$builder->expr()->eq('tagmap.categoryid', 'tag.id'),
+								$builder->expr()->eq('tag.type', $builder->createNamedParameter('files')),
+								$builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID()))
+							));
+						break;
+				}
 			}
 		}
 
