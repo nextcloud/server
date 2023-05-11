@@ -286,4 +286,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	if (document.getElementById('security-warning') !== null) {
 		setupChecks()
 	}
+
+	$('#shareAPI').removeClass('loading')
 })
