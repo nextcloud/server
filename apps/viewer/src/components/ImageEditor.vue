@@ -496,6 +496,10 @@ export default {
 }
 
 // Save button fixes
+.FIE_topbar-save-wrapper {
+	width: auto !important;
+}
+
 .FIE_topbar-save-button {
 	color: var(--color-primary-text) !important;
 	border: none !important;
