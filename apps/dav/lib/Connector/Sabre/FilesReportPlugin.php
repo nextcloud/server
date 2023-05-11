@@ -341,49 +341,6 @@ class FilesReportPlugin extends ServerPlugin {
 		return $nodes;
 	}
 
-	private function getSystemTagFileIds($systemTagIds) {
-		$resultFileIds = null;
-
-		// check user permissions, if applicable
-		if (!$this->isAdmin()) {
-			// check visibility/permission
-			$tags = $this->tagManager->getTagsByIds($systemTagIds);
-			$unknownTagIds = [];
-			foreach ($tags as $tag) {
-				if (!$tag->isUserVisible()) {
-					$unknownTagIds[] = $tag->getId();
-				}
-			}
-
-			if (!empty($unknownTagIds)) {
-				throw new TagNotFoundException('Tag with ids ' . implode(', ', $unknownTagIds) . ' not found');
-			}
-		}
-
-		// fetch all file ids and intersect them
-		foreach ($systemTagIds as $systemTagId) {
-			$fileIds = $this->tagMapper->getObjectIdsForTags($systemTagId, 'files');
-
-			if (empty($fileIds)) {
-				// This tag has no files, nothing can ever show up
-				return [];
-			}
-
-			// first run ?
-			if ($resultFileIds === null) {
-				$resultFileIds = $fileIds;
-			} else {
-				$resultFileIds = array_intersect($resultFileIds, $fileIds);
-			}
-
-			if (empty($resultFileIds)) {
-				// Empty intersection, nothing can show up anymore
-				return [];
-			}
-		}
-		return $resultFileIds;
-	}
-
 	/**
 	 * @suppress PhanUndeclaredClassMethod
 	 * @param array $circlesIds
