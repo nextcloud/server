@@ -30,15 +30,18 @@
 				@keyup.enter="showNewUserMenu"
 				@keyup.space="showNewUserMenu" />
 			<template #list>
-				<NcAppNavigationItem id="addgroup"
+				<NcAppNavigationNewItem id="addgroup"
 					ref="addGroup"
 					:edit-placeholder="t('settings', 'Enter group name')"
 					:editable="true"
 					:loading="loadingAddGroup"
 					:title="t('settings', 'Add group')"
-					icon="icon-add"
 					@click="showAddGroupForm"
-					@update:title="createGroup" />
+					@update:title="createGroup">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcAppNavigationNewItem>
 				<NcAppNavigationItem id="everyone"
 					:exact="true"
 					:title="t('settings', 'Active users')"
@@ -148,6 +151,7 @@ import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigati
 import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
+import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigationNewItem.js'
 import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
 import axios from '@nextcloud/axios'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
@@ -158,6 +162,7 @@ import VueLocalStorage from 'vue-localstorage'
 
 import GroupListItem from '../components/GroupListItem.vue'
 import UserList from '../components/UserList.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
 
 Vue.use(VueLocalStorage)
 
@@ -170,10 +175,12 @@ export default {
 		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
+		NcAppNavigationNewItem,
 		NcAppNavigationSettings,
 		NcContent,
 		GroupListItem,
 		NcMultiselect,
+		Plus,
 		UserList,
 	},
 	props: {
