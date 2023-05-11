@@ -90,32 +90,40 @@ class BruteForceMiddleware extends Middleware {
 	 */
 	public function afterController($controller, $methodName, Response $response) {
 		if ($response->isThrottled()) {
-			if ($this->reflector->hasAnnotation('BruteForceProtection')) {
-				$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
-				$ip = $this->request->getRemoteAddress();
-				$this->throttler->sleepDelay($ip, $action);
-				$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
-			} else {
-				$reflectionMethod = new ReflectionMethod($controller, $methodName);
-				$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
-
-				if (!empty($attributes)) {
+			try {
+				if ($this->reflector->hasAnnotation('BruteForceProtection')) {
+					$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 					$ip = $this->request->getRemoteAddress();
-					$metaData = $response->getThrottleMetadata();
-
-					foreach ($attributes as $attribute) {
-						/** @var BruteForceProtection $protection */
-						$protection = $attribute->newInstance();
-						$action = $protection->getAction();
-
-						if (!isset($metaData['action']) || $metaData['action'] === $action) {
-							$this->throttler->sleepDelay($ip, $action);
-							$this->throttler->registerAttempt($action, $ip, $metaData);
-						}
-					}
+					$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
+					$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
 				} else {
-					$this->logger->debug('Response for ' . get_class($controller) . '::' . $methodName . ' got bruteforce throttled but has no annotation nor attribute defined.');
+					$reflectionMethod = new ReflectionMethod($controller, $methodName);
+					$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
+
+					if (!empty($attributes)) {
+						$ip = $this->request->getRemoteAddress();
+						$metaData = $response->getThrottleMetadata();
+
+						foreach ($attributes as $attribute) {
+							/** @var BruteForceProtection $protection */
+							$protection = $attribute->newInstance();
+							$action = $protection->getAction();
+
+							if (!isset($metaData['action']) || $metaData['action'] === $action) {
+								$this->throttler->registerAttempt($action, $ip, $metaData);
+								$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+							}
+						}
+					} else {
+						$this->logger->debug('Response for ' . get_class($controller) . '::' . $methodName . ' got bruteforce throttled but has no annotation nor attribute defined.');
+					}
 				}
+			} catch (MaxDelayReached $e) {
+				if ($controller instanceof OCSController) {
+					throw new OCSException($e->getMessage(), Http::STATUS_TOO_MANY_REQUESTS);
+				}
+
+				return new TooManyRequestsResponse();
 			}
 		}
 
