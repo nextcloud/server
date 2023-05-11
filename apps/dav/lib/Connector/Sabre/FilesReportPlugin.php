@@ -234,8 +234,10 @@ class FilesReportPlugin extends ServerPlugin {
 
 		// find sabre nodes by file id, restricted to the root node path
 		$additionalNodes = $this->findNodesByFileIds($reportTargetNode, $resultFileIds);
-		if (!empty($additionalNodes)) {
+		if ($additionalNodes && $results) {
 			$results = array_intersect($results, $additionalNodes);
+		} elseif (!$results && $additionalNodes) {
+			$results = $additionalNodes;
 		}
 
 		$filesUri = $this->getFilesBaseUri($uri, $reportTargetNode->getPath());
