@@ -82,7 +82,7 @@ interface Share_Backend {
 	public function formatItems($items, $format, $parameters = null);
 
 	/**
-	 * Check if a given share type is allowd by the back-end
+	 * Check if a given share type is allowed by the back-end
 	 *
 	 * @param int $shareType share type
 	 * @return boolean

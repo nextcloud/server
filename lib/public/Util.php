@@ -576,13 +576,13 @@ class Util {
 	 * Sometimes a string has to be shortened to fit within a certain maximum
 	 * data length in bytes. substr() you may break multibyte characters,
 	 * because it operates on single byte level. mb_substr() operates on
-	 * characters, so does not ensure that the shortend string satisfies the
+	 * characters, so does not ensure that the shortened string satisfies the
 	 * max length in bytes.
 	 *
 	 * For example, json_encode is messing with multibyte characters a lot,
 	 * replacing them with something along "\u1234".
 	 *
-	 * This function shortens the string with by $accurancy (-5) from
+	 * This function shortens the string with by $accuracy (-5) from
 	 * $dataLength characters, until it fits within $dataLength bytes.
 	 *
 	 * @since 23.0.0

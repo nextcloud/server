@@ -28,7 +28,7 @@ namespace OCP\WorkflowEngine;
 /**
  * Interface IEntityEvent
  *
- * represents an entitiy event that is dispatched via EventDispatcher
+ * represents an entity event that is dispatched via EventDispatcher
  *
  *
  * @since 18.0.0
