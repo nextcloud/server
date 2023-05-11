@@ -128,8 +128,17 @@ class FixLegacyFileKey extends Command {
 
 		try {
 			$this->rootView->copy($source, $target);
-			$this->rootView->touch($target, $fileInfo->getMTime());
-			$this->rootView->rename($target, $source);
+			$copyResource = $this->rootView->fopen($target, 'r');
+			$sourceResource = $this->rootView->fopen($source, 'w');
+			if ($copyResource === false || $sourceResource === false) {
+				throw new DecryptionFailedException('Failed to open '.$source.' or '.$target);
+			}
+			if (stream_copy_to_stream($copyResource, $sourceResource) === false) {
+				$output->writeln('<error>Failed to copy '.$target.' data into '.$source.'</error>');
+				$output->writeln('<error>Leaving both files in there to avoid data loss</error>');
+				return;
+			}
+			$this->rootView->touch($source, $fileInfo->getMTime());
 			$output->writeln('<info>Migrated ' . $source . '</info>', OutputInterface::VERBOSITY_VERBOSE);
 		} catch (DecryptionFailedException $e) {
 			if ($this->rootView->file_exists($target)) {
