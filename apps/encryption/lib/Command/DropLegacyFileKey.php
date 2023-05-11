@@ -147,6 +147,13 @@ class DropLegacyFileKey extends Command {
 			}
 			$output->writeln('<error>Failed to migrate ' . $path . '</error>');
 			$output->writeln('<error>' . $e . '</error>', OutputInterface::VERBOSITY_VERBOSE);
+		} finally {
+			if (is_resource($copyResource)) {
+				fclose($copyResource);
+			}
+			if (is_resource($sourceResource)) {
+				fclose($sourceResource);
+			}
 		}
 	}
 
