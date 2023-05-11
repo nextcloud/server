@@ -39,6 +39,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IDBConnection;
+use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
@@ -117,6 +118,29 @@ class QuerySearchHelper {
 		return $tags;
 	}
 
+	protected function equipQueryForSystemTags(CacheQueryBuilder $query): void {
+		$query
+			->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
+				$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+				$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
+			))
+			->leftJoin('systemtagmap', 'systemtag', 'systemtag', $query->expr()->andX(
+				$query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
+				$query->expr()->eq('systemtag.visibility', $query->createNamedParameter(true))
+			));
+	}
+
+	protected function equipQueryForDavTags(CacheQueryBuilder $query, IUser $user): void {
+		$query
+			->leftJoin('file', 'vcategory_to_object', 'tagmap', $query->expr()->eq('file.fileid', 'tagmap.objid'))
+			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
+				$query->expr()->eq('tagmap.type', 'tag.type'),
+				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
+				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
+				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
+			));
+	}
+
 	/**
 	 * Perform a file system search in multiple caches
 	 *
@@ -155,27 +179,16 @@ class QuerySearchHelper {
 			if ($searchQuery->getSearchOperation() instanceof ISearchComparison) {
 				switch ($searchQuery->getSearchOperation()->getField()) {
 					case 'systemtag':
-						$query
-							->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $builder->expr()->andX(
-								$builder->expr()->eq('file.fileid', $builder->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
-								$builder->expr()->eq('systemtagmap.objecttype', $builder->createNamedParameter('files'))
-							))
-							->leftJoin('systemtagmap', 'systemtag', 'systemtag', $builder->expr()->andX(
-								$builder->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
-								$builder->expr()->eq('systemtag.visibility', $builder->createNamedParameter(true))
-							));
+						$this->equipQueryForSystemTags($query);
 						break;
 					case 'tagname':
-						$query
-							->leftJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
-							->leftJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
-								$builder->expr()->eq('tagmap.type', 'tag.type'),
-								$builder->expr()->eq('tagmap.categoryid', 'tag.id'),
-								$builder->expr()->eq('tag.type', $builder->createNamedParameter('files')),
-								$builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID()))
-							));
+					case 'favorite':
+						$this->equipQueryForDavTags($query, $user);
 						break;
 				}
+			} elseif ($searchQuery->getSearchOperation() instanceof SearchBinaryOperator) {
+				$this->equipQueryForSystemTags($query);
+				$this->equipQueryForDavTags($query, $user);
 			}
 		}
 
