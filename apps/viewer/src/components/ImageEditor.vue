@@ -72,16 +72,16 @@ export default {
 						'bg-secondary': 'var(--color-main-background)',
 						'bg-primary': 'var(--color-background-dark)',
 						// Accent
-						'accent-primary': 'var(--color-primary)',
+						'accent-primary': 'var(--color-primary-element)',
 						// Use by the slider
-						'border-active-bottom': 'var(--color-primary)',
+						'border-active-bottom': 'var(--color-primary-element)',
 						'icons-primary': 'var(--color-main-text)',
 						// Active state
 						'bg-primary-active': 'var(--color-background-dark)',
 						'bg-primary-hover': 'var(--color-background-hover)',
 						'accent-primary-active': 'var(--color-main-text)',
 						// Used by the save button
-						'accent-primary-hover': 'var(--color-primary)',
+						'accent-primary-hover': 'var(--color-primary-element)',
 
 						warning: 'var(--color-error)',
 					},
@@ -329,7 +329,7 @@ export default {
 		}
 	}
 	&[color='primary'] {
-		color: var(--color-primary-text)  !important;
+		color: var(--color-primary-element-text)  !important;
 		background-color: var(--color-primary-element) !important;
 		&:hover,
 		&:focus {
