@@ -428,7 +428,7 @@ kbd {
 
 			/* Needed for IE11; otherwise the button appears to the right of the
 			 * link. */
-			left: 0;
+			right: 0;
 
 			&:focus-visible {
 				opacity: 1;
@@ -453,15 +453,14 @@ kbd {
 			outline: none !important;
 			box-shadow: none;
 			content: ' ';
-			opacity: 0;
+			opacity: 1;
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
 			z-index: 105; // above a, under button
 			border-radius: 50%;
 			transition: opacity variables.$animation-quick ease-in-out;
-
-
+			right: 0;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
@@ -472,9 +471,6 @@ kbd {
 		&:focus {
 			&:before {
 				opacity: 1;
-			}
-			> a {
-				background-image: none;
 			}
 			> .app-navigation-entry-bullet {
 				background: transparent !important;
