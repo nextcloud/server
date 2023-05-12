@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,6 +36,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\IImage;
 use OCP\IUser;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -40,11 +44,14 @@ class ConverterTest extends TestCase {
 
 	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
+	/** @var IUserManager|(IUserManager&MockObject)|MockObject */
+	private IUserManager|MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->accountManager = $this->createMock(IAccountManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	/**
@@ -96,7 +103,7 @@ class ConverterTest extends TestCase {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager);
+		$converter = new Converter($accountManager, $this->userManager);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
@@ -105,6 +112,29 @@ class ConverterTest extends TestCase {
 		} else {
 			$this->assertSame($expectedVCard, $vCard);
 		}
+	}
+
+	public function testManagerProp(): void {
+		$user = $this->getUserMock("user", "user@domain.tld", "user@cloud.domain.tld");
+		$user->method('getManagerUids')
+			->willReturn(['mgr']);
+		$this->userManager->expects(self::once())
+			->method('getDisplayName')
+			->with('mgr')
+			->willReturn('Manager');
+		$accountManager = $this->getAccountManager($user);
+
+		$converter = new Converter($accountManager, $this->userManager);
+		$vCard = $converter->createCardFromUser($user);
+
+		$this->compareData(
+			[
+				'cloud' => 'user@cloud.domain.tld',
+				'email' => 'user@domain.tld',
+				'x-managersname' => 'Manager',
+			],
+			$vCard->jsonSerialize()
+		);
 	}
 
 	protected function compareData($expected, $data) {
@@ -182,7 +212,7 @@ class ConverterTest extends TestCase {
 	 * @param $fullName
 	 */
 	public function testNameSplitter($expected, $fullName): void {
-		$converter = new Converter($this->accountManager);
+		$converter = new Converter($this->accountManager, $this->userManager);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);

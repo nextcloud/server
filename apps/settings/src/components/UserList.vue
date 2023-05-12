@@ -146,6 +146,20 @@
 				<div v-if="showConfig.showStoragePath" class="storageLocation" />
 				<div v-if="showConfig.showUserBackend" class="userBackend" />
 				<div v-if="showConfig.showLastLogin" class="lastLogin" />
+				<div :class="{'icon-loading-small': loading.manager}" class="modal__item managers">
+					<NcMultiselect ref="manager"
+						v-model="newUser.manager"
+						:close-on-select="true"
+						:user-select="true"
+						:options="possibleManagers"
+						:placeholder="t('settings', 'Select user manager')"
+						class="multiselect-vue"
+						@search-change="searchUserManager"
+						label="displayname"
+						track-by="id">
+						<span slot="noResult">{{ t('settings', 'No results') }}</span>
+					</NcMultiselect>
+				</div>
 				<div class="user-actions">
 					<NcButton id="newsubmit"
 						type="primary"
@@ -208,7 +222,9 @@
 					class="headerLastLogin lastLogin">
 					{{ t('settings', 'Last login') }}
 				</th>
-
+				<th id="headerManager" class="manager">
+					{{ t('settings', 'Manager') }}
+				</th>
 				<th class="userActions hidden-visually">
 					{{ t('settings', 'User actions') }}
 				</th>
@@ -224,6 +240,7 @@
 				:show-config="showConfig"
 				:sub-admins-groups="subAdminsGroups"
 				:user="user"
+				:users="users"
 				:is-dark-theme="isDarkTheme" />
 
 			<InfiniteLoading ref="infiniteLoading" @infinite="infiniteHandler">
@@ -268,6 +285,7 @@ const newUser = {
 	password: '',
 	mailAddress: '',
 	groups: [],
+	manager: '',
 	subAdminsGroups: [],
 	quota: defaultQuota,
 	language: {
@@ -312,6 +330,7 @@ export default {
 				groups: false,
 			},
 			scrolled: false,
+			possibleManagers: [],
 			searchQuery: '',
 			newUser: Object.assign({}, newUser),
 		}
@@ -422,6 +441,10 @@ export default {
 		},
 	},
 
+	async beforeMount() {
+		await this.searchUserManager()
+	},
+
 	mounted() {
 		if (!this.settings.canChangePassword) {
 			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
@@ -449,6 +472,14 @@ export default {
 	},
 
 	methods: {
+		async searchUserManager(query) {
+			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
+				const users = response?.data ? Object.values(response?.data.ocs.data.users) : []
+				if (users.length > 0) {
+					this.possibleManagers = users
+				}
+			})
+		},
 		onScroll(event) {
 			this.scrolled = event.target.scrollTo > 0
 		},
@@ -532,6 +563,7 @@ export default {
 				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
 				quota: this.newUser.quota.id,
 				language: this.newUser.language.code,
+				manager: this.newUser.manager.id,
 			})
 				.then(() => {
 					this.resetForm()

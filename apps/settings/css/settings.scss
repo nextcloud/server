@@ -1350,6 +1350,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					minmax($grid-col-min-width, 1fr) // email
 					minmax(1.5*$grid-col-min-width, 1fr) // groups
 					minmax(1.5*$grid-col-min-width, 1fr) // group admins
+					minmax($grid-col-min-width, 1fr) // quota
+					minmax(1.5*$grid-col-min-width, 1fr) // manager
 					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
 
@@ -1394,6 +1396,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 			}
 
+			.managers,
 			.groups,
 			.subadmins,
 			.quota {
