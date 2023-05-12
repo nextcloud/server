@@ -35,8 +35,9 @@
     "cypress": "npm run cypress:e2e",
     "cypress:e2e": "cypress run --e2e",
     "cypress:gui": "cypress open --e2e",
-    "cypress:visual-regression": "TESTING=true cypress run --spec cypress/e2e/visual-regression.cy.js",
-    "cypress:update-snapshots": "TESTING=true cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base"
+    "cypress:pre-snapshots": "TESTING=true npm run dev",
+    "cypress:visual-regression": "npm run cypress:pre-snapshots && cypress run --spec cypress/e2e/visual-regression.cy.js",
+    "cypress:update-snapshots": "npm run cypress:pre-snapshots && cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
