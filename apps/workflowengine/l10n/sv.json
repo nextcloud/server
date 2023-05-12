@@ -56,9 +56,7 @@
     "Custom mimetype" : "Anpassad mimetyp",
     "Please enter a valid time span" : "Ange ett giltigt tidsintervall",
     "Select a request URL" : "Välj en webbadress för begäran",
-    "Predefined URLs" : "Förinställda webbadresser",
     "Files WebDAV" : "Filer WebDAV",
-    "Others" : "Övriga",
     "Custom URL" : "Anpassad webbadress",
     "Select a user agent" : "Välj en användaragent",
     "Android client" : "Android-klient",
@@ -113,6 +111,8 @@
     "Select a tag" : "Välj en tagg",
     "No results" : "Inga resultat",
     "%s (invisible)" : "%s (osynlig)",
-    "%s (restricted)" : "%s (begränsad)"
+    "%s (restricted)" : "%s (begränsad)",
+    "Predefined URLs" : "Förinställda webbadresser",
+    "Others" : "Övriga"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

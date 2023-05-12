@@ -1,6 +1,6 @@
 { "translations": {
     "Private" : "私有",
-    "Only visible to people matched via phone number integration through Talk on mobile" : "只对通过手机上 Talk 应用的电话号码整合功能匹配的人可见",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "只对通过手机上Talk应用的电话号码整合功能匹配的人可见",
     "Local" : "本地",
     "Only visible to people on this instance and guests" : "仅对该实例上的人及来宾可见",
     "Federated" : "联合云",
@@ -200,8 +200,8 @@
     "iPad" : "iPad",
     "{productName} iOS app" : "{productName} iOS 应用",
     "{productName} Android app" : "{productName} 安卓应用",
-    "{productName} Talk for iOS" : "{productName} Talk for iOS",
-    "{productName} Talk for Android" : "{productName} Talk for Android ",
+    "{productName} Talk for iOS" : "{productName}iOS版通话应用",
+    "{productName} Talk for Android" : "{productName}Android版通话应用",
     "Sync client - {os}" : "同步客户端 - {os}",
     "This session" : "当前会话",
     "Device" : "设备",

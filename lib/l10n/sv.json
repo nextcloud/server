@@ -3,6 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivåtkomst till config-katalogen.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Men, om du föredrar att behålla config.php skrivskyddad, sätt alternativet \"config_is_read_only\" till true i den.",
     "See %s" : "Se %s",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Appen %1$s finns inte eller har en icke-kompatibel version med denna server. Kontrollera appkatalogen.",
     "Sample configuration detected" : "Exempel-konfiguration detekterad",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Det har upptäckts att provkonfigurationen har kopierats. Detta kan bryta din installation och stöds inte. Läs dokumentationen innan du utför ändringar på config.php",
     "404" : "404",

@@ -23,7 +23,6 @@ OC.L10N.register(
     "Flow" : "Flæði",
     "Folder" : "Mappa",
     "Images" : "Myndir",
-    "Predefined URLs" : "Forákvarðaðar slóðir",
     "Files WebDAV" : "WebDAV skráa",
     "Android client" : "Android-biðlari",
     "iOS client" : "iOS-biðlari",
@@ -67,6 +66,7 @@ OC.L10N.register(
     "is not member of" : "er ekki meðlimur í",
     "No results" : "Engar niðurstöður",
     "%s (invisible)" : "%s (ósýnilegt)",
-    "%s (restricted)" : "%s (takmarkaður aðgangur)"
+    "%s (restricted)" : "%s (takmarkaður aðgangur)",
+    "Predefined URLs" : "Forákvarðaðar slóðir"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
