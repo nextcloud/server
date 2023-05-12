@@ -718,6 +718,7 @@ return array(
     'OC\\AppFramework\\Services\\AppConfig' => $baseDir . '/lib/private/AppFramework/Services/AppConfig.php',
     'OC\\AppFramework\\Services\\InitialState' => $baseDir . '/lib/private/AppFramework/Services/InitialState.php',
     'OC\\AppFramework\\Utility\\ControllerMethodReflector' => $baseDir . '/lib/private/AppFramework/Utility/ControllerMethodReflector.php',
+    'OC\\AppFramework\\Utility\\QueryNotFoundException' => $baseDir . '/lib/private/AppFramework/Utility/QueryNotFoundException.php',
     'OC\\AppFramework\\Utility\\SimpleContainer' => $baseDir . '/lib/private/AppFramework/Utility/SimpleContainer.php',
     'OC\\AppFramework\\Utility\\TimeFactory' => $baseDir . '/lib/private/AppFramework/Utility/TimeFactory.php',
     'OC\\AppScriptDependency' => $baseDir . '/lib/private/AppScriptDependency.php',
