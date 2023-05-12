@@ -58,6 +58,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Command\IBus;
+use OCP\IDateTimeFormatter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
@@ -516,7 +517,7 @@ class Storage {
 						$filename = $pathparts['filename'];
 						$key = $timestamp . '#' . $filename;
 						$versions[$key]['version'] = $timestamp;
-						$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp((int)$timestamp);
+						$versions[$key]['humanReadableTimestamp'] = IDateTimeFormatter::formatTimeSpan($timestamp);
 						if (empty($userFullPath)) {
 							$versions[$key]['preview'] = '';
 						} else {
@@ -617,38 +618,6 @@ class Storage {
 			$version->delete();
 			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 		}
-	}
-
-	/**
-	 * translate a timestamp into a string like "5 days ago"
-	 *
-	 * @param int $timestamp
-	 * @return string for example "5 days ago"
-	 */
-	private static function getHumanReadableTimestamp(int $timestamp): string {
-		$diff = time() - $timestamp;
-
-		if ($diff < 60) { // first minute
-			return $diff . " seconds ago";
-		}
-
-		$intervals = [
-			['interval' => 60, 'unit' => 'minute'],
-			['interval' => 3600, 'unit' => 'hour'],
-			['interval' => 86400, 'unit' => 'day'],
-			['interval' => 604800, 'unit' => 'week'],
-			['interval' => 2419200, 'unit' => 'month'],
-			['interval' => 29030400, 'unit' => 'year'],
-		];
-
-		foreach ($intervals as $interval) {
-			if ($diff < $interval['interval']) {
-				$value = round($diff / ($interval['interval'] / 60));
-				return $value . ' ' . $interval['unit'] . ($value > 1 ? 's' : '') . ' ago';
-			}
-		}
-
-		return round($diff / 29030400) . " years ago";
 	}
 
 	/**
