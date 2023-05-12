@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Erreur lors de l'enregistrement de l'image",
     "Unsaved changes" : "Modifications non enregistrées",
     "Drop changes" : "Abandonner les changements",
-    "Content of \"{fileName}\"" : "Contenu de \"{filename}\"",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Edit" : "Modifier",
     "Exit full screen" : "Quitter le plein écran",

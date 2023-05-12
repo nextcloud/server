@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Hiba a kép mentése során",
     "Unsaved changes" : "Mentetlen változtatások",
     "Drop changes" : "Változtatások elvetése",
-    "Content of \"{fileName}\"" : "A(z) „{fileName}” tartalma",
     "Your browser does not support videos." : "A böngészője nem támogatja a videókat.",
     "Edit" : "Szerkesztés",
     "Exit full screen" : "Kilépés a teljes képernyőből",

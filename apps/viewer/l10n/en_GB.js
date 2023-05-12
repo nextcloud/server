@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Error saving image",
     "Unsaved changes" : "Unsaved changes",
     "Drop changes" : "Drop changes",
-    "Content of \"{fileName}\"" : "Content of \"{fileName}\"",
     "Your browser does not support videos." : "Your browser does not support videos.",
     "Edit" : "Edit",
     "Exit full screen" : "Exit full screen",

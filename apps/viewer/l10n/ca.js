@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "S'ha produït un error en desar la imatge",
     "Unsaved changes" : "Canvis sense desar",
     "Drop changes" : "Elimina els canvis",
-    "Content of \"{fileName}\"" : "Contingut de \"{fileName}\"",
     "Your browser does not support videos." : "El vostre navegador web no és compatible amb els vídeos.",
     "Edit" : "Edició",
     "Open sidebar" : "Obre la barra lateral",
