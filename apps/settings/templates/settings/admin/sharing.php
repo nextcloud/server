@@ -123,8 +123,7 @@
 <?php if ($_['passwordExcludedGroupsFeatureEnabled']) { ?>
 			<div id="selectPasswordsExcludedGroups" class="indent <?php if (!$_['enforceLinkPassword']) { p('hidden'); } ?>">
 				<div class="indent">
-					<label for="shareapi_enforce_links_password_excluded_groups"><?php p($l->t('Exclude groups from password requirements:'));?></label>
-					<br />
+					<label for="shareapi_enforce_links_password_excluded_groups"><?php p($l->t('Exclude groups from password requirements:'));?></label><br/>
 					<input name="shareapi_enforce_links_password_excluded_groups" id="passwordsExcludedGroups" value="<?php p($_['passwordExcludedGroups']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
 				</div>
 			</div>
