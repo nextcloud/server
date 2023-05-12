@@ -1,7 +1,7 @@
 // Shared style between video and audio component for plyr
 & {
 	// https://github.com/sampotts/plyr#customizing-the-css
-	--plyr-color-main: var(--color-primary);
+	--plyr-color-main: var(--color-primary-element);
 	--plyr-control-icon-size: 18px;
 	--plyr-menu-background: var(--color-main-background);
 	--plyr-menu-color: var(--color-main-text);
@@ -46,7 +46,7 @@
 		&.plyr__control--overlaid {
 			width: var(--plyr-button-size);
 			height: var(--plyr-button-size);
-			color: var(--color-primary-text);
+			color: var(--color-primary-element-text);
 			background-color: var(--color-primary-element);
 
 			--plyr-button-size: 50px;
