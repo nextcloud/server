@@ -27,6 +27,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Node\LazyFolder;
 use OC\Files\View;
 use OCP\App\IAppManager;
 use OCP\Files\Folder;
@@ -332,7 +333,11 @@ class FilesReportPlugin extends ServerPlugin {
 
 		// type check to ensure searchBySystemTag is available, it is not
 		// exposed in API yet
-		if (!empty($systemTagIds) && $this->userFolder instanceof \OC\Files\Node\Folder) {
+		if (
+			!empty($systemTagIds)
+			&& ($this->userFolder instanceof \OC\Files\Node\Folder
+				|| $this->userFolder instanceof LazyFolder)
+		) {
 			$tags = $this->tagManager->getTagsByIds($systemTagIds);
 			$tagName = (current($tags))->getName();
 			$nodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
