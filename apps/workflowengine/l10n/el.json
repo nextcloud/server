@@ -56,9 +56,7 @@
     "Custom mimetype" : "Προσαρμοσμένος τύπος mime",
     "Please enter a valid time span" : "Εισαγάγετε έγκυρο χρονικό διάστημα",
     "Select a request URL" : "Επιλέξτε μια διεύθυνση URL αιτήματος",
-    "Predefined URLs" : "Προορισμένα URLs",
     "Files WebDAV" : "Αρχεία WebDAV",
-    "Others" : "Άλλοι",
     "Custom URL" : "Προσαρμοσμένο URL",
     "Select a user agent" : "Επιλογή προγράμματος χρήστη",
     "Android client" : "Πελάτης Android",
@@ -113,6 +111,8 @@
     "Select a tag" : "Επιλογή ετικέτας",
     "No results" : "Κανένα αποτέλεσμα",
     "%s (invisible)" : "%s (αόρατο)",
-    "%s (restricted)" : "%s (περιορισμένο)"
+    "%s (restricted)" : "%s (περιορισμένο)",
+    "Predefined URLs" : "Προορισμένα URLs",
+    "Others" : "Άλλοι"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
