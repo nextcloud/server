@@ -1,6 +1,4 @@
-*/Activity/*                        @nickvergessen
-*/Notifications/*                   @nickvergessen
-
+# App maintainers
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
 /apps/cloud_federation_api/appinfo/info.xml   @vitormattos @mejo-
 /apps/comments/appinfo/info.xml               @marcelklehr @ChristophWurst
@@ -21,21 +19,24 @@
 /apps/settings/appinfo/info.xml               @Pytal @JuliaKirschenheuter
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
 /apps/theming/appinfo/info.xml                @skjnldsv @juliushaertl
+/apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
 /apps/updatenotification/appinfo/info.xml     @Pytal @JuliaKirschenheuter
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml         @julien-nc @juliushaertl
 /apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
 
+# Security team
+/resources/config/ca-bundle.crt     @ChristophWurst @miaulalala @nickvergessen
+
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members
-/apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
-/apps/twofactor_backupcodes                   @ChristophWurst @miaulalala @nickvergessen
+/apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen
 */TwoFactorAuth/*                   @ChristophWurst @miaulalala @nickvergessen
 /core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen
 
+# Personal interest
+*/Activity/*                        @nickvergessen
+*/Notifications/*                   @nickvergessen
 /lib/private/Profiler               @CarlSchwan
 /lib/public/Profiler                @CarlSchwan
-
-# Security team
-resources/config/ca-bundle.crt      @ChristophWurst @julien-nc @miaulalala @nickvergessen
