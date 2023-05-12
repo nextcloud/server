@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Info;
 
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Local;
 use OCA\Circles\MountManager\CircleMount;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\SharedMount;
@@ -65,6 +67,16 @@ class UserFiles extends Command {
 		}
 
 		$output->writeln($user->getUID());
+		$output->writeln("");
+
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$userStorage = $userFolder->getStorage();
+		if ($userStorage->instanceOfStorage(Local::class)) {
+			$output->writeln("  data directory: " . $user->getHome());
+		} else if ($userStorage->instanceOfStorage(HomeObjectStoreStorage::class)) {
+			/** @var HomeObjectStoreStorage $userStorage */
+			$output->writeln("  bucket: " . $userStorage->getBucket());
+		}
 
 		$mounts = $this->fileUtils->getMountsForUser($user);
 		$output->writeln("");

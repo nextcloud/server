@@ -70,6 +70,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	/** @var bool */
 	protected $validateWrites = true;
 
+	private string $bucket;
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -90,6 +92,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		//initialize cache with root directory in cache
 		if (!$this->is_dir('/')) {
 			$this->mkdir('/');
+		}
+
+		if (isset($params['container'])) { // azure
+			$this->bucket = $params['container'];
+		} else { // s3, swift
+			$this->bucket = $params['bucket'];
 		}
 
 		$this->logger = \OC::$server->getLogger();
@@ -715,5 +723,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$cacheEntry = $this->getCache()->get($targetPath);
 		$urn = $this->getURN($cacheEntry->getId());
 		$this->objectStore->abortMultipartUpload($urn, $writeToken);
+	}
+
+	public function getBucket(): string {
+		return $this->bucket;
 	}
 }
