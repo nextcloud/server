@@ -23,7 +23,7 @@
 	background-color: var(--color-background-hover);
 }
 .actions .button a:active {
-	background-color: var(--color-primary-light);
+	background-color: var(--color-primary-element-light);
 }
 
 .actions.creatable {
@@ -117,7 +117,7 @@
 }
 
 .file-drag, .file-drag .files-filestable tbody tr, .file-drag .files-filestable tbody tr:hover {
-	background-color: var(--color-primary-light) !important;
+	background-color: var(--color-primary-element-light) !important;
 }
 
 .app-files #app-content.dir-drop {
@@ -129,7 +129,7 @@
 }
 
 .app-files #app-content.dir-drop .files-filestable tbody tr.dropping-to-dir{
-	background-color: var(--color-primary-light) !important;
+	background-color: var(--color-primary-element-light) !important;
 }
 
 /* icons for sidebar */
@@ -202,7 +202,7 @@ table tr.mouseOver td {
 .files-filestable tbody tr.highlighted .name:focus,
 .files-filestable tbody tr.selected,
 .files-filestable tbody tr.searchresult {
-	background-color: var(--color-primary-light);
+	background-color: var(--color-primary-element-light);
 }
 
 tbody a { color: var(--color-main-text); }
@@ -551,7 +551,7 @@ table td.selection {
 		background-color: var(--color-background-hover);
 		border-radius: var(--border-radius-pill);
 		outline: none !important;
-		border: 2px solid var(--color-primary) !important;
+		border: 2px solid var(--color-primary-element) !important;
 		padding: 14px;
 	}
 }
@@ -1303,7 +1303,7 @@ table.dragshadow td.size {
 
 	&:focus-visible,
 	#showgridview:focus-visible + & {
-		box-shadow: inset 0 0 0 2px var(--color-primary) !important;
+		box-shadow: inset 0 0 0 2px var(--color-primary-element) !important;
 	}
 }
 

@@ -85,7 +85,7 @@ export default {
 				opacity: 1 !important;
 				&:focus-visible {
 					.user-menu__avatar {
-						border: 2px solid var(--color-primary-text);
+						border: 2px solid var(--color-primary-element);
 					}
 				}
 			}
@@ -104,7 +104,7 @@ export default {
 		&:active,
 		&:focus,
 		&:hover {
-			border: 2px solid var(--color-primary-text);
+			border: 2px solid var(--color-primary-element-text);
 		}
 	}
 
@@ -138,13 +138,13 @@ export default {
 
 						&:focus-visible {
 							background-color: var(--color-background-hover) !important;
-							box-shadow: inset 0 0 0 2px var(--color-primary) !important;
+							box-shadow: inset 0 0 0 2px var(--color-primary-element) !important;
 							outline: none !important;
 						}
 
 						&:active,
 						&.active {
-							background-color: var(--color-primary-light);
+							background-color: var(--color-primary-element-light);
 						}
 
 						span {

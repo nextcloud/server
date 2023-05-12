@@ -299,7 +299,7 @@ export default {
 		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
 		   But without the user variables. That way the admin can preview the render as guest*/
 		/* As guest, there is no user color color-background-plain */
-		background-color: var(--color-primary-default, #0082c9);
+		background-color: var(--color-primary-element-default, #0082c9);
 		/* As guest, there is no user background (--image-background)
 		1. Empty background if defined
 		2. Else default background

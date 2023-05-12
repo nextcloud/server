@@ -904,7 +904,7 @@ export default {
 	}
 
 	::v-deep .avatar-link-share {
-		background-color: var(--color-primary);
+		background-color: var(--color-primary-element);
 	}
 
 	.sharing-entry__action--public-upload {
