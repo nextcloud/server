@@ -56,9 +56,7 @@
     "Custom mimetype" : "Vlastné typy mime",
     "Please enter a valid time span" : "Zadajte prosím platné časové rozmedzie",
     "Select a request URL" : "Vybrať URL požiadavku",
-    "Predefined URLs" : "Preddefinované URL",
     "Files WebDAV" : "WebDAV súbory",
-    "Others" : "Ostatné",
     "Custom URL" : "Vlastná URL",
     "Select a user agent" : "Zvoliť užívateľského agenta",
     "Android client" : "Android klient",
@@ -113,6 +111,8 @@
     "Select a tag" : "Vyber štítok",
     "No results" : "Žiadne výsledky",
     "%s (invisible)" : "%s (neviditeľné)",
-    "%s (restricted)" : "%s (obmedzené)"
+    "%s (restricted)" : "%s (obmedzené)",
+    "Predefined URLs" : "Preddefinované URL",
+    "Others" : "Ostatné"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

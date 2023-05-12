@@ -23,9 +23,7 @@ OC.L10N.register(
     "Flow" : "Flow",
     "Folder" : "Mappe",
     "Images" : "Billeder",
-    "Predefined URLs" : "Foruddefineret URLer",
     "Files WebDAV" : "Fil WebDAV",
-    "Others" : "Andre",
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
@@ -64,6 +62,8 @@ OC.L10N.register(
     "is not member of" : "er ikke medlem af",
     "No results" : "Ingen resultater",
     "%s (invisible)" : "%s (usynlig)",
-    "%s (restricted)" : "%s (begrænset)"
+    "%s (restricted)" : "%s (begrænset)",
+    "Predefined URLs" : "Foruddefineret URLer",
+    "Others" : "Andre"
 },
 "nplurals=2; plural=(n != 1);");
