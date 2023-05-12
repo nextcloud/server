@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Vrsta Mime po meri",
     "Please enter a valid time span" : "Vpisati je treba veljaven časovni obseg",
     "Select a request URL" : "Izberite naslov URL zahteve",
-    "Predefined URLs" : "Določeni naslovi URL",
     "Files WebDAV" : "Datoteke WebDAV",
-    "Others" : "Ostali",
     "Custom URL" : "Naslov URL po meri",
     "Select a user agent" : "Izbor uporabniškega odjemalca",
     "Android client" : "Odjemalec za Android",
@@ -115,6 +113,8 @@ OC.L10N.register(
     "Select a tag" : "Izbor oznake",
     "No results" : "Ni zadetkov",
     "%s (invisible)" : "%s (nevidno)",
-    "%s (restricted)" : "%s (omejeno)"
+    "%s (restricted)" : "%s (omejeno)",
+    "Predefined URLs" : "Določeni naslovi URL",
+    "Others" : "Ostali"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

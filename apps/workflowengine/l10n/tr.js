@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Özel MIME türü",
     "Please enter a valid time span" : "Lütfen geçerli bir tarih aralığı seçin",
     "Select a request URL" : "Bir istek adresi seçin",
-    "Predefined URLs" : "Hazır adresler",
     "Files WebDAV" : "Dosya WebDAV",
-    "Others" : "Diğerleri",
     "Custom URL" : "Özel adres",
     "Select a user agent" : "Bir kullanıcı uygulaması seçin",
     "Android client" : "Android istemcisi",
@@ -115,6 +113,8 @@ OC.L10N.register(
     "Select a tag" : "Etiket seçin",
     "No results" : "Herhangi bir sonuç bulunamadı",
     "%s (invisible)" : "%s (görünmez)",
-    "%s (restricted)" : "%s (kısıtlanmış)"
+    "%s (restricted)" : "%s (kısıtlanmış)",
+    "Predefined URLs" : "Hazır adresler",
+    "Others" : "Diğerleri"
 },
 "nplurals=2; plural=(n > 1);");

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select a comparator" : "Selecionar um comparador",
     "Folder" : "Pasta",
     "Images" : "Imagens",
-    "Predefined URLs" : "URLs Predefinidos",
     "Files WebDAV" : "Ficheiros WebDAV",
     "Android client" : "Cliente de Android",
     "iOS client" : "Cliente de iOS",
@@ -77,6 +76,7 @@ OC.L10N.register(
     "is not member of" : "não é um membro de",
     "No results" : "Sem resultados",
     "%s (invisible)" : "%s (invisível)",
-    "%s (restricted)" : "%s (limitado)"
+    "%s (restricted)" : "%s (limitado)",
+    "Predefined URLs" : "URLs Predefinidos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

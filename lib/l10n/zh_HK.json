@@ -3,6 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "允許網頁伺服器寫入 \"config\" 目錄通常可以解決這個問題",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "但是，如果您希望將 config.php 檔案保持為唯讀，請將其中的 “config_is_read_only” 選項設置為 true。",
     "See %s" : "見 %s",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "應用程式 %1$s 不存在或有與此伺服器不相容的版本。請檢查應用程式目錄。",
     "Sample configuration detected" : "您目前正在使用範例配置",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "系統檢測到示例配置已被複製。這樣做會破壞您的安裝並且不受支持。請在對 config.php 進行更改之前閱讀說明書",
     "404" : "404",
