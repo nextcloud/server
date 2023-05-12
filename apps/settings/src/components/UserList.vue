@@ -21,7 +21,11 @@
   -->
 
 <template>
-	<div id="app-content" class="user-list-grid" @scroll.passive="onScroll">
+	<table id="app-content"
+		role="grid"
+		:aria-label="t('settings', 'User\'s table')"
+		class="user-list-grid"
+		@scroll.passive="onScroll">
 		<NcModal v-if="showConfig.showNewUserForm" size="small" @close="closeModal">
 			<form id="new-user"
 				:disabled="loading.all"
@@ -152,85 +156,92 @@
 				</div>
 			</form>
 		</NcModal>
-		<div id="grid-header"
-			:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
-			class="row">
-			<div id="headerAvatar" class="avatar" />
-			<div id="headerName" class="name">
-				<div class="subtitle">
-					<strong>
-						{{ t('settings', 'Display name') }}
-					</strong>
-				</div>
-				{{ t('settings', 'Username') }}
-			</div>
-			<div id="headerPassword" class="password">
-				{{ t('settings', 'Password') }}
-			</div>
-			<div id="headerAddress" class="mailAddress">
-				{{ t('settings', 'Email') }}
-			</div>
-			<div id="headerGroups" class="groups">
-				{{ t('settings', 'Groups') }}
-			</div>
-			<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
-				id="headerSubAdmins"
-				class="subadmins">
-				{{ t('settings', 'Group admin for') }}
-			</div>
-			<div id="headerQuota" class="quota">
-				{{ t('settings', 'Quota') }}
-			</div>
-			<div v-if="showConfig.showLanguages"
-				id="headerLanguages"
-				class="languages">
-				{{ t('settings', 'Language') }}
-			</div>
+		<tbody>
+			<tr id="grid-header"
+				:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
+				class="row">
+				<th id="headerAvatar" class="avatar">
+					<span class="hidden-visually"> {{ t('settings', 'Avatar') }} </span>
+				</th>
+				<th id="headerName" class="name">
+					<div class="subtitle">
+						<strong>
+							{{ t('settings', 'Display name') }}
+						</strong>
+					</div>
+					{{ t('settings', 'Username') }}
+				</th>
+				<th id="headerPassword" class="password">
+					{{ t('settings', 'Password') }}
+				</th>
+				<th id="headerAddress" class="mailAddress">
+					{{ t('settings', 'Email') }}
+				</th>
+				<th id="headerGroups" class="groups">
+					{{ t('settings', 'Groups') }}
+				</th>
+				<th v-if="subAdminsGroups.length>0 && settings.isAdmin"
+					id="headerSubAdmins"
+					class="subadmins">
+					{{ t('settings', 'Group admin for') }}
+				</th>
+				<th id="headerQuota" class="quota">
+					{{ t('settings', 'Quota') }}
+				</th>
+				<th v-if="showConfig.showLanguages"
+					id="headerLanguages"
+					class="languages">
+					{{ t('settings', 'Language') }}
+				</th>
 
-			<div v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-				class="headerUserBackend userBackend">
-				<div v-if="showConfig.showUserBackend" class="userBackend">
-					{{ t('settings', 'User backend') }}
-				</div>
-				<div v-if="showConfig.showStoragePath"
-					class="subtitle storageLocation">
-					{{ t('settings', 'Storage location') }}
-				</div>
-			</div>
-			<div v-if="showConfig.showLastLogin"
-				class="headerLastLogin lastLogin">
-				{{ t('settings', 'Last login') }}
-			</div>
+				<th v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+					class="headerUserBackend userBackend">
+					<div v-if="showConfig.showUserBackend" class="userBackend">
+						{{ t('settings', 'User backend') }}
+					</div>
+					<div v-if="showConfig.showStoragePath"
+						class="subtitle storageLocation">
+						{{ t('settings', 'Storage location') }}
+					</div>
+				</th>
+				<th v-if="showConfig.showLastLogin"
+					class="headerLastLogin lastLogin">
+					{{ t('settings', 'Last login') }}
+				</th>
 
-			<div class="userActions" />
-		</div>
+				<th class="userActions hidden-visually">
+					{{ t('settings', 'User actions') }}
+				</th>
+			</tr>
 
-		<user-row v-for="user in filteredUsers"
-			:key="user.id"
-			:external-actions="externalActions"
-			:groups="groups"
-			:languages="languages"
-			:quota-options="quotaOptions"
-			:settings="settings"
-			:show-config="showConfig"
-			:sub-admins-groups="subAdminsGroups"
-			:user="user"
-			:is-dark-theme="isDarkTheme" />
-		<InfiniteLoading ref="infiniteLoading" @infinite="infiniteHandler">
-			<div slot="spinner">
-				<div class="users-icon-loading icon-loading" />
-			</div>
-			<div slot="no-more">
-				<div class="users-list-end" />
-			</div>
-			<div slot="no-results">
-				<div id="emptycontent">
-					<div class="icon-contacts-dark" />
-					<h2>{{ t('settings', 'No users in here') }}</h2>
+			<user-row v-for="user in filteredUsers"
+				:key="user.id"
+				:external-actions="externalActions"
+				:groups="groups"
+				:languages="languages"
+				:quota-options="quotaOptions"
+				:settings="settings"
+				:show-config="showConfig"
+				:sub-admins-groups="subAdminsGroups"
+				:user="user"
+				:is-dark-theme="isDarkTheme" />
+
+			<InfiniteLoading ref="infiniteLoading" @infinite="infiniteHandler">
+				<div slot="spinner">
+					<div class="users-icon-loading icon-loading" />
 				</div>
-			</div>
-		</InfiniteLoading>
-	</div>
+				<div slot="no-more">
+					<div class="users-list-end" />
+				</div>
+				<div slot="no-results">
+					<div id="emptycontent">
+						<div class="icon-contacts-dark" />
+						<h2>{{ t('settings', 'No users in here') }}</h2>
+					</div>
+				</div>
+			</InfiniteLoading>
+		</tbody>
+	</table>
 </template>
 
 <script>
@@ -641,5 +652,13 @@ export default {
 		 * to be set to 0 to prevent that ("pointer-events: none" does not
 		 * prevent it). */
 		width: 0;
+	}
+
+	#app-content tbody tr {
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: var(--color-main-background);
+		}
 	}
 </style>

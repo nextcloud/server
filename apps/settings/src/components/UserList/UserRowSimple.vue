@@ -1,16 +1,16 @@
 <template>
-	<div class="row"
+	<tr class="row"
 		:class="{'disabled': loading.delete || loading.disable}"
 		:data-id="user.id">
-		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
+		<td class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
 				alt=""
 				width="32"
 				height="32"
 				:src="generateAvatar(user.id, isDarkTheme)">
-		</div>
+		</td>
 		<!-- dirty hack to ellipsis on two lines -->
-		<div class="name">
+		<td class="name">
 			<div class="displayName subtitle">
 				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
 					<strong>
@@ -19,20 +19,20 @@
 				</div>
 			</div>
 			{{ user.id }}
-		</div>
-		<div />
-		<div class="mailAddress">
+		</td>
+		<td />
+		<td class="mailAddress">
 			<div :title="user.email !== null && user.email.length > 20 ? user.email : ''" class="cellText">
 				{{ user.email }}
 			</div>
-		</div>
-		<div class="groups">
+		</td>
+		<td class="groups">
 			{{ userGroupsLabels }}
-		</div>
-		<div v-if="subAdminsGroups.length > 0 && settings.isAdmin" class="subAdminsGroups">
+		</td>
+		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin" class="subAdminsGroups">
 			{{ userSubAdminsGroupsLabels }}
-		</div>
-		<div class="userQuota">
+		</td>
+		<td class="userQuota">
 			<div class="quota">
 				{{ userQuota }} ({{ usedSpace }})
 				<progress class="quota-user-progress"
@@ -40,23 +40,23 @@
 					:value="usedQuota"
 					max="100" />
 			</div>
-		</div>
-		<div v-if="showConfig.showLanguages" class="languages">
+		</td>
+		<td v-if="showConfig.showLanguages" class="languages">
 			{{ userLanguage.name }}
-		</div>
-		<div v-if="showConfig.showUserBackend || showConfig.showStoragePath" class="userBackend">
+		</td>
+		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath" class="userBackend">
 			<div v-if="showConfig.showUserBackend" class="userBackend">
 				{{ user.backend }}
 			</div>
 			<div v-if="showConfig.showStoragePath" :title="user.storageLocation" class="storageLocation subtitle">
 				{{ user.storageLocation }}
 			</div>
-		</div>
-		<div v-if="showConfig.showLastLogin" :title="userLastLoginTooltip" class="lastLogin">
+		</td>
+		<td v-if="showConfig.showLastLogin" :title="userLastLoginTooltip" class="lastLogin">
 			{{ userLastLogin }}
-		</div>
+		</td>
 
-		<div class="userActions">
+		<td class="userActions">
 			<div v-if="canEdit && !loading.all" class="toggleUserActions">
 				<NcActions>
 					<NcActionButton icon="icon-rename"
@@ -78,8 +78,8 @@
 				<div class="icon-checkmark" />
 				{{ feedbackMessage }}
 			</div>
-		</div>
-	</div>
+		</td>
+	</tr>
 </template>
 
 <script>
@@ -201,5 +201,8 @@ export default {
 	.icon-more {
 		background-color: var(--color-main-background);
 		border: 0;
+	}
+	.row .name {
+		padding-left: 0px!important;
 	}
 </style>
