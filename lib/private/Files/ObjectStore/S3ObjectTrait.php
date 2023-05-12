@@ -2,11 +2,17 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Bernd Rederlechner <Bernd.Rederlechner@t-systems.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Florent <florent@coppint.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author François Ménabé <francois.menabe@gmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ * @author Maxime Besson <maxime.besson@worteks.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

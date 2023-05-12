@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021, Daniel Calviño Sánchez <danxuliu@gmail.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version

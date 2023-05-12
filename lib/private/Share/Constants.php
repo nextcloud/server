@@ -8,6 +8,8 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author luz paz <luzpaz@github.com>
+ * @author Michiel de Jong <michiel@unhosted.org>
  *
  * @license AGPL-3.0
  *

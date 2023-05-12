@@ -7,13 +7,11 @@ declare(strict_types=1);
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Felix Nüsse <Felix.nuesse@t-online.de>
- * @author fnuesse <felix.nuesse@t-online.de>
- * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

@@ -4,9 +4,12 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Marc Hefter <marchefter@gmail.com>
  * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Staiger <philipp@staiger.it>

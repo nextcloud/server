@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  *

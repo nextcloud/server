@@ -2,13 +2,16 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Alex Harpin <development@landsofshadow.co.uk>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Hansson <daniel@techandme.se>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>

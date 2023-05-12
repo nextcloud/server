@@ -2,12 +2,14 @@
 /**
  * @copyright Copyright (c) 2016 Julius Haertl <jus@bitgrid.net>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

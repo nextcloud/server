@@ -5,8 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *

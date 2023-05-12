@@ -3,10 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjørn Forsman <bjorn.forsman@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Luka Trovic <luka@nextcloud.com>
  * @author nik gaffney <nik@fo.am>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Rello <Rello@users.noreply.github.com>

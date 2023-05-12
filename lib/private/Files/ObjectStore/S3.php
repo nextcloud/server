@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Rsplwe <i@rsplwe.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Morris Jobke <hey@morrisjobke.de>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version

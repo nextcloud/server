@@ -5,9 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author jld3103 <jld3103yt@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

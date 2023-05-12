@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -14,6 +14,8 @@
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

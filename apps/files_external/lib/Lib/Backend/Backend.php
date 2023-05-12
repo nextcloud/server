@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author luz paz <luzpaz@github.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

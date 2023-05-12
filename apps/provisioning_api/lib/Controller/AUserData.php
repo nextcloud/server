@@ -6,13 +6,15 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

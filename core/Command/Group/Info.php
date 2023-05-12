@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <developers@hosting.de>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Leuker <j.leuker@hosting.de>
  *
  * @license GNU AGPL version 3 or any later version

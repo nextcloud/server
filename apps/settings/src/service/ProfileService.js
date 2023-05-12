@@ -2,8 +2,9 @@
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,18 +26,9 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
-
-/**
- * Save the visibility of the profile parameter
- *
- * @param {string} paramId the profile parameter ID
- * @param {string} visibility the visibility
- * @return {object}
- */
 export const saveProfileParameterVisibility = async (paramId, visibility) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('/profile/{userId}', { userId })
-
 	await confirmPassword()
 
 	const res = await axios.put(url, {

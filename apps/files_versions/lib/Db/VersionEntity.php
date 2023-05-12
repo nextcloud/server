@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
  *
- * @author Louis Chmn <louis@chmn.me>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Db;
 
 use JsonSerializable;

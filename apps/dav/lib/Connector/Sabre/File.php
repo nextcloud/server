@@ -4,14 +4,19 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Robin Appelman <robin@icewind.nl>

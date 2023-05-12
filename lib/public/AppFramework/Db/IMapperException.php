@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

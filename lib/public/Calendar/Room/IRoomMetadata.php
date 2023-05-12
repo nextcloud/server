@@ -3,6 +3,7 @@
  * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *

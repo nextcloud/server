@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 Denis Mosolov <denismosolov@gmail.com>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Denis Mosolov <denismosolov@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  *

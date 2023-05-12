@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2020, Daniel Calviño Sánchez (danxuliu@gmail.com)
  *
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author MichaIng <micha@dietpi.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

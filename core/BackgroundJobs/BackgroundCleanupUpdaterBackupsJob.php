@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2018 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  *

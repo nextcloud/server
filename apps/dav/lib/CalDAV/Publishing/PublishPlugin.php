@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>

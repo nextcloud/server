@@ -2,6 +2,7 @@
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0

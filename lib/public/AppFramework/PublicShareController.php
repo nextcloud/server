@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

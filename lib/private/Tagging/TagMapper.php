@@ -5,6 +5,8 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

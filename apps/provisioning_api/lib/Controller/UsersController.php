@@ -7,15 +7,19 @@ declare(strict_types=1);
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author michag86 <micha_g@arcor.de>
- * @author Mikael Hammarin <mikael@try2.se>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,7 +28,6 @@ declare(strict_types=1);
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -41,7 +44,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;

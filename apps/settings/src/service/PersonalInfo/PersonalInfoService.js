@@ -2,8 +2,9 @@
  * @copyright 2021, Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,16 +26,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
-
 import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.js'
-
-/**
- * Save the primary account property value for the user
- *
- * @param {string} accountProperty the account property
- * @param {string|boolean} value the primary value
- * @return {object}
- */
 export const savePrimaryAccountProperty = async (accountProperty, value) => {
 	// TODO allow boolean values on backend route handler
 	// Convert boolean to string for compatibility

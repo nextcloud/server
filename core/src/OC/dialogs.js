@@ -3,19 +3,24 @@
  * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
  *
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
  * @author Florian Schunk <florian.schunk@rwth-aachen.de>
  * @author Gary Kim <gary@garykim.dev>
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Jérôme Herbinet <33763786+Jerome-Herbinet@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Loïc Hermann <loic.hermann@sciam.fr>
+ * @author Louis Chemineau <louis@chmn.me>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -26,7 +31,7 @@
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,7 +40,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -46,14 +51,9 @@
 /* eslint-disable */
 import _ from 'underscore'
 import $ from 'jquery'
-
 import OC from './index.js'
 import OCA from '../OCA/index.js'
 import { isA11yActivation } from '../Util/a11y.js'
-
-/**
- * this class to ease the usage of jquery dialogs
- */
 const Dialogs = {
 	// dialog button types
 	YES_NO_BUTTONS: 70,

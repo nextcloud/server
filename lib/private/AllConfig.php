@@ -3,9 +3,14 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <91878298+come-nc@users.noreply.github.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Loki3000 <github@labcms.ru>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MichaIng <micha@dietpi.com>

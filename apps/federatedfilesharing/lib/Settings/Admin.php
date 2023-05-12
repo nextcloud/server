@@ -4,7 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -8,9 +8,11 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Liles <benliles@arch.tamu.edu>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Christopher Bartz <bartz@dkrz.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>

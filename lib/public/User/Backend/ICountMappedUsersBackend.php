@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Côme Chilliet <come.chilliet@nextcloud.com>
  *
+ * @author Côme Chilliet <91878298+come-nc@users.noreply.github.com>
  * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\User\Backend;
 
 /**

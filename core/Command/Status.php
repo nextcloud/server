@@ -3,9 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lee Garrett <lgarrett@rocketjump.eu>
  *
  * @license AGPL-3.0
  *

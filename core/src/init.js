@@ -2,12 +2,14 @@
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author nacho <nacho@ownyourbits.com>
+ * @author julia.kirschenheuter <julia.kirschenheuter@nextcloud.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +18,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -28,14 +30,12 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
-
 import { initSessionHeartBeat } from './session-heartbeat.js'
 import OC from './OC/index.js'
 import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
 import { setUp as setUpUserMenu } from './components/UserMenu.js'
 import PasswordConfirmation from './OC/password-confirmation.js'
-
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
 

@@ -1,14 +1,17 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
+	 * Copied from cssphp, copyright Leaf Corcoran, licensed under MIT
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

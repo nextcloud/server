@@ -3,12 +3,15 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Kyle Fazzari <kyrofa@ubuntu.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *

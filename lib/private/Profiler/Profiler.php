@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @copyright 2021 Carl Schwan <carl@carlschwan.eu>
  *
  * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +24,6 @@ declare(strict_types = 1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Profiler;
 
 use OC\AppFramework\Http\Request;

@@ -2,7 +2,6 @@
 /**
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  *
- * @author blizzz <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>

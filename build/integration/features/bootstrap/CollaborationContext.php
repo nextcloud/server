@@ -6,6 +6,9 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2021, Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Meurer <jonas@freesources.org>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *

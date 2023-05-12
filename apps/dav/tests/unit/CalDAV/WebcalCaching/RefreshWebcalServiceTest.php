@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2020, Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author eleith <online+github@eleith.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>

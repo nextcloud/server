@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

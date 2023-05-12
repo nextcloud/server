@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2023 Daniel Kesselberg <mail@danielkesselberg.de>
  *
- * @author 2023 Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Anna Larch <anna@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\EventComparisonService;

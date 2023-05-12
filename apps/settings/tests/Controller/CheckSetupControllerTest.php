@@ -2,19 +2,25 @@
 /**
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nhirokinet <nhirokinet@nhiroki.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author Stefan <Stefan.Schilling@EXXETA.com>
  * @author Sylvia van Os <sylvia@hackerchick.me>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Timo Förster <tfoerster@webfoersterei.de>
  *
  * @license AGPL-3.0

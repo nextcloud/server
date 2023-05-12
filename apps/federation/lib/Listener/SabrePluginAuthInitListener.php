@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version

@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Carla Schroder <carla@owncloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Immanuel Pasanec <immanuel.pasanec@compaso.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -31,7 +31,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Command;
 
 use OCA\Files\Exception\TransferOwnershipException;

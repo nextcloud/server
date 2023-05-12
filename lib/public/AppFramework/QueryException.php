@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0

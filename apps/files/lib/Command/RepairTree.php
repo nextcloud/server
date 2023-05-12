@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
  *
+ * @author luz paz <luzpaz@github.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version

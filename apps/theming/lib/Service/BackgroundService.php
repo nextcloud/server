@@ -5,9 +5,11 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
- * @author Jan C. Borchardt <hey@jancborchardt.net>
- * @author Julius Härtl <jus@bitgrid.net>
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author greta <gretadoci@gmail.com>
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Aaron Wood <aaronjwood@gmail.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author blizzz <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0

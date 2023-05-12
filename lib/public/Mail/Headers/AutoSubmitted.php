@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Bennet Becker <dev@bennet.cc>
  *
+ * @author Bennet Becker <bbecker@pks.mpg.de>
  * @author Bennet Becker <dev@bennet.cc>
  *
  * @license GNU AGPL version 3 or any later version

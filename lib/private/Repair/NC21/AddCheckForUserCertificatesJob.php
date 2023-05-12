@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2020 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version

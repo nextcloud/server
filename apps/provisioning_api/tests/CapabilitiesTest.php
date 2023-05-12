@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2021 Vincent Petry <vincent@nextcloud.com>
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version

@@ -6,8 +6,10 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -16,6 +18,7 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,7 +36,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Personal;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;

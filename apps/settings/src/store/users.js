@@ -1,15 +1,20 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author ArcticFall <23174635+ArcticFall@users.noreply.github.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
+ * @author luz paz <luzpaz@github.com>
+ * @author Petre T <petre.tudor@dorkfarm.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,7 +23,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -30,12 +35,9 @@ import api from './api.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import logger from '../logger.js'
-
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
 	 * const SORT_GROUPNAME = 2;
-	 * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
-	 */
 	if (orderBy === 1) {
 		return groups.sort((a, b) => a.usercount - a.disabled < b.usercount - b.disabled)
 	} else {

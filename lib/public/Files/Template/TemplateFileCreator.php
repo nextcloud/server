@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *

@@ -3,10 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Jagszent <daniel@jagszent.de>
+ * @author luz paz <luzpaz@github.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *

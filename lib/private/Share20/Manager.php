@@ -5,16 +5,27 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Cyrille Bollu <cyrpub@bollu.be>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Hinrich Mahler <22366557+Bibo-Joshi@users.noreply.github.com>
+ * @author JanBartels <j.bartels@arcor.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Michiel de Jong <michiel@unhosted.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>

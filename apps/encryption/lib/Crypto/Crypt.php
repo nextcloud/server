@@ -7,10 +7,13 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Kevin Niehage <kevin@niehage.name>
+ * @author Kevin Niehage <k.niehage@syseleven.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author plumbeo <plumbeo@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weiberg <sweiberg@suse.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

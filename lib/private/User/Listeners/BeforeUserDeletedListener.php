@@ -5,7 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Carl Schwan <carl@carlschwan.eu>
  *
- * @license AGPL-3.0-or-later
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Joas Schilling <coding@schilljs.com>
+ *
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as

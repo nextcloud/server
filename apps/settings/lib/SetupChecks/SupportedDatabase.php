@@ -5,9 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Morris Jobke <hey@morrisjobke.de>
  *
- * @author Claas Augner <github@caugner.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author ZitronePlus <tobiasscharf92@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

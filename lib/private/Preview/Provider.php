@@ -7,7 +7,6 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *

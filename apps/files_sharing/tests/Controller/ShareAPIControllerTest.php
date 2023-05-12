@@ -2,18 +2,26 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Cyrille Bollu <cyrpub@bollu.be>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jan-Philipp Litza <jpl@plutex.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Michiel de Jong <michiel@unhosted.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>

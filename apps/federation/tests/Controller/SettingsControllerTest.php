@@ -3,9 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license AGPL-3.0
  *

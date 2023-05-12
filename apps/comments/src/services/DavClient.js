@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,6 @@
 import { createClient } from 'webdav'
 import { getRootPath } from '../utils/davUtils.js'
 import { getRequestToken } from '@nextcloud/auth'
-
 // init webdav client
 const client = createClient(getRootPath(), {
 	headers: {

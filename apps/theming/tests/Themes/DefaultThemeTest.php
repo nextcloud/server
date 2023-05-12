@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version

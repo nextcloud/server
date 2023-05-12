@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *

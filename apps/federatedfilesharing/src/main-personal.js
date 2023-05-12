@@ -1,6 +1,10 @@
 /**
- * SPDX-FileLicenseText: 2022 Carl Schwan <carl@carlschwan.eu>
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * @copyright Copyright (c) 2016 Carl Schwan <carl@carlschwan.eu>
+ *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,9 +25,7 @@ import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/dist/index.css'
-
 import PersonalSettings from './components/PersonalSettings.vue'
-
 __webpack_nonce__ = btoa(getRequestToken())
 
 Vue.mixin({

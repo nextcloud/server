@@ -3,12 +3,14 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Brad Rubenstein <brad@wbr.tech>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Jonas Heinrich <heinrich@synyx.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

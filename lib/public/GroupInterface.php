@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Knut Ahlers <knut@ahlers.me>
  * @author Morris Jobke <hey@morrisjobke.de>

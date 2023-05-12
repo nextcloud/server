@@ -5,9 +5,14 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author Anna Larch <anna@nextcloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -26,7 +31,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;

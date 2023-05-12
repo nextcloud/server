@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *

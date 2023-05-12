@@ -1,11 +1,12 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -14,7 +15,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,18 +27,13 @@ import $ from 'jquery'
 import { translate as t } from '@nextcloud/l10n'
 import { getToken } from './OC/requesttoken.js'
 import getURLParameter from './Util/get-url-parameter.js'
-
 import './jquery/showpassword.js'
-
 import 'jquery-ui/ui/widgets/button.js'
 import 'jquery-ui/themes/base/theme.css'
 import 'jquery-ui/themes/base/button.css'
-
 import './Polyfill/tooltip.js'
-
 import 'strengthify'
 import 'strengthify/strengthify.css'
-
 window.addEventListener('DOMContentLoaded', function() {
 	const dbtypes = {
 		sqlite: !!$('#hasSQLite').val(),

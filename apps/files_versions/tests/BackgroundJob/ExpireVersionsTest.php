@@ -2,6 +2,8 @@
 /**
  * @copyright 2021 Daniel Kesselberg <mail@danielkesselberg.de>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Tests\BackgroundJob;
 
 use OCA\Files_Versions\BackgroundJob\ExpireVersions;

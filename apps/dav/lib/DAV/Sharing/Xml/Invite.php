@@ -3,9 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@pm.me>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

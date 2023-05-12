@@ -1,15 +1,21 @@
 <?php
-
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Andy Xheli <axheli@axtsolutions.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Tobia De Koninck <tobia@ledfan.be>
  *
  * @license GNU AGPL version 3 or any later version
@@ -28,7 +34,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;

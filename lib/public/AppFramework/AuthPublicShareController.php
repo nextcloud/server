@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Cyrille Bollu <cyrpub@bollu.be>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tim Obert <tobert@w-commerce.de>

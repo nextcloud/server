@@ -5,11 +5,13 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author brumsel <brumsel@losecatcher.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Jobst <mjobst+github@tecratech.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard de Boer <github@tubul.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

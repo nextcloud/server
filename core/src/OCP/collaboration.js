@@ -3,8 +3,9 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -13,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,25 +23,7 @@
  */
 
 import escapeHTML from 'escape-html'
-
-/**
- * @typedef TypeDefinition
- * @function {Function} action This action is executed to let the user select a resource
- * @param {string} icon Contains the icon css class for the type
- * @function Object() { [native code] }
- */
-
-/**
- * @type {TypeDefinition[]}
- */
 const types = {}
-
-/**
- * Those translations will be used by the vue component but they should be shipped with the server
- * FIXME: Those translations should be added to the library
- *
- * @return {Array}
- */
 export const l10nProjects = () => {
 	return [
 		t('core', 'Add to a project'),

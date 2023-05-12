@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2021 Julien Veyssier <eneiluj@posteo.net>
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Dashboard\Controller;
 
 use OCP\AppFramework\OCSController;

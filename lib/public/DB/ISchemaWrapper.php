@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -9,8 +9,11 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michiel de Jong <michiel@unhosted.org>
+ * @author rakekniven <2069590+rakekniven@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2022 Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author luz paz <luzpaz@github.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

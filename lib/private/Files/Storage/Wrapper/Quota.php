@@ -3,14 +3,15 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <91878298+come-nc@users.noreply.github.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Git'Fellow <12234510+solracsf@users.noreply.github.com>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <vincent@nextcloud.com>

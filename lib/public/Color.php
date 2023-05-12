@@ -2,8 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *

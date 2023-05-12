@@ -4,7 +4,9 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Greta Doci <gretadoci@gmail.com>
  * @author hkjolhede <hkjolhede@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
@@ -17,11 +19,11 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
  * @author Sam Tuke <mail@samtuke.com>
  * @author scambra <sergio@entrecables.com>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *

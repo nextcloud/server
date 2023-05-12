@@ -5,10 +5,12 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author HouraisanNEET <HouraisanNEET@users.noreply.github.com>
  * @author Joachim Bauch <bauch@struktur.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -21,6 +23,8 @@
  * @author Patrik Kernstock <info@pkern.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

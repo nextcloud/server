@@ -7,20 +7,21 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <91878298+come-nc@users.noreply.github.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Jean-Louis Dupond <jean-louis@dupond.be>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Tobias Perschon <tobias@perschon.at>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Xuanwo <xuanwo@yunify.com>
  * @author Vincent Van Houtte <vvh@aplusv.be>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *
@@ -37,7 +38,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;

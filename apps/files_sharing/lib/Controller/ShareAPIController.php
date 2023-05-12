@@ -5,24 +5,34 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author castillo92 <37965565+castillo92@users.noreply.github.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Cyrille Bollu <cyrpub@bollu.be>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Gary Kim <gary@garykim.dev>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jan-Philipp Litza <jpl@plutex.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Michael Jobst <mjobst+github@tecratech.de>
+ * @author Michiel de Jong <michiel@unhosted.org>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author rakekniven <2069590+rakekniven@users.noreply.github.com>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
+ * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author waleczny <michal@walczak.xyz>

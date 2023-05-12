@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author Anna Larch <anna@nextcloud.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>

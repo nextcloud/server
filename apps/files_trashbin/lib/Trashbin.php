@@ -6,7 +6,9 @@
  * @author Bastien Ho <bastienho@urbancube.fr>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -16,6 +18,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lars Knickrehm <mail@lars-sh.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Qingping Hou <dave2008713@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>

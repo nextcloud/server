@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  *

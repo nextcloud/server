@@ -4,8 +4,14 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Dariusz Olszewski <starypatyk@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Jobst <mjobst+github@tecratech.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -14,6 +20,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
+ * @author Unpublished <unpublished@gmx.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0

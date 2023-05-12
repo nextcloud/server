@@ -6,6 +6,8 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018, Michael Weimann (<mail@michael-weimann.eu>)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author luz paz <luzpaz@github.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC;
 
 use OCP\Util;

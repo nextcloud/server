@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 /**
  * @copyright 2023 Ferdinand Thiessen <opensource@fthiessen.de>
  *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\Plugin;

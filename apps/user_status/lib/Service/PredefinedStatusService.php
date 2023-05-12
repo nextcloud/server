@@ -5,7 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author luz paz <luzpaz@github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

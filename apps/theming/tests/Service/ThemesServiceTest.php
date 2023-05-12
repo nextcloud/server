@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

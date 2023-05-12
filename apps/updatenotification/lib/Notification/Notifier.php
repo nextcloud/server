@@ -5,9 +5,11 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author rakekniven <2069590+rakekniven@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *

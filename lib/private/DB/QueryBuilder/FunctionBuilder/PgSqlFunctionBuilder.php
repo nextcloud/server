@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license GNU AGPL version 3 or any later version
  *

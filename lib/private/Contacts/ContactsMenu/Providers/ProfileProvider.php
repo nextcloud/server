@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu\Providers;
 
 use OC\Profile\ProfileManager;

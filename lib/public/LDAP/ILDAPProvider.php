@@ -5,10 +5,13 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author blizzz <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
+ * @author Simon L <szaimen@e.mail.de>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Node;
 
 use OC\Files\Utils\PathHelper;

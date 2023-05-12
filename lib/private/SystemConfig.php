@@ -5,6 +5,7 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Schlichenmaier <johannes@schlichenmaier.info>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

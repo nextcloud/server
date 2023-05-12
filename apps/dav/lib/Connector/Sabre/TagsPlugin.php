@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>

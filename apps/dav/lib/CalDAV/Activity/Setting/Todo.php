@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *

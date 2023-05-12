@@ -2,9 +2,10 @@
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -13,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,21 +24,10 @@
 
 import api from './api.js'
 import { generateOcsUrl } from '@nextcloud/router'
-
 const state = {}
 const mutations = {}
 const getters = {}
 const actions = {
-	/**
-	 * Set application config in database
-	 *
-	 * @param {object} context store context
-	 * @param {object} options destructuring object
-	 * @param {string} options.app Application name
-	 * @param {boolean} options.key Config key
-	 * @param {boolean} options.value Value to set
-	 * @return {Promise}
-	 */
 	setAppConfig(context, { app, key, value }) {
 		return api.requireAdmin().then((response) => {
 			return api.post(generateOcsUrl('apps/provisioning_api/api/v1/config/apps/{app}/{key}', { app, key }), { value })

@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
- * @author Anna Larch <anna.larch@gmx.net>
+ * @author Anna Larch <anna@nextcloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *

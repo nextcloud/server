@@ -2,19 +2,21 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author André Gaul <gaul@web-yard.de>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Christopher T. Johnson <ctjctj@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author enoch <lanxenet@hotmail.com>
+ * @author Erik van Velzen <erik@evanv.nl>
+ * @author François Ménabé <francois.menabe@gmail.com>
+ * @author James Guo <i@ze3kr.com>
  * @author Johan Björk <johanimon@gmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Martin Mattel <martin.mattel@diemattels.at>
+ * @author Louis Chemineau <louis@chmn.me>
+ * @author Matthieu Gallien <matthieu.gallien@nextcloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *

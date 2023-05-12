@@ -2,6 +2,7 @@
 /**
  * @copyright 2022, Vincent Petry <vincent@nextcloud.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version

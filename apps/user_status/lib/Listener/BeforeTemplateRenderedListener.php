@@ -5,8 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Listener;
 
 use OC\Profile\ProfileManager;

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2019, Michael Weimann <mail@michael-weimann.eu>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  *
  * @license GNU AGPL version 3 or any later version

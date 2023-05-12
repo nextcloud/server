@@ -7,7 +7,9 @@ declare(strict_types=1);
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

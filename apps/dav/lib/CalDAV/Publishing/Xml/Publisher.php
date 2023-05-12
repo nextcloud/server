@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author luz paz <luzpaz@pm.me>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

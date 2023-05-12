@@ -26,15 +26,19 @@ declare(strict_types=1);
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Sokolowski <github@sokolowski.org>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Jose Quinteiro <github@quinteiro.org>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julien Veyssier <julien-nc@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Ko- <k.stoffelen@cs.ru.nl>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MartB <mart.b@outlook.de>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
+ * @author Micke Nordin <kano@sunet.se>
+ * @author Mikael Nordin <mickenordin@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Phil Davis <phil.davis@inf.org>
@@ -42,11 +46,11 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Wessalowski <sebastian@wessalowski.org>
+ * @author Simon L <szaimen@e.mail.de>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Tobia De Koninck <tobia@ledfan.be>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
@@ -65,7 +69,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OC\Encryption\HookManager;
 use OC\EventDispatcher\SymfonyAdapter;
 use OC\Share20\Hooks;

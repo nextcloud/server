@@ -3,9 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Schaefer "christophł@wolkesicher.de"
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Greta Doci <gretadoci@gmail.com>
@@ -17,6 +18,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobia De Koninck <tobia@ledfan.be>
  * @author Vincent Petry <vincent@nextcloud.com>

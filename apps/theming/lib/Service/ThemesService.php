@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version

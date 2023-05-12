@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

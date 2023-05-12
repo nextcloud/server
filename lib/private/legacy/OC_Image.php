@@ -8,25 +8,31 @@ declare(strict_types=1);
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Byron Marohn <combustible@live.com>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Git'Fellow <carlos@reendex.com>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author j-ed <juergen@eisfair.org>
+ * @author Joachim Bauch <bauch@struktur.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Willnecker <johannes@willnecker.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Samuel CHEMLA <chemla.samuel@gmail.com>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author Simon Spannagel <simonspa@kth.se>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Varun Patil <radialapps@gmail.com>
  *
  * @license AGPL-3.0
  *

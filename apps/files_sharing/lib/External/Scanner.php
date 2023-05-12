@@ -2,9 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *

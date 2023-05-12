@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author RealRancor <Fisch.666@gmx.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

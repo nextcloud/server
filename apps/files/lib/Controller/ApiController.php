@@ -6,12 +6,13 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Felix Nüsse <Felix.nuesse@t-online.de>
  * @author fnuesse <felix.nuesse@t-online.de>
- * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Max Kovalenko <mxss1998@yandex.ru>
+ * @author Michiel de Jong <michiel@unhosted.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Richard Steinmetz <richard@steinmetz.cloud>

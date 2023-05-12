@@ -3,8 +3,9 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Louis Chemineau <louis@chmn.me>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -13,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,18 +26,6 @@
 import $ from 'jquery'
 import { filePath } from './routing.js'
 import { generateFilePath } from "@nextcloud/router"
-
-/**
- * Opens a popup with the setting for an app.
- * @param {string} appid The ID of the app e.g. 'calendar', 'contacts' or 'files'.
- * @param {boolean|string} loadJS If true 'js/settings.js' is loaded. If it's a string
- * it will attempt to load a script by that name in the 'js' directory.
- * @param {boolean} [cache] If true the javascript file won't be forced refreshed. Defaults to true.
- * @param {string} [scriptName] The name of the PHP file to load. Defaults to 'settings.php' in
- * the root of the app directory hierarchy.
- *
- * @deprecated 17.0.0 this method is unused and will be removed with Nextcloud 18
- */
 export const appSettings = args => {
 	console.warn('OC.appSettings is deprecated and will be removed with Nextcloud 18')
 

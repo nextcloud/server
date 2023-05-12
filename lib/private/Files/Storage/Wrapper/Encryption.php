@@ -2,16 +2,23 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author acsfer <carlos@reendex.com>
+ * @author Alan Meeson <alan@carefullycalculated.co.uk>
+ * @author alanmeeson <alan@carefullycalculated.co.uk>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author jknockaert <jasper@knockaert.nl>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr M <mrow4a@yahoo.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -33,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;

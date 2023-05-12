@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
+ * @author acsfer <carlos@reendex.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Julius Härtl <jus@bitgrid.net>
  *

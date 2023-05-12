@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author luz paz <luzpaz@github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  *

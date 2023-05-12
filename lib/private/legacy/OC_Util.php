@@ -9,16 +9,18 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Felix Epp <work@felixepp.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author helix84 <helix84@centrum.sk>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Ilja Neumann <ineumann@owncloud.com>
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -27,12 +29,14 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Kawohl <john@owncloud.com>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Marvin Thomas Rabe <mrabe@marvinrabe.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Naoto Kobayashi <naoto.kobayashi4c@gmail.com>
+ * @author rakekniven <2069590+rakekniven@users.noreply.github.com>
  * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Robert Dailey <rcdailey@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -46,7 +50,6 @@
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
- * @author Volkan Gezer <volkangezer@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -63,7 +66,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;

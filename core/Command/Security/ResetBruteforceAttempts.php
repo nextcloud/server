@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2020, Johannes Riedel (johannes@johannes-riedel.de)
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Riedel <joeried@users.noreply.github.com>
  *

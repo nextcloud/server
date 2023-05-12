@@ -6,12 +6,17 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Thomas Citharel
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
+ * @author Akhil <akhil@e.email>
+ * @author Akhil <akhil.potukuchi@gmail.com>
+ * @author Akhil Potukuchi <akhil.potukuchi@gmail.com>
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Teichmann <daniel.teichmann@das-netzwerkteam.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *

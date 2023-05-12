@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Filis Futsarov <filisko@users.noreply.github.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *

@@ -5,9 +5,13 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard de Boer <github@tubul.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Varun Patil <varunpatil@ucla.edu>
  *
  * @license GNU AGPL version 3 or any later version
  *

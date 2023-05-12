@@ -4,8 +4,8 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Daniel Rudolf <nextcloud.com@daniel-rudolf.de>
  *
  * @license AGPL-3.0
  *

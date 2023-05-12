@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Alecks Gates <alecks.g@gmail.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>

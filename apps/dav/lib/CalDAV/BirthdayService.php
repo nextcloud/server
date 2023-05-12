@@ -6,15 +6,17 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
- * @author Achim Königs <garfonso@tratschtante.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Cédric Neukom <github@webguy.ch>
  * @author Christian Weiske <cweiske@cweiske.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Sven Strickroth <email@cs-ware.de>
+ * @author Mattia Narducci <mattianarducci1@gmail.com>
+ * @author Maximilian Martin <maximilian_martin@gmx.de>
+ * @author Sylvain <git@sylvain.dev>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Cédric Neukom <github@webguy.ch>
  *
  * @license AGPL-3.0
  *

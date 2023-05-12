@@ -4,6 +4,7 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author tbelau666 <thomas.belau@gmx.de>
  *

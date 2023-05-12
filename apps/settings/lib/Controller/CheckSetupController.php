@@ -2,30 +2,42 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author acsfer <12234510+acsfer@users.noreply.github.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Cthulhux <git@tuxproject.de>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Derek <derek.kelly27@gmail.com>
+ * @author fenn-cs <fenn25.fn@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author J0WI <J0WI@users.noreply.github.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Lauris Binde <laurisb@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Kuhn <github@ikkoku.de>
  * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author MichaIng <micha@dietpi.com>
+ * @author Mickey Knox <mickey@netfreaks.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nhirokinet <nhirokinet@nhiroki.net>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author rakekniven <2069590+rakekniven@users.noreply.github.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author Stefan <Stefan.Schilling@EXXETA.com>
  * @author Sven Strickroth <email@cs-ware.de>
  * @author Sylvia van Os <sylvia@hackerchick.me>
+ * @author szaimen <szaimen@e.mail.de>
  * @author timm2k <timm2k@gmx.de>
  * @author Timo Förster <tfoerster@webfoersterei.de>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author MichaIng <micha@dietpi.com>
+ * @author Varun Patil <varunpatil@ucla.edu>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license AGPL-3.0
  *

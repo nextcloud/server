@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version

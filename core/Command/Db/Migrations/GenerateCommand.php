@@ -2,10 +2,14 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017, ownCloud GmbH
+ * @copyright Copyright (c) {{year}} Your name <your@email.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license AGPL-3.0
  *

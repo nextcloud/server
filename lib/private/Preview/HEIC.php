@@ -6,11 +6,14 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018, ownCloud GmbH
  * @copyright Copyright (c) 2018, Sebastian Steinmetz (me@sebastiansteinmetz.ch)
  *
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sebastian Steinmetz <462714+steiny2k@users.noreply.github.com>
  * @author Sebastian Steinmetz <me@sebastiansteinmetz.ch>
+ * @author Varun Patil <varunpatil@ucla.edu>
  *
  * @license AGPL-3.0
  *

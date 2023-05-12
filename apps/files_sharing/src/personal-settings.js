@@ -2,9 +2,10 @@
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -13,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,9 +24,7 @@
 
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
-
 import PersonalSettings from './components/PersonalSettings.vue'
-
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
 

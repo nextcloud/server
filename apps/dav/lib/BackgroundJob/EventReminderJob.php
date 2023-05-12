@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *

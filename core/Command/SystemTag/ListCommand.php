@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <developers@hosting.de>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Johannes Leuker <j.leuker@hosting.de>
  *
  * @license GNU AGPL version 3 or any later version

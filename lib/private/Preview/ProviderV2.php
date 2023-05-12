@@ -5,7 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

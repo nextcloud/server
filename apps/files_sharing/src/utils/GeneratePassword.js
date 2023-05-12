@@ -2,8 +2,11 @@
  * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author julia.kirschenheuter <julia.kirschenheuter@nextcloud.com>
+ * @author rakekniven <2069590+rakekniven@users.noreply.github.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +15,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,7 +26,6 @@
 import axios from '@nextcloud/axios'
 import Config from '../services/ConfigService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-
 const config = new Config()
 // note: some chars removed on purpose to make them human friendly when read out
 const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'

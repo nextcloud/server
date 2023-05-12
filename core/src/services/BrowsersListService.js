@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,11 +12,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -24,7 +24,6 @@ import { getUserAgentRegex } from 'browserslist-useragent-regexp'
 // eslint-disable-next-line n/no-extraneous-import
 import browserslist from 'browserslist'
 import browserslistConfig from '@nextcloud/browserslist-config'
-
 // Generate a regex that matches user agents to detect incompatible browsers
 export const supportedBrowsersRegExp = getUserAgentRegex({ allowHigherVersions: true, browsers: browserslistConfig })
 export const supportedBrowsers = browserslist(browserslistConfig)

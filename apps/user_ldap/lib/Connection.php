@@ -4,12 +4,18 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Jarkko Lehtoranta <devel@jlranta.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marc Hefter <marchefter@gmail.com>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -17,8 +23,8 @@
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Xuanwo <xuanwo@yunify.com>
  * @author Vincent Van Houtte <vvh@aplusv.be>
+ * @author Xuanwo <xuanwo@yunify.com>
  *
  * @license AGPL-3.0
  *

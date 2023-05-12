@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
  * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Marcel Klehr <mklehr@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,9 +23,8 @@ declare(strict_types=1);
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
-
 namespace OC\SpeechToText;
 
 use InvalidArgumentException;

@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author acsfer <carlos@reendex.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *

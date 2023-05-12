@@ -6,6 +6,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author MasterOfDeath <rinat.gumirov@mail.ru>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Tobias Kaminsky <tobias@kaminsky.me>
  *
  * @license GNU AGPL version 3 or any later version
  *

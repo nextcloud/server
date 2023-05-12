@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
- * @author Anna Larch <anna.larch@gmx.net>
+ * @author Anna Larch <anna@nextcloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Calendar;
 
 use DateTimeImmutable;

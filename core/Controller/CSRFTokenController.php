@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

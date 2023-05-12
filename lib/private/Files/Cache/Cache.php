@@ -2,24 +2,31 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author acsfer <carlos@reendex.com>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Ari Selseng <ari@selseng.net>
  * @author Artem Kochnev <MrJeos@gmail.com>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jonas <jonas@freesources.org>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author luz paz <luzpaz@github.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sijmen Schoon <me@sijmenschoon.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -37,7 +44,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;

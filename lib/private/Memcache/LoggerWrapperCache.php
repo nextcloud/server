@@ -1,6 +1,7 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
@@ -22,7 +23,6 @@ declare(strict_types = 1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Memcache;
 
 use OCP\IMemcacheTTL;

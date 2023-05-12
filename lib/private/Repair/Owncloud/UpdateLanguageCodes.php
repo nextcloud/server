@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version

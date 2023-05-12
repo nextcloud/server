@@ -5,6 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018, Michael Weimann <mail@michael-weimann.eu>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  *

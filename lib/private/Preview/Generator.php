@@ -2,14 +2,20 @@
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Elijah Martin-Merrill <elijah@nyp-itsours.com>
- * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Glandos <bugs-github@antipoul.fr>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Scott Dutton <scott@exussum.co.uk>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author szaimen <szaimen@e.mail.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

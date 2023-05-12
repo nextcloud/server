@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Tobia De Koninck <tobia@ledfan.be>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Tobia De Koninck <tobia@ledfan.be>
  *
  * @license GNU AGPL version 3 or any later version

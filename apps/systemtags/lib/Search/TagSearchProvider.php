@@ -5,11 +5,6 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Marcel Klehr <mklehr@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version

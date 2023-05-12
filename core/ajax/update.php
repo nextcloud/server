@@ -4,12 +4,14 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Simon L <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>

@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Laurens Post <lkpost@scept.re>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

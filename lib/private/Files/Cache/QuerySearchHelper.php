@@ -2,10 +2,12 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author luz paz <luzpaz@github.com>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
  *
  * @license GNU AGPL version 3 or any later version
  *

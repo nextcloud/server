@@ -3,10 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author scambra <sergio@entrecables.com>

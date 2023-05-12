@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <robin@icewind.nl>

@@ -2,12 +2,16 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author acsfer <carlos@reendex.com>
  * @author aler9 <46489434+aler9@users.noreply.github.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Boris Rybalkin <ribalkin@gmail.com>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Git'Fellow <12234510+solracsf@users.noreply.github.com>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
@@ -18,10 +22,12 @@
  * @author Martin Brugnara <martin@0x6d62.eu>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Rid <rid@cylo.io>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sjors van der Pluijm <sjors@desjors.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <vincent@nextcloud.com>

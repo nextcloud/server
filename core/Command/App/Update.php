@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>

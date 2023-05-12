@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author luz paz <luzpaz@pm.me>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0

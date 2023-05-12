@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Robin Appelman <robin@icewind.nl>
  *

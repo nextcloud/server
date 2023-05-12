@@ -3,21 +3,25 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Administrator "Administrator@WINDOWS-2012"
+ * @author Alex Harpin <development@landsofshadow.co.uk>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bernard Spil <Sp1l@users.noreply.github.com>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Dan Callahan <dan.callahan@gmail.com>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author François Kubler <francois@kubler.org>
- * @author Frank Isemann <frank@isemann.name>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author KB7777 <k.burkowski@gmail.com>
- * @author Kevin Lanni <therealklanni@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MichaIng <28480705+MichaIng@users.noreply.github.com>
  * @author MichaIng <micha@dietpi.com>
@@ -27,6 +31,7 @@
  * @author Sean Comeau <sean@ftlnetworks.ca>
  * @author Serge Martin <edb@sigluy.net>
  * @author Simounet <contact@simounet.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>

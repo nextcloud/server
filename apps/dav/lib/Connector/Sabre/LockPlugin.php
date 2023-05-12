@@ -4,6 +4,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jaakko Salo <jaakkos@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>

@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Vincent Petry <vincent@nextcloud.com>
- * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license AGPL-3.0
  *

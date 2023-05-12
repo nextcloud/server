@@ -5,7 +5,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author dartcafe <github@dartcafe.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *

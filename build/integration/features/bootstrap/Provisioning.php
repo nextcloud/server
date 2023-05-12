@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Dries Mys <dries.mys@my-dreams.be>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -13,7 +16,6 @@
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
- * @author Jonas Meurer <jonas@freesources.org>
  *
  * @license GNU AGPL version 3 or any later version
  *

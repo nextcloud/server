@@ -1,7 +1,9 @@
 /**
  * @copyright 2022 Christopher Ng <chrng8@gmail.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,12 +27,9 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/dist/index.css'
-
 import logger from './logger.js'
-
 import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
 import BackgroundJob from './components/BasicSettings/BackgroundJob.vue'
-
 __webpack_nonce__ = btoa(getRequestToken())
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)

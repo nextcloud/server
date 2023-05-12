@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2020 Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

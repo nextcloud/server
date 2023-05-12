@@ -1,10 +1,12 @@
 <?php
 
 declare(strict_types=1);
-/*
+
+/**
  * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lorenzo Tanganelli <35271287+tanganellilore@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use Exception;

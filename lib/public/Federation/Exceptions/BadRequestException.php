@@ -4,6 +4,8 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author jld3103 <jld3103yt@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Simon L <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *

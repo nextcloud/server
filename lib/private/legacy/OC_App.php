@@ -9,10 +9,13 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Borjan Tchakaloff <borjan@tchakaloff.fr>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -24,6 +27,7 @@ declare(strict_types=1);
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author RealRancor <Fisch.666@gmx.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -31,9 +35,11 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Sebastian Wessalowski <sebastian@wessalowski.org>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author zorn-v <zorn7@yandex.ru>
  *
  * @license AGPL-3.0
  *
@@ -50,7 +56,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCP\App\Events\AppUpdateEvent;
 use OCP\AppFramework\QueryException;
 use OCP\App\IAppManager;

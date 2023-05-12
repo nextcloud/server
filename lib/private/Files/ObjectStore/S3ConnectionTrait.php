@@ -2,16 +2,20 @@
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bernd Rederlechner <Bernd.Rederlechner@t-systems.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Florent <florent@coppint.com>
- * @author James Letendre <James.Letendre@gmail.com>
+ * @author François Ménabé <francois.menabe@gmail.com>
+ * @author Jasper Weyne <jasperweyne@gmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxime Besson <maxime.besson@worteks.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
  * @author Stephen Cuppett <steve@cuppett.com>
- * @author Jasper Weyne <jasperweyne@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;

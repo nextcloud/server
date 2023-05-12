@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *

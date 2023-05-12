@@ -2,8 +2,9 @@
  * @copyright 2022 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,7 +24,6 @@
 import Vue from 'vue'
 import App from './AdminTheming.vue'
 import { refreshStyles } from './helpers/refreshStyles.js'
-
 Vue.prototype.OC = OC
 Vue.prototype.t = t
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

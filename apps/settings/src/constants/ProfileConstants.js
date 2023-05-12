@@ -3,7 +3,7 @@
  *
  * @author Christopher Ng <chrng8@gmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,10 +18,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- */
-
-/*
- * SYNC to be kept in sync with `core/Db/ProfileConfig.php`
  */
 
 /** Enum of profile visibility constants */

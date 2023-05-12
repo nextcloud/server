@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  *
  * @license GNU AGPL version 3 or any later version
  *

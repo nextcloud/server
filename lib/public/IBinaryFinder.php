@@ -1,8 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
+ *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +23,6 @@ declare(strict_types = 1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP;
 
 /**

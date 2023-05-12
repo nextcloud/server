@@ -6,11 +6,10 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author greta <gretadoci@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

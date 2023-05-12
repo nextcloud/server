@@ -10,6 +10,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license AGPL-3.0
  *

@@ -1,9 +1,11 @@
 /**
  * @copyright 2021, Christopher Ng <chrng8@gmail.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,19 +27,10 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
-
 import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.js'
-
-/**
- * Save the primary email of the user
- *
- * @param {string} email the primary email
- * @return {object}
- */
 export const savePrimaryEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
-
 	await confirmPassword()
 
 	const res = await axios.put(url, {

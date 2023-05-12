@@ -5,6 +5,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jonas Rittershofer <jotoeri@users.noreply.github.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Marcel Müller <marcel-mueller@gmx.de>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>

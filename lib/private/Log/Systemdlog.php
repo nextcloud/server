@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2018, Johannes Ernst
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

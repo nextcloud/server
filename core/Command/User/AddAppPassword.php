@@ -6,6 +6,9 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, NextCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Sean Molenaar <sean@seanmolenaar.eu>
  *
  * @license GNU AGPL version 3 or any later version

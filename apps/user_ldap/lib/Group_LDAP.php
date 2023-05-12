@@ -9,11 +9,12 @@
  * @author Andreas Pflug <dev@admin4.org>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clement Wong <git@clement.hk>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -24,8 +25,6 @@
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  * @author Xuanwo <xuanwo@yunify.com>
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license AGPL-3.0
  *

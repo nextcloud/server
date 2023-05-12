@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
  * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
+ * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>

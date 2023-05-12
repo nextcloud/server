@@ -2,7 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0

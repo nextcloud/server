@@ -4,17 +4,17 @@
  *
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <91878298+come-nc@users.noreply.github.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Peter Kubica <peter@kubica.ch>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
- * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license AGPL-3.0
  *

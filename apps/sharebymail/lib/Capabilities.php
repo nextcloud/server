@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Tobias Kaminsky <tobias@kaminsky.me>
  *
  * @license GNU AGPL version 3 or any later version
  *

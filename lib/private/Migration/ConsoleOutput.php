@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Git'Fellow <12234510+solracsf@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0

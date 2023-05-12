@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>

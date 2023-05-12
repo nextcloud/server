@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *

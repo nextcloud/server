@@ -6,8 +6,10 @@ declare(strict_types=1);
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Anna Larch <anna@nextcloud.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Marius David Wieschollek <git.public@mdns.eu>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

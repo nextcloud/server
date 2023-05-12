@@ -5,6 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Anna Larch <anna@nextcloud.com>
+ * @author Bennet Becker <bbecker@pks.mpg.de>
+ * @author Bennet Becker <dev@bennet.cc>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

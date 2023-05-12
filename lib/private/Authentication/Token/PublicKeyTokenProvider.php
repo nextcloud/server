@@ -5,11 +5,17 @@ declare(strict_types=1);
 /**
  * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ember 'n0emis' Keske <git@n0emis.eu>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Tobias Assmann <tobias.assmann@ecsec.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

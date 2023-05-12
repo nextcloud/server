@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author François Freitag <mail@franek.fr>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2023, Louis Chmn <louis@chmn.me>
  *
- * @author Louis Chmn <louis@chmn.me>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Tests\Listener;
 
 use OCA\Files_External\Lib\Auth\Password\LoginCredentials;

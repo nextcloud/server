@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
  * @author Gary Kim <gary@garykim.dev>
- * @author Jacob Neplokh <me@jacobneplokh.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Haertl <jus@bitgrid.net>

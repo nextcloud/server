@@ -4,7 +4,9 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -21,7 +23,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thibaut GRIDEL <tgridel@free.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
+ * @author Unpublished <unpublished@gmx.net>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *

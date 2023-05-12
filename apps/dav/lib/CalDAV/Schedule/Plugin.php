@@ -3,13 +3,15 @@
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author luz paz <luzpaz@pm.me>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *

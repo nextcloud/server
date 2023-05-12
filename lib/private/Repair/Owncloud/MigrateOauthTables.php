@@ -2,6 +2,8 @@
 /**
  * @copyright 2021 Louis Chemineau <louis@chmn.me>
  *
+ * @author Louis Chemineau <louis@chmn.me>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

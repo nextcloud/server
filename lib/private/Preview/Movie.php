@@ -2,15 +2,20 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Alexander A. Klimov <grandmaster@al2klimov.de>
+ * @author Christopher Ng <chrng8@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Schneider <daniel@schneidoa.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Glandos <bugs-github@antipoul.fr>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author UmbrellaCodr <umbrella@biohazard.cc>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *

@@ -5,10 +5,15 @@ declare(strict_types=1);
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Anna Larch <anna@nextcloud.com>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author luz paz <luzpaz@pm.me>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *

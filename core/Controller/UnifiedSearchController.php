@@ -5,9 +5,11 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  *
  * @license GNU AGPL version 3 or any later version
  *

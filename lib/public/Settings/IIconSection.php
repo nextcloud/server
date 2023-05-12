@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, Joas Schilling <coding@schilljs.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *

@@ -1,6 +1,11 @@
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
- * @license AGPL-3.0-or-later
+ *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Louis Chemineau <louis@chmn.me>
+ *
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -9,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -19,12 +24,10 @@
 
 import Vue from 'vue'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-
 import VersionTab from './views/VersionTab.vue'
 import VTooltip from 'v-tooltip'
 // eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
-
 Vue.prototype.t = t
 Vue.prototype.n = n
 

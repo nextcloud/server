@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author bladewing <lukas@ifflaender-family.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>

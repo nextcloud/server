@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

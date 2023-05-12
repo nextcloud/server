@@ -3,6 +3,7 @@
  * @copyright Robin Appelman <robin@icewind.nl>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author luz paz <luzpaz@github.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version

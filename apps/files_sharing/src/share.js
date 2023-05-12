@@ -3,19 +3,19 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Louis Chemineau <louis@chmn.me>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Michael Jobst <mjobst+github@tecratech.de>
  * @author Michael Jobst <mjobst@necls.com>
+ * @author Michiel de Jong <michiel@unhosted.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Samuel <faust64@gmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,7 +24,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -34,10 +34,8 @@
 
 /* eslint-disable */
 import escapeHTML from 'escape-html'
-
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import { getCapabilities } from '@nextcloud/capabilities'
-
 (function() {
 
 	_.extend(OC.Files.Client, {

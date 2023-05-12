@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Adrian Brzezinski <adrian.brzezinski@eo.pl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Julien Lutran <julien.lutran@corp.ovh.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>

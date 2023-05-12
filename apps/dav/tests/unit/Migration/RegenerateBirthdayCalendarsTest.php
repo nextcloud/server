@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author François Freitag <mail@franek.fr>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>

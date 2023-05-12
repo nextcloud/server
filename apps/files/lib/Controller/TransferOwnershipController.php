@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vanessa Pertsch <vanessa.pertsch@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

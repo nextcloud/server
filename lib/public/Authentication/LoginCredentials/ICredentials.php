@@ -2,6 +2,7 @@
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  *

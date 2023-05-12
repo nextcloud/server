@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Ng <chrng8@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\Core\Db\ProfileConfigMapper;

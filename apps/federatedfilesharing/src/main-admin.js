@@ -2,6 +2,7 @@
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
  * @author Carl Schwan <carl@carlschwan.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,9 +26,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/dist/index.css'
 import { loadState } from '@nextcloud/initial-state'
-
 import AdminSettings from './components/AdminSettings.vue'
-
 __webpack_nonce__ = btoa(getRequestToken())
 
 Vue.mixin({

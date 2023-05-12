@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
  *
+ * @author Louis Chemineau <louis@chmn.me>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

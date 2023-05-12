@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Stefan Weil <sw@weilnetz.de>

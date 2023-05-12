@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Piotr Mrowczynski piotr@owncloud.com
- *
  * @copyright Copyright (c) 2019, ownCloud GmbH
+ *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -15,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 namespace OCA\DAV\Tests\unit\DAV;

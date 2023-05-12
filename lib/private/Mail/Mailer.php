@@ -7,9 +7,11 @@ declare(strict_types=1);
  *
  * @author Arne Hamann <kontakt+github@arne.email>
  * @author Branko Kokanovic <branko@kokanovic.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Carsten Wiedmann <carsten_sttgt@gmx.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jared Boone <jared.boone@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author kevin147147 <kevintamool@gmail.com>

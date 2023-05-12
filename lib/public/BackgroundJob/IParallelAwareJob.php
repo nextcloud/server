@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * @copyright Copyright (c) 2023, Marcel Klehr <mklehr@gmx.net>
  *

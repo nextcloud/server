@@ -5,10 +5,13 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Arne Hamann <kontakt+github@arne.email>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jared Boone <jared.boone@gmail.com>
+ * @author Bennet Becker <bbecker@pks.mpg.de>
+ * @author Bennet Becker <dev@bennet.cc>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

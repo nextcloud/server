@@ -7,8 +7,13 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
+ * @author Git'Fellow <12234510+solracsf@users.noreply.github.com>
+ * @author jld3103 <jld3103yt@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -16,6 +21,8 @@ declare(strict_types=1);
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Rayn0r <andrew@ilpss8.myfirewall.org>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon L <szaimen@e.mail.de>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license AGPL-3.0
  *

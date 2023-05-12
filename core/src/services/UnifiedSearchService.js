@@ -1,12 +1,16 @@
 /**
  * @copyright 2020, John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,7 +19,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,26 +30,13 @@
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-
 export const defaultLimit = loadState('unified-search', 'limit-default')
 export const minSearchLength = loadState('unified-search', 'min-search-length', 1)
 export const enableLiveSearch = loadState('unified-search', 'live-search', true)
-
 export const regexFilterIn = /(^|\s)in:([a-z_-]+)/ig
 export const regexFilterNot = /(^|\s)-in:([a-z_-]+)/ig
-
-/**
- * Create a cancel token
- *
  * @return {import('axios').CancelTokenSource}
- */
 const createCancelToken = () => axios.CancelToken.source()
-
-/**
- * Get the list of available search providers
- *
- * @return {Promise<Array>}
- */
 export async function getTypes() {
 	try {
 		const { data } = await axios.get(generateOcsUrl('search/providers'), {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Your name <your@email.com>
  *
- * @author Your name <your@email.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Migrations;
 
 use Closure;

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2021 Carl Schwan <carl@carlschwan.eu>
  *
  * @author Carl Schwan <carl@carlschwan.eu>
+ * @author jld3103 <jld3103yt@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Settings;
 
 use OCP\AppFramework\Db\Entity;

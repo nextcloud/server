@@ -9,6 +9,8 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author michaelletzgus <michaelletzgus@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>

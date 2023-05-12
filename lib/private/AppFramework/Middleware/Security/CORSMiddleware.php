@@ -4,9 +4,10 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Rittershofer <jotoeri@users.noreply.github.com>
  * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
  *
  * @license AGPL-3.0

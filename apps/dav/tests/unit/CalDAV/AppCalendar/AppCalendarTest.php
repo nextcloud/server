@@ -1,5 +1,9 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Ferdinand Thiessen <rpm@fthiessen.de>
+ *
+ * @author Ferdinand Thiessen <rpm@fthiessen.de>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Vincent Petry <vincent@nextloud.com>
  *
- * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Cyrille Bollu <cyrpub@bollu.be>
  *
  * @license GNU AGPL version 3 or any later version
  *

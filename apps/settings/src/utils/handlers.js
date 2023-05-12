@@ -3,7 +3,7 @@
  *
  * @author Christopher Ng <chrng8@gmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,13 +22,8 @@
 
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-
 import logger from '../logger.js'
-
-/**
  * @param {import('axios').AxiosError} error the error
- * @param {string?} message the message to display
- */
 export const handleError = (error, message) => {
 	let fullMessage = ''
 

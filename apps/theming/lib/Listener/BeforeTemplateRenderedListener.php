@@ -5,6 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author greta <gretadoci@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version

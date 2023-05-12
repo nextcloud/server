@@ -2,8 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Piotr Mrówczyński <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
  *

@@ -5,19 +5,21 @@
  * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
  * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
  * @copyright 2022 Anna Larch <anna.larch@gmx.net>
+ * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Brad Rubenstein <brad@wbr.tech>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Heinrich <heinrich@synyx.de>
  * @author Leon Klingele <leon@struktur.de>
- * @author Nick Sweeting <git@sweeting.me>
- * @author rakekniven <mark.ziegler@rakekniven.de>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license AGPL-3.0
  *

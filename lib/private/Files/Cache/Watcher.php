@@ -4,7 +4,6 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Jagszent <daniel@jagszent.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>

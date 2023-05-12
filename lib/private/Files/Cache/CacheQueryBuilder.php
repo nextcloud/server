@@ -5,7 +5,12 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Marcel Klehr <mklehr@gmx.net>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Sijmen Schoon <me@sijmenschoon.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

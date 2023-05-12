@@ -2,8 +2,9 @@
  * @copyright 2021, Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -20,24 +21,7 @@
  *
  */
 
-/*
- * Frontend validators, less strict than backend validators
- *
- * TODO add nice validation errors for Profile page settings modal
- */
-
 import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants.js'
-
-/**
- * Validate the email input
- *
- * Compliant with PHP core FILTER_VALIDATE_EMAIL validator*
- *
- * Reference implementation https://github.com/mpyw/FILTER_VALIDATE_EMAIL.js/blob/71e62ca48841d2246a1b531e7e84f5a01f15e615/src/index.ts*
- *
- * @param {string} input the input
- * @return {boolean}
- */
 export function validateEmail(input) {
 	return typeof input === 'string'
 		&& VALIDATE_EMAIL_REGEX.test(input)

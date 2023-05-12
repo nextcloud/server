@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

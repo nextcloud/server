@@ -6,6 +6,8 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author jld3103 <jld3103yt@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

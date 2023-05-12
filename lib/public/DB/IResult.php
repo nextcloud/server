@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
