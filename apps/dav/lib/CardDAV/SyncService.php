@@ -10,6 +10,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license AGPL-3.0
  *
@@ -209,10 +210,8 @@ class SyncService {
 	public function updateUser(IUser $user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
-		$name = $user->getBackendClassName();
-		$userId = $user->getUID();
 
-		$cardId = "$name:$userId.vcf";
+		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
 			$card = $this->backend->getCard($addressBookId, $cardId);
 			if ($card === false) {
@@ -239,10 +238,7 @@ class SyncService {
 	public function deleteUser($userOrCardId) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		if ($userOrCardId instanceof IUser) {
-			$name = $userOrCardId->getBackendClassName();
-			$userId = $userOrCardId->getUID();
-
-			$userOrCardId = "$name:$userId.vcf";
+			$userOrCardId = self::getCardUri($userOrCardId);
 		}
 		$this->backend->deleteCard($systemAddressBook['id'], $userOrCardId);
 	}
@@ -280,5 +276,13 @@ class SyncService {
 				$this->deleteUser($card['uri']);
 			}
 		}
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return string
+	 */
+	public static function getCardUri(IUser $user): string {
+		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
 	}
 }

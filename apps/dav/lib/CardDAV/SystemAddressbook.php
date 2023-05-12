@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,38 +32,97 @@ use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCA\Federation\TrustedServers;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\ICollection;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
+use function array_unique;
 
 class SystemAddressbook extends AddressBook {
+	public const URI_SHARED = 'z-server-generated--system';
 	/** @var IConfig */
 	private $config;
+	private IUserSession $userSession;
 	private ?TrustedServers $trustedServers;
 	private ?IRequest $request;
+	private ?IGroupManager $groupManager;
 
-	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n, IConfig $config, ?IRequest $request = null, ?TrustedServers $trustedServers = null) {
+	public function __construct(BackendInterface $carddavBackend,
+		array $addressBookInfo,
+		IL10N $l10n,
+		IConfig $config,
+		IUserSession $userSession,
+		?IRequest $request = null,
+		?TrustedServers $trustedServers = null,
+		?IGroupManager $groupManager) {
 		parent::__construct($carddavBackend, $addressBookInfo, $l10n);
 		$this->config = $config;
+		$this->userSession = $userSession;
 		$this->request = $request;
 		$this->trustedServers = $trustedServers;
+		$this->groupManager = $groupManager;
+
+		$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Accounts');
+		$this->addressBookInfo['{' . Plugin::NS_CARDDAV . '}addressbook-description'] = $l10n->t('System address book which holds all accounts');
 	}
 
-	public function getChildren(): array {
+	/**
+	 * No checkbox checked -> Show only the same user
+	 * 'Allow username autocompletion in share dialog' -> show everyone
+	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users within the same groups' -> show only users in intersecting groups
+	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users based on phone number integration' -> show only the same user
+	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users within the same groups' + 'Allow username autocompletion to users based on phone number integration' -> show only users in intersecting groups
+	 */
+	public function getChildren() {
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
-		if (!$shareEnumeration || $shareEnumerationGroup || $shareEnumerationPhone) {
+		$user = $this->userSession->getUser();
+		if (!$user) {
+			// Should never happen because we don't allow anonymous access
 			return [];
 		}
+		if (!$shareEnumeration || !$shareEnumerationGroup && $shareEnumerationPhone) {
+			$name = SyncService::getCardUri($user);
+			try {
+				return [parent::getChild($name)];
+			} catch (NotFound $e) {
+				return [];
+			}
+		}
+		if ($shareEnumerationGroup) {
+			if ($this->groupManager === null) {
+				// Group manager is not available, so we can't determine which data is safe
+				return [];
+			}
+			$groups = $this->groupManager->getUserGroups($user);
+			$names = [];
+			foreach ($groups as $group) {
+				$users = $group->getUsers();
+				foreach ($users as $groupUser) {
+					if ($groupUser->getBackendClassName() === 'Guests') {
+						continue;
+					}
+					$names[] = SyncService::getCardUri($groupUser);
+				}
+			}
+			return parent::getMultipleChildren(array_unique($names));
+		}
 
-		return parent::getChildren();
+		$children = parent::getChildren();
+		return array_filter($children, function (Card $child) {
+			// check only for URIs that begin with Guests:
+			return strpos($child->getName(), 'Guests:') !== 0;
+		});
 	}
 
 	/**
@@ -224,5 +284,16 @@ class SystemAddressbook extends AddressBook {
 		}
 
 		return $vCard->serialize();
+	}
+
+	/**
+	 * @return mixed
+	 * @throws Forbidden
+	 */
+	public function delete() {
+		if ($this->isFederation()) {
+			parent::delete();
+		}
+		throw new Forbidden();
 	}
 }
