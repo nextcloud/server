@@ -386,7 +386,7 @@ export default {
 	background-attachment: fixed;
 
 	> h2 {
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
@@ -561,7 +561,7 @@ export default {
 			}
 
 			&:hover {
-				border-color: var(--color-primary);
+				border-color: var(--color-primary-element);
 			}
 		}
 
@@ -577,7 +577,7 @@ export default {
 		}
 
 		input:focus + label {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 	}
 

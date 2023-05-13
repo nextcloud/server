@@ -122,7 +122,7 @@ $label-padding: 8px;
 	&__input:checked + &__label,
 	&__input:focus + &__label,
 	&__label:hover {
-		border-color: var(--color-primary);
+		border-color: var(--color-primary-element);
 	}
 
 	&__label:active {

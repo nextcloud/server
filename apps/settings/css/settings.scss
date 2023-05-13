@@ -135,18 +135,18 @@ select {
 	display: inline-block;
 	margin: 16px;
 	padding: 14px 20px;
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-element);
 	color: #fff;
 	border-radius: var(--border-radius-pill);
-	border: 1px solid var(--color-primary);
+	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
 	&:active,
 	&:hover,
 	&:focus {
-		color: var(--color-primary);
-		background-color: var(--color-primary-text);
-		border-color: var(--color-primary) !important;
+		color: var(--color-primary-element);
+		background-color: var(--color-primary-element-text);
+		border-color: var(--color-primary-element) !important;
 	}
 
 	&.icon-file {
@@ -281,7 +281,7 @@ select {
 				}
 
 				&.active {
-					box-shadow: inset 2px 0 var(--color-primary);
+					box-shadow: inset 2px 0 var(--color-primary-element);
 
 					.menuitem-text {
 						font-weight: bold;

@@ -208,7 +208,7 @@ kbd {
 				}
 			}
 			a:focus-visible {
-				box-shadow: var(--color-primary) inset 0 0 0 2px;
+				box-shadow: var(--color-primary-element) inset 0 0 0 2px;
 				outline: none;
 			}
 			&.active,
@@ -217,7 +217,7 @@ kbd {
 			a.active {
 				&,
 				> a {
-					background-color: var(--color-primary-light);
+					background-color: var(--color-primary-element-light);
 				}
 			}
 
@@ -276,7 +276,7 @@ kbd {
 						&,
 						> a {
 							border-radius: var(--border-radius-pill);
-							background-color: var(--color-primary-light);
+							background-color: var(--color-primary-element-light);
 						}
 					}
 
@@ -433,7 +433,7 @@ kbd {
 			&:focus-visible {
 				opacity: 1;
 				border-width: 0;
-				box-shadow: inset 0 0 0 2px var(--color-primary);
+				box-shadow: inset 0 0 0 2px var(--color-primary-element);
 				background: none;
 			}
 		}
@@ -533,8 +533,8 @@ kbd {
 				span {
 					padding: 2px 5px;
 					border-radius: 10px;
-					background-color: var(--color-primary);
-					color: var(--color-primary-text);
+					background-color: var(--color-primary-element);
+					color: var(--color-primary-element-text);
 				}
 			}
 		}
@@ -860,7 +860,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 		}
 
 		&:focus-visible {
-			box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+			box-shadow: 0 0 0 2px inset var(--color-primary-element) !important;
 			background-position: 12px center;
 		}
 	}
@@ -1119,7 +1119,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			}
 			&.active {
 				border-radius: var(--border-radius-pill);
-				background-color: var(--color-primary-light);
+				background-color: var(--color-primary-element-light);
 			}
 			/* prevent .action class to break the design */
 			&.action {
