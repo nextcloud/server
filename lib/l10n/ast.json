@@ -1,8 +1,10 @@
 { "translations": {
+    "Other activities" : "Otres actividaes",
     "The library %s is not available." : "La biblioteca «%s» nun ta disponible.",
     "Authentication" : "Autenticación",
     "today" : "güei",
     "yesterday" : "ayeri",
+    "Help" : "Ayuda",
     "Apps" : "Aplicaciones",
     "Settings" : "Configuración",
     "Twitter" : "Twitter",
