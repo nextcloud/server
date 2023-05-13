@@ -100,7 +100,7 @@ class JSResourceLocator extends ResourceLocator {
 			$app_path = realpath($app_path);
 
 			// check combined files
-			if ($this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
+			if (!str_starts_with($script, 'l10n/') && $this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
 				return;
 			}
 
