@@ -166,6 +166,7 @@
 
 .app-files #app-content {
   width: calc(100% - 300px);
+  overflow-anchor: none;
 }
 
 .file-drag, .file-drag .files-filestable tbody tr, .file-drag .files-filestable tbody tr:hover {
