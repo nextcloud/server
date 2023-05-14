@@ -118,6 +118,8 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor}, {addressbook} adres defterindeki {card} kişi kartını güncelledi",
     "You updated contact {card} in address book {addressbook}" : "{addressbook} adres defterindeki {card} kişi kartını güncellediniz",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Bir <strong>kişi</strong> ya da <strong>adres defteri</strong> değiştirildiğinde",
+    "Accounts" : "Hesaplar",
+    "System address book which holds all accounts" : "Tüm hesapların bulunduğu sistem adres defteri",
     "File is not updatable: %1$s" : "Dosya güncellenebilir değil: %1$s",
     "Could not write to final file, canceled by hook" : "Sonuç dosyasına yazılamadı, bağlantı tarafından iptal edildi",
     "Could not write file contents" : "Dosya içerikleri yazılamadı",
