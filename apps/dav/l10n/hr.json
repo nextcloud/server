@@ -92,6 +92,7 @@
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} je ažurirao kontakt {card} u adresaru {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Ažurirali ste kontakt {card} u adresaru {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Izmijenjen je <strong>kontakt</strong> ili <strong>adresar</strong>",
+    "Accounts" : "Korisnićki računi",
     "System is in maintenance mode." : "Sustav je u načinu održavanja.",
     "Upgrade needed" : "Potrebno nadograditi",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Vaš %s treba konfigurirati za korištenje HTTPS-a kako bi se mogli upotrebljavati CalDAV i CardDAV s operacijskim sustavom iOS/macOS.",
