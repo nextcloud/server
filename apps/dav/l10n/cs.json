@@ -113,6 +113,8 @@
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} upravil(a) kontakt {card} v adresáři kontaktů {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Upravili jste kontakt {card} v adresáři kontaktů {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>Kontakt</strong> nebo <strong>adresář kontaktů</strong> byl upraven",
+    "Accounts" : "Účty",
+    "System address book which holds all accounts" : "Systémový adresář kontaktů, který obsahuje veškeré účty",
     "File is not updatable: %1$s" : "Soubor není možné zaktualizovat: %1$s",
     "Could not write to final file, canceled by hook" : "Nedaří se zapsat do konečného souboru – zrušeno háčkem (hook)",
     "Could not write file contents" : "Nedaří se zapsat obsahy souborů",

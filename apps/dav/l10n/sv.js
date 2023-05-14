@@ -118,6 +118,8 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} uppdaterade kontakten {card} i adressboken {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Du uppdaterade kontakten {card} i adressboken {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "En <strong>kontakt</strong> eller <strong>adressbok</strong> ändrades",
+    "Accounts" : "Konton",
+    "System address book which holds all accounts" : "Systemadressbok som innehåller alla konton",
     "File is not updatable: %1$s" : "Fil kan inte uppdateras: %1$s",
     "Could not write to final file, canceled by hook" : "Kunde ej skriva till den slutgiltiga filen, avbröts av en kopplad åtgärd",
     "Could not write file contents" : "Kunde inte skriva filens innehåll",
