@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Chyb při ukládání obrázku",
     "Unsaved changes" : "Neuložené změny",
     "Drop changes" : "Zahodit změny",
+    "\"{fileName}\"" : "„{fileName}",
     "Your browser does not support videos." : "Vámi používaný webový prohlížeč nepodporuje videa.",
     "Edit" : "Upravit",
     "Open sidebar" : "Otevřít postranní panel",
