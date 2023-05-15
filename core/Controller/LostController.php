@@ -223,8 +223,10 @@ class LostController extends Controller {
 
 	/**
 	 * @PublicPage
+	 * @BruteForceProtection(action=passwordResetEmail)
+	 * @AnonRateThrottle(limit=10, period=300)
 	 */
-	public function setPassword(string $token, string $userId, string $password, bool $proceed): array {
+	public function setPassword(string $token, string $userId, string $password, bool $proceed): JSONResponse {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
 			$encryptionModules = $this->encryptionManager->getEncryptionModules();
 			foreach ($encryptionModules as $module) {
@@ -232,7 +234,7 @@ class LostController extends Controller {
 				$instance = call_user_func($module['callback']);
 				// this way we can find out whether per-user keys are used or a system wide encryption key
 				if ($instance->needDetailedAccessList()) {
-					return $this->error('', ['encryption' => true]);
+					return new JSONResponse($this->error('', ['encryption' => true]));
 				}
 			}
 		}
@@ -260,12 +262,16 @@ class LostController extends Controller {
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
 		} catch (HintException $e) {
-			return $this->error($e->getHint());
+			$response = new JSONResponse($this->error($e->getHint()));
+			$response->throttle();
+			return $response;
 		} catch (Exception $e) {
-			return $this->error($e->getMessage());
+			$response = new JSONResponse($this->error($e->getMessage()));
+			$response->throttle();
+			return $response;
 		}
 
-		return $this->success(['user' => $userId]);
+		return new JSONResponse($this->success(['user' => $userId]));
 	}
 
 	/**
