@@ -69,7 +69,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 15),
 
-				'--color-background-hover' => $this->util->lighten($colorMainBackground, 4),
+				'--color-background-hover' => $this->util->lighten($colorMainBackground, 14),
 				'--color-background-dark' => $this->util->lighten($colorMainBackground, 7),
 				'--color-background-darker' => $this->util->lighten($colorMainBackground, 14),
 

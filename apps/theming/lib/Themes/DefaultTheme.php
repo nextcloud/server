@@ -120,7 +120,7 @@ class DefaultTheme implements ITheme {
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
 
 			// used for different active/hover/focus/disabled states
-			'--color-background-hover' => $this->util->darken($colorMainBackground, 4),
+			'--color-background-hover' => $this->util->darken($colorMainBackground, 14),
 			'--color-background-dark' => $this->util->darken($colorMainBackground, 7),
 			'--color-background-darker' => $this->util->darken($colorMainBackground, 14),
 
