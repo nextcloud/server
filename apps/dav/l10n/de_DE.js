@@ -118,6 +118,8 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} hat den Kontakt {card} im Adressbuch {addressbook} aktualisiert",
     "You updated contact {card} in address book {addressbook}" : "Sie haben den Kontakt {card} im Adressbuch {addressbook} aktualisiert",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Ein <strong>Kontakt</strong> oder ein <strong>Adressbuch</strong> wurde geändert",
+    "Accounts" : "Konten",
+    "System address book which holds all accounts" : "Systemadressbuch, das alle Konten enthält",
     "File is not updatable: %1$s" : "Datei kann nicht aktualisiert werden: %1$s",
     "Could not write to final file, canceled by hook" : "Konnte nicht in die endgültige Datei schreiben, wurde durch Hook abgebrochen.",
     "Could not write file contents" : "Dateiinhalt konnte nicht geschrieben werden",
