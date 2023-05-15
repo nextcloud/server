@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "儲存影像時發生錯誤",
     "Unsaved changes" : "未儲存變更",
     "Drop changes" : "放棄變更",
+    "\"{fileName}\"" : "「{fileName}」",
     "Your browser does not support videos." : "您的瀏覽器不支援視訊。",
     "Edit" : "編輯",
     "Exit full screen" : "離開全螢幕",
