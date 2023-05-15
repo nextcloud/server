@@ -901,7 +901,7 @@ class Cache implements ICache {
 	 *
 	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
-	 * @return int
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		return $this->calculateFolderSizeInner($path, $entry);
