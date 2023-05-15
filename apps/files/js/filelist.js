@@ -381,6 +381,9 @@
 				}
 			});
 
+			window._nc_event_bus.subscribe('files_sharing:share:created', () => { self.reload(true) });
+			window._nc_event_bus.subscribe('files_sharing:share:deleted', () => { self.reload(true) });
+
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
 			this.$fileList.on("droppedOnFavorites", function (event, file) {
@@ -2200,7 +2203,7 @@
 		 *
 		 * @return ajax call object
 		 */
-		reload: function() {
+		reload: function(keepOpen) {
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
 			if (this._currentFileModel) {
@@ -2215,7 +2218,7 @@
 					properties: this._getWebdavProperties()
 				}
 			);
-			if (this._detailsView) {
+			if (this._detailsView && !keepOpen) {
 				// close sidebar
 				this._updateDetailsView(null);
 			}
