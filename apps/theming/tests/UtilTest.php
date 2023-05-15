@@ -153,7 +153,7 @@ class UtilTest extends TestCase {
 	public function testGetAppIcon($app, $expected) {
 		$this->appData->expects($this->any())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 		$this->appManager->expects($this->once())
 			->method('getAppPath')
@@ -180,7 +180,7 @@ class UtilTest extends TestCase {
 			->willReturn($file);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willReturn($folder);
 		$icon = $this->util->getAppIcon('noapplikethis');
 		$this->assertEquals($file, $icon);
