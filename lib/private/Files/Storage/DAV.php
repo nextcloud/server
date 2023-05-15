@@ -373,7 +373,9 @@ class DAV extends Common {
 						->newClient()
 						->get($this->createBaseUri() . $this->encodePath($path), [
 							'auth' => [$this->user, $this->password],
-							'stream' => true
+							'stream' => true,
+							// set download timeout for users with slow connections or large files
+							'timeout' => \OC::$server->getConfig()->getSystemValueInt('remote_curl_timeout', 30)
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -530,7 +532,9 @@ class DAV extends Common {
 			->newClient()
 			->put($this->createBaseUri() . $this->encodePath($target), [
 				'body' => $source,
-				'auth' => [$this->user, $this->password]
+				'auth' => [$this->user, $this->password],
+				// set upload timeout for users with slow connections or large files
+				'timeout' => \OC::$server->getConfig()->getSystemValueInt('remote_curl_timeout', 30)
 			]);
 
 		$this->removeCachedFile($target);

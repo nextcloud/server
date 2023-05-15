@@ -290,6 +290,11 @@ $CONFIG = [
 'session_lifetime' => 60 * 60 * 24,
 
 /**
+ * The timeout for requests to remote servers (e.g., needed for federated shares).
+ */
+'remote_curl_timeout' => 30,
+
+/**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
  * handled by Nextcloud but by either the PHP garbage collection or the expiration of
  * potential other session backends like redis.
