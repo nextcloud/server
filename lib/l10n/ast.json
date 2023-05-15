@@ -8,10 +8,15 @@
     "Apps" : "Aplicaciones",
     "Settings" : "Configuración",
     "Twitter" : "Twitter",
+    "Website" : "Sitiu web",
     "Additional settings" : "Configuración adicional",
+    "%1$s via %2$s" : "%1$s per %2$s",
     "You are not allowed to share %s" : "Nun tienes permisu pa compartir «%s»",
     "Sunday" : "Domingu",
     "Monday" : "Llunes",
+    "Tuesday" : "Martes",
+    "Wednesday" : "Miércoles",
+    "Thursday" : "Xueves",
     "Friday" : "Vienres",
     "Saturday" : "Sábadu",
     "Fri." : "Vie.",
@@ -33,6 +38,7 @@
     "Sep." : "Set.",
     "Oct." : "Och.",
     "Nov." : "Pay.",
-    "Application is not enabled" : "L'aplicación nun ta activada"
+    "Application is not enabled" : "L'aplicación nun ta activada",
+    "Full name" : "Nome completu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
