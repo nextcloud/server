@@ -638,7 +638,7 @@ export default {
 	},
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 	.modal-wrapper {
 		margin: 2vh 0;
 		align-items: flex-start;
