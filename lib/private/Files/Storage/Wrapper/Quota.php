@@ -109,7 +109,7 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->storage->free_space($path);
 		}
-		if ($this->getQuota() < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
+		if ($this->getQuota() < 0 || str_starts_with($path, 'cache') || str_starts_with($path, 'uploads')) {
 			return $this->storage->free_space($path);
 		} else {
 			$used = $this->getSize($this->sizeRoot);
@@ -207,7 +207,7 @@ class Quota extends Wrapper {
 	 * Only apply quota for files, not metadata, trash or others
 	 */
 	private function shouldApplyQuota(string $path): bool {
-		return strpos(ltrim($path, '/'), 'files/') === 0;
+		return str_starts_with(ltrim($path, '/'), 'files/');
 	}
 
 	/**

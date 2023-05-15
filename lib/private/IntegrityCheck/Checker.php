@@ -379,7 +379,7 @@ class Checker {
 		// integrity check.
 		if ($basePath === $this->environmentHelper->getServerRoot()) {
 			foreach ($expectedHashes as $fileName => $hash) {
-				if (strpos($fileName, 'updater/') === 0) {
+				if (str_starts_with($fileName, 'updater/')) {
 					unset($expectedHashes[$fileName]);
 				}
 			}

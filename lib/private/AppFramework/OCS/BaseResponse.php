@@ -134,7 +134,7 @@ abstract class BaseResponse extends Response {
 				continue;
 			}
 
-			if (\is_string($k) && strpos($k, '@') === 0) {
+			if (\is_string($k) && str_starts_with($k, '@')) {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
 			}

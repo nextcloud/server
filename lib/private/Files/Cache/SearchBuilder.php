@@ -152,7 +152,7 @@ class SearchBuilder {
 					$field = 'mimepart';
 					$value = (int)$this->mimetypeLoader->getId($matches[1]);
 					$type = ISearchComparison::COMPARE_EQUAL;
-				} elseif (strpos($value, '%') !== false) {
+				} elseif (str_contains($value, '%')) {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				} else {
 					$field = 'mimetype';

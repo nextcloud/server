@@ -358,7 +358,7 @@ class Generator {
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previewFiles as $node) {
 			$name = $node->getName();
-			if (($prefix === '' || strpos($name, $prefix) === 0) && strpos($name, 'max')) {
+			if (($prefix === '' || str_starts_with($name, $prefix)) && strpos($name, 'max')) {
 				return $node;
 			}
 		}

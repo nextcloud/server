@@ -88,7 +88,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return bool
 	 */
 	public function isSubNode($node) {
-		return strpos($node->getPath(), $this->path . '/') === 0;
+		return str_starts_with($node->getPath(), $this->path . '/');
 	}
 
 	/**
@@ -284,7 +284,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByMime($mimetype) {
-		if (strpos($mimetype, '/') === false) {
+		if (!str_contains($mimetype, '/')) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%'));
 		} else {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', $mimetype));
@@ -339,7 +339,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$absolutePath = '/' . ltrim($cacheEntry->getPath(), '/');
 		$currentPath = rtrim($this->path, '/') . '/';
 
-		if (strpos($absolutePath, $currentPath) !== 0) {
+		if (!str_starts_with($absolutePath, $currentPath)) {
 			return [];
 		}
 

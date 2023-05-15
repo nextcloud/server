@@ -176,7 +176,7 @@ class AccountManager implements IAccountManager {
 
 		if ($defaultRegion === '') {
 			// When no default region is set, only +49… numbers are valid
-			if (strpos($input, '+') !== 0) {
+			if (!str_starts_with($input, '+')) {
 				throw new InvalidArgumentException(self::PROPERTY_PHONE);
 			}
 

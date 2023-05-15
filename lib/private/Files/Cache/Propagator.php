@@ -71,7 +71,7 @@ class Propagator implements IPropagator {
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		// Do not propagate changes in ignored paths
 		foreach ($this->ignore as $ignore) {
-			if (strpos($internalPath, $ignore) === 0) {
+			if (str_starts_with($internalPath, $ignore)) {
 				return;
 			}
 		}

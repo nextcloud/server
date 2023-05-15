@@ -577,7 +577,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 */
 	private function scanForInvalidCharacters($fileName, $invalidChars) {
 		foreach (str_split($invalidChars) as $char) {
-			if (strpos($fileName, $char) !== false) {
+			if (str_contains($fileName, $char)) {
 				throw new InvalidCharacterInPathException();
 			}
 		}

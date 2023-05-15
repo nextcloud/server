@@ -168,7 +168,7 @@ class View {
 		// missing slashes can cause wrong matches!
 		$root = rtrim($this->fakeRoot, '/') . '/';
 
-		if (strpos($path, $root) !== 0) {
+		if (!str_starts_with($path, $root)) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->fakeRoot));
@@ -2079,7 +2079,7 @@ class View {
 			return ($pathSegments[2] === 'files') && (count($pathSegments) > 3);
 		}
 
-		return strpos($path, '/appdata_') !== 0;
+		return !str_starts_with($path, '/appdata_');
 	}
 
 	/**

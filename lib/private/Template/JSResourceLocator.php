@@ -52,7 +52,7 @@ class JSResourceLocator extends ResourceLocator {
 		$app = substr($script, 0, strpos($script, '/'));
 		$scriptName = basename($script);
 
-		if (strpos($script, '/l10n/') !== false) {
+		if (str_contains($script, '/l10n/')) {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
 			$found = 0;
@@ -113,7 +113,7 @@ class JSResourceLocator extends ResourceLocator {
 		}
 
 		// missing translations files will be ignored
-		if (strpos($script, 'l10n/') === 0) {
+		if (str_starts_with($script, 'l10n/')) {
 			return;
 		}
 

@@ -145,7 +145,7 @@ class AccountProperty implements IAccountProperty {
 	}
 
 	public static function mapScopeToV2(string $scope): string {
-		if (strpos($scope, 'v2-') === 0) {
+		if (str_starts_with($scope, 'v2-')) {
 			return $scope;
 		}
 
