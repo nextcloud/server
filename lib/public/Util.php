@@ -182,7 +182,7 @@ class Util {
 		// need separate handling
 		if ($application !== 'core'
 			&& $file !== null
-			&& strpos($file, 'l10n') === false) {
+			&& !str_contains($file, 'l10n')) {
 			self::addTranslations($application);
 		}
 
