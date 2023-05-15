@@ -3428,9 +3428,6 @@
       <code>$id</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Notification/Manager.php">
-    <InvalidCatch occurrences="3"/>
-  </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement occurrences="1">
       <code>[]</code>
@@ -3584,7 +3581,6 @@
       <code>\OCP\Calendar\Room\IManager</code>
       <code>\OCP\Files\Folder|null</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidCatch occurrences="1"/>
     <UndefinedDocblockClass occurrences="1">
       <code>\OC\OCSClient</code>
     </UndefinedDocblockClass>
@@ -4010,11 +4006,6 @@
       <code>new RouteConfig($this-&gt;container, $router, $routes)</code>
     </InternalMethod>
   </file>
-  <file src="lib/public/AppFramework/Bootstrap/IBootContext.php">
-    <InvalidThrow occurrences="1">
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
-  </file>
   <file src="lib/public/AppFramework/Db/Entity.php">
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
@@ -4058,18 +4049,6 @@
     <InvalidParamDefault occurrences="1">
       <code>array</code>
     </InvalidParamDefault>
-  </file>
-  <file src="lib/public/IContainer.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
-  </file>
-  <file src="lib/public/Server.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-      <code>NotFoundExceptionInterface</code>
-    </InvalidThrow>
   </file>
   <file src="remote.php">
     <InvalidScalarArgument occurrences="1">

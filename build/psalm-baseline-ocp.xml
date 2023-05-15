@@ -15,11 +15,6 @@
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
   </file>
-  <file src="lib/public/Server.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
-  </file>
   <file src="lib/public/AppFramework/App.php">
     <InternalMethod occurrences="1">
       <code>new RouteConfig($this-&gt;container, $router, $routes)</code>
@@ -27,11 +22,6 @@
     <UndefinedClass occurrences="1">
       <code>\OC</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/public/AppFramework/Bootstrap/IBootContext.php">
-    <InvalidThrow occurrences="1">
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
   </file>
   <file src="lib/public/AppFramework/Db/Entity.php">
     <InvalidNullableReturnType occurrences="1">
@@ -145,12 +135,6 @@
     <UndefinedClass occurrences="1">
       <code>\OC</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/public/IContainer.php">
-    <InvalidThrow occurrences="2">
-      <code>ContainerExceptionInterface</code>
-      <code>ContainerExceptionInterface</code>
-    </InvalidThrow>
   </file>
   <file src="lib/public/Template.php">
     <UndefinedFunction occurrences="7">
