@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -30,7 +31,9 @@
 namespace OCA\DAV\CardDAV;
 
 use OC\Accounts\AccountManager;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -39,10 +42,15 @@ use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
+use function is_null;
 
 class SyncService {
+
+	use TTransactional;
+
 	private CardDavBackend $backend;
 	private IUserManager $userManager;
+	private IDBConnection $dbConnection;
 	private LoggerInterface $logger;
 	private ?array $localSystemAddressBook = null;
 	private Converter $converter;
@@ -50,6 +58,7 @@ class SyncService {
 
 	public function __construct(CardDavBackend $backend,
 								IUserManager $userManager,
+								IDBConnection $dbConnection,
 								LoggerInterface $logger,
 								Converter $converter) {
 		$this->backend = $backend;
@@ -57,6 +66,7 @@ class SyncService {
 		$this->logger = $logger;
 		$this->converter = $converter;
 		$this->certPath = '';
+		$this->dbConnection = $dbConnection;
 	}
 
 	/**
@@ -87,12 +97,14 @@ class SyncService {
 			$cardUri = basename($resource);
 			if (isset($status[200])) {
 				$vCard = $this->download($url, $userName, $sharedSecret, $resource);
-				$existingCard = $this->backend->getCard($addressBookId, $cardUri);
-				if ($existingCard === false) {
-					$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
-				} else {
-					$this->backend->updateCard($addressBookId, $cardUri, $vCard['body']);
-				}
+				$this->atomic(function() use ($addressBookId, $cardUri, $vCard) {
+					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
+					if ($existingCard === false) {
+						$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
+					} else {
+						$this->backend->updateCard($addressBookId, $cardUri, $vCard['body']);
+					}
+				}, $this->dbConnection);
 			} else {
 				$this->backend->deleteCard($addressBookId, $cardUri);
 			}
@@ -105,14 +117,15 @@ class SyncService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureSystemAddressBookExists(string $principal, string $uri, array $properties): ?array {
-		$book = $this->backend->getAddressBooksByUri($principal, $uri);
-		if (!is_null($book)) {
-			return $book;
-		}
-		// FIXME This might break in clustered DB setup
-		$this->backend->createAddressBook($principal, $uri, $properties);
+		return $this->atomic(function() use ($principal, $uri, $properties) {
+			$book = $this->backend->getAddressBooksByUri($principal, $uri);
+			if (!is_null($book)) {
+				return $book;
+			}
+			$this->backend->createAddressBook($principal, $uri, $properties);
 
-		return $this->backend->getAddressBooksByUri($principal, $uri);
+			return $this->backend->getAddressBooksByUri($principal, $uri);
+		}, $this->dbConnection);
 	}
 
 	/**
@@ -207,26 +220,28 @@ class SyncService {
 	/**
 	 * @param IUser $user
 	 */
-	public function updateUser(IUser $user) {
+	public function updateUser(IUser $user): void {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
 
 		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
-			$card = $this->backend->getCard($addressBookId, $cardId);
-			if ($card === false) {
-				$vCard = $this->converter->createCardFromUser($user);
-				if ($vCard !== null) {
-					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
-				}
-			} else {
-				$vCard = $this->converter->createCardFromUser($user);
-				if (is_null($vCard)) {
-					$this->backend->deleteCard($addressBookId, $cardId);
+			$this->atomic(function() use ($addressBookId, $cardId, $user) {
+				$card = $this->backend->getCard($addressBookId, $cardId);
+				if ($card === false) {
+					$vCard = $this->converter->createCardFromUser($user);
+					if ($vCard !== null) {
+						$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
+					}
 				} else {
-					$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+					$vCard = $this->converter->createCardFromUser($user);
+					if (is_null($vCard)) {
+						$this->backend->deleteCard($addressBookId, $cardId);
+					} else {
+						$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+					}
 				}
-			}
+			}, $this->dbConnection);
 		} else {
 			$this->backend->deleteCard($addressBookId, $cardId);
 		}
