@@ -24,7 +24,6 @@
 import Vue from 'vue'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
-import SharingTab from './views/SharingTab.vue'
 import ShareSearch from './services/ShareSearch.js'
 import ExternalLinkActions from './services/ExternalLinkActions.js'
 import ExternalShareActions from './services/ExternalShareActions.js'
@@ -46,7 +45,6 @@ Vue.prototype.t = t
 Vue.prototype.n = n
 
 // Init Sharing tab component
-const View = Vue.extend(SharingTab)
 let TabInstance = null
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -57,6 +55,9 @@ window.addEventListener('DOMContentLoaded', function() {
 			iconSvg: ShareVariant,
 
 			async mount(el, fileInfo, context) {
+				const SharingTab = (await import('./views/SharingTab.vue')).default
+				const View = Vue.extend(SharingTab)
+
 				if (TabInstance) {
 					TabInstance.$destroy()
 				}
