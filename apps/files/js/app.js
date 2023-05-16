@@ -324,10 +324,10 @@
 			this.setActiveView(params.view, {silent: true});
 			if (lastId !== this.getActiveView()) {
 				this.getCurrentAppContainer().trigger(new $.Event('show', params));
+				window._nc_event_bus.emit('files:navigation:changed')
 			}
 
 			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
-			window._nc_event_bus.emit('files:navigation:changed')
 
 		},
 
