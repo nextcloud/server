@@ -135,7 +135,7 @@
 							? t('core', 'Loading more results …')
 							: t('core', 'Load more results')"
 						:icon-class="loading[type] ? 'icon-loading-small' : ''"
-						@click.stop="loadMore(type)"
+						@click.prevent.stop="loadMore(type)"
 						@focus="setFocusedIndex" />
 				</li>
 			</ul>
@@ -351,13 +351,13 @@ export default {
 	},
 
 	async created() {
-		subscribe('files:navigation:changed', this.resetForm)
+		subscribe('files:navigation:changed', this.onNavigationChange)
 		this.types = await getTypes()
 		this.logger.debug('Unified Search initialized with the following providers', this.types)
 	},
 
 	beforeDestroy() {
-		unsubscribe('files:navigation:changed', this.resetForm)
+		unsubscribe('files:navigation:changed', this.onNavigationChange)
 	},
 
 	mounted() {
@@ -396,7 +396,7 @@ export default {
 			emit('nextcloud:unified-search.close')
 		},
 
-		resetForm() {
+		onNavigationChange() {
 			this.$el.querySelector('form[role="search"]').reset()
 		},
 
