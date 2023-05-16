@@ -767,11 +767,6 @@
       <code>$this-&gt;fileIsEncrypted</code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/files/lib/Command/Scan.php">
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
-  </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
     <NullArgument occurrences="2">
       <code>null</code>
