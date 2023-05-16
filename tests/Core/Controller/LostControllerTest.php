@@ -651,7 +651,7 @@ class LostControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'msg' => 'Couldn\'t reset password because the token is invalid',
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordExpiredTokenDueToLogin() {
@@ -701,7 +701,7 @@ class LostControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'msg' => 'Couldn\'t reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testIsSetPasswordTokenNullFailing() {
