@@ -51,9 +51,9 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	private function shouldRun(): bool {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
-		// This job only runs if the server was on a version lower than or equal to 27.0.0 before the upgrade.
+		// This job only runs if the server was on a version lower than or equal to 25.0.7 before the upgrade.
 		// To clear the avatar cache again, bump the version to the currently released version (and change the operator to <= if it's not the master branch) and wait for the next release.
-		return version_compare($versionFromBeforeUpdate, '27.0.0', '<');
+		return version_compare($versionFromBeforeUpdate, '25.0.7', '<');
 	}
 
 	public function run(IOutput $output): void {
