@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { NcTextField } from '@nextcloud/vue'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
