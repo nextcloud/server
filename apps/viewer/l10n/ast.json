@@ -1,0 +1,10 @@
+{ "translations": {
+    "Download" : "Baxar",
+    "Delete" : "Desaniciar",
+    "Name" : "Nome",
+    "Loading …" : "Cargando…",
+    "Value" : "Valor",
+    "Size" : "Tamañu",
+    "Position" : "Posición"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
