@@ -424,7 +424,7 @@ class LostControllerTest extends \Test\TestCase {
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['status' => 'error', 'msg' => ''];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordSuccessful() {
@@ -446,7 +446,7 @@ class LostControllerTest extends \Test\TestCase {
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordExpiredToken() {
@@ -465,7 +465,7 @@ class LostControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is expired',
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordInvalidDataInDb() {
@@ -485,7 +485,7 @@ class LostControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is invalid',
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testIsSetPasswordWithoutTokenFailing() {
@@ -504,7 +504,7 @@ class LostControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordForDisabledUser() {
@@ -534,7 +534,7 @@ class LostControllerTest extends \Test\TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSendEmailNoEmail() {
@@ -570,7 +570,7 @@ class LostControllerTest extends \Test\TestCase {
 			}]]);
 		$response = $this->lostController->setPassword('myToken', 'user', 'newpass', false);
 		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordDontProceedMasterKey() {
@@ -598,7 +598,7 @@ class LostControllerTest extends \Test\TestCase {
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', false);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testTwoUsersWithSameEmail() {
