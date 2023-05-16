@@ -172,6 +172,10 @@ class Generator {
 
 		[$maxWidth, $maxHeight] = $this->getPreviewSize($maxPreview, $previewVersion);
 
+		if ($maxWidth <= 0 || $maxHeight <= 0) {
+			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
+		}
+
 		$preview = null;
 
 		foreach ($specifications as $specification) {
