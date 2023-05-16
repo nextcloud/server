@@ -118,6 +118,8 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} је ажурирао контакт {card} у адресару {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Ажурирали сте контакт {card} у адресару {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Измењен је <strong>контакт</strong> или <strong>адресар</strong>",
+    "Accounts" : "Налози",
+    "System address book which holds all accounts" : "Системски адресар у којем се налазе сви налози",
     "File is not updatable: %1$s" : "Фајл не може да се ажурира: %1$s",
     "Could not write to final file, canceled by hook" : "Не може да се упише у крајњи фајл, отказала је кука",
     "Could not write file contents" : "Не може да се упише садржај фајла",
