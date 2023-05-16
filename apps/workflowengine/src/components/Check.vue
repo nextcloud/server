@@ -4,7 +4,6 @@
 			v-model="currentOption"
 			:options="options"
 			label="name"
-			track-by="class"
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a filter')"
 			@input="updateCheck" />
@@ -13,7 +12,6 @@
 			:options="operators"
 			class="comparator"
 			label="name"
-			track-by="operator"
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a comparator')"
 			@input="updateCheck" />
