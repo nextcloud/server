@@ -161,6 +161,9 @@ class OC {
 				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'] ?? null,
 			],
 		];
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$params['server']['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+		}
 		$fakeRequest = new \OC\AppFramework\Http\Request(
 			$params,
 			new \OC\AppFramework\Http\RequestId($_SERVER['UNIQUE_ID'] ?? '', new \OC\Security\SecureRandom()),
