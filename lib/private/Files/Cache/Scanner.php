@@ -368,7 +368,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @param array $data the data of the folder before (re)scanning the children
-	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
+	 * @return int|float the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
 	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = []) {
 		if ($reuse === -1) {
