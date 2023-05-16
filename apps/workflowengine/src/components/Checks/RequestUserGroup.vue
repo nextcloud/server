@@ -27,7 +27,6 @@
 			:options="groups"
 			:clearable="false"
 			label="displayname"
-			track-by="id"
 			@search-change="searchAsync"
 			@input="(value) => $emit('input', value.id)" />
 	</div>
