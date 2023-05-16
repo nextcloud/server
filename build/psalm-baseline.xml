@@ -31,6 +31,11 @@
       <code>$data</code>
     </MoreSpecificImplementedParamType>
   </file>
+  <file src="3rdparty/sabre/dav/lib/CardDAV/Card.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$cardData</code>
+    </MoreSpecificImplementedParamType>
+  </file>
   <file src="3rdparty/sabre/dav/lib/DAVACL/AbstractPrincipalCollection.php">
     <LessSpecificImplementedReturnType>
       <code>array</code>
