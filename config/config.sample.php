@@ -136,7 +136,7 @@ $CONFIG = [
  *
  * Default to ``oc_``
  */
-'dbtableprefix' => '',
+'dbtableprefix' => 'oc_',
 
 /**
  *  Enable persistent connexions to the database.
