@@ -65,7 +65,7 @@
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
 					key="reset"
-					class="login-additional">
+					class="login-additional login-passwordless">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
@@ -73,9 +73,12 @@
 						:is-localhost="isLocalhost"
 						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
-					<a href="#" class="login-box__link" @click.prevent="passwordlessLogin = false">
+					<NcButton type="tertiary"
+						:aria-label="t('core', 'Back to login form')"
+						:wide="true"
+						@click="passwordlessLogin = false">
 						{{ t('core', 'Back') }}
-					</a>
+					</NcButton>
 				</div>
 				<div v-else-if="!loading && canResetPassword"
 					key="reset"
@@ -247,6 +250,12 @@ footer {
 
 	.button-vue {
 		box-sizing: border-box;
+	}
+}
+
+.login-passwordless {
+	.button-vue {
+		margin-top: 0.5rem;
 	}
 }
 </style>
