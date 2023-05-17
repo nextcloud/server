@@ -195,7 +195,7 @@ class FileUtils {
 		Folder $node,
 		string $prefix,
 		array &$sizeLimits,
-		bool $all,
+		bool $all
 	): int {
 		/**
 		 * Algorithm to print the N largest items in a folder without requiring to query or sort the entire three
