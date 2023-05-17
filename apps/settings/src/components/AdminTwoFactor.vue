@@ -73,9 +73,9 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
-import sortedUniq from 'lodash/sortedUniq'
-import uniq from 'lodash/uniq'
-import debounce from 'lodash/debounce'
+import sortedUniq from 'lodash/sortedUniq.js'
+import uniq from 'lodash/uniq.js'
+import debounce from 'lodash/debounce.js'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
