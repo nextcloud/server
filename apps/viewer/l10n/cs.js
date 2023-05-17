@@ -13,6 +13,8 @@ OC.L10N.register(
     "\"{fileName}\"" : "„{fileName}",
     "Your browser does not support videos." : "Vámi používaný webový prohlížeč nepodporuje videa.",
     "Edit" : "Upravit",
+    "Exit full screen" : "Opustit celou obrazovku",
+    "Full screen" : "Na celou obrazovku",
     "Open sidebar" : "Otevřít postranní panel",
     "Download" : "Stáhnout",
     "Delete" : "Smazat",
