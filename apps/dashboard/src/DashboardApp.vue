@@ -413,7 +413,7 @@ export default {
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-rounded);
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
