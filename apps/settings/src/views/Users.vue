@@ -37,7 +37,7 @@
 					:loading="loadingAddGroup"
 					:title="t('settings', 'Add group')"
 					@click="showAddGroupForm"
-					@update:title="createGroup">
+					@new-item="createGroup">
 					<template #icon>
 						<Plus :size="20" />
 					</template>
@@ -445,16 +445,15 @@ export default {
 		},
 
 		showAddGroupForm() {
-			this.$refs.addGroup.editingActive = true
-			this.$refs.addGroup.onMenuToggle(false)
+			this.$refs.addGroup.newItemActive = true
 			this.$nextTick(() => {
-				this.$refs.addGroup.$refs.editingInput.focusInput()
+				this.$refs.addGroup.$refs.newItemInput.focusInput()
 			})
 		},
 
 		hideAddGroupForm() {
-			this.$refs.addGroup.editingActive = false
-			this.$refs.addGroup.editingValue = ''
+			this.$refs.addGroup.newItemActive = false
+			this.$refs.addGroup.newItemValue = ''
 		},
 
 		/**
