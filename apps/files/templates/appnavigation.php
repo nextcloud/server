@@ -30,11 +30,13 @@
 	<div id="app-settings">
 		<div id="app-settings-header">
 			<button class="settings-button"
+					aria-expanded="false"
+					aria-controls="app-settings-content"
 					data-apps-slide-toggle="#app-settings-content">
 				<?php p($l->t('Files settings')); ?>
 			</button>
 		</div>
-		<div id="app-settings-content">
+		<div id="app-settings-content" role="region" aria-labelledby="app-settings-header">
 			<div id="files-app-settings"></div>
 			<div id="files-setting-showhidden">
 				<input class="checkbox" id="showhiddenfilesToggle"
