@@ -26,7 +26,7 @@ object-assign
 */
 
 /*!
-  * pinia v2.0.35
+  * pinia v2.1.1
   * (c) 2023 Eduardo San Martin Morote
   * @license MIT
   */
