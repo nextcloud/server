@@ -246,7 +246,7 @@ class Detection implements IMimeTypeDetector {
 			}
 		}
 
-		if (str_contains($path, '://') && str_starts_with($path, 'file://')) {
+		if (str_starts_with($path, 'file://')) {
 			// Is the file wrapped in a stream?
 			return 'application/octet-stream';
 		}
