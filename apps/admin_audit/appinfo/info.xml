@@ -5,7 +5,7 @@
 	<name>Auditing / Logging</name>
 	<summary>Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions.</summary>
 	<description>Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions.</description>
-	<version>1.17.0</version>
+	<version>1.18.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>AdminAudit</namespace>
@@ -15,7 +15,7 @@
 	<category>monitoring</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="27" max-version="27"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\AdminAudit\BackgroundJobs\Rotate</job>
