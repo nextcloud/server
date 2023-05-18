@@ -746,7 +746,7 @@ class OC_Image implements \OCP\IImage {
 						'A74Chunk';
 					
 					$header = unpack($headerFormat, $data);
-					unset($headerData, $headerFormat);
+					unset($data, $headerFormat);
 					if (!$header) {
 						return false;
 					}
