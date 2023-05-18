@@ -156,6 +156,7 @@ OC.L10N.register(
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Asiakirjat, laskentataulukot ja esitykset yhteistyönä, taustavoimana Collabora Online.",
     "Search contacts" : "Etsi yhteystietoja",
     "Forgot password?" : "Unohditko salasanasi?",
+    "Back to login form" : "Takaisin kirjautumisnäkymään",
     "Back" : "Takaisin",
     "Login form is disabled." : "Kirjautumislomake on poistettu käytöstä.",
     "Edit Profile" : "Muokkaa profiilia",
