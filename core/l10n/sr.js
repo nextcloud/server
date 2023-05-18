@@ -193,6 +193,7 @@ OC.L10N.register(
     "Distraction free note taking app." : "Апликација за вођење бележака без ометања.",
     "Search contacts" : "Претрага контакта",
     "Forgot password?" : "Заборавили сте лозинку?",
+    "Back to login form" : "Назад на формулар за пријаву",
     "Back" : "Назад",
     "Login form is disabled." : "Форма за пријаву је искључена.",
     "Edit Profile" : "Уреди профил",
