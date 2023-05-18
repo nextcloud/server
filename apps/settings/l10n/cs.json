@@ -491,6 +491,8 @@
     "Restrict users to only share with users in their groups" : "Povolit sdílení pouze mezi uživateli v rámci skupiny",
     "Exclude groups from sharing" : "Vyjmout skupiny ze sdílení",
     "These groups will still be able to receive shares, but not to initiate them." : "Těmto skupinám bude stále možné sdílet, nemohou ale samy sdílet ostatním.",
+    "Allow username autocompletion in share dialog and allow access to the system address book" : "Povolit automatické doplňování uživatelského jména v dialogu sdílení a umožnit přístup k systémovému adresáři kontaktů",
+    "Allow username autocompletion to users within the same groups and limit system address books to users in the same groups" : "Umožnit automatické dokončování uživatelského jména uživatelům v rámci stejných skupin a omezit systémové adresáře kontaktů na uživatele ve stejných skupinách.",
     "Allow username autocompletion to users based on phone number integration" : "Umožnit doplňování uživatelského jména uživatelům na základě začlenění telefonním číslem",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "V případě, že jsou zapnuté automatická dokončování „stejná skupina“ a „začlenění telefonním číslem“, postačí pro zobrazení uživatele shoda s jedním z toho.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Povolit automatické dokončování při zadávání celého jména nebo e-mailové adresy (při ignorování chybějící shody s telefonním seznamem a toho, že je ve stejné skupině)",

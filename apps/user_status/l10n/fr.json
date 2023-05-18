@@ -23,6 +23,7 @@
     "Reset status to \"{icon}\"" : "Réinitialiser l'état en \"{icon}\"",
     "There was an error saving the status" : "Une erreur s'est produite lors de l'enregistrement de l'état",
     "There was an error clearing the status" : "Une erreur s'est produite lors de l'effacement de l'état",
+    "There was an error reverting the status" : "Une erreur est survenue dans le rétablissement d'état",
     "No recent status changes" : "Aucun changement de statut récent",
     "Away" : "Absent(e)",
     "Do not disturb" : "Ne pas déranger",

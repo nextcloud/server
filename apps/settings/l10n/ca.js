@@ -187,7 +187,7 @@ OC.L10N.register(
     "Disable all" : "Inhabilita tot",
     "Enable all" : "Habilita tot",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n  aplicació té una actualització disponible","%n aplicacions tenen una actualització disponible"],
-    "_Update_::_Update all_" : ["Actualitza","Actualitza tot"],
+    "_Update_::_Update all_" : ["Actualitza","Actualitza-les totes"],
     "Marked for remote wipe" : "Marcat per netejar remotament",
     "Device settings" : "Paràmetres del dispositiu",
     "Allow filesystem access" : "Permet l'accés al sistema de fitxers",
