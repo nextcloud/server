@@ -175,6 +175,7 @@ OC.L10N.register(
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatt, videosamtal, skärmdelning, onlinemöten och webbkonferenser – i din webbläsare och med mobilappar.",
     "Search contacts" : "Sök kontakter",
     "Forgot password?" : "Glömt lösenordet?",
+    "Back to login form" : "Tillbaka till inloggningsformulär",
     "Back" : "Tillbaka",
     "Login form is disabled." : "Inloggningsfomuläret är inaktiverat.",
     "Edit Profile" : "Redigera profil",
