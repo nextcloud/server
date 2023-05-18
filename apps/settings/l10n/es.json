@@ -477,7 +477,7 @@
     "Set default expiration date for shares" : "Establecer fecha de caducidad predeterminada para recursos compartidos",
     "Expire after" : "Caduca después del",
     "day(s)" : "día(s)",
-    "Enforce expiration date" : "Imponer fecha de caducidad",
+    "Enforce expiration date" : "Forzar expiración",
     "Set default expiration date for shares to other servers" : "Establecer fecha de caducidad predeterminada para recursos compartidos con otros servidores",
     "Allow users to share via link and emails" : "Permitir a los usuarios compartir a través de enlaces y emails",
     "Allow public uploads" : "Permitir subidas públicas",
