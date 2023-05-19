@@ -98,7 +98,8 @@ export default {
 			}
 			return true
 		},
-		addGroupLimitation(group) {
+		addGroupLimitation(groupArray) {
+			const group = groupArray.pop()
 			const groups = this.app.groups.concat([]).concat([group.id])
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
 		},

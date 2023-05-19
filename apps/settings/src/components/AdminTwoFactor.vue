@@ -19,31 +19,33 @@
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
-				<NcMultiselect v-model="enforcedGroups"
+				<label for="enforcedGroups">
+					<span>{{ t('settings', 'Enforced groups') }}</span>
+				</label>
+				<NcSelect input-id="enforcedGroups"
+					v-model="enforcedGroups"
 					:options="groups"
-					:placeholder="t('settings', 'Enforced groups')"
 					:disabled="loading"
 					:multiple="true"
-					:searchable="true"
 					:loading="loadingGroups"
-					:show-no-options="false"
 					:close-on-select="false"
-					@search-change="searchGroup" />
+					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
-				<NcMultiselect v-model="excludedGroups"
+				<label for="excludedGroups">
+					<span>{{ t('settings', 'Excluded groups') }}</span>
+				</label>
+				<NcSelect input-id="excludedGroups"
+					v-model="excludedGroups"
 					:options="groups"
-					:placeholder="t('settings', 'Excluded groups')"
 					:disabled="loading"
 					:multiple="true"
-					:searchable="true"
 					:loading="loadingGroups"
-					:show-no-options="false"
 					:close-on-select="false"
-					@search-change="searchGroup" />
+					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
 				<em>
@@ -65,7 +67,7 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
@@ -77,7 +79,7 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 export default {
 	name: 'AdminTwoFactor',
 	components: {
-		NcMultiselect,
+		NcSelect,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
