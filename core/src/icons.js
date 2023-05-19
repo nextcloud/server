@@ -7,7 +7,8 @@ import sass from 'sass'
 const colors = {
 	dark: '000',
 	white: 'fff',
-	yellow: 'FC0',
+	// gold but for backwards compatibility called yellow
+	yellow: 'a08b00',
 	red: 'e9322d',
 	orange: 'eca700',
 	green: '46ba61',
