@@ -1139,6 +1139,14 @@ const Dialogs = {
 			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s')
 		}
 
+		//only show files with read and download permissions
+		var filteredFiles =  function(files) {
+			return files.filter((file) => {
+				const downloadShareAttribute =file.shareAttributes.find((shareAttribute) => shareAttribute.key ==='download')
+				const downloadPermissions = downloadShareAttribute !== undefined ? downloadShareAttribute.enabled : true
+				return (file.permissions & OC.PERMISSION_READ) && downloadPermissions})
+		
+		}
 		// Wrap within a method because a promise cannot return multiple values
 		// But the client impleemntation still does it...
 		var getFolderContents = async function(dir) {
@@ -1150,10 +1158,12 @@ const Dialogs = {
 
 		try {
 			var files = await getFolderContents(dir)
+			files = filteredFiles(files)
 		} catch (error) {
 			// fallback to root if requested dir is non-existent
 			console.error('Requested path does not exists, falling back to root')
 			var files = await getFolderContents('/')
+			files = filteredFiles(files)
 			this.$filePicker.data('path', '/')
 			this._changeButtonsText(type, '')
 		}
