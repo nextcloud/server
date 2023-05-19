@@ -22,7 +22,7 @@
 				<label for="enforcedGroups">
 					<span>{{ t('settings', 'Enforced groups') }}</span>
 				</label>
-				<NcSelect id="enforcedGroups"
+				<NcSelect input-id="enforcedGroups"
 					v-model="enforcedGroups"
 					:options="groups"
 					:disabled="loading"
@@ -38,7 +38,7 @@
 				<label for="excludedGroups">
 					<span>{{ t('settings', 'Excluded groups') }}</span>
 				</label>
-				<NcSelect id="excludedGroups"
+				<NcSelect input-id="excludedGroups"
 					v-model="excludedGroups"
 					:options="groups"
 					:disabled="loading"

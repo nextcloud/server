@@ -37,7 +37,7 @@
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
-				<NcSelect id="targetUser"
+				<NcSelect input-id="targetUser"
 					v-model="selectedUser"
 					:options="formatedUserSuggestions"
 					:multiple="false"

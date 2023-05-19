@@ -40,7 +40,7 @@
 					<span>{{ t('settings', 'Limit app usage to groups') }}</span>
 				</label>
 				<NcSelect v-if="isLimitedToGroups(app)"
-					id="limitToGroups"
+					input-id="limitToGroups"
 					:options="groups"
 					:value="appGroups"
 					:limit="5"
