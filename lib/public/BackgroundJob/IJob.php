@@ -88,6 +88,12 @@ interface IJob {
 	public function setArgument($argument);
 
 	/**
+	 * @param int $reservedAt
+	 * @since 28.0.0
+	 */
+	public function setReservedAt(int $reservedAt): void;
+
+	/**
 	 * Get the id of the background job
 	 * This id is determined by the job list when a job is added to the list
 	 *
@@ -112,4 +118,11 @@ interface IJob {
 	 * @since 7.0.0
 	 */
 	public function getArgument();
+
+	/**
+	 * Get the timestamp when the job was reserved, or 0 if the job is not currently reserved
+	 *
+	 * @return int
+	 */
+	public function getReservedAt(): int;
 }

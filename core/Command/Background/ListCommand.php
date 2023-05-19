@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Background;
 
 use OC\Core\Command\Base;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -61,17 +62,26 @@ class ListCommand extends Base {
 				InputOption::VALUE_OPTIONAL,
 				'Offset for retrieving jobs',
 				'0'
+			)->addOption(
+				'reserved',
+				null,
+				InputOption::VALUE_NONE,
+				'Only show reserved jobs'
 			)
 		;
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobs = $this->jobList->getJobsIterator($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+		$jobs = $this->jobList->getJobsIterator($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'), (bool)$input->getOption('reserved'));
 		$this->writeTableInOutputFormat($input, $output, $this->formatJobs($jobs));
 		return 0;
 	}
 
+	/**
+	 * @param iterable<IJob> $jobs
+	 * @return array
+	 */
 	protected function formatJobs(iterable $jobs): array {
 		$jobsInfo = [];
 		foreach ($jobs as $job) {
@@ -79,6 +89,7 @@ class ListCommand extends Base {
 				'id' => $job->getId(),
 				'class' => get_class($job),
 				'last_run' => date(DATE_ATOM, $job->getLastRun()),
+				'reserved_at' => $job->getReservedAt() > 0 ? date(DATE_ATOM, $job->getReservedAt()) : 'not reserved',
 				'argument' => json_encode($job->getArgument()),
 			];
 		}

@@ -41,6 +41,7 @@ use Psr\Log\LoggerInterface;
 abstract class Job implements IJob, IParallelAwareJob {
 	protected int $id = 0;
 	protected int $lastRun = 0;
+	protected int $reservedAt;
 	protected $argument;
 	protected ITimeFactory $time;
 	protected bool $allowParallelRuns = true;
@@ -119,6 +120,10 @@ abstract class Job implements IJob, IParallelAwareJob {
 		$this->argument = $argument;
 	}
 
+	public function setReservedAt(int $reservedAt): void {
+		$this->reservedAt = $reservedAt;
+	}
+
 	/**
 	 * @since 15.0.0
 	 */
@@ -138,6 +143,10 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 */
 	public function getArgument() {
 		return $this->argument;
+	}
+
+	public function getReservedAt(): int {
+		return $this->reservedAt;
 	}
 
 	/**

@@ -174,7 +174,7 @@ class JobList implements IJobList {
 	 * @param IJob|class-string<IJob>|null $job
 	 * @return iterable<IJob> Avoid to store these objects as they may share a Singleton instance. You should instead use these IJobs instances while looping on the iterable.
 	 */
-	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
+	public function getJobsIterator($job, ?int $limit, int $offset, bool $reservedOnly = false): iterable {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -188,6 +188,10 @@ class JobList implements IJobList {
 				$class = $job;
 			}
 			$query->where($query->expr()->eq('class', $query->createNamedParameter($class)));
+		}
+
+		if ($reservedOnly) {
+			$query->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - 12 * 3600, IQueryBuilder::PARAM_INT)));
 		}
 
 		$result = $query->executeQuery();
@@ -293,7 +297,7 @@ class JobList implements IJobList {
 	/**
 	 * get the job object from a row in the db
 	 *
-	 * @param array{class:class-string<IJob>, id:mixed, last_run:mixed, argument:string} $row
+	 * @param array{class:class-string<IJob>, id:mixed, last_run:mixed, argument:string, reserved_at:int} $row
 	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
 	 */
 	private function buildJob(array $row): ?IJob {
@@ -320,6 +324,7 @@ class JobList implements IJobList {
 			$job->setId((int) $row['id']);
 			$job->setLastRun((int) $row['last_run']);
 			$job->setArgument(json_decode($row['argument'], true));
+			$job->setReservedAt((int) $row['reserved_at']);
 			return $job;
 		} catch (AutoloadNotAllowedException $e) {
 			// job is from a disabled app, ignore

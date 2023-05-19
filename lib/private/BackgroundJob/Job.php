@@ -33,11 +33,9 @@ use OCP\ILogger;
  * @deprecated internal class, use \OCP\BackgroundJob\Job
  */
 abstract class Job implements IJob {
-	/** @var int */
-	protected $id;
-
-	/** @var int */
-	protected $lastRun;
+	protected int $id;
+	protected int $lastRun;
+	protected int $reservedAt;
 
 	/** @var mixed */
 	protected $argument;
@@ -80,6 +78,10 @@ abstract class Job implements IJob {
 		$this->lastRun = $lastRun;
 	}
 
+	public function setReservedAt(int $reservedAt): void {
+		$this->reservedAt = $reservedAt;
+	}
+
 	public function setArgument($argument) {
 		$this->argument = $argument;
 	}
@@ -94,5 +96,9 @@ abstract class Job implements IJob {
 
 	public function getArgument() {
 		return $this->argument;
+	}
+
+	public function getReservedAt(): int {
+		return $this->reservedAt;
 	}
 }

@@ -92,7 +92,7 @@ interface IJobList {
 	 * @return iterable<IJob>
 	 * @since 26.0.0
 	 */
-	public function getJobsIterator($job, ?int $limit, int $offset): iterable;
+	public function getJobsIterator($job, ?int $limit, int $offset, bool $reservedOnly = false): iterable;
 
 	/**
 	 * get the next job in the list
