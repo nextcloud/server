@@ -181,7 +181,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Επιλέξτε αρχείο ή φάκελο για μεταφορά",
     "Change" : "Αλλαγή",
     "New owner" : "Νέος κάτοχος",
-    "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose a file or folder to transfer" : "Επιλέξτε αρχείο ή φάκελο για μεταφορά",
     "Transfer" : "Μεταφορά",
     "Transfer {path} to {userid}" : "Μεταφορά {path} στον {userid}",
