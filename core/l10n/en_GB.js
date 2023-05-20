@@ -193,6 +193,7 @@ OC.L10N.register(
     "Distraction free note taking app." : "Distraction free note taking app.",
     "Search contacts" : "Search contacts",
     "Forgot password?" : "Forgot password?",
+    "Back to login form" : "Back to login form",
     "Back" : "Back",
     "Login form is disabled." : "Login form is disabled.",
     "Edit Profile" : "Edit Profile",

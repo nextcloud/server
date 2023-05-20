@@ -193,7 +193,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "选择要转移的文件或文件夹",
     "Change" : "修改",
     "New owner" : "新的拥有者",
-    "Search for an account" : "搜索一个账户",
     "Choose a file or folder to transfer" : "选择要转移的文件或文件夹",
     "Transfer" : "转移",
     "Transfer {path} to {userid}" : "将 {path} 转移给 {userid}",
