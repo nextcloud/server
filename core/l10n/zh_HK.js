@@ -193,6 +193,7 @@ OC.L10N.register(
     "Distraction free note taking app." : "無干擾的筆記應用程式。",
     "Search contacts" : "搜尋聯絡人",
     "Forgot password?" : "忘記密碼？",
+    "Back to login form" : "回到登入表格",
     "Back" : "返回",
     "Login form is disabled." : "登入表格已停用",
     "Edit Profile" : "編輯個人設定",

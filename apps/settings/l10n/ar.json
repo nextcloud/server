@@ -28,7 +28,7 @@
     "Saved" : "حفظ",
     "No user supplied" : "لم يتم توفير مستخدم ",
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
-    "Wrong admin recovery password. Please check the password and try again." : "خطا في كلمة مرور المسؤول المستردة, يرجى التاكد من كلمة المرور والمحاولة مرة اخرى.",
+    "Wrong admin recovery password. Please check the password and try again." : "خطا في كلمة مرور الاستعادة الخاصة بالمسؤول, يرجى التاكد من كلمة المرور والمحاولة مرة اخرى.",
     "Federated Cloud Sharing" : "المشاركة السحابية الموحّدة",
     "Administrator documentation" : "دليل المدير",
     "User documentation" : "دليل المستخدم",

@@ -193,7 +193,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Виберіть файл або каталог для передачі",
     "Change" : "Змінити",
     "New owner" : "Новий власник",
-    "Search for an account" : "Пошук облікового запису",
     "Choose a file or folder to transfer" : "Виберіть файл або каталог для передачі",
     "Transfer" : "Передати",
     "Transfer {path} to {userid}" : "Передати {path} користувачеві {userid}",

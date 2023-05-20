@@ -193,7 +193,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "اختر ملف او مجلد لنقل الملكية",
     "Change" : "تغير",
     "New owner" : "مالك جديد",
-    "Search for an account" : "البحث عن حساب",
     "Choose a file or folder to transfer" : "اختر ملف او مجلد لنقل الملكية",
     "Transfer" : "نقل ملكية",
     "Transfer {path} to {userid}" : "نقل ملكية {path} إلى {userid}",
