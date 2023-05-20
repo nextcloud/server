@@ -1139,13 +1139,13 @@ const Dialogs = {
 			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s')
 		}
 
-		//only show files with read and download permissions
+		//Only show files with read and download permissions
 		var filteredFiles =  function(files) {
 			return files.filter((file) => {
-				const downloadShareAttribute =file.shareAttributes.find((shareAttribute) => shareAttribute.key ==='download')
+				const downloadShareAttribute = file.shareAttributes.find((shareAttribute) => shareAttribute.key === 'download')
 				const downloadPermissions = downloadShareAttribute !== undefined ? downloadShareAttribute.enabled : true
-				return (file.permissions & OC.PERMISSION_READ) && downloadPermissions})
-		
+				return (file.permissions & OC.PERMISSION_READ) && downloadPermissions
+			})
 		}
 		// Wrap within a method because a promise cannot return multiple values
 		// But the client impleemntation still does it...
