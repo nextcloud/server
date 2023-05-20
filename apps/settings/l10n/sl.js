@@ -248,6 +248,7 @@ OC.L10N.register(
     "Current password" : "Trenutno geslo",
     "New password" : "Novo geslo",
     "Change password" : "Spremeni geslo",
+    "Your profile information" : "Podrobnosti vašega profila",
     "Your profile picture" : "Slika profila",
     "Upload profile picture" : "Pošlji sliko profila",
     "Remove profile picture" : "Odstrani sliko profila",

@@ -193,7 +193,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Zvolte soubor nebo složku k převedení",
     "Change" : "Změnit",
     "New owner" : "Nový vlastník",
-    "Search for an account" : "Hledat účet",
     "Choose a file or folder to transfer" : "Zvolte soubor nebo složku k převedení",
     "Transfer" : "Převést",
     "Transfer {path} to {userid}" : "Převést {path} na {userid}",

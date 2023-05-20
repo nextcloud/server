@@ -187,7 +187,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Valitse siirrettävä tiedosto tai kansio",
     "Change" : "Muuta",
     "New owner" : "Uusi omistaja",
-    "Search for an account" : "Etsi tiliä",
     "Choose a file or folder to transfer" : "Valitse siirrettävä tiedosto tai kansio",
     "Transfer" : "Siirrä",
     "Transfer {path} to {userid}" : "Siirrä {path} käyttäjälle {userid}",

@@ -105,6 +105,7 @@ OC.L10N.register(
     "Friday" : "petek",
     "Saturday" : "sobota",
     "Sunday" : "nedelja",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Samodejno nastavi stanje uporabnika na »Ne moti« in zavračaj prikaz obvestil izven časa razpoložljivosti.",
     "Save" : "Shrani",
     "Failed to load availability" : "Nalaganje seznama razpoložljivih polj je spodletelo",
     "Calendar server" : "Strežnik koledarja",
