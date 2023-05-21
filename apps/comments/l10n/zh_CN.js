@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "还没有评论，开始对话吧！",
     "No more messages" : "没有更多消息",
     "Retry" : "重试",
+    "Failed to mark comments as read" : "将评论标记为已读失败",
     "Unable to load the comments list" : "无法加载评论列表",
     "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} 条新评论"],

@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir görüşme başlatın!",
     "No more messages" : "Başka ileti yok",
     "Retry" : "Yeniden dene",
+    "Failed to mark comments as read" : "Yorumlar okunmuş olarak işaretlenemedi",
     "Unable to load the comments list" : "Yorum listesi yüklenemedi",
     "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"],
     "_1 new comment_::_{unread} new comments_" : ["1 yeni yorum","{unread} yeni yorum"],
