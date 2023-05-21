@@ -131,7 +131,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "حاول مجددا أو تواصل مع مسؤول النظام.",
     "Account name or email" : "اسم الحساب أو البريد الالكتروني",
     "Password" : "كلمة المرور",
-    "Log in to {productName}" : "الولوج إلى {productName}",
+    "Log in to {productName}" : "تسجيل الدخول إلى {productName}",
     "Wrong username or password." : "اسم المستخدم أو كلمة المرور خاطئة.",
     "User disabled" : "المستخدم معطّل",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "لقد اكتشفنا عدة محاولات تسجيل دخول غير صالحة من عنوان IP الخاص بك. لذلك تم تقييد تسجيل الدخول التالي الخاص بك حتى 30 ثانية.",

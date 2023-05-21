@@ -63,6 +63,7 @@
     "Nov." : "Pay.",
     "Dec." : "Avi.",
     "Application is not enabled" : "L'aplicación nun ta activada",
+    "Please ask your server administrator to install the module." : "Pidi a l'alministración del sirvidor qu'instale'l módulu.",
     "Full name" : "Nome completu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

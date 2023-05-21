@@ -60,7 +60,7 @@ OC.L10N.register(
     "App key" : "App key",
     "App secret" : "应用程序 secret",
     "OAuth2" : "OAuth2",
-    "Client ID" : "Client ID",
+    "Client ID" : "客户端ID",
     "Client secret" : "客户端 secret",
     "OpenStack v2" : "OpenStack v2",
     "Tenant name" : "租户名称",
