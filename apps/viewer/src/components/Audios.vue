@@ -46,15 +46,17 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VuePlyr from '@skjnldsv/vue-plyr'
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 import logger from '../services/logger.js'
 
-Vue.use(VuePlyr)
+const VuePlyr = () => import(/* webpackChunkName: 'plyr' */'@skjnldsv/vue-plyr')
 
 export default {
 	name: 'Audios',
+
+	components: {
+		VuePlyr,
+	},
 
 	computed: {
 		player() {

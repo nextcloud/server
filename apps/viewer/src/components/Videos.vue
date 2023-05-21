@@ -53,20 +53,22 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VuePlyr from '@skjnldsv/vue-plyr'
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 import logger from '../services/logger.js'
 import { imagePath } from '@nextcloud/router'
+
+const VuePlyr = () => import(/* webpackChunkName: 'plyr' */'@skjnldsv/vue-plyr')
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
 const blankVideo = imagePath('viewer', 'blank.mp4')
 
-Vue.use(VuePlyr)
-
 export default {
 	name: 'Videos',
+
+	components: {
+		VuePlyr,
+	},
 
 	computed: {
 		livePhoto() {

@@ -55,4 +55,7 @@ webpackConfig.plugins.push(...[
 // Add proper typescript support
 webpackConfig.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.vue']
 
+// Clean dist folder
+webpackConfig.output.clean = true
+
 export default webpackConfig
