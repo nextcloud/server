@@ -297,62 +297,6 @@ class Generator {
 	}
 
 	/**
-	 * Get the number of concurrent threads supported by the host.
-	 *
-	 * @return int number of concurrent threads, or 0 if it cannot be determined
-	 */
-	public static function getHardwareConcurrency(): int {
-		static $width;
-		if (!isset($width)) {
-			if (is_file("/proc/cpuinfo")) {
-				$width = substr_count(file_get_contents("/proc/cpuinfo"), "processor");
-			} else {
-				$width = 0;
-			}
-		}
-		return $width;
-	}
-
-	/**
-	 * Get number of concurrent preview generations from system config
-	 *
-	 * Two config entries, `preview_concurrency_new` and `preview_concurrency_all`,
-	 * are available. If not set, the default values are determined with the hardware concurrency
-	 * of the host. In case the hardware concurrency cannot be determined, or the user sets an
-	 * invalid value, fallback values are:
-	 * For new images whose previews do not exist and need to be generated, 4;
-	 * For all preview generation requests, 8.
-	 * Value of `preview_concurrency_all` should be greater than or equal to that of
-	 * `preview_concurrency_new`, otherwise, the latter is returned.
-	 *
-	 * @param string $type either `preview_concurrency_new` or `preview_concurrency_all`
-	 * @return int number of concurrent preview generations, or -1 if $type is invalid
-	 */
-	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = array();
-		if (array_key_exists($type, $cached)) {
-			return $cached[$type];
-		}
-
-		$hardwareConcurrency = self::getHardwareConcurrency();
-		switch ($type) {
-			case "preview_concurrency_all":
-				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
-				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
-				$concurrency_new = $this->getNumConcurrentPreviews("preview_concurrency_new");
-				$cached[$type] = max($concurrency_all, $concurrency_new);
-				break;
-			case "preview_concurrency_new":
-				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
-				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
-				break;
-			default:
-				return -1;
-		}
-		return $cached[$type];
-	}
-
-	/**
 	 * @param ISimpleFolder $previewFolder
 	 * @param ISimpleFile[] $previewFiles
 	 * @param File $file
@@ -395,7 +339,7 @@ class Generator {
 					continue;
 				}
 
-				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+				$previewConcurrency = $this->config->getSystemValueInt('preview_concurrency_new', 4);
 				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
 				try {
 					$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
@@ -566,7 +510,7 @@ class Generator {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
 		}
 
-		$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+		$previewConcurrency = $this->config->getSystemValueInt('preview_concurrency_new', 4);
 		$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
 		try {
 			if ($crop) {

@@ -1161,7 +1161,7 @@ $CONFIG = [
  * been generated.
  *
  * This should be greater than 'preview_concurrency_new'.
- * If unspecified, defaults to twice the value of 'preview_concurrency_new'.
+ * Defaults to 8
  */
 'preview_concurrency_all' => 8,
 
@@ -1170,9 +1170,9 @@ $CONFIG = [
  *
  * Depending on the max preview size set by 'preview_max_x' and 'preview_max_y',
  * the generation process can consume considerable CPU and memory resources.
+ *
  * It's recommended to limit this to be no greater than the number of CPU cores.
- * If unspecified, defaults to the number of CPU cores, or 4 if that cannot
- * be determined.
+ * Defaults to 4
  */
 'preview_concurrency_new' => 4,
 
