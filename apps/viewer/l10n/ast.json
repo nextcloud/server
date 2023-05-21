@@ -5,6 +5,7 @@
     "Loading …" : "Cargando…",
     "Value" : "Valor",
     "Size" : "Tamañu",
-    "Position" : "Posición"
+    "Position" : "Posición",
+    "Name is required." : "El nome ye obligatoriu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

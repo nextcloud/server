@@ -7,6 +7,7 @@ OC.L10N.register(
     "Loading …" : "Cargando…",
     "Value" : "Valor",
     "Size" : "Tamañu",
-    "Position" : "Posición"
+    "Position" : "Posición",
+    "Name is required." : "El nome ye obligatoriu"
 },
 "nplurals=2; plural=(n != 1);");
