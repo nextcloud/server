@@ -103,7 +103,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["بايت","بايت","بايت","بايت","بايت","%nبايت"],
     "Favorited" : "المفضلة",
     "Favorite" : "المفضلة",
-    "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط لـ المستخدمين الذين يمكنهم  الولوج الى هذا الملف/الفايل)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للمستخدمين الذين يمكنهم الوصول الى هذا الملف/المجلد)",
     "You can only favorite a single file or folder at a time" : "يمكنك فقط تفضيل ملف أو مجلد واحد في المرة الواحدة",
     "New folder" : "مجلد جديد",
     "Create new folder" : "إنشاء مجلدا جديد",

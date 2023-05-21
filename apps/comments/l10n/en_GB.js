@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "No comments yet, start the conversation!",
     "No more messages" : "No more messages",
     "Retry" : "Retry",
+    "Failed to mark comments as read" : "Failed to mark comments as read",
     "Unable to load the comments list" : "Unable to load the comments list",
     "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"],
     "_1 new comment_::_{unread} new comments_" : ["1 new comment","{unread} new comments"],

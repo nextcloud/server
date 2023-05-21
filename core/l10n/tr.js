@@ -193,6 +193,7 @@ OC.L10N.register(
     "Distraction free note taking app." : "Dikkatinizi dağıtmayan not alma uygulaması.",
     "Search contacts" : "Kişi arama",
     "Forgot password?" : "Parolamı unuttum",
+    "Back to login form" : "Oturum açma formuna dön",
     "Back" : "Geri",
     "Login form is disabled." : "Oturum açma formu devre dışı bırakılmış.",
     "Edit Profile" : "Profili düzenle",
