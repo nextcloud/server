@@ -56,7 +56,7 @@
     "Could not copy \"{file}\"" : "无法复制 \"{file}\"",
     "Copied {origin} inside {destination}" : "在 {destination} 内复制 {origin}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "在 {destination} 内复制了 {origin} 和 {nbfiles} 个其他文件",
-    "Failed to redirect to client" : "无法重定向到客户端",
+    "Failed to redirect to client" : "重定向到客户端失败",
     "{newName} already exists" : "{newName} 已经存在",
     "Could not rename \"{fileName}\", it does not exist any more" : "无法重命名 \"{fileName}\"，此文件已经不存在",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "文件夹 \"{dir}\" 中已经存在 \"{targetName}\"。请尝试其他的名称。",

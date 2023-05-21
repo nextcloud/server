@@ -1,6 +1,6 @@
 { "translations": {
-    "Failed to clear the mappings." : "无法清除映射。",
-    "Failed to delete the server configuration" : "未能删除服务器配置",
+    "Failed to clear the mappings." : "清除映射失败。",
+    "Failed to delete the server configuration" : "删除服务器配置失败",
     "Invalid configuration: Anonymous binding is not allowed." : "配置无效：不允许匿名绑定。",
     "Valid configuration, connection established!" : "配置有效，连接成功！",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "配置有效但绑定失败。请检查服务器设置和认证信息。",
@@ -175,6 +175,8 @@
     "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "用户名留空（默认）。 否则请指定 LDAP / AD 属性。",
     "\"$home\" Placeholder Field" : "\"$home\" 占位字段",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "位于外部存储配置的 $home 将被指定属性替换",
+    "Fediverse Field" : "联邦宇宙字段",
+    "User profile Fediverse will be set from the specified attribute" : "用户个人资料的联邦宇宙将从指定的属性设定",
     "Internal Username" : "内部用户名",
     "Internal Username Attribute:" : "内部用户名属性：",
     "Override UUID detection" : "覆盖 UUID 检测",

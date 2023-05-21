@@ -39,7 +39,7 @@ OC.L10N.register(
     "Show grid view" : "显示网格视图",
     "No compatible server found at {remote}" : " {remote} 未发现匹配的服务器",
     "Invalid server URL" : "无效的服务器地址",
-    "Failed to add the public link to your Nextcloud" : "无法添加公开链接到您的 Nextcloud",
+    "Failed to add the public link to your Nextcloud" : "添加公开链接到您的Nextcloud失败",
     "No expiration date set" : "未设置失效时间",
     "Shared by" : "共享人",
     "File shares" : "文件共享",
