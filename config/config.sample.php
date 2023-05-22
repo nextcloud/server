@@ -1228,6 +1228,11 @@ $CONFIG = [
 'preview_imaginary_url' => 'http://previews_hpb:8088/',
 
 /**
+ * If you want set a api key for imaginary.
+ */
+'preview_imaginary_key' => 'secret',
+
+/**
  * Only register providers that have been explicitly enabled
  *
  * The following providers are disabled by default due to performance or privacy

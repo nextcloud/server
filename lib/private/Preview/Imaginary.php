@@ -136,9 +136,10 @@ class Imaginary extends ProviderV2 {
 		];
 
 		try {
+			$imaginaryKey = $this->config->getSystemValueString('preview_imaginary_key', '');
 			$response = $httpClient->post(
 				$imaginaryUrl . '/pipeline', [
-					'query' => ['operations' => json_encode($operations)],
+					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
 					'stream' => true,
 					'content-type' => $file->getMimeType(),
 					'body' => $stream,
