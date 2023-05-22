@@ -46,7 +46,6 @@ use Sabre\DAV\PropPatch;
  * @property CardDavBackend $carddavBackend
  */
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
-
 	/**
 	 * AddressBook constructor.
 	 *
@@ -116,7 +115,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 				'privilege' => '{DAV:}write',
 				'principal' => $this->getOwner(),
 				'protected' => true,
-			]
+			],
+			[
+				'privilege' => '{DAV:}write-properties',
+				'principal' => '{DAV:}authenticated',
+				'protected' => true,
+			],
 		];
 
 		if ($this->getOwner() === 'principals/system/system') {
@@ -147,7 +151,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		}
 
 		$acl = $this->carddavBackend->applyShareAcl($this->getResourceId(), $acl);
-		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/system'];
+		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/system', '{DAV:}authenticated'];
 		return array_filter($acl, function ($rule) use ($allowedPrincipals) {
 			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
@@ -166,8 +170,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
 
-	public function getChildren()
-	{
+	public function getChildren() {
 		$objs = $this->carddavBackend->getCards($this->addressBookInfo['id']);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -178,8 +181,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return $children;
 	}
 
-	public function getMultipleChildren(array $paths)
-	{
+	public function getMultipleChildren(array $paths) {
 		$objs = $this->carddavBackend->getMultipleCards($this->addressBookInfo['id'], $paths);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -221,10 +223,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	}
 
 	public function propPatch(PropPatch $propPatch) {
-		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
-			throw new Forbidden();
+		// shared address books will be handled by
+		// \OCA\DAV\DAV\CustomPropertiesBackend::propPatch
+		// to save values in db table instead of dav object
+		if (!$this->isShared()) {
+			parent::propPatch($propPatch);
 		}
-		parent::propPatch($propPatch);
 	}
 
 	public function getContactsGroups() {
