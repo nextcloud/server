@@ -46,6 +46,21 @@ window.addEventListener('DOMContentLoaded', () => {
 		$('#setDefaultRemoteExpireDate').toggleClass('hidden', !this.checked)
 	})
 
+	$('#enableLinkPasswordByDefault').change(function() {
+		if (this.checked) {
+			$('#enforceLinkPassword').removeAttr('disabled')
+			$('#passwordsExcludedGroups').removeAttr('disabled')
+		} else {
+			$('#enforceLinkPassword').attr('disabled', '')
+			$('#passwordsExcludedGroups').attr('disabled', '')
+
+			// Uncheck "Enforce password protection" when "Always asks for a
+			// password" is unchecked; the change event needs to be explicitly
+			// triggered so it behaves like a change done by the user.
+			$('#enforceLinkPassword').removeAttr('checked').trigger('change')
+		}
+	})
+
 	$('#enforceLinkPassword').change(function() {
 		$('#selectPasswordsExcludedGroups').toggleClass('hidden', !this.checked)
 	})

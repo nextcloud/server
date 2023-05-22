@@ -117,17 +117,19 @@
 			<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword" class="checkbox"
 				   value="1" <?php if ($_['enforceLinkPassword']) {
 	print_unescaped('checked="checked"');
+} ?> <?php if ($_['enableLinkPasswordByDefault'] !== 'yes') {
+	print_unescaped('disabled');
 } ?> />
-			<label for="enforceLinkPassword"><?php p($l->t('Enforce password protection'));?></label><br/>
+			<label for="enforceLinkPassword" class="indent"><?php p($l->t('Enforce password protection'));?></label><br/>
 
 <?php if ($_['passwordExcludedGroupsFeatureEnabled']) { ?>
-			<div id="selectPasswordsExcludedGroups" class="indent <?php if (!$_['enforceLinkPassword']) { p('hidden'); } ?>">
-				<div class="indent">
-					<label for="shareapi_enforce_links_password_excluded_groups"><?php p($l->t('Exclude groups from password requirements:'));?>
-					<br />
-					<input name="shareapi_enforce_links_password_excluded_groups" id="passwordsExcludedGroups" value="<?php p($_['passwordExcludedGroups']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
-				</div>
-			</div>
+			<span id="selectPasswordsExcludedGroups" class="double-indent <?php if (!$_['enforceLinkPassword']) { p('hidden'); } ?>">
+				<label for="shareapi_enforce_links_password_excluded_groups"><?php p($l->t('Exclude groups from password requirements:'));?></label><br/>
+				<input name="shareapi_enforce_links_password_excluded_groups" id="passwordsExcludedGroups" value="<?php p($_['passwordExcludedGroups']) ?>"
+					   style="width: 400px" class="noJSAutoUpdate double-indent" <?php if ($_['enableLinkPasswordByDefault'] !== 'yes') {
+	print_unescaped('disabled');
+} ?> />
+			</span><br/>
 <?php } ?>
 
 			<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate" class="checkbox"
