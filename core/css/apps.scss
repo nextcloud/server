@@ -454,9 +454,6 @@ kbd {
 			box-shadow: none;
 			content: ' ';
 			opacity: 1;
-			-webkit-transform: rotate(-90deg);
-			-ms-transform: rotate(-90deg);
-			transform: rotate(-90deg);
 			z-index: 105; // above a, under button
 			border-radius: 50%;
 			transition: opacity variables.$animation-quick ease-in-out;
