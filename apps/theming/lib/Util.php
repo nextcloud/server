@@ -190,7 +190,7 @@ class Util {
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
 			try {
-				$folder = $this->appData->getFolder('images');
+				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
 			} catch (NotFoundException $e) {
 			}
