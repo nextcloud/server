@@ -39,6 +39,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\Security\ICrypto;
 
 class SettingsController extends Controller {
 	/** @var ClientMapper */
@@ -49,6 +50,8 @@ class SettingsController extends Controller {
 	private $accessTokenMapper;
 	/** @var IL10N */
 	private $l;
+	/** @var ICrypto */
+	private $crypto;
 
 	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -57,13 +60,15 @@ class SettingsController extends Controller {
 								ClientMapper $clientMapper,
 								ISecureRandom $secureRandom,
 								AccessTokenMapper $accessTokenMapper,
-								IL10N $l
+								IL10N $l,
+								ICrypto $crypto
 	) {
 		parent::__construct($appName, $request);
 		$this->secureRandom = $secureRandom;
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->l = $l;
+		$this->crypto = $crypto;
 	}
 
 	public function addClient(string $name,
@@ -75,7 +80,9 @@ class SettingsController extends Controller {
 		$client = new Client();
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);
-		$client->setSecret($this->secureRandom->generate(64, self::validChars));
+		$secret = $this->secureRandom->generate(64, self::validChars);
+		$encryptedSecret = $this->crypto->encrypt($secret);
+		$client->setSecret($encryptedSecret);
 		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
 		$client = $this->clientMapper->insert($client);
 
@@ -84,7 +91,7 @@ class SettingsController extends Controller {
 			'name' => $client->getName(),
 			'redirectUri' => $client->getRedirectUri(),
 			'clientId' => $client->getClientIdentifier(),
-			'clientSecret' => $client->getSecret(),
+			'clientSecret' => $secret,
 		];
 
 		return new JSONResponse($result);
