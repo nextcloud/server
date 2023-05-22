@@ -432,7 +432,7 @@ OC.L10N.register(
     "day(s)" : "dneh",
     "Enforce expiration date" : "Vsili datum preteka",
     "Set default expiration date for shares to other servers" : "Nastavi privzeti datuma poteka za mesta souporabe na drugih strežnikih",
-    "Allow users to share via link and emails" : "Uporabnikom dovoli omogočanje souporabe s povezavami in elektronskimi sporočili",
+    "Allow users to share via link and emails" : "Uporabnikom dovoli omogočanje souporabe s povezavami in z elektronskimi sporočili",
     "Allow public uploads" : "Dovoli javno pošiljanje datotek v oblak",
     "Always ask for a password" : "Vedno zahtevaj geslo",
     "Enforce password protection" : "Vsili zaščito z geslom",
