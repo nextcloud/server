@@ -42,6 +42,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use OCP\Security\ICrypto;
 
 class SettingsController extends Controller {
 	/** @var ClientMapper */
@@ -58,6 +59,9 @@ class SettingsController extends Controller {
 	 * @var IUserManager
 	 */
 	private $userManager;
+	/** @var ICrypto */
+	private $crypto;
+
 	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	public function __construct(string $appName,
@@ -67,7 +71,8 @@ class SettingsController extends Controller {
 								AccessTokenMapper $accessTokenMapper,
 								IL10N $l,
 								IAuthTokenProvider $tokenProvider,
-								IUserManager $userManager
+								IUserManager $userManager,
+								ICrypto $crypto
 	) {
 		parent::__construct($appName, $request);
 		$this->secureRandom = $secureRandom;
@@ -76,6 +81,7 @@ class SettingsController extends Controller {
 		$this->l = $l;
 		$this->tokenProvider = $tokenProvider;
 		$this->userManager = $userManager;
+		$this->crypto = $crypto;
 	}
 
 	public function addClient(string $name,
@@ -87,7 +93,9 @@ class SettingsController extends Controller {
 		$client = new Client();
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);
-		$client->setSecret($this->secureRandom->generate(64, self::validChars));
+		$secret = $this->secureRandom->generate(64, self::validChars);
+		$encryptedSecret = $this->crypto->encrypt($secret);
+		$client->setSecret($encryptedSecret);
 		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
 		$client = $this->clientMapper->insert($client);
 
@@ -96,7 +104,7 @@ class SettingsController extends Controller {
 			'name' => $client->getName(),
 			'redirectUri' => $client->getRedirectUri(),
 			'clientId' => $client->getClientIdentifier(),
-			'clientSecret' => $client->getSecret(),
+			'clientSecret' => $secret,
 		];
 
 		return new JSONResponse($result);

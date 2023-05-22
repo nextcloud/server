@@ -34,6 +34,7 @@ class ComposerStaticInitOAuth2
         'OCA\\OAuth2\\Migration\\SetTokenExpiration' => __DIR__ . '/..' . '/../lib/Migration/SetTokenExpiration.php',
         'OCA\\OAuth2\\Migration\\Version010401Date20181207190718' => __DIR__ . '/..' . '/../lib/Migration/Version010401Date20181207190718.php',
         'OCA\\OAuth2\\Migration\\Version010402Date20190107124745' => __DIR__ . '/..' . '/../lib/Migration/Version010402Date20190107124745.php',
+        'OCA\\OAuth2\\Migration\\Version011601Date20230522143227' => __DIR__ . '/..' . '/../lib/Migration/Version011601Date20230522143227.php',
         'OCA\\OAuth2\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
     );
 
