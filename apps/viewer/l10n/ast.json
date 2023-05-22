@@ -6,6 +6,7 @@
     "Value" : "Valor",
     "Size" : "Tamañu",
     "Position" : "Posición",
+    "Extension" : "Estensión",
     "Name is required." : "El nome ye obligatoriu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
