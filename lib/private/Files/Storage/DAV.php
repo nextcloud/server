@@ -41,7 +41,7 @@ use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
-use OC\MemCache\ArrayCache;
+use OC\Memcache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
@@ -86,6 +86,8 @@ class DAV extends Common {
 	protected $client;
 	/** @var ArrayCache */
 	protected $statCache;
+	/** @var ArrayCache */
+	protected $propfindCache;
 	/** @var IClientService */
 	protected $httpClientService;
 	/** @var ICertificateManager */
@@ -99,6 +101,7 @@ class DAV extends Common {
 	 */
 	public function __construct($params) {
 		$this->statCache = new ArrayCache();
+		$this->propfindCache = new ArrayCache();
 		$this->httpClientService = \OC::$server->getHTTPClientService();
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
@@ -225,6 +228,7 @@ class DAV extends Common {
 		$result = $this->simpleResponse('DELETE', $path . '/', null, 204);
 		$this->statCache->clear($path . '/');
 		$this->statCache->remove($path);
+		$this->propfindCache->remove($path);
 		return $result;
 	}
 
@@ -235,7 +239,16 @@ class DAV extends Common {
 		try {
 			$response = $this->client->propFind(
 				$this->encodePath($path),
-				['{DAV:}getetag'],
+				[
+					'{DAV:}getlastmodified',
+					'{DAV:}getcontentlength',
+					'{DAV:}getcontenttype',
+					'{http://owncloud.org/ns}permissions',
+					'{http://open-collaboration-services.org/ns}share-permissions',
+					'{DAV:}resourcetype',
+					'{DAV:}getetag',
+					'{DAV:}quota-available-bytes',
+				],
 				1
 			);
 			if ($response === false) {
@@ -254,7 +267,9 @@ class DAV extends Common {
 				if (!$this->statCache->hasKey($path)) {
 					$this->statCache->set($file, true);
 				}
+				$fileDetail = $response[$file];
 				$file = basename($file);
+				$this->propfindCache->set($file, $fileDetail);
 				$content[] = $file;
 			}
 			return IteratorDirectory::wrap($content);
@@ -278,6 +293,10 @@ class DAV extends Common {
 	 */
 	protected function propfind($path) {
 		$path = $this->cleanPath($path);
+		$propfindCacheResponse = $this->propfindCache->get($path);
+		if (!is_null($propfindCacheResponse)) {
+			return $propfindCacheResponse;
+		}
 		$cachedResponse = $this->statCache->get($path);
 		// we either don't know it, or we know it exists but need more details
 		if (is_null($cachedResponse) || $cachedResponse === true) {
@@ -297,6 +316,7 @@ class DAV extends Common {
 					]
 				);
 				$this->statCache->set($path, $response);
+				$this->propfindCache->set($path, $response);
 			} catch (ClientHttpException $e) {
 				if ($e->getHttpStatus() === 404 || $e->getHttpStatus() === 405) {
 					$this->statCache->clear($path . '/');
@@ -358,6 +378,7 @@ class DAV extends Common {
 		$result = $this->simpleResponse('DELETE', $path, null, 204);
 		$this->statCache->clear($path . '/');
 		$this->statCache->remove($path);
+		$this->propfindCache->remove($path);
 		return $result;
 	}
 
@@ -473,6 +494,7 @@ class DAV extends Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->statCache->remove($path);
+				$this->propfindCache->remove($path);
 				$this->client->proppatch($this->encodePath($path), ['{DAV:}lastmodified' => $mtime]);
 				// non-owncloud clients might not have accepted the property, need to recheck it
 				$response = $this->client->propfind($this->encodePath($path), ['{DAV:}getlastmodified'], 0);
@@ -511,6 +533,7 @@ class DAV extends Common {
 		$path = $this->cleanPath($path);
 		$result = parent::file_put_contents($path, $data);
 		$this->statCache->remove($path);
+		$this->propfindCache->remove($path);
 		return $result;
 	}
 
@@ -524,6 +547,7 @@ class DAV extends Common {
 		// invalidate
 		$target = $this->cleanPath($target);
 		$this->statCache->remove($target);
+		$this->propfindCache->remove($target);
 		$source = fopen($path, 'r');
 
 		$this->httpClientService
@@ -800,6 +824,7 @@ class DAV extends Common {
 		try {
 			// force refresh for $path
 			$this->statCache->remove($path);
+			$this->propfindCache->remove($path);
 			$response = $this->propfind($path);
 			if ($response === false) {
 				if ($path === '') {
