@@ -82,19 +82,17 @@
 					:count="group.count" />
 			</template>
 			<template #footer>
-				<NcAppNavigationSettings>
+				<NcAppNavigationSettings exclude-click-outside-selectors=".vs__dropdown-menu">
 					<div>
-						<p>{{ t('settings', 'Default quota:') }}</p>
-						<NcMultiselect :value="defaultQuota"
-							:options="quotaOptions"
-							tag-placeholder="create"
-							:placeholder="t('settings', 'Select default quota')"
-							label="label"
-							track-by="id"
-							:allow-empty="false"
+						<label for="default-quota-multiselect">{{ t('settings', 'Default quota:') }}</label>
+						<NcSelect v-model="defaultQuota"
+							input-id="default-quota-multiselect"
 							:taggable="true"
-							@tag="validateQuota"
-							@input="setDefaultQuota" />
+							:options="quotaOptions"
+							:create-option="validateQuota"
+							:placeholder="t('settings', 'Select default quota')"
+							:close-on-select="true"
+							@option:selected="setDefaultQuota" />
 					</div>
 					<div>
 						<input id="showLanguages"
@@ -156,7 +154,7 @@ import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigat
 import axios from '@nextcloud/axios'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import { generateUrl } from '@nextcloud/router'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
@@ -179,7 +177,7 @@ export default {
 		NcAppNavigationSettings,
 		NcContent,
 		GroupListItem,
-		NcMultiselect,
+		NcSelect,
 		Plus,
 		UserList,
 	},
@@ -368,6 +366,10 @@ export default {
 		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 */
 		setDefaultQuota(quota = 'none') {
+			// Make sure correct label is set for unlimited quota
+			if (quota === 'none') {
+				quota = this.unlimitedQuota
+			}
 			this.$store.dispatch('setAppConfig', {
 				app: 'files',
 				key: 'default_quota',
@@ -384,17 +386,21 @@ export default {
 		/**
 		 * Validate quota string to make sure it's a valid human file size
 		 *
-		 * @param {string} quota Quota in readable format '5 GB'
-		 * @return {Promise|boolean}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {object} The validated quota object or unlimited quota if input is invalid
 		 */
 		validateQuota(quota) {
+			if (typeof quota === 'object') {
+				quota = quota?.id || quota.label
+			}
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota === null) {
-				return this.setDefaultQuota('none')
+				return this.unlimitedQuota
 			} else {
 				// unify format output
-				return this.setDefaultQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
+				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				return { id: quota, label: quota }
 			}
 		},
 
