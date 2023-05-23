@@ -225,9 +225,7 @@
 				<th id="headerManager" class="manager">
 					{{ t('settings', 'Manager') }}
 				</th>
-				<th class="userActions hidden-visually">
-					{{ t('settings', 'User actions') }}
-				</th>
+				<th class="userActions" />
 			</tr>
 
 			<user-row v-for="user in filteredUsers"
