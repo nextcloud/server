@@ -67,6 +67,10 @@ OCA = OCA || {};
 					$element: $('#ldap_attributes_for_user_search'),
 					setMethod: 'setSearchAttributesUsers'
 				},
+				ldap_mark_remnants_as_disabled: {
+					$element: $('#ldap_mark_remnants_as_disabled'),
+					setMethod: 'setMarkRemnantsAsDisabled'
+				},
 				ldap_group_display_name: {
 					$element: $('#ldap_group_display_name'),
 					setMethod: 'setGroupDisplayName'
@@ -273,6 +277,15 @@ OCA = OCA || {};
 		 */
 		setSearchAttributesUsers: function(attributes) {
 			this.setElementValue(this.managedItems.ldap_attributes_for_user_search.$element, attributes);
+		},
+
+		/**
+		 * enables or disables marking remnants as disabled
+		 *
+		 * @param {string} markRemnantsAsDisabled contains an int
+		 */
+		setMarkRemnantsAsDisabled: function(markRemnantsAsDisabled) {
+			this.setElementValue(this.managedItems.ldap_mark_remnants_as_disabled.$element, markRemnantsAsDisabled);
 		},
 
 		/**

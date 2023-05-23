@@ -676,8 +676,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	}
 
 	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
-		if ($this->deletedUsersIndex->isUserMarked($uid) && ($this->ocConfig->getAppValue('user_ldap', 'markRemnantsAsDisabled', '0') === '1')) {
-			return true;
+		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
+			return false;
 		} else {
 			return $queryDatabaseValue();
 		}
