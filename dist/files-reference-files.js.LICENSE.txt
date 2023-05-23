@@ -1,3 +1,12 @@
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*! For license information please see NcRichText.js.LICENSE.txt */
+
 /**
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *

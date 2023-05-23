@@ -1,3 +1,5 @@
+/*! For license information please see NcColorPicker.js.LICENSE.txt */
+
 /**
  * @copyright 2022 Christopher Ng <chrng8@gmail.com>
  *
