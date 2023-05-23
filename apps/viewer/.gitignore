@@ -28,3 +28,6 @@ cypress/snapshots
 cypress/videos
 cypress/snapshots/actual
 cypress/snapshots/diff
+
+# RelativeCI webpack bundle stats
+webpack-stats.json
