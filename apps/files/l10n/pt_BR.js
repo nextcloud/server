@@ -228,6 +228,7 @@ OC.L10N.register(
     "Delete permanently" : "Remover permanentemente",
     "Set up templates folder" : "Configurar pasta de modelos ",
     "Templates" : "Modelos ",
+    "Create new templates folder" : "Criar nova pasta de modelos",
     "Unable to initialize the templates directory" : "Não foi possível inicializar o diretório de modelos ",
     "Toggle %1$s sublist" : "Alternar a sublista %1$s",
     "Toggle grid view" : "Alternar a visão em grade",

@@ -44,6 +44,7 @@ OC.L10N.register(
     "HTML Code:" : "Koda HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud",
     "Copy to clipboard" : "Kopiraj v odložišče",
+    "Clipboard is not available" : "Odložišče ni na voljo",
     "Copied!" : "Kopirano!",
     "Copy" : "Kopiraj",
     "Not supported!" : "Ni podprto!",
