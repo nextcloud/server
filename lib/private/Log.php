@@ -359,6 +359,7 @@ class Log implements ILogger, IDataLogger {
 			$context['level'] = $level;
 		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
+			error_log('Error when trying to log exception: ' . $e->getMessage() . ' ' . $e->getTraceAsString());
 		}
 	}
 
