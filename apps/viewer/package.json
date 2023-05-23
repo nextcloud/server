@@ -28,6 +28,7 @@
     "build": "webpack --node-env production --progress",
     "dev": "webpack --node-env development --progress",
     "watch": "webpack --node-env development --progress --watch",
+    "stats": "webpack --node-env production --json webpack-stats.json",
     "lint": "eslint --ext .ts,.js,.vue cypress src",
     "lint:fix": "eslint --ext .ts,.js,.vue cypress src --fix",
     "stylelint": "stylelint src",
