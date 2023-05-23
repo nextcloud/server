@@ -63,6 +63,7 @@ use Psr\Log\LoggerInterface;
  * @property string ldapEmailAttribute
  * @property string ldapExtStorageHomeAttribute
  * @property string homeFolderNamingRule
+ * @property bool|string markRemnantsAsDisabled
  * @property bool|string ldapNestedGroups
  * @property string[] ldapBaseGroups
  * @property string ldapGroupFilter
