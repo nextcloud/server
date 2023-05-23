@@ -463,10 +463,11 @@ class User implements IUser {
 				return (bool) $this->enabled;
 			};
 			$this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
-		} else {
+			if ($oldStatus !== $enabled) {
+				$this->triggerChange('enabled', $enabled, $oldStatus);
+			}
+		} elseif ($oldStatus !== $enabled) {
 			$setDatabaseValue($enabled);
-		}
-		if ($oldStatus !== $enabled) {
 			$this->triggerChange('enabled', $enabled, $oldStatus);
 		}
 	}
