@@ -46,7 +46,9 @@ use Sabre\DAV\ICollection;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 use function array_filter;
+use function array_intersect;
 use function array_unique;
+use function in_array;
 
 class SystemAddressbook extends AddressBook {
 	public const URI_SHARED = 'z-server-generated--system';
@@ -92,7 +94,7 @@ class SystemAddressbook extends AddressBook {
 			// Should never happen because we don't allow anonymous access
 			return [];
 		}
-		if (!$shareEnumeration || !$shareEnumerationGroup && $shareEnumerationPhone) {
+		if (!$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			$name = SyncService::getCardUri($user);
 			try {
 				return [parent::getChild($name)];
@@ -132,6 +134,41 @@ class SystemAddressbook extends AddressBook {
 	 * @throws NotFound
 	 */
 	public function getMultipleChildren($paths): array {
+		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		if (!$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
+			$user = $this->userSession->getUser();
+			// No user or cards with no access
+			if ($user === null || !in_array(SyncService::getCardUri($user), $paths, true)) {
+				return [];
+			}
+			// Only return the own card
+			try {
+				return [parent::getChild(SyncService::getCardUri($user))];
+			} catch (NotFound $e) {
+				return [];
+			}
+		}
+		if ($shareEnumerationGroup) {
+			$user = $this->userSession->getUser();
+			if ($this->groupManager === null || $user === null) {
+				// Group manager or user is not available, so we can't determine which data is safe
+				return [];
+			}
+			$groups = $this->groupManager->getUserGroups($user);
+			$allowedNames = [];
+			foreach ($groups as $group) {
+				$users = $group->getUsers();
+				foreach ($users as $groupUser) {
+					if ($groupUser->getBackendClassName() === 'Guests') {
+						continue;
+					}
+					$allowedNames[] = SyncService::getCardUri($groupUser);
+				}
+			}
+			return parent::getMultipleChildren(array_intersect($paths, $allowedNames));
+		}
 		if (!$this->isFederation()) {
 			return parent::getMultipleChildren($paths);
 		}
@@ -161,6 +198,37 @@ class SystemAddressbook extends AddressBook {
 	 * @throws Forbidden
 	 */
 	public function getChild($name): Card {
+		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		if (!$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
+			$currentUser = $this->userSession->getUser();
+			$ownName = $currentUser !== null ? SyncService::getCardUri($currentUser) : null;
+			if ($ownName === $name) {
+				return parent::getChild($name);
+			}
+			throw new Forbidden();
+		}
+		if ($shareEnumerationGroup) {
+			$user = $this->userSession->getUser();
+			if ($user === null || $this->groupManager === null) {
+				// Group manager is not available, so we can't determine which data is safe
+				throw new Forbidden();
+			}
+			$groups = $this->groupManager->getUserGroups($user);
+			foreach ($groups as $group) {
+				foreach ($group->getUsers() as $groupUser) {
+					if ($groupUser->getBackendClassName() === 'Guests') {
+						continue;
+					}
+					$otherName = SyncService::getCardUri($groupUser);
+					if ($otherName === $name) {
+						return parent::getChild($name);
+					}
+				}
+			}
+			throw new Forbidden();
+		}
 		if (!$this->isFederation()) {
 			return parent::getChild($name);
 		}
