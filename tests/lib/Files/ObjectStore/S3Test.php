@@ -80,7 +80,15 @@ class S3Test extends ObjectStoreTest {
 
 		$s3 = $this->getInstance();
 
-		$s3->writeObject('multiparttest', NonSeekableStream::wrap(fopen(__FILE__, 'r')));
+		// We need an actual non-seekable resource here as NonSeekableStream won't be enough
+		// when it is passed to the GuzzleHttp\Psr7\Utils::streamFor
+		// which checks the actual stream meta data using stream_get_meta_data
+		@posix_mkfifo('/tmp/fifo', 0644);
+		$stream = fopen('/tmp/fifo', 'rw+');
+		stream_set_blocking($stream, false);
+		fwrite($stream, file_get_contents(__FILE__));
+
+		$s3->writeObject('multiparttest', NonSeekableStream::wrap($stream));
 
 		$result = $s3->readObject('multiparttest');
 
@@ -119,7 +127,7 @@ class S3Test extends ObjectStoreTest {
 		$s3 = $this->getInstance();
 
 		$emptyStream = fopen("php://memory", "r");
-		fwrite($emptyStream, null);
+		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
 
