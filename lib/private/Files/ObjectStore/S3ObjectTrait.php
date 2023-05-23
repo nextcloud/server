@@ -154,16 +154,24 @@ trait S3ObjectTrait {
 	public function writeObject($urn, $stream, string $mimetype = null) {
 		$psrStream = Utils::streamFor($stream);
 
-		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
-		// so the optimisation does not apply
-		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
-		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
-		$buffer->seek(0);
-		if ($buffer->getSize() < $this->putSizeLimit) {
-			// buffer is fully seekable, so use it directly for the small upload
-			$this->writeSingle($urn, $buffer, $mimetype);
+		$streamSize = $psrStream->getSize();
+		if ($psrStream->isSeekable() && (int)$streamSize !== 0) {
+			$loadStream = $psrStream;
 		} else {
-			$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+			// For cases where the stream reports seekable but no size is returned
+			$buffer = new Psr7\Stream(fopen("php://temp", 'rwb+'));
+			Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
+			$buffer->seek(0);
+			$streamSize = $buffer->getSize();
+			$loadStream = $streamSize < $this->putSizeLimit
+				? $buffer
+				: new Psr7\AppendStream([$buffer, $psrStream]);
+		}
+
+		if ($streamSize < $this->putSizeLimit) {
+			// buffer is fully seekable, so use it directly for the small upload
+			$this->writeSingle($urn, $loadStream, $mimetype);
+		} else {
 			$this->writeMultiPart($urn, $loadStream, $mimetype);
 		}
 	}
