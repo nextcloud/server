@@ -86,15 +86,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (isset($params['validateWrites'])) {
 			$this->validateWrites = (bool)$params['validateWrites'];
 		}
-		//initialize cache with root directory in cache
-		if (!$this->is_dir('/')) {
-			$this->mkdir('/');
-		}
 
 		$this->logger = \OC::$server->getLogger();
 	}
 
-	public function mkdir($path) {
+	public function mkdir($path, bool $force = false) {
 		$path = $this->normalizePath($path);
 		if ($this->file_exists($path)) {
 			return false;
@@ -240,6 +236,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
+			if ($path === '') {
+				$this->mkdir('', true);
+				$cacheEntry = $this->getCache()->get($path);
+				if ($cacheEntry instanceof CacheEntry) {
+					return $cacheEntry->getData();
+				}
+			}
 			return false;
 		}
 	}
@@ -351,6 +354,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			case 'wb':
 			case 'w+':
 			case 'wb+':
+				$dirName = dirname($path);
+				$parentExists = $this->is_dir($dirName);
+				if (!$parentExists) {
+					return false;
+				}
+
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
@@ -463,6 +472,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, 'w+');
+		if (!$handle) {
+			return false;
+		}
 		$result = fwrite($handle, $data);
 		fclose($handle);
 		return $result;
