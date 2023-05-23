@@ -83,7 +83,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$this->logger = \OC::$server->getLogger();
 	}
 
-	public function mkdir($path) {
+	public function mkdir($path, bool $force = false) {
 		$path = $this->normalizePath($path);
 
 		if ($this->file_exists($path)) {
@@ -230,6 +230,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
+			if ($path === '') {
+				$this->mkdir('', true);
+				$cacheEntry = $this->getCache()->get($path);
+				if ($cacheEntry instanceof CacheEntry) {
+					return $cacheEntry->getData();
+				}
+			}
 			return false;
 		}
 	}
@@ -331,6 +338,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			case 'wb':
 			case 'w+':
 			case 'wb+':
+				$dirName = dirname($path);
+				$parentExists = $this->is_dir($dirName);
+				if (!$parentExists) {
+					return false;
+				}
+
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
@@ -443,6 +456,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, 'w+');
+		if (!$handle) {
+			return false;
+		}
 		$result = fwrite($handle, $data);
 		fclose($handle);
 		return $result;
