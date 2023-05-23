@@ -60,7 +60,7 @@ class Converter {
 		$publish = false;
 
 		foreach ($userProperties as $property) {
-			if (empty($property->getValue())) {
+			if ($property->getName() !== IAccountManager::PROPERTY_AVATAR && empty($property->getValue())) {
 				continue;
 			}
 
