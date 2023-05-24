@@ -277,7 +277,12 @@ class QueryBuilder implements IQueryBuilder {
 			]);
 		}
 
-		$result = $this->queryBuilder->execute();
+		try {
+			$result = $this->queryBuilder->execute();
+		} catch (\Doctrine\DBAL\Exception $e) {
+			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		}
+
 		if (is_int($result)) {
 			return $result;
 		}
