@@ -90,6 +90,46 @@ class SystemAddressBookTest extends TestCase {
 		);
 	}
 
+	public function testGetChildrenAsGuest(): void {
+		$this->config->expects(self::exactly(3))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('Guests');
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($user);
+		$vcfWithScopes = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.4.2//EN
+UID:admin
+FN;X-NC-SCOPE=v2-federated:admin
+N;X-NC-SCOPE=v2-federated:admin;;;;
+ADR;TYPE=OTHER;X-NC-SCOPE=v2-local:Testing test test test;;;;;;
+EMAIL;TYPE=OTHER;X-NC-SCOPE=v2-federated:miau_lalala@gmx.net
+TEL;TYPE=OTHER;X-NC-SCOPE=v2-local:+435454454544
+CLOUD:admin@http://localhost
+END:VCARD
+VCF;
+		$originalCard = [
+			'carddata' => $vcfWithScopes,
+		];
+		$this->cardDavBackend->expects(self::once())
+			->method('getCard')
+			->with(123, 'Guests:user.vcf')
+			->willReturn($originalCard);
+
+		$children = $this->addressBook->getChildren();
+
+		self::assertCount(1, $children);
+	}
+
 	public function testGetFilteredChildForFederation(): void {
 		$this->config->expects(self::exactly(3))
 			->method('getAppValue')
@@ -167,6 +207,24 @@ VCF;
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
 			]);
+		$this->expectException(Forbidden::class);
+
+		$this->addressBook->getChild("LDAP:user.vcf");
+	}
+
+	public function testGetChildAsGuest(): void {
+		$this->config->expects(self::exactly(3))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('Guests');
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($user);
 		$this->expectException(Forbidden::class);
 
 		$this->addressBook->getChild("LDAP:user.vcf");
@@ -320,6 +378,26 @@ VCF;
 		]);
 
 		self::assertCount(2, $cards);
+	}
+
+	public function testGetMultipleChildrenAsGuest(): void {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('Guests');
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($user);
+
+		$cards = $this->addressBook->getMultipleChildren(['Database:user1.vcf', 'LDAP:user2.vcf']);
+
+		self::assertEmpty($cards);
 	}
 
 	public function testGetMultipleChildren(): void {
