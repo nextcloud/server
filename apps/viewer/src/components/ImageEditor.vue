@@ -6,12 +6,11 @@ import { basename, dirname, extname, join } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import FilerobotImageEditor from 'filerobot-image-editor'
 
 import logger from '../services/logger.js'
 import translations from '../models/editorTranslations.js'
 
-const { TABS, TOOLS } = FilerobotImageEditor
+let TABS, TOOLS
 
 export default {
 	name: 'ImageEditor',
@@ -116,7 +115,12 @@ export default {
 		},
 	},
 
-	mounted() {
+	async mounted() {
+		// Lazy load the image editor
+		const FilerobotImageEditor = (await import(/* webpackChunkName: 'filerobot' */'filerobot-image-editor')).default
+		TABS = FilerobotImageEditor.TABS
+		TOOLS = FilerobotImageEditor.TOOLS
+
 		this.imageEditor = new FilerobotImageEditor(
 			this.$refs.editor,
 			this.config

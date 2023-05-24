@@ -168,9 +168,6 @@ import '@nextcloud/dialogs/dist/index.css'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
@@ -191,6 +188,14 @@ import Download from 'vue-material-design-icons/Download.vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
+
+// Dynamic loading
+const NcModal = () => import(
+	/* webpackChunkName: 'components' */
+	/* webpackPrefetch: true */
+	'@nextcloud/vue/dist/Components/NcModal.js')
+const NcActionLink = () => import(/* webpackChunkName: 'components' */'@nextcloud/vue/dist/Components/NcActionLink.js')
+const NcActionButton = () => import(/* webpackChunkName: 'components' */'@nextcloud/vue/dist/Components/NcActionButton.js')
 
 export default {
 	name: 'Viewer',
