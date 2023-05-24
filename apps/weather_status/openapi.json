@@ -1,0 +1,912 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "weather_status",
+        "version": "0.0.1",
+        "description": "Weather status in your dashboard",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "weather_status"
+                ],
+                "properties": {
+                    "weather_status": {
+                        "type": "object",
+                        "required": [
+                            "enabled"
+                        ],
+                        "properties": {
+                            "enabled": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "Forecast": {
+                "type": "object",
+                "required": [
+                    "time",
+                    "data"
+                ],
+                "properties": {
+                    "time": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object",
+                        "required": [
+                            "instant",
+                            "next_12_hours",
+                            "next_1_hours",
+                            "next_6_hours"
+                        ],
+                        "properties": {
+                            "instant": {
+                                "type": "object",
+                                "required": [
+                                    "details"
+                                ],
+                                "properties": {
+                                    "details": {
+                                        "type": "object",
+                                        "required": [
+                                            "air_pressure_at_sea_level",
+                                            "air_temperature",
+                                            "cloud_area_fraction",
+                                            "cloud_area_fraction_high",
+                                            "cloud_area_fraction_low",
+                                            "cloud_area_fraction_medium",
+                                            "dew_point_temperature",
+                                            "fog_area_fraction",
+                                            "relative_humidity",
+                                            "ultraviolet_index_clear_sky",
+                                            "wind_from_direction",
+                                            "wind_speed",
+                                            "wind_speed_of_gust"
+                                        ],
+                                        "properties": {
+                                            "air_pressure_at_sea_level": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "air_temperature": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "cloud_area_fraction": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "cloud_area_fraction_high": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "cloud_area_fraction_low": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "cloud_area_fraction_medium": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "dew_point_temperature": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "fog_area_fraction": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "relative_humidity": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "ultraviolet_index_clear_sky": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "wind_from_direction": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "wind_speed": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "wind_speed_of_gust": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "next_12_hours": {
+                                "type": "object",
+                                "required": [
+                                    "summary",
+                                    "details"
+                                ],
+                                "properties": {
+                                    "summary": {
+                                        "type": "object",
+                                        "required": [
+                                            "symbol_code"
+                                        ],
+                                        "properties": {
+                                            "symbol_code": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "required": [
+                                            "probability_of_precipitation"
+                                        ],
+                                        "properties": {
+                                            "probability_of_precipitation": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "next_1_hours": {
+                                "type": "object",
+                                "required": [
+                                    "summary",
+                                    "details"
+                                ],
+                                "properties": {
+                                    "summary": {
+                                        "type": "object",
+                                        "required": [
+                                            "symbol_code"
+                                        ],
+                                        "properties": {
+                                            "symbol_code": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "required": [
+                                            "precipitation_amount",
+                                            "precipitation_amount_max",
+                                            "precipitation_amount_min",
+                                            "probability_of_precipitation",
+                                            "probability_of_thunder"
+                                        ],
+                                        "properties": {
+                                            "precipitation_amount": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "precipitation_amount_max": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "precipitation_amount_min": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "probability_of_precipitation": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "probability_of_thunder": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "next_6_hours": {
+                                "type": "object",
+                                "required": [
+                                    "summary",
+                                    "details"
+                                ],
+                                "properties": {
+                                    "summary": {
+                                        "type": "object",
+                                        "required": [
+                                            "symbol_code"
+                                        ],
+                                        "properties": {
+                                            "symbol_code": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "required": [
+                                            "air_temperature_max",
+                                            "air_temperature_min",
+                                            "precipitation_amount",
+                                            "precipitation_amount_max",
+                                            "precipitation_amount_min",
+                                            "probability_of_precipitation"
+                                        ],
+                                        "properties": {
+                                            "air_temperature_max": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "air_temperature_min": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "precipitation_amount": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "precipitation_amount_max": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "precipitation_amount_min": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "probability_of_precipitation": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/ocs/v2.php/apps/weather_status/api/v1/mode": {
+            "put": {
+                "operationId": "weather_status-set-mode",
+                "summary": "Change the weather status mode. There are currently 2 modes: - ask the browser - use the user defined address",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "New mode",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "success"
+                                                    ],
+                                                    "properties": {
+                                                        "success": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/weather_status/api/v1/use-personal": {
+            "put": {
+                "operationId": "weather_status-use-personal-address",
+                "summary": "Try to use the address set in user personal settings as weather location",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "success",
+                                                        "lat",
+                                                        "lon",
+                                                        "address"
+                                                    ],
+                                                    "properties": {
+                                                        "success": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "lat": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "nullable": true
+                                                        },
+                                                        "lon": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "nullable": true
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "nullable": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/weather_status/api/v1/location": {
+            "get": {
+                "operationId": "weather_status-get-location",
+                "summary": "Get stored user location",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "lat",
+                                                        "lon",
+                                                        "address",
+                                                        "mode"
+                                                    ],
+                                                    "properties": {
+                                                        "lat": {
+                                                            "type": "number",
+                                                            "format": "float"
+                                                        },
+                                                        "lon": {
+                                                            "type": "number",
+                                                            "format": "float"
+                                                        },
+                                                        "address": {
+                                                            "type": "string"
+                                                        },
+                                                        "mode": {
+                                                            "type": "integer",
+                                                            "format": "int64"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "operationId": "weather_status-set-location",
+                "summary": "Set address and resolve it to get coordinates or directly set coordinates and get address with reverse geocoding",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Any approximative or exact address",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "description": "Latitude in decimal degree format",
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "description": "Longitude in decimal degree format",
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "success",
+                                                        "lat",
+                                                        "lon",
+                                                        "address"
+                                                    ],
+                                                    "properties": {
+                                                        "success": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "lat": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "nullable": true
+                                                        },
+                                                        "lon": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "nullable": true
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "nullable": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/weather_status/api/v1/forecast": {
+            "get": {
+                "operationId": "weather_status-get-forecast",
+                "summary": "Get forecast for current location",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Forecast returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Forecast"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Forecast not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "success"
+                                                    ],
+                                                    "properties": {
+                                                        "success": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/weather_status/api/v1/favorites": {
+            "get": {
+                "operationId": "weather_status-get-favorites",
+                "summary": "Get favorites list",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "operationId": "weather_status-set-favorites",
+                "summary": "Set favorites list",
+                "tags": [
+                    "weather_status"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "favorites",
+                        "in": "query",
+                        "description": "Favorite addresses",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "success"
+                                                    ],
+                                                    "properties": {
+                                                        "success": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": []
+}
