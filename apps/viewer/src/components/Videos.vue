@@ -57,9 +57,11 @@ import Vue from 'vue'
 import VuePlyr from '@skjnldsv/vue-plyr'
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 import logger from '../services/logger.js'
+import { imagePath } from '@nextcloud/router'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
+const blankVideo = imagePath('viewer', 'blank.mp4')
 
 Vue.use(VuePlyr)
 
@@ -85,7 +87,7 @@ export default {
 			return {
 				autoplay: this.active === true,
 				// Used to reset the video streams https://github.com/sampotts/plyr#javascript-1
-				blankVideo: 'blank.mp4',
+				blankVideo,
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
 				loadSprite: false,
 			}
