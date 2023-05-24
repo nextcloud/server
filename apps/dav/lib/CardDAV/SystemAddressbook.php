@@ -94,7 +94,7 @@ class SystemAddressbook extends AddressBook {
 			// Should never happen because we don't allow anonymous access
 			return [];
 		}
-		if (!$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
+		if ($user->getBackendClassName() === 'Guests' || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			$name = SyncService::getCardUri($user);
 			try {
 				return [parent::getChild($name)];
@@ -137,8 +137,8 @@ class SystemAddressbook extends AddressBook {
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
-		if (!$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
-			$user = $this->userSession->getUser();
+		$user = $this->userSession->getUser();
+		if (($user !== null && $user->getBackendClassName() === 'Guests') || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			// No user or cards with no access
 			if ($user === null || !in_array(SyncService::getCardUri($user), $paths, true)) {
 				return [];
@@ -151,7 +151,6 @@ class SystemAddressbook extends AddressBook {
 			}
 		}
 		if ($shareEnumerationGroup) {
-			$user = $this->userSession->getUser();
 			if ($this->groupManager === null || $user === null) {
 				// Group manager or user is not available, so we can't determine which data is safe
 				return [];
@@ -198,19 +197,18 @@ class SystemAddressbook extends AddressBook {
 	 * @throws Forbidden
 	 */
 	public function getChild($name): Card {
+		$user = $this->userSession->getUser();
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
-		if (!$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
-			$currentUser = $this->userSession->getUser();
-			$ownName = $currentUser !== null ? SyncService::getCardUri($currentUser) : null;
+		if (($user !== null && $user->getBackendClassName() === 'Guests') || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
+			$ownName = $user !== null ? SyncService::getCardUri($user) : null;
 			if ($ownName === $name) {
 				return parent::getChild($name);
 			}
 			throw new Forbidden();
 		}
 		if ($shareEnumerationGroup) {
-			$user = $this->userSession->getUser();
 			if ($user === null || $this->groupManager === null) {
 				// Group manager is not available, so we can't determine which data is safe
 				throw new Forbidden();
