@@ -1329,30 +1329,29 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		grid-auto-rows: minmax(60px, max-content);
 
 		.row {
-			// TODO replace with css4 subgrid when available
-			// fallback for ie11 no grid
 			display: flex;
-			display: grid;
 			min-height: $grid-row-height;
-			grid-row-start: span 1;
-			grid-gap: 3px;
 			align-items: center;
-			/* let's define the column until storage path,
-			   what follows will be manually defined  */
-			grid-template-columns:
-					44px
-					minmax($grid-col-min-width + 30px, 1fr) // username, displayname
-					minmax($grid-col-min-width, 1fr) // password
-					minmax($grid-col-min-width, 1fr) // email
-					minmax(1.5*$grid-col-min-width, 1fr) // groups
-					minmax(1.5*$grid-col-min-width, 1fr) // group admins
-					minmax($grid-col-min-width, 1fr) // quota
-					minmax(1.5*$grid-col-min-width, 1fr) // manager
-					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
-
 			&.disabled {
 				opacity: .5;
+			}
+
+			td, th {
+				flex: 1 1;
+				min-width: $grid-col-min-width
+			}
+			.avatar {
+				flex: 0 0;
+				min-width: $grid-col-min-width / 2 ;
+			}
+			.name {
+				//min-width: $grid-col-min-width + 30px;
+			}
+			.groups,
+			.subadmins,
+			.manager {
+				//min-width: 1.5*$grid-col-min-width;
 			}
 
 			/* grid col width */
@@ -1396,7 +1395,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.groups,
 			.subadmins,
 			.quota {
-				min-width: $grid-col-min-width;
+				//min-width: $grid-col-min-width;
 
 				.multiselect {
 					width: 100%;
@@ -1418,7 +1417,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				display: flex;
 				justify-content: flex-end;
 				right: 0px;
-				min-width: 88px;
+				//min-width: 88px;
 			}
 
 			.subtitle {

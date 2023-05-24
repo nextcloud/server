@@ -24,7 +24,7 @@
 	<table id="app-content"
 		role="grid"
 		:aria-label="t('settings', 'User\'s table')"
-		class="user-list-grid"
+		class=""
 		@scroll.passive="onScroll">
 		<NcModal v-if="showConfig.showNewUserForm" size="small" @close="closeModal">
 			<form id="new-user"
@@ -174,9 +174,7 @@
 			<tr id="grid-header"
 				:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
 				class="row">
-				<th id="headerAvatar" class="avatar">
-					<span class="hidden-visually"> {{ t('settings', 'Avatar') }} </span>
-				</th>
+				<th id="headerAvatar" class="avatar" />
 				<th id="headerName" class="name">
 					<div class="subtitle">
 						<strong>
