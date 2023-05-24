@@ -29,6 +29,7 @@ OC.L10N.register(
     "Missing Signature" : "Chybějící podpis",
     "one-time password for server-side-encryption" : "jednorázové heslo pro šifrování na straně serveru",
     "Encryption password" : "Šifrovací heslo",
+    "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Správce zapnul šifrování na straně serveru. Vaše soubory byly zašifrovány pomocí hesla <strong>%s</strong>.",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Správce zapnul šifrování na straně serveru. Vaše soubory byly zašifrovány pomocí hesla „%s“.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento soubor se nedaří rozšifrovat – pravděpodobně se jedná o nasdílený soubor. Požádejte jeho vlastníka, aby vám ho znovu nasdílel.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Z tohoto souboru se nedaří číst – pravděpodobně se jedná o nasdílený soubor. Požádejte jeho vlastníka, aby vám ho znovu nasdílel.",

@@ -116,6 +116,8 @@
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} a mis à jour le contact {card} dans le carnet d'adresses {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Vous avez mis à jour le contact {card} dans le carnet d'adresses {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Un <strong>contact</strong> ou <strong>carnet d'adresses</strong> a été modifié",
+    "Accounts" : "Comptes",
+    "System address book which holds all accounts" : "Annuaire système qui regroupe tous les comptes",
     "File is not updatable: %1$s" : "Ce fichier ne peut pas être mis à jour : %1$s",
     "Could not write to final file, canceled by hook" : "Impossible d'écrire dans le fichier final, annulé par le hook",
     "Could not write file contents" : "Impossible d'écrire le contenu du fichier",
