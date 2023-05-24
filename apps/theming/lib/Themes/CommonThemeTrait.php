@@ -87,13 +87,15 @@ trait CommonThemeTrait {
 		$hasCustomLogoHeader = $this->util->isLogoThemed();
 
 		$variables = [];
+		$defaultColorPrimary = $this->themingDefaults->getDefaultColorPrimary();
 
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->themingDefaults->getColorPrimary();
+			$variables['--color-background-plain'] = $defaultColorPrimary;
 			if ($this->themingDefaults->isUserThemingDisabled() || $user === null) {
 				$variables['--image-background-plain'] = 'true';
+				$variables['--background-image-invert-if-bright'] = $this->util->invertTextColor($defaultColorPrimary) ? 'invert(100%)' : 'no';
 			}
 		}
 
@@ -164,6 +166,7 @@ trait CommonThemeTrait {
 			if ($globalBackgroundDeleted) {
 				return [
 					'--image-background-plain' => 'true',
+					'--background-image-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 				];
 			}
 		}
