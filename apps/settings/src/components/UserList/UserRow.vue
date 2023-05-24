@@ -270,12 +270,10 @@
 <script>
 import ClickOutside from 'vue-click-outside'
 
-import {
-	NcPopoverMenu,
-	NcMultiselect,
-	NcActions,
-	NcActionButton,
-} from '@nextcloud/vue'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import UserRowSimple from './UserRowSimple.vue'
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 

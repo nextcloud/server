@@ -73,7 +73,9 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
-import _ from 'lodash'
+import sortedUniq from 'lodash/sortedUniq.js'
+import uniq from 'lodash/uniq.js'
+import debounce from 'lodash/debounce.js'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
@@ -125,19 +127,19 @@ export default {
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
 		// be valid groups, so let's add them as initial state
-		this.groups = _.sortedUniq(_.uniq(this.enforcedGroups.concat(this.excludedGroups)))
+		this.groups = sortedUniq(uniq(this.enforcedGroups.concat(this.excludedGroups)))
 
 		// Populate the groups with a first set so the dropdown is not empty
 		// when opening the page the first time
 		this.searchGroup('')
 	},
 	methods: {
-		searchGroup: _.debounce(function(query) {
+		searchGroup: debounce(function(query) {
 			this.loadingGroups = true
 			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
 				.then(res => res.data.ocs)
 				.then(ocs => ocs.data.groups)
-				.then(groups => { this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))) })
+				.then(groups => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
 				.catch(err => console.error('could not search groups', err))
 				.then(() => { this.loadingGroups = false })
 		}, 500),

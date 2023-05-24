@@ -56,11 +56,9 @@
 
 <script>
 import { debounce } from 'debounce'
-import {
-	NcButton,
-	NcColorPicker,
-	NcNoteCard,
-} from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'

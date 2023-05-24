@@ -1,0 +1,8 @@
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*! For license information please see NcRichContenteditable.js.LICENSE.txt */
