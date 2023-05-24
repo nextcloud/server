@@ -27,7 +27,7 @@
  */
 namespace OC\Files\Cache;
 
-use OC\DB\Exceptions\DbalException;
+use Doctrine\DBAL\Exception\DeadlockException;
 use OC\Files\FileInfo;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IUpdater;
@@ -260,7 +260,7 @@ class Updater implements IUpdater {
 			if ($mtime !== false) {
 				try {
 					$this->cache->update($parentId, ['storage_mtime' => $mtime]);
-				} catch (DbalException $e) {
+				} catch (DeadlockException $e) {
 					// ignore the failure.
 					// with failures concurrent updates, someone else would have already done it.
 					// in the worst case the `storage_mtime` isn't updated, which should at most only trigger an extra rescan
