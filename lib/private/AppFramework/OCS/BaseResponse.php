@@ -143,6 +143,10 @@ abstract class BaseResponse extends Response {
 				$k = 'element';
 			}
 
+			if ($v instanceof \stdClass) {
+				$v = [];
+			}
+
 			if (\is_array($v)) {
 				$writer->startElement($k);
 				$this->toXML($v, $writer);
