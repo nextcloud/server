@@ -12,6 +12,8 @@ OC.L10N.register(
     "Drop changes" : "Cancelar mudanças",
     "Your browser does not support videos." : "Seu navegador não suporta vídeos.",
     "Edit" : "Editar",
+    "Exit full screen" : "Sair da tela cheia",
+    "Full screen" : "Tela cheia",
     "Open sidebar" : "Abrir barra lateral",
     "Download" : "Baixar",
     "Delete" : "Excluir",
