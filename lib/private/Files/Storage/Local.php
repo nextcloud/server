@@ -136,10 +136,10 @@ class Local extends \OC\Files\Storage\Common {
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
-				} elseif ($file->isDir()) {
-					rmdir($file->getPathname());
 				} elseif ($file->isFile() || $file->isLink()) {
 					unlink($file->getPathname());
+				} elseif ($file->isDir()) {
+					rmdir($file->getPathname());
 				}
 				$it->next();
 			}
