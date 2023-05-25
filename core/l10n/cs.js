@@ -168,6 +168,7 @@ OC.L10N.register(
     "Your connection is not secure" : "Vaše připojení není zabezpečené",
     "Passwordless authentication is only available over a secure connection." : "Ověření se bez hesla je k dispozici pouze přes zabezpečené připojení.",
     "Reset password" : "Resetovat heslo",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Pokud tento účet existuje, byla na jeho e-mailovou adresu odeslána zpráva s pokyny pro znovunastavení hesla. Pokud jste ji neobdrželi, podívejte se také do složek s nevyžádanou poštou (spam) a/nebo požádejte svého místního správce o pomoc.",
     "Couldn't send reset email. Please contact your administrator." : "Nepodařilo se odeslat e-mail pro změnu hesla. Obraťte se na správce.",
     "Password cannot be changed. Please contact your administrator." : "Heslo nelze změnit. Obraťte se na svého správce systému.",
     "Back to login" : "Zpět na přihlášení",

@@ -252,6 +252,7 @@ OC.L10N.register(
     "Your profile picture" : "Slika profila",
     "Upload profile picture" : "Pošlji sliko profila",
     "Remove profile picture" : "Odstrani sliko profila",
+    "The file must be a PNG or JPG" : "Datoteka mora biti v zapisu PNG ali JPG",
     "Picture provided by original account" : "Slika iz izvornega računa",
     "Cancel" : "Prekliči",
     "Set as profile picture" : "Nastavi sliko profila",
