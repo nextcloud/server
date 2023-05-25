@@ -184,19 +184,21 @@ export default {
 		 * @return {string}
 		 */
 		versionLabel() {
+			const label = this.version.label ?? ''
+
 			if (this.isCurrent) {
-				if (this.version.label === undefined || this.version.label === '') {
+				if (label === '') {
 					return translate('files_versions', 'Current version')
 				} else {
-					return `${this.version.label} (${translate('files_versions', 'Current version')})`
+					return `${label} (${translate('files_versions', 'Current version')})`
 				}
 			}
 
-			if (this.isFirstVersion && this.version.label === '') {
+			if (this.isFirstVersion && label === '') {
 				return translate('files_versions', 'Initial version')
 			}
 
-			return this.version.label
+			return label
 		},
 
 		/**
