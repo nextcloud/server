@@ -30,6 +30,7 @@ namespace OCA\DAV\CardDAV;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\CardDAV\Backend\BackendInterface;
+use function array_filter;
 
 class SystemAddressbook extends AddressBook {
 	/** @var IConfig */
@@ -49,5 +50,14 @@ class SystemAddressbook extends AddressBook {
 		}
 
 		return parent::getChildren();
+	}
+
+	public function getACL() {
+		return array_filter(parent::getACL(), function($acl) {
+			if (in_array($acl['privilege'], ['{DAV:}write', '{DAV:}all'], true)) {
+				return false;
+			}
+			return true;
+		});
 	}
 }
