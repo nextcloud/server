@@ -588,6 +588,10 @@ class Storage {
 
 			// Check that the version does not have a label.
 			$path = $versionsRoot->getRelativePath($info->getPath());
+			if ($path === null) {
+				throw new DoesNotExistException('Could not find relative path of (' . $info->getPath() . ')');
+			}
+
 			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
 			try {
 				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
