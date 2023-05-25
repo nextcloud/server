@@ -32,6 +32,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Command\\Export' => __DIR__ . '/..' . '/../lib/Command/Export.php',
         'OCA\\Files_External\\Command\\Import' => __DIR__ . '/..' . '/../lib/Command/Import.php',
         'OCA\\Files_External\\Command\\ListCommand' => __DIR__ . '/..' . '/../lib/Command/ListCommand.php',
+        'OCA\\Files_External\\Command\\MigrateOc' => __DIR__ . '/..' . '/../lib/Command/MigrateOc.php',
         'OCA\\Files_External\\Command\\Notify' => __DIR__ . '/..' . '/../lib/Command/Notify.php',
         'OCA\\Files_External\\Command\\Option' => __DIR__ . '/..' . '/../lib/Command/Option.php',
         'OCA\\Files_External\\Command\\Verify' => __DIR__ . '/..' . '/../lib/Command/Verify.php',
