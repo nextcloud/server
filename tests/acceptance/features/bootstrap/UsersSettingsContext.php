@@ -82,7 +82,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForUser($user) {
-		return Locator::forThe()->css("table.user-list-grid tr.row[data-id=$user]")->
+		return Locator::forThe()->css("div.user-list-grid div.row[data-id=$user]")->
 			describedAs("Row for user $user in Users Settings");
 	}
 
@@ -144,7 +144,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function theColumn($column) {
-		return Locator::forThe()->xpath("//table[@class='user-list-grid']//*[normalize-space() = '$column']")->
+		return Locator::forThe()->xpath("//div[@class='user-list-grid']//div[normalize-space() = '$column']")->
 			describedAs("The $column column in Users Settings");
 	}
 
@@ -170,7 +170,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function editModeOn($user) {
-		return Locator::forThe()->css("table.user-list-grid tr.row.row--editable[data-id=$user]")->
+		return Locator::forThe()->css("div.user-list-grid div.row.row--editable[data-id=$user]")->
 			describedAs("I see the edit mode is on for the user $user in Users Settings");
 	}
 

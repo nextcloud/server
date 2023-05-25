@@ -1417,8 +1417,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.userActions {
 				display: flex;
 				justify-content: flex-end;
+				position: sticky;
 				right: 0px;
 				min-width: 88px;
+				background-color: var(--color-main-background);
+			}
+
+			&.row--editable .userActions {
+				z-index: 10;
 			}
 
 			.subtitle {
@@ -1462,6 +1468,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			&:hover {
+				input:not([type='submit']):not(:focus):not(:active) {
+					border-color: var(--color-border) !important;
+				}
+
 				&:not(#grid-header) {
 					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
@@ -1471,7 +1481,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				width: 100%;
 			}
 
-			> td,
+			> div,
+			> .displayName > form,
 			> form {
 				grid-row: 1;
 				display: inline-flex;
