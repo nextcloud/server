@@ -144,7 +144,8 @@ export default {
 
 						&:active,
 						&.active {
-							background-color: var(--color-primary-element-light);
+							background-color: var(--color-primary-element);
+							color: var(--color-primary-element-text);
 						}
 
 						span {
@@ -164,7 +165,6 @@ export default {
 
 						img,
 						svg {
-							opacity: .7;
 							filter: var(--background-invert-if-dark);
 						}
 					}
