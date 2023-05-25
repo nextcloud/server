@@ -83,8 +83,14 @@ class CertificateManager implements ICertificateManager {
 		while (false !== ($file = readdir($handle))) {
 			if ($file != '.' && $file != '..') {
 				try {
-					$result[] = new Certificate($this->view->file_get_contents($path . $file), $file);
+					$content = $this->view->file_get_contents($path . $file);
+					if ($content !== false) {
+						$result[] = new Certificate($content, $file);
+					} else {
+						$this->logger->error("Failed to read certificate from $path");
+					}
 				} catch (\Exception $e) {
+					$this->logger->error("Failed to read certificate from $path", ['exception' => $e]);
 				}
 			}
 		}
