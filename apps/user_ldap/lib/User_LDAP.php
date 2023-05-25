@@ -56,33 +56,27 @@ use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	/** @var \OCP\IConfig */
-	protected $ocConfig;
-
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var UserPluginManager */
-	protected $userPluginManager;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
+	protected IConfig $ocConfig;
+	protected INotificationManager $notificationManager;
+	protected UserPluginManager $userPluginManager;
+	protected LoggerInterface $logger;
 	protected DeletedUsersIndex $deletedUsersIndex;
 
-	/**
-	 * @param Access $access
-	 * @param \OCP\IConfig $ocConfig
-	 * @param \OCP\Notification\IManager $notificationManager
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession, UserPluginManager $userPluginManager) {
+	public function __construct(
+		Access $access,
+		IConfig $ocConfig,
+		INotificationManager $notificationManager,
+		IUserSession $userSession,
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
+	) {
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
-		$this->logger = \OC::$server->get(LoggerInterface::class);
-		$this->deletedUsersIndex = \OC::$server->get(DeletedUsersIndex::class);
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	/**

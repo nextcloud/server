@@ -31,6 +31,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserBackend;
@@ -40,6 +41,7 @@ use OCP\UserInterface;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
+use Psr\Log\LoggerInterface;
 
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
 	/** @var User_LDAP[] */
@@ -52,6 +54,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	private INotificationManager $notificationManager;
 	private IUserSession $userSession;
 	private UserPluginManager $userPluginManager;
+	private LoggerInterface $logger;
+	private DeletedUsersIndex $deletedUsersIndex;
 
 	public function __construct(
 		Helper $helper,
@@ -60,7 +64,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		IConfig $ocConfig,
 		INotificationManager $notificationManager,
 		IUserSession $userSession,
-		UserPluginManager $userPluginManager
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
@@ -68,6 +74,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		$this->notificationManager = $notificationManager;
 		$this->userSession = $userSession;
 		$this->userPluginManager = $userPluginManager;
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	protected function setup(): void {
@@ -77,8 +85,15 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 
 		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] =
-				new User_LDAP($this->getAccess($configPrefix), $this->ocConfig, $this->notificationManager, $this->userSession, $this->userPluginManager);
+			$this->backends[$configPrefix] = new User_LDAP(
+				$this->getAccess($configPrefix),
+				$this->ocConfig,
+				$this->notificationManager,
+				$this->userSession,
+				$this->userPluginManager,
+				$this->logger,
+				$this->deletedUsersIndex,
+			);
 
 			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
