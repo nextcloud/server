@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "Blank",
     "Unable to create new file from template" : "Unable to create new file from template",
     "Delete permanently" : "Delete permanently",
+    "Open folder {displayName}" : "Open folder {displayName}",
     "Set up templates folder" : "Set up templates folder",
     "Templates" : "Templates",
     "Create new templates folder" : "Create new templates folder",

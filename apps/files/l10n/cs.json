@@ -226,6 +226,7 @@
     "Blank" : "Prázdný",
     "Unable to create new file from template" : "Nedaří se vytvořit soubor ze šablony",
     "Delete permanently" : "Nadobro smazat",
+    "Open folder {displayName}" : "Otevřít složku {displayName}",
     "Set up templates folder" : "Vytvořit složku pro šablony",
     "Templates" : "Šablony",
     "Create new templates folder" : "Vytvořit novou složku šablon",

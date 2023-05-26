@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "Vuoto",
     "Unable to create new file from template" : "Impossibile creare un nuovo file dal modello",
     "Delete permanently" : "Elimina permanentemente",
+    "Open folder {displayName}" : "Apri la cartella {displayName}",
     "Set up templates folder" : "Configura la cartella dei modelli",
     "Templates" : "Modelli",
     "Create new templates folder" : "Crea una nuova cartella dei templates",
