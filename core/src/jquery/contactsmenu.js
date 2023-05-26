@@ -25,7 +25,7 @@
 import $ from 'jquery'
 
 import OC from '../OC/index.js'
-import { isA11yActivation } from '../Util/a11y.js'
+import { isA11yActivation } from '@nextcloud/vue'
 
 const LIST = ''
 	+ '<div class="menu popovermenu menu-left hidden contactsmenu-popover">'

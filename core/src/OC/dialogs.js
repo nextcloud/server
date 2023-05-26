@@ -49,7 +49,7 @@ import $ from 'jquery'
 
 import OC from './index.js'
 import OCA from '../OCA/index.js'
-import { isA11yActivation } from '../Util/a11y.js'
+import { isA11yActivation } from '@nextcloud/vue'
 
 /**
  * this class to ease the usage of jquery dialogs

@@ -25,7 +25,7 @@
 
 import $ from 'jquery'
 import { createFocusTrap } from 'focus-trap'
-import { isA11yActivation } from '../Util/a11y.js'
+import { isA11yActivation } from '@nextcloud/vue'
 
 $.widget('oc.ocdialog', {
 	options: {
