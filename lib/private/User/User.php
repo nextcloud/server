@@ -571,7 +571,7 @@ class User implements IUser {
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
-		$image = $avatar->get(-1);
+		$image = $avatar->get($size);
 		if ($image) {
 			return $image;
 		}
