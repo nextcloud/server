@@ -95,6 +95,7 @@ const icons = {
 	'sound': path.join(__dirname, '../img', 'actions', 'sound.svg'),
 	'star': path.join(__dirname, '../img', 'actions', 'star.svg'),
 	'starred': path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
+	'star-rounded': path.join(__dirname, '../img', 'actions', 'star-rounded.svg'),
 	'tablet': path.join(__dirname, '../img', 'clients', 'tablet.svg'),
 	'tag': path.join(__dirname, '../img', 'actions', 'tag.svg'),
 	'talk': path.join(__dirname, '../img', 'apps', 'spreed.svg'),

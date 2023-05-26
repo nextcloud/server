@@ -155,6 +155,8 @@
   --original-icon-star-white: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im04IDAuNSAyLjIgNS4zIDUuOCAwLjQ1LTQuNSAzLjc1IDEuNSA1LjUtNS0zLjEtNSAzLjEgMS41LTUuNS00LjUtMy43NSA1LjgtMC40NXoiIG9wYWNpdHk9Ii41IiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+Cg==);
   --original-icon-starred-dark: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im04IDAuNSAyLjIgNS4zIDUuOCAwLjQ1LTQuNSAzLjc1IDEuNSA1LjUtNS0zLjEtNSAzLjEgMS41LTUuNS00LjUtMy43NSA1LjgtMC40NXoiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4K);
   --original-icon-starred-white: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im04IDAuNSAyLjIgNS4zIDUuOCAwLjQ1LTQuNSAzLjc1IDEuNSA1LjUtNS0zLjEtNSAzLjEgMS41LTUuNS00LjUtMy43NSA1LjgtMC40NXoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4K);
+  --original-icon-star-rounded-dark: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0gOC44NTg3NDMzLDEuMDEwMTE1MyAxLjczMzY0NDcsNC4xNzY1MDY2IDQuNTU0OTM4LDAuMzUzNDAwNCBhIDAuOTI0MTYwOCwwLjkyNDE2MDggMCAwIDEgMC41MjAxNDYsMS42MzEzNTE4IGwgLTMuNTQ2MDksMi45NTUwNzQ5IDEuMTYzNDI4LDQuMjY1OTA1IEEgMC44OTgyMDE4NiwwLjg5ODIwMTg2IDAgMCAxIDExLjk0NDk1OSwxNS4zOTIwNyBMIDguMDA0ODU5MiwxMi45NDkyMDggNC4wMDQ2NzI3LDE1LjQyOTMyNCBBIDAuODcwMzkxODgsMC44NzAzOTE4OCAwIDAgMSAyLjcwNjMwNiwxNC40NjA1NiBMIDMuODg4MzM2MiwxMC4xMjY0NDkgMC4zMzAyNDI0NCw3LjE2MTM3MTQgQSAwLjkxNzgwOTU3LDAuOTE3ODA5NTcgMCAwIDEgMC44NDY4MTM4NCw1LjU0MTIzMDkgTCA1LjQxNzMzMDUsNS4xODY2MjE5IDcuMTUwOTc0NywxLjAxMDExNTMgYSAwLjkyNDUyNTk3LDAuOTI0NTI1OTcgMCAwIDEgMS43MDc3Njg2LDAgeiIgZmlsbD0iIzAwMDAwMCIvPjwvc3ZnPgo=);
+  --original-icon-star-rounded-white: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0gOC44NTg3NDMzLDEuMDEwMTE1MyAxLjczMzY0NDcsNC4xNzY1MDY2IDQuNTU0OTM4LDAuMzUzNDAwNCBhIDAuOTI0MTYwOCwwLjkyNDE2MDggMCAwIDEgMC41MjAxNDYsMS42MzEzNTE4IGwgLTMuNTQ2MDksMi45NTUwNzQ5IDEuMTYzNDI4LDQuMjY1OTA1IEEgMC44OTgyMDE4NiwwLjg5ODIwMTg2IDAgMCAxIDExLjk0NDk1OSwxNS4zOTIwNyBMIDguMDA0ODU5MiwxMi45NDkyMDggNC4wMDQ2NzI3LDE1LjQyOTMyNCBBIDAuODcwMzkxODgsMC44NzAzOTE4OCAwIDAgMSAyLjcwNjMwNiwxNC40NjA1NiBMIDMuODg4MzM2MiwxMC4xMjY0NDkgMC4zMzAyNDI0NCw3LjE2MTM3MTQgQSAwLjkxNzgwOTU3LDAuOTE3ODA5NTcgMCAwIDEgMC44NDY4MTM4NCw1LjU0MTIzMDkgTCA1LjQxNzMzMDUsNS4xODY2MjE5IDcuMTUwOTc0NywxLjAxMDExNTMgYSAwLjkyNDUyNTk3LDAuOTI0NTI1OTcgMCAwIDEgMS43MDc3Njg2LDAgeiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPgo=);
   --original-icon-tablet-dark: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCA0LjIzMyA0LjIzMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNLjk3MSAwQS40NTIuNDUyIDAgMCAwIC41My40NTV2My4zMjNjMCAuMjQ5LjIuNDU1LjQ0Mi40NTVoMi4yOWEuNDUyLjQ1MiAwIDAgMCAuNDQzLS40NTVWLjQ1NWMwLS4yNDktLjItLjQ1NS0uNDQyLS40NTV6bTAgLjQyNmgyLjI5Yy4wMiAwIC4wMy4wMDguMDMuMDI5djMuMzIzYzAgLjAyLS4wMS4wMy0uMDMuMDNILjk3MmMtLjAyIDAtLjAyNy0uMDEtLjAyNy0uMDNWLjQ1NWMwLS4wMi4wMDgtLjAyOS4wMjctLjAyOXoiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4K);
   --original-icon-tablet-white: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCA0LjIzMyA0LjIzMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNLjk3MSAwQS40NTIuNDUyIDAgMCAwIC41My40NTV2My4zMjNjMCAuMjQ5LjIuNDU1LjQ0Mi40NTVoMi4yOWEuNDUyLjQ1MiAwIDAgMCAuNDQzLS40NTVWLjQ1NWMwLS4yNDktLjItLjQ1NS0uNDQyLS40NTV6bTAgLjQyNmgyLjI5Yy4wMiAwIC4wMy4wMDguMDMuMDI5djMuMzIzYzAgLjAyLS4wMS4wMy0uMDMuMDNILjk3MmMtLjAyIDAtLjAyNy0uMDEtLjAyNy0uMDNWLjQ1NWMwLS4wMi4wMDgtLjAyOS4wMjctLjAyOXoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4K);
   --original-icon-tag-dark: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdib3g9IjAgMCAxNiAxNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMS41NSAxYy0uMTUgMC0uMjkuMDYtLjM5LjE2LS4xLjEtLjE2LjI0LS4xNi40djUuMThjMCAuMTYuMDcuMy4xNy40bDcuNjggNy42OGEuNi42IDAgMDAuODYgMGw1LjExLTUuMWEuNi42IDAgMDAwLS44N0w3LjE0IDEuMThhLjU3LjU3IDAgMDAtLjQtLjE4SDEuNTV6TTQuNSAzQTEuNSAxLjUgMCAwMTYgNC41IDEuNSAxLjUgMCAwMTQuNSA2IDEuNSAxLjUgMCAwMTMgNC41IDEuNSAxLjUgMCAwMTQuNSAzeiIgZmlsbD0iIzAwMDAwMCIvPjwvc3ZnPgo=);
@@ -374,6 +376,8 @@ body {
   --icon-star-white: var(--original-icon-star-white);
   --icon-starred-dark: var(--original-icon-starred-dark);
   --icon-starred-white: var(--original-icon-starred-white);
+  --icon-star-rounded-dark: var(--original-icon-star-rounded-dark);
+  --icon-star-rounded-white: var(--original-icon-star-rounded-white);
   --icon-tablet-dark: var(--original-icon-tablet-dark);
   --icon-tablet-white: var(--original-icon-tablet-white);
   --icon-tag-dark: var(--original-icon-tag-dark);
@@ -1049,6 +1053,14 @@ body .icon-starred-white,
 body .icon-starred.icon-white {
   background-image: var(--icon-starred-white);
 }
+body .icon-star-rounded,
+body .icon-star-rounded-dark {
+  background-image: var(--icon-star-rounded-dark);
+}
+body .icon-star-rounded-white,
+body .icon-star-rounded.icon-white {
+  background-image: var(--icon-star-rounded-white);
+}
 body .icon-tablet,
 body .icon-tablet-dark {
   background-image: var(--icon-tablet-dark);
@@ -1537,6 +1549,8 @@ body .nav-icon-systemtagsfilter {
     --icon-star-dark: var(--original-icon-star-white);
     --icon-starred-white: var(--original-icon-starred-dark);
     --icon-starred-dark: var(--original-icon-starred-white);
+    --icon-star-rounded-white: var(--original-icon-star-rounded-dark);
+    --icon-star-rounded-dark: var(--original-icon-star-rounded-white);
     --icon-tablet-white: var(--original-icon-tablet-dark);
     --icon-tablet-dark: var(--original-icon-tablet-white);
     --icon-tag-white: var(--original-icon-tag-dark);
@@ -1746,6 +1760,8 @@ body .nav-icon-systemtagsfilter {
   --icon-star-white: var(--original-icon-star-white);
   --icon-starred-dark: var(--original-icon-starred-dark);
   --icon-starred-white: var(--original-icon-starred-white);
+  --icon-star-rounded-dark: var(--original-icon-star-rounded-dark);
+  --icon-star-rounded-white: var(--original-icon-star-rounded-white);
   --icon-tablet-dark: var(--original-icon-tablet-dark);
   --icon-tablet-white: var(--original-icon-tablet-white);
   --icon-tag-dark: var(--original-icon-tag-dark);
@@ -1955,6 +1971,8 @@ body .nav-icon-systemtagsfilter {
   --icon-star-dark: var(--original-icon-star-white);
   --icon-starred-white: var(--original-icon-starred-dark);
   --icon-starred-dark: var(--original-icon-starred-white);
+  --icon-star-rounded-white: var(--original-icon-star-rounded-dark);
+  --icon-star-rounded-dark: var(--original-icon-star-rounded-white);
   --icon-tablet-white: var(--original-icon-tablet-dark);
   --icon-tablet-dark: var(--original-icon-tablet-white);
   --icon-tag-white: var(--original-icon-tag-dark);
