@@ -3,6 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Isso geralmente pode ser corrigido dando ao servidor web acesso de gravação ao diretório de configuração.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Mas, se você preferir manter o arquivo config.php somente para leitura, defina a opção \"config_is_read_only\" como true nele. ",
     "See %s" : "Ver %s",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Aplicação %1$s não está presente ou possui uma versão não compatível com este servidor. Verifique o diretório de aplicativos.",
     "Sample configuration detected" : "Configuração de exemplo detectada",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Foi detectado que a configuração de exemplo foi copiada. Isso pode terminar sua instalação e não é suportado. Por favor leia a documentação antes de realizar mudanças no config.php",
     "404" : "404",
