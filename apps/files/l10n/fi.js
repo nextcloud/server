@@ -222,6 +222,7 @@ OC.L10N.register(
     "Blank" : "Tyhjä",
     "Unable to create new file from template" : "Uutta tiedostoa mallipohjasta ei voi luoda",
     "Delete permanently" : "Poista pysyvästi",
+    "Open folder {displayName}" : "Avaa kansio {displayName}",
     "Set up templates folder" : "Aseta mallipohjien kansio",
     "Templates" : "Mallipohjat",
     "Create new templates folder" : "Luo uusi mallipohjien kansio",

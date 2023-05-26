@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "Tom",
     "Unable to create new file from template" : "Kunde inte skapa fil från mall",
     "Delete permanently" : "Ta bort permanent",
+    "Open folder {displayName}" : "Öppna mappen {displayName}",
     "Set up templates folder" : "Skapa en mapp för mallar",
     "Templates" : "Mallar",
     "Create new templates folder" : "Skapa ny mallmapp",
