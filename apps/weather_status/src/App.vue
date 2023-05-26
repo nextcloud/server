@@ -41,9 +41,11 @@
 					{{ locationText }}
 				</NcActionLink>
 				<NcActionButton v-if="gotWeather"
-					:icon="addRemoveFavoriteIcon"
 					:aria-hidden="true"
 					@click="onAddRemoveFavoriteClick">
+					<template #icon>
+						<component :is="addRemoveFavoriteIcon" :size="20" class="favorite-color" />
+					</template>
 					{{ addRemoveFavoriteText }}
 				</NcActionButton>
 				<NcActionSeparator v-if="address && !errorMessage" />
@@ -68,12 +70,14 @@
 					@click="showFavorites = !showFavorites">
 					{{ t('weather_status', 'Favorites') }}
 				</NcActionButton>
-				<NcActionButton v-for="f in displayedFavorites"
-					:key="f"
-					icon="icon-starred"
+				<NcActionButton v-for="favorite in displayedFavorites"
+					:key="favorite"
 					:aria-hidden="true"
-					@click="onFavoriteClick($event, f)">
-					{{ f }}
+					@click="onFavoriteClick($event, favorite)">
+					<template #icon>
+						<IconStar :size="20" :class="{'favorite-color': address === favorite}" />
+					</template>
+					{{ favorite }}
 				</NcActionButton>
 			</NcActions>
 		</div>
@@ -84,6 +88,8 @@
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
+import IconStar from 'vue-material-design-icons/Star.vue'
+import IconStarOutline from 'vue-material-design-icons/StarOutline.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
@@ -202,6 +208,7 @@ const weatherOptions = {
 export default {
 	name: 'App',
 	components: {
+		IconStar,
 		NcActions,
 		NcActionButton,
 		NcActionInput,
@@ -289,8 +296,8 @@ export default {
 		},
 		addRemoveFavoriteIcon() {
 			return this.currentAddressIsFavorite
-				? 'icon-starred'
-				: 'icon-star'
+				? IconStar
+				: IconStarOutline
 		},
 		addRemoveFavoriteText() {
 			return this.currentAddressIsFavorite
@@ -600,6 +607,11 @@ export default {
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
+}
+
+// Set color to primary element for current / active favorite address
+.favorite-color {
+	color: #a08b00;
 }
 
 li:not(.inline) .weather-status-menu-item {
