@@ -6,7 +6,7 @@
 # Use lint-eslint together with lint-eslint-when-unrelated to make eslint a required check for GitHub actions
 # https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks
 
-name: Lint
+name: Lint eslint
 
 on:
   pull_request:

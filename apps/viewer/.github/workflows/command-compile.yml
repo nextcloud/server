@@ -28,7 +28,7 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reaction-type: "+1"
+          reactions: "+1"
 
       - name: Parse command
         uses: skjnldsv/parse-command-comment@7cef1df370a99dfd5bf896d50121390c96785db8 # v2
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
@@ -66,7 +66,7 @@ jobs:
           git config --local user.name "nextcloud-command"
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v1.2
+        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
         id: package-engines-versions
         with:
           fallbackNode: '^16'
@@ -90,7 +90,7 @@ jobs:
         if: ${{ needs.init.outputs.arg1 != 'fixup' && needs.init.outputs.arg1 != 'amend' }}
         run: |
           git add ${{ needs.init.outputs.git_path }}
-          git commit --signoff -m 'Compile assets'
+          git commit --signoff -m 'chore(assets): Recompile assets'
           git push origin ${{ needs.init.outputs.head_ref }}
 
       - name: Commit and push fixup
@@ -114,4 +114,4 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reaction-type: "-1"
+          reactions: "-1"
