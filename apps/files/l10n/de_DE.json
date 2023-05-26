@@ -226,6 +226,7 @@
     "Blank" : "Leer",
     "Unable to create new file from template" : "Neue Datei kann nicht aus Vorlage erstellt werden",
     "Delete permanently" : "Endgültig löschen",
+    "Open folder {displayName}" : "Ordner {displayName} öffnen",
     "Set up templates folder" : "Vorlagenordner einrichten",
     "Templates" : "Vorlagen",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",

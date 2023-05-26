@@ -226,6 +226,7 @@
     "Blank" : "空白",
     "Unable to create new file from template" : "無法從範本建立新檔案",
     "Delete permanently" : "永久刪除",
+    "Open folder {displayName}" : "開啟資料夾 {displayName}",
     "Set up templates folder" : "設定範本資料夾",
     "Templates" : "範本",
     "Create new templates folder" : "建立新的範本資料夾",

@@ -219,7 +219,8 @@ kbd {
 			a.active {
 				&,
 				> a {
-					background-color: var(--color-primary-element-light);
+					background-color: var(--color-primary-element);
+					color: var(--color-primary-element-text);
 				}
 			}
 

@@ -487,7 +487,7 @@ class OC_Helper {
 			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, $includeExtStorage ? 'ext' : false);
 		}
 		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
-			throw new \OCP\Files\NotFoundException();
+			throw new \OCP\Files\NotFoundException('The root directory of the user\'s files is missing');
 		}
 		$used = $rootInfo->getSize($includeMountPoints);
 		if ($used < 0) {
