@@ -217,18 +217,12 @@ OC.L10N.register(
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Storage invalid" : "Opslag ongeldig",
-    "Select" : "Selecteer",
-    "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
-    "New" : "Nieuw",
-    "Copied!" : "Gekopieerd!",
     "Unlimited" : "Ongelimiteerd",
     "Search users" : "Gebruikers zoeken",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
     "Cancel" : "Annuleren",
     "%s used" : "%s gebruikt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
-    "Settings" : "Instellingen",
     "Deleted files" : "Verwijderde bestanden"
 },
 "nplurals=2; plural=(n != 1);");

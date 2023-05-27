@@ -43,13 +43,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Afrita á klippispjald",
     "Copied!" : "Afritað!",
-    "Copy" : "Afrita",
-    "Not supported!" : "Ekki stutt!",
-    "Press ⌘-C to copy." : "Ýttu á ⌘-C til að afrita.",
-    "Press Ctrl-C to copy." : "Ýttu á Ctrl-C til að afrita.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Þú tókst við \"%3$s\" sem fjartengdri sameign frá %4$s (%1$s) (fyrir hönd %5$s)",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Þú tókst við \"%3$s\" sem fjartengdri sameign frá %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
-    "Open documentation" : "Opna hjálparskjöl"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -110,10 +110,6 @@ OC.L10N.register(
     "User group membership" : "Benutzergruppen-Mitgliedschaft",
     "is member of" : "ist Mitglied von",
     "is not member of" : "ist kein Mitglied von",
-    "Select a tag" : "Schlagwort auswählen",
-    "No results" : "Keine Ergebnisse",
-    "%s (invisible)" : "%s(unsichtbar)",
-    "%s (restricted)" : "%s (eingeschränkt)",
     "Predefined URLs" : "Vordefinierte URLs",
     "Others" : "Andere"
 },

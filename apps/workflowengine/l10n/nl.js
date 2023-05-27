@@ -109,10 +109,6 @@ OC.L10N.register(
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
     "is not member of" : "is geen lid van",
-    "Select a tag" : "Selecteer een markering",
-    "No results" : "Geen resultaten",
-    "%s (invisible)" : "%s (onzichtbaar)",
-    "%s (restricted)" : "%s (beperkt)",
     "Predefined URLs" : "Voorgedefinieerde URL's",
     "Others" : "Anderen"
 },

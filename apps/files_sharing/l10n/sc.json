@@ -240,10 +240,6 @@
     "Uploaded files:" : "Archìvios carrigados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Carrighende is archìvios, cuncordas cun is %1$scunditziones de servìtziu%2$s.",
     "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
-    "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
-    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
-    "Copy to clipboard" : "Còpia in punta de billete",
-    "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
-    "Toggle grid view" : "Càmbia a visualizatzione in mosàicu"
+    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

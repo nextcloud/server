@@ -109,10 +109,6 @@ OC.L10N.register(
     "User group membership" : "ユーザーがグループのメンバーかどうか",
     "is member of" : "が次のグループのメンバーである",
     "is not member of" : "が次のグループのメンバーではない",
-    "Select a tag" : "タグを選択",
-    "No results" : "該当なし",
-    "%s (invisible)" : "%s (不可視)",
-    "%s (restricted)" : "%s (制限)",
     "Predefined URLs" : "定義済みのURL",
     "Others" : "その他"
 },

@@ -52,13 +52,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Копиране в клипборда",
     "Clipboard is not available" : "Клипбордът не е достъпен",
     "Copied!" : "Копирано!",
-    "Copy" : "Копиране",
-    "Not supported!" : "Не се поддържа!",
-    "Press ⌘-C to copy." : "За копиране натиснете ⌘-C",
-    "Press Ctrl-C to copy." : "За копиране натиснете Ctrl-C",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Получихте „%3$s“, като отдалечен дял от %4$s (%1$s) (от името на %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Получихте „%3$s“, като отдалечено споделяне от %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Споделете с мен, чрез моя #Nextcloud Federated Cloud ID - %s",
-    "Open documentation" : "Отвори документацията"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Споделете с мен, чрез моя #Nextcloud Federated Cloud ID - %s"
 },
 "nplurals=2; plural=(n != 1);");

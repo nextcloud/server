@@ -21,11 +21,6 @@ OC.L10N.register(
     "Good evening, {name}" : "God aften {name}",
     "Hello" : "Hej",
     "Hello, {name}" : "Hej {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Start din dag informeret\n\nNextcloud Dashboard er dit udgangspunkt på dagen og giver dig en\noversigt over dine kommende aftaler, hastemails, chatbeskeder,\nindgående billetter, seneste tweets og meget mere! Brugere kan tilføje widgets\nde kan lide og ændre baggrunden efter deres smag.",
-    "Change background image" : "Ændre baggrund",
-    "Pick from Files" : "Vælg fra Filer",
-    "Default images" : "Standardbilleder",
-    "Plain background" : "Standard baggrund",
-    "Insert from {productName}" : "Indsæt fra {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Start din dag informeret\n\nNextcloud Dashboard er dit udgangspunkt på dagen og giver dig en\noversigt over dine kommende aftaler, hastemails, chatbeskeder,\nindgående billetter, seneste tweets og meget mere! Brugere kan tilføje widgets\nde kan lide og ændre baggrunden efter deres smag."
 },
 "nplurals=2; plural=(n != 1);");

@@ -249,18 +249,13 @@ OC.L10N.register(
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Storage invalid" : "Depolama geçersiz",
-    "Select" : "Seçin",
-    "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
-    "New" : "Yeni",
-    "Copied!" : "Kopyalandı!",
     "Unlimited" : "Sınırsız",
     "Search users" : "Kullanıcı arama",
-    "Cannot transfer ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
     "Cancel" : "İptal",
     "%s used" : "%s kullanılıyor",
     "%s%%" : "%%%s",
     "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
-    "Settings" : "Ayarlar",
-    "Deleted files" : "Silinmiş dosyalar"
+    "Deleted files" : "Silinmiş dosyalar",
+    "Search for an account" : "Hesap ara"
 },
 "nplurals=2; plural=(n > 1);");

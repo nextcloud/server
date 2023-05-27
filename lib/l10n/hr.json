@@ -225,10 +225,6 @@
     "Storage connection timeout. %s" : "Istek veze pohrane. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Datoteke aplikacije %1$s nisu ispravno zamijenjene. Provjerite je li inačica kompatibilna s poslužiteljem.",
     "Full name" : "Puno ime",
-    "%s enter the database username and name." : "%s unesite korisničko ime i naziv baze podataka.",
-    "%s enter the database username." : "%s unesite korisničko ime baze podataka.",
-    "%s enter the database name." : "%s unesite naziv baze podataka.",
-    "%s you may not use dots in the database name" : "%s ne smijete koristiti točke u nazivu baze podataka",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "U korisničkom imenu dopušteni su samo sljedeći znakovi: „a – z”, „A – Z”, „0 – 9” i „_.@-'”",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Potreban je barem Libxml2 2.7.0. Trenutno je instalirana inačica %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Kako biste riješili ovaj problem, ažurirajte svoju inačicu libxml2 i ponovno pokrenite web poslužitelj."

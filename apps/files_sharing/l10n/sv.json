@@ -270,12 +270,8 @@
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
     "Add to your Nextcloud" : "Lägg till i molnet",
-    "Wrong share ID, share doesn't exist" : "Fel delnings-ID, delningen finns inte",
-    "One or more of your shares will expire tomorrow" : "En eller flera av dina delningar kommer att upphöra imorgon",
-    "Copy to clipboard" : "Kopiera till urklipp",
-    "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
-    "Toggle grid view" : "Växla rutnätsvy",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Delning av %s misslyckades eftersom servern inte stödjer ScienceMesh-delningar",
+    "One or more of your shares will expire tomorrow" : "En eller flera av dina delningar kommer att upphöra imorgon",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "Fel vid generering av lösenord från lösenordspolicy"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

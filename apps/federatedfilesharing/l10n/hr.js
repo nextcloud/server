@@ -46,13 +46,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dijeli sa mnom putem mog #ID-ja udruženog oblaka Nextclouda",
     "Copy to clipboard" : "Kopiraj u međuspremnik",
     "Copied!" : "Kopirano!",
-    "Copy" : "Kopiraj",
-    "Not supported!" : "Nije podržano!",
-    "Press ⌘-C to copy." : "Pritisnite ⌘-C za kopiranje.",
-    "Press Ctrl-C to copy." : "Pritisnite Ctrl-C za kopiranje.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Primili ste „%3$s” kao udaljeno dijeljenje od %4$s (%1$s) (u ime %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Primili ste „%3$s” kao udaljeno dijeljenje od %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dijeli sa mnom putem mog #ID-ja udruženog oblaka Nextclouda, pogledajte %s",
-    "Open documentation" : "Otvori dokumentaciju"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dijeli sa mnom putem mog #ID-ja udruženog oblaka Nextclouda, pogledajte %s"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

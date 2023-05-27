@@ -351,22 +351,10 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Ova %s instanca trenutno je u načinu za održavanje; ovo može potrajati.",
     "This page will refresh itself when the instance is available again." : "Ova će se stranica osvježiti kada je instanca ponovno dostupna.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Obratite se administratoru sustava ako se ova poruka ponavlja ili se pojavila neočekivano.",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ovo izdanje Nextclouda nije podržano i nisu dostupne trenutne obavijesti.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Provjeravanje tablice %s",
-    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP zaglavlje „{header}” ne sadrži „{expected}”. To je potencijalni rizik za sigurnost ili privatnost podataka pa preporučujemo da prilagodite ovu postavku.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Poslana Vam je poruka za resetiranje zaporke na adresu e-pošte za ovaj račun. Ako je niste primili, provjerite Vaše mape smeća i neželjene pošte, ili se obratite svom lokalnom administratoru.",
     "If it is not there ask your local administrator." : "Ako i tamo nema poruke, obratite se lokalnom administratoru.",
-    "Collaboratively edit office documents." : "Surađujte na uređivanju dokumenata paketa Office.",
-    "Local document editing back-end used by the Collabora Online app." : "Pozadinski sustav za uređivanje lokalnih dokumenata u aplikaciji Collabora Online.",
     "Settings" : "Postavke",
-    "restricted" : "ograničeno",
-    "invisible" : "nevidljivo",
     "File not found" : "Datoteka nije pronađena",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokument nije moguće pronaći na poslužitelju. Možda je dijeljenje izbrisano ili je isteklo?",
-    "More" : "Više",
-    "More apps menu" : "Izbornik s više aplikacija",
-    "Contacts" : "Kontakti",
-    "Contacts menu" : "Izbornik kontakata",
-    "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokument nije moguće pronaći na poslužitelju. Možda je dijeljenje izbrisano ili je isteklo?"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

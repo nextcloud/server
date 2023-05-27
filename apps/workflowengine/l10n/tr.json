@@ -110,10 +110,6 @@
     "User group membership" : "Kullanıcı grubu üyeliği",
     "is member of" : "şunun üyesi olan",
     "is not member of" : "şunun üyesi olmayan",
-    "Select a tag" : "Etiket seçin",
-    "No results" : "Herhangi bir sonuç bulunamadı",
-    "%s (invisible)" : "%s (görünmez)",
-    "%s (restricted)" : "%s (kısıtlanmış)",
     "Predefined URLs" : "Hazır adresler",
     "Others" : "Diğerleri"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

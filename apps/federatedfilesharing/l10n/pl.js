@@ -52,13 +52,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiuj do schowka",
     "Clipboard is not available" : "Schowek jest niedostępny",
     "Copied!" : "Skopiowano!",
-    "Copy" : "Kopiuj",
-    "Not supported!" : "Brak wsparcia!",
-    "Press ⌘-C to copy." : "Wciśnij ⌘-C by skopiować.",
-    "Press Ctrl-C to copy." : "Wciśnij Ctrl-C by skopiować.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s) (w imieniu %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz %s",
-    "Open documentation" : "Otwórz dokumentację"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz %s"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

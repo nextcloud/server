@@ -243,10 +243,6 @@ OC.L10N.register(
     "Uploaded files:" : "تم رفع ملفات:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
     "Add to your Nextcloud" : "اضف إلى حسابك",
-    "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
-    "One or more of your shares will expire tomorrow" : "ستنتهي صلاحية مشاركتك أو أكثر من مشاركة غدًا",
-    "Copy to clipboard" : "نسخ الرابط",
-    "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
-    "Toggle grid view" : "تفعيل/تعطيل وضع القائمة"
+    "One or more of your shares will expire tomorrow" : "ستنتهي صلاحية مشاركتك أو أكثر من مشاركة غدًا"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

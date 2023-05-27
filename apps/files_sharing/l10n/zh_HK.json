@@ -270,12 +270,8 @@
     "Uploaded files:" : "已上傳的檔案：",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "上傳檔案即表示您同意 %1$s服務條款%2$s。 ",
     "Add to your Nextcloud" : "加入到您的 Nextcloud",
-    "Wrong share ID, share doesn't exist" : "錯誤的分享 ID ，分享不存在",
-    "One or more of your shares will expire tomorrow" : "您的一個或多個分享將於明日到期",
-    "Copy to clipboard" : "複製到剪貼板",
-    "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
-    "Toggle grid view" : "切換網格檢視",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "分享 %s 失敗，因為後端不支援 Science Mesh 分享",
+    "One or more of your shares will expire tomorrow" : "您的一個或多個分享將於明日到期",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "從密碼策略生成密碼時出錯"
 },"pluralForm" :"nplurals=1; plural=0;"

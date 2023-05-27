@@ -112,10 +112,6 @@ OC.L10N.register(
     "User group membership" : "使用者群組成員資格",
     "is member of" : "是成員來自",
     "is not member of" : "不是成員來自",
-    "Select a tag" : "選取標籤",
-    "No results" : "無結果",
-    "%s (invisible)" : "%s（隱藏）",
-    "%s (restricted)" : "%s（受限）",
     "Predefined URLs" : "預定義 URL",
     "Others" : "其他"
 },

@@ -43,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1小時",
     "4 hours" : "4小時",
     "Mute all notifications" : "所有通知靜音",
-    "Appear offline" : "顯示為離線",
-    "Clear status message after" : "清空狀態訊息於……之後"
+    "Appear offline" : "顯示為離線"
 },
 "nplurals=1; plural=0;");

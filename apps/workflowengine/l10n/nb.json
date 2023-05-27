@@ -108,10 +108,6 @@
     "User group membership" : "Brukerens gruppemedlemsskap",
     "is member of" : "er medlem av",
     "is not member of" : "er ikke medlem av",
-    "Select a tag" : "Velg en etikett",
-    "No results" : "Ingen resultater",
-    "%s (invisible)" : "%s (usynlig)",
-    "%s (restricted)" : "%s (begrenset)",
     "Predefined URLs" : "Forhåndsdefinerte URLer",
     "Others" : "Andre"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

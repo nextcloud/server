@@ -180,10 +180,6 @@
     "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "הקבצים של היישומון %1$s לא מוקמו במקום הנכון. נא לוודא שזו גרסה שהשרת תומך בה.",
     "Full name" : "שם מלא",
-    "%s enter the database username and name." : "%s יש להכניס את שם המשתמש ושם מסד הנתונים.",
-    "%s enter the database username." : "%s נכנס למסד נתוני שמות המשתמשים.",
-    "%s enter the database name." : "%s נכנס למסד נתוני השמות.",
-    "%s you may not use dots in the database name" : "%s לא ניתן להשתמש בנקודות בשם מסד הנתונים",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "רק התווים הבאים מאושרים לשם משתמש: \"a-z\", \"A-Z\", \"0-9\", וגם \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 נדרש לכל הפחות. כרגע %s מותקן.",
     "To fix this issue update your libxml2 version and restart your web server." : "לתיקון הבעיה יש לעדכן את גרסת ה- libxml2 שלך ולהפעיל מחדש את שרת האינטרנט שלך."

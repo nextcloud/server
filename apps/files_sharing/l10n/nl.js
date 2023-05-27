@@ -257,10 +257,6 @@ OC.L10N.register(
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
-    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen",
-    "Copy to clipboard" : "Kopiëren naar het klembord",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
-    "Toggle grid view" : "Omschakelen roosterweergave"
+    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen"
 },
 "nplurals=2; plural=(n != 1);");

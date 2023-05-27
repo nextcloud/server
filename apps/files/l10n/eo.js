@@ -160,16 +160,11 @@ OC.L10N.register(
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "Storage invalid" : "Konservejo ne validas",
-    "Select" : "Elekti",
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
-    "New" : "Nova",
-    "Copied!" : "Kopiita!",
     "Unlimited" : "Senlima",
     "Search users" : "Serĉi uzantojn",
     "Cancel" : "Nuligi",
     "%s used" : "%s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
     "Deleted files" : "Forigitaj dosieroj"
 },
 "nplurals=2; plural=(n != 1);");

@@ -249,18 +249,13 @@ OC.L10N.register(
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文档.txt",
     "Storage invalid" : "存储空间无效",
-    "Select" : "选择",
-    "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
-    "New" : "新建",
-    "Copied!" : "已复制",
     "Unlimited" : "无限制",
     "Search users" : "搜索用户",
-    "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
     "Cancel" : "取消",
     "%s used" : "已使用 %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "已使用 %2$s 中的 %1$s",
-    "Settings" : "设置",
-    "Deleted files" : "已删除的文件"
+    "Deleted files" : "已删除的文件",
+    "Search for an account" : "搜索一个账户"
 },
 "nplurals=1; plural=0;");

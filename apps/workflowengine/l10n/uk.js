@@ -91,9 +91,6 @@ OC.L10N.register(
     "User group membership" : "Участь користувача в групі",
     "is member of" : "є учасником",
     "is not member of" : "не є учасником",
-    "No results" : "Немає результатів",
-    "%s (invisible)" : "%s (невидимий)",
-    "%s (restricted)" : "%s(обмежено)",
     "Predefined URLs" : "Попередньо визначені URL-адреси",
     "Others" : "Інші"
 },

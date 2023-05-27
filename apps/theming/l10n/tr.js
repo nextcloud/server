@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Yönetici",
     "Error uploading the file" : "Dosya yüklenirken sorun çıktı",
     "Name cannot be empty" : "Ad boş olamaz",
-    "Open documentation" : "Belgeleri aç",
-    "https://…" : "https://…",
-    "Login image" : "Oturum açma görseli",
-    "Upload new login background" : "Yeni oturum açma arka planı yükle",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
     "Migrate and clean up admin theming images" : "Yönetim teması görsellerini aktar ve temizle",
     "Failed to clean up the old admin theming images folder" : "Eski yönetim temasının images klasörü temizlenemedi",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Bazı durumlarda klavye kısayolları erişilebilirlik araçlarına etki edebilir. Aracınıza doğru şekilde odaklanmanızı sağlamak için tüm klavye kısayollarını buradan devre dışı bırakabilirsiniz. Bu aynı zamanda uygulamalarda var olan tüm kısayolları da devre dışı bırakır.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Özel renk",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Kopyanızı seçip özelleştirebilmenize rağmen, kullanıcılar arka planlarını ve renklerini değiştirebilir. Özelleştirmeyi dayatmak istiyorsanız, bu kutuyu işaretleyebilirsiniz."
+    "Open documentation" : "Belgeleri aç",
+    "https://…" : "https://…",
+    "Upload new login background" : "Yeni oturum açma arka planı yükle",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Kopyanızı seçip özelleştirebilmenize rağmen, kullanıcılar arka planlarını ve renklerini değiştirebilir. Özelleştirmeyi dayatmak istiyorsanız, bu kutuyu işaretleyebilirsiniz.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun."
 },
 "nplurals=2; plural=(n > 1);");

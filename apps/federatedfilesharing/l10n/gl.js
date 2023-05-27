@@ -52,13 +52,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar no portapapeis.",
     "Clipboard is not available" : "O portapapeis non está dispoñible",
     "Copied!" : "Copiado!",
-    "Copy" : "Copiar",
-    "Not supported!" : "Non admitido!",
-    "Press ⌘-C to copy." : "Prema ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Prema Ctrl-C para copiar.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Vostede recibiu «%3$s» como un elemento compartido remoto de %4$s (%1$s) (de parte de %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Vostede recibiu «%3$s» como un elemento compartido remoto de %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud , vexa %s",
-    "Open documentation" : "Abrir a documentación"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud , vexa %s"
 },
 "nplurals=2; plural=(n != 1);");

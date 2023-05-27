@@ -272,12 +272,8 @@ OC.L10N.register(
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
     "Add to your Nextcloud" : "Додајте у свој облак",
-    "Wrong share ID, share doesn't exist" : "Погрешна идентификација дељења, дељење не постоји",
-    "One or more of your shares will expire tomorrow" : "Једно или више Ваших дељења ће истећи сутра",
-    "Copy to clipboard" : "Копирај у оставу",
-    "Sorry, this link doesn’t seem to work anymore." : "Нажалост, изгледа да веза више не ради.",
-    "Toggle grid view" : "Укључи/искључи приказ мреже",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Дељење %s није успело јер позадински механизам не подржава sciencemesh дељења",
+    "One or more of your shares will expire tomorrow" : "Једно или више Ваших дељења ће истећи сутра",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Грешка приликом креирања лозинке из password_policy"
 },

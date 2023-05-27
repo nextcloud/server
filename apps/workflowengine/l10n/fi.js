@@ -86,9 +86,6 @@ OC.L10N.register(
     "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
     "is not member of" : "ei ole jäsen",
-    "No results" : "Ei tuloksia",
-    "%s (invisible)" : "%s (näkymätön)",
-    "%s (restricted)" : "%s (rajoitettu)",
     "Predefined URLs" : "Ennalta määritellyt URL-osoitteet",
     "Others" : "Muut"
 },

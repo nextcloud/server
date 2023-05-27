@@ -137,7 +137,6 @@
     "All users" : "Todos os usuarios",
     "Advanced settings" : "Axustes avanzados",
     "Allow users to mount external storage" : "Permitirlle aos usuarios montar almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
-    "All users. Type to select user or group." : "Todos os usuarios. Escriba para seleccionar usuario ou grupo."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

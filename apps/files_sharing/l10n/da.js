@@ -195,10 +195,6 @@ OC.L10N.register(
     "Note" : "Note",
     "Select or drop files" : "Vælg eller slip filer",
     "Uploaded files:" : "Uploadede filer:",
-    "Add to your Nextcloud" : "Tilføj til din Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Forkert DelingsID, deling findes ikke",
-    "Copy to clipboard" : "Kopier til udklipsholder",
-    "Sorry, this link doesn’t seem to work anymore." : "Desværre, dette link ser ikke ud til at fungerer længere.",
-    "Toggle grid view" : "Vis som liste"
+    "Add to your Nextcloud" : "Tilføj til din Nextcloud"
 },
 "nplurals=2; plural=(n != 1);");

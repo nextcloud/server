@@ -211,17 +211,11 @@ OC.L10N.register(
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
     "Storage invalid" : "Spațiu de stocare invalid",
-    "Select" : "Alege",
-    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
-    "New" : "Nou",
-    "Copied!" : "S-a copiat!",
     "Unlimited" : "Nelimitată",
     "Search users" : "Cauta utilizatori",
-    "Cannot transfer ownership of a file or folder you don't own" : "Nu se poate transfera proprietatea unui fișier sau dosar ce nu le deții",
     "Cancel" : "Anulare",
     "%s used" : "%s folosiți",
     "%1$s of %2$s used" : "%1$s din %2$s utilizat",
-    "Settings" : "Setări",
     "Deleted files" : "Fișiere șterse"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

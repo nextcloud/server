@@ -249,18 +249,13 @@ OC.L10N.register(
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Storage invalid" : "Almacenamento incorrecto",
-    "Select" : "Seleccionar",
-    "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
-    "New" : "Novo",
-    "Copied!" : "Copiado!",
     "Unlimited" : "Sen límites",
     "Search users" : "Buscar usuarios",
-    "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu",
     "Cancel" : "Cancelar",
     "%s used" : "%s utilizado",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%s de %s utilizado",
-    "Settings" : "Axustes",
-    "Deleted files" : "Ficheiros eliminados"
+    "Deleted files" : "Ficheiros eliminados",
+    "Search for an account" : "Busca unha conta"
 },
 "nplurals=2; plural=(n != 1);");
