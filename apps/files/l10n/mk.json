@@ -225,18 +225,12 @@
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Storage invalid" : "Невалидно складиште",
-    "Select" : "Избери",
-    "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
-    "New" : "Ново",
-    "Copied!" : "Копирано!",
     "Unlimited" : "Неограничено",
     "Search users" : "Пребарувај корисници",
-    "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
     "Cancel" : "Откажи",
     "%s used" : "Искористено %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Искористено %1$s од %2$s",
-    "Settings" : "Параметри",
     "Deleted files" : "Избришани датотеки"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

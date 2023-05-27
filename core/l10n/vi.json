@@ -88,7 +88,6 @@
     "Search" : "Tìm kiếm",
     "Open settings menu" : "Mở danh mục cài đặt",
     "Settings menu" : "Trình đơn thiết lập",
-    "Settings" : "Cài đặt",
     "Could not load your contacts" : "Không thể tải liên hệ của bạn",
     "Search contacts …" : "Tìm liên hệ ...",
     "No contacts found" : "Không tìm thấy liên hệ nào",
@@ -238,14 +237,7 @@
     "Maintenance mode" : "Chế độ bảo trì",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: đang kiểm tra bảng được %s",
-    "restricted" : "hạn chế",
-    "invisible" : "không thể nhìn thấy.",
-    "File not found" : "Không tìm thấy tệp tin",
-    "More" : "hơn",
-    "More apps menu" : "Nhiều trình đơn ứng dụng hơn",
-    "Contacts" : "Liên hệ",
-    "Contacts menu" : "Trình đơn liên hệ",
-    "Setup two-factor authentication" : "Cài đặt bảo mật hai lớp"
+    "Settings" : "Cài đặt",
+    "File not found" : "Không tìm thấy tệp tin"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

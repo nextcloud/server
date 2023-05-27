@@ -193,7 +193,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Одаберите фајл или фасциклу за пренос",
     "Change" : "Измени",
     "New owner" : "Нови власник",
-    "Search for an account" : "Претражите налог",
     "Choose a file or folder to transfer" : "Одаберите фајл или фасциклу за пренос",
     "Transfer" : "Пренеси",
     "Transfer {path} to {userid}" : "Пренеси {path} на корисника {userid}",
@@ -250,18 +249,13 @@ OC.L10N.register(
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Storage invalid" : "Неисправно складиште",
-    "Select" : "Изабери",
-    "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
-    "New" : "Ново",
-    "Copied!" : "Копирано!",
     "Unlimited" : "Неограничено",
     "Search users" : "Претражи кориснике",
-    "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
     "Cancel" : "Поништи",
     "%s used" : "%s искоришћено",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",
-    "Settings" : "Поставке",
-    "Deleted files" : "Обрисани фајлови"
+    "Deleted files" : "Обрисани фајлови",
+    "Search for an account" : "Претражите налог"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

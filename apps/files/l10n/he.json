@@ -182,17 +182,11 @@
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Storage invalid" : "אחסון לא חוקי",
-    "Select" : "בחר",
-    "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
-    "New" : "חדש",
-    "Copied!" : "ההעתקה הושלמה!",
     "Unlimited" : "ללא הגבלה",
     "Search users" : "חיפוש משתמשים",
-    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
     "Cancel" : "ביטול",
     "%s used" : "%s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Settings" : "הגדרות",
     "Deleted files" : "קבצים שנמחקו"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

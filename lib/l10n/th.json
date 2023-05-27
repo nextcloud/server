@@ -148,10 +148,6 @@
     "Storage is temporarily not available" : "พื้นที่จัดเก็บข้อมูลไม่สามารถใช้งานได้ชั่วคราว",
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Full name" : "ชื่อเต็ม",
-    "%s enter the database username and name." : "%s ป้อนชื่อผู้ใช้ฐานข้อมูล และชื่อ",
-    "%s enter the database username." : "%s ใส่ชื่อผู้ใช้ฐานข้อมูล",
-    "%s enter the database name." : "%s ใส่ชื่อฐานข้อมูล",
-    "%s you may not use dots in the database name" : "%s คุณไม่ควรใช้จุดในชื่อฐานข้อมูล",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "ชื่อผู้ใช้จะใช้ได้แค่อักษรดังต่อไปนี้: \"a-z\", \"A-Z\", \"0-9\" และ \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "จำเป็นต้องมี libxml2 รุ่นอย่างน้อย 2.7.0 ตอนนี้ %s ติดตั้งอยู่",
     "To fix this issue update your libxml2 version and restart your web server." : "เพื่อแก้ไขปัญหานี้ กรุณาอัปเดตรุ่นของ libxml2 และรีสตาร์ทเว็บเซิร์ฟเวอร์ของคุณ"

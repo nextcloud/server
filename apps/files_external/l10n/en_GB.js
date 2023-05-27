@@ -139,7 +139,6 @@ OC.L10N.register(
     "All users" : "All users",
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials.",
-    "All users. Type to select user or group." : "All users. Type to select user or group."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials."
 },
 "nplurals=2; plural=(n != 1);");

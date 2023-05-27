@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Errore di configurazione OAuth2",
     "Generate keys" : "Genera la chiavi",
     "Error generating key pair" : "Errore durante la generazione della coppia di chiavi",
+    "Type to select user or group." : "Digita per selezionare utente o gruppo.",
     "(Group)" : "(Gruppo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilità con la codifica Mac NFD (lento)",
     "Enable encryption" : "Abilita cifratura",
@@ -89,6 +90,7 @@ OC.L10N.register(
     "Hostname" : "Nome host",
     "Port" : "Porta",
     "Region" : "Regione",
+    "Storage Class" : "Classe di archiviazione",
     "Enable SSL" : "Abilita SSL",
     "Enable Path Style" : "Abilita stile percorsi",
     "Legacy (v2) authentication" : "Autenticazione tradizionale (v2)",
@@ -137,7 +139,6 @@ OC.L10N.register(
     "All users" : "Tutti gli utenti",
     "Advanced settings" : "Impostazioni avanzate",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
-    "All users. Type to select user or group." : "Tutti gli utenti. Digita per selezionare utente o gruppo."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

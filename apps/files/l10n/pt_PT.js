@@ -165,15 +165,10 @@ OC.L10N.register(
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Storage invalid" : "Armazenamento inválido",
-    "Select" : "Selecionar",
-    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
-    "New" : "Novo",
-    "Copied!" : "Copiado!",
     "Unlimited" : "Ilimitado",
     "Cancel" : "Cancelar",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "Settings" : "Configurações",
     "Deleted files" : "Ficheiros eliminados"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

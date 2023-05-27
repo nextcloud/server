@@ -126,15 +126,10 @@ OC.L10N.register(
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
     "Storage invalid" : "ذخیره ناسمه ده",
-    "Select" : "ټاکل",
-    "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ",
-    "New" : "نوی",
-    "Copied!" : "کاپي شو!",
     "Unlimited" : "نامحدود",
     "Cancel" : "پرېښول",
     "%s used" : "%sکارول شوې",
     "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې",
-    "Settings" : "سمونې",
     "Deleted files" : "ړنګ شوي فایلونه"
 },
 "nplurals=2; plural=(n != 1);");

@@ -181,7 +181,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Επιλέξτε αρχείο ή φάκελο για μεταφορά",
     "Change" : "Αλλαγή",
     "New owner" : "Νέος κάτοχος",
-    "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose a file or folder to transfer" : "Επιλέξτε αρχείο ή φάκελο για μεταφορά",
     "Transfer" : "Μεταφορά",
     "Transfer {path} to {userid}" : "Μεταφορά {path} στον {userid}",
@@ -236,18 +235,13 @@ OC.L10N.register(
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο file.txt",
     "Storage invalid" : "Μη έγκυρος αποθηκευτικός χώρος",
-    "Select" : "Επιλογή",
-    "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
-    "New" : "Νέο",
-    "Copied!" : "Αντιγράφηκε!",
     "Unlimited" : "Απεριόριστο",
     "Search users" : "Αναζήτηση χρηστών",
-    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
     "Cancel" : "Ακύρωση",
     "%s used" : "%s σε χρήση",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s",
-    "Settings" : "Ρυθμίσεις",
-    "Deleted files" : "Διαγραμμένα αρχεία"
+    "Deleted files" : "Διαγραμμένα αρχεία",
+    "Search for an account" : "Αναζήτηση για λογαριασμό"
 },
 "nplurals=2; plural=(n != 1);");

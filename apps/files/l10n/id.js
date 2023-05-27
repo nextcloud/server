@@ -228,18 +228,12 @@ OC.L10N.register(
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
     "Storage invalid" : "Penyimpanan tidak sah",
-    "Select" : "Pilih",
-    "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas di sini",
-    "New" : "Baru",
-    "Copied!" : "Tersalin!",
     "Unlimited" : "Tak terbatas",
     "Search users" : "Cari pengguna",
-    "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "Cancel" : "Membatalkan",
     "%s used" : "%s digunakan",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
-    "Settings" : "Pengaturan",
     "Deleted files" : "Berkas terhapus"
 },
 "nplurals=1; plural=0;");

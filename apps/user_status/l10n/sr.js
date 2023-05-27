@@ -43,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 сат",
     "4 hours" : "4 сата",
     "Mute all notifications" : "Искључи сва обавештења",
-    "Appear offline" : "Прикажи као ван мреже",
-    "Clear status message after" : "Обриши статусну поруку након"
+    "Appear offline" : "Прикажи као ван мреже"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

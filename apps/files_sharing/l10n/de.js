@@ -272,12 +272,8 @@ OC.L10N.register(
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst du den %1$sNutzungsbedingungen%2$s zu.",
     "Add to your Nextcloud" : "Zu deiner Nextcloud hinzufügen",
-    "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
-    "One or more of your shares will expire tomorrow" : "EIne andere Freigabe wird morgen ebenfalls ablaufen",
-    "Copy to clipboard" : "In die Zwischenablage kopieren",
-    "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
-    "Toggle grid view" : "Rasteransicht umschalten",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
+    "One or more of your shares will expire tomorrow" : "EIne andere Freigabe wird morgen ebenfalls ablaufen",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "Fehler beim Erzeugen des Passworts basierend auf der Passwort-Policy"
 },

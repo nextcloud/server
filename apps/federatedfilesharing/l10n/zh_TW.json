@@ -50,13 +50,8 @@
     "Copy to clipboard" : "複製到剪貼簿",
     "Clipboard is not available" : "剪貼簿無法使用",
     "Copied!" : "已複製！",
-    "Copy" : "複製",
-    "Not supported!" : "不支援！",
-    "Press ⌘-C to copy." : "按下 ⌘-C 以複製。",
-    "Press Ctrl-C to copy." : "按下 Ctrl-C 以複製。",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "您收到了來自 %4$s (%1$s)（代表 %5$s (%2$s)）的遠端分享「%3$s」",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "您收到了來自 %4$s (%1$s) 的遠端分享「%3$s」",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請見 %s",
-    "Open documentation" : "開啟說明文件"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請見 %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

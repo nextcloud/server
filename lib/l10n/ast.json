@@ -14,6 +14,8 @@
     "Fediverse" : "Fediversu",
     "Twitter" : "Twitter",
     "Website" : "Sitiu web",
+    "Organisation" : "Organización",
+    "Role" : "Rol",
     "Additional settings" : "Configuración adicional",
     "%1$s via %2$s" : "%1$s per %2$s",
     "You are not allowed to share %s" : "Nun tienes permisu pa compartir «%s»",
@@ -63,6 +65,7 @@
     "Nov." : "Pay.",
     "Dec." : "Avi.",
     "Application is not enabled" : "L'aplicación nun ta activada",
+    "Please ask your server administrator to install the module." : "Pidi a l'alministración del sirvidor qu'instale'l módulu.",
     "Full name" : "Nome completu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -185,7 +185,6 @@
     "Choose file or folder to transfer" : "Valitse siirrettävä tiedosto tai kansio",
     "Change" : "Muuta",
     "New owner" : "Uusi omistaja",
-    "Search for an account" : "Etsi tiliä",
     "Choose a file or folder to transfer" : "Valitse siirrettävä tiedosto tai kansio",
     "Transfer" : "Siirrä",
     "Transfer {path} to {userid}" : "Siirrä {path} käyttäjälle {userid}",
@@ -221,6 +220,7 @@
     "Blank" : "Tyhjä",
     "Unable to create new file from template" : "Uutta tiedostoa mallipohjasta ei voi luoda",
     "Delete permanently" : "Poista pysyvästi",
+    "Open folder {displayName}" : "Avaa kansio {displayName}",
     "Set up templates folder" : "Aseta mallipohjien kansio",
     "Templates" : "Mallipohjat",
     "Create new templates folder" : "Luo uusi mallipohjien kansio",
@@ -241,18 +241,13 @@
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Storage invalid" : "Virheellinen tallennustila",
-    "Select" : "Valitse",
-    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
-    "New" : "Uusi",
-    "Copied!" : "Kopioitu!",
     "Unlimited" : "Rajoittamaton",
     "Search users" : "Etsi käyttäjistä",
-    "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Cancel" : "Peruuta",
     "%s used" : "%s käytetty",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s/%2$s käytetty",
-    "Settings" : "Asetukset",
-    "Deleted files" : "Poistetut tiedostot"
+    "Deleted files" : "Poistetut tiedostot",
+    "Search for an account" : "Etsi tiliä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

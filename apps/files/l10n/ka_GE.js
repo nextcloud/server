@@ -137,15 +137,10 @@ OC.L10N.register(
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
     "Storage invalid" : "საცავი არასწორია",
-    "Select" : "არჩევა",
-    "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ",
-    "New" : "ახალი",
-    "Copied!" : "დაკოპირდა!",
     "Unlimited" : "ულიმიტო",
     "Cancel" : "უარყოფა",
     "%s used" : "%s მოხმარებულია",
     "%1$s of %2$s used" : "გამოყენებულია %1$s სულ %2$s-იდან ",
-    "Settings" : "პარამეტრები",
     "Deleted files" : "გაუქმებული ფაილები"
 },
 "nplurals=2; plural=(n!=1);");

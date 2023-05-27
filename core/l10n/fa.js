@@ -92,7 +92,6 @@ OC.L10N.register(
     "Back" : "بازگشت",
     "Load more results" : "بار کردن نتیحه‌های بیش‌تر",
     "Search" : "جست‌و‌جو",
-    "Settings" : "تنظیمات",
     "Search contacts …" : "جستجو مخاطبین ...",
     "No contacts found" : "مخاطبین یافت نشد",
     "Show all contacts …" : "نمایش همه مخاطبین ...",
@@ -215,12 +214,7 @@ OC.L10N.register(
     "Update needed" : "نیاز به روز رسانی دارد",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Please use the command line updater because automatic updating is disabled in the config.php.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
-    "restricted" : "محدود",
-    "invisible" : "غیر قابل مشاهده",
-    "File not found" : "فایل یافت نشد",
-    "More" : "بیش‌تر",
-    "Contacts" : "مخاطبین",
-    "Contacts menu" : "منوی دفتر تلفن"
+    "Settings" : "تنظیمات",
+    "File not found" : "فایل یافت نشد"
 },
 "nplurals=2; plural=(n > 1);");

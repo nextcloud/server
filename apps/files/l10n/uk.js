@@ -193,7 +193,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Виберіть файл або каталог для передачі",
     "Change" : "Змінити",
     "New owner" : "Новий власник",
-    "Search for an account" : "Пошук облікового запису",
     "Choose a file or folder to transfer" : "Виберіть файл або каталог для передачі",
     "Transfer" : "Передати",
     "Transfer {path} to {userid}" : "Передати {path} користувачеві {userid}",
@@ -250,18 +249,13 @@ OC.L10N.register(
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл.txt",
     "Storage invalid" : "Некоректне сховище",
-    "Select" : "Вибрати",
-    "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення файлів тут",
-    "New" : "Створити",
-    "Copied!" : "Скопійовано!",
     "Unlimited" : "Необмежено",
     "Search users" : "Пошук користувачів",
-    "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або каталог, що вам не належить",
     "Cancel" : "Скасувати",
     "%s used" : "%s використано",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Використано %1$s із %2$s",
-    "Settings" : "Налаштування",
-    "Deleted files" : "Кошик"
+    "Deleted files" : "Кошик",
+    "Search for an account" : "Пошук облікового запису"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

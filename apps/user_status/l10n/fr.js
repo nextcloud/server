@@ -11,7 +11,9 @@ OC.L10N.register(
     "User status" : "Statut utilisateur",
     "View profile" : "Voir le profil",
     "Clear status after" : "Effacer l'état après",
+    "Emoji for your status message" : "Emoji pour votre message de statut",
     "What is your status?" : "Quel est votre statut ?",
+    "Predefined statuses" : "Statuts prédéfinis",
     "Previously set" : "Précédemment défini",
     "Reset status" : "Réinitialiser l'état",
     "Set status" : "Définir le statut",
@@ -25,6 +27,7 @@ OC.L10N.register(
     "Reset status to \"{icon}\"" : "Réinitialiser l'état en \"{icon}\"",
     "There was an error saving the status" : "Une erreur s'est produite lors de l'enregistrement de l'état",
     "There was an error clearing the status" : "Une erreur s'est produite lors de l'effacement de l'état",
+    "There was an error reverting the status" : "Une erreur est survenue dans le rétablissement d'état",
     "No recent status changes" : "Aucun changement de statut récent",
     "Away" : "Absent(e)",
     "Do not disturb" : "Ne pas déranger",
@@ -40,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 heure",
     "4 hours" : "4 heures",
     "Mute all notifications" : "Désactiver les notifications",
-    "Appear offline" : "Apparaitre hors-ligne",
-    "Clear status message after" : "Effacer le message d'état après"
+    "Appear offline" : "Apparaitre hors-ligne"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -189,7 +189,6 @@
     "Choose file or folder to transfer" : "Datei oder Ordner zur Übertragung auswählen",
     "Change" : "Ändern",
     "New owner" : "Neuer Besitzer",
-    "Search for an account" : "Nach einem Konto suchen",
     "Choose a file or folder to transfer" : "Datei oder Ordner zur Übertragung auswählen",
     "Transfer" : "Übertragen",
     "Transfer {path} to {userid}" : "Übertrage {path} an {userid}",
@@ -245,18 +244,13 @@
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Storage invalid" : "Speicher ungültig",
-    "Select" : "Auswählen",
-    "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
-    "New" : "Neu",
-    "Copied!" : "Kopiert!",
     "Unlimited" : "Unbegrenzt",
     "Search users" : "Suche Benutzer",
-    "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den du nicht besitzt, kann nicht übertragen werden",
     "Cancel" : "Abbrechen",
     "%s used" : "%s verwendet",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",
-    "Settings" : "Einstellungen",
-    "Deleted files" : "Gelöschte Dateien"
+    "Deleted files" : "Gelöschte Dateien",
+    "Search for an account" : "Nach einem Konto suchen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

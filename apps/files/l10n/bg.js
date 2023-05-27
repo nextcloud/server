@@ -191,7 +191,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Избор на файл или папка за прехвърляне",
     "Change" : "Промени",
     "New owner" : "Нов собственик",
-    "Search for an account" : "Търсене на профил",
     "Choose a file or folder to transfer" : "Избор на файл или папка за прехвърляне",
     "Transfer" : "Прехвърли",
     "Transfer {path} to {userid}" : "Прехвърляне на  {path} към {userid}",
@@ -248,18 +247,13 @@ OC.L10N.register(
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt",
     "Storage invalid" : "Невалидно хранилище",
-    "Select" : "Избери",
-    "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
-    "New" : "Създай",
-    "Copied!" : "Копирано!",
     "Unlimited" : "Неограничено",
     "Search users" : "Търсене за потребители",
-    "Cannot transfer ownership of a file or folder you don't own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
     "Cancel" : "Отказ",
     "%s used" : "%s използвани",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s от %2$s използвани",
-    "Settings" : "Настройки",
-    "Deleted files" : "Изтрити файлове"
+    "Deleted files" : "Изтрити файлове",
+    "Search for an account" : "Търсене на профил"
 },
 "nplurals=2; plural=(n != 1);");

@@ -107,10 +107,6 @@ OC.L10N.register(
     "User group membership" : "Pertinença a grup d'usuaris",
     "is member of" : "és membre de",
     "is not member of" : "no és membre de",
-    "Select a tag" : "Seleccioneu una etiqueta",
-    "No results" : "No hi ha resultats",
-    "%s (invisible)" : "%s (invisible)",
-    "%s (restricted)" : "%s (restringit)",
     "Predefined URLs" : "URLs predefinits",
     "Others" : "Altres"
 },

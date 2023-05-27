@@ -20,11 +20,6 @@ OC.L10N.register(
     "Good evening" : "晚上好",
     "Good evening, {name}" : "晚上好，{name}",
     "Hello" : "你好",
-    "Hello, {name}" : "你好， {name}",
-    "Change background image" : "更改背景图片",
-    "Pick from Files" : "从文件中挑选",
-    "Default images" : "默认图片",
-    "Plain background" : "纯色背景",
-    "Insert from {productName}" : "从 {productName} 插入"
+    "Hello, {name}" : "你好， {name}"
 },
 "nplurals=1; plural=0;");

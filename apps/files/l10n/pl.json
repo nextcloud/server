@@ -191,7 +191,6 @@
     "Choose file or folder to transfer" : "Wybierz plik lub katalog do przeniesienia",
     "Change" : "Zmień",
     "New owner" : "Nowy właściciel",
-    "Search for an account" : "Wyszukaj konto",
     "Choose a file or folder to transfer" : "Wybierz plik lub katalog do przeniesienia",
     "Transfer" : "Przenieś",
     "Transfer {path} to {userid}" : "Przenieś {path} do {userid}",
@@ -248,18 +247,13 @@
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "Storage invalid" : "Nieprawidłowy magazyn",
-    "Select" : "Wybierz",
-    "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
-    "New" : "Nowy",
-    "Copied!" : "Skopiowano!",
     "Unlimited" : "Brak limitu",
     "Search users" : "Wyszukaj użytkowników",
-    "Cannot transfer ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
     "Cancel" : "Anuluj",
     "%s used" : "Wykorzystane: %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Wykorzystane: %1$s z %2$s",
-    "Settings" : "Ustawienia",
-    "Deleted files" : "Usunięte pliki"
+    "Deleted files" : "Usunięte pliki",
+    "Search for an account" : "Wyszukaj konto"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

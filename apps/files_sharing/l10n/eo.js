@@ -202,10 +202,6 @@ OC.L10N.register(
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
-    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
-    "Copy to clipboard" : "Kopii tondejen",
-    "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
-    "Toggle grid view" : "Baskuligi kradan vidon"
+    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ"
 },
 "nplurals=2; plural=(n != 1);");

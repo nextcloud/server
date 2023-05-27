@@ -57,9 +57,6 @@ OC.L10N.register(
     "User group membership" : "Anëtarësia në grupet e përdoruesit",
     "is member of" : "është anëtarë i",
     "is not member of" : "nuk është anëtarë i",
-    "No results" : "Asnjë rezultat",
-    "%s (invisible)" : "%s (e padukshme)",
-    "%s (restricted)" : "%s (e kufizuar)",
     "Predefined URLs" : "URL të paracaktuara"
 },
 "nplurals=2; plural=(n != 1);");

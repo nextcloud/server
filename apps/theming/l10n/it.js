@@ -72,15 +72,14 @@ OC.L10N.register(
     "Loading preview…" : "Caricamento anteprima...",
     "Admin" : "Amministratore",
     "Name cannot be empty" : "Il nome non può essere vuoto",
-    "Open documentation" : "Apri la documentazione",
-    "https://…" : "https://…",
-    "Login image" : "Immagine di accesso",
-    "Upload new login background" : "Carica nuovo sfondo di accesso",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore.",
     "Pick from Files" : "Scegli da File",
     "Custom color" : "Colore personalizzato",
     "Plain background" : "Sfondo semplice",
     "Insert from {productName}" : "Inserisci da {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Sebbene tu possa selezionare e personalizzare la tua istanza, gli utenti possono cambiare il loro sfondo e colore. Se vuoi forzare la tua personalizzazione, puoi attivare questa casella."
+    "Open documentation" : "Apri la documentazione",
+    "https://…" : "https://…",
+    "Upload new login background" : "Carica nuovo sfondo di accesso",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Sebbene tu possa selezionare e personalizzare la tua istanza, gli utenti possono cambiare il loro sfondo e colore. Se vuoi forzare la tua personalizzazione, puoi attivare questa casella.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

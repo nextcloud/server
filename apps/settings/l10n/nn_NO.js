@@ -80,7 +80,6 @@ OC.L10N.register(
     "Help translate" : "Hjelp oss å omsetja",
     "Add" : "Legg til",
     "Email" : "E-post",
-    "Avatar" : "Avatar",
     "Quota" : "Kvote",
     "Last login" : "Siste innlogging",
     "Add group" : "Legg til gruppe",
@@ -113,17 +112,7 @@ OC.L10N.register(
     "Follow us on Twitter" : "Fylj på Twitter",
     "Check out our blog" : "Les våre nettsider",
     "Subscribe to our newsletter" : "Abonner på nyhende",
-    "Select a profile picture" : "Vel eit profilbilete",
-    "Couldn't remove app." : "Klarte ikkje å fjerne appen.",
-    "Couldn't update app." : "Klarte ikkje oppdatera programmet.",
-    "Migration started …" : "Overføring har starta…",
-    "Address" : "Adresse",
-    "Enable encryption" : "Aktiver kryptering",
-    "Start migration" : "Start migrasjon",
-    "Upload new" : "Last opp ny",
-    "Select from Files" : "Vel frå filer",
-    "Remove image" : "Fjern bilete",
     "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
-    "Choose as profile picture" : "Vel eit profilbilete"
+    "Avatar" : "Avatar"
 },
 "nplurals=2; plural=(n != 1);");

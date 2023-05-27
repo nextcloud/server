@@ -224,18 +224,12 @@ OC.L10N.register(
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
     "Storage invalid" : "Lagringsplass ugyldig",
-    "Select" : "Velg",
-    "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
-    "New" : "Ny",
-    "Copied!" : "Kopiert!",
     "Unlimited" : "Ubegrenset",
     "Search users" : "Søk etter brukere",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
     "Cancel" : "Avbryt",
     "%s used" : "%s brukt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
-    "Settings" : "Innstillinger",
     "Deleted files" : "Slettede filer"
 },
 "nplurals=2; plural=(n != 1);");

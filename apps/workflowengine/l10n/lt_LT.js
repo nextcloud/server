@@ -107,10 +107,6 @@ OC.L10N.register(
     "User group membership" : "Naudotojų grupių narystės",
     "is member of" : "priklauso grupei",
     "is not member of" : "nepriklauso grupei",
-    "Select a tag" : "Pasirinkite žymę",
-    "No results" : "Rezultatų nėra",
-    "%s (invisible)" : "%s (nematomas)",
-    "%s (restricted)" : "%s (apribotas)",
     "Predefined URLs" : "Iš anksto apibrėžti URL adresai",
     "Others" : "Kiti"
 },

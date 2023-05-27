@@ -134,13 +134,8 @@ OC.L10N.register(
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
     "Storage invalid" : "Хадгалах төхөөрөмж буруу байна",
-    "Select" : "Сонгох",
-    "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
-    "New" : "Шинэ",
-    "Copied!" : "Хуулсан!",
     "Cancel" : "болиулах",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
-    "Settings" : "Тохиргоо",
     "Deleted files" : "Устгасан файлууд"
 },
 "nplurals=2; plural=(n != 1);");

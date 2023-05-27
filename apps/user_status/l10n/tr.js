@@ -11,7 +11,9 @@ OC.L10N.register(
     "User status" : "Kullanıcı durumu",
     "View profile" : "Profili görüntüle",
     "Clear status after" : "Durum şu kadar sonra kaldırılsın",
+    "Emoji for your status message" : "Durum iletiniz için emoji",
     "What is your status?" : "Durumunuz nedir?",
+    "Predefined statuses" : "Hazır durumlar",
     "Previously set" : "Önceden ayarlanmış",
     "Reset status" : "Durumu sıfırla",
     "Set status" : "Durumu ayarla",
@@ -41,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
-    "Appear offline" : "Çevrimdışı görün",
-    "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın"
+    "Appear offline" : "Çevrimdışı görün"
 },
 "nplurals=2; plural=(n > 1);");

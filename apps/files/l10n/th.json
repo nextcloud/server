@@ -221,18 +221,12 @@
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่.txt",
     "Storage invalid" : "การจัดเก็บข้อมูลไม่ถูกต้อง",
-    "Select" : "เลือก",
-    "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
-    "New" : "สร้างใหม่",
-    "Copied!" : "คัดลอกแล้ว",
     "Unlimited" : "ไม่จำกัด",
     "Search users" : "ค้นหาผู้ใช้",
-    "Cannot transfer ownership of a file or folder you don't own" : "ไม่สามารถโอนย้ายความเป็นเจ้าของไฟล์หรือโฟลเดอร์ที่คุณไม่ได้เป็นเจ้าของ",
     "Cancel" : "ยกเลิก",
     "%s used" : "ใช้ไป %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "ใช้ไป %1$s จาก %2$s",
-    "Settings" : "การตั้งค่า",
     "Deleted files" : "ไฟล์ที่ถูกลบ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

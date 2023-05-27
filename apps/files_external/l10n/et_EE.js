@@ -82,7 +82,6 @@ OC.L10N.register(
     "Configuration" : "Seadistamine",
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
-    "Advanced settings" : "Lisavalikud",
-    "All users. Type to select user or group." : "Kõik kasutajad. Kirjuta, et valida kasutaja või grupp."
+    "Advanced settings" : "Lisavalikud"
 },
 "nplurals=2; plural=(n != 1);");

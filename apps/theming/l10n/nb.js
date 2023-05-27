@@ -61,14 +61,13 @@ OC.L10N.register(
     "Loading preview…" : "Laster forhåndsvisning…",
     "Admin" : "Admin",
     "Name cannot be empty" : "Navn kan ikke være tom",
-    "Open documentation" : "Åpne dokumentasjon",
-    "https://…" : "https://…",
-    "Login image" : "Innloggingsbilde",
-    "Upload new login background" : "Last opp ny innloggingsbakgrunn",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
     "Pick from Files" : "Velg fra Filer",
     "Custom color" : "Tilpasset farge",
     "Plain background" : "Ensfarget bakgrunn",
-    "Insert from {productName}" : "Sett inn fra {productName}"
+    "Insert from {productName}" : "Sett inn fra {productName}",
+    "Open documentation" : "Åpne dokumentasjon",
+    "https://…" : "https://…",
+    "Upload new login background" : "Last opp ny innloggingsbakgrunn",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge."
 },
 "nplurals=2; plural=(n != 1);");

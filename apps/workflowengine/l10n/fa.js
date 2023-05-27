@@ -57,7 +57,6 @@ OC.L10N.register(
     "User group membership" : "عضویت کاربر در گروه",
     "is member of" : "عضو است در ",
     "is not member of" : "عضو نیست در ",
-    "No results" : "نتیجه ای یافت نشد",
     "Predefined URLs" : "URL از پیش تعریف شده ",
     "Others" : "دیگران"
 },

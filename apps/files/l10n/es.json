@@ -191,7 +191,6 @@
     "Choose file or folder to transfer" : "Elegir archivo o carpeta para transferir",
     "Change" : "Cambiar",
     "New owner" : "Nuevo propietario",
-    "Search for an account" : "Buscar una cuenta",
     "Choose a file or folder to transfer" : "Elegir un archivo o carpeta para transferir",
     "Transfer" : "Transferir",
     "Transfer {path} to {userid}" : "Transferir {path} a {userid}",
@@ -227,6 +226,7 @@
     "Blank" : "Vacío",
     "Unable to create new file from template" : "No se ha podido crear un nuevo archivo desde la plantilla",
     "Delete permanently" : "Eliminar de forma definitiva",
+    "Open folder {displayName}" : "Abrir carpeta {displayName}",
     "Set up templates folder" : "Configura una carpeta para plantillas",
     "Templates" : "Plantillas",
     "Create new templates folder" : "Crear nueva carpeta de plantillas",
@@ -248,18 +248,13 @@
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
     "Storage invalid" : "Almacenamiento no válido",
-    "Select" : "Seleccionar",
-    "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
-    "New" : "Nuevo",
-    "Copied!" : "¡Copiado!",
     "Unlimited" : "Ilimitado",
     "Search users" : "Buscar usuarios",
-    "Cannot transfer ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece",
     "Cancel" : "Cancelar",
     "%s used" : "usado %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "Settings" : "Ajustes",
-    "Deleted files" : "Archivos eliminados"
+    "Deleted files" : "Archivos eliminados",
+    "Search for an account" : "Buscar una cuenta"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

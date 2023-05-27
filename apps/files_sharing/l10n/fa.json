@@ -229,10 +229,6 @@
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
-    "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
-    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود",
-    "Copy to clipboard" : "کپی به کلیپ بورد",
-    "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
-    "Toggle grid view" : "نمای دریچه را تغییر دهید"
+    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

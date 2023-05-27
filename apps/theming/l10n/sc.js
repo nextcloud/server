@@ -59,14 +59,13 @@ OC.L10N.register(
     "Loading preview…" : "Carrigamentu anteprima...",
     "Admin" : "Amministradore",
     "Name cannot be empty" : "Su nùmene non podet èssere isbòidu",
-    "Open documentation" : "Aberi sa documentatzione",
-    "https://…" : "https://…",
-    "Login image" : "Imàgine de intrada",
-    "Upload new login background" : "Càrriga fundu de intrada nou",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa s'estensione Imagemagick de PHP cun suportu pro is immàgines SVG pro generare in automàticu favicon basadas subra de su logo carrigadu e su colore.",
     "Pick from Files" : "Sèbera dae archìvios",
     "Custom color" : "Personaliza colore",
     "Plain background" : "Isfundu simpre",
-    "Insert from {productName}" : "Inserta dae {productName}"
+    "Insert from {productName}" : "Inserta dae {productName}",
+    "Open documentation" : "Aberi sa documentatzione",
+    "https://…" : "https://…",
+    "Upload new login background" : "Càrriga fundu de intrada nou",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa s'estensione Imagemagick de PHP cun suportu pro is immàgines SVG pro generare in automàticu favicon basadas subra de su logo carrigadu e su colore."
 },
 "nplurals=2; plural=(n != 1);");

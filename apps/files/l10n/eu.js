@@ -191,7 +191,6 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Aukeratu fitxategia edo karpeta transferitzeko",
     "Change" : "Aldatu",
     "New owner" : "Jabe berria",
-    "Search for an account" : "Bilatu kontu bat",
     "Choose a file or folder to transfer" : "Aukeratu fitxategi edo karpeta bat transferitzeko",
     "Transfer" : "Transferitu",
     "Transfer {path} to {userid}" : "Transfereritu {path}  {userid} erabiltzaileari",
@@ -247,18 +246,13 @@ OC.L10N.register(
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Storage invalid" : "Biltegi baliogabea",
-    "Select" : "Hautatu",
-    "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
-    "New" : "Berria",
-    "Copied!" : "Kopiatua!",
     "Unlimited" : "Mugarik gabe",
     "Search users" : "Bilatu erabiltzaileak",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
     "Cancel" : "Utzi",
     "%s used" : "%s erabilita",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s / %2$s erabilita",
-    "Settings" : "Ezarpenak",
-    "Deleted files" : "Ezabatutako fitxategiak"
+    "Deleted files" : "Ezabatutako fitxategiak",
+    "Search for an account" : "Bilatu kontu bat"
 },
 "nplurals=2; plural=(n != 1);");

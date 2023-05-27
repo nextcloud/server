@@ -218,10 +218,6 @@
     "Storage connection timeout. %s" : "مدت زمان اتصال ذخیره سازی%s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "فایل های برنامه %1$sبه درستی تعویض نشد. اطمینان حاصل کنید که این یک نسخه سازگار با سرور است.",
     "Full name" : "نام کامل",
-    "%s enter the database username and name." : "نام کاربری و نام پایگاه داده را وارد کنید.%s",
-    "%s enter the database username." : "%s نام کاربری پایگاه داده را وارد نمایید.",
-    "%s enter the database name." : "%s نام پایگاه داده را وارد نمایید.",
-    "%s you may not use dots in the database name" : "%s شما نباید از نقطه در نام پایگاه داده استفاده نمایید.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "تنها نویسه‌ها زیر در نام کاربری مجازند: \"a-z\" ، \"A-Z\" ، \"0-9\" و \"_. @ - '\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 حداقل مورد نیاز است. در حال حاضر %sنصب شده است",
     "To fix this issue update your libxml2 version and restart your web server." : "برای رفع این مشکل نسخه libxml2 خود را به روز کنید و سرور وب خود را مجدداً راه اندازی کنید."

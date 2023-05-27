@@ -44,12 +44,8 @@ OC.L10N.register(
     "HTML Code:" : "Koda HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud",
     "Copy to clipboard" : "Kopiraj v odložišče",
+    "Clipboard is not available" : "Odložišče ni na voljo",
     "Copied!" : "Kopirano!",
-    "Copy" : "Kopiraj",
-    "Not supported!" : "Ni podprto!",
-    "Press ⌘-C to copy." : "Pritisnite ⌘-C za kopiranje.",
-    "Press Ctrl-C to copy." : "Pritisnite Ctrl-C za kopiranje.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud; več na %s",
-    "Open documentation" : "Odpri dokumentacijo"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud; več na %s"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
