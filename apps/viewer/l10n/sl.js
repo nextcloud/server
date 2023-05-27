@@ -96,7 +96,6 @@ OC.L10N.register(
     "Name is required." : "Ime mora biti vpisano.",
     "Quality" : "Kakovost",
     "Actual size (100%)" : "Prava velikost (100%)",
-    "Fit size" : "Prilagodi velikosti",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Pokažite najnovejše fotografije in posnetke s počitnic kot v filmih, pokažite kakšno stran novega romana neposredno iz oblaka, izberite najboljše iz zbirke v neposrednem predogledu priljubljenih datotek in še veliko, veliko več!"
+    "Fit size" : "Prilagodi velikosti"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -50,7 +50,6 @@ OC.L10N.register(
     "Position" : "位置",
     "Extension" : "拡張",
     "Name is required." : "名前は必須です。",
-    "Quality" : "品質",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "映画のようにあなたの最新の休日の写真やビデオを表示したり、nextcloudからあなたの最新の小説を直接表示したり、お気に入りファイルの直接プレビューのおかげでコレクションの最高のGIFを選択できます。"
+    "Quality" : "品質"
 },
 "nplurals=1; plural=0;");

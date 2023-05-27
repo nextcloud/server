@@ -106,7 +106,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Tamaño da imaxe gardada (ancho x alto)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Teña en conta que a área de recorte seleccionada é inferior ao cambio de tamaño aplicado, o que pode provocar unha diminución da calidade",
     "Actual size (100%)" : "Tamaño real (100%)",
-    "Fit size" : "Axuste de tamaño",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Presente as fotos e vídeos das súas vacacións como nos filmes, amose un adianto da súa novela directamente dende a súa nube, escolla as mellores imaxes GIF da súa colección grazas á vista previa dos seus ficheiros favoritos, e moito máis!"
+    "Fit size" : "Axuste de tamaño"
 },
 "nplurals=2; plural=(n != 1);");

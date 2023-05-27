@@ -33,7 +33,6 @@ OC.L10N.register(
     "Position" : "Positzione",
     "Extension" : "Estensione",
     "Name is required." : "Su nùmene est rechertu: ",
-    "Quality" : "Calidade",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Mustra is ùrtimas fotografias e vìdeos de is vacàntzias comente in su tzìnema, mustra un'arrogu de s'ùrtimu romanzu tuo deretu dae Nextcloud, sèbera sa mègius GIF de sa regorta gràtzias a s'anteprima de is archìvios tuos preferidos e àteru ancora!"
+    "Quality" : "Calidade"
 },
 "nplurals=2; plural=(n != 1);");

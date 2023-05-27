@@ -106,7 +106,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Размер на запазеното изображение (ширина x височина)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Обърнете внимание, че избраната област за изрязване е по-ниска от приложеното преоразмеряване, което може да доведе до влошаване на качеството",
     "Actual size (100%)" : "Действителен размер (100%)",
-    "Fit size" : "Подходящ размер",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Покажете най-новите си празнични снимки и видеоклипове, като във филмите, покажете част от най-новия си роман директно от вашия nextcloud, изберете най-добрия GIF от колекцията си благодарение на директния преглед на любими за вас файлове и много други!"
+    "Fit size" : "Подходящ размер"
 },
 "nplurals=2; plural=(n != 1);");

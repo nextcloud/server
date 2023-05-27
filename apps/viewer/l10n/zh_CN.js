@@ -36,7 +36,6 @@ OC.L10N.register(
     "Position" : "位置",
     "Extension" : "扩展",
     "Name is required." : "名称是必填项。",
-    "Quality" : "质量",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "像电影一样展示您最新的假日照片和视频，直接在您的 Nextcloud 中浏览您最新的小说，借助您收藏文件的直接预览选择您专辑最佳的 GIF，还有更多！"
+    "Quality" : "质量"
 },
 "nplurals=1; plural=0;");

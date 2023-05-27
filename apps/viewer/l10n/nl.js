@@ -71,7 +71,6 @@ OC.L10N.register(
     "Quality" : "Kwaliteit",
     "Saved image size (width x height)" : "Grootte van opgeslagen afbeelding (breedte x hoogte)",
     "Actual size (100%)" : "Ware grootte (100%)",
-    "Fit size" : "Passend maken",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Toon je laatste vakantie foto's en videos zoals in de films, toon een deel van je laatste boek direct vanuit je nextcloud, kies de beste GIF uit jouw collectie dankzij de directe voorvertoning van je favoriete bestanden en nog veel meer!"
+    "Fit size" : "Passend maken"
 },
 "nplurals=2; plural=(n != 1);");

@@ -8,6 +8,7 @@
     "Error saving image" : "Erreur lors de l'enregistrement de l'image",
     "Unsaved changes" : "Modifications non enregistrées",
     "Drop changes" : "Abandonner les changements",
+    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Edit" : "Modifier",
     "Exit full screen" : "Quitter le plein écran",
@@ -106,7 +107,6 @@
     "Saved image size (width x height)" : "Taille de l'image sauvegardée (largeur x hauteur)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Notez que la zone de recadrage sélectionnée est inférieure au redimensionnement appliqué, ce qui peut entraîner une baisse de qualité.",
     "Actual size (100%)" : "Taille actuelle (100%)",
-    "Fit size" : "Adapter à la taille",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Affichez vos dernières photos et vidéos de vacances comme dans les films, visionnez votre dernier roman directement depuis Nextcloud, choisissez le meilleur GIF de votre collection grâce à la prévisualisation directe de vos fichiers favoris et bien plus encore !"
+    "Fit size" : "Adapter à la taille"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

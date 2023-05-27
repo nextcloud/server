@@ -104,7 +104,6 @@
     "Saved image size (width x height)" : "Mida de la imatge desada (amplada x alçada)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Tingueu en compte que l'àrea de retall seleccionada és inferior al canvi de mida aplicat, cosa que pot provocar una disminució de la qualitat",
     "Actual size (100%)" : "Mida real (100%)",
-    "Fit size" : "Ajust mida",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Vegeu les fotografies i els vídeos de les darreres vacances com en les pel·lícules, mostreu un fragment de la vostra darrera novel·la directament des del Nextcloud, escolliu el millor GIF de la vostra col·lecció gràcies a la previsualització directa dels vostres fitxers preferits i molt més!"
+    "Fit size" : "Ajust mida"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

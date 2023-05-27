@@ -97,7 +97,6 @@
     "Saved image size (width x height)" : "Sparad bildstorlek (bredd x höjd)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Observera att det valda beskärningsområdet är lägre än den tillämpade storleksändringen, vilket kan orsaka kvalitetsförsämring",
     "Actual size (100%)" : "Faktisk storlek (100 %)",
-    "Fit size" : "Passande storlek",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Visa dina senaste semesterbilder och videor som i filmerna, visa en glimt av din senaste bok direkt från Nextcloud, välj bästa GIF i din samling tack vare den direkta förhandsgranskningen av dina favoritfiler och mycket mer!"
+    "Fit size" : "Passande storlek"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
