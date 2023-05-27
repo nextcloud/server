@@ -136,15 +136,10 @@ OC.L10N.register(
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "Storage invalid" : "Nepareiza glabātuve",
-    "Select" : "Norādīt",
-    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
-    "New" : "Jauna",
-    "Copied!" : "Nokopēts!",
     "Unlimited" : "Neierobežota",
     "Cancel" : "Atcelt",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "Settings" : "Iestatījumi",
     "Deleted files" : "Dzēstās datnes"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

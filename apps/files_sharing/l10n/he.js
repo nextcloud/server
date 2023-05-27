@@ -233,10 +233,6 @@ OC.L10N.register(
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
-    "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
-    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
-    "Copy to clipboard" : "העתקה ללוח הגזירים",
-    "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
-    "Toggle grid view" : "החלפת תצוגת טבלה"
+    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

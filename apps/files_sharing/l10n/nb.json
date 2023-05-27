@@ -268,11 +268,7 @@
     "Uploaded files:" : "Opplastede filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ved å laste opp filer godtar du %1$stjenestevilkårene%2$s.",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "One or more of your shares will expire tomorrow" : "En eller flere av delingene dine utløper i morgen",
-    "Copy to clipboard" : "Kopiert til utklippstavlen",
-    "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
-    "Toggle grid view" : "Veksle rutenett-visning",
     "Error generating password from password_policy" : "Feil under generering av passord fra passordregler"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

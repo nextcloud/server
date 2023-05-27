@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "Vide",
     "Unable to create new file from template" : "Impossible de créer un nouveau fichier à partir du modèle",
     "Delete permanently" : "Supprimer définitivement",
+    "Open folder {displayName}" : "Ouvrir le dossier {displayName}",
     "Set up templates folder" : "Configurer le dossier des modèles",
     "Templates" : "Modèles",
     "Create new templates folder" : "Créer un nouveau dossier de modèles",
@@ -249,18 +250,13 @@ OC.L10N.register(
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Storage invalid" : "Support de stockage invalide",
-    "Select" : "Sélectionner",
-    "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
-    "New" : "Nouveau",
-    "Copied!" : "Copié !",
     "Unlimited" : "Illimité",
     "Search users" : "Rechercher des utilisateurs",
-    "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
     "Cancel" : "Annuler",
     "%s used" : "%s utilisés",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
-    "Settings" : "Paramètres",
-    "Deleted files" : "Fichiers supprimés"
+    "Deleted files" : "Fichiers supprimés",
+    "Search for an account" : "Chercher un compte"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

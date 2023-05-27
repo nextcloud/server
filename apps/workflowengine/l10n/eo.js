@@ -87,10 +87,6 @@ OC.L10N.register(
     "User group membership" : "Grupano",
     "is member of" : "estas membro de",
     "is not member of" : "ne estas membro de",
-    "Select a tag" : "Elekti etikedon",
-    "No results" : "Neniu rezulto",
-    "%s (invisible)" : "%s (nevidebla)",
-    "%s (restricted)" : "%s (limigita)",
     "Predefined URLs" : "Antaŭdifinitaj retadresoj",
     "Others" : "Aliaj"
 },

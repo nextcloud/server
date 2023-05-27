@@ -301,20 +301,9 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Adnevesaet a vez %s, pez a kemero sur awalc'h amzer ",
     "This page will refresh itself when the instance is available again." : "Ar bajenn a azgreeno e unan pa vo vak an azgoulenn en dro.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kit e darempred gant anr merour reizhad ma chomm ar c'hemenadenn-mañ, pe ma ze war well dic'hortozet ",
-    "[%d / %d]: Checking table %s" : "[%d/%d] : O wiriekaat an daolenn %s",
-    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Penn HTTP \"{header}\"  n'en deus ket \"{expected}\". Posuple eo bezha ur gudenn surentez pe prevezted, kinniget eo cheñch ar stumm mañ.",
     "If it is not there ask your local administrator." : "M'a n'eo ket amañ, goulennit o merour lec'h.",
-    "Collaboratively edit office documents." : "Embennit o dielloù office asambless.",
-    "Local document editing back-end used by the Collabora Online app." : "Emban lec'hiet pennañ diell implijet gant ar meziant Collabora Online.",
     "Settings" : "Arventennoù",
-    "restricted" : "strizhaet",
-    "invisible" : "diwelus",
     "File not found" : "N'eo ket bet kavet ar restr",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "N'eo ket posuple kavout ar ragtress war ar servijour. Marteze eo re gozh pe ez eo bet lammet ar rannadenn.",
-    "More" : "Muioc'h",
-    "More apps menu" : "Muioc'h a roll-mezioù meziantoù",
-    "Contacts" : "Darempredoù",
-    "Contacts menu" : "Roll-mezioù an darempredoù",
-    "Setup two-factor authentication" : "Stummañ un eil-elfenn dilesa"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "N'eo ket posuple kavout ar ragtress war ar servijour. Marteze eo re gozh pe ez eo bet lammet ar rannadenn."
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

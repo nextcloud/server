@@ -82,15 +82,14 @@ OC.L10N.register(
     "Admin" : "管理",
     "Error uploading the file" : "上传文件时出错",
     "Name cannot be empty" : "名称不能为空",
-    "Open documentation" : "打开文档",
-    "https://…" : "https://…",
-    "Login image" : "登录图片",
-    "Upload new login background" : "上传新登录背景",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。",
     "Pick from Files" : "从文件中挑选",
     "Default image" : "默认图片",
     "Custom color" : "自定义颜色",
     "Plain background" : "纯色背景",
-    "Insert from {productName}" : "从 {productName} 插入"
+    "Insert from {productName}" : "从 {productName} 插入",
+    "Open documentation" : "打开文档",
+    "https://…" : "https://…",
+    "Upload new login background" : "上传新登录背景",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。"
 },
 "nplurals=1; plural=0;");

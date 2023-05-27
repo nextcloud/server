@@ -200,18 +200,12 @@ OC.L10N.register(
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
     "Storage invalid" : "Saugykla netinkama naudoti",
-    "Select" : "Pasirinkti",
-    "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
-    "New" : "Naujas",
-    "Copied!" : "Nukopijuota!",
     "Unlimited" : "Neribotai",
     "Search users" : "Ieškoti naudotojų",
-    "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
     "Cancel" : "Atsisakyti",
     "%s used" : "%s panaudota",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
-    "Settings" : "Nustatymai",
     "Deleted files" : "Ištrinti failai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

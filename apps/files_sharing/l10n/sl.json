@@ -242,10 +242,6 @@
     "Uploaded files:" : "Poslane datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
     "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
-    "One or more of your shares will expire tomorrow" : "Eno ali več mest souporabe bo jutri poteklo",
-    "Copy to clipboard" : "Kopiraj v odložišče",
-    "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",
-    "Toggle grid view" : "Preklopi mrežni pogled"
+    "One or more of your shares will expire tomorrow" : "Eno ali več mest souporabe bo jutri poteklo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

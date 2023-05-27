@@ -259,10 +259,6 @@ OC.L10N.register(
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "Add to your Nextcloud" : "添加到您的 Nextcloud",
-    "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",
-    "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
-    "Copy to clipboard" : "复制到剪贴板",
-    "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。",
-    "Toggle grid view" : "切换网格视图"
+    "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期"
 },
 "nplurals=1; plural=0;");

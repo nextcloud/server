@@ -110,10 +110,6 @@ OC.L10N.register(
     "User group membership" : "Felhasználói csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
-    "Select a tag" : "Válasszon címkét",
-    "No results" : "Nincs találat",
-    "%s (invisible)" : "%s (láthatatlan)",
-    "%s (restricted)" : "%s (korlátozott)",
     "Predefined URLs" : "Előre definiált URL-ek",
     "Others" : "Egyebek"
 },

@@ -122,15 +122,10 @@ OC.L10N.register(
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
     "Storage invalid" : "Depozitë e pavlefshme",
-    "Select" : "Përzgjidhe",
-    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
-    "New" : "E re",
-    "Copied!" : "E kopjuar!",
     "Unlimited" : "E palimituar",
     "Cancel" : "Anullo",
     "%s used" : "%s të përdorura",
     "%1$s of %2$s used" : "%1$s e %2$s përdorur",
-    "Settings" : "Rregullime",
     "Deleted files" : "Skedar të fshirë"
 },
 "nplurals=2; plural=(n != 1);");

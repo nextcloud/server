@@ -48,13 +48,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID",
     "Copy to clipboard" : "Kopiëren naar het klembord",
     "Copied!" : "Gekopieerd!",
-    "Copy" : "Kopiëren",
-    "Not supported!" : "Niet ondersteund!",
-    "Press ⌘-C to copy." : "Druk op ⌘-C om te kopiëren.",
-    "Press Ctrl-C to copy." : "Druk op Ctrl-C om te kopiëren.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Je ontving  \"%3$s\" als een externe deellink van %4$s (%1$s) (namens %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Je ontving \"%3$s\" als een externe deellink van %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID, zie %s",
-    "Open documentation" : "Open documentatie"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID, zie %s"
 },
 "nplurals=2; plural=(n != 1);");

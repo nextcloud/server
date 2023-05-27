@@ -270,12 +270,8 @@
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",
-    "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
-    "One or more of your shares will expire tomorrow" : "EIne oder mehrere Ihrer Freigaben werden morgen ablaufen",
-    "Copy to clipboard" : "In die Zwischenablage kopieren",
-    "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
-    "Toggle grid view" : "Rasteransicht umschalten",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
+    "One or more of your shares will expire tomorrow" : "EIne oder mehrere Ihrer Freigaben werden morgen ablaufen",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "Fehler beim Erzeugen des Passworts basierend auf der Kennwortrichtlinie"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

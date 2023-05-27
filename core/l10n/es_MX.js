@@ -276,17 +276,9 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "El lanzamiento de esta versión para la comunidad de Nextcloud no cuenta con soporte y las notificaciones instantáneas no están disponibles.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Se envió un mensaje para reestablecer la contraseña a la dirección de correo electrónico de esta cuenta. Si no lo recibes, comprueba si está en el buzón de Correo No Deseado/Spam o pide ayuda a tu administrador local.",
     "If it is not there ask your local administrator." : "Si no está ahí ponte en contacto con el administrador local",
     "Settings" : "Configuraciones ",
-    "restricted" : "restringido",
-    "invisible" : "invisible",
-    "File not found" : "Archivo no encontrado",
-    "More" : "Más",
-    "More apps menu" : "Menú de más aplicaciones",
-    "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de Contactos"
+    "File not found" : "Archivo no encontrado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

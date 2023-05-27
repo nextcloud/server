@@ -200,17 +200,11 @@
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
     "Storage invalid" : "Lưu trữ không hợp lệ",
-    "Select" : "Chọn",
-    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
-    "New" : "Tạo mới",
-    "Copied!" : "Đã sao chép!",
     "Unlimited" : "Không giới hạn",
     "Search users" : "‎Tìm kiếm người dùng‎",
-    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
     "Cancel" : "‎Hủy bỏ‎",
     "%s used" : "%s ‎đã sử dụng‎",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
-    "Settings" : "Cài đặt",
     "Deleted files" : "Thùng rác"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

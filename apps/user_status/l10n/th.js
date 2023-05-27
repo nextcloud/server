@@ -31,7 +31,6 @@ OC.L10N.register(
     "1 hour" : "1 ชั่วโมง",
     "4 hours" : "4 ชั่วโมง",
     "Mute all notifications" : "ปิดการแจ้งเตือนทั้งหมด",
-    "Appear offline" : "แสดงเป็นออฟไลน์",
-    "Clear status message after" : "ลบข้อความสถานะหลังจาก"
+    "Appear offline" : "แสดงเป็นออฟไลน์"
 },
 "nplurals=1; plural=0;");

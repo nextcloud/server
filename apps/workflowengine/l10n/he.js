@@ -99,10 +99,6 @@ OC.L10N.register(
     "User group membership" : "חברות בקבוצת משתמשים",
     "is member of" : "חבר בקבוצה",
     "is not member of" : "לא חבר בקבוצה",
-    "Select a tag" : "נא לבחור תגית",
-    "No results" : "אין תוצאות",
-    "%s (invisible)" : "%s (נסתר)",
-    "%s (restricted)" : "%s (מוגבל)",
     "Predefined URLs" : "כתובות שמוגדרות מראש",
     "Others" : "חרים"
 },

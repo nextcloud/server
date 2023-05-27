@@ -99,10 +99,6 @@ OC.L10N.register(
     "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
     "is not member of" : "구성원이 아님",
-    "Select a tag" : "태그 선택",
-    "No results" : "결과 없음",
-    "%s (invisible)" : "%s(숨겨짐)",
-    "%s (restricted)" : "%s(제한됨)",
     "Predefined URLs" : "사전 정의된 URL",
     "Others" : "기타"
 },

@@ -228,18 +228,12 @@ OC.L10N.register(
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Fitxer de text nou.txt",
     "Storage invalid" : "L'emmagatzematge no és vàlid",
-    "Select" : "Selecciona",
-    "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
-    "New" : "Nou",
-    "Copied!" : "S'ha copiat!",
     "Unlimited" : "Il·limitat",
     "Search users" : "Cerqueu usuaris",
-    "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
     "Cancel" : "Cancel·la",
     "%s used" : "%s en ús",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s de %2$s en ús",
-    "Settings" : "Paràmetres",
     "Deleted files" : "Fitxers suprimits"
 },
 "nplurals=2; plural=(n != 1);");

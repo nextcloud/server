@@ -198,10 +198,6 @@
     "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Skrám forritsins %$1s var ekki rétt skipt út. Gakktu úr skugga um að þetta sé útgáfa sem sé samhæfð útgáfu vefþjónsins.",
     "Full name" : "Fullt nafn",
-    "%s enter the database username and name." : "%s settu inn notandanafn og nafn á gagnagrunni.",
-    "%s enter the database username." : "%s settu inn notandanafn í gagnagrunni.",
-    "%s enter the database name." : "%s settu inn nafn á gagnagrunni.",
-    "%s you may not use dots in the database name" : "%s þú mátt ekki nota punkta í nafni á gagnagrunni",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í notandanafni: \"a-z\", \"A-Z\", \"0-9\", og \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Krafist er libxml2 2.7.0 hið minnsta. Núna er %s uppsett.",
     "To fix this issue update your libxml2 version and restart your web server." : "Til að laga þetta vandamál ættirðu að uppfæra útgáfu þína af libxml2 og endurræsa vefþjóninn."

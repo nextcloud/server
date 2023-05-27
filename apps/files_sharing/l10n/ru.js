@@ -272,12 +272,8 @@ OC.L10N.register(
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",
-    "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
-    "Copy to clipboard" : "Копировать в буфер обмена",
-    "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
-    "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общие ресурсы типа Science Mesh",
+    "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Не удалось создать пароль на основе политики"
 },

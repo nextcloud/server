@@ -76,7 +76,6 @@ OC.L10N.register(
     "Configuration" : "Configurație",
     "Available for" : "Disponibil pentru",
     "Add storage" : "Adauga stocare",
-    "Advanced settings" : "Setări avansate",
-    "All users. Type to select user or group." : "Toți utilizatorii. Începe să scrii pentru a selecta un utilizator sau un grup."
+    "Advanced settings" : "Setări avansate"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

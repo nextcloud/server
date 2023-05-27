@@ -244,18 +244,12 @@
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szövegfájl.txt",
     "Storage invalid" : "A tároló érvénytelen",
-    "Select" : "Kiválasztás",
-    "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
-    "New" : "Új",
-    "Copied!" : "Másolva!",
     "Unlimited" : "Korlátlan",
     "Search users" : "Fehasználók keresése",
-    "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Cancel" : "Mégse",
     "%s used" : "%s használt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s / %2$s felhasználva",
-    "Settings" : "Beállítások",
     "Deleted files" : "Törölt fájlok"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

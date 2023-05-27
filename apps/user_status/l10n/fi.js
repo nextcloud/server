@@ -43,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 tunti",
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
-    "Appear offline" : "Näytä olevan poissa",
-    "Clear status message after" : "Tyhjennä tilaviesti, kun on kulunut"
+    "Appear offline" : "Näytä olevan poissa"
 },
 "nplurals=2; plural=(n != 1);");

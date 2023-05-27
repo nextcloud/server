@@ -234,18 +234,12 @@ OC.L10N.register(
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
     "Storage invalid" : "Mesto shrambe ni veljavno",
-    "Select" : "Izbor",
-    "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
-    "New" : "Novo",
-    "Copied!" : "Kopirano!",
     "Unlimited" : "Neomejeno",
     "Search users" : "Iskanje uporabnikov",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Cancel" : "Prekliči",
     "%s used" : "Uporabljeno %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Uporabljeno %1$s od %2$s",
-    "Settings" : "Nastavitve",
     "Deleted files" : "Izbrisane datoteke"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

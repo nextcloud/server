@@ -139,7 +139,6 @@ OC.L10N.register(
     "All users" : "Alla användare",
     "Advanced settings" : "Avancerade inställningar",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter.",
-    "All users. Type to select user or group." : "Alla användare. Skriv för att välja användare eller grupp."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter."
 },
 "nplurals=2; plural=(n != 1);");

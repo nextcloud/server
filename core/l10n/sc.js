@@ -351,21 +351,10 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Immoe custa %s istàntzia est in modalidade de mantenidura, e podet trigare unu pagu.",
     "This page will refresh itself when the instance is available again." : "Custa pàgina s'at a atualizare cando s'istàntzia at a èssere torra a disponimentu.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Cuntata s'amministratzione de sistema si custu messàgiu abarrat o torrat a cumpàrrere",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Controllende sa tàula %s",
-    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "S'intestatzione HTTP \"{header}\" no cuntenet \"{expected}\". Custu est un'arriscu possìbile de seguresa o privadesa, tando est cussigiadu a arrangiare cust'impostatzione de cunsighèntzia.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Est istadu imbiadu unu messàgiu pro su risprìstinu de sa crae a s'indiritzu de posta eletrònica de custu contu. Si non ddu retzis, controlla in is cartellas de s'àliga o pide agiudu a s'amministratzione.",
     "If it is not there ask your local administrator." : "Si no est in cue, dimanda a s'amministratzione locale tua.",
-    "Collaboratively edit office documents." : "Modìfica archìvios de testu in collaboratzione.",
-    "Local document editing back-end used by the Collabora Online app." : "Su motore de modìfica de is documentos locales impreadu dae s'aplicatzione Collabora Online.",
     "Settings" : "Cunfiguratziones",
-    "restricted" : "limitadu",
-    "invisible" : "invisìbile",
     "File not found" : "Archìviu no agatadu",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Su documentu non s'est agatadu in su serbidore. Mancari sa cumpartzidura nch'est istada cantzellada o est iscadida?",
-    "More" : "Àteru",
-    "More apps menu" : "Àteros menu de aplicatziones",
-    "Contacts" : "Cuntatos",
-    "Contacts menu" : "Menu de cuntatos",
-    "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Su documentu non s'est agatadu in su serbidore. Mancari sa cumpartzidura nch'est istada cantzellada o est iscadida?"
 },
 "nplurals=2; plural=(n != 1);");

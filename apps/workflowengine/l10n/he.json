@@ -97,10 +97,6 @@
     "User group membership" : "חברות בקבוצת משתמשים",
     "is member of" : "חבר בקבוצה",
     "is not member of" : "לא חבר בקבוצה",
-    "Select a tag" : "נא לבחור תגית",
-    "No results" : "אין תוצאות",
-    "%s (invisible)" : "%s (נסתר)",
-    "%s (restricted)" : "%s (מוגבל)",
     "Predefined URLs" : "כתובות שמוגדרות מראש",
     "Others" : "חרים"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"

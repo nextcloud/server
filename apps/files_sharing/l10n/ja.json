@@ -268,11 +268,7 @@
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
-    "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",
     "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
-    "Copy to clipboard" : "クリップボードにコピー",
-    "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
-    "Toggle grid view" : "グリッド表示の切り替え",
     "Error generating password from password_policy" : "password_policy からのパスワード生成エラー"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

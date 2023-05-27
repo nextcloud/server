@@ -242,10 +242,6 @@ OC.L10N.register(
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
-    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
-    "Copy to clipboard" : "Kopiraj u međuspremnik",
-    "Sorry, this link doesn’t seem to work anymore." : "Žao nam je, čini se da ova poveznica više ne radi.",
-    "Toggle grid view" : "Uključi/isključi prikaz rešetke"
+    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

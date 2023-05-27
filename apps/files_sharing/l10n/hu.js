@@ -270,12 +270,8 @@ OC.L10N.register(
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "A fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételeket %2$s.",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",
-    "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
-    "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
-    "Copy to clipboard" : "Másolás a vágólapra",
-    "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
-    "Toggle grid view" : "Rácsnézet be/ki",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a szobamegosztásokat",
+    "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó-előállításkor"
 },

@@ -139,7 +139,6 @@ OC.L10N.register(
     "All users" : "所有使用者",
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許使用者自行掛載外部儲存空間",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
-    "All users. Type to select user or group." : "所有使用者。輸入以選取使用者或群組。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。"
 },
 "nplurals=1; plural=0;");

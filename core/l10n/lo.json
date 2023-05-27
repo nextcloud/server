@@ -324,20 +324,9 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "%sຕົວຢ່າງນີ້ໃນປັດຈຸບັນແມ່ນຢູ່ໃນວິທີການບໍາລຸງຮັກສາ, ຊຶ່ງອາດຈະໃຊ້ ເວລາໃນໄລຍະໜຶ່ງ",
     "This page will refresh itself when the instance is available again." : "ຫນ້ານີ້ຈະ refresh ເມື່ອມີຕົວຢ່າງອີກ.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ຕິດຕໍ່ຜູ້ບໍລິຫານລະບົບຂອງທ່ານຖ້າຫາກວ່າຂ່າວສານນີ້ຍັຢູ່ ຫຼື ປາກົດໂດຍບໍ່ຄາດຄິດ.",
-    "[%d / %d]: Checking table %s" : "[%d/%d]:ກວດເບີ່ງຕາຕະລາງ %s",
-    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "ຫົວຂໍ້ \"{header}\" HTTP ບໍ່ມີ \"{expected}\". ນີ້ແມ່ນຄວາມສ່ຽງດ້ານຄວາມປອດໄພ ຫຼືຄວາມເປັນສ່ວນຕົວ, ແນະນໍາໃຫ້ປັບການຕັ້ງຄ່າຕາມນີ້.",
     "If it is not there ask your local administrator." : "ຖ້າບໍ່ໄດ້ຖາມຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
-    "Collaboratively edit office documents." : "ຮຽບຮຽງເອກະສານຫ້ອງການຮ່ວມກັນ.",
-    "Local document editing back-end used by the Collabora Online app." : "ບ່ອນເກັບເອກະສານແກ້ໄຂ back-end ທີ່ໃຊ້ໂດຍ app Collabora ອອນໄລນ໌",
     "Settings" : "ການຕັ້ງຄ່າ",
-    "restricted" : "ຈໍາກັດ",
-    "invisible" : "ບໍ່ເຫັນ",
     "File not found" : " ບໍ່ພົບຟາຍ",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ເອກະສານບໍ່ສາມາດຄົ້ນພົບໄດ້ໃນ server.  ບາງທີສ່ວນແບ່ງຖືກລຶບ ຫຼື ໄດ້ສິ້ນສຸດລົງ?",
-    "More" : "ເພີ່ມເຕີມ",
-    "More apps menu" : "ເມນູແອັບເພີ່ມເຕີມ",
-    "Contacts" : "ຕິດຕໍ່",
-    "Contacts menu" : "ເມນູຕິດຕໍ່",
-    "Setup two-factor authentication" : "ການຕັ້ງຄ່າຮັບຮອງການຢັ້ງຢືນສອງຄັ້ງ"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ເອກະສານບໍ່ສາມາດຄົ້ນພົບໄດ້ໃນ server.  ບາງທີສ່ວນແບ່ງຖືກລຶບ ຫຼື ໄດ້ສິ້ນສຸດລົງ?"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

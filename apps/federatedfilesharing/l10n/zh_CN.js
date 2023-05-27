@@ -47,13 +47,8 @@ OC.L10N.register(
     "Copy to clipboard" : "复制到剪贴板",
     "Clipboard is not available" : "剪贴板不可用",
     "Copied!" : "已复制！",
-    "Copy" : "复制",
-    "Not supported!" : "不支持！",
-    "Press ⌘-C to copy." : "请按 ⌘-C 键复制",
-    "Press Ctrl-C to copy." : "请按 Ctrl-C 键复制",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "您收到了来自%4$s（%1$s）的作为远程共享的\"%3$s\"（代表%5$s（%2$s））",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "您收到了来自%4$s（%1$s）的作为远程共享的\"%3$s\"",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "通过我的联合云 ID，共享给我，看%s",
-    "Open documentation" : "打开文档"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "通过我的联合云 ID，共享给我，看%s"
 },
 "nplurals=1; plural=0;");
