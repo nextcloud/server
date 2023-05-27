@@ -272,12 +272,8 @@ OC.L10N.register(
     "Uploaded files:" : "Завантажені файли:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Завантажуючи файли, ви погоджуєтеся з %1$sумовами користування%2$s.",
     "Add to your Nextcloud" : "Додати до вашої хмари Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Неправильний ідентифікатор спільного ресурсу, спільний ресурс відсутній",
-    "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
-    "Copy to clipboard" : "Копіювати до буферу обміну",
-    "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
-    "Toggle grid view" : "Перемкнути подання сіткою",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Поширення %s не вдалося, оскільки бекенд не підтримує ресурси типа ScienceMesh",
+    "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Помилка під час створення паролів з password_policy"
 },

@@ -72,7 +72,6 @@ OC.L10N.register(
     "Available for" : "Disponibile a",
     "Add storage" : "Adder immagazinage",
     "Advanced settings" : "Configurationes avantiate",
-    "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
-    "All users. Type to select user or group." : "Tote usatores. Scribe pro selectionar usator o gruppo."
+    "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe"
 },
 "nplurals=2; plural=(n != 1);");

@@ -254,10 +254,6 @@ OC.L10N.register(
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
-    "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
-    "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
-    "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
-    "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
-    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
+    "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο"
 },
 "nplurals=2; plural=(n != 1);");

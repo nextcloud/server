@@ -110,10 +110,6 @@ OC.L10N.register(
     "User group membership" : "Участие в группе пользователей",
     "is member of" : "является участником",
     "is not member of" : "не является участником",
-    "Select a tag" : "Выберите метку",
-    "No results" : "Нет результатов",
-    "%s (invisible)" : "%s (невидимый)",
-    "%s (restricted)" : "%s (ограниченный)",
     "Predefined URLs" : "Предопределенные URL",
     "Others" : "Другие"
 },

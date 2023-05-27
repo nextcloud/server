@@ -250,18 +250,13 @@ OC.L10N.register(
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
     "Storage invalid" : "Storage invalid",
-    "Select" : "Select",
-    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
-    "New" : "New",
-    "Copied!" : "Copied!",
     "Unlimited" : "Unlimited",
     "Search users" : "Search users",
-    "Cannot transfer ownership of a file or folder you don't own" : "Cannot transfer ownership of a file or folder you don't own",
     "Cancel" : "Cancel",
     "%s used" : "%s used",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s of %2$s used",
-    "Settings" : "Settings",
-    "Deleted files" : "Deleted files"
+    "Deleted files" : "Deleted files",
+    "Search for an account" : "Search for an account"
 },
 "nplurals=2; plural=(n != 1);");

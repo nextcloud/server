@@ -110,10 +110,6 @@ OC.L10N.register(
     "User group membership" : "Συμμετοχή σε ομάδα χρηστών",
     "is member of" : "είναι μέλος του",
     "is not member of" : "δεν είναι μέλος του",
-    "Select a tag" : "Επιλογή ετικέτας",
-    "No results" : "Κανένα αποτέλεσμα",
-    "%s (invisible)" : "%s (αόρατο)",
-    "%s (restricted)" : "%s (περιορισμένο)",
     "Predefined URLs" : "Προορισμένα URLs",
     "Others" : "Άλλοι"
 },

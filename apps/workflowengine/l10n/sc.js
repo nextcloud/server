@@ -109,10 +109,6 @@ OC.L10N.register(
     "User group membership" : "Apartenèntzia de is utentes a is grupos",
     "is member of" : "partètzipat a",
     "is not member of" : "no partètzipat a",
-    "Select a tag" : "Seletziona un'eticheta",
-    "No results" : "Perunu resurtadu",
-    "%s (invisible)" : "%s (invisìbile)",
-    "%s (restricted)" : "%s (limitadu)",
     "Predefined URLs" : "URL predefinidos",
     "Others" : "Àtere"
 },

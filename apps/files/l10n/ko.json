@@ -208,17 +208,11 @@
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
     "Storage invalid" : "저장소가 잘못됨",
-    "Select" : "선택",
-    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
-    "New" : "새로 만들기",
-    "Copied!" : "복사 성공!",
     "Unlimited" : "무제한",
     "Search users" : "사용자 검색",
-    "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
     "Cancel" : "취소",
     "%s used" : "%s 사용함",
     "%1$s of %2$s used" : "%2$s 중 %1$s 사용됨",
-    "Settings" : "설정",
     "Deleted files" : "삭제된 파일"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

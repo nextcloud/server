@@ -272,12 +272,8 @@ OC.L10N.register(
     "Uploaded files:" : "Arquivos enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
-    "Wrong share ID, share doesn't exist" : "ID de compartilhamento errado, o compartilhamento não existe",
-    "One or more of your shares will expire tomorrow" : "Um ou mais de seus compartilhamentos irão expirar amanhã",
-    "Copy to clipboard" : "Copiar para a área de transferência",
-    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
-    "Toggle grid view" : "Alternar a visão em grade",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Sharing %s failed because the back end does not support sciencemesh shares",
+    "One or more of your shares will expire tomorrow" : "Um ou mais de seus compartilhamentos irão expirar amanhã",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Erro ao gerar senha de password_policy"
 },

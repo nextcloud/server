@@ -112,10 +112,6 @@ OC.L10N.register(
     "User group membership" : "Användargruppsmedlemskap",
     "is member of" : "är medlem i",
     "is not member of" : "är inte medlem i",
-    "Select a tag" : "Välj en tagg",
-    "No results" : "Inga resultat",
-    "%s (invisible)" : "%s (osynlig)",
-    "%s (restricted)" : "%s (begränsad)",
     "Predefined URLs" : "Förinställda webbadresser",
     "Others" : "Övriga"
 },

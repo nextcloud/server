@@ -206,10 +206,6 @@ OC.L10N.register(
     "Uploaded files:" : "Augšupielādētas datnes:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
-    "One or more of your shares will expire tomorrow" : "Vienam vai vairākiem jūsu koplietojumiem rīt beigsies termiņš",
-    "Copy to clipboard" : "Kopēt starpliktuvē",
-    "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas",
-    "Toggle grid view" : "Pārslēgt režģa skatu"
+    "One or more of your shares will expire tomorrow" : "Vienam vai vairākiem jūsu koplietojumiem rīt beigsies termiņš"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

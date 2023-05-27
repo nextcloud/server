@@ -112,10 +112,6 @@ OC.L10N.register(
     "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
     "is not member of" : "není členem",
-    "Select a tag" : "Vybrat štítek",
-    "No results" : "Žádné výsledky",
-    "%s (invisible)" : "%s (neviditelné)",
-    "%s (restricted)" : "%s (omezeno)",
     "Predefined URLs" : "Předdefinované URL",
     "Others" : "Ostatní"
 },

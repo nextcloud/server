@@ -227,18 +227,12 @@ OC.L10N.register(
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
     "Storage invalid" : "ストレージが無効です",
-    "Select" : "選択",
-    "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
-    "New" : "新規作成",
-    "Copied!" : "コピー完了",
     "Unlimited" : "無制限",
     "Search users" : "ユーザーを検索",
-    "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
     "Cancel" : "キャンセル",
     "%s used" : "%s 使用中",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%2$s 中%1$s 使用中",
-    "Settings" : "設定",
     "Deleted files" : "ゴミ箱"
 },
 "nplurals=1; plural=0;");

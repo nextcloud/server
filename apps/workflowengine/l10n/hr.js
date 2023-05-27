@@ -109,10 +109,6 @@ OC.L10N.register(
     "User group membership" : "Članstvo u grupi korisnika",
     "is member of" : "je član",
     "is not member of" : "nije član",
-    "Select a tag" : "Odaberi oznaku",
-    "No results" : "Nema rezultata",
-    "%s (invisible)" : "%s (nevidljivo)",
-    "%s (restricted)" : "%s (ograničeno)",
     "Predefined URLs" : "Unaprijed definirani URL-ovi",
     "Others" : "Ostalo"
 },

@@ -56,9 +56,6 @@ OC.L10N.register(
     "User group membership" : "Lietotāju grupas piederība",
     "is member of" : "ir biedrs",
     "is not member of" : "nav biedrs",
-    "No results" : "Nav rezultātu",
-    "%s (invisible)" : "%s (neredzams)",
-    "%s (restricted)" : "%s (ierobežots)",
     "Predefined URLs" : "Standarta URLs",
     "Others" : "Citi"
 },

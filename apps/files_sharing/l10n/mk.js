@@ -269,11 +269,7 @@ OC.L10N.register(
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
-    "Wrong share ID, share doesn't exist" : "Погрешно ID на споделување, споделувањето не постои",
     "One or more of your shares will expire tomorrow" : "Едно или повеќе од твојте споделувања ќе истечат утре",
-    "Copy to clipboard" : "Копирај во клипборд",
-    "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
-    "Toggle grid view" : "Промена во мрежа",
     "Error generating password from password_policy" : "Грешка при генерирање на лозинка од политиката на лозинки"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

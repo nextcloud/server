@@ -60,9 +60,6 @@ OC.L10N.register(
     "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
     "is not member of" : "er ikke medlem af",
-    "No results" : "Ingen resultater",
-    "%s (invisible)" : "%s (usynlig)",
-    "%s (restricted)" : "%s (begrænset)",
     "Predefined URLs" : "Foruddefineret URLer",
     "Others" : "Andre"
 },

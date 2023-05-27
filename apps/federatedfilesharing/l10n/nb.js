@@ -40,11 +40,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiert til utklippstavlen",
     "Clipboard is not available" : "Utklippstavlen er ikke tilgjengelig",
     "Copied!" : "Kopiert!",
-    "Copy" : "Kopier",
-    "Not supported!" : "Ikke støttet!",
-    "Press ⌘-C to copy." : "Trykk ⌘-C for å kopiere",
-    "Press Ctrl-C to copy." : "Trykk Ctrl-C for å kopiere",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s",
-    "Open documentation" : "Åpne dokumentasjonen"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s"
 },
 "nplurals=2; plural=(n != 1);");

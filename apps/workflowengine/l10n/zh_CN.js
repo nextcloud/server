@@ -109,10 +109,6 @@ OC.L10N.register(
     "User group membership" : "用户组成员资格",
     "is member of" : "是成员",
     "is not member of" : "不是成员",
-    "Select a tag" : "选择标签",
-    "No results" : "没有结果",
-    "%s (invisible)" : "%s（不可见）",
-    "%s (restricted)" : "%s（受限）",
     "Predefined URLs" : "预定义 URL",
     "Others" : "其它"
 },

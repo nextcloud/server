@@ -16,11 +16,6 @@
     "Good evening" : "عصر بخیر",
     "Good evening, {name}" : "{name} عصرتان بخیر",
     "Hello" : "سلام",
-    "Hello, {name}" : "سلام {name}",
-    "Change background image" : "تغییر تصویر زمینه",
-    "Pick from Files" : "انتخاب از میان پرونده‌ها",
-    "Default images" : "تصاویر پیش‌فرض",
-    "Plain background" : "تصویر زمینه ساده",
-    "Insert from {productName}" : "درج از {productName}"
+    "Hello, {name}" : "سلام {name}"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

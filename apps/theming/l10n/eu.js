@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Administratzailea",
     "Error uploading the file" : "Errorea fitxategia igotzen",
     "Name cannot be empty" : "Izena ezin da hutsik egon",
-    "Open documentation" : "Ireki dokumentazioa",
-    "https://…" : "https://…",
-    "Login image" : "Saio-hasiera irudia",
-    "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko.",
     "Migrate and clean up admin theming images" : "Migratu eta garbitu administratzaile gaiaren irudiak",
     "Failed to clean up the old admin theming images folder" : "Ezin izan da garbitu administratzailearen gaiaren irudien karpeta zaharra",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Zenbait kasutan, teklatuko lasterbideek erabilerraztasun-tresnekin oztopatu dezakete. Zure tresna behar bezala zentratu ahal izateko, hemen teklatuko lasterbide guztiak desgaitu ditzakezu. Honek aplikazioetan erabilgarri dauden lasterbide guztiak ere desgaituko ditu.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Kolore pertsonalizatua",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Zure instantzia hautatu eta pertsonaliza dezakezun arren, erabiltzaileek atzeko planoa eta koloreak alda ditzakete. Zure pertsonalizazioa aplikatu nahi baduzu, lauki hau markatu dezakezu."
+    "Open documentation" : "Ireki dokumentazioa",
+    "https://…" : "https://…",
+    "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Zure instantzia hautatu eta pertsonaliza dezakezun arren, erabiltzaileek atzeko planoa eta koloreak alda ditzakete. Zure pertsonalizazioa aplikatu nahi baduzu, lauki hau markatu dezakezu.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko."
 },
 "nplurals=2; plural=(n != 1);");

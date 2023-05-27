@@ -250,18 +250,13 @@ OC.L10N.register(
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "Storage invalid" : "Neplatné úložiště",
-    "Select" : "Vybrat",
-    "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
-    "New" : "Nový",
-    "Copied!" : "Zkopírováno!",
     "Unlimited" : "Neomezeně",
     "Search users" : "Hledat uživatele",
-    "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky",
     "Cancel" : "Storno",
     "%s used" : "%s použito",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s z %2$s použito",
-    "Settings" : "Nastavení",
-    "Deleted files" : "Smazané soubory"
+    "Deleted files" : "Smazané soubory",
+    "Search for an account" : "Hledat účet"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

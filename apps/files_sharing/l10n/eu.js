@@ -270,12 +270,8 @@ OC.L10N.register(
     "Uploaded files:" : "Kargatutako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",
-    "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
-    "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
-    "Copy to clipboard" : "Kopiatu arbelera",
-    "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
-    "Toggle grid view" : "Txandakatu sareta ikuspegia",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "%spartekatzeak huts egin du atzealdeak ez duelako zientzia sareko partekatzea onartzen",
+    "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Science Mesh" : "Zientzia sarea",
     "Error generating password from password_policy" : "Errorea pasahitz-gidalerrotik pasahitza sortzean"
 },

@@ -202,17 +202,11 @@ OC.L10N.register(
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Storage invalid" : "Neispravna pohrana",
-    "Select" : "Odaberi",
-    "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
-    "New" : "Novo",
-    "Copied!" : "Kopirano!",
     "Unlimited" : "Neograničeno",
     "Search users" : "Pretraži korisnike",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
     "Cancel" : "Odustani",
     "%s used" : "Iskorišteno %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "Settings" : "Postavke",
     "Deleted files" : "Izbrisane datoteke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

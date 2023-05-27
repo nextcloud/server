@@ -270,12 +270,8 @@
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",
-    "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
-    "Copy to clipboard" : "Копировать в буфер обмена",
-    "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
-    "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общие ресурсы типа Science Mesh",
+    "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Не удалось создать пароль на основе политики"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"

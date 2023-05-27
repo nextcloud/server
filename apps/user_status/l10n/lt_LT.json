@@ -32,7 +32,6 @@
     "1 hour" : "1 valanda",
     "4 hours" : "4 valandos",
     "Mute all notifications" : "Išjungti visus pranešimus",
-    "Appear offline" : "Atrodyti atsijungusiu",
-    "Clear status message after" : "Išvalyti būsenos žinutę po"
+    "Appear offline" : "Atrodyti atsijungusiu"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

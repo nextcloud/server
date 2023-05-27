@@ -43,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
-    "Appear offline" : "Çevrimdışı görün",
-    "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın"
+    "Appear offline" : "Çevrimdışı görün"
 },
 "nplurals=2; plural=(n > 1);");

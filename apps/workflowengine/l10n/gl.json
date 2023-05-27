@@ -107,10 +107,6 @@
     "User group membership" : "Pertencia a un grupo de usuarios",
     "is member of" : "é membro de",
     "is not member of" : "non é membro de",
-    "Select a tag" : "Seleccione unha etiqueta",
-    "No results" : "Sen resultados",
-    "%s (invisible)" : "%s (invisíbel)",
-    "%s (restricted)" : "%s (restrinxido)",
     "Predefined URLs" : "URL predefinidos",
     "Others" : "Outros"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

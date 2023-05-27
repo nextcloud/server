@@ -270,12 +270,8 @@
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
-    "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
-    "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
-    "Copy to clipboard" : "Panoya kopyala",
-    "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
-    "Toggle grid view" : "Tablo görünümünü değiştir",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Arka uç ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
+    "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "password_policy ile parola oluşturulurken sorun çıktı"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
