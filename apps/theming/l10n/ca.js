@@ -52,7 +52,7 @@ OC.L10N.register(
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió del PHP d'ImageMagick compatible amb imatges SVG per a generar automàticament icones de web a partir del logotip i del color pujats.",
     "Name" : "Nom",
     "Web link" : "Enllaç web",
-    "a safe home for all your data" : "Un lloc segur per a les vostres dades",
+    "a safe home for all your data" : "Un lloc segur per a totes les vostres dades",
     "Slogan" : "Eslògan",
     "Color" : "Color",
     "Logo" : "Logotip",

@@ -210,7 +210,7 @@
     "User disabled" : "Usuari inhabilitat",
     "Login canceled by app" : "Inici de sessió cancel·lat per aplicació",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "L'aplicació \"%1$s\" no es pot instal·lar perquè no es compleixen les dependències següents: %2$s",
-    "a safe home for all your data" : "un lloc segur per a les vostres dades",
+    "a safe home for all your data" : "Un lloc segur per a totes les vostres dades",
     "File is currently busy, please try again later" : "El fitxer està ocupat actualment, si us plau torneu-ho a provar més tard",
     "Cannot download file" : "No es pot baixar el fitxer",
     "Application is not enabled" : "L'aplicació no està habilitada",

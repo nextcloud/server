@@ -226,6 +226,7 @@
     "Blank" : "Boş",
     "Unable to create new file from template" : "Kalıptan yeni dosya eklenemedi",
     "Delete permanently" : "Kalıcı olarak sil",
+    "Open folder {displayName}" : "{displayName} klasörünü aç",
     "Set up templates folder" : "Kalıp klasörünü ayarlayın",
     "Templates" : "Kalıplar",
     "Create new templates folder" : "Yeni kalıp klasörü oluştur",

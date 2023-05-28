@@ -257,7 +257,7 @@ OC.L10N.register(
     "Change password" : "암호 변경",
     "Picture provided by original account" : "원래 계정에서 제공하는 사진",
     "Cancel" : "취소",
-    "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "프로필사진이 모든 곳에 갱신될 때 까지 최대 24시간이 걸릴 수 있습니다.",
+    "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "프로필사진이 모든 곳에 갱신될 때까지 최대 24시간이 걸릴 수 있습니다.",
     "Your biography" : "내 소개문구",
     "Details" : "자세히",
     "You are a member of the following groups:" : "당신은 다음 그룹의 멤버입니다:",
