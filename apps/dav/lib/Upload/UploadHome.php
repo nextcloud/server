@@ -97,10 +97,43 @@ class UploadHome implements ICollection {
 		$rootView = new View();
 		$user = \OC::$server->getUserSession()->getUser();
 		Filesystem::initMountPoints($user->getUID());
-		if (!$rootView->file_exists('/' . $user->getUID() . '/uploads')) {
-			$rootView->mkdir('/' . $user->getUID() . '/uploads');
+
+		$config = \OC::$server->getConfig();
+
+		$allowSymlinks = $config->getSystemValueBool('localstorage.allowsymlinks', false);
+		$uploadsDirectory = $config->getSystemValue('uploadsdirectory', '');
+		$user_path = '/' . $user->getUID() . '/uploads';
+        $absolute_user_path = $rootView->getLocalFile($user_path);
+
+		if ($allowSymlinks && $uploadsDirectory != '') {
+			$upload_user_path = $uploadsDirectory . $user_path;
+
+			if (!$rootView->file_exists($user_path) || !is_link($link_user_path) || ($upload_user_path != readlink($absolute_user_path)) ) {
+
+                if (!is_dir($upload_user_path)) {
+                    mkdir($upload_user_path, 0750, true);
+                }
+
+				// useful if link is broken due to $upload_user_path changes
+                if (is_link($absolute_user_path)) {
+                    unlink($absolute_user_path);
+                } else if (is_dir($absolute_user_path)) {
+                    $rootView->rmdir($user_path);
+                }
+                symlink($upload_user_path, $link_user_path);
+
+			}
+
+		} else {
+            if (is_link($absolute_user_path)) {
+                unlink($absolute_user_path);
+            }
+			if (!$rootView->file_exists($user_path)) {
+				$rootView->mkdir($user_path);
+			}
 		}
-		return new View('/' . $user->getUID() . '/uploads');
+		
+		return new View($user_path);
 	}
 
 	private function getStorage() {
