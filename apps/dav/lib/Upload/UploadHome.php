@@ -120,7 +120,7 @@ class UploadHome implements ICollection {
                 } else if (is_dir($absolute_user_path)) {
                     $rootView->rmdir($user_path);
                 }
-                symlink($upload_user_path, $link_user_path);
+                symlink($upload_user_path, $absolute_user_path);
 
 			}
 
