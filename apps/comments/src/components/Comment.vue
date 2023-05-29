@@ -331,12 +331,12 @@ $comment-padding: 10px;
 			overflow: visible;
 		}
 	}
-}
 
-.rich-contenteditable__input {
-	min-height: 44px;
-	margin: 0;
-	padding: $comment-padding;
+	.rich-contenteditable__input {
+		min-height: 72px;
+		margin: 0;
+		padding: $comment-padding;
+	}
 }
 
 </style>
