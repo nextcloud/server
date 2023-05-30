@@ -34,7 +34,7 @@ namespace OCP\AppFramework\Http;
  *
  * @see \OCP\AppFramework\Http\FeaturePolicy
  * @since 17.0.0
- * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+ * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
  */
 class EmptyFeaturePolicy {
 	/** @var string[] of allowed domains to autoplay media */
@@ -61,7 +61,7 @@ class EmptyFeaturePolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function addAllowedAutoplayDomain(string $domain): self {
 		$this->autoplayDomains[] = $domain;
@@ -74,7 +74,7 @@ class EmptyFeaturePolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function addAllowedCameraDomain(string $domain): self {
 		$this->cameraDomains[] = $domain;
@@ -87,7 +87,7 @@ class EmptyFeaturePolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function addAllowedFullScreenDomain(string $domain): self {
 		$this->fullscreenDomains[] = $domain;
@@ -100,7 +100,7 @@ class EmptyFeaturePolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function addAllowedGeoLocationDomain(string $domain): self {
 		$this->geolocationDomains[] = $domain;
@@ -113,7 +113,7 @@ class EmptyFeaturePolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function addAllowedMicrophoneDomain(string $domain): self {
 		$this->microphoneDomains[] = $domain;
@@ -126,7 +126,7 @@ class EmptyFeaturePolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function addAllowedPaymentDomain(string $domain): self {
 		$this->paymentDomains[] = $domain;
@@ -138,7 +138,7 @@ class EmptyFeaturePolicy {
 	 *
 	 * @return string
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
+	 * @deprecated 28.0.0 Use \OCP\AppFramework\Http\EmptyPermissionPolicy
 	 */
 	public function buildPolicy(): string {
 		$policy = '';
