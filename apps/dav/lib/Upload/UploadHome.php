@@ -28,6 +28,7 @@ namespace OCA\DAV\Upload;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\IConfig;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
