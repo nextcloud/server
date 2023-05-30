@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Не удалось сохранить изображение",
     "Unsaved changes" : "Несохранённые изменения",
     "Drop changes" : "Отменить изменения",
+    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Edit" : "Редактировать",
     "Exit full screen" : "Выйти из полноэкранного режима",
