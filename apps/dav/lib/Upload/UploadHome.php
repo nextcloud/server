@@ -105,7 +105,7 @@ class UploadHome implements ICollection {
 		$user_path = '/' . $user->getUID() . '/uploads';
         $absoluteUserPath = $rootView->getLocalFile($user_path);
 
-		if ($allowSymlinks && $uploadsDirectory != '' && $absoluteUserPath) {
+		if ($allowSymlinks && $uploadsDirectory !== '' && $absoluteUserPath) {
 			$upload_user_path = $uploadsDirectory . $user_path;
 
 			if (!$rootView->file_exists($user_path) || !is_link($absoluteUserPath) || ($upload_user_path != realpath($absoluteUserPath)) ) {
