@@ -59,15 +59,15 @@ class PermissionPolicyMiddleware extends Middleware {
 	 * @return Response
 	 */
 	public function afterController($controller, $methodName, Response $response): Response {
-		$featurePolicy = !is_null($response->getFeaturePolicy()) ? $response->getFeaturePolicy() : new FeaturePolicy();
-		if (get_class($featurePolicy) !== EmptyFeaturePolicy::class) {
+		$featurePolicy = $response->getFeaturePolicy() ?? new FeaturePolicy();
+		if ($featurePolicy::class !== EmptyFeaturePolicy::class) {
 			$defaultPolicy = $this->featurePolicyManager->getDefaultPolicy();
 			$defaultPolicy = $this->featurePolicyManager->mergePolicies($defaultPolicy, $featurePolicy);
 			$response->setFeaturePolicy($defaultPolicy);
 		}
 
-		$permissionPolicy = !is_null($response->getPermissionPolicy()) ? $response->getPermissionPolicy() : new PermissionPolicy();
-		if (get_class($permissionPolicy) !== EmptyPermissionPolicy::class) {
+		$permissionPolicy = $response->getPermissionPolicy() ?? new PermissionPolicy();
+		if ($permissionPolicy::class !== EmptyPermissionPolicy::class) {
 			$defaultPolicy = $this->permissionPolicyManager->getDefaultPolicy();
 			$defaultPolicy = $this->permissionPolicyManager->mergePolicies($defaultPolicy, $permissionPolicy);
 			$defaultPolicy = $this->permissionPolicyManager->mergeFeaturePolicy($defaultPolicy, $response->getFeaturePolicy());

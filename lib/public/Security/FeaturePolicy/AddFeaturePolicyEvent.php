@@ -35,7 +35,7 @@ use OCP\EventDispatcher\Event;
  * Event that allows to register a feature policy header to a request.
  *
  * @since 17.0.0
- * @depreacted 21.0.0 use AddPermissionPolicyEvent
+ * @deprecated  28.0.0 use AddPermissionPolicyEvent
  */
 class AddFeaturePolicyEvent extends Event {
 	/** @var FeaturePolicyManager */
@@ -43,7 +43,7 @@ class AddFeaturePolicyEvent extends Event {
 
 	/**
 	 * @since 17.0.0
-	 * @depreacted 21.0.0 use AddPermissionPolicyEvent
+	 * @deprecated 28.0.0 use AddPermissionPolicyEvent
 	 */
 	public function __construct(FeaturePolicyManager $policyManager) {
 		parent::__construct();

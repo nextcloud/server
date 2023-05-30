@@ -32,7 +32,7 @@ use OCP\EventDispatcher\Event;
 /**
  * Event that allows to register a feature policy header to a request.
  *
- * @since 21.0.0
+ * @since 28.0.0
  */
 class AddPermissionsPolicyEvent extends Event {
 
@@ -40,7 +40,7 @@ class AddPermissionsPolicyEvent extends Event {
 	private $policyManager;
 
 	/**
-	 * @since 21.0.0
+	 * @since 28.0.0
 	 */
 	public function __construct(PermissionPolicyManager $policyManager) {
 		parent::__construct();
@@ -48,7 +48,7 @@ class AddPermissionsPolicyEvent extends Event {
 	}
 
 	/**
-	 * @since 21.0.0
+	 * @since 28.0.0
 	 */
 	public function addPolicy(EmptyPermissionPolicy $policy) {
 		$this->policyManager->addDefaultPolicy($policy);
