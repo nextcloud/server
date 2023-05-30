@@ -213,6 +213,7 @@ OC.L10N.register(
     "Blank" : "Prazno",
     "Unable to create new file from template" : "Nove datoteke iz predloge ni mogoče ustvariti",
     "Delete permanently" : "Trajno izbriši",
+    "Open folder {displayName}" : "Odpri mapo {displayName}",
     "Set up templates folder" : "Nastavitev mape predlog",
     "Templates" : "Predloge",
     "Create new templates folder" : "Ustvari novo začasno mapo",
@@ -240,6 +241,7 @@ OC.L10N.register(
     "%s used" : "Uporabljeno %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Uporabljeno %1$s od %2$s",
-    "Deleted files" : "Izbrisane datoteke"
+    "Deleted files" : "Izbrisane datoteke",
+    "Search for an account" : "Poišči račun"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
