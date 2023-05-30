@@ -12,7 +12,7 @@ OC.L10N.register(
     "Name" : "名称",
     "Redirection URI" : "跳转URI",
     "Add" : "添加",
-    "Client Identifier" : "客户端 ID",
+    "Client Identifier" : "客户端标识",
     "Secret" : "Secret",
     "Show client secret" : "显示客户端 secret",
     "Delete" : "删除"

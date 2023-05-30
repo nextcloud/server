@@ -131,9 +131,6 @@
     "PHP modules have been installed, but they are still listed as missing?" : "Modulele PHP au fost instalate, dar apar ca lipsind?",
     "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
     "Full name" : "Nume complet",
-    "%s enter the database username and name." : "%s introdu numele de utilizator și parola pentru baza de date.",
-    "%s enter the database username." : "%s introdu utilizatorul bazei de date.",
-    "%s enter the database name." : "%s introduceți numele bazei de date",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Numai următoarele caractere sunt permise în numele utilizatorului: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

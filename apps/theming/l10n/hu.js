@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Rendszergazda",
     "Error uploading the file" : "Hiba a fájl feltöltése során",
     "Name cannot be empty" : "A név nem lehet üres",
-    "Open documentation" : "Dokumentáció megnyitása",
-    "https://…" : "https://…",
-    "Login image" : "Bejelentkező kép",
-    "Upload new login background" : "Új bejelentkező kép feltöltése",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
     "Migrate and clean up admin theming images" : "Rendszergazdai témaképek átköltöztetése és tisztítása",
     "Failed to clean up the old admin theming images folder" : "Nem sikerült megtisztítani a régi rendszergazdai témaképek mappát",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Egyes esetekben a gyorsbillentyűk összeakadhatnak az akadálymentesítési eszközökkel. Hogy helyesen tudjon fókuszálni az eszközre, itt letilthatja a gyorsbillentyűket. Ez az alkalmazásokban is letiltja az összes elérhető gyorsbillentyűt.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Egyéni szín",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Bár kiválaszthatja és testreszabhatja a példányát, a felhasználók módosíthatják a hátterüket és a színeiket. Ha ki akarja kényszeríteni a saját testreszabását, akkor bejelölheti ezt a mezőt. "
+    "Open documentation" : "Dokumentáció megnyitása",
+    "https://…" : "https://…",
+    "Upload new login background" : "Új bejelentkező kép feltöltése",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Bár kiválaszthatja és testreszabhatja a példányát, a felhasználók módosíthatják a hátterüket és a színeiket. Ha ki akarja kényszeríteni a saját testreszabását, akkor bejelölheti ezt a mezőt. ",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján."
 },
 "nplurals=2; plural=(n != 1);");

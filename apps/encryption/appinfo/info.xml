@@ -9,7 +9,7 @@ In order to use this encryption module you need to enable server-side encryption
 The module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.
 Please read the documentation to know all implications before you decide to enable server-side encryption.
 	</description>
-	<version>2.15.0</version>
+	<version>2.16.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Clark Tomlinson</author>
@@ -26,7 +26,7 @@ Please read the documentation to know all implications before you decide to enab
 
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="27" max-version="27"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 
 	<repair-steps>
@@ -42,6 +42,7 @@ Please read the documentation to know all implications before you decide to enab
 		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
 		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
 		<command>OCA\Encryption\Command\FixKeyLocation</command>
+		<command>OCA\Encryption\Command\DropLegacyFileKey</command>
 	</commands>
 
 	<settings>

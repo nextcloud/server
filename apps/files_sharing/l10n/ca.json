@@ -268,12 +268,8 @@
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
     "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
-    "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
-    "One or more of your shares will expire tomorrow" : "Una o més de les teves compartició caducaran demà",
-    "Copy to clipboard" : "Copia-ho al porta-papers",
-    "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
-    "Toggle grid view" : "Commuta la vista de la graella",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "S'ha produït un error en compartir %s perquè el rerefons no admet comparticions de sciencemesh",
+    "One or more of your shares will expire tomorrow" : "Una o més de les teves compartició caducaran demà",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "S'ha produït un error en generar la contrasenya des de password_policy"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

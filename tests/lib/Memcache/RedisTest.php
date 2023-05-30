@@ -56,4 +56,10 @@ class RedisTest extends Cache {
 		parent::setUp();
 		$this->instance = new \OC\Memcache\Redis($this->getUniqueID());
 	}
+
+	public function testScriptHashes() {
+		foreach (\OC\Memcache\Redis::LUA_SCRIPTS as $script) {
+			$this->assertEquals(sha1($script[0]), $script[1]);
+		}
+	}
 }

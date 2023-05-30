@@ -272,12 +272,8 @@ OC.L10N.register(
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
     "Add to your Nextcloud" : "Přidat do Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
-    "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
-    "Copy to clipboard" : "Zkopírovat do schránky",
-    "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
-    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje sciencemesh sdílení",
+    "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Chyba při vytváření hesla ze zásady pro hesla"
 },

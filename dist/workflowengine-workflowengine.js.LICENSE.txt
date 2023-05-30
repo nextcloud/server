@@ -1,3 +1,7 @@
+/*! For license information please see NcMultiselect.js.LICENSE.txt */
+
+/*! For license information please see NcSelectTags.js.LICENSE.txt */
+
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
@@ -70,3 +74,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+//! Copyright (c) JS Foundation and other contributors
+
+//! github.com/moment/moment-timezone
+
+//! license : MIT
+
+//! moment-timezone.js
+
+//! version : 0.5.43

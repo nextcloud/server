@@ -141,10 +141,6 @@
     "Note" : "Nota",
     "Select or drop files" : "Seleccione o suelte los archivos",
     "Uploaded files:" : "Archivos cargados:",
-    "Add to your Nextcloud" : "Agregar a su Nextcloud",
-    "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
-    "Copy to clipboard" : "Copiar al portapapeles",
-    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. ",
-    "Toggle grid view" : "Vista de cuadrícula"
+    "Add to your Nextcloud" : "Agregar a su Nextcloud"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

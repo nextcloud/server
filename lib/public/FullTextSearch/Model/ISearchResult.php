@@ -38,7 +38,7 @@ use OCP\FullTextSearch\IFullTextSearchProvider;
  * search and fill the SearchResult object with results.
  *
  * Then, the object will be passed to the targeted Content Provider that will
- * improve the Search Results with detailed informations.
+ * improve the Search Results with detailed information.
  *
  * Finally, the SearchResult is returned to the original search request.
  *

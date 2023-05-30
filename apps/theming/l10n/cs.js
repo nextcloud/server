@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Správa",
     "Error uploading the file" : "Chyba při nahrávání souboru",
     "Name cannot be empty" : "Je třeba zadat název",
-    "Open documentation" : "Otevřít dokumentaci",
-    "https://…" : "https://…",
-    "Login image" : "Přihlašovací obrázek",
-    "Upload new login background" : "Nahrát nové pozadí pro přihlašovací obrazovku",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky vytváří favicon na základě nahraného loga a barvy.",
     "Migrate and clean up admin theming images" : "Přemigrovat a uklidit v obrázcích pro opatřování vzhledem správcem",
     "Failed to clean up the old admin theming images folder" : "Nepodařilo se uklidit v původní složce s obrázky motivu vzhledu, určovaným správcem",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V některých případech klávesové zkratky kolidují s nástroji pro zpřístupnění. Aby bylo zajištěno správné zaměřování vámi využívaného nástroje, je zde možné vypnout veškeré klávesové zkratky pro Nextcloud. Toto také vypne veškeré zkratky, které jsou k dispozici v aplikacích.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Uživatelsky určená barva",
     "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Ačkoli je možné vybrat a přizpůsobit si svou instanci, uživatelé si mohou změnit pozadí a barvy. Pokud chcete vámi nastavené přizpůsobení vynutit, můžete pro to zaškrtnout toto."
+    "Open documentation" : "Otevřít dokumentaci",
+    "https://…" : "https://…",
+    "Upload new login background" : "Nahrát nové pozadí pro přihlašovací obrazovku",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Ačkoli je možné vybrat a přizpůsobit si svou instanci, uživatelé si mohou změnit pozadí a barvy. Pokud chcete vámi nastavené přizpůsobení vynutit, můžete pro to zaškrtnout toto.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky vytváří favicon na základě nahraného loga a barvy."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

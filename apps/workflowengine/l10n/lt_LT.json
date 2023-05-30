@@ -53,9 +53,7 @@
     "Custom mimetype" : "Tinkintas MIME tipas",
     "Please enter a valid time span" : "Įveskite teisingą laiko intervalą",
     "Select a request URL" : "Pasirinkite užklausos URL",
-    "Predefined URLs" : "Iš anksto apibrėžti URL adresai",
     "Files WebDAV" : "WebDAV failai",
-    "Others" : "Kiti",
     "Custom URL" : "Tinkintas URL",
     "Select a user agent" : "Pasirinkite naudotojo agentą",
     "Android client" : "Android klientas",
@@ -107,9 +105,7 @@
     "User group membership" : "Naudotojų grupių narystės",
     "is member of" : "priklauso grupei",
     "is not member of" : "nepriklauso grupei",
-    "Select a tag" : "Pasirinkite žymę",
-    "No results" : "Rezultatų nėra",
-    "%s (invisible)" : "%s (nematomas)",
-    "%s (restricted)" : "%s (apribotas)"
+    "Predefined URLs" : "Iš anksto apibrėžti URL adresai",
+    "Others" : "Kiti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

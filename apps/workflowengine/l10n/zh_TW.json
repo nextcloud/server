@@ -46,6 +46,7 @@
     "Nextcloud workflow engine" : "Nextcloud 工作流程引擎",
     "Select a filter" : "選取過濾條件",
     "Select a comparator" : "選取比較程式",
+    "Remove filter" : "移除過濾條件",
     "Select a file type" : "選取檔案類型",
     "e.g. httpd/unix-directory" : "例如：httpd/unix-directory",
     "Folder" : "資料夾",
@@ -56,9 +57,7 @@
     "Custom mimetype" : "自訂 mimetype",
     "Please enter a valid time span" : "請輸入有效的時間範圍",
     "Select a request URL" : "選取請求 URL",
-    "Predefined URLs" : "預定義 URL",
     "Files WebDAV" : "檔案 WebDAV",
-    "Others" : "其他",
     "Custom URL" : "自訂 URL",
     "Select a user agent" : "選取使用者代理字串",
     "Android client" : "Android 客戶端",
@@ -70,6 +69,7 @@
     "Add new flow" : "新增新流程",
     "When" : "當",
     "and" : "與",
+    "Add a new filter" : "新增過濾條件",
     "Cancel" : "取消",
     "Delete" : "刪除",
     "The configuration is invalid" : "設定無效",
@@ -110,9 +110,7 @@
     "User group membership" : "使用者群組成員資格",
     "is member of" : "是成員來自",
     "is not member of" : "不是成員來自",
-    "Select a tag" : "選取標籤",
-    "No results" : "無結果",
-    "%s (invisible)" : "%s（隱藏）",
-    "%s (restricted)" : "%s（受限）"
+    "Predefined URLs" : "預定義 URL",
+    "Others" : "其他"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -34,7 +34,6 @@ OC.L10N.register(
     "1 hour" : "1 óra",
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
-    "Appear offline" : "Megjelenés nem kapcsolódottként",
-    "Clear status message after" : "Állapotüzenet törlése ennyi idő után:"
+    "Appear offline" : "Megjelenés nem kapcsolódottként"
 },
 "nplurals=2; plural=(n != 1);");

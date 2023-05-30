@@ -35,11 +35,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Copy to clipboard" : "Kopjo në dërrasë ",
     "Copied!" : "U kopjua!",
-    "Copy" : "Kopjo",
-    "Not supported!" : "Nuk mbështetet!",
-    "Press ⌘-C to copy." : "Shtyp ⌘-C për të kopjuar.",
-    "Press Ctrl-C to copy." : "Shtypni Ctrl-C për të kopjuar",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s",
-    "Open documentation" : "Hap dokumentimin"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -361,9 +361,9 @@ $content-max-width: 640px;
 				border: none;
 				margin-left: 18px;
 				margin-top: 2px;
-				color: var(--color-primary-element);
-				background-color: var(--color-primary-text);
-				box-shadow: 0 0 0 2px var(--color-primary-text);
+				color: var(--color-primary-element-text);
+				background-color: var(--color-primary-element);
+				box-shadow: 0 0 0 2px var(--color-primary-element);
 				border-radius: var(--border-radius-pill);
 				padding: 0 18px;
 				font-size: var(--default-font-size);
@@ -374,7 +374,7 @@ $content-max-width: 640px;
 				&:hover,
 				&:focus,
 				&:active {
-					color: var(--color-primary-element);
+					color: var(--color-primary-element-light-text);
 					background-color: var(--color-primary-element-light);
 				}
 

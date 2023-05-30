@@ -147,6 +147,9 @@ class DefaultTheme implements ITheme {
 			'--color-success' => '#46ba61',
 			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
 			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
+			'--color-info' => '#006aa3',
+			'--color-info-rgb' => join(',', $this->util->hexToRGB('#006aa3')),
+			'--color-info-hover' => $this->util->mix('#006aa3', $colorMainBackground, 60),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
@@ -169,6 +172,7 @@ class DefaultTheme implements ITheme {
 			// Default variables --------------------------------------------
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
+			'--border-radius-rounded' => '28px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 

@@ -139,7 +139,6 @@ OC.L10N.register(
     "All users" : "Alle brukere",
     "Advanced settings" : "Avanserte innstillinger",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale påloggingsdetaljer kan brukes til å autentisere med flere eksterne lagringer som krever de samme påloggingsdetaljer.",
-    "All users. Type to select user or group." : "Alle brukere. Tast for å velge bruker eller gruppe."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale påloggingsdetaljer kan brukes til å autentisere med flere eksterne lagringer som krever de samme påloggingsdetaljer."
 },
 "nplurals=2; plural=(n != 1);");

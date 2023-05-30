@@ -86,11 +86,6 @@
     "Admin" : "Admin",
     "Error uploading the file" : "Det gick inte att ladda upp filen",
     "Name cannot be empty" : "Namn kan inte vara tom",
-    "Open documentation" : "Öppna dokumentationen",
-    "https://…" : "https://…",
-    "Login image" : "Inloggningsbild",
-    "Upload new login background" : "Ladda upp ny bakgrundsbild",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
     "Migrate and clean up admin theming images" : "Migrera och städa upp administratörens temabilder",
     "Failed to clean up the old admin theming images folder" : "Misslyckades att rensa den gamla admin tema-bildmappen",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "I vissa fall kan tangentbordsgenvägar störa tillgänglighetsverktyg. För att kunna fokusera på ditt verktyg korrekt kan du inaktivera alla tangentbordsgenvägar här. Detta kommer också att inaktivera alla tillgängliga genvägar i appar.",
@@ -99,6 +94,10 @@
     "Custom color" : "Anpassad färg",
     "Plain background" : "Enkel bakgrund",
     "Insert from {productName}" : "Infoga från {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Även om du kan välja och anpassa din instans kan användare ändra sin bakgrund och färger. Om du vill tvinga din anpassning kan du markera den här rutan."
+    "Open documentation" : "Öppna dokumentationen",
+    "https://…" : "https://…",
+    "Upload new login background" : "Ladda upp ny bakgrundsbild",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Även om du kan välja och anpassa din instans kan användare ändra sin bakgrund och färger. Om du vill tvinga din anpassning kan du markera den här rutan.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

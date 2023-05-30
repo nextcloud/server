@@ -28,11 +28,6 @@ OC.L10N.register(
     "HTML Code:" : "کد HTML :",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
     "Clipboard is not available" : "تخته گیره موحود نیست",
-    "Copied!" : "رونوشت شد!",
-    "Copy" : "رونوشت",
-    "Not supported!" : "پشتیبانی نشده!",
-    "Press ⌘-C to copy." : "برای کپی کردن از دکمه های C+⌘ استفاده نمایید",
-    "Press Ctrl-C to copy." : "برای کپی کردن از دکمه ctrl+c استفاده نمایید",
-    "Open documentation" : "گشودن مستندات"
+    "Copied!" : "رونوشت شد!"
 },
 "nplurals=2; plural=(n > 1);");

@@ -40,6 +40,18 @@ interface IMessage {
 	public function attach(IAttachment $attachment): IMessage;
 
 	/**
+	 * Can be used to "attach content inline" as message parts with specific MIME type and encoding.
+	 *
+	 * @param string $body body of the MIME part
+	 * @param string $name the file name
+	 * @param string|null $contentType MIME Content-Type (e.g. text/plain or text/calendar)
+	 *
+	 * @return IMessage
+	 * @since 26.0.0
+	 */
+	public function attachInline(string $body, string $name, string $contentType = null): IMessage;
+
+	/**
 	 * Set the from address of this message.
 	 *
 	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php

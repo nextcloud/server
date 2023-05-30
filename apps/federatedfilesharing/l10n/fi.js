@@ -45,11 +45,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
     "Copied!" : "Kopioitu!",
-    "Copy" : "Kopioi",
-    "Not supported!" : "Ei tuettu!",
-    "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
-    "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
-    "Open documentation" : "Avaa ohje"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s"
 },
 "nplurals=2; plural=(n != 1);");

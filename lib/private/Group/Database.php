@@ -266,7 +266,7 @@ class Database extends ABackend implements
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = null, $offset = null) {
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0) {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -283,8 +283,12 @@ class Database extends ABackend implements
 			)));
 		}
 
-		$query->setMaxResults($limit)
-			->setFirstResult($offset);
+		if ($limit > 0) {
+			$query->setMaxResults($limit);
+		}
+		if ($offset > 0) {
+			$query->setFirstResult($offset);
+		}
 		$result = $query->execute();
 
 		$groups = [];

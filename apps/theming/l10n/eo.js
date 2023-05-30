@@ -58,7 +58,6 @@ OC.L10N.register(
     "Name cannot be empty" : "Nomo ne povas mapleni",
     "Open documentation" : "Malfermi la dokumentaron",
     "https://…" : "https://…",
-    "Login image" : "Ensaluta bildo",
     "Upload new login background" : "Alŝuti novan ensalutan fonan bildon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro."
 },

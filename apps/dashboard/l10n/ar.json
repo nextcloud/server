@@ -17,11 +17,6 @@
     "Good evening" : "مساء الخير",
     "Good evening, {name}" : "مساء الخير، {name}",
     "Hello" : "مرحبا",
-    "Hello, {name}" : "مرحبا، {name} ",
-    "Change background image" : "تغييرصورة الخلفية",
-    "Pick from Files" : "اختر من الملفات",
-    "Default images" : "الصور الإفتراضية",
-    "Plain background" : "خلفية سادة",
-    "Insert from {productName}" : "اضف من {productName}"
+    "Hello, {name}" : "مرحبا، {name} "
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

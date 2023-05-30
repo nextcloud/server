@@ -1093,6 +1093,7 @@ class UsersControllerTest extends TestCase {
 			'biography' => 'biography',
 			'profile_enabled' => '1',
 			'notify_email' => null,
+			'manager' => '',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1233,6 +1234,7 @@ class UsersControllerTest extends TestCase {
 			'biography' => 'biography',
 			'profile_enabled' => '1',
 			'notify_email' => null,
+			'manager' => '',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1411,6 +1413,7 @@ class UsersControllerTest extends TestCase {
 			'biography' => 'biography',
 			'profile_enabled' => '1',
 			'notify_email' => null,
+			'manager' => '',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}

@@ -112,7 +112,6 @@ OC.L10N.register(
     "Load more results" : "Încarcă mai multe rezultate",
     "Search" : "Căutare",
     "Settings menu" : "Meniul Setări",
-    "Settings" : "Setări",
     "Could not load your contacts" : "Nu pot încarca contactele",
     "Search contacts …" : "Caută contacte ...",
     "No contacts found" : "Nu s-au găsit contacte",
@@ -263,16 +262,8 @@ OC.L10N.register(
     "Maintenance mode" : "Mod mentenanță",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Se verifică tabela %s",
-    "restricted" : "restricționat",
-    "invisible" : "invizibil",
+    "Settings" : "Setări",
     "File not found" : "Fișierul nu a fost găsit",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Documentul nu poate fi găsit pe server.Poate partajarea a fost ștearsă sau a expirat?",
-    "More" : "Mai mult",
-    "More apps menu" : "Meniu mai multe aplicații",
-    "Contacts" : "Contacte",
-    "Contacts menu" : "Meniu contacte",
-    "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Documentul nu poate fi găsit pe server.Poate partajarea a fost ștearsă sau a expirat?"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

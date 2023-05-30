@@ -76,7 +76,6 @@ OC.L10N.register(
     "Available for" : "Pieejams",
     "Add storage" : "Pievienot krātuvi",
     "Advanced settings" : "Paplašināti iestatījumi",
-    "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
-    "All users. Type to select user or group." : "Visiem lietotājiem. Klikšķini, lai atlasītu lietotāju vai grupu."
+    "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -27,7 +27,7 @@
 
 ?>
 
-<div class="section" id="shareAPI">
+<div class="section loading" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
 	<?php if ($_['sharingAppEnabled'] === false) { ?>
 		<p class="warning"><?php p($l->t('You need to enable the File sharing App.')); ?></p>
@@ -117,17 +117,19 @@
 			<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword" class="checkbox"
 				   value="1" <?php if ($_['enforceLinkPassword']) {
 	print_unescaped('checked="checked"');
+} ?> <?php if ($_['enableLinkPasswordByDefault'] !== 'yes') {
+	print_unescaped('disabled');
 } ?> />
-			<label for="enforceLinkPassword"><?php p($l->t('Enforce password protection'));?></label><br/>
+			<label for="enforceLinkPassword" class="indent"><?php p($l->t('Enforce password protection'));?></label><br/>
 
 <?php if ($_['passwordExcludedGroupsFeatureEnabled']) { ?>
-			<div id="selectPasswordsExcludedGroups" class="indent <?php if (!$_['enforceLinkPassword']) { p('hidden'); } ?>">
-				<div class="indent">
-					<label for="shareapi_enforce_links_password_excluded_groups"><?php p($l->t('Exclude groups from password requirements:'));?>
-					<br />
-					<input name="shareapi_enforce_links_password_excluded_groups" id="passwordsExcludedGroups" value="<?php p($_['passwordExcludedGroups']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
-				</div>
-			</div>
+			<span id="selectPasswordsExcludedGroups" class="double-indent <?php if (!$_['enforceLinkPassword']) { p('hidden'); } ?>">
+				<label for="shareapi_enforce_links_password_excluded_groups"><?php p($l->t('Exclude groups from password requirements:'));?></label><br/>
+				<input name="shareapi_enforce_links_password_excluded_groups" id="passwordsExcludedGroups" value="<?php p($_['passwordExcludedGroups']) ?>"
+					   style="width: 400px" class="noJSAutoUpdate double-indent" <?php if ($_['enableLinkPasswordByDefault'] !== 'yes') {
+	print_unescaped('disabled');
+} ?> />
+			</span><br/>
 <?php } ?>
 
 			<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate" class="checkbox"
@@ -209,7 +211,7 @@
 				<?php if ($_['allowShareDialogUserEnumeration'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-			<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog'));?></label><br />
+			<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog and allow access to the system address book'));?></label><br />
 		</p>
 
 		<p id="shareapi_restrict_user_enumeration_to_group_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
@@ -219,7 +221,7 @@
 				<?php if ($_['restrictUserEnumerationToGroup'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-			<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Allow username autocompletion to users within the same groups'));?></label><br />
+			<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Allow username autocompletion to users within the same groups and limit system address books to users in the same groups'));?></label><br />
 		</p>
 
 		<p id="shareapi_restrict_user_enumeration_to_phone_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {

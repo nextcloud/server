@@ -95,7 +95,7 @@ interface GroupInterface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = -1, $offset = 0);
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
 	 * check if a group exists

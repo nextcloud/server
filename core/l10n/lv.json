@@ -79,6 +79,7 @@
     "Password" : "Parole",
     "Wrong username or password." : "Nepareizs lietotājvārds vai parole.",
     "User disabled" : "Lietotājs deaktivizēts",
+    "Log in with a device" : "Pieslēgties izmantojot ierīci",
     "Username or email" : "Lietotājvārds vai e-pasts",
     "Your account is not setup for passwordless login." : "Jūsu konts nav iestatīts lai pieslēgtos bez paroles.",
     "Passwordless authentication is not supported in your browser." : "Jūsu pārlūkprogrammā netiek atbalstīta autentifikācija bez paroles",
@@ -100,12 +101,10 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Vienkāršā e-pasta lietotne labi integrēta ar Failiem, Kontaktiem un Kalendāru.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Tērzēšana, videozvani, ekrāna koplietošana, tiešsaistes sapulces un tīmekļa konferences - pārlūkprogrammā un ar mobilajām lietotnēm.",
     "Forgot password?" : "Aizmirsi paroli?",
-    "Log in with a device" : "Pieslēgties izmantojot ierīci",
     "Back" : "Atpakaļ",
     "Edit Profile" : "Rediģēt profilu",
     "Search" : "Meklēt",
     "Settings menu" : "Iestatījumu izvēlne",
-    "Settings" : "Iestatījumi",
     "Could not load your contacts" : "Nevarēja ielādēt visas jūsu kontaktpersonas",
     "Search contacts …" : "Meklēt kontaktpersonu",
     "No contacts found" : "Nav atrasta ne viena kontaktpersona",
@@ -246,13 +245,8 @@
     "Maintenance mode" : "Uzturēšanas režīms",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Pārbauda tabulu %s",
     "If it is not there ask your local administrator." : "Ja tas tur nav tad jautājiet savam vietējam administratoram.",
-    "Collaboratively edit office documents." : "Kopīgi rediģējiet ofisa dokumentus.",
-    "restricted" : "ierobežots",
-    "invisible" : "Neredzams",
-    "File not found" : "Datne nav atrasta",
-    "More" : "Vairāk",
-    "Contacts" : "Kontakti"
+    "Settings" : "Iestatījumi",
+    "File not found" : "Datne nav atrasta"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

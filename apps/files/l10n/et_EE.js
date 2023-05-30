@@ -120,7 +120,6 @@ OC.L10N.register(
     "Additional settings" : "Lisaseaded",
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
-    "Cancel" : "Loobu",
     "Create" : "Loo",
     "Delete permanently" : "Kustuta jäädavalt",
     "Templates" : "Mallid",
@@ -139,14 +138,10 @@ OC.L10N.register(
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Storage invalid" : "Vigane andmehoidla",
-    "Select" : "Vali",
-    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
-    "New" : "Uus",
-    "Copied!" : "Kopeeritud!",
     "Unlimited" : "Piiramatult",
+    "Cancel" : "Loobu",
     "%s used" : "Kasutatud %s",
     "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
-    "Settings" : "Seaded",
     "Deleted files" : "Kustutatud failid"
 },
 "nplurals=2; plural=(n != 1);");

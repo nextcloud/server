@@ -150,7 +150,6 @@ OC.L10N.register(
     "No results for {query}" : "Neniu rezulto pri {query}",
     "Supported versions" : "Subtenataj versioj",
     "Settings menu" : "Menuo de agordo",
-    "Settings" : "Agordo",
     "Could not load your contacts" : "Ne eblis ŝargi viajn kontaktojn",
     "Search contacts …" : "Serĉi kontaktojn…",
     "No contacts found" : "Neniu kontakto troviĝis",
@@ -332,18 +331,9 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "La servilo %s estas nun en reĝimo de prizorgado, tio eble daŭros longatempe.",
     "This page will refresh itself when the instance is available again." : "Tiu ĉi paĝo aktualiĝos mem, kiam la servilo redisponeblos.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktu vian administranton, se tiu ĉi mesaĝo daŭras aŭ aperas neatendite.",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: kontrolo de tabelo %s ",
-    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "La HTTP-kapo „{header}“ ne enhavas „{expected}“. Tio estas eventuala risko pri sekureco aŭ privateco. Bv. ĝustigi tiun agordon laŭe.",
     "If it is not there ask your local administrator." : "Se tio ne estas tie, kontaktu vian lokan administranton.",
-    "restricted" : "limigita",
-    "invisible" : "nevidebla",
+    "Settings" : "Agordo",
     "File not found" : "Dosiero ne troviĝis",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?",
-    "More" : "Pli",
-    "More apps menu" : "Menuo „Pli da aplikaĵoj“",
-    "Contacts" : "Kontaktoj",
-    "Contacts menu" : "Menuo de kontaktoj",
-    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?"
 },
 "nplurals=2; plural=(n != 1);");

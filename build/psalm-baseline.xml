@@ -16,9 +16,6 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBook.php">
-    <LessSpecificImplementedReturnType>
-      <code>array</code>
-    </LessSpecificImplementedReturnType>
     <MoreSpecificImplementedParamType>
       <code>$vcardData</code>
     </MoreSpecificImplementedParamType>
@@ -29,6 +26,11 @@
     </InvalidPropertyAssignmentValue>
     <MoreSpecificImplementedParamType>
       <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/CardDAV/Card.php">
+    <MoreSpecificImplementedParamType>
+      <code>$cardData</code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/DAVACL/AbstractPrincipalCollection.php">
@@ -417,6 +419,14 @@
     <ImplementedReturnTypeMismatch>
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
+    <InvalidNullableReturnType>
+      <code>getChanges</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code>null</code>
+    </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument>
@@ -845,11 +855,6 @@
       <code>getSize</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
-    <InvalidOperand>
-      <code><![CDATA[$this->scanFolder($output, '/' . $user)]]></code>
-    </InvalidOperand>
-  </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
     <RedundantCondition>
       <code>$userSession</code>
@@ -970,11 +975,6 @@
       <code><![CDATA[$this->fileIsEncrypted]]></code>
       <code><![CDATA[$this->fileIsEncrypted]]></code>
     </TypeDoesNotContainType>
-  </file>
-  <file src="apps/files/lib/Command/Scan.php">
-    <NullArgument>
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
     <NullArgument>
@@ -2731,11 +2731,6 @@
       <code>false|string</code>
     </ImplementedReturnTypeMismatch>
   </file>
-  <file src="lib/private/Files/ObjectStore/NoopScanner.php">
-    <MoreSpecificImplementedParamType>
-      <code>$cacheData</code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/private/Files/ObjectStore/ObjectStoreStorage.php">
     <InvalidScalarArgument>
       <code>$source</code>
@@ -3172,20 +3167,6 @@
     <MissingTemplateParam>
       <code>\ArrayAccess</code>
     </MissingTemplateParam>
-  </file>
-  <file src="lib/private/Memcache/Redis.php">
-    <InvalidMethodCall>
-      <code>exec</code>
-      <code>exec</code>
-    </InvalidMethodCall>
-  </file>
-  <file src="lib/private/Metadata/Provider/ExifProvider.php">
-    <InvalidReturnStatement>
-      <code>$exifData</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>array{'gps': FileMetadata, 'size': FileMetadata}</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/NavigationManager.php">
     <ParamNameMismatch>

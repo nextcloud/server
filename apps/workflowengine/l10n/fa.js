@@ -23,9 +23,7 @@ OC.L10N.register(
     "Flow" : "جریان",
     "Folder" : "پوشه",
     "Images" : "عکسها",
-    "Predefined URLs" : "URL از پیش تعریف شده ",
     "Files WebDAV" : "فایل های WebDAV",
-    "Others" : "دیگران",
     "Android client" : "دستگاه های اندروید ",
     "iOS client" : "دستگاه های IOS",
     "Desktop client" : "دستگاه دسکتاپ",
@@ -59,6 +57,7 @@ OC.L10N.register(
     "User group membership" : "عضویت کاربر در گروه",
     "is member of" : "عضو است در ",
     "is not member of" : "عضو نیست در ",
-    "No results" : "نتیجه ای یافت نشد"
+    "Predefined URLs" : "URL از پیش تعریف شده ",
+    "Others" : "دیگران"
 },
 "nplurals=2; plural=(n > 1);");

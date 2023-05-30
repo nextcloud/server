@@ -31,7 +31,6 @@ import {
 	registerXHRForErrorProcessing,
 } from './xhr-error.js'
 import { AppConfig, appConfig } from './appconfig.js'
-import { appSettings } from './appsettings.js'
 import appswebroots from './appswebroots.js'
 import Backbone from './backbone.js'
 import {
@@ -142,7 +141,6 @@ export default {
 	addStyle,
 	AppConfig,
 	appConfig,
-	appSettings,
 	appswebroots,
 	Backbone,
 	ContactsMenu,

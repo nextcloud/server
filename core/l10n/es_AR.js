@@ -86,7 +86,6 @@ OC.L10N.register(
     "Reset search" : "Restablecer búsqueda",
     "Search" : "Buscar",
     "Settings menu" : "Menú de configuración",
-    "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No se pudieron cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
     "No contacts found" : "No se encontraron contactos",
@@ -227,13 +226,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
-    "restricted" : "restringido",
-    "invisible" : "invisible",
-    "File not found" : "Archivo no encontrado",
-    "More" : "Más",
-    "More apps menu" : "Más menú de apps",
-    "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de contactos"
+    "Settings" : "Configuraciones ",
+    "File not found" : "Archivo no encontrado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -86,7 +86,6 @@ OC.L10N.register(
     "Back" : "უკან",
     "Reset search" : "ძიების შედეგები",
     "Search" : "ძებნა",
-    "Settings" : "პარამეტრები",
     "Could not load your contacts" : "თქვენი კონტაქტების ჩატვირთვა ვერ მოხერხდა",
     "Search contacts …" : "მოძებნეთ კონტაქტები ...",
     "No contacts found" : "კომენტარები ვერ იქნა ნაპოვნი.",
@@ -218,11 +217,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "ვებით განაახლეთ თქვენი პასუხისმგებლობით",
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: მოწმდება ცხრილი %s",
-    "restricted" : "აკრძალული",
-    "invisible" : "უჩინარი",
-    "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
-    "More" : "მეტი",
-    "Contacts" : "კონტაქტები"
+    "Settings" : "პარამეტრები",
+    "File not found" : "ფაილი ვერ იქნა ნაპოვნი"
 },
 "nplurals=2; plural=(n!=1);");

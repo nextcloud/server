@@ -20,11 +20,6 @@ OC.L10N.register(
     "Good evening" : "Buona sera",
     "Good evening, {name}" : "Buona sera, {name}",
     "Hello" : "Ciao",
-    "Hello, {name}" : "Ciao {name}",
-    "Change background image" : "Cambia l'immagine di sfondo",
-    "Pick from Files" : "Scegli da File",
-    "Default images" : "Immagini predefinite",
-    "Plain background" : "Sfondo semplice",
-    "Insert from {productName}" : "Inserisci da {productName}"
+    "Hello, {name}" : "Ciao {name}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

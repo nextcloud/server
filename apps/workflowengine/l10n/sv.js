@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud arbetsflödesmotor",
     "Select a filter" : "Välj ett filter",
     "Select a comparator" : "Välj en jämförelse",
+    "Remove filter" : "Ta bort filter",
     "Select a file type" : "Välj en filtyp",
     "e.g. httpd/unix-directory" : "t.ex. httpd/unix-directory",
     "Folder" : "Mapp",
@@ -58,9 +59,7 @@ OC.L10N.register(
     "Custom mimetype" : "Anpassad mimetyp",
     "Please enter a valid time span" : "Ange ett giltigt tidsintervall",
     "Select a request URL" : "Välj en webbadress för begäran",
-    "Predefined URLs" : "Förinställda webbadresser",
     "Files WebDAV" : "Filer WebDAV",
-    "Others" : "Övriga",
     "Custom URL" : "Anpassad webbadress",
     "Select a user agent" : "Välj en användaragent",
     "Android client" : "Android-klient",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Add new flow" : "Lägg till nytt flöde",
     "When" : "När",
     "and" : "och",
+    "Add a new filter" : "Lägg till nytt filter",
     "Cancel" : "Avbryt",
     "Delete" : "Radera",
     "The configuration is invalid" : "Konfigurationen är felaktig",
@@ -112,9 +112,7 @@ OC.L10N.register(
     "User group membership" : "Användargruppsmedlemskap",
     "is member of" : "är medlem i",
     "is not member of" : "är inte medlem i",
-    "Select a tag" : "Välj en tagg",
-    "No results" : "Inga resultat",
-    "%s (invisible)" : "%s (osynlig)",
-    "%s (restricted)" : "%s (begränsad)"
+    "Predefined URLs" : "Förinställda webbadresser",
+    "Others" : "Övriga"
 },
 "nplurals=2; plural=(n != 1);");

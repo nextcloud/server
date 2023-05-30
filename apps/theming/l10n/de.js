@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Administrator",
     "Error uploading the file" : "Fehler beim Hochladen der Datei",
     "Name cannot be empty" : "Der Name darf nicht leer sein",
-    "Open documentation" : "Dokumentation öffnen",
-    "https://…" : "https://…",
-    "Login image" : "Anmeldebild",
-    "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installiere die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen.",
     "Migrate and clean up admin theming images" : "Admin-Designbilder migrieren und bereinigen",
     "Failed to clean up the old admin theming images folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In einigen Fällen können Tastenkombinationen Werkzeuge zur Barrierefreiheit beeinträchtigen. Damit du dich richtig auf dein Werkzeug konzentrieren kannst, kannst du hier alle Tastaturkürzel deaktivieren. Dadurch werden auch alle verfügbaren Verknüpfungen in Apps deaktiviert.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Benutzerdefinierte Farbe",
     "Plain background" : "Einfacher Hintergrund",
     "Insert from {productName}" : "Von {productName} einfügen",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Obwohl du deine Instanz auswählen und anpassen kannst, können Benutzer ihren Hintergrund und ihre Farben ändern. Wenn du ihre Anpassung erzwingen möchtest, kannst du dieses Kontrollkästchen aktivieren."
+    "Open documentation" : "Dokumentation öffnen",
+    "https://…" : "https://…",
+    "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Obwohl du deine Instanz auswählen und anpassen kannst, können Benutzer ihren Hintergrund und ihre Farben ändern. Wenn du ihre Anpassung erzwingen möchtest, kannst du dieses Kontrollkästchen aktivieren.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installiere die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen."
 },
 "nplurals=2; plural=(n != 1);");

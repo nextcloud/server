@@ -260,10 +260,6 @@ OC.L10N.register(
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
-    "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
-    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna",
-    "Copy to clipboard" : "Kopioi leikepöydälle",
-    "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
-    "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
+    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna"
 },
 "nplurals=2; plural=(n != 1);");

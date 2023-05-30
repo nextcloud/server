@@ -139,9 +139,6 @@
 
 			this._setupEvents();
 
-			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
-			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
-
 			if (sessionStorage.getItem('WhatsNewServerCheck') < (Date.now() - 3600*1000)) {
 				OCP.WhatsNew.query(); // for Nextcloud server
 				sessionStorage.setItem('WhatsNewServerCheck', Date.now());
@@ -328,10 +325,10 @@
 			this.setActiveView(params.view, {silent: true});
 			if (lastId !== this.getActiveView()) {
 				this.getCurrentAppContainer().trigger(new $.Event('show', params));
+				window._nc_event_bus.emit('files:navigation:changed')
 			}
 
 			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
-			window._nc_event_bus.emit('files:navigation:changed')
 
 		},
 

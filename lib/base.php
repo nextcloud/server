@@ -161,6 +161,9 @@ class OC {
 				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'] ?? null,
 			],
 		];
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$params['server']['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+		}
 		$fakeRequest = new \OC\AppFramework\Http\Request(
 			$params,
 			new \OC\AppFramework\Http\RequestId($_SERVER['UNIQUE_ID'] ?? '', new \OC\Security\SecureRandom()),
@@ -394,8 +397,8 @@ class OC {
 
 		if (!empty($incompatibleShippedApps)) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
-			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
-			throw new \OCP\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
+			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
+			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));

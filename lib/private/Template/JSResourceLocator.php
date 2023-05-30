@@ -99,21 +99,28 @@ class JSResourceLocator extends ResourceLocator {
 			// gets turned into cwd.
 			$app_path = realpath($app_path);
 
-			// missing translations files will be ignored
-			if (strpos($script, 'l10n/') === 0) {
-				$this->appendScriptIfExist($app_path, $script, $app_url);
+			// check combined files
+			if (!str_starts_with($script, 'l10n/') && $this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
 				return;
 			}
 
-			if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
-				$this->appendScriptIfExist($app_path, $script, $app_url);
+			// fallback to plain file location
+			if ($this->appendScriptIfExist($app_path, $script, $app_url)) {
+				return;
 			}
 		} catch (AppPathNotFoundException) {
-			$this->logger->error('Could not find resource {resource} to load', [
-				'resource' => $app . '/' . $script . '.js',
-				'app' => 'jsresourceloader',
-			]);
+			// pass (general error handling happens below)
 		}
+
+		// missing translations files will be ignored
+		if (strpos($script, 'l10n/') === 0) {
+			return;
+		}
+
+		$this->logger->error('Could not find resource {resource} to load', [
+			'resource' => $app . '/' . $script . '.js',
+			'app' => 'jsresourceloader',
+		]);
 	}
 
 	/**

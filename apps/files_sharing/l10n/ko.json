@@ -186,10 +186,6 @@
     "Uploading files" : "파일 업로드",
     "Uploaded files:" : "업로드한 파일:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
-    "Add to your Nextcloud" : "내 Nextcloud에 추가",
-    "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
-    "Copy to clipboard" : "클립보드로 복사",
-    "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다.",
-    "Toggle grid view" : "모눈 보기 전환"
+    "Add to your Nextcloud" : "내 Nextcloud에 추가"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

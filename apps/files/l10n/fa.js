@@ -114,7 +114,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
     "Clipboard is not available" : "تخته گیره موحود نیست",
-    "Cancel" : "لغو",
     "Create" : "ساخت",
     "Delete permanently" : "حذف قطعی",
     "Templates" : "قالب‌ها",
@@ -134,13 +133,9 @@ OC.L10N.register(
     "Text file" : "فایل متنی",
     "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt",
     "Storage invalid" : "فضای ذخیره‌سازی نامعتبر",
-    "Select" : "انتخاب",
-    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
-    "New" : "جدید",
-    "Copied!" : "کپی انجام شد!",
     "Unlimited" : "نامحدود",
+    "Cancel" : "لغو",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
-    "Settings" : "تنظیمات",
     "Deleted files" : "پرونده‌های حذف شده"
 },
 "nplurals=2; plural=(n > 1);");

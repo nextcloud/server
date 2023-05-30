@@ -9,6 +9,7 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Encryption\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Encryption\\Command\\DisableMasterKey' => $baseDir . '/../lib/Command/DisableMasterKey.php',
+    'OCA\\Encryption\\Command\\DropLegacyFileKey' => $baseDir . '/../lib/Command/DropLegacyFileKey.php',
     'OCA\\Encryption\\Command\\EnableMasterKey' => $baseDir . '/../lib/Command/EnableMasterKey.php',
     'OCA\\Encryption\\Command\\FixEncryptedVersion' => $baseDir . '/../lib/Command/FixEncryptedVersion.php',
     'OCA\\Encryption\\Command\\FixKeyLocation' => $baseDir . '/../lib/Command/FixKeyLocation.php',
