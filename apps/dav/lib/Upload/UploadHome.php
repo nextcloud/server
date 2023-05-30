@@ -98,35 +98,35 @@ class UploadHome implements ICollection {
 		$user = \OC::$server->getUserSession()->getUser();
 		Filesystem::initMountPoints($user->getUID());
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(IConfig::class);
 
 		$allowSymlinks = $config->getSystemValueBool('localstorage.allowsymlinks', false);
-		$uploadsDirectory = $config->getSystemValue('uploadsdirectory', '');
+		$uploadsDirectory = $config->getSystemValueString('uploadsdirectory', '');
 		$user_path = '/' . $user->getUID() . '/uploads';
-        $absolute_user_path = $rootView->getLocalFile($user_path);
+        $absoluteUserPath = $rootView->getLocalFile($user_path);
 
-		if ($allowSymlinks && $uploadsDirectory != '' && $absolute_user_path) {
+		if ($allowSymlinks && $uploadsDirectory != '' && $absoluteUserPath) {
 			$upload_user_path = $uploadsDirectory . $user_path;
 
-			if (!$rootView->file_exists($user_path) || !is_link($absolute_user_path) || ($upload_user_path != realpath($absolute_user_path)) ) {
+			if (!$rootView->file_exists($user_path) || !is_link($absoluteUserPath) || ($upload_user_path != realpath($absoluteUserPath)) ) {
 
                 if (!is_dir($upload_user_path)) {
                     mkdir($upload_user_path, 0750, true);
                 }
 
 				// useful if link is broken due to $upload_user_path changes
-                if (is_link($absolute_user_path)) {
-                    unlink($absolute_user_path);
-                } else if (is_dir($absolute_user_path)) {
+                if (is_link($absoluteUserPath)) {
+                    unlink($absoluteUserPath);
+                } elseif (is_dir($absoluteUserPath)) {
                     $rootView->rmdir($user_path);
                 }
-                symlink($upload_user_path, $absolute_user_path);
+                symlink($upload_user_path, $absoluteUserPath);
 
 			}
 
 		} else {
-            if ($absolute_user_path && is_link($absolute_user_path)) {
-                unlink($absolute_user_path);
+            if ($absoluteUserPath && is_link($absoluteUserPath)) {
+                unlink($absoluteUserPath);
             }
 			if (!$rootView->file_exists($user_path)) {
 				$rootView->mkdir($user_path);
