@@ -34,6 +34,7 @@
 			:user-select="true"
 			:options="options"
 			v-model="value"
+			@keydown.enter.prevent
 			@open="handleOpen"
 			@search="asyncFind"
 			@option:selected="addShare">
