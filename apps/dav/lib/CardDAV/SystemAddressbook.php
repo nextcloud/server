@@ -35,14 +35,12 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IUser;
 use OCP\IUserSession;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\ICollection;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 use function array_filter;
@@ -300,12 +298,13 @@ class SystemAddressbook extends AddressBook {
 		}
 
 		/** @psalm-suppress NoInterfaceProperties */
-		if ($this->request->server['PHP_AUTH_USER'] !== 'system') {
+		$server = $this->request->server;
+		if (!isset($server['PHP_AUTH_USER']) || $server['PHP_AUTH_USER'] !== 'system') {
 			return false;
 		}
 
 		/** @psalm-suppress NoInterfaceProperties */
-		$sharedSecret = $this->request->server['PHP_AUTH_PW'];
+		$sharedSecret = $server['PHP_AUTH_PW'] ?? null;
 		if ($sharedSecret === null) {
 			return false;
 		}
@@ -365,7 +364,7 @@ class SystemAddressbook extends AddressBook {
 	}
 
 	public function getACL() {
-		return array_filter(parent::getACL(), function($acl) {
+		return array_filter(parent::getACL(), function ($acl) {
 			if (in_array($acl['privilege'], ['{DAV:}write', '{DAV:}all'], true)) {
 				return false;
 			}
