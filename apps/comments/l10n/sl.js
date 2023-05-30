@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Ni še odzivov, bodite prvi!",
     "No more messages" : "Ni drugih sporočil",
     "Retry" : "Poskusi znova",
+    "Failed to mark comments as read" : "Označevanje opomb kot prebranih je spodletelo",
     "Unable to load the comments list" : "Ni mogoče naložiti seznama opomb",
     "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} nova opomba","{unread} novi opombi","{unread} nove opombe","{unread} novih opomb"],
