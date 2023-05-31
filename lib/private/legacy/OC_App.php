@@ -394,21 +394,6 @@ class OC_App {
 		return isset($appData['version']) ? $appData['version'] : '';
 	}
 
-
-	/**
-	 * Read all app metadata from the info.xml file
-	 *
-	 * @param string $appId id of the app or the path of the info.xml file
-	 * @param bool $path
-	 * @param string $lang
-	 * @return array|null
-	 * @note all data is read from info.xml, not just pre-defined fields
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppInfo()
-	 */
-	public static function getAppInfo(string $appId, bool $path = false, string $lang = null) {
-		return \OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
-	}
-
 	/**
 	 * Returns the navigation
 	 *
@@ -609,7 +594,7 @@ class OC_App {
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
-				$info = OC_App::getAppInfo($app, false, $langCode);
+				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
 					continue;
@@ -801,7 +786,7 @@ class OC_App {
 
 		\OC::$server->getAppManager()->clearAppsCache();
 		$l = \OC::$server->getL10N('core');
-		$appData = self::getAppInfo($appId, false, $l->getLanguageCode());
+		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);

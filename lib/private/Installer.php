@@ -114,7 +114,7 @@ class Installer {
 		}
 
 		$l = \OC::$server->getL10N('core');
-		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true, $l->getLanguageCode());
+		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($basedir . '/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
 			throw new \Exception(
@@ -594,7 +594,7 @@ class Installer {
 		//run appinfo/install.php
 		self::includeAppScript("$appPath/appinfo/install.php");
 
-		$info = OC_App::getAppInfo($app);
+		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
 		if (is_null($info)) {
 			return false;
 		}
