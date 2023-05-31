@@ -196,7 +196,6 @@ $header-icon-size: 20px;
 			font-size: 12px;
 			color: var(--color-primary-element-text);
 			text-align: center;
-			bottom: -5px;
 			left: 50%;
 			top: 45%;
 			display: block;
