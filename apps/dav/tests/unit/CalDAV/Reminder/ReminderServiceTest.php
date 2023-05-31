@@ -373,18 +373,13 @@ EOD;
 			'component' => 'vevent',
 		];
 
-		$this->backend->expects($this->exactly(2))
+		$this->backend->expects($this->never())
 			->method('insertReminder')
 			->withConsecutive(
 				[1337, 42, 'wej2z68l9h', false, null, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
 				[1337, 42, 'wej2z68l9h', false, null, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
 			)
 			->willReturn(1);
-
-		$this->timeFactory->expects($this->once())
-			->method('getDateTime')
-			->with()
-			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
