@@ -395,19 +395,6 @@ class OC_App {
 	}
 
 	/**
-	 * Returns the Settings Navigation
-	 *
-	 * @return string[]
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll('settings')
-	 *
-	 * This function returns an array containing all settings pages added. The
-	 * entries are sorted by the key 'order' ascending.
-	 */
-	public static function getSettingsNavigation(): array {
-		return OC::$server->getNavigationManager()->getAll('settings');
-	}
-
-	/**
 	 * get the id of loaded app
 	 *
 	 * @return string
