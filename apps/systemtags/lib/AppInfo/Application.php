@@ -31,9 +31,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\MapperEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'systemtags';
@@ -47,7 +47,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (EventDispatcher $dispatcher) use ($context) {
+		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context) {
 			/*
 			 * @todo move the OCP events and then move the registration to `register`
 			 */
