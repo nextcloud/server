@@ -32,7 +32,7 @@
 namespace OC\Core\Controller;
 
 use OC\Setup;
-use OCP\ILogger;
+use function OCP\Log\logger;
 
 class SetupController {
 	private string $autoConfigFile;
@@ -114,7 +114,7 @@ class SetupController {
 
 	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
-			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
+			logger('core')->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
 			$post = array_merge($post, $AUTOCONFIG);

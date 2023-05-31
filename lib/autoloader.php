@@ -37,8 +37,8 @@ declare(strict_types=1);
 namespace OC;
 
 use \OCP\AutoloadNotAllowedException;
-use OCP\ILogger;
 use OCP\ICache;
+use function OCP\Log\logger;
 
 class Autoloader {
 	/** @var bool */
@@ -105,7 +105,7 @@ class Autoloader {
 			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
-				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', ILogger::DEBUG);
+				logger('core')->debug('Include path for class "' . $class . '" starts with "apps/"');
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {

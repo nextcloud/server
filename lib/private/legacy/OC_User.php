@@ -38,10 +38,10 @@
 
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
+use function OCP\Log\logger;
 
 /**
  * This class provides wrapper methods for user management. Multiple backends are
@@ -93,7 +93,7 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
-					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', ILogger::DEBUG);
+					logger('core')->debug('Adding user backend ' . $backend . '.');
 					self::$_usedBackends[$backend] = new \OC\User\Database();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
@@ -102,7 +102,7 @@ class OC_User {
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
-					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', ILogger::DEBUG);
+					logger('core')->debug('Adding default user backend ' . $backend . '.');
 					$className = 'OC_USER_' . strtoupper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
@@ -147,10 +147,10 @@ class OC_User {
 					self::useBackend($backend);
 					self::$_setupedBackends[] = $i;
 				} else {
-					\OCP\Util::writeLog('core', 'User backend ' . $class . ' already initialized.', ILogger::DEBUG);
+					logger('core')->debug('User backend ' . $class . ' already initialized.');
 				}
 			} else {
-				\OCP\Util::writeLog('core', 'User backend ' . $class . ' not found.', ILogger::ERROR);
+				logger('core')->error('User backend ' . $class . ' not found.');
 			}
 		}
 	}

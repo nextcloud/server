@@ -39,6 +39,7 @@ use OCP\ILogger;
 use OCP\ITags;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
+use function OCP\Log\logger;
 
 class Tags implements ITags {
 	/**
@@ -529,7 +530,7 @@ class Tags implements ITags {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
-				\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', ILogger::DEBUG);
+				logger('core')->debug(__METHOD__.', Cannot add an empty tag');
 				return false;
 			}
 			if (!$this->hasTag($tag)) {
@@ -569,7 +570,7 @@ class Tags implements ITags {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
-				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', ILogger::DEBUG);
+				logger('core')->debug(__METHOD__.', Tag name is empty');
 				return false;
 			}
 			$tagId = $this->getTagId($tag);
@@ -609,8 +610,8 @@ class Tags implements ITags {
 		$names = array_map('trim', $names);
 		array_filter($names);
 
-		\OCP\Util::writeLog('core', __METHOD__ . ', before: '
-			. print_r($this->tags, true), ILogger::DEBUG);
+		logger('core')->debug(__METHOD__ . ', before: '
+			. print_r($this->tags, true));
 		foreach ($names as $name) {
 			$id = null;
 
@@ -625,8 +626,8 @@ class Tags implements ITags {
 				unset($this->tags[$key]);
 				$this->mapper->delete($tag);
 			} else {
-				\OCP\Util::writeLog('core', __METHOD__ . 'Cannot delete tag ' . $name
-					. ': not found.', ILogger::ERROR);
+				logger('core')->error(__METHOD__ . 'Cannot delete tag ' . $name
+					. ': not found.');
 			}
 			if (!is_null($id) && $id !== false) {
 				try {

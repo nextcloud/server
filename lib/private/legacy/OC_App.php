@@ -56,7 +56,6 @@ use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
@@ -66,6 +65,7 @@ use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
+use function OCP\Log\logger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -292,7 +292,7 @@ class OC_App {
 			}
 		}
 
-		\OCP\Util::writeLog('core', 'No application directories are marked as writable.', ILogger::ERROR);
+		logger('core')->error('No application directories are marked as writable.');
 		return null;
 	}
 
@@ -517,7 +517,7 @@ class OC_App {
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
-				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], ILogger::WARN);
+				logger('core')->warning('Unable to read app folder: ' . $apps_dir['path']);
 				continue;
 			}
 			$dh = opendir($apps_dir['path']);
@@ -568,12 +568,12 @@ class OC_App {
 			if (array_search($app, $blacklist) === false) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
-					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
+					logger('core')->error('Could not read app info file for app "' . $app . '"');
 					continue;
 				}
 
 				if (!isset($info['name'])) {
-					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', ILogger::ERROR);
+					logger('core')->error('App id "' . $app . '" has no name in appinfo');
 					continue;
 				}
 
@@ -870,11 +870,11 @@ class OC_App {
 				}
 				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
 			} else {
-				\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', ILogger::ERROR);
+				logger('core')->error('Can\'t get app storage, app ' . $appId . ', user not logged in');
 				return false;
 			}
 		} else {
-			\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', ILogger::ERROR);
+			logger('core')->error('Can\'t get app storage, app ' . $appId . ' not enabled');
 			return false;
 		}
 	}
