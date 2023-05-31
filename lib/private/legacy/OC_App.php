@@ -395,21 +395,6 @@ class OC_App {
 	}
 
 	/**
-	 * Returns the navigation
-	 *
-	 * @return array
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll()
-	 *
-	 * This function returns an array containing all entries added. The
-	 * entries are sorted by the key 'order' ascending. Additional to the keys
-	 * given for each app the following keys exist:
-	 *   - active: boolean, signals if the user is on this navigation entry
-	 */
-	public static function getNavigation(): array {
-		return OC::$server->getNavigationManager()->getAll();
-	}
-
-	/**
 	 * Returns the Settings Navigation
 	 *
 	 * @return string[]
