@@ -75,7 +75,6 @@ use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use function OCP\Log\logger;
 
 /**
  * @deprecated 20.0.0
@@ -402,33 +401,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 	private function getUserId() {
 		return $this->getServer()->getSession()->get('user_id');
-	}
-
-	/**
-	 * @deprecated use the LoggerInterface instead
-	 * @param string $message
-	 * @param string $level
-	 * @return mixed
-	 */
-	public function log($message, $level) {
-		switch ($level) {
-			case 'debug':
-				$level = ILogger::DEBUG;
-				break;
-			case 'info':
-				$level = ILogger::INFO;
-				break;
-			case 'warn':
-				$level = ILogger::WARN;
-				break;
-			case 'fatal':
-				$level = ILogger::FATAL;
-				break;
-			default:
-				$level = ILogger::ERROR;
-				break;
-		}
-		logger($this->getAppName())->log($level, $message);
 	}
 
 	/**
