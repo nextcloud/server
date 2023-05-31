@@ -342,6 +342,48 @@ ICS;
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
+	/**
+	 * RFC5545 says DTSTART is REQUIRED, but we have seen event without the prop
+	 */
+	public function testOnCalendarObjectCreateNoDtstart(): void {
+		$calendarData = <<<EOD
+BEGIN:VCALENDAR
+PRODID:-//Nextcloud calendar v1.6.4
+BEGIN:VEVENT
+CREATED:20160602T133732
+DTSTAMP:20160602T133732
+LAST-MODIFIED:20160602T133732
+UID:wej2z68l9h
+SUMMARY:Test Event
+BEGIN:VALARM
+ACTION:EMAIL
+TRIGGER:-PT15M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER;VALUE=DATE-TIME:20160608T000000Z
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$objectData = [
+			'calendardata' => $calendarData,
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+
+		$this->backend->expects($this->never())
+			->method('insertReminder')
+			->withConsecutive(
+				[1337, 42, 'wej2z68l9h', false, null, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
+				[1337, 42, 'wej2z68l9h', false, null, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
+			)
+			->willReturn(1);
+
+		$this->reminderService->onCalendarObjectCreate($objectData);
+	}
+
 	public function testOnCalendarObjectCreateSingleEntryWithRepeat(): void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_REPEAT,
