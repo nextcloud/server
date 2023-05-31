@@ -11,6 +11,7 @@ namespace Test;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Archive\ZIP;
 use OC\Installer;
+use OCP\App\IAppManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -88,7 +89,7 @@ class InstallerTest extends TestCase {
 
 	public function testInstallApp() {
 		// Read the current version of the app to check for bug #2572
-		\OC_App::getAppVersion('testapp');
+		\OCP\Server::get(IAppManager::class)->getAppVersion('testapp', true);
 
 		// Extract app
 		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';

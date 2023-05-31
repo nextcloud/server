@@ -383,18 +383,6 @@ class OC_App {
 	}
 
 	/**
-	 * get the last version of the app from appinfo/info.xml
-	 *
-	 * @param string $appId
-	 * @param bool $useCache
-	 * @return string
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion()
-	 */
-	public static function getAppVersion(string $appId, bool $useCache = true): string {
-		return \OC::$server->getAppManager()->getAppVersion($appId, $useCache);
-	}
-
-	/**
 	 * get app's version based on it's path
 	 *
 	 * @param string $path
@@ -685,7 +673,7 @@ class OC_App {
 					}
 				}
 
-				$info['version'] = OC_App::getAppVersion($app);
+				$info['version'] = $appManager->getAppVersion($app);
 				$appList[] = $info;
 			}
 		}
@@ -695,7 +683,7 @@ class OC_App {
 
 	public static function shouldUpgrade(string $app): bool {
 		$versions = self::getAppVersions();
-		$currentVersion = OC_App::getAppVersion($app);
+		$currentVersion = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
 		if ($currentVersion && isset($versions[$app])) {
 			$installedVersion = $versions[$app];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
@@ -853,7 +841,7 @@ class OC_App {
 
 		self::setAppTypes($appId);
 
-		$version = \OC_App::getAppVersion($appId);
+		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
