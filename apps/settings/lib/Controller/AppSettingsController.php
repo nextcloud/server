@@ -187,7 +187,7 @@ class AppSettingsController extends Controller {
 			$formattedCategories[] = [
 				'id' => $category['id'],
 				'ident' => $category['id'],
-				'displayName' => isset($category['translations'][$currentLanguage]['name']) ? $category['translations'][$currentLanguage]['name'] : $category['translations']['en']['name'],
+				'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
 			];
 		}
 
@@ -370,9 +370,9 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
-				'name' => isset($app['translations'][$currentLanguage]['name']) ? $app['translations'][$currentLanguage]['name'] : $app['translations']['en']['name'],
-				'description' => isset($app['translations'][$currentLanguage]['description']) ? $app['translations'][$currentLanguage]['description'] : $app['translations']['en']['description'],
-				'summary' => isset($app['translations'][$currentLanguage]['summary']) ? $app['translations'][$currentLanguage]['summary'] : $app['translations']['en']['summary'],
+				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
+				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
+				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => false,
