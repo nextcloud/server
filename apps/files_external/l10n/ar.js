@@ -76,6 +76,7 @@ OC.L10N.register(
     "Folder name" : "اسم المجلد",
     "Authentication" : "المصادقة",
     "Configuration" : "إعداد",
+    "Available for" : "متاح لـ ",
     "Add storage" : "أضف تخزين",
     "Advanced settings" : "الإعدادات المتقدمة"
 },

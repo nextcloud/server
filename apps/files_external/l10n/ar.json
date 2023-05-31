@@ -74,6 +74,7 @@
     "Folder name" : "اسم المجلد",
     "Authentication" : "المصادقة",
     "Configuration" : "إعداد",
+    "Available for" : "متاح لـ ",
     "Add storage" : "أضف تخزين",
     "Advanced settings" : "الإعدادات المتقدمة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
