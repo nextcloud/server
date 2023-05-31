@@ -46,7 +46,6 @@ namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
 use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Authentication\Token\RemoteWipe;
@@ -245,7 +244,7 @@ class UsersController extends AUserData {
 			foreach ($phoneNumbers as $phone) {
 				try {
 					$phoneNumber = $phoneUtil->parse($phone, $location);
-					if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+					if ($phoneUtil->isValidNumber($phoneNumber)) {
 						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 					}
@@ -258,7 +257,7 @@ class UsersController extends AUserData {
 					// when it's different to the user's given region.
 					try {
 						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
-						if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+						if ($phoneUtil->isValidNumber($phoneNumber)) {
 							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 						}
