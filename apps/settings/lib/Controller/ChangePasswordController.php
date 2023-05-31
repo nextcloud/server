@@ -169,90 +169,7 @@ class ChangePasswordController extends Controller {
 			]);
 		}
 
-		if ($this->appManager->isEnabledForUser('encryption')) {
-			//handle the recovery case
-			$crypt = new \OCA\Encryption\Crypto\Crypt(
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getL10N('encryption'));
-			$keyStorage = \OC::$server->getEncryptionKeyStorage();
-			$util = new \OCA\Encryption\Util(
-				new \OC\Files\View(),
-				$crypt,
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getUserManager());
-			$keyManager = new \OCA\Encryption\KeyManager(
-				$keyStorage,
-				$crypt,
-				\OC::$server->getConfig(),
-				\OC::$server->getUserSession(),
-				new \OCA\Encryption\Session(\OC::$server->getSession()),
-				\OC::$server->getLogger(),
-				$util,
-				\OC::$server->getLockingProvider()
-			);
-			$recovery = new \OCA\Encryption\Recovery(
-				\OC::$server->getUserSession(),
-				$crypt,
-				$keyManager,
-				\OC::$server->getConfig(),
-				\OC::$server->getEncryptionFilesHelper(),
-				new \OC\Files\View());
-			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
-
-			$validRecoveryPassword = false;
-			$recoveryEnabledForUser = false;
-			if ($recoveryAdminEnabled) {
-				$validRecoveryPassword = $keyManager->checkRecoveryPassword($recoveryPassword);
-				$recoveryEnabledForUser = $recovery->isRecoveryEnabledForUser($username);
-			}
-
-			if ($recoveryEnabledForUser && $recoveryPassword === '') {
-				return new JSONResponse([
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all user data will be lost.'),
-					]
-				]);
-			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
-				return new JSONResponse([
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l->t('Wrong admin recovery password. Please check the password and try again.'),
-					]
-				]);
-			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
-				try {
-					$result = $targetUser->setPassword($password, $recoveryPassword);
-					// password policy app throws exception
-				} catch (HintException $e) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $e->getHint(),
-						],
-					]);
-				}
-				if (!$result && $recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Backend does not support password change, but the user\'s encryption key was updated.'),
-						]
-					]);
-				} elseif (!$result && !$recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Unable to change password'),
-						]
-					]);
-				}
-			}
-		} else {
+		if (!$this->appManager->isEnabledForUser('encryption')) {
 			try {
 				if ($targetUser->setPassword($password) === false) {
 					return new JSONResponse([
@@ -271,6 +188,95 @@ class ChangePasswordController extends Controller {
 					],
 				]);
 			}
+		}
+
+		//handle the recovery case
+		$crypt = new \OCA\Encryption\Crypto\Crypt(
+			\OC::$server->getLogger(),
+			\OC::$server->getUserSession(),
+			\OC::$server->getConfig(),
+			\OC::$server->getL10N('encryption'));
+		$keyStorage = \OC::$server->getEncryptionKeyStorage();
+		$util = new \OCA\Encryption\Util(
+			new \OC\Files\View(),
+			$crypt,
+			\OC::$server->getLogger(),
+			\OC::$server->getUserSession(),
+			\OC::$server->getConfig(),
+			\OC::$server->getUserManager());
+		$keyManager = new \OCA\Encryption\KeyManager(
+			$keyStorage,
+			$crypt,
+			\OC::$server->getConfig(),
+			\OC::$server->getUserSession(),
+			new \OCA\Encryption\Session(\OC::$server->getSession()),
+			\OC::$server->getLogger(),
+			$util,
+			\OC::$server->getLockingProvider()
+		);
+		$recovery = new \OCA\Encryption\Recovery(
+			\OC::$server->getUserSession(),
+			$crypt,
+			$keyManager,
+			\OC::$server->getConfig(),
+			\OC::$server->getEncryptionFilesHelper(),
+			new \OC\Files\View());
+		$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
+
+		$validRecoveryPassword = false;
+		$recoveryEnabledForUser = false;
+		if ($recoveryAdminEnabled) {
+			$validRecoveryPassword = $keyManager->checkRecoveryPassword($recoveryPassword);
+			$recoveryEnabledForUser = $recovery->isRecoveryEnabledForUser($username);
+		}
+
+		if ($recoveryEnabledForUser && $recoveryPassword === '') {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Please provide an admin recovery password; otherwise, all user data will be lost.'),
+				]
+			]);
+		}
+
+		if ($recoveryEnabledForUser && ! $validRecoveryPassword) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Wrong admin recovery password. Please check the password and try again.'),
+				]
+			]);
+		}
+
+		// now we know that everything is fine regarding the recovery password, let's try to change the password
+		try {
+			$result = $targetUser->setPassword($password, $recoveryPassword);
+			// password policy app throws exception
+		} catch (HintException $e) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $e->getHint(),
+				],
+			]);
+		}
+
+		if (!$result && $recoveryEnabledForUser) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Backend does not support password change, but the user\'s encryption key was updated.'),
+				]
+			]);
+		}
+
+		if (!$result && !$recoveryEnabledForUser) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Unable to change password'),
+				]
+			]);
 		}
 
 		return new JSONResponse([
