@@ -365,7 +365,7 @@ class SetupManager {
 	 * @return IUser|null
 	 */
 	private function getUserForPath(string $path) {
-		if (strpos($path, '/__groupfolders') === 0) {
+		if (str_starts_with($path, '/__groupfolders') || str_starts_with($path, '/files_encryption')) {
 			return null;
 		} elseif (substr_count($path, '/') < 2) {
 			if ($user = $this->userSession->getUser()) {
