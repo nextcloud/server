@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "Празно",
     "Unable to create new file from template" : "Из шаблона није могао да се креира нови фајл",
     "Delete permanently" : "Обриши заувек",
+    "Open folder {displayName}" : "Отвори фолдер {displayName}",
     "Set up templates folder" : "Постављање фолдера са шаблонима",
     "Templates" : "Шаблони",
     "Create new templates folder" : "Креирај нови фолдер шаблона",
