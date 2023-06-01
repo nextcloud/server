@@ -47,7 +47,7 @@ jobs:
           fallbackNpm: '^7'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -58,14 +58,6 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
-          npm run stats --if-present
-
-      - name: Send bundle stats to RelativeCI
-        uses: relative-ci/agent-action@f8a55ef35b4588b8ddd926feba0cec0787ecd8c9 # v2
-        with:
-          webpackStatsFile: ./webpack-stats.json
-          key: ${{ secrets.RELATIVE_CI_KEY }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check webpack build changes
         run: |
