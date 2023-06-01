@@ -82,6 +82,9 @@ class MigrateOauthTables implements IRepairStep {
 		if ($table->hasColumn('allow_subdomains')) {
 			$table->dropColumn('allow_subdomains');
 		}
+		if ($table->hasColumn('trusted')) {
+			$table->dropColumn('trusted');
+		}
 
 		if (!$schema->getTable('oauth2_clients')->hasColumn('client_identifier')) {
 			$table->addColumn('client_identifier', 'string', [
@@ -119,5 +122,36 @@ class MigrateOauthTables implements IRepairStep {
 			$table->dropColumn('identifier');
 			$this->db->migrateToSchema($schema->getWrappedSchema());
 		}
+
+		$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		// delete the access tokens
+		$qbDeleteAccessTokens = $this->db->getQueryBuilder();
+
+		$qbSelectClientId = $this->db->getQueryBuilder();
+		$qbSelectClientId->select('id')
+			->from('oauth2_clients')
+			->where(
+				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
+			)
+			->orWhere(
+				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
+			);
+
+		$qbDeleteAccessTokens->delete('oauth2_access_tokens')
+			->where(
+				$qbSelectClientId->expr()->in('client_id', $qbDeleteAccessTokens->createFunction($qbSelectClientId->getSQL()), IQueryBuilder::PARAM_STR_ARRAY)
+			);
+		$qbDeleteAccessTokens->executeStatement();
+
+		// delete the clients
+		$qbDeleteClients = $this->db->getQueryBuilder();
+		$qbDeleteClients->delete('oauth2_clients')
+			->where(
+				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
+			)
+			->orWhere(
+				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
+			);
+		$qbDeleteClients->executeStatement();
 	}
 }
