@@ -203,8 +203,8 @@ class Trashbin {
 
 		$view = new View('/');
 
-		$target = $user . '/files_trashbin/files/' . $targetFilename . '.d' . $timestamp;
-		$source = $owner . '/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
+		$target = $user . '/files_trashbin/files/' . static::getTrashFilename($targetFilename, $timestamp);
+		$source = $owner . '/files_trashbin/files/' . static::getTrashFilename($sourceFilename, $timestamp);
 		$free = $view->free_space($target);
 		$isUnknownOrUnlimitedFreeSpace = $free < 0;
 		$isEnoughFreeSpaceLeft = $view->filesize($source) < $free;
@@ -278,7 +278,7 @@ class Trashbin {
 		$lockingProvider = \OC::$server->getLockingProvider();
 
 		// disable proxy to prevent recursive calls
-		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+		$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
 		$gotLock = false;
 
 		while (!$gotLock) {
@@ -294,7 +294,7 @@ class Trashbin {
 
 				$timestamp = $timestamp + 1;
 
-				$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+				$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
 			}
 		}
 
@@ -358,7 +358,7 @@ class Trashbin {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
-				'trashPath' => Filesystem::normalizePath($filename . '.d' . $timestamp)]);
+				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))]);
 
 			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
 
@@ -395,15 +395,15 @@ class Trashbin {
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
 				if ($owner !== $user) {
-					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
+					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . static::getTrashFilename(basename($ownerPath), $timestamp), $rootView);
 				}
-				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
+				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . static::getTrashFilename($filename, $timestamp));
 			} elseif ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
 				foreach ($versions as $v) {
 					if ($owner !== $user) {
-						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
+						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . static::getTrashFilename($v['name'] . '.v' . $v['version'], $timestamp));
 					}
-					self::move($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+					self::move($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v['version'], $timestamp));
 				}
 			}
 		}
@@ -561,7 +561,7 @@ class Trashbin {
 			} elseif ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
-						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
+						$rootView->rename($user . '/files_trashbin/versions/' . static::getTrashFilename($versionedFile . '.v' . $v, $timestamp), $owner . '/files_versions/' . $ownerPath . '.v' . $v);
 					} else {
 						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
 					}
@@ -662,7 +662,7 @@ class Trashbin {
 				->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
 			$query->executeStatement();
 
-			$file = $filename . '.d' . $timestamp;
+			$file = static::getTrashFilename($filename, $timestamp);
 		} else {
 			$file = $filename;
 		}
@@ -705,8 +705,8 @@ class Trashbin {
 			} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
-						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v . '.d' . $timestamp);
-						$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v . '.d' . $timestamp);
+						$size += $view->filesize('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
+						$view->unlink('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
 					} else {
 						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v);
 						$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v);
@@ -729,7 +729,7 @@ class Trashbin {
 		$view = new View('/' . $user);
 
 		if ($timestamp) {
-			$filename = $filename . '.d' . $timestamp;
+			$filename = static::getTrashFilename($filename, $timestamp);
 		}
 
 		$target = Filesystem::normalizePath('files_trashbin/files/' . $filename);
@@ -1124,5 +1124,24 @@ class Trashbin {
 	 */
 	public static function preview_icon($path) {
 		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_trashbin_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
+	}
+
+	/**
+	 * Return the filename used in the trash bin
+	 */
+	public static function getTrashFilename(string $filename, int $timestamp): string {
+		$trashFilename = $filename . '.d' . $timestamp;
+		$length = strlen($trashFilename);
+		// oc_filecache `name` column has a limit of 250 chars
+		$maxLength = 250;
+		if ($length > $maxLength) {
+			$trashFilename = substr_replace(
+				$trashFilename,
+				'',
+				$maxLength / 2,
+				$length - $maxLength
+			);
+		}
+		return $trashFilename;
 	}
 }
