@@ -278,21 +278,6 @@ class Util {
 	}
 
 	/**
-	 * Creates an absolute url for public use
-	 * @param string $service id
-	 * @return string the url
-	 * @since 4.5.0
-	 * @deprecated 15.0.0 - use OCP\IURLGenerator
-	 */
-	public static function linkToPublic($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
-		if ($service === 'files') {
-			return $urlGenerator->getAbsoluteURL('/s');
-		}
-		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'public.php').'?service='.$service);
-	}
-
-	/**
 	 * Returns the server host name without an eventual port number
 	 * @return string the server hostname
 	 * @since 5.0.0
