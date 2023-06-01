@@ -47,7 +47,7 @@ interface IMessage {
 	 * @param string|null $contentType MIME Content-Type (e.g. text/plain or text/calendar)
 	 *
 	 * @return IMessage
-	 * @since 26.0.0
+	 * @since 27.0.0
 	 */
 	public function attachInline(string $body, string $name, string $contentType = null): IMessage;
 
