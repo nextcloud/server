@@ -72,8 +72,8 @@ class RedisFactory {
 		}
 
 		$auth = null;
-		if (isset($config['password']) && $config['password'] !== '') {
-			if (isset($config['user']) && $config['user'] !== '') {
+		if (isset($config['password']) && (string)$config['password'] !== '') {
+			if (isset($config['user']) && (string)$config['user'] !== '') {
 				$auth = [$config['user'], $config['password']];
 			} else {
 				$auth = $config['password'];
