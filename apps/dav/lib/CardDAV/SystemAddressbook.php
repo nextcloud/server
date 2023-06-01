@@ -52,7 +52,7 @@ class SystemAddressbook extends AddressBook {
 	}
 
 	public function getACL() {
-		return array_filter(parent::getACL(), function($acl) {
+		return array_filter(parent::getACL(), function ($acl) {
 			if (in_array($acl['privilege'], ['{DAV:}write', '{DAV:}all'], true)) {
 				return false;
 			}
