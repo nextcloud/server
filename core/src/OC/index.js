@@ -24,7 +24,6 @@
 
 import { subscribe } from '@nextcloud/event-bus'
 
-import { addScript, addStyle } from './legacy-loader.js'
 import {
 	ajaxConnectionLostHandler,
 	processAjaxError,
@@ -137,8 +136,6 @@ export default {
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
 
-	addScript,
-	addStyle,
 	AppConfig,
 	appConfig,
 	appswebroots,
