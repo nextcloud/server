@@ -34,6 +34,7 @@ namespace OC\AppFramework;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
+use OCP\App\IAppManager;
 use OCP\Profiler\IProfiler;
 use OC\Profiler\RoutingDataCollector;
 use OCP\AppFramework\QueryException;
@@ -68,7 +69,7 @@ class App {
 			return $topNamespace . self::$nameSpaceCache[$appId];
 		}
 
-		$appInfo = \OC_App::getAppInfo($appId);
+		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
