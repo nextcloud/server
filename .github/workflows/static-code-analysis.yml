@@ -9,7 +9,7 @@ on:
 
 jobs:
   static-code-analysis:
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -32,7 +32,7 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif & sleep 20 && ps ax -o pid,ni,cmd
 
       - name: Show potential changes in Psalm baseline
         if: always()
