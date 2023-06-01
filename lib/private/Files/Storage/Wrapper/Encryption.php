@@ -922,7 +922,7 @@ class Encryption extends Wrapper {
 		}
 		$firstBlock = $this->readFirstBlock($path);
 
-		if (substr($firstBlock, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
+		if (str_starts_with($firstBlock, Util::HEADER_START)) {
 			$headerSize = $this->util->getHeaderSize();
 		}
 
@@ -937,7 +937,7 @@ class Encryption extends Wrapper {
 	 */
 	protected function parseRawHeader($rawHeader) {
 		$result = [];
-		if (substr($rawHeader, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
+		if (str_starts_with($rawHeader, Util::HEADER_START)) {
 			$header = $rawHeader;
 			$endAt = strpos($header, Util::HEADER_END);
 			if ($endAt !== false) {

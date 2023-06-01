@@ -770,16 +770,16 @@ class DAV extends Common {
 	 */
 	protected function parsePermissions($permissionsString) {
 		$permissions = Constants::PERMISSION_READ;
-		if (strpos($permissionsString, 'R') !== false) {
+		if (str_contains($permissionsString, 'R')) {
 			$permissions |= Constants::PERMISSION_SHARE;
 		}
-		if (strpos($permissionsString, 'D') !== false) {
+		if (str_contains($permissionsString, 'D')) {
 			$permissions |= Constants::PERMISSION_DELETE;
 		}
-		if (strpos($permissionsString, 'W') !== false) {
+		if (str_contains($permissionsString, 'W')) {
 			$permissions |= Constants::PERMISSION_UPDATE;
 		}
-		if (strpos($permissionsString, 'CK') !== false) {
+		if (str_contains($permissionsString, 'CK')) {
 			$permissions |= Constants::PERMISSION_CREATE;
 			$permissions |= Constants::PERMISSION_UPDATE;
 		}

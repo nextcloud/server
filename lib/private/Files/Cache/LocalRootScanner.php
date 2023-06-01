@@ -44,6 +44,6 @@ class LocalRootScanner extends Scanner {
 
 	private function shouldScanPath(string $path): bool {
 		$path = trim($path, '/');
-		return $path === '' || strpos($path, 'appdata_') === 0 || strpos($path, '__groupfolders') === 0;
+		return $path === '' || str_starts_with($path, 'appdata_') || str_starts_with($path, '__groupfolders');
 	}
 }

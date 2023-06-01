@@ -311,10 +311,7 @@ class Util {
 			// detect alternative key storage root
 			$rootDir = $this->getKeyStorageRoot();
 			if ($rootDir !== '' &&
-				0 === strpos(
-					Filesystem::normalizePath($path),
-					Filesystem::normalizePath($rootDir)
-				)
+				str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
 			) {
 				return true;
 			}

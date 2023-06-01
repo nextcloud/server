@@ -911,7 +911,7 @@ class OC_App {
 
 				if ($attributeLang === $similarLang) {
 					$similarLangFallback = $option['@value'];
-				} elseif (strpos($attributeLang, $similarLang . '_') === 0) {
+				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
 					if ($similarLangFallback === false) {
 						$similarLangFallback = $option['@value'];
 					}

@@ -987,7 +987,7 @@ class OC_Util {
 			$content = false;
 		}
 
-		if (strpos($url, 'https:') === 0) {
+		if (str_starts_with($url, 'https:')) {
 			$url = 'http:' . substr($url, 6);
 		} else {
 			$url = 'https:' . substr($url, 5);
@@ -1160,7 +1160,7 @@ class OC_Util {
 		}
 
 		foreach (str_split($trimmed) as $char) {
-			if (strpos(\OCP\Constants::FILENAME_INVALID_CHARS, $char) !== false) {
+			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
 				return false;
 			}
 		}

@@ -818,7 +818,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
-		if (strpos($authHeader, 'Bearer ') === 0) {
+		if (str_starts_with($authHeader, 'Bearer ')) {
 			$token = substr($authHeader, 7);
 		} else {
 			// No auth header, let's try session id

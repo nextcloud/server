@@ -242,8 +242,8 @@ class Log implements ILogger, IDataLogger {
 					$request = \OC::$server->getRequest();
 
 					if ($request->getMethod() === 'PUT' &&
-						strpos($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false &&
-						strpos($request->getHeader('Content-Type'), 'application/json') === false) {
+						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
+						!str_contains($request->getHeader('Content-Type'), 'application/json')) {
 						$logSecretRequest = '';
 					} else {
 						$logSecretRequest = $request->getParam('log_secret', '');
@@ -392,7 +392,7 @@ class Log implements ILogger, IDataLogger {
 		foreach ($context as $key => $val) {
 			$fullKey = '{' . $key . '}';
 			$replace[$fullKey] = $val;
-			if (strpos($message, $fullKey) !== false) {
+			if (str_contains($message, $fullKey)) {
 				$usedContextKeys[$key] = true;
 			}
 		}

@@ -92,12 +92,12 @@ class App {
 	}
 
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
-		if (strpos($className, $topNamespace) !== 0) {
+		if (!str_starts_with($className, $topNamespace)) {
 			return null;
 		}
 
 		foreach (self::$nameSpaceCache as $appId => $namespace) {
-			if (strpos($className, $topNamespace . $namespace . '\\') === 0) {
+			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
 				return $appId;
 			}
 		}
@@ -148,7 +148,7 @@ class App {
 		try {
 			$controller = $container->get($controllerName);
 		} catch (QueryException $e) {
-			if (strpos($controllerName, '\\Controller\\') !== false) {
+			if (str_contains($controllerName, '\\Controller\\')) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
 				throw new HintException('App ' . strtolower($app) . ' is not enabled');

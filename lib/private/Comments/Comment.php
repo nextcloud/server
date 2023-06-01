@@ -240,9 +240,9 @@ class Comment implements IComment {
 		$result = [];
 		foreach ($mentionIds as $mentionId) {
 			$cleanId = trim(substr($mentionId, 1), '"');
-			if (strpos($cleanId, 'guest/') === 0) {
+			if (str_starts_with($cleanId, 'guest/')) {
 				$result[] = ['type' => 'guest', 'id' => $cleanId];
-			} elseif (strpos($cleanId, 'group/') === 0) {
+			} elseif (str_starts_with($cleanId, 'group/')) {
 				$result[] = ['type' => 'group', 'id' => substr($cleanId, 6)];
 			} else {
 				$result[] = ['type' => 'user', 'id' => $cleanId];

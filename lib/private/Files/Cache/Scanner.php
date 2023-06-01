@@ -521,7 +521,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
 		}
-		if (strpos($file, '.part/') !== false) {
+		if (str_contains($file, '.part/')) {
 			return true;
 		}
 
