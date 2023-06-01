@@ -3,7 +3,7 @@
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
 
-name: npm audit fix and compile
+name: Npm audit fix and compile
 
 on:
   workflow_dispatch:
@@ -18,25 +18,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["main", "master", "stable26", "stable25", "stable24"]
+        branches: ["main", "master", "stable27", "stable26", "stable25", "stable24"]
   
     name: npm-audit-fix-${{ matrix.branches }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           ref: ${{ matrix.branches }}
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@1bdcee71fa343c46b18dc6aceffb4cd1e35209c6 # v1.2
+        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
         id: versions
         with:
           fallbackNode: '^16'
           fallbackNpm: '^7'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -55,7 +55,7 @@ jobs:
 
       - name: Create Pull Request
         if: always()
-        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672 # v3
+        uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "chore(deps): fix npm audit"
