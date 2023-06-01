@@ -596,11 +596,6 @@ class Util {
 		if (in_array($functionName, $disabled)) {
 			return false;
 		}
-		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
-		$disabled = array_map('trim', $disabled);
-		if (in_array($functionName, $disabled)) {
-			return false;
-		}
 		return true;
 	}
 }
