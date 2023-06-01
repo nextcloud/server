@@ -102,26 +102,26 @@ class UploadHome implements ICollection {
 		$config = \OC::$server->get(IConfig::class);
 
 		$allowSymlinks = $config->getSystemValueBool('localstorage.allowsymlinks', false);
-		$uploadsDirectory = $config->getSystemValueString('uploadsdirectory', '');
-		$user_path = '/' . $user->getUID() . '/uploads';
-        $absoluteUserPath = $rootView->getLocalFile($user_path);
+		$uploadsPath = $config->getSystemValueString('uploads_path', '');
+		$userPath = '/' . $user->getUID() . '/uploads';
+        $absoluteUserPath = $rootView->getLocalFile($userPath);
 
-		if ($allowSymlinks && $uploadsDirectory !== '' && $absoluteUserPath) {
-			$upload_user_path = $uploadsDirectory . $user_path;
+		if ($allowSymlinks && $uploadsPath !== '' && $absoluteUserPath) {
+			$uploadUserPath = $uploadsPath . $userPath;
 
-			if (!$rootView->file_exists($user_path) || !is_link($absoluteUserPath) || ($upload_user_path != realpath($absoluteUserPath)) ) {
+			if (!$rootView->file_exists($userPath) || !is_link($absoluteUserPath) || ($uploadUserPath != realpath($absoluteUserPath)) ) {
 
-                if (!is_dir($upload_user_path)) {
-                    mkdir($upload_user_path, 0750, true);
+                if (!is_dir($uploadUserPath)) {
+                    mkdir($uploadUserPath, 0750, true);
                 }
 
-				// useful if link is broken due to $upload_user_path changes
+				// useful if link is broken due to $uploadUserPath changes
                 if (is_link($absoluteUserPath)) {
                     unlink($absoluteUserPath);
                 } elseif (is_dir($absoluteUserPath)) {
-                    $rootView->rmdir($user_path);
+                    $rootView->rmdir($userPath);
                 }
-                symlink($upload_user_path, $absoluteUserPath);
+                symlink($uploadUserPath, $absoluteUserPath);
 
 			}
 
@@ -129,12 +129,12 @@ class UploadHome implements ICollection {
             if ($absoluteUserPath && is_link($absoluteUserPath)) {
                 unlink($absoluteUserPath);
             }
-			if (!$rootView->file_exists($user_path)) {
-				$rootView->mkdir($user_path);
+			if (!$rootView->file_exists($userPath)) {
+				$rootView->mkdir($userPath);
 			}
 		}
 		
-		return new View($user_path);
+		return new View($userPath);
 	}
 
 	private function getStorage() {

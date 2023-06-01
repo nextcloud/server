@@ -1898,12 +1898,12 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Override where Nextcloud stores uploads user files while uploading (chunks). Useful in situations
+ * Override where Nextcloud stores uploaded  user files while uploading (chunks). Useful in situations
  * where the default `<user_id>/uploads` is on network disk like NFS.
- * Defaults to the value of `` if unset. Require `localstorage.allowsymlinks` set to `true` because
+ * Defaults to the value of '' if unset. Require `localstorage.allowsymlinks` set to `true` because
  * impementation require symlink to works.
  */
-'uploadsdirectory' => '',
+'uploads_path' => '',
 
 /**
  * Blacklist a specific file or files and disallow the upload of files
