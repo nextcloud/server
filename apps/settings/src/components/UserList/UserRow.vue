@@ -250,6 +250,8 @@
 				</NcActions>
 				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
 					<button class="icon-more"
+						:aria-expanded="openedMenu"
+						:aria-label="t('settings', 'Toggle user actions menu')"
 						@click.prevent="toggleMenu" />
 					<div :class="{ 'open': openedMenu }" class="popovermenu">
 						<NcPopoverMenu :menu="userActions" />
