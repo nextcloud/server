@@ -130,7 +130,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-name').should('contain', 'image1.jpg')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})

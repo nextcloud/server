@@ -54,7 +54,7 @@ describe('Visual regression tests ', function() {
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'test-card.mp4')
+		cy.get('body > .viewer .modal-name').should('contain', 'test-card.mp4')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
@@ -110,7 +110,7 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer').should('not.exist')
 		cy.openFile('test-card.png')
 		cy.get('body > .viewer').should('be.visible')
-		cy.get('body > .viewer .modal-title').should('contain', 'test-card.png')
+		cy.get('body > .viewer .modal-name').should('contain', 'test-card.png')
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
 		cy.get('body > .viewer button.prev').should('be.visible')

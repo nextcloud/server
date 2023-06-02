@@ -79,7 +79,7 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 	})
 
 	it('See the title and the close icon on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-name').should('contain', 'image1.jpg')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 

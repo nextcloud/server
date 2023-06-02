@@ -67,7 +67,7 @@ describe('Open non-dav files in viewer', function() {
 	})
 
 	it('See the title and close button on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', basename)
+		cy.get('body > .viewer .modal-name').should('contain', basename)
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
