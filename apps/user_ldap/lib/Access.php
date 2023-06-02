@@ -313,9 +313,9 @@ class Access extends LDAPUtility {
 	public function extractRangeData($result, $attribute) {
 		$keys = array_keys($result);
 		foreach ($keys as $key) {
-			if ($key !== $attribute && strpos((string)$key, $attribute) === 0) {
+			if ($key !== $attribute && str_starts_with((string)$key, $attribute)) {
 				$queryData = explode(';', (string)$key);
-				if (strpos($queryData[1], 'range=') === 0) {
+				if (str_starts_with($queryData[1], 'range=')) {
 					$high = substr($queryData[1], 1 + strpos($queryData[1], '-'));
 					$data = [
 						'values' => $result[$key],
@@ -405,7 +405,7 @@ class Access extends LDAPUtility {
 		$domainParts = [];
 		$dcFound = false;
 		foreach ($allParts as $part) {
-			if (!$dcFound && strpos($part, 'dc=') === 0) {
+			if (!$dcFound && str_starts_with($part, 'dc=')) {
 				$dcFound = true;
 			}
 			if ($dcFound) {
@@ -1530,7 +1530,7 @@ class Access extends LDAPUtility {
 	private function getFilterPartForSearch(string $search, $searchAttributes, string $fallbackAttribute): string {
 		$filter = [];
 		$haveMultiSearchAttributes = (is_array($searchAttributes) && count($searchAttributes) > 0);
-		if ($haveMultiSearchAttributes && strpos(trim($search), ' ') !== false) {
+		if ($haveMultiSearchAttributes && str_contains(trim($search), ' ')) {
 			try {
 				return $this->getAdvancedFilterPartForSearch($search, $searchAttributes);
 			} catch (DomainException $e) {

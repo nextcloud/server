@@ -103,7 +103,7 @@ class Sync extends TimedJob {
 	protected function getMinPagingSize() {
 		$configKeys = $this->config->getAppKeys('user_ldap');
 		$configKeys = array_filter($configKeys, function ($key) {
-			return strpos($key, 'ldap_paging_size') !== false;
+			return str_contains($key, 'ldap_paging_size');
 		});
 		$minPagingSize = null;
 		foreach ($configKeys as $configKey) {
