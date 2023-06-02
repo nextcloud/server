@@ -182,7 +182,7 @@ class ThemingController extends Controller {
 	 * Check that a string is a valid http/https url
 	 */
 	private function isValidUrl(string $url): bool {
-		return ((strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) &&
+		return ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) &&
 			filter_var($url, FILTER_VALIDATE_URL) !== false);
 	}
 
@@ -400,7 +400,7 @@ class ThemingController extends Controller {
 			$info = $this->appManager->getAppInfo($app, false, $this->l10n->getLanguageCode());
 			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
 			$shortName = $info['name'];
-			if (strpos($this->request->getRequestUri(), '/index.php/') !== false) {
+			if (str_contains($this->request->getRequestUri(), '/index.php/')) {
 				$startUrl = $this->urlGenerator->getBaseUrl() . '/index.php/apps/' . $app . '/';
 			} else {
 				$startUrl = $this->urlGenerator->getBaseUrl() . '/apps/' . $app . '/';

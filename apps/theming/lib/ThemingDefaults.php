@@ -404,7 +404,7 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest', ['app' => $app ]);
 		}
-		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
+		if (str_starts_with($image, 'filetypes/') && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
 
