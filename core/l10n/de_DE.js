@@ -270,7 +270,7 @@ OC.L10N.register(
     "Authentication required" : "Legitimierung benötigt",
     "This action requires you to confirm your password" : "Dieser Vorgang benötigt eine Passwortbestätigung von Ihnen",
     "Confirm" : "Bestätigen",
-    "Failed to authenticate, try again" : "Legitimierung fehlgeschlagen, bitte erneut versuchen.",
+    "Failed to authenticate, try again" : "Authentifizierung fehlgeschlagen, bitte erneut versuchen.",
     "seconds ago" : "Gerade eben",
     "Connection to server lost" : "Verbindung zum Server verloren",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problem beim Laden der Seite, Seite wird in %n Sekunde nochmals geladen","Problem beim Laden der Seite. Seite wird in %n Sekunden erneut geladen"],
