@@ -121,21 +121,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
-		if ($offset === 'type') {
-			return $this->getType();
-		} elseif ($offset === 'etag') {
-			return $this->getEtag();
-		} elseif ($offset === 'size') {
-			return $this->getSize();
-		} elseif ($offset === 'mtime') {
-			return $this->getMTime();
-		} elseif ($offset === 'permissions') {
-			return $this->getPermissions();
-		} elseif (isset($this->data[$offset])) {
-			return $this->data[$offset];
-		} else {
-			return null;
-		}
+		return match ($offset) {
+			'type' => $this->getType(),
+			'etag' => $this->getEtag(),
+			'size' => $this->getSize(),
+			'mtime' => $this->getMTime(),
+			'permissions' => $this->getPermissions(),
+			default => $this->data[$offset] ?? null,
+		};
 	}
 
 	/**
