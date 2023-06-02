@@ -68,7 +68,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->mimeDetector->method('detectPath')
 			->willReturnCallback(function ($path) {
 				foreach ($this->extensions as $extension => $mime) {
-					if (strpos($path, $extension) !== false) {
+					if (str_contains($path, $extension)) {
 						return $mime;
 					}
 				}
@@ -78,7 +78,7 @@ class FileMimeTypeTest extends TestCase {
 			->willReturnCallback(function ($path) {
 				$body = file_get_contents($path);
 				foreach ($this->content as $match => $mime) {
-					if (strpos($body, $match) !== false) {
+					if (str_contains($body, $match)) {
 						return $mime;
 					}
 				}

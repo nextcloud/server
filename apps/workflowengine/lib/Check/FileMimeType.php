@@ -157,11 +157,11 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	protected function isWebDAVRequest() {
 		return substr($this->request->getScriptName(), 0 - strlen('/remote.php')) === '/remote.php' && (
 			$this->request->getPathInfo() === '/webdav' ||
-			strpos($this->request->getPathInfo(), '/webdav/') === 0 ||
+			str_starts_with($this->request->getPathInfo(), '/webdav/') ||
 			$this->request->getPathInfo() === '/dav/files' ||
-			strpos($this->request->getPathInfo(), '/dav/files/') === 0 ||
+			str_starts_with($this->request->getPathInfo(), '/dav/files/') ||
 			$this->request->getPathInfo() === '/dav/uploads' ||
-			strpos($this->request->getPathInfo(), '/dav/uploads/') === 0
+			str_starts_with($this->request->getPathInfo(), '/dav/uploads/')
 		);
 	}
 
@@ -171,7 +171,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	protected function isPublicWebDAVRequest() {
 		return substr($this->request->getScriptName(), 0 - strlen('/public.php')) === '/public.php' && (
 			$this->request->getPathInfo() === '/webdav' ||
-			strpos($this->request->getPathInfo(), '/webdav/') === 0
+			str_starts_with($this->request->getPathInfo(), '/webdav/')
 		);
 	}
 
