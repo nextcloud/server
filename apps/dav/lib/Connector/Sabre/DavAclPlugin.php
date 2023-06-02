@@ -94,7 +94,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$path = $request->getPath();
 
 		// prevent the plugin from causing an unneeded overhead for file requests
-		if (strpos($path, 'files/') !== 0) {
+		if (!str_starts_with($path, 'files/')) {
 			parent::beforeMethod($request, $response);
 		}
 	}

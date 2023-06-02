@@ -43,7 +43,6 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Throwable;
 use function strlen;
-use function strpos;
 use function substr;
 
 class CalendarContactInteractionListener implements IEventListener {
@@ -130,7 +129,7 @@ class CalendarContactInteractionListener implements IEventListener {
 			// Invalid principal
 			return;
 		}
-		if (strpos($principal, self::URI_USERS) !== 0) {
+		if (!str_starts_with($principal, self::URI_USERS)) {
 			// Not a user principal
 			return;
 		}
@@ -159,7 +158,7 @@ class CalendarContactInteractionListener implements IEventListener {
 			}
 
 			$mailTo = $attendee->getValue();
-			if (strpos($mailTo, 'mailto:') !== 0) {
+			if (!str_starts_with($mailTo, 'mailto:')) {
 				// Doesn't look like an email
 				continue;
 			}

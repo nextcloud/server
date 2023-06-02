@@ -62,7 +62,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 
 		// Only handling xml
 		$contentType = $response->getHeader('Content-Type');
-		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
+		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
 

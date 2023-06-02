@@ -98,7 +98,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 * @return bool
 	 */
 	public static function isAppGeneratedCalendar(string $calendarUri):bool {
-		return strpos($calendarUri, self::PREFIX) === 0 && substr_count($calendarUri, self::DELIMITER) >= 2;
+		return str_starts_with($calendarUri, self::PREFIX) && substr_count($calendarUri, self::DELIMITER) >= 2;
 	}
 
 	/**
@@ -126,6 +126,6 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 * @return bool
 	 */
 	public static function doesViolateReservedName(string $calendarUri):bool {
-		return strpos($calendarUri, self::PREFIX) === 0;
+		return str_starts_with($calendarUri, self::PREFIX);
 	}
 }

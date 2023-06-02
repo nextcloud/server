@@ -266,7 +266,7 @@ class PhotoCache {
 			$typeParam = isset($params['TYPE']) ? $params['TYPE'] : $params['MEDIATYPE'];
 			$type = $typeParam->getValue();
 
-			if (strpos($type, 'image/') === 0) {
+			if (str_starts_with($type, 'image/')) {
 				return $type;
 			} else {
 				return 'image/' . strtolower($type);

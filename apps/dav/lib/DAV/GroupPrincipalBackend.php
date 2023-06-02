@@ -288,7 +288,7 @@ class GroupPrincipalBackend implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (strpos($uri, 'principal:principals/groups/') === 0) {
+		if (str_starts_with($uri, 'principal:principals/groups/')) {
 			$name = urlencode(substr($uri, 28));
 			if ($restrictGroups !== false && !\in_array($name, $restrictGroups, true)) {
 				return null;
