@@ -125,7 +125,7 @@ class Plugin extends ServerPlugin {
 		$path = $request->getPath();
 
 		// Only handling xml
-		$contentType = $request->getHeader('Content-Type');
+		$contentType = (string) $request->getHeader('Content-Type');
 		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
