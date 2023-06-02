@@ -34,6 +34,7 @@ use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
@@ -47,10 +48,7 @@ class Node implements \OCP\Files\Node {
 	 */
 	protected $view;
 
-	/**
-	 * @var \OC\Files\Node\Root $root
-	 */
-	protected $root;
+	protected IRootFolder $root;
 
 	/**
 	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
@@ -72,7 +70,7 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
@@ -402,7 +400,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return \OCP\Files\Node
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException if copy not allowed or failed
@@ -428,7 +426,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return \OCP\Files\Node
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException if move not allowed or failed
