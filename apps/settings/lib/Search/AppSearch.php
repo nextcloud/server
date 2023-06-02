@@ -83,7 +83,7 @@ class AppSearch implements IProvider {
 				continue;
 			}
 
-			if (strpos($query->getRoute(), $entry['id'] . '.') === 0) {
+			if (str_starts_with($query->getRoute(), $entry['id'] . '.')) {
 				// Skip the current app, unlikely this is intended
 				continue;
 			}

@@ -333,8 +333,8 @@ class PersonalInfo implements ISettings {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) === 0));
-		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) !== 0));
+		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => str_starts_with($localeCode['code'], $userLang)));
+		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => !str_starts_with($localeCode['code'], $userLang)));
 
 		if (!$userLocale) {
 			$userLocale = [
