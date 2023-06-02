@@ -145,7 +145,7 @@ class User implements IUser {
 			if (!empty($displayName)) {
 				$this->displayName = $displayName;
 			} else {
-				$this->displayName = $this->uid;
+				return $this->uid;
 			}
 		}
 		return $this->displayName;
