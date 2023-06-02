@@ -23,12 +23,15 @@
 
 namespace Test\Share20;
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
+use OCP\IServerContainer;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
@@ -46,7 +49,10 @@ class LegacyHooksTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->eventDispatcher = new EventDispatcher();
+		$symfonyDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$logger = $this->createMock(LoggerInterface::class);
+		$eventDispatcher = new \OC\EventDispatcher\EventDispatcher($symfonyDispatcher, \OC::$server->get(IServerContainer::class), $logger);
+		$this->eventDispatcher = new SymfonyAdapter($eventDispatcher, $logger);
 		$this->hooks = new LegacyHooks($this->eventDispatcher);
 		$this->manager = \OC::$server->getShareManager();
 	}
