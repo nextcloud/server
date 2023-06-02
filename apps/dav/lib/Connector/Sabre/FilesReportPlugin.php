@@ -27,7 +27,6 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Node\LazyFolder;
 use OC\Files\View;
 use OCP\App\IAppManager;
 use OCP\Files\Folder;
@@ -46,7 +45,6 @@ use Sabre\DAV\Xml\Element\Response;
 use Sabre\DAV\Xml\Response\MultiStatus;
 
 class FilesReportPlugin extends ServerPlugin {
-
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
@@ -335,12 +333,28 @@ class FilesReportPlugin extends ServerPlugin {
 		// exposed in API yet
 		if (
 			!empty($systemTagIds)
-			&& ($this->userFolder instanceof \OC\Files\Node\Folder
-				|| $this->userFolder instanceof LazyFolder)
+			&& (method_exists($this->userFolder, 'searchBySystemTag'))
 		) {
 			$tags = $this->tagManager->getTagsByIds($systemTagIds);
-			$tagName = (current($tags))->getName();
-			$nodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
+			foreach ($tags as $tag) {
+				if (!$tag->isUserVisible()) {
+					// searchBySystemTag() also has the criteria to include only user visible tags. They can be skipped early nevertheless.
+					continue;
+				}
+				$tagName = $tag->getName();
+				$tmpNodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
+				if (count($nodes) === 0) {
+					$nodes = $tmpNodes;
+				} else {
+					$nodes = array_uintersect($nodes, $tmpNodes, function (\OCP\Files\Node $a, \OCP\Files\Node $b): int {
+						return $a->getId() - $b->getId();
+					});
+				}
+				if ($nodes === []) {
+					// there cannot be a common match when nodes are empty early.
+					return $nodes;
+				}
+			}
 		}
 
 		return $nodes;
