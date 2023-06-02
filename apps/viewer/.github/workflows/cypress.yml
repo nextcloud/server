@@ -14,20 +14,23 @@ env:
 jobs:
   init:
     runs-on: ubuntu-latest
+    outputs:
+      nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
+      npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     steps:
       - name: Checkout app
-        uses: actions/checkout@v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7
+        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
         id: versions
         with:
           fallbackNode: "^14"
           fallbackNpm: "^7"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           cache: 'npm'
           node-version: ${{ steps.versions.outputs.nodeVersion }}
@@ -41,10 +44,10 @@ jobs:
           TESTING=true npm run build --if-present
 
       - name: Save context
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         with:
           key: cypress-context-${{ github.run_id }}
-          path: /home/runner/work/viewer
+          path: ./
 
   cypress:
     runs-on: ubuntu-latest
@@ -60,13 +63,23 @@ jobs:
 
     steps:
       - name: Restore context
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         with:
+          fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
-          path: /home/runner/work/viewer
+          path: ./
+
+      - name: Set up node ${{ needs.init.outputs.nodeVersion }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          cache: 'npm'
+          node-version: ${{ needs.init.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ needs.init.outputs.npmVersion }}
+        run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
       - name: Run E2E cypress tests
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73 # v5.8.1
         with:
           record: true
           parallel: true
@@ -84,7 +97,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         if: always()
         with:
           name: snapshots
