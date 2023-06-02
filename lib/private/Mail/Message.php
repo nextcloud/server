@@ -207,11 +207,6 @@ class Message implements IMessage {
 		return $this->bcc;
 	}
 
-	/**
-	 * Set the subject of this message.
-	 *
-	 * @return $this
-	 */
 	public function setSubject(string $subject): IMessage {
 		$this->symfonyEmail->subject($subject);
 		return $this;
@@ -224,10 +219,6 @@ class Message implements IMessage {
 		return $this->symfonyEmail->getSubject() ?? '';
 	}
 
-	/**
-	 * Set the plain-text body of this message.
-	 * @return $this
-	 */
 	public function setPlainBody(string $body): IMessage {
 		$this->symfonyEmail->text($body);
 		return $this;
@@ -242,10 +233,6 @@ class Message implements IMessage {
 		return $body;
 	}
 
-	/**
-	 * Set the HTML body of this message. Consider also sending a plain-text body instead of only an HTML one.
-	 * @return $this
-	 */
 	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
 			$this->symfonyEmail->html($body);
