@@ -94,10 +94,10 @@ class NavigationController extends OCSController {
 	 */
 	private function rewriteToAbsoluteUrls(array $navigation): array {
 		foreach ($navigation as &$entry) {
-			if (0 !== strpos($entry['href'], $this->urlGenerator->getBaseUrl())) {
+			if (!str_starts_with($entry['href'], $this->urlGenerator->getBaseUrl())) {
 				$entry['href'] = $this->urlGenerator->getAbsoluteURL($entry['href']);
 			}
-			if (0 !== strpos($entry['icon'], $this->urlGenerator->getBaseUrl())) {
+			if (!str_starts_with($entry['icon'], $this->urlGenerator->getBaseUrl())) {
 				$entry['icon'] = $this->urlGenerator->getAbsoluteURL($entry['icon']);
 			}
 		}

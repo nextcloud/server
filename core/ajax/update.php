@@ -44,7 +44,7 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 
-if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
 }
 

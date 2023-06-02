@@ -275,7 +275,7 @@ class LoginController extends Controller {
 			$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-			if (strpos($location, '@') === false) {
+			if (!str_contains($location, '@')) {
 				return new RedirectResponse($location);
 			}
 		}
