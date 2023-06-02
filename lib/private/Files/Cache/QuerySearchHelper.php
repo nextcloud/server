@@ -26,15 +26,14 @@
 namespace OC\Files\Cache;
 
 use OC\Files\Cache\Wrapper\CacheJail;
-use OC\Files\Node\Root;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchQuery;
@@ -198,7 +197,7 @@ class QuerySearchHelper {
 	/**
 	 * @return array{array<string, ICache>, array<string, IMountPoint>}
 	 */
-	public function getCachesAndMountPointsForSearch(Root $root, string $path, bool $limitToHome = false): array {
+	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
 		$rootLength = strlen($path);
 		$mount = $root->getMount($path);
 		$storage = $mount->getStorage();
