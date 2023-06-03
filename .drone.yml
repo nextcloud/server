@@ -228,6 +228,7 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
+    - composer install --working-dir=build/integration
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
 services:
