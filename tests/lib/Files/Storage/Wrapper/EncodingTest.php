@@ -209,7 +209,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 
 		$dh = $this->instance->opendir('/test');
 		$content = [];
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if ($file != '.' and $file != '..') {
 				$content[] = $file;
 			}

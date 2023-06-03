@@ -28,7 +28,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 		// test that nothing outside our jail is touched
 		$contents = [];
 		$dh = $this->sourceStorage->opendir('');
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				$contents[] = $file;
 			}

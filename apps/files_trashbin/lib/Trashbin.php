@@ -1114,7 +1114,7 @@ class Trashbin {
 	public static function isEmpty($user) {
 		$view = new View('/' . $user . '/files_trashbin');
 		if ($view->is_dir('/files') && $dh = $view->opendir('/files')) {
-			while ($file = readdir($dh)) {
+			while (($file = readdir($dh)) !== false) {
 				if (!Filesystem::isIgnoredDir($file)) {
 					return false;
 				}

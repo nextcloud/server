@@ -14,7 +14,7 @@ function loadDirectory($path) {
 		return;
 	}
 	if ($dh = opendir($path)) {
-		while ($name = readdir($dh)) {
+		while (($name = readdir($dh)) !== false) {
 			if ($name[0] !== '.') {
 				$file = $path . '/' . $name;
 				if (is_dir($file)) {
