@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "空白",
     "Unable to create new file from template" : "无法从模板创建新文件",
     "Delete permanently" : "彻底删除",
+    "Open folder {displayName}" : "打开文件夹{displayName}",
     "Set up templates folder" : "设置模板文件夹",
     "Templates" : "模板",
     "Create new templates folder" : "新建模板文件夹",
