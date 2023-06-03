@@ -211,6 +211,7 @@ use OCP\IBinaryFinder;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
+use OCP\IEventSourceFactory;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
@@ -1467,6 +1468,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ISpeechToTextManager::class, SpeechToTextManager::class);
 
+		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
+
 		$this->connectDispatcher();
 	}
 
@@ -1926,16 +1929,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getHTTPClientService() {
 		return $this->get(IClientService::class);
-	}
-
-	/**
-	 * Create a new event source
-	 *
-	 * @return \OCP\IEventSource
-	 * @deprecated 20.0.0
-	 */
-	public function createEventSource() {
-		return new \OC_EventSource();
 	}
 
 	/**
