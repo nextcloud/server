@@ -2758,12 +2758,6 @@
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Memcache/Redis.php">
-    <InvalidMethodCall occurrences="2">
-      <code>exec</code>
-      <code>exec</code>
-    </InvalidMethodCall>
-  </file>
   <file src="lib/private/NavigationManager.php">
     <ParamNameMismatch occurrences="1">
       <code>$id</code>
