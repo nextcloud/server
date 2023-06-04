@@ -1323,10 +1323,19 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->max('id'))
+			->from('addressbookchanges');
+
+		$maxId =  $query->executeQuery()->fetchOne();
+		if (!$maxId || $maxId < $keep) {
+		    return 0;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
-			->orderBy('id', 'DESC')
-			->setFirstResult($keep);
+			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $query->executeStatement();
 	}
 
