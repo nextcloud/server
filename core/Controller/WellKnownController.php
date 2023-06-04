@@ -33,13 +33,9 @@ use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
 class WellKnownController extends Controller {
-	/** @var RequestManager */
-	private $requestManager;
-
 	public function __construct(IRequest $request,
-								RequestManager $wellKnownManager) {
+								private RequestManager $requestManager) {
 		parent::__construct('core', $request);
-		$this->requestManager = $wellKnownManager;
 	}
 
 	/**
