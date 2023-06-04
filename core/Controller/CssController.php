@@ -45,16 +45,14 @@ use OCP\IRequest;
 
 class CssController extends Controller {
 	protected IAppData $appData;
-	protected ITimeFactory $timeFactory;
 
 	public function __construct(string $appName,
 								IRequest $request,
 								Factory $appDataFactory,
-								ITimeFactory $timeFactory) {
+								protected ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
 		$this->appData = $appDataFactory->get('css');
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**

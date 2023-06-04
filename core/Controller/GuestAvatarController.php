@@ -33,21 +33,14 @@ use Psr\Log\LoggerInterface;
  * This controller handles guest avatar requests.
  */
 class GuestAvatarController extends Controller {
-	private LoggerInterface $logger;
-	private IAvatarManager $avatarManager;
-
 	/**
 	 * GuestAvatarController constructor.
 	 */
-	public function __construct(
-		string $appName,
-		IRequest $request,
-		IAvatarManager $avatarManager,
-		LoggerInterface $logger
-	) {
+	public function __construct(string $appName,
+								IRequest $request,
+								private IAvatarManager $avatarManager,
+								private LoggerInterface $logger) {
 		parent::__construct($appName, $request);
-		$this->avatarManager = $avatarManager;
-		$this->logger = $logger;
 	}
 
 	/**
