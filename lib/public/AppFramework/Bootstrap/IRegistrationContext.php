@@ -371,4 +371,14 @@ interface IRegistrationContext {
 	 * @since 26.0.0
 	 */
 	public function registerPublicShareTemplateProvider(string $class): void;
+
+	/**
+	 * Register an implementation of Push\IProvider.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Push\IProvider> $class
+	 * @return void
+	 * @since 28.0.0
+	 */
+	public function registerPushNotifierProvider(string $class): void;
 }

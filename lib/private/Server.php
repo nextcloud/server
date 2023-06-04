@@ -1414,6 +1414,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
 
+		$this->registerAlias(\OCP\Push\IManager::class, \OC\Push\Manager::class);
+
 		$this->connectDispatcher();
 	}
 

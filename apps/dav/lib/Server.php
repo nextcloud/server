@@ -181,6 +181,7 @@ class Server {
 			}
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
+			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\PushSync\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes') {
 				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());

@@ -137,6 +137,8 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
 
+	private array $pushNotifierServices = [];
+
 
 
 
@@ -372,6 +374,10 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerPushNotifierProvider(string $class): void {
+				$this->context->registerPushNotifierProvider($this->appId, $class);
+			}
 		};
 	}
 
@@ -521,6 +527,10 @@ class RegistrationContext {
 
 	public function registerPublicShareTemplateProvider(string $appId, string $class): void {
 		$this->publicShareTemplateProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerPushNotifierProvider(string $appId, string $class): void {
+		$this->pushNotifierServices[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -827,5 +837,12 @@ class RegistrationContext {
 	 */
 	public function getPublicShareTemplateProviders(): array {
 		return $this->publicShareTemplateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\Push\IProvider>[]
+	 */
+	public function getPushNotifierServices(): array {
+		return $this->pushNotifierServices;
 	}
 }
