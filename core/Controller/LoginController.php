@@ -38,7 +38,6 @@ use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\Security\Bruteforce\Throttler;
-use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
