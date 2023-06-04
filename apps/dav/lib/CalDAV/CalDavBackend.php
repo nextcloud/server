@@ -3134,10 +3134,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->max('id'))
+			->from('calendarchanges');
+
+		$maxId =  $query->executeQuery()->fetchOne();
+		if (!$maxId || $maxId < $keep) {
+		    return 0;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
-			->orderBy('id', 'DESC')
-			->setFirstResult($keep);
+			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $query->executeStatement();
 	}
 
