@@ -38,6 +38,7 @@ use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\Security\Bruteforce\Throttler;
+use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -54,7 +55,6 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\Util;
 
@@ -67,7 +67,7 @@ class LoginController extends Controller {
 								private IUserManager $userManager,
 								private IConfig $config,
 								private ISession $session,
-								private IUserSession $userSession,
+								private Session $userSession,
 								private IURLGenerator $urlGenerator,
 								private Defaults $defaults,
 								private Throttler $throttler,
