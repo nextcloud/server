@@ -363,9 +363,9 @@ class ClientFlowLoginV2Controller extends Controller {
 	private function getServerPath(): string {
 		$serverPostfix = '';
 
-		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+		if (str_contains($this->request->getRequestUri(), '/index.php')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} elseif (strpos($this->request->getRequestUri(), '/login/v2') !== false) {
+		} elseif (str_contains($this->request->getRequestUri(), '/login/v2')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/v2'));
 		}
 

@@ -101,7 +101,7 @@ class CssController extends Controller {
 	private function getFile(ISimpleFolder $folder, string $fileName, bool &$gzip): ISimpleFile {
 		$encoding = $this->request->getHeader('Accept-Encoding');
 
-		if (strpos($encoding, 'gzip') !== false) {
+		if (str_contains($encoding, 'gzip')) {
 			try {
 				$gzip = true;
 				return $folder->getFile($fileName . '.gzip'); # Safari doesn't like .gz
