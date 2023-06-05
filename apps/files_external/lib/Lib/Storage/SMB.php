@@ -141,9 +141,7 @@ class SMB extends Common implements INotifyStorage {
 	private function splitUser($user) {
 		if (str_contains($user, '/')) {
 			return explode('/', $user, 2);
-		}
-
-		if (str_contains($user, '\\')) {
+		} elseif (str_contains($user, '\\')) {
 			return explode('\\', $user);
 		}
 
