@@ -42,11 +42,13 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class CollaborationResourcesController extends OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
-								private IManager $manager,
-								private IUserSession $userSession,
-								private LoggerInterface $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IManager $manager,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
 	}
 
