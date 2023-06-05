@@ -66,17 +66,35 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
 		$storage = $file->getStorage();
+
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
 			$owner = $storage->getOwner('');
 			$user = $this->userManager->get($owner);
 
+			$fileId = $file->getId();
+			if ($fileId === null) {
+				throw new NotFoundException("File not found ($fileId)");
+			}
+
+			if ($user === null) {
+				throw new NotFoundException("User $owner not found for $fileId");
+			}
+
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-			$nodes = $userFolder->getById($file->getId());
+
+			$nodes = $userFolder->getById($fileId);
 			$file = array_pop($nodes);
 
 			if (!$file) {
 				throw new NotFoundException("version file not found for share owner");
 			}
+		} else {
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		}
+
+		$fileId = $file->getId();
+		if ($fileId === null) {
+			throw new NotFoundException("File not found ($fileId)");
 		}
 
 		$versions = $this->getVersionsForFileFromDB($file, $user);
@@ -87,7 +105,7 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 		// Insert the entry in the DB for the current version.
 		$versionEntity = new VersionEntity();
-		$versionEntity->setFileId($file->getId());
+		$versionEntity->setFileId($fileId);
 		$versionEntity->setTimestamp($file->getMTime());
 		$versionEntity->setSize($file->getSize());
 		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
@@ -95,10 +113,15 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		$this->versionsMapper->insert($versionEntity);
 
 		// Insert entries in the DB for existing versions.
-		$versionsOnFS = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file->getPath()));
+		$relativePath = $userFolder->getRelativePath($file->getPath());
+		if ($relativePath === null) {
+			throw new NotFoundException("Relative path not found for file $fileId (" . $file->getPath() . ')');
+		}
+
+		$versionsOnFS = Storage::getVersions($user->getUID(), $relativePath);
 		foreach ($versionsOnFS as $version) {
 			$versionEntity = new VersionEntity();
-			$versionEntity->setFileId($file->getId());
+			$versionEntity->setFileId($fileId);
 			$versionEntity->setTimestamp((int)$version['version']);
 			$versionEntity->setSize((int)$version['size']);
 			$versionEntity->setMimetype($this->mimeTypeLoader->getId($version['mimetype']));
