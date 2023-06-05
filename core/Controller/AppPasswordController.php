@@ -45,11 +45,12 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-								private ISession $session,
-								private ISecureRandom $random,
-								private IProvider $tokenProvider,
-								private IStore $credentialStore,
-								private IEventDispatcher $eventDispatcher) {
+		private ISession $session,
+		private ISecureRandom $random,
+		private IProvider $tokenProvider,
+		private IStore $credentialStore,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
 	}
 
