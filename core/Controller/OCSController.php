@@ -35,12 +35,14 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 
 class OCSController extends \OCP\AppFramework\OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
-								private CapabilitiesManager $capabilitiesManager,
-								private IUserSession $userSession,
-								private IUserManager $userManager,
-								private Manager $keyManager) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private CapabilitiesManager $capabilitiesManager,
+		private IUserSession $userSession,
+		private IUserManager $userManager,
+		private Manager $keyManager,
+	) {
 		parent::__construct($appName, $request);
 	}
 

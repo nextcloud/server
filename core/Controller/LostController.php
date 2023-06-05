@@ -75,22 +75,24 @@ use function reset;
 class LostController extends Controller {
 	protected string $from;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								private IURLGenerator $urlGenerator,
-								private IUserManager $userManager,
-								private Defaults $defaults,
-								private IL10N $l10n,
-								private IConfig $config,
-								string $defaultMailAddress,
-								private IManager $encryptionManager,
-								private IMailer $mailer,
-								private LoggerInterface $logger,
-								private Manager $twoFactorManager,
-								private IInitialState $initialState,
-								private IVerificationToken $verificationToken,
-								private IEventDispatcher $eventDispatcher,
-								private Limiter $limiter) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
+		private Defaults $defaults,
+		private IL10N $l10n,
+		private IConfig $config,
+		string $defaultMailAddress,
+		private IManager $encryptionManager,
+		private IMailer $mailer,
+		private LoggerInterface $logger,
+		private Manager $twoFactorManager,
+		private IInitialState $initialState,
+		private IVerificationToken $verificationToken,
+		private IEventDispatcher $eventDispatcher,
+		private Limiter $limiter,
+	) {
 		parent::__construct($appName, $request);
 		$this->from = $defaultMailAddress;
 	}

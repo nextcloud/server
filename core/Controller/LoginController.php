@@ -62,19 +62,21 @@ class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 
-	public function __construct(?string $appName,
-								IRequest $request,
-								private IUserManager $userManager,
-								private IConfig $config,
-								private ISession $session,
-								private Session $userSession,
-								private IURLGenerator $urlGenerator,
-								private Defaults $defaults,
-								private Throttler $throttler,
-								private IInitialStateService $initialStateService,
-								private WebAuthnManager $webAuthnManager,
-								private IManager $manager,
-								private IL10N $l10n) {
+	public function __construct(
+		?string $appName,
+		IRequest $request,
+		private IUserManager $userManager,
+		private IConfig $config,
+		private ISession $session,
+		private Session $userSession,
+		private IURLGenerator $urlGenerator,
+		private Defaults $defaults,
+		private Throttler $throttler,
+		private IInitialStateService $initialStateService,
+		private WebAuthnManager $webAuthnManager,
+		private IManager $manager,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
 	}
 

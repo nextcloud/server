@@ -40,11 +40,13 @@ use OCP\IPreview;
 use OCP\IRequest;
 
 class PreviewController extends Controller {
-	public function __construct(string $appName,
-								IRequest $request,
-								private IPreview $preview,
-								private IRootFolder $root,
-								private ?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IPreview $preview,
+		private IRootFolder $root,
+		private ?string $userId,
+	) {
 		parent::__construct($appName, $request);
 	}
 

@@ -40,15 +40,17 @@ use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\EventDispatcher\IEventDispatcher;
 
 class ProfilePageController extends Controller {
-	public function __construct(string $appName,
-								IRequest $request,
-								private IInitialState $initialStateService,
-								private ProfileManager $profileManager,
-								private IShareManager $shareManager,
-								private IUserManager $userManager,
-								private IUserSession $userSession,
-								private IUserStatusManager $userStatusManager,
-								private IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IInitialState $initialStateService,
+		private ProfileManager $profileManager,
+		private IShareManager $shareManager,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private IUserStatusManager $userStatusManager,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
 	}
 

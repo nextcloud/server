@@ -47,19 +47,21 @@ use OCP\L10N\IFactory;
 class OCJSController extends Controller {
 	private JSConfigHelper $helper;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IFactory $l10nFactory,
-								Defaults $defaults,
-								IAppManager $appManager,
-								ISession $session,
-								IUserSession $userSession,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator,
-								CapabilitiesManager $capabilitiesManager,
-								IInitialStateService $initialStateService) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IFactory $l10nFactory,
+		Defaults $defaults,
+		IAppManager $appManager,
+		ISession $session,
+		IUserSession $userSession,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IniGetWrapper $iniWrapper,
+		IURLGenerator $urlGenerator,
+		CapabilitiesManager $capabilitiesManager,
+		IInitialStateService $initialStateService,
+	) {
 		parent::__construct($appName, $request);
 
 		$this->helper = new JSConfigHelper(

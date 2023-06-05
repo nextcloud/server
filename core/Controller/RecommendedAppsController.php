@@ -33,9 +33,11 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class RecommendedAppsController extends Controller {
-	public function __construct(IRequest $request,
-								public IURLGenerator $urlGenerator,
-								private IInitialStateService $initialStateService) {
+	public function __construct(
+		IRequest $request,
+		public IURLGenerator $urlGenerator,
+		private IInitialStateService $initialStateService,
+	) {
 		parent::__construct('core', $request);
 	}
 

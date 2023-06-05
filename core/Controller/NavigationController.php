@@ -30,10 +30,12 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class NavigationController extends OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
-								private INavigationManager $navigationManager,
-								private IURLGenerator $urlGenerator) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private INavigationManager $navigationManager,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
 	}
 
