@@ -40,11 +40,13 @@ use OCP\Search\ISearchQuery;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class UnifiedSearchController extends OCSController {
-	public function __construct(IRequest $request,
-								private IUserSession $userSession,
-								private SearchComposer $composer,
-								private IRouter $router,
-								private IURLGenerator $urlGenerator) {
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private SearchComposer $composer,
+		private IRouter $router,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct('core', $request);
 	}
 

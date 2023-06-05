@@ -45,13 +45,15 @@ class WebAuthnController extends Controller {
 	private const WEBAUTHN_LOGIN = 'webauthn_login';
 	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 
-	public function __construct(string $appName,
-								IRequest $request,
-								private Manager $webAuthnManger,
-								private ISession $session,
-								private LoggerInterface $logger,
-								private WebAuthnChain $webAuthnChain,
-								private URLGenerator $urlGenerator) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Manager $webAuthnManger,
+		private ISession $session,
+		private LoggerInterface $logger,
+		private WebAuthnChain $webAuthnChain,
+		private URLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
 	}
 

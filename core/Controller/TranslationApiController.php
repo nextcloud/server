@@ -36,10 +36,12 @@ use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\ITranslationManager;
 
 class TranslationApiController extends \OCP\AppFramework\OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
-								private ITranslationManager $translationManager,
-								private IL10N $l10n) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ITranslationManager $translationManager,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
 	}
 

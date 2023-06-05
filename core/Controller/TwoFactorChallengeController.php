@@ -42,13 +42,15 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class TwoFactorChallengeController extends Controller {
-	public function __construct(string $appName,
-								IRequest $request,
-								private Manager $twoFactorManager,
-								private IUserSession $userSession,
-								private ISession $session,
-								private IURLGenerator $urlGenerator,
-								private LoggerInterface $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Manager $twoFactorManager,
+		private IUserSession $userSession,
+		private ISession $session,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
 	}
 

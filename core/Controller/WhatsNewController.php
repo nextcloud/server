@@ -37,16 +37,18 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class WhatsNewController extends OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
-								CapabilitiesManager $capabilitiesManager,
-								private IUserSession $userSession,
-								IUserManager $userManager,
-								Manager $keyManager,
-								private IConfig $config,
-								private ChangesCheck $whatsNewService,
-								private IFactory $langFactory,
-								private Defaults $defaults) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		CapabilitiesManager $capabilitiesManager,
+		private IUserSession $userSession,
+		IUserManager $userManager,
+		Manager $keyManager,
+		private IConfig $config,
+		private ChangesCheck $whatsNewService,
+		private IFactory $langFactory,
+		private Defaults $defaults,
+	) {
 		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
 	}
 

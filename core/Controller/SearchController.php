@@ -34,10 +34,12 @@ use OCP\Search\Result;
 use Psr\Log\LoggerInterface;
 
 class SearchController extends Controller {
-	public function __construct(string $appName,
-								IRequest $request,
-								private ISearch $searcher,
-								private LoggerInterface $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ISearch $searcher,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
 	}
 
