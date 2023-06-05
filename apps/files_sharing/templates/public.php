@@ -62,7 +62,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<?php else: ?>
 				<!-- preview frame to open file in with viewer -->
 				<div id="imgframe"></div>
-				<?php if (isset($_['mimetype']) && strpos($_['mimetype'], 'image') === 0) { ?>
+				<?php if (isset($_['mimetype']) && str_starts_with($_['mimetype'], 'image')) { ?>
 					<div class="directDownload">
 						<div>
 							<?php p($_['filename'])?> (<?php p($_['fileSize']) ?>)
