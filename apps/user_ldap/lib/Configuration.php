@@ -176,7 +176,7 @@ class Configuration {
 	public function setConfiguration(array $config, array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
-			if (strpos($inputKey, '_') !== false && array_key_exists($inputKey, $cta)) {
+			if (str_contains($inputKey, '_') && array_key_exists($inputKey, $cta)) {
 				$key = $cta[$inputKey];
 			} elseif (array_key_exists($inputKey, $this->config)) {
 				$key = $inputKey;
@@ -191,7 +191,7 @@ class Configuration {
 					break;
 				case 'homeFolderNamingRule':
 					$trimmedVal = trim($val);
-					if ($trimmedVal !== '' && strpos($val, 'attr:') === false) {
+					if ($trimmedVal !== '' && !str_contains($val, 'attr:')) {
 						$val = 'attr:'.$trimmedVal;
 					}
 					break;
@@ -584,7 +584,7 @@ class Configuration {
 		if ($value === self::AVATAR_PREFIX_NONE) {
 			return [];
 		}
-		if (strpos($value, self::AVATAR_PREFIX_DATA_ATTRIBUTE) === 0) {
+		if (str_starts_with($value, self::AVATAR_PREFIX_DATA_ATTRIBUTE)) {
 			$attribute = trim(substr($value, strlen(self::AVATAR_PREFIX_DATA_ATTRIBUTE)));
 			if ($attribute === '') {
 				return $defaultAttributes;
