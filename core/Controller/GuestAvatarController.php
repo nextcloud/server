@@ -36,10 +36,12 @@ class GuestAvatarController extends Controller {
 	/**
 	 * GuestAvatarController constructor.
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								private IAvatarManager $avatarManager,
-								private LoggerInterface $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IAvatarManager $avatarManager,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
 	}
 

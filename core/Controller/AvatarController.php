@@ -51,16 +51,18 @@ use Psr\Log\LoggerInterface;
  * @package OC\Core\Controller
  */
 class AvatarController extends Controller {
-	public function __construct(string $appName,
-								IRequest $request,
-								protected IAvatarManager $avatarManager,
-								protected ICache $cache,
-								protected IL10N $l10n,
-								protected IUserManager $userManager,
-								protected IRootFolder $rootFolder,
-								protected LoggerInterface $logger,
-								protected ?string $userId,
-								protected TimeFactory $timeFactory) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		protected IAvatarManager $avatarManager,
+		protected ICache $cache,
+		protected IL10N $l10n,
+		protected IUserManager $userManager,
+		protected IRootFolder $rootFolder,
+		protected LoggerInterface $logger,
+		protected ?string $userId,
+		protected TimeFactory $timeFactory,
+	) {
 		parent::__construct($appName, $request);
 	}
 

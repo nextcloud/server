@@ -59,19 +59,21 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 class ClientFlowLoginController extends Controller {
 	public const STATE_NAME = 'client.flow.state.token';
 
-	public function __construct(string $appName,
-								IRequest $request,
-								private IUserSession $userSession,
-								private IL10N $l10n,
-								private Defaults $defaults,
-								private ISession $session,
-								private IProvider $tokenProvider,
-								private ISecureRandom $random,
-								private IURLGenerator $urlGenerator,
-								private ClientMapper $clientMapper,
-								private AccessTokenMapper $accessTokenMapper,
-								private ICrypto $crypto,
-								private IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IUserSession $userSession,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private ISession $session,
+		private IProvider $tokenProvider,
+		private ISecureRandom $random,
+		private IURLGenerator $urlGenerator,
+		private ClientMapper $clientMapper,
+		private AccessTokenMapper $accessTokenMapper,
+		private ICrypto $crypto,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
 	}
 

@@ -33,9 +33,11 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 class ContactsMenuController extends Controller {
-	public function __construct(IRequest $request,
-								private IUserSession $userSession,
-								private Manager $manager) {
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private Manager $manager,
+	) {
 		parent::__construct('core', $request);
 	}
 

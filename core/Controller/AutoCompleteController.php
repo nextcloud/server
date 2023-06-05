@@ -40,11 +40,13 @@ use OCP\IRequest;
 use OCP\Share\IShare;
 
 class AutoCompleteController extends OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
-								private ISearch $collaboratorSearch,
-								private IManager $autoCompleteManager,
-								private IEventDispatcher $dispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ISearch $collaboratorSearch,
+		private IManager $autoCompleteManager,
+		private IEventDispatcher $dispatcher,
+	) {
 		parent::__construct($appName, $request);
 	}
 

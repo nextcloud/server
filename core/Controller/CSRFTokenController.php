@@ -33,9 +33,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class CSRFTokenController extends Controller {
-	public function __construct(string $appName,
-								IRequest $request,
-								private CsrfTokenManager $tokenManager) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private CsrfTokenManager $tokenManager,
+	) {
 		parent::__construct($appName, $request);
 	}
 
