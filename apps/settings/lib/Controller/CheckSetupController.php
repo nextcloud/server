@@ -290,17 +290,6 @@ class CheckSetupController extends Controller {
 			$features = $this->l10n->t('Federated Cloud Sharing');
 		}
 
-		// Check if at least OpenSSL after 1.01d or 1.0.2b
-		if (strpos($versionString, 'OpenSSL/') === 0) {
-			$majorVersion = substr($versionString, 8, 5);
-			$patchRelease = substr($versionString, 13, 6);
-
-			if (($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
-				($majorVersion === '1.0.2' && ord($patchRelease) < ord('b'))) {
-				return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['OpenSSL', $versionString, $features]);
-			}
-		}
-
 		// Check if NSS and perform heuristic check
 		if (strpos($versionString, 'NSS/') === 0) {
 			try {
