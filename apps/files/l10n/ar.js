@@ -49,7 +49,7 @@ OC.L10N.register(
     "Pending" : "قيد الانتظار",
     "Unable to determine date" : "تعذر تحديد التاريخ",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
-    "This directory is unavailable, please check the logs or contact the administrator" : "هذا المجلد غير متوفر, الرجاء مراجعة سجل الأخطاء أو الاتصال بمدير النظام",
+    "This directory is unavailable, please check the logs or contact the administrator" : "هذا المجلد غير متوفر، الرجاء مراجعة سجل الأخطاء أو الاتصال بمدير النظام",
     "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
     "Could not move \"{file}\", target exists" : "لا يمكن نقل  \"{file}\", الملف موجود بالفعل هناك",
     "Could not move \"{file}\"" : "لا يمكن نقل \"{file}\"",

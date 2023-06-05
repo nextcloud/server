@@ -70,7 +70,7 @@
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "يبدو أن كائن %s يعمل على بيئة PHP 32-Bit  وكذلك تم تكوين open_basedir في ملف php.ini. يؤدي ذلك إلى مشاكل مع الملفات التي يزيد حجمها عن 4 غيغابايت ولا يُنصح بذلك بشدة.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "فضلاً إحذف إعداد open_basedir من ملف php.ini لديك أو حوّل إلى PHP إصدار 64 بت.",
     "Set an admin username." : "اعداد اسم مستخدم للمدير",
-    "Set an admin password." : "اعداد كلمة مرور للمدير",
+    "Set an admin password." : "تعيين كلمة مرور للمدير",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "يجب أن تقوم الواجهة الخلفية للمشاركة (Sharing backend) %s بتطبيق الواجهة OCP\\Share_Backend",
     "Sharing backend %s not found" : "لم يتم العثور على الواجهة الخلفية (Sharing backend)  %s",
     "Sharing backend for %s not found" : "مشاركة الخلفية لـ %s غير موجود",
