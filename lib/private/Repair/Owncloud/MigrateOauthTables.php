@@ -77,6 +77,27 @@ class MigrateOauthTables implements IRepairStep {
 		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_clients');
 		if ($table->getColumn('name')->getLength() !== 64) {
+			// shorten existing values before resizing the column
+			$qb = $this->db->getQueryBuilder();
+			$qb->update('oauth2_clients')
+				->set('name', $qb->createParameter('shortenedName'))
+				->where($qb->expr()->eq('id', $qb->createParameter('theId')));
+
+			$qbSelect = $this->db->getQueryBuilder();
+			$qbSelect->select('id', 'name')
+				->from('oauth2_clients');
+
+			$result = $qbSelect->executeQuery();
+			while ($row = $result->fetch()) {
+				$id = $row['id'];
+				$shortenedName = mb_substr($row['name'], 0, 64);
+				$qb->setParameter('theId', $id, IQueryBuilder::PARAM_INT);
+				$qb->setParameter('shortenedName', $shortenedName, IQueryBuilder::PARAM_STR);
+				$qb->executeStatement();
+			}
+			$result->closeCursor();
+
+			// safely set the new column length
 			$table->getColumn('name')->setLength(64);
 		}
 		if ($table->hasColumn('allow_subdomains')) {
