@@ -42,8 +42,9 @@ use OCP\ISession;
 use OCP\Security\ISecureRandom;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
-	public function __construct(string $appName,
-								IRequest $request,
+	public function __construct(
+		string $appName,
+		IRequest $request,
 								private ISession $session,
 								private ISecureRandom $random,
 								private IProvider $tokenProvider,
