@@ -59,6 +59,8 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		$colorError = '#e9322d';
+
 		return array_merge(
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
@@ -81,6 +83,11 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 2),
 				'--color-text-light' => $this->util->darken($colorMainText, 10),
 				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
+
+				'--color-error' => $colorError,
+				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+				'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
+				'--color-error-text' => $this->util->lighten($colorError, 3),
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',

@@ -109,6 +109,8 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		$colorError = '#e9322d';
+
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
@@ -137,10 +139,11 @@ class DefaultTheme implements ITheme {
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 
-			// info/warning/success feedback colours
-			'--color-error' => '#e9322d',
-			'--color-error-rgb' => join(',', $this->util->hexToRGB('#e9322d')),
-			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
+			// error/warning/success/info feedback colours
+			'--color-error' => $colorError,
+			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
+			'--color-error-text' => $this->util->darken($colorError, 4),
 			'--color-warning' => '#eca700',
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
 			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
