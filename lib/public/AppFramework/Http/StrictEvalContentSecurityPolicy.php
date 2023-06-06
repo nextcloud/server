@@ -26,13 +26,13 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Http;
 
 /**
- * Class StrictEvalContentSecurityPolicy is a simple helper which allows applications to
+ * Class StrictInlineContentSecurityPolicy is a simple helper which allows applications to
  * modify the Content-Security-Policy sent by Nextcloud. Per default only JavaScript,
  * stylesheets, images, fonts, media and connections from the same domain
  * ('self') are allowed.
  *
  * Even if a value gets modified above defaults will still get appended. Please
- * note that Nextcloud ships already with sensible defaults and those policies
+ * notice that Nextcloud ships already with sensible defaults and those policies
  * should require no modification at all for most use-cases.
  *
  * This is a temp helper class from the default ContentSecurityPolicy to allow slow
