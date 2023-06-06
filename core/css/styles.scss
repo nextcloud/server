@@ -429,7 +429,7 @@ tr {
 	}
 }
 
-tbody tr {
+tbody tr:not(.group-header) {
 	&:hover, &:focus, &:active {
 		background-color: var(--color-background-dark);
 	}
