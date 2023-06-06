@@ -585,10 +585,25 @@ table td.selection {
 .files-fileList tr td.filename .favorite-mark {
 	position: absolute;
 	display: block;
-	top: -6px;
-	right: -6px;
+	top: -8px;
+	right: -8px;
 	line-height: 100%;
 	text-align: center;
+	&.permanent {
+		// Create background around the favorite marker to ensure there is enough contrast
+		background-color: var(--color-main-background);
+		mask: var(--icon-star-rounded-white) no-repeat;
+		mask-size: 22px 22px;
+		
+		width: 22px;
+		height: 22px;
+		display: flex;
+		align-content: center;
+		justify-content: center;
+	}
+}
+.files-fileList tr:hover td.filename .favorite-mark.permanent {
+	background-color: var(--color-background-hover);
 }
 
 #uploadsize-message,#delete-confirm { display:none; }
@@ -1083,10 +1098,9 @@ table.dragshadow td.size {
 						 * Position is inherited from the selection while in grid view
 						 */
 						.favorite-mark {
-							padding: $grid-pad;
 							left: auto;
-							top: -22px; // center in corner of thumbnail
-							right: -22px; // center in corner of thumbnail
+							top: -11px; // center in corner of thumbnail
+							right: -11px; // center in corner of thumbnail
 						}
 					}
 				}
@@ -1221,10 +1235,7 @@ table.dragshadow td.size {
 				top: -8px; // half the checkbox width, center on corner of thumbnail
 				left: -8px; // half the checkbox width, center on corner of thumbnail
 				display: flex;
-				width: 44px;
-				height: 44px;
 				z-index: 10;
-				background: transparent;
 
 				label {
 					width: 44px;
