@@ -487,7 +487,7 @@ class MigrationService {
 	protected function createInstance($version) {
 		$class = $this->getClass($version);
 		try {
-			$s = \OC::$server->query($class);
+			$s = \OCP\Server::get($class);
 
 			if (!$s instanceof IMigrationStep) {
 				throw new \InvalidArgumentException('Not a valid migration');
