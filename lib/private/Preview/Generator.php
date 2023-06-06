@@ -91,7 +91,7 @@ class Generator {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mode
-	 * @param string $mimeType
+	 * @param string|null $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
@@ -109,7 +109,11 @@ class Generator {
 			new GenericEvent($file, $specification)
 		);
 		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
-			$file
+			$file,
+			$width,
+			$height,
+			$crop,
+			$mode,
 		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
