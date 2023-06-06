@@ -146,7 +146,6 @@ $header-icon-size: 20px;
 		height: 50px;
 		position: relative;
 		display: flex;
-		opacity: .7;
 		filter: var(--background-image-invert-if-bright);
 
 		&.app-menu-entry__active {
