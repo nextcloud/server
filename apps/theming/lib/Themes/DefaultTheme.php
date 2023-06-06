@@ -112,6 +112,7 @@ class DefaultTheme implements ITheme {
 		$colorError = '#e9322d';
 		$colorWarning = '#c28900';
 		$colorSuccess = '#3fa857';
+		$colorInfo = '#006aa3';
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -154,9 +155,10 @@ class DefaultTheme implements ITheme {
 			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
 			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
 			'--color-success-text' => $this->util->darken($colorSuccess, 10),
-			'--color-info' => '#006aa3',
-			'--color-info-rgb' => join(',', $this->util->hexToRGB('#006aa3')),
-			'--color-info-hover' => $this->util->mix('#006aa3', $colorMainBackground, 60),
+			'--color-info' => $colorInfo,
+			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
+			'--color-info-text' => $colorInfo,
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',

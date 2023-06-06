@@ -62,6 +62,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorError = '#e9322d';
 		$colorWarning = '#c28900';
 		$colorSuccess = '#3fa857';
+		$colorInfo = '#006aa3';
 
 		return array_merge(
 			$defaultVariables,
@@ -98,6 +99,10 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
 				'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
 				'--color-success-text' => $colorSuccess,
+				'--color-info' => $colorInfo,
+				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+				'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
+				'--color-info-text' => $this->util->lighten($colorInfo, 9),
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',
