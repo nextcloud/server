@@ -242,19 +242,6 @@ class OC_App {
 	}
 
 	/**
-	 * checks whether or not an app is enabled
-	 *
-	 * @param string $app app
-	 * @return bool
-	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
-	 *
-	 * This function checks whether or not an app is enabled.
-	 */
-	public static function isEnabled(string $app): bool {
-		return \OC::$server->getAppManager()->isEnabledForUser($app);
-	}
-
-	/**
 	 * enables an app
 	 *
 	 * @param string $appId

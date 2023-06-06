@@ -38,7 +38,6 @@ namespace OC\Accounts;
 use Exception;
 use InvalidArgumentException;
 use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
@@ -186,7 +185,7 @@ class AccountManager implements IAccountManager {
 		$phoneUtil = PhoneNumberUtil::getInstance();
 		try {
 			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
-			if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+			if ($phoneUtil->isValidNumber($phoneNumber)) {
 				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 			}
 		} catch (NumberParseException $e) {
