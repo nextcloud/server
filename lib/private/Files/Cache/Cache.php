@@ -564,19 +564,6 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Get all sub folders of a folder
-	 *
-	 * @param ICacheEntry $entry the cache entry of the folder to get the subfolders for
-	 * @return ICacheEntry[] the cache entries for the subfolders
-	 */
-	private function getSubFolders(ICacheEntry $entry) {
-		$children = $this->getFolderContentsById($entry->getId());
-		return array_filter($children, function ($child) {
-			return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
-		});
-	}
-
-	/**
 	 * Remove all children of a folder
 	 *
 	 * @param ICacheEntry $entry the cache entry of the folder to remove the children of
