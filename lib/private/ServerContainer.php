@@ -154,8 +154,10 @@ class ServerContainer extends SimpleContainer {
 			try {
 				return $appContainer->queryNoFallback($name);
 			} catch (QueryException $e) {
-				// Didn't find the service or the respective app container,
-				// ignore it and fall back to the core container.
+				// Didn't find the service or the respective app container
+				// In this case the service won't be part of the core container,
+				// so we can throw directly
+				throw $e;
 			}
 		} elseif (str_starts_with($name, 'OC\\Settings\\') && substr_count($name, '\\') >= 3) {
 			$segments = explode('\\', $name);
