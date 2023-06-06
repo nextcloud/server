@@ -444,7 +444,7 @@
         }
     },
     "paths": {
-        "/index.php/core/avatar/{userId}/{size}/dark": {
+        "/index.php/avatar/{userId}/{size}/dark": {
             "get": {
                 "operationId": "avatar-get-avatar-dark",
                 "summary": "Get the dark avatar",
@@ -520,7 +520,7 @@
                 }
             }
         },
-        "/index.php/core/avatar/{userId}/{size}": {
+        "/index.php/avatar/{userId}/{size}": {
             "get": {
                 "operationId": "avatar-get-avatar",
                 "summary": "Get the avatar",
@@ -596,7 +596,7 @@
                 }
             }
         },
-        "/index.php/core/avatar/guest/{guestName}/{size}/dark": {
+        "/index.php/avatar/guest/{guestName}/{size}/dark": {
             "get": {
                 "operationId": "guest_avatar-get-avatar-dark",
                 "summary": "Returns a dark guest avatar image response",
@@ -675,7 +675,7 @@
                 }
             }
         },
-        "/index.php/core/avatar/guest/{guestName}/{size}": {
+        "/index.php/avatar/guest/{guestName}/{size}": {
             "get": {
                 "operationId": "guest_avatar-get-avatar",
                 "summary": "Returns a guest avatar image response",
@@ -764,7 +764,7 @@
                 }
             }
         },
-        "/index.php/core/login/v2/poll": {
+        "/index.php/login/v2/poll": {
             "post": {
                 "operationId": "client_flow_login_v2-poll",
                 "summary": "Poll the login flow credentials",
@@ -816,7 +816,7 @@
                 }
             }
         },
-        "/index.php/core/login/v2": {
+        "/index.php/login/v2": {
             "post": {
                 "operationId": "client_flow_login_v2-init",
                 "summary": "Init a login flow",
@@ -846,7 +846,7 @@
                 }
             }
         },
-        "/index.php/core/core/preview": {
+        "/index.php/core/preview": {
             "get": {
                 "operationId": "preview-get-preview-by-file-id",
                 "summary": "Get a preview by file ID",
@@ -975,7 +975,7 @@
                 }
             }
         },
-        "/index.php/core/core/preview.png": {
+        "/index.php/core/preview.png": {
             "get": {
                 "operationId": "preview-get-preview",
                 "summary": "Get a preview by file ID",
@@ -1103,7 +1103,7 @@
                 }
             }
         },
-        "/index.php/core/core/references/preview/{referenceId}": {
+        "/index.php/core/references/preview/{referenceId}": {
             "get": {
                 "operationId": "reference-preview",
                 "summary": "Get a preview for a reference",
@@ -1162,7 +1162,7 @@
                 }
             }
         },
-        "/index.php/core/core/wipe/check": {
+        "/index.php/core/wipe/check": {
             "post": {
                 "operationId": "wipe-check-wipe",
                 "summary": "Check if the device should be wiped",
@@ -1222,7 +1222,7 @@
                 }
             }
         },
-        "/index.php/core/core/wipe/success": {
+        "/index.php/core/wipe/success": {
             "post": {
                 "operationId": "wipe-wipe-done",
                 "summary": "Finish the wipe",
