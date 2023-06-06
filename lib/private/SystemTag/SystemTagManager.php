@@ -177,8 +177,10 @@ class SystemTagManager implements ISystemTagManager {
 	 * {@inheritdoc}
 	 */
 	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
+		// Length of name column is 64
+		$truncatedTagName = substr($tagName, 0, 64);
 		$result = $this->selectTagQuery
-			->setParameter('name', $tagName)
+			->setParameter('name', $truncatedTagName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->execute();
@@ -187,7 +189,7 @@ class SystemTagManager implements ISystemTagManager {
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
-				'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
+				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
 			);
 		}
 
@@ -247,9 +249,11 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$beforeUpdate = array_shift($tags);
+		// Length of name column is 64
+		$truncatedNewName = substr($newName, 0, 64);
 		$afterUpdate = new SystemTag(
 			$tagId,
-			$newName,
+			$truncatedNewName,
 			$userVisible,
 			$userAssignable
 		);
@@ -260,7 +264,7 @@ class SystemTagManager implements ISystemTagManager {
 			->set('visibility', $query->createParameter('visibility'))
 			->set('editable', $query->createParameter('editable'))
 			->where($query->expr()->eq('id', $query->createParameter('tagid')))
-			->setParameter('name', $newName)
+			->setParameter('name', $truncatedNewName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->setParameter('tagid', $tagId);
