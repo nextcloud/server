@@ -60,6 +60,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
 		$colorError = '#e9322d';
+		$colorWarning = '#c28900';
 
 		return array_merge(
 			$defaultVariables,
@@ -88,6 +89,10 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
 				'--color-error-text' => $this->util->lighten($colorError, 3),
+				'--color-warning' => $colorWarning,
+				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+				'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
+				'--color-warning-text' => $colorWarning,
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',

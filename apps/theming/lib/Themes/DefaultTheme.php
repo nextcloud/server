@@ -110,6 +110,7 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
 		$colorError = '#e9322d';
+		$colorWarning = '#c28900';
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -144,9 +145,10 @@ class DefaultTheme implements ITheme {
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
 			'--color-error-text' => $this->util->darken($colorError, 4),
-			'--color-warning' => '#eca700',
-			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
-			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
+			'--color-warning' => $colorWarning,
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+			'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
+			'--color-warning-text' => $this->util->darken($colorWarning, 8),
 			'--color-success' => '#46ba61',
 			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
 			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),

@@ -21,9 +21,10 @@
   --color-error-rgb: 233,50,45;
   --color-error-hover: #ed5a56;
   --color-error-text: #e7201b;
-  --color-warning: #eca700;
-  --color-warning-rgb: 236,167,0;
-  --color-warning-hover: #efb832;
+  --color-warning: #c28900;
+  --color-warning-rgb: 194,137,0;
+  --color-warning-hover: #cea032;
+  --color-warning-text: #996c00;
   --color-success: #46ba61;
   --color-success-rgb: 70,186,97;
   --color-success-hover: #6ac780;
