@@ -178,7 +178,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "la acción \"{displayName}\" falló",
     "Total rows summary" : "Resumen de filas totales",
     "Select all" : "Seleccionar todo",
-    "Unselect all" : "Deseleccionar todos",
+    "Unselect all" : "Desmarrcar todos",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" fallo en algunos elementos",
     "\"{displayName}\" batch action executed successfully" : "la acción en lotes \"{displayName}\" se ejecutó exitósamente",
     "ascending" : "ascendente",
