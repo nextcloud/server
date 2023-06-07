@@ -248,7 +248,7 @@ OC.L10N.register(
     "Deleted shares" : "Compartilhamentos apagados",
     "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo arquivo.txt",
+    "New text file.txt" : "Novo arquivo de texto arquivo.txt",
     "Storage invalid" : "Armazenamento inválido",
     "Unlimited" : "Ilimitado",
     "Search users" : "Procurar usuários",
