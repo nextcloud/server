@@ -981,7 +981,7 @@ export default {
 				const url = this.source ?? this.currentFile.davPath
 
 				await axios.delete(url)
-				emit('files:file:deleted', { fileid })
+				emit('files:node:deleted', { fileid })
 
 				// fileid is not unique, basename is
 				const currentIndex = this.fileList.findIndex(file => file.basename === this.currentFile.basename)
