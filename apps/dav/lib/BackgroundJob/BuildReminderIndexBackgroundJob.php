@@ -107,7 +107,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 
 		$result = $query->executeQuery();
 		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
-			$offset = $row['id'];
+			$offset = (int) $row['id'];
 			if (is_resource($row['calendardata'])) {
 				$row['calendardata'] = stream_get_contents($row['calendardata']);
 			}
