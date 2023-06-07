@@ -43,6 +43,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /* We have to use this to add a property to the mocked request and avoid warnings about dynamic properties on PHP>=8.2 */
@@ -67,6 +68,8 @@ class OauthApiControllerTest extends TestCase {
 	private $time;
 	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -81,6 +84,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->throttler = $this->createMock(Throttler::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -91,6 +95,7 @@ class OauthApiControllerTest extends TestCase {
 			$this->tokenProvider,
 			$this->secureRandom,
 			$this->time,
+			$this->logger,
 			$this->throttler
 		);
 	}
