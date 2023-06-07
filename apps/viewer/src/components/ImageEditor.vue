@@ -176,10 +176,10 @@ export default {
 				logger.info('Edited image saved!', { response })
 				showSuccess(t('viewer', 'Image saved'))
 				if (putUrl !== this.src) {
-					emit('files:file:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
+					emit('files:node:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
 				} else {
 					this.$emit('updated')
-					emit('files:file:updated', { fileid: this.fileid })
+					emit('files:node:updated', { fileid: this.fileid })
 				}
 			} catch (error) {
 				logger.error('Error saving image', { error })
