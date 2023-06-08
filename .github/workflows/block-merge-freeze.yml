@@ -3,24 +3,13 @@
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
 
-name: Block merges during freezes
+name: Pull request checks
 
-on:
-  pull_request:
-    types: [opened, ready_for_review, reopened, synchronize]
-
-permissions:
-  contents: read
-
-concurrency:
-  group: block-merge-freeze-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+on: pull_request
 
 jobs:
   block-merges-during-freeze:
-    name: Block merges during freezes
-
-    if: github.event.pull_request.draft == false
+    name: Block merges during feature freezes
 
     runs-on: ubuntu-latest
 
