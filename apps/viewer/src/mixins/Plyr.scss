@@ -15,7 +15,6 @@
 		flex-wrap: wrap;
 		.plyr__volume,
 		.plyr__progress__container {
-			min-width: 120px;
 			max-width: 100%;
 			flex: 1 1;
 		}
@@ -90,5 +89,11 @@
 		width: calc(100% + var(--plyr-range-thumb-height, 13px));
 		height: var(--plyr-range-track-height, 5px);
 		background: transparent;
+	}
+
+	@media only screen and (max-width: 480px) {
+		.plyr__volume {
+			display: none;
+		}
 	}
 }
