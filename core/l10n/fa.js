@@ -92,6 +92,7 @@ OC.L10N.register(
     "Back" : "بازگشت",
     "Load more results" : "بار کردن نتیحه‌های بیش‌تر",
     "Search" : "جست‌و‌جو",
+    "Settings menu" : "فهرست تنظیمات",
     "Search contacts …" : "جستجو مخاطبین ...",
     "No contacts found" : "مخاطبین یافت نشد",
     "Show all contacts …" : "نمایش همه مخاطبین ...",
