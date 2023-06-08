@@ -195,23 +195,33 @@ class QuerySearchHelper {
 	}
 
 	/**
-	 * @return array{array<string, ICache>, array<string, IMountPoint>}
+	 * @return list{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
 	 */
 	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
 		$rootLength = strlen($path);
-		$mount = $root->getMount($path);
-		$storage = $mount->getStorage();
+		$storage = null;
+		if (method_exists($root, 'getMount')) {
+			/** @var IMountPoint $mount */
+			$mount = $root->getMount($path);
+			$storage = $mount->getStorage();
+		}
+		if ($storage === null) {
+			return [];
+		}
 		$internalPath = $mount->getInternalPath($path);
 
 		if ($internalPath !== '') {
 			// a temporary CacheJail is used to handle filtering down the results to within this folder
+			/** @var ICache[] $caches */
 			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
 		} else {
+			/** @var ICache[] $caches */
 			$caches = ['' => $storage->getCache('')];
 		}
+		/** @var IMountPoint[] $mountByMountPoint */
 		$mountByMountPoint = ['' => $mount];
 
-		if (!$limitToHome) {
+		if (!$limitToHome && method_exists($root, 'getMountsIn')) {
 			/** @var IMountPoint[] $mounts */
 			$mounts = $root->getMountsIn($path);
 			foreach ($mounts as $mount) {
