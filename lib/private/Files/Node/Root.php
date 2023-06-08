@@ -45,6 +45,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IUser;
@@ -339,10 +340,9 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return Node
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function getParent() {
+	public function getParent(): INode|IRootFolder {
 		throw new NotFoundException();
 	}
 

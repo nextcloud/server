@@ -329,8 +329,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return array
 	 */
 	protected function getByIdInRootMount(int $id): array {
-		$mount = $this->root->getMount('');
-		$cacheEntry = $mount->getStorage()->getCache($this->path)->get($id);
+		$storage = null;
+		if (\method_exists($this->root, 'getMount')) {
+			/** @var IMountPoint $mount */
+			$mount = $this->root->getMount('');
+			$storage = $mount->getStorage();
+		}
+		$cacheEntry = $storage?->getCache($this->path)->get($id);
 		if (!$cacheEntry) {
 			return [];
 		}
@@ -345,7 +350,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return [$this->root->createNode(
 			$absolutePath, new \OC\Files\FileInfo(
 				$absolutePath,
-				$mount->getStorage(),
+				$storage,
 				$cacheEntry->getPath(),
 				$cacheEntry,
 				$mount
