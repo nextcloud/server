@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Etiquetes col·laboratives",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalitat d'etiquetatge col·laboratiu que permet compartir etiquetes entre usuaris.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalitat d'etiquetatge col·laboratiu que permet compartir etiquetes entre usuaris. Fantàstica per a equips.\n\t(Si sou un proveïdor amb una instància del Nextcloud per a diversos clients, s'aconsella inhabilitar aquesta aplicació perquè les etiquetes es comparteixen amb tothom.)",
+    "Loading collaborative tags …" : "S'estan carregant les etiquetes col·laboratives…",
     "Search or create collaborative tags" : "Cerqueu o creeu etiquetes col·laboratives",
     "Collaborative tags …" : "Etiquetes col·laboratives…",
     "No tags to select, type to create a new tag" : "No hi ha cap etiqueta per seleccionar, escriviu per a crear una etiqueta nova",
