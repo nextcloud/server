@@ -203,16 +203,21 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('clientSecret');
+		$client->setSecret('encryptedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
-		$this->crypto->method('decrypt')
-			->with(
-				'encryptedToken',
-				'validrefresh'
-			)->willReturn('decryptedToken');
+		$this->crypto
+			->method('decrypt')
+			->with($this->callback(function (string $text) {
+				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
+			}))
+			->willReturnCallback(function (string $text) {
+				return $text === 'encryptedClientSecret'
+					? 'clientSecret'
+					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
+			});
 
 		$this->tokenProvider->method('getTokenById')
 			->with(1337)
@@ -237,16 +242,21 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('clientSecret');
+		$client->setSecret('encryptedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
-		$this->crypto->method('decrypt')
-			->with(
-				'encryptedToken',
-				'validrefresh'
-			)->willReturn('decryptedToken');
+		$this->crypto
+			->method('decrypt')
+			->with($this->callback(function (string $text) {
+				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
+			}))
+			->willReturnCallback(function (string $text) {
+				return $text === 'encryptedClientSecret'
+					? 'clientSecret'
+					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
+			});
 
 		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
@@ -329,16 +339,21 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('clientSecret');
+		$client->setSecret('encryptedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
-		$this->crypto->method('decrypt')
-			->with(
-				'encryptedToken',
-				'validrefresh'
-			)->willReturn('decryptedToken');
+		$this->crypto
+			->method('decrypt')
+			->with($this->callback(function (string $text) {
+				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
+			}))
+			->willReturnCallback(function (string $text) {
+				return $text === 'encryptedClientSecret'
+					? 'clientSecret'
+					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
+			});
 
 		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
@@ -424,16 +439,21 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('clientSecret');
+		$client->setSecret('encryptedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
-		$this->crypto->method('decrypt')
-			->with(
-				'encryptedToken',
-				'validrefresh'
-			)->willReturn('decryptedToken');
+		$this->crypto
+			->method('decrypt')
+			->with($this->callback(function (string $text) {
+				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
+			}))
+			->willReturnCallback(function (string $text) {
+				return $text === 'encryptedClientSecret'
+					? 'clientSecret'
+					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
+			});
 
 		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
