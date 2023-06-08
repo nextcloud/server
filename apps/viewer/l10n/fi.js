@@ -9,6 +9,7 @@ OC.L10N.register(
     "Error saving image" : "Virhe kuvaa tallentaessa",
     "Unsaved changes" : "Tallentamattomia muutoksia",
     "Drop changes" : "Hylkää muutokset",
+    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Selaimesi ei tue videoita.",
     "Edit" : "Muokkaa",
     "Exit full screen" : "Poistu koko näytön tilasta",
