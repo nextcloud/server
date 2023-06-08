@@ -36,6 +36,8 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} muutti sähköpostiosoitteesi",
     "You changed your email address" : "Muutit sähköpostiosoitteesi",
     "Your email address was changed by an administrator" : "Ylläpitäjä muutti sähköpostiosoitteesi",
+    "You created an app password for a session named \"{token}\"" : "Loit sovellussalasanan istunnolle nimeltä \"{token}\"",
+    "An administrator created an app password for a session named \"{token}\"" : "Ylläpitäjä loi sovellussalasanan istunnolle nimeltä \"{token}\"",
     "You deleted app password \"{token}\"" : "Poistit sovellussalasanan \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Nimesit sovellussalasanan \"{token}\" uudelleen muotoon \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Annoit pääsyn tiedostojärjestelmään sovellussalasanalle \"{token}\"",
@@ -398,6 +400,7 @@ OC.L10N.register(
     "Server address" : "Palvelimen osoite",
     "Port" : "Portti",
     "Authentication method" : "Tunnistautumistapa",
+    "Only applies when authentication is required" : "Sovelletaan vain kun tunnistautuminen vaaditaan",
     "Authentication required" : "Tunnistautuminen vaaditaan",
     "Credentials" : "Tilitiedot",
     "SMTP Username" : "SMTP-käyttäjätunnus",
@@ -452,6 +455,7 @@ OC.L10N.register(
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Ota käyttöön käyttäjänimen automaattitäyttö jakolomakkeessa",
     "Allow username autocompletion to users within the same groups" : "Ota käyttöön käyttäjänimen automaattitäyttö saman ryhmän käyttäjille",
-    "Avatar" : "Profiilikuva"
+    "Avatar" : "Profiilikuva",
+    "User actions" : "Käyttäjätoiminnot"
 },
 "nplurals=2; plural=(n != 1);");

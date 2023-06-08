@@ -148,7 +148,7 @@ OC.L10N.register(
     "Profile information" : "Profilinformation",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilbild, vollständiger Name, E-Mail-Adresse, Telefonnummer, Adresse, Webseite, Twitter, Organisation, Rolle, Überschrift, Biografie und ob dein Profil aktiviert ist",
     "Nextcloud settings" : "Nextcloud-Einstellungen",
-    "Here you can decide which group can access certain sections of the administration settings." : "Hier kannst du festlegen, welche Gruppe auf bestimmte Bereiche der Administrationseinstellungen zugreifen kann.",
+    "Here you can decide which group can access certain sections of the administration settings." : "Hier kannst du festlegen, welche Gruppe auf bestimmte Bereiche der Verwaltungs-Einstellungen zugreifen kann.",
     "None" : "Keine",
     "Unable to modify setting" : "Einstellung konnte nicht geändert werden",
     "Two-Factor Authentication" : "Zwei-Faktor-Authentifizierung",
