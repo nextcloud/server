@@ -59,6 +59,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -304,10 +305,7 @@ class Trashbin {
 			$trashStorage->unlink($trashInternalPath);
 		}
 
-		$config = \OC::$server->getConfig();
-		$systemTrashbinSize = \OCP\Util::numericToNumber($config->getAppValue('files_trashbin', 'trashbin_size', '-1'));
-		$userTrashbinSize = \OCP\Util::numericToNumber($config->getUserValue($owner, 'files_trashbin', 'trashbin_size', '-1'));
-		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($owner);
 		if ($configuredTrashbinSize >= 0 && $sourceInfo->getSize() >= $configuredTrashbinSize) {
 			return false;
 		}
@@ -377,6 +375,19 @@ class Trashbin {
 		}
 
 		return $moveSuccessful;
+	}
+
+	private static function getConfiguredTrashbinSize(string $user): int|float {
+		$config = \OC::$server->get(IConfig::class);
+		$userTrashbinSize = $config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
+		if (is_numeric($userTrashbinSize) && ($userTrashbinSize > -1)) {
+			return \OCP\Util::numericToNumber($userTrashbinSize);
+		}
+		$systemTrashbinSize = $config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		if (is_numeric($systemTrashbinSize)) {
+			return \OCP\Util::numericToNumber($systemTrashbinSize);
+		}
+		return -1;
 	}
 
 	/**
@@ -753,21 +764,16 @@ class Trashbin {
 	 * @return int|float available free space for trash bin
 	 */
 	private static function calculateFreeSpace(int|float $trashbinSize, string $user): int|float {
-		$config = \OC::$server->getConfig();
-		$userTrashbinSize = \OCP\Util::numericToNumber($config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1'));
-		if ($userTrashbinSize > -1) {
-			return $userTrashbinSize - $trashbinSize;
-		}
-		$systemTrashbinSize = \OCP\Util::numericToNumber($config->getAppValue('files_trashbin', 'trashbin_size', '-1'));
-		if ($systemTrashbinSize > -1) {
-			return $systemTrashbinSize - $trashbinSize;
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($user);
+		if ($configuredTrashbinSize > -1) {
+			return $configuredTrashbinSize - $trashbinSize;
 		}
 
-		$softQuota = true;
 		$userObject = \OC::$server->getUserManager()->get($user);
 		if (is_null($userObject)) {
 			return 0;
 		}
+		$softQuota = true;
 		$quota = $userObject->getQuota();
 		if ($quota === null || $quota === 'none') {
 			$quota = Filesystem::free_space('/');
@@ -778,6 +784,10 @@ class Trashbin {
 			}
 		} else {
 			$quota = \OCP\Util::computerFileSize($quota);
+			// invalid quota
+			if ($quota === false) {
+				$quota = PHP_INT_MAX;
+			}
 		}
 
 		// calculate available space for trash bin
