@@ -23,7 +23,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,7 +32,7 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
 
       - name: Show potential changes in Psalm baseline
         if: always()
@@ -64,7 +64,7 @@ jobs:
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
+        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
 
       - name: Upload Security Analysis results to GitHub
         if: always()
@@ -94,7 +94,7 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
+        run: composer run psalm:ci -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
 
       - name: Show potential changes in Psalm baseline
         if: always()
