@@ -53,7 +53,7 @@
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/sharing": "^0.1.0",
-    "@nextcloud/vue": "^7.11.6",
+    "@nextcloud/vue": "^7.12.0",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "autosize": "^6.0.1",
