@@ -59,12 +59,12 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 
 class Trashbin {
-
 	// unit: percentage; 50% of available disk space/quota
 	public const DEFAULTMAXSIZE = 50;
 
@@ -191,7 +191,7 @@ class Trashbin {
 	 * @param string $owner
 	 * @param string $targetPath
 	 * @param $user
-	 * @param integer $timestamp
+	 * @param int $timestamp
 	 */
 	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp) {
 		self::setUpTrash($owner);
@@ -305,10 +305,7 @@ class Trashbin {
 			$trashStorage->unlink($trashInternalPath);
 		}
 
-		$config = \OC::$server->getConfig();
-		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
-		$userTrashbinSize = (int)$config->getUserValue($owner, 'files_trashbin', 'trashbin_size', '-1');
-		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($owner);
 		if ($configuredTrashbinSize >= 0 && $sourceInfo->getSize() >= $configuredTrashbinSize) {
 			return false;
 		}
@@ -380,13 +377,26 @@ class Trashbin {
 		return $moveSuccessful;
 	}
 
+	private static function getConfiguredTrashbinSize(string $user): int|float {
+		$config = \OC::$server->get(IConfig::class);
+		$userTrashbinSize = $config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
+		if (is_numeric($userTrashbinSize) && ($userTrashbinSize > -1)) {
+			return \OCP\Util::numericToNumber($userTrashbinSize);
+		}
+		$systemTrashbinSize = $config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		if (is_numeric($systemTrashbinSize)) {
+			return \OCP\Util::numericToNumber($systemTrashbinSize);
+		}
+		return -1;
+	}
+
 	/**
 	 * Move file versions to trash so that they can be restored later
 	 *
 	 * @param string $filename of deleted file
 	 * @param string $owner owner user id
 	 * @param string $ownerPath path relative to the owner's home storage
-	 * @param integer $timestamp when the file was deleted
+	 * @param int $timestamp when the file was deleted
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
 		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
@@ -647,7 +657,7 @@ class Trashbin {
 	 * @param string $user
 	 * @param int $timestamp of deletion time
 	 *
-	 * @return int size of deleted files
+	 * @return int|float size of deleted files
 	 */
 	public static function delete($filename, $user, $timestamp = null) {
 		$userRoot = \OC::$server->getUserFolder($user)->getParent();
@@ -689,14 +699,11 @@ class Trashbin {
 	}
 
 	/**
-	 * @param View $view
 	 * @param string $file
 	 * @param string $filename
-	 * @param integer|null $timestamp
-	 * @param string $user
-	 * @return int
+	 * @param ?int $timestamp
 	 */
-	private static function deleteVersions(View $view, $file, $filename, $timestamp, $user) {
+	private static function deleteVersions(View $view, $file, $filename, $timestamp, string $user): int|float {
 		$size = 0;
 		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
 			if ($view->is_dir('files_trashbin/versions/' . $file)) {
@@ -752,26 +759,21 @@ class Trashbin {
 	/**
 	 * calculate remaining free space for trash bin
 	 *
-	 * @param integer $trashbinSize current size of the trash bin
+	 * @param int|float $trashbinSize current size of the trash bin
 	 * @param string $user
-	 * @return int available free space for trash bin
+	 * @return int|float available free space for trash bin
 	 */
-	private static function calculateFreeSpace($trashbinSize, $user) {
-		$config = \OC::$server->getConfig();
-		$userTrashbinSize = (int)$config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
-		if ($userTrashbinSize > -1) {
-			return $userTrashbinSize - $trashbinSize;
-		}
-		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
-		if ($systemTrashbinSize > -1) {
-			return $systemTrashbinSize - $trashbinSize;
+	private static function calculateFreeSpace(int|float $trashbinSize, string $user): int|float {
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($user);
+		if ($configuredTrashbinSize > -1) {
+			return $configuredTrashbinSize - $trashbinSize;
 		}
 
-		$softQuota = true;
 		$userObject = \OC::$server->getUserManager()->get($user);
 		if (is_null($userObject)) {
 			return 0;
 		}
+		$softQuota = true;
 		$quota = $userObject->getQuota();
 		if ($quota === null || $quota === 'none') {
 			$quota = Filesystem::free_space('/');
@@ -782,6 +784,10 @@ class Trashbin {
 			}
 		} else {
 			$quota = \OCP\Util::computerFileSize($quota);
+			// invalid quota
+			if ($quota === false) {
+				$quota = PHP_INT_MAX;
+			}
 		}
 
 		// calculate available space for trash bin
@@ -801,7 +807,7 @@ class Trashbin {
 			$availableSpace = $quota;
 		}
 
-		return (int)$availableSpace;
+		return \OCP\Util::numericToNumber($availableSpace);
 	}
 
 	/**
@@ -858,10 +864,10 @@ class Trashbin {
 	 *
 	 * @param array $files
 	 * @param string $user
-	 * @param int $availableSpace available disc space
-	 * @return int size of deleted files
+	 * @param int|float $availableSpace available disc space
+	 * @return int|float size of deleted files
 	 */
-	protected static function deleteFiles($files, $user, $availableSpace) {
+	protected static function deleteFiles(array $files, string $user, int|float $availableSpace): int|float {
 		/** @var Application $application */
 		$application = \OC::$server->query(Application::class);
 		$expiration = $application->getContainer()->query('Expiration');
@@ -887,7 +893,7 @@ class Trashbin {
 	 *
 	 * @param array $files list of files sorted by mtime
 	 * @param string $user
-	 * @return integer[] size of deleted files and number of deleted files
+	 * @return array{int|float, int} size of deleted files and number of deleted files
 	 */
 	public static function deleteExpiredFiles($files, $user) {
 		/** @var Expiration $expiration */
@@ -927,10 +933,10 @@ class Trashbin {
 	 * @param string $source source path, relative to the users files directory
 	 * @param string $destination destination path relative to the users root directory
 	 * @param View $view file view for the users root directory
-	 * @return int
+	 * @return int|float
 	 * @throws Exceptions\CopyRecursiveException
 	 */
-	private static function copy_recursive($source, $destination, View $view) {
+	private static function copy_recursive($source, $destination, View $view): int|float {
 		$size = 0;
 		if ($view->is_dir($source)) {
 			$view->mkdir($destination);
@@ -964,9 +970,8 @@ class Trashbin {
 	 *
 	 * @param string $filename name of the file which should be restored
 	 * @param int $timestamp timestamp when the file was deleted
-	 * @return array
 	 */
-	private static function getVersionsFromTrash($filename, $timestamp, $user) {
+	private static function getVersionsFromTrash($filename, $timestamp, string $user): array {
 		$view = new View('/' . $user . '/files_trashbin/versions');
 		$versions = [];
 
@@ -1061,9 +1066,9 @@ class Trashbin {
 	 * get the size from a given root folder
 	 *
 	 * @param View $view file view on the root folder
-	 * @return integer size of the folder
+	 * @return int|float size of the folder
 	 */
-	private static function calculateSize($view) {
+	private static function calculateSize(View $view): int|float {
 		$root = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . $view->getAbsolutePath('');
 		if (!file_exists($root)) {
 			return 0;
@@ -1092,9 +1097,9 @@ class Trashbin {
 	 * get current size of trash bin from a given user
 	 *
 	 * @param string $user user who owns the trash bin
-	 * @return integer trash bin size
+	 * @return int|float trash bin size
 	 */
-	private static function getTrashbinSize($user) {
+	private static function getTrashbinSize(string $user): int|float {
 		$view = new View('/' . $user);
 		$fileInfo = $view->getFileInfo('/files_trashbin');
 		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
