@@ -151,22 +151,27 @@ class LinkReferenceProvider implements IReferenceProvider {
 
 		if ($object->images) {
 			try {
-				$appData = $this->appDataFactory->get('core');
-				try {
-					$folder = $appData->getFolder('opengraph');
-				} catch (NotFoundException $e) {
-					$folder = $appData->newFolder('opengraph');
-				}
-				$response = $client->get($object->images[0]->url, [ 'timeout' => 10 ]);
-				$contentType = $response->getHeader('Content-Type');
-				$contentLength = $response->getHeader('Content-Length');
+				$host = parse_url($object->images[0]->url, PHP_URL_HOST);
+				if ($host === false || $host === null) {
+					$this->logger->warning('Could not detect host of open graph image URI for ' . $reference->getId());
+				} else {
+					$appData = $this->appDataFactory->get('core');
+					try {
+						$folder = $appData->getFolder('opengraph');
+					} catch (NotFoundException $e) {
+						$folder = $appData->newFolder('opengraph');
+					}
+					$response = $client->get($object->images[0]->url, ['timeout' => 10]);
+					$contentType = $response->getHeader('Content-Type');
+					$contentLength = $response->getHeader('Content-Length');
 
-				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_PREVIEW_SIZE) {
-					$stream = Utils::streamFor($response->getBody());
-					$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
-					$reference->setImageContentType($contentType);
-					$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
-					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
+					if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_PREVIEW_SIZE) {
+						$stream = Utils::streamFor($response->getBody());
+						$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
+						$reference->setImageContentType($contentType);
+						$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
+						$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
+					}
 				}
 			} catch (GuzzleException $e) {
 				$this->logger->info('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);
