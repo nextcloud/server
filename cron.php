@@ -54,14 +54,6 @@ try {
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
-	\OC::$server->getSession()->close();
-
-	// initialize a dummy memory session
-	$session = new \OC\Session\Memory('');
-	$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
-	$session = $cryptoWrapper->wrapSession($session);
-	\OC::$server->setSession($session);
-
 	$logger = \OC::$server->getLogger();
 	$config = \OC::$server->getConfig();
 	$tempManager = \OC::$server->getTempManager();
