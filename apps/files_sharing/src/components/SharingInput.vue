@@ -31,6 +31,7 @@
 			:filterable="false"
 			:placeholder="inputPlaceholder"
 			:clear-search-on-blur="() => false"
+			:dropdown-should-open="({ noDrop, open }) => noDrop ? false : open"
 			:user-select="true"
 			:options="options"
 			v-model="value"
