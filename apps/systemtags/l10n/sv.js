@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Samarbetstaggar",
     "Collaborative tagging functionality which shares tags among users." : "Samarbetande tagg-funktionalitet som delar taggar bland användare.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samarbetande tagg-funktionalitet som delar taggar bland användare. Utmärkt för arbetsgrupper.\n\t(Om du är en leverantör med flera kunder, rekommenderas att deaktivera den här appen eftersom taggar delas.)",
+    "Loading collaborative tags …" : "Läser in samarbetstaggar …",
     "Search or create collaborative tags" : "Sök eller skapa samarbetstaggar",
     "Collaborative tags …" : "Samarbetstaggar ...",
     "No tags to select, type to create a new tag" : "Inga taggar att välja, skriv för att skapa en ny tagg",

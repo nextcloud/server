@@ -1,8 +1,8 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "لوحة التحكم",
-    "Dashboard app" : "تطبيق لوحة التحكم",
+    "Dashboard" : "الرئيسية",
+    "Dashboard app" : "تطبيق الصفحة الرئيسية",
     "Customize" : "تعديل",
     "Edit widgets" : "تعديل الودجات",
     "Weather service" : "خدمة احوال الطقس",

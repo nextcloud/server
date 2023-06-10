@@ -312,7 +312,7 @@ OC.L10N.register(
     "Help translate" : "Ajudeu-nos amb la traducció",
     "Unable to update language" : "No es pot actualitzar la llengua",
     "No language set" : "No s'ha establert cap idioma",
-    "Locale" : "Configuració local",
+    "Locale" : "Configuració regional",
     "Week starts on {firstDayOfWeek}" : "La setmana comença el {firstDayOfWeek}",
     "Unable to update locale" : "No es pot actualitzar la configuració local",
     "No locale set" : "No s'ha establert cap configuració local",
