@@ -79,7 +79,7 @@
     "@nextcloud/eslint-config": "^8.2.1",
     "@nextcloud/stylelint-config": "^2.3.0",
     "@nextcloud/webpack-vue-config": "^5.5.1",
-    "@types/dockerode": "^3.3.18",
+    "@types/dockerode": "^3.3.19",
     "@vue/tsconfig": "^0.1.3",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "cypress": "^11.2.0",
