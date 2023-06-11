@@ -93,6 +93,9 @@ class DAV extends Common {
 	protected LoggerInterface $logger;
 	protected IEventLogger $eventLogger;
 
+	/** @var int */
+	private $timeout;
+
 	/**
 	 * @param array $params
 	 * @throws \Exception
@@ -135,6 +138,8 @@ class DAV extends Common {
 		}
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 		$this->eventLogger = \OC::$server->get(IEventLogger::class);
+		// This timeout value will be used for the download and upload of files
+		$this->timeout = \OC::$server->getConfig()->getSystemValueInt('davstorage.request_timeout', 30);
 	}
 
 	protected function init() {
@@ -375,7 +380,7 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
-							'timeout' => \OC::$server->getConfig()->getSystemValueInt('remote_curl_timeout', 30)
+							'timeout' => $this->timeout
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -534,7 +539,7 @@ class DAV extends Common {
 				'body' => $source,
 				'auth' => [$this->user, $this->password],
 				// set upload timeout for users with slow connections or large files
-				'timeout' => \OC::$server->getConfig()->getSystemValueInt('remote_curl_timeout', 30)
+				'timeout' => $this->timeout
 			]);
 
 		$this->removeCachedFile($target);
