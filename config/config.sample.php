@@ -290,9 +290,9 @@ $CONFIG = [
 'session_lifetime' => 60 * 60 * 24,
 
 /**
- * The timeout for requests to remote servers (e.g., needed for federated shares).
+ * The timeout in seconds for requests to servers made by the DAV component (e.g., needed for federated shares).
  */
-'remote_curl_timeout' => 30,
+'davstorage.request_timeout' => 30,
 
 /**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
