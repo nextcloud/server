@@ -3,6 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Ez általában úgy javítható, hogy írási jogosultságot ad a webkiszolgáló számára a konfigurációs könyvtáron.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "De ha szeretné, hogy a config.php fájlja csak olvasható legyen, akkor állítsa benne igazra a „config_is_read_only” beállítást.",
     "See %s" : "Lásd %s",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "A(z) %1$s alkalmazás nincs jelen, vagy a verziója nem kompatibilis ezzel a kiszolgálóval. Ellenőrizze az alkalmazástárat.",
     "Sample configuration detected" : "Példabeállítások észlelve",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Úgy tűnik, hogy a példakonfigurációt másolta le. Ez működésképtelenné teheti a telepítést, és nem támogatott. Olvassa el a dokumentációt, mielőtt módosításokat véget a config.php fájlban.",
     "404" : "404",
