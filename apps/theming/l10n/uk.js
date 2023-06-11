@@ -57,7 +57,7 @@ OC.L10N.register(
     "Color" : "Колір",
     "Logo" : "Логотип",
     "Upload new logo" : "Завантажити новий логотип",
-    "Background and login image" : "Зображення тла та логотипу авторизації",
+    "Background and login image" : "Зображення тла та логотипу організації на сторінці авторизації",
     "Upload new background and login image" : "Завантажити нове зображення тла та логотип сторінки авторизації",
     "Legal notice link" : "Посилання на правову інформацію",
     "Privacy policy link" : "Посилання на політику конфіденційності",
