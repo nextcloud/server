@@ -6,6 +6,7 @@ OC.L10N.register(
     "Open sidebar" : "باز کردن نوار کناری",
     "Download" : "بارگیری",
     "Delete" : "حذف",
+    "View" : "نمایش",
     "Name" : "نام",
     "Save" : "ذخیره",
     "Back" : "بازگشت",
