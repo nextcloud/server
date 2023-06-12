@@ -23,7 +23,7 @@ OC.L10N.register(
     "Disconnect" : "Desconectar",
     "Admin defined" : "Definido polo administrador",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "A comprobación automática do estado está desactivada debido á gran cantidade de almacenamentos configurados. Fai clic para comprobar o estado",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Estás seguro de que queres desconectar este almacenamento externo? Fará que o almacenamento non estea dispoñible en Nextcloud e provocará a eliminación destes ficheiros e cartafoles en calquera cliente de sincronización que estea conectado actualmente, pero non eliminará ningún ficheiro e cartafol do propio almacenamento externo.",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Confirma que quere desconectar este almacenamento externo? Fará que o almacenamento non estea dispoñíbel en Nextcloud e provocará a eliminación destes ficheiros e cartafoles en calquera cliente de sincronización que estea conectado actualmente, mais non eliminará ningún ficheiro e cartafol do propio almacenamento externo.",
     "Delete storage?" : "Eliminar o almacenamento?",
     "Saved" : "Gardado",
     "Saving …" : "Gardando…",
