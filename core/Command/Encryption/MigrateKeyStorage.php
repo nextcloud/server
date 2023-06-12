@@ -38,20 +38,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateKeyStorage extends Command {
-	protected View $rootView;
-	protected IUserManager $userManager;
-	protected IConfig $config;
-	protected Util $util;
-	protected QuestionHelper $questionHelper;
-	private ICrypto $crypto;
-
-	public function __construct(View $view, IUserManager $userManager, IConfig $config, Util $util, ICrypto $crypto) {
+	public function __construct(
+		protected View $rootView,
+		protected IUserManager $userManager,
+		protected IConfig $config,
+		protected Util $util,
+		private ICrypto $crypto,
+	) {
 		parent::__construct();
-		$this->rootView = $view;
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->util = $util;
-		$this->crypto = $crypto;
 	}
 
 	protected function configure() {
