@@ -42,26 +42,16 @@ use OCP\ISession;
 use OCP\Security\ISecureRandom;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
-	private ISession $session;
-	private ISecureRandom $random;
-	private IProvider $tokenProvider;
-	private IStore $credentialStore;
-	private IEventDispatcher $eventDispatcher;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								ISession $session,
-								ISecureRandom $random,
-								IProvider $tokenProvider,
-								IStore $credentialStore,
-								IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ISession $session,
+		private ISecureRandom $random,
+		private IProvider $tokenProvider,
+		private IStore $credentialStore,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->session = $session;
-		$this->random = $random;
-		$this->tokenProvider = $tokenProvider;
-		$this->credentialStore = $credentialStore;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
