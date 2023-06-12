@@ -56,7 +56,6 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$policy->addAllowedFontDomain('example.com');
 		$policy->addAllowedImageDomain('example.org');
-		$policy->allowInlineScript(true);
 		$policy->allowEvalScript(true);
 		$this->contentSecurityPolicyManager->addDefaultPolicy($policy);
 		$policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
@@ -66,7 +65,6 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->contentSecurityPolicyManager->addDefaultPolicy($policy);
 
 		$expected = new \OC\Security\CSP\ContentSecurityPolicy();
-		$expected->allowInlineScript(true);
 		$expected->allowEvalScript(true);
 		$expected->addAllowedFontDomain('mydomain.com');
 		$expected->addAllowedFontDomain('example.com');
@@ -75,7 +73,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$expected->addAllowedImageDomain('anotherdomain.de');
 		$expected->addAllowedImageDomain('example.org');
 		$expected->addAllowedChildSrcDomain('childdomain');
-		$expectedStringPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: anotherdomain.de example.org;font-src 'self' data: mydomain.com example.com anotherFontDomain;connect-src 'self';media-src 'self';child-src childdomain;frame-ancestors 'self';form-action 'self' thirdDomain";
+		$expectedStringPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: anotherdomain.de example.org;font-src 'self' data: mydomain.com example.com anotherFontDomain;connect-src 'self';media-src 'self';child-src childdomain;frame-ancestors 'self';form-action 'self' thirdDomain";
 
 		$this->assertEquals($expected, $this->contentSecurityPolicyManager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->contentSecurityPolicyManager->getDefaultPolicy()->buildPolicy());
@@ -96,7 +94,6 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 			$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 			$policy->addAllowedFontDomain('example.com');
 			$policy->addAllowedImageDomain('example.org');
-			$policy->allowInlineScript(true);
 			$policy->allowEvalScript(false);
 			$e->addPolicy($policy);
 		});
@@ -110,7 +107,6 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		});
 
 		$expected = new \OC\Security\CSP\ContentSecurityPolicy();
-		$expected->allowInlineScript(true);
 		$expected->allowEvalScript(true);
 		$expected->addAllowedFontDomain('mydomain.com');
 		$expected->addAllowedFontDomain('example.com');
@@ -120,7 +116,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$expected->addAllowedChildSrcDomain('childdomain');
 		$expected->addAllowedFormActionDomain('thirdDomain');
 		$expected->useStrictDynamic(true);
-		$expectedStringPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: anotherdomain.de example.org;font-src 'self' data: mydomain.com example.com anotherFontDomain;connect-src 'self';media-src 'self';child-src childdomain;frame-ancestors 'self';form-action 'self' thirdDomain";
+		$expectedStringPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: anotherdomain.de example.org;font-src 'self' data: mydomain.com example.com anotherFontDomain;connect-src 'self';media-src 'self';child-src childdomain;frame-ancestors 'self';form-action 'self' thirdDomain";
 
 		$this->assertEquals($expected, $this->contentSecurityPolicyManager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->contentSecurityPolicyManager->getDefaultPolicy()->buildPolicy());

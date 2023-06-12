@@ -110,7 +110,7 @@ class FtpConnection {
 	public function nlist(string $path) {
 		$files = @ftp_nlist($this->connection, $path);
 		return array_map(function ($name) {
-			if (strpos($name, '/') !== false) {
+			if (str_contains($name, '/')) {
 				$name = basename($name);
 			}
 			return $name;
@@ -122,7 +122,7 @@ class FtpConnection {
 
 		if ($files !== false) {
 			return array_map(function ($file) {
-				if (strpos($file['name'], '/') !== false) {
+				if (str_contains($file['name'], '/')) {
 					$file['name'] = basename($file['name']);
 				}
 				return $file;

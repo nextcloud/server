@@ -2155,6 +2155,11 @@ $CONFIG = [
 'upgrade.disable-web' => false,
 
 /**
+ * Allows to modify the cli-upgrade link in order to link to a different documentation
+ */
+'upgrade.cli-upgrade-link' => '',
+
+/**
  * Set this Nextcloud instance to debugging mode
  *
  * Only enable this for local development and not in production environments

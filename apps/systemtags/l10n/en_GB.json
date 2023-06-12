@@ -46,6 +46,7 @@
     "Collaborative tags" : "Collaborative tags",
     "Collaborative tagging functionality which shares tags among users." : "Collaborative tagging functionality which shares tags among users.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
+    "Loading collaborative tags …" : "Loading collaborative tags …",
     "Search or create collaborative tags" : "Search or create collaborative tags",
     "Collaborative tags …" : "Collaborative tags …",
     "No tags to select, type to create a new tag" : "No tags to select, type to create a new tag",

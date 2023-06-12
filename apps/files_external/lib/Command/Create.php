@@ -134,7 +134,7 @@ class Create extends Base {
 
 		$config = [];
 		foreach ($configInput as $configOption) {
-			if (!strpos($configOption, '=')) {
+			if (!str_contains($configOption, '=')) {
 				$output->writeln('<error>Invalid mount configuration option "' . $configOption . '"</error>');
 				return 1;
 			}

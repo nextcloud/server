@@ -107,6 +107,8 @@
     "Create new folder" : "Új mappa létrehozása",
     "Upload file" : "Fájl feltöltése",
     "Recent" : "Legutóbbi",
+    "This file has the tag {tag}" : "Ennek a fájlnak ez a címkéje: {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Ennek a fájlnak ezek a címkéi: {firstTags} és {lastTag}",
     "Not favorited" : "Nincs a kedvencek között",
     "Remove from favorites" : "Eltávolítás a kedvencekből",
     "Add to favorites" : "Hozzáadás a kedvencekhez",
@@ -224,8 +226,10 @@
     "Blank" : "Üres",
     "Unable to create new file from template" : "Nem lehet új fájlt létrehozni a sablonból",
     "Delete permanently" : "Végleges törlés",
+    "Open folder {displayName}" : "A(z) {displayName} mappa megnyitása",
     "Set up templates folder" : "Személyes sablonmappa beállítása",
     "Templates" : "Sablonok",
+    "Create new templates folder" : "Új sablonmappa létrehozása",
     "Unable to initialize the templates directory" : "A sablonkönyvtár előkészítése sikertelen",
     "Toggle %1$s sublist" : "%1$s allista be/ki",
     "Toggle grid view" : "Rácsnézet be/ki",
@@ -250,6 +254,7 @@
     "%s used" : "%s használt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s / %2$s felhasználva",
-    "Deleted files" : "Törölt fájlok"
+    "Deleted files" : "Törölt fájlok",
+    "Search for an account" : "Fiók keresése"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "İş birlikli etiketler",
     "Collaborative tagging functionality which shares tags among users." : "Etiketlerin kullanıcılar arasında paylaşılabilmesini sağlayan iş birlikli etiketleme özelliği.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "İş birlikli etiketler özelliği etiketlerin kullanıcılar arasında paylaşılabilmesini sağlar. Takımlar için harikadır. \n\t(Birden çok kuruluşun olduğu bir kurulumda etiketler zaten paylaşıldığı için bu uygulamanın devre dışı bırakılması önerilir).",
+    "Loading collaborative tags …" : "İş birlikli etiketler yükleniyor…",
     "Search or create collaborative tags" : "İş birlikli etiket ara ya da ekle",
     "Collaborative tags …" : "İş birlikli etiketler…",
     "No tags to select, type to create a new tag" : "Seçilebilecek herhangi bir etiket yok. Yazarak yeni bir etiket ekleyin",

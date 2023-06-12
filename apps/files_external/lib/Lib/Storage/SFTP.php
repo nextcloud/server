@@ -63,7 +63,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	 */
 	private function splitHost($host) {
 		$input = $host;
-		if (strpos($host, '://') === false) {
+		if (!str_contains($host, '://')) {
 			// add a protocol to fix parse_url behavior with ipv6
 			$host = 'http://' . $host;
 		}
