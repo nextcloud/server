@@ -78,6 +78,7 @@ class SeekableHttpStream implements File {
 	private int $offset = 0;
 	private int $length = 0;
 	private bool $needReconnect = false;
+	private int $totalSize = 0;
 
 	private function reconnect(int $start): bool {
 		$this->needReconnect = false;
@@ -128,6 +129,9 @@ class SeekableHttpStream implements File {
 
 		$this->offset = $begin;
 		$this->length = $length;
+		if ($start === 0) {
+			$this->totalSize = $length;
+		}
 
 		return true;
 	}
@@ -211,7 +215,9 @@ class SeekableHttpStream implements File {
 
 	public function stream_stat() {
 		if ($this->getCurrent()) {
-			return fstat($this->getCurrent());
+			$stat = fstat($this->getCurrent());
+			$stat['size'] = $this->totalSize;
+			return $stat;
 		} else {
 			return false;
 		}
