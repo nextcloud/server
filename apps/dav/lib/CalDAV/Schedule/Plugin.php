@@ -176,6 +176,8 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$vevent->remove('VALARM');
 		}
 
+		$this->logger->debug('Serialised iTipMessage for processing: ' . $iTipMessage->message->serialize());
+		$this->logger->debug('iTip message method: ' . $iTipMessage->method);
 		parent::scheduleLocalDelivery($iTipMessage);
 		// We only care when the message was successfully delivered locally
 		// Log all possible codes returned from the parent method that mean something went wrong
