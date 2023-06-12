@@ -32,12 +32,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Cleanup extends Base {
-	private IRegistry $registry;
-
-	public function __construct(IRegistry $registry) {
+	public function __construct(private IRegistry $registry) {
 		parent::__construct();
-
-		$this->registry = $registry;
 	}
 
 	protected function configure() {
