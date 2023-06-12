@@ -27,6 +27,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class CalDavContext implements \Behat\Behat\Context\Context {
@@ -231,6 +232,30 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 					$actual
 				)
 			);
+		}
+	}
+
+	/**
+	 * @When :user sends a create calendar request to :calendar on the endpoint :endpoint
+	 */
+	public function sendsCreateCalendarRequest(string $user, string $calendar, string $endpoint) {
+		$davUrl = $this->baseUrl . $endpoint . $calendar;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		try {
+			$this->response = $this->client->request(
+				'MKCALENDAR',
+				$davUrl,
+				[
+					'body' => '<c:mkcalendar xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:" xmlns:a="http://apple.com/ns/ical/" xmlns:o="http://owncloud.org/ns"><d:set><d:prop><d:displayname>test</d:displayname><o:calendar-enabled>1</o:calendar-enabled><a:calendar-color>#21213D</a:calendar-color><c:supported-calendar-component-set><c:comp name="VEVENT"/></c:supported-calendar-component-set></d:prop></d:set></c:mkcalendar>',
+					'auth' => [
+						$user,
+						$password,
+					],
+				]
+			);
+		} catch (GuzzleException $e) {
+			$this->response = $e->getResponse();
 		}
 	}
 }

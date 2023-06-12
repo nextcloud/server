@@ -26,6 +26,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Message\ResponseInterface;
 
 class CardDavContext implements \Behat\Behat\Context\Context {
@@ -309,6 +310,66 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					)
 				);
 			}
+		}
+	}
+
+	/**
+	 * @When :user sends a create addressbook request to :addressbook on the endpoint :endpoint
+	 */
+	public function sendsCreateAddressbookRequest(string $user, string $addressbook, string $endpoint) {
+		$davUrl = $this->baseUrl . $endpoint . $addressbook;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		try {
+			$this->response = $this->client->request(
+				'MKCOL',
+				$davUrl,
+				[
+					'body' => '<d:mkcol xmlns:card="urn:ietf:params:xml:ns:carddav"
+				  xmlns:d="DAV:">
+		<d:set>
+		  <d:prop>
+			<d:resourcetype>
+				<d:collection />,<card:addressbook />
+			  </d:resourcetype>,<d:displayname>' . $addressbook . '</d:displayname>
+		  </d:prop>
+		</d:set>
+	  </d:mkcol>',
+					'auth' => [
+						$user,
+						$password,
+					],
+					'headers' => [
+						'Content-Type' => 'application/xml;charset=UTF-8',
+					],
+				]
+			);
+		} catch (GuzzleException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then The CardDAV HTTP status code should be :code
+	 * @param int $code
+	 * @throws \Exception
+	 */
+	public function theCarddavHttpStatusCodeShouldBe($code) {
+		if ((int)$code !== $this->response->getStatusCode()) {
+			throw new \Exception(
+				sprintf(
+					'Expected %s got %s',
+					(int)$code,
+					$this->response->getStatusCode()
+				)
+			);
+		}
+
+		$body = $this->response->getBody()->getContents();
+		if ($body && substr($body, 0, 1) === '<') {
+			$reader = new Sabre\Xml\Reader();
+			$reader->xml($body);
+			$this->responseXml = $reader->parse();
 		}
 	}
 }
