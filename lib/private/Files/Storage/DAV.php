@@ -51,6 +51,7 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
@@ -139,7 +140,7 @@ class DAV extends Common {
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 		$this->eventLogger = \OC::$server->get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
-		$this->timeout = \OC::$server->getConfig()->getSystemValueInt('davstorage.request_timeout', 30);
+		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
 	}
 
 	protected function init() {
