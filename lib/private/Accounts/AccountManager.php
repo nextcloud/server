@@ -795,8 +795,9 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function getAccount(IUser $user): IAccount {
-		if ($this->internalCache->hasKey($user->getUID())) {
-			return $this->internalCache->get($user->getUID());
+		$cached = $this->internalCache->get($user->getUID());
+		if ($cached !== null) {
+			return $cached;
 		}
 		$account = $this->parseAccountData($user, $this->getUser($user));
 		$this->internalCache->set($user->getUID(), $account);

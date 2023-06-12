@@ -265,8 +265,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	private function testRemoteUrl(string $url): bool {
 		$cache = $this->memcacheFactory->createDistributed('files_sharing_remote_url');
-		if ($cache->hasKey($url)) {
-			return (bool)$cache->get($url);
+		$cached = $cache->get($url);
+		if ($cached !== null) {
+			return (bool)$cached;
 		}
 
 		$client = $this->httpClient->newClient();
