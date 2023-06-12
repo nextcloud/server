@@ -36,15 +36,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Generate extends Command {
-	private IRootFolder $rootFolder;
-	private IUserMountCache $userMountCache;
-	private IPreview $previewManager;
-
-	public function __construct(IRootFolder $rootFolder, IUserMountCache $userMountCache, IPreview $previewManager) {
-		$this->rootFolder = $rootFolder;
-		$this->userMountCache = $userMountCache;
-		$this->previewManager = $previewManager;
-
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserMountCache $userMountCache,
+		private IPreview $previewManager,
+	) {
 		parent::__construct();
 	}
 
