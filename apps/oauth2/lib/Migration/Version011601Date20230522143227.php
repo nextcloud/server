@@ -49,7 +49,7 @@ class Version011601Date20230522143227 extends SimpleMigrationStep {
 			$table = $schema->getTable('oauth2_clients');
 			if ($table->hasColumn('secret')) {
 				$column = $table->getColumn('secret');
-				$column->setLength(256);
+				$column->setLength(512);
 				return $schema;
 			}
 		}
