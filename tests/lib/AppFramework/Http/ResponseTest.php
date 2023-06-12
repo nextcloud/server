@@ -67,7 +67,6 @@ class ResponseTest extends \Test\TestCase {
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self' data:;connect-src 'self';media-src 'self'",
 		];
 		$policy = new Http\ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$headers = $this->childResponse->getHeaders();
@@ -77,7 +76,6 @@ class ResponseTest extends \Test\TestCase {
 
 	public function testGetCsp() {
 		$policy = new Http\ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$this->assertEquals($policy, $this->childResponse->getContentSecurityPolicy());
