@@ -34,7 +34,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LastSeen extends Base {
-	public function __construct(protected IUserManager $userManager) {
+	public function __construct(
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
 	}
 
