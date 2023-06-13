@@ -56,7 +56,7 @@ use function preg_match;
 use function preg_quote;
 
 class ConvertType extends Command implements CompletionAwareInterface {
-	protected array $columnTypes;
+	protected array $columnTypes = [];
 
 	public function __construct(
 		protected IConfig $config,
