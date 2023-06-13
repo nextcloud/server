@@ -26,7 +26,9 @@ use OC\SystemConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 
 abstract class Base extends \OC\Core\Command\Base {
-	public function __construct(protected SystemConfig $systemConfig) {
+	public function __construct(
+		protected SystemConfig $systemConfig,
+	) {
 		parent::__construct();
 	}
 

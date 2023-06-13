@@ -36,7 +36,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Import extends Command implements CompletionAwareInterface {
 	protected array $validRootKeys = ['system', 'apps'];
 
-	public function __construct(protected IConfig $config) {
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
 	}
 
