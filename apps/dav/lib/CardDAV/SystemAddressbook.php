@@ -64,7 +64,7 @@ class SystemAddressbook extends AddressBook {
 		IUserSession $userSession,
 		?IRequest $request = null,
 		?TrustedServers $trustedServers = null,
-		?IGroupManager $groupManager) {
+		?IGroupManager $groupManager = null) {
 		parent::__construct($carddavBackend, $addressBookInfo, $l10n);
 		$this->config = $config;
 		$this->userSession = $userSession;
