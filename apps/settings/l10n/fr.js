@@ -125,7 +125,7 @@ OC.L10N.register(
     "Overview" : "Vue d'ensemble",
     "Basic settings" : "Paramètres de base",
     "Sharing" : "Partage",
-    "Availability" : "Disponibilité",
+    "Availability" : "Disponibilités",
     "Calendar" : "Agenda",
     "Personal info" : "Informations personnelles",
     "Mobile & desktop" : "Mobile & bureau",

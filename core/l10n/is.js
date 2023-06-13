@@ -355,7 +355,6 @@ OC.L10N.register(
     "Detailed logs" : "Ítarlegar atvikaskrár",
     "Update needed" : "Þarfnast uppfærslu",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu með fleiri en 50 notendum.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Endilega notaðu uppfærslutólið af skipanalínu, því sjálfvirkar uppfærslur eru gerðar óvirkar í config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Til að fá hjálp er best að skoða fyrst  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">hjálparskjölin</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Ég veit að ef ég held uppfærslunni áfram í gegnum vefviðmótið, þá er sú áhætta fyrir hendi að beiðnin falli á tímamörkum, sem aftur gæti valdið gagnatapi - en ég á öryggisafrit og veit hvernig ég get endurheimt uppsetninguna mína ef aðgerðin misferst.",
     "Upgrade via web on my own risk" : "Uppfæra með vefviðmóti á mína eigin ábyrgð",
@@ -368,6 +367,7 @@ OC.L10N.register(
     "Press enter to start searching" : "Ýttu á Enter til að hefja leit",
     "Settings" : "Stillingar",
     "File not found" : "Skrá finnst ekki",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Skjalið fannst ekki á þjóninum. Hugsanlega hefur sameigninni verið eytt eða sé útrunnin?"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Skjalið fannst ekki á þjóninum. Hugsanlega hefur sameigninni verið eytt eða sé útrunnin?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Endilega notaðu uppfærslutólið af skipanalínu, því sjálfvirkar uppfærslur eru gerðar óvirkar í config.php."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

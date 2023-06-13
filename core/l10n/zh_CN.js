@@ -54,7 +54,7 @@ OC.L10N.register(
     "Repair info:" : "修复 信息：",
     "Repair warning:" : "修复 警告：",
     "Repair error:" : "修复 错误：",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "请使用命令行更新程序，因为通过浏览器更新在您的config.php中被禁用。",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "请使用命令行更新程序，因为通过浏览器更新在您的config.php中被禁用。",
     "Turned on maintenance mode" : "启用维护模式",
     "Turned off maintenance mode" : "关闭维护模式",
     "Maintenance mode is kept active" : "维护模式已启用",
@@ -401,7 +401,6 @@ OC.L10N.register(
     "Detailed logs" : "详细日志",
     "Update needed" : "需要更新",
     "Please use the command line updater because you have a big instance with more than 50 users." : "请使用命令行更新，因为您有一个超过50个用户的大型实例。",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "由于自动更新在 config.php 中已禁用，请使用命令行更新。",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "获取更多帮助，请查看<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">文档</a>。",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "我知道继续通过Web UI进行更新的风险，请求超时运行，并可能导致数据丢失，但我有一个备份，并知道如何恢复。",
     "Upgrade via web on my own risk" : "通过网络升级的风险",
@@ -409,6 +408,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "该实例 %s 当前处于维护模式，这将花费一些时间。",
     "This page will refresh itself when the instance is available again." : "当实例再次可用时，页面会自动刷新。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "如果这个消息一直存在或不停出现，请联系您的系统管理员。",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "请使用命令行更新程序，因为通过浏览器更新在您的config.php中被禁用。",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在运行 32 位版本的 PHP 服务。 Nextcloud 需要 64 位以良好运作，请升级您的操作系统与 PHP 服务至 64 位版本！有关更多详细信息，请阅读{linkstart}有关的文档页面 ↗{linkend}。",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置消息已发送到该帐户的电子邮件地址。如果您没有收到，请检查您的垃圾邮件/垃圾文件夹或向您的本地管理员寻求帮助。 ",
     "If it is not there ask your local administrator." : "如果它不在此处，请询问您的本地管理员。",
@@ -416,7 +416,7 @@ OC.L10N.register(
     "Settings" : "设置",
     "File not found" : "文件未找到",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "服务器上找不到该文档。可能此共享已被删除或过期。",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "请使用命令行更新程序，因为通过浏览器更新在您的config.php中被禁用。",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "由于自动更新在 config.php 中已禁用，请使用命令行更新。",
     "The page could not be found on the server." : "无法在服务器上找到此页面"
 },
 "nplurals=1; plural=0;");

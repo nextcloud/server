@@ -384,7 +384,6 @@ OC.L10N.register(
     "Detailed logs" : "Log dettagliati",
     "Update needed" : "Aggiornamento necessario",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Utilizza lo strumento di aggiornamento da riga di comando perché hai un'istanza grande con più di 50 utenti.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Utilizza lo strumento da riga di comando poiché l'aggiornamento automatico è disabilitato nel file config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Per la guida, vedi la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentazione</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sono consapevole che, procedendo con l'aggiornamento tramite interfaccia web, esista il rischio che la richiesta possa scadere e causare perdite di dati, ma ho una copia di sicurezza e so come ripristinare la mia istanza in caso di problemi.",
     "Upgrade via web on my own risk" : "Aggiorna tramite web a mio rischio",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "Settings" : "Impostazioni",
     "File not found" : "File non trovato",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Il documento non può essere trovato sul server. Forse la condivisione è stata eliminata o è scaduta?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Utilizza lo strumento da riga di comando poiché l'aggiornamento automatico è disabilitato nel file config.php.",
     "The page could not be found on the server." : "Impossibile trovare la pagina sul server."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

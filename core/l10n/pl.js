@@ -54,7 +54,7 @@ OC.L10N.register(
     "Repair info:" : "Informacja o naprawie: ",
     "Repair warning:" : "Ostrzeżenie naprawy:",
     "Repair error:" : "Błąd naprawy: ",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php.",
     "Turned on maintenance mode" : "Włączono tryb konserwacji",
     "Turned off maintenance mode" : "Wyłączono tryb konserwacji",
     "Maintenance mode is kept active" : "Tryb konserwacji pozostał aktywny",
@@ -405,7 +405,6 @@ OC.L10N.register(
     "Detailed logs" : "Szczegółowe logi",
     "Update needed" : "Wymagana aktualizacja",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Użyj wiersza poleceń do aktualizacji, ponieważ masz dużą instancję, która posiada ponad 50 użytkowników.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ automatyczna aktualizacja jest wyłączona w pliku config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentacji</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Wiem, że jeśli kontynuuję aktualizację za pomocą przeglądarki, istnieje ryzyko że operacja może nie wykonać się w określonym limicie czasu, co może doprowadzić do utraty danych, ale mam kopię zapasową i wiem jak przywrócić w przypadku niepowodzenia.",
     "Upgrade via web on my own risk" : "Wykonaj aktualizację poprzez przeglądarkę na własne ryzyko",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Ta instancja %s jest obecnie w trybie konserwacji, co może chwilę potrwać.",
     "This page will refresh itself when the instance is available again." : "Strona odświeży się, gdy instancja będzie ponownie dostępna.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Skontaktuj się z administratorem systemu, jeśli ten komunikat będzie się powtarzał lub pojawił się nieoczekiwanie.",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php.",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud do poprawnego działania potrzebuje 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Więcej informacji na ten temat przeczytasz na {linkstart}stronie dokumentacji ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Wiadomość o zresetowaniu hasła została wysłana na adres e-mail tego konta. Jeśli go nie otrzymałeś, sprawdź katalogi spam/kosz lub poproś lokalnego administratora o pomoc.",
     "If it is not there ask your local administrator." : "Jeśli nie ma, skontaktuj się z lokalnym administratorem.",
@@ -420,7 +420,7 @@ OC.L10N.register(
     "Settings" : "Ustawienia",
     "File not found" : "Nie znaleziono pliku",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokument nie został odnaleziony na serwerze. Może udostępnienie zostało usunięte lub wygasło?",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ aktualizacja przez przeglądarkę jest wyłączona w Twoim pliku config.php.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Użyj wiersza poleceń do aktualizacji, ponieważ automatyczna aktualizacja jest wyłączona w pliku config.php.",
     "The page could not be found on the server." : "Nie znaleziono strony na serwerze."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

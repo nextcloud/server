@@ -54,7 +54,7 @@ OC.L10N.register(
     "Repair info:" : "Información de reparación:",
     "Repair warning:" : "Advertencia de reparación:",
     "Repair error:" : "Error que reparar:",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Por favor use el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Por favor, utilice el actualizador de línea de comandos ya que la actualización vía navegador se encuentra deshabilitado en su config.php",
     "Turned on maintenance mode" : "Modo mantenimiento activado",
     "Turned off maintenance mode" : "Modo mantenimiento desactivado",
     "Maintenance mode is kept active" : "El modo mantenimiento aún está activo.",
@@ -406,7 +406,6 @@ OC.L10N.register(
     "Detailed logs" : "Registros detallados",
     "Update needed" : "Se necesita actualización",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Utilice el actualizador de línia de comandos porque tiene una instancia con más de 50 usuarios.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor utilice la actualización mediante la linea de comandos porque la actualización automática está desactivada en config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Para obtener ayuda, consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentación</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sé que si continúo haciendo la actualización a través de la interfaz web, tengo el riesgo de que la solicitud no se ejecute en el tiempo de espera y provoque pérdida de información pero tengo una copia de seguridad de los datos y sé como restaurarla.",
     "Upgrade via web on my own risk" : "Actualizar a través de la web con mi consentimiento.",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Está instancia %s está en modo mantenimiento, y puede tardar un rato.",
     "This page will refresh itself when the instance is available again." : "Esta página se actualizará sola cuando la instancia esté disponible de nuevo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Por favor use el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud necesita 64 bits para su correcto funcionamiento. ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Se ha enviado a tu dirección de correo un mensaje para reiniciar la contraseña. Si no lo recibes, comprueba si está en el buzón de Correo No Deseado (Spam) o pide ayuda a tu administrador local.",
     "If it is not there ask your local administrator." : "Si no está ahí ponte en contacto con el administrador local",
@@ -421,7 +421,7 @@ OC.L10N.register(
     "Settings" : "Configuraciones",
     "File not found" : "Archivo no encontrado",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "El documento no se pudo encontrar en el servidor. Es posible que el enlace fuera eliminado o haya caducado.",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Por favor, utilice el actualizador de línea de comandos ya que la actualización vía navegador se encuentra deshabilitado en su config.php",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor utilice la actualización mediante la linea de comandos porque la actualización automática está desactivada en config.php.",
     "The page could not be found on the server." : "La página no se ha encontrado en el servidor."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
