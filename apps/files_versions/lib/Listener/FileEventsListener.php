@@ -239,11 +239,18 @@ class FileEventsListener implements IEventListener {
 		} else {
 			// If no new version was stored in the FS, no new version should be added in the DB.
 			// So we simply update the associated version.
-			$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
-			$currentVersionEntity->setTimestamp($node->getMTime());
-			$currentVersionEntity->setSize($node->getSize());
-			$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-			$this->versionsMapper->update($currentVersionEntity);
+			try {
+				$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
+				$currentVersionEntity->setTimestamp($node->getMTime());
+				$currentVersionEntity->setSize($node->getSize());
+				$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
+				$this->versionsMapper->update($currentVersionEntity);
+			} catch (DoesNotExistException) {
+				// There might be cases where the current version entry doesn't exist,
+				// e.g. if none was written due to an empty file or from before the versions table was introduced
+				// We just create the initial version entry then for the current entity
+				$this->created($node);
+			}
 		}
 
 		unset($this->writeHookInfo[$node->getId()]);
