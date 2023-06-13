@@ -54,7 +54,7 @@ OC.L10N.register(
     "Repair info:" : "Инфо о поправци:",
     "Repair warning:" : "Упозорење о поправци:",
     "Repair error:" : "Грешка поправке:",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php.",
     "Turned on maintenance mode" : "Режим одржавања укључен",
     "Turned off maintenance mode" : "Режим одржавања искључен",
     "Maintenance mode is kept active" : "Режим одржавања се држи активним",
@@ -406,7 +406,6 @@ OC.L10N.register(
     "Detailed logs" : "Детаљни дневници",
     "Update needed" : "Потребно је ажурирање",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Молимо користите ажурирање из конзоле пошто имате велики сервер са више од 50 корисника.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Ажурирање урадите преко командне линије јер је аутоматско ажурирање онемогућено у config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "За помоћ, погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документацију</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Свестан сам да уколико наставим ажурирање преко веб сучеља, постоји ризик да захтеву истекне време за извршење и да то може да изазове губитак података, али имам резервну копију и знам како да је повратим у случају грешке.",
     "Upgrade via web on my own risk" : "Надогради преко веба на сопствену одговорност",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Овај %s је тренутно у режиму одржавања што може потрајати.",
     "This page will refresh itself when the instance is available again." : "Ова страница ће се сама освежити када инстанца постане поново доступна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте администратора ако се порука понавља или се неочекивано појавила.",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php.",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изгледа да покрећете 32-битну PHP верзију. За правилно извршавање Nextcloud захтева 64-битну верзију. Молимо вас да ажурирате свој оперативни систем и PHP на 64-бита! За више детаља прочитајте {linkstart}страницу документације која се бави овим проблемом ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "На е-мејл адресу овог налога је послата порука за ресетовање лозинке. Ако је не примите, проверите фолдере за нежељену пошту/отпад или потражите помоћ од свог локалног администратора.",
     "If it is not there ask your local administrator." : "Ако није ни тамо, контактирајте вашег администратора.",
@@ -421,7 +421,7 @@ OC.L10N.register(
     "Settings" : "Поставке",
     "File not found" : "Фајл није нађен",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Овај документ није нађен на серверу. Можда је дељење избрисано или му је истекао рок трајања?",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Молимо вас да користите алат за ажурирање из командне линије јер је ажурирање из прегледача искључено у вашем config.php.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Ажурирање урадите преко командне линије јер је аутоматско ажурирање онемогућено у config.php.",
     "The page could not be found on the server." : "На серверу не може да се пронађе ова страница."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

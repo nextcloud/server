@@ -211,13 +211,13 @@ OC.L10N.register(
     "Detailed logs" : "დეტალური ლოგები",
     "Update needed" : "საჭიროა განახლება",
     "Please use the command line updater because you have a big instance with more than 50 users." : "გთხოვთ მოიხმაროთ \"command-line\" განმანახლებელი რადგანაც ეს დიდი ინსტანციაა, მასზე 50-ზე მეტი მომხმარებელია.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "ავტომატური განახლება config.php-ში გათიშულია, გთხოვთ ისარგებლოთ command-line განახლებით.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "დახმარებისთვის  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">იხილეთ დოკუმენტაცია</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "ვიცი რომ, თუ გავაგრძელებ განახლებას ვებ-ინტერფეისით, არის რისკი, რომ მოთხოვნას დრო ამოეწურება და შეიძლება მოხდეს მონაცემების დაკარგვა, თუმცა მაქვს ბექაფი და ვიცი თუ როგორ აღვადგინო ინსტანცია იმ შემთხვევაში თუ მოხდება შეცდომა.",
     "Upgrade via web on my own risk" : "ვებით განაახლეთ თქვენი პასუხისმგებლობით",
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
     "Settings" : "პარამეტრები",
-    "File not found" : "ფაილი ვერ იქნა ნაპოვნი"
+    "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "ავტომატური განახლება config.php-ში გათიშულია, გთხოვთ ისარგებლოთ command-line განახლებით."
 },
 "nplurals=2; plural=(n!=1);");

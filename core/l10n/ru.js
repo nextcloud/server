@@ -54,7 +54,7 @@ OC.L10N.register(
     "Repair info:" : "Информация восстановления:",
     "Repair warning:" : "Предупреждение восстановления:",
     "Repair error:" : "Ошибка восстановления:",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Автоматические обновления отключены в файле конфигурации  «config.php». Выполните обновление из командной строки.",
+    "Please use the command line updater because updating via browser is disabled in your config.php." : "Пожалуйста, используйте обновление из терминала, поскольку обновление через браузер отключено в вашем файле конфигурации config.php.",
     "Turned on maintenance mode" : "Включён режим обслуживания ",
     "Turned off maintenance mode" : "Отключён режим обслуживания",
     "Maintenance mode is kept active" : "Режим обслуживания оставлен включенным",
@@ -405,7 +405,6 @@ OC.L10N.register(
     "Detailed logs" : "Подробные журналы",
     "Update needed" : "Требуется обновление",
     "Please use the command line updater because you have a big instance with more than 50 users." : "В этом развёртывании создано более 50 пользователей. Используйте инструмент командной строки для выполнения обновления.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Автоматические обновления отключены в файле конфигурации  «config.php». Выполните обновление из командной строки.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Для получения помощи обратитесь к <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документации</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Я знаю, что в случае продолжения обновления через веб-интерфейс возникает риск тайм-аута запроса, который может привести к потере данных. У меня есть резервная копия, и я знаю, как восстановить систему в случае сбоя.",
     "Upgrade via web on my own risk" : "Обновить используя веб-интерфейс на мой страх и риск",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the instance is available again." : "Эта страница обновится автоматически когда сервер снова станет доступен.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Автоматические обновления отключены в файле конфигурации  «config.php». Выполните обновление из командной строки.",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже что вы используете 32-битную версию PHP. Для нормальной работы Nextcloud требуется 64-битная версия. Пожалуйста обновите вашу операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации.{linkend}",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Письмо с инструкциями по сбросу пароля отправлено на адрес электронной почты этой учётной записи. Если это письмо не будет получено, проверьте папку «Спам» или сообщите об этом администратору системы.",
     "If it is not there ask your local administrator." : "Если письмо не будет получено, сообщите об этом администратору системы.",
@@ -420,7 +420,7 @@ OC.L10N.register(
     "Settings" : "Параметры",
     "File not found" : "Файл не найден",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документ не найден на сервере. Возможно доступ к нему был удален или истек срок действия доступа.",
-    "Please use the command line updater because updating via browser is disabled in your config.php." : "Пожалуйста, используйте обновление из терминала, поскольку обновление через браузер отключено в вашем файле конфигурации config.php.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Автоматические обновления отключены в файле конфигурации  «config.php». Выполните обновление из командной строки.",
     "The page could not be found on the server." : "Страница не найдена на сервере."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

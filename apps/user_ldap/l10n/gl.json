@@ -174,7 +174,7 @@
     "Quota Field" : "Campo de cota",
     "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Deixar baleiro para a cota predeterminada do usuario. Noutro caso, especifique un atributo LDAP/AD.",
     "Quota Default" : "Cota predeterminada",
-    "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Sobrescribir a cota predeterminada para usuarios LDAP que non teñen unha cota configurada no campo Cota.",
+    "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Substituír a cota predeterminada para usuarios LDAP que non teñen unha cota configurada no campo Cota.",
     "Email Field" : "Campo do correo",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Axustar o correo do usuario dende un atributo LDAP. Déixeo baleiro para un comportamento predeterminado.",
     "User Home Folder Naming Rule" : "Regra de nomeado do cartafol do usuario",

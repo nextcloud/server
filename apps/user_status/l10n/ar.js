@@ -8,6 +8,7 @@ OC.L10N.register(
     "Vacationing" : "في اجازة",
     "Working remotely" : "العمل عن بعد",
     "User status" : "حالة العضو",
+    "View profile" : "عرض الملف الشخصي",
     "Clear status after" : "مسح رسالة الحالة بعد",
     "What is your status?" : "ماهي حالتك؟",
     "Set status" : "تعيين الحالة",
