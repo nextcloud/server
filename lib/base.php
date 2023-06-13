@@ -312,6 +312,7 @@ class OC {
 	 * Prints the upgrade page
 	 */
 	private static function printUpgradePage(\OC\SystemConfig $systemConfig): void {
+		$cliUpgradeLink = $systemConfig->getValue('upgrade.cli-upgrade-link', '');
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
@@ -358,6 +359,7 @@ class OC {
 			$template->assign('productName', 'nextcloud'); // for now
 			$template->assign('version', OC_Util::getVersionString());
 			$template->assign('tooBig', $tooBig);
+			$template->assign('cliUpgradeLink', $cliUpgradeLink);
 
 			$template->printPage();
 			die();
