@@ -35,7 +35,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Disable extends Command implements CompletionAwareInterface {
 	protected int $exitCode = 0;
 
-	public function __construct(protected IAppManager $appManager) {
+	public function __construct(
+		protected IAppManager $appManager,
+	) {
 		parent::__construct();
 	}
 
