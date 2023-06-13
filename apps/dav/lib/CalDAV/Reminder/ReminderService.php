@@ -786,6 +786,10 @@ class ReminderService {
 			if ($child->name !== 'VEVENT') {
 				continue;
 			}
+			// Ignore invalid events with no DTSTART
+			if ($child->DTSTART === null) {
+				continue;
+			}
 
 			$vevents[] = $child;
 		}
