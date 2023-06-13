@@ -52,7 +52,6 @@
     "Repair info:" : "Herstel informatie:",
     "Repair warning:" : "Herstel waarschuwing:",
     "Repair error:" : "Herstel fout:",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Updaten via de browser is uitgeschakeld in config.php. Gebruik de command line updater.",
     "Turned on maintenance mode" : "Onderhoudsmodus ingeschakeld",
     "Turned off maintenance mode" : "Onderhoudsmodus uitgeschakeld",
     "Maintenance mode is kept active" : "Onderhoudsmodus blijft actief",
@@ -404,7 +403,6 @@
     "Detailed logs" : "Gedetailleerde logs",
     "Update needed" : "Update vereist",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Gebruik alsjeblieft de commandoregel updater omdat je een installatie hebt met meer dan 50 gebruikers.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Gebruik de commandoregel updater, omdat automatische update is uitgeschakeld in config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Bekijk de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentatie</a> voor hulp.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "De update via de web UI heeft risico's. Het verzoek leidt mogelijk tot een time-out en kan tot verlies van gegevens leiden. Ik heb een back-up gemaakt en weet hoe deze te herstellen in het geval van een update mislukking.",
     "Upgrade via web on my own risk" : "Web opwaarding is op eigen risico",
@@ -412,6 +410,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
     "This page will refresh itself when the instance is available again." : "Deze pagina wordt ververst als de server weer beschikbaar is.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met je systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Updaten via de browser is uitgeschakeld in config.php. Gebruik de command line updater.",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Het lijkt erop dat er een 32-bits versie van PHP word gebruikt. Nextcloud heeft de 64-bits versie nodig om goed te draaien. Upgrade a.u.b uw systeem en PHP naar de 64-bits versie! Meer informatie vind u op de {linkstart}documentatiepagina{linkend}",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Er is een wachtwoordherstelbericht verzonden naar het e-mailadres van dit account. Als je het niet hebt ontvangen, controleer dan je spam / ongewenste mappen, of vraag je beheerder om hulp.",
     "If it is not there ask your local administrator." : "Als het hier niet is, vraag dan de lokale beheerder",
@@ -419,6 +418,7 @@
     "Settings" : "Instellingen",
     "File not found" : "Bestand niet gevonden",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Het document werd niet gevonden op de server. Misschien is de share verwijderd of verlopen?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Gebruik de commandoregel updater, omdat automatische update is uitgeschakeld in config.php.",
     "The page could not be found on the server." : "Deze pagina kon niet gevonden worden op de server"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

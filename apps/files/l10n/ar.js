@@ -228,6 +228,7 @@ OC.L10N.register(
     "Blank" : "فارغ",
     "Unable to create new file from template" : "تعذر إنشاء الملف الجديد من القالب",
     "Delete permanently" : "حذف بشكل دائم",
+    "Open folder {displayName}" : "إفتح المجلد {displayName}",
     "Set up templates folder" : "إعداد مجلد القوالب",
     "Templates" : "القوالب",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",

@@ -82,7 +82,7 @@ OC.L10N.register(
     "Public key" : "Clave pública",
     "RSA private key" : "Clave RSA privada",
     "Private key" : "Clave privada",
-    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Dominio predeterminado de Kerberos, o valor predeterminado é \"WORKGROUP\"",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Dominio predeterminado de Kerberos, o valor predeterminado é «WORKGROUP»",
     "Kerberos ticket Apache mode" : "Modo Apache de ticket Kerberos",
     "Kerberos ticket" : "Billete Kerberos",
     "Amazon S3" : "Amazon S3",

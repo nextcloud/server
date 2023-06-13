@@ -392,7 +392,6 @@ OC.L10N.register(
     "Detailed logs" : "Detaljerte logger",
     "Update needed" : "Oppdatering er nødvendig",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Bruk kommandolinjeoppdatereren siden du har en stor installasjon med mer enn 50 brukere.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Oppdater ved hjelp av kommandolinjen ettersom automatisk oppdatering er skrudd av i config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "For hjelp, les <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentasjonen</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Jeg vet at hvis jeg fortsetter oppdateringen via web-grensesnittet er det en mulighet for tap av data som følge av tidsavbrudd, men jeg har en sikkerhetskopi og vet hvordan jeg skal gjenopprette min installasjon hvis den feiler.",
     "Upgrade via web on my own risk" : "Oppgrader via web på min egen risikio",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Settings" : "Innstillinger",
     "File not found" : "Finner ikke filen",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentasjon kan ikke finnes på server. Er deling slettet eller utløpt?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Oppdater ved hjelp av kommandolinjen ettersom automatisk oppdatering er skrudd av i config.php.",
     "The page could not be found on the server." : "Siden ble ikke funnet på serveren."
 },
 "nplurals=2; plural=(n != 1);");
