@@ -56,23 +56,23 @@
 		:user="user"
 		:is-dark-theme="isDarkTheme"
 		:class="{'row--menu-opened': openedMenu}" />
-	<tr v-else
+	<div v-else
 		:class="{
 			'disabled': loading.delete || loading.disable,
 			'row--menu-opened': openedMenu
 		}"
 		:data-id="user.id"
 		class="row row--editable">
-		<td :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
+		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
 			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
 				:src="generateAvatar(user.id, isDarkTheme)"
 				alt=""
 				height="32"
 				width="32">
-		</td>
+		</div>
 		<!-- dirty hack to ellipsis on two lines -->
-		<td v-if="user.backendCapabilities.setDisplayName" class="displayName">
+		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
 			<form :class="{'icon-loading-small': loading.displayName}"
 				class="displayName"
 				@submit.prevent="updateDisplayName">
@@ -90,56 +90,53 @@
 					type="submit"
 					value="">
 			</form>
-		</td>
-		<td v-else class="name">
+		</div>
+		<div v-else class="name">
 			{{ user.id }}
 			<div class="displayName subtitle">
 				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
 					{{ user.displayname }}
 				</div>
 			</div>
-		</td>
-		<td v-if="settings.canChangePassword && user.backendCapabilities.setPassword">
-			<form :class="{'icon-loading-small': loading.password}"
-				class="password"
-				@submit.prevent="updatePassword">
-				<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
-				<input :id="'password'+user.id+rand"
-					ref="password"
-					:disabled="loading.password || loading.all"
-					:minlength="minPasswordLength"
-					maxlength="469"
-					:placeholder="t('settings', 'Add new password')"
-					autocapitalize="off"
-					autocomplete="new-password"
-					autocorrect="off"
-					required
-					spellcheck="false"
-					type="password"
-					value="">
-				<input class="icon-confirm" type="submit" value="">
-			</form>
-		</td>
-		<td v-else />
-		<td>
-			<form :class="{'icon-loading-small': loading.mailAddress}"
-				class="mailAddress"
-				@submit.prevent="updateEmail">
-				<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
-				<input :id="'mailAddress'+user.id+rand"
-					ref="mailAddress"
-					:disabled="loading.mailAddress||loading.all"
-					:placeholder="t('settings', 'Add new email address')"
-					:value="user.email"
-					autocapitalize="off"
-					autocomplete="new-password"
-					autocorrect="off"
-					spellcheck="false"
-					type="email">
-				<input class="icon-confirm" type="submit" value="">
-			</form>
-		</td>
-		<td :class="{'icon-loading-small': loading.groups}" class="groups">
+		</div>
+		<form v-if="settings.canChangePassword && user.backendCapabilities.setPassword"
+			:class="{'icon-loading-small': loading.password}"
+			class="password"
+			@submit.prevent="updatePassword">
+			<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
+			<input :id="'password'+user.id+rand"
+				ref="password"
+				:disabled="loading.password || loading.all"
+				:minlength="minPasswordLength"
+				maxlength="469"
+				:placeholder="t('settings', 'Add new password')"
+				autocapitalize="off"
+				autocomplete="new-password"
+				autocorrect="off"
+				required
+				spellcheck="false"
+				type="password"
+				value="">
+			<input class="icon-confirm" type="submit" value="">
+		</form>
+		<div v-else />
+		<form :class="{'icon-loading-small': loading.mailAddress}"
+			class="mailAddress"
+			@submit.prevent="updateEmail">
+			<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
+			<input :id="'mailAddress'+user.id+rand"
+				ref="mailAddress"
+				:disabled="loading.mailAddress||loading.all"
+				:placeholder="t('settings', 'Add new email address')"
+				:value="user.email"
+				autocapitalize="off"
+				autocomplete="new-password"
+				autocorrect="off"
+				spellcheck="false"
+				type="email">
+			<input class="icon-confirm" type="submit" value="">
+		</form>
+		<div :class="{'icon-loading-small': loading.groups}" class="groups">
 			<label class="hidden-visually" :for="'groups'+user.id+rand">{{ t('settings', 'Add user to group') }}</label>
 			<NcMultiselect :id="'groups'+user.id+rand"
 				:close-on-select="false"
@@ -160,8 +157,8 @@
 				@tag="createGroup">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
 			</NcMultiselect>
-		</td>
-		<td v-if="subAdminsGroups.length>0 && settings.isAdmin"
+		</div>
+		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
 			:class="{'icon-loading-small': loading.subadmins}"
 			class="subadmins">
 			<label class="hidden-visually" :for="'subadmins'+user.id+rand">{{ t('settings', 'Set user as admin for') }}</label>
@@ -181,8 +178,8 @@
 				@select="addUserSubAdmin">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
 			</NcMultiselect>
-		</td>
-		<td :title="usedSpace"
+		</div>
+		<div :title="usedSpace"
 			:class="{'icon-loading-small': loading.quota}"
 			class="quota">
 			<label class="hidden-visually" :for="'quota'+user.id+rand">{{ t('settings', 'Select user quota') }}</label>
@@ -199,8 +196,8 @@
 				track-by="id"
 				@input="setUserQuota"
 				@tag="validateQuota" />
-		</td>
-		<td v-if="showConfig.showLanguages"
+		</div>
+		<div v-if="showConfig.showLanguages"
 			:class="{'icon-loading-small': loading.languages}"
 			class="languages">
 			<label class="hidden-visually" :for="'language'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
@@ -216,8 +213,8 @@
 				label="name"
 				track-by="code"
 				@input="setUserLanguage" />
-		</td>
-		<td :class="{'icon-loading-small': loading.manager}" class="managers">
+		</div>
+		<div :class="{'icon-loading-small': loading.manager}" class="managers">
 			<NcMultiselect ref="manager"
 				v-model="currentManager"
 				:close-on-select="true"
@@ -232,14 +229,14 @@
 				@select="updateUserManager">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
 			</NcMultiselect>
-		</td>
+		</div>
 
 		<!-- don't show this on edit mode -->
-		<td v-if="showConfig.showStoragePath || showConfig.showUserBackend"
+		<div v-if="showConfig.showStoragePath || showConfig.showUserBackend"
 			class="storageLocation" />
-		<td v-if="showConfig.showLastLogin" />
+		<div v-if="showConfig.showLastLogin" />
 
-		<td class="userActions">
+		<div class="userActions">
 			<div v-if="!loading.all"
 				class="toggleUserActions">
 				<NcActions>
@@ -263,8 +260,8 @@
 				<div class="icon-checkmark" />
 				{{ feedbackMessage }}
 			</div>
-		</td>
-	</tr>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -759,12 +756,5 @@ export default {
 	}
 	.row::v-deep .multiselect__single {
 		z-index: auto !important;
-	}
-	.displayName input,
-	.password input,
-	.mailAddress input {
-	  width: 100%;
-	  height: 44px!important;
-		border: 2px solid var(--color-border-dark);
 	}
 </style>
