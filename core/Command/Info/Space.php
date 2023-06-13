@@ -32,7 +32,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Space extends Command {
-	public function __construct(private FileUtils $fileUtils) {
+	public function __construct(
+		private FileUtils $fileUtils,
+	) {
 		parent::__construct();
 	}
 
