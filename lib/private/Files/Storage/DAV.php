@@ -51,6 +51,7 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
@@ -92,6 +93,9 @@ class DAV extends Common {
 	protected $certManager;
 	protected LoggerInterface $logger;
 	protected IEventLogger $eventLogger;
+
+	/** @var int */
+	private $timeout;
 
 	/**
 	 * @param array $params
@@ -135,6 +139,8 @@ class DAV extends Common {
 		}
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 		$this->eventLogger = \OC::$server->get(IEventLogger::class);
+		// This timeout value will be used for the download and upload of files
+		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
 	}
 
 	protected function init() {
@@ -373,7 +379,9 @@ class DAV extends Common {
 						->newClient()
 						->get($this->createBaseUri() . $this->encodePath($path), [
 							'auth' => [$this->user, $this->password],
-							'stream' => true
+							'stream' => true,
+							// set download timeout for users with slow connections or large files
+							'timeout' => $this->timeout
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -530,7 +538,9 @@ class DAV extends Common {
 			->newClient()
 			->put($this->createBaseUri() . $this->encodePath($target), [
 				'body' => $source,
-				'auth' => [$this->user, $this->password]
+				'auth' => [$this->user, $this->password],
+				// set upload timeout for users with slow connections or large files
+				'timeout' => $this->timeout
 			]);
 
 		$this->removeCachedFile($target);
