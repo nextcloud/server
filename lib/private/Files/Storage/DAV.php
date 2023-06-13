@@ -262,14 +262,14 @@ class DAV extends Common {
 				$this->statCache->set($path, true);
 			}
 			foreach ($files as $file) {
+				$fileDetail = $response[$file];
 				$file = urldecode($file);
 				// do not store the real entry, we might not have all properties
 				if (!$this->statCache->hasKey($path)) {
 					$this->statCache->set($file, true);
 				}
-				$fileDetail = $response[$file];
 				$file = basename($file);
-				$this->propfindCache->set($file, $fileDetail);
+				$this->propfindCache->set($this->encodePath($file), $fileDetail);
 				$content[] = $file;
 			}
 			return IteratorDirectory::wrap($content);
@@ -293,7 +293,7 @@ class DAV extends Common {
 	 */
 	protected function propfind($path) {
 		$path = $this->cleanPath($path);
-		$propfindCacheResponse = $this->propfindCache->get($path);
+		$propfindCacheResponse = $this->propfindCache->get($this->encodePath($path));
 		if (!is_null($propfindCacheResponse)) {
 			return $propfindCacheResponse;
 		}
