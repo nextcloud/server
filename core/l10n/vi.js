@@ -232,7 +232,6 @@ OC.L10N.register(
     "Detailed logs" : "Nhật ký chi tiết",
     "Update needed" : "Cần phải cập nhật",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Xin vui lòng sử dụng lệnh cập nhật bằng dòng lệnh bởi vì bạn có một bản cài đặt lớn có hơn 50 người dùng.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Xin vui lòng sử dụng câu lệnh cập nhật bằng dòng lệnh do cập nhật tự động bị vô hiệu hóa trong file config.php",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Trợ giúp, xem <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Tôi biết rằng nếu tôi tiếp tục thực hiện cập nhập qua giao diện Web có rủi ro, mà yêu cầu đó chạy trong một khoảng thời gian bị quá hạn và có thể gây mất dữ liệu, nếu tôi có một bản sao và tôi biết cách khôi phục bản cài đặt đã sao lưu trong trường hợp bị lỗi khi cập nhật.",
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
     "Settings" : "Cài đặt",
-    "File not found" : "Không tìm thấy tệp tin"
+    "File not found" : "Không tìm thấy tệp tin",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Xin vui lòng sử dụng câu lệnh cập nhật bằng dòng lệnh do cập nhật tự động bị vô hiệu hóa trong file config.php"
 },
 "nplurals=1; plural=0;");

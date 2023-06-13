@@ -386,7 +386,6 @@ OC.L10N.register(
     "Detailed logs" : "Podrobné záznamy",
     "Update needed" : "Aktualizácia je potrebná",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Použite aktualizátor z príkazového riadka, pretože máte veľkú inštanciu s viac ako 50 používateľmi.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Automatická aktualizácia je zakázaná v config.php, použite prosím aktualizáciu cez príkazový riadok.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Pre pomoc si pozrite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentáciu</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Viem, že ak budem pokračovať v aktualizácii prostredníctvom webového rozhrania, existuje riziko, že žiadosť prekročí časový limit a môže spôsobiť stratu dát, ale mám zálohu a viem, ako obnoviť svoju inštanciu v prípade zlyhania.",
     "Upgrade via web on my own risk" : "Aktualizovať cez web na vlastné riziko",
@@ -401,6 +400,7 @@ OC.L10N.register(
     "Settings" : "Nastavenia",
     "File not found" : "Súbor nenájdený",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Na serveri sa nepodarilo nájsť dokument. Je možné, že bolo zrušené sprístupnenie alebo skončila jeho platnosť.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Automatická aktualizácia je zakázaná v config.php, použite prosím aktualizáciu cez príkazový riadok.",
     "The page could not be found on the server." : "Stránka nebola nájdená na serveri."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
