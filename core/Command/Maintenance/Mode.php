@@ -33,7 +33,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Mode extends Command {
-	public function __construct(protected IConfig $config) {
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
 	}
 
