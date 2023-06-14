@@ -521,6 +521,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 
 		if ($exists) {
+			// Always update the unencrypted size, for encryption the Encryption wrapper will update this afterwards anyways
+			$stat['unencrypted_size'] = $stat['size'];
 			$this->getCache()->update($fileId, $stat);
 		} else {
 			if ($this->objectStore->objectExists($urn)) {
