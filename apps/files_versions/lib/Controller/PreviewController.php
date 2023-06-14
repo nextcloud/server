@@ -69,11 +69,17 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @param string $file
-	 * @param int $x
-	 * @param int $y
-	 * @param string $version
-	 * @return DataResponse|FileDisplayResponse
+	 * Get the preview for a file version
+	 *
+	 * @param string $file Path of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param string $version Version of the file to get the preview for
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 404: Preview not found
 	 */
 	public function getPreview(
 		string $file = '',
@@ -82,7 +88,7 @@ class PreviewController extends Controller {
 		string $version = ''
 	) {
 		if ($file === '' || $version === '' || $x === 0 || $y === 0) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
@@ -93,9 +99,9 @@ class PreviewController extends Controller {
 			$preview = $this->previewManager->getPreview($versionFile, $x, $y, true, IPreview::MODE_FILL, $versionFile->getMimetype());
 			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
 		} catch (NotFoundException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 	}
 }
