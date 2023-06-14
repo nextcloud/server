@@ -79,7 +79,7 @@ jobs:
         run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
       - name: Run E2E cypress tests
-        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73 # v5.8.1
+        uses: cypress-io/github-action@e08da4966cec4d8f99cf72b09d3362aae2c5391c # v5.8.2
         with:
           record: true
           parallel: true
