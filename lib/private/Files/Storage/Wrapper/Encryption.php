@@ -1087,7 +1087,7 @@ class Encryption extends Wrapper {
 
 		// object store, stores the size after write and doesn't update this during scan
 		// manually store the unencrypted size
-		if ($result && $this->getWrapperStorage()->instanceOfStorage(ObjectStoreStorage::class)) {
+		if ($result && $this->getWrapperStorage()->instanceOfStorage(ObjectStoreStorage::class) && $this->shouldEncrypt($path)) {
 			$this->getCache()->put($path, ['unencrypted_size' => $count]);
 		}
 
