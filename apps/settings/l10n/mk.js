@@ -300,7 +300,7 @@ OC.L10N.register(
     "Unable to update language" : "Не може да се ажурира јазикот",
     "No language set" : "Не е поставен јазик",
     "Locale" : "Локација",
-    "Week starts on {firstDayOfWeek}" : "Неделите започнуваат во {firstDayOfWeek}",
+    "Week starts on {firstDayOfWeek}" : "Неделата започнува во {firstDayOfWeek}",
     "Your location" : "Ваша локација",
     "Your organisation" : "Вашата организација",
     "Your phone number" : "Вашиот телефонски број",
