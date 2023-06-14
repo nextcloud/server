@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,12 +26,16 @@
 namespace OCP\AppFramework\Http\Template;
 
 use InvalidArgumentException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\TemplateResponse;
 
 /**
  * Class PublicTemplateResponse
  *
  * @since 14.0.0
+ * @template H of array<string, mixed>
+ * @template S of int
+ * @template-extends TemplateResponse<int, array<string, mixed>>
  */
 class PublicTemplateResponse extends TemplateResponse {
 	private $headerTitle = '';
@@ -44,10 +49,12 @@ class PublicTemplateResponse extends TemplateResponse {
 	 * @param string $appName
 	 * @param string $templateName
 	 * @param array $params
+	 * @param S $status
+	 * @param H $headers
 	 * @since 14.0.0
 	 */
-	public function __construct(string $appName, string $templateName, array $params = []) {
-		parent::__construct($appName, $templateName, $params, 'public');
+	public function __construct(string $appName, string $templateName, array $params = [], $status = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);
 		\OC_Util::addScript('core', 'public/publicpage');
 	}
 

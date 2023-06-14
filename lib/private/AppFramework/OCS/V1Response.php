@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,8 +26,16 @@
 namespace OC\AppFramework\OCS;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 
+/**
+ * @psalm-import-type DataResponseType from DataResponse
+ * @template S of int
+ * @template-covariant T of DataResponseType
+ * @template H of array<string, mixed>
+ * @template-extends BaseResponse<int, DataResponseType, array<string, mixed>>
+ */
 class V1Response extends BaseResponse {
 	/**
 	 * The V1 endpoint has very limited http status codes basically everything
