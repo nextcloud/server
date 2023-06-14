@@ -70,6 +70,14 @@ class OpenLocalEditorController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @UserRateThrottle(limit=10, period=120)
+	 *
+	 * Create a local editor
+	 *
+	 * @param string $path Path of the file
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{userId: ?string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, \stdClass, array{}>
+	 *
+	 * 200: Local editor returned
 	 */
 	public function create(string $path): DataResponse {
 		$pathHash = sha1($path);
@@ -101,12 +109,22 @@ class OpenLocalEditorController extends OCSController {
 		}
 
 		$this->logger->error('Giving up after ' . self::TOKEN_RETRIES . ' retries to generate a unique local editor token for path hash: ' . $pathHash);
-		return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		return new DataResponse(new \stdClass(), Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @BruteForceProtection(action=openLocalEditor)
+	 *
+	 * Validate a local editor
+	 *
+	 * @param string $path Path of the file
+	 * @param string $token Token of the local editor
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{userId: string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Local editor validated successfully
+	 * 404: Local editor not found
 	 */
 	public function validate(string $path, string $token): DataResponse {
 		$pathHash = sha1($path);
@@ -114,7 +132,7 @@ class OpenLocalEditorController extends OCSController {
 		try {
 			$entity = $this->mapper->verifyToken($this->userId, $pathHash, $token);
 		} catch (DoesNotExistException $e) {
-			$response = new DataResponse([], Http::STATUS_NOT_FOUND);
+			$response = new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 			$response->throttle(['userId' => $this->userId, 'pathHash' => $pathHash]);
 			return $response;
 		}
@@ -122,7 +140,7 @@ class OpenLocalEditorController extends OCSController {
 		$this->mapper->delete($entity);
 
 		if ($entity->getExpirationTime() <= $this->timeFactory->getTime()) {
-			$response = new DataResponse([], Http::STATUS_NOT_FOUND);
+			$response = new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 			$response->throttle(['userId' => $this->userId, 'pathHash' => $pathHash]);
 			return $response;
 		}

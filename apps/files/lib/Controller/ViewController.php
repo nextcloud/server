@@ -35,6 +35,7 @@
  */
 namespace OCA\Files\Controller;
 
+use OC\AppFramework\Http;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -149,6 +150,7 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
@@ -167,6 +169,7 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @UseSession
+	 * @IgnoreAPI
 	 *
 	 * @param string $dir
 	 * @param string $view

@@ -55,6 +55,7 @@ class DirectEditingViewController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @UseSession
+	 * @IgnoreAPI
 	 *
 	 * @param string $token
 	 * @return Response

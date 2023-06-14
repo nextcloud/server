@@ -82,12 +82,23 @@ class TransferOwnershipController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Transfer the ownership to another user
+	 *
+	 * @param string $recipient Username of the recipient
+	 * @param string $path Path of the file
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN, \stdClass, array{}>
+	 *
+	 * 200: Ownership transferred successfully
+	 * 400: Transferring ownership is not possible
+	 * 403: Transferring ownership is not allowed
 	 */
 	public function transfer(string $recipient, string $path): DataResponse {
 		$recipientUser = $this->userManager->get($recipient);
 
 		if ($recipientUser === null) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		$userRoot = $this->rootFolder->getUserFolder($this->userId);
@@ -95,11 +106,11 @@ class TransferOwnershipController extends OCSController {
 		try {
 			$node = $userRoot->get($path);
 		} catch (\Exception $e) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($node->getOwner()->getUID() !== $this->userId || !$node->getStorage()->instanceOfStorage(IHomeStorage::class)) {
-			return new DataResponse([], Http::STATUS_FORBIDDEN);
+			return new DataResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 		}
 
 		$transferOwnership = new TransferOwnershipEntity();
@@ -122,21 +133,31 @@ class TransferOwnershipController extends OCSController {
 
 		$this->notificationManager->notify($notification);
 
-		return new DataResponse([]);
+		return new DataResponse(new \stdClass());
 	}
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Accept an ownership transfer
+	 *
+	 * @param int $id ID of the ownership transfer
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Ownership transfer accepted successfully
+	 * 403: Accepting ownership transfer is not allowed
+	 * 404: Ownership transfer not found
 	 */
 	public function accept(int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
 		} catch (DoesNotExistException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		if ($transferOwnership->getTargetUser() !== $this->userId) {
-			return new DataResponse([], Http::STATUS_FORBIDDEN);
+			return new DataResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 		}
 
 		$notification = $this->notificationManager->createNotification();
@@ -155,21 +176,31 @@ class TransferOwnershipController extends OCSController {
 			'id' => $newTransferOwnership->getId(),
 		]);
 
-		return new DataResponse([], Http::STATUS_OK);
+		return new DataResponse(new \stdClass(), Http::STATUS_OK);
 	}
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Reject an ownership transfer
+	 *
+	 * @param int $id ID of the ownership transfer
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Ownership transfer rejected successfully
+	 * 403: Rejecting ownership transfer is not allowed
+	 * 404: Ownership transfer not found
 	 */
 	public function reject(int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
 		} catch (DoesNotExistException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		}
 
 		if ($transferOwnership->getTargetUser() !== $this->userId) {
-			return new DataResponse([], Http::STATUS_FORBIDDEN);
+			return new DataResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 		}
 
 		$notification = $this->notificationManager->createNotification();
@@ -191,6 +222,6 @@ class TransferOwnershipController extends OCSController {
 
 		$this->mapper->delete($transferOwnership);
 
-		return new DataResponse([], Http::STATUS_OK);
+		return new DataResponse(new \stdClass(), Http::STATUS_OK);
 	}
 }

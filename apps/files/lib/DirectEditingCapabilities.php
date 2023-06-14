@@ -38,6 +38,9 @@ class DirectEditingCapabilities implements ICapability, IInitialStateExcludedCap
 		$this->urlGenerator = $urlGenerator;
 	}
 
+	/**
+	 * @return array{files: array{directEditing: array{url: string, etag: string, supportsFileId: bool}}}
+	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
