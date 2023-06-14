@@ -34,6 +34,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
@@ -48,6 +49,8 @@ class SettingsControllerTest extends TestCase {
 	private $accessTokenMapper;
 	/** @var SettingsController */
 	private $settingsController;
+	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
+	private $crypto;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -59,6 +62,7 @@ class SettingsControllerTest extends TestCase {
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
 			->willReturnArgument(0);
+		$this->crypto = $this->createMock(ICrypto::class);
 
 		$this->settingsController = new SettingsController(
 			'oauth2',
@@ -66,7 +70,8 @@ class SettingsControllerTest extends TestCase {
 			$this->clientMapper,
 			$this->secureRandom,
 			$this->accessTokenMapper,
-			$l
+			$l,
+			$this->crypto
 		);
 	}
 
@@ -78,6 +83,11 @@ class SettingsControllerTest extends TestCase {
 			->willReturnOnConsecutiveCalls(
 				'MySecret',
 				'MyClientIdentifier');
+
+		$this->crypto
+			->expects($this->once())
+			->method('encrypt')
+			->willReturn('MyEncryptedSecret');
 
 		$client = new Client();
 		$client->setName('My Client Name');
@@ -91,7 +101,7 @@ class SettingsControllerTest extends TestCase {
 			->with($this->callback(function (Client $c) {
 				return $c->getName() === 'My Client Name' &&
 					$c->getRedirectUri() === 'https://example.com/' &&
-					$c->getSecret() === 'MySecret' &&
+					$c->getSecret() === 'MyEncryptedSecret' &&
 					$c->getClientIdentifier() === 'MyClientIdentifier';
 			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
