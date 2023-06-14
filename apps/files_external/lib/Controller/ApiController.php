@@ -30,13 +30,18 @@ declare(strict_types=1);
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\ResponseDefinitions;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserSession;
 
+/**
+ * @psalm-import-type FilesExternalMount from ResponseDefinitions
+ */
 class ApiController extends OCSController {
 
 	/** @var IUserSession */
@@ -66,7 +71,7 @@ class ApiController extends OCSController {
 	 * @param string $mountPoint mount point name, relative to the data dir
 	 * @param StorageConfig $mountConfig mount config to format
 	 *
-	 * @return array entry
+	 * @return FilesExternalMount
 	 */
 	private function formatMount(string $mountPoint, StorageConfig $mountConfig): array {
 		// split path from mount point
@@ -83,6 +88,9 @@ class ApiController extends OCSController {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
+		/** @var int|string $id */
+		$id = $mountConfig->getId();
+		/** @var int $permissions */
 		$entry = [
 			'name' => basename($mountPoint),
 			'path' => $path,
@@ -90,7 +98,7 @@ class ApiController extends OCSController {
 			'backend' => $mountConfig->getBackend()->getText(),
 			'scope' => $isSystemMount ? 'system' : 'personal',
 			'permissions' => $permissions,
-			'id' => $mountConfig->getId(),
+			'id' => $id,
 			'class' => $mountConfig->getBackend()->getIdentifier(),
 		];
 		return $entry;
@@ -99,9 +107,9 @@ class ApiController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * Returns the mount points visible for this user.
+	 * Get the mount points visible for this user
 	 *
-	 * @return DataResponse share information
+	 * @return DataResponse<Http::STATUS_OK, FilesExternalMount[], array{}>
 	 */
 	public function getUserMounts(): DataResponse {
 		$entries = [];
