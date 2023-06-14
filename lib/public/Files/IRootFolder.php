@@ -55,4 +55,40 @@ interface IRootFolder extends Folder, Emitter {
 	 * @since 24.0.0
 	 */
 	public function getByIdInPath(int $id, string $path);
+
+	/**
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @param string $mountPoint
+	 * @param array $arguments
+	 */
+	public function mount($storage, $mountPoint, $arguments = []);
+
+	/**
+	 * @param string $mountPoint
+	 * @return \OC\Files\Mount\MountPoint
+	 */
+	public function getMount($mountPoint);
+
+	/**
+	 * @param string $mountPoint
+	 * @return \OC\Files\Mount\MountPoint[]
+	 */
+	public function getMountsIn($mountPoint);
+
+	/**
+	 * @param string $storageId
+	 * @return \OC\Files\Mount\MountPoint[]
+	 */
+	public function getMountByStorageId($storageId);
+
+	/**
+	 * @param int $numericId
+	 * @return MountPoint[]
+	 */
+	public function getMountByNumericStorageId($numericId);
+
+	/**
+	 * @param \OC\Files\Mount\MountPoint $mount
+	 */
+	public function unMount($mount);
 }
