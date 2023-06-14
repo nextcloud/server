@@ -211,7 +211,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
 	 * @param string $providerId id of the share
 	 * @param array $notification payload of the notification
-	 * @return array data send back to the sender
+	 * @return array<string> data send back to the sender
 	 *
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
@@ -280,7 +280,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return array
+	 * @return array<string>
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
@@ -348,7 +348,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return array
+	 * @return array<string>
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
@@ -424,7 +424,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return array
+	 * @return array<string>
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 */
@@ -446,7 +446,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return array
+	 * @return array<string>
 	 * @throws ActionNotSupportedException
 	 * @throws BadRequestException
 	 */
@@ -536,7 +536,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return array
+	 * @return array<string>
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 * @throws ProviderCouldNotAddShareException
@@ -597,7 +597,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return array
+	 * @return array<string>
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 */
