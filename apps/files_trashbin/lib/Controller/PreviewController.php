@@ -85,7 +85,18 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse|Http\FileDisplayResponse
+	 * Get the preview for a file
+	 *
+	 * @param int $fileId ID of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param bool $a Whether to crop the preview
+	 *
+	 * @return Http\FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, \stdClass, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 404: Preview not found
 	 */
 	public function getPreview(
 		int $fileId = -1,
@@ -94,16 +105,16 @@ class PreviewController extends Controller {
 		bool $a = false,
 	) {
 		if ($fileId === -1 || $x === 0 || $y === 0) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
 			$file = $this->trashManager->getTrashNodeById($this->userSession->getUser(), $fileId);
 			if ($file === null) {
-				return new DataResponse([], Http::STATUS_NOT_FOUND);
+				return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 			}
 			if ($file instanceof Folder) {
-				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+				return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 			}
 
 			$pathParts = pathinfo($file->getName());
@@ -126,9 +137,9 @@ class PreviewController extends Controller {
 			$response->cacheFor(3600 * 24);
 			return $response;
 		} catch (NotFoundException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(new \stdClass(), Http::STATUS_BAD_REQUEST);
 		}
 	}
 }
