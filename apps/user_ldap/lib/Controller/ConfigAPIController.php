@@ -29,6 +29,7 @@ use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -76,42 +77,10 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * Creates a new (empty) configuration and returns the resulting prefix
-	 *
-	 * Example: curl -X POST -H "OCS-APIREQUEST: true"  -u $admin:$password \
-	 *   https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config
-	 *
-	 * results in:
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data>
-	 *     <configID>s40</configID>
-	 *   </data>
-	 * </ocs>
-	 *
-	 * Failing example: if an exception is thrown (e.g. Database connection lost)
-	 * the detailed error will be logged. The output will then look like:
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>failure</status>
-	 *     <statuscode>999</statuscode>
-	 *     <message>An issue occurred when creating the new config.</message>
-	 *   </meta>
-	 *   <data/>
-	 * </ocs>
-	 *
-	 * For JSON output provide the format=json parameter
+	 * Create a new (empty) configuration and return the resulting prefix
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{configID: string}, array{}>
 	 * @throws OCSException
 	 */
 	public function create() {
@@ -128,27 +97,15 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * Deletes a LDAP configuration, if present.
-	 *
-	 * Example:
-	 *   curl -X DELETE -H "OCS-APIREQUEST: true" -u $admin:$password \
-	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data/>
-	 * </ocs>
+	 * Delete a LDAP configuration
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @param string $configID
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * @param string $configID ID of the config
+	 * @return DataResponse<Http::STATUS_OK, \stdClass, array{}>
 	 * @throws OCSException
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config deleted successfully
 	 */
 	public function delete($configID) {
 		try {
@@ -163,32 +120,21 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when deleting the config.');
 		}
 
-		return new DataResponse();
+		return new DataResponse(new \stdClass());
 	}
 
 	/**
-	 * Modifies a configuration
-	 *
-	 * Example:
-	 *   curl -X PUT -d "configData[ldapHost]=ldaps://my.ldap.server&configData[ldapPort]=636" \
-	 *    -H "OCS-APIREQUEST: true" -u $admin:$password \
-	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data/>
-	 * </ocs>
+	 * Modify a configuration
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @param string $configID
-	 * @param array $configData
-	 * @return DataResponse
+	 * @param string $configID ID of the config
+	 * @param array<string, mixed> $configData New config
+	 * @return DataResponse<Http::STATUS_OK, \stdClass, array{}>
 	 * @throws OCSException
+	 * @throws OCSBadRequestException Modifying config is not possible
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config returned
 	 */
 	public function modify($configID, $configData) {
 		try {
@@ -216,79 +162,20 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when modifying the config.');
 		}
 
-		return new DataResponse();
+		return new DataResponse(new \stdClass());
 	}
 
 	/**
-	 * Retrieves a configuration
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data>
-	 *     <ldapHost>ldaps://my.ldap.server</ldapHost>
-	 *     <ldapPort>7770</ldapPort>
-	 *     <ldapBackupHost></ldapBackupHost>
-	 *     <ldapBackupPort></ldapBackupPort>
-	 *     <ldapBase>ou=small,dc=my,dc=ldap,dc=server</ldapBase>
-	 *     <ldapBaseUsers>ou=users,ou=small,dc=my,dc=ldap,dc=server</ldapBaseUsers>
-	 *     <ldapBaseGroups>ou=small,dc=my,dc=ldap,dc=server</ldapBaseGroups>
-	 *     <ldapAgentName>cn=root,dc=my,dc=ldap,dc=server</ldapAgentName>
-	 *     <ldapAgentPassword>clearTextWithShowPassword=1</ldapAgentPassword>
-	 *     <ldapTLS>1</ldapTLS>
-	 *     <turnOffCertCheck>0</turnOffCertCheck>
-	 *     <ldapIgnoreNamingRules/>
-	 *     <ldapUserDisplayName>displayname</ldapUserDisplayName>
-	 *     <ldapUserDisplayName2>uid</ldapUserDisplayName2>
-	 *     <ldapUserFilterObjectclass>inetOrgPerson</ldapUserFilterObjectclass>
-	 *     <ldapUserFilterGroups></ldapUserFilterGroups>
-	 *     <ldapUserFilter>(&amp;(objectclass=nextcloudUser)(nextcloudEnabled=TRUE))</ldapUserFilter>
-	 *     <ldapUserFilterMode>1</ldapUserFilterMode>
-	 *     <ldapGroupFilter>(&amp;(|(objectclass=nextcloudGroup)))</ldapGroupFilter>
-	 *     <ldapGroupFilterMode>0</ldapGroupFilterMode>
-	 *     <ldapGroupFilterObjectclass>nextcloudGroup</ldapGroupFilterObjectclass>
-	 *     <ldapGroupFilterGroups></ldapGroupFilterGroups>
-	 *     <ldapGroupDisplayName>cn</ldapGroupDisplayName>
-	 *     <ldapGroupMemberAssocAttr>memberUid</ldapGroupMemberAssocAttr>
-	 *     <ldapLoginFilter>(&amp;(|(objectclass=inetOrgPerson))(uid=%uid))</ldapLoginFilter>
-	 *     <ldapLoginFilterMode>0</ldapLoginFilterMode>
-	 *     <ldapLoginFilterEmail>0</ldapLoginFilterEmail>
-	 *     <ldapLoginFilterUsername>1</ldapLoginFilterUsername>
-	 *     <ldapLoginFilterAttributes></ldapLoginFilterAttributes>
-	 *     <ldapQuotaAttribute></ldapQuotaAttribute>
-	 *     <ldapQuotaDefault></ldapQuotaDefault>
-	 *     <ldapEmailAttribute>mail</ldapEmailAttribute>
-	 *     <ldapCacheTTL>20</ldapCacheTTL>
-	 *     <ldapUuidUserAttribute>auto</ldapUuidUserAttribute>
-	 *     <ldapUuidGroupAttribute>auto</ldapUuidGroupAttribute>
-	 *     <ldapOverrideMainServer></ldapOverrideMainServer>
-	 *     <ldapConfigurationActive>1</ldapConfigurationActive>
-	 *     <ldapAttributesForUserSearch>uid;sn;givenname</ldapAttributesForUserSearch>
-	 *     <ldapAttributesForGroupSearch></ldapAttributesForGroupSearch>
-	 *     <ldapExperiencedAdmin>0</ldapExperiencedAdmin>
-	 *     <homeFolderNamingRule></homeFolderNamingRule>
-	 *     <hasMemberOfFilterSupport></hasMemberOfFilterSupport>
-	 *     <useMemberOfToDetectMembership>1</useMemberOfToDetectMembership>
-	 *     <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr>
-	 *     <ldapExpertUUIDUserAttr>uid</ldapExpertUUIDUserAttr>
-	 *     <ldapExpertUUIDGroupAttr></ldapExpertUUIDGroupAttr>
-	 *     <lastJpegPhotoLookup>0</lastJpegPhotoLookup>
-	 *     <ldapNestedGroups>0</ldapNestedGroups>
-	 *     <ldapPagingSize>500</ldapPagingSize>
-	 *     <turnOnPasswordChange>1</turnOnPasswordChange>
-	 *     <ldapDynamicGroupMemberURL></ldapDynamicGroupMemberURL>
-	 *   </data>
-	 * </ocs>
+	 * Get a configuration
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @param string $configID
-	 * @param bool|string $showPassword
-	 * @return DataResponse
+	 * @param string $configID ID of the config
+	 * @param bool $showPassword Whether to show the password
+	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
 	 * @throws OCSException
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config returned
 	 */
 	public function show($configID, $showPassword = false) {
 		try {
@@ -296,7 +183,7 @@ class ConfigAPIController extends OCSController {
 
 			$config = new Configuration($configID);
 			$data = $config->getConfiguration();
-			if (!(int)$showPassword) {
+			if (!$showPassword) {
 				$data['ldapAgentPassword'] = '***';
 			}
 			foreach ($data as $key => $value) {
