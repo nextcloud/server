@@ -207,7 +207,7 @@ OC.L10N.register(
     "Go to the previous folder" : "Torna a la carpeta anterior",
     "Go back" : "Torna",
     "Open the files app settings" : "Obriu els paràmetres de l'aplicació Fitxers",
-    "Files settings" : "Paràmetres dels fitxers",
+    "Files settings" : "Paràmetres de Fitxers",
     "File cannot be accessed" : "No es pot accedir al fitxer",
     "You might not have have permissions to view it, ask the sender to share it" : "És possible que no tingueu permisos per a visualitzar-lo; demaneu al remitent que el comparteixi",
     "Show hidden files" : "Mostra els fitxers ocults",
