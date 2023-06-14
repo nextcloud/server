@@ -19,4 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-export default 'SvgMock'
+export default {
+	  delete: async () => ({ status: 200, data: {} }),
+}

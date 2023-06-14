@@ -29,7 +29,7 @@ import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 import type { Navigation } from '../services/Navigation'
 
-registerFileAction(new FileAction({
+export const action = new FileAction({
 	id: 'delete',
 	displayName(nodes: Node[], view: Navigation) {
 		return view.id === 'trashbin'
@@ -63,4 +63,6 @@ registerFileAction(new FileAction({
 	},
 
 	order: 100,
-}))
+})
+
+registerFileAction(action)
