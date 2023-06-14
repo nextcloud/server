@@ -68,7 +68,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 			return;
 		}
 
-		if (!isset($parsedDocblock->tags['since'])) {
+		if (!isset($parsedDocblock->tags['since']) && !isset($parsedDocblock->tags['inheritdoc']) && !isset($parsedDocblock->tags['inheritDoc'])) {
 			IssueBuffer::maybeAdd(
 				new InvalidDocblock(
 					'@since is required for classes/interfaces in OCP.',
@@ -103,7 +103,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 			return;
 		}
 
-		if (!isset($parsedDocblock->tags['since'])) {
+		if (!isset($parsedDocblock->tags['since']) && !isset($parsedDocblock->tags['inheritdoc']) && !isset($parsedDocblock->tags['inheritDoc'])) {
 			IssueBuffer::maybeAdd(
 				new InvalidDocblock(
 					'@since is required for methods in OCP.',
