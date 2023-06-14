@@ -57,7 +57,7 @@ OC.L10N.register(
     "Failed to create tag" : "Produciuse un erro ao crear a etiqueta",
     "Failed to delete tag" : "Produciuse un erro ao eliminar a etiqueta",
     "Failed to load last used tags" : "Produciuse un erro ao cargar as últimas etiquetas utilizadas",
-    "Missing \"Content-Location\" header" : "Falta a cabeceira \"Content-Location\".",
+    "Missing \"Content-Location\" header" : "Falta a cabeceira «Content-Location».",
     "Tagged files" : "Ficheiros etiquetados",
     "Select tags to filter by" : "Seleccionar etiquetas polas que filtrar",
     "No tags found" : "Non se atoparon etiquetas",
