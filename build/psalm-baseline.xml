@@ -898,14 +898,6 @@
       <code>$id</code>
       <code>$remoteId</code>
     </InvalidArgument>
-    <TypeDoesNotContainNull>
-      <code>$id === null ||
-			$token === null ||
-			$shareWith === null ||
-			$permission === null</code>
-      <code>$permission === null</code>
-      <code>$remoteId === null</code>
-    </TypeDoesNotContainNull>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <InvalidArgument>
