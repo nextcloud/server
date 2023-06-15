@@ -31,7 +31,7 @@ use RuntimeException;
 /**
  * @since 28.0.0
  */
-interface ISummaryProvider {
+interface ISummaryProvider extends ILanguageModelProvider {
 
 	/**
 	 * @param string $text The text to summarize
