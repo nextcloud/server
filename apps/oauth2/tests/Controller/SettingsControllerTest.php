@@ -26,6 +26,8 @@
  */
 namespace OCA\OAuth2\Tests\Controller;
 
+use OC\Authentication\Token\IToken;
+use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
@@ -34,9 +36,14 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class SettingsControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -46,8 +53,14 @@ class SettingsControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $accessTokenMapper;
+	/** @var IAuthTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
+	private $authTokenProvider;
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userManager;
 	/** @var SettingsController */
 	private $settingsController;
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	private $l;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,18 +69,22 @@ class SettingsControllerTest extends TestCase {
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
-		$l = $this->createMock(IL10N::class);
-		$l->method('t')
+		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->l = $this->createMock(IL10N::class);
+		$this->l->method('t')
 			->willReturnArgument(0);
-
 		$this->settingsController = new SettingsController(
 			'oauth2',
 			$this->request,
 			$this->clientMapper,
 			$this->secureRandom,
 			$this->accessTokenMapper,
-			$l
+			$this->l,
+			$this->authTokenProvider,
+			$this->userManager
 		);
+
 	}
 
 	public function testAddClient() {
@@ -113,6 +130,26 @@ class SettingsControllerTest extends TestCase {
 	}
 
 	public function testDeleteClient() {
+
+		$userManager = \OC::$server->getUserManager();
+		// count other users in the db before adding our own
+		$count = 0;
+		$function = function (IUser $user) use (&$count) {
+			if ($user->getLastLogin() > 0) {
+				$count++;
+			}
+		};
+		$userManager->callForAllUsers($function);
+		$user1 = $userManager->createUser('test101', 'test101');
+		$user1->updateLastLoginTimestamp();
+		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
+
+		// expect one call per user and ensure the correct client name
+		$tokenProviderMock
+			->expects($this->exactly($count + 1))
+			->method('invalidateTokensOfUser')
+			->with($this->isType('string'), 'My Client Name');
+
 		$client = new Client();
 		$client->setId(123);
 		$client->setName('My Client Name');
@@ -129,12 +166,26 @@ class SettingsControllerTest extends TestCase {
 			->method('deleteByClientId')
 			->with(123);
 		$this->clientMapper
+			->expects($this->once())
 			->method('delete')
 			->with($client);
 
-		$result = $this->settingsController->deleteClient(123);
+		$settingsController = new SettingsController(
+			'oauth2',
+			$this->request,
+			$this->clientMapper,
+			$this->secureRandom,
+			$this->accessTokenMapper,
+			$this->l,
+			$tokenProviderMock,
+			$userManager
+		);
+
+		$result = $settingsController->deleteClient(123);
 		$this->assertInstanceOf(JSONResponse::class, $result);
 		$this->assertEquals([], $result->getData());
+
+		$user1->delete();
 	}
 
 	public function testInvalidRedirectUri() {
