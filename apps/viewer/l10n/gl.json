@@ -1,7 +1,7 @@
 { "translations": {
     "Viewer" : "Visor",
     "Simple file viewer with slideshow for media" : "Visor de ficheiros sinxelo con diaporama para multimedia",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Amosa as túas últimas fotos e vídeos de vacacións como nas películas, amosa unha ollada á túa última novela directamente desde o teu Nextcloud, escolle o mellor GIF da túa colección grazas á vista previa directa dos teus ficheiros favoritos e moitos máis!",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Presente as fotos e vídeos das súas vacacións como nos filmes, amose un adianto da súa novela directamente dende a súa nube, escolla as mellores imaxes GIF da súa colección grazas á vista previa dos seus ficheiros favoritos, e moito máis!",
     "Your browser does not support audio." : "O seu navegador non admite son.",
     "Error loading {name}" : "Produciuse un erro ao cargar {name}",
     "Image saved" : "Imaxe gardada",
@@ -76,7 +76,7 @@
     "Width in pixels" : "Ancho en píxeles",
     "Height in pixels" : "Altura en píxeles",
     "Toggle ratio lock" : "Activar/desactivar o bloqueo da proporción",
-    "Reset to original image size" : "Restablece o tamaño da imaxe orixinal",
+    "Reset to original image size" : "Restabelecer o tamaño da imaxe orixinal",
     "Rotate" : "Xirar",
     "Text" : "Texto",
     "Text spacing" : "Espazamento do texto",
