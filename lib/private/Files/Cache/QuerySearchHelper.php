@@ -200,12 +200,8 @@ class QuerySearchHelper {
 	 */
 	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
 		$rootLength = strlen($path);
-		$storage = null;
-		if (method_exists($root, 'getMount')) {
-			/** @var IMountPoint $mount */
-			$mount = $root->getMount($path);
-			$storage = $mount->getStorage();
-		}
+		$mount = $root->getMount($path);
+		$storage = $mount->getStorage();
 		if ($storage === null) {
 			return [];
 		}
@@ -222,8 +218,7 @@ class QuerySearchHelper {
 		/** @var IMountPoint[] $mountByMountPoint */
 		$mountByMountPoint = ['' => $mount];
 
-		if (!$limitToHome && method_exists($root, 'getMountsIn')) {
-			/** @var IMountPoint[] $mounts */
+		if (!$limitToHome) {
 			$mounts = $root->getMountsIn($path);
 			foreach ($mounts as $mount) {
 				$storage = $mount->getStorage();

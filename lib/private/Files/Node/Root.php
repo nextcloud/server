@@ -154,11 +154,7 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->addMount($mount);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint
-	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
@@ -166,7 +162,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $mountPoint
 	 * @return \OC\Files\Mount\MountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
