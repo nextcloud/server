@@ -25,7 +25,7 @@ import axios from '@nextcloud/axios'
 
 import { getRootPath, getToken, isPublic } from '../utils/davUtils.js'
 
-// Add this so the server knows it is an request from the browserg
+// Add this so the server knows it is an request from the browser
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 
 // force our axios

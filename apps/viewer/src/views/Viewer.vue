@@ -467,6 +467,7 @@ export default {
 		// React to Files' Sidebar events.
 		subscribe('files:sidebar:opened', this.handleAppSidebarOpen)
 		subscribe('files:sidebar:closed', this.handleAppSidebarClose)
+		subscribe('files:node:updated', this.handleFileUpdated)
 		subscribe('viewer:trapElements:changed', this.handleTrapElementsChange)
 		window.addEventListener('keydown', this.keyboardDeleteFile)
 		window.addEventListener('keydown', this.keyboardDownloadFile)
@@ -966,6 +967,16 @@ export default {
 		handleAppSidebarClose() {
 			this.isSidebarShown = false
 			this.trapElements = []
+		},
+
+		// Update etag of updated file to break cache.
+		async handleFileUpdated(node) {
+			const index = this.fileList.findIndex(({ fileid: currentFileId }) => currentFileId === node.fileid)
+
+			this.fileList.splice(index, 1, { ...node, etag: node.etag })
+			if (node.fileid === this.currentFile.fileid) {
+				this.currentFile.etag = node.etag
+			}
 		},
 
 		onResize() {

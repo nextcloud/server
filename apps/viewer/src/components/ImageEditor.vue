@@ -6,9 +6,11 @@ import { basename, dirname, extname, join } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
+import { Node } from '@nextcloud/files'
 
 import logger from '../services/logger.js'
 import translations from '../models/editorTranslations.js'
+import { rawStat } from '../services/FileInfo.js'
 
 let TABS, TOOLS
 
@@ -179,7 +181,20 @@ export default {
 					emit('files:node:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
 				} else {
 					this.$emit('updated')
-					emit('files:node:updated', { fileid: this.fileid })
+					const updatedFile = await rawStat(origin, decodeURI(pathname))
+
+					const node = new Node({
+						id: Number.parseInt(this.fileid),
+						source: this.src,
+						mtime: new Date(updatedFile.lastmod),
+						...updatedFile,
+						attributes: {
+							...updatedFile,
+							...updatedFile.props,
+						},
+					})
+
+					emit('files:node:updated', node)
 				}
 			} catch (error) {
 				logger.error('Error saving image', { error })

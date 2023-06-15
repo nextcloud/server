@@ -22,41 +22,64 @@
 
 import client from './DavClient.js'
 import { genFileInfo } from '../utils/fileUtils.js'
+import { createClient } from 'webdav'
+
+const statData = `<?xml version="1.0"?>
+<d:propfind  xmlns:d="DAV:"
+	xmlns:oc="http://owncloud.org/ns"
+	xmlns:nc="http://nextcloud.org/ns"
+	xmlns:ocs="http://open-collaboration-services.org/ns">
+	<d:prop>
+		<d:getlastmodified />
+		<d:getcontenttype />
+		<d:resourcetype />
+		<d:getetag />
+		<oc:fileid />
+		<oc:permissions />
+		<oc:size />
+		<d:getcontentlength />
+		<nc:has-preview />
+		<nc:mount-type />
+		<nc:is-encrypted />
+		<ocs:share-permissions />
+		<oc:tags />
+		<oc:favorite />
+		<oc:comments-unread />
+		<oc:owner-id />
+		<oc:owner-display-name />
+		<oc:share-types />
+	</d:prop>
+</d:propfind>`
+
 /**
  * Retrieve the files list
  *
  * @param {string} path the path relative to the user root
  * @param {object} [options] optional options for axios
- * @return {Array} the file list
+ * @return {Promise<Array>} the file list
  */
 export default async function(path, options) {
 	const response = await client.stat(path, Object.assign({
-		data: `<?xml version="1.0"?>
-			<d:propfind  xmlns:d="DAV:"
-				xmlns:oc="http://owncloud.org/ns"
-				xmlns:nc="http://nextcloud.org/ns"
-				xmlns:ocs="http://open-collaboration-services.org/ns">
-				<d:prop>
-					<d:getlastmodified />
-					<d:getcontenttype />
-					<d:resourcetype />
-					<oc:fileid />
-					<oc:permissions />
-					<oc:size />
-					<d:getcontentlength />
-					<nc:has-preview />
-					<nc:mount-type />
-					<nc:is-encrypted />
-					<ocs:share-permissions />
-					<oc:tags />
-					<oc:favorite />
-					<oc:comments-unread />
-					<oc:owner-id />
-					<oc:owner-display-name />
-					<oc:share-types />
-				</d:prop>
-			</d:propfind>`,
+		data: statData,
 		details: true,
 	}, options))
 	return genFileInfo(response.data)
+}
+
+/**
+ * Retrieve the files list
+ *
+ * @param {string} origin
+ * @param {string} path the path relative to the user root
+ * @param {object} [options] optional options for axios
+ * @return {Promise<object>} the file list
+ */
+export async function rawStat(origin, path, options) {
+	const response = await createClient(origin).stat(path, {
+		...options,
+		data: statData,
+		details: true,
+	})
+
+	return response.data
 }
