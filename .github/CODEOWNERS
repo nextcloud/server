@@ -35,6 +35,10 @@
 */TwoFactorAuth/*                   @ChristophWurst @miaulalala @nickvergessen
 /core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen
 
+# Nextcloud GmbH engineering team leads to ensure stability of the platform and documentation of critical changes
+# https://docs.nextcloud.com/server/latest/developer_manual/prologue/compatibility_app_ecosystem.html#documentation-procedures-of-changes-that-affect-app-developers
+/lib/public                         @AndyScherzinger @ChristophWurst @DaphneMuller @juliushaertl @nickvergessen
+
 # Personal interest
 */Activity/*                        @nickvergessen
 */Notifications/*                   @nickvergessen
