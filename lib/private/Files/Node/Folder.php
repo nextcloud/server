@@ -329,12 +329,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return array
 	 */
 	protected function getByIdInRootMount(int $id): array {
-		$storage = null;
-		if (\method_exists($this->root, 'getMount')) {
-			/** @var IMountPoint $mount */
-			$mount = $this->root->getMount('');
-			$storage = $mount->getStorage();
-		}
+		$mount = $this->root->getMount('');
+		$storage = $mount->getStorage();
 		$cacheEntry = $storage?->getCache($this->path)->get($id);
 		if (!$cacheEntry) {
 			return [];
