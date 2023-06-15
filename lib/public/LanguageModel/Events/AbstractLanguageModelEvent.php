@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCP\LanguageModel\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\LanguageModel\AbstractLanguageModelTask;
 
 /**
  * @since 28.0.0
@@ -35,32 +36,16 @@ abstract class AbstractLanguageModelEvent extends Event {
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private int $requestId,
-		private ?string $userId,
-		private string $appId,
+		private AbstractLanguageModelTask $task
 	) {
 		parent::__construct();
 	}
 
 	/**
+	 * @return AbstractLanguageModelTask
 	 * @since 28.0.0
 	 */
-	public function getRequestId(): int {
-		return $this->requestId;
-	}
-
-
-	/**
-	 * @since 28.0.0
-	 */
-	public function getUserId(): ?string {
-		return $this->userId;
-	}
-
-	/**
-	 * @since 28.0.0
-	 */
-	public function getAppId(): string {
-		return $this->appId;
+	public function getTask(): AbstractLanguageModelTask {
+		return $this->task;
 	}
 }
