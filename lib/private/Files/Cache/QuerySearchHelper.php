@@ -37,9 +37,9 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
-use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
@@ -55,6 +55,7 @@ class QuerySearchHelper {
 	private $searchBuilder;
 	/** @var QueryOptimizer */
 	private $queryOptimizer;
+	private IGroupManager $groupManager;
 
 	public function __construct(
 		IMimeTypeLoader $mimetypeLoader,
@@ -62,7 +63,8 @@ class QuerySearchHelper {
 		SystemConfig $systemConfig,
 		LoggerInterface $logger,
 		SearchBuilder $searchBuilder,
-		QueryOptimizer $queryOptimizer
+		QueryOptimizer $queryOptimizer,
+		IGroupManager $groupManager,
 	) {
 		$this->mimetypeLoader = $mimetypeLoader;
 		$this->connection = $connection;
@@ -70,6 +72,7 @@ class QuerySearchHelper {
 		$this->logger = $logger;
 		$this->searchBuilder = $searchBuilder;
 		$this->queryOptimizer = $queryOptimizer;
+		$this->groupManager = $groupManager;
 	}
 
 	protected function getQueryBuilder() {
@@ -119,16 +122,16 @@ class QuerySearchHelper {
 		return $tags;
 	}
 
-	protected function equipQueryForSystemTags(CacheQueryBuilder $query): void {
-		$query
-			->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
-				$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
-				$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
-			))
-			->leftJoin('systemtagmap', 'systemtag', 'systemtag', $query->expr()->andX(
-				$query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
-				$query->expr()->eq('systemtag.visibility', $query->createNamedParameter(true))
-			));
+	protected function equipQueryForSystemTags(CacheQueryBuilder $query, IUser $user): void {
+		$query->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
+			$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
+		));
+		$on = $query->expr()->andX($query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'));
+		if (!$this->groupManager->isAdmin($user->getUID())) {
+			$on->add($query->expr()->eq('systemtag.visibility', $query->createNamedParameter(true)));
+		}
+		$query->leftJoin('systemtagmap', 'systemtag', 'systemtag', $on);
 	}
 
 	protected function equipQueryForDavTags(CacheQueryBuilder $query, IUser $user): void {
@@ -172,25 +175,12 @@ class QuerySearchHelper {
 
 		$query = $builder->selectFileCache('file', false);
 
-		if ($this->searchBuilder->shouldJoinTags($searchQuery->getSearchOperation())) {
-			$user = $searchQuery->getUser();
-			if ($user === null) {
-				throw new \InvalidArgumentException("Searching by tag requires the user to be set in the query");
-			}
-			if ($searchQuery->getSearchOperation() instanceof ISearchComparison) {
-				switch ($searchQuery->getSearchOperation()->getField()) {
-					case 'systemtag':
-						$this->equipQueryForSystemTags($query);
-						break;
-					case 'tagname':
-					case 'favorite':
-						$this->equipQueryForDavTags($query, $user);
-						break;
-				}
-			} elseif ($searchQuery->getSearchOperation() instanceof SearchBinaryOperator) {
-				$this->equipQueryForSystemTags($query);
-				$this->equipQueryForDavTags($query, $user);
-			}
+		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
+		if (in_array('systemtag', $requestedFields)) {
+			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
+		}
+		if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
+			$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
 		}
 
 		$this->applySearchConstraints($query, $searchQuery, $caches);
@@ -216,6 +206,14 @@ class QuerySearchHelper {
 			}
 		}
 		return $results;
+	}
+
+	protected function requireUser(ISearchQuery $searchQuery): IUser {
+		$user = $searchQuery->getUser();
+		if ($user === null) {
+			throw new \InvalidArgumentException("This search operation requires the user to be set in the query");
+		}
+		return $user;
 	}
 
 	/**

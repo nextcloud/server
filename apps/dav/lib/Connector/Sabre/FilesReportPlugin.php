@@ -283,8 +283,6 @@ class FilesReportPlugin extends ServerPlugin {
 	 *
 	 * @param array $filterRules
 	 * @return array array of unique file id results
-	 *
-	 * @throws TagNotFoundException whenever a tag was not found
 	 */
 	protected function processFilterRulesForFileIDs($filterRules) {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
@@ -335,12 +333,8 @@ class FilesReportPlugin extends ServerPlugin {
 			!empty($systemTagIds)
 			&& (method_exists($this->userFolder, 'searchBySystemTag'))
 		) {
-			$tags = $this->tagManager->getTagsByIds($systemTagIds);
+			$tags = $this->tagManager->getTagsByIds($systemTagIds, $this->userSession->getUser());
 			foreach ($tags as $tag) {
-				if (!$tag->isUserVisible()) {
-					// searchBySystemTag() also has the criteria to include only user visible tags. They can be skipped early nevertheless.
-					continue;
-				}
 				$tagName = $tag->getName();
 				$tmpNodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
 				if (count($nodes) === 0) {
