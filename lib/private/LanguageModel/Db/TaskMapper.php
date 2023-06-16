@@ -14,7 +14,7 @@ use OCP\IDBConnection;
 class TaskMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'oc_llm_tasks', Task::class);
+		parent::__construct($db, 'llm_tasks', Task::class);
 	}
 
 	/**
