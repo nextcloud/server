@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCP\LanguageModel;
 
 use InvalidArgumentException;
+use OCP\LanguageModel\AbstractLanguageModelTask;
 use OCP\LanguageModel\Events\AbstractLanguageModelEvent;
 use OCP\PreConditionNotMetException;
 use RuntimeException;
@@ -45,11 +46,10 @@ interface ILanguageModelManager {
 
 	/**
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
-	 * @throws RuntimeException If the transcription failed for other reasons
+	 * @throws RuntimeException If something else failed
 	 * @since 28.0.0
 	 */
-	public function runTask(AbstractLanguageModelTask $task): AbstractLanguageModelEvent;
+	public function runTask(ILanguageModelTask $task): string;
 
 	/**
 	 * Will schedule an LLM inference process in the background. The result will become available
@@ -58,5 +58,7 @@ interface ILanguageModelManager {
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @since 28.0.0
 	 */
-	public function scheduleTask(AbstractLanguageModelTask $task) : void;
+	public function scheduleTask(ILanguageModelTask $task) : void;
+
+	public function getTask(int $id): ILanguageModelTask;
 }
