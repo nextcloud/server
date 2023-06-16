@@ -23,7 +23,7 @@
 <template>
 	<AccountPropertySection v-bind.sync="location"
 		autocomplete="address-level1"
-		:placeholder="t('settings', 'Your location')" />
+		:placeholder="t('settings', 'Your city')" />
 </template>
 
 <script>
