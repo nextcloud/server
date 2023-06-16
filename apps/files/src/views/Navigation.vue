@@ -317,5 +317,7 @@ export default {
 	padding-top: 0 !important;
 	// Prevent shrinking or growing
 	flex: 0 0 auto;
+	gap: var(--default-grid-baseline, 4px);
+    padding: calc(var(--default-grid-baseline, 4px)*2);
 }
 </style>
