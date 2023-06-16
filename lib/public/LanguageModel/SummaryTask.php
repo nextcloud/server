@@ -4,7 +4,8 @@ namespace OCP\LanguageModel;
 
 use RuntimeException;
 
-class SummaryTask extends AbstractLanguageModelTask {
+final class SummaryTask extends AbstractLanguageModelTask {
+	public const TYPE = 'summarize';
 
 	/**
 	 * @param ILanguageModelProvider&ISummaryProvider $provider
@@ -15,14 +16,14 @@ class SummaryTask extends AbstractLanguageModelTask {
 		if (!$provider instanceof ISummaryProvider) {
 			throw new \RuntimeException('SummaryTask#visitProvider expects ISummaryProvider');
 		}
-		$this->setStatus(self::STATUS_RUNNING);
-		try {
-			$output = $provider->summarize($this->getInput());
-		} catch (RuntimeException $e) {
-			$this->setStatus(self::STATUS_FAILED);
-			throw $e;
-		}
-		$this->setStatus(self::STATUS_SUCCESSFUL);
-		return $output;
+		return $provider->summarize($this->getInput());
+	}
+
+	public function canUseProvider(ILanguageModelProvider $provider): bool {
+		return $provider instanceof ISummaryProvider;
+	}
+
+	public function getType(): string {
+		return self::TYPE;
 	}
 }

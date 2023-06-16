@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
+ *
+ * @author Marcel Klehr <mklehr@gmx.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+namespace OC\LanguageModel;
+
+use OC\User\NoUserException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\File;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\LanguageModel\Events\TaskFailedEvent;
+use OCP\LanguageModel\Events\TaskSuccessfulEvent;
+use OCP\LanguageModel\ILanguageModelManager;
+use OCP\PreConditionNotMetException;
+use OCP\SpeechToText\Events\TranscriptionFailedEvent;
+use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
+use OCP\SpeechToText\ISpeechToTextManager;
+use Psr\Log\LoggerInterface;
+
+class TaskBackgroundJob extends QueuedJob {
+	public function __construct(
+		ITimeFactory $timeFactory,
+		private ILanguageModelManager $languageModelManager,
+		private IEventDispatcher $eventDispatcher,
+	) {
+		parent::__construct($timeFactory);
+		$this->setAllowParallelRuns(false);
+	}
+
+	/**
+	 * @param array{taskId: int} $argument
+	 * @inheritDoc
+	 */
+	protected function run($argument) {
+		$taskId = $argument['taskId'];
+		$task = $this->languageModelManager->getTask($taskId);
+		try {
+			$output = $this->languageModelManager->runTask($task);
+			$event = new TaskSuccessfulEvent($task, $output);
+
+		} catch (\RuntimeException|PreConditionNotMetException $e) {
+			$event = new TaskFailedEvent($task, $e->getMessage());
+		}
+		$this->eventDispatcher->dispatchTyped($event);
+	}
+}

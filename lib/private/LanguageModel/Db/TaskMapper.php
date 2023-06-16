@@ -1,0 +1,34 @@
+<?php
+
+namespace OC\LanguageModel\Db;
+
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
+use OCP\IDBConnection;
+
+/**
+ * @extends QBMapper<Task>
+ */
+class TaskMapper extends QBMapper {
+
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'oc_llm_tasks', Task::class);
+	}
+
+	/**
+	 * @param int $id
+	 * @return Task
+	 * @throws Exception
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function find(int $id): Task {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
+		return $this->findEntity($qb);
+	}
+}

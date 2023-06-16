@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace OCP\LanguageModel\Events;
 
 use OCP\EventDispatcher\Event;
-use OCP\LanguageModel\AbstractLanguageModelTask;
+use OCP\LanguageModel\ILanguageModelTask;
 
 /**
  * @since 28.0.0
@@ -36,16 +36,16 @@ abstract class AbstractLanguageModelEvent extends Event {
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private AbstractLanguageModelTask $task
+		private ILanguageModelTask $task
 	) {
 		parent::__construct();
 	}
 
 	/**
-	 * @return AbstractLanguageModelTask
+	 * @return ILanguageModelTask
 	 * @since 28.0.0
 	 */
-	public function getTask(): AbstractLanguageModelTask {
+	public function getTask(): ILanguageModelTask {
 		return $this->task;
 	}
 }

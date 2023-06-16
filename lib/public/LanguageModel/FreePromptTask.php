@@ -4,7 +4,8 @@ namespace OCP\LanguageModel;
 
 use RuntimeException;
 
-class FreePromptTask extends AbstractLanguageModelTask {
+final class FreePromptTask extends AbstractLanguageModelTask {
+	public const TYPE = 'free_prompt';
 
 	/**
 	 * @param ILanguageModelProvider $provider
@@ -12,14 +13,14 @@ class FreePromptTask extends AbstractLanguageModelTask {
 	 * @return string
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
-		$this->setStatus(self::STATUS_RUNNING);
-		try {
-			$output = $provider->prompt($this->getInput());
-		} catch (RuntimeException $e) {
-			$this->setStatus(self::STATUS_FAILED);
-			throw $e;
-		}
-		$this->setStatus(self::STATUS_SUCCESSFUL);
-		return $output;
+		return $provider->prompt($this->getInput());
+	}
+
+	public function canUseProvider(ILanguageModelProvider $provider): bool {
+		return true;
+	}
+
+	public function getType(): string {
+		return self::TYPE;
 	}
 }
