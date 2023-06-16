@@ -41,7 +41,7 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo.",
     "Send password by mail" : "Enviar contrasinal por correo",
     "Reply to initiator" : "Resposta ao iniciador",
-    "Unable to update share by mail config" : "Non foi posíbel actualizar a configuración para compartir por correo",
+    "Unable to update share by mail config" : "Non é posíbel actualizar a configuración para compartir por correo",
     "Shared with %1$s" : "Compartido con %1$s",
     "Shared with %1$s by %2$s" : "Compartido con %1$s por %2$s",
     "Unshared from %1$s" : "Recurso compartido eliminado dende %1$s",
