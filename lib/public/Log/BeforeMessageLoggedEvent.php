@@ -36,9 +36,12 @@ class BeforeMessageLoggedEvent extends Event {
 	private $message;
 
 	/**
+	 * @param string $app
+	 * @param int $level
+	 * @param array $message
 	 * @since 28.0.0
 	 */
-	public function __construct(string $app, int $level, $message) {
+	public function __construct(string $app, int $level, array $message) {
 		$this->level = $level;
 		$this->app = $app;
 		$this->message = $message;
@@ -69,10 +72,10 @@ class BeforeMessageLoggedEvent extends Event {
 	/**
 	 * Get the message of the log item
 	 *
-	 * @return string
+	 * @return array
 	 * @since 28.0.0
 	 */
-	public function getMessage(): string {
+	public function getMessage(): array {
 		return $this->message;
 	}
 }
