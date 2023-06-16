@@ -50,7 +50,7 @@ class LanguageModelManager implements ILanguageModelManager {
 
 		$this->providers = [];
 
-		foreach ($context->getSpeechToTextProviders() as $providerServiceRegistration) {
+		foreach ($context->getLanguageModelProviders() as $providerServiceRegistration) {
 			$class = $providerServiceRegistration->getService();
 			try {
 				$this->providers[$class] = $this->serverContainer->get($class);
