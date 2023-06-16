@@ -666,7 +666,7 @@
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
-			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
+			console.debug('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
 				OCA.Files.Sidebar.setActiveTab(tabId);
@@ -3879,7 +3879,7 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
+			console.debug('registerTabView is deprecated! It will be removed in nextcloud 20.');
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
 				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
@@ -3905,7 +3905,7 @@
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
+			console.debug('registerDetailView is deprecated! It will be removed in nextcloud 20.');
 			if (detailView.el) {
 				OCA.Files.Sidebar.registerSecondaryView(detailView)
 			}

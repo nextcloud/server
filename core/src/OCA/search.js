@@ -26,7 +26,7 @@ export default class Search {
 	 * @deprecated 20.0.0, will be removed in Nextcloud 22
 	 */
 	constructor() {
-		console.warn('OCA.Search is deprecated. Please use the unified search API instead')
+		console.debug('OCA.Search is deprecated. Please use the unified search API instead')
 	}
 
 }
