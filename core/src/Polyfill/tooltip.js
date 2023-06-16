@@ -31,13 +31,13 @@ $.prototype.tooltip = (function(tooltip) {
 		} catch (ex) {
 			if (ex instanceof TypeError && config === 'destroy') {
 				if (window.TESTING === undefined) {
-					console.error('Deprecated call $.tooltip(\'destroy\') has been deprecated and should be removed')
+					OC.debug && console.debug('Deprecated call $.tooltip(\'destroy\') has been deprecated and should be removed')
 				}
 				return tooltip.call(this, 'dispose')
 			}
 			if (ex instanceof TypeError && config === 'fixTitle') {
 				if (window.TESTING === undefined) {
-					console.error('Deprecated call $.tooltip(\'fixTitle\') has been deprecated and should be removed')
+					OC.debug && console.debug('Deprecated call $.tooltip(\'fixTitle\') has been deprecated and should be removed')
 				}
 				return tooltip.call(this, '_fixTitle')
 			}
