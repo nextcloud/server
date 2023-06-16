@@ -33,6 +33,7 @@ use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\LanguageModel\ILanguageModelProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Talk\ITalkBackend;
 use OCP\Translation\ITranslationProvider;
@@ -114,6 +115,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ISpeechToTextProvider>[] */
 	private $speechToTextProviders = [];
+
+	/** @var ServiceRegistration<ILanguageModelProvider>[] */
+	private $languageModelProviders = [];
 
 	/** @var ServiceRegistration<ICustomTemplateProvider>[] */
 	private $templateProviders = [];
@@ -258,6 +262,12 @@ class RegistrationContext {
 
 			public function registerSpeechToTextProvider(string $providerClass): void {
 				$this->context->registerSpeechToTextProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+			public function registerLanguageModelProvider(string $providerClass): void {
+				$this->context->registerLanguageModelProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -427,6 +437,10 @@ class RegistrationContext {
 
 	public function registerSpeechToTextProvider(string $appId, string $class): void {
 		$this->speechToTextProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerLanguageModelProvider(string $appId, string $class): void {
+		$this->languageModelProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerTemplateProvider(string $appId, string $class): void {
@@ -705,6 +719,13 @@ class RegistrationContext {
 	 */
 	public function getSpeechToTextProviders(): array {
 		return $this->speechToTextProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ILanguageModelProvider>[]
+	 */
+	public function getLanguageModelProviders(): array {
+		return $this->languageModelProviders;
 	}
 
 	/**
