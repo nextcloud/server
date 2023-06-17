@@ -500,7 +500,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Povoliť automatické dopĺňanie používateľského mena v dialógovom okne zdieľania",
-    "Allow username autocompletion to users within the same groups" : "Povoliť automatické dopĺňanie mien užívateľom v rovnakých skupinách",
-    "Avatar" : "Avatar"
+    "Allow username autocompletion to users within the same groups" : "Povoliť automatické dopĺňanie mien užívateľom v rovnakých skupinách"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

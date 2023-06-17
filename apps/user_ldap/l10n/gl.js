@@ -20,7 +20,7 @@ OC.L10N.register(
     "Good password" : "Bo contrasinal",
     "Strong password" : "Contrasinal forte",
     "The Base DN appears to be wrong" : "O DN base semella ser erróneo",
-    "Testing configuration…" : "Probando a configuración...",
+    "Testing configuration…" : "Probando a configuración…",
     "Configuration incorrect" : "Configuración incorrecta",
     "Configuration incomplete" : "Configuración incompleta",
     "Configuration OK" : "Configuración correcta",

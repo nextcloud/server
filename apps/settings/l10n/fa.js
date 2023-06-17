@@ -373,7 +373,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png یا jpg. بیشینه ۲۰ م‌ب",
     "Plain" : "ساده",
     "NT LAN Manager" : "مدیر NT LAN",
-    "STARTTLS" : "شروع TLS",
-    "Avatar" : "آواتار"
+    "STARTTLS" : "شروع TLS"
 },
 "nplurals=2; plural=(n > 1);");

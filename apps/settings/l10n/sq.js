@@ -232,7 +232,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ose jpg, maks. 20 MB",
     "Plain" : "E thjeshtë",
     "NT LAN Manager" : "Përgjegjës Rrjeti NT",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Avatari"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n != 1);");

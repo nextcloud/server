@@ -232,7 +232,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ან jpg, მაქს. 20 მბ",
     "Plain" : "ჩვეულებრივი",
     "NT LAN Manager" : "NT LAN მენეჯერი",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "ავატარი"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n!=1);");

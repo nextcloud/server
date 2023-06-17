@@ -339,7 +339,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png eða jpg, hám. 20 MB",
     "Plain" : "Einfalt",
     "NT LAN Manager" : "NT LAN stjórnun",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Auðkennismynd"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
