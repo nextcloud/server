@@ -19,5 +19,5 @@ jobs:
         with:
           check_filenames: true
           check_hidden: true
-          skip: "./*/l10n/*,./apps/*/l10n/*,./dist/*,./core/vendor/*,./build/*"
+          skip: "./*/l10n/*,./apps/*/l10n/*,./dist/*,./core/vendor/*,./build/*,./*.svg"
           ignore_words_list: jus,hastable
