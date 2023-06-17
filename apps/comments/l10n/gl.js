@@ -18,7 +18,7 @@ OC.L10N.register(
     "Post comment" : "Publicar comentario",
     "No comments yet, start the conversation!" : "Aínda non hai comentarios, comeza a conversa!",
     "No more messages" : "Non hai máis mensaxes",
-    "Retry" : "Volver tentar",
+    "Retry" : "Tentar de novo",
     "Failed to mark comments as read" : "Produciuse un fallo ao marcar os comentarios como lidos",
     "Unable to load the comments list" : "Non é posíbel cargar a lista de comentarios",
     "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"],

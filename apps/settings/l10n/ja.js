@@ -501,7 +501,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN マネージャー",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "共有ダイアログでユーザー名を自動補完する",
-    "Allow username autocompletion to users within the same groups" : "同じグループ内のユーザーのみユーザー名を自動補完する",
-    "Avatar" : "アバター"
+    "Allow username autocompletion to users within the same groups" : "同じグループ内のユーザーのみユーザー名を自動補完する"
 },
 "nplurals=1; plural=0;");

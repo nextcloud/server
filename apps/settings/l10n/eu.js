@@ -509,7 +509,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Baimendu erabiltzaile-izenaren osatze automatikoa partekatze elkarrizketan",
-    "Allow username autocompletion to users within the same groups" : "Baimendu erabiltzaile-izenen osatze automatikoa talde bereko erabiltzaileei",
-    "Avatar" : "Avatarra"
+    "Allow username autocompletion to users within the same groups" : "Baimendu erabiltzaile-izenen osatze automatikoa talde bereko erabiltzaileei"
 },
 "nplurals=2; plural=(n != 1);");

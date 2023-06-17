@@ -513,7 +513,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Tillåt autokomplettering av användarnamn i delningsdialogen",
-    "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper",
-    "Avatar" : "Avatar"
+    "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper"
 },
 "nplurals=2; plural=(n != 1);");

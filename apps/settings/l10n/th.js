@@ -316,7 +316,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png หรือ jpg สูงสุดไม่เกิน 20 MB",
     "Plain" : "ธรรมดา",
     "NT LAN Manager" : "ตัวจัดการ NT LAN",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "ภาพแทนตัว"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=1; plural=0;");

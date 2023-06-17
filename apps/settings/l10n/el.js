@@ -467,7 +467,6 @@ OC.L10N.register(
     "NT LAN Manager" : "Διαχειριστης NT LAN",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο πλαίσιο διαλόγου κοινής χρήσης",
-    "Allow username autocompletion to users within the same groups" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη σε χρήστες στις ίδιες ομάδες",
-    "Avatar" : "Εικόνα προφίλ"
+    "Allow username autocompletion to users within the same groups" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη σε χρήστες στις ίδιες ομάδες"
 },
 "nplurals=2; plural=(n != 1);");

@@ -517,8 +517,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT ağ yöneticisi",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Paylaşım penceresinde kullanıcı adı otomatik olarak tamamlanabilsin",
-    "Allow username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adları otomatik olarak tamamlanabilsin",
-    "Avatar" : "Avatar",
-    "User actions" : "Kullanıcı işlemleri"
+    "Allow username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adları otomatik olarak tamamlanabilsin"
 },
 "nplurals=2; plural=(n > 1);");

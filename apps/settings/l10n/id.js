@@ -353,7 +353,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png atau jpg, maks. 20 MB",
     "Plain" : "Biasa",
     "NT LAN Manager" : "Manajer NT LAN",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Avatar"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=1; plural=0;");

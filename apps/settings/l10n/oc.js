@@ -243,7 +243,6 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
     "You created app password \"{token}\"" : "Avètz creat lo senhal d’aplicacion « {token} »",
     "png or jpg, max. 20 MB" : "png or jpg, max. 20 Mo",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Avatar"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n > 1);");

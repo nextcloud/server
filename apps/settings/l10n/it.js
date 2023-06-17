@@ -463,7 +463,6 @@ OC.L10N.register(
     "NT LAN Manager" : "Gestore NT LAN",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Consenti il completamento del nome utente nella finestra di condivisione",
-    "Allow username autocompletion to users within the same groups" : "Consenti il completamento del nome utente agli utenti degli stessi gruppi",
-    "Avatar" : "Avatar"
+    "Allow username autocompletion to users within the same groups" : "Consenti il completamento del nome utente agli utenti degli stessi gruppi"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

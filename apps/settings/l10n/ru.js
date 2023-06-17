@@ -517,8 +517,6 @@ OC.L10N.register(
     "NT LAN Manager" : "Менеджер NT LAN",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Разрешить автозаполнение имени пользователя в диалоговом окне общего доступа",
-    "Allow username autocompletion to users within the same groups" : "Разрешить автозаполнение имени пользователя для пользователей в тех же группах",
-    "Avatar" : "Аватар",
-    "User actions" : "Действия пользователя"
+    "Allow username autocompletion to users within the same groups" : "Разрешить автозаполнение имени пользователя для пользователей в тех же группах"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

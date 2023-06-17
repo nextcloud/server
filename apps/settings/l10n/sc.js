@@ -392,7 +392,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Permite sa cumponidura automàtica de su nùmene de utente in sa ventana de cumpartzidura",
-    "Allow username autocompletion to users within the same groups" : "Permite sa cumponidura automàtica de su nùmene de utente a is utentes de su matessi grupu",
-    "Avatar" : "Avatar"
+    "Allow username autocompletion to users within the same groups" : "Permite sa cumponidura automàtica de su nùmene de utente a is utentes de su matessi grupu"
 },
 "nplurals=2; plural=(n != 1);");

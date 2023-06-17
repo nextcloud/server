@@ -454,7 +454,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Automatisch aanvullen gebruikersnamen binnen deeldialoog toegestaan",
-    "Allow username autocompletion to users within the same groups" : "Automatisch aanvullen van gebruikersnamen voor de gebruikers binnen dezelfde groepen toegestaan",
-    "Avatar" : "Avatar"
+    "Allow username autocompletion to users within the same groups" : "Automatisch aanvullen van gebruikersnamen voor de gebruikers binnen dezelfde groepen toegestaan"
 },
 "nplurals=2; plural=(n != 1);");

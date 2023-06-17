@@ -517,8 +517,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT-LAN-Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Automatische Vervollständigung der Benutzernamen im Teilen-Dialog erlauben",
-    "Allow username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen erlauben",
-    "Avatar" : "Avatar",
-    "User actions" : "Benutzeraktionen"
+    "Allow username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen erlauben"
 },
 "nplurals=2; plural=(n != 1);");
