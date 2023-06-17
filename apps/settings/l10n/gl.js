@@ -400,7 +400,7 @@ OC.L10N.register(
     "Show storage path" : "Amosar a ruta do almacenamento",
     "Send email to new user" : "Enviar correo ao novo usuario",
     "Not saved" : "Sen gardar",
-    "Sending…" : "Enviando...",
+    "Sending…" : "Enviando…",
     "Email sent" : "Correo enviado",
     "Location" : "Localización",
     "Profile picture" : "Imaxe do perfil",
@@ -508,7 +508,6 @@ OC.L10N.register(
     "NT LAN Manager" : "Xestor NT LAN",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Permitir autocompletar o nome de usuario no diálogo de compartir",
-    "Allow username autocompletion to users within the same groups" : "Permitir autocompletar o nome de usuario aos usuarios dos mesmos grupos",
-    "Avatar" : "Avatar"
+    "Allow username autocompletion to users within the same groups" : "Permitir autocompletar o nome de usuario aos usuarios dos mesmos grupos"
 },
 "nplurals=2; plural=(n != 1);");

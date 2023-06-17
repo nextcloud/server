@@ -458,7 +458,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "PNG, JPG, 최대 20MB",
     "Plain" : "일반",
     "NT LAN Manager" : "NT LAN 관리자",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "아바타"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=1; plural=0;");

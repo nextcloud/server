@@ -454,8 +454,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Ota käyttöön käyttäjänimen automaattitäyttö jakolomakkeessa",
-    "Allow username autocompletion to users within the same groups" : "Ota käyttöön käyttäjänimen automaattitäyttö saman ryhmän käyttäjille",
-    "Avatar" : "Profiilikuva",
-    "User actions" : "Käyttäjätoiminnot"
+    "Allow username autocompletion to users within the same groups" : "Ota käyttöön käyttäjänimen automaattitäyttö saman ryhmän käyttäjille"
 },
 "nplurals=2; plural=(n != 1);");

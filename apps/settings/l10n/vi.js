@@ -263,7 +263,6 @@ OC.L10N.register(
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Allow sharing with groups" : "Cho phép chia sẻ với các nhóm",
     "You created app password \"{token}\"" : "Bạn đã tạo ứng dụng mật khẩu \"{token}\"",
-    "png or jpg, max. 20 MB" : "png hoặc jpg, tối đa 20 MB",
-    "Avatar" : "Hình đại diện"
+    "png or jpg, max. 20 MB" : "png hoặc jpg, tối đa 20 MB"
 },
 "nplurals=1; plural=0;");

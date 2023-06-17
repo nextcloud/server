@@ -112,7 +112,6 @@ OC.L10N.register(
     "Follow us on Twitter" : "Fylj på Twitter",
     "Check out our blog" : "Les våre nettsider",
     "Subscribe to our newsletter" : "Abonner på nyhende",
-    "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
-    "Avatar" : "Avatar"
+    "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB"
 },
 "nplurals=2; plural=(n != 1);");

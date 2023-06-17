@@ -517,8 +517,6 @@ OC.L10N.register(
     "NT LAN Manager" : "НТ ЛАН менаџер",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Дозволи аутоматско довршавање корисничког имена у дијалогу за дељење",
-    "Allow username autocompletion to users within the same groups" : "Дозволи аутоматско довршавање корисничког корисницима из исте групе",
-    "Avatar" : "Аватар",
-    "User actions" : "Корисникове акције"
+    "Allow username autocompletion to users within the same groups" : "Дозволи аутоматско довршавање корисничког корисницима из исте групе"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

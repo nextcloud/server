@@ -486,7 +486,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Менаџер",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Дозволи автоматско комплетирање на корисници за споделување",
-    "Allow username autocompletion to users within the same groups" : "Овозможи автоматско комплетирање за корисници од исти групи ",
-    "Avatar" : "Аватар"
+    "Allow username autocompletion to users within the same groups" : "Овозможи автоматско комплетирање за корисници од исти групи "
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

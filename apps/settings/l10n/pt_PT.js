@@ -283,7 +283,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ou jpg, máx. 20 MB",
     "Plain" : "Plano",
     "NT LAN Manager" : "Gestor de REDE NT",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Avatar"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
