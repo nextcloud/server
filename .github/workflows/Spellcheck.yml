@@ -1,0 +1,21 @@
+name: 'Spellcheck'
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  spellcheck:
+    name: Check spelling
+    runs-on: ubuntu-latest
+    steps:
+      - name: spelling or typos
+        uses: actions/checkout@v3
+      - name: fix permission for reviewdog
+        run: sudo chown -R root:root $GITHUB_WORKSPACE
+      - uses: codespell-project/actions-codespell@v1
+        with:
+          check_filenames: true
+          check_hidden: true
