@@ -34,7 +34,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function newUserForm() {
-		return Locator::forThe()->id("new-user")->
+		return Locator::forThe()->css('[data-test="form"]')->
 			describedAs("New user form in Users Settings");
 	}
 
@@ -42,7 +42,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function userNameFieldForNewUser() {
-		return Locator::forThe()->field("newusername")->
+		return Locator::forThe()->css('[data-test="username"]')->
 			describedAs("User name field for new user in Users Settings");
 	}
 
@@ -50,7 +50,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function displayNameFieldForNewUser() {
-		return Locator::forThe()->field("newdisplayname")->
+		return Locator::forThe()->css('[data-test="displayName"]')->
 			describedAs("Display name field for new user in Users Settings");
 	}
 
@@ -58,7 +58,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordFieldForNewUser() {
-		return Locator::forThe()->field("newuserpassword")->
+		return Locator::forThe()->css('[data-test="password"]')->
 			describedAs("Password field for new user in Users Settings");
 	}
 
@@ -74,7 +74,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createNewUserButton() {
-		return Locator::forThe()->xpath("//form[@id = 'new-user']//button[@type = 'submit']")->
+		return Locator::forThe()->css('[data-test="submit"]')->
 			describedAs("Create user button in Users Settings");
 	}
 
