@@ -20,4 +20,4 @@ jobs:
           check_filenames: true
           check_hidden: true
           skip: "./*/l10n/*,./apps/*/l10n/*,./dist/*,./core/vendor/*,./build/*"
-          ignore_words: jus,hasTable
+          ignore_words_list: jus,hasTable
