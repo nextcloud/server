@@ -447,7 +447,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
     "Plain" : "Enkel",
     "NT LAN Manager" : "NT LAN-behandler",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Avatar"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n != 1);");

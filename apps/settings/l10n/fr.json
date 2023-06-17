@@ -515,8 +515,6 @@
     "NT LAN Manager" : "Gestionnaire du réseau NT",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Autoriser l'autocomplétion du nom d'utilisateur dans la boite de dialogue de partage",
-    "Allow username autocompletion to users within the same groups" : "Autoriser l'autocomplétion du nom d'utilisateur pour les utilisateurs du même groupe",
-    "Avatar" : "Avatar",
-    "User actions" : "Actions de l'utilisateur"
+    "Allow username autocompletion to users within the same groups" : "Autoriser l'autocomplétion du nom d'utilisateur pour les utilisateurs du même groupe"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

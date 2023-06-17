@@ -515,8 +515,6 @@
     "NT LAN Manager" : "Správce NT LAN",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "Povolit automatické dokončování uživatelského jména v dialogu pro sdílení",
-    "Allow username autocompletion to users within the same groups" : "Umožnit automatické dokončování uživatelského jména uživatelům v rámci stejných skupin",
-    "Avatar" : "Profilový obrázek",
-    "User actions" : "Akce ohledně uživatele"
+    "Allow username autocompletion to users within the same groups" : "Umožnit automatické dokončování uživatelského jména uživatelům v rámci stejných skupin"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

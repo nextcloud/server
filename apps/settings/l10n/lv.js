@@ -165,7 +165,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png vai jpg, max. 20 MB",
     "Plain" : "vienkāršs teksts",
     "NT LAN Manager" : "NT LAN Pārvaldnieks",
-    "STARTTLS" : "STARTTLS",
-    "Avatar" : "Profila attēls"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

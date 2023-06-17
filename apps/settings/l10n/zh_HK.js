@@ -517,8 +517,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN 管理程式",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "在共享對話框中允許用戶名自動完成",
-    "Allow username autocompletion to users within the same groups" : "允許對同一群組中的用戶自動完成用戶名",
-    "Avatar" : "虛擬化身大頭照",
-    "User actions" : "用戶操作"
+    "Allow username autocompletion to users within the same groups" : "允許對同一群組中的用戶自動完成用戶名"
 },
 "nplurals=1; plural=0;");

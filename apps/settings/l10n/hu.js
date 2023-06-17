@@ -517,8 +517,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "STARTTLS" : "STARTTLS",
     "Allow username autocompletion in share dialog" : "A felhasználónév automatikus kiegészítésének engedélyezése a megosztás párbeszédpanelen ",
-    "Allow username autocompletion to users within the same groups" : "A felhasználónév automatikus kiegészítésének engedélyezése az azonos csoportokba tartozó felhasználók számára ",
-    "Avatar" : "Profilkép",
-    "User actions" : "Felhasználói műveletek"
+    "Allow username autocompletion to users within the same groups" : "A felhasználónév automatikus kiegészítésének engedélyezése az azonos csoportokba tartozó felhasználók számára "
 },
 "nplurals=2; plural=(n != 1);");

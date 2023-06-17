@@ -216,7 +216,7 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Non hai recomendacións. Comece a escribir.",
     "Resharing is not allowed" : "Non se permite volver compartir",
     "Name or email …" : "Nome ou correo…",
-    "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID da nube federada...",
+    "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID da nube federada…",
     "Searching …" : "Buscando…",
     "No elements found." : "Non se atoparon elementos.",
     "Search globally" : "Busca global",
