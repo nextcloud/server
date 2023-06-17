@@ -100,7 +100,7 @@ OC.L10N.register(
     "Vertical" : "Вертикальний",
     "Opacity" : "Непрозорість",
     "Position" : "Позиція",
-    "Stroke" : "Інсульт",
+    "Stroke" : "Товщина",
     "Save image as" : "Зберегти зображення як",
     "Extension" : "Розширення",
     "Name is required." : "Ім'я є обов'язковим.",

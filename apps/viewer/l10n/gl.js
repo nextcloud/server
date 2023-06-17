@@ -30,7 +30,7 @@ OC.L10N.register(
     "Continue" : "Continuar",
     "Undo" : "Desfacer",
     "Redo" : "Refacer",
-    "Show original image" : "Mostra a imaxe orixinal",
+    "Show original image" : "Amosar a imaxe orixinal",
     "Zoom in" : "Achegar",
     "Zoom out" : "Reducir o zoom",
     "Toggle zoom menu" : "Cambiar o menú de zoom",
