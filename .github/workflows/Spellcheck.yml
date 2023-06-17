@@ -19,4 +19,4 @@ jobs:
         with:
           check_filenames: true
           check_hidden: true
-          skip: "./core/l10n/*,./apps/*/l10n/*,./dist/*"
+          skip: "./*/l10n/*,./apps/*/l10n/*,./dist/*,./core/vendor/*,./build/*"
