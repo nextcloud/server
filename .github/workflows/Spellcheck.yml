@@ -19,4 +19,4 @@ jobs:
         with:
           check_filenames: true
           check_hidden: true
-          skip: "***/l10n/***"
+          skip: "*/l10n/*"
