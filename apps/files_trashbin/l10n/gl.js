@@ -20,7 +20,7 @@ OC.L10N.register(
     "Error while removing file from trash bin" : "Produciuse un erro ao retirar o ficheiro do cesto do lixo",
     "Error while restoring files from trash bin" : "Produciuse un erro ao restaurar os ficheiros do cesto do lixo",
     "Error while emptying trash bin" : "Produciuse un erro ao baleirar o cesto do lixo",
-    "Error while removing files from trash bin" : "Produciuse un erro ao eliminar ficheiros do cesto do lixo",
+    "Error while removing files from trash bin" : "Produciuse un erro ao retirar ficheiros do cesto do lixo",
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto co administrador",
     "Delete" : "Eliminar"
