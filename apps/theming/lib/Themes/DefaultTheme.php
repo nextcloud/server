@@ -109,6 +109,11 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		$colorError = '#e9322d';
+		$colorWarning = '#c28900';
+		$colorSuccess = '#3fa857';
+		$colorInfo = '#006aa3';
+
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
@@ -137,16 +142,23 @@ class DefaultTheme implements ITheme {
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 
-			// info/warning/success feedback colours
-			'--color-error' => '#e9322d',
-			'--color-error-rgb' => join(',', $this->util->hexToRGB('#e9322d')),
-			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
-			'--color-warning' => '#eca700',
-			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
-			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
-			'--color-success' => '#46ba61',
-			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
-			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
+			// error/warning/success/info feedback colours
+			'--color-error' => $colorError,
+			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
+			'--color-error-text' => $this->util->darken($colorError, 4),
+			'--color-warning' => $colorWarning,
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+			'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
+			'--color-warning-text' => $this->util->darken($colorWarning, 8),
+			'--color-success' => $colorSuccess,
+			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
+			'--color-success-text' => $this->util->darken($colorSuccess, 10),
+			'--color-info' => $colorInfo,
+			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
+			'--color-info-text' => $colorInfo,
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
@@ -169,6 +181,7 @@ class DefaultTheme implements ITheme {
 			// Default variables --------------------------------------------
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
+			'--border-radius-rounded' => '28px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 

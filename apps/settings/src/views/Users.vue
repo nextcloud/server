@@ -30,15 +30,18 @@
 				@keyup.enter="showNewUserMenu"
 				@keyup.space="showNewUserMenu" />
 			<template #list>
-				<NcAppNavigationItem id="addgroup"
+				<NcAppNavigationNewItem id="addgroup"
 					ref="addGroup"
 					:edit-placeholder="t('settings', 'Enter group name')"
 					:editable="true"
 					:loading="loadingAddGroup"
 					:title="t('settings', 'Add group')"
-					icon="icon-add"
 					@click="showAddGroupForm"
-					@update:title="createGroup" />
+					@new-item="createGroup">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcAppNavigationNewItem>
 				<NcAppNavigationItem id="everyone"
 					:exact="true"
 					:title="t('settings', 'Active users')"
@@ -79,19 +82,17 @@
 					:count="group.count" />
 			</template>
 			<template #footer>
-				<NcAppNavigationSettings>
+				<NcAppNavigationSettings exclude-click-outside-selectors=".vs__dropdown-menu">
 					<div>
-						<p>{{ t('settings', 'Default quota:') }}</p>
-						<NcMultiselect :value="defaultQuota"
-							:options="quotaOptions"
-							tag-placeholder="create"
-							:placeholder="t('settings', 'Select default quota')"
-							label="label"
-							track-by="id"
-							:allow-empty="false"
+						<label for="default-quota-multiselect">{{ t('settings', 'Default quota:') }}</label>
+						<NcSelect v-model="defaultQuota"
+							input-id="default-quota-multiselect"
 							:taggable="true"
-							@tag="validateQuota"
-							@input="setDefaultQuota" />
+							:options="quotaOptions"
+							:create-option="validateQuota"
+							:placeholder="t('settings', 'Select default quota')"
+							:close-on-select="true"
+							@option:selected="setDefaultQuota" />
 					</div>
 					<div>
 						<input id="showLanguages"
@@ -148,16 +149,18 @@ import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigati
 import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
+import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigationNewItem.js'
 import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
 import axios from '@nextcloud/axios'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import { generateUrl } from '@nextcloud/router'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
 import GroupListItem from '../components/GroupListItem.vue'
 import UserList from '../components/UserList.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
 
 Vue.use(VueLocalStorage)
 
@@ -170,10 +173,12 @@ export default {
 		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
+		NcAppNavigationNewItem,
 		NcAppNavigationSettings,
 		NcContent,
 		GroupListItem,
-		NcMultiselect,
+		NcSelect,
+		Plus,
 		UserList,
 	},
 	props: {
@@ -361,6 +366,10 @@ export default {
 		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 */
 		setDefaultQuota(quota = 'none') {
+			// Make sure correct label is set for unlimited quota
+			if (quota === 'none') {
+				quota = this.unlimitedQuota
+			}
 			this.$store.dispatch('setAppConfig', {
 				app: 'files',
 				key: 'default_quota',
@@ -377,17 +386,21 @@ export default {
 		/**
 		 * Validate quota string to make sure it's a valid human file size
 		 *
-		 * @param {string} quota Quota in readable format '5 GB'
-		 * @return {Promise|boolean}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {object} The validated quota object or unlimited quota if input is invalid
 		 */
 		validateQuota(quota) {
+			if (typeof quota === 'object') {
+				quota = quota?.id || quota.label
+			}
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota === null) {
-				return this.setDefaultQuota('none')
+				return this.unlimitedQuota
 			} else {
 				// unify format output
-				return this.setDefaultQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
+				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				return { id: quota, label: quota }
 			}
 		},
 
@@ -438,16 +451,15 @@ export default {
 		},
 
 		showAddGroupForm() {
-			this.$refs.addGroup.editingActive = true
-			this.$refs.addGroup.onMenuToggle(false)
+			this.$refs.addGroup.newItemActive = true
 			this.$nextTick(() => {
-				this.$refs.addGroup.$refs.editingInput.focusInput()
+				this.$refs.addGroup.$refs.newItemInput.focusInput()
 			})
 		},
 
 		hideAddGroupForm() {
-			this.$refs.addGroup.editingActive = false
-			this.$refs.addGroup.editingValue = ''
+			this.$refs.addGroup.newItemActive = false
+			this.$refs.addGroup.newItemValue = ''
 		},
 
 		/**

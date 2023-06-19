@@ -128,7 +128,6 @@
     "All users" : "'Ολοι οι χρήστες",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού αποθηκευτικού χώρου",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

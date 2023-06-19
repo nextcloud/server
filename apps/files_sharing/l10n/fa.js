@@ -111,8 +111,8 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "آپلود عمومی توسط سرپرست غیرفعال شده است",
     "Public upload is only possible for publicly shared folders" : "بارگذاری عمومی فقط برای پوشه هایی که به طور عمومی به اشتراک گذاشته می شوند ممکن است",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : ".اشتراک‍‍‍%s ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد.",
-    "Invalid date, date format must be YYYY-MM-DD" : "تاریخ نامعتبر است ، قالب تاریخ باید YYYY-MM-DD باشد",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%2$sاشتراک گذاری%1$s انجام نشد زیرا بک اِند اجازه نمی دهد نوع از سهام استفاده شود",
+    "Invalid date, date format must be YYYY-MM-DD" : "تاریخ نامعتبر است ، قالب تاریخ باید YYYY-MM-DD باشد",
     "You cannot share to a Circle if the app is not enabled" : "اگر برنامه فعال نباشد ، نمی توانید در یک حلقه به اشتراک بگذارید",
     "Please specify a valid circle" : "لطفاً یک حلقه معتبر تعیین کنید",
     "Sharing %s failed because the back end does not support room shares" : "اشتراک گذاری %sانجام نشد زیرا قسمت پشتی سهام اتاق را پشتیبانی نمی کند",
@@ -177,7 +177,7 @@ OC.L10N.register(
     "Create share" : "ساختن اشتراک",
     "Cancel" : "لغو",
     "Hide download" : "پنهان کردن بارگیری",
-    "Password protect" : "نگهداری کردن رمز عبور",
+    "Password protect" : "محافظت با گذرواژه",
     "Video verification" : "تأیید صحت ویدیو",
     "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Add another link" : "پیوند دیگری اضافه کنید",
@@ -231,10 +231,6 @@ OC.L10N.register(
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
-    "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
-    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود",
-    "Copy to clipboard" : "کپی به کلیپ بورد",
-    "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
-    "Toggle grid view" : "نمای دریچه را تغییر دهید"
+    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود"
 },
 "nplurals=2; plural=(n > 1);");

@@ -182,7 +182,7 @@ export default {
 		border-radius: var(--border-radius-large);
 
 		input:checked + label > & {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 
 		&--failed {

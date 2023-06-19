@@ -72,7 +72,7 @@ class Jail extends Wrapper {
 	public function getJailedPath($path) {
 		$root = rtrim($this->rootPath, '/') . '/';
 
-		if ($path !== $this->rootPath && strpos($path, $root) !== 0) {
+		if ($path !== $this->rootPath && !str_starts_with($path, $root)) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->rootPath));
@@ -248,7 +248,7 @@ class Jail extends Wrapper {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		return $this->getWrapperStorage()->file_get_contents($this->getUnjailedPath($path));

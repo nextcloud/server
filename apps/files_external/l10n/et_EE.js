@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disconnect" : "Ühenda lahti",
     "Admin defined" : "Admini poolt määratud",
     "Saved" : "Salvestatud",
+    "Saving …" : "Salvestamine …",
     "Save" : "Salvesta",
     "Empty response from the server" : "Tühi vastus serverilt",
     "Couldn't get the list of external mount points: {type}" : "Välise ühenduspunkti hankimine ebaõnnestus: {type}",
@@ -82,7 +83,6 @@ OC.L10N.register(
     "Configuration" : "Seadistamine",
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
-    "Advanced settings" : "Lisavalikud",
-    "All users. Type to select user or group." : "Kõik kasutajad. Kirjuta, et valida kasutaja või grupp."
+    "Advanced settings" : "Lisavalikud"
 },
 "nplurals=2; plural=(n != 1);");

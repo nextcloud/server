@@ -56,11 +56,9 @@
 
 <script>
 import { debounce } from 'debounce'
-import {
-	NcButton,
-	NcColorPicker,
-	NcNoteCard,
-} from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
@@ -115,8 +113,22 @@ export default {
 		width: 230px !important;
 		border-radius: var(--border-radius-large) !important;
 		background-color: var(--color-primary-default) !important;
-		&:hover {
-			background-color: var(--color-primary-element-default-hover) !important;
+
+		// emulated hover state because it would not make sense
+		// to create a dedicated global variable for the color-primary-default
+		&:hover::after {
+			background-color: white;
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			opacity: .2;
+			filter: var(--primary-invert-if-bright);
+		}
+
+		// Above the ::after
+		&::v-deep * {
+			z-index: 1;
 		}
 	}
 }

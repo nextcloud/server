@@ -28,10 +28,12 @@ namespace OCA\ContactsInteraction\Listeners;
 use OCA\ContactsInteraction\Db\CardSearchDao;
 use OCA\ContactsInteraction\Db\RecentContact;
 use OCA\ContactsInteraction\Db\RecentContactMapper;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -41,9 +43,13 @@ use Sabre\VObject\UUIDUtil;
 use Throwable;
 
 class ContactInteractionListener implements IEventListener {
+
+	use TTransactional;
+
 	private RecentContactMapper $mapper;
 	private CardSearchDao $cardSearchDao;
 	private IUserManager $userManager;
+	private IDBConnection $dbConnection;
 	private ITimeFactory $timeFactory;
 	private IL10N $l10n;
 	private LoggerInterface $logger;
@@ -51,12 +57,14 @@ class ContactInteractionListener implements IEventListener {
 	public function __construct(RecentContactMapper $mapper,
 								CardSearchDao $cardSearchDao,
 								IUserManager $userManager,
+								IDBConnection $connection,
 								ITimeFactory $timeFactory,
 								IL10N $l10nFactory,
 								LoggerInterface $logger) {
 		$this->mapper = $mapper;
 		$this->cardSearchDao = $cardSearchDao;
 		$this->userManager = $userManager;
+		$this->dbConnection = $connection;
 		$this->timeFactory = $timeFactory;
 		$this->l10n = $l10nFactory;
 		$this->logger = $logger;
@@ -77,58 +85,63 @@ class ContactInteractionListener implements IEventListener {
 			return;
 		}
 
-		$existing = $this->mapper->findMatch(
-			$event->getActor(),
-			$event->getUid(),
-			$event->getEmail(),
-			$event->getFederatedCloudId()
-		);
-		if (!empty($existing)) {
-			$now = $this->timeFactory->getTime();
-			foreach ($existing as $c) {
-				$c->setLastContact($now);
-				$this->mapper->update($c);
+		$this->atomic(function () use ($event) {
+			$uid = $event->getUid();
+			$email = $event->getEmail();
+			$federatedCloudId = $event->getFederatedCloudId();
+			$existing = $this->mapper->findMatch(
+				$event->getActor(),
+				$uid,
+				$email,
+				$federatedCloudId
+			);
+			if (!empty($existing)) {
+				$now = $this->timeFactory->getTime();
+				foreach ($existing as $c) {
+					$c->setLastContact($now);
+					$this->mapper->update($c);
+				}
+
+				return;
 			}
 
-			return;
-		}
-
-		$contact = new RecentContact();
-		$contact->setActorUid($event->getActor()->getUID());
-		if ($event->getUid() !== null) {
-			$contact->setUid($event->getUid());
-		}
-		if ($event->getEmail() !== null) {
-			$contact->setEmail($event->getEmail());
-		}
-		if ($event->getFederatedCloudId() !== null) {
-			$contact->setFederatedCloudId($event->getFederatedCloudId());
-		}
-		$contact->setLastContact($this->timeFactory->getTime());
-
-		$copy = $this->cardSearchDao->findExisting(
-			$event->getActor(),
-			$event->getUid(),
-			$event->getEmail(),
-			$event->getFederatedCloudId()
-		);
-		if ($copy !== null) {
-			try {
-				$parsed = Reader::read($copy, Reader::OPTION_FORGIVING);
-				$parsed->CATEGORIES = $this->l10n->t('Recently contacted');
-				$contact->setCard($parsed->serialize());
-			} catch (Throwable $e) {
-				$this->logger->warning(
-					'Could not parse card to add recent category: ' . $e->getMessage(),
-					[
-						'exception' => $e,
-					]);
-				$contact->setCard($copy);
+			$contact = new RecentContact();
+			$contact->setActorUid($event->getActor()->getUID());
+			if ($uid !== null) {
+				$contact->setUid($uid);
 			}
-		} else {
-			$contact->setCard($this->generateCard($contact));
-		}
-		$this->mapper->insert($contact);
+			if ($email !== null) {
+				$contact->setEmail($email);
+			}
+			if ($federatedCloudId !== null) {
+				$contact->setFederatedCloudId($federatedCloudId);
+			}
+			$contact->setLastContact($this->timeFactory->getTime());
+
+			$copy = $this->cardSearchDao->findExisting(
+				$event->getActor(),
+				$uid,
+				$email,
+				$federatedCloudId
+			);
+			if ($copy !== null) {
+				try {
+					$parsed = Reader::read($copy, Reader::OPTION_FORGIVING);
+					$parsed->CATEGORIES = $this->l10n->t('Recently contacted');
+					$contact->setCard($parsed->serialize());
+				} catch (Throwable $e) {
+					$this->logger->warning(
+						'Could not parse card to add recent category: ' . $e->getMessage(),
+						[
+							'exception' => $e,
+						]);
+					$contact->setCard($copy);
+				}
+			} else {
+				$contact->setCard($this->generateCard($contact));
+			}
+			$this->mapper->insert($contact);
+		}, $this->dbConnection);
 	}
 
 	private function getDisplayName(?string $uid): ?string {

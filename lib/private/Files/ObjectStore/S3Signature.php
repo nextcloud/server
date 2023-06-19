@@ -107,7 +107,7 @@ class S3Signature implements SignatureInterface {
 		// Move X-Amz-* headers to the query string
 		foreach ($request->getHeaders() as $name => $header) {
 			$name = strtolower($name);
-			if (strpos($name, 'x-amz-') === 0) {
+			if (str_starts_with($name, 'x-amz-')) {
 				$query[$name] = implode(',', $header);
 			}
 		}
@@ -169,7 +169,7 @@ class S3Signature implements SignatureInterface {
 		$headers = [];
 		foreach ($request->getHeaders() as $name => $header) {
 			$name = strtolower($name);
-			if (strpos($name, 'x-amz-') === 0) {
+			if (str_starts_with($name, 'x-amz-')) {
 				$value = implode(',', $header);
 				if (strlen($value) > 0) {
 					$headers[$name] = $name . ':' . $value;

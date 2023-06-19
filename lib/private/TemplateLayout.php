@@ -284,7 +284,7 @@ class TemplateLayout extends \OC_Template {
 			} else {
 				$suffix = $this->getVersionHashSuffix($web, $file);
 
-				if (strpos($file, '?v=') == false) {
+				if (!str_contains($file, '?v=')) {
 					$this->append('cssfiles', $web.'/'.$file . $suffix);
 				} else {
 					$this->append('cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));

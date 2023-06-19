@@ -74,7 +74,7 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$users = $this->userManager->search('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
 
 		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool)$input->getOption('info')));
 		return 0;

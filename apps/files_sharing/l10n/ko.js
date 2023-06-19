@@ -101,8 +101,8 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "공개 업로드는 관리자에 의해 비활성화되어 있음",
     "Public upload is only possible for publicly shared folders" : "공개 공유 폴더에만 공개 업로드를 사용할 수 있음",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud 토크가 활성화되어 있지 않기 때문에 Nextcloud 토크로 %s의 공유 암호를 전송할 수 없음",
-    "Invalid date, date format must be YYYY-MM-DD" : "잘못된 날짜, YYYY-MM-DD 형식이어야 합니다",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%1$s을(를) 공유할 수 없습니다. 백엔드에서 %2$s 형식의 공유를 지원하지 않습니다",
+    "Invalid date, date format must be YYYY-MM-DD" : "잘못된 날짜, YYYY-MM-DD 형식이어야 합니다",
     "You cannot share to a Circle if the app is not enabled" : "서클 앱이 활성화되어 있지 않으면 서클로 공유할 수 없음",
     "Please specify a valid circle" : "올바른 서클을 지정하십시오",
     "Sharing %s failed because the back end does not support room shares" : "%s 공유 실패. 백엔드에서 방 공유를 지원하지 않습니다",
@@ -119,6 +119,8 @@ OC.L10N.register(
     "Reject" : "거절",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "이 앱을 사용하여 Nextcloud 내에서 사용자간 파일을 공유할 수 있습니다. 앱을 활성화하면 관리자가 파일 공유를 허용할 그룹을 지정할 수 있습니다. 공유가 허용된 사용자는 Nextcloud 내의 다른 사용자나 그룹과 파일이나 폴더를 공유할 수 있습니다. 추가로 관리자가 링크 공유 기능을 활성화하면 Nextcloud 외부 사용자와 파일을 공유할 수 있는 외부 링크가 생성됩니다. 관리자는 암호나 만료 날짜 사용을 강제할 수 있으며, 공유 링크로 서버간 공유 기능이나 모바일 장치에서 공유를 활성화할 수 있습니다.\n공유 기능을 비활성화하면 서버에 있는 모든 공유된 파일이나 폴더를 삭제하며, 동기화 클라이언트나 모바일 앱에도 적용됩니다. 자세한 정보를 보려면 Nextcloud 문서를 참조하십시오.",
     "Sharing" : "공유",
+    "Accept user and group shares by default" : "사용자 공유나 그룹 공유를 기본으로 허용함",
+    "Set default folder for accepted shares" : "허용한 공유의 기본 경로 설정",
     "Reset" : "초기화",
     "Invalid path selected" : "잘못된 경로가 선택됨",
     "Unknown error" : "알 수 없는 오류",
@@ -188,10 +190,6 @@ OC.L10N.register(
     "Uploading files" : "파일 업로드",
     "Uploaded files:" : "업로드한 파일:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
-    "Add to your Nextcloud" : "내 Nextcloud에 추가",
-    "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
-    "Copy to clipboard" : "클립보드로 복사",
-    "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다.",
-    "Toggle grid view" : "모눈 보기 전환"
+    "Add to your Nextcloud" : "내 Nextcloud에 추가"
 },
 "nplurals=1; plural=0;");

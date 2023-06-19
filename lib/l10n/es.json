@@ -3,7 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Normalmente esto se puede arreglar dando al servidor web acceso de escritura a la carpeta config.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Pero, si prefieres mantener el archivo config.php como solo de lectura, establece la opción \"config_is_read_only\" a true en él.",
     "See %s" : "Ver %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Los archivos de la app %1$s no se han reemplazado correctamente. Asegúrate de que es una versión compatible con el servidor.",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "La aplicación %1$s no está presente o tiene una versión que no es compatible con este servidor. Por favor, chequee la carpeta de apps.",
     "Sample configuration detected" : "Configuración de ejemplo detectada",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se ha detectado que el ejemplo de configuración ha sido copiado. Esto podría afectar a su instalación, por lo que no tiene soporte. Lea la documentación antes de hacer cambios en config.php",
     "404" : "404",
@@ -236,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ajustar esta configuración en php.ini hará que Nextcloud funcione de nuevo",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> está establecida como <code>%s</code> en lugar del valor esperado: <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Para arreglar este problema, establece <code>mbstring.func_overload</code> en<code>0</code> en tu php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 es requerido en esta o en versiones superiores. Ahora mismo tienes instalada %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este error, actualiza la versión de tu libxml2 y reinicia el servidor web.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP está aparentemente configurado para eliminar bloques de documentos en línea. Esto hará que varias aplicaciones principales estén inaccesibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Probablemente esto venga a causa de la caché o un acelerador, tales como Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Los módulos PHP se han instalado, pero aparecen listados como si faltaran",
@@ -263,12 +261,11 @@
     "Storage connection error. %s" : "Error de conexión de almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamiento no esta disponible temporalmente",
     "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Los archivos de la app %1$s no se han reemplazado correctamente. Asegúrate de que es una versión compatible con el servidor.",
     "Full name" : "Nombre completo",
-    "%s enter the database username and name." : "%s introduzca el nombre de usuario y la contraseña de la BBDD.",
-    "%s enter the database username." : "%s introduzca el usuario de la base de datos.",
-    "%s enter the database name." : "%s introduzca el nombre de la base de datos",
-    "%s you may not use dots in the database name" : "%s puede utilizar puntos en el nombre de la base de datos",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "El límite de usuarios fue alcanzado y el usuario no fue creado. Compruebe sus notificaciones para aprender más.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 es requerido en esta o en versiones superiores. Ahora mismo tienes instalada %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este error, actualiza la versión de tu libxml2 y reinicia el servidor web."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

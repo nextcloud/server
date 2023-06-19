@@ -128,7 +128,6 @@ OC.L10N.register(
     "Additional settings" : "Configuraciones adicionales",
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar al portapapeles",
-    "Cancel" : "Cancelar",
     "Create" : "Crear",
     "Delete permanently" : "Borrar permanentemente",
     "Upload some content or sync with your devices!" : "¡Carga algún contenido o sincroniza con tus dispositivos!",
@@ -144,14 +143,10 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Storage invalid" : "El almacenamiento es inválido",
-    "Select" : "Seleccionar",
-    "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
-    "New" : "Nuevo",
-    "Copied!" : "¡Copiado!",
     "Unlimited" : "Ilimitado",
+    "Cancel" : "Cancelar",
     "%s used" : "%s usado",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "Settings" : "Configuraciones ",
     "Deleted files" : "Archivos borrados"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

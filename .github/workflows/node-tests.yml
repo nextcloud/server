@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@v1.1
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1
         id: versions
         with:
           fallbackNode: '^12'
@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
@@ -81,7 +81,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 

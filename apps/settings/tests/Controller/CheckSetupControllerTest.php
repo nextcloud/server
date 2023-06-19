@@ -716,43 +716,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
 	}
 
-	public function testIsUsedTlsLibOutdatedWithOlderOpenSsl() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.1c']);
-		$this->assertSame('cURL is using an outdated OpenSSL version (OpenSSL/1.0.1c). Please update your operating system or features such as installing and updating apps via the App Store or Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithOlderOpenSslAndWithoutAppstore() {
-		$this->config
-			->expects($this->any())
-			->method('getSystemValue')
-			->willReturnMap([
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.1c']);
-		$this->assertSame('cURL is using an outdated OpenSSL version (OpenSSL/1.0.1c). Please update your operating system or features such as Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithOlderOpenSsl1() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.2a']);
-		$this->assertSame('cURL is using an outdated OpenSSL version (OpenSSL/1.0.2a). Please update your operating system or features such as installing and updating apps via the App Store or Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
 	public function testIsUsedTlsLibOutdatedWithMatchingOpenSslVersion() {
 		$this->config->expects($this->any())
 			->method('getSystemValue')

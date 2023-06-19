@@ -76,6 +76,7 @@
 			<form :class="{'icon-loading-small': loading.displayName}"
 				class="displayName"
 				@submit.prevent="updateDisplayName">
+				<label class="hidden-visually" :for="'displayName'+user.id+rand">{{ t('settings', 'Edit display name') }}</label>
 				<input :id="'displayName'+user.id+rand"
 					ref="displayName"
 					:disabled="loading.displayName||loading.all"
@@ -102,6 +103,7 @@
 			:class="{'icon-loading-small': loading.password}"
 			class="password"
 			@submit.prevent="updatePassword">
+			<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
 			<input :id="'password'+user.id+rand"
 				ref="password"
 				:disabled="loading.password || loading.all"
@@ -121,6 +123,7 @@
 		<form :class="{'icon-loading-small': loading.mailAddress}"
 			class="mailAddress"
 			@submit.prevent="updateEmail">
+			<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
 			<input :id="'mailAddress'+user.id+rand"
 				ref="mailAddress"
 				:disabled="loading.mailAddress||loading.all"
@@ -134,7 +137,9 @@
 			<input class="icon-confirm" type="submit" value="">
 		</form>
 		<div :class="{'icon-loading-small': loading.groups}" class="groups">
-			<NcMultiselect :close-on-select="false"
+			<label class="hidden-visually" :for="'groups'+user.id+rand">{{ t('settings', 'Add user to group') }}</label>
+			<NcMultiselect :id="'groups'+user.id+rand"
+				:close-on-select="false"
 				:disabled="loading.groups||loading.all"
 				:limit="2"
 				:multiple="true"
@@ -156,7 +161,9 @@
 		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
 			:class="{'icon-loading-small': loading.subadmins}"
 			class="subadmins">
-			<NcMultiselect :close-on-select="false"
+			<label class="hidden-visually" :for="'subadmins'+user.id+rand">{{ t('settings', 'Set user as admin for') }}</label>
+			<NcMultiselect :id="'subadmins'+user.id+rand"
+				:close-on-select="false"
 				:disabled="loading.subadmins||loading.all"
 				:limit="2"
 				:multiple="true"
@@ -175,7 +182,9 @@
 		<div :title="usedSpace"
 			:class="{'icon-loading-small': loading.quota}"
 			class="quota">
-			<NcMultiselect :allow-empty="false"
+			<label class="hidden-visually" :for="'quota'+user.id+rand">{{ t('settings', 'Select user quota') }}</label>
+			<NcMultiselect :id="'quota'+user.id+rand"
+				:allow-empty="false"
 				:disabled="loading.quota||loading.all"
 				:options="quotaOptions"
 				:placeholder="t('settings', 'Select user quota')"
@@ -191,7 +200,9 @@
 		<div v-if="showConfig.showLanguages"
 			:class="{'icon-loading-small': loading.languages}"
 			class="languages">
-			<NcMultiselect :allow-empty="false"
+			<label class="hidden-visually" :for="'language'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
+			<NcMultiselect :id="'language'+user.id+rand"
+				:allow-empty="false"
 				:disabled="loading.languages||loading.all"
 				:options="languages"
 				:placeholder="t('settings', 'No language set')"
@@ -202,6 +213,22 @@
 				label="name"
 				track-by="code"
 				@input="setUserLanguage" />
+		</div>
+		<div :class="{'icon-loading-small': loading.manager}" class="managers">
+			<NcMultiselect ref="manager"
+				v-model="currentManager"
+				:close-on-select="true"
+				:user-select="true"
+				:options="possibleManagers"
+				:placeholder="t('settings', 'Select manager')"
+				class="multiselect-vue"
+				label="displayname"
+				track-by="id"
+				@search-change="searchUserManager"
+				@remove="updateUserManager"
+				@select="updateUserManager">
+				<span slot="noResult">{{ t('settings', 'No results') }}</span>
+			</NcMultiselect>
 		</div>
 
 		<!-- don't show this on edit mode -->
@@ -220,6 +247,8 @@
 				</NcActions>
 				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
 					<button class="icon-more"
+						:aria-expanded="openedMenu"
+						:aria-label="t('settings', 'Toggle user actions menu')"
 						@click.prevent="toggleMenu" />
 					<div :class="{ 'open': openedMenu }" class="popovermenu">
 						<NcPopoverMenu :menu="userActions" />
@@ -238,12 +267,10 @@
 <script>
 import ClickOutside from 'vue-click-outside'
 
-import {
-	NcPopoverMenu,
-	NcMultiselect,
-	NcActions,
-	NcActionButton,
-} from '@nextcloud/vue'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import UserRowSimple from './UserRowSimple.vue'
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 
@@ -261,6 +288,10 @@ export default {
 	},
 	mixins: [UserRowMixin],
 	props: {
+		users: {
+			type: Array,
+			required: true,
+		},
 		user: {
 			type: Object,
 			required: true,
@@ -303,6 +334,8 @@ export default {
 			rand: parseInt(Math.random() * 1000),
 			openedMenu: false,
 			feedbackMessage: '',
+			possibleManagers: [],
+			currentManager: '',
 			editing: false,
 			loading: {
 				all: false,
@@ -316,10 +349,12 @@ export default {
 				disable: false,
 				languages: false,
 				wipe: false,
+				manager: false,
 			},
 		}
 	},
 	computed: {
+
 		/* USER POPOVERMENU ACTIONS */
 		userActions() {
 			const actions = [
@@ -348,6 +383,12 @@ export default {
 			}
 			return actions.concat(this.externalActions)
 		},
+	},
+	async beforeMount() {
+		await this.searchUserManager()
+		if (this.user.manager) {
+			await this.initManager(this.user.manager)
+		}
 	},
 
 	methods: {
@@ -383,6 +424,34 @@ export default {
 				},
 				true
 			)
+		},
+
+		filterManagers(managers) {
+			return managers.filter((manager) => manager.id !== this.user.id)
+		},
+		async initManager(userId) {
+			await this.$store.dispatch('getUser', userId).then(response => {
+				this.currentManager = response?.data.ocs.data
+			})
+		},
+		async searchUserManager(query) {
+			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
+				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []
+				if (users.length > 0) {
+					this.possibleManagers = users
+				}
+			})
+		},
+
+		updateUserManager(manager) {
+			this.loading.manager = true
+			this.$store.dispatch('setUserData', {
+				userid: this.user.id,
+				key: 'manager',
+				value: this.currentManager ? this.currentManager.id : '',
+			}).then(() => {
+				this.loading.manager = false
+			})
 		},
 
 		deleteUser() {

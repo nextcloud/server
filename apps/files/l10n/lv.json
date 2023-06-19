@@ -67,6 +67,7 @@
     "Favorited" : "Favorīti",
     "Favorite" : "Iecienītais",
     "New folder" : "Jauna mape",
+    "Create new folder" : "Izveidot jaunu mapi",
     "Upload file" : "Augšupielādēt datni",
     "Recent" : "Nesenās",
     "Remove from favorites" : "Noņemt no favorītiem",
@@ -116,7 +117,6 @@
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopēt starpliktuvē",
     "Use this address to access your Files via WebDAV" : "Izmantojiet šo adresi, lai piekļūtu savām datnēm, izmantojot WebDAV",
-    "Cancel" : "Atcelt",
     "Create" : "Izveidot",
     "Delete permanently" : "Dzēst pavisam",
     "Toggle grid view" : "Pārslēgt režģa skatu",
@@ -134,14 +134,10 @@
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "Storage invalid" : "Nepareiza glabātuve",
-    "Select" : "Norādīt",
-    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
-    "New" : "Jauna",
-    "Copied!" : "Nokopēts!",
     "Unlimited" : "Neierobežota",
+    "Cancel" : "Atcelt",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "Settings" : "Iestatījumi",
     "Deleted files" : "Dzēstās datnes"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

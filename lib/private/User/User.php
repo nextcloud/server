@@ -59,8 +59,12 @@ use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function json_decode;
+use function json_encode;
 
 class User implements IUser {
+	private const CONFIG_KEY_MANAGERS = 'manager';
+
 	/** @var IAccountManager */
 	protected $accountManager;
 	/** @var string */
@@ -416,7 +420,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name')) {
+		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
@@ -532,6 +536,27 @@ class User implements IUser {
 		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
 	}
 
+	public function getManagerUids(): array {
+		$encodedUids = $this->config->getUserValue(
+			$this->uid,
+			'settings',
+			self::CONFIG_KEY_MANAGERS,
+			'[]'
+		);
+		return json_decode($encodedUids, false, 512, JSON_THROW_ON_ERROR);
+	}
+
+	public function setManagerUids(array $uids): void {
+		$oldUids = $this->getManagerUids();
+		$this->config->setUserValue(
+			$this->uid,
+			'settings',
+			self::CONFIG_KEY_MANAGERS,
+			json_encode($uids, JSON_THROW_ON_ERROR)
+		);
+		$this->triggerChange('managers', $uids, $oldUids);
+	}
+
 	/**
 	 * get the avatar image if it exists
 	 *
@@ -546,7 +571,7 @@ class User implements IUser {
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
-		$image = $avatar->get(-1);
+		$image = $avatar->get($size);
 		if ($image) {
 			return $image;
 		}
@@ -571,7 +596,7 @@ class User implements IUser {
 	}
 
 	private function removeProtocolFromUrl(string $url): string {
-		if (strpos($url, 'https://') === 0) {
+		if (str_starts_with($url, 'https://')) {
 			return substr($url, strlen('https://'));
 		}
 

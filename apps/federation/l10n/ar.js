@@ -1,12 +1,17 @@
 OC.L10N.register(
     "federation",
     {
-    "Server is already in the list of trusted servers." : "الخادوم موجود بالفعل في قائمة الخوادم الموثوق فيها.",
-    "Could not add server" : "تعذَّرت إضافة خادم",
-    "Trusted servers" : "الخوادم الموثوق فيها",
+    "Added to the list of trusted servers" : "أُضيف إلى قائمة الخوادم غير الموثوقة",
+    "Server is already in the list of trusted servers." : "الخادوم موجود بالفعل في قائمة الخوادم الموثوقة.",
+    "No server to federate with found" : "لم يُمكن إيجاد أي خادوم للاتحاد معه",
+    "Could not add server" : "تعذّرت إضافة الخادوم",
+    "Trusted servers" : "الخوادم الموثوقة",
     "Federation" : "الإتحاد",
-    "+ Add trusted server" : "+ إضافة خادوم موثوق فيه",
-    "Trusted server" : "خادوم موثوق فيه",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "يُمكّنك الاتحاد من الاتصال بخوادم أخرى موثوقة لتبادل دليل المستخدمين.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "يُمكّنك الاتحاد من الاتصال بخوادم أخرى موثوقة لتبادل دليل المستخدمين. على سبيل المثال: هذا يسمح بالاستكمال التلقائي لحسابات المستخدمين الخارجيين عبر المشاركات الاتحادية.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "يُمكّنك الاتحاد من الاتصال بخوادم أخرى موثوقة لتبادل دليل المستخدمين. على سبيل المثال: هذا يسمح بالاستكمال التلقائي لحسابات المستخدمين الخارجيين عبر المُشاركات الاتحاديّة. و بالتالي، فلا  ضرورة لإضافة خادوم لقائمة الخوادم الموثوقة من أجل إنشاء مُشاركات اتحاديّة.",
+    "+ Add trusted server" : "+ إضافة خادوم موثوق",
+    "Trusted server" : "خادوم موثوق",
     "Add" : "إضافة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

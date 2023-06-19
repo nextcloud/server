@@ -22,25 +22,30 @@
 
 <template>
 	<div class="system-tags">
-		<label for="system-tags-input">{{ t('systemtags', 'Search or create collaborative tags') }}</label>
-		<NcSelectTags class="system-tags__select"
-			input-id="system-tags-input"
-			:placeholder="t('systemtags', 'Collaborative tags …')"
-			:options="sortedTags"
-			:value="selectedTags"
-			:create-option="createOption"
-			:taggable="true"
-			:passthru="true"
-			:fetch-tags="false"
-			:loading="loading"
-			@input="handleInput"
-			@option:selected="handleSelect"
-			@option:created="handleCreate"
-			@option:deselected="handleDeselect">
-			<template #no-options>
-				{{ t('systemtags', 'No tags to select, type to create a new tag') }}
-			</template>
-		</NcSelectTags>
+		<NcLoadingIcon v-if="loadingTags"
+			:name="t('systemtags', 'Loading collaborative tags …')"
+			:size="32" />
+		<template v-else>
+			<label for="system-tags-input">{{ t('systemtags', 'Search or create collaborative tags') }}</label>
+			<NcSelectTags class="system-tags__select"
+				input-id="system-tags-input"
+				:placeholder="t('systemtags', 'Collaborative tags …')"
+				:options="sortedTags"
+				:value="selectedTags"
+				:create-option="createOption"
+				:taggable="true"
+				:passthru="true"
+				:fetch-tags="false"
+				:loading="loading"
+				@input="handleInput"
+				@option:selected="handleSelect"
+				@option:created="handleCreate"
+				@option:deselected="handleDeselect">
+				<template #no-options>
+					{{ t('systemtags', 'No tags to select, type to create a new tag') }}
+				</template>
+			</NcSelectTags>
+		</template>
 	</div>
 </template>
 
@@ -48,6 +53,7 @@
 // FIXME Vue TypeScript ESLint errors
 /* eslint-disable */
 import Vue from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
 
 import { translate as t } from '@nextcloud/l10n'
@@ -74,6 +80,7 @@ export default Vue.extend({
 	name: 'SystemTags',
 
 	components: {
+		NcLoadingIcon,
 		NcSelectTags,
 	},
 
@@ -88,6 +95,7 @@ export default Vue.extend({
 		return {
 			sortedTags: [] as TagWithId[],
 			selectedTags: [] as TagWithId[],
+			loadingTags: false,
 			loading: false,
 		}
 	},
@@ -123,12 +131,14 @@ export default Vue.extend({
 		fileId: {
 			immediate: true,
 			async handler() {
+				this.loadingTags = true
 				try {
 					this.selectedTags = await fetchSelectedTags(this.fileId)
 					this.$emit('has-tags', this.selectedTags.length > 0)
 				} catch (error) {
 					showError(t('systemtags', 'Failed to load selected tags'))
 				}
+				this.loadingTags = false
 			},
 		},
 	},

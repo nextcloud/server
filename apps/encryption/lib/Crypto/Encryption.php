@@ -309,7 +309,12 @@ class Encryption implements IEncryptionModule {
 
 			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->getOwner($path));
 			$shareKeys = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
-			$this->keyManager->deleteLegacyFileKey($this->path);
+			if (!$this->keyManager->deleteLegacyFileKey($this->path)) {
+				$this->logger->warning(
+					'Failed to delete legacy filekey for {path}',
+					['app' => 'encryption', 'path' => $path]
+				);
+			}
 			foreach ($shareKeys as $uid => $keyFile) {
 				$this->keyManager->setShareKey($this->path, $uid, $keyFile);
 			}

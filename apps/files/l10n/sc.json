@@ -93,6 +93,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Còpia ligòngiu deretu (faghet isceti pro utentes chi tenent atzessu a custu archìviu/cartella)",
     "You can only favorite a single file or folder at a time" : "Podes preferire isceti un'archìviu o una cartella cada borta",
     "New folder" : "Cartella noa",
+    "Create new folder" : "Crea cartella noa",
     "Upload file" : "Carriga archìviu",
     "Recent" : "Reghente",
     "Not favorited" : "Non preferidu",
@@ -175,7 +176,6 @@
     "Unable to change the favourite state of the file" : "Non faghet a cambiare s'istadu de preferidu de s'archìviu",
     "Error while loading the file data" : "Errore in su carrigamentu de is datos de s'archìviu",
     "Pick a template for {name}" : "Sèbera unu modellu pro {name}",
-    "Cancel" : "Annulla",
     "Create" : "Crea",
     "Create a new file with the selected template" : "Crea un'archìviu nou cun su modellu seletzionadu",
     "Creating file" : "Creende s'archìviu",
@@ -202,16 +202,11 @@
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou",
     "Storage invalid" : "Archiviatzione non vàlida",
-    "Select" : "Seletziona",
-    "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
-    "New" : "Nou",
-    "Copied!" : "Copiadu!",
     "Unlimited" : "Chene lìmites",
     "Search users" : "Chirca utentes",
-    "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
+    "Cancel" : "Annulla",
     "%s used" : "%s impreadu",
     "%1$s of %2$s used" : "%1$s de %2$s impreadu",
-    "Settings" : "Impostatziones",
     "Deleted files" : "Archìvios cantzellados"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

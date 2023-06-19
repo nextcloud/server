@@ -35,22 +35,23 @@
 					class="group_select"
 					:title="t('settings', 'All')"
 					value="">
-				<NcMultiselect v-if="isLimitedToGroups(app)"
+				<br />
+				<label for="limitToGroups">
+					<span>{{ t('settings', 'Limit app usage to groups') }}</span>
+				</label>
+				<NcSelect v-if="isLimitedToGroups(app)"
+					input-id="limitToGroups"
 					:options="groups"
 					:value="appGroups"
-					:options-limit="5"
-					:placeholder="t('settings', 'Limit app usage to groups')"
+					:limit="5"
 					label="name"
-					track-by="id"
-					class="multiselect-vue"
 					:multiple="true"
 					:close-on-select="false"
-					:tag-width="60"
-					@select="addGroupLimitation"
-					@remove="removeGroupLimitation"
-					@search-change="asyncFindGroup">
+					@option:selected="addGroupLimitation"
+					@option:deselected="removeGroupLimitation"
+					@search="asyncFindGroup">
 					<span slot="noResult">{{ t('settings', 'No results') }}</span>
-				</NcMultiselect>
+				</NcSelect>
 			</div>
 			<div class="app-details__actions-manage">
 				<input v-if="app.update"
@@ -146,7 +147,7 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import AppManagement from '../mixins/AppManagement.js'
 import PrefixMixin from './PrefixMixin.vue'
@@ -156,7 +157,7 @@ export default {
 	name: 'AppDetails',
 
 	components: {
-		NcMultiselect,
+		NcSelect,
 		Markdown,
 	},
 	mixins: [AppManagement, PrefixMixin],
@@ -237,6 +238,9 @@ export default {
 	}
 	&__documentation {
 		padding-top: 20px;
+		a.appslink {
+			display: block;
+		}
 	}
 	&__description {
 		padding-top: 20px;

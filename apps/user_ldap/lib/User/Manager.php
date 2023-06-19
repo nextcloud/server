@@ -165,7 +165,7 @@ class Manager {
 		];
 
 		$homeRule = (string)$this->access->getConnection()->homeFolderNamingRule;
-		if (strpos($homeRule, 'attr:') === 0) {
+		if (str_starts_with($homeRule, 'attr:')) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
 		}
 

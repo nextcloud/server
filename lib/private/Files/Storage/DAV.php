@@ -44,18 +44,22 @@ use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
+use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 use Psr\Log\LoggerInterface;
+use Sabre\HTTP\RequestInterface;
 
 /**
  * Class DAV
@@ -87,6 +91,11 @@ class DAV extends Common {
 	protected $httpClientService;
 	/** @var ICertificateManager */
 	protected $certManager;
+	protected LoggerInterface $logger;
+	protected IEventLogger $eventLogger;
+
+	/** @var int */
+	private $timeout;
 
 	/**
 	 * @param array $params
@@ -128,6 +137,10 @@ class DAV extends Common {
 		} else {
 			throw new \Exception('Invalid webdav storage configuration');
 		}
+		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->eventLogger = \OC::$server->get(IEventLogger::class);
+		// This timeout value will be used for the download and upload of files
+		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
 	}
 
 	protected function init() {
@@ -162,6 +175,18 @@ class DAV extends Common {
 				$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 			}
 		}
+
+		$lastRequestStart = 0;
+		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+			$this->logger->debug("sending dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$lastRequestStart = microtime(true);
+			$this->eventLogger->start('fs:storage:dav:request', "Sending dav request to external storage");
+		});
+		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+			$elapsed = microtime(true) - $lastRequestStart;
+			$this->logger->debug("dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl() . " took " . round($elapsed * 1000, 1) . "ms", ['app' => 'dav']);
+			$this->eventLogger->end('fs:storage:dav:request');
+		});
 	}
 
 	/**
@@ -354,7 +379,9 @@ class DAV extends Common {
 						->newClient()
 						->get($this->createBaseUri() . $this->encodePath($path), [
 							'auth' => [$this->user, $this->password],
-							'stream' => true
+							'stream' => true,
+							// set download timeout for users with slow connections or large files
+							'timeout' => $this->timeout
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -433,7 +460,7 @@ class DAV extends Common {
 				return FileInfo::SPACE_UNKNOWN;
 			}
 			if (isset($response['{DAV:}quota-available-bytes'])) {
-				return (int)$response['{DAV:}quota-available-bytes'];
+				return Util::numericToNumber($response['{DAV:}quota-available-bytes']);
 			} else {
 				return FileInfo::SPACE_UNKNOWN;
 			}
@@ -511,7 +538,9 @@ class DAV extends Common {
 			->newClient()
 			->put($this->createBaseUri() . $this->encodePath($target), [
 				'body' => $source,
-				'auth' => [$this->user, $this->password]
+				'auth' => [$this->user, $this->password],
+				// set upload timeout for users with slow connections or large files
+				'timeout' => $this->timeout
 			]);
 
 		$this->removeCachedFile($target);
@@ -587,7 +616,7 @@ class DAV extends Common {
 			}
 			return [
 				'mtime' => isset($response['{DAV:}getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : null,
-				'size' => (int)($response['{DAV:}getcontentlength'] ?? 0),
+				'size' => Util::numericToNumber($response['{DAV:}getcontentlength'] ?? 0),
 			];
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
@@ -751,16 +780,16 @@ class DAV extends Common {
 	 */
 	protected function parsePermissions($permissionsString) {
 		$permissions = Constants::PERMISSION_READ;
-		if (strpos($permissionsString, 'R') !== false) {
+		if (str_contains($permissionsString, 'R')) {
 			$permissions |= Constants::PERMISSION_SHARE;
 		}
-		if (strpos($permissionsString, 'D') !== false) {
+		if (str_contains($permissionsString, 'D')) {
 			$permissions |= Constants::PERMISSION_DELETE;
 		}
-		if (strpos($permissionsString, 'W') !== false) {
+		if (str_contains($permissionsString, 'W')) {
 			$permissions |= Constants::PERMISSION_UPDATE;
 		}
-		if (strpos($permissionsString, 'CK') !== false) {
+		if (str_contains($permissionsString, 'CK')) {
 			$permissions |= Constants::PERMISSION_CREATE;
 			$permissions |= Constants::PERMISSION_UPDATE;
 		}

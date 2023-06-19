@@ -106,8 +106,8 @@
     "Public upload disabled by the administrator" : "שיתוף ציבורי מנוטרל על ידי המנהל",
     "Public upload is only possible for publicly shared folders" : "העלאה ציבורית אפשרית רק אל תיקיות משותפות ציבוריות",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף%s שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
-    "Invalid date, date format must be YYYY-MM-DD" : "תאריך לא חוקי, תבנית התאריך חייבת להיות YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "השיתוף%1$s נכשל מכיוון שה-\"קצה אחורי\" אינו מאפשר שיתופים מסוג %2$s",
+    "Invalid date, date format must be YYYY-MM-DD" : "תאריך לא חוקי, תבנית התאריך חייבת להיות YYYY-MM-DD",
     "You cannot share to a Circle if the app is not enabled" : "לא ניתן לשתף למעגל אם היישומון לא מופעל",
     "Please specify a valid circle" : "נא לציין מעגל תקני",
     "Sharing %s failed because the back end does not support room shares" : "השיתוף של%sנכשל מכיוון שה-\"קצה אחורי\" אינו תומך בשיתופי חדרים",
@@ -231,10 +231,6 @@
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
-    "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
-    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
-    "Copy to clipboard" : "העתקה ללוח הגזירים",
-    "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
-    "Toggle grid view" : "החלפת תצוגת טבלה"
+    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

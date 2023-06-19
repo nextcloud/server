@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Egendefinert MIME-type",
     "Please enter a valid time span" : "Vennligst skriv inn en gyldig tidsperiode",
     "Select a request URL" : "Velg en forespurt URL",
-    "Predefined URLs" : "Forhåndsdefinerte URLer",
     "Files WebDAV" : "Filer WebDAV",
-    "Others" : "Andre",
     "Custom URL" : "Egendefinert URL",
     "Select a user agent" : "Velg en brukeragent",
     "Android client" : "Android klient",
@@ -112,9 +110,7 @@ OC.L10N.register(
     "User group membership" : "Brukerens gruppemedlemsskap",
     "is member of" : "er medlem av",
     "is not member of" : "er ikke medlem av",
-    "Select a tag" : "Velg en etikett",
-    "No results" : "Ingen resultater",
-    "%s (invisible)" : "%s (usynlig)",
-    "%s (restricted)" : "%s (begrenset)"
+    "Predefined URLs" : "Forhåndsdefinerte URLer",
+    "Others" : "Andre"
 },
 "nplurals=2; plural=(n != 1);");

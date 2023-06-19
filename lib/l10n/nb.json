@@ -181,8 +181,6 @@
     "Please ask your server administrator to install the module." : "Be server-administratoren om å installere modulen.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-innstilling \"%s\" er ikke satt til \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ved å endre denne innstillingen i php.ini gjør at Nextcloud vil kjøre igjen.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Krever minst libxml2 2.7.0. Per nå er %s installert.",
-    "To fix this issue update your libxml2 version and restart your web server." : "For å fikse dette problemet, oppdater din libxml2 versjon og start webserveren på nytt.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Det ser ut til at at PHP er satt opp til å fjerne innebygde doc-blokker. Dette gjør at flere av kjerneapplikasjonene blir utilgjengelige.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette forårsakes sannsynligvis av hurtiglager/akselerator, som f.eks. Zend OPcache eller eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-moduler har blitt installert, men de listes fortsatt som fraværende?",
@@ -196,10 +194,8 @@
     "Storage is temporarily not available" : "Lagring er midlertidig utilgjengelig",
     "Storage connection timeout. %s" : "Tidsavbrudd ved tilkobling av lager: %s",
     "Full name" : "Fullt navn",
-    "%s enter the database username and name." : "%s legg inn database brukernavn og navn.",
-    "%s enter the database username." : "%s legg inn brukernavn for databasen.",
-    "%s enter the database name." : "%s legg inn navnet på databasen.",
-    "%s you may not use dots in the database name" : "%s du kan ikke bruke punktum i databasenavnet",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Bare disse tegnene tillates i et brukernavn: \"a-z\", \"A-Z\", \"0-9\" og \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Bare disse tegnene tillates i et brukernavn: \"a-z\", \"A-Z\", \"0-9\" og \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Krever minst libxml2 2.7.0. Per nå er %s installert.",
+    "To fix this issue update your libxml2 version and restart your web server." : "For å fikse dette problemet, oppdater din libxml2 versjon og start webserveren på nytt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

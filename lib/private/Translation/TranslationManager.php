@@ -30,6 +30,7 @@ use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
+use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\IDetectLanguageProvider;
 use OCP\Translation\ITranslationManager;
 use OCP\Translation\ITranslationProvider;
@@ -58,20 +59,32 @@ class TranslationManager implements ITranslationManager {
 		return $languages;
 	}
 
-	public function translate(string $text, ?string $fromLanguage, string $toLanguage): string {
+	public function translate(string $text, ?string &$fromLanguage, string $toLanguage): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No translation providers available');
 		}
 
-		foreach ($this->getProviders() as $provider) {
-			if ($fromLanguage === null && $provider instanceof IDetectLanguageProvider) {
-				$fromLanguage = $provider->detectLanguage($text);
+		if ($fromLanguage === null) {
+			foreach ($this->getProviders() as $provider) {
+				if ($provider instanceof IDetectLanguageProvider) {
+					$fromLanguage = $provider->detectLanguage($text);
+				}
+
+				if ($fromLanguage !== null) {
+					break;
+				}
 			}
 
 			if ($fromLanguage === null) {
 				throw new InvalidArgumentException('Could not detect language');
 			}
+		}
 
+		if ($fromLanguage === $toLanguage) {
+			return $text;
+		}
+
+		foreach ($this->getProviders() as $provider) {
 			try {
 				return $provider->translate($fromLanguage, $toLanguage, $text);
 			} catch (RuntimeException $e) {
@@ -79,7 +92,7 @@ class TranslationManager implements ITranslationManager {
 			}
 		}
 
-		throw new RuntimeException('Could not translate text');
+		throw new CouldNotTranslateException($fromLanguage);
 	}
 
 	public function getProviders(): array {

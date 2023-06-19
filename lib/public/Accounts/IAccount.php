@@ -134,7 +134,7 @@ interface IAccount extends \JsonSerializable {
 	public function setPropertyCollection(IAccountPropertyCollection $propertyCollection): IAccount;
 
 	/**
-	 * Returns the requestes propery collection (multi-value properties)
+	 * Returns the requested property collection (multi-value properties)
 	 *
 	 * @throws PropertyDoesNotExistException against invalid collection name
 	 * @since 22.0.0

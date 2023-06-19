@@ -155,7 +155,7 @@ abstract class AbstractIntegrationTest {
 		$methods = get_class_methods($this);
 		$atLeastOneCaseRan = false;
 		foreach ($methods as $method) {
-			if (strpos($method, 'case') === 0) {
+			if (str_starts_with($method, 'case')) {
 				print("running $method " . PHP_EOL);
 				try {
 					if (!$this->$method()) {

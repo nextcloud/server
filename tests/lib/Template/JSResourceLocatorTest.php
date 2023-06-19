@@ -26,6 +26,7 @@ namespace Test\Template;
 use OC\SystemConfig;
 use OC\Template\JSCombiner;
 use OC\Template\JSResourceLocator;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
@@ -135,9 +136,29 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$this->assertEquals($expectedWebRoot, $webRoot);
 		$this->assertEquals($expectedFile, $file);
 
-		array_pop(\OC::$APPSROOTS);
-		//unlink($new_apps_path_symlink);
-		//$this->rrmdir($new_apps_path);
+		unlink($new_apps_path_symlink);
+		$this->rrmdir($new_apps_path);
+	}
+
+	public function testNotExistingTranslationHandledSilent() {
+		$this->appManager->expects($this->once())
+			->method('getAppPath')
+			->with('core')
+			->willThrowException(new AppPathNotFoundException());
+		$this->appManager->expects($this->once())
+			->method('getAppWebPath')
+			->with('core')
+			->willThrowException(new AppPathNotFoundException());
+		// Assert logger is not called
+		$this->logger->expects($this->never())
+			->method('error');
+
+		// Run the tests
+		$locator = $this->jsResourceLocator();
+		$locator->find(["core/l10n/en.js"]);
+
+		$resources = $locator->getResources();
+		$this->assertCount(0, $resources);
 	}
 
 	public function testFindModuleJSWithFallback() {
@@ -165,7 +186,6 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$resources = $locator->getResources();
 		$this->assertCount(3, $resources);
 
-		$expectedRoot = $new_apps_path . '/test-js-app';
 		$expectedWebRoot = \OC::$WEBROOT . '/js-apps-test/test-js-app';
 		$expectedFiles = ['module.mjs', 'both.mjs', 'plain.js'];
 
@@ -173,8 +193,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 			$this->assertEquals($expectedWebRoot, $resources[$idx][1]);
 			$this->assertEquals($expectedFiles[$idx], $resources[$idx][2]);
 		}
-		
-		array_pop(\OC::$APPSROOTS);
+
 		$this->rrmdir($new_apps_path);
 	}
 }

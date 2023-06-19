@@ -130,8 +130,6 @@
     "Please ask your server administrator to install the module." : "Mohon tanyakan administrator Anda untuk menginstal module.",
     "PHP setting \"%s\" is not set to \"%s\"." : "Pengaturan PHP \"%s\" tidak diatur ke \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Menyesuaikan pengaturan ini di php.ini akan membuat Nextcloud berjalan kembali",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Setidaknya libxml2 2.7.0 dibutuhkan. Saat ini %s dipasang.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Untuk mengatasi masalah ini, perbarui versi libxml2 Anda dan mulai-ulang server web Anda.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Tampaknya PHP diatur untuk memotong inline doc blocks. Hal ini akan menyebabkan beberapa aplikasi inti menjadi tidak dapat diakses.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Hal ini kemungkinan disebabkan oleh cache/akselerator seperti Zend OPcache atau eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Modul PHP telah terinstal, tetapi mereka terlihat tidak ada?",
@@ -144,10 +142,8 @@
     "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
     "Full name" : "Nama lengkap",
-    "%s enter the database username and name." : "%s masukkan nama pengguna database dan nama database.",
-    "%s enter the database username." : "%s masukkan nama pengguna basis data.",
-    "%s enter the database name." : "%s masukkan nama basis data.",
-    "%s you may not use dots in the database name" : "%s Anda tidak boleh menggunakan karakter titik pada nama basis data",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Hanya karakter ini yang diizinkan dalam nama pengguna: \"a-z\", \"A-Z\", \"0-9\", dan \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Hanya karakter ini yang diizinkan dalam nama pengguna: \"a-z\", \"A-Z\", \"0-9\", dan \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Setidaknya libxml2 2.7.0 dibutuhkan. Saat ini %s dipasang.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Untuk mengatasi masalah ini, perbarui versi libxml2 Anda dan mulai-ulang server web Anda."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

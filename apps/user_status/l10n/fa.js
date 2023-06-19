@@ -33,7 +33,6 @@ OC.L10N.register(
     "1 hour" : "۱ ساعت",
     "4 hours" : "۴ ساعت",
     "Mute all notifications" : "خاموش کردن همه اعلانات",
-    "Appear offline" : "نمایش آفلاین",
-    "Clear status message after" : "پاک کردن پیام وضعیت بعد از"
+    "Appear offline" : "نمایش آفلاین"
 },
 "nplurals=2; plural=(n > 1);");

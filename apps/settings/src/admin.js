@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-	$('#excludedGroups,#linksExcludedGroups,#passwordsExcludedGroups').each(function(index, element) {
+	$('#linksExcludedGroups,#passwordsExcludedGroups').each(function(index, element) {
 		OC.Settings.setupGroupsSelect($(element))
 		$(element).change(function(ev) {
 			let groups = ev.val || []
@@ -44,6 +44,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	$('#shareapiDefaultRemoteExpireDate').change(function() {
 		$('#setDefaultRemoteExpireDate').toggleClass('hidden', !this.checked)
+	})
+
+	$('#enableLinkPasswordByDefault').change(function() {
+		if (this.checked) {
+			$('#enforceLinkPassword').removeAttr('disabled')
+			$('#passwordsExcludedGroups').removeAttr('disabled')
+		} else {
+			$('#enforceLinkPassword').attr('disabled', '')
+			$('#passwordsExcludedGroups').attr('disabled', '')
+
+			// Uncheck "Enforce password protection" when "Always asks for a
+			// password" is unchecked; the change event needs to be explicitly
+			// triggered so it behaves like a change done by the user.
+			$('#enforceLinkPassword').removeAttr('checked').trigger('change')
+		}
 	})
 
 	$('#enforceLinkPassword').change(function() {
@@ -286,4 +301,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	if (document.getElementById('security-warning') !== null) {
 		setupChecks()
 	}
+
+	$('#shareAPI').removeClass('loading')
 })

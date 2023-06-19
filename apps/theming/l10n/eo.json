@@ -21,9 +21,12 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vi jam uzas propran etoson. Agordoj de la aplikaĵo „Etosoj“ povus esti anstataŭigitaj de ĝi.",
     "Theming" : "Etosoj",
     "Dark theme" : "Malhela etoso",
+    "Enable dark theme" : "Ŝaltu malhelan etoson",
     "Dyslexia font" : "Tiparo por limigi vortblindecon",
+    "Enable dyslexia font" : "Ŝaltu disleksian tiparon",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic estas tiparo kreita por malpliigi legajn erarojn kaŭzitajn de vortblindeco (medicine „disleksio“).",
     "High contrast mode" : "Altkontrasta reĝimo",
+    "Enable high contrast mode" : "Ŝaltu altkontrastan reĝimon",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Altkontrasta reĝimo, kiu faciligas vian navigadon. Vida kvalito malpliiĝos, sed klareco pliiĝos.",
     "Legal notice" : "Leĝa regularo",
     "Privacy policy" : "Privateca regularo",
@@ -44,6 +47,7 @@
     "Favicon" : "Retpaĝsimbolo",
     "Upload new favicon" : "Alŝuti novan retpaĝsimbolon",
     "Keyboard shortcuts" : "Fulmoklavoj",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universala aliro estas tre grava por ni. Ni sekvas la retejo-standardojn kaj kontrolas, ĉu ĉio estas uzebla eĉ sen muso, kaj per helpa programaro, kiel ekzemple ekranlegiloj. Ni celas esti kongruaj kun la {guidelines}Reteja alireblecaj reguloj{linkend} 2.1 je la AA nivelo, kun alta kontrasta temo eĉ ĉe la AAA nivelo.",
     "Reset to default" : "Restarigi al defaŭltaj agordoj",
     "Upload" : "Alŝuti",
     "Remove background image" : "Forigi fonan bildon",
@@ -52,7 +56,6 @@
     "Name cannot be empty" : "Nomo ne povas mapleni",
     "Open documentation" : "Malfermi la dokumentaron",
     "https://…" : "https://…",
-    "Login image" : "Ensaluta bildo",
     "Upload new login background" : "Alŝuti novan ensalutan fonan bildon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

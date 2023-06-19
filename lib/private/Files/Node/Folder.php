@@ -33,7 +33,6 @@ namespace OC\Files\Node;
 
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchBinaryOperator;
-use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
@@ -89,7 +88,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return bool
 	 */
 	public function isSubNode($node) {
-		return strpos($node->getPath(), $this->path . '/') === 0;
+		return str_starts_with($node->getPath(), $this->path . '/');
 	}
 
 	/**
@@ -204,7 +203,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		throw new NotPermittedException('No create permission for path "' . $path . '"');
 	}
 
-	private function queryFromOperator(ISearchOperator $operator, string $uid = null): ISearchQuery {
+	private function queryFromOperator(ISearchOperator $operator, string $uid = null, int $limit = 0, int $offset = 0): ISearchQuery {
 		if ($uid === null) {
 			$user = null;
 		} else {
@@ -212,7 +211,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$userManager = \OC::$server->query(IUserManager::class);
 			$user = $userManager->get($uid);
 		}
-		return new SearchQuery($operator, 0, 0, [], $user);
+		return new SearchQuery($operator, $limit, $offset, [], $user);
 	}
 
 	/**
@@ -234,40 +233,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 			throw new \InvalidArgumentException('searching by owner is only allowed in the users home folder');
 		}
 
-		$rootLength = strlen($this->path);
-		$mount = $this->root->getMount($this->path);
-		$storage = $mount->getStorage();
-		$internalPath = $mount->getInternalPath($this->path);
-
-		// collect all caches for this folder, indexed by their mountpoint relative to this folder
-		// and save the mount which is needed later to construct the FileInfo objects
-
-		if ($internalPath !== '') {
-			// a temporary CacheJail is used to handle filtering down the results to within this folder
-			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
-		} else {
-			$caches = ['' => $storage->getCache('')];
-		}
-		$mountByMountPoint = ['' => $mount];
-
-		if (!$limitToHome) {
-			$mounts = $this->root->getMountsIn($this->path);
-			foreach ($mounts as $mount) {
-				$storage = $mount->getStorage();
-				if ($storage) {
-					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$caches[$relativeMountPoint] = $storage->getCache('');
-					$mountByMountPoint[$relativeMountPoint] = $mount;
-				}
-			}
-		}
-
 		/** @var QuerySearchHelper $searchHelper */
 		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
 		// loop through all results per-cache, constructing the FileInfo object from the CacheEntry and merge them all
-		$files = array_merge(...array_map(function (array $results, $relativeMountPoint) use ($mountByMountPoint) {
+		$files = array_merge(...array_map(function (array $results, string $relativeMountPoint) use ($mountByMountPoint) {
 			$mount = $mountByMountPoint[$relativeMountPoint];
 			return array_map(function (ICacheEntry $result) use ($relativeMountPoint, $mount) {
 				return $this->cacheEntryToFileInfo($mount, $relativeMountPoint, $result);
@@ -312,7 +284,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByMime($mimetype) {
-		if (strpos($mimetype, '/') === false) {
+		if (!str_contains($mimetype, '/')) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%'));
 		} else {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', $mimetype));
@@ -367,7 +339,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$absolutePath = '/' . ltrim($cacheEntry->getPath(), '/');
 		$currentPath = rtrim($this->path, '/') . '/';
 
-		if (strpos($absolutePath, $currentPath) !== 0) {
+		if (!str_starts_with($absolutePath, $currentPath)) {
 			return [];
 		}
 

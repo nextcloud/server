@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -26,94 +27,122 @@
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\AddressBook;
+use OCA\DAV\CardDAV\Card;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AddressBookTest extends TestCase {
+	public function testMove(): void {
+		$backend = $this->createMock(CardDavBackend::class);
+		$addressBookInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{DAV:}displayname' => 'Test address book',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'default',
+		];
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+
+		$card = new Card($backend, $addressBookInfo, ['id' => 5, 'carddata' => 'RANDOM VCF DATA', 'uri' => 'something', 'addressbookid' => 23]);
+
+		$backend->expects($this->once())->method('moveCard')->with(23, 666, 'something', 'user1')->willReturn(true);
+
+		$addressBook->moveInto('new', 'old', $card);
+	}
+
 	public function testDelete(): void {
-		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
+		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:user2']
 		]);
-		$calendarInfo = [
+		$addressBookInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default',
 		];
-		$l = $this->createMock(IL10N::class);
-		$c = new AddressBook($backend, $calendarInfo, $l);
-		$c->delete();
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+		$addressBook->delete();
 	}
 
 
 	public function testDeleteFromGroup(): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
+		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:group2']
 		]);
-		$calendarInfo = [
+		$addressBookInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default',
 		];
-		$l = $this->createMock(IL10N::class);
-		$c = new AddressBook($backend, $calendarInfo, $l);
-		$c->delete();
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+		$addressBook->delete();
 	}
 
 
 	public function testPropPatch(): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
+		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
-		$calendarInfo = [
+		$addressBookInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default',
 		];
-		$l = $this->createMock(IL10N::class);
-		$c = new AddressBook($backend, $calendarInfo, $l);
-		$c->propPatch(new PropPatch([]));
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+		$addressBook->propPatch(new PropPatch([]));
 	}
 
 	/**
 	 * @dataProvider providesReadOnlyInfo
 	 */
 	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet): void {
-		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
+		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
-		$calendarInfo = [
+		$addressBookInfo = [
 			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'default'
 		];
 		if (!is_null($readOnlyValue)) {
-			$calendarInfo['{http://owncloud.org/ns}read-only'] = $readOnlyValue;
+			$addressBookInfo['{http://owncloud.org/ns}read-only'] = $readOnlyValue;
 		}
 		if ($hasOwnerSet) {
-			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
+			$addressBookInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
 		}
-		$l = $this->createMock(IL10N::class);
-		$c = new AddressBook($backend, $calendarInfo, $l);
-		$acl = $c->getACL();
-		$childAcl = $c->getChildACL();
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+		$acl = $addressBook->getACL();
+		$childAcl = $addressBook->getChildACL();
 
 		$expectedAcl = [[
 			'privilege' => '{DAV:}read',
@@ -142,7 +171,7 @@ class AddressBookTest extends TestCase {
 		$this->assertEquals($expectedAcl, $childAcl);
 	}
 
-	public function providesReadOnlyInfo() {
+	public function providesReadOnlyInfo(): array {
 		return [
 			'read-only property not set' => [true, null, true],
 			'read-only property is false' => [true, false, true],

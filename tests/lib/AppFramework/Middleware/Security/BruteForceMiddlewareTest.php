@@ -157,7 +157,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->willReturn('127.0.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('127.0.0.1', 'login');
 		$this->throttler
 			->expects($this->once())
@@ -181,7 +181,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->method('getRemoteAddress');
 		$this->throttler
 			->expects($this->never())
-			->method('sleepDelay');
+			->method('sleepDelayOrThrowOnMax');
 		$this->throttler
 			->expects($this->never())
 			->method('registerAttempt');
@@ -209,7 +209,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->willReturn('::1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('::1', 'single');
 		$this->throttler
 			->expects($this->once())
@@ -239,7 +239,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->willReturn('::1');
 		$this->throttler
 			->expects($this->exactly(2))
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->withConsecutive(
 				['::1', 'first'],
 				['::1', 'second'],
@@ -275,7 +275,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->willReturn('::1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('::1', 'second');
 		$this->throttler
 			->expects($this->once())
@@ -293,7 +293,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->method('getRemoteAddress');
 		$this->throttler
 			->expects($this->never())
-			->method('sleepDelay');
+			->method('sleepDelayOrThrowOnMax');
 
 		$controller = new TestController('test', $this->request);
 		$this->reflector->reflect($controller, 'testMethodWithoutAnnotation');
@@ -308,7 +308,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->method('getRemoteAddress');
 		$this->throttler
 			->expects($this->never())
-			->method('sleepDelay');
+			->method('sleepDelayOrThrowOnMax');
 
 		$controller = new TestController('test', $this->request);
 		$this->reflector->reflect($controller, 'testMethodWithoutAnnotation');

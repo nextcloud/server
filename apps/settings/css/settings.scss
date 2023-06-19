@@ -135,18 +135,18 @@ select {
 	display: inline-block;
 	margin: 16px;
 	padding: 14px 20px;
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-element);
 	color: #fff;
 	border-radius: var(--border-radius-pill);
-	border: 1px solid var(--color-primary);
+	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
 	&:active,
 	&:hover,
 	&:focus {
-		color: var(--color-primary);
-		background-color: var(--color-primary-text);
-		border-color: var(--color-primary) !important;
+		color: var(--color-primary-element);
+		background-color: var(--color-primary-element-text);
+		border-color: var(--color-primary-element) !important;
 	}
 
 	&.icon-file {
@@ -281,7 +281,7 @@ select {
 				}
 
 				&.active {
-					box-shadow: inset 2px 0 var(--color-primary);
+					box-shadow: inset 2px 0 var(--color-primary-element);
 
 					.menuitem-text {
 						font-weight: bold;
@@ -1129,12 +1129,12 @@ table.grid td.date {
 }
 
 #shareAPI {
-	p {
-		padding-bottom: 0.8em;
+	&.loading > div {
+		display: none;
 	}
 
-	input#shareapiExpireAfterNDays {
-		width: 40px;
+	p {
+		padding-bottom: 0.8em;
 	}
 
 	.indent {
@@ -1346,6 +1346,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					minmax($grid-col-min-width, 1fr) // email
 					minmax(1.5*$grid-col-min-width, 1fr) // groups
 					minmax(1.5*$grid-col-min-width, 1fr) // group admins
+					minmax($grid-col-min-width, 1fr) // quota
+					minmax(1.5*$grid-col-min-width, 1fr) // manager
 					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
 
@@ -1384,14 +1386,17 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			// Scroll if too much groups
 			&:not(.row--editable) {
 				.groups,
-				.subadmins {
+                                .subadmins,
+				.subAdminsGroups {
 					overflow: auto;
 					max-height: 100%;
 				}
 			}
 
+			.managers,
 			.groups,
-			.subadmins,
+                        .subadmins,
+			.subAdminsGroups,
 			.quota {
 				min-width: $grid-col-min-width;
 

@@ -386,7 +386,7 @@ export default {
 	background-attachment: fixed;
 
 	> h2 {
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
@@ -413,7 +413,7 @@ export default {
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-rounded);
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
@@ -561,7 +561,7 @@ export default {
 			}
 
 			&:hover {
-				border-color: var(--color-primary);
+				border-color: var(--color-primary-element);
 			}
 		}
 
@@ -577,7 +577,7 @@ export default {
 		}
 
 		input:focus + label {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 	}
 

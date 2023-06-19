@@ -136,13 +136,16 @@ class Imaginary extends ProviderV2 {
 		];
 
 		try {
+			$imaginaryKey = $this->config->getSystemValueString('preview_imaginary_key', '');
 			$response = $httpClient->post(
 				$imaginaryUrl . '/pipeline', [
-					'query' => ['operations' => json_encode($operations)],
+					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
 					'stream' => true,
 					'content-type' => $file->getMimeType(),
 					'body' => $stream,
 					'nextcloud' => ['allow_local_address' => true],
+					'timeout' => 120,
+					'connect_timeout' => 3,
 				]);
 		} catch (\Exception $e) {
 			$this->logger->error('Imaginary preview generation failed: ' . $e->getMessage(), [

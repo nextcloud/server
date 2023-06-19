@@ -33,13 +33,12 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class HoverCardController extends \OCP\AppFramework\OCSController {
-	private Manager $manager;
-	private IUserSession $userSession;
-
-	public function __construct(IRequest $request, IUserSession $userSession, Manager $manager) {
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private Manager $manager,
+	) {
 		parent::__construct('core', $request);
-		$this->userSession = $userSession;
-		$this->manager = $manager;
 	}
 
 	/**

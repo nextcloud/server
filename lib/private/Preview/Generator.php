@@ -172,6 +172,10 @@ class Generator {
 
 		[$maxWidth, $maxHeight] = $this->getPreviewSize($maxPreview, $previewVersion);
 
+		if ($maxWidth <= 0 || $maxHeight <= 0) {
+			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
+		}
+
 		$preview = null;
 
 		foreach ($specifications as $specification) {
@@ -358,7 +362,7 @@ class Generator {
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previewFiles as $node) {
 			$name = $node->getName();
-			if (($prefix === '' || strpos($name, $prefix) === 0) && strpos($name, 'max')) {
+			if (($prefix === '' || str_starts_with($name, $prefix)) && strpos($name, 'max')) {
 				return $node;
 			}
 		}
@@ -446,7 +450,7 @@ class Generator {
 			$path .= '-max';
 		}
 
-		$ext = $this->getExtention($mimeType);
+		$ext = $this->getExtension($mimeType);
 		$path .= '.' . $ext;
 		return $path;
 	}
@@ -647,7 +651,7 @@ class Generator {
 	 * @return null|string
 	 * @throws \InvalidArgumentException
 	 */
-	private function getExtention($mimeType) {
+	private function getExtension($mimeType) {
 		switch ($mimeType) {
 			case 'image/png':
 				return 'png';

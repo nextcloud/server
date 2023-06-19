@@ -48,9 +48,7 @@ OC.L10N.register(
     "Custom mimetype" : "נא לבחור טיפוס MIME",
     "Please enter a valid time span" : "נא למלא טווח זמן תקין",
     "Select a request URL" : "נא לבחור את כתובת הבקשה",
-    "Predefined URLs" : "כתובות שמוגדרות מראש",
     "Files WebDAV" : "WebDAV קבצים",
-    "Others" : "חרים",
     "Custom URL" : "כתובת מותאמת אישית",
     "Select a user agent" : "נא לבחור סוכן משתמש",
     "Android client" : "לקוח Android",
@@ -101,9 +99,7 @@ OC.L10N.register(
     "User group membership" : "חברות בקבוצת משתמשים",
     "is member of" : "חבר בקבוצה",
     "is not member of" : "לא חבר בקבוצה",
-    "Select a tag" : "נא לבחור תגית",
-    "No results" : "אין תוצאות",
-    "%s (invisible)" : "%s (נסתר)",
-    "%s (restricted)" : "%s (מוגבל)"
+    "Predefined URLs" : "כתובות שמוגדרות מראש",
+    "Others" : "חרים"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

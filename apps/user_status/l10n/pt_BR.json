@@ -9,14 +9,23 @@
     "User status" : "Status do usuário",
     "View profile" : "Visualizar perfil",
     "Clear status after" : "Limpar status após",
+    "Emoji for your status message" : "Emoji para sua mensagem de status",
     "What is your status?" : "Qual é o seu status?",
+    "Predefined statuses" : "Status predefinidos",
+    "Previously set" : "Definido anteriormente",
+    "Reset status" : "Reinicie o status",
     "Set status" : "Definir status",
     "Online status" : "Status online",
     "Status message" : "Mensagem de status",
+    "Your status was set automatically" : "Seu status foi definido automaticamente",
     "Clear status message" : "Limpar mensagem de status",
     "Set status message" : "Definir mensagem de status",
+    "Reset status to \"{icon} {message}\"" : "Redefinir status para \"{icon} {message}\"",
+    "Reset status to \"{message}\"" : "Redefinir status para \"{message}\"",
+    "Reset status to \"{icon}\"" : "Redefinir status para \"{icon}\"",
     "There was an error saving the status" : "Ocorreu um erro ao salvar o status",
     "There was an error clearing the status" : "Ocorreu um erro ao limpar o status",
+    "There was an error reverting the status" : "Ocorreu um erro ao reverter o status",
     "No recent status changes" : "Sem alterações de status recentes",
     "Away" : "Fora",
     "Do not disturb" : "Não perturbe",
@@ -32,7 +41,6 @@
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas as notificações",
-    "Appear offline" : "Aparecer offline",
-    "Clear status message after" : "Limpar status do usuário após"
+    "Appear offline" : "Aparecer offline"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

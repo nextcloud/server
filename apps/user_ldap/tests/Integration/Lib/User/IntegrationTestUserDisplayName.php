@@ -71,7 +71,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$this->prepareUser($dn, $username);
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
 
-		return strpos($displayName, '(Alice@example.com)') !== false;
+		return str_contains($displayName, '(Alice@example.com)');
 	}
 
 	/**
@@ -88,7 +88,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$this->prepareUser($dn, $username);
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
 
-		return strpos($displayName, '(Boris@example.com)') === false;
+		return !str_contains($displayName, '(Boris@example.com)');
 	}
 
 	/**

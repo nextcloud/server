@@ -54,13 +54,12 @@ OC.L10N.register(
     "Loading preview…" : "A carregar pre-visualização...",
     "Admin" : "Administrador",
     "Name cannot be empty" : "O Nome não pode estar vazio",
-    "Open documentation" : "Abrir documentação",
-    "https://…" : "https://…",
-    "Login image" : "Imagem de Login",
-    "Upload new login background" : "Carregar imagem de segundo plano de Login",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
     "Pick from Files" : "Escolha a partir dos Ficheiros",
     "Plain background" : "Fundo simples",
-    "Insert from {productName}" : "Inserir de {productName}"
+    "Insert from {productName}" : "Inserir de {productName}",
+    "Open documentation" : "Abrir documentação",
+    "https://…" : "https://…",
+    "Upload new login background" : "Carregar imagem de segundo plano de Login",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

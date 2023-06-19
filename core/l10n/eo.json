@@ -148,7 +148,6 @@
     "No results for {query}" : "Neniu rezulto pri {query}",
     "Supported versions" : "Subtenataj versioj",
     "Settings menu" : "Menuo de agordo",
-    "Settings" : "Agordo",
     "Could not load your contacts" : "Ne eblis ŝargi viajn kontaktojn",
     "Search contacts …" : "Serĉi kontaktojn…",
     "No contacts found" : "Neniu kontakto troviĝis",
@@ -322,7 +321,6 @@
     "Detailed logs" : "Detalaj protokoloj",
     "Update needed" : "Bezonas ĝisdatigi",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Bv. uzi la komandlinian ĝisdatigilon, ĉar vi havas pli da 50 uzantojn en tiu servilo.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Bv. uzi komandlinian ĝisdatigilon, ĉar aŭtomata ĝisdatigo estas malebligita en la dosiero „config.php“.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Vidu la  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaron</a> por helpo.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Mi scias, ke, se mi daŭrigas la ĝisdatigon per la reteja fasado, estas risko, ke la peto eltempiĝos kaj okazigos perdon de datumoj. Sed, mi havas sekurkopion kaj scias, kiel restaŭri mian servilon okaze de paneo.",
     "Upgrade via web on my own risk" : "Ĝisdatigi per reteja fasado je mia risko",
@@ -330,18 +328,10 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "La servilo %s estas nun en reĝimo de prizorgado, tio eble daŭros longatempe.",
     "This page will refresh itself when the instance is available again." : "Tiu ĉi paĝo aktualiĝos mem, kiam la servilo redisponeblos.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktu vian administranton, se tiu ĉi mesaĝo daŭras aŭ aperas neatendite.",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: kontrolo de tabelo %s ",
-    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "La HTTP-kapo „{header}“ ne enhavas „{expected}“. Tio estas eventuala risko pri sekureco aŭ privateco. Bv. ĝustigi tiun agordon laŭe.",
     "If it is not there ask your local administrator." : "Se tio ne estas tie, kontaktu vian lokan administranton.",
-    "restricted" : "limigita",
-    "invisible" : "nevidebla",
+    "Settings" : "Agordo",
     "File not found" : "Dosiero ne troviĝis",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?",
-    "More" : "Pli",
-    "More apps menu" : "Menuo „Pli da aplikaĵoj“",
-    "Contacts" : "Kontaktoj",
-    "Contacts menu" : "Menuo de kontaktoj",
-    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Bv. uzi komandlinian ĝisdatigilon, ĉar aŭtomata ĝisdatigo estas malebligita en la dosiero „config.php“."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

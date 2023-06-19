@@ -45,8 +45,8 @@
 				:value="value"
 				:aria-describedby="helperText ? `${name}-helper-text` : ''"
 				autocapitalize="none"
-				autocomplete="on"
 				autocorrect="off"
+				:autocomplete="autocomplete"
 				@input="onPropertyChange">
 
 			<div class="property__actions-container">
@@ -130,6 +130,10 @@ export default {
 		},
 		onSave: {
 			type: Function,
+			default: null,
+		},
+		autocomplete: {
+			type: String,
 			default: null,
 		},
 	},

@@ -136,8 +136,6 @@
     "Please ask your server administrator to install the module." : "โปรดสอบถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณเพื่อติดตั้งโมดูล",
     "PHP setting \"%s\" is not set to \"%s\"." : "การตั้งค่า PHP \"%s\" ไม่ได้ตั้งค่าเป็น \"%s\"",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "การปรับการตั้งค่านี้ใน php.ini จะทำให้ Nextcloud กลับมาทำงานอีกครั้ง",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "จำเป็นต้องมี libxml2 รุ่นอย่างน้อย 2.7.0 ตอนนี้ %s ติดตั้งอยู่",
-    "To fix this issue update your libxml2 version and restart your web server." : "เพื่อแก้ไขปัญหานี้ กรุณาอัปเดตรุ่นของ libxml2 และรีสตาร์ทเว็บเซิร์ฟเวอร์ของคุณ",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "เห็นได้ชัดว่า PHP มีการตั้งค่าเพื่อดึงบล็อกเอกสารแบบอินไลน์ ซึ่งจะทำให้แอปหลักหลายแอปไม่สามารถเข้าถึงได้",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "ปัญหานี้อาจเกิดจาก cache/accelerator เช่น Zend OPcache หรือ eAccelerator",
     "PHP modules have been installed, but they are still listed as missing?" : "โมดูล PHP ได้รับการติดตั้งแล้ว แต่ยังคงขึ้นว่าหายไปหรือไม่?",
@@ -150,10 +148,8 @@
     "Storage is temporarily not available" : "พื้นที่จัดเก็บข้อมูลไม่สามารถใช้งานได้ชั่วคราว",
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Full name" : "ชื่อเต็ม",
-    "%s enter the database username and name." : "%s ป้อนชื่อผู้ใช้ฐานข้อมูล และชื่อ",
-    "%s enter the database username." : "%s ใส่ชื่อผู้ใช้ฐานข้อมูล",
-    "%s enter the database name." : "%s ใส่ชื่อฐานข้อมูล",
-    "%s you may not use dots in the database name" : "%s คุณไม่ควรใช้จุดในชื่อฐานข้อมูล",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "ชื่อผู้ใช้จะใช้ได้แค่อักษรดังต่อไปนี้: \"a-z\", \"A-Z\", \"0-9\" และ \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "ชื่อผู้ใช้จะใช้ได้แค่อักษรดังต่อไปนี้: \"a-z\", \"A-Z\", \"0-9\" และ \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "จำเป็นต้องมี libxml2 รุ่นอย่างน้อย 2.7.0 ตอนนี้ %s ติดตั้งอยู่",
+    "To fix this issue update your libxml2 version and restart your web server." : "เพื่อแก้ไขปัญหานี้ กรุณาอัปเดตรุ่นของ libxml2 และรีสตาร์ทเว็บเซิร์ฟเวอร์ของคุณ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

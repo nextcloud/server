@@ -24,14 +24,12 @@
 
 import { subscribe } from '@nextcloud/event-bus'
 
-import { addScript, addStyle } from './legacy-loader.js'
 import {
 	ajaxConnectionLostHandler,
 	processAjaxError,
 	registerXHRForErrorProcessing,
 } from './xhr-error.js'
 import { AppConfig, appConfig } from './appconfig.js'
-import { appSettings } from './appsettings.js'
 import appswebroots from './appswebroots.js'
 import Backbone from './backbone.js'
 import {
@@ -138,11 +136,8 @@ export default {
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
 
-	addScript,
-	addStyle,
 	AppConfig,
 	appConfig,
-	appSettings,
 	appswebroots,
 	Backbone,
 	ContactsMenu,

@@ -25,6 +25,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Core\Controller;
 
 use Exception;
@@ -41,22 +42,14 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class CollaborationResourcesController extends OCSController {
-	private IManager $manager;
-	private IUserSession $userSession;
-	private LoggerInterface $logger;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IManager $manager,
-		IUserSession $userSession,
-		LoggerInterface $logger
+		private IManager $manager,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->manager = $manager;
-		$this->userSession = $userSession;
-		$this->logger = $logger;
 	}
 
 	/**

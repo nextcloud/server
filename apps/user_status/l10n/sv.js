@@ -11,7 +11,9 @@ OC.L10N.register(
     "User status" : "Användarstatus",
     "View profile" : "Visa profil",
     "Clear status after" : "Rensa status efter",
+    "Emoji for your status message" : "Emoji för ditt statusmeddelande",
     "What is your status?" : "Vad är din status?",
+    "Predefined statuses" : "Fördefinierade statusar",
     "Previously set" : "Tidigare inställd",
     "Reset status" : "Återställ status",
     "Set status" : "Sätt status",
@@ -41,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 timme",
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
-    "Appear offline" : "Visa som frånkopplad",
-    "Clear status message after" : "Rensa statusmeddelande efter"
+    "Appear offline" : "Visa som frånkopplad"
 },
 "nplurals=2; plural=(n != 1);");

@@ -59,8 +59,7 @@
 			<NcButton v-if="showInstallButton"
 				type="tertiary"
 				role="link"
-				href="defaultPageUrl"
-				@click="goTo(defaultPageUrl)">
+				:href="defaultPageUrl">
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
@@ -115,7 +114,6 @@ const recommended = {
 	},
 }
 const recommendedIds = Object.keys(recommended)
-const defaultPageUrl = loadState('core', 'defaultPageUrl')
 
 export default {
 	name: 'RecommendedApps',
@@ -129,7 +127,7 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl,
+			defaultPageUrl: loadState('core', 'defaultPageUrl')
 		}
 	},
 	computed: {
@@ -180,7 +178,7 @@ export default {
 				.then(() => {
 					logger.info('all recommended apps installed, redirecting …')
 
-					window.location = defaultPageUrl
+					window.location = this.defaultPageUrl
 				})
 				.catch(error => logger.error('could not install recommended apps', { error }))
 		},
@@ -209,9 +207,6 @@ export default {
 				return false
 			}
 			return !!recommended[appId].hidden
-		},
-		goTo(href) {
-			window.location.href = href
 		},
 	},
 }

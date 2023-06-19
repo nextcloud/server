@@ -52,7 +52,7 @@ $color-primary-light-hover: mix($color-primary-light, $color-main-text, 95%) !de
 $color-primary-text: #ffffff !default;
 // do not use nc-darken/lighten in case of overriding because
 // primary-text is independent of color-main-text
-$color-primary-text-dark: darken($color-primary-text, 7%) !default;
+$color-primary-element-text-dark: darken($color-primary-text, 7%) !default;
 $color-primary-element: $color-primary !default;
 $color-primary-element-hover: mix($color-primary-element, $color-main-background, 80%) !default;
 $color-primary-element-light: lighten($color-primary-element, 15%) !default;

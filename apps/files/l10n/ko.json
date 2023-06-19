@@ -99,6 +99,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "직접 링크 복사(이 파일/폴더에 접근 권한이 있는 사람만)",
     "You can only favorite a single file or folder at a time" : "한번에 한 파일 혹은 한 폴더만 즐겨찾기로 지정할 수 있습니다",
     "New folder" : "새 폴더",
+    "Create new folder" : "새 폴더 생성",
     "Upload file" : "파일 업로드",
     "Recent" : "최근",
     "Not favorited" : "즐겨찾기에 없음",
@@ -182,7 +183,6 @@
     "Unable to change the favourite state of the file" : "파일의 즐겨찾기 상태를 변경할 수 없음",
     "Error while loading the file data" : "파일 데이터를 불러오는 중 오류 발생",
     "Pick a template for {name}" : "{name}을(를) 위한 템플릿 선택",
-    "Cancel" : "취소",
     "Create" : "생성",
     "Create a new file with the selected template" : "선택한 템플릿으로 새 파일 만들기",
     "Creating file" : "파일 만들기",
@@ -208,16 +208,11 @@
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
     "Storage invalid" : "저장소가 잘못됨",
-    "Select" : "선택",
-    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
-    "New" : "새로 만들기",
-    "Copied!" : "복사 성공!",
     "Unlimited" : "무제한",
     "Search users" : "사용자 검색",
-    "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
+    "Cancel" : "취소",
     "%s used" : "%s 사용함",
     "%1$s of %2$s used" : "%2$s 중 %1$s 사용됨",
-    "Settings" : "설정",
     "Deleted files" : "삭제된 파일"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

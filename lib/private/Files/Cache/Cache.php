@@ -60,6 +60,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -191,8 +192,8 @@ class Cache implements ICache {
 		$data['path'] = (string)$data['path'];
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
-		$data['size'] = 0 + $data['size'];
-		$data['unencrypted_size'] = 0 + ($data['unencrypted_size'] ?? 0);
+		$data['size'] = Util::numericToNumber($data['size']);
+		$data['unencrypted_size'] = Util::numericToNumber($data['unencrypted_size'] ?? 0);
 		$data['mtime'] = (int)$data['mtime'];
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
@@ -563,19 +564,6 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Get all sub folders of a folder
-	 *
-	 * @param ICacheEntry $entry the cache entry of the folder to get the subfolders for
-	 * @return ICacheEntry[] the cache entries for the subfolders
-	 */
-	private function getSubFolders(ICacheEntry $entry) {
-		$children = $this->getFolderContentsById($entry->getId());
-		return array_filter($children, function ($child) {
-			return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
-		});
-	}
-
-	/**
 	 * Remove all children of a folder
 	 *
 	 * @param ICacheEntry $entry the cache entry of the folder to remove the children of
@@ -836,7 +824,7 @@ class Cache implements ICache {
 	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 */
 	public function searchByMime($mimetype) {
-		if (strpos($mimetype, '/') === false) {
+		if (!str_contains($mimetype, '/')) {
 			$operator = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%');
 		} else {
 			$operator = new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', $mimetype);
@@ -900,7 +888,7 @@ class Cache implements ICache {
 	 *
 	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
-	 * @return int
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		return $this->calculateFolderSizeInner($path, $entry);
@@ -913,7 +901,7 @@ class Cache implements ICache {
 	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
-	 * @return int
+	 * @return int|float
 	 */
 	protected function calculateFolderSizeInner(string $path, $entry = null, bool $ignoreUnknown = false) {
 		$totalSize = 0;
@@ -937,13 +925,13 @@ class Cache implements ICache {
 
 			if ($rows) {
 				$sizes = array_map(function (array $row) {
-					return (int)$row['size'];
+					return Util::numericToNumber($row['size']);
 				}, $rows);
 				$unencryptedOnlySizes = array_map(function (array $row) {
-					return (int)$row['unencrypted_size'];
+					return Util::numericToNumber($row['unencrypted_size']);
 				}, $rows);
 				$unencryptedSizes = array_map(function (array $row) {
-					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
+					return Util::numericToNumber(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
 				}, $rows);
 
 				$sum = array_sum($sizes);

@@ -236,14 +236,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
+	 * @param ?int $limit
+	 * @param ?int $offset
 	 * @return \OC\Group\Group[]
 	 */
-	public function search($search, $limit = null, $offset = null) {
+	public function search(string $search, ?int $limit = null, ?int $offset = 0) {
 		$groups = [];
 		foreach ($this->backends as $backend) {
-			$groupIds = $backend->getGroups($search, $limit, $offset);
+			$groupIds = $backend->getGroups($search, $limit ?? -1, $offset ?? 0);
 			foreach ($groupIds as $groupId) {
 				$aGroup = $this->get($groupId);
 				if ($aGroup instanceof IGroup) {

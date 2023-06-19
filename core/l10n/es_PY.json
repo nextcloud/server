@@ -82,7 +82,6 @@
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
     "Search" : "Buscar",
-    "Settings" : "Configuraciones ",
     "Search contacts …" : "Buscar contactos ...",
     "No contacts found" : "No se encontraron contactos",
     "Show all contacts …" : "Mostrar todos los contactos ...",
@@ -207,17 +206,13 @@
     "Detailed logs" : "Bitácoras detalladas",
     "Update needed" : "Se requiere de una actualización",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Favor de usar el actualizador desde la línea de comandos ya que tu instancia cuenta con más de 50 usuarios.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Para más ayuda, por favor consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentación</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Estoy conciente de que si continúo haciendo la actualización vía web, la interfaz de usuario corre el riesgo de que el tiempo de la solicitud expire y cause pérdida de datos, pero cuento con un respaldo y sé como restaurar mi instancia en caso de una falla. ",
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
-    "restricted" : "restringido",
-    "invisible" : "invisible",
+    "Settings" : "Configuraciones ",
     "File not found" : "Archivo no encontrado",
-    "More" : "Más",
-    "Contacts" : "Contactos"
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

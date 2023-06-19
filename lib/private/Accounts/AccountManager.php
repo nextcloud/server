@@ -38,7 +38,6 @@ namespace OC\Accounts;
 use Exception;
 use InvalidArgumentException;
 use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
@@ -176,7 +175,7 @@ class AccountManager implements IAccountManager {
 
 		if ($defaultRegion === '') {
 			// When no default region is set, only +49… numbers are valid
-			if (strpos($input, '+') !== 0) {
+			if (!str_starts_with($input, '+')) {
 				throw new InvalidArgumentException(self::PROPERTY_PHONE);
 			}
 
@@ -186,7 +185,7 @@ class AccountManager implements IAccountManager {
 		$phoneUtil = PhoneNumberUtil::getInstance();
 		try {
 			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
-			if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+			if ($phoneUtil->isValidNumber($phoneNumber)) {
 				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 			}
 		} catch (NumberParseException $e) {
@@ -796,8 +795,9 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function getAccount(IUser $user): IAccount {
-		if ($this->internalCache->hasKey($user->getUID())) {
-			return $this->internalCache->get($user->getUID());
+		$cached = $this->internalCache->get($user->getUID());
+		if ($cached !== null) {
+			return $cached;
 		}
 		$account = $this->parseAccountData($user, $this->getUser($user));
 		$this->internalCache->set($user->getUID(), $account);

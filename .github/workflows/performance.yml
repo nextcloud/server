@@ -23,7 +23,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:9
@@ -79,7 +79,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
         with:
           name: profiles
           path: |

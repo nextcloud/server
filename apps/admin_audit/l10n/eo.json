@@ -1,0 +1,5 @@
+{ "translations": {
+    "Auditing / Logging" : "Ekzamenado / Protokolado",
+    "Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions." : "Provizi protokolado-kapablojn por Nextcloud, kiel ekzemple protokolado de aliroj al dosieroj aŭ aliaj delikataj agoj."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

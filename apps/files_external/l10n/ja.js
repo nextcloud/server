@@ -139,7 +139,6 @@ OC.L10N.register(
     "All users" : "すべてのユーザー",
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
-    "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
 },
 "nplurals=1; plural=0;");

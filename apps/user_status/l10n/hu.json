@@ -9,14 +9,23 @@
     "User status" : "Felhasználói állapot",
     "View profile" : "Profil megtekintése",
     "Clear status after" : "Állapot törlése ennyi idő után",
+    "Emoji for your status message" : "Emodzsi az állapotüzenetéhez",
     "What is your status?" : "Mi az állapota?",
+    "Predefined statuses" : "Előre meghatározott állapotok",
+    "Previously set" : "Előzőleg beállított",
+    "Reset status" : "Állapot visszaállítása",
     "Set status" : "Állapot beállítása",
     "Online status" : "Elérhető állapot",
     "Status message" : "Állapotüzenet",
+    "Your status was set automatically" : "Az állapota automatikusan lett beállítva",
     "Clear status message" : "Állapotüzenet törlése",
     "Set status message" : "Állapotüzenet beállítása",
+    "Reset status to \"{icon} {message}\"" : "Állapot visszaállítása erre: „{icon} {message}”",
+    "Reset status to \"{message}\"" : "Állapot visszaállítása erre: „{message}”",
+    "Reset status to \"{icon}\"" : "Állapot visszaállítása erre: „{icon}”",
     "There was an error saving the status" : "Hiba történt az állapot mentése során",
     "There was an error clearing the status" : "Hiba történt az állapot törlése sorá",
+    "There was an error reverting the status" : "Hiba történt az állapot visszaállítása során",
     "No recent status changes" : "Nincsenek legutóbbi állapotváltozások",
     "Away" : "Távol",
     "Do not disturb" : "Ne zavarjanak",
@@ -32,7 +41,6 @@
     "1 hour" : "1 óra",
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
-    "Appear offline" : "Megjelenés nem kapcsolódottként",
-    "Clear status message after" : "Állapotüzenet törlése ennyi idő után:"
+    "Appear offline" : "Megjelenés nem kapcsolódottként"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

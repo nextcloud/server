@@ -175,8 +175,6 @@
     "Please ask your server administrator to install the module." : "Kreipkitės į savo sistemos administratorių, kad jis įdiegtų modulį.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP nustatymas „%s“ nėra nustatytas į „%s“.",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Šių nustatymų pritaikymas php.ini faile, iš naujo paleis Nextcloud",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Reikalinga ne mažesnė nei libxml2 2.7.0 versija. Šiuo metu yra instaliuota %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Atnaujinkite libxml2 versiją ir perkraukite žiniatinklio serverį, kad sutvarkytumėte šią problemą.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduliai yra įdiegti, bet jų vis tiek trūksta?",
     "Please ask your server administrator to restart the web server." : "Kreipkitės į savo sistemos administratorių, kad jis perkrautų žiniatinklio serverį.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Pakeiskite leidimus į 0770, kad šis katalogas negalėtų būti išvardytas kitiems naudotojams.",
@@ -190,10 +188,8 @@
     "Storage is temporarily not available" : "Saugykla yra laikinai neprieinama",
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
     "Full name" : "Vardas, pavardė",
-    "%s enter the database username and name." : "%s įrašykite duomenų bazės naudotojo vardą ir pavadinimą.",
-    "%s enter the database username." : "%s įrašykite duomenų bazės naudotojo vardą.",
-    "%s enter the database name." : "%s įrašykite duomenų bazės pavadinimą.",
-    "%s you may not use dots in the database name" : "%s negalite naudoti taškų duombazės pavadinime",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Naudotojo varde leidžiama naudoti tik šiuos simbolius: „a-z“, „A-Z“, „0-9“, ir „_.@-'“"
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Naudotojo varde leidžiama naudoti tik šiuos simbolius: „a-z“, „A-Z“, „0-9“, ir „_.@-'“",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Reikalinga ne mažesnė nei libxml2 2.7.0 versija. Šiuo metu yra instaliuota %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Atnaujinkite libxml2 versiją ir perkraukite žiniatinklio serverį, kad sutvarkytumėte šią problemą."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

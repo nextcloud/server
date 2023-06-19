@@ -35,19 +35,23 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 class JobList implements IJobList {
 	protected IDBConnection $connection;
 	protected IConfig $config;
 	protected ITimeFactory $timeFactory;
+	protected LoggerInterface $logger;
 
-	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory) {
+	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -303,7 +307,8 @@ class JobList implements IJobList {
 					$class = $row['class'];
 					$job = new $class();
 				} else {
-					// job from disabled app or old version of an app, no need to do anything
+					// Remove job from disabled app or old version of an app
+					$this->removeById($row['id']);
 					return null;
 				}
 			}
@@ -381,5 +386,27 @@ class JobList implements IJobList {
 			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId()), IQueryBuilder::PARAM_INT));
 		$query->executeStatement();
+	}
+
+	public function hasReservedJob(?string $className = null): bool {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('jobs')
+			->where($query->expr()->neq('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->setMaxResults(1);
+
+		if ($className !== null) {
+			$query->andWhere($query->expr()->eq('class', $query->createNamedParameter($className)));
+		}
+
+		try {
+			$result = $query->executeQuery();
+			$hasReservedJobs = $result->fetch() !== false;
+			$result->closeCursor();
+			return $hasReservedJobs;
+		} catch (Exception $e) {
+			$this->logger->debug('Querying reserved jobs failed', ['exception' => $e]);
+			return false;
+		}
 	}
 }

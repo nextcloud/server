@@ -87,6 +87,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "העתקת קישור ישיר (עובד רק עבור משתמשים שיש להם גישה לקובץ/תיקייה זו)",
     "You can only favorite a single file or folder at a time" : "ניתן להוסיף קובץ או תיקייה בודדים כמועדף בכל פעם",
     "New folder" : "תיקייה חדשה",
+    "Create new folder" : "יצירת תיקייה חדשה",
     "Upload file" : "העלאת קובץ",
     "Recent" : "אחרונים",
     "Not favorited" : "לא במועדפים",
@@ -163,7 +164,6 @@
     "Use this address to access your Files via WebDAV" : "יש להשתמש בכתובת הזאת כדי לגשת לקבצים שלך דרך WebDAV",
     "Unable to change the favourite state of the file" : "לא ניתן לשנות את מצב ההעדפה של הקובץ",
     "Error while loading the file data" : "שגיאה בטעינת נתוני הקובץ",
-    "Cancel" : "ביטול",
     "Create" : "יצירה",
     "Delete permanently" : "מחיקה לצמיתות",
     "Toggle grid view" : "החלפת תצוגת טבלה",
@@ -182,16 +182,11 @@
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Storage invalid" : "אחסון לא חוקי",
-    "Select" : "בחר",
-    "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
-    "New" : "חדש",
-    "Copied!" : "ההעתקה הושלמה!",
     "Unlimited" : "ללא הגבלה",
     "Search users" : "חיפוש משתמשים",
-    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
+    "Cancel" : "ביטול",
     "%s used" : "%s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Settings" : "הגדרות",
     "Deleted files" : "קבצים שנמחקו"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

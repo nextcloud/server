@@ -27,7 +27,7 @@
 		:close-after-click="true"
 		:disabled="!isSupportedScope"
 		:icon="iconClass"
-		:title="isSupportedScope ? tooltip : tooltipDisabled"
+		:title="displayName"
 		@click.stop.prevent="updateScope">
 		{{ isSupportedScope ? tooltip : tooltipDisabled }}
 	</NcActionButton>
@@ -98,7 +98,7 @@ export default {
 	}
 
 	.federation-actions__btn--active {
-		background-color: var(--color-primary-light) !important;
-		box-shadow: inset 2px 0 var(--color-primary) !important;
+		background-color: var(--color-primary-element-light) !important;
+		box-shadow: inset 2px 0 var(--color-primary-element) !important;
 	}
 </style>

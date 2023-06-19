@@ -60,6 +60,7 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_LOCALE = 'locale';
 	public const USER_FIELD_PASSWORD = 'password';
 	public const USER_FIELD_QUOTA = 'quota';
+	public const USER_FIELD_MANAGER = 'manager';
 	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
 
 	/** @var IUserManager */
@@ -151,6 +152,8 @@ abstract class AUserData extends OCSController {
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
+		$managerUids = $targetUserObject->getManagerUids();
+		$data[self::USER_FIELD_MANAGER] = empty($managerUids) ? '' : $managerUids[0];
 
 		try {
 			if ($includeScopes) {

@@ -76,6 +76,22 @@ class Message implements IMessage {
 	}
 
 	/**
+	 * Can be used to "attach content inline" as message parts with specific MIME type and encoding.
+	 * {@inheritDoc}
+	 * @since 26.0.0
+	 */
+	public function attachInline(string $body, string $name, string $contentType = null): IMessage {
+		# To be sure this works with iCalendar messages, we encode with 8bit instead of
+		# quoted-printable encoding. We save the current encoder, replace the current
+		# encoder with an 8bit encoder and after we've finished, we reset the encoder
+		# to the previous one. Originally intended to be added after the message body,
+		# as it is curently unknown if all mail clients handle this properly if added
+		# before.
+		$this->symfonyEmail->embed($body, $name, $contentType);
+		return $this;
+	}
+
+	/**
 	 * Converts the [['displayName' => 'email'], ['displayName2' => 'email2']] arrays to valid Adresses
 	 *
 	 * @param array $addresses Array of mail addresses
@@ -191,11 +207,6 @@ class Message implements IMessage {
 		return $this->bcc;
 	}
 
-	/**
-	 * Set the subject of this message.
-	 *
-	 * @return $this
-	 */
 	public function setSubject(string $subject): IMessage {
 		$this->symfonyEmail->subject($subject);
 		return $this;
@@ -208,10 +219,6 @@ class Message implements IMessage {
 		return $this->symfonyEmail->getSubject() ?? '';
 	}
 
-	/**
-	 * Set the plain-text body of this message.
-	 * @return $this
-	 */
 	public function setPlainBody(string $body): IMessage {
 		$this->symfonyEmail->text($body);
 		return $this;
@@ -226,10 +233,6 @@ class Message implements IMessage {
 		return $body;
 	}
 
-	/**
-	 * Set the HTML body of this message. Consider also sending a plain-text body instead of only an HTML one.
-	 * @return $this
-	 */
 	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
 			$this->symfonyEmail->html($body);

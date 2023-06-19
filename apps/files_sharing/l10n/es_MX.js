@@ -153,10 +153,6 @@ OC.L10N.register(
     "Note" : "Nota",
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploaded files:" : "Archivos cargados:",
-    "Add to your Nextcloud" : "Agregar a tu Nextcloud",
-    "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
-    "Copy to clipboard" : "Copiar al portapapeles",
-    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, parece que esta liga ya no funciona. ",
-    "Toggle grid view" : "Vista de cuadrícula"
+    "Add to your Nextcloud" : "Agregar a tu Nextcloud"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

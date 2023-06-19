@@ -24,7 +24,7 @@
 	<NcModal v-if="opened"
 		:clear-view-delay="-1"
 		class="templates-picker"
-		size="normal"
+		size="large"
 		@close="close">
 		<form class="templates-picker__form"
 			:style="style"
@@ -47,9 +47,6 @@
 
 			<!-- Cancel and submit -->
 			<div class="templates-picker__buttons">
-				<button @click="close">
-					{{ t('files', 'Cancel') }}
-				</button>
 				<input type="submit"
 					class="primary"
 					:value="t('files', 'Create')"
@@ -75,7 +72,6 @@ import TemplatePreview from '../components/TemplatePreview.vue'
 
 const border = 2
 const margin = 8
-const width = margin * 20
 
 export default {
 	name: 'TemplatePicker',
@@ -136,6 +132,11 @@ export default {
 		 * @return {object}
 		 */
 		style() {
+			// Fallback to 16:9 landscape ratio
+			const ratio = this.provider.ratio ? this.provider.ratio : 1.77
+			// Landscape templates should be wider than tall ones
+			// We fit 3 templates per row at max for landscape and 4 for portrait
+			const width = ratio > 1 ? margin * 30 : margin * 20
 			return {
 				'--margin': margin + 'px',
 				'--width': width + 'px',
@@ -275,7 +276,7 @@ export default {
 
 	&__buttons {
 		display: flex;
-		justify-content: space-between;
+		justify-content: end;
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
 		bottom: 0;

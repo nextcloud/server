@@ -34,6 +34,7 @@ namespace OC\AppFramework;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
+use OCP\App\IAppManager;
 use OCP\Profiler\IProfiler;
 use OC\Profiler\RoutingDataCollector;
 use OCP\AppFramework\QueryException;
@@ -68,7 +69,7 @@ class App {
 			return $topNamespace . self::$nameSpaceCache[$appId];
 		}
 
-		$appInfo = \OC_App::getAppInfo($appId);
+		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
@@ -91,12 +92,12 @@ class App {
 	}
 
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
-		if (strpos($className, $topNamespace) !== 0) {
+		if (!str_starts_with($className, $topNamespace)) {
 			return null;
 		}
 
 		foreach (self::$nameSpaceCache as $appId => $namespace) {
-			if (strpos($className, $topNamespace . $namespace . '\\') === 0) {
+			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
 				return $appId;
 			}
 		}
@@ -147,7 +148,7 @@ class App {
 		try {
 			$controller = $container->get($controllerName);
 		} catch (QueryException $e) {
-			if (strpos($controllerName, '\\Controller\\') !== false) {
+			if (str_contains($controllerName, '\\Controller\\')) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
 				throw new HintException('App ' . strtolower($app) . ' is not enabled');

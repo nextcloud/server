@@ -1,6 +1,10 @@
 name: PHPUnit 32bits
 
 on:
+  pull_request:
+    paths:
+      - 'version.php'
+      - '.github/workflows/phpunit-32bits.yml'
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
@@ -36,7 +40,7 @@ jobs:
           sudo apt-get install -y ffmpeg imagemagick libmagickcore-6.q16-3-extra
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu

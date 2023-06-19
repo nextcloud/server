@@ -81,6 +81,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopii senperan ligilon (nur validas por uzantoj, kiuj povas aliri al tiu dosiero aŭ dosierujo)",
     "You can only favorite a single file or folder at a time" : "Vi povas samtempe pliŝatigi nur unu dosieron aŭ dosierujon",
     "New folder" : "Nova dosierujo",
+    "Create new folder" : "Krei novan dosierujon",
     "Upload file" : "Alŝuti dosieron",
     "Recent" : "Lastaj ŝanĝoj",
     "Not favorited" : "Ne pliŝatitaj",
@@ -138,7 +139,6 @@
     "Copy to clipboard" : "Kopii tondejen",
     "Unable to change the favourite state of the file" : "Ne eblas ŝanĝi la staton pri pliŝatataĵo de la dosiero",
     "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
-    "Cancel" : "Nuligi",
     "Create" : "Krei",
     "Creating file" : "Kreante dosieron",
     "Delete permanently" : "Forigi por ĉiam",
@@ -158,15 +158,11 @@
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "Storage invalid" : "Konservejo ne validas",
-    "Select" : "Elekti",
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
-    "New" : "Nova",
-    "Copied!" : "Kopiita!",
     "Unlimited" : "Senlima",
     "Search users" : "Serĉi uzantojn",
+    "Cancel" : "Nuligi",
     "%s used" : "%s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
     "Deleted files" : "Forigitaj dosieroj"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

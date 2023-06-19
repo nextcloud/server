@@ -91,6 +91,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj izravnu poveznicu (samo za korisnike koji smiju pristupiti ovoj datoteci/mapi)",
     "You can only favorite a single file or folder at a time" : "Istovremeno možete označiti samo jednu datoteku ili mapu kao favorita",
     "New folder" : "Nova mapa",
+    "Create new folder" : "Stvori novu mapu",
     "Upload file" : "Otpremi datoteku",
     "Recent" : "Nedavni",
     "Not favorited" : "Nije označeno kao favorit",
@@ -173,7 +174,6 @@
     "Unable to change the favourite state of the file" : "Nije moguće promijeniti status favorita datoteke",
     "Error while loading the file data" : "Pogreška pri učitavanju podataka iz datoteke",
     "Pick a template for {name}" : "Odaberite predložak za {name}",
-    "Cancel" : "Odustani",
     "Create" : "Stvori",
     "Create a new file with the selected template" : "Stvorite novu datoteku s odabranim predloškom",
     "Creating file" : "Stvaranje datoteke",
@@ -200,16 +200,11 @@
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Storage invalid" : "Neispravna pohrana",
-    "Select" : "Odaberi",
-    "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
-    "New" : "Novo",
-    "Copied!" : "Kopirano!",
     "Unlimited" : "Neograničeno",
     "Search users" : "Pretraži korisnike",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
+    "Cancel" : "Odustani",
     "%s used" : "Iskorišteno %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "Settings" : "Postavke",
     "Deleted files" : "Izbrisane datoteke"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

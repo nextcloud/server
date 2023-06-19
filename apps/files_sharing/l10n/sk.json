@@ -111,9 +111,9 @@
     "Public upload disabled by the administrator" : "Verejné nahrávanie je zakázané administrátorom",
     "Public upload is only possible for publicly shared folders" : "Verejné nahrávanie je možné len do verejne sprístupnených priečinkov",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie %s odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý",
-    "Invalid date, date format must be YYYY-MM-DD" : "Neplatný dátum, formát musí byť v tvare YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sprístupnenie %1$s zlyhalo, backend nepodporuje typ sprístupnenia %2$s",
     "Please specify a valid federated user ID" : "Prosím zvoľte platné ID federovaného užívateľa",
+    "Invalid date, date format must be YYYY-MM-DD" : "Neplatný dátum, formát musí byť v tvare YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Prosím zvoľte platné ID federovanej skupiny",
     "You cannot share to a Circle if the app is not enabled" : "Ak aplikácia nie je povolená, nemôžete ju zdieľať s Kruhom",
     "Please specify a valid circle" : "Zadajte platný kruh",
@@ -259,10 +259,6 @@
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
-    "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť",
-    "Copy to clipboard" : "Skopírovať do schránky",
-    "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný.",
-    "Toggle grid view" : "Prepnúť zobrazenie mriežky"
+    "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

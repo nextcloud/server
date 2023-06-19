@@ -45,16 +45,16 @@ use OCP\IRequest;
 
 class CssController extends Controller {
 	protected IAppData $appData;
-	protected ITimeFactory $timeFactory;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								Factory $appDataFactory,
-								ITimeFactory $timeFactory) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		Factory $appDataFactory,
+		protected ITimeFactory $timeFactory,
+	) {
 		parent::__construct($appName, $request);
 
 		$this->appData = $appDataFactory->get('css');
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -101,7 +101,7 @@ class CssController extends Controller {
 	private function getFile(ISimpleFolder $folder, string $fileName, bool &$gzip): ISimpleFile {
 		$encoding = $this->request->getHeader('Accept-Encoding');
 
-		if (strpos($encoding, 'gzip') !== false) {
+		if (str_contains($encoding, 'gzip')) {
 			try {
 				$gzip = true;
 				return $folder->getFile($fileName . '.gzip'); # Safari doesn't like .gz

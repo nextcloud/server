@@ -64,6 +64,9 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 */
 	protected $isAdmin;
 
+	protected int $numberOfFiles = -1;
+	protected int $referenceFileId = -1;
+
 	/**
 	 * Sets up the node, expects a full path name
 	 *
@@ -103,6 +106,8 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * @param string $name The new name
 	 *
 	 * @throws MethodNotAllowed not allowed to rename node
+	 *
+	 * @return never
 	 */
 	public function setName($name) {
 		throw new MethodNotAllowed();
@@ -114,11 +119,12 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * @param string $name new tag name
 	 * @param bool $userVisible user visible
 	 * @param bool $userAssignable user assignable
+	 *
 	 * @throws NotFound whenever the given tag id does not exist
 	 * @throws Forbidden whenever there is no permission to update said tag
 	 * @throws Conflict whenever a tag already exists with the given attributes
 	 */
-	public function update($name, $userVisible, $userAssignable) {
+	public function update($name, $userVisible, $userAssignable): void {
 		try {
 			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
@@ -151,11 +157,15 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	/**
 	 * Returns null, not supported
 	 *
+	 * @return null
 	 */
 	public function getLastModified() {
 		return null;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function delete() {
 		try {
 			if (!$this->isAdmin) {
@@ -171,5 +181,21 @@ class SystemTagNode implements \Sabre\DAV\INode {
 			// can happen if concurrent deletion occurred
 			throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found', 0, $e);
 		}
+	}
+
+	public function getNumberOfFiles(): int {
+		return $this->numberOfFiles;
+	}
+
+	public function setNumberOfFiles(int $numberOfFiles): void {
+		$this->numberOfFiles = $numberOfFiles;
+	}
+
+	public function getReferenceFileId(): int {
+		return $this->referenceFileId;
+	}
+
+	public function setReferenceFileId(int $referenceFileId): void {
+		$this->referenceFileId = $referenceFileId;
 	}
 }

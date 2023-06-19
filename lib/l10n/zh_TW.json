@@ -3,7 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "允許網頁伺服器寫入 config 目錄通常可以解決這個問題。",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "但如果您比較希望保留 config.php 的唯讀狀態，請在該設定檔中將 \"config_is_read_only\" 設定為 true。",
     "See %s" : "見 %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "應用程式 %1$s 中的檔案沒有被正確取代，請確認它的版本與伺服器相容。",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "應用程式 %1$s 不存在或有與此伺服器不相容的版本。請檢查應用程式目錄。",
     "Sample configuration detected" : "您目前正在使用範例設定",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "您似乎直接複製了範例設定來使用，這樣的安裝很可能會無法運作，請閱讀說明文件後對 config.php 進行適當的修改",
     "404" : "404",
@@ -236,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "調整 php.ini 中的設定，使 Nextcloud 重新運作",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> 被設定為 <code>%s</code> 而非預期中的 <code>0</code>。",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "為了修正這個問題，請到 php.ini 將 <code>mbstring.func_overload</code> 的值改為 <code>0</code>。",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 版本最低需求為 2.7.0。目前安裝版本為 %s 。",
-    "To fix this issue update your libxml2 version and restart your web server." : "修正方式為更新您的 libxml2 為 2.7.0 以上版本，再重啟網頁伺服器。",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP 已經設定成「剪除 inline doc block」模式，這將會使幾個核心應用程式無法使用",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "這大概是由快取或是加速器像是 Zend OPcache, eAccelerator 造成的",
     "PHP modules have been installed, but they are still listed as missing?" : "你已經安裝了指定的 PHP 模組，可是還是顯示為找不到嗎？",
@@ -263,12 +261,11 @@
     "Storage connection error. %s" : "儲存空間連線錯誤。%s",
     "Storage is temporarily not available" : "儲存空間暫時無法使用",
     "Storage connection timeout. %s" : "儲存空間連線逾時。%s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "應用程式 %1$s 中的檔案沒有被正確取代，請確認它的版本與伺服器相容。",
     "Full name" : "全名",
-    "%s enter the database username and name." : "%s 輸入資料庫名稱及使用者名稱",
-    "%s enter the database username." : "%s 輸入資料庫使用者名稱",
-    "%s enter the database name." : "%s 輸入資料庫名稱",
-    "%s you may not use dots in the database name" : "%s 資料庫名稱不能包含小數點",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "已達使用者限制，所以未建立使用者。請檢查您的通知以取得更多資訊。",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "使用者名稱當中只能包含下列字元：\"a-z\", \"A-Z\", \"0-9\", 和 \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "使用者名稱當中只能包含下列字元：\"a-z\", \"A-Z\", \"0-9\", 和 \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 版本最低需求為 2.7.0。目前安裝版本為 %s 。",
+    "To fix this issue update your libxml2 version and restart your web server." : "修正方式為更新您的 libxml2 為 2.7.0 以上版本，再重啟網頁伺服器。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

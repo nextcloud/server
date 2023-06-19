@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Moteur de workflow Nextcloud",
     "Select a filter" : "Sélectionner un filtre",
     "Select a comparator" : "Sélectionnez un comparateur",
+    "Remove filter" : "Retirer le filtre",
     "Select a file type" : "Sélectionnez un type de fichier",
     "e.g. httpd/unix-directory" : "par exemple httpd/unix-directory",
     "Folder" : "Dossier",
@@ -58,9 +59,7 @@ OC.L10N.register(
     "Custom mimetype" : "mimetype personnalisé",
     "Please enter a valid time span" : "Merci de saisir une période de temps valide",
     "Select a request URL" : "Sélectionnez une requête URL",
-    "Predefined URLs" : "URL prédéfinis",
     "Files WebDAV" : "Fichiers WebDAV",
-    "Others" : "Autres",
     "Custom URL" : "URL personnalisée",
     "Select a user agent" : "Sélectionnez un utilisateur",
     "Android client" : "Client Android",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Add new flow" : "Ajouter un nouveau flux",
     "When" : "Quand",
     "and" : "et",
+    "Add a new filter" : "Ajouter un filtre",
     "Cancel" : "Annuler",
     "Delete" : "Supprimer",
     "The configuration is invalid" : "Configuration non valide",
@@ -112,9 +112,7 @@ OC.L10N.register(
     "User group membership" : "Membre du groupe d'utilisateur",
     "is member of" : "est membre de",
     "is not member of" : "n'est pas membre de",
-    "Select a tag" : "Choisir une étiquette",
-    "No results" : "Aucun résultat",
-    "%s (invisible)" : "%s (invisible)",
-    "%s (restricted)" : "%s (restreint)"
+    "Predefined URLs" : "URL prédéfinis",
+    "Others" : "Autres"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

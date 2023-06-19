@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Αυτό μπορεί συνήθως να διορθωθεί παρέχοντας δικαιώματα εγγραφής για το φάκελο config στον διακομιστή ιστού.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ή εάν επιθυμείτε να διατηρήσετε το config.php σε κατάσταση ανάγνωσης μόνο, ορίστε την επιλογή \"config_is_read_only\" σε true.",
     "See %s" : "Δείτε %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Τα αρχεία της εφαρμογής %1$s δεν αντικαταστάθηκαν σωστά. Βεβαιωθείτε ότι πρόκειται για συμβατή έκδοση με το διακομιστή.",
     "Sample configuration detected" : "Ανιχνεύθηκε παράδειγμα εγκατάστασης",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Έχει ανιχνευθεί ότι το δείγμα εγκατάστασης έχει αντιγραφεί. Αυτό μπορεί να σπάσει την εγκατάστασή σας και δεν υποστηρίζεται. Παρακαλούμε διαβάστε την τεκμηρίωση πριν εκτελέσετε αλλαγές στο config.php",
     "The page could not be found on the server." : "Αυτή η σελίδα δε βρέθηκε στον διακομιστή.",
@@ -226,8 +225,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Προσαρμόζοντας αυτήν τη ρύθμιση στο php.ini το Nextcloud θα εκτελεστεί ξανά",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "Το <code>mbstring.func_overload</code> έχει ορισθεί σε <code>%s</code> αντί για την αναμενόμενη τιμή <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Για να διορθώσετε αυτό το πρόβλημα ορίστε το <code>mbstring.func_overload</code> σε <code>0</code> στο αρχείο php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Απαιτείται τουλάχιστον το libxml2 2.7.0. Αυτή τη στιγμή είναι εγκατεστημένο το %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Για να διορθώσετε το σφάλμα ενημερώστε την έκδοση του libxml2 και επανεκκινήστε τον διακομιστή.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Η PHP φαίνεται να είναι ρυθμισμένη ώστε να αφαιρεί inline doc blocks. Αυτό θα καταστήσει πολλές βασικές εφαρμογές μη διαθέσιμες.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Αυτό πιθανόν προκλήθηκε από προσωρινή μνήμη (cache)/επιταχυντή όπως τη Zend OPcache ή τον eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Κάποια αρθρώματα της PHP έχουν εγκατασταθεί, αλλά είναι ακόμα καταγεγραμμένες ως εκλιπόντα;",
@@ -252,11 +249,10 @@
     "Storage connection error. %s" : "Σφάλμα σύνδεσης με αποθηκευτικό χώρο. %s",
     "Storage is temporarily not available" : "Ο χώρος αποθήκευσης δεν είναι διαθέσιμος προσωρινά",
     "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Τα αρχεία της εφαρμογής %1$s δεν αντικαταστάθηκαν σωστά. Βεβαιωθείτε ότι πρόκειται για συμβατή έκδοση με το διακομιστή.",
     "Full name" : "Πλήρες όνομα",
-    "%s enter the database username and name." : "%sπληκτρολογήστε όνομα χρήστη και όνομα βάσης δεδομένων.",
-    "%s enter the database username." : "%s εισάγετε το όνομα χρήστη της βάσης δεδομένων.",
-    "%s enter the database name." : "%s εισάγετε το όνομα της βάσης δεδομένων.",
-    "%s you may not use dots in the database name" : "%s μάλλον δεν χρησιμοποιείτε τελείες στο όνομα της βάσης δεδομένων",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται στο όνομα χρήστη;  \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται στο όνομα χρήστη;  \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Απαιτείται τουλάχιστον το libxml2 2.7.0. Αυτή τη στιγμή είναι εγκατεστημένο το %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Για να διορθώσετε το σφάλμα ενημερώστε την έκδοση του libxml2 και επανεκκινήστε τον διακομιστή."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

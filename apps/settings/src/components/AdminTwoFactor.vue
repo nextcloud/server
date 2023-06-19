@@ -19,31 +19,33 @@
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
-				<NcMultiselect v-model="enforcedGroups"
+				<label for="enforcedGroups">
+					<span>{{ t('settings', 'Enforced groups') }}</span>
+				</label>
+				<NcSelect input-id="enforcedGroups"
+					v-model="enforcedGroups"
 					:options="groups"
-					:placeholder="t('settings', 'Enforced groups')"
 					:disabled="loading"
 					:multiple="true"
-					:searchable="true"
 					:loading="loadingGroups"
-					:show-no-options="false"
 					:close-on-select="false"
-					@search-change="searchGroup" />
+					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
-				<NcMultiselect v-model="excludedGroups"
+				<label for="excludedGroups">
+					<span>{{ t('settings', 'Excluded groups') }}</span>
+				</label>
+				<NcSelect input-id="excludedGroups"
+					v-model="excludedGroups"
 					:options="groups"
-					:placeholder="t('settings', 'Excluded groups')"
 					:disabled="loading"
 					:multiple="true"
-					:searchable="true"
 					:loading="loadingGroups"
-					:show-no-options="false"
 					:close-on-select="false"
-					@search-change="searchGroup" />
+					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
 				<em>
@@ -65,19 +67,21 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
-import _ from 'lodash'
+import sortedUniq from 'lodash/sortedUniq.js'
+import uniq from 'lodash/uniq.js'
+import debounce from 'lodash/debounce.js'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'AdminTwoFactor',
 	components: {
-		NcMultiselect,
+		NcSelect,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
@@ -123,19 +127,19 @@ export default {
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
 		// be valid groups, so let's add them as initial state
-		this.groups = _.sortedUniq(_.uniq(this.enforcedGroups.concat(this.excludedGroups)))
+		this.groups = sortedUniq(uniq(this.enforcedGroups.concat(this.excludedGroups)))
 
 		// Populate the groups with a first set so the dropdown is not empty
 		// when opening the page the first time
 		this.searchGroup('')
 	},
 	methods: {
-		searchGroup: _.debounce(function(query) {
+		searchGroup: debounce(function(query) {
 			this.loadingGroups = true
 			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
 				.then(res => res.data.ocs)
 				.then(ocs => ocs.data.groups)
-				.then(groups => { this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))) })
+				.then(groups => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
 				.catch(err => console.error('could not search groups', err))
 				.then(() => { this.loadingGroups = false })
 		}, 500),

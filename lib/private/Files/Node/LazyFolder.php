@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Files\Node;
 
 use OC\Files\Utils\PathHelper;
+use OCP\Files\Folder;
 use OCP\Constants;
 
 /**
@@ -37,8 +38,8 @@ use OCP\Constants;
  *
  * @package OC\Files\Node
  */
-class LazyFolder implements \OCP\Files\Folder {
-	/** @var \Closure */
+class LazyFolder implements Folder {
+	/** @var \Closure(): Folder */
 	private $folderClosure;
 
 	/** @var LazyFolder | null */
@@ -49,7 +50,7 @@ class LazyFolder implements \OCP\Files\Folder {
 	/**
 	 * LazyFolder constructor.
 	 *
-	 * @param \Closure $folderClosure
+	 * @param \Closure(): Folder $folderClosure
 	 */
 	public function __construct(\Closure $folderClosure, array $data = []) {
 		$this->folderClosure = $folderClosure;

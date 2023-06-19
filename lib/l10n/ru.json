@@ -3,7 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Обычно эту ошибку можно исправить, предоставив веб-серверу права на запись в каталог конфигурации.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Если для файла «config.php» должен быть установлен режим «только чтение», задайте параметру «config_is_read_only» значение «true».",
     "See %s" : "Обратитесь к %s.",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Файлы приложения %1$s не были заменены корректно. Удостоверьтесь, что устанавливаемая версия этого приложения совместима с версией сервера.",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Приложение %1$s отсутствует или его версия несовместима с этим сервером. Пожалуйста, проверьте каталог приложений.",
     "Sample configuration detected" : "Обнаружена конфигурация из примера.",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Была обнаружена конфигурация из примера. Такая конфигурация не поддерживается и может повредить вашей системе. Прочтите документацию перед внесением изменений в файл config.php",
     "404" : "404",
@@ -112,6 +112,7 @@
     "Address" : "Адрес",
     "Profile picture" : "Изображение профиля",
     "About" : "О себе",
+    "Display name" : "Отображаемое имя",
     "Headline" : "Заголовок",
     "Organisation" : "Организация",
     "Role" : "Роль",
@@ -235,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Настройка этого параметра в файле php.ini восстановит работоспособность Nextcloud",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "Параметр <code>mbstring.func_overload</code> установлен в <code>%s</code>, но ожидается значение <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Чтобы исправить эту проблему установите параметр <code>mbstring.func_overload</code> в значение <code>0</code> в php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Требуется как минимум libxml2 версии 2.7.0. На данный момент установлена %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Для исправления этой ошибки обновите версию libxml2 и перезапустите ваш веб-сервер.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Очевидно, PHP настроен на вычищение блоков встроенной документации. Это сделает несколько центральных приложений недоступными.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Возможно это вызвано кешем/ускорителем вроде Zend OPcache или eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Модули PHP были установлены, но они все еще перечислены как недостающие?",
@@ -262,12 +261,11 @@
     "Storage connection error. %s" : "Ошибка подключения к хранилищу. %s",
     "Storage is temporarily not available" : "Хранилище временно недоступно",
     "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Файлы приложения %1$s не были заменены корректно. Удостоверьтесь, что устанавливаемая версия этого приложения совместима с версией сервера.",
     "Full name" : "Полное имя",
-    "%s enter the database username and name." : "%s укажите имя пользователя и название для базы данных.",
-    "%s enter the database username." : "%s введите имя пользователя базы данных.",
-    "%s enter the database name." : "%s введите имя базы данных.",
-    "%s you may not use dots in the database name" : "%s Вы не можете использовать точки в имени базы данных",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Пользователь не был создан, достигнуто ограничение количества пользователей. Для получения дополнительных сведений проверьте уведомления.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В составе имени пользователя допускаются следующие символы: «a–z», «A–Z», «0–9» и «_.@-'»"
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В составе имени пользователя допускаются следующие символы: «a–z», «A–Z», «0–9» и «_.@-'»",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Требуется как минимум libxml2 версии 2.7.0. На данный момент установлена %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Для исправления этой ошибки обновите версию libxml2 и перезапустите ваш веб-сервер."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -299,14 +299,12 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$message->useTemplate($template);
 
-		$vCalendar = $this->imipService->generateVCalendar($iTipMessage, $vEvent);
-
-		$attachment = $this->mailer->createAttachment(
-			$vCalendar->serialize(),
+		$itip_msg = $iTipMessage->message->serialize();
+		$message->attachInline(
+				$itip_msg,
 			'event.ics',
-			'text/calendar; method=' . $iTipMessage->method
+				'text/calendar; method=' . $iTipMessage->method,
 		);
-		$message->attach($attachment);
 
 		try {
 			$failed = $this->mailer->send($message);

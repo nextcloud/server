@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Niestandardowy typ MIME",
     "Please enter a valid time span" : "Podaj prawidłowy przedział czasu",
     "Select a request URL" : "Wybierz adres URL żądania",
-    "Predefined URLs" : "Przedefiniowanie URLs",
     "Files WebDAV" : "Pliki WebDAV",
-    "Others" : "Inne",
     "Custom URL" : "Niestandardowy adres URL",
     "Select a user agent" : "Wybierz klienta użytkownika",
     "Android client" : "Klient Android",
@@ -112,9 +110,7 @@ OC.L10N.register(
     "User group membership" : "Członkostwo grupy użytkownika",
     "is member of" : "jest członkiem w",
     "is not member of" : "nie jest członkiem w",
-    "Select a tag" : "Wybierz etykietę",
-    "No results" : "Brak wyników",
-    "%s (invisible)" : "%s (niewidoczny)",
-    "%s (restricted)" : "%s (ograniczony)"
+    "Predefined URLs" : "Przedefiniowanie URLs",
+    "Others" : "Inne"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

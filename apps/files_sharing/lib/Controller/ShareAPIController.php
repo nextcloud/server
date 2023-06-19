@@ -627,16 +627,6 @@ class ShareAPIController extends OCSController {
 
 				$share->setSendPasswordByTalk(true);
 			}
-
-			//Expire date
-			if ($expireDate !== '') {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-				}
-			}
 		} elseif ($shareType === IShare::TYPE_REMOTE) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
@@ -708,6 +698,16 @@ class ShareAPIController extends OCSController {
 			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
+		}
+
+		//Expire date
+		if ($expireDate !== '') {
+			try {
+				$expireDate = $this->parseDate($expireDate);
+				$share->setExpirationDate($expireDate);
+			} catch (\Exception $e) {
+				throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+			}
 		}
 
 		$share->setShareType($shareType);
@@ -1216,17 +1216,6 @@ class ShareAPIController extends OCSController {
 				$permissions = $newPermissions;
 			}
 
-			if ($expireDate === '') {
-				$share->setExpirationDate(null);
-			} elseif ($expireDate !== null) {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSBadRequestException($e->getMessage(), $e);
-				}
-				$share->setExpirationDate($expireDate);
-			}
-
 			if ($password === '') {
 				$share->setPassword(null);
 			} elseif ($password !== null) {
@@ -1256,17 +1245,17 @@ class ShareAPIController extends OCSController {
 			if ($permissions !== null) {
 				$share->setPermissions($permissions);
 			}
+		}
 
-			if ($expireDate === '') {
-				$share->setExpirationDate(null);
-			} elseif ($expireDate !== null) {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSBadRequestException($e->getMessage(), $e);
-				}
-				$share->setExpirationDate($expireDate);
+		if ($expireDate === '') {
+			$share->setExpirationDate(null);
+		} elseif ($expireDate !== null) {
+			try {
+				$expireDate = $this->parseDate($expireDate);
+			} catch (\Exception $e) {
+				throw new OCSBadRequestException($e->getMessage(), $e);
 			}
+			$share->setExpirationDate($expireDate);
 		}
 
 		try {
@@ -1852,7 +1841,7 @@ class ShareAPIController extends OCSController {
 
 		if ($share->getShareType() === IShare::TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
 			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
-			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
+			$hasCircleId = (str_ends_with($share->getSharedWith(), ']'));
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
 			if ($shareWithLength === false) {

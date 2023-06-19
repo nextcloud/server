@@ -107,9 +107,9 @@
     "Public upload disabled by the administrator" : "Administrator je onemogućio javno otpremanje",
     "Public upload is only possible for publicly shared folders" : "Javno otpremanje moguće je samo za javno dijeljene mape",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Neuspješno dijeljenje %s slanjem zaporke za Nextcloud Talk jer Nextcloud Talk nije omogućen",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nevažeći datum, oblik datuma mora biti GGGG-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Neuspješno dijeljenje %1$s jer pozadinski servis ne dopušta dijeljenje vrste %2$s",
     "Please specify a valid federated user ID" : "Navedite važeći ID udruženog korisnika",
+    "Invalid date, date format must be YYYY-MM-DD" : "Nevažeći datum, oblik datuma mora biti GGGG-MM-DD",
     "Please specify a valid federated group ID" : "Navedite važeći ID udružene grupe",
     "You cannot share to a Circle if the app is not enabled" : "Ne možete dijeliti s krugom ako aplikacija nije omogućena",
     "Please specify a valid circle" : "Navedite valjani krug",
@@ -240,10 +240,6 @@
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
-    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
-    "Copy to clipboard" : "Kopiraj u međuspremnik",
-    "Sorry, this link doesn’t seem to work anymore." : "Žao nam je, čini se da ova poveznica više ne radi.",
-    "Toggle grid view" : "Uključi/isključi prikaz rešetke"
+    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

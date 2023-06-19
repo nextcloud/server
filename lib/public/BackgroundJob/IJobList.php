@@ -52,7 +52,7 @@ interface IJobList {
 	 * Add a job to the list
 	 *
 	 * @param IJob|class-string<IJob> $job
-	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
+	 * @param mixed $argument The argument to be passed to $job->run() when the job is executed
 	 * @since 7.0.0
 	 */
 	public function add($job, $argument = null): void;
@@ -145,4 +145,13 @@ interface IJobList {
 	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void;
+
+	/**
+	 * Checks whether a job of the passed class is reserved to run
+	 *
+	 * @param string|null $className
+	 * @return bool
+	 * @since 27.0.0
+	 */
+	public function hasReservedJob(?string $className): bool;
 }

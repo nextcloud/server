@@ -70,7 +70,7 @@ class Disable extends Command implements CompletionAwareInterface {
 
 		try {
 			$this->appManager->disableApp($appId);
-			$appVersion = \OC_App::getAppVersion($appId);
+			$appVersion = $this->appManager->getAppVersion($appId);
 			$output->writeln($appId . ' ' . $appVersion . ' disabled');
 		} catch (\Exception $e) {
 			$output->writeln($e->getMessage());

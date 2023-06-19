@@ -88,7 +88,7 @@ button:not(
 			color: var(--color-text-light);
 		}
 		&:focus-visible {
-			box-shadow: 0 0 0 2px var(--color-primary);
+			box-shadow: 0 0 0 2px var(--color-primary-element);
 		}
 	}
 	&:disabled {
@@ -107,13 +107,13 @@ button:not(
 	&.primary {
 		background-color: var(--color-primary-element);
 		border-color: var(--color-primary-element);
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		cursor: pointer;
 
 		/* Apply border to primary button if on log in page (and not in a dark container) or if in header */
 		#body-login :not(.body-login-container) &,
 		#header & {
-			border-color: var(--color-primary-text);
+			border-color: var(--color-primary-element-text);
 		}
 
 		&:not(:disabled) {
@@ -128,13 +128,13 @@ button:not(
 				box-shadow: 0 0 0 2px var(--color-main-text);
 			}
 			&:active {
-				color: var(--color-primary-text-dark);
+				color: var(--color-primary-element-text-dark);
 			}
 		}
 		&:disabled {
 			// opacity is already defined to .5 if disabled
 			background-color: var(--color-primary-element);
-			color: var(--color-primary-text-dark);
+			color: var(--color-primary-element-text-dark);
 			cursor: default;
 		}
 	}
@@ -592,7 +592,7 @@ div.select2-container-multi {
 		padding: 6px;
 		min-height: 44px;
 		&:focus-within {
-			border-color: var(--color-primary)
+			border-color: var(--color-primary-element)
 		}
 		.select2-search-choice {
 			line-height: 20px;
@@ -643,7 +643,7 @@ div.select2-container {
 		padding: 6px 12px;
 		min-height: 44px;
 		&:focus-within {
-			border-color: var(--color-primary)
+			border-color: var(--color-primary-element)
 		}
 		.select2-search-choice {
 			line-height: 20px;
@@ -779,12 +779,12 @@ progress:not(.vue) {
 	}
 	&::-moz-progress-bar {
 		border-radius: var(--border-radius);
-		background: var(--color-primary);
+		background: var(--color-primary-element);
 		transition: 250ms all ease-in-out;
 	}
 	&::-webkit-progress-value {
 		border-radius: var(--border-radius);
-		background: var(--color-primary);
+		background: var(--color-primary-element);
 		transition: 250ms all ease-in-out;
 	}
 }

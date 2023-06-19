@@ -151,8 +151,6 @@
     "Please ask your server administrator to install the module." : "Por favor solicita a tu adminsitrador la instalación del módulo. ",
     "PHP setting \"%s\" is not set to \"%s\"." : "El ajuste PHP \"%s\" no esta establecido a \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "El cambiar este ajuste del archivo php.ini hará que Nextcloud corra de nuevo.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Se requiere de por lo menos libxml2 2.7.0. Actualmente %s está instalado. ",
-    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este tema, por favor actualiza la versión de su libxml2 y reinicia tu servidor web. ",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Al parecer PHP está configurado para quitar los bloques de comentarios internos. Esto hará que varias aplicaciones principales sean inaccesibles. ",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Esto ha sido causado probablemente por un acelerador de caché como Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "¿Los módulos de PHP han sido instalados, pero se siguen enlistando como faltantes?",
@@ -166,10 +164,8 @@
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
     "Full name" : "Nombre completo",
-    "%s enter the database username and name." : "%s ingresa el usuario y nombre de la base de datos",
-    "%s enter the database username." : "%s ingresa el nombre de usuario de la base de datos.",
-    "%s enter the database name." : "%s ingresar el nombre de la base de datos",
-    "%s you may not use dots in the database name" : "%s no puedes utilizar puntos en el nombre de la base de datos",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Sólo se permiten los siguientes caracteres en el usuario: \"a-z\", \"A-Z\", \"0-9\" y \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Sólo se permiten los siguientes caracteres en el usuario: \"a-z\", \"A-Z\", \"0-9\" y \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Se requiere de por lo menos libxml2 2.7.0. Actualmente %s está instalado. ",
+    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este tema, por favor actualiza la versión de su libxml2 y reinicia tu servidor web. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -57,9 +57,7 @@ OC.L10N.register(
     "Custom mimetype" : "Maatwerk mimetype",
     "Please enter a valid time span" : "Geef een geldige tijdsinterval op",
     "Select a request URL" : "Selecteer een aanvraag URL",
-    "Predefined URLs" : "Voorgedefinieerde URL's",
     "Files WebDAV" : "Bestanden WebDAV",
-    "Others" : "Anderen",
     "Custom URL" : "Maatwerk URL",
     "Select a user agent" : "Selecteer een 'user agent'",
     "Android client" : "Android client",
@@ -111,9 +109,7 @@ OC.L10N.register(
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
     "is not member of" : "is geen lid van",
-    "Select a tag" : "Selecteer een markering",
-    "No results" : "Geen resultaten",
-    "%s (invisible)" : "%s (onzichtbaar)",
-    "%s (restricted)" : "%s (beperkt)"
+    "Predefined URLs" : "Voorgedefinieerde URL's",
+    "Others" : "Anderen"
 },
 "nplurals=2; plural=(n != 1);");

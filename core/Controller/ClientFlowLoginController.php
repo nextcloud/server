@@ -57,45 +57,24 @@ use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 class ClientFlowLoginController extends Controller {
-	private IUserSession $userSession;
-	private IL10N $l10n;
-	private Defaults $defaults;
-	private ISession $session;
-	private IProvider $tokenProvider;
-	private ISecureRandom $random;
-	private IURLGenerator $urlGenerator;
-	private ClientMapper $clientMapper;
-	private AccessTokenMapper $accessTokenMapper;
-	private ICrypto $crypto;
-	private IEventDispatcher $eventDispatcher;
-
 	public const STATE_NAME = 'client.flow.state.token';
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IUserSession $userSession,
-								IL10N $l10n,
-								Defaults $defaults,
-								ISession $session,
-								IProvider $tokenProvider,
-								ISecureRandom $random,
-								IURLGenerator $urlGenerator,
-								ClientMapper $clientMapper,
-								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto,
-								IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IUserSession $userSession,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private ISession $session,
+		private IProvider $tokenProvider,
+		private ISecureRandom $random,
+		private IURLGenerator $urlGenerator,
+		private ClientMapper $clientMapper,
+		private AccessTokenMapper $accessTokenMapper,
+		private ICrypto $crypto,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
-		$this->userSession = $userSession;
-		$this->l10n = $l10n;
-		$this->defaults = $defaults;
-		$this->session = $session;
-		$this->tokenProvider = $tokenProvider;
-		$this->random = $random;
-		$this->urlGenerator = $urlGenerator;
-		$this->clientMapper = $clientMapper;
-		$this->accessTokenMapper = $accessTokenMapper;
-		$this->crypto = $crypto;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	private function getClientName(): string {
@@ -368,9 +347,9 @@ class ClientFlowLoginController extends Controller {
 	private function getServerPath(): string {
 		$serverPostfix = '';
 
-		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+		if (str_contains($this->request->getRequestUri(), '/index.php')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} elseif (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+		} elseif (str_contains($this->request->getRequestUri(), '/login/flow')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
 		}
 
