@@ -38,15 +38,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class RepairShareOwnership extends Command {
-	private IDBConnection $dbConnection;
-	private IUserManager $userManager;
-
 	public function __construct(
-		IDBConnection $dbConnection,
-		IUserManager $userManager
+		private IDBConnection $dbConnection,
+		private IUserManager $userManager,
 	) {
-		$this->dbConnection = $dbConnection;
-		$this->userManager = $userManager;
 		parent::__construct();
 	}
 
