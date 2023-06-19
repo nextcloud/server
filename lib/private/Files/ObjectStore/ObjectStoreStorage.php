@@ -38,6 +38,7 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
@@ -593,7 +594,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				if (is_array($sourceEntryData) && array_key_exists('scan_permissions', $sourceEntryData)) {
 					$sourceEntry['permissions'] = $sourceEntryData['scan_permissions'];
 				}
-				$this->copyInner($sourceEntry, $targetInternalPath);
+				$this->copyInner($sourceStorage->getCache(), $sourceEntry, $targetInternalPath);
 				return true;
 			}
 		}
@@ -611,12 +612,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			throw new NotFoundException('Source object not found');
 		}
 
-		$this->copyInner($sourceEntry, $target);
+		$this->copyInner($cache, $sourceEntry, $target);
 
 		return true;
 	}
 
-	private function copyInner(ICacheEntry $sourceEntry, string $to) {
+	private function copyInner(ICache $sourceCache, ICacheEntry $sourceEntry, string $to) {
 		$cache = $this->getCache();
 
 		if ($sourceEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
@@ -625,8 +626,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 			$this->mkdir($to);
 
-			foreach ($cache->getFolderContentsById($sourceEntry->getId()) as $child) {
-				$this->copyInner($child, $to . '/' . $child->getName());
+			foreach ($sourceCache->getFolderContentsById($sourceEntry->getId()) as $child) {
+				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
 			}
 		} else {
 			$this->copyFile($sourceEntry, $to);
