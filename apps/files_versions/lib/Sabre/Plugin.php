@@ -27,7 +27,11 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\Files_Versions\Versions\IVersionManager;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -39,12 +43,13 @@ use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
 	private Server $server;
-	private IRequest $request;
 
 	public const VERSION_LABEL = '{http://nextcloud.org/ns}version-label';
 
 	public function __construct(
-		IRequest $request
+		private IRequest $request,
+		private IVersionManager $versionManager,
+		private IUserSession $userSession,
 	) {
 		$this->request = $request;
 	}
@@ -89,8 +94,25 @@ class Plugin extends ServerPlugin {
 	}
 
 	public function propFind(PropFind $propFind, INode $node): void {
+		$user = $this->userSession->getUser();
+
 		if ($node instanceof VersionFile) {
 			$propFind->handle(self::VERSION_LABEL, fn() => $node->getLabel());
+
+			if ($user !== null) {
+				$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node, $user) {
+					try {
+						$this->versionManager->getVersionFile(
+							$user,
+							$node->getSourceFile(),
+							$node->getVersion()->getRevisionId()
+						);
+						return true;
+					} catch (NotFoundException $ex) {
+						return false;
+					}
+				});
+			}
 		}
 	}
 

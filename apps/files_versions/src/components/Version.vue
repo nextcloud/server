@@ -23,9 +23,12 @@
 			:force-display-actions="true"
 			data-files-versions-version>
 			<template #icon>
-				<img v-if="!previewError"
+				<img v-if="(isCurrent || version.hasPreview) && !previewError"
 					:src="previewURL"
 					alt=""
+					decoding="async"
+					fetchpriority="low"
+					loading="lazy"
 					class="version__image"
 					@error="previewError = true">
 				<div v-else
