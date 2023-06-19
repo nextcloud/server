@@ -31,6 +31,7 @@ use OCA\Files_Versions\Versions\INameableVersion;
 use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionManager;
+use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
@@ -58,6 +59,10 @@ class VersionFile implements IFile {
 		} catch (NotFoundException $e) {
 			throw new NotFound();
 		}
+	}
+
+	public function getSourceFile(): FileInfo {
+		return $this->version->getSourceFile();
 	}
 
 	public function getContentType(): string {
