@@ -29,8 +29,8 @@ $mail_smtpauthtype = [
 ];
 
 $mail_smtpsecure = [
-	'' => $l->t('None'),
-	'ssl' => $l->t('SSL/TLS')
+	'' => $l->t('None/STARTTLS'),
+	'ssl' => $l->t('SSL')
 ];
 
 $mail_smtpmode = [
@@ -72,7 +72,9 @@ $mail_sendmailmode = [
 					<option value="<?php p($smtpmode[0])?>" <?php p($selected) ?>><?php p($smtpmode[1]) ?></option>
 				<?php endforeach;?>
 			</select>
+		</p>
 
+		<p>
 			<label id="mail_smtpsecure_label" for="mail_smtpsecure"
 				<?php if ($_['mail_smtpmode'] !== 'smtp') {
 						print_unescaped(' class="hidden"');
@@ -91,11 +93,13 @@ $mail_sendmailmode = [
 					<option value="<?php p($secure)?>" <?php p($selected) ?>><?php p($name) ?></option>
 				<?php endforeach;?>
 			</select>
+		</p>
 
-			<label id="mail_sendmailmode_label" for="mail_sendmailmode" class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+		<p class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+			<label id="mail_sendmailmode_label" for="mail_sendmailmode">
 				<?php p($l->t('Sendmail mode')); ?>
 			</label>
-			<select name="mail_sendmailmode" id="mail_sendmailmode" class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+			<select name="mail_sendmailmode" id="mail_sendmailmode">
 				<?php foreach ($mail_sendmailmode as $sendmailmodeValue => $sendmailmodeLabel): ?>
 					<option value="<?php p($sendmailmodeValue)?>" <?= $sendmailmodeValue === $_['mail_sendmailmode'] ? 'selected="selected"' : '' ?>><?php p($sendmailmodeLabel) ?></option>
 				<?php endforeach;?>
@@ -123,10 +127,8 @@ $mail_sendmailmode = [
 		<p id='setting_smtpauth' <?php if ($_['mail_smtpmode'] !== 'smtp') {
 			print_unescaped(' class="hidden"');
 		} ?>>
-			<label for='mail_smtpauthtype'><?php p($l->t('Authentication method')); ?>
-					<span class="icon-info" title="<?php p($l->t('Only applies when authentication is required')); ?>"></span>
-			</label>
-			<select name="mail_smtpauthtype" id="mail_smtpauthtype" disabled="disabled">
+			<label for='mail_smtpauthtype'><?php p($l->t('Authentication')); ?></label>
+			<select name="mail_smtpauthtype" id="mail_smtpauthtype" class="hidden">
 				<?php foreach ($mail_smtpauthtype as $authtype => $name): ?>
 						<option value="<?php p($authtype) ?>"><?php p($name) ?></option>
 				<?php endforeach; ?>
