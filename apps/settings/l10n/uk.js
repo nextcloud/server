@@ -130,7 +130,7 @@ OC.L10N.register(
     "Personal info" : "Про мене",
     "Mobile & desktop" : "Застосунки для пристроїв",
     "Email server" : "Сервер електронної пошти",
-    "Security & setup warnings" : "Перевірка безпеки та встановлення системи",
+    "Security & setup warnings" : "Перевірка налаштування та захисту",
     "Background jobs" : "Фонові завдання",
     "Create" : "Створити",
     "Change" : "Змінити",
