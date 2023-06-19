@@ -59,15 +59,18 @@ class ContactsManager implements IManager {
 			$strictSearch = array_key_exists('strict_search', $options) && $options['strict_search'] === true;
 
 			if ($addressBook->isSystemAddressBook()) {
+				$enumeration = !\array_key_exists('enumeration', $options) || $options['enumeration'] !== false;
 				$fullMatch = !\array_key_exists('fullmatch', $options) || $options['fullmatch'] !== false;
-				if (!$fullMatch) {
-					// Neither full match is allowed, so skip the system address book
+
+				if (!$enumeration && !$fullMatch) {
+					// No access to system address book AND no full match allowed
 					continue;
 				}
+
 				if ($strictSearch) {
 					$searchOptions['wildcard'] = false;
 				} else {
-					$searchOptions['wildcard'] = !\array_key_exists('enumeration', $options) || $options['enumeration'] !== false;
+					$searchOptions['wildcard'] = $enumeration;
 				}
 			} else {
 				$searchOptions['wildcard'] = !$strictSearch;
