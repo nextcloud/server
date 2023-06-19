@@ -54,7 +54,7 @@ class MfaVerified implements ICheck{
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value): bool {
-		$mfaVerified = false;
+		$mfaVerified = '0';
 		if (!empty($this->session->get('globalScale.userData'))) {
 			$attr = $this->session->get('globalScale.userData')["userData"];
 			$mfaVerified = $attr["mfaVerified"];
