@@ -71,7 +71,7 @@ class CapabilitiesManager {
 						// that we would otherwise inject to every page load
 						continue;
 					}
-					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
+					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities() ?? []);
 				}
 			} else {
 				throw new \InvalidArgumentException('The given Capability (' . get_class($c) . ') does not implement the ICapability interface');

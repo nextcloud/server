@@ -37,7 +37,7 @@ interface ICapability {
 	/**
 	 * Function an app uses to return the capabilities
 	 *
-	 * @return array Array containing the apps capabilities
+	 * @return ?array Array containing the apps capabilities
 	 * @since 8.2.0
 	 */
 	public function getCapabilities();
