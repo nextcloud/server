@@ -30,16 +30,13 @@ use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\IRequest;
 
 class ReferenceApiController extends \OCP\AppFramework\OCSController {
-	private IReferenceManager $referenceManager;
-	private ?string $userId;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								IReferenceManager $referenceManager,
-								?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IReferenceManager $referenceManager,
+		private ?string $userId,
+	) {
 		parent::__construct($appName, $request);
-		$this->referenceManager = $referenceManager;
-		$this->userId = $userId;
 	}
 
 	/**
