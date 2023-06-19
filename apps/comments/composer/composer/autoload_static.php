@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitComments
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Comments\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Comments\\' => 
+        'OCA\\Comments\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -29,7 +29,7 @@ class ComposerStaticInitComments
         'OCA\\Comments\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Comments\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Comments\\Collaboration\\CommentersSorter' => __DIR__ . '/..' . '/../lib/Collaboration/CommentersSorter.php',
-        'OCA\\Comments\\Controller\\Notifications' => __DIR__ . '/..' . '/../lib/Controller/Notifications.php',
+        'OCA\\Comments\\Controller\\NotificationsController' => __DIR__ . '/..' . '/../lib/Controller/NotificationsController.php',
         'OCA\\Comments\\EventHandler' => __DIR__ . '/..' . '/../lib/EventHandler.php',
         'OCA\\Comments\\Listener\\CommentsEntityEventListener' => __DIR__ . '/..' . '/../lib/Listener/CommentsEntityEventListener.php',
         'OCA\\Comments\\Listener\\LoadAdditionalScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalScripts.php',
