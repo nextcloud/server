@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Louis Chmn <louis@chmn.me>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
- * @author Louis Chmn <louis@chmn.me>
+ * @author Marcel Klehr <mklehr@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
