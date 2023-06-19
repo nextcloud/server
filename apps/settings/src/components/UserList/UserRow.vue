@@ -365,7 +365,7 @@ export default {
 				},
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Wipe all devices'),
+					text: t('settings', 'Disconnect all devices and delete local data'),
 					action: this.wipeUserDevices,
 				},
 				{
