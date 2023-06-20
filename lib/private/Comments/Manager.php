@@ -154,7 +154,9 @@ class Manager implements ICommentsManager {
 			$comment->setLatestChildDateTime(null);
 		}
 
-		if (is_null($comment->getCreationDateTime())) {
+		try {
+			$comment->getCreationDateTime();
+		} catch(\LogicException $e) {
 			$comment->setCreationDateTime(new \DateTime());
 		}
 
