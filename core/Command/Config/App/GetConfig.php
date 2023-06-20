@@ -28,11 +28,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
-	protected IConfig $config;
-
-	public function __construct(IConfig $config) {
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
-		$this->config = $config;
 	}
 
 	protected function configure() {
