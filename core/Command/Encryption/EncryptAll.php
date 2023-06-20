@@ -37,7 +37,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll extends Command {
 	protected bool $wasTrashbinEnabled = false;
-	protected bool $wasMaintenanceModeEnabled;
+	protected bool $wasMaintenanceModeEnabled = false;
 
 	public function __construct(
 		protected IManager $encryptionManager,
