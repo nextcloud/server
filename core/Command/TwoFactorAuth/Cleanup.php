@@ -35,7 +35,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Cleanup extends Base {
 	public function __construct(
 		private IRegistry $registry,
-		protected IUserManager $userManager,
+		IUserManager $userManager,
 	) {
 		parent::__construct(
 			null,
