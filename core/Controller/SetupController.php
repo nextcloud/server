@@ -37,7 +37,9 @@ use OCP\ILogger;
 class SetupController {
 	private string $autoConfigFile;
 
-	public function __construct(protected Setup $setupHelper) {
+	public function __construct(
+		protected Setup $setupHelper,
+	) {
 		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
 	}
 
