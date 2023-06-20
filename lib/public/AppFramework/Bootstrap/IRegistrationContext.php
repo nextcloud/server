@@ -37,6 +37,7 @@ use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
+use OCP\LanguageModel\ILanguageModelProvider;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
 use OCP\SpeechToText\ISpeechToTextProvider;
@@ -218,6 +219,16 @@ interface IRegistrationContext {
 	 * @since 27.0.0
 	 */
 	public function registerSpeechToTextProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom LanguageModel provider class that provides a promptable language model
+	 * through the OCP\LanguageModel APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ILanguageModelProvider> $providerClass
+	 * @since 27.0.0
+	 */
+	public function registerLanguageModelProvider(string $providerClass): void;
 
 	/**
 	 * Register a custom template provider class that is able to inject custom templates

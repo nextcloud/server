@@ -45,6 +45,12 @@ interface ILanguageModelManager {
 	public function getAvailableTasks(): array;
 
 	/**
+	 * @return string[]
+	 * @since 28.0.0
+	 */
+	public function getAvailableTaskTypes(): array;
+
+	/**
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @throws RuntimeException If something else failed
 	 * @since 28.0.0
@@ -60,5 +66,11 @@ interface ILanguageModelManager {
 	 */
 	public function scheduleTask(ILanguageModelTask $task) : void;
 
+	/**
+	 * @param int $id The id of the task
+	 * @return ILanguageModelTask
+	 * @throws RuntimeException If the query failed
+	 * @throws \ValueError If the task could not be found
+	 */
 	public function getTask(int $id): ILanguageModelTask;
 }

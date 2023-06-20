@@ -86,6 +86,13 @@ class LanguageModelManager implements ILanguageModelManager {
 		return array_keys($tasks);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getAvailableTaskTypes(): array {
+		return array_map(fn ($taskClass) => $taskClass::TYPE, $this->getAvailableTasks());
+	}
+
 	public function canHandleTask(ILanguageModelTask $task): bool {
 		return !empty(array_filter($this->getAvailableTasks(), fn ($class) => $task instanceof $class));
 	}
@@ -104,10 +111,10 @@ class LanguageModelManager implements ILanguageModelManager {
 			try {
 				$task->setStatus(ILanguageModelTask::STATUS_RUNNING);
 				$this->taskMapper->update(Task::fromLanguageModelTask($task));
-				$output = $task->visitProvider($provider);
+				$task->setOutput($task->visitProvider($provider));
 				$task->setStatus(ILanguageModelTask::STATUS_SUCCESSFUL);
 				$this->taskMapper->update(Task::fromLanguageModelTask($task));
-				return $output;
+				return $task->getOutput();
 			} catch (\RuntimeException $e) {
 				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(ILanguageModelTask::STATUS_FAILED);

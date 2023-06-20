@@ -76,6 +76,19 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 		return $this->userId;
 	}
 
+	public function jsonSerialize() {
+		return [
+			'id' => $this->getId(),
+			'type' => $this->getType(),
+			'status' => $this->getStatus(),
+			'userId' => $this->getUserId(),
+			'appId' => $this->getAppId(),
+			'input' => $this->getInput(),
+			'output' => $this->getOutput(),
+		];
+	}
+
+
 	public final static function fromTaskEntity(Task $taskEntity): ILanguageModelTask  {
 		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId());
 		$task->setId($taskEntity->getId());
@@ -83,6 +96,14 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 		return $task;
 	}
 
+	/**
+	 * @param string $type
+	 * @param string $input
+	 * @param string|null $userId
+	 * @param string $appId
+	 * @return ILanguageModelTask
+	 * @throws \InvalidArgumentException
+	 */
 	public final static function factory(string $type, string $input, ?string $userId, string $appId): ILanguageModelTask {
 		if (!in_array($type, self::TYPES)) {
 			throw new \InvalidArgumentException('Unknown task type');
