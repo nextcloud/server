@@ -2,8 +2,6 @@
 
 namespace OCP\LanguageModel;
 
-use RuntimeException;
-
 /**
  * @since 28.0.0
  */
@@ -14,9 +12,8 @@ final class HeadlineTask extends AbstractLanguageModelTask {
 	public const TYPE = 'headline';
 
 	/**
-	 * @param ILanguageModelProvider $provider
-	 * @throws RuntimeException
-	 * @return string
+	 * @inheritDoc
+	 * @since 28.0.0
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
 		if (!$provider instanceof IHeadlineProvider) {
@@ -25,10 +22,18 @@ final class HeadlineTask extends AbstractLanguageModelTask {
 		return $provider->findHeadline($this->getInput());
 	}
 
+	/**
+	 * @inheritDoc
+	 * @since 28.0.0
+	 */
 	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return $provider instanceof IHeadlineProvider;
 	}
 
+	/**
+	 * @inheritDoc
+	 * @since 28.0.0
+	 */
 	public function getType(): string {
 		return self::TYPE;
 	}
