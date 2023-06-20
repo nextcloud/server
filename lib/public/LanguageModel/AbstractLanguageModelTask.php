@@ -2,14 +2,13 @@
 
 namespace OCP\LanguageModel;
 
-
 use OC\LanguageModel\Db\Task;
 
 abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	protected ?int $id;
 	protected int $status = ILanguageModelTask::STATUS_UNKNOWN;
 
-	public final function __construct(
+	final public function __construct(
 		protected string $input,
 		protected string $appId,
 		protected ?string $userId,
@@ -30,49 +29,49 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	/**
 	 * @return int
 	 */
-	public final function getStatus(): int {
+	final public function getStatus(): int {
 		return $this->status;
 	}
 
 	/**
 	 * @param int $status
 	 */
-	public final function setStatus(int $status): void {
+	final public function setStatus(int $status): void {
 		$this->status = $status;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public final function getId(): ?int {
+	final public function getId(): ?int {
 		return $this->id;
 	}
 
 	/**
 	 * @param int|null $id
 	 */
-	public final function setId(?int $id): void {
+	final public function setId(?int $id): void {
 		$this->id = $id;
 	}
 
 	/**
 	 * @return string
 	 */
-	public final function getInput(): string {
+	final public function getInput(): string {
 		return $this->input;
 	}
 
 	/**
 	 * @return string
 	 */
-	public final function getAppId(): string {
+	final public function getAppId(): string {
 		return $this->appId;
 	}
 
 	/**
 	 * @return string|null
 	 */
-	public final function getUserId(): ?string {
+	final public function getUserId(): ?string {
 		return $this->userId;
 	}
 
@@ -89,7 +88,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 
-	public final static function fromTaskEntity(Task $taskEntity): ILanguageModelTask  {
+	final public static function fromTaskEntity(Task $taskEntity): ILanguageModelTask {
 		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId());
 		$task->setId($taskEntity->getId());
 		$task->setStatus($taskEntity->getStatus());
@@ -104,10 +103,10 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @return ILanguageModelTask
 	 * @throws \InvalidArgumentException
 	 */
-	public final static function factory(string $type, string $input, ?string $userId, string $appId): ILanguageModelTask {
+	final public static function factory(string $type, string $input, ?string $userId, string $appId): ILanguageModelTask {
 		if (!in_array($type, self::TYPES)) {
 			throw new \InvalidArgumentException('Unknown task type');
 		}
-		return new ILanguageModelTask::TYPES[$type]($input, $userId, $appId);
+		return new (ILanguageModelTask::TYPES[$type])($input, $userId, $appId);
 	}
 }
