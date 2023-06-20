@@ -2,7 +2,7 @@
 
 namespace OCP\LanguageModel;
 
-interface ILanguageModelTask {
+interface ILanguageModelTask extends \JsonSerializable {
 	public const STATUS_FAILED = 4;
 	public const STATUS_SUCCESSFUL = 3;
 	public const STATUS_RUNNING = 2;
@@ -10,8 +10,10 @@ interface ILanguageModelTask {
 	public const STATUS_UNKNOWN = 0;
 
 	public const TYPES = [
-		SummaryTask::TYPE => SummaryTask::class,
 		FreePromptTask::TYPE => FreePromptTask::class,
+		SummaryTask::TYPE => SummaryTask::class,
+		HeadlineTask::TYPE => HeadlineTask::class,
+		TopicsTask::TYPE => TopicsTask::class,
 	];
 
 	/**
@@ -43,6 +45,16 @@ interface ILanguageModelTask {
 	 * @return string
 	 */
 	public function getInput(): string;
+
+	/**
+	 * @param string $output
+	 */
+	public function setOutput(string $output): void;
+
+	/**
+	 * @return string
+	 */
+	public function getOutput(): string;
 
 	/**
 	 * @return string
