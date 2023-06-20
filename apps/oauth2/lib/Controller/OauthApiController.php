@@ -48,7 +48,7 @@ use Psr\Log\LoggerInterface;
 
 class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
-	private const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
+	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
 
 	public function __construct(
 		string $appName,

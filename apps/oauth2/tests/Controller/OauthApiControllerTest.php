@@ -126,7 +126,63 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'invalidcode', null, null, null));
 	}
 
-	public function testGetTokenInvalidRefreshToken() {
+	public function testGetTokenExpiredCode() {
+		$tokenCreatedAt = 100;
+		$expiredSince = 123;
+
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_request' => 'authorization_code_expired', 'expired_since' => $expiredSince]);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCreatedAt($tokenCreatedAt);
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$tsNow = $tokenCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER + $expiredSince;
+		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
+	}
+
+	public function testGetTokenClientDoesNotExist() {
+		// In this test, the token's authorization code is valid and has not expired
+		// and we check what happens when the associated Oauth client does not exist
+		$tokenCreatedAt = 100;
+
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_request' => 'client not found', 'client_id' => 42]);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCreatedAt($tokenCreatedAt);
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		// 'now' is before the token's authorization code expiration
+		$tsNow = $tokenCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER - 1;
+		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willThrowException(new ClientNotFoundException());
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
+	}
+
+	public function testRefreshTokenInvalidRefreshToken() {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
@@ -139,7 +195,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'invalidrefresh', null, null));
 	}
 
-	public function testGetTokenClientDoesNotExist() {
+	public function testRefreshTokenClientDoesNotExist() {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
@@ -173,7 +229,7 @@ class OauthApiControllerTest extends TestCase {
 	 * @param string $clientId
 	 * @param string $clientSecret
 	 */
-	public function testGetTokenInvalidClient($clientId, $clientSecret) {
+	public function testRefreshTokenInvalidClient($clientId, $clientSecret) {
 		$expected = new JSONResponse([
 			'error' => 'invalid_client',
 		], Http::STATUS_BAD_REQUEST);
@@ -196,7 +252,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', $clientId, $clientSecret));
 	}
 
-	public function testGetTokenInvalidAppToken() {
+	public function testRefreshTokenInvalidAppToken() {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
@@ -240,7 +296,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
 
-	public function testGetTokenValidAppToken() {
+	public function testRefreshTokenValidAppToken() {
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
@@ -337,7 +393,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
 
-	public function testGetTokenValidAppTokenBasicAuth() {
+	public function testRefreshTokenValidAppTokenBasicAuth() {
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
@@ -437,7 +493,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
-	public function testGetTokenExpiredAppToken() {
+	public function testRefreshTokenExpiredAppToken() {
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
