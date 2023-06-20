@@ -677,7 +677,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		}
 	}
 
-	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): void {
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
 		$setDatabaseValue($enabled);
+		return $enabled;
 	}
 }
