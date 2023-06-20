@@ -145,6 +145,10 @@ $application->registerRoutes($this, [
 
 		['root' => '/translation', 'name' => 'TranslationApi#languages', 'url' => '/languages', 'verb' => 'GET'],
 		['root' => '/translation', 'name' => 'TranslationApi#translate', 'url' => '/translate', 'verb' => 'POST'],
+
+		['root' => '/languagemodel', 'name' => 'LanguageModelApi#tasks', 'url' => '/tasks', 'verb' => 'GET'],
+		['root' => '/languagemodel', 'name' => 'LanguageModelApi#schedule', 'url' => '/schedule', 'verb' => 'POST'],
+		['root' => '/languagemodel', 'name' => 'LanguageModelApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
 	],
 ]);
 

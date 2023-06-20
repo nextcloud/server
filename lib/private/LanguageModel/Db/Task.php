@@ -28,12 +28,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'type', 'input', 'status', 'user_id', 'app_id'];
+	public static array $columns = ['id', 'type', 'input', 'output', 'status', 'user_id', 'app_id'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'type', 'input', 'status', 'userId', 'appId'];
+	public static array $fields = ['id', 'type', 'input', 'output', 'status', 'userId', 'appId'];
 
 
 	public function __construct() {
@@ -49,8 +49,9 @@ class Task extends Entity {
 	public static function fromLanguageModelTask(ILanguageModelTask $task): Task {
 		return Task::fromParams([
 			'type' => $task->getType(),
-			'status' => ILanguageModelTask::STATUS_UNKNOWN,
+			'status' => $task->getStatus(),
 			'input' => $task->getInput(),
+			'output' => $task->getOutput(),
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
 		]);

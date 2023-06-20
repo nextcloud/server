@@ -61,6 +61,9 @@ class Version28000Date20230616104802 extends SimpleMigrationStep {
 			$table->addColumn('input', Types::TEXT, [
 				'notnull' => true,
 			]);
+			$table->addColumn('output', Types::TEXT, [
+				'notnull' => false,
+			]);
 			$table->addColumn('status', Types::INTEGER, [
 				'notnull' => false,
 				'length' => 6,

@@ -9,15 +9,7 @@ use OCP\LanguageModel\ILanguageModelTask;
  */
 class TaskSuccessfulEvent extends AbstractLanguageModelEvent {
 
-	public function __construct(ILanguageModelTask $task,
-								private string $output) {
+	public function __construct(ILanguageModelTask $task) {
 		parent::__construct($task);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getErrorMessage(): string {
-		return $this->output;
 	}
 }

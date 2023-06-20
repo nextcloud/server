@@ -61,8 +61,8 @@ class TaskBackgroundJob extends QueuedJob {
 		$taskId = $argument['taskId'];
 		$task = $this->languageModelManager->getTask($taskId);
 		try {
-			$output = $this->languageModelManager->runTask($task);
-			$event = new TaskSuccessfulEvent($task, $output);
+			$this->languageModelManager->runTask($task);
+			$event = new TaskSuccessfulEvent($task);
 
 		} catch (\RuntimeException|PreConditionNotMetException $e) {
 			$event = new TaskFailedEvent($task, $e->getMessage());
