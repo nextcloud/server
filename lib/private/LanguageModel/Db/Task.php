@@ -18,7 +18,6 @@ use OCP\LanguageModel\ILanguageModelTask;
  * @method string getAppId()
  */
 class Task extends Entity {
-
 	protected $type;
 	protected $input;
 	protected $status;

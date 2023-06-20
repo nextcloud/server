@@ -32,7 +32,6 @@ use RuntimeException;
  * @since 28.0.0
  */
 interface ITopicsProvider extends ILanguageModelProvider {
-
 	/**
 	 * @param string $text The text to find topics for
 	 * @returns string the topics, comma separated
