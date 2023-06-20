@@ -443,7 +443,7 @@
     "Documentation" : "說明文件",
     "Forum" : "論壇",
     "Login" : "登入",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "開啟說明文件",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "設定伺服器可以寄送電子郵件非常重要，使用者通知和密碼重設將會需要。",
     "Send mode" : "傳送模式",
@@ -452,8 +452,7 @@
     "From address" : "寄件地址",
     "Server address" : "伺服器位址",
     "Port" : "連接埠",
-    "Authentication method" : "認證方式",
-    "Only applies when authentication is required" : "僅在需要身份驗證時套用",
+    "Authentication" : "驗證",
     "Authentication required" : "需要認證",
     "Credentials" : "憑證",
     "SMTP Username" : "SMTP 使用者名稱",
@@ -513,8 +512,11 @@
     "png or jpg, max. 20 MB" : "png 或 jpg，最大 20 MB",
     "Plain" : "明文",
     "NT LAN Manager" : "NT LAN 管理程式",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "認證方式",
     "Allow username autocompletion in share dialog" : "在分享對話框中允許使用者名稱自動完成",
-    "Allow username autocompletion to users within the same groups" : "允許使用者自動完成在同一個群組中的使用者"
+    "Allow username autocompletion to users within the same groups" : "允許使用者自動完成在同一個群組中的使用者",
+    "Only applies when authentication is required" : "僅在需要身份驗證時套用"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -99,6 +99,7 @@ OC.L10N.register(
     "From address" : "Frå adresse",
     "Server address" : "Tenaradresse",
     "Port" : "Port",
+    "Authentication" : "Godkjenning",
     "Credentials" : "Credentials",
     "SMTP Username" : "SMTP-brukarnamn",
     "Save" : "Lagre",

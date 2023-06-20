@@ -305,7 +305,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentasi",
     "Forum" : "Forum",
     "Login" : "Masuk",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Buka dokumentasi",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Sangat penting untuk mengatur server ini untuk dapat mengirim surat, seperti melakukan reset kata sandi dan notifikasi.",
     "Send mode" : "Modus kirim",
@@ -314,7 +314,7 @@ OC.L10N.register(
     "From address" : "Dari alamat",
     "Server address" : "Alamat server",
     "Port" : "Port",
-    "Authentication method" : "Metode otentikasi",
+    "Authentication" : "Otentikasi",
     "Authentication required" : "Diperlukan otentikasi",
     "Credentials" : "Kredensial",
     "SMTP Username" : "Nama pengguna SMTP",
@@ -353,6 +353,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png atau jpg, maks. 20 MB",
     "Plain" : "Biasa",
     "NT LAN Manager" : "Manajer NT LAN",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Metode otentikasi"
 },
 "nplurals=1; plural=0;");

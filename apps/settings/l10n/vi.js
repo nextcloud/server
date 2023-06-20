@@ -249,7 +249,7 @@ OC.L10N.register(
     "From address" : "Từ địa chỉ",
     "Server address" : "Địa chỉ máy chủ",
     "Port" : "Cổng",
-    "Authentication method" : "Phương thức xác thực",
+    "Authentication" : "Xác thực",
     "Authentication required" : "Cần phải được xác thực",
     "Credentials" : "Giấy chứng nhận",
     "SMTP Password" : "Mật khẩu SMTP",
@@ -263,6 +263,7 @@ OC.L10N.register(
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Allow sharing with groups" : "Cho phép chia sẻ với các nhóm",
     "You created app password \"{token}\"" : "Bạn đã tạo ứng dụng mật khẩu \"{token}\"",
-    "png or jpg, max. 20 MB" : "png hoặc jpg, tối đa 20 MB"
+    "png or jpg, max. 20 MB" : "png hoặc jpg, tối đa 20 MB",
+    "Authentication method" : "Phương thức xác thực"
 },
 "nplurals=1; plural=0;");

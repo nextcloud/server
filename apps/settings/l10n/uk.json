@@ -437,7 +437,7 @@
     "Documentation" : "Документація",
     "Forum" : "Форум",
     "Login" : "Логін",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Відкрити документацію",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Важливо налаштувати цей сервер, для надсилання електронних листів, наприклад, для скидання пароля та сповіщень.",
     "Send mode" : "Режим надсилання",
@@ -446,8 +446,7 @@
     "From address" : "Адреса відправника",
     "Server address" : "Адреса сервера",
     "Port" : "Порт",
-    "Authentication method" : "Спосіб авторизації",
-    "Only applies when authentication is required" : "Застосовується, коли вимагається авторизація",
+    "Authentication" : "Авторизація",
     "Authentication required" : "Потрібно авторизуватися",
     "Credentials" : "Облікові дані",
     "SMTP Username" : "Ім'я користувача SMTP",
@@ -505,8 +504,11 @@
     "png or jpg, max. 20 MB" : "png або jpg, макс. 20 МБ",
     "Plain" : "Звичайний",
     "NT LAN Manager" : "Менеджер NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Спосіб авторизації",
     "Allow username autocompletion in share dialog" : "Дозволити автозаповнення імені користувача в діалоговому вікні спільного доступу",
-    "Allow username autocompletion to users within the same groups" : "Дозволити автозавершення імен користувачів для користувачів у тих самих групах"
+    "Allow username autocompletion to users within the same groups" : "Дозволити автозавершення імен користувачів для користувачів у тих самих групах",
+    "Only applies when authentication is required" : "Застосовується, коли вимагається авторизація"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

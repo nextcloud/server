@@ -17,7 +17,7 @@ OC.L10N.register(
     "Version restored" : "A versión foi restaurada",
     "Could not restore version" : "Non foi posíbel restaurar a versión",
     "Could not set version name" : "Non foi posíbel estabelecer o nome da versión",
-    "Could not delete version" : "Non foi posíbel puido eliminar a versión",
+    "Could not delete version" : "Non foi posíbel eliminar a versión",
     "${version.label} restored" : "${version.label} foi restaurada",
     "Failed to revert {file} to revision {timestamp}." : "Non foi posíbel reverter {file} á revisión {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],

@@ -399,7 +399,7 @@
     "Documentation" : "Τεκμηρίωση",
     "Forum" : "Φόρουμ",
     "Login" : "Σύνδεση",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Είναι σημαντικό να ρυθμίσετε τον διακομιστή να μπορεί να στέλνει Ηλ.Ταχυδρομείο, όπως για επαναφορά κωδικού πρόσβασης και ειδοποιήσεις.",
     "Send mode" : "Λειτουργία αποστολής",
@@ -408,7 +408,7 @@
     "From address" : "Από τη διεύθυνση",
     "Server address" : "Διεύθυνση διακομιστή",
     "Port" : "Θύρα",
-    "Authentication method" : "Μέθοδος πιστοποίησης",
+    "Authentication" : "Πιστοποίηση",
     "Authentication required" : "Απαιτείται πιστοποίηση",
     "Credentials" : "Διαπιστευτήρια",
     "SMTP Username" : "Όνομα χρήστη SMTP",
@@ -463,7 +463,9 @@
     "png or jpg, max. 20 MB" : "png ή jpg, μεγ. 20 MB",
     "Plain" : "Απλό",
     "NT LAN Manager" : "Διαχειριστης NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Μέθοδος πιστοποίησης",
     "Allow username autocompletion in share dialog" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο πλαίσιο διαλόγου κοινής χρήσης",
     "Allow username autocompletion to users within the same groups" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη σε χρήστες στις ίδιες ομάδες"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

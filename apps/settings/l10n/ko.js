@@ -399,7 +399,7 @@ OC.L10N.register(
     "Documentation" : "문서",
     "Forum" : "포럼",
     "Login" : "로그인",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "문서 열기",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "암호 초기화 및 알림 이메일을 보내려면 이메일 서버를 설정해야 합니다.",
     "Send mode" : "보내기 모드",
@@ -408,7 +408,7 @@ OC.L10N.register(
     "From address" : "보낸 사람 주소",
     "Server address" : "서버 주소",
     "Port" : "포트",
-    "Authentication method" : "인증 방법",
+    "Authentication" : "인증",
     "Authentication required" : "인증 필요함",
     "Credentials" : "인증 정보",
     "SMTP Username" : "SMTP 사용자 이름",
@@ -458,6 +458,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "PNG, JPG, 최대 20MB",
     "Plain" : "일반",
     "NT LAN Manager" : "NT LAN 관리자",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "인증 방법"
 },
 "nplurals=1; plural=0;");

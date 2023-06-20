@@ -445,7 +445,7 @@ OC.L10N.register(
     "Documentation" : "Documentação",
     "Forum" : "Fórum",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Abrir documentação",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "É importante configurar este servidor para poder enviar e-mails para redefinir a senha e notificações.",
     "Send mode" : "Modo de envio",
@@ -454,8 +454,7 @@ OC.L10N.register(
     "From address" : "Endereço \"From\"",
     "Server address" : "Endereço do servidor",
     "Port" : "Porta",
-    "Authentication method" : "Método de autenticação",
-    "Only applies when authentication is required" : "Only applies when authentication is required",
+    "Authentication" : "Autenticação",
     "Authentication required" : "Autenticação é necessária",
     "Credentials" : "Credenciais",
     "SMTP Username" : "Nome do Usuário SMTP",
@@ -515,8 +514,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ou jpg, max. 20 MB",
     "Plain" : "Plano",
     "NT LAN Manager" : "Gerenciador NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Método de autenticação",
     "Allow username autocompletion in share dialog" : "Permitir autocompletar o nome de usuário na caixa de compartilhamento",
-    "Allow username autocompletion to users within the same groups" : "Permitir autocompletar o nome de usuário para usuários dentro dos mesmos grupos"
+    "Allow username autocompletion to users within the same groups" : "Permitir autocompletar o nome de usuário para usuários dentro dos mesmos grupos",
+    "Only applies when authentication is required" : "Only applies when authentication is required"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

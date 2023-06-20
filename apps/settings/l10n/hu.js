@@ -445,7 +445,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentáció",
     "Forum" : "Fórum",
     "Login" : "Bejelentkezés",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Dokumentáció megnyitása",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Fontos, hogy a levelezés be legyen állítva a kiszolgálón, például a jelszó-visszaállítások és az értesítések miatt.",
     "Send mode" : "Küldési mód",
@@ -454,8 +454,7 @@ OC.L10N.register(
     "From address" : "Feladó címe",
     "Server address" : "Kiszolgáló címe",
     "Port" : "Port",
-    "Authentication method" : "Hitelesítési mód",
-    "Only applies when authentication is required" : "Csak akkor érvényes, ha kötelező a hitelesítés",
+    "Authentication" : "Hitelesítés",
     "Authentication required" : "Hitelesítés szükséges",
     "Credentials" : "Hitelesítő adatok",
     "SMTP Username" : "SMTP felhasználónév",
@@ -515,8 +514,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png vagy jpg, legfeljebb 20 MB",
     "Plain" : "Egyszerű",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Hitelesítési mód",
     "Allow username autocompletion in share dialog" : "A felhasználónév automatikus kiegészítésének engedélyezése a megosztás párbeszédpanelen ",
-    "Allow username autocompletion to users within the same groups" : "A felhasználónév automatikus kiegészítésének engedélyezése az azonos csoportokba tartozó felhasználók számára "
+    "Allow username autocompletion to users within the same groups" : "A felhasználónév automatikus kiegészítésének engedélyezése az azonos csoportokba tartozó felhasználók számára ",
+    "Only applies when authentication is required" : "Csak akkor érvényes, ha kötelező a hitelesítés"
 },
 "nplurals=2; plural=(n != 1);");

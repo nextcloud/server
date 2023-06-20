@@ -430,7 +430,7 @@
     "Documentation" : "ドキュメント",
     "Forum" : "フォーラム",
     "Login" : "ログイン",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "ドキュメントを開く",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "パスワードのリセットや通知などのメールを送信できるよう、このサーバーを設定することが重要です。",
     "Send mode" : "送信モード",
@@ -439,7 +439,7 @@
     "From address" : "送信元アドレス",
     "Server address" : "サーバーアドレス",
     "Port" : "ポート",
-    "Authentication method" : "認証方法",
+    "Authentication" : "認証",
     "Authentication required" : "認証を必要とする",
     "Credentials" : "資格情報",
     "SMTP Username" : "SMTPユーザー名",
@@ -497,7 +497,9 @@
     "png or jpg, max. 20 MB" : "pngまたはjpg。最大20MB",
     "Plain" : "平文",
     "NT LAN Manager" : "NT LAN マネージャー",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "認証方法",
     "Allow username autocompletion in share dialog" : "共有ダイアログでユーザー名を自動補完する",
     "Allow username autocompletion to users within the same groups" : "同じグループ内のユーザーのみユーザー名を自動補完する"
 },"pluralForm" :"nplurals=1; plural=0;"
