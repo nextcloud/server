@@ -70,6 +70,8 @@ class OauthApiControllerTest extends TestCase {
 	private $throttler;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $timeFactory;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -85,6 +87,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -96,7 +99,8 @@ class OauthApiControllerTest extends TestCase {
 			$this->secureRandom,
 			$this->time,
 			$this->logger,
-			$this->throttler
+			$this->throttler,
+			$this->timeFactory
 		);
 	}
 
