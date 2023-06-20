@@ -1291,6 +1291,8 @@ EOD;
 	 */
 	public function testPruneOutdatedSyncTokens(): void {
 		$calendarId = $this->createTestCalendar();
+		$changes = $this->backend->getChangesForCalendar($calendarId, '', 1);
+		$syncToken = $changes['syncToken'];
 
 		$uri = static::getUniqueID('calobj');
 		$calData = <<<EOD
@@ -1333,9 +1335,79 @@ EOD;
 		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
-		$changes = $this->backend->getChangesForCalendar($calendarId, '5', 1);
+		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
 		$this->assertEmpty($changes['added']);
 		$this->assertEmpty($changes['modified']);
 		$this->assertEmpty($changes['deleted']);
+
+		// Test that objects remain
+
+		// Currently changes are empty
+		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 100);
+		$this->assertEquals(0, count($changes['added'] + $changes['modified'] + $changes['deleted']));
+
+		// Create card
+		$uri = static::getUniqueID('calobj');
+$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20230910T125139Z
+UID:47d15e3ec9
+LAST-MODIFIED;VALUE=DATE-TIME:20230910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20230910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20230912T130000Z
+DTEND;VALUE=DATE-TIME:20230912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		// We now have one add
+		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 100);
+		$this->assertEquals(1, count($changes['added']));
+		$this->assertEmpty($changes['modified']);
+		$this->assertEmpty($changes['deleted']);
+		
+		// update the card
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20230910T125139Z
+UID:47d15e3ec9
+LAST-MODIFIED;VALUE=DATE-TIME:20230910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20230910T125139Z
+SUMMARY:123 Event 🙈
+DTSTART;VALUE=DATE-TIME:20230912T130000Z
+DTEND;VALUE=DATE-TIME:20230912T140000Z
+ATTENDEE;CN=test:mailto:foo@bar.com
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
+
+		// One add, one modify, but shortened to modify
+		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 100);
+		$this->assertEmpty($changes['added']);
+		$this->assertEquals(1, count($changes['modified']));
+		$this->assertEmpty($changes['deleted']);	
+
+		// Delete all but last change
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$this->assertEquals(1, $deleted); // We had two changes before, now one
+
+		// Only update should remain
+		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 100);
+		$this->assertEmpty($changes['added']);
+		$this->assertEquals(1, count($changes['modified']));
+		$this->assertEmpty($changes['deleted']);
+		
+		// Check that no crash occurs when prune is called without current changes
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
 	}
 }
