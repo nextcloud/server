@@ -1994,8 +1994,14 @@ class Access extends LDAPUtility {
 				// to start from 0 to come to the desired page. cookie value
 				// of '0' is valid, because 389ds
 				$defaultPageSize = (int)$this->connection->ldapPagingSize;
-				$reOffset = ($offset - $defaultPageSize) < 0 ? 0 : $offset - $defaultPageSize;
-				$this->search($filter, $base, $attr, $defaultPageSize, $reOffset, true);
+				if ($offset < $defaultPageSize) {
+					/* Make a search with offset as page size and dismiss the result, to init the cookie */
+					$this->search($filter, $base, $attr, $offset, 0, true);
+				} else {
+					/* Make a search for previous page and dismiss the result, to init the cookie */
+					$reOffset = $offset - $defaultPageSize;
+					$this->search($filter, $base, $attr, $defaultPageSize, $reOffset, true);
+				}
 				if (!$this->hasMoreResults()) {
 					// when the cookie is reset with != 0 offset, there are no further
 					// results, so stop.
