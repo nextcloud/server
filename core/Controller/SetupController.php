@@ -35,15 +35,12 @@ use OC\Setup;
 use OCP\ILogger;
 
 class SetupController {
-	protected Setup $setupHelper;
 	private string $autoConfigFile;
 
-	/**
-	 * @param Setup $setupHelper
-	 */
-	public function __construct(Setup $setupHelper) {
+	public function __construct(
+		protected Setup $setupHelper,
+	) {
 		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
-		$this->setupHelper = $setupHelper;
 	}
 
 	public function run(array $post): void {

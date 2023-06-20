@@ -42,20 +42,16 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class TwoFactorChallengeController extends Controller {
-	private Manager $twoFactorManager;
-	private IUserSession $userSession;
-	private ISession $session;
-	private LoggerInterface $logger;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct($appName, IRequest $request, Manager $twoFactorManager, IUserSession $userSession,
-		ISession $session, IURLGenerator $urlGenerator, LoggerInterface $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Manager $twoFactorManager,
+		private IUserSession $userSession,
+		private ISession $session,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
-		$this->twoFactorManager = $twoFactorManager;
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
 	}
 
 	/**

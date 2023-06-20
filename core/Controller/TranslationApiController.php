@@ -36,19 +36,13 @@ use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\ITranslationManager;
 
 class TranslationApiController extends \OCP\AppFramework\OCSController {
-	private ITranslationManager $translationManager;
-	private IL10N $l;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ITranslationManager $translationManager,
-		IL10N $l,
+		private ITranslationManager $translationManager,
+		private IL10N $l10n,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->translationManager = $translationManager;
-		$this->l = $l;
 	}
 
 	/**
@@ -76,11 +70,11 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 
 			]);
 		} catch (PreConditionNotMetException) {
-			return new DataResponse(['message' => $this->l->t('No translation provider available')], Http::STATUS_PRECONDITION_FAILED);
+			return new DataResponse(['message' => $this->l10n->t('No translation provider available')], Http::STATUS_PRECONDITION_FAILED);
 		} catch (InvalidArgumentException) {
-			return new DataResponse(['message' => $this->l->t('Could not detect language')], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['message' => $this->l10n->t('Could not detect language')], Http::STATUS_BAD_REQUEST);
 		} catch (CouldNotTranslateException $e) {
-			return new DataResponse(['message' => $this->l->t('Unable to translate'), 'from' => $e->getFrom()], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['message' => $this->l10n->t('Unable to translate'), 'from' => $e->getFrom()], Http::STATUS_BAD_REQUEST);
 		}
 	}
 }

@@ -37,35 +37,19 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class WhatsNewController extends OCSController {
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ChangesCheck */
-	private $whatsNewService;
-	/** @var IFactory */
-	private $langFactory;
-	/** @var Defaults */
-	private $defaults;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		CapabilitiesManager $capabilitiesManager,
-		IUserSession $userSession,
+		private IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
-		IConfig $config,
-		ChangesCheck $whatsNewService,
-		IFactory $langFactory,
-		Defaults $defaults
+		private IConfig $config,
+		private ChangesCheck $whatsNewService,
+		private IFactory $langFactory,
+		private Defaults $defaults,
 	) {
 		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->whatsNewService = $whatsNewService;
-		$this->langFactory = $langFactory;
-		$this->defaults = $defaults;
 	}
 
 	/**
