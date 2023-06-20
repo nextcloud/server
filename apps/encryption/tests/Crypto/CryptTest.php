@@ -144,7 +144,7 @@ class CryptTest extends TestCase {
 	 */
 	public function dataTestGenerateHeader() {
 		return [
-			[null, 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:HEND'],
+			[null, 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash2:HEND'],
 			['password', 'HBEGIN:cipher:AES-128-CFB:keyFormat:password:HEND'],
 			['hash', 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:HEND']
 		];
