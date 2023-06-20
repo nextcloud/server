@@ -41,8 +41,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class DecryptAll extends Command {
-	protected bool $wasTrashbinEnabled;
-	protected bool $wasMaintenanceModeEnabled;
+	protected bool $wasTrashbinEnabled = false;
+	protected bool $wasMaintenanceModeEnabled = false;
 
 	public function __construct(
 		protected IManager $encryptionManager,
