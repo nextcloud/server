@@ -4,13 +4,17 @@ namespace OCP\LanguageModel;
 
 use RuntimeException;
 
+/**
+ * @since 28.0.0
+ */
 final class FreePromptTask extends AbstractLanguageModelTask {
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE = 'free_prompt';
 
 	/**
-	 * @param ILanguageModelProvider $provider
-	 * @throws RuntimeException
-	 * @return string
+	 * @inheritDoc
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
 		return $provider->prompt($this->getInput());

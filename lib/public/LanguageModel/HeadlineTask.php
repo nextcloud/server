@@ -4,7 +4,13 @@ namespace OCP\LanguageModel;
 
 use RuntimeException;
 
+/**
+ * @since 28.0.0
+ */
 final class HeadlineTask extends AbstractLanguageModelTask {
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE = 'headline';
 
 	/**
