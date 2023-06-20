@@ -47,35 +47,23 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-	/** @var  IDBConnection */
-	protected $dbConn;
-
-	/** @var  LoggerInterface */
-	protected $logger;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var ITimeFactory */
-	protected $timeFactory;
-
-	/** @var IEmojiHelper */
-	protected $emojiHelper;
-
-	/** @var IInitialStateService */
-	protected $initialStateService;
-
+	protected IDBConnection $dbConn;
+	protected LoggerInterface $logger;
+	protected IConfig $config;
+	protected ITimeFactory $timeFactory;
+	protected IEmojiHelper $emojiHelper;
+	protected IInitialStateService $initialStateService;
 	/** @var IComment[] */
-	protected $commentsCache = [];
+	protected array $commentsCache = [];
 
 	/** @var  \Closure[] */
-	protected $eventHandlerClosures = [];
+	protected array $eventHandlerClosures = [];
 
 	/** @var  ICommentsEventHandler[] */
-	protected $eventHandlers = [];
+	protected array $eventHandlers = [];
 
 	/** @var \Closure[] */
-	protected $displayNameResolvers = [];
+	protected array $displayNameResolvers = [];
 
 	public function __construct(IDBConnection $dbConn,
 								LoggerInterface $logger,
@@ -96,9 +84,8 @@ class Manager implements ICommentsManager {
 	 * IComment interface.
 	 *
 	 * @param array $data
-	 * @return array
 	 */
-	protected function normalizeDatabaseData(array $data) {
+	protected function normalizeDatabaseData(array $data): array {
 		$data['id'] = (string)$data['id'];
 		$data['parent_id'] = (string)$data['parent_id'];
 		$data['topmost_parent_id'] = (string)$data['topmost_parent_id'];
@@ -134,11 +121,6 @@ class Manager implements ICommentsManager {
 		return $data;
 	}
 
-
-	/**
-	 * @param array $data
-	 * @return IComment
-	 */
 	public function getCommentFromData(array $data): IComment {
 		return new Comment($this->normalizeDatabaseData($data));
 	}
@@ -152,7 +134,7 @@ class Manager implements ICommentsManager {
 	 *                  by parameter for convenience
 	 * @throws \UnexpectedValueException
 	 */
-	protected function prepareCommentForDatabaseWrite(IComment $comment) {
+	protected function prepareCommentForDatabaseWrite(IComment $comment): IComment {
 		if (!$comment->getActorType()
 			|| $comment->getActorId() === ''
 			|| !$comment->getObjectType()
@@ -172,7 +154,9 @@ class Manager implements ICommentsManager {
 			$comment->setLatestChildDateTime(null);
 		}
 
-		if (is_null($comment->getCreationDateTime())) {
+		try {
+			$comment->getCreationDateTime();
+		} catch(\LogicException $e) {
 			$comment->setCreationDateTime(new \DateTime());
 		}
 
@@ -191,10 +175,9 @@ class Manager implements ICommentsManager {
 	 * returns the topmost parent id of a given comment identified by ID
 	 *
 	 * @param string $id
-	 * @return string
 	 * @throws NotFoundException
 	 */
-	protected function determineTopmostParentId($id) {
+	protected function determineTopmostParentId($id): string {
 		$comment = $this->get($id);
 		if ($comment->getParentId() === '0') {
 			return $comment->getId();
@@ -210,7 +193,7 @@ class Manager implements ICommentsManager {
 	 * @param \DateTime $cDateTime the date time of the most recent child
 	 * @throws NotFoundException
 	 */
-	protected function updateChildrenInformation($id, \DateTime $cDateTime) {
+	protected function updateChildrenInformation($id, \DateTime $cDateTime): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->func()->count('id'))
 			->from('comments')
@@ -237,7 +220,7 @@ class Manager implements ICommentsManager {
 	 * @param string $id
 	 * @throws \InvalidArgumentException
 	 */
-	protected function checkRoleParameters($role, $type, $id) {
+	protected function checkRoleParameters($role, $type, $id): void {
 		if (
 			!is_string($type) || empty($type)
 			|| !is_string($id) || empty($id)
@@ -248,10 +231,8 @@ class Manager implements ICommentsManager {
 
 	/**
 	 * run-time caches a comment
-	 *
-	 * @param IComment $comment
 	 */
-	protected function cache(IComment $comment) {
+	protected function cache(IComment $comment): void {
 		$id = $comment->getId();
 		if (empty($id)) {
 			return;
@@ -264,7 +245,7 @@ class Manager implements ICommentsManager {
 	 *
 	 * @param mixed $id the comment's id
 	 */
-	protected function uncache($id) {
+	protected function uncache($id): void {
 		$id = (string)$id;
 		if (isset($this->commentsCache[$id])) {
 			unset($this->commentsCache[$id]);
@@ -275,12 +256,11 @@ class Manager implements ICommentsManager {
 	 * returns a comment instance
 	 *
 	 * @param string $id the ID of the comment
-	 * @return IComment
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
-	public function get($id) {
+	public function get($id): IComment {
 		if ((int)$id === 0) {
 			throw new \InvalidArgumentException('IDs must be translatable to a number in this implementation.');
 		}
@@ -309,35 +289,9 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
-	 * returns the comment specified by the id and all it's child comments.
-	 * At this point of time, we do only support one level depth.
-	 *
-	 * @param string $id
-	 * @param int $limit max number of entries to return, 0 returns all
-	 * @param int $offset the start entry
-	 * @return array
-	 * @since 9.0.0
-	 *
-	 * The return array looks like this
-	 * [
-	 *   'comment' => IComment, // root comment
-	 *   'replies' =>
-	 *   [
-	 *     0 =>
-	 *     [
-	 *       'comment' => IComment,
-	 *       'replies' => []
-	 *     ]
-	 *     1 =>
-	 *     [
-	 *       'comment' => IComment,
-	 *       'replies'=> []
-	 *     ],
-	 *     …
-	 *   ]
-	 * ]
+	 * @inheritDoc
 	 */
-	public function getTree($id, $limit = 0, $offset = 0) {
+	public function getTree($id, $limit = 0, $offset = 0): array {
 		$tree = [];
 		$tree['comment'] = $this->get($id);
 		$tree['replies'] = [];
@@ -382,7 +336,7 @@ class Manager implements ICommentsManager {
 	 * @param int $offset optional, starting point
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
 	public function getForObject(
@@ -434,8 +388,7 @@ class Manager implements ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
-	 * @return array
+	 * @return list<IComment>
 	 */
 	public function getForObjectSince(
 		string $objectType,
@@ -465,7 +418,7 @@ class Manager implements ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
+	 * @return list<IComment>
 	 */
 	public function getCommentsWithVerbForObjectSinceComment(
 		string $objectType,
@@ -565,11 +518,10 @@ class Manager implements ICommentsManager {
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string $objectId the id of the object
 	 * @param int $id the comment to look for
-	 * @return Comment|null
 	 */
 	protected function getLastKnownComment(string $objectType,
 										   string $objectId,
-										   int $id) {
+										   int $id): ?IComment {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('*')
 			->from('comments')
@@ -599,7 +551,7 @@ class Manager implements ICommentsManager {
 	 * @param string $verb Limit the verb of the comment
 	 * @param int $offset
 	 * @param int $limit
-	 * @return IComment[]
+	 * @return list<IComment>
 	 */
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
 		$objectIds = [];
@@ -618,7 +570,7 @@ class Manager implements ICommentsManager {
 	 * @param string $verb Limit the verb of the comment
 	 * @param int $offset
 	 * @param int $limit
-	 * @return IComment[]
+	 * @return list<IComment>
 	 */
 	public function searchForObjects(string $search, string $objectType, array $objectIds, string $verb, int $offset, int $limit = 50): array {
 		$query = $this->dbConn->getQueryBuilder();

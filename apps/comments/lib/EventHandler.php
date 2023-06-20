@@ -34,21 +34,15 @@ use OCP\Comments\ICommentsEventHandler;
  * @package OCA\Comments
  */
 class EventHandler implements ICommentsEventHandler {
-	/** @var ActivityListener */
-	private $activityListener;
-
-	/** @var NotificationListener */
-	private $notificationListener;
+	private ActivityListener $activityListener;
+	private NotificationListener $notificationListener;
 
 	public function __construct(ActivityListener $activityListener, NotificationListener $notificationListener) {
 		$this->activityListener = $activityListener;
 		$this->notificationListener = $notificationListener;
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	public function handle(CommentsEvent $event) {
+	public function handle(CommentsEvent $event): void {
 		if ($event->getComment()->getObjectType() !== 'files') {
 			// this is a 'files'-specific Handler
 			return;
@@ -73,17 +67,11 @@ class EventHandler implements ICommentsEventHandler {
 		}
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	private function activityHandler(CommentsEvent $event) {
+	private function activityHandler(CommentsEvent $event): void {
 		$this->activityListener->commentEvent($event);
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	private function notificationHandler(CommentsEvent $event) {
+	private function notificationHandler(CommentsEvent $event): void {
 		$this->notificationListener->evaluate($event);
 	}
 }

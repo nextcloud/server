@@ -176,7 +176,7 @@ class CommentsPlugin extends ServerPlugin {
 		}
 
 		if (!is_null($args['datetime'])) {
-			$args['datetime'] = new \DateTime($args['datetime']);
+			$args['datetime'] = new \DateTime((string)$args['datetime']);
 		}
 
 		$results = $node->findChildren($args['limit'], $args['offset'], $args['datetime']);
@@ -189,7 +189,7 @@ class CommentsPlugin extends ServerPlugin {
 				$responses[] = new Response(
 					$this->server->getBaseUri() . $nodePath,
 					[200 => $resultSet[0][200]],
-					200
+					'200'
 				);
 			}
 		}
