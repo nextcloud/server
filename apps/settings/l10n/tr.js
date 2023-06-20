@@ -445,7 +445,7 @@ OC.L10N.register(
     "Documentation" : "Belgeler",
     "Forum" : "Forum",
     "Login" : "Oturum açın",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Belgeleri aç",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Bu sunucunun parola sıfırlama ve bildirim işlemleri için e-posta gönderebilecek şekilde ayarlanmış olması önemlidir.",
     "Send mode" : "Gönderim kipi",
@@ -454,8 +454,7 @@ OC.L10N.register(
     "From address" : "Kimden adresi",
     "Server address" : "Sunucu adresi",
     "Port" : "Bağlantı noktası",
-    "Authentication method" : "Kimlik doğrulama yöntemi",
-    "Only applies when authentication is required" : "Yalnızca kimlik doğrulaması istendiğinde uygulanır",
+    "Authentication" : "Kimlik doğrulama",
     "Authentication required" : "Kimlik doğrulaması gerekli",
     "Credentials" : "Kimlik doğrulama bilgileri",
     "SMTP Username" : "SMTP kullanıcı adı",
@@ -515,8 +514,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ya da jpg, en fazla 20 MB",
     "Plain" : "Düz",
     "NT LAN Manager" : "NT ağ yöneticisi",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Kimlik doğrulama yöntemi",
     "Allow username autocompletion in share dialog" : "Paylaşım penceresinde kullanıcı adı otomatik olarak tamamlanabilsin",
-    "Allow username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adları otomatik olarak tamamlanabilsin"
+    "Allow username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adları otomatik olarak tamamlanabilsin",
+    "Only applies when authentication is required" : "Yalnızca kimlik doğrulaması istendiğinde uygulanır"
 },
 "nplurals=2; plural=(n > 1);");

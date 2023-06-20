@@ -439,7 +439,7 @@ OC.L10N.register(
     "Documentation" : "Documentació",
     "Forum" : "Fòrum",
     "Login" : "Inici de sessió",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Obre la documentació",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "És important configurar aquest servidor per poder enviar correus electrònics, com ara per poder restablir la contrasenya i notificacions.",
     "Send mode" : "Mode d'enviament",
@@ -448,8 +448,7 @@ OC.L10N.register(
     "From address" : "Des de l'adreça",
     "Server address" : "Adreça del servidor",
     "Port" : "Port",
-    "Authentication method" : "Mètode d'autenticació",
-    "Only applies when authentication is required" : "Només s'aplica quan es requereix autenticació",
+    "Authentication" : "Autenticació",
     "Authentication required" : "Cal autenticació",
     "Credentials" : "Credencials",
     "SMTP Username" : "Nom d'usuari SMTP",
@@ -507,8 +506,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png o jpg, màx. 20 MB",
     "Plain" : "Net",
     "NT LAN Manager" : "Gestor NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Mètode d'autenticació",
     "Allow username autocompletion in share dialog" : "Permet l'emplenament automàtic del nom d'usuari al diàleg de compartir",
-    "Allow username autocompletion to users within the same groups" : "Permet l'emplenament automàtic del nom d'usuari als usuaris dels mateixos grups"
+    "Allow username autocompletion to users within the same groups" : "Permet l'emplenament automàtic del nom d'usuari als usuaris dels mateixos grups",
+    "Only applies when authentication is required" : "Només s'aplica quan es requereix autenticació"
 },
 "nplurals=2; plural=(n != 1);");

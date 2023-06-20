@@ -439,7 +439,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentazioa",
     "Forum" : "Foroa",
     "Login" : "Saio hasiera",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Ireki dokumentazioa",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Zerbitzaria epostak bidaltzeko gai izatea garrantzitsua da, pasahitzak berrezartzeko eta abisuentzako",
     "Send mode" : "Bidaltzeko modua",
@@ -448,8 +448,7 @@ OC.L10N.register(
     "From address" : "Helbidetik",
     "Server address" : "Zerbitzariaren helbidea",
     "Port" : "Portua",
-    "Authentication method" : "Autentifikazio metodoa",
-    "Only applies when authentication is required" : "Autentifikazioa behar denean bakarrik aplikatzen da",
+    "Authentication" : "Autentifikazioa",
     "Authentication required" : "Autentikazioa beharrezkoa",
     "Credentials" : "Kredentzialak",
     "SMTP Username" : "SMTP erabiltzaile-izena",
@@ -507,8 +506,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png edo jpg, gehienez 20MB",
     "Plain" : "Arrunta",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Autentifikazio metodoa",
     "Allow username autocompletion in share dialog" : "Baimendu erabiltzaile-izenaren osatze automatikoa partekatze elkarrizketan",
-    "Allow username autocompletion to users within the same groups" : "Baimendu erabiltzaile-izenen osatze automatikoa talde bereko erabiltzaileei"
+    "Allow username autocompletion to users within the same groups" : "Baimendu erabiltzaile-izenen osatze automatikoa talde bereko erabiltzaileei",
+    "Only applies when authentication is required" : "Autentifikazioa behar denean bakarrik aplikatzen da"
 },
 "nplurals=2; plural=(n != 1);");

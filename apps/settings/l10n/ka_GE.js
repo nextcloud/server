@@ -193,7 +193,7 @@ OC.L10N.register(
     "Documentation" : "დოკუმენტაცია",
     "Forum" : "ფორუმი",
     "Login" : "ლოგინი",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "ღია დოკუმენტაცია",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "ამ სერვერის მოწყობა ელ-წერილების გასაგზვნად მნიშვნელოვანია, მაგ. პაროლის აღსადგენად და შეტყობინებების მისაღებად.",
     "Send mode" : "გაგზავნის რეჟიმი",
@@ -201,7 +201,7 @@ OC.L10N.register(
     "From address" : "მისამართიდან",
     "Server address" : "სერვერის მისამართი",
     "Port" : "პორტი",
-    "Authentication method" : "აუტენტიფიკაციის მეთოდი",
+    "Authentication" : "აუტენტიფიკაცია",
     "Authentication required" : "აუტენტიფიკაცია საჭიროებს",
     "Credentials" : "უფლებამოსილებანი",
     "SMTP Username" : "SMTP მოხმარებლის სახელი",
@@ -232,6 +232,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ან jpg, მაქს. 20 მბ",
     "Plain" : "ჩვეულებრივი",
     "NT LAN Manager" : "NT LAN მენეჯერი",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "აუტენტიფიკაციის მეთოდი"
 },
 "nplurals=2; plural=(n!=1);");

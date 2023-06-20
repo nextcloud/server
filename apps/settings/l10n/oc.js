@@ -219,12 +219,12 @@ OC.L10N.register(
     "Documentation" : "Documentacion",
     "Forum" : "Forum",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
     "Open documentation" : "Dobrir la documentacion",
     "Send mode" : "Mòde de mandadís",
     "Encryption" : "Chiframent",
     "Server address" : "Adreça del servidor",
     "Port" : "Pòrt",
+    "Authentication" : "Autentificacion",
     "Authentication required" : "Autentificacion requerida",
     "Credentials" : "Informacions d'identificacion",
     "SMTP Username" : "Utilizaire SMTP",
@@ -243,6 +243,7 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
     "You created app password \"{token}\"" : "Avètz creat lo senhal d’aplicacion « {token} »",
     "png or jpg, max. 20 MB" : "png or jpg, max. 20 Mo",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n > 1);");

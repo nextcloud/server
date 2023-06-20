@@ -243,7 +243,7 @@ OC.L10N.register(
     "Documentation" : "Documentação",
     "Forum" : "Fórum",
     "Login" : "Iniciar Sessão",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Abrir documentação",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "É importante configurar este servidor para ser possível enviar emails, possibilitando enviar notificações bem como possibilitar a recuperação de senhas.",
     "Send mode" : "Modo de Envio",
@@ -251,7 +251,7 @@ OC.L10N.register(
     "From address" : "Do endereço",
     "Server address" : "Endereço do Servidor",
     "Port" : "Porta",
-    "Authentication method" : "Método de Autenticação",
+    "Authentication" : "Autenticação",
     "Authentication required" : "Autenticação necessária",
     "Credentials" : "Credenciais",
     "SMTP Username" : "Nome de utilizador SMTP",
@@ -283,6 +283,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png ou jpg, máx. 20 MB",
     "Plain" : "Plano",
     "NT LAN Manager" : "Gestor de REDE NT",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Método de Autenticação"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

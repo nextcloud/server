@@ -443,7 +443,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
     "Login" : "Logga in",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Öppna dokumentation",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Det är viktigt att konfigurera den här servern för att kunna skicka e-post, till exempel för återställning av lösenord och aviseringar.",
     "Send mode" : "Sändningsläge",
@@ -452,8 +452,7 @@ OC.L10N.register(
     "From address" : "Från adress",
     "Server address" : "Serveradress",
     "Port" : "Port",
-    "Authentication method" : "Autentiseringsmetod",
-    "Only applies when authentication is required" : "Gäller endast när autentisering krävs",
+    "Authentication" : "Autentisering",
     "Authentication required" : "Autentisering krävs",
     "Credentials" : "Inloggningsuppgifter",
     "SMTP Username" : "SMTP-användarnamn",
@@ -511,8 +510,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png eller jpg, max 20 MB",
     "Plain" : "Enkel",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Autentiseringsmetod",
     "Allow username autocompletion in share dialog" : "Tillåt autokomplettering av användarnamn i delningsdialogen",
-    "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper"
+    "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper",
+    "Only applies when authentication is required" : "Gäller endast när autentisering krävs"
 },
 "nplurals=2; plural=(n != 1);");

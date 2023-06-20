@@ -188,14 +188,14 @@ OC.L10N.register(
     "Documentation" : "الدليل",
     "Forum" : "منتدى",
     "Login" : "تسجيل الدخول",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "فتح الدليل",
     "Send mode" : "وضعية الإرسال",
     "Encryption" : "التشفير",
     "From address" : "عنوان الإرسال",
     "Server address" : "عنوان الخادم",
     "Port" : "المنفذ",
-    "Authentication method" : "أسلوب التطابق",
+    "Authentication" : "المصادقة",
     "Authentication required" : "المصادقة مطلوبة",
     "Credentials" : "معلومات تسجيل الدخول",
     "SMTP Username" : "إسم مستخدم الـ SMTP",
@@ -223,6 +223,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "صيغة png أو jpg و حجم أقصاه 20 م.ب",
     "Plain" : "سادة",
     "NT LAN Manager" : "مدير الشبكة المحلية LAN NT",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "أسلوب التطابق"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

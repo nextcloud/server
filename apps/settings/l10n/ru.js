@@ -445,7 +445,7 @@ OC.L10N.register(
     "Documentation" : "Документация",
     "Forum" : "Форум",
     "Login" : "Логин",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Открыть документацию",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Важно предоставить этому серверу возможность отправлять электронные письма, например, для сброса пароля и уведомлений.",
     "Send mode" : "Способ отправки",
@@ -454,8 +454,7 @@ OC.L10N.register(
     "From address" : "Адрес отправителя",
     "Server address" : "Адрес сервера",
     "Port" : "Порт",
-    "Authentication method" : "Метод проверки подлинности",
-    "Only applies when authentication is required" : "Применяется только тогда, когда требуется аутентификация",
+    "Authentication" : "Аутентификация",
     "Authentication required" : "Требуется аутентификация ",
     "Credentials" : "Учётные данные",
     "SMTP Username" : "Пользователь SMTP",
@@ -515,8 +514,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png или jpg, макс. 20 МБ",
     "Plain" : "Простой",
     "NT LAN Manager" : "Менеджер NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Метод проверки подлинности",
     "Allow username autocompletion in share dialog" : "Разрешить автозаполнение имени пользователя в диалоговом окне общего доступа",
-    "Allow username autocompletion to users within the same groups" : "Разрешить автозаполнение имени пользователя для пользователей в тех же группах"
+    "Allow username autocompletion to users within the same groups" : "Разрешить автозаполнение имени пользователя для пользователей в тех же группах",
+    "Only applies when authentication is required" : "Применяется только тогда, когда требуется аутентификация"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

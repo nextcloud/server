@@ -393,7 +393,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentacija",
     "Forum" : "Forumas",
     "Login" : "Prisijungti",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Atverti dokumentaciją",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Svarbu nustatyti šį serverį, kad galėtumėte siųsti el. laiškus, kaip, pavyzdžiui, slaptažodžio atstatymą ar pranešimus.",
     "Send mode" : "Siuntimo veiksena",
@@ -402,7 +402,7 @@ OC.L10N.register(
     "From address" : "Siuntėjo adresas",
     "Server address" : "Serverio adresas",
     "Port" : "Prievadas",
-    "Authentication method" : "Tapatybės nustatymo metodas",
+    "Authentication" : "Tapatybės nustatymas",
     "Authentication required" : "Reikalingas tapatybės nustatymas",
     "Credentials" : "Prisijungimo duomenys",
     "SMTP Username" : "SMTP naudotojo vardas",
@@ -447,6 +447,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png arba jpg, daugiausiai 20 MB",
     "Plain" : "Paprastas",
     "NT LAN Manager" : "NT LAN tvarkytuvė",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Tapatybės nustatymo metodas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
