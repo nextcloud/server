@@ -438,7 +438,7 @@ class User implements IUser {
 				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
 				$this->enabled = $enabled === 'true';
 			}
-			return (bool) $this->enabled;
+			return $this->enabled;
 		};
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			return $this->backend->isUserEnabled($this->uid, $queryDatabaseValue);
@@ -464,9 +464,9 @@ class User implements IUser {
 					$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
 					$this->enabled = $enabled === 'true';
 				}
-				return (bool) $this->enabled;
+				return $this->enabled;
 			};
-			$this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
+			$enabled = $this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
 			if ($oldStatus !== $enabled) {
 				$this->triggerChange('enabled', $enabled, $oldStatus);
 			}

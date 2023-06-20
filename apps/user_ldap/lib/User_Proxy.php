@@ -458,7 +458,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $this->handleRequest($uid, 'isUserEnabled', [$uid, $queryDatabaseValue]);
 	}
 
-	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): void {
-		$this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
+		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
 	}
 }

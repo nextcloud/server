@@ -27,21 +27,21 @@ declare(strict_types=1);
 namespace OCP\User\Backend;
 
 /**
- * @since 26.0.0
+ * @since 28.0.0
  */
 interface IProvideEnabledStateBackend {
 	/**
-	 * @since 26.0.0
+	 * @since 28.0.0
 	 *
 	 * @param callable():bool $queryDatabaseValue A callable to query the enabled state from database
 	 */
 	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool;
 
 	/**
-	 * @since 26.0.0
+	 * @since 28.0.0
 	 *
 	 * @param callable():bool $queryDatabaseValue A callable to query the enabled state from database
 	 * @param callable(bool):void $setDatabaseValue A callable to set the enabled state in the database.
 	 */
-	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): void;
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool;
 }
