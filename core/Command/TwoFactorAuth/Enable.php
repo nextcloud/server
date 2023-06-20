@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Enable extends Base {
 	public function __construct(
 		private ProviderManager $manager,
-		protected IUserManager $userManager,
+		IUserManager $userManager,
 	) {
 		parent::__construct(
 			'twofactorauth:enable',
