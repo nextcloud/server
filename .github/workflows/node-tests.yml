@@ -25,8 +25,8 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1
         id: versions
         with:
-          fallbackNode: '^12'
-          fallbackNpm: '^6'
+          fallbackNode: '^16'
+          fallbackNpm: '^7'
 
   test:
     runs-on: ubuntu-latest
@@ -47,8 +47,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Test
-        run: npm run test
+      - name: Test and process coverage
+        run: npm run test:coverage
+  
+      - name: Collect coverage
+        uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
+        with:
+          files: ./coverage/lcov.info
 
   jsunit:
     runs-on: ubuntu-latest

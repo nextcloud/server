@@ -37,34 +37,37 @@ const ignorePatterns = [
 
 const config: Config = {
 	testMatch: ['<rootDir>/**/*.(spec|test).(ts|js)'],
-	modulePathIgnorePatterns: [
-		'<rootDir>/apps2/',
-		'<rootDir>/apps-extra/',
-	],
-	transformIgnorePatterns: [
-		'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
-	],
-	clearMocks: true,
-	collectCoverageFrom: [
-		'<rootDir>/**/*.{js,vue}',
-	],
 
+	clearMocks: true,
 	setupFilesAfterEnv: ['<rootDir>/__tests__/jest-setup.ts'],
 
 	testEnvironment: 'jest-environment-jsdom',
 	preset: 'ts-jest/presets/js-with-ts',
 
-	// Allow mocking svg files
-	moduleDirectories: ['node_modules', '<rootDir>/'],
-	moduleNameMapper: {
-		'^.+\\.svg(\\?raw)?$': '<rootDir>/__mocks__/svg.js',
-	},
+	roots: [
+		'<rootDir>/__mocks__',
+		'<rootDir>/__tests__',
+		'<rootDir>/apps',
+		'<rootDir>/core',
+	],
 
 	transform: {
 		// process `*.js` files with `babel-jest`
 		'^.+\\.js$': 'babel-jest',
 		'^.+\\.vue$': '@vue/vue2-jest',
 	},
+	transformIgnorePatterns: [
+		'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
+	],
+
+	// Allow mocking svg files
+	moduleNameMapper: {
+		'^.+\\.svg(\\?raw)?$': '<rootDir>/__mocks__/svg.js',
+	},
+	modulePathIgnorePatterns: [
+		'<rootDir>/apps2/',
+		'<rootDir>/apps-extra/',
+	],
 }
 
 export default config

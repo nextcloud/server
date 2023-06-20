@@ -16,6 +16,7 @@
     "lint:fix": "eslint 'apps/*/src/**/*.{vue,js}' 'core/src/**/*.{vue,js}' --fix",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "test:jsunit": "karma start tests/karma.config.js --single-run",
     "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then echo -n \"$cssdir \"; fi; done)",
     "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then echo -n \"$cssdir \"; fi; done)",
