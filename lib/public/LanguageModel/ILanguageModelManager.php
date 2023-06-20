@@ -68,6 +68,7 @@ interface ILanguageModelManager {
 	 * @return ILanguageModelTask
 	 * @throws RuntimeException If the query failed
 	 * @throws \ValueError If the task could not be found
+	 * @since 28.0.0
 	 */
 	public function getTask(int $id): ILanguageModelTask;
 }

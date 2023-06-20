@@ -4,11 +4,20 @@ namespace OCP\LanguageModel;
 
 use OC\LanguageModel\Db\Task;
 
+/**
+ * @since 28.0.0
+ */
 abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	protected ?int $id;
 	protected ?string $output;
 	protected int $status = ILanguageModelTask::STATUS_UNKNOWN;
 
+	/**
+	 * @param string $input
+	 * @param string $appId
+	 * @param string|null $userId
+	 * @since 28.0.0
+	 */
 	final public function __construct(
 		protected string $input,
 		protected string $appId,
@@ -20,15 +29,26 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param ILanguageModelProvider $provider
 	 * @return string
 	 * @throws \RuntimeException
+	 * @since 28.0.0
 	 */
 	abstract public function visitProvider(ILanguageModelProvider $provider): string;
 
+	/**
+	 * @param ILanguageModelProvider $provider
+	 * @return bool
+	 * @since 28.0.0
+	 */
 	abstract public function canUseProvider(ILanguageModelProvider $provider): bool;
 
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
 	abstract public function getType(): string;
 
 	/**
 	 * @return string|null
+	 * @since 28.0.0
 	 */
 	final public function getOutput(): ?string {
 		return $this->output;
@@ -36,6 +56,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @param string|null $output
+	 * @since 28.0.0
 	 */
 	final public function setOutput(?string $output): void {
 		$this->output = $output;
@@ -43,6 +64,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return int
+	 * @since 28.0.0
 	 */
 	final public function getStatus(): int {
 		return $this->status;
@@ -50,6 +72,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @param int $status
+	 * @since 28.0.0
 	 */
 	final public function setStatus(int $status): void {
 		$this->status = $status;
@@ -57,6 +80,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return int|null
+	 * @since 28.0.0
 	 */
 	final public function getId(): ?int {
 		return $this->id;
@@ -64,6 +88,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @param int|null $id
+	 * @since 28.0.0
 	 */
 	final public function setId(?int $id): void {
 		$this->id = $id;
@@ -71,6 +96,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string
+	 * @since 28.0.0
 	 */
 	final public function getInput(): string {
 		return $this->input;
@@ -78,6 +104,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string
+	 * @since 28.0.0
 	 */
 	final public function getAppId(): string {
 		return $this->appId;
@@ -85,11 +112,16 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string|null
+	 * @since 28.0.0
 	 */
 	final public function getUserId(): ?string {
 		return $this->userId;
 	}
 
+	/**
+	 * @return array
+	 * @since 28.0.0
+	 */
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
@@ -103,6 +135,11 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 
+	/**
+	 * @param Task $taskEntity
+	 * @return ILanguageModelTask
+	 * @since 28.0.0
+	 */
 	final public static function fromTaskEntity(Task $taskEntity): ILanguageModelTask {
 		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId());
 		$task->setId($taskEntity->getId());
@@ -117,6 +154,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param string $appId
 	 * @return ILanguageModelTask
 	 * @throws \InvalidArgumentException
+	 * @since 28.0.0
 	 */
 	final public static function factory(string $type, string $input, ?string $userId, string $appId): ILanguageModelTask {
 		if (!in_array($type, self::TYPES)) {

@@ -15,6 +15,7 @@ class TaskFailedEvent extends AbstractLanguageModelEvent {
 
 	/**
 	 * @return string
+	 * @since 28.0.0
 	 */
 	public function getErrorMessage(): string {
 		return $this->errorMessage;
