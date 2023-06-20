@@ -31,12 +31,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCertificates extends Base {
-	protected ICertificateManager $certificateManager;
-	protected IL10N $l;
-
-	public function __construct(ICertificateManager $certificateManager, IL10N $l) {
-		$this->certificateManager = $certificateManager;
-		$this->l = $l;
+	public function __construct(
+		protected ICertificateManager $certificateManager,
+		protected IL10N $l,
+	) {
 		parent::__construct();
 	}
 
