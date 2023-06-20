@@ -385,7 +385,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentasjon",
     "Forum" : "Forum",
     "Login" : "Innlogging",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Åpne dokumentasjonen",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Det er viktig å sette opp denne serveren for å kunne sende e-poster, som tilbakestilling av e-poster og merknader.",
     "Send mode" : "Forsendelsesmåte",
@@ -394,7 +394,7 @@ OC.L10N.register(
     "From address" : "Fra adresse",
     "Server address" : "Serveradresse",
     "Port" : "Port",
-    "Authentication method" : "Autentiseringsmetode",
+    "Authentication" : "Autentisering",
     "Authentication required" : "Autentisering kreves",
     "Credentials" : "Påloggingsdetaljer",
     "SMTP Username" : "SMTP-brukernavn",
@@ -447,6 +447,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
     "Plain" : "Enkel",
     "NT LAN Manager" : "NT LAN-behandler",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Autentiseringsmetode"
 },
 "nplurals=2; plural=(n != 1);");

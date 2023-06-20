@@ -439,7 +439,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentacja",
     "Forum" : "Forum",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Otwórz dokumentację",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Należy skonfigurować ten serwer, aby umożliwić wysyłanie wiadomości e-mail z powiadomieniami i resetowaniem hasła.",
     "Send mode" : "Sposób wysyłania",
@@ -448,8 +448,7 @@ OC.L10N.register(
     "From address" : "Z adresu",
     "Server address" : "Adres serwera",
     "Port" : "Port",
-    "Authentication method" : "Metoda uwierzytelnienia",
-    "Only applies when authentication is required" : "Ma zastosowanie tylko wtedy, gdy wymagane jest uwierzytelnienie",
+    "Authentication" : "Uwierzytelnienie",
     "Authentication required" : "Wymagane uwierzytelnienie",
     "Credentials" : "Poświadczenia",
     "SMTP Username" : "Użytkownik SMTP",
@@ -507,8 +506,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png lub jpg, maks. 20 MB",
     "Plain" : "Czysty tekst",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Metoda uwierzytelnienia",
     "Allow username autocompletion in share dialog" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępnienia",
-    "Allow username autocompletion to users within the same groups" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika dla użytkowników w tych samych grupach"
+    "Allow username autocompletion to users within the same groups" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika dla użytkowników w tych samych grupach",
+    "Only applies when authentication is required" : "Ma zastosowanie tylko wtedy, gdy wymagane jest uwierzytelnienie"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

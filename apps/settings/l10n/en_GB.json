@@ -443,7 +443,7 @@
     "Documentation" : "Documentation",
     "Forum" : "Forum",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Open documentation",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "It is important to set up this server to be able to send emails, like for password reset and notifications.",
     "Send mode" : "Send mode",
@@ -452,8 +452,7 @@
     "From address" : "From address",
     "Server address" : "Server address",
     "Port" : "Port",
-    "Authentication method" : "Authentication method",
-    "Only applies when authentication is required" : "Only applies when authentication is required",
+    "Authentication" : "Authentication",
     "Authentication required" : "Authentication required",
     "Credentials" : "Credentials",
     "SMTP Username" : "SMTP Username",
@@ -513,8 +512,11 @@
     "png or jpg, max. 20 MB" : "png or jpg, max. 20 MB",
     "Plain" : "Plain",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Authentication method",
     "Allow username autocompletion in share dialog" : "Allow username autocompletion in share dialogue",
-    "Allow username autocompletion to users within the same groups" : "Allow username autocompletion to users within the same groups"
+    "Allow username autocompletion to users within the same groups" : "Allow username autocompletion to users within the same groups",
+    "Only applies when authentication is required" : "Only applies when authentication is required"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

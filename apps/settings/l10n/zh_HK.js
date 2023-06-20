@@ -445,7 +445,7 @@ OC.L10N.register(
     "Documentation" : "使用手冊",
     "Forum" : "論壇",
     "Login" : "登入",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "開啟使用手冊",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "設置此伺服器以使其能夠發送電郵以進行密碼重置﹑通知等。",
     "Send mode" : "傳送模式",
@@ -454,8 +454,7 @@ OC.L10N.register(
     "From address" : "寄件地址",
     "Server address" : "伺服器位址",
     "Port" : "連接埠",
-    "Authentication method" : "認證方式",
-    "Only applies when authentication is required" : "僅在需要身份驗證時套用",
+    "Authentication" : "驗證",
     "Authentication required" : "需要認證",
     "Credentials" : "身分驗證",
     "SMTP Username" : "SMTP 用戶名稱",
@@ -515,8 +514,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png 或 jpg，最大 20 MB",
     "Plain" : "明文",
     "NT LAN Manager" : "NT LAN 管理程式",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "認證方式",
     "Allow username autocompletion in share dialog" : "在共享對話框中允許用戶名自動完成",
-    "Allow username autocompletion to users within the same groups" : "允許對同一群組中的用戶自動完成用戶名"
+    "Allow username autocompletion to users within the same groups" : "允許對同一群組中的用戶自動完成用戶名",
+    "Only applies when authentication is required" : "僅在需要身份驗證時套用"
 },
 "nplurals=1; plural=0;");

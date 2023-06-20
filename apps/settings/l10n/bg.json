@@ -437,7 +437,7 @@
     "Documentation" : "Документация",
     "Forum" : "Форум",
     "Login" : "Вписване",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Отвори документацията",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "След като настроите сървъра Nextcloud ще може да изпраща имейли за възстановяване на забравени пароли и известия.",
     "Send mode" : "Режим на изпращане",
@@ -446,8 +446,7 @@
     "From address" : "От адрес",
     "Server address" : "Адрес на сървъра",
     "Port" : "Порт",
-    "Authentication method" : "Метод за удостоверяване",
-    "Only applies when authentication is required" : "Прилага се само когато е необходимо удостоверяване",
+    "Authentication" : "Удостоверяване",
     "Authentication required" : "Нужно е удостоверяване",
     "Credentials" : "Потребител и парола",
     "SMTP Username" : "SMTP потребител",
@@ -505,8 +504,11 @@
     "png or jpg, max. 20 MB" : "png или jpg, макс. 20 MB",
     "Plain" : "Обикновен",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Метод за удостоверяване",
     "Allow username autocompletion in share dialog" : "Разрешаване на автоматично довършване на име на потребител в диалоговия прозорец за споделяне",
-    "Allow username autocompletion to users within the same groups" : "Разрешаване на автоматично довършване на име на потребител на потребители в същите групи"
+    "Allow username autocompletion to users within the same groups" : "Разрешаване на автоматично довършване на име на потребител на потребители в същите групи",
+    "Only applies when authentication is required" : "Прилага се само когато е необходимо удостоверяване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -416,7 +416,7 @@
     "Documentation" : "Документација",
     "Forum" : "Форум",
     "Login" : "Најава",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Отвори ја документацијата",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Важно е да овозможите на серверот да испраќа е-пошта пораки, поради можноста за ресетирање на лозинки и известувања.",
     "Send mode" : "Начин на испраќање",
@@ -425,7 +425,7 @@
     "From address" : "Од адреса",
     "Server address" : "Адреса на сервер",
     "Port" : "Порта",
-    "Authentication method" : "Начин на автентификација",
+    "Authentication" : "Автентикација",
     "Authentication required" : "Потребна е автентификација",
     "Credentials" : "Акредитиви",
     "SMTP Username" : "SMTP корисничко име",
@@ -482,7 +482,9 @@
     "png or jpg, max. 20 MB" : "png или jpg, максимум 20 MB",
     "Plain" : "Чиста",
     "NT LAN Manager" : "NT LAN Менаџер",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Начин на автентификација",
     "Allow username autocompletion in share dialog" : "Дозволи автоматско комплетирање на корисници за споделување",
     "Allow username autocompletion to users within the same groups" : "Овозможи автоматско комплетирање за корисници од исти групи "
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

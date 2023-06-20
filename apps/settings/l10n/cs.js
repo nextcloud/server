@@ -445,7 +445,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentace",
     "Forum" : "Diskuzní fórum",
     "Login" : "Přihlásit",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Otevřít dokumentaci",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Je důležité tento server nastavit, aby mohly být odesílány e-maily, jako jsou např. ty pro resetování hesla a s upozorněními.",
     "Send mode" : "Režim odesílání",
@@ -454,8 +454,7 @@ OC.L10N.register(
     "From address" : "Adresa odesílatele",
     "Server address" : "Adresa serveru",
     "Port" : "Port",
-    "Authentication method" : "Metoda ověření",
-    "Only applies when authentication is required" : "Použije se pouze v případě, že je vyžadováno ověření",
+    "Authentication" : "Ověřování se",
     "Authentication required" : "Vyžadováno ověření se",
     "Credentials" : "Přihlašovací údaje",
     "SMTP Username" : "SMTP uživatelské jméno ",
@@ -515,8 +514,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png nebo jpg, nejvýše 20 MB",
     "Plain" : "V čitelné podobě",
     "NT LAN Manager" : "Správce NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Metoda ověření",
     "Allow username autocompletion in share dialog" : "Povolit automatické dokončování uživatelského jména v dialogu pro sdílení",
-    "Allow username autocompletion to users within the same groups" : "Umožnit automatické dokončování uživatelského jména uživatelům v rámci stejných skupin"
+    "Allow username autocompletion to users within the same groups" : "Umožnit automatické dokončování uživatelského jména uživatelům v rámci stejných skupin",
+    "Only applies when authentication is required" : "Použije se pouze v případě, že je vyžadováno ověření"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

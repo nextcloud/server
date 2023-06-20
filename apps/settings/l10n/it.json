@@ -393,7 +393,7 @@
     "Documentation" : "Documentazione",
     "Forum" : "Forum",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Apri la documentazione",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "È importante impostare questo server per poter inviare email, come per il ripristino della password e per le notifiche.",
     "Send mode" : "Modalità di invio",
@@ -402,7 +402,7 @@
     "From address" : "Indirizzo mittente",
     "Server address" : "Indirizzo del server",
     "Port" : "Porta",
-    "Authentication method" : "Metodo di autenticazione",
+    "Authentication" : "Autenticazione",
     "Authentication required" : "Autenticazione richiesta",
     "Credentials" : "Credenziali",
     "SMTP Username" : "Nome utente SMTP",
@@ -459,7 +459,9 @@
     "png or jpg, max. 20 MB" : "png o jpg, max. 20 MB",
     "Plain" : "Semplice",
     "NT LAN Manager" : "Gestore NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Metodo di autenticazione",
     "Allow username autocompletion in share dialog" : "Consenti il completamento del nome utente nella finestra di condivisione",
     "Allow username autocompletion to users within the same groups" : "Consenti il completamento del nome utente agli utenti degli stessi gruppi"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

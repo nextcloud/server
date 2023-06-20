@@ -381,7 +381,7 @@
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Åbn dokumentation",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Det er vigtigt at konfigurere denne server til at kunne sende e-mails, f.eks. for nulstilling af adgangskode og meddelelser.",
     "Send mode" : "Tilstand for afsendelse",
@@ -390,7 +390,7 @@
     "From address" : "Fra adresse",
     "Server address" : "Serveradresse",
     "Port" : "Port",
-    "Authentication method" : "Godkendelsesmetode",
+    "Authentication" : "Godkendelse",
     "Authentication required" : "Godkendelse påkrævet",
     "Credentials" : "Brugeroplysninger",
     "SMTP Username" : "SMTP Brugernavn",
@@ -443,7 +443,9 @@
     "png or jpg, max. 20 MB" : "png eller jpg, max. 20 MB",
     "Plain" : "Klartekst",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Godkendelsesmetode",
     "Allow username autocompletion in share dialog" : "Tillad autofuldførelse af brugernavn i delingsdialogen",
     "Allow username autocompletion to users within the same groups" : "Tillad autofuldførelse af brugernavn til brugere inden for de samme grupper"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
