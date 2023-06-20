@@ -20,10 +20,16 @@ final class FreePromptTask extends AbstractLanguageModelTask {
 		return $provider->prompt($this->getInput());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getType(): string {
 		return self::TYPE;
 	}

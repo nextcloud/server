@@ -4,13 +4,17 @@ namespace OCP\LanguageModel;
 
 use RuntimeException;
 
+/**
+ * @since 28.0.0
+ */
 final class TopicsTask extends AbstractLanguageModelTask {
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE = 'topics';
 
 	/**
-	 * @param ILanguageModelProvider $provider
-	 * @throws RuntimeException
-	 * @return string
+	 * @inheritDoc
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
 		if (!$provider instanceof ITopicsProvider) {
@@ -19,10 +23,16 @@ final class TopicsTask extends AbstractLanguageModelTask {
 		return $provider->findTopics($this->getInput());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return $provider instanceof ITopicsProvider;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getType(): string {
 		return self::TYPE;
 	}

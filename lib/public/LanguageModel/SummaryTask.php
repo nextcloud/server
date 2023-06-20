@@ -4,13 +4,17 @@ namespace OCP\LanguageModel;
 
 use RuntimeException;
 
+/**
+ * @since 28.0.0
+ */
 final class SummaryTask extends AbstractLanguageModelTask {
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE = 'summarize';
 
 	/**
-	 * @param ILanguageModelProvider $provider
-	 * @throws RuntimeException
-	 * @return string
+	 * @inheritDoc
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
 		if (!$provider instanceof ISummaryProvider) {
@@ -19,10 +23,16 @@ final class SummaryTask extends AbstractLanguageModelTask {
 		return $provider->summarize($this->getInput());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return $provider instanceof ISummaryProvider;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getType(): string {
 		return self::TYPE;
 	}

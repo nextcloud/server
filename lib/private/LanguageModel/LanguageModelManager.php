@@ -110,10 +110,11 @@ class LanguageModelManager implements ILanguageModelManager {
 			try {
 				$task->setStatus(ILanguageModelTask::STATUS_RUNNING);
 				$this->taskMapper->update(Task::fromLanguageModelTask($task));
-				$task->setOutput($task->visitProvider($provider));
+				$output = $task->visitProvider($provider);
+				$task->setOutput($output);
 				$task->setStatus(ILanguageModelTask::STATUS_SUCCESSFUL);
 				$this->taskMapper->update(Task::fromLanguageModelTask($task));
-				return $task->getOutput();
+				return $output;
 			} catch (\RuntimeException $e) {
 				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(ILanguageModelTask::STATUS_FAILED);
