@@ -6,6 +6,7 @@ use OC\LanguageModel\Db\Task;
 
 abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	protected ?int $id;
+	protected ?string $output;
 	protected int $status = ILanguageModelTask::STATUS_UNKNOWN;
 
 	final public function __construct(
@@ -25,6 +26,20 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	abstract public function canUseProvider(ILanguageModelProvider $provider): bool;
 
 	abstract public function getType(): string;
+
+	/**
+	 * @return string|null
+	 */
+	final public function getOutput(): ?string {
+		return $this->output;
+	}
+
+	/**
+	 * @param string|null $output
+	 */
+	final public function setOutput(?string $output): void {
+		$this->output = $output;
+	}
 
 	/**
 	 * @return int

@@ -16,6 +16,11 @@ interface ILanguageModelTask extends \JsonSerializable {
 		TopicsTask::TYPE => TopicsTask::class,
 	];
 
+	public function visitProvider(ILanguageModelProvider $provider): string;
+
+	public function canUseProvider(ILanguageModelProvider $provider): bool;
+
+
 	/**
 	 * @return string
 	 */
@@ -47,14 +52,14 @@ interface ILanguageModelTask extends \JsonSerializable {
 	public function getInput(): string;
 
 	/**
-	 * @param string $output
+	 * @param string|null $output
 	 */
-	public function setOutput(string $output): void;
+	public function setOutput(?string $output): void;
 
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	public function getOutput(): string;
+	public function getOutput(): ?string;
 
 	/**
 	 * @return string
