@@ -161,8 +161,8 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete fails', async () => {
-		axios.delete = jest.fn(() => { throw new Error('Mock error') })
-		logger.error = jest.fn()
+		jest.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
+		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
 
 		const file = new File({
 			id: 1,

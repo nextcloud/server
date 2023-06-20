@@ -126,8 +126,8 @@ describe('Open sidebar action exec tests', () => {
 
 	test('Open sidebar fails', async () => {
 		const openMock = jest.fn(() => { throw new Error('Mock error') })
-		logger.error = jest.fn()
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
+		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
 
 		const file = new File({
 			id: 1,
