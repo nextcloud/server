@@ -26,6 +26,7 @@ OC.L10N.register(
     "Text" : "نص",
     "Size" : "الحجم",
     "Position" : "الموقع",
+    "Extension" : "الامتداد",
     "Name is required." : "حقل الاسم مطلوب",
     "Quality" : "الجودة"
 },
