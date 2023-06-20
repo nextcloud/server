@@ -288,7 +288,7 @@ OC.L10N.register(
     "Documentation" : "Hjálparskjöl",
     "Forum" : "Vefspjall",
     "Login" : "Innskráning",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Opna hjálparskjöl",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Það er mikilvægt að setja þennan vefþjón upp þannig að hann getir sent tölvupóst, eins og fyrir endurstillingu lykilorða og útsendingu tilkynninga.",
     "Send mode" : "Sendihamur",
@@ -297,7 +297,7 @@ OC.L10N.register(
     "From address" : "Frá vistfangi",
     "Server address" : "Vistfang þjóns",
     "Port" : "Gátt",
-    "Authentication method" : "Auðkenningarmáti",
+    "Authentication" : "Auðkenning",
     "Authentication required" : "Auðkenningar krafist",
     "Credentials" : "Auðkenni",
     "SMTP Username" : "SMTP-notandanafn",
@@ -339,6 +339,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png eða jpg, hám. 20 MB",
     "Plain" : "Einfalt",
     "NT LAN Manager" : "NT LAN stjórnun",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Auðkenningarmáti"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

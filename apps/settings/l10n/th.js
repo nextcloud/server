@@ -269,7 +269,7 @@ OC.L10N.register(
     "Documentation" : "เอกสารประกอบ",
     "Forum" : "ฟอรัม",
     "Login" : "เข้าสู่ระบบ",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "เปิดเอกสารประกอบ",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "การตั้งค่าให้เซิร์ฟเวอร์นี้ส่งอีเมลได้ เช่น อีเมลสำหรับการตั้งรหัสผ่านใหม่และการแจ้งเตือน เป็นสิ่งสำคัญ",
     "Send mode" : "โหมดการส่ง",
@@ -278,7 +278,7 @@ OC.L10N.register(
     "From address" : "จากที่อยู่",
     "Server address" : "ที่อยู่เซิร์ฟเวอร์",
     "Port" : "พอร์ต",
-    "Authentication method" : "วิธีการตรวจสอบความถูกต้อง",
+    "Authentication" : "การตรวจสอบสิทธิ์",
     "Authentication required" : "จำเป็นต้องตรวจสอบความถูกต้อง",
     "Credentials" : "ข้อมูลส่วนตัวสำหรับเข้าระบบ",
     "SMTP Username" : "ชื่อผู้ใช้ SMTP",
@@ -316,6 +316,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png หรือ jpg สูงสุดไม่เกิน 20 MB",
     "Plain" : "ธรรมดา",
     "NT LAN Manager" : "ตัวจัดการ NT LAN",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "วิธีการตรวจสอบความถูกต้อง"
 },
 "nplurals=1; plural=0;");

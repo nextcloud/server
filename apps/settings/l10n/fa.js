@@ -320,7 +320,7 @@ OC.L10N.register(
     "Documentation" : "مستندسازی",
     "Forum" : "انجمن",
     "Login" : "ورود",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "بازکردن مستند",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "تنظیم این سرور برای این مهم است که بتواند ایمیل ارسال کند ، مانند تنظیم مجدد گذرواژه و اعلان ها.",
     "Send mode" : "حالت ارسال",
@@ -329,7 +329,7 @@ OC.L10N.register(
     "From address" : "آدرس فرستنده",
     "Server address" : "آدرس سرور",
     "Port" : "درگاه",
-    "Authentication method" : "روش احراز هویت",
+    "Authentication" : "احراز هویت",
     "Authentication required" : "احراز هویت مورد نیاز است",
     "Credentials" : "اعتبارهای",
     "SMTP Username" : "نام کاربری SMTP",
@@ -373,6 +373,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png یا jpg. بیشینه ۲۰ م‌ب",
     "Plain" : "ساده",
     "NT LAN Manager" : "مدیر NT LAN",
-    "STARTTLS" : "شروع TLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "شروع TLS",
+    "Authentication method" : "روش احراز هویت"
 },
 "nplurals=2; plural=(n > 1);");

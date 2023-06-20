@@ -275,7 +275,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentaro",
     "Forum" : "Forumo",
     "Login" : "Ensaluti",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Malfermi la dokumentaron",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Gravas agordi tiun ĉi servilon por povi sendi retpoŝtmesaĝojn, ekz. por restarigo de pasvorto aŭ sciigoj.",
     "Send mode" : "Kiel sendi",
@@ -284,7 +284,7 @@ OC.L10N.register(
     "From address" : "El adreso",
     "Server address" : "Servila adreso",
     "Port" : "Pordo",
-    "Authentication method" : "Aŭtentiga metodo",
+    "Authentication" : "Aŭtentigo",
     "Authentication required" : "Aŭtentiĝo nepras",
     "Credentials" : "Aŭtentigiloj",
     "SMTP Username" : "SMTP-uzantonomo",
@@ -325,6 +325,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png aŭ jpg, maksimume 20 MB",
     "Plain" : "Plena",
     "NT LAN Manager" : "NT LAN Manager",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Aŭtentiga metodo"
 },
 "nplurals=2; plural=(n != 1);");

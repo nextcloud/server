@@ -443,7 +443,7 @@
     "Documentation" : "Документација",
     "Forum" : "Форум",
     "Login" : "Пријава",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "ССЛ",
     "Open documentation" : "Отвори документацију",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Важно је да подесите сервер тако да може да шаље е-пошту када нпр. треба послати ресетовање лозинке или нека обавештења.",
     "Send mode" : "Режим слања",
@@ -452,8 +452,7 @@
     "From address" : "Са адресе",
     "Server address" : "Адреса сервера",
     "Port" : "Порт",
-    "Authentication method" : "Начин провере идентитета",
-    "Only applies when authentication is required" : "Примењује се само када је потребна аутентификација",
+    "Authentication" : "Провера идентитета",
     "Authentication required" : "Неопходна провера идентитета",
     "Credentials" : "Акредитиви",
     "SMTP Username" : "SMTP корисничко име",
@@ -513,8 +512,11 @@
     "png or jpg, max. 20 MB" : "„png“ или „jpg“, макс. 20 МБ",
     "Plain" : "Обичан",
     "NT LAN Manager" : "НТ ЛАН менаџер",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Начин провере идентитета",
     "Allow username autocompletion in share dialog" : "Дозволи аутоматско довршавање корисничког имена у дијалогу за дељење",
-    "Allow username autocompletion to users within the same groups" : "Дозволи аутоматско довршавање корисничког корисницима из исте групе"
+    "Allow username autocompletion to users within the same groups" : "Дозволи аутоматско довршавање корисничког корисницима из исте групе",
+    "Only applies when authentication is required" : "Примењује се само када је потребна аутентификација"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

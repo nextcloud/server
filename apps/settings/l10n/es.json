@@ -443,7 +443,7 @@
     "Documentation" : "Documentación",
     "Forum" : "Foro",
     "Login" : "Iniciar sesión",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Abrir documentación",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Es importante configurar este servidor para que pueda enviar correos, por ejemplo para cambios de contraseñas y notificaciones.",
     "Send mode" : "Modo de envío",
@@ -452,8 +452,7 @@
     "From address" : "Desde la dirección",
     "Server address" : "Dirección del servidor",
     "Port" : "Puerto",
-    "Authentication method" : "Método de autenticación",
-    "Only applies when authentication is required" : "Aplica solamente cuando se requiere autenticación",
+    "Authentication" : "Autenticación",
     "Authentication required" : "Se necesita autenticación",
     "Credentials" : "Credenciales",
     "SMTP Username" : "Nombre de usuario SMTP",
@@ -513,8 +512,11 @@
     "png or jpg, max. 20 MB" : "png o jpg, max. 20 MB",
     "Plain" : "Plano",
     "NT LAN Manager" : "Gestor de NT LAN",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Método de autenticación",
     "Allow username autocompletion in share dialog" : "Permitir autocompletar nombre de usuario en la casilla de compartir",
-    "Allow username autocompletion to users within the same groups" : "Permitir autocompletar nombre de usuario a los usuarios del mismo grupo"
+    "Allow username autocompletion to users within the same groups" : "Permitir autocompletar nombre de usuario a los usuarios del mismo grupo",
+    "Only applies when authentication is required" : "Aplica solamente cuando se requiere autenticación"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -44,7 +44,7 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
     "Add to your website" : "Engadir ao seu sitio web",
-    "Share with me via Nextcloud" : "Comparte comigo a través do Nextcloud",
+    "Share with me via Nextcloud" : "Comparte comigo a través de Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparte comigo a través do meu #Nextcloud Federated Cloud ID, ver {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud",

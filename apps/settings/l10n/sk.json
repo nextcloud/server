@@ -429,7 +429,7 @@
     "Documentation" : "Dokumentácia",
     "Forum" : "Fórum",
     "Login" : "Prihlásenie",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Otvoriť dokumentáciu",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Je dôležité nastaviť aby server vedel odosielať emaily, napríklad pre nastavenie hesla a notifikácie.",
     "Send mode" : "Mód odosielania",
@@ -438,7 +438,7 @@
     "From address" : "Z adresy",
     "Server address" : "Adresa servera",
     "Port" : "Port",
-    "Authentication method" : "Autentifikačná metóda",
+    "Authentication" : "Autentifikácia",
     "Authentication required" : "Vyžaduje sa overenie",
     "Credentials" : "Prihlasovanie údaje",
     "SMTP Username" : "SMTP používateľské meno",
@@ -496,7 +496,9 @@
     "png or jpg, max. 20 MB" : "png alebo jpg, max. 20 MB",
     "Plain" : "Neformátovaný",
     "NT LAN Manager" : "NT LAN Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Autentifikačná metóda",
     "Allow username autocompletion in share dialog" : "Povoliť automatické dopĺňanie používateľského mena v dialógovom okne zdieľania",
     "Allow username autocompletion to users within the same groups" : "Povoliť automatické dopĺňanie mien užívateľom v rovnakých skupinách"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

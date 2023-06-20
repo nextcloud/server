@@ -439,7 +439,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
     "Login" : "Anmelden",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Dokumentation öffnen",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Es ist wichtig, diesen Server so zu konfigurieren, dass E-Mails versandt werden können, z. B. zum Zurücksetzen des Passworts und für Benachrichtigungen.",
     "Send mode" : "Sendemodus",
@@ -448,8 +448,7 @@ OC.L10N.register(
     "From address" : "Absenderadresse",
     "Server address" : "Serveradresse",
     "Port" : "Port",
-    "Authentication method" : "Authentifizierungsmethode",
-    "Only applies when authentication is required" : "Gilt nur, wenn eine Authentifizierung erforderlich ist",
+    "Authentication" : "Authentifizierung",
     "Authentication required" : "Authentifizierung benötigt",
     "Credentials" : "Zugangsdaten",
     "SMTP Username" : "SMTP-Benutzername",
@@ -507,8 +506,11 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png oder jpg, max. 20 MB",
     "Plain" : "Klartext",
     "NT LAN Manager" : "NT-LAN-Manager",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Authentifizierungsmethode",
     "Allow username autocompletion in share dialog" : "Automatische Vervollständigung der Benutzernamen im Teilen-Dialog erlauben",
-    "Allow username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen erlauben"
+    "Allow username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen erlauben",
+    "Only applies when authentication is required" : "Gilt nur, wenn eine Authentifizierung erforderlich ist"
 },
 "nplurals=2; plural=(n != 1);");

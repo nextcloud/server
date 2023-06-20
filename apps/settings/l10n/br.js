@@ -304,7 +304,6 @@ OC.L10N.register(
     "Documentation" : "Diellvadur",
     "Forum" : "Forum",
     "Login" : "Anv arveriad",
-    "SSL/TLS" : "SSL/TLS",
     "Open documentation" : "Digeriñ an dielvadur",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Pouezus eo stummañ ar servijour avit ma c'helfe kas posteloù, evit kemenadennoù pe posteloù evit cheñch ar ger-tremen.",
     "Send mode" : "Mod kas",
@@ -313,7 +312,6 @@ OC.L10N.register(
     "From address" : "Eus chom-lec'h",
     "Server address" : "Chom-lec'h ar servijour",
     "Port" : "Porzh",
-    "Authentication method" : "Doare dilesa",
     "Authentication required" : "Eus un dilesa ez eus ezhomp",
     "Credentials" : "Kretaatoù",
     "SMTP Username" : "Anv implijer SMTP",
@@ -354,6 +352,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png pe jpg, 20 MB d'ar muiañ",
     "Plain" : "Sklaer",
     "NT LAN Manager" : "NT LAN Manager",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Doare dilesa"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

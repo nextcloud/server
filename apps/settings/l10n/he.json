@@ -309,7 +309,7 @@
     "Documentation" : "תיעוד",
     "Forum" : "פורום",
     "Login" : "התחברות",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "תיעוד פתוח",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "חשוב להגדיר את השרת הזה כדי שיתאפשר לשלוח דרכו הודעות דוא״ל, למשל כדי לאפס ססמה ולשלוח התרעות.",
     "Send mode" : "מצב שליחה",
@@ -318,7 +318,7 @@
     "From address" : "מכתובת",
     "Server address" : "כתובת שרת",
     "Port" : "שער",
-    "Authentication method" : "שיטת אימות",
+    "Authentication" : "אימות",
     "Authentication required" : "נדרש אימות",
     "Credentials" : "פרטי גישה",
     "SMTP Username" : "שם משתמש SMTP ",
@@ -363,7 +363,9 @@
     "png or jpg, max. 20 MB" : "png או jpg, מקסימום 20 מגה-בייט",
     "Plain" : "רגיל",
     "NT LAN Manager" : "מנהל רשת NT",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
+    "Authentication method" : "שיטת אימות",
     "Allow username autocompletion in share dialog" : "לאפשר השלמה אוטומטית של שם משתמש בחלונית השיתוף",
     "Allow username autocompletion to users within the same groups" : "לאפשר השלמה אוטומטית של שם משתמש למשתמשים בתוך אותן הקבוצות"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"

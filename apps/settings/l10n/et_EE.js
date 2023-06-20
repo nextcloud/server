@@ -209,7 +209,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentatsioon",
     "Forum" : "Foorum",
     "Login" : "Logi sisse",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Ava dokumentatsioon",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "E-kirjad saatmise võimekus on olulile seadistada paroolide lähtestamiseks ja teavituste saatmiseks.",
     "Send mode" : "Saatmise viis",
@@ -217,7 +217,7 @@ OC.L10N.register(
     "From address" : "Saatja aadress",
     "Server address" : "Serveri aadress",
     "Port" : "Port",
-    "Authentication method" : "Autentimise meetod",
+    "Authentication" : "Autentimine",
     "Authentication required" : "Autentimine on vajalik",
     "Credentials" : "Kasutajatunnused",
     "SMTP Username" : "SMTP kasutajatunnus",
@@ -242,6 +242,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png või jpg, max. 20 MB",
     "Plain" : "Tavatekst",
     "NT LAN Manager" : "NT LAN Manager",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Autentimise meetod"
 },
 "nplurals=2; plural=(n != 1);");
