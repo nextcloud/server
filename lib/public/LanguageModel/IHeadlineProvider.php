@@ -32,7 +32,6 @@ use RuntimeException;
  * @since 28.0.0
  */
 interface IHeadlineProvider extends ILanguageModelProvider {
-
 	/**
 	 * @param string $text The text to find headline for
 	 * @returns string the headline

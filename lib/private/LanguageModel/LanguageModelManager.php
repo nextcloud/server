@@ -5,18 +5,18 @@ namespace OC\LanguageModel;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\LanguageModel\Db\Task;
 use OC\LanguageModel\Db\TaskMapper;
-use OCP\LanguageModel\AbstractLanguageModelTask;
-use OCP\LanguageModel\FreePromptTask;
-use OCP\LanguageModel\SummaryTask;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\IServerContainer;
+use OCP\LanguageModel\AbstractLanguageModelTask;
+use OCP\LanguageModel\FreePromptTask;
 use OCP\LanguageModel\ILanguageModelManager;
 use OCP\LanguageModel\ILanguageModelProvider;
 use OCP\LanguageModel\ILanguageModelTask;
 use OCP\LanguageModel\ISummaryProvider;
+use OCP\LanguageModel\SummaryTask;
 use OCP\PreConditionNotMetException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -25,7 +25,6 @@ use RuntimeException;
 use Throwable;
 
 class LanguageModelManager implements ILanguageModelManager {
-
 	/** @var ?ILanguageModelProvider[] */
 	private ?array $providers = null;
 

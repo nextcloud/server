@@ -26,22 +26,13 @@ declare(strict_types=1);
 
 namespace OC\LanguageModel;
 
-use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\File;
-use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\LanguageModel\Events\TaskFailedEvent;
 use OCP\LanguageModel\Events\TaskSuccessfulEvent;
 use OCP\LanguageModel\ILanguageModelManager;
 use OCP\PreConditionNotMetException;
-use OCP\SpeechToText\Events\TranscriptionFailedEvent;
-use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
-use OCP\SpeechToText\ISpeechToTextManager;
-use Psr\Log\LoggerInterface;
 
 class TaskBackgroundJob extends QueuedJob {
 	public function __construct(
@@ -63,7 +54,6 @@ class TaskBackgroundJob extends QueuedJob {
 		try {
 			$this->languageModelManager->runTask($task);
 			$event = new TaskSuccessfulEvent($task);
-
 		} catch (\RuntimeException|PreConditionNotMetException $e) {
 			$event = new TaskFailedEvent($task, $e->getMessage());
 		}
