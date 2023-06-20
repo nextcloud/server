@@ -37,7 +37,10 @@ class State extends Base {
 		private IRegistry $registry,
 		protected IUserManager $userManager,
 	) {
-		parent::__construct('twofactorauth:state');
+		parent::__construct(
+			'twofactorauth:state',
+			$userManager,
+		);
 	}
 
 	protected function configure() {

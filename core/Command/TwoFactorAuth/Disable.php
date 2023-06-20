@@ -33,7 +33,10 @@ class Disable extends Base {
 		private ProviderManager $manager,
 		protected IUserManager $userManager,
 	) {
-		parent::__construct('twofactorauth:disable');
+		parent::__construct(
+			'twofactorauth:disable',
+			$userManager,
+		);
 	}
 
 	protected function configure() {

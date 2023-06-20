@@ -33,7 +33,10 @@ class Enable extends Base {
 		private ProviderManager $manager,
 		protected IUserManager $userManager,
 	) {
-		parent::__construct('twofactorauth:enable');
+		parent::__construct(
+			'twofactorauth:enable',
+			$userManager,
+		);
 	}
 
 	protected function configure() {
