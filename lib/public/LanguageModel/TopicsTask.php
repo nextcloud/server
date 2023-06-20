@@ -13,6 +13,7 @@ final class TopicsTask extends AbstractLanguageModelTask {
 
 	/**
 	 * @inheritDoc
+	 * @since 28.0.0
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
 		if (!$provider instanceof ITopicsProvider) {
@@ -23,6 +24,7 @@ final class TopicsTask extends AbstractLanguageModelTask {
 
 	/**
 	 * @inheritDoc
+	 * @since 28.0.0
 	 */
 	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return $provider instanceof ITopicsProvider;
@@ -30,6 +32,7 @@ final class TopicsTask extends AbstractLanguageModelTask {
 
 	/**
 	 * @inheritDoc
+	 * @since 28.0.0
 	 */
 	public function getType(): string {
 		return self::TYPE;

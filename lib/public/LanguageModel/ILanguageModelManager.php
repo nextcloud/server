@@ -29,6 +29,9 @@ namespace OCP\LanguageModel;
 use OCP\PreConditionNotMetException;
 use RuntimeException;
 
+/**
+ * @since 28.0.0
+ */
 interface ILanguageModelManager {
 	/**
 	 * @since 28.0.0
