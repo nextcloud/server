@@ -1,0 +1,341 @@
+###
+# SPDX-License-Identifier: MPL-2.0
+#
+# Author: Bernd rederlechner <bernd.rederlechner@t-systems.com
+#
+# Run a customisation build for the "Master/Backport" customisation strategy
+#
+# Make sure to start the workflow manually on 'master'
+# The workflow builds your personal customisation branch:
+# Stable builds: `customisation-<github.actor>-nmc/<stable version>`
+# master builds: `customisation-<github.actor>-master`
+# For a pure check run, you can set the INPUT variable PUSH_RESULT to false.
+#
+# !!! ATTENTION !!! The build will have strange side effects and is effectively
+# unusable if started on an already used customisation branch. MAKE SURE YOU DELETE
+# THE customisation- branch BEFORE BUILD !!!
+# 
+# For details about Nextcloud workflows: https://github.com/nextcloud/.github
+#
+# Test call: act --container-architecture linux/amd64 --secret-file ../secrets.env --env-file ../nmc-master-build.env -j build-custom-stable
+
+name: MCLOUD custom PR assembler
+
+on:
+  workflow_call:
+    inputs:
+      trunk:
+        description: trunk branch name for the repo (e.g., master, main, trunk, ...)
+        required: true
+        type: string
+      result:
+        description: result branch name, defaults to `customisation-<builduser>-<stable>`
+        required: true
+        type: string
+      stable:
+        description: stable release branch name, defaults to `<trunk>` for builds on current upstream 
+        required: false
+        type: string
+      
+
+jobs:
+  assemble-custom:
+    runs-on: ubuntu-latest
+    env:
+      CUSTOM_REPO:   ${{ github.repository }}
+      FETCH_DEPTH:   0
+      TARGET_TRUNK:  ${{ inputs.trunk }}
+      TARGET_STABLE: ${{ inputs.stable || inputs.trunk }}
+      BUILD_USER:    ${{ github.actor }}
+      BUILD_EMAIL:   ${{ github.actor }}@users.noreply.github.com
+      BUILD_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
+      # BUILD_TOKEN: ${{ secrets.BUILD_TOKEN || secrets.GITHUB_TOKEN }}
+      CUSTOM_BRANCH: ${{ inputs.result }} 
+    steps:
+      - name: Assembly preparation
+        run: |
+          if [ "$TARGET_TRUNK" = "$TARGET_STABLE" ]; then
+              echo ::notice::TRUNK build '${{ env.TARGET_STABLE }}' -> '${{ env.CUSTOM_BRANCH }}'
+              echo ** TRUNK build for '${{ env.TARGET_STABLE }}' -> '${{ env.CUSTOM_BRANCH }}' ** >> $GITHUB_STEP_SUMMARY
+              echo ::output name=buildtype::trunk
+          else
+              echo ::notice::BACKPORT build for '${{ env.TARGET_STABLE }}' -> '${{ env.CUSTOM_BRANCH }}'
+              echo ** BACKPORT build for '${{ env.TARGET_STABLE }}' -> '${{ env.CUSTOM_BRANCH }}' ** >> $GITHUB_STEP_SUMMARY
+              echo ::output name=buildtype::stable
+          fi
+
+      - name: "Find customisation candidates"
+        uses: octokit/graphql-action@v2.x
+        id: find_customisations
+        env:
+          GITHUB_TOKEN: ${{ env.BUILD_TOKEN }}
+        with:
+          query: |
+            query findCustomisations($searchexpr: String!) {
+              search(query: $searchexpr, type: ISSUE, first: 100) {
+                edges {
+                  node {
+                    ... on PullRequest {
+                      state
+                      number
+                      title
+                      baseRefName
+                      headRefName
+                      mergeable
+                      isDraft
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          searchexpr: "type:pr state:open repo:${{ env.CUSTOM_REPO }} base:${{ env.TARGET_TRUNK }} base:${{ env.TARGET_STABLE }} label:custom label:build-ready"
+          # note that the search has OR semantice for `base:`, but AND semantics for `label:` !
+          # see: https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-label      
+      - name: Filter search result
+        id: customisations
+        run: |
+          pulls="$(echo '${{ steps.find_customisations.outputs.data }}' | jq -s '.[].search.edges | map(.node) | sort_by(.headRefName)')"
+          echo pulls=$pulls >> $GITHUB_OUTPUT
+
+      - name: Picking backports
+        id: pickbackports
+        uses: actions/github-script@v6
+        env:
+          customisations: ${{ steps.customisations.outputs.pulls }}
+          target_trunk: ${{ env.TARGET_TRUNK }}
+          target_stable: ${{ env.TARGET_STABLE }}
+        with:
+          script: |
+            const customisations = JSON.parse(process.env.customisations);
+            const target_trunk   = process.env.target_trunk;
+            const target_stable  = process.env.target_stable;
+
+            function shuffleArray(array) {
+                return array.reduce((acc, current, index) => {
+                        const randomIndex = Math.floor(Math.random() * (index + 1));
+                        [acc[index], acc[randomIndex]] = [acc[randomIndex], acc[index]];
+                        return acc;
+                    }, [...array]);
+            }
+
+            function isBackportFor(port, master) {
+                if (( port.baseRefName === target_stable ) &&
+                    ( master.baseRefName === target_trunk ) && 
+                    ( port.headRefName.startsWith( master.headRefName ))) {
+                    return true;  
+                } else {
+                    return false;
+                }
+            }
+
+            var buildparts = [];
+            var newerparts =[];
+
+            for (cIdx=0; cIdx < customisations.length; cIdx++) {
+                if (cIdx+1 < customisations.length) {
+                    // detect master - backport pairs
+                    if (isBackportFor( customisations[cIdx], customisations[cIdx+1] )) {
+                        buildparts.push(customisations[cIdx]);
+                        newerparts.push(customisations[cIdx+1]);
+                        cIdx++;
+                    } else if (isBackportFor( customisations[cIdx+1], customisations[cIdx] )) {
+                        buildparts.push(customisations[cIdx+1]);
+                        newerparts.push(customisations[cIdx]);
+                        cIdx++;
+                    } else {
+                        // handle as single entry
+                        buildparts.push(customisations[cIdx]);
+                    }
+                } else {
+                    // handle as last entry
+                    buildparts.push(customisations[cIdx]);
+                }
+            }
+            core.setOutput('buildparts', JSON.stringify(shuffleArray(buildparts)) );
+            core.setOutput('newerparts', JSON.stringify(shuffleArray(newerparts)) );
+            return "";            
+
+      # identify non-mergeable branches and exclude them from build
+      - name: Check mergeability
+        id: checkmergeable
+        uses: actions/github-script@v6
+        env:
+          buildparts: ${{ steps.pickbackports.outputs.buildparts }}
+        with:
+          script: |
+            const buildparts = JSON.parse(process.env.buildparts);
+            var   mergeableparts = [];
+            result = 0;
+            buildparts.forEach( (buildpart) => {
+                if ( buildpart.mergeable === 'MERGEABLE' ) {
+                   mergeableparts.push(buildpart);
+                } else {
+                   notMergeableError=`${buildpart.mergeable} PRstate, skip \"#${buildpart.number} ${buildpart.title}!\"`
+                   core.error(notMergeableError);
+                   core.summary.addRaw(":interrobang: " + notMergeableError, true).write();
+                   result++;
+                }
+            });
+            core.setOutput('mergeableparts', JSON.stringify(mergeableparts) );
+            if (result > 0) {
+                core.setFailed(result + " PRs not ready, skipped.");
+            }
+            return result;
+
+      - name: Checkout build repo
+        id: checkout
+        if: ${{ success() || failure() && steps.checkmergeable.outcome == 'failure' }}
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.CUSTOM_REPO }}
+          ref: ${{ env.TARGET_STABLE }}
+          fetch-depth: ${{ env.FETCH_DEPTH }}
+          token: ${{ secrets.BUILD_TOKEN }}
+
+      # this works also with TARGET_STABLE as a branch OR tag
+      - name: Prepare trunk build branch
+        id: createcustombranch
+        if: ${{ success() || failure() && steps.checkout.outcome == 'success' }}
+        run: |
+          if git ls-remote --exit-code --heads origin "$CUSTOM_BRANCH" >/dev/null 2>&1; then
+              # make sure that customisation output branch is fresh
+              echo "Branch $CUSTOM_BRANCH exists upstream. Deleting..."
+              git push origin --delete "$CUSTOM_BRANCH"
+          fi
+          git checkout -b $CUSTOM_BRANCH $TARGET_STABLE
+
+      #- name: Detect obsolete backport candidates
+      #  id: checkobsolete
+      #  run: |
+      #    git checkout $CUSTOM_BRANCH
+      #    result=0
+      #    newerparts=$(echo '${{ steps.pickbackports.outputs.newerparts }}' | jq -r '.[]')
+      #    for newerpart in "$newerparts"
+      #    do
+      #        merge_result=0
+      #        head=$(echo "$newerpart" | jq -r '.headRefName')
+      #        base=$(echo "$newerpart" | jq -r '.baseRefName')        
+      #        title=$(echo "$newerpart" | jq -r '.title')
+      #        prnr=$(echo "$newerpart" | jq -r '.number')
+      #    done
+
+      - name: Merge customisations
+        id: custommerge
+        if: ${{ success() || failure() && steps.createcustombranch.outcome == 'success' }}
+        run: |
+          function tmp_rebase {
+              branch=$1
+              base=$2
+              prnr=$3
+              title=$4
+              copybranch=$branch-$GITHUB_RUN_ID
+
+              declare -i result=0
+
+              git checkout $base
+              git checkout $branch
+              git branch --copy $branch $copybranch
+
+              echo ::debug::"REBASE-$base #$prnr $copybranch"
+              git checkout $CUSTOM_BRANCH
+              git rebase --merge --onto $CUSTOM_BRANCH --fork-point $base $copybranch
+              result=$?
+              if [ $result = 0 ]; then
+                  # if rebase is successful, the final merge must be able to fast-forward
+                  echo ::debug::"FF-MERGE-$base #$prnr $copybranch"
+                  # HEAD has moved so checkout again to savely start merge from CUSTOM_BRANCH HEAD
+                  git checkout $CUSTOM_BRANCH
+                  git merge --ff-only --commit  -m "Rebase-FF-Merge #$prnr $title" $copybranch
+                  result=$?
+              else
+                  git checkout $CUSTOM_BRANCH
+                  git rebase --abort
+              fi
+              git branch -D $copybranch
+
+              if [ $result = 0 ]; then
+                  echo ":white_check_mark: REBASE_MERGE #${prnr} ${head}(type: ${base}): ${title}!" >> $GITHUB_STEP_SUMMARY
+              else
+                  echo ::error::"FAILED REBASE_MERGE #${prnr} ${head}(type: ${base}): ${title}!${EOL}$(git diff --diff-filter=U)"
+                  echo ":no_entry_sign: REBASE_MERGE #${prnr} ${head}(type: ${base}): ${title}!" >> $GITHUB_STEP_SUMMARY
+              fi
+
+              return $result
+          }
+        
+          function merge {
+              branch=$1
+              base=$2
+              prnr=$3
+              title=$4
+
+              declare -i result=0
+
+              # git fetch origin $branch
+              git checkout $base
+              git checkout $branch
+              git checkout $CUSTOM_BRANCH
+
+              echo ::debug::"MERGE-$base #$prnr $branch"
+              # do test merge first
+              git merge --commit -m "Merge #$prnr $title" $branch
+              result=$?
+              if [ $result != 0 ]; then
+                  echo ::error::"FAILED DIRECT_MERGE #${prnr} ${head}(type: ${base}): ${title}!${EOL}$(git diff --diff-filter=U)"
+                  echo ":no_entry_sign: DIRECT_MERGE #${prnr} ${head}(type: ${base}): ${title}!" >> $GITHUB_STEP_SUMMARY
+                  git merge --abort
+                  return $result
+              else
+                  echo ":white_check_mark: DIRECT_MERGE #${prnr} ${head}(type: ${base}): ${title}!" >> $GITHUB_STEP_SUMMARY
+              fi
+              return 0
+          }
+
+          # some settings are mandatory for commits
+          git config user.name $BUILD_USER
+          git config user.email $BUILD_EMAIL
+          #avoid some spoiling warnings
+          git config merge.verbosity 1
+          git config advice.skippedCherryPicks false
+
+          # start merging/rebasing
+          # disable fast-fail as we always want to process all PR
+          set +e
+          declare -i failed=0
+          declare -i mresult=0
+          buildtype='${{ steps.createcustombranch.outputs.buildtype }}'
+          echo '${{ steps.checkmergeable.outputs.mergeableparts }}' | jq -c -r '.[] | @json' | \
+          while IFS= read -r mergepull; do
+              head=$(echo "$mergepull" | jq -r '.headRefName')
+              base=$(echo "$mergepull" | jq -r '.baseRefName')        
+              title=$(echo "$mergepull" | jq -r '.title')
+              prnr=$(echo "$mergepull" | jq -r '.number')
+              echo ::group::"$head(type:$base) >>> '${{ env.CUSTOM_BRANCH }}'"
+              # same behavior used for buildtypes tags and stable
+              # stable implements backport picking
+              if [ "$base" = "$TARGET_STABLE" ]; then
+                  # backports are rooted at the same point as the customisation branch - merge
+                  merge "$head" "$base" "$prnr" "$title"
+                  mresult=$?
+              else
+                  # trunk customisations must be non-invasively rebased first
+                  tmp_rebase "$head" "$base" "$prnr" "$title"
+                  mresult=$?
+              fi
+              echo ::endgroup::
+              if [ mresult > 0 ]; then
+                  ((failed++))
+              fi
+          done
+          set -e
+          if [ failed > 0 ]; then
+              exit 1  
+          fi
+
+### PUSH result (optional)
+      - name: Push '${{ env.CUSTOM_BRANCH }}'
+        id: pushcustomisation
+        if: ${{ success() || failure() && steps.createcustombranch.outcome == 'success' }}
+        run: |
+          git push origin $CUSTOM_BRANCH

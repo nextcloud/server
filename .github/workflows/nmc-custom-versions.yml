@@ -1,0 +1,29 @@
+###
+# SPDX-License-Identifier: MPL-2.0
+#
+# Author: Bernd rederlechner <bernd.rederlechner@t-systems.com
+#
+# Assemble a customisation for recent trunk
+# (only master changes, no backports)
+#
+# The assembly ssafeguards that all customisations for master
+# are available and merge properly.
+#
+
+name: MCLOUD custom assemblies
+
+on:
+  workflow_dispatch:
+
+jobs:
+  customisation:
+    strategy:
+      fail-fast: false
+      matrix:
+        custombase: ["master", "nmcstable/25.0.6"]
+    uses: nextmcloud/server/.github/workflows/nmc-custom-assembly.yml@nmc/2027-custom-build
+    with:
+      trunk: "master"
+      stable: ${{ matrix.custombase }}
+      result: "${{ format('customisation-{0}-{1}', github.actor, matrix.custombase) }}"
+    secrets: inherit
