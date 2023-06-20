@@ -29,11 +29,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowKeyStorageRoot extends Command {
-	protected Util $util;
-
-	public function __construct(Util $util) {
+	public function __construct(
+		protected Util $util,
+	) {
 		parent::__construct();
-		$this->util = $util;
 	}
 
 	protected function configure() {

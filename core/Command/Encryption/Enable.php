@@ -29,14 +29,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Command {
-	protected IConfig $config;
-	protected IManager $encryptionManager;
-
-	public function __construct(IConfig $config, IManager $encryptionManager) {
+	public function __construct(
+		protected IConfig $config,
+		protected IManager $encryptionManager,
+	) {
 		parent::__construct();
-
-		$this->encryptionManager = $encryptionManager;
-		$this->config = $config;
 	}
 
 	protected function configure() {
@@ -70,7 +67,7 @@ class Enable extends Command {
 			return 1;
 		}
 		$output->writeln('Default module: ' . $defaultModule);
-		
+
 		return 0;
 	}
 }
