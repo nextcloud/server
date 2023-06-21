@@ -890,12 +890,25 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$filesNode1 = $this->createMock(File::class);
 		$filesNode1->expects($this->any())
+			->method('getId')
+			->willReturn(111);
+		$filesNode1->expects($this->any())
 			->method('getSize')
 			->willReturn(12);
 		$filesNode2 = $this->createMock(Folder::class);
 		$filesNode2->expects($this->any())
+			->method('getId')
+			->willReturn(222);
+		$filesNode2->expects($this->any())
 			->method('getSize')
 			->willReturn(10);
+		$filesNode3 = $this->createMock(Folder::class);
+		$filesNode3->expects($this->any())
+			->method('getId')
+			->willReturn(333);
+		$filesNode3->expects($this->any())
+			->method('getSize')
+			->willReturn(33);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
@@ -903,16 +916,20 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn([$tag1, $tag2]);
 
 		// main assertion: only user visible tags are being passed through.
-		$this->userFolder->expects($this->exactly(1))
+		$this->userFolder->expects($this->exactly(2))
 			->method('searchBySystemTag')
-			->with('FourFiveSix', $this->anything(), $this->anything(), $this->anything());
+			->withConsecutive(['OneTwoThree'], ['FourFiveSix'])
+			->willReturnOnConsecutiveCalls(
+				[$filesNode1, $filesNode2],
+				[$filesNode2, $filesNode3],
+			);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, null, null]);
+		$this->assertEquals([$filesNode2], array_values($this->invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, null, null])));
 	}
 
 	public function testProcessFavoriteFilter(): void {
