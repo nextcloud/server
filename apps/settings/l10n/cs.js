@@ -445,6 +445,7 @@ OC.L10N.register(
     "Documentation" : "Dokumentace",
     "Forum" : "Diskuzní fórum",
     "Login" : "Přihlásit",
+    "None/STARTTLS" : "Žádné/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Otevřít dokumentaci",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Je důležité tento server nastavit, aby mohly být odesílány e-maily, jako jsou např. ty pro resetování hesla a s upozorněními.",
