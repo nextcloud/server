@@ -443,6 +443,7 @@
     "Documentation" : "說明文件",
     "Forum" : "論壇",
     "Login" : "登入",
+    "None/STARTTLS" : "無/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "開啟說明文件",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "設定伺服器可以寄送電子郵件非常重要，使用者通知和密碼重設將會需要。",

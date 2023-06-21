@@ -445,6 +445,7 @@ OC.L10N.register(
     "Documentation" : "Documentation",
     "Forum" : "Forum",
     "Login" : "Login",
+    "None/STARTTLS" : "None/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Open documentation",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "It is important to set up this server to be able to send emails, like for password reset and notifications.",

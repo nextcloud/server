@@ -445,6 +445,7 @@ OC.L10N.register(
     "Documentation" : "Документација",
     "Forum" : "Форум",
     "Login" : "Пријава",
+    "None/STARTTLS" : "Ништа/STARTTLS",
     "SSL" : "ССЛ",
     "Open documentation" : "Отвори документацију",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Важно је да подесите сервер тако да може да шаље е-пошту када нпр. треба послати ресетовање лозинке или нека обавештења.",
