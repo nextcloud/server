@@ -219,6 +219,10 @@ class FilesReportPlugin extends ServerPlugin {
 		// gather all file ids matching filter
 		try {
 			$resultFileIds = $this->processFilterRulesForFileIDs($filterRules);
+			// no logic in circles and favorites for paging, we always have all results, and slice later on
+			$resultFileIds = array_slice($resultFileIds, $offset ?? 0, $limit ?? null);
+			// fetching nodes has paging on DB level – therefore we cannot mix and slice the results, similar
+			// to user backends. I.e. the final result may return more results than requested.
 			$resultNodes = $this->processFilterRulesForFileNodes($filterRules, $limit ?? null, $offset ?? null);
 		} catch (TagNotFoundException $e) {
 			throw new PreconditionFailed('Cannot filter by non-existing tag', 0, $e);
