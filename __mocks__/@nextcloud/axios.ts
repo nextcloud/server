@@ -20,5 +20,6 @@
  *
  */
 export default {
-	  delete: async () => ({ status: 200, data: {} }),
+	delete: async () => ({ status: 200, data: {} }),
+	post: async () => ({ status: 200, data: {} }),
 }
