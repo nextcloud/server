@@ -304,8 +304,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->search($query);
 	}
 
-	public function searchBySystemTag(string $tag, string $userId, int $limit = 0, int $offset = 0): array {
-		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'systemtag', $tag), $userId, $limit, $offset);
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
+		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'systemtag', $tagName), $userId, $limit, $offset);
 		return $this->search($query);
 	}
 
