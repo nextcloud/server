@@ -85,6 +85,15 @@ class L10nTest extends TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
+	public function testGermanPluralWithCzechLocaleTranslations() {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'cs_CZ', [$transFile]);
+
+		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
+		$this->assertEquals('5 Dateien', (string) $l->n('%n file', '%n files', 5));
+	}
+
 	public function dataPlaceholders(): array {
 		return [
 			['Ordered placeholders one %s two %s', 'Placeholder one 1 two 2'],
