@@ -226,31 +226,21 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		if ($writeHookInfo['versionCreated'] && $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()) {
+		if (
+			($writeHookInfo['versionCreated'] && $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()) ||
+			$writeHookInfo['previousNode']->getSize() === 0
+		) {
 			// If a new version was created, insert a version in the DB for the current content.
 			// Unless both versions have the same mtime.
-			$versionEntity = new VersionEntity();
-			$versionEntity->setFileId($node->getId());
-			$versionEntity->setTimestamp($node->getMTime());
-			$versionEntity->setSize($node->getSize());
-			$versionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-			$versionEntity->setMetadata([]);
-			$this->versionsMapper->insert($versionEntity);
+			$this->created($node);
 		} else {
 			// If no new version was stored in the FS, no new version should be added in the DB.
 			// So we simply update the associated version.
-			try {
-				$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
-				$currentVersionEntity->setTimestamp($node->getMTime());
-				$currentVersionEntity->setSize($node->getSize());
-				$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-				$this->versionsMapper->update($currentVersionEntity);
-			} catch (DoesNotExistException) {
-				// There might be cases where the current version entry doesn't exist,
-				// e.g. if none was written due to an empty file or from before the versions table was introduced
-				// We just create the initial version entry then for the current entity
-				$this->created($node);
-			}
+			$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
+			$currentVersionEntity->setTimestamp($node->getMTime());
+			$currentVersionEntity->setSize($node->getSize());
+			$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
+			$this->versionsMapper->update($currentVersionEntity);
 		}
 
 		unset($this->writeHookInfo[$node->getId()]);
