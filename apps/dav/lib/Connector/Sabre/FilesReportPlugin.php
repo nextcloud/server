@@ -30,6 +30,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\View;
 use OCP\App\IAppManager;
 use OCP\Files\Folder;
+use OCP\Files\Node as INode;
 use OCP\IGroupManager;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -238,7 +239,9 @@ class FilesReportPlugin extends ServerPlugin {
 		// find sabre nodes by file id, restricted to the root node path
 		$additionalNodes = $this->findNodesByFileIds($reportTargetNode, $resultFileIds);
 		if ($additionalNodes && $results) {
-			$results = array_intersect($results, $additionalNodes);
+			$results = array_uintersect($results, $additionalNodes, function (Node $a, Node $b): int {
+				return $a->getId() - $b->getId();
+			});
 		} elseif (!$results && $additionalNodes) {
 			$results = $additionalNodes;
 		}
@@ -344,7 +347,7 @@ class FilesReportPlugin extends ServerPlugin {
 				if (count($nodes) === 0) {
 					$nodes = $tmpNodes;
 				} else {
-					$nodes = array_uintersect($nodes, $tmpNodes, function (\OCP\Files\Node $a, \OCP\Files\Node $b): int {
+					$nodes = array_uintersect($nodes, $tmpNodes, function (INode $a, INode $b): int {
 						return $a->getId() - $b->getId();
 					});
 				}
