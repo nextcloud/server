@@ -471,9 +471,6 @@ export default {
 			.icon {
 				cursor: pointer;
 			}
-			&:first-of-type {
-				margin-top: 0;
-			}
 			&.update-channel-selector {
 				display: inline-block;
 				cursor: inherit;
@@ -509,6 +506,9 @@ export default {
 			cursor: pointer;
 			margin-left: 3px;
 			display: inline-block;
+			padding: 10px;
+			border-radius: 10px;
+			border: 2px solid var(--color-border-dark);
 			.icon-update-menu {
 				cursor: inherit;
 				.icon-triangle-s {
