@@ -27,7 +27,7 @@ import type { Navigation } from '../services/Navigation'
 import { join } from 'path'
 import { registerFileAction, FileAction } from '../services/FileAction'
 
-registerFileAction(new FileAction({
+export const action = new FileAction({
 	id: 'open-folder',
 	displayName(files: Node[]) {
 		// Only works on single node
@@ -43,6 +43,11 @@ registerFileAction(new FileAction({
 		}
 
 		const node = nodes[0]
+
+		if (!node.isDavRessource) {
+			return false
+		}
+
 		return node.type === FileType.Folder
 			&& (node.permissions & Permission.READ) !== 0
 	},
@@ -59,11 +64,10 @@ registerFileAction(new FileAction({
 		)
 		return null
 	},
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
-	},
 
 	// Main action if enabled, meaning folders only
-	order: -100,
 	default: true,
-}))
+	order: -100,
+})
+
+registerFileAction(action)

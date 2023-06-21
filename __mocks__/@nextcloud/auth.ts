@@ -19,17 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-declare module '*.svg?raw' {
-	const content: any
-	export default content
+export const getCurrentUser = function() {
+	return {
+		uid: 'test',
+		displayName: 'Test',
+		isAdmin: false,
+	}
 }
 
-declare module '*.svg' {
-	const content: any
-	export default content
+export const getRequestToken = function() {
+	return 'test-token-1234'
 }
 
-declare module '*.vue' {
-	import Vue from 'vue'
-	export default Vue
-}
+export const onRequestTokenUpdate = function() {}

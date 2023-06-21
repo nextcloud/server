@@ -20,49 +20,63 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node } from '@nextcloud/files'
+import { Permission, Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
+import ArrowDown from '@mdi/svg/svg/arrow-down.svg?raw'
 
 import { registerFileAction, FileAction } from '../services/FileAction'
-import logger from '../logger.js'
+import { generateUrl } from '@nextcloud/router'
 import type { Navigation } from '../services/Navigation'
 
+const triggerDownload = function(url: string) {
+	const hiddenElement = document.createElement('a')
+	hiddenElement.download = ''
+	hiddenElement.href = url
+	hiddenElement.click()
+}
+
+const downloadNodes = function(dir: string, nodes: Node[]) {
+	const secret = Math.random().toString(36).substring(2)
+	const url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
+		dir,
+		secret,
+		files: JSON.stringify(nodes.map(node => node.basename)),
+	})
+	triggerDownload(url)
+}
+
 export const action = new FileAction({
-	id: 'delete',
-	displayName(nodes: Node[], view: Navigation) {
-		return view.id === 'trashbin'
-			? t('files_trashbin', 'Delete permanently')
-			: t('files', 'Delete')
-	},
-	iconSvgInline: () => TrashCan,
+	id: 'download',
+	displayName: () => t('files', 'Download'),
+	iconSvgInline: () => ArrowDown,
 
 	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
-			.every(permission => (permission & Permission.DELETE) !== 0)
+			.every(permission => (permission & Permission.READ) !== 0)
 	},
 
-	async exec(node: Node) {
-		try {
-			await axios.delete(node.source)
-
-			// Let's delete even if it's moved to the trashbin
-			// since it has been removed from the current view
-			//  and changing the view will trigger a reload anyway.
-			emit('files:node:deleted', node)
-			return true
-		} catch (error) {
-			logger.error('Error while deleting a file', { error, source: node.source, node })
-			return false
+	async exec(node: Node, view: Navigation, dir: string) {
+		if (node.type === FileType.Folder) {
+			downloadNodes(dir, [node])
+			return null
 		}
-	},
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+
+		triggerDownload(node.source)
+		return null
 	},
 
-	order: 100,
+	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+		if (nodes.length === 1) {
+			this.exec(nodes[0], view, dir)
+			return [null]
+		}
+
+		downloadNodes(dir, nodes)
+		return new Array(nodes.length).fill(null)
+	},
+
+	order: 30,
 })
 
 registerFileAction(action)
