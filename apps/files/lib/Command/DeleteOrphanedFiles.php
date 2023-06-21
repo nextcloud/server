@@ -24,9 +24,11 @@
  */
 namespace OCA\Files\Command;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -44,7 +46,8 @@ class DeleteOrphanedFiles extends Command {
 	protected function configure(): void {
 		$this
 			->setName('files:cleanup')
-			->setDescription('cleanup filecache');
+			->setDescription('cleanup filecache')
+			->addOption('filecache-extended', null, InputOption::VALUE_NONE, 'remove orphaned entries from filecache_extended');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -75,9 +78,42 @@ class DeleteOrphanedFiles extends Command {
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
 
+		if ($input->getOption('filecache-extended')) {
+			$deletedFileCacheExtended = $this->cleanupOrphanedFileCacheExtended();
+			$output->writeln("$deletedFileCacheExtended orphaned file cache extended entries deleted");
+		}
+
+
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
 		return self::SUCCESS;
+	}
+
+	private function cleanupOrphanedFileCacheExtended(): int {
+		$deletedEntries = 0;
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('fce.fileid')
+			->from('filecache_extended', 'fce')
+			->leftJoin('fce', 'filecache', 'fc', $query->expr()->eq('fce.fileid', 'fc.fileid'))
+			->where($query->expr()->isNull('fc.fileid'))
+			->setMaxResults(self::CHUNK_SIZE);
+
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete('filecache_extended')
+			->where($deleteQuery->expr()->in('fileid', $deleteQuery->createParameter('idsToDelete')));
+
+		$result = $query->executeQuery();
+		while ($result->rowCount() > 0) {
+			$idsToDelete = $result->fetchAll(\PDO::FETCH_COLUMN);
+
+			$deleteQuery->setParameter('idsToDelete', $idsToDelete, IQueryBuilder::PARAM_INT_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
+
+			$result = $query->executeQuery();
+		}
+
+		return $deletedEntries;
 	}
 
 	private function cleanupOrphanedMounts(): int {
