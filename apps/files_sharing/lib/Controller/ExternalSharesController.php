@@ -65,6 +65,7 @@ class ExternalSharesController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function index() {
+		error_log('NEXTCLOUD ExternalSharesController index me');
 		return new JSONResponse($this->externalManager->getOpenShares());
 	}
 
@@ -76,6 +77,7 @@ class ExternalSharesController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function create($id) {
+		error_log('NEXTCLOUD ExternalSharesController create share');
 		$this->externalManager->acceptShare($id);
 		return new JSONResponse();
 	}
@@ -88,6 +90,7 @@ class ExternalSharesController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function destroy($id) {
+		error_log('NEXTCLOUD ExternalSharesController selete sahre');
 		$this->externalManager->declineShare($id);
 		return new JSONResponse();
 	}
@@ -100,6 +103,7 @@ class ExternalSharesController extends Controller {
 	 * @return bool
 	 */
 	protected function testUrl($remote, $checkVersion = false) {
+		error_log('NEXTCLOUD ExternalSharesController testUrl');
 		try {
 			$client = $this->clientService->newClient();
 			$response = json_decode($client->get(
@@ -129,6 +133,7 @@ class ExternalSharesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function testRemote($remote) {
+		error_log('NEXTCLOUD testRemote');
 		if (strpos($remote, '#') !== false || strpos($remote, '?') !== false || strpos($remote, ';') !== false) {
 			return new DataResponse(false);
 		}

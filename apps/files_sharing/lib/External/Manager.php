@@ -372,9 +372,17 @@ class Manager {
 			}
 			if ($userShareAccepted !== false) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
+				error_log('NEXTCLOUD after sendFeedbackToRemote');
+				
 				$event = new FederatedShareAddedEvent($share['remote']);
+				error_log('NEXTCLOUD after FederatedShareAddedEvent' . var_export($share['remote'], true));
+				
 				$this->eventDispatcher->dispatchTyped($event);
+				error_log('NEXTCLOUD after dispatchTyped($event)');
+				
 				$this->eventDispatcher->dispatchTyped(new Files\Events\InvalidateMountCacheEvent($this->userManager->get($this->uid)));
+				error_log('NEXTCLOUD after Files\Events\InvalidateMountCacheEvent' . var_export($this->uid, true));
+				
 				$result = true;
 			}
 		}
@@ -465,14 +473,24 @@ class Manager {
 	 * @return boolean
 	 */
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
+		error_log('NEXTCLOUD sendFeedbackToRemote in the start');
 		$result = $this->tryOCMEndPoint($remote, $token, $remoteId, $feedback);
+		error_log('NEXTCLOUD sendFeedbackToRemote after $this->tryOCMEndPoint');
+
+		error_log('NEXTCLOUD sendFeedbackToRemot:' . var_export($result, true));
 
 		if (is_array($result)) {
+			error_log('NEXTCLOUD sendFeedbackToRemote is_array($result)');
 			return true;
 		}
 
+		error_log('NEXTCLOUD sendFeedbackToRemo OCS DAMN');
+
 		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
+		error_log('NEXTCLOUD sendFeedbackToRemo OCS DAMN AFTER DISCOVER');
 		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+		error_log('NEXTCLOUD sendFeedbackToRemo OCS DAMN AFTER SHARES');
+
 
 		$url = rtrim($remote, '/') . $endpoint . '/' . $remoteId . '/' . $feedback . '?format=' . Share::RESPONSE_FORMAT;
 		$fields = ['token' => $token];
@@ -755,6 +773,7 @@ class Manager {
 	 * @return array list of open server-to-server shares
 	 */
 	public function getOpenShares() {
+		error_log('NEXTCLOUD ExternalSharesController get NOT ACCEPTED shares');
 		return $this->getShares(false);
 	}
 
@@ -764,6 +783,7 @@ class Manager {
 	 * @return array list of accepted server-to-server shares
 	 */
 	public function getAcceptedShares() {
+		error_log('NEXTCLOUD ExternalSharesController get ACCEPTED shares');
 		return $this->getShares(true);
 	}
 
@@ -776,6 +796,7 @@ class Manager {
 	 * @return array list of open server-to-server shares
 	 */
 	private function getShares($accepted) {
+		error_log('NEXTCLOUD ExternalSharesController get shares ' . var_export($accepted, true));
 		$user = $this->userManager->get($this->uid);
 		$groups = $this->groupManager->getUserGroups($user);
 		$userGroups = [];

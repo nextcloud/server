@@ -183,7 +183,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				'connect_timeout' => 10,
 			]);
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
+				error_log('NEXTCLOUD sendNotification STATUS_CREATED');
 				$result = json_decode($response->getBody(), true);
+				error_log('NEXTCLOUD sendNotification' . var_export($result, true));
 				return (is_array($result)) ? $result : [];
 			}
 		} catch (\Exception $e) {
@@ -209,12 +211,15 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return string
 	 */
 	protected function getOCMEndPoint($url) {
+		error_log('NEXTCLOUD getOCMEndPoint Start');
 		if (isset($this->ocmEndPoints[$url])) {
+			error_log('NEXTCLOUD getOCMEndPoint HIT CACHE');
 			return $this->ocmEndPoints[$url];
 		}
 
 		$client = $this->httpClientService->newClient();
 		try {
+			error_log('NEXTCLOUD getOCMEndPoint try to get');
 			$response = $client->get($url . '/ocm-provider/', ['timeout' => 10, 'connect_timeout' => 10]);
 		} catch (\Exception $e) {
 			$this->ocmEndPoints[$url] = '';
@@ -224,12 +229,17 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$result = $response->getBody();
 		$result = json_decode($result, true);
 
+		error_log('NEXTCLOUD getOCMEndPoint results:' . var_export($result, true));
+
 		$supportedVersion = isset($result['apiVersion']) && $result['apiVersion'] === $this->supportedAPIVersion;
 
 		if (isset($result['endPoint']) && $supportedVersion) {
+			error_log('NEXTCLOUD getOCMEndPoint returns endpoint');
 			$this->ocmEndPoints[$url] = $result['endPoint'];
 			return $result['endPoint'];
 		}
+
+		error_log('NEXTCLOUD getOCMEndPoint returns empty string');
 
 		$this->ocmEndPoints[$url] = '';
 		return '';
