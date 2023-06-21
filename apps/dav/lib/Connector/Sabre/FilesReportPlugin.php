@@ -284,9 +284,9 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param array $filterRules
 	 * @return array array of unique file id results
 	 */
-	protected function processFilterRulesForFileIDs($filterRules) {
+	protected function processFilterRulesForFileIDs(array $filterRules): array {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
-		$resultFileIds = null;
+		$resultFileIds = [];
 		$circlesIds = [];
 		$favoriteFilter = null;
 		foreach ($filterRules as $filterRule) {
@@ -407,7 +407,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param array $fileIds file ids
 	 * @return Node[] array of Sabre nodes
 	 */
-	public function findNodesByFileIds($rootNode, $fileIds): array {
+	public function findNodesByFileIds(Node $rootNode, array $fileIds): array {
 		if (empty($fileIds)) {
 			return [];
 		}
