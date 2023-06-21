@@ -66,7 +66,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function checkboxLabelInTheSettings($id) {
-		return Locator::forThe()->xpath("//label[@for = '$id']")->
+		return Locator::forThe()->css("[data-test=\"$id\"]")->
 			descendantOf(self::appSettingsContent())->
 			describedAs("The label for the $id checkbox in the settings");
 	}

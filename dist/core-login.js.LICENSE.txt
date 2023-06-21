@@ -1,5 +1,3 @@
-/*! For license information please see NcPasswordField.js.LICENSE.txt */
-
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
