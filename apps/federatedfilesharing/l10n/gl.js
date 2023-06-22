@@ -9,7 +9,7 @@ OC.L10N.register(
     "Invalid Federated Cloud ID" : "ID de nube federada incorrecto",
     "Server to server sharing is not enabled on this server" : "Neste servidor non está activada a compartición de servidor a servidor",
     "Couldn't establish a federated share." : "Non foi posíbel estabelecer unha compartición federada",
-    "Couldn't establish a federated share, maybe the password was wrong." : "Non foi posíbel estabelecer unha compartición federada, é probábel que o contrasinal sexa incorrecto.",
+    "Couldn't establish a federated share, maybe the password was wrong." : "Non foi posíbel estabelecer unha compartición federada, é probábel que o contrasinal sexa erróneo.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Enviouse a solicitude dunha compartición federada, vostede recibirá unha notificación. Comprobe as súas notificacións.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Non foi posíbel estabelecer unha compartición federada, semella que o servidor  federar é antigo de máis (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Non está permitido enviar unha compartición de grupos federados  dende este servidor.",
