@@ -318,6 +318,8 @@ export default Vue.extend({
 				// Make some space for the outline
 				padding: 5px 10px;
 				margin-left: -10px;
+				// Align two name and ext
+				display: inline-flex;
 			}
 
 			.files-list__row-name-ext {

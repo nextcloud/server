@@ -83,7 +83,8 @@
 				<!-- File name -->
 				<span class="files-list__row-name-text">
 					<!-- Keep the displayName stuck to the extension to avoid whitespace rendering issues-->
-					{{ displayName }}<span class="files-list__row-name-ext" v-text="source.extension" />
+					<span class="files-list__row-name-" v-text="displayName" />
+					<span class="files-list__row-name-ext" v-text="source.extension" />
 				</span>
 			</a>
 		</td>
