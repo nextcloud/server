@@ -232,8 +232,8 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if (
-			($writeHookInfo['versionCreated'] && $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()) ||
-			$writeHookInfo['previousNode']->getSize() === 0
+			($writeHookInfo['versionCreated'] || $writeHookInfo['previousNode']->getSize() === 0) &&
+			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
 		) {
 			// If a new version was created, insert a version in the DB for the current content.
 			// Unless both versions have the same mtime.
