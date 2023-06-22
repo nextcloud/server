@@ -25,8 +25,8 @@ import { File, Folder, Permission } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
-import type { Navigation } from '../services/Navigation'
 import logger from '../logger'
+import type { Navigation } from '../services/Navigation'
 
 const view = {
 	id: 'files',
