@@ -8,6 +8,7 @@ import './actions/favoriteAction'
 import './actions/openFolderAction'
 import './actions/renameAction'
 import './actions/sidebarAction'
+import './actions/viewInFolderAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
