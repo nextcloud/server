@@ -29,22 +29,30 @@ namespace OCA\OAuth2\Settings;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Security\ICrypto;
 use OCP\Settings\ISettings;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
 	private IInitialState $initialState;
 	private ClientMapper $clientMapper;
 	private IURLGenerator $urlGenerator;
+	private ICrypto $crypto;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		IInitialState $initialState,
 		ClientMapper $clientMapper,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
+		ICrypto $crypto,
+		LoggerInterface $logger
 	) {
 		$this->initialState = $initialState;
 		$this->clientMapper = $clientMapper;
 		$this->urlGenerator = $urlGenerator;
+		$this->crypto = $crypto;
+		$this->logger = $logger;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -52,13 +60,18 @@ class Admin implements ISettings {
 		$result = [];
 
 		foreach ($clients as $client) {
-			$result[] = [
-				'id' => $client->getId(),
-				'name' => $client->getName(),
-				'redirectUri' => $client->getRedirectUri(),
-				'clientId' => $client->getClientIdentifier(),
-				'clientSecret' => $client->getSecret(),
-			];
+			try {
+				$secret = $this->crypto->decrypt($client->getSecret());
+				$result[] = [
+					'id' => $client->getId(),
+					'name' => $client->getName(),
+					'redirectUri' => $client->getRedirectUri(),
+					'clientId' => $client->getClientIdentifier(),
+					'clientSecret' => $secret,
+				];
+			} catch (\Exception $e) {
+				$this->logger->error('[Settings] OAuth client secret decryption error', ['exception' => $e]);
+			}
 		}
 		$this->initialState->provideInitialState('clients', $result);
 		$this->initialState->provideInitialState('oauth2-doc-link', $this->urlGenerator->linkToDocs('admin-oauth2'));

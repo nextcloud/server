@@ -42,6 +42,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class OauthApiController extends Controller {
 	/** @var AccessTokenMapper */
@@ -58,6 +59,8 @@ class OauthApiController extends Controller {
 	private $time;
 	/** @var Throttler */
 	private $throttler;
+	/** @var LoggerInterface */
+	private $logger;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -67,6 +70,7 @@ class OauthApiController extends Controller {
 								TokenProvider $tokenProvider,
 								ISecureRandom $secureRandom,
 								ITimeFactory $time,
+								LoggerInterface $logger,
 								Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
@@ -76,6 +80,7 @@ class OauthApiController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->time = $time;
 		$this->throttler = $throttler;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -124,8 +129,16 @@ class OauthApiController extends Controller {
 			$client_secret = $this->request->server['PHP_AUTH_PW'];
 		}
 
+		try {
+			$storedClientSecret = $this->crypto->decrypt($client->getSecret());
+		} catch (\Exception $e) {
+			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
+			return new JSONResponse([
+				'error' => 'invalid_client',
+			], Http::STATUS_BAD_REQUEST);
+		}
 		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $client->getSecret() !== $client_secret) {
+		if ($client->getClientIdentifier() !== $client_id || $storedClientSecret !== $client_secret) {
 			return new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
