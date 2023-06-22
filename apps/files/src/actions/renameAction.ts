@@ -19,7 +19,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-export default {
-	delete: async () => ({ status: 200, data: {} }),
-	post: async () => ({ status: 200, data: {} }),
-}
+import { Permission, type Node } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
+
+import { emit } from '@nextcloud/event-bus'
+import { registerFileAction, FileAction } from '../services/FileAction'
+
+export const ACTION_DETAILS = 'details'
+
+export const action = new FileAction({
+	id: 'rename',
+	displayName: () => t('files', 'Rename'),
+	iconSvgInline: () => PencilSvg,
+
+	enabled: (nodes: Node[]) => {
+		return nodes.length > 0 && nodes
+			.map(node => node.permissions)
+			.every(permission => (permission & Permission.UPDATE) !== 0)
+	},
+
+	async exec(node: Node) {
+		// Renaming is a built-in feature of the files app
+		emit('files:node:rename', node)
+		return null
+	},
+
+	order: 10,
+})
+
+registerFileAction(action)

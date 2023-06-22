@@ -110,7 +110,7 @@ export class FileAction {
 	}
 
 	get default() {
-		return this._action.default
+		return this._action.default === true
 	}
 
 	get inline() {

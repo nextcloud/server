@@ -19,42 +19,54 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { action } from './sidebarAction'
+import { action } from './renameAction'
 import { expect } from '@jest/globals'
-import { File } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
+import * as eventBus from '@nextcloud/event-bus'
 import type { Navigation } from '../services/Navigation'
-import logger from '../logger'
 
 const view = {
 	id: 'files',
 	name: 'Files',
 } as Navigation
 
-describe('Open sidebar action conditions tests', () => {
+describe('Rename action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
-		expect(action.id).toBe('details')
-		expect(action.displayName([], view)).toBe('Details')
+		expect(action.id).toBe('rename')
+		expect(action.displayName([], view)).toBe('Rename')
 		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(true)
-		expect(action.order).toBe(-50)
+		expect(action.default).toBe(false)
+		expect(action.order).toBe(10)
 	})
 })
 
-describe('Open sidebar action enabled tests', () => {
-	test('Enabled for ressources within user root folder', () => {
-		window.OCA = { Files: { Sidebar: {} } }
-
+describe('Rename action enabled tests', () => {
+	test('Enabled for node with UPDATE permission', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.UPDATE,
 		})
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
+	})
+
+	test('Disabled for node without UPDATE permission', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
 	})
 
 	test('Disabled if more than one node', () => {
@@ -76,40 +88,11 @@ describe('Open sidebar action enabled tests', () => {
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file1, file2], view)).toBe(false)
 	})
-
-	test('Disabled if no Sidebar', () => {
-		window.OCA = {}
-
-		const file = new File({
-			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-			owner: 'admin',
-			mime: 'text/plain',
-		})
-
-		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
-	})
-
-	test('Disabled for non-dav ressources', () => {
-		window.OCA = { Files: { Sidebar: {} } }
-
-		const file = new File({
-			id: 1,
-			source: 'https://domain.com/documents/admin/foobar.txt',
-			owner: 'admin',
-			mime: 'text/plain',
-		})
-
-		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
-	})
 })
 
-describe('Open sidebar action exec tests', () => {
-	test('Open sidebar', async () => {
-		const openMock = jest.fn()
-		window.OCA = { Files: { Sidebar: { open: openMock } } }
+describe('Rename action exec tests', () => {
+	test('Rename', async () => {
+		jest.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -119,26 +102,10 @@ describe('Open sidebar action exec tests', () => {
 		})
 
 		const exec = await action.exec(file, view, '/')
+
 		// Silent action
 		expect(exec).toBe(null)
-		expect(openMock).toBeCalledWith('/foobar.txt')
-	})
-
-	test('Open sidebar fails', async () => {
-		const openMock = jest.fn(() => { throw new Error('Mock error') })
-		window.OCA = { Files: { Sidebar: { open: openMock } } }
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
-
-		const file = new File({
-			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-			owner: 'admin',
-			mime: 'text/plain',
-		})
-
-		const exec = await action.exec(file, view, '/')
-		expect(exec).toBe(false)
-		expect(openMock).toBeCalledTimes(1)
-		expect(logger.error).toBeCalledTimes(1)
+		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:rename', file)
 	})
 })
