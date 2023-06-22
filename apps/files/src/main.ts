@@ -2,8 +2,11 @@ import './templates.js'
 import './legacy/filelistSearch.js'
 
 import './actions/deleteAction'
+import './actions/downloadAction'
+import './actions/editLocallyAction'
 import './actions/favoriteAction'
 import './actions/openFolderAction'
+import './actions/renameAction'
 import './actions/sidebarAction'
 
 import Vue from 'vue'
