@@ -23,7 +23,7 @@ import { encodePath } from '@nextcloud/paths'
 import { Permission, type Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import DevicesSvg from '@mdi/svg/svg/devices.svg?raw'
+import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -48,7 +48,7 @@ const openLocalClient = async function(path: string) {
 export const action = new FileAction({
 	id: 'edit-locally',
 	displayName: () => t('files', 'Edit locally'),
-	iconSvgInline: () => DevicesSvg,
+	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
 	enabled(nodes: Node[]) {

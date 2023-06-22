@@ -22,7 +22,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import Star from '@mdi/svg/svg/star.svg?raw'
+import StarSvg from '@mdi/svg/svg/star.svg?raw'
 import type { Node } from '@nextcloud/files'
 
 import { generateUrl } from '@nextcloud/router'
@@ -77,7 +77,7 @@ export const action = new FileAction({
 			? t('files', 'Add to favorites')
 			: t('files', 'Remove from favorites')
 	},
-	iconSvgInline: () => Star,
+	iconSvgInline: () => StarSvg,
 
 	enabled(nodes: Node[]) {
 		// We can only favorite nodes within files

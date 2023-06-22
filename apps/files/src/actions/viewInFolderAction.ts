@@ -21,7 +21,7 @@
  */
 import { Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import FolderMove from '@mdi/svg/svg/folder-move.svg?raw'
+import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 
 import type { Navigation } from '../services/Navigation'
 import { join } from 'path'
@@ -32,7 +32,7 @@ export const action = new FileAction({
 	displayName() {
 		return t('files', 'View in folder')
 	},
-	iconSvgInline: () => FolderMove,
+	iconSvgInline: () => FolderMoveSvg,
 
 	enabled(nodes: Node[]) {
 		// Only works on single node

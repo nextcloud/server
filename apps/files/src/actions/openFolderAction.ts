@@ -21,7 +21,7 @@
  */
 import { Permission, Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import Folder from '@mdi/svg/svg/folder.svg?raw'
+import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 
 import type { Navigation } from '../services/Navigation'
 import { join } from 'path'
@@ -34,7 +34,7 @@ export const action = new FileAction({
 		const displayName = files[0].attributes.displayName || files[0].basename
 		return t('files', 'Open folder {displayName}', { displayName })
 	},
-	iconSvgInline: () => Folder,
+	iconSvgInline: () => FolderSvg,
 
 	enabled(nodes: Node[]) {
 		// Only works on single node
