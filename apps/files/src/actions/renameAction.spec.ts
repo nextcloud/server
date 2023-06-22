@@ -37,7 +37,7 @@ describe('Rename action conditions tests', () => {
 		expect(action.id).toBe('rename')
 		expect(action.displayName([], view)).toBe('Rename')
 		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(false)
+		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(10)
 	})
 })

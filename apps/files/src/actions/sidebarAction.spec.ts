@@ -22,7 +22,7 @@
 import { action } from './sidebarAction'
 import { expect } from '@jest/globals'
 import { File } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { DefaultType, FileAction } from '../services/FileAction'
 import type { Navigation } from '../services/Navigation'
 import logger from '../logger'
 
@@ -35,9 +35,9 @@ describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('details')
-		expect(action.displayName([], view)).toBe('Details')
+		expect(action.displayName([], view)).toBe('Open details')
 		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(true)
+		expect(action.default).toBe(DefaultType.DEFAULT)
 		expect(action.order).toBe(-50)
 	})
 })

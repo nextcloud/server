@@ -56,7 +56,7 @@ describe('Favorite action conditions tests', () => {
 		expect(action.id).toBe('favorite')
 		expect(action.displayName([file], view)).toBe('Add to favorites')
 		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(false)
+		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
 

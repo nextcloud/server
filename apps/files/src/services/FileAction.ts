@@ -31,6 +31,11 @@ declare global {
 	}
 }
 
+export enum DefaultType {
+	DEFAULT = 'default',
+	HIDDEN = 'hidden',
+}
+
 /**
  * TODO: remove and move to @nextcloud/files
  * @see https://github.com/nextcloud/nextcloud-files/pull/608
@@ -60,7 +65,7 @@ interface FileActionData {
 	/** This action order in the list */
 	order?: number,
 	/** Make this action the default */
-	default?: boolean,
+	default?: DefaultType,
 	/**
 	 * If true, the renderInline function will be called
 	 */
@@ -110,7 +115,7 @@ export class FileAction {
 	}
 
 	get default() {
-		return this._action.default === true
+		return this._action.default
 	}
 
 	get inline() {
@@ -151,7 +156,7 @@ export class FileAction {
 			throw new Error('Invalid order')
 		}
 
-		if ('default' in action && typeof action.default !== 'boolean') {
+		if (action.default && !Object.values(DefaultType).includes(action.default)) {
 			throw new Error('Invalid default')
 		}
 

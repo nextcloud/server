@@ -25,7 +25,7 @@ import Folder from '@mdi/svg/svg/folder.svg?raw'
 
 import type { Navigation } from '../services/Navigation'
 import { join } from 'path'
-import { registerFileAction, FileAction } from '../services/FileAction'
+import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 
 export const action = new FileAction({
 	id: 'open-folder',
@@ -66,7 +66,7 @@ export const action = new FileAction({
 	},
 
 	// Main action if enabled, meaning folders only
-	default: true,
+	default: DefaultType.HIDDEN,
 	order: -100,
 })
 

@@ -27,7 +27,7 @@ import DevicesSvg from '@mdi/svg/svg/devices.svg?raw'
 
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { registerFileAction, FileAction } from '../services/FileAction'
+import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 import { showError } from '@nextcloud/dialogs'
 
 const openLocalClient = async function(path: string) {
@@ -65,7 +65,7 @@ export const action = new FileAction({
 		return null
 	},
 
-	default: true,
+	default: DefaultType.DEFAULT,
 	order: 25,
 })
 

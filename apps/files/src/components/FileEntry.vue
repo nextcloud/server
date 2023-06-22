@@ -100,7 +100,7 @@
 				:container="boundariesElement"
 				:disabled="source._loading"
 				:force-title="true"
-				:force-menu="true"
+				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
 				<NcActionButton v-for="action in enabledMenuActions"
@@ -141,7 +141,7 @@
 
 <script lang='ts'>
 import { debounce } from 'debounce'
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { emit } from '@nextcloud/event-bus'
 import { formatFileSize } from '@nextcloud/files'
 import { Fragment } from 'vue-frag'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -160,7 +160,7 @@ import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
 
 import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
-import { getFileActions } from '../services/FileAction.ts'
+import { getFileActions, DefaultType } from '../services/FileAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -350,42 +350,29 @@ export default Vue.extend({
 			return ''
 		},
 
+		// Sorted actions that are enabled for this node
 		enabledActions() {
 			return actions
 				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
+
+		// Enabled action that are displayed inline
 		enabledInlineActions() {
 			if (this.filesListWidth < 768) {
 				return []
 			}
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
 		},
-		enabledMenuActions() {
-			if (this.filesListWidth < 768) {
-				// If we have a default action, do not render the first one
-				if (this.enabledDefaultActions.length > 0) {
-					return this.enabledActions.slice(1)
-				}
-				return this.enabledActions
-			}
 
-			const actions = [
-				...this.enabledInlineActions,
-				...this.enabledActions.filter(action => !action.inline),
-			]
-
-			// If we have a default action, do not render the first one
-			if (this.enabledDefaultActions.length > 0) {
-				return actions.slice(1)
-			}
-
-			return actions
-		},
+		// Default actions
 		enabledDefaultActions() {
-			return [
-				...this.enabledActions.filter(action => action.default),
-			]
+			return this.enabledActions.filter(action => !!action.default)
+		},
+
+		// Actions shown in the menu
+		enabledMenuActions() {
+			return this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN)
 		},
 		openedMenu: {
 			get() {
