@@ -20,7 +20,7 @@
  *
  */
 /* eslint-disable */
-import type { PathOptions, ServicesState } from '../types.ts'
+import type { PathOptions, ServicesState } from '../types'
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'

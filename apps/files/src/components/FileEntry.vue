@@ -125,6 +125,13 @@
 			<span>{{ size }}</span>
 		</td>
 
+		<!-- Mtime -->
+		<td v-if="isMtimeAvailable"
+			class="files-list__row-mtime"
+			@click="openDetailsIfAvailable">
+			<span>{{ mtime }}</span>
+		</td>
+
 		<!-- View columns -->
 		<td v-for="column in columns"
 			:key="column.id"
@@ -165,6 +172,7 @@ import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
+import type moment from 'moment'
 import { useKeyboardStore } from '../store/keyboard.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
@@ -197,6 +205,10 @@ export default Vue.extend({
 
 	props: {
 		active: {
+			type: Boolean,
+			default: false,
+		},
+		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
 		},
@@ -298,6 +310,19 @@ export default Vue.extend({
 			const minOpacity = 0.7
 			const maxOpacitySize = 10 * 1024 * 1024
 			return minOpacity + (1 - minOpacity) * Math.pow((this.source.size / maxOpacitySize), 2)
+		},
+
+		mtime() {
+			if (this.source.mtime) {
+				return moment(this.source.mtime).fromNow()
+			}
+			return this.t('files_trashbin', 'A long time ago')
+		},
+		mtimeTitle() {
+			if (this.source.mtime) {
+				return moment(this.source.mtime).format('LLL')
+			}
+			return ''
 		},
 
 		linkTo() {

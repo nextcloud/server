@@ -25,7 +25,7 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
 import axios from '@nextcloud/axios'
-import type { UserConfig, UserConfigStore } from '../types.ts'
+import type { UserConfig, UserConfigStore } from '../types'
 import { emit, subscribe } from '@nextcloud/event-bus'
 
 const userConfig = loadState('files', 'config', {

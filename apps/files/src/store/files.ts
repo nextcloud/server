@@ -21,7 +21,7 @@
  */
 /* eslint-disable */
 import type { Folder, Node } from '@nextcloud/files'
-import type { FilesStore, RootsStore, RootOptions, Service, FilesState } from '../types.ts'
+import type { FilesStore, RootsStore, RootOptions, Service, FilesState } from '../types'
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'

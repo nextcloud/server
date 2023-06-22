@@ -35,6 +35,7 @@
 			<!-- File row -->
 			<FileEntry :active="active"
 				:index="index"
+				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:files-list-width="filesListWidth"
 				:nodes="nodes"
@@ -50,6 +51,7 @@
 
 			<!-- Thead-->
 			<FilesListHeader :files-list-width="filesListWidth"
+				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
 		</template>
@@ -57,6 +59,7 @@
 		<template #after>
 			<!-- Tfoot-->
 			<FilesListFooter :files-list-width="filesListWidth"
+				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
 				:summary="summary" />
@@ -120,6 +123,13 @@ export default Vue.extend({
 		},
 		summary() {
 			return translate('files', '{summaryFile} and {summaryFolder}', this)
+		},
+		isMtimeAvailable() {
+			// Hide mtime column on narrow screens
+			if (this.filesListWidth < 768) {
+				return false
+			}
+			return this.nodes.some(node => node.mtime !== undefined)
 		},
 		isSizeAvailable() {
 			// Hide size column on narrow screens
@@ -355,6 +365,7 @@ export default Vue.extend({
 			}
 		}
 
+		.files-list__row-mtime,
 		.files-list__row-size {
 			// Right align text
 			justify-content: flex-end;
@@ -369,6 +380,10 @@ export default Vue.extend({
 					flex-direction: row;
 				}
 			}
+		}
+
+		.files-list__row-mtime {
+			width: calc(var(--row-height) * 2);
 		}
 
 		.files-list__row-column-custom {

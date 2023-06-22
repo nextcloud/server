@@ -19,18 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../services/Navigation.ts'
-import type { Navigation } from '../services/Navigation.ts'
+import type { Navigation } from '../services/Navigation'
+import type NavigationService from '../services/Navigation'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
-import StarSvg from '@mdi/svg/svg/star.svg?raw'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import { getContents } from '../services/Favorites.ts'
-import { loadState } from '@nextcloud/initial-state'
 import { basename } from 'path'
+import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
-import { subscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
 import { Node, FileType } from '@nextcloud/files'
+import { subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 
 const generateFolderView = function(folder: string, index = 0): Navigation {
