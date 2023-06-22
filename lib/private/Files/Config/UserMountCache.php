@@ -14,10 +14,14 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -378,6 +382,28 @@ class UserMountCache implements IUserMountCache {
 				$internalPath
 			);
 		}, $filteredMounts);
+	}
+
+	/**
+	 * Get all nodes that give access to a file
+	 *
+	 * @return array<string, Node[]> Nodes giving access to the given fileId, indexed by user ID
+	 * @since 28.0.0
+	 */
+	public function getReadableNodesByUserForFileId(int $fileId): array {
+		$mounts = $this->getMountsForFileId($fileId);
+		$rootFolder = Server::get(IRootFolder::class);
+		$result = [];
+		foreach ($mounts as $mount) {
+			if (isset($result[$mount->getUser()->getUID()])) {
+				continue;
+			}
+
+			$userFolder = $rootFolder->getUserFolder($mount->getUser()->getUID());
+			$result[$mount->getUser()->getUID()] = $userFolder->getById($fileId);
+		}
+
+		return $result;
 	}
 
 	/**
