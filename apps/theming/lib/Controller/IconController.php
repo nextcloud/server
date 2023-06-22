@@ -120,14 +120,15 @@ class IconController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 		if ($iconFile === null && $this->imageManager->shouldReplaceIcons()) {
+			$color = $this->themingDefaults->getColorPrimary();
 			try {
-				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
+				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app . $color);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getFavicon($app);
 				if ($icon === false || $icon === '') {
 					return new NotFoundResponse();
 				}
-				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app, $icon);
+				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app . $color, $icon);
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
@@ -157,14 +158,15 @@ class IconController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 		if ($this->imageManager->shouldReplaceIcons()) {
+			$color = $this->themingDefaults->getColorPrimary();
 			try {
-				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
+				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app . $color);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getTouchIcon($app);
 				if ($icon === false || $icon === '') {
 					return new NotFoundResponse();
 				}
-				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app, $icon);
+				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app . $color, $icon);
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
