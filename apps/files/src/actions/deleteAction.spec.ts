@@ -44,6 +44,7 @@ describe('Delete action conditions tests', () => {
 		expect(action.id).toBe('delete')
 		expect(action.displayName([], view)).toBe('Delete')
 		expect(action.iconSvgInline([], view)).toBe('SvgMock')
+		expect(action.default).toBe(false)
 		expect(action.order).toBe(100)
 	})
 
