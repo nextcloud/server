@@ -301,11 +301,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(false);
 		$this->session
 			->expects($this->any())
@@ -351,11 +346,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(false);
 		$this->session
 			->expects($this->any())
@@ -405,11 +395,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(false);
 		$this->session
 			->expects($this->any())
@@ -451,11 +436,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(true);
 		$this->session
 			->expects($this->any())
