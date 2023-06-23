@@ -100,6 +100,10 @@ class PublicKeyTokenProvider implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
 			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
 			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
@@ -134,6 +138,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function getToken(string $tokenId): IToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		/**
 		 * Token length: 72
 		 * @see \OC\Core\Controller\ClientFlowLoginController::generateAppPassword
@@ -196,6 +204,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function getTokenById(int $tokenId): IToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		try {
 			$token = $this->mapper->getTokenById($tokenId);
 		} catch (DoesNotExistException $ex) {
@@ -219,6 +231,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		$this->cache->clear();
 
 		return $this->atomic(function () use ($oldSessionId, $sessionId) {
@@ -250,6 +266,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function invalidateToken(string $token) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		$this->cache->clear();
 
 		$this->mapper->invalidate($this->hashToken($token));
@@ -257,12 +277,20 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		$this->cache->clear();
 
 		$this->mapper->deleteById($uid, $id);
 	}
 
 	public function invalidateOldTokens() {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		$this->cache->clear();
 
 		$olderThan = $this->time->getTime() - $this->config->getSystemValueInt('session_lifetime', 60 * 60 * 24);
@@ -274,6 +302,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function updateToken(IToken $token) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
@@ -283,6 +315,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function updateTokenActivity(IToken $token) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
@@ -301,6 +337,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function getTokenByUser(string $uid): array {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return [];
+		}
+
 		return $this->mapper->getTokenByUser($uid);
 	}
 
@@ -321,6 +361,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
@@ -348,6 +392,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
@@ -473,6 +521,10 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function markPasswordInvalid(IToken $token, string $tokenId) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new InvalidTokenException('Authtokens v1 disabled');
+		}
+		
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {

@@ -31,12 +31,18 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IConfig;
 
 /**
  * @template-extends QBMapper<PublicKeyToken>
  */
 class PublicKeyTokenMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
+
+	/** @var IConfig */
+	protected $config;
+
+	public function __construct(IDBConnection $db, IConfig $config) {
+		$this->config = $config;
 		parent::__construct($db, 'authtoken');
 	}
 
@@ -46,6 +52,10 @@ class PublicKeyTokenMapper extends QBMapper {
 	 * @param string $token
 	 */
 	public function invalidate(string $token) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
@@ -75,6 +85,10 @@ class PublicKeyTokenMapper extends QBMapper {
 	 * @throws DoesNotExistException
 	 */
 	public function getToken(string $token): PublicKeyToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new DoesNotExistException('Authtoken v1 disabled');
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('*')
@@ -97,6 +111,10 @@ class PublicKeyTokenMapper extends QBMapper {
 	 * @throws DoesNotExistException
 	 */
 	public function getTokenById(int $id): PublicKeyToken {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			throw new DoesNotExistException('Authtoken v1 disabled');
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('*')
@@ -123,6 +141,10 @@ class PublicKeyTokenMapper extends QBMapper {
 	 * @return PublicKeyToken[]
 	 */
 	public function getTokenByUser(string $uid): array {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return [];
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
@@ -142,6 +164,10 @@ class PublicKeyTokenMapper extends QBMapper {
 	}
 
 	public function deleteById(string $uid, int $id) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
@@ -157,6 +183,10 @@ class PublicKeyTokenMapper extends QBMapper {
 	 * @param string $name
 	 */
 	public function deleteByName(string $name) {
+		if ($this->config->getSystemValueBool('auth.authtoken.v1.disabled')) {
+			return;
+		}
+
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))

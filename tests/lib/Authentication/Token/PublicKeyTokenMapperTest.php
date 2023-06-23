@@ -32,6 +32,8 @@ use OC\Authentication\Token\PublicKeyTokenMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -44,6 +46,9 @@ class PublicKeyTokenMapperTest extends TestCase {
 	/** @var IDBConnection */
 	private $dbConnection;
 
+	/** @var IConfig|MockObject */
+	private $config;
+
 	/** @var int */
 	private $time;
 
@@ -52,9 +57,10 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->dbConnection = OC::$server->getDatabaseConnection();
 		$this->time = time();
+		$this->config = $this->createMock(IConfig::class);
 		$this->resetDatabase();
 
-		$this->mapper = new PublicKeyTokenMapper($this->dbConnection);
+		$this->mapper = new PublicKeyTokenMapper($this->dbConnection, $this->config);
 	}
 
 	private function resetDatabase() {
