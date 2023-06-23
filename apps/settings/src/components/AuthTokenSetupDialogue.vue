@@ -70,7 +70,8 @@
 		</div>
 		<div class="app-password-row">
 			<span class="app-password-label" />
-			<a class="button" v-if="!showQR"
+			<a class="button"
+			v-if="!showQR"
 				@click="showQR = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
 			</a>
