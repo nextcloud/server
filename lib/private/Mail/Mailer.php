@@ -292,7 +292,7 @@ class Mailer implements IMailer {
 		// either null or true - if nothing is passed, let the symfony mailer figure out the configuration by itself
 		$mailSmtpsecure = ($this->config->getSystemValue('mail_smtpsecure', null) === 'ssl') ? true : null;
 		$transport = new EsmtpTransport(
-			$this->config->getSystemValue('mail_smtphost', '127.0.0.1'),
+			$this->config->getSystemValueString('mail_smtphost', '127.0.0.1'),
 			$this->config->getSystemValueInt('mail_smtpport', 25),
 			$mailSmtpsecure,
 			null,
@@ -301,11 +301,11 @@ class Mailer implements IMailer {
 		/** @var SocketStream $stream */
 		$stream = $transport->getStream();
 		/** @psalm-suppress InternalMethod */
-		$stream->setTimeout($this->config->getSystemValue('mail_smtptimeout', 10));
+		$stream->setTimeout($this->config->getSystemValueInt('mail_smtptimeout', 10));
 
 		if ($this->config->getSystemValueBool('mail_smtpauth', false)) {
-			$transport->setUsername($this->config->getSystemValue('mail_smtpname', ''));
-			$transport->setPassword($this->config->getSystemValue('mail_smtppassword', ''));
+			$transport->setUsername($this->config->getSystemValueString('mail_smtpname', ''));
+			$transport->setPassword($this->config->getSystemValueString('mail_smtppassword', ''));
 		}
 
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
