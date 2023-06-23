@@ -931,6 +931,11 @@ class OC_Image implements \OCP\IImage {
 						break;
 					case 8:
 						$color = @unpack('n', $vide . ($data[$p] ?? ''));
+						if ($color === false) {
+							fclose($fh);
+							$this->logger->warning('Invalid 8bit bmp without color', ['app' => 'core']);
+							return false;
+						}
 						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 4:
