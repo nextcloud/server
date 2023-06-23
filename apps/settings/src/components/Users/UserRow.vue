@@ -221,10 +221,40 @@
 		</div>
 
 		<div class="userActions">
+<<<<<<< HEAD
 			<UserRowActions v-if="!loading.all"
 				:actions="userActions"
 				:edit="true"
 				@update:edit="toggleEdit" />
+=======
+			<div v-if="!loading.all"
+				class="toggleUserActions">
+				<NcActions :inline="2">
+					<NcActionButton icon="icon-checkmark"
+						:title="t('settings', 'Done')"
+						:aria-label="t('settings', 'Done')"
+						@click="editing = false" />
+					<NcActionButton icon="icon-close"
+						:title="t('settings', 'Cancel')"
+						:aria-label="t('settings', 'Cancel')"
+						@click="editing = false" />
+				</NcActions>
+				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
+					<button class="icon-more"
+						:aria-expanded="openedMenu"
+						:aria-label="t('settings', 'Toggle user actions menu')"
+						@click.prevent="toggleMenu" />
+					<div :class="{ 'open': openedMenu }" class="popovermenu">
+						<NcPopoverMenu :menu="userActions" />
+					</div>
+				</div>
+			</div>
+			<div :style="{opacity: feedbackMessage !== '' ? 1 : 0}"
+				class="feedback">
+				<div class="icon-checkmark" />
+				{{ feedbackMessage }}
+			</div>
+>>>>>>> 7a2938b01f3 (Add cancel button for when user entry is being edited)
 		</div>
 	</div>
 </template>
