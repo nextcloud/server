@@ -143,9 +143,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->path;
 	}
 
-	/**
-	 * @return \OCP\Files\Storage
-	 */
 	public function getStorage() {
 		return $this->storage;
 	}
