@@ -32,14 +32,12 @@ use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 
 class AccountPropertyCollection implements IAccountPropertyCollection {
-	/** @var string */
-	protected $collectionName = '';
-
 	/** @var IAccountProperty[] */
-	protected $properties = [];
+	protected array $properties = [];
 
-	public function __construct(string $collectionName) {
-		$this->collectionName = $collectionName;
+	public function __construct(
+		protected string $collectionName,
+	) {
 	}
 
 	public function setProperties(array $properties): IAccountPropertyCollection {
