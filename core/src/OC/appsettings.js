@@ -38,7 +38,7 @@ import { generateFilePath } from "@nextcloud/router"
  * @deprecated 17.0.0 this method is unused and will be removed with Nextcloud 18
  */
 export const appSettings = args => {
-	console.warn('OC.appSettings is deprecated and will be removed with Nextcloud 18')
+	OC.debug && console.warn('OC.appSettings is deprecated and will be removed with Nextcloud 18')
 
 	if (typeof args === 'undefined' || typeof args.appid === 'undefined') {
 		throw {
