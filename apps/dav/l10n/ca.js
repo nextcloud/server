@@ -65,7 +65,7 @@ OC.L10N.register(
     "_%n day_::_%n days_" : ["%n dia","%n dies"],
     "_%n hour_::_%n hours_" : ["%n hora","%n hores"],
     "_%n minute_::_%n minutes_" : ["%n minut","%n minuts"],
-    "%s (in %s)" : "%s (d'aquí %s)",
+    "%s (in %s)" : "%s (d'aquí a %s)",
     "%s (%s ago)" : "%s (fa %s)",
     "Calendar: %s" : "Calendari: %s",
     "Date: %s" : "Data: %s",

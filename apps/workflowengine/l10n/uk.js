@@ -60,7 +60,7 @@ OC.L10N.register(
     "Available flows" : "Процеси",
     "For details on how to write your own flow, check out the development documentation." : "Перегляньте документацію для розробника, щоби дізнатися, як додати власні процеси.",
     "More flows" : "Більше процесів",
-    "Browse the App Store" : "Перегляньте App Store",
+    "Browse the App Store" : "Перейти до App Store",
     "Show less" : "Показувати менше",
     "Show more" : "Показати більше",
     "Configured flows" : "Налаштовані процеси",
