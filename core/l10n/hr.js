@@ -349,7 +349,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Ova %s instanca trenutno je u načinu za održavanje; ovo može potrajati.",
     "This page will refresh itself when the instance is available again." : "Ova će se stranica osvježiti kada je instanca ponovno dostupna.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Obratite se administratoru sustava ako se ova poruka ponavlja ili se pojavila neočekivano.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Nesiguran pristup web-mjestu putem HTTP-a. Preporučujemo da postavite poslužitelj tako da zahtijeva korištenje HTTPS-a kao što je opisano u {linkstart}sigurnosnim savjetima ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Poslana Vam je poruka za resetiranje zaporke na adresu e-pošte za ovaj račun. Ako je niste primili, provjerite Vaše mape smeća i neželjene pošte, ili se obratite svom lokalnom administratoru.",
     "If it is not there ask your local administrator." : "Ako i tamo nema poruke, obratite se lokalnom administratoru.",
     "Settings" : "Postavke",

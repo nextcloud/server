@@ -390,7 +390,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Questa istanza di %s è attualmente in manutenzione, potrebbe richiedere del tempo.",
     "This page will refresh itself when the instance is available again." : "Questa pagina si aggiornerà quando l'istanza sarà nuovamente disponibile.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Sei connesso a questo sito in modo non sicuro tramite HTTP. Ti consigliamo vivamente di configurare il tuo server per richiedere invece HTTPS, come descritto nei {linkstart}consigli sulla sicurezza ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Abbiamo inviato un messaggio di ripristino della password all'indirizzo di posta di questo account. Se non lo ricevi, controlla le cartelle della posta indesiderata o contatta il tuo amministratore locale.",
     "If it is not there ask your local administrator." : "Se non c'è, chiedi al tuo amministratore locale.",
     "Press enter to start searching" : "Premi invio per avviare la ricerca",
