@@ -369,7 +369,6 @@
     "This page will refresh itself when the instance is available again." : "Tämä sivu päivittyy itsestään, kun instanssi on jälleen käytettävissä.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "Please use the command line updater because updating via the browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Sivua käytetään turvattoman HTTP:n kautta. Palvelimen määrittäminen käyttämään HTTPS-protokollaa on vahvasti suositeltua, kuten kuvattu {linkstart}turvallisuusvinkeissä ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Salasanan nollausviesti on lähetetty käyttäjätilin sähköpostiin. Jos et vastaanota sähköpostia, tarkista roskapostikansio tai pyydä apua järjestelmävalvojaltasi.",
     "If it is not there ask your local administrator." : "Jos se ei ole siellä, niin pyydä järjestelmänvalvojaltasi.",
     "Press enter to start searching" : "Paina enter aloittaaksesi haun",

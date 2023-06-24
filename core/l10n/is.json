@@ -359,7 +359,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Þessi %s er nú í viðhaldsham, sem getur tekið smá stund.",
     "This page will refresh itself when the instance is available again." : "Þessi síða mun uppfæra sig þegar tilvikið er í boði á ný.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Þú ert að tengjast þessu vefsvæði með HTTP. Við mælum eindregið með að þú stillir þjóninn á að krefjast HTTPS í staðinn eins og lýst er í {linkstart}öryggisleiðbeiningunum ↗{linkend} okkar.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Tengill til að endurstilla lykilorðið þitt hefur verið sendur á tölvupósfang þessa notandaaðgangs. Ef þú færð ekki póstinn, athugaðu þá ruslpóstmöppurnar þínar eða spurðu kerfisstjórann þinn um mögulegar ástæður þess.",
     "If it is not there ask your local administrator." : "Ef hann er ekki þar, spurðu þá kerfisstjórann þinn. ",
     "Press enter to start searching" : "Ýttu á Enter til að hefja leit",
