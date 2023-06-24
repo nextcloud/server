@@ -120,6 +120,7 @@ class AccountManager implements IAccountManager {
 		private ICrypto $crypto,
 	) {
 		$this->internalCache = new CappedMemoryCache();
+		$this->l10n = $factory->get('core');
 	}
 
 	/**
@@ -414,10 +415,6 @@ class AccountManager implements IAccountManager {
 		$emailTemplate = $this->mailer->createEMailTemplate('core.EmailVerification', [
 			'link' => $link,
 		]);
-
-		if (!$this->l10n) {
-			$this->l10n = $this->factory->get('core');
-		}
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();
