@@ -40,7 +40,7 @@ const loadedStyles = []
  * @deprecated 16.0.0 Use OCP.Loader.loadScript
  */
 export const addScript = (app, script, ready) => {
-	console.warn('OC.addScript is deprecated, use OCP.Loader.loadScript instead')
+	OC.debug && console.warn('OC.addScript is deprecated, use OCP.Loader.loadScript instead')
 
 	let deferred
 	const path = generateFilePath(app, 'js', script + '.js')
@@ -64,7 +64,7 @@ export const addScript = (app, script, ready) => {
  * @deprecated 16.0.0 Use OCP.Loader.loadStylesheet
  */
 export const addStyle = (app, style) => {
-	console.warn('OC.addStyle is deprecated, use OCP.Loader.loadStylesheet instead')
+	OC.debug && console.warn('OC.addStyle is deprecated, use OCP.Loader.loadStylesheet instead')
 
 	const path = generateFilePath(app, 'css', style + '.css')
 	if (loadedStyles.indexOf(path) === -1) {
