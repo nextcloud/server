@@ -140,7 +140,7 @@ const toRgb = (s) => {
 }
 
 String.prototype.toRgb = function() {
-	OC.debug && console.debug('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
+	OC.debug && console.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
 
 	return toRgb(this)
 }

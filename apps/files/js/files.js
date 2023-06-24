@@ -281,7 +281,7 @@
 		 * @deprecated used OCA.Files.FileList.generatePreviewUrl instead
 		 */
 		generatePreviewUrl: function(urlSpec) {
-			OC.debug && console.debug('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
 			return OCA.Files.App.fileList.generatePreviewUrl(urlSpec);
 		},
 
@@ -290,7 +290,7 @@
 		 * @deprecated used OCA.Files.FileList.lazyLoadPreview instead
 		 */
 		lazyLoadPreview : function(path, mime, ready, width, height, etag) {
-			OC.debug && console.debug('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
 			return FileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
