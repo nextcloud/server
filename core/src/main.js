@@ -39,6 +39,8 @@ import { initCore } from './init.js'
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
 
+	console.debug('Test')
+
 	// fallback to hashchange when no history support
 	if (window.history.pushState) {
 		window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History)
