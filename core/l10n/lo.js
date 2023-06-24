@@ -324,7 +324,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "%sຕົວຢ່າງນີ້ໃນປັດຈຸບັນແມ່ນຢູ່ໃນວິທີການບໍາລຸງຮັກສາ, ຊຶ່ງອາດຈະໃຊ້ ເວລາໃນໄລຍະໜຶ່ງ",
     "This page will refresh itself when the instance is available again." : "ຫນ້ານີ້ຈະ refresh ເມື່ອມີຕົວຢ່າງອີກ.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ຕິດຕໍ່ຜູ້ບໍລິຫານລະບົບຂອງທ່ານຖ້າຫາກວ່າຂ່າວສານນີ້ຍັຢູ່ ຫຼື ປາກົດໂດຍບໍ່ຄາດຄິດ.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "ການເຂົ້າເຖິງເວັບໄຊບໍ່ປອດໄພຜ່ານ HTTP. ທ່ານໄດ້ ຮັບຄໍາແນະນໍາທີ່ ຈະ ຕັ້ງ server ຂອງທ່ານ ເພື່ອ ຮຽກໃຊ້ HTTPS ແທນ , ດັ່ງ ທີ່ ໄດ້ ບັນ ຍາຍ ໃນ {linkstart}↗{linkend} ຄໍາແນະນໍາຄວາມປອດໄພ .",
     "If it is not there ask your local administrator." : "ຖ້າບໍ່ໄດ້ຖາມຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
     "Settings" : "ການຕັ້ງຄ່າ",
     "File not found" : " ບໍ່ພົບຟາຍ",

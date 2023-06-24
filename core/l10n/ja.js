@@ -408,7 +408,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "このメッセージが引き続き、または予期せず現れる場合は、システム管理者に問い合わせてください。",
     "Please use the command line updater because updating via the browser is disabled in your config.php." : "config.php でブラウザ経由の更新が無効になっているため、コマンドラインアップデーターをご利用ください。",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "安全ではないHTTPでサイトにアクセスしています。 {linkstart}セキュリティのヒント↗{linkend}で説明されているように、代わりにHTTPSを要求するようにサーバーを設定することを強くお勧めします。",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "このアカウントのメールアドレスにパスワードリセットメッセージを送信しました。届かない場合は、スパム/ジャンクフォルダーを確認するか、ローカル管理者にサポートを依頼してください。",
     "If it is not there ask your local administrator." : "もしそうでない場合は、管理者に問い合わせてください。",
     "Press enter to start searching" : "Enterキーを押して検索を開始します",

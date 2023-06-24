@@ -41,6 +41,7 @@ OC.L10N.register(
     "HTML Code:" : "HTML 코드:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨",
     "Copy to clipboard" : "클립보드로 복사",
+    "Clipboard is not available" : "클립보드를 사용할 수 없습니다.",
     "Copied!" : "복사 성공!",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨, 더 알아보기: %s"
 },

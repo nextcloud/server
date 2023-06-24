@@ -412,7 +412,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "若這個訊息持續出現，請聯絡系統管理員",
     "Please use the command line updater because updating via the browser is disabled in your config.php." : "因為透過瀏覽器更新的功能已在您的 config.php 中停用，因此請使用命令列更新程式。",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "您正在透過不安全的 HTTP 存取網站，強烈建議您設定您的伺服器啟用 HTTPS，更多資訊請查閱{linkstart}安全建議 ↗{linkend}。",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "重設密碼資訊已寄至您的電子郵件。若您並未收到該信件，請確認您垃圾信箱，或請求管理員協助。",
     "If it is not there ask your local administrator." : "你找的東西不在，請聯絡管理員。",
     "Press enter to start searching" : "按 Enter 以開始搜尋",

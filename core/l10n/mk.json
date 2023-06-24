@@ -372,7 +372,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Истанцата %s моментално е во режим на одржување, што значи дека може да потрае некое време.",
     "This page will refresh itself when the instance is available again." : "Оваа веб страница ќе се рефрешира кога истанцата ќе биде повторно достапна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Пристапувате до станата преку HTTP. Препорачуваме да го поставите вашиот сервер за да се пристапува преку HTTPS, проверете како е опишано во {linkstart}безбедносни совети ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката или прашајте го вашиот локален администратор за помош.",
     "If it is not there ask your local administrator." : "Доколку не е таму, прашајте го вашиот локален администратор.",
     "Press enter to start searching" : "Притисни Enter за започне пребарувањето",

@@ -274,7 +274,6 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Se está accediendo al sitio de manera insegura mediante HTTP. Se recomienda ampliamente que configure su servidor para que requiera HTTPS, como se describe en los {linkstart}consejos de seguridad ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Se envió un mensaje para reestablecer la contraseña a la dirección de correo electrónico de esta cuenta. Si no lo recibes, comprueba si está en el buzón de Correo No Deseado/Spam o pide ayuda a tu administrador local.",
     "If it is not there ask your local administrator." : "Si no está ahí ponte en contacto con el administrador local",
     "Settings" : "Configuraciones ",

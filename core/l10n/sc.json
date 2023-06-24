@@ -347,7 +347,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Immoe custa %s istàntzia est in modalidade de mantenidura, e podet trigare unu pagu.",
     "This page will refresh itself when the instance is available again." : "Custa pàgina s'at a atualizare cando s'istàntzia at a èssere torra a disponimentu.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Cuntata s'amministratzione de sistema si custu messàgiu abarrat o torrat a cumpàrrere",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "S'atzessu a custu situ HTTP no est seguru. Ti racumandamus de impostare su serbidore pro rechèdere su HTTPS, comente descritu in is {linkstart}impòsitos de seguresa ↗{linkend}.",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Est istadu imbiadu unu messàgiu pro su risprìstinu de sa crae a s'indiritzu de posta eletrònica de custu contu. Si non ddu retzis, controlla in is cartellas de s'àliga o pide agiudu a s'amministratzione.",
     "If it is not there ask your local administrator." : "Si no est in cue, dimanda a s'amministratzione locale tua.",
     "Settings" : "Cunfiguratziones",
