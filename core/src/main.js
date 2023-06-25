@@ -23,6 +23,7 @@
  *
  */
 
+import { registerAppsSlideToggle } from './OC/apps.js'
 import $ from 'jquery'
 import 'core-js/stable/index.js'
 import 'regenerator-runtime/runtime.js'
@@ -38,6 +39,7 @@ import { initCore } from './init.js'
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
+	registerAppsSlideToggle()
 
 	// fallback to hashchange when no history support
 	if (window.history.pushState) {
