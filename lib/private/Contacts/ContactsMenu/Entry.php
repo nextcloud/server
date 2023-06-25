@@ -134,20 +134,13 @@ class Entry implements IEntry {
 		$this->properties = $contact;
 	}
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function getProperty(string $key) {
+	public function getProperty(string $key): mixed {
 		if (!isset($this->properties[$key])) {
 			return null;
 		}
 		return $this->properties[$key];
 	}
 
-	/**
-	 * @return array
-	 */
 	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
 		$otherActions = array_map(function (IAction $action) {
