@@ -34,11 +34,11 @@ class LinkAction implements ILinkAction {
 	/**
 	 * @param string $icon absolute URI to an icon
 	 */
-	public function setIcon(string $icon) {
+	public function setIcon(string $icon): void {
 		$this->icon = $icon;
 	}
 
-	public function setName(string $name) {
+	public function setName(string $name): void {
 		$this->name = $name;
 	}
 
@@ -46,7 +46,7 @@ class LinkAction implements ILinkAction {
 		return $this->name;
 	}
 
-	public function setPriority(int $priority) {
+	public function setPriority(int $priority): void {
 		$this->priority = $priority;
 	}
 
@@ -54,7 +54,7 @@ class LinkAction implements ILinkAction {
 		return $this->priority;
 	}
 
-	public function setHref(string $href) {
+	public function setHref(string $href): void {
 		$this->href = $href;
 	}
 
@@ -65,7 +65,7 @@ class LinkAction implements ILinkAction {
 	/**
 	 * @since 23.0.0
 	 */
-	public function setAppId(string $appId) {
+	public function setAppId(string $appId): void {
 		$this->appId = $appId;
 	}
 
