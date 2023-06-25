@@ -229,7 +229,7 @@
 =======
 			<div v-if="!loading.all"
 				class="toggleUserActions">
-				<NcActions :inline="2">
+				<NcActions>
 					<NcActionButton icon="icon-close"
 						:title="t('settings', 'Cancel')"
 						:aria-label="t('settings', 'Cancel')"
