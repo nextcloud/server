@@ -338,7 +338,7 @@ OC.L10N.register(
     "There are some errors regarding your setup." : "برخی از خطاها در مورد راه اندازی شما وجود دارد",
     "There are some warnings regarding your setup." : "هشدارهایی درباره تنظیم شما وجود دارد.",
     "Checking for system and security issues." : "بررسی مشکلات سیستم و امنیت.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "لطفاً <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">راهنماهای نصب</a> را دو برابر کنید و هرگونه خطا یا هشدار را در <a href=\"%2$s\">گزارشات log </a> بررسی کنید.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "لطفاً <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">راهنماهای نصب</a> را مجددا مرور کرده و هرگونه خطا یا هشدار را در <a href=\"%2$s\">گزارشات log </a> بررسی کنید.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "امنیت نکست کلود خود را در مورد <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">اسکن امنیتی ما ↗ </a>بررسی کنید",
     "Version" : "نسخه",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "به عنوان مدیر ، می توانید رفتار اشتراک گذاری را تنظیم کنید. لطفا برای اطلاعات بیشتر به اسناد مراجعه کنید.",

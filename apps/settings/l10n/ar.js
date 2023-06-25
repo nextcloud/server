@@ -152,6 +152,7 @@ OC.L10N.register(
     "Last login" : "آخِر تسجيل للدخول",
     "Default language" : "اللغة الافتراضية",
     "New user" : "مستخدم جديد",
+    "Password (required)" : "كلمة المرور (مطلوبة)",
     "Delete user" : "احذف المستخدم",
     "Account deletion" : "حذف حساب",
     "Welcome mail sent!" : "تم إرسال بريد الترحيب!",
