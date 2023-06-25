@@ -230,10 +230,6 @@
 			<div v-if="!loading.all"
 				class="toggleUserActions">
 				<NcActions :inline="2">
-					<NcActionButton icon="icon-checkmark"
-						:title="t('settings', 'Done')"
-						:aria-label="t('settings', 'Done')"
-						@click="editing = false" />
 					<NcActionButton icon="icon-close"
 						:title="t('settings', 'Cancel')"
 						:aria-label="t('settings', 'Cancel')"
