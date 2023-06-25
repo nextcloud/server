@@ -79,34 +79,20 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  */
 class Mailer implements IMailer {
 	private ?MailerInterface $instance = null;
-	private IConfig $config;
-	private LoggerInterface $logger;
-	private Defaults $defaults;
-	private IURLGenerator $urlGenerator;
-	private IL10N $l10n;
-	private IEventDispatcher $dispatcher;
-	private IFactory $l10nFactory;
 
-	public function __construct(IConfig $config,
-						 LoggerInterface $logger,
-						 Defaults $defaults,
-						 IURLGenerator $urlGenerator,
-						 IL10N $l10n,
-						 IEventDispatcher $dispatcher,
-						 IFactory $l10nFactory) {
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->defaults = $defaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->dispatcher = $dispatcher;
-		$this->l10nFactory = $l10nFactory;
+	public function __construct(
+		private IConfig          $config,
+		private LoggerInterface  $logger,
+		private Defaults         $defaults,
+		private IURLGenerator    $urlGenerator,
+		private IL10N            $l10n,
+		private IEventDispatcher $dispatcher,
+		private IFactory         $l10nFactory,
+	) {
 	}
 
 	/**
 	 * Creates a new message object that can be passed to send()
-	 *
-	 * @return Message
 	 */
 	public function createMessage(): Message {
 		$plainTextOnly = $this->config->getSystemValueBool('mail_send_plaintext_only', false);
@@ -117,7 +103,6 @@ class Mailer implements IMailer {
 	 * @param string|null $data
 	 * @param string|null $filename
 	 * @param string|null $contentType
-	 * @return IAttachment
 	 * @since 13.0.0
 	 */
 	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment {
@@ -125,9 +110,7 @@ class Mailer implements IMailer {
 	}
 
 	/**
-	 * @param string $path
 	 * @param string|null $contentType
-	 * @return IAttachment
 	 * @since 13.0.0
 	 */
 	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment {
@@ -137,9 +120,6 @@ class Mailer implements IMailer {
 	/**
 	 * Creates a new email template object
 	 *
-	 * @param string $emailId
-	 * @param array $data
-	 * @return IEMailTemplate
 	 * @since 12.0.0
 	 */
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
@@ -350,14 +330,10 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		switch ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
-			case 'pipe':
-				$binaryParam = ' -t';
-				break;
-			default:
-				$binaryParam = ' -bs';
-				break;
-		}
+		$binaryParam = match ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
+			'pipe' => ' -t',
+			default => ' -bs',
+		};
 
 		return new SendmailTransport($binaryPath . $binaryParam, null, $this->logger);
 	}

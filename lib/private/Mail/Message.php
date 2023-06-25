@@ -46,27 +46,19 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  * @package OC\Mail
  */
 class Message implements IMessage {
-	private Email $symfonyEmail;
-	private bool $plainTextOnly;
+	private array $to = [];
+	private array $from = [];
+	private array $replyTo = [];
+	private array $cc = [];
+	private array $bcc = [];
 
-	private array $to;
-	private array $from;
-	private array $replyTo;
-	private array $cc;
-	private array $bcc;
-
-	public function __construct(Email $symfonyEmail, bool $plainTextOnly) {
-		$this->symfonyEmail = $symfonyEmail;
-		$this->plainTextOnly = $plainTextOnly;
-		$this->to = [];
-		$this->from = [];
-		$this->replyTo = [];
-		$this->cc = [];
-		$this->bcc = [];
+	public function __construct(
+		private Email $symfonyEmail,
+		private bool $plainTextOnly,
+	) {
 	}
 
 	/**
-	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function attach(IAttachment $attachment): IMessage {
@@ -122,7 +114,6 @@ class Message implements IMessage {
 	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
 	 *
 	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
 	 */
 	public function setFrom(array $addresses): IMessage {
 		$this->from = $addresses;
@@ -138,8 +129,6 @@ class Message implements IMessage {
 
 	/**
 	 * Set the Reply-To address of this message
-	 *
-	 * @return $this
 	 */
 	public function setReplyTo(array $addresses): IMessage {
 		$this->replyTo = $addresses;
@@ -157,7 +146,6 @@ class Message implements IMessage {
 	 * Set the to addresses of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
 	 */
 	public function setTo(array $recipients): IMessage {
 		$this->to = $recipients;
@@ -175,7 +163,6 @@ class Message implements IMessage {
 	 * Set the CC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
 	 */
 	public function setCc(array $recipients): IMessage {
 		$this->cc = $recipients;
@@ -193,7 +180,6 @@ class Message implements IMessage {
 	 * Set the BCC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
 	 */
 	public function setBcc(array $recipients): IMessage {
 		$this->bcc = $recipients;
@@ -241,7 +227,7 @@ class Message implements IMessage {
 	}
 
 	/**
-	 * Set the underlying Email intance
+	 * Set the underlying Email instance
 	 */
 	public function setSymfonyEmail(Email $symfonyEmail): void {
 		$this->symfonyEmail = $symfonyEmail;
@@ -254,9 +240,6 @@ class Message implements IMessage {
 		return $this->symfonyEmail;
 	}
 
-	/**
-	 * @return $this
-	 */
 	public function setBody(string $body, string $contentType): IMessage {
 		if (!$this->plainTextOnly || $contentType !== 'text/html') {
 			if ($contentType === 'text/html') {
@@ -284,10 +267,9 @@ class Message implements IMessage {
 	 * we wrap the calls here. We then have the validation errors all in one place and can
 	 * throw shortly before \OC\Mail\Mailer::send
 	 *
-	 * @return void
 	 * @throws InvalidArgumentException|RfcComplianceException
 	 */
-	public function setRecipients() {
+	public function setRecipients(): void {
 		$this->symfonyEmail->to(...$this->convertAddresses($this->getTo()));
 		$this->symfonyEmail->from(...$this->convertAddresses($this->getFrom()));
 		$this->symfonyEmail->replyTo(...$this->convertAddresses($this->getReplyTo()));
@@ -295,9 +277,6 @@ class Message implements IMessage {
 		$this->symfonyEmail->bcc(...$this->convertAddresses($this->getBcc()));
 	}
 
-	/**
-	 * @return $this
-	 */
 	public function useTemplate(IEMailTemplate $emailTemplate): IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
@@ -335,8 +314,6 @@ class Message implements IMessage {
 	/**
 	 * Get the current value of the Auto-Submitted header. Defaults to "no"
 	 * which is equivalent to the header not existing at all
-	 *
-	 * @return string
 	 */
 	public function getAutoSubmitted(): string {
 		$headers = $this->symfonyEmail->getHeaders();
