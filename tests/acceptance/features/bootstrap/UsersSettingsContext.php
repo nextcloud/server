@@ -117,8 +117,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function optionInInputForUser($cell, $user) {
-		return Locator::forThe()->css(".multiselect__option--highlight")->
-			descendantOf(self::classCellForUser($cell, $user))->
+		return Locator::forThe()->css(".vs__dropdown-option--highlight")->
 			describedAs("Selected $cell option in $cell input for user $user in Users Settings");
 	}
 
@@ -152,7 +151,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function selectedSelectOption($cell, $user) {
-		return Locator::forThe()->css(".multiselect__single")->
+		return Locator::forThe()->css(".vs__selected .name-parts")->
 			descendantOf(self::classCellForUser($cell, $user))->
 			describedAs("The selected option of the $cell select for the user $user in Users Settings");
 	}
