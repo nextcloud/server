@@ -40,7 +40,9 @@ class Listener {
 		$users = [];
 		$filesPerUser = $cache->getReadableNodesByUserForFileId((int)$event->getComment()->getObjectId());
 		foreach ($filesPerUser as $user => $files) {
-			$users[$user] = reset($files)?->getPath();
+			/* Remove /user/files prefix */
+			$sections = explode('/', reset($files)?->getPath() ?? '', 4);
+			$users[$user] = '/'.($sections[3] ?? '');
 		}
 
 		$actor = $this->session->getUser();
