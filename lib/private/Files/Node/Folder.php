@@ -230,6 +230,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		/** @var QuerySearchHelper $searchHelper */
 		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		/** @var \OCP\Files\Cache\ICache[] $caches */
+		/** @var \OCP\Files\Mount\IMountPoint[] $mountByMountPoint */
 		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
