@@ -61,12 +61,12 @@ interface IRootFolder extends Folder, Emitter {
 	/**
 	 * @return IMountPoint[]
 	 *
-	 * @since 28.0.0
+	 * @since 25.0.9
 	 */
 	public function getMountsIn(string $mountPoint): array;
 
 	/**
-	 * @since 28.0.0
+	 * @since 25.0.9
 	 */
 	public function getMount(string $mountPoint): IMountPoint;
 }
