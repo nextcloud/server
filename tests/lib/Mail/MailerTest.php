@@ -239,9 +239,16 @@ class MailerTest extends TestCase {
 	public function testStreamingOptions() {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
-				['mail_smtpmode', 'smtp', 'smtp'],
 				['mail_smtpstreamoptions', [], ['foo' => 1]],
+			]);
+		$this->config->method('getSystemValueString')
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'smtp'],
+				['overwrite.cli.url', '', ''],
 				['mail_smtphost', '127.0.0.1', '127.0.0.1'],
+			]);
+		$this->config->method('getSystemValueInt')
+			->willReturnMap([
 				['mail_smtpport', 25, 25],
 				['mail_smtptimeout', 10, 10],
 			]);
@@ -256,12 +263,20 @@ class MailerTest extends TestCase {
 	public function testStreamingOptionsWrongType() {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
-				['mail_smtpmode', 'smtp', 'smtp'],
 				['mail_smtpstreamoptions', [], 'bar'],
+			]);
+		$this->config->method('getSystemValueString')
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'smtp'],
+				['overwrite.cli.url', '', ''],
 				['mail_smtphost', '127.0.0.1', '127.0.0.1'],
+			]);
+		$this->config->method('getSystemValueInt')
+			->willReturnMap([
 				['mail_smtpport', 25, 25],
 				['mail_smtptimeout', 10, 10],
 			]);
+
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		/** @var EsmtpTransport $transport */
 		$transport = self::invokePrivate($mailer, 'transport');
@@ -270,16 +285,17 @@ class MailerTest extends TestCase {
 	}
 
 	public function testLocalDomain(): void {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'smtp'],
+				['overwrite.cli.url', '', 'https://some.valid.url.com:8080'],
 				['mail_smtphost', '127.0.0.1', '127.0.0.1'],
+			]);
+		$this->config->method('getSystemValueInt')
+			->willReturnMap([
 				['mail_smtpport', 25, 25],
 				['mail_smtptimeout', 10, 10],
 			]);
-		$this->config->method('getSystemValueString')
-			->with('overwrite.cli.url', '')
-			->willReturn('https://some.valid.url.com:8080');
 
 		/** @var SymfonyMailer $mailer */
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
@@ -292,16 +308,17 @@ class MailerTest extends TestCase {
 	}
 
 	public function testLocalDomainInvalidUrl(): void {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'smtp'],
+				['overwrite.cli.url', '', 'https:only.slash.does.not.work:8080'],
 				['mail_smtphost', '127.0.0.1', '127.0.0.1'],
+			]);
+		$this->config->method('getSystemValueInt')
+			->willReturnMap([
 				['mail_smtpport', 25, 25],
 				['mail_smtptimeout', 10, 10],
 			]);
-		$this->config->method('getSystemValueString')
-			->with('overwrite.cli.url', '')
-			->willReturn('https:only.slash.does.not.work:8080');
 
 		/** @var SymfonyMailer $mailer */
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
