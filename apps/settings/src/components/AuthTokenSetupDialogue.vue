@@ -70,11 +70,10 @@
 		</div>
 		<div class="app-password-row">
 			<span class="app-password-label" />
-			<a class="button"
-				v-if="!showQR"
+			<NcButton v-if="!showQR"
 				@click="showQR = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
-			</a>
+			</NcButton>
 			<QR v-else
 				:value="qrUrl" />
 		</div>
