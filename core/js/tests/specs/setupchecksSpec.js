@@ -2133,8 +2133,8 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-security">security tips ↗</a>.',
-				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-security">security tips ↗</a>. Without it some important web functionality like "copy to clipboard" or "service workers" will not work!',
+				type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 			}]);
 			done();
 		});
