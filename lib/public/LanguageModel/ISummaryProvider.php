@@ -29,6 +29,8 @@ namespace OCP\LanguageModel;
 use RuntimeException;
 
 /**
+ * This LanguageModel Provider implements summarization
+ * which sums up the passed text.
  * @since 28.0.0
  */
 interface ISummaryProvider extends ILanguageModelProvider {

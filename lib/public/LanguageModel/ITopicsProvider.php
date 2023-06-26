@@ -29,6 +29,8 @@ namespace OCP\LanguageModel;
 use RuntimeException;
 
 /**
+ * This LanguageModel Provider implements topics synthesis
+ * which outputs comma-separated topics for the passed text
  * @since 28.0.0
  */
 interface ITopicsProvider extends ILanguageModelProvider {

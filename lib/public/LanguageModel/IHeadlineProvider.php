@@ -29,6 +29,8 @@ namespace OCP\LanguageModel;
 use RuntimeException;
 
 /**
+ * This LanguageModel Provider represents headline generation
+ * which generates a headline for the passed text
  * @since 28.0.0
  */
 interface IHeadlineProvider extends ILanguageModelProvider {

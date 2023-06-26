@@ -3,6 +3,8 @@
 namespace OCP\LanguageModel;
 
 /**
+ * This LanguageModel Task represents topics synthesis
+ * which outputs comma-separated topics for the passed text
  * @since 28.0.0
  */
 final class TopicsTask extends AbstractLanguageModelTask {
