@@ -32,9 +32,9 @@ use OCP\ICertificate;
 class Certificate implements ICertificate {
 	protected string $name;
 
-	protected mixed $commonName;
+	protected ?string $commonName;
 
-	protected mixed $organization;
+	protected ?string $organization;
 
 	protected $serial;
 
@@ -42,9 +42,9 @@ class Certificate implements ICertificate {
 
 	protected \DateTime $expireDate;
 
-	protected mixed $issuerName;
+	protected ?string $issuerName;
 
-	protected mixed $issuerOrganization;
+	protected ?string $issuerOrganization;
 
 	/**
 	 * @param string $data base64 encoded certificate
