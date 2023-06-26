@@ -362,7 +362,7 @@ OC.L10N.register(
     "Skip to navigation of app" : "Ir á navegación da aplicación",
     "Get your own free account" : "Obteña a súa propia conta de balde",
     "Go to %s" : "Ira a %s",
-    "Confirm your password" : "Confirme o seu contrasinal",
+    "Confirm your password" : "Confirmar o seu contrasinal",
     "Connect to your account" : "Conectar coa súa conta",
     "Please log in before granting %1$s access to your %2$s account." : "Acceda antes de concederlle a %1$s acceso á súa conta %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Se non está a configurar un dispositivo ou aplicación nova, alguén está tentando enganalo para que lle permita o acceso aos seus datos. Neste caso non continúe e póñase en contacto co administrador do sistema.",
