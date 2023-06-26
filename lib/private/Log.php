@@ -38,17 +38,18 @@ namespace OC;
 
 use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ILogger;
+use OCP\IUserSession;
 use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
-use Throwable;
-use function array_merge;
-use OC\Log\ExceptionSerializer;
-use OCP\ILogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Log\ExceptionSerializer;
+use Throwable;
+use function array_merge;
 use function strtr;
 
 /**
@@ -274,10 +275,13 @@ class Log implements ILogger, IDataLogger {
 
 				// check for user
 				if (isset($logCondition['users'])) {
-					$user = \OC::$server->getUserSession()->getUser();
+					$user = \OCP\Server::get(IUserSession::class)->getUser();
 
-					// if the user matches set the log condition to satisfied
-					if ($user !== null && in_array($user->getUID(), $logCondition['users'], true)) {
+					if ($user === null) {
+						// User is not known for this request yet
+						$this->logConditionSatisfied = null;
+					} elseif (in_array($user->getUID(), $logCondition['users'], true)) {
+						// if the user matches set the log condition to satisfied
 						$this->logConditionSatisfied = true;
 					}
 				}
