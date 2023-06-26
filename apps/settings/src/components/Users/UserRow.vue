@@ -73,23 +73,20 @@
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
-			<form :class="{'icon-loading-small': loading.displayName}"
-				class="displayName"
-				@submit.prevent="updateDisplayName">
-				<label class="hidden-visually" :for="'displayName'+user.id+rand">{{ t('settings', 'Edit display name') }}</label>
-				<input :id="'displayName'+user.id+rand"
-					ref="displayName"
-					:disabled="loading.displayName||loading.all"
-					:value="user.displayname"
-					autocapitalize="off"
-					autocomplete="off"
-					autocorrect="off"
-					spellcheck="false"
-					type="text">
-				<input class="icon-confirm"
-					type="submit"
-					value="">
-			</form>
+			<label class="hidden-visually" :for="'displayName'+user.id+rand">{{ t('settings', 'Edit display name') }}</label>
+			<NcTextField :id="'displayName'+user.id+rand"
+				:show-trailing-button="true"
+				class="user-row-text-field"
+				:class="{'icon-loading-small': loading.displayName}"
+				:disabled="loading.displayName||loading.all"
+				trailing-button-icon="arrowRight"
+				:value.sync="editedDisplayName"
+				autocapitalize="off"
+				autocomplete="off"
+				autocorrect="off"
+				spellcheck="false"
+				type="text"
+				@trailing-button-click="updateDisplayName" />
 		</div>
 		<div v-else class="name">
 			{{ user.id }}
@@ -99,142 +96,130 @@
 				</div>
 			</div>
 		</div>
-		<form v-if="settings.canChangePassword && user.backendCapabilities.setPassword"
-			:class="{'icon-loading-small': loading.password}"
-			class="password"
-			@submit.prevent="updatePassword">
+		<div v-if="settings.canChangePassword && user.backendCapabilities.setPassword" class="password">
 			<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
-			<input :id="'password'+user.id+rand"
-				ref="password"
+			<NcTextField :id="'password'+user.id+rand"
+				:show-trailing-button="true"
+				class="user-row-text-field"
+				:class="{'icon-loading-small': loading.password}"
 				:disabled="loading.password || loading.all"
 				:minlength="minPasswordLength"
 				maxlength="469"
 				:placeholder="t('settings', 'Add new password')"
+				trailing-button-icon="arrowRight"
+				:value.sync="editedPassword"
 				autocapitalize="off"
 				autocomplete="new-password"
 				autocorrect="off"
 				required
 				spellcheck="false"
 				type="password"
-				value="">
-			<input class="icon-confirm" type="submit" value="">
-		</form>
+				@trailing-button-click="updatePassword" />
+		</div>
+
 		<div v-else />
-		<form :class="{'icon-loading-small': loading.mailAddress}"
-			class="mailAddress"
-			@submit.prevent="updateEmail">
+
+		<div class="mailAddress">
 			<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
-			<input :id="'mailAddress'+user.id+rand"
-				ref="mailAddress"
+			<NcTextField :id="'mailAddress'+user.id+rand"
+				:show-trailing-button="true"
+				class="user-row-text-field"
+				:class="{'icon-loading-small': loading.mailAddress}"
 				:disabled="loading.mailAddress||loading.all"
 				:placeholder="t('settings', 'Add new email address')"
-				:value="user.email"
+				trailing-button-icon="arrowRight"
+				:value.sync="editedMail"
 				autocapitalize="off"
 				autocomplete="new-password"
 				autocorrect="off"
 				spellcheck="false"
-				type="email">
-			<input class="icon-confirm" type="submit" value="">
-		</form>
+				type="email"
+				@trailing-button-click="updateEmail" />
+		</div>
 		<div :class="{'icon-loading-small': loading.groups}" class="groups">
 			<label class="hidden-visually" :for="'groups'+user.id+rand">{{ t('settings', 'Add user to group') }}</label>
-			<NcMultiselect :id="'groups'+user.id+rand"
+			<NcSelect :input-id="'groups'+user.id+rand"
 				:close-on-select="false"
 				:disabled="loading.groups||loading.all"
-				:limit="2"
 				:multiple="true"
 				:options="availableGroups"
 				:placeholder="t('settings', 'Add user to group')"
-				:tag-width="60"
 				:taggable="settings.isAdmin"
 				:value="userGroups"
-				class="multiselect-vue"
+				class="select-vue"
 				label="name"
-				tag-placeholder="create"
-				track-by="id"
-				@remove="removeUserGroup"
-				@select="addUserGroup"
-				@tag="createGroup">
-				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</NcMultiselect>
+				:no-wrap="true"
+				:selectable="() => userGroups.length < 2"
+				:create-option="(value) => ({ name: value, isCreating: true })"
+				@option:created="createGroup"
+				@option:selected="options => addUserGroup(options.at(-1))"
+				@option:deselected="removeUserGroup" />
 		</div>
 		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
 			:class="{'icon-loading-small': loading.subadmins}"
 			class="subadmins">
 			<label class="hidden-visually" :for="'subadmins'+user.id+rand">{{ t('settings', 'Set user as admin for') }}</label>
-			<NcMultiselect :id="'subadmins'+user.id+rand"
+			<NcSelect :id="'subadmins'+user.id+rand"
 				:close-on-select="false"
 				:disabled="loading.subadmins||loading.all"
-				:limit="2"
+				label="name"
 				:multiple="true"
+				:no-wrap="true"
+				:selectable="() => userSubAdminsGroups.length < 2"
 				:options="subAdminsGroups"
 				:placeholder="t('settings', 'Set user as admin for')"
-				:tag-width="60"
 				:value="userSubAdminsGroups"
-				class="multiselect-vue"
-				label="name"
-				track-by="id"
-				@remove="removeUserSubAdmin"
-				@select="addUserSubAdmin">
-				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</NcMultiselect>
+				class="select-vue"
+				@option:deselected="removeUserSubAdmin"
+				@option:selected="options => addUserSubAdmin(options.at(-1))" />
 		</div>
 		<div :title="usedSpace"
 			:class="{'icon-loading-small': loading.quota}"
 			class="quota">
 			<label class="hidden-visually" :for="'quota'+user.id+rand">{{ t('settings', 'Select user quota') }}</label>
-			<NcMultiselect :id="'quota'+user.id+rand"
-				:allow-empty="false"
+			<NcSelect v-model="userQuota"
+				:close-on-select="true"
+				:create-option="validateQuota"
 				:disabled="loading.quota||loading.all"
+				:input-id="'quota'+user.id+rand"
+				class="select-vue"
 				:options="quotaOptions"
 				:placeholder="t('settings', 'Select user quota')"
 				:taggable="true"
-				:value="userQuota"
-				class="multiselect-vue"
-				label="label"
-				tag-placeholder="create"
-				track-by="id"
-				@input="setUserQuota"
-				@tag="validateQuota" />
+				@option:selected="setUserQuota" />
 		</div>
 		<div v-if="showConfig.showLanguages"
 			:class="{'icon-loading-small': loading.languages}"
 			class="languages">
 			<label class="hidden-visually" :for="'language'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
-			<NcMultiselect :id="'language'+user.id+rand"
+			<NcSelect :id="'language'+user.id+rand"
 				:allow-empty="false"
 				:disabled="loading.languages||loading.all"
-				:options="languages"
+				:options="availableLanguages"
 				:placeholder="t('settings', 'No language set')"
 				:value="userLanguage"
-				class="multiselect-vue"
-				group-label="label"
-				group-values="languages"
 				label="name"
-				track-by="code"
+				class="select-vue"
 				@input="setUserLanguage" />
 		</div>
-		<div :class="{'icon-loading-small': loading.manager}" class="managers">
-			<NcMultiselect ref="manager"
-				v-model="currentManager"
-				:close-on-select="true"
-				:user-select="true"
-				:options="possibleManagers"
-				:placeholder="t('settings', 'Select manager')"
-				class="multiselect-vue"
-				label="displayname"
-				track-by="id"
-				@search-change="searchUserManager"
-				@remove="updateUserManager"
-				@select="updateUserManager">
-				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</NcMultiselect>
-		</div>
 
-		<!-- don't show this on edit mode -->
 		<div v-if="showConfig.showStoragePath || showConfig.showUserBackend"
 			class="storageLocation" />
 		<div v-if="showConfig.showLastLogin" />
+
+		<div :class="{'icon-loading-small': loading.manager}" class="managers">
+			<label class="hidden-visually" :for="'manager'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
+			<NcSelect v-model="currentManager"
+				:input-id="'manager'+user.id+rand"
+				:close-on-select="true"
+				label="displayname"
+				:options="possibleManagers"
+				:placeholder="t('settings', 'Select manager')"
+				class="select-vue"
+				@search="searchUserManager"
+				@option:selected="updateUserManager"
+				@input="updateUserManager" />
+		</div>
 
 		<div class="userActions">
 			<div v-if="!loading.all"
@@ -243,7 +228,7 @@
 					<NcActionButton icon="icon-checkmark"
 						:title="t('settings', 'Done')"
 						:aria-label="t('settings', 'Done')"
-						@click="editing = false" />
+						@click="handleDoneButton" />
 				</NcActions>
 				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
 					<button class="icon-more"
@@ -268,11 +253,13 @@
 import ClickOutside from 'vue-click-outside'
 
 import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import UserRowSimple from './UserRowSimple.vue'
 import UserRowMixin from '../../mixins/UserRowMixin.js'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'UserRow',
@@ -281,7 +268,8 @@ export default {
 		NcPopoverMenu,
 		NcActions,
 		NcActionButton,
-		NcMultiselect,
+		NcSelect,
+		NcTextField,
 	},
 	directives: {
 		ClickOutside,
@@ -331,6 +319,10 @@ export default {
 	},
 	data() {
 		return {
+			// default quota is set to unlimited
+			unlimitedQuota: { id: 'none', label: t('settings', 'Unlimited') },
+			// temporary value used for multiselect change
+			selectedQuota: false,
 			rand: parseInt(Math.random() * 1000),
 			openedMenu: false,
 			feedbackMessage: '',
@@ -351,6 +343,9 @@ export default {
 				wipe: false,
 				manager: false,
 			},
+			editedDisplayName: this.user.displayname,
+			editedPassword: '',
+			editedMail: this.user.email ?? '',
 		}
 	},
 	computed: {
@@ -382,6 +377,27 @@ export default {
 				})
 			}
 			return actions.concat(this.externalActions)
+		},
+
+		// mapping saved values to objects
+		userQuota: {
+			get() {
+				if (this.selectedQuota !== false) {
+					return this.selectedQuota
+				}
+				if (this.settings.defaultQuota !== this.unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+					// if value is valid, let's map the quotaOptions or return custom quota
+					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
+				}
+				return this.unlimitedQuota // unlimited
+			},
+			set(quota) {
+				this.selectedQuota = quota
+			},
+		},
+
+		availableLanguages() {
+			return this.languages[0].languages.concat(this.languages[1].languages)
 		},
 	},
 	async beforeMount() {
@@ -444,14 +460,22 @@ export default {
 		},
 
 		updateUserManager(manager) {
+			if (manager === null) {
+				this.currentManager = ''
+			}
 			this.loading.manager = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'manager',
-				value: this.currentManager ? this.currentManager.id : '',
-			}).then(() => {
+			try {
+				this.$store.dispatch('setUserData', {
+					userid: this.user.id,
+					key: 'manager',
+					value: this.currentManager ? this.currentManager.id : '',
+				})
+			} catch (error) {
+				showError(t('setting', 'Update of user manager was failed'))
+				console.error(error)
+			} finally {
 				this.loading.manager = false
-			})
+			}
 		},
 
 		deleteUser() {
@@ -501,15 +525,16 @@ export default {
 		 * @param {string} displayName The display name
 		 */
 		updateDisplayName() {
-			const displayName = this.$refs.displayName.value
 			this.loading.displayName = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'displayname',
-				value: displayName,
+				value: this.editedDisplayName,
 			}).then(() => {
 				this.loading.displayName = false
-				this.$refs.displayName.value = displayName
+				if (this.editedDisplayName === this.user.displayname) {
+					showSuccess(t('setting', 'Display name was successfully changed'))
+				}
 			})
 		},
 
@@ -519,16 +544,21 @@ export default {
 		 * @param {string} password The email address
 		 */
 		updatePassword() {
-			const password = this.$refs.password.value
 			this.loading.password = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'password',
-				value: password,
-			}).then(() => {
+			if (this.editedPassword.length === 0) {
+				showError(t('setting', "Password can't be empty"))
 				this.loading.password = false
-				this.$refs.password.value = '' // empty & show placeholder
-			})
+			} else {
+				this.$store.dispatch('setUserData', {
+					userid: this.user.id,
+					key: 'password',
+					value: this.editedPassword,
+				}).then(() => {
+					this.loading.password = false
+					this.editedPassword = ''
+					showSuccess(t('setting', 'Password was successfully changed'))
+				})
+			}
 		},
 
 		/**
@@ -537,16 +567,23 @@ export default {
 		 * @param {string} mailAddress The email address
 		 */
 		updateEmail() {
-			const mailAddress = this.$refs.mailAddress.value
 			this.loading.mailAddress = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'email',
-				value: mailAddress,
-			}).then(() => {
+			if (this.editedMail === '') {
+				showError(t('setting', "Email can't be empty"))
 				this.loading.mailAddress = false
-				this.$refs.mailAddress.value = mailAddress
-			})
+				this.editedMail = this.user.email
+			} else {
+				this.$store.dispatch('setUserData', {
+					userid: this.user.id,
+					key: 'email',
+					value: this.editedMail,
+				}).then(() => {
+					this.loading.mailAddress = false
+					if (this.editedMail === this.user.email) {
+						showSuccess(t('setting', 'Email was successfully changed'))
+					}
+				})
+			}
 		},
 
 		/**
@@ -554,7 +591,7 @@ export default {
 		 *
 		 * @param {string} gid Group id
 		 */
-		async createGroup(gid) {
+		async createGroup({ name: gid }) {
 			this.loading = { groups: true, subadmins: true }
 			try {
 				await this.$store.dispatch('addGroup', gid)
@@ -574,12 +611,17 @@ export default {
 		 * @param {object} group Group object
 		 */
 		async addUserGroup(group) {
-			if (group.canAdd === false) {
-				return false
+			if (group.isCreating) {
+				// This is NcSelect's internal value for a new inputted group name
+				// Ignore
+				return
 			}
 			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
+			if (group.canAdd === false) {
+				return false
+			}
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 			} catch (error) {
@@ -598,11 +640,9 @@ export default {
 			if (group.canRemove === false) {
 				return false
 			}
-
 			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
-
 			try {
 				await this.$store.dispatch('removeUserGroup', {
 					userid,
@@ -627,7 +667,6 @@ export default {
 			this.loading.subadmins = true
 			const userid = this.user.id
 			const gid = group.id
-
 			try {
 				await this.$store.dispatch('addUserSubAdmin', {
 					userid,
@@ -668,6 +707,10 @@ export default {
 		 * @return {string}
 		 */
 		async setUserQuota(quota = 'none') {
+			// Make sure correct label is set for unlimited quota
+			if (quota === 'none') {
+				quota = this.unlimitedQuota
+			}
 			this.loading.quota = true
 			// ensure we only send the preset id
 			quota = quota.id ? quota.id : quota
@@ -689,18 +732,22 @@ export default {
 		/**
 		 * Validate quota string to make sure it's a valid human file size
 		 *
-		 * @param {string} quota Quota in readable format '5 GB'
-		 * @return {Promise|boolean}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {object} The validated quota object or unlimited quota if input is invalid
 		 */
 		validateQuota(quota) {
+			if (typeof quota === 'object') {
+				quota = quota?.id || quota.label
+			}
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
-			if (validQuota !== null && validQuota >= 0) {
+			if (validQuota === null) {
+				return this.unlimitedQuota
+			} else {
 				// unify format output
-				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
+				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				return { id: quota, label: quota }
 			}
-			// if no valid do not change
-			return false
 		},
 
 		/**
@@ -718,10 +765,9 @@ export default {
 					key: 'language',
 					value: lang.code,
 				})
+				this.loading.languages = false
 			} catch (error) {
 				console.error(error)
-			} finally {
-				this.loading.languages = false
 			}
 			return lang
 		},
@@ -744,6 +790,14 @@ export default {
 				})
 		},
 
+		handleDoneButton() {
+			this.editing = false
+			if (this.editedDisplayName !== this.user.displayname) {
+				this.editedDisplayName = this.user.displayname
+			} else if (this.editedMail !== this.user.email) {
+				this.editedMail = this.user.email
+			}
+		},
 	},
 }
 </script>
@@ -752,7 +806,19 @@ export default {
 	.row--menu-opened {
 		z-index: 1 !important;
 	}
-	.row::v-deep .multiselect__single {
-		z-index: auto !important;
-	}
+
+  .row :deep() {
+		.mailAddress,
+		.password,
+		.displayName {
+			.input-field,
+			.input-field__input {
+				height: 48px!important;
+			}
+			.button-vue--icon-only {
+				height: 44px!important;
+			}
+		}
+  }
+
 </style>
