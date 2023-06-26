@@ -147,7 +147,6 @@ $header-icon-size: 20px;
 		position: relative;
 		display: flex;
 		opacity: .7;
-		filter: var(--background-image-invert-if-bright);
 
 		&.app-menu-entry__active {
 			opacity: 1;
@@ -188,6 +187,7 @@ $header-icon-size: 20px;
 			height: $header-icon-size;
 			padding: calc((100% - $header-icon-size) / 2);
 			box-sizing: content-box;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		.app-menu-entry--label {
