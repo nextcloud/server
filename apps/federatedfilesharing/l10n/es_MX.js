@@ -38,11 +38,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar al portapapeles",
     "Clipboard is not available" : "El portapapeles no está disponible",
     "Copied!" : "¡Copiado!",
-    "Copy" : "Copiar",
-    "Not supported!" : "¡No soportado!",
-    "Press ⌘-C to copy." : "Presiona ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Presiona Ctrl-C para copiar.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud, ver %s",
-    "Open documentation" : "Abrir documentación"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud, ver %s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

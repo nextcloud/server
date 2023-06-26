@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Dette kan normalt rettes ved at give webserveren skriveadgang til config folderen.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Men hvis du foretrækker at bibeholde config.php skrivebeskyttet, så sæt parameter \"config_is_read_only\" til true i filen. ",
     "See %s" : "Se %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Filerne tilhørende appen %1$s blev ikke erstattet korrekt. Check at versionen er kompatibel med serveren.",
     "Sample configuration detected" : "Eksempel for konfiguration registreret",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Der er registreret at konfigurations eksemplet er blevet kopieret direkte. Dette kan ødelægge din installation og understøttes ikke. Læs venligst dokumentationen før der foretages ændringer i config.php",
     "404" : "404",
@@ -231,8 +230,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ændring af denne indstilling i php.ini vil tillade Nextcloud at køre igen",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> er angivet til <code>%s</code>, i stedet for den forventede værdi <code>0</code>",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "For at rette dette problem, sæt <code>mbstring.func_overload</code> til <code>0</code> i din php.ini.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 skal mindst være version 2.7.0. Du har version %s installeret.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Opdater din libxml2 version og genstart webserveren for at løse problemet.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP er tilsyneladende sat op til at fjerne indlejrede doc-blokke. Dette vil gøre adskillige kerneprogrammer utilgængelige.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette er sansynligvis forårsaget af et accelerator eller cache som Zend OPcache eller eAccelerator",
     "PHP modules have been installed, but they are still listed as missing?" : "Der er installeret PHP-moduler, men de fremstår stadig som fraværende?",
@@ -258,12 +255,11 @@
     "Storage connection error. %s" : "Forbindelses fejl til lageret. %s",
     "Storage is temporarily not available" : "Lagerplads er midlertidigt ikke tilgængeligt",
     "Storage connection timeout. %s" : "Lageret svarer ikke. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Filerne tilhørende appen %1$s blev ikke erstattet korrekt. Check at versionen er kompatibel med serveren.",
     "Full name" : "Fulde navn",
-    "%s enter the database username and name." : "%s indtast brugernavn og navn til databasen.",
-    "%s enter the database username." : "%s indtast database brugernavnet.",
-    "%s enter the database name." : "%s indtast database navnet.",
-    "%s you may not use dots in the database name" : "%s du må ikke bruge punktummer i databasenavnet.",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Grænsen for brugere er nået, og den nye bruger er ikke blevet oprettet. Læs dine notifikationer for at lære mere.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kun følgende tegn kan indgå i et brugernavn: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kun følgende tegn kan indgå i et brugernavn: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 skal mindst være version 2.7.0. Du har version %s installeret.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Opdater din libxml2 version og genstart webserveren for at løse problemet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -211,6 +211,7 @@ use OCP\IBinaryFinder;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
+use OCP\IEventSourceFactory;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
@@ -730,7 +731,13 @@ class Server extends ServerContainer implements IServerContainer {
 
 			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				if (!$config->getSystemValueBool('log_query')) {
-					$v = \OC_App::getAppVersions();
+					try {
+						$v = \OC_App::getAppVersions();
+					} catch (\Doctrine\DBAL\Exception $e) {
+						// Database service probably unavailable
+						// Probably related to https://github.com/nextcloud/server/issues/37424
+						return $arrayCacheFactory;
+					}
 				} else {
 					// If the log_query is enabled, we can not get the app versions
 					// as that does a query, which will be logged and the logging
@@ -1461,6 +1468,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ISpeechToTextManager::class, SpeechToTextManager::class);
 
+		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
+
 		$this->connectDispatcher();
 	}
 
@@ -1920,16 +1929,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getHTTPClientService() {
 		return $this->get(IClientService::class);
-	}
-
-	/**
-	 * Create a new event source
-	 *
-	 * @return \OCP\IEventSource
-	 * @deprecated 20.0.0
-	 */
-	public function createEventSource() {
-		return new \OC_EventSource();
 	}
 
 	/**

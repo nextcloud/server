@@ -36,13 +36,13 @@ use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 
 class ReferenceController extends Controller {
-	private IReferenceManager $referenceManager;
-	private IAppDataFactory $appDataFactory;
-
-	public function __construct(string $appName, IRequest $request, IReferenceManager $referenceManager, IAppDataFactory $appDataFactory) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IReferenceManager $referenceManager,
+		private IAppDataFactory $appDataFactory,
+	) {
 		parent::__construct($appName, $request);
-		$this->referenceManager = $referenceManager;
-		$this->appDataFactory = $appDataFactory;
 	}
 
 	/**

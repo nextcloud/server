@@ -470,6 +470,7 @@ export default {
 		 */
 		close() {
 			this.Sidebar.file = ''
+			this.showTags = false
 			this.resetData()
 		},
 

@@ -214,7 +214,7 @@ class User {
 		}
 
 		//homePath
-		if (strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
+		if (str_starts_with($this->connection->homeFolderNamingRule, 'attr:')) {
 			$attr = strtolower(substr($this->connection->homeFolderNamingRule, strlen('attr:')));
 			if (isset($ldapEntry[$attr])) {
 				$this->access->cacheUserHome(
@@ -391,7 +391,7 @@ class User {
 		$attr = null;
 
 		if (is_null($valueFromLDAP)
-		   && strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0
+		   && str_starts_with($this->access->connection->homeFolderNamingRule, 'attr:')
 		   && $this->access->connection->homeFolderNamingRule !== 'attr:') {
 			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
 			$homedir = $this->access->readAttribute($this->access->username2dn($this->getUsername()), $attr);
@@ -630,7 +630,7 @@ class User {
 
 	/**
 	 * takes values from LDAP and stores it as Nextcloud user profile value
-	 * 
+	 *
 	 * @param array $profileValues associative array of property keys and values from LDAP
 	 */
 	private function updateProfile(array $profileValues): void {

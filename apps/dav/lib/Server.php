@@ -208,11 +208,7 @@ class Server {
 		}
 
 		// system tags plugins
-		$this->server->addPlugin(new SystemTagPlugin(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserSession()
-		));
+		$this->server->addPlugin(\OC::$server->get(SystemTagPlugin::class));
 
 		// comments plugin
 		$this->server->addPlugin(new CommentsPlugin(

@@ -35,6 +35,7 @@ namespace OCA\DAV\AppInfo;
 use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
+use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
@@ -44,7 +45,6 @@ use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 
 use OCA\DAV\Capabilities;
-use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
@@ -100,6 +100,7 @@ use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\IServerContainer;
 use OCP\IUser;
 use Psr\Container\ContainerInterface;
@@ -119,14 +120,17 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
 		$context->registerService(PhotoCache::class, function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-
 			return new PhotoCache(
-				$server->getAppDataDir('dav-photocache'),
+				$c->get(IAppDataFactory::class)->get('dav-photocache'),
 				$c->get(LoggerInterface::class)
 			);
 		});
+		$context->registerService(AppCalendarPlugin::class, function(ContainerInterface $c) {
+			return new AppCalendarPlugin(
+			  $c->get(ICalendarManager::class),
+			  $c->get(LoggerInterface::class)
+			);
+		  });
 
 		/*
 		 * Register capabilities

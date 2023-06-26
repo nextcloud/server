@@ -23,12 +23,15 @@
 			:force-display-actions="true"
 			data-files-versions-version>
 			<template #icon>
-				<img lazy="true"
+				<img v-if="!previewError"
 					:src="previewURL"
 					alt=""
-					height="256"
-					width="256"
+					class="version__image"
+					@error="previewError = true">
+				<div v-else
 					class="version__image">
+					<ImageOffOutline :size="20" />
+				</div>
 			</template>
 			<template #subtitle>
 				<div class="version__info">
@@ -112,7 +115,14 @@ import Download from 'vue-material-design-icons/Download.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
-import { NcActionButton, NcActionLink, NcListItem, NcModal, NcButton, NcTextField, Tooltip } from '@nextcloud/vue'
+import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import moment from '@nextcloud/moment'
 import { translate } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
@@ -133,6 +143,7 @@ export default {
 		Pencil,
 		Check,
 		Delete,
+		ImageOffOutline,
 	},
 	directives: {
 		tooltip: Tooltip,
@@ -177,6 +188,7 @@ export default {
 			showVersionLabelForm: false,
 			formVersionLabelValue: this.version.label,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
+			previewError: false,
 		}
 	},
 	computed: {
@@ -184,19 +196,21 @@ export default {
 		 * @return {string}
 		 */
 		versionLabel() {
+			const label = this.version.label ?? ''
+
 			if (this.isCurrent) {
-				if (this.version.label === undefined || this.version.label === '') {
+				if (label === '') {
 					return translate('files_versions', 'Current version')
 				} else {
-					return `${this.version.label} (${translate('files_versions', 'Current version')})`
+					return `${label} (${translate('files_versions', 'Current version')})`
 				}
 			}
 
-			if (this.isFirstVersion && this.version.label === '') {
+			if (this.isFirstVersion && label === '') {
 				return translate('files_versions', 'Initial version')
 			}
 
-			return this.version.label
+			return label
 		},
 
 		/**
@@ -275,6 +289,11 @@ export default {
 		height: 3rem;
 		border: 1px solid var(--color-border);
 		border-radius: var(--border-radius-large);
+
+		// Useful to display no preview icon.
+		display: flex;
+		justify-content: center;
+		color: var(--color-text-light);
 	}
 }
 

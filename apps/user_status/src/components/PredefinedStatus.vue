@@ -19,21 +19,25 @@
   -
   -->
 <template>
-	<div class="predefined-status"
-		tabindex="0"
-		@keyup.enter="select"
-		@keyup.space="select"
-		@click="select">
-		<span aria-hidden="true" class="predefined-status__icon">
-			{{ icon }}
-		</span>
-		<span class="predefined-status__message">
-			{{ message }}
-		</span>
-		<span class="predefined-status__clear-at">
-			{{ clearAt | clearAtFilter }}
-		</span>
-	</div>
+	<li class="predefined-status">
+		<input :id="id"
+			class="hidden-visually predefined-status__input"
+			type="radio"
+			name="predefined-status"
+			:checked="selected"
+			@change="select">
+		<label class="predefined-status__label" :for="id">
+			<span aria-hidden="true" class="predefined-status__label--icon">
+				{{ icon }}
+			</span>
+			<span class="predefined-status__label--message">
+				{{ message }}
+			</span>
+			<span class="predefined-status__label--clear-at">
+				{{ clearAt | clearAtFilter }}
+			</span>
+		</label>
+	</li>
 </template>
 
 <script>
@@ -62,6 +66,16 @@ export default {
 			required: false,
 			default: null,
 		},
+		selected: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+	},
+	computed: {
+		id() {
+			return `user-status-predefined-status-${this.messageId}`
+		},
 	},
 	methods: {
 		/**
@@ -76,39 +90,42 @@ export default {
 
 <style lang="scss" scoped>
 .predefined-status {
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: flex-start;
-	flex-basis: 100%;
-	border-radius: var(--border-radius);
-	align-items: center;
-	min-height: 44px;
+	&__label {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		flex-basis: 100%;
+		border-radius: var(--border-radius);
+		align-items: center;
+		min-height: 44px;
 
-	&:hover,
-	&:focus {
+		&--icon {
+			flex-basis: 40px;
+			text-align: center;
+		}
+
+		&--message {
+			font-weight: bold;
+			padding: 0 6px;
+		}
+
+		&--clear-at {
+			color: var(--color-text-maxcontrast);
+
+			&::before {
+				content: ' – ';
+			}
+		}
+	}
+
+	&__input:checked + &__label,
+	&__input:focus + &__label,
+	&__label:hover {
 		background-color: var(--color-background-hover);
 	}
 
-	&:active{
+	&__label:active {
 		background-color: var(--color-background-dark);
-	}
-
-	&__icon {
-		flex-basis: 40px;
-		text-align: center;
-	}
-
-	&__message {
-		font-weight: bold;
-		padding: 0 6px;
-	}
-
-	&__clear-at {
-		color: var(--color-text-maxcontrast);
-
-		&::before {
-			content: ' – ';
-		}
 	}
 }
 </style>

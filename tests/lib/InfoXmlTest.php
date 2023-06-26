@@ -21,6 +21,8 @@
 
 namespace Test;
 
+use OCP\App\IAppManager;
+
 /**
  * Class InfoXmlTest
  *
@@ -58,7 +60,7 @@ class InfoXmlTest extends TestCase {
 	 * @param string $app
 	 */
 	public function testClasses($app) {
-		$appInfo = \OC_App::getAppInfo($app);
+		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
 		$appPath = \OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 

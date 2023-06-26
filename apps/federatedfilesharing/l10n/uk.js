@@ -52,13 +52,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Копіювати до буферу обміну",
     "Clipboard is not available" : "Буфер обміну недоступний",
     "Copied!" : "Скопійовано!",
-    "Copy" : "Копіювати",
-    "Not supported!" : "Не підтримується!",
-    "Press ⌘-C to copy." : "Натисніть ⌘-C для копіювання.",
-    "Press Ctrl-C to copy." : "Натисніть Ctrl-C для копіювання.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s) (від імені %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див %s",
-    "Open documentation" : "Відкрити документацію"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див %s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

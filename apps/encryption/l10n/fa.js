@@ -28,6 +28,8 @@ OC.L10N.register(
     "Bad Signature" : "امضاء نامعتبر",
     "Missing Signature" : "امضاء از دست رفته",
     "one-time password for server-side-encryption" : "رمز عبور یک بار برای رمزگذاری سمت سرور",
+    "Encryption password" : "رمزنگاری گذرواژه",
+    "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "مدیریت، رمزنگاری سمت کارساز را فعال کرده است. پرونده‌های شما با گذرواژه <strong>%s</strong> رمزنگاری شدند.",
     "Default encryption module" : "ماژول رمزگذاری پیش فرض",
     "Default encryption module for server-side encryption" : "ماژول رمزگذاری پیش فرض برای رمزگذاری سمت سرور",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "برنامه رمزگذاری فعال شده است اما کلیدهای شما اولیه نیستند، لطفاً از سیستم خارج و دوباره وارد سیستم شوید.",

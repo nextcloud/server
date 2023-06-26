@@ -62,7 +62,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	public function getTableNamesWithoutPrefix() {
 		$tableNames = $this->schema->getTableNames();
 		return array_map(function ($tableName) {
-			if (strpos($tableName, $this->connection->getPrefix()) === 0) {
+			if (str_starts_with($tableName, $this->connection->getPrefix())) {
 				return substr($tableName, strlen($this->connection->getPrefix()));
 			}
 

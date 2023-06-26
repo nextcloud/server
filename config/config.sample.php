@@ -55,6 +55,12 @@ $CONFIG = [
 'passwordsalt' => '',
 
 /**
+ * Secret used by Nextcloud for various purposes, e.g. to encrypt data. If you
+ * lose this string there will be data corruption.
+ */
+'secret' => '',
+
+/**
  * Your list of trusted domains that users can log into. Specifying trusted
  * domains prevents host header poisoning. Do not remove this, as it performs
  * necessary security checks.
@@ -136,7 +142,7 @@ $CONFIG = [
  *
  * Default to ``oc_``
  */
-'dbtableprefix' => '',
+'dbtableprefix' => 'oc_',
 
 /**
  * Enable persistent connexions to the database.
@@ -223,17 +229,6 @@ $CONFIG = [
 'force_locale' => 'en_US',
 
 /**
- * Set the default app to open on login. Use the app names as they appear in the
- * URL after clicking them in the Apps menu, such as documents, calendar, and
- * gallery. You can use a comma-separated list of app names, so if the first
- * app is not enabled for a user then Nextcloud will try the second one, and so
- * on. If no enabled apps are found it defaults to the dashboard app.
- *
- * Defaults to ``dashboard,files``
- */
-'defaultapp' => 'dashboard,files',
-
-/**
  * ``true`` enables the Help menu item in the user menu (top right of the
  * Nextcloud Web interface). ``false`` removes the Help item.
  */
@@ -244,6 +239,37 @@ $CONFIG = [
  * pages), and ``false`` prevents them from changing their display names.
  */
 'allow_user_to_change_display_name' => true,
+
+/**
+ * The directory where the skeleton files are located. These files will be
+ * copied to the data directory of new users. Leave empty to not copy any
+ * skeleton files.
+ * ``{lang}`` can be used as a placeholder for the language of the user.
+ * If the directory does not exist, it falls back to non dialect (from ``de_DE``
+ * to ``de``). If that does not exist either, it falls back to ``default``
+ *
+ * Defaults to ``core/skeleton`` in the Nextcloud directory.
+ */
+'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
+
+
+/**
+ * The directory where the template files are located. These files will be
+ * copied to the template directory of new users. Leave empty to not copy any
+ * template files.
+ * ``{lang}`` can be used as a placeholder for the language of the user.
+ * If the directory does not exist, it falls back to non dialect (from ``de_DE``
+ * to ``de``). If that does not exist either, it falls back to ``default``
+ *
+ * If this is not set creating a template directory will only happen if no custom
+ * ``skeletondirectory`` is defined, otherwise the shipped templates will be used
+ * to create a template directory for the user.
+ */
+'templatedirectory' => '/path/to/nextcloud/templates',
+
+/**
+ * User session
+ */
 
 /**
  * Lifetime of the remember login cookie. This should be larger than the
@@ -262,6 +288,11 @@ $CONFIG = [
  * Defaults to ``60*60*24`` seconds (24 hours)
  */
 'session_lifetime' => 60 * 60 * 24,
+
+/**
+ * The timeout in seconds for requests to servers made by the DAV component (e.g., needed for federated shares).
+ */
+'davstorage.request_timeout' => 30,
 
 /**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
@@ -362,33 +393,6 @@ $CONFIG = [
  * This will show an error. But the direct login still works with adding ?direct=1
  */
 'hide_login_form' => false,
-
-/**
- * The directory where the skeleton files are located. These files will be
- * copied to the data directory of new users. Leave empty to not copy any
- * skeleton files.
- * ``{lang}`` can be used as a placeholder for the language of the user.
- * If the directory does not exist, it falls back to non dialect (from ``de_DE``
- * to ``de``). If that does not exist either, it falls back to ``default``
- *
- * Defaults to ``core/skeleton`` in the Nextcloud directory.
- */
-'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
-
-
-/**
- * The directory where the template files are located. These files will be
- * copied to the template directory of new users. Leave empty to not copy any
- * template files.
- * ``{lang}`` can be used as a placeholder for the language of the user.
- * If the directory does not exist, it falls back to non dialect (from ``de_DE``
- * to ``de``). If that does not exist either, it falls back to ``default``
- *
- * If this is not set creating a template directory will only happen if no custom
- * ``skeletondirectory`` is defined, otherwise the shipped templates will be used
- * to create a template directory for the user.
- */
-'templatedirectory' => '/path/to/nextcloud/templates',
 
 /**
  * If your user backend does not allow password resets (e.g. when it's a
@@ -1068,6 +1072,17 @@ $CONFIG = [
  */
 
 /**
+ * Set the default app to open on login. Use the app names as they appear in the
+ * URL after clicking them in the Apps menu, such as documents, calendar, and
+ * gallery. You can use a comma-separated list of app names, so if the first
+ * app is not enabled for a user then Nextcloud will try the second one, and so
+ * on. If no enabled apps are found it defaults to the dashboard app.
+ *
+ * Defaults to ``dashboard,files``
+ */
+'defaultapp' => 'dashboard,files',
+
+/**
  * When enabled, admins may install apps from the Nextcloud app store.
  *
  * Defaults to ``true``
@@ -1218,13 +1233,19 @@ $CONFIG = [
 'preview_imaginary_url' => 'http://previews_hpb:8088/',
 
 /**
+ * If you want set a api key for imaginary.
+ */
+'preview_imaginary_key' => 'secret',
+
+/**
  * Only register providers that have been explicitly enabled
  *
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
- *  - ``OC\Preview\Illustrator``
+ *  - ``OC\Preview\Font``
  *  - ``OC\Preview\HEIC``
+ *  - ``OC\Preview\Illustrator``
  *  - ``OC\Preview\Movie``
  *  - ``OC\Preview\MSOffice2003``
  *  - ``OC\Preview\MSOffice2007``
@@ -1235,7 +1256,6 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
- *  - ``OC\Preview\Font``
  *
  *
  * Defaults to the following providers:
@@ -1243,25 +1263,25 @@ $CONFIG = [
  *  - ``OC\Preview\BMP``
  *  - ``OC\Preview\GIF``
  *  - ``OC\Preview\JPEG``
+ *  - ``OC\Preview\Krita``
  *  - ``OC\Preview\MarkDown``
  *  - ``OC\Preview\MP3``
+ *  - ``OC\Preview\OpenDocument``
  *  - ``OC\Preview\PNG``
  *  - ``OC\Preview\TXT``
  *  - ``OC\Preview\XBitmap``
- *  - ``OC\Preview\OpenDocument``
- *  - ``OC\Preview\Krita``
  */
 'enabledPreviewProviders' => [
-	'OC\Preview\PNG',
-	'OC\Preview\JPEG',
-	'OC\Preview\GIF',
 	'OC\Preview\BMP',
-	'OC\Preview\XBitmap',
-	'OC\Preview\MP3',
-	'OC\Preview\TXT',
-	'OC\Preview\MarkDown',
-	'OC\Preview\OpenDocument',
+	'OC\Preview\GIF',
+	'OC\Preview\JPEG',
 	'OC\Preview\Krita',
+	'OC\Preview\MarkDown',
+	'OC\Preview\MP3',
+	'OC\Preview\OpenDocument',
+	'OC\Preview\PNG',
+	'OC\Preview\TXT',
+	'OC\Preview\XBitmap',
 ],
 
 /**
@@ -1344,6 +1364,14 @@ $CONFIG = [
  */
 'maintenance_window_start' => 1,
 
+/**
+ * Log all LDAP requests into a file
+ *
+ * Warning: This heavily decreases the performance of the server and is only
+ * meant to debug/profile the LDAP interaction manually.
+ * Also, it might log sensitive data into a plain text file.
+ */
+'ldap_log_file' => '',
 
 /**
  * SSL
@@ -2036,12 +2064,6 @@ $CONFIG = [
 'filesystem_cache_readonly' => false,
 
 /**
- * Secret used by Nextcloud for various purposes, e.g. to encrypt data. If you
- * lose this string there will be data corruption.
- */
-'secret' => '',
-
-/**
  * List of trusted proxy servers
  *
  * You may set this to an array containing a combination of
@@ -2136,6 +2158,11 @@ $CONFIG = [
  * Disable the web based updater
  */
 'upgrade.disable-web' => false,
+
+/**
+ * Allows to modify the cli-upgrade link in order to link to a different documentation
+ */
+'upgrade.cli-upgrade-link' => '',
 
 /**
  * Set this Nextcloud instance to debugging mode
@@ -2255,15 +2282,6 @@ $CONFIG = [
  * Also, it might log sensitive data into a plain text file.
  */
 'redis_log_file' => '',
-
-/**
- * Log all LDAP requests into a file
- *
- * Warning: This heavily decreases the performance of the server and is only
- * meant to debug/profile the LDAP interaction manually.
- * Also, it might log sensitive data into a plain text file.
- */
-'ldap_log_file' => '',
 
 /**
  * Enable diagnostics event logging

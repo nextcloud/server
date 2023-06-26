@@ -113,9 +113,9 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
     "Public upload is only possible for publicly shared folders" : "Offentlig opplasting er kun mulig i offentlig delte mapper",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deling av %s ved å sende passordet av Nextcloud Talk mislyktes fordi Nextcloud Talk ikke er aktivert",
-    "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
     "Please specify a valid federated user ID" : "Angi en gyldig sammenknyttet brukersky-ID",
+    "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Angi en gyldig sammenknyttet gruppesky-ID",
     "You cannot share to a Circle if the app is not enabled" : "Du kan ikke dele til en sirkel så lenge appen ikke er aktivert",
     "Please specify a valid circle" : "Angi en gyldig sirkel",
@@ -270,11 +270,7 @@ OC.L10N.register(
     "Uploaded files:" : "Opplastede filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ved å laste opp filer godtar du %1$stjenestevilkårene%2$s.",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "One or more of your shares will expire tomorrow" : "En eller flere av delingene dine utløper i morgen",
-    "Copy to clipboard" : "Kopiert til utklippstavlen",
-    "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
-    "Toggle grid view" : "Veksle rutenett-visning",
     "Error generating password from password_policy" : "Feil under generering av passord fra passordregler"
 },
 "nplurals=2; plural=(n != 1);");

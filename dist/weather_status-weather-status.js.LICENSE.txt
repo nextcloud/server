@@ -1,3 +1,5 @@
+/*! For license information please see NcActionText.js.LICENSE.txt */
+
 /**
  * @copyright Copyright (c) 2016 Julien Veyssier <eneiluj@posteo.net>
  *

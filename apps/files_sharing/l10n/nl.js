@@ -113,9 +113,9 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Publieke upload uitgeschakeld door de systeembeheerder",
     "Public upload is only possible for publicly shared folders" : "Publieke upload is alleen mogelijk voor publiek gedeelde mappen",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen %s versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ongeldige datum, datumnotatie moet in de vorm YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Delen van %1$s mislukte omdat de backend het delen van type %2$s niet ondersteunt",
     "Please specify a valid federated user ID" : "Geef een geldig gefedereerd gebruikersID op",
+    "Invalid date, date format must be YYYY-MM-DD" : "Ongeldige datum, datumnotatie moet in de vorm YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Geef een geldig gefedereerd groepID op",
     "You cannot share to a Circle if the app is not enabled" : "Je kunt niets met een Kring delen als de app niet is ingeschakeld.",
     "Please specify a valid circle" : "Geef een geldige kring op",
@@ -257,10 +257,6 @@ OC.L10N.register(
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
-    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen",
-    "Copy to clipboard" : "Kopiëren naar het klembord",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
-    "Toggle grid view" : "Omschakelen roosterweergave"
+    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen"
 },
 "nplurals=2; plural=(n != 1);");

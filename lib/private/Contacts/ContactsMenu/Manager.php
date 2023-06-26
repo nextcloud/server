@@ -33,22 +33,15 @@ use OCP\IConfig;
 use OCP\IUser;
 
 class Manager {
-	private ContactsStore $store;
-	private ActionProviderStore $actionProviderStore;
-	private IAppManager $appManager;
-	private IConfig $config;
-
-	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager, IConfig $config) {
-		$this->store = $store;
-		$this->actionProviderStore = $actionProviderStore;
-		$this->appManager = $appManager;
-		$this->config = $config;
+	public function __construct(
+		private ContactsStore $store,
+		private ActionProviderStore $actionProviderStore,
+		private IAppManager $appManager,
+		private IConfig $config,
+	) {
 	}
 
 	/**
-	 * @param IUser $user
-	 * @param string|null $filter
-	 * @return array
 	 * @throws Exception
 	 */
 	public function getEntries(IUser $user, ?string $filter): array {
@@ -95,10 +88,9 @@ class Manager {
 
 	/**
 	 * @param IEntry[] $entries
-	 * @param IUser $user
 	 * @throws Exception
 	 */
-	private function processEntries(array $entries, IUser $user) {
+	private function processEntries(array $entries, IUser $user): void {
 		$providers = $this->actionProviderStore->getProviders($user);
 		foreach ($entries as $entry) {
 			foreach ($providers as $provider) {

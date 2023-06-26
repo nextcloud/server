@@ -88,6 +88,11 @@ class StorageTest extends \Test\TestCase {
 	 */
 	private $userView;
 
+	// 239 chars so appended timestamp of 12 chars will exceed max length of 250 chars
+	private const LONG_FILENAME = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+	// 250 chars
+	private const MAX_FILENAME = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -109,6 +114,8 @@ class StorageTest extends \Test\TestCase {
 		$this->rootView = new \OC\Files\View('/');
 		$this->userView = new \OC\Files\View('/' . $this->user . '/files/');
 		$this->userView->file_put_contents('test.txt', 'foo');
+		$this->userView->file_put_contents(static::LONG_FILENAME, 'foo');
+		$this->userView->file_put_contents(static::MAX_FILENAME, 'foo');
 
 		$this->userView->mkdir('folder');
 		$this->userView->file_put_contents('folder/inside.txt', 'bar');
@@ -162,6 +169,44 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('inside.txt', $name);
+	}
+
+	/**
+	 * Test that deleting a file with a long filename puts it into the trashbin.
+	 */
+	public function testSingleStorageDeleteLongFilename() {
+		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+
+		$this->assertTrue($this->userView->file_exists(static::LONG_FILENAME));
+		$this->userView->unlink(static::LONG_FILENAME);
+		[$storage,] = $this->userView->resolvePath(static::LONG_FILENAME);
+		$storage->getScanner()->scan(''); // make sure we check the storage
+		$this->assertFalse($this->userView->getFileInfo(static::LONG_FILENAME));
+
+		// check if file is in trashbin
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals($truncatedFilename, substr($name, 0, strrpos($name, '.')));
+	}
+
+	/**
+	 * Test that deleting a file with the max filename length puts it into the trashbin.
+	 */
+	public function testSingleStorageDeleteMaxLengthFilename() {
+		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+
+		$this->assertTrue($this->userView->file_exists(static::MAX_FILENAME));
+		$this->userView->unlink(static::MAX_FILENAME);
+		[$storage,] = $this->userView->resolvePath(static::MAX_FILENAME);
+		$storage->getScanner()->scan(''); // make sure we check the storage
+		$this->assertFalse($this->userView->getFileInfo(static::MAX_FILENAME));
+
+		// check if file is in trashbin
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals($truncatedFilename, substr($name, 0, strrpos($name, '.')));
 	}
 
 	/**

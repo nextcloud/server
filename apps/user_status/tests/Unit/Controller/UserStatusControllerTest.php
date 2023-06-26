@@ -326,15 +326,6 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	public function testClearStatus(): void {
-		$this->service->expects($this->once())
-			->method('clearStatus')
-			->with('john.doe');
-
-		$response = $this->controller->clearStatus();
-		$this->assertEquals([], $response->getData());
-	}
-
 	public function testClearMessage(): void {
 		$this->service->expects($this->once())
 			->method('clearMessage')

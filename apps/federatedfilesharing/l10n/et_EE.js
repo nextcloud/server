@@ -34,11 +34,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Copied!" : "Kopeeritud!",
-    "Copy" : "Kopeeri",
-    "Not supported!" : "Pole toetatud!",
-    "Press ⌘-C to copy." : "Kopeerimiseks vajuta ⌘ + C.",
-    "Press Ctrl-C to copy." : "Kopeerimiseks vajuta Ctrl + C.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID, vaata %s",
-    "Open documentation" : "Ava dokumentatsioon"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID, vaata %s"
 },
 "nplurals=2; plural=(n != 1);");

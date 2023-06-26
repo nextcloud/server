@@ -57,9 +57,7 @@ OC.L10N.register(
     "Custom mimetype" : "Prilagođeni mimetype",
     "Please enter a valid time span" : "Unesite valjani vremenski raspon",
     "Select a request URL" : "Odaberi URL zahtjeva",
-    "Predefined URLs" : "Unaprijed definirani URL-ovi",
     "Files WebDAV" : "Datoteke WebDAV",
-    "Others" : "Ostalo",
     "Custom URL" : "Prilagođeni URL",
     "Select a user agent" : "Odaberi korisničkog agenta",
     "Android client" : "Klijent za Android",
@@ -111,9 +109,7 @@ OC.L10N.register(
     "User group membership" : "Članstvo u grupi korisnika",
     "is member of" : "je član",
     "is not member of" : "nije član",
-    "Select a tag" : "Odaberi oznaku",
-    "No results" : "Nema rezultata",
-    "%s (invisible)" : "%s (nevidljivo)",
-    "%s (restricted)" : "%s (ograničeno)"
+    "Predefined URLs" : "Unaprijed definirani URL-ovi",
+    "Others" : "Ostalo"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

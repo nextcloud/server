@@ -71,6 +71,7 @@
     "Custom background" : "Mukautettu taustakuva",
     "Default background" : "Oletustausta",
     "Change color" : "Vaihda väriä",
+    "No background" : "Ei taustakuvaa",
     "Select a background from your files" : "Valitse taustakuva tiedostoista",
     "Theme selection is enforced" : "Teemavalinta on pakotettu",
     "Select a custom color" : "Valitse mukautettu väri",
@@ -81,16 +82,15 @@
     "Admin" : "Ylläpito",
     "Error uploading the file" : "Virhe tiedostoa lähettäessä",
     "Name cannot be empty" : "Nimi ei voi olla tyhjä",
-    "Open documentation" : "Avaa dokumentaatio",
-    "https://…" : "https://…",
-    "Login image" : "Kirjautumissivun kuva",
-    "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet.",
     "Pick from Files" : "Valitse tiedostoista",
     "Default image" : "Oletuskuva",
     "Custom color" : "Mukautettu väri",
     "Plain background" : "Yksinkertainen tausta",
     "Insert from {productName}" : "Aseta kohteesta {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Vaikka voit mukauttaa instanssia, käyttäjät voivat vaihtaa taustakuvaansa ja värejään. Jos haluat pakottaa mukautukset käyttäjille, ota tämä asetus käyttöön."
+    "Open documentation" : "Avaa dokumentaatio",
+    "https://…" : "https://…",
+    "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Vaikka voit mukauttaa instanssia, käyttäjät voivat vaihtaa taustakuvaansa ja värejään. Jos haluat pakottaa mukautukset käyttäjille, ota tämä asetus käyttöön.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

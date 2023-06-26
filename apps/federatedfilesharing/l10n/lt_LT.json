@@ -37,11 +37,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Bendrinti su manimi per mano #Nextcloud federacinės debesijos ID",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Clipboard is not available" : "Iškarpinė neprieinama",
-    "Copied!" : "Nukopijuota!",
-    "Copy" : "Kopijuoti",
-    "Not supported!" : "Nepalaikoma!",
-    "Press ⌘-C to copy." : "Norėdami nukopijuoti, paspauskite ⌘-C.",
-    "Press Ctrl-C to copy." : "Paspauskite Vald-C, norėdami nukopijuoti.",
-    "Open documentation" : "Atverti dokumentaciją"
+    "Copied!" : "Nukopijuota!"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

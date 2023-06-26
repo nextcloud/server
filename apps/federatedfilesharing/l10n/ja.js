@@ -48,13 +48,8 @@ OC.L10N.register(
     "Copy to clipboard" : "クリップボードにコピー",
     "Clipboard is not available" : "クリップボードは利用できません",
     "Copied!" : "コピーしました！",
-    "Copy" : "コピー",
-    "Not supported!" : "サポートされていません！",
-    "Press ⌘-C to copy." : "⌘+Cを押してコピーします。",
-    "Press Ctrl-C to copy." : "Ctrl+Cを押してコピーします。",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "%4$s (%1$s)からリモート共有として \"%3$s\" を受け取りました(%5$s(%2$s)の代理として)",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "  %4$s (%1$s)からリモート共有として \"%3$s\" を受け取りました",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud の「クラウド共有ID」で私と共有できます。こちらを見てください。%s",
-    "Open documentation" : "ドキュメントを開く"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud の「クラウド共有ID」で私と共有できます。こちらを見てください。%s"
 },
 "nplurals=1; plural=0;");

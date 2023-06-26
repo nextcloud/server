@@ -84,7 +84,7 @@ export default {
 <style scoped lang="scss">
 .reference-file-picker {
 	flex-grow: 1;
-	margin-top: 44px;
+	padding: 12px 16px 16px 16px;
 
 	&:deep(.oc-dialog) {
 		transform: none !important;

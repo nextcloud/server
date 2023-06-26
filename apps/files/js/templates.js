@@ -344,10 +344,12 @@ templates['newfilemenu'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = lookupProperty(helpers,"fileType") || (depth0 != null ? lookupProperty(depth0,"fileType") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fileType","hash":{},"data":data,"loc":{"start":{"line":7,"column":84},"end":{"line":7,"column":96}}}) : helper)))
     + "\" data-action=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":7,"column":111},"end":{"line":7,"column":117}}}) : helper)))
+    + "\" data-action-label=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"actionLabel") || (depth0 != null ? lookupProperty(depth0,"actionLabel") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"actionLabel","hash":{},"data":data,"loc":{"start":{"line":7,"column":138},"end":{"line":7,"column":153}}}) : helper)))
     + "\"><span class=\"icon "
-    + alias4(((helper = (helper = lookupProperty(helpers,"iconClass") || (depth0 != null ? lookupProperty(depth0,"iconClass") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconClass","hash":{},"data":data,"loc":{"start":{"line":7,"column":137},"end":{"line":7,"column":150}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"iconClass") || (depth0 != null ? lookupProperty(depth0,"iconClass") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconClass","hash":{},"data":data,"loc":{"start":{"line":7,"column":173},"end":{"line":7,"column":186}}}) : helper)))
     + " svg\"></span><span class=\"displayname\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"displayName") || (depth0 != null ? lookupProperty(depth0,"displayName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"displayName","hash":{},"data":data,"loc":{"start":{"line":7,"column":189},"end":{"line":7,"column":204}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"displayName") || (depth0 != null ? lookupProperty(depth0,"displayName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"displayName","hash":{},"data":data,"loc":{"start":{"line":7,"column":225},"end":{"line":7,"column":240}}}) : helper)))
     + "</span></a>\n		</li>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -379,7 +381,9 @@ templates['newfilemenu_filename_form'] = template({"compiler":[8,">= 4.3.0"],"ma
     + alias4(((helper = (helper = lookupProperty(helpers,"fileType") || (depth0 != null ? lookupProperty(depth0,"fileType") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fileType","hash":{},"data":data,"loc":{"start":{"line":2,"column":26},"end":{"line":2,"column":38}}}) : helper)))
     + "\" type=\"text\" value=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"fileName") || (depth0 != null ? lookupProperty(depth0,"fileName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fileName","hash":{},"data":data,"loc":{"start":{"line":2,"column":59},"end":{"line":2,"column":71}}}) : helper)))
-    + "\" autocomplete=\"off\" autocapitalize=\"off\">\n	<input type=\"submit\" value=\" \" class=\"icon-confirm\" />\n</form>\n";
+    + "\" autocomplete=\"off\" autocapitalize=\"off\">\n	<input type=\"submit\" value=\" \" class=\"icon-confirm\" aria-label=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"actionLabel") || (depth0 != null ? lookupProperty(depth0,"actionLabel") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"actionLabel","hash":{},"data":data,"loc":{"start":{"line":3,"column":65},"end":{"line":3,"column":80}}}) : helper)))
+    + "\" />\n</form>\n";
 },"useData":true});
 templates['operationprogressbar'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {

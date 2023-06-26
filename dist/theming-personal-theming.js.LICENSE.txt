@@ -1,3 +1,7 @@
+/*! For license information please see NcColorPicker.js.LICENSE.txt */
+
+/*! https://mths.be/punycode v1.3.2 by @mathias */
+
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *

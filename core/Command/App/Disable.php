@@ -33,12 +33,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Disable extends Command implements CompletionAwareInterface {
-	protected IAppManager $appManager;
 	protected int $exitCode = 0;
 
-	public function __construct(IAppManager $appManager) {
+	public function __construct(
+		protected IAppManager $appManager,
+	) {
 		parent::__construct();
-		$this->appManager = $appManager;
 	}
 
 	protected function configure(): void {
@@ -70,7 +70,7 @@ class Disable extends Command implements CompletionAwareInterface {
 
 		try {
 			$this->appManager->disableApp($appId);
-			$appVersion = \OC_App::getAppVersion($appId);
+			$appVersion = $this->appManager->getAppVersion($appId);
 			$output->writeln($appId . ' ' . $appVersion . ' disabled');
 		} catch (\Exception $e) {
 			$output->writeln($e->getMessage());

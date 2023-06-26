@@ -539,12 +539,12 @@ class Factory implements IFactory {
 	 */
 	private function isSubDirectory($sub, $parent) {
 		// Check whether $sub contains no ".."
-		if (strpos($sub, '..') !== false) {
+		if (str_contains($sub, '..')) {
 			return false;
 		}
 
 		// Check whether $sub is a subdirectory of $parent
-		if (strpos($sub, $parent) === 0) {
+		if (str_starts_with($sub, $parent)) {
 			return true;
 		}
 

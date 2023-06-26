@@ -47,7 +47,7 @@
 		</NcActions>
 
 		<!-- pending actions -->
-		<NcActions v-if="!pending && (pendingPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
@@ -64,10 +64,10 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingPassword" icon="icon-password">
+			<NcActionText v-if="pendingEnforcedPassword" icon="icon-password">
 				{{ t('files_sharing', 'Password protection (enforced)') }}
 			</NcActionText>
-			<NcActionCheckbox v-else-if="config.enableLinkPasswordByDefault"
+			<NcActionCheckbox v-else-if="pendingPassword"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
@@ -75,7 +75,7 @@
 				{{ t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
-			<NcActionInput v-if="pendingPassword || share.password"
+			<NcActionInput v-if="pendingEnforcedPassword || share.password"
 				class="share-link-password"
 				:value.sync="share.password"
 				:disabled="saving"
@@ -161,6 +161,7 @@
 						class="share-link-password"
 						:class="{ error: errors.password}"
 						:disabled="saving"
+						:show-trailing-button="hasUnsavedPassword"
 						:required="config.enforcePasswordForPublicLink"
 						:value="hasUnsavedPassword ? share.newPassword : '***************'"
 						icon="icon-password"
@@ -516,6 +517,9 @@ export default {
 		 * @return {boolean}
 		 */
 		pendingPassword() {
+			return this.config.enableLinkPasswordByDefault && this.share && !this.share.id
+		},
+		pendingEnforcedPassword() {
 			return this.config.enforcePasswordForPublicLink && this.share && !this.share.id
 		},
 		pendingExpirationDate() {
@@ -612,12 +616,9 @@ export default {
 				// expiration is the share object key, not expireDate
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
-			if (this.config.enableLinkPasswordByDefault) {
-				shareDefaults.password = await GeneratePassword()
-			}
 
 			// do not push yet if we need a password or an expiration date: show pending menu
-			if (this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
+			if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
 				this.pending = true
 
 				// if a share already exists, pushing it
@@ -640,8 +641,8 @@ export default {
 				}
 
 				// ELSE, show the pending popovermenu
-				// if password enforced, pre-fill with random one
-				if (this.config.enforcePasswordForPublicLink) {
+				// if password default or enforced, pre-fill with random one
+				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
 					shareDefaults.password = await GeneratePassword()
 				}
 
@@ -903,7 +904,7 @@ export default {
 	}
 
 	::v-deep .avatar-link-share {
-		background-color: var(--color-primary);
+		background-color: var(--color-primary-element);
 	}
 
 	.sharing-entry__action--public-upload {

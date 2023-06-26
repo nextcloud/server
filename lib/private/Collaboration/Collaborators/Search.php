@@ -97,7 +97,7 @@ class Search implements ISearch {
 		// if we have an exact local user match with an email-a-like query,
 		// there is no need to show the remote and email matches.
 		$userType = new SearchResultType('users');
-		if (strpos($search, '@') !== false && $searchResult->hasExactIdMatch($userType)) {
+		if (str_contains($search, '@') && $searchResult->hasExactIdMatch($userType)) {
 			$searchResult->unsetResult($remoteType);
 			$searchResult->unsetResult($emailType);
 		}

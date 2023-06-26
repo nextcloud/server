@@ -43,7 +43,7 @@
     "Check #%s does not exist" : "Non existe a proba num. %s ",
     "Check %s is invalid or does not exist" : "A proba %s é incorrecta ou non existe",
     "Flow" : "Fluxo",
-    "Nextcloud workflow engine" : "Motor de fluxo de traballo do Nextcloud",
+    "Nextcloud workflow engine" : "Motor de fluxo de traballo de Nextcloud",
     "Select a filter" : "Seleccione un filtro",
     "Select a comparator" : "Seleccione un comparador",
     "Select a file type" : "Seleccione un tipo de ficheiro",
@@ -55,9 +55,7 @@
     "Custom mimetype" : "Mimetipe personalizado",
     "Please enter a valid time span" : "Introduza un intervalo de tempo válido",
     "Select a request URL" : "Seleccione un URL de solicitude",
-    "Predefined URLs" : "URL predefinidos",
     "Files WebDAV" : "Ficheiros WebDAV",
-    "Others" : "Outros",
     "Custom URL" : "URL personalizado",
     "Select a user agent" : "Seleccionar un axente de usuario",
     "Android client" : "Cliente Android",
@@ -106,12 +104,10 @@
     "between" : "entre",
     "not between" : "non entre",
     "Request user agent" : "Solicitar axente de usuario",
-    "User group membership" : "Pertencia a un grupo de usuarios",
+    "User group membership" : "Pertenza a un grupo de usuarios",
     "is member of" : "é membro de",
     "is not member of" : "non é membro de",
-    "Select a tag" : "Seleccione unha etiqueta",
-    "No results" : "Sen resultados",
-    "%s (invisible)" : "%s (invisíbel)",
-    "%s (restricted)" : "%s (restrinxido)"
+    "Predefined URLs" : "URL predefinidos",
+    "Others" : "Outros"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

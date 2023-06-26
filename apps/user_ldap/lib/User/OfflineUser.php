@@ -253,7 +253,7 @@ class OfflineUser {
 		$shareConstants = $shareInterface->getConstants();
 
 		foreach ($shareConstants as $constantName => $constantValue) {
-			if (strpos($constantName, 'TYPE_') !== 0
+			if (!str_starts_with($constantName, 'TYPE_')
 				|| $constantValue === IShare::TYPE_USERGROUP
 			) {
 				continue;

@@ -48,7 +48,9 @@ use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\SimpleCollection;
 
@@ -65,6 +67,7 @@ class RootCollection extends SimpleCollection {
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$config = \OC::$server->get(IConfig::class);
 		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+		$rootFolder = \OCP\Server::get(IRootFolder::class);
 
 		$userPrincipalBackend = new Principal(
 			$userManager,
@@ -131,6 +134,7 @@ class RootCollection extends SimpleCollection {
 			$groupManager,
 			\OC::$server->getEventDispatcher()
 		);
+		$systemTagInUseCollection = \OCP\Server::get(SystemTag\SystemTagsInUseCollection::class);
 		$commentsCollection = new Comments\RootCollection(
 			\OC::$server->getCommentsManager(),
 			$userManager,
@@ -141,11 +145,11 @@ class RootCollection extends SimpleCollection {
 
 		$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
 		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
-		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, 'principals/users');
+		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
 		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
-		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, 'principals/system');
+		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
 		$uploadCollection = new Upload\RootCollection(
@@ -179,6 +183,7 @@ class RootCollection extends SimpleCollection {
 				$systemAddressBookRoot]),
 			$systemTagCollection,
 			$systemTagRelationsCollection,
+			$systemTagInUseCollection,
 			$commentsCollection,
 			$uploadCollection,
 			$avatarCollection,

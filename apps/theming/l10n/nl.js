@@ -80,17 +80,16 @@ OC.L10N.register(
     "Admin" : "Beheer",
     "Error uploading the file" : "Fout bij uploaden van het bestand",
     "Name cannot be empty" : "Naam mag niet leeg zijn",
-    "Open documentation" : "Documentatie openen",
-    "https://…" : "https://…",
-    "Login image" : "Inlog afbeelding",
-    "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In sommige gevallen grijpen sneltoetsen in op de werking van toegankelijkheidstools. Om correct op uw hulpmiddel te kunnen concentreren, kunt u hier alle sneltoetsen uitschakelen. Dit zal ook alle beschikbare sneltoetsen in apps uitschakelen.",
     "Pick from Files" : "Kies uit Bestanden",
     "Default image" : "Standaard afbeelding",
     "Custom color" : "Kleur op maat",
     "Plain background" : "Kale achtergrond",
     "Insert from {productName}" : "Invoegen vanuit {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Hoewel u uw instantie kunt selecteren en aanpassen, kunnen gebruikers hun achtergrond en kleuren wijzigen. Als je jouw maatwerk wilt afdwingen, kun je dit vakje aanvinken."
+    "Open documentation" : "Documentatie openen",
+    "https://…" : "https://…",
+    "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Hoewel u uw instantie kunt selecteren en aanpassen, kunnen gebruikers hun achtergrond en kleuren wijzigen. Als je jouw maatwerk wilt afdwingen, kun je dit vakje aanvinken.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur."
 },
 "nplurals=2; plural=(n != 1);");

@@ -70,9 +70,9 @@ class Crypt {
 	// default cipher from old Nextcloud versions
 	public const LEGACY_CIPHER = 'AES-128-CFB';
 
-	public const SUPPORTED_KEY_FORMATS = ['hash', 'password'];
+	public const SUPPORTED_KEY_FORMATS = ['hash2', 'hash', 'password'];
 	// one out of SUPPORTED_KEY_FORMATS
-	public const DEFAULT_KEY_FORMAT = 'hash';
+	public const DEFAULT_KEY_FORMAT = 'hash2';
 	// default key format, old Nextcloud version encrypted the private key directly
 	// with the user password
 	public const LEGACY_KEY_FORMAT = 'password';
@@ -371,22 +371,20 @@ class Crypt {
 	 * @param string $uid only used for user keys
 	 * @return string
 	 */
-	protected function generatePasswordHash($password, $cipher, $uid = '') {
+	protected function generatePasswordHash(string $password, string $cipher, string $uid = '', int $iterations = 600000): string {
 		$instanceId = $this->config->getSystemValue('instanceid');
 		$instanceSecret = $this->config->getSystemValue('secret');
 		$salt = hash('sha256', $uid . $instanceId . $instanceSecret, true);
 		$keySize = $this->getKeySize($cipher);
 
-		$hash = hash_pbkdf2(
+		return hash_pbkdf2(
 			'sha256',
 			$password,
 			$salt,
-			100000,
+			$iterations,
 			$keySize,
 			true
 		);
-
-		return $hash;
 	}
 
 	/**
@@ -431,8 +429,10 @@ class Crypt {
 			$keyFormat = self::LEGACY_KEY_FORMAT;
 		}
 
-		if ($keyFormat === self::DEFAULT_KEY_FORMAT) {
-			$password = $this->generatePasswordHash($password, $cipher, $uid);
+		if ($keyFormat === 'hash') {
+			$password = $this->generatePasswordHash($password, $cipher, $uid, 100000);
+		} elseif ($keyFormat === 'hash2') {
+			$password = $this->generatePasswordHash($password, $cipher, $uid, 600000);
 		}
 
 		$binaryEncoding = isset($header['encoding']) && $header['encoding'] === self::BINARY_ENCODING_FORMAT;

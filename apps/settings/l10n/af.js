@@ -110,15 +110,7 @@ OC.L10N.register(
     "Follow us on Twitter" : "Volg ons op Twitter",
     "Check out our blog" : "Besoek ons woernaal",
     "Subscribe to our newsletter" : "Teken in op ons nuusbrief",
-    "Address" : "Adres",
-    "STARTTLS" : "STARTTLS",
-    "Upload new" : "Laai nuwe op",
-    "Select from Files" : "Kies uit Lêers",
-    "Remove image" : "Verwyder beeld",
     "png or jpg, max. 20 MB" : "png of jpg, maks. 20 MB",
-    "Choose as profile picture" : "Kies as profielprent",
-    "Your postal address" : "U posadres",
-    "Link https://…" : "Skakel https://…",
-    "Twitter handle @…" : "Twitter-handvatsel @…"
+    "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n != 1);");

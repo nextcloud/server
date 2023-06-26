@@ -83,6 +83,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
     "You can only favorite a single file or folder at a time" : "Þú getur aðeins bætt einni skrá eða möppu í einu í eftilæti",
     "New folder" : "Ný mappa",
+    "Create new folder" : "Búa til nýja möppu",
     "Upload file" : "Senda inn skrá",
     "Recent" : "Nýlegt",
     "Not favorited" : "Ekki í eftirlætum",
@@ -150,7 +151,6 @@
     "Copy to clipboard" : "Afrita á klippispjald",
     "Use this address to access your Files via WebDAV" : "Notaðu þetta vistfang til að nálgast skrárnar þínar með WebDAV",
     "Error while loading the file data" : "Villa við að hlaða inn skráagögnum",
-    "Cancel" : "Hætta við",
     "Create" : "Búa til",
     "Create a new file with the selected template" : "Búa til nýja skrá úr völdu sniðmáti",
     "Creating file" : "Bý til skrá",
@@ -176,16 +176,11 @@
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Storage invalid" : "Ógild geymsla",
-    "Select" : "Velja",
-    "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
-    "New" : "Nýtt",
-    "Copied!" : "Afritað!",
     "Unlimited" : "Ótakmarkað",
     "Search users" : "Leita að notendum",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
+    "Cancel" : "Hætta við",
     "%s used" : "%s notað",
     "%1$s of %2$s used" : "%1$s af %2$s notað",
-    "Settings" : "Stillingar",
     "Deleted files" : "Eyddar skrár"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

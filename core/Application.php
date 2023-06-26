@@ -239,6 +239,16 @@ class Application extends App {
 					if (!$table->hasIndex('mounts_class_index')) {
 						$subject->addHintForMissingSubject($table->getName(), 'mounts_class_index');
 					}
+					if (!$table->hasIndex('mounts_user_root_path_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'mounts_user_root_path_index');
+					}
+				}
+
+				if ($schema->hasTable('systemtag_object_mapping')) {
+					$table = $schema->getTable('systemtag_object_mapping');
+					if (!$table->hasIndex('systag_by_tagid')) {
+						$subject->addHintForMissingSubject($table->getName(), 'systag_by_tagid');
+					}
 				}
 			}
 		);

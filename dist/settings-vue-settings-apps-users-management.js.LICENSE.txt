@@ -1,3 +1,9 @@
+/*!
+  * vue-router v3.6.5
+  * (c) 2022 Evan You
+  * @license MIT
+  */
+
 /**
  * @copyright 2022, Julia Kirschenheuter <julia.kirschenheuter@nextcloud.com>
  *

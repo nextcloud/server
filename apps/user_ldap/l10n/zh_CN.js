@@ -1,8 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "无法清除映射。",
-    "Failed to delete the server configuration" : "未能删除服务器配置",
+    "Failed to clear the mappings." : "清除映射失败。",
+    "Failed to delete the server configuration" : "删除服务器配置失败",
     "Invalid configuration: Anonymous binding is not allowed." : "配置无效：不允许匿名绑定。",
     "Valid configuration, connection established!" : "配置有效，连接成功！",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "配置有效但绑定失败。请检查服务器设置和认证信息。",
@@ -12,7 +12,7 @@ OC.L10N.register(
     "No data specified" : "未指定数据",
     " Could not set configuration %s" : " 无法设定配置文件 %s",
     "Action does not exist" : "操作不存在",
-    "Renewing …" : "正在更新…",
+    "Renewing …" : "正在更新……",
     "Very weak password" : "非常弱的密码",
     "Weak password" : "弱密码",
     "So-so password" : "一般的密码",
@@ -177,6 +177,8 @@ OC.L10N.register(
     "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "用户名留空（默认）。 否则请指定 LDAP / AD 属性。",
     "\"$home\" Placeholder Field" : "\"$home\" 占位字段",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "位于外部存储配置的 $home 将被指定属性替换",
+    "Fediverse Field" : "联邦宇宙字段",
+    "User profile Fediverse will be set from the specified attribute" : "用户个人资料的联邦宇宙将从指定的属性设定",
     "Internal Username" : "内部用户名",
     "Internal Username Attribute:" : "内部用户名属性：",
     "Override UUID detection" : "覆盖 UUID 检测",
@@ -186,7 +188,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "用户名-LDAP用户映射",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "用户名用于存储和分配元数据。为了精确的区分和识别用户，每个 LDAP 用户都会有一个内部的用户名。这要求建立一个用户名到 LDAP 用户的映射。创建的用户名会被映射到 LDAP 用户的 UUID。另外为了节省 LDAP 连接开销，DN 会被缓存，但不会用于识别。如果 DN 变了，这些变化会被识别到。在 Nextcloud 各个页面会使用内部用户名。清空映射会造成系统里面有大量的残留信息。清空映射会影响所有的 LDAP 配置，而不仅仅是当前配置。不要在生产环境里面应用清空映射，请仅用于测试环境或者早期验证步骤。",
     "Clear Username-LDAP User Mapping" : "清除用户-LDAP用户映射",
-    "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射",
-    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior." : "默认情况下，内部用户名将从UUID属性创建。它确保用户名是唯一的，并且不需要转换字符。内部用户名只允许下列字符：[a-zA-Z0-9_.@-]。其他字符被替换为它们的ASCII对应或简单地省略。在冲突时会增加/增大一个数字。内部用户名用于内部识别用户。它也是用户主文件夹的默认名称。它也是远程 URL 的一部分，例如所有*DAV服务。使用此设置，可以覆盖默认行为。更改仅对新映射(添加)的LDAP用户有效。留空代表使用默认行为。"
+    "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射"
 },
 "nplurals=1; plural=0;");

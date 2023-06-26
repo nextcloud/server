@@ -27,8 +27,13 @@ namespace OCA\Files_Versions\Versions;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
+use OCP\Files\Lock\ILock;
+use OCP\Files\Lock\ILockManager;
+use OCP\Files\Lock\LockContext;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use OCP\Lock\ManuallyLockedException;
 
 class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend {
 	/** @var (IVersionBackend[])[] */
@@ -94,7 +99,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		$result = $backend->rollback($version);
+		$result = self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
 			\OC_Hook::emit('\OCP\Versions', 'rollback', [
@@ -133,4 +138,48 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 			$backend->deleteVersion($version);
 		}
 	}
+
+	/**
+	 * Catch ManuallyLockedException and retry in app context if possible.
+	 *
+	 * Allow users to go back to old versions via the versions tab in the sidebar
+	 * even when the file is opened in the viewer next to it.
+	 *
+	 * Context: If a file is currently opened for editing
+	 * the files_lock app will throw ManuallyLockedExceptions.
+	 * This prevented the user from rolling an opened file back to a previous version.
+	 *
+	 * Text and Richdocuments can handle changes of open files.
+	 * So we execute the rollback under their lock context
+	 * to let them handle the conflict.
+	 *
+	 * @param callable $callback function to run with app locks handled
+	 * @return bool|null
+	 * @throws ManuallyLockedException
+	 *
+	 */
+	private static function handleAppLocks(callable $callback): ?bool {
+		try {
+			return $callback();
+		} catch (ManuallyLockedException $e) {
+			$owner = (string) $e->getOwner();
+			$appsThatHandleUpdates = array("text", "richdocuments");
+			if (!in_array($owner, $appsThatHandleUpdates)) {
+				throw $e;
+			}
+			// The LockWrapper in the files_lock app only compares the lock type and owner
+			// when checking the lock against the current scope.
+			// So we do not need to get the actual node here
+			// and use the root node instead.
+			$root = \OC::$server->get(IRootFolder::class);
+			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
+			$lockManager = \OC::$server->get(ILockManager::class);
+			$result = null;
+			$lockManager->runInScope($lockContext, function() use ($callback, &$result) {
+				$result = $callback();
+			});
+			return $result;
+		}
+	}
+
 }

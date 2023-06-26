@@ -169,16 +169,6 @@ class UserStatusController extends OCSController {
 	 *
 	 * @return DataResponse
 	 */
-	public function clearStatus(): DataResponse {
-		$this->service->clearStatus($this->userId);
-		return new DataResponse([]);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
-	 */
 	public function clearMessage(): DataResponse {
 		$this->service->clearMessage($this->userId);
 		return new DataResponse([]);

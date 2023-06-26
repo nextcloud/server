@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Προσαρμοσμένος τύπος mime",
     "Please enter a valid time span" : "Εισαγάγετε έγκυρο χρονικό διάστημα",
     "Select a request URL" : "Επιλέξτε μια διεύθυνση URL αιτήματος",
-    "Predefined URLs" : "Προορισμένα URLs",
     "Files WebDAV" : "Αρχεία WebDAV",
-    "Others" : "Άλλοι",
     "Custom URL" : "Προσαρμοσμένο URL",
     "Select a user agent" : "Επιλογή προγράμματος χρήστη",
     "Android client" : "Πελάτης Android",
@@ -112,9 +110,7 @@ OC.L10N.register(
     "User group membership" : "Συμμετοχή σε ομάδα χρηστών",
     "is member of" : "είναι μέλος του",
     "is not member of" : "δεν είναι μέλος του",
-    "Select a tag" : "Επιλογή ετικέτας",
-    "No results" : "Κανένα αποτέλεσμα",
-    "%s (invisible)" : "%s (αόρατο)",
-    "%s (restricted)" : "%s (περιορισμένο)"
+    "Predefined URLs" : "Προορισμένα URLs",
+    "Others" : "Άλλοι"
 },
 "nplurals=2; plural=(n != 1);");

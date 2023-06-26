@@ -39,6 +39,8 @@ namespace OC;
 use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
 use Throwable;
 use function array_merge;
@@ -64,6 +66,7 @@ class Log implements ILogger, IDataLogger {
 	private ?bool $logConditionSatisfied = null;
 	private ?Normalizer $normalizer;
 	private ?IRegistry $crashReporters;
+	private ?IEventDispatcher $eventDispatcher;
 
 	/**
 	 * @param IWriter $logger The logger that should be used
@@ -71,7 +74,12 @@ class Log implements ILogger, IDataLogger {
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct(IWriter $logger, SystemConfig $config = null, Normalizer $normalizer = null, IRegistry $registry = null) {
+	public function __construct(
+		IWriter $logger,
+		SystemConfig $config = null,
+		Normalizer $normalizer = null,
+		IRegistry $registry = null
+	) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
@@ -85,6 +93,11 @@ class Log implements ILogger, IDataLogger {
 			$this->normalizer = $normalizer;
 		}
 		$this->crashReporters = $registry;
+		$this->eventDispatcher = null;
+	}
+
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -203,6 +216,10 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
 
+		if ($this->eventDispatcher) {
+			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
+		}
+
 		try {
 			if ($level >= $minLevel) {
 				$this->writeLog($app, $entry, $level);
@@ -242,8 +259,8 @@ class Log implements ILogger, IDataLogger {
 					$request = \OC::$server->getRequest();
 
 					if ($request->getMethod() === 'PUT' &&
-						strpos($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false &&
-						strpos($request->getHeader('Content-Type'), 'application/json') === false) {
+						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
+						!str_contains($request->getHeader('Content-Type'), 'application/json')) {
 						$logSecretRequest = '';
 					} else {
 						$logSecretRequest = $request->getParam('log_secret', '');
@@ -322,6 +339,10 @@ class Log implements ILogger, IDataLogger {
 
 		array_walk($context, [$this->normalizer, 'format']);
 
+		if ($this->eventDispatcher) {
+			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
+		}
+
 		try {
 			if ($level >= $minLevel) {
 				if (!$this->logger instanceof IFileBased) {
@@ -359,6 +380,7 @@ class Log implements ILogger, IDataLogger {
 			$context['level'] = $level;
 		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
+			error_log('Error when trying to log exception: ' . $e->getMessage() . ' ' . $e->getTraceAsString());
 		}
 	}
 
@@ -391,7 +413,7 @@ class Log implements ILogger, IDataLogger {
 		foreach ($context as $key => $val) {
 			$fullKey = '{' . $key . '}';
 			$replace[$fullKey] = $val;
-			if (strpos($message, $fullKey) !== false) {
+			if (str_contains($message, $fullKey)) {
 				$usedContextKeys[$key] = true;
 			}
 		}

@@ -182,7 +182,7 @@ class Util {
 		// need separate handling
 		if ($application !== 'core'
 			&& $file !== null
-			&& strpos($file, 'l10n') === false) {
+			&& !str_contains($file, 'l10n')) {
 			self::addTranslations($application);
 		}
 
@@ -275,21 +275,6 @@ class Util {
 		return $urlGenerator->getAbsoluteURL(
 			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
 		);
-	}
-
-	/**
-	 * Creates an absolute url for public use
-	 * @param string $service id
-	 * @return string the url
-	 * @since 4.5.0
-	 * @deprecated 15.0.0 - use OCP\IURLGenerator
-	 */
-	public static function linkToPublic($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
-		if ($service === 'files') {
-			return $urlGenerator->getAbsoluteURL('/s');
-		}
-		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'public.php').'?service='.$service);
 	}
 
 	/**
@@ -576,13 +561,13 @@ class Util {
 	 * Sometimes a string has to be shortened to fit within a certain maximum
 	 * data length in bytes. substr() you may break multibyte characters,
 	 * because it operates on single byte level. mb_substr() operates on
-	 * characters, so does not ensure that the shortend string satisfies the
+	 * characters, so does not ensure that the shortened string satisfies the
 	 * max length in bytes.
 	 *
 	 * For example, json_encode is messing with multibyte characters a lot,
 	 * replacing them with something along "\u1234".
 	 *
-	 * This function shortens the string with by $accurancy (-5) from
+	 * This function shortens the string with by $accuracy (-5) from
 	 * $dataLength characters, until it fits within $dataLength bytes.
 	 *
 	 * @since 23.0.0
@@ -607,11 +592,6 @@ class Util {
 		}
 		$ini = \OCP\Server::get(IniGetWrapper::class);
 		$disabled = explode(',', $ini->get('disable_functions') ?: '');
-		$disabled = array_map('trim', $disabled);
-		if (in_array($functionName, $disabled)) {
-			return false;
-		}
-		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($functionName, $disabled)) {
 			return false;

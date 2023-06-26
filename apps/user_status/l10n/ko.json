@@ -32,7 +32,6 @@
     "1 hour" : "한 시간",
     "4 hours" : "4 시간",
     "Mute all notifications" : "모든 알림을 무시합니다",
-    "Appear offline" : "접속 안함으로 표시",
-    "Clear status message after" : "상태 메시지 지우기 예약"
+    "Appear offline" : "접속 안함으로 표시"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

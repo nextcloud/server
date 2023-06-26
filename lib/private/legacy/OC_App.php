@@ -85,12 +85,14 @@ class OC_App {
 	 *
 	 * @psalm-taint-escape file
 	 * @psalm-taint-escape include
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape has_quotes
 	 *
 	 * @param string $app AppId that needs to be cleaned
 	 * @return string
 	 */
 	public static function cleanAppId(string $app): string {
-		return str_replace(['\0', '/', '\\', '..'], '', $app);
+		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
 	}
 
 	/**
@@ -240,19 +242,6 @@ class OC_App {
 	}
 
 	/**
-	 * checks whether or not an app is enabled
-	 *
-	 * @param string $app app
-	 * @return bool
-	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
-	 *
-	 * This function checks whether or not an app is enabled.
-	 */
-	public static function isEnabled(string $app): bool {
-		return \OC::$server->getAppManager()->isEnabledForUser($app);
-	}
-
-	/**
 	 * enables an app
 	 *
 	 * @param string $appId
@@ -394,18 +383,6 @@ class OC_App {
 	}
 
 	/**
-	 * get the last version of the app from appinfo/info.xml
-	 *
-	 * @param string $appId
-	 * @param bool $useCache
-	 * @return string
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion()
-	 */
-	public static function getAppVersion(string $appId, bool $useCache = true): string {
-		return \OC::$server->getAppManager()->getAppVersion($appId, $useCache);
-	}
-
-	/**
 	 * get app's version based on it's path
 	 *
 	 * @param string $path
@@ -415,49 +392,6 @@ class OC_App {
 		$infoFile = $path . '/appinfo/info.xml';
 		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
 		return isset($appData['version']) ? $appData['version'] : '';
-	}
-
-
-	/**
-	 * Read all app metadata from the info.xml file
-	 *
-	 * @param string $appId id of the app or the path of the info.xml file
-	 * @param bool $path
-	 * @param string $lang
-	 * @return array|null
-	 * @note all data is read from info.xml, not just pre-defined fields
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppInfo()
-	 */
-	public static function getAppInfo(string $appId, bool $path = false, string $lang = null) {
-		return \OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
-	}
-
-	/**
-	 * Returns the navigation
-	 *
-	 * @return array
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll()
-	 *
-	 * This function returns an array containing all entries added. The
-	 * entries are sorted by the key 'order' ascending. Additional to the keys
-	 * given for each app the following keys exist:
-	 *   - active: boolean, signals if the user is on this navigation entry
-	 */
-	public static function getNavigation(): array {
-		return OC::$server->getNavigationManager()->getAll();
-	}
-
-	/**
-	 * Returns the Settings Navigation
-	 *
-	 * @return string[]
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll('settings')
-	 *
-	 * This function returns an array containing all settings pages added. The
-	 * entries are sorted by the key 'order' ascending.
-	 */
-	public static function getSettingsNavigation(): array {
-		return OC::$server->getNavigationManager()->getAll('settings');
 	}
 
 	/**
@@ -632,7 +566,7 @@ class OC_App {
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
-				$info = OC_App::getAppInfo($app, false, $langCode);
+				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
 					continue;
@@ -696,7 +630,7 @@ class OC_App {
 					}
 				}
 
-				$info['version'] = OC_App::getAppVersion($app);
+				$info['version'] = $appManager->getAppVersion($app);
 				$appList[] = $info;
 			}
 		}
@@ -706,7 +640,7 @@ class OC_App {
 
 	public static function shouldUpgrade(string $app): bool {
 		$versions = self::getAppVersions();
-		$currentVersion = OC_App::getAppVersion($app);
+		$currentVersion = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
 		if ($currentVersion && isset($versions[$app])) {
 			$installedVersion = $versions[$app];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
@@ -824,7 +758,7 @@ class OC_App {
 
 		\OC::$server->getAppManager()->clearAppsCache();
 		$l = \OC::$server->getL10N('core');
-		$appData = self::getAppInfo($appId, false, $l->getLanguageCode());
+		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
@@ -864,7 +798,7 @@ class OC_App {
 
 		self::setAppTypes($appId);
 
-		$version = \OC_App::getAppVersion($appId);
+		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
@@ -977,7 +911,7 @@ class OC_App {
 
 				if ($attributeLang === $similarLang) {
 					$similarLangFallback = $option['@value'];
-				} elseif (strpos($attributeLang, $similarLang . '_') === 0) {
+				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
 					if ($similarLangFallback === false) {
 						$similarLangFallback = $option['@value'];
 					}

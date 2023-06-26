@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "Још нема коментара. Започните дискусију!",
     "No more messages" : "Нема више порука",
     "Retry" : "Покушај поново",
+    "Failed to mark comments as read" : "Није успело означавање коментара као прочитаних",
     "Unable to load the comments list" : "Не могуи да учитам списак коментара",
     "_%n unread comment_::_%n unread comments_" : ["%nнепрочитани коментар","%nнепрочитана коментара ","%n непрочитаних коментара"],
     "_1 new comment_::_{unread} new comments_" : ["1 нови коментар","{unread} нова коментара","{unread} нова коментара"],

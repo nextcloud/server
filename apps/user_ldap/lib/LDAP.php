@@ -204,7 +204,7 @@ class LDAP implements ILDAPWrapper {
 		}
 
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
-			if (strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
+			if (str_contains($message, 'Partial search results returned: Sizelimit exceeded')) {
 				return true;
 			}
 			$oldHandler($no, $message, $file, $line);

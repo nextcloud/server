@@ -52,13 +52,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Másolás a vágólapra",
     "Clipboard is not available" : "A vágólap nem érhető el",
     "Copied!" : "Másolva!",
-    "Copy" : "Másolás",
-    "Not supported!" : "Nem támogatott!",
-    "Press ⌘-C to copy." : "A másoláshoz nyomjon ⌘-C-t.",
-    "Press Ctrl-C to copy." : "A másoláshoz nyomjon Ctrl-C-t.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "A(z) „%3$s” fogadva távoli megosztásként innen: %4$s (%1$s) (%5$s nevében (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Kapott egy távoli megosztást: „%3$s”, innen: %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével, lásd %s",
-    "Open documentation" : "Dokumentáció megnyitása"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével, lásd %s"
 },
 "nplurals=2; plural=(n != 1);");

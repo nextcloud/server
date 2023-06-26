@@ -26,11 +26,12 @@ namespace Test\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
 
 class PasswordConfirmationMiddlewareTest extends TestCase {
@@ -44,8 +45,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	private $user;
 	/** @var PasswordConfirmationMiddleware */
 	private $middleware;
-	/** @var Controller */
-	private $contoller;
+	/** @var PasswordConfirmationMiddlewareController */
+	private $controller;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
@@ -54,8 +55,11 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);
-		$this->contoller = $this->createMock(Controller::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->controller = new PasswordConfirmationMiddlewareController(
+			'test',
+			$this->createMock(IRequest::class)
+		);
 
 		$this->middleware = new PasswordConfirmationMiddleware(
 			$this->reflector,
@@ -65,35 +69,31 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testNoAnnotation() {
-		$this->reflector->reflect(__CLASS__, __FUNCTION__);
+	public function testNoAnnotationNorAttribute() {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$this->session->expects($this->never())
 			->method($this->anything());
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 
-		$this->middleware->beforeController($this->contoller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
-	/**
-	 * @TestAnnotation
-	 */
 	public function testDifferentAnnotation() {
-		$this->reflector->reflect(__CLASS__, __FUNCTION__);
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$this->session->expects($this->never())
 			->method($this->anything());
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 
-		$this->middleware->beforeController($this->contoller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
 	 * @dataProvider dataProvider
 	 */
 	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception) {
-		$this->reflector->reflect(__CLASS__, __FUNCTION__);
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 
 		$this->user->method('getBackendClassName')
 			->willReturn($backend);
@@ -109,7 +109,35 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 		$thrown = false;
 		try {
-			$this->middleware->beforeController($this->contoller, __FUNCTION__);
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
+		} catch (NotConfirmedException $e) {
+			$thrown = true;
+		}
+
+		$this->assertSame($exception, $thrown);
+	}
+
+	/**
+	 * @dataProvider dataProvider
+	 */
+	public function testAttribute($backend, $lastConfirm, $currentTime, $exception) {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn($backend);
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		$this->session->method('get')
+			->with('last-password-confirm')
+			->willReturn($lastConfirm);
+
+		$this->timeFactory->method('getTime')
+			->willReturn($currentTime);
+
+		$thrown = false;
+		try {
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
 		} catch (NotConfirmedException $e) {
 			$thrown = true;
 		}

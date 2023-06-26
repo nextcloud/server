@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "まだコメントはありません、会話を開始してください！",
     "No more messages" : "これ以上のメッセージはありません",
     "Retry" : "再試行",
+    "Failed to mark comments as read" : "コメントを既読にすることができませんでした",
     "Unable to load the comments list" : "コメントリストを読み込めませんでした",
     "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"],
     "_1 new comment_::_{unread} new comments_" : ["の未読のコメント {unread}"],

@@ -52,13 +52,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Panoya kopyala",
     "Clipboard is not available" : "Pano kullanılamıyor",
     "Copied!" : "Kopyalandı!",
-    "Copy" : "Kopyala",
-    "Not supported!" : "Desteklenmiyor!",
-    "Press ⌘-C to copy." : "Kopyalamak için ⌘-C kullanın.",
-    "Press Ctrl-C to copy." : "Kopyalamak için Ctrl-C kullanın.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "%4$s (%1$s) kullanıcısından \"%3$s\" uzak paylaşımını aldınız (%5$s (%2$s) adına)",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "%4$s (%1$s) kullanıcısından \"%3$s\" uzak paylaşımını aldınız",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud Birleşik Bulut Kodum ile paylaş, %s bölümüne bakın",
-    "Open documentation" : "Belgeleri aç"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud Birleşik Bulut Kodum ile paylaş, %s bölümüne bakın"
 },
 "nplurals=2; plural=(n > 1);");

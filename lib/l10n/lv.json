@@ -130,9 +130,6 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
-    "Full name" : "Pilns vārds",
-    "%s enter the database username." : "%s ievadiet datubāzes lietotājvārdu.",
-    "%s enter the database name." : "%s ievadiet datubāzes nosaukumu.",
-    "%s you may not use dots in the database name" : "%s datubāžu nosaukumos nedrīkst izmantot punktus"
+    "Full name" : "Pilns vārds"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

@@ -40,7 +40,7 @@
   </IfModule>
 
   # Add cache control for static resources
-  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)$">
+  <FilesMatch "\.(css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite)$">
     <If "%{QUERY_STRING} =~ /(^|&)v=/">
       Header set Cache-Control "max-age=15778463, immutable"
     </If>

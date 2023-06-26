@@ -41,12 +41,8 @@ OC.L10N.register(
     "HTML Code:" : "HTML 코드:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨",
     "Copy to clipboard" : "클립보드로 복사",
+    "Clipboard is not available" : "클립보드를 사용할 수 없습니다.",
     "Copied!" : "복사 성공!",
-    "Copy" : "복사",
-    "Not supported!" : "지원하지 않음!",
-    "Press ⌘-C to copy." : "복사하려면 ⌘-C 키를 누르십시오.",
-    "Press Ctrl-C to copy." : "복사하려면 Ctrl-C 키를 누르십시오.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨, 더 알아보기: %s",
-    "Open documentation" : "문서 열기"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨, 더 알아보기: %s"
 },
 "nplurals=1; plural=0;");

@@ -1,3 +1,5 @@
+/*! For license information please see NcEmojiPicker.js.LICENSE.txt */
+
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
  *

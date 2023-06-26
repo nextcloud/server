@@ -160,6 +160,12 @@ export const initCore = () => {
 			// we need this because dragging stop triggers that
 			animating = false
 		})
+		snapper.on('open', () => {
+			$appNavigation.attr('aria-hidden', 'false')
+		})
+		snapper.on('close', () => {
+			$appNavigation.attr('aria-hidden', 'true')
+		})
 
 		// These are necessary because calling open or close
 		// on snapper during an animation makes it trigger an
@@ -213,6 +219,7 @@ export const initCore = () => {
 
 		// close sidebar when switching navigation entry
 		const $appNavigation = $('#app-navigation')
+		$appNavigation.attr('aria-hidden', 'true')
 		$appNavigation.delegate('a, :button', 'click', event => {
 			const $target = $(event.target)
 			// don't hide navigation when changing settings or adding things
@@ -264,6 +271,7 @@ export const initCore = () => {
 
 		const toggleSnapperOnSize = () => {
 			if ($(window).width() > breakpointMobileWidth) {
+				$appNavigation.attr('aria-hidden', 'false')
 				snapper.close()
 				snapper.disable()
 

@@ -20,11 +20,6 @@ OC.L10N.register(
     "Good evening" : "Dobar dan",
     "Good evening, {name}" : "Dobar dan, {name}",
     "Hello" : "Pozdrav",
-    "Hello, {name}" : "Pozdrav, {name}",
-    "Change background image" : "Promijenite sliku pozadinu",
-    "Pick from Files" : "Odaberi iz datoteka",
-    "Default images" : "Zadane slike",
-    "Plain background" : "Obična pozadina",
-    "Insert from {productName}" : "Umetni iz {productName}"
+    "Hello, {name}" : "Pozdrav, {name}"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -33,7 +33,7 @@
 
 		<!-- Link to file -->
 		<td class="files-list__row-name">
-			<a ref="name" v-bind="linkTo" @click="execDefaultAction">
+			<a ref="name" v-bind="linkAttrs" @click="execDefaultAction">
 				<!-- Icon or preview -->
 				<span class="files-list__row-icon">
 					<FolderIcon v-if="source.type === 'folder'" />
@@ -261,22 +261,28 @@ export default Vue.extend({
 			return minOpacity + (1 - minOpacity) * Math.pow((this.source.size / maxOpacitySize), 2)
 		},
 
-		linkTo() {
+		linkAttrs() {
+			if (this.enabledDefaultActions.length > 0) {
+				const action = this.enabledDefaultActions[0]
+				const displayName = action.displayName([this.source], this.currentView)
+				return {
+					class: ['files-list__row-default-action', 'files-list__row-action-' + action.id],
+					role: 'button',
+					title: displayName,
+				}
+			}
+
+			/**
+			 * A folder would never reach this point
+			 * as it has open-folder as default action.
+			 * Just to be safe, let's handle it.
+			 */
 			if (this.source.type === 'folder') {
 				const to = { ...this.$route, query: { dir: join(this.dir, this.source.basename) } }
 				return {
 					is: 'router-link',
 					title: this.t('files', 'Open folder {name}', { name: this.displayName }),
 					to,
-				}
-			}
-
-			if (this.enabledDefaultActions.length > 0) {
-				const action = this.enabledDefaultActions[0]
-				const displayName = action.displayName([this.source], this.currentView)
-				return {
-					title: displayName,
-					role: 'button',
 				}
 			}
 
@@ -526,11 +532,6 @@ export default Vue.extend({
 			}
 		},
 		execDefaultAction(event) {
-			// Do not execute the default action on the folder, navigate instead
-			if (this.source.type === 'folder') {
-				return
-			}
-
 			if (this.enabledDefaultActions.length > 0) {
 				event.preventDefault()
 				event.stopPropagation()

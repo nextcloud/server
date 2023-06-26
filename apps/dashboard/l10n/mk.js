@@ -21,11 +21,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добровечер, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете го денот информирано\n\nКонтролната табла на Nextcloud е вашата почетна точка на денот, што\nви дава преглед на вашите претстојни состаноци, итни е-пошта, пораки\nза разговор, дојдовни билети, најнови твитови и многу повеќе!\nКорисниците можат да додадат виџети им се допаѓа и ја менуваат\nпозадината по нивен вкус.",
-    "Change background image" : "Промени ја позадинската слика",
-    "Pick from Files" : "Избери од датотеките",
-    "Default images" : "Стандардни слики",
-    "Plain background" : "Обична позадина",
-    "Insert from {productName}" : "Вметнни од {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете го денот информирано\n\nКонтролната табла на Nextcloud е вашата почетна точка на денот, што\nви дава преглед на вашите претстојни состаноци, итни е-пошта, пораки\nза разговор, дојдовни билети, најнови твитови и многу повеќе!\nКорисниците можат да додадат виџети им се допаѓа и ја менуваат\nпозадината по нивен вкус."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

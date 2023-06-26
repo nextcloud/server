@@ -32,6 +32,7 @@ use ID3Parser\ID3Parser;
 
 use OCP\Files\File;
 use OCP\IImage;
+use Psr\Log\LoggerInterface;
 
 class MP3 extends ProviderV2 {
 	/**
@@ -48,8 +49,18 @@ class MP3 extends ProviderV2 {
 		$getID3 = new ID3Parser();
 
 		$tmpPath = $this->getLocalFile($file);
-		$tags = $getID3->analyze($tmpPath);
-		$this->cleanTmpFiles();
+		try {
+			$tags = $getID3->analyze($tmpPath);
+		} catch (\Throwable $e) {
+			\OC::$server->get(LoggerInterface::class)->info($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'core',
+			]);
+			return null;
+		} finally {
+			$this->cleanTmpFiles();
+		}
+
 		$picture = isset($tags['id3v2']['APIC'][0]['data']) ? $tags['id3v2']['APIC'][0]['data'] : null;
 		if (is_null($picture) && isset($tags['id3v2']['PIC'][0]['data'])) {
 			$picture = $tags['id3v2']['PIC'][0]['data'];

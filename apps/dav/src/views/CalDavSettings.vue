@@ -51,7 +51,7 @@
 		</p>
 		<p class="indented">
 			<NcCheckboxRadioSwitch id="caldavSendEventRemindersToSharedGroupMembers"
-				:checked.sync="sendEventRemindersToSharedGroupMembers"
+				:checked.sync="sendEventRemindersToSharedUsers"
 				type="switch"
 				:disabled="!sendEventReminders">
 				{{ $t('dav', 'Send reminder notifications to calendar sharees as well' ) }}
@@ -130,10 +130,10 @@ export default {
 		sendEventReminders(value) {
 			OCP.AppConfig.setValue('dav', 'sendEventReminders', value ? 'yes' : 'no')
 		},
-		sendEventRemindersToSharedGroupMembers(value) {
+		sendEventRemindersToSharedUsers(value) {
 			OCP.AppConfig.setValue(
 				'dav',
-				'sendEventRemindersToSharedGroupMembers',
+				'sendEventRemindersToSharedUsers',
 				value ? 'yes' : 'no'
 			)
 		},

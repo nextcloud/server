@@ -2,7 +2,6 @@
     "Cannot write into \"config\" directory!" : "No faghet a iscriere in sa cartella \"config\"!",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ma si preferes allogare s'archìviu de letura isceti congi.php, imposta su sèberu \"config_is_read_only\"",
     "See %s" : "Càstia %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Is archìvios de s'aplicatzione %1$s no sunt istados cambiados in manera curreta. Assegura•ti chi b'apat una versione cumpatìbile cun su serbidore.",
     "Sample configuration detected" : "S'at agatadu una cunfiguratzione de esèmpiu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Est istadu iscobertu ca sa cunfiguratzione de esèmpiu est istada copiada. Custu podet blocare s'installatzione e no est suportadu. Leghe sa documentatzione in config.php antis de fàghere càmbios.",
     "Other activities" : "Àteras atividades",
@@ -196,8 +195,6 @@
     "Please ask your server administrator to install the module." : "Pedi a s'amministratzione de serbidore de installare su mòdulu.",
     "PHP setting \"%s\" is not set to \"%s\"." : "S'impostatzione PHP %s no est a \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Assentende cust'impostatzione in php.ini at a torrare a fàghere traballare Nextcloud",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Est rechèdida a su mancu sa versione libxml2 2.7.0. Pro immoe cussa installada est sa%s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Pro assentare custu problema, agiorna sa versione libxml2 e torra a aviare su serbidore ìnternet.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Parit che PHP siat impostadu pro nde bogare is blocos de documentatzione in lìnia. Custu at a impedire s'atzessu a medas aplicatziones printzipales.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Podet èssere causadu dae una memòria temporànea/atzeleradore cales Zend Opcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Is mòdulos PHP sunt istados installados, ma sunt ancora elencados comente mancantes?",
@@ -215,11 +212,10 @@
     "Storage connection error. %s" : "Errore de connessione a s'archiviatzione. %s",
     "Storage is temporarily not available" : "S'archiviatzione no est disponìbile pro immoe.",
     "Storage connection timeout. %s" : "Tempus de connessione a s'archiviatzione iscadidu. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Is archìvios de s'aplicatzione %1$s no sunt istados cambiados in manera curreta. Assegura•ti chi b'apat una versione cumpatìbile cun su serbidore.",
     "Full name" : "Nùmene cumpletu",
-    "%s enter the database username and name." : "%s inserta•nche su nùmene utente e su nùmene de sa base de datos.",
-    "%s enter the database username." : "%s inserta•nche su nùmene utente de sa base de datos.",
-    "%s enter the database name." : "%s inserta•nche su nùmene de sa base de datos.",
-    "%s you may not use dots in the database name" : "%s no depes impreare puntos in su nùmene de sa base de datos",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Isceti custos caràteres sunt permìtidos in unu nùmene utente: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Isceti custos caràteres sunt permìtidos in unu nùmene utente: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Est rechèdida a su mancu sa versione libxml2 2.7.0. Pro immoe cussa installada est sa%s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Pro assentare custu problema, agiorna sa versione libxml2 e torra a aviare su serbidore ìnternet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

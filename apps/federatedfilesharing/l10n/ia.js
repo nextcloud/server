@@ -30,11 +30,6 @@ OC.L10N.register(
     "HTML Code:" : "Codice HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparti con me per mi ID de Nube Federate #Nextcloud",
     "Copied!" : "Copiate!",
-    "Copy" : "Copiar",
-    "Not supported!" : "Non supportate!",
-    "Press ⌘-C to copy." : "Pulsa ⌘-C pro copiar.",
-    "Press Ctrl-C to copy." : "Pulsa Ctrl-C pro copiar.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s",
-    "Open documentation" : "Documentation aperte"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s"
 },
 "nplurals=2; plural=(n != 1);");

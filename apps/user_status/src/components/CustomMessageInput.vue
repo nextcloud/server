@@ -19,9 +19,11 @@
   -
   -->
 <template>
-	<div class="custom-input">
+	<div class="custom-input" role="group">
 		<NcEmojiPicker container=".custom-input" @select="setIcon">
-			<NcButton class="custom-input__emoji-button" type="tertiary">
+			<NcButton type="tertiary"
+				class="custom-input__emoji-button"
+				:aria-label="t('user_status', 'Emoji for your status message')">
 				{{ visibleIcon }}
 			</NcButton>
 		</NcEmojiPicker>

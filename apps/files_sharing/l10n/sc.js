@@ -109,9 +109,9 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Su carrigamentu pùblicu est disativadu dae s'amministradore",
     "Public upload is only possible for publicly shared folders" : "Su carrigamentu pùblicu si podet fàghere isceti cun cartellas cumpartzidas pùblicas",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura de%scun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data non vàlida, su formadu depet èssere YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sa cumpartzidura de %1$s est faddida ca su motore non permitit cumpartziduras de genia %2$s",
     "Please specify a valid federated user ID" : "Ispetzìfica un'id de utente federadu bàlidu",
+    "Invalid date, date format must be YYYY-MM-DD" : "Data non vàlida, su formadu depet èssere YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Ispetzìfica un'id de grupu federadu bàlidu",
     "You cannot share to a Circle if the app is not enabled" : "Non podes cumpartzire cun unu tzircu si s'aplicatzione est disativada",
     "Please specify a valid circle" : "Ispetzìfica unu tzircu bàlidu",
@@ -242,10 +242,6 @@ OC.L10N.register(
     "Uploaded files:" : "Archìvios carrigados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Carrighende is archìvios, cuncordas cun is %1$scunditziones de servìtziu%2$s.",
     "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
-    "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
-    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
-    "Copy to clipboard" : "Còpia in punta de billete",
-    "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
-    "Toggle grid view" : "Càmbia a visualizatzione in mosàicu"
+    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras"
 },
 "nplurals=2; plural=(n != 1);");

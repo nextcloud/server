@@ -31,7 +31,6 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IAvatarManager;
@@ -48,8 +47,6 @@ class Sync extends TimedJob {
 	protected $ldapHelper;
 	/** @var  LDAP */
 	protected $ldap;
-	/** @var  Manager */
-	protected $userManager;
 	/** @var UserMapping */
 	protected $mapper;
 	/** @var  IConfig */
@@ -69,9 +66,8 @@ class Sync extends TimedJob {
 	/** @var AccessFactory */
 	protected $accessFactory;
 
-	public function __construct(Manager  $userManager, ITimeFactory $time) {
+	public function __construct(ITimeFactory $time) {
 		parent::__construct($time);
-		$this->userManager = $userManager;
 		$this->setInterval(
 			(int)\OC::$server->getConfig()->getAppValue(
 				'user_ldap',
@@ -107,7 +103,7 @@ class Sync extends TimedJob {
 	protected function getMinPagingSize() {
 		$configKeys = $this->config->getAppKeys('user_ldap');
 		$configKeys = array_filter($configKeys, function ($key) {
-			return strpos($key, 'ldap_paging_size') !== false;
+			return str_contains($key, 'ldap_paging_size');
 		});
 		$minPagingSize = null;
 		foreach ($configKeys as $configKey) {
@@ -350,10 +346,6 @@ class Sync extends TimedJob {
 			$this->notificationManager = \OC::$server->getNotificationManager();
 		}
 
-		if (isset($argument['userManager'])) {
-			$this->userManager = $argument['userManager'];
-		}
-
 		if (isset($argument['mapper'])) {
 			$this->mapper = $argument['mapper'];
 		} else {
@@ -369,14 +361,7 @@ class Sync extends TimedJob {
 		if (isset($argument['accessFactory'])) {
 			$this->accessFactory = $argument['accessFactory'];
 		} else {
-			$this->accessFactory = new AccessFactory(
-				$this->ldap,
-				$this->userManager,
-				$this->ldapHelper,
-				$this->config,
-				$this->ncUserManager,
-				$this->logger
-			);
+			$this->accessFactory = \OCP\Server::get(AccessFactory::class);
 		}
 	}
 }

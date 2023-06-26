@@ -55,7 +55,6 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\Util;
 
@@ -63,44 +62,22 @@ class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 
-	private IUserManager $userManager;
-	private IConfig $config;
-	private ISession $session;
-	/** @var Session */
-	private $userSession;
-	private IURLGenerator $urlGenerator;
-	private Defaults $defaults;
-	private Throttler $throttler;
-	private IInitialStateService $initialStateService;
-	private WebAuthnManager $webAuthnManager;
-	private IManager $manager;
-	private IL10N $l10n;
-
-	public function __construct(?string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								ISession $session,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								Defaults $defaults,
-								Throttler $throttler,
-								IInitialStateService $initialStateService,
-								WebAuthnManager $webAuthnManager,
-								IManager $manager,
-								IL10N $l10n) {
+	public function __construct(
+		?string $appName,
+		IRequest $request,
+		private IUserManager $userManager,
+		private IConfig $config,
+		private ISession $session,
+		private Session $userSession,
+		private IURLGenerator $urlGenerator,
+		private Defaults $defaults,
+		private Throttler $throttler,
+		private IInitialStateService $initialStateService,
+		private WebAuthnManager $webAuthnManager,
+		private IManager $manager,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->session = $session;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->defaults = $defaults;
-		$this->throttler = $throttler;
-		$this->initialStateService = $initialStateService;
-		$this->webAuthnManager = $webAuthnManager;
-		$this->manager = $manager;
-		$this->l10n = $l10n;
 	}
 
 	/**
@@ -275,7 +252,7 @@ class LoginController extends Controller {
 			$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-			if (strpos($location, '@') === false) {
+			if (!str_contains($location, '@')) {
 				return new RedirectResponse($location);
 			}
 		}

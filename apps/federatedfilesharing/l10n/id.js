@@ -32,11 +32,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Salin ke papan klip",
     "Clipboard is not available" : "Papan klip tidak tersedia",
     "Copied!" : "Tersalin!",
-    "Copy" : "Salin",
-    "Not supported!" : "Tidak didukung!",
-    "Press ⌘-C to copy." : "Tekan ⌘-C untuk menyalin.",
-    "Press Ctrl-C to copy." : "Tekan Ctrl-C untuk menyalin.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s",
-    "Open documentation" : "Buka dokumentasi"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s"
 },
 "nplurals=1; plural=0;");

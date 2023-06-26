@@ -21,6 +21,7 @@
     "The update check is not yet finished. Please refresh the page." : "Preverjanje za posodobitve še ni končano. Osvežite stran za ponovno vzpostavitev seje.",
     "Your version is up to date." : "Nameščena je najnovejša različica.",
     "A non-default update server is in use to be checked for updates:" : "Za posodobitev bo uporabljen neprivzet strežnik:",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Spremeniti je mogoče kanal za posodobitve, ki vpliva tudi na upravljanje z nameščenimi programi. Pri preklopu na različico beta so na primer na voljo tudi beta različice programske opreme, ki jo je mogoče namestiti.",
     "Update channel:" : "Posodobi kanal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Nadgradnja na višjo različico je vedno mogoča, ne pa tudi povrnitev na predhodno, bolj stabilno.",
     "Notify members of the following groups about available updates:" : "Člani navedenih skupin, ki so obveščeni o posodobitvah:",
@@ -39,6 +40,7 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovejša stabilna različica je primerna za običajno rabo in bo vedno posodobljena na zadnjo najvišjo različico.",
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 nameščen program nima skladne različice z nameščeno različico oblaka Nextcloud.","1%n1 nameščena programa nimata skladne različice z nameščeno različico oblaka Nextcloud.","1%n1 nameščeni programi nimajo skladne različice z nameščeno različico oblaka Nextcloud.","<strong>%n</strong> nameščenih programov nima skladne različice z nameščeno različico oblaka Nextcloud."],
     "Update for %1$s to version %2$s is available." : "Na voljo je posodobitev %1$s na različico %2$s."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

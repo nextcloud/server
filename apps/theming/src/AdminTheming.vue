@@ -112,10 +112,8 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
-import {
-	NcNoteCard,
-	NcSettingsSection,
-} from '@nextcloud/vue'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import CheckboxField from './components/admin/CheckboxField.vue'
 import ColorPickerField from './components/admin/ColorPickerField.vue'
 import FileInputField from './components/admin/FileInputField.vue'
@@ -299,7 +297,7 @@ export default {
 		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
 		   But without the user variables. That way the admin can preview the render as guest*/
 		/* As guest, there is no user color color-background-plain */
-		background-color: var(--color-primary-default, #0082c9);
+		background-color: var(--color-primary-element-default, #0082c9);
 		/* As guest, there is no user background (--image-background)
 		1. Empty background if defined
 		2. Else default background

@@ -143,11 +143,11 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			automaticNameDelimiter: '-',
+			minChunks: 3, // minimum number of chunks that must share the module
 			cacheGroups: {
 				vendors: {
 					// split every dependency into one bundle
 					test: /[\\/]node_modules[\\/]/,
-					enforce: true,
 					// necessary to keep this name to properly inject it
 					// see OC_Template.php
 					name: 'core-common',

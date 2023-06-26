@@ -214,7 +214,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function file_get_contents($path);

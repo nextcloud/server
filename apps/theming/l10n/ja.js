@@ -84,17 +84,16 @@ OC.L10N.register(
     "Admin" : "管理者",
     "Error uploading the file" : "ファイルのアップロードエラー",
     "Name cannot be empty" : "名前は空にできません",
-    "Open documentation" : "ドキュメントを開く",
-    "https://…" : "https://…",
-    "Login image" : "ログイン画像",
-    "Upload new login background" : "新しいログイン背景画像をアップロード",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "場合によっては、キーボードショートカットがアクセシビリティツールに干渉することがあります。ツールに正しくフォーカスできるようにするために、ここですべてのキーボード ショートカットを無効にできます。この場合、アプリで使用可能なすべてのショートカットも無効になります。",
     "Pick from Files" : "ファイルから選択",
     "Default image" : "デフォルト背景",
     "Custom color" : "カスタム色",
     "Plain background" : "シンプルな背景",
     "Insert from {productName}" : "{productName} から挿入",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "このサーバーの外観のカスタマイズと画像を変更を変更できますが、さらにユーザーは背景と色を変更できます。外観のカスタマイズを強制する場合は以下のチェック設定をオンにしてください。"
+    "Open documentation" : "ドキュメントを開く",
+    "https://…" : "https://…",
+    "Upload new login background" : "新しいログイン背景画像をアップロード",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "このサーバーの外観のカスタマイズと画像を変更を変更できますが、さらにユーザーは背景と色を変更できます。外観のカスタマイズを強制する場合は以下のチェック設定をオンにしてください。",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。"
 },
 "nplurals=1; plural=0;");

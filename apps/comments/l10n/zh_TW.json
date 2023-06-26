@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "尚無留言，開始討論！",
     "No more messages" : "沒有更多訊息",
     "Retry" : "重試",
+    "Failed to mark comments as read" : "無法將留言標記為已讀",
     "Unable to load the comments list" : "無法載入留言列表",
     "_%n unread comment_::_%n unread comments_" : ["%n 則未讀留言"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} 則新留言"],

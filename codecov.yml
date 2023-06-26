@@ -1,0 +1,7 @@
+codecov:
+  branch: master
+  ci:
+  - drone.nextcloud.com
+  - '!scrutinizer-ci.com'
+
+comment: false

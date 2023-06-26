@@ -212,8 +212,8 @@ class Dispatcher {
 				$value === 'false' &&
 				(
 					$this->request->method === 'GET' ||
-					strpos($this->request->getHeader('Content-Type'),
-						'application/x-www-form-urlencoded') !== false
+					str_contains($this->request->getHeader('Content-Type'),
+						'application/x-www-form-urlencoded')
 				)
 			) {
 				$value = false;

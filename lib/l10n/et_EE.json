@@ -18,6 +18,7 @@
     "Invalid image" : "Vigane pilt",
     "Avatar image is not square" : "Avatari pilt pole ruut",
     "Files" : "Failid",
+    "View profile" : "Vaata profiili",
     "today" : "täna",
     "tomorrow" : "homme",
     "yesterday" : "eile",
@@ -140,6 +141,7 @@
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Ühtegi andmebaasi (sqlite, mysql või postgresql) draiverit pole paigaldatud.",
     "PHP module %s not installed." : "PHP moodulit %s pole paigaldatud.",
     "Please ask your server administrator to install the module." : "Palu oma serveri haldajal moodul paigadalda.",
+    "PHP setting \"%s\" is not set to \"%s\"." : "PHP seade \"%s\" ei ole \"%s\".",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "See on tõenäoliselt põhjustatud puhver/kiirendist nagu Zend OPcache või eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moodulid on paigaldatud, kuid neid näitatakse endiselt kui puuduolevad?",
     "Please ask your server administrator to restart the web server." : "Palu oma serveri haldajal veebiserver taaskäivitada.",
@@ -149,10 +151,7 @@
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
     "Full name" : "Täisnimi",
-    "%s enter the database username and name." : "%s sisesta andmebaasi kasutajatunnus ja nimi.",
-    "%s enter the database username." : "%s sisesta andmebaasi kasutajatunnus.",
-    "%s enter the database name." : "%s sisesta andmebaasi nimi.",
-    "%s you may not use dots in the database name" : "%s punktide kasutamine andmebaasi nimes pole lubatud",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised sümbolid: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised sümbolid: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vaja on vähemalt libxml2 2.7.0. Hetkel on installitud %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Administrador",
     "Error uploading the file" : "Erro ao carregar o arquivo",
     "Name cannot be empty" : "O nome não pode ficar em branco",
-    "Open documentation" : "Abrir documentação",
-    "https://…" : "https://...",
-    "Login image" : "Imagem de login",
-    "Upload new login background" : "Enviar nova imagem de fundo para o login",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte a imagens SVG para gerar favicons automaticamente, com base no logotipo e na cor enviados.",
     "Migrate and clean up admin theming images" : "Migrar e limpar imagens de temas administrativos",
     "Failed to clean up the old admin theming images folder" : "Falha ao limpar a antiga pasta de imagens temáticas do administrador",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Em alguns casos, os atalhos de teclado podem interferir nas ferramentas de acessibilidade. Para permitir o foco em sua ferramenta corretamente, você pode desativar todos os atalhos de teclado aqui. Isso também desativará todos os atalhos disponíveis nos aplicativos.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Cor personalizada",
     "Plain background" : "Fundo simples",
     "Insert from {productName}" : "Inserir de {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Embora você possa selecionar e personalizar sua instância, os usuários podem alterar o plano de fundo e as cores. Se você quiser impor sua personalização, marque esta caixa."
+    "Open documentation" : "Abrir documentação",
+    "https://…" : "https://...",
+    "Upload new login background" : "Enviar nova imagem de fundo para o login",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Embora você possa selecionar e personalizar sua instância, os usuários podem alterar o plano de fundo e as cores. Se você quiser impor sua personalização, marque esta caixa.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte a imagens SVG para gerar favicons automaticamente, com base no logotipo e na cor enviados."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

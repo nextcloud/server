@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Error uploading the file" : "Error uploading the file",
     "Name cannot be empty" : "Name cannot be empty",
-    "Open documentation" : "Open documentation",
-    "https://…" : "https://…",
-    "Login image" : "Login image",
-    "Upload new login background" : "Upload new login background",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and colour.",
     "Migrate and clean up admin theming images" : "Migrate and clean up admin theming images",
     "Failed to clean up the old admin theming images folder" : "Failed to clean up the old admin theming images folder",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Custom colour",
     "Plain background" : "Plain background",
     "Insert from {productName}" : "Insert from {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box."
+    "Open documentation" : "Open documentation",
+    "https://…" : "https://…",
+    "Upload new login background" : "Upload new login background",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and colour."
 },
 "nplurals=2; plural=(n != 1);");

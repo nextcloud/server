@@ -9,14 +9,23 @@
     "User status" : "Käyttäjän tilatieto",
     "View profile" : "Näytä profiili",
     "Clear status after" : "Tyhjennä tilatieto",
+    "Emoji for your status message" : "Emoji tilaviestiisi",
     "What is your status?" : "Mikä on tilatietosi?",
+    "Predefined statuses" : "Ennalta määritellyt tilatiedot",
+    "Previously set" : "Aiemmin asetettu",
+    "Reset status" : "Palauta tilatieto",
     "Set status" : "Aseta tilatieto",
     "Online status" : "Online-tila",
     "Status message" : "Tilaviesti",
+    "Your status was set automatically" : "Tilatietosi asetettiin automaattisesti",
     "Clear status message" : "Tyhjennä tilaviesti",
     "Set status message" : "Aseta tilaviesti",
+    "Reset status to \"{icon} {message}\"" : "Palauta tilatiedoksi \"{icon} {message}\"",
+    "Reset status to \"{message}\"" : "Palauta tilatiedoksi \"{message}\"",
+    "Reset status to \"{icon}\"" : "Palauta tilatiedoksi \"{icon}\"",
     "There was an error saving the status" : "Tilatiedon tallentamisessa tapahtui virhe",
     "There was an error clearing the status" : "Tilatietoa tyhjentäessä tapahtui virhe",
+    "There was an error reverting the status" : "Tilatietoa palauttaessa tapahtui virhe",
     "No recent status changes" : "Ei viimeisimpiä tilatietomuutoksia",
     "Away" : "Poissa",
     "Do not disturb" : "Älä häiritse",
@@ -32,7 +41,6 @@
     "1 hour" : "1 tunti",
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
-    "Appear offline" : "Näytä olevan poissa",
-    "Clear status message after" : "Tyhjennä tilaviesti, kun on kulunut"
+    "Appear offline" : "Näytä olevan poissa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

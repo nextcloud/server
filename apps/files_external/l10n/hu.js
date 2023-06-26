@@ -139,7 +139,6 @@ OC.L10N.register(
     "All users" : "Összes felhasználó",
     "Advanced settings" : "Speciális beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának engedélyezése a felhasználók számára",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
-    "All users. Type to select user or group." : "Összes felhasználó. Írjon be egy felhasználót vagy csoportot."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
 },
 "nplurals=2; plural=(n != 1);");

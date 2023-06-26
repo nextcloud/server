@@ -22,6 +22,7 @@
 
 <template>
 	<AccountPropertySection v-bind.sync="organisation"
+		autocomplete="organization"
 		:placeholder="t('settings', 'Your organisation')" />
 </template>
 

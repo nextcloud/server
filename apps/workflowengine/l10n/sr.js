@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Некстклаудов мотор радног тока",
     "Select a filter" : "Одаберите филтер",
     "Select a comparator" : "Одаберите компаратор",
+    "Remove filter" : "Уклони филтер",
     "Select a file type" : "Одаберите тип фајла",
     "e.g. httpd/unix-directory" : "нпр. httpd/unix-directory",
     "Folder" : "Фасцикла",
@@ -58,9 +59,7 @@ OC.L10N.register(
     "Custom mimetype" : "Произвољни MIME тип",
     "Please enter a valid time span" : "Унесите исправан временски распон",
     "Select a request URL" : "Одабери адресу захтева",
-    "Predefined URLs" : "Предефинисане адресе",
     "Files WebDAV" : "WebDAV фајлови",
-    "Others" : "Остали",
     "Custom URL" : "Произвољна адреса",
     "Select a user agent" : "Одаберите агента захтева",
     "Android client" : "Андроид клијент",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Add new flow" : "Додај нови ток",
     "When" : "Када",
     "and" : "и",
+    "Add a new filter" : "Додај нови филтер",
     "Cancel" : "Откажи",
     "Delete" : "Обриши",
     "The configuration is invalid" : "Конфигурација је неисправна",
@@ -112,9 +112,7 @@ OC.L10N.register(
     "User group membership" : "Припадност групи",
     "is member of" : "је члан групе",
     "is not member of" : "није члан групе",
-    "Select a tag" : "Одаберите ознаку",
-    "No results" : "Нема резултата",
-    "%s (invisible)" : "%s (невидљив)",
-    "%s (restricted)" : "%s (ограничен)"
+    "Predefined URLs" : "Предефинисане адресе",
+    "Others" : "Остали"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

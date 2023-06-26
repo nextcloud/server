@@ -62,74 +62,74 @@ $application->registerRoutes(
 				'root' => '',
 			],
 			[
-				'name' => 'API#getThumbnail',
+				'name' => 'Api#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
 				'verb' => 'GET',
 				'requirements' => ['file' => '.+']
 			],
 			[
-				'name' => 'API#updateFileTags',
+				'name' => 'Api#updateFileTags',
 				'url' => '/api/v1/files/{path}',
 				'verb' => 'POST',
 				'requirements' => ['path' => '.+'],
 			],
 			[
-				'name' => 'API#getRecentFiles',
+				'name' => 'Api#getRecentFiles',
 				'url' => '/api/v1/recent/',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#getStorageStats',
+				'name' => 'Api#getStorageStats',
 				'url' => '/api/v1/stats',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#setViewConfig',
+				'name' => 'Api#setViewConfig',
 				'url' => '/api/v1/views/{view}/{key}',
 				'verb' => 'PUT'
 			],
 			[
-				'name' => 'API#getViewConfigs',
+				'name' => 'Api#getViewConfigs',
 				'url' => '/api/v1/views',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#getViewConfig',
+				'name' => 'Api#getViewConfig',
 				'url' => '/api/v1/views/{view}',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#setConfig',
+				'name' => 'Api#setConfig',
 				'url' => '/api/v1/config/{key}',
 				'verb' => 'PUT'
 			],
 			[
-				'name' => 'API#getConfigs',
+				'name' => 'Api#getConfigs',
 				'url' => '/api/v1/configs',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#showHiddenFiles',
+				'name' => 'Api#showHiddenFiles',
 				'url' => '/api/v1/showhidden',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#cropImagePreviews',
+				'name' => 'Api#cropImagePreviews',
 				'url' => '/api/v1/cropimagepreviews',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#showGridView',
+				'name' => 'Api#showGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#getGridView',
+				'name' => 'Api#getGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#getNodeType',
+				'name' => 'Api#getNodeType',
 				'url' => '/api/v1/quickaccess/get/NodeType',
 				'verb' => 'GET',
 			],
@@ -139,7 +139,7 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'api#serviceWorker',
+				'name' => 'Api#serviceWorker',
 				'url' => '/preview-service-worker.js',
 				'verb' => 'GET'
 			],

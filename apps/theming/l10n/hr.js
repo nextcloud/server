@@ -59,14 +59,13 @@ OC.L10N.register(
     "Loading preview…" : "Učitavanje pretpregleda...",
     "Admin" : "Administrator",
     "Name cannot be empty" : "Naziv ne može biti prazan",
-    "Open documentation" : "Otvori dokumentaciju",
-    "https://…" : "https://…",
-    "Login image" : "Slika za prijavu",
-    "Upload new login background" : "Otpremi novu pozadinu za prijavu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ugradite proširenje za PHP pod nazivom Imagemagick s podrškom za SVG slike kako biste automatski generirali favicone na temelju otpremljenog logotipa i boje.",
     "Pick from Files" : "Odaberi iz datoteka",
     "Custom color" : "Prilagođena boja",
     "Plain background" : "Obična pozadina",
-    "Insert from {productName}" : "Umetni iz {productName}"
+    "Insert from {productName}" : "Umetni iz {productName}",
+    "Open documentation" : "Otvori dokumentaciju",
+    "https://…" : "https://…",
+    "Upload new login background" : "Otpremi novu pozadinu za prijavu",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ugradite proširenje za PHP pod nazivom Imagemagick s podrškom za SVG slike kako biste automatski generirali favicone na temelju otpremljenog logotipa i boje."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

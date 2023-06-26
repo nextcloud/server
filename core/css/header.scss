@@ -31,7 +31,7 @@
 		width: 12px;
 		height: 2px;
 		border-radius: 3px;
-		background-color: var(--color-primary-text);
+		background-color: var(--color-primary-element-text);
 		left: 50%;
 		opacity: 1;
 	}
@@ -207,7 +207,7 @@
 /* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	font-size: 16px;
 	font-weight: bold;
 	margin: 0;
@@ -220,7 +220,7 @@
 }
 
 .header-shared-by  {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	position: relative;
 	font-weight: 300;
 	font-size: 11px;
@@ -236,8 +236,10 @@
 	z-index: 9999;
 	top: -999px;
 	left: 3px;
-	height: 50px;
 	padding: 11px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 11px;
 
 	&:focus-within {
 		top: variables.$header-height;

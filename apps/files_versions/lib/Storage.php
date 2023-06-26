@@ -443,23 +443,25 @@ class Storage {
 		$view->lockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
 		$view->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 
-		// TODO add a proper way of overwriting a file while maintaining file ids
-		if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
-			$source = $storage1->fopen($internalPath1, 'r');
-			$target = $storage2->fopen($internalPath2, 'w');
-			[, $result] = \OC_Helper::streamCopy($source, $target);
-			fclose($source);
-			fclose($target);
+		try {
+			// TODO add a proper way of overwriting a file while maintaining file ids
+			if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
+				$source = $storage1->fopen($internalPath1, 'r');
+				$target = $storage2->fopen($internalPath2, 'w');
+				[, $result] = \OC_Helper::streamCopy($source, $target);
+				fclose($source);
+				fclose($target);
 
-			if ($result !== false) {
-				$storage1->unlink($internalPath1);
+				if ($result !== false) {
+					$storage1->unlink($internalPath1);
+				}
+			} else {
+				$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 			}
-		} else {
-			$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
+		} finally {
+			$view->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
+			$view->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 		}
-
-		$view->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
-		$view->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 
 		return ($result !== false);
 	}
@@ -586,6 +588,10 @@ class Storage {
 
 			// Check that the version does not have a label.
 			$path = $versionsRoot->getRelativePath($info->getPath());
+			if ($path === null) {
+				throw new DoesNotExistException('Could not find relative path of (' . $info->getPath() . ')');
+			}
+
 			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
 			try {
 				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
@@ -606,7 +612,12 @@ class Storage {
 		foreach ($versions as $version) {
 			$internalPath = $version->getInternalPath();
 			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
-			$versionsMapper->delete($versionEntities[$version->getId()]);
+
+			$versionEntity = isset($versionEntities[$version->getId()]) ? $versionEntities[$version->getId()] : null;
+			if (!is_null($versionEntity)) {
+				$versionsMapper->delete($versionEntity);
+			}
+
 			$version->delete();
 			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 		}

@@ -23,3 +23,11 @@ trim_trailing_whitespace = false
 
 [*.svg]
 insert_final_newline = false
+
+[package*.json]
+indent_size = 2
+indent_style = space
+
+[build/psalm-baseline.xml]
+indent_size = 2
+indent_style = space

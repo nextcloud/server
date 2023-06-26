@@ -111,8 +111,8 @@
     "Public upload disabled by the administrator" : "Įkėlimas viešam naudojimui yra išjungtas",
     "Public upload is only possible for publicly shared folders" : "Duomenų įkėlimas viešam naudojimui galimas tik į viešai dalinamus aplankus",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui %s panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
-    "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Bendrinimas %1$s nepavyko, kadangi sistema nepalaiko bendrinimų šio tipo %2$s",
+    "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
     "You cannot share to a Circle if the app is not enabled" : "Negalite dalintis su naudotojų ratu, kai įskiepis \"Circle\" neveikia",
     "Please specify a valid circle" : "Pasirinkite naudotojų ratą",
     "Sharing %s failed because the back end does not support room shares" : "Bendrinimas %s nepavyko, kadangi sistema nepalaiko kambario bendrinimo",
@@ -246,10 +246,6 @@
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Neteisingas viešinio ID, viešinio nėra",
-    "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
-    "Copy to clipboard" : "Kopijuoti į iškarpinę",
-    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
-    "Toggle grid view" : "Rodyti tinkleliu"
+    "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

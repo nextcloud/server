@@ -313,9 +313,9 @@ class Access extends LDAPUtility {
 	public function extractRangeData($result, $attribute) {
 		$keys = array_keys($result);
 		foreach ($keys as $key) {
-			if ($key !== $attribute && strpos((string)$key, $attribute) === 0) {
+			if ($key !== $attribute && str_starts_with((string)$key, $attribute)) {
 				$queryData = explode(';', (string)$key);
-				if (strpos($queryData[1], 'range=') === 0) {
+				if (str_starts_with($queryData[1], 'range=')) {
 					$high = substr($queryData[1], 1 + strpos($queryData[1], '-'));
 					$data = [
 						'values' => $result[$key],
@@ -405,7 +405,7 @@ class Access extends LDAPUtility {
 		$domainParts = [];
 		$dcFound = false;
 		foreach ($allParts as $part) {
-			if (!$dcFound && strpos($part, 'dc=') === 0) {
+			if (!$dcFound && str_starts_with($part, 'dc=')) {
 				$dcFound = true;
 			}
 			if ($dcFound) {
@@ -631,7 +631,7 @@ class Access extends LDAPUtility {
 	 * gives back the user names as they are used ownClod internally
 	 *
 	 * @param array $ldapUsers as returned by fetchList()
-	 * @return array an array with the user names to use in Nextcloud
+	 * @return array<int,string> an array with the user names to use in Nextcloud
 	 *
 	 * gives back the user names as they are used ownClod internally
 	 * @throws \Exception
@@ -644,7 +644,7 @@ class Access extends LDAPUtility {
 	 * gives back the group names as they are used ownClod internally
 	 *
 	 * @param array $ldapGroups as returned by fetchList()
-	 * @return array an array with the group names to use in Nextcloud
+	 * @return array<int,string> an array with the group names to use in Nextcloud
 	 *
 	 * gives back the group names as they are used ownClod internally
 	 * @throws \Exception
@@ -655,6 +655,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @param array[] $ldapObjects as returned by fetchList()
+	 * @return array<int,string>
 	 * @throws \Exception
 	 */
 	private function ldap2NextcloudNames(array $ldapObjects, bool $isUsers): array {
@@ -1529,7 +1530,7 @@ class Access extends LDAPUtility {
 	private function getFilterPartForSearch(string $search, $searchAttributes, string $fallbackAttribute): string {
 		$filter = [];
 		$haveMultiSearchAttributes = (is_array($searchAttributes) && count($searchAttributes) > 0);
-		if ($haveMultiSearchAttributes && strpos(trim($search), ' ') !== false) {
+		if ($haveMultiSearchAttributes && str_contains(trim($search), ' ')) {
 			try {
 				return $this->getAdvancedFilterPartForSearch($search, $searchAttributes);
 			} catch (DomainException $e) {
@@ -1992,8 +1993,15 @@ class Access extends LDAPUtility {
 				// no cookie known from a potential previous search. We need
 				// to start from 0 to come to the desired page. cookie value
 				// of '0' is valid, because 389ds
-				$reOffset = ($offset - $pageSize) < 0 ? 0 : $offset - $pageSize;
-				$this->search($filter, $base, $attr, $pageSize, $reOffset, true);
+				$defaultPageSize = (int)$this->connection->ldapPagingSize;
+				if ($offset < $defaultPageSize) {
+					/* Make a search with offset as page size and dismiss the result, to init the cookie */
+					$this->search($filter, $base, $attr, $offset, 0, true);
+				} else {
+					/* Make a search for previous page and dismiss the result, to init the cookie */
+					$reOffset = $offset - $defaultPageSize;
+					$this->search($filter, $base, $attr, $defaultPageSize, $reOffset, true);
+				}
 				if (!$this->hasMoreResults()) {
 					// when the cookie is reset with != 0 offset, there are no further
 					// results, so stop.

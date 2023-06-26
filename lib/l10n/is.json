@@ -1,7 +1,6 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Get ekki skrifað í \"config\" möppuna!",
     "See %s" : "Skoðaðu %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Skrám forritsins %$1s var ekki rétt skipt út. Gakktu úr skugga um að þetta sé útgáfa sem sé samhæfð útgáfu vefþjónsins.",
     "Sample configuration detected" : "Fann sýnisuppsetningu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Komið hefur í ljós að sýniuppsetningin var afrituð. Þetta getur skemmt uppsetninguna og er ekki stutt. Endilega lestu hjálparskjölin áður en þú gerir breytingar á config.php",
     "%1$s and %2$s" : "%1$s og %2$s",
@@ -180,8 +179,6 @@
     "Please ask your server administrator to install the module." : "Biddu kerfisstjórann þinn um að setja eininguna upp.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-stillingin \"%s\" er ekki sett á \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ef þessi stilling er löguð í php.ini mun Nextcloud keyra aftur",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Krafist er libxml2 2.7.0 hið minnsta. Núna er %s uppsett.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Til að laga þetta vandamál ættirðu að uppfæra útgáfu þína af libxml2 og endurræsa vefþjóninn.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP virðist vera sett upp to fjarlægja innantextablokkir (inline doc blocks). Þetta mun gera ýmis kjarnaforrit óaðgengileg.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Þessu veldur væntanlega biðminni/hraðall á borð við Zend OPcache eða eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Búið er að setja upp PHP-einingar, en eru þær ennþá taldar upp eins og þær vanti?",
@@ -199,11 +196,10 @@
     "Storage connection error. %s" : "Villa í tengingu við gagnageymslu. %s",
     "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
     "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Skrám forritsins %$1s var ekki rétt skipt út. Gakktu úr skugga um að þetta sé útgáfa sem sé samhæfð útgáfu vefþjónsins.",
     "Full name" : "Fullt nafn",
-    "%s enter the database username and name." : "%s settu inn notandanafn og nafn á gagnagrunni.",
-    "%s enter the database username." : "%s settu inn notandanafn í gagnagrunni.",
-    "%s enter the database name." : "%s settu inn nafn á gagnagrunni.",
-    "%s you may not use dots in the database name" : "%s þú mátt ekki nota punkta í nafni á gagnagrunni",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í notandanafni: \"a-z\", \"A-Z\", \"0-9\", og \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í notandanafni: \"a-z\", \"A-Z\", \"0-9\", og \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Krafist er libxml2 2.7.0 hið minnsta. Núna er %s uppsett.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Til að laga þetta vandamál ættirðu að uppfæra útgáfu þína af libxml2 og endurræsa vefþjóninn."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

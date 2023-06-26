@@ -133,14 +133,7 @@ class AppManagerTest extends TestCase {
 		);
 	}
 
-	protected function expectClearCache() {
-		$this->cache->expects($this->once())
-			->method('clear')
-			->with('listApps');
-	}
-
 	public function testEnableApp() {
-		$this->expectClearCache();
 		// making sure "files_trashbin" is disabled
 		if ($this->manager->isEnabledForUser('files_trashbin')) {
 			$this->manager->disableApp('files_trashbin');
@@ -151,7 +144,6 @@ class AppManagerTest extends TestCase {
 	}
 
 	public function testDisableApp() {
-		$this->expectClearCache();
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppDisableEvent('files_trashbin'));
 		$this->manager->disableApp('files_trashbin');
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
@@ -180,7 +172,6 @@ class AppManagerTest extends TestCase {
 			->willReturn('group2');
 
 		$groups = [$group1, $group2];
-		$this->expectClearCache();
 
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
@@ -229,7 +220,6 @@ class AppManagerTest extends TestCase {
 			->willReturn('group2');
 
 		$groups = [$group1, $group2];
-		$this->expectClearCache();
 
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)

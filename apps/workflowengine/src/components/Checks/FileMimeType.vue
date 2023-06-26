@@ -21,48 +21,50 @@
   -->
 <template>
 	<div>
-		<NcMultiselect :value="currentValue"
+		<NcSelect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
-			track-by="pattern"
 			:options="options"
-			:multiple="false"
-			:tagging="false"
+			:clearable="false"
 			@input="setValue">
-			<template slot="singleLabel" slot-scope="props">
-				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else
-					class="option__icon-img"
-					:src="props.option.iconUrl"
-					alt="">
-				<span class="option__title option__title_single">{{ props.option.label }}</span>
+			<template #option="option">
+				<span v-if="option.icon" class="option__icon" :class="option.icon" />
+				<span v-else class="option__icon-img">
+					<img :src="option.iconUrl" alt="">
+				</span>
+				<span class="option__title">
+					<NcEllipsisedOption :name="String(option.label)" />
+				</span>
 			</template>
-			<template slot="option" slot-scope="props">
-				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else
-					class="option__icon-img"
-					:src="props.option.iconUrl"
-					alt="">
-				<span class="option__title">{{ props.option.label }}</span>
+			<template #selected-option="selectedOption">
+				<span v-if="selectedOption.icon" class="option__icon" :class="selectedOption.icon" />
+				<span v-else class="option__icon-img">
+					<img :src="selectedOption.iconUrl" alt="">
+				</span>
+				<span class="option__title">
+					<NcEllipsisedOption :name="String(selectedOption.label)" />
+				</span>
 			</template>
-		</NcMultiselect>
+		</NcSelect>
 		<input v-if="!isPredefined"
 			type="text"
-			:value="currentValue.pattern"
+			:value="currentValue.id"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
 	</div>
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import valueMixin from './../../mixins/valueMixin.js'
 import { imagePath } from '@nextcloud/router'
 
 export default {
 	name: 'FileMimeType',
 	components: {
-		NcMultiselect,
+		NcEllipsisedOption,
+		NcSelect,
 	},
 	mixins: [
 		valueMixin,
@@ -73,22 +75,22 @@ export default {
 				{
 					icon: 'icon-folder',
 					label: t('workflowengine', 'Folder'),
-					pattern: 'httpd/unix-directory',
+					id: 'httpd/unix-directory',
 				},
 				{
 					icon: 'icon-picture',
 					label: t('workflowengine', 'Images'),
-					pattern: '/image\\/.*/',
+					id: '/image\\/.*/',
 				},
 				{
 					iconUrl: imagePath('core', 'filetypes/x-office-document'),
 					label: t('workflowengine', 'Office documents'),
-					pattern: '/(vnd\\.(ms-|openxmlformats-|oasis\\.opendocument).*)$/',
+					id: '/(vnd\\.(ms-|openxmlformats-|oasis\\.opendocument).*)$/',
 				},
 				{
 					iconUrl: imagePath('core', 'filetypes/application-pdf'),
 					label: t('workflowengine', 'PDF documents'),
-					pattern: 'application/pdf',
+					id: 'application/pdf',
 				},
 			],
 		}
@@ -98,7 +100,7 @@ export default {
 			return [...this.predefinedTypes, this.customValue]
 		},
 		isPredefined() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.pattern)
+			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
 			if (matchingPredefined) {
 				return true
 			}
@@ -108,18 +110,18 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom MIME type'),
-				pattern: '',
+				id: '',
 			}
 		},
 		currentValue() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.pattern)
+			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
 			if (matchingPredefined) {
 				return matchingPredefined
 			}
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom mimetype'),
-				pattern: this.newValue,
+				id: this.newValue,
 			}
 		},
 	},
@@ -131,7 +133,7 @@ export default {
 		},
 		setValue(value) {
 			if (value !== null) {
-				this.newValue = value.pattern
+				this.newValue = value.id
 				this.$emit('input', this.newValue)
 			}
 		},
@@ -143,24 +145,30 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.multiselect, input[type='text'] {
+.v-select,
+input[type='text'] {
 	width: 100%;
 }
-.multiselect::v-deep .multiselect__content-wrapper li > span,
-.multiselect::v-deep .multiselect__single {
-	display: flex;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+
+input[type=text] {
+	min-height: 48px;
 }
 
-.option__icon {
+.option__icon,
+.option__icon-img {
 	display: inline-block;
 	min-width: 30px;
-	background-position: left;
+	background-position: center;
+	vertical-align: middle;
 }
 
 .option__icon-img {
-	margin-right: 14px;
+	text-align: center;
+}
+
+.option__title {
+	display: inline-flex;
+	width: calc(100% - 36px);
+	vertical-align: middle;
 }
 </style>

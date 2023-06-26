@@ -111,13 +111,14 @@
     "Public upload disabled by the administrator" : "Caricamento pubblico disabilitato dall'amministratore",
     "Public upload is only possible for publicly shared folders" : "Il caricamento pubblico è possibile solo per cartelle condivise pubblicamente",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione di %s tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data non valida, il formato della data deve essere YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Condivisione di %1$s non riuscita poiché il motore non consente condivisioni del tipo %2$s",
     "Please specify a valid federated user ID" : "Specifica un ID di utente federato valido",
+    "Invalid date, date format must be YYYY-MM-DD" : "Data non valida, il formato della data deve essere YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Specifica un ID di gruppo federato valido",
     "You cannot share to a Circle if the app is not enabled" : "Non puoi condividere con una cerchia se l'applicazione non è abilitata",
     "Please specify a valid circle" : "Specifica una cerchia valida",
     "Sharing %s failed because the back end does not support room shares" : "Condivisione di %s non riuscita poiché il motore non supporta condivisioni di stanza",
+    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Condivisione di %s non riuscita poiché il motore non supporta condivisioni di ScienceMesh",
     "Unknown share type" : "Tipo di condivisione sconosciuto",
     "Not a directory" : "Non è una cartella",
     "Could not lock node" : "Impossibile bloccare il nodo",
@@ -223,6 +224,7 @@
     "Circle" : "Cerchia",
     "Talk conversation" : "Conversazione di Talk",
     "Deck board" : "Lavagna di Deck",
+    "ScienceMesh" : "ScienceMesh",
     "on {server}" : "su {server}",
     "Others with access" : "Altri con accesso",
     "No other users with access found" : "Nessun altro utente con accesso trovato",
@@ -268,10 +270,9 @@
     "Uploaded files:" : "File caricati:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
     "Add to your Nextcloud" : "Aggiungi al tuo Nextcloud",
-    "Wrong share ID, share doesn't exist" : "ID di condivisione errato, la condivisione non esiste",
+    "Sharing %s failed because the back end does not support sciencemesh shares" : "Condivisione di %s non riuscita poiché il motore non supporta condivisioni di sciencemesh",
     "One or more of your shares will expire tomorrow" : "Una o più delle tue condivisioni scadrà domani",
-    "Copy to clipboard" : "Copia negli appunti",
-    "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo.",
-    "Toggle grid view" : "Commuta la vista a griglia"
+    "Science Mesh" : "Science Mesh",
+    "Error generating password from password_policy" : "Errore: la password non rispetta i criteri stabiliti"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

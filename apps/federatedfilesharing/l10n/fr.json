@@ -50,13 +50,8 @@
     "Copy to clipboard" : "Copier dans le presse-papiers",
     "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
     "Copied!" : "Copié !",
-    "Copy" : "Copier",
-    "Not supported!" : "Non supporté!",
-    "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
-    "Press Ctrl-C to copy." : "Appuyez sur Ctrl-C pour copier.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Vous avez reçu \"%3$s\" en tant que partage distant de%4$s(%1$s) (par le biais de%5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon ID de Cloud Fédéré #Nextcloud %s",
-    "Open documentation" : "Voir la documentation"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon ID de Cloud Fédéré #Nextcloud %s"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

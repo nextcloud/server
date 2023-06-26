@@ -11,7 +11,9 @@ OC.L10N.register(
     "User status" : "Benutzerstatus",
     "View profile" : "Profil ansehen",
     "Clear status after" : "Status löschen nach",
+    "Emoji for your status message" : "Emoji für Ihre Statusnachricht",
     "What is your status?" : "Wie ist Ihr Status?",
+    "Predefined statuses" : "Vordefinierte Status",
     "Previously set" : "Zuvor eingestellt",
     "Reset status" : "Status zurücksetzen",
     "Set status" : "Status setzen",
@@ -41,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1 Stunde",
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
-    "Appear offline" : "Offline erscheinen",
-    "Clear status message after" : "Statusnachricht löschen nach"
+    "Appear offline" : "Offline erscheinen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -22,19 +22,18 @@
 
 <template>
 	<div>
-		<NcMultiselect :value="currentValue"
+		<NcSelect :value="currentValue"
 			:loading="status.isLoading && groups.length === 0"
 			:options="groups"
-			:multiple="false"
+			:clearable="false"
 			label="displayname"
-			track-by="id"
 			@search-change="searchAsync"
 			@input="(value) => $emit('input', value.id)" />
 	</div>
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
@@ -46,7 +45,7 @@ const status = {
 export default {
 	name: 'RequestUserGroup',
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 	props: {
 		value: {
@@ -106,7 +105,7 @@ export default {
 }
 </script>
 <style scoped>
-	.multiselect {
-		width: 100%;
-	}
+.v-select {
+	width: 100%;
+}
 </style>

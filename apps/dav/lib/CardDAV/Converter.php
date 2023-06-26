@@ -31,20 +31,23 @@ use Exception;
 use OCP\Accounts\IAccountManager;
 use OCP\IImage;
 use OCP\IUser;
+use OCP\IUserManager;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
 
 class Converter {
-
 	/** @var IAccountManager */
 	private $accountManager;
+	private IUserManager $userManager;
 
-	public function __construct(IAccountManager $accountManager) {
+	public function __construct(IAccountManager $accountManager,
+		IUserManager $userManager) {
 		$this->accountManager = $accountManager;
+		$this->userManager = $userManager;
 	}
 
 	public function createCardFromUser(IUser $user): ?VCard {
-		$userProperties = $this->accountManager->getAccount($user)->getProperties();
+		$userProperties = $this->accountManager->getAccount($user)->getAllProperties();
 
 		$uid = $user->getUID();
 		$cloudId = $user->getCloudId();
@@ -57,40 +60,75 @@ class Converter {
 		$publish = false;
 
 		foreach ($userProperties as $property) {
-			$shareWithTrustedServers =
-				$property->getScope() === IAccountManager::SCOPE_FEDERATED ||
-				$property->getScope() === IAccountManager::SCOPE_PUBLISHED;
+			if ($property->getName() !== IAccountManager::PROPERTY_AVATAR && empty($property->getValue())) {
+				continue;
+			}
 
-			$emptyValue = $property->getValue() === '';
+			$scope = $property->getScope();
+			// Do not write private data to the system address book at all
+			if ($scope === IAccountManager::SCOPE_PRIVATE || empty($scope)) {
+				continue;
+			}
 
-			if ($shareWithTrustedServers && !$emptyValue) {
-				$publish = true;
-				switch ($property->getName()) {
-					case IAccountManager::PROPERTY_DISPLAYNAME:
-						$vCard->add(new Text($vCard, 'FN', $property->getValue()));
-						$vCard->add(new Text($vCard, 'N', $this->splitFullName($property->getValue())));
-						break;
-					case IAccountManager::PROPERTY_AVATAR:
-						if ($image !== null) {
-							$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
-						}
-						break;
-					case IAccountManager::PROPERTY_EMAIL:
-						$vCard->add(new Text($vCard, 'EMAIL', $property->getValue(), ['TYPE' => 'OTHER']));
-						break;
-					case IAccountManager::PROPERTY_WEBSITE:
-						$vCard->add(new Text($vCard, 'URL', $property->getValue()));
-						break;
-					case IAccountManager::PROPERTY_PHONE:
-						$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'OTHER']));
-						break;
-					case IAccountManager::PROPERTY_ADDRESS:
-						$vCard->add(new Text($vCard, 'ADR', $property->getValue(), ['TYPE' => 'OTHER']));
-						break;
-					case IAccountManager::PROPERTY_TWITTER:
-						$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $property->getValue(), ['TYPE' => 'TWITTER']));
-						break;
-				}
+			$publish = true;
+			switch ($property->getName()) {
+				case IAccountManager::PROPERTY_DISPLAYNAME:
+					$vCard->add(new Text($vCard, 'FN', $property->getValue(), ['X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'N', $this->splitFullName($property->getValue()), ['X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_AVATAR:
+					if ($image !== null) {
+						$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType(), ['X-NC-SCOPE' => $scope]]);
+					}
+					break;
+				case IAccountManager::COLLECTION_EMAIL:
+				case IAccountManager::PROPERTY_EMAIL:
+					$vCard->add(new Text($vCard, 'EMAIL', $property->getValue(), ['TYPE' => 'OTHER', 'X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_WEBSITE:
+					$vCard->add(new Text($vCard, 'URL', $property->getValue(), ['X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_PHONE:
+					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'VOICE', 'X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_ADDRESS:
+					// structured prop: https://www.rfc-editor.org/rfc/rfc6350.html#section-6.3.1
+					// post office box;extended address;street address;locality;region;postal code;country
+					$vCard->add(
+						new Text(
+							$vCard,
+							'ADR',
+							[ '', '', '', $property->getValue(), '', '', ''	],
+							[
+								'TYPE' => 'OTHER',
+								'X-NC-SCOPE' => $scope,
+							]
+						)
+					);
+					break;
+				case IAccountManager::PROPERTY_TWITTER:
+					$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $property->getValue(), ['TYPE' => 'TWITTER', 'X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_ORGANISATION:
+					$vCard->add(new Text($vCard, 'ORG', $property->getValue(), ['X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_ROLE:
+					$vCard->add(new Text($vCard, 'TITLE', $property->getValue(), ['X-NC-SCOPE' => $scope]));
+					break;
+			}
+		}
+
+		// Local properties
+		$managers = $user->getManagerUids();
+		// X-MANAGERSNAME only allows a single value, so we take the first manager
+		if (isset($managers[0])) {
+			$displayName = $this->userManager->getDisplayName($managers[0]);
+			// Only set the manager if a user object is found
+			if ($displayName !== null) {
+				$vCard->add(new Text($vCard, 'X-MANAGERSNAME', $displayName, [
+					'uid' => $managers[0],
+					'X-NC-SCOPE' => IAccountManager::SCOPE_LOCAL,
+				]));
 			}
 		}
 
@@ -125,7 +163,7 @@ class Converter {
 
 	private function getAvatarImage(IUser $user): ?IImage {
 		try {
-			return $user->getAvatarImage(-1);
+			return $user->getAvatarImage(512);
 		} catch (Exception $ex) {
 			return null;
 		}

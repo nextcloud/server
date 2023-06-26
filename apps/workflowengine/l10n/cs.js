@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud engine pro pracovní postupy",
     "Select a filter" : "Vybrat filtr",
     "Select a comparator" : "Vyberte porovnání",
+    "Remove filter" : "Odebrat filtr",
     "Select a file type" : "Vybrat typ souboru",
     "e.g. httpd/unix-directory" : "např. httpd/unix-directory",
     "Folder" : "Složka",
@@ -58,9 +59,7 @@ OC.L10N.register(
     "Custom mimetype" : "Uživatelsky určený mimetyp",
     "Please enter a valid time span" : "Zadejte platné časové rozmezí",
     "Select a request URL" : "Vyberte URL požadavku",
-    "Predefined URLs" : "Předdefinované URL",
     "Files WebDAV" : "Soubory WebDAV",
-    "Others" : "Ostatní",
     "Custom URL" : "Uživatelsky určená URL",
     "Select a user agent" : "Vyberte user agent",
     "Android client" : "Android klient",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Add new flow" : "Přidat nový tok",
     "When" : "Kdy",
     "and" : "a",
+    "Add a new filter" : "Přidat nový filtr",
     "Cancel" : "Storno",
     "Delete" : "Smazat",
     "The configuration is invalid" : "Nastavení není platné",
@@ -112,9 +112,7 @@ OC.L10N.register(
     "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
     "is not member of" : "není členem",
-    "Select a tag" : "Vybrat štítek",
-    "No results" : "Žádné výsledky",
-    "%s (invisible)" : "%s (neviditelné)",
-    "%s (restricted)" : "%s (omezeno)"
+    "Predefined URLs" : "Předdefinované URL",
+    "Others" : "Ostatní"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

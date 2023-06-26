@@ -43,9 +43,7 @@ OC.L10N.register(
     "PDF documents" : "Документи PDF",
     "Custom mimetype" : "Власний mimetype",
     "Select a request URL" : "Виберіть URL для запиту",
-    "Predefined URLs" : "Попередньо визначені URL-адреси",
     "Files WebDAV" : "Файли WebDAV",
-    "Others" : "Інші",
     "Custom URL" : "Власний URL",
     "Android client" : "Клієнт Android",
     "iOS client" : "iOS клієнт",
@@ -62,7 +60,7 @@ OC.L10N.register(
     "Available flows" : "Процеси",
     "For details on how to write your own flow, check out the development documentation." : "Перегляньте документацію для розробника, щоби дізнатися, як додати власні процеси.",
     "More flows" : "Більше процесів",
-    "Browse the App Store" : "Перегляньте App Store",
+    "Browse the App Store" : "Перейти до App Store",
     "Show less" : "Показувати менше",
     "Show more" : "Показати більше",
     "Configured flows" : "Налаштовані процеси",
@@ -93,8 +91,7 @@ OC.L10N.register(
     "User group membership" : "Участь користувача в групі",
     "is member of" : "є учасником",
     "is not member of" : "не є учасником",
-    "No results" : "Немає результатів",
-    "%s (invisible)" : "%s (невидимий)",
-    "%s (restricted)" : "%s(обмежено)"
+    "Predefined URLs" : "Попередньо визначені URL-адреси",
+    "Others" : "Інші"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

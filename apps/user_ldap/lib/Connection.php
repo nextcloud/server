@@ -377,7 +377,7 @@ class Connection extends LDAPUtility {
 		foreach ($cta as $dbkey => $configkey) {
 			switch ($configkey) {
 				case 'homeFolderNamingRule':
-					if (strpos($config[$configkey], 'attr:') === 0) {
+					if (str_starts_with($config[$configkey], 'attr:')) {
 						$result[$dbkey] = substr($config[$configkey], 5);
 					} else {
 						$result[$dbkey] = '';

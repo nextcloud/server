@@ -97,6 +97,7 @@
     "From address" : "Frå adresse",
     "Server address" : "Tenaradresse",
     "Port" : "Port",
+    "Authentication" : "Godkjenning",
     "Credentials" : "Credentials",
     "SMTP Username" : "SMTP-brukarnamn",
     "Save" : "Lagre",
@@ -110,18 +111,6 @@
     "Follow us on Twitter" : "Fylj på Twitter",
     "Check out our blog" : "Les våre nettsider",
     "Subscribe to our newsletter" : "Abonner på nyhende",
-    "Select a profile picture" : "Vel eit profilbilete",
-    "Couldn't remove app." : "Klarte ikkje å fjerne appen.",
-    "Couldn't update app." : "Klarte ikkje oppdatera programmet.",
-    "Migration started …" : "Overføring har starta…",
-    "Address" : "Adresse",
-    "Avatar" : "Avatar",
-    "Enable encryption" : "Aktiver kryptering",
-    "Start migration" : "Start migrasjon",
-    "Upload new" : "Last opp ny",
-    "Select from Files" : "Vel frå filer",
-    "Remove image" : "Fjern bilete",
-    "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB",
-    "Choose as profile picture" : "Vel eit profilbilete"
+    "png or jpg, max. 20 MB" : "png eller jpg, maks. 20 MB"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

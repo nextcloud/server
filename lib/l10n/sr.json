@@ -3,7 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Ово обично може да се поправи тако што се веб серверу дозволи упис у config директоријум.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Али, ако радије желите да фајл config.php може само да се чита, онда у њему поставите опцију „config_is_read_only” на true.",
     "See %s" : "Погледајте %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Фајлови апликације „%1$s“ нису правилно замењени. Проверите да ли је верзија компатибилна са сервером.",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Не постоји апликација %1$s или њена верзија није компатибилна са овим сервером. Молимо вас да проверите директоријум са апликацијама.",
     "Sample configuration detected" : "Откривен је пример подешавања",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Откривено је да је прекопиран пример подешавања. Ово може покварити инсталацију и није подржано. Прочитајте документацију пре вршења промена у фајлу config.php",
     "404" : "404",
@@ -236,8 +236,6 @@
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Некстклауд ће прорадити поново када прилагодите ово подашавање у php.ini фајлу",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> је постављено на <code>%s</code> уместо на очекивану вредност <code>0</code>.",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Да бисте исправили овај проблем, поставите <code>mbstring.func_overload</code> на <code>0</code> у свом php.ini фајлу.",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Потребан је бар libxml2 2.7.0. Тренутно је инсталиран %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Да поправите овај проблем, ажурирајте верзију библиотеке libxml2 и рестартујте веб сервер.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP је очигледно подешен да склања уметнуте doc блокове. То ће учинити неколико кључних апликација недоступним.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ово је вероватно изазвано кешом или акцелератором као што су ЗендОПкеш или еАкцелератор.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP модули су инсталирани али се и даље воде као недостајући?",
@@ -263,12 +261,11 @@
     "Storage connection error. %s" : "Грешка приликом повезивања на складиште. %s",
     "Storage is temporarily not available" : "Складиште привремено није  доступно",
     "Storage connection timeout. %s" : "Истекло је време за повезивање на складиште. %s",
+    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Фајлови апликације „%1$s“ нису правилно замењени. Проверите да ли је верзија компатибилна са сервером.",
     "Full name" : "Пуно име",
-    "%s enter the database username and name." : "%s унеси корисничко име базе података и име.",
-    "%s enter the database username." : "%s унеси корисничко име базе података.",
-    "%s enter the database name." : "%s унеси име базе података.",
-    "%s you may not use dots in the database name" : "%s не можете користити тачке у имену базе података",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Достигнуто је ограничење броја корисника и корисник није креиран. За више детаља погледајте своја обавештења.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "У корисничком имену су дозвољени само следећи карактери: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "У корисничком имену су дозвољени само следећи карактери: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Потребан је бар libxml2 2.7.0. Тренутно је инсталиран %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Да поправите овај проблем, ажурирајте верзију библиотеке libxml2 и рестартујте веб сервер."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

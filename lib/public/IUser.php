@@ -270,4 +270,21 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota);
+
+	/**
+	 * Get the user's manager UIDs
+	 *
+	 * @since 27.0.0
+	 * @return string[]
+	 */
+	public function getManagerUids(): array;
+
+	/**
+	 * Set the user's manager UIDs
+	 *
+	 * @param string[] $uids UIDs of all managers
+	 * @return void
+	 * @since 27.0.0
+	 */
+	public function setManagerUids(array $uids): void;
 }

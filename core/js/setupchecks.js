@@ -521,6 +521,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
+					if (window.oc_debug) {
+						messages.push({
+							msg: t('core', 'This instance is running in debug mode. Only enable this for local development and not in production environments.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpDefaultCharset', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
@@ -735,10 +741,10 @@
 					}
 				} else if (!/(?:^(?:localhost|127\.0\.0\.1|::1)|\.onion)$/.exec(window.location.hostname)) {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}.')
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}. Without it some important web functionality like "copy to clipboard" or "service workers" will not work!')
 							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
 							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					});
 				}
 			} else {

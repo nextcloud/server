@@ -44,8 +44,10 @@ use OCA\DAV\Events\AddressBookShareUpdatedEvent;
 use OCA\DAV\Events\AddressBookUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
+use OCA\DAV\Events\CardMovedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -310,6 +312,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 		];
+
+		// system address books are always read only
+		if ($principal === 'principals/system/system') {
+			$addressBook['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only'] = true;
+		}
 
 		$this->addOwnerPrincipal($addressBook);
 
@@ -737,6 +744,49 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$objectRow = $this->getCard($addressBookId, $cardUri);
 			$this->dispatcher->dispatchTyped(new CardUpdatedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 			return '"' . $etag . '"';
+		}, $this->db);
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function moveCard(int $sourceAddressBookId, int $targetAddressBookId, string $cardUri, string $oldPrincipalUri): bool {
+		return $this->atomic(function () use ($sourceAddressBookId, $targetAddressBookId, $cardUri, $oldPrincipalUri) {
+			$card = $this->getCard($sourceAddressBookId, $cardUri);
+			if (empty($card)) {
+				return false;
+			}
+
+			$query = $this->db->getQueryBuilder();
+			$query->update('cards')
+				->set('addressbookid', $query->createNamedParameter($targetAddressBookId, IQueryBuilder::PARAM_INT))
+				->where($query->expr()->eq('uri', $query->createNamedParameter($cardUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+				->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($sourceAddressBookId, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
+				->executeStatement();
+
+			$this->purgeProperties($sourceAddressBookId, (int)$card['id']);
+			$this->updateProperties($sourceAddressBookId, $card['uri'], $card['carddata']);
+
+			$this->addChange($sourceAddressBookId, $card['uri'], 3);
+			$this->addChange($targetAddressBookId, $card['uri'], 1);
+
+			$card = $this->getCard($targetAddressBookId, $cardUri);
+			// Card wasn't found - possibly because it was deleted in the meantime by a different client
+			if (empty($card)) {
+				return false;
+			}
+
+			$targetAddressBookRow = $this->getAddressBookById($targetAddressBookId);
+			// the address book this card is being moved to does not exist any longer
+			if (empty($targetAddressBookRow)) {
+				return false;
+			}
+
+			$sourceShares = $this->getShares($sourceAddressBookId);
+			$targetShares = $this->getShares($targetAddressBookId);
+			$sourceAddressBookRow = $this->getAddressBookById($sourceAddressBookId);
+			$this->dispatcher->dispatchTyped(new CardMovedEvent($sourceAddressBookId, $sourceAddressBookRow, $targetAddressBookId, $targetAddressBookRow, $sourceShares, $targetShares, $card));
+			return true;
 		}, $this->db);
 	}
 
@@ -1349,10 +1399,19 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->max('id'))
+			->from('addressbookchanges');
+
+		$maxId =  $query->executeQuery()->fetchOne();
+		if (!$maxId || $maxId < $keep) {
+		    return 0;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
-			->orderBy('id', 'DESC')
-			->setFirstResult($keep);
+			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $query->executeStatement();
 	}
 

@@ -111,9 +111,9 @@
     "Public upload disabled by the administrator" : "URL共有へのアップロードが管理者によって無効されています。",
     "Public upload is only possible for publicly shared folders" : "公開共有されているフォルダーにしか公開アップロードはできません。",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkでパスワードを送信した %s を共有できませんでした",
-    "Invalid date, date format must be YYYY-MM-DD" : "無効な日付です。YYYY-MM-DDのフォーマットで日付を指定してください。",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%1$s の共有に失敗しました。バックエンド側で %2$s タイプの共有が許可されていません。",
     "Please specify a valid federated user ID" : "正しい連携ユーザーIDを指定してください",
+    "Invalid date, date format must be YYYY-MM-DD" : "無効な日付です。YYYY-MM-DDのフォーマットで日付を指定してください。",
     "Please specify a valid federated group ID" : "正しい連携グループIDを指定してください",
     "You cannot share to a Circle if the app is not enabled" : "アプリが無効の場合は、サークルには共有できません",
     "Please specify a valid circle" : "正しいサークルを指定してください",
@@ -268,11 +268,7 @@
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
-    "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",
     "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
-    "Copy to clipboard" : "クリップボードにコピー",
-    "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
-    "Toggle grid view" : "グリッド表示の切り替え",
     "Error generating password from password_policy" : "password_policy からのパスワード生成エラー"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

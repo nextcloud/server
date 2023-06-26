@@ -157,7 +157,7 @@ class Throttler implements IThrottler {
 
 		$keys = $this->config->getAppKeys('bruteForce');
 		$keys = array_filter($keys, function ($key) {
-			return 0 === strpos($key, 'whitelist_');
+			return str_starts_with($key, 'whitelist_');
 		});
 
 		if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {

@@ -37,6 +37,10 @@ final class TemplateFileCreator implements \JsonSerializable {
 	protected $iconClass;
 	protected $ratio = null;
 	protected $order = 100;
+	/**
+	 * @since 27.0.0
+	 */
+	protected string $actionLabel = '';
 
 	/**
 	 * @since 21.0.0
@@ -104,6 +108,21 @@ final class TemplateFileCreator implements \JsonSerializable {
 	}
 
 	/**
+	 * @since 27.0.0
+	 */
+	public function setActionLabel(string $actionLabel): TemplateFileCreator {
+		$this->actionLabel = $actionLabel;
+		return $this;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getActionLabel(): string {
+		return $this->actionLabel;
+	}
+
+	/**
 	 * @since 21.0.0
 	 */
 	public function jsonSerialize(): array {
@@ -113,7 +132,8 @@ final class TemplateFileCreator implements \JsonSerializable {
 			'extension' => $this->fileExtension,
 			'iconClass' => $this->iconClass,
 			'mimetypes' => $this->mimetypes,
-			'ratio' => $this->ratio
+			'ratio' => $this->ratio,
+			'actionLabel' => $this->actionLabel,
 		];
 	}
 }

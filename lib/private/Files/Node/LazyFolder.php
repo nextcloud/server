@@ -27,7 +27,9 @@ declare(strict_types=1);
 namespace OC\Files\Node;
 
 use OC\Files\Utils\PathHelper;
+use OCP\Files\Folder;
 use OCP\Constants;
+use OCP\Files\Mount\IMountPoint;
 
 /**
  * Class LazyFolder
@@ -37,8 +39,8 @@ use OCP\Constants;
  *
  * @package OC\Files\Node
  */
-class LazyFolder implements \OCP\Files\Folder {
-	/** @var \Closure */
+class LazyFolder implements Folder {
+	/** @var \Closure(): Folder */
 	private $folderClosure;
 
 	/** @var LazyFolder | null */
@@ -49,7 +51,7 @@ class LazyFolder implements \OCP\Files\Folder {
 	/**
 	 * LazyFolder constructor.
 	 *
-	 * @param \Closure $folderClosure
+	 * @param \Closure(): Folder $folderClosure
 	 */
 	public function __construct(\Closure $folderClosure, array $data = []) {
 		$this->folderClosure = $folderClosure;
@@ -110,14 +112,14 @@ class LazyFolder implements \OCP\Files\Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	/**
-	 * @inheritDoc
+	 * @return IMountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

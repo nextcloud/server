@@ -361,7 +361,7 @@ class Router implements IRouter {
 			$referenceType = UrlGenerator::ABSOLUTE_PATH;
 		}
 		$name = $this->fixLegacyRootName($name);
-		if (strpos($name, '.') !== false) {
+		if (str_contains($name, '.')) {
 			[$appName, $other] = explode('.', $name, 3);
 			// OCS routes are prefixed with "ocs."
 			if ($appName === 'ocs') {

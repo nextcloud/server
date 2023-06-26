@@ -1,6 +1,7 @@
 import './templates.js'
 import './legacy/filelistSearch.js'
 import './actions/deleteAction'
+import './actions/openFolderAction'
 import './actions/sidebarAction'
 
 import Vue from 'vue'

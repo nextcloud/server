@@ -124,7 +124,6 @@ OC.L10N.register(
     "Add storage" : "Bæta við gagnahirslu",
     "All users" : "Allir notendur",
     "Advanced settings" : "Ítarlegri valkostir",
-    "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "All users. Type to select user or group." : "Allir notendur. Skrifaðu til að velja notanda eða hóp."
+    "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

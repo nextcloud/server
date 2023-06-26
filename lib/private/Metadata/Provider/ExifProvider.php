@@ -44,10 +44,14 @@ class ExifProvider implements IMetadataProvider {
 		return extension_loaded('exif');
 	}
 
-	/** @return array{'gps': FileMetadata, 'size': FileMetadata} */
+	/** @return array{'gps'?: FileMetadata, 'size'?: FileMetadata} */
 	public function execute(File $file): array {
 		$exifData = [];
 		$fileDescriptor = $file->fopen('rb');
+
+		if ($fileDescriptor === false) {
+			return [];
+		}
 
 		$data = null;
 		try {
@@ -107,7 +111,7 @@ class ExifProvider implements IMetadataProvider {
 	}
 
 	public static function getMimetypesSupported(): string {
-		return '/image\/.*/';
+		return '/image\/(png|jpeg|heif|webp|tiff)/';
 	}
 
 	/**

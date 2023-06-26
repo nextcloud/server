@@ -150,9 +150,9 @@ class LargeFileHelper {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
 			$result = null;
-			if (strpos($os, 'linux') !== false) {
+			if (str_contains($os, 'linux')) {
 				$result = $this->exec("stat -c %s $arg");
-			} elseif (strpos($os, 'bsd') !== false || strpos($os, 'darwin') !== false) {
+			} elseif (str_contains($os, 'bsd') || str_contains($os, 'darwin')) {
 				$result = $this->exec("stat -f %z $arg");
 			}
 			return $result;
@@ -193,7 +193,7 @@ class LargeFileHelper {
 		if ($result < 0) {
 			if (\OCP\Util::isFunctionEnabled('exec')) {
 				$os = strtolower(php_uname('s'));
-				if (strpos($os, 'linux') !== false) {
+				if (str_contains($os, 'linux')) {
 					return (int)($this->exec('stat -c %Y ' . escapeshellarg($fullPath)) ?? -1);
 				}
 			}

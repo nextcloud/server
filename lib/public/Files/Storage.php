@@ -217,7 +217,7 @@ interface Storage extends IStorage {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 6.0.0
 	 */
 	public function file_get_contents($path);

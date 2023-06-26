@@ -116,7 +116,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Haz click para volver a marcar la configuración",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
-    "All users. Type to select user or group." : "Todos los usuarios. Escribe para seleccionar el usuario o grupo"
+    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -199,15 +199,6 @@ class Internal extends Session {
 	}
 
 	/**
-	 * @throws \Exception
-	 */
-	private function validateSession() {
-		if ($this->sessionClosed) {
-			throw new SessionNotAvailableException('Session has been closed - no further changes to the session are allowed');
-		}
-	}
-
-	/**
 	 * @param string $functionName the full session_* function name
 	 * @param array $parameters
 	 * @param bool $silence whether to suppress warnings

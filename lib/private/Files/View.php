@@ -168,7 +168,7 @@ class View {
 		// missing slashes can cause wrong matches!
 		$root = rtrim($this->fakeRoot, '/') . '/';
 
-		if (strpos($path, $root) !== 0) {
+		if (!str_starts_with($path, $root)) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->fakeRoot));
@@ -227,7 +227,7 @@ class View {
 		$parent = substr($path, 0, strrpos($path, '/') ?: 0);
 		$path = $this->getAbsolutePath($path);
 		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) and $storage) {
+		if (Filesystem::isValidPath($parent) && $storage) {
 			return $storage->getLocalFile($internalPath);
 		} else {
 			return false;
@@ -531,7 +531,7 @@ class View {
 	 * @param int|string $mtime
 	 */
 	public function touch($path, $mtime = null): bool {
-		if (!is_null($mtime) and !is_numeric($mtime)) {
+		if (!is_null($mtime) && !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
 
@@ -564,7 +564,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @return mixed
+	 * @return string|false
 	 * @throws LockedException
 	 */
 	public function file_get_contents($path) {
@@ -614,7 +614,7 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
-				and !Filesystem::isFileBlacklisted($path)
+				&& !Filesystem::isFileBlacklisted($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
 				if ($path === null) {
@@ -724,14 +724,14 @@ class View {
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
-			and Filesystem::isValidPath($source)
-			and !Filesystem::isFileBlacklisted($target)
+			&& Filesystem::isValidPath($source)
+			&& !Filesystem::isFileBlacklisted($target)
 		) {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
 			$exists = $this->file_exists($target);
 
-			if ($source == null or $target == null) {
+			if ($source == null || $target == null) {
 				return false;
 			}
 
@@ -816,7 +816,7 @@ class View {
 							$this->emit_file_hooks_post($exists, $target);
 						}
 					} elseif ($result) {
-						if ($this->shouldEmitHooks($source) and $this->shouldEmitHooks($target)) {
+						if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
 								Filesystem::signal_post_rename,
@@ -853,13 +853,13 @@ class View {
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
-			and Filesystem::isValidPath($source)
-			and !Filesystem::isFileBlacklisted($target)
+			&& Filesystem::isValidPath($source)
+			&& !Filesystem::isFileBlacklisted($target)
 		) {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
 
-			if ($source == null or $target == null) {
+			if ($source == null || $target == null) {
 				return false;
 			}
 			$run = true;
@@ -1111,7 +1111,7 @@ class View {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
-			and !Filesystem::isFileBlacklisted($path)
+			&& !Filesystem::isFileBlacklisted($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
@@ -1125,7 +1125,7 @@ class View {
 
 			$run = $this->runHooks($hooks, $path);
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
-			if ($run and $storage) {
+			if ($run && $storage) {
 				/** @var Storage $storage */
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 					try {
@@ -1371,7 +1371,7 @@ class View {
 			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
 			if (isset($data['fileid'])) {
-				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
+				if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
 					$this->addSubMounts($info, $extOnly);
@@ -2079,7 +2079,7 @@ class View {
 			return ($pathSegments[2] === 'files') && (count($pathSegments) > 3);
 		}
 
-		return strpos($path, '/appdata_') !== 0;
+		return !str_starts_with($path, '/appdata_');
 	}
 
 	/**

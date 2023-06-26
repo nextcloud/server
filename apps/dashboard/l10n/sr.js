@@ -23,11 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добро вече, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје\nпреглед наредних састанака, хитних и-мејлова, чет порука,\nпридошлих тикета, најновијих твитова и још пуно тога! Корисници\nмогу да додају виџете који им се свиђају и да по жељи измене\n позадину.",
-    "Change background image" : "Промените слику позадине",
-    "Pick from Files" : "Изаберите из Фајлова",
-    "Default images" : "Подразумеване слике",
-    "Plain background" : "Проста позадина",
-    "Insert from {productName}" : "Уметни из {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје\nпреглед наредних састанака, хитних и-мејлова, чет порука,\nпридошлих тикета, најновијих твитова и још пуно тога! Корисници\nмогу да додају виџете који им се свиђају и да по жељи измене\n позадину."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

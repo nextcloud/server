@@ -22,7 +22,9 @@
   -->
 
 <template>
-	<div class="comments" :class="{ 'icon-loading': isFirstLoading }">
+	<div class="comments"
+		:class="{ 'icon-loading': isFirstLoading }"
+		v-observe-visibility="onVisibilityChange">
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
@@ -83,9 +85,11 @@
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -96,8 +100,10 @@ import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline
 import Comment from '../components/Comment.vue'
 import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
 import cancelableRequest from '../utils/cancelableRequest.js'
+import { markCommentsAsRead } from '../services/ReadComments.ts'
 
 Vue.use(VTooltip)
+Vue.use(VueObserveVisibility)
 
 export default {
 	name: 'Comments',
@@ -145,6 +151,16 @@ export default {
 	},
 
 	methods: {
+		async onVisibilityChange(isVisible) {
+			if (isVisible) {
+				try {
+					await markCommentsAsRead(this.commentsType, this.ressourceId, new Date())
+				} catch (e) {
+					showError(e.message || t('comments', 'Failed to mark comments as read'))
+				}
+			}
+		},
+
 		/**
 		 * Update current ressourceId and fetch new data
 		 *

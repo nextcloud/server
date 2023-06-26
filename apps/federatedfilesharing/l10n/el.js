@@ -45,13 +45,8 @@ OC.L10N.register(
     "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
     "Clipboard is not available" : "Το πρόχειρο δεν είναι διαθέσιμο",
     "Copied!" : "Αντιγράφτηκε!",
-    "Copy" : "Αντιγραφή",
-    "Not supported!" : "Δεν υποστηρίζεται!",
-    "Press ⌘-C to copy." : "Για αντιγραφή πατήστε ⌘-C.",
-    "Press Ctrl-C to copy." : "Για αντιγραφή πατήστε Ctrl-C.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %4$s (%1$s) (εκ μέρους του %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου, δείτε %s",
-    "Open documentation" : "Άνοιγμα τεκμηρίωσης"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου, δείτε %s"
 },
 "nplurals=2; plural=(n != 1);");

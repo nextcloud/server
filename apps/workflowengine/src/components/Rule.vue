@@ -18,7 +18,7 @@
 				<input v-if="lastCheckComplete"
 					type="button"
 					class="check--add"
-					value="Add a new filter"
+					:value="t('workflowengine', 'Add a new filter')"
 					@click="onAddFilter">
 			</p>
 		</div>
@@ -213,10 +213,11 @@ export default {
 		flex-wrap: wrap;
 		border-left: 5px solid var(--color-primary-element);
 
-		.trigger, .action {
+		.trigger,
+		.action {
 			flex-grow: 1;
 			min-height: 100px;
-			max-width: 700px;
+			max-width: 920px;
 		}
 		.action {
 			max-width: 400px;
@@ -246,6 +247,9 @@ export default {
 	}
 	.trigger p:first-child span {
 			padding-top: 3px;
+	}
+	.trigger p:last-child {
+			padding-top: 8px;
 	}
 
 	.check--add {

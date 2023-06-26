@@ -94,8 +94,8 @@
     "Public upload disabled by the administrator" : "Opinber innsending hefur verið gerð óvirk af kerfisstjóra.",
     "Public upload is only possible for publicly shared folders" : "Opinber innsending er einungis möguleg í möppur sem er deilt opinberlega",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling á %s með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ógild dagsetning, dagsetningasniðið verður að vera ÁÁÁÁ-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deiling %1$s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %2$s",
+    "Invalid date, date format must be YYYY-MM-DD" : "Ógild dagsetning, dagsetningasniðið verður að vera ÁÁÁÁ-MM-DD",
     "You cannot share to a Circle if the app is not enabled" : "Þú getur ekki deilt með hring ef forritið er ekki virkt",
     "Please specify a valid circle" : "Settu inn gildan hring",
     "Sharing %s failed because the back end does not support room shares" : "Deiling %s mistókst því bakvinnslukerfið leyfir ekki spjallsvæðasameignir",
@@ -179,10 +179,6 @@
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
-    "Copy to clipboard" : "Afrita á klippispjald",
-    "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
-    "Toggle grid view" : "Víxla reitasýn af/á"
+    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

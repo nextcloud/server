@@ -41,8 +41,8 @@ use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
-use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
 use Psr\Log\LoggerInterface;
@@ -89,12 +89,15 @@ class Scanner extends BasicEmitter implements IScanner {
 	 */
 	protected $lockingProvider;
 
+	protected IDBConnection $connection;
+
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
 		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
 
 	/**
@@ -383,7 +386,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @param array $data the data of the folder before (re)scanning the children
-	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
+	 * @return int|float the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
 	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = []) {
 		if ($reuse === -1) {
@@ -430,7 +433,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 
 		if ($this->useTransactions) {
-			\OC::$server->getDatabaseConnection()->beginTransaction();
+			$this->connection->beginTransaction();
 		}
 
 		$exceptionOccurred = false;
@@ -473,8 +476,8 @@ class Scanner extends BasicEmitter implements IScanner {
 				// process is running in parallel
 				// log and ignore
 				if ($this->useTransactions) {
-					\OC::$server->getDatabaseConnection()->rollback();
-					\OC::$server->getDatabaseConnection()->beginTransaction();
+					$this->connection->rollback();
+					$this->connection->beginTransaction();
 				}
 				\OC::$server->get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
 					'app' => 'core',
@@ -483,7 +486,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
 				if ($this->useTransactions) {
-					\OC::$server->getDatabaseConnection()->rollback();
+					$this->connection->rollback();
 				}
 				throw $e;
 			}
@@ -494,7 +497,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$this->removeFromCache($child);
 		}
 		if ($this->useTransactions) {
-			\OC::$server->getDatabaseConnection()->commit();
+			$this->connection->commit();
 		}
 		if ($exceptionOccurred) {
 			// It might happen that the parallel scan process has already
@@ -518,7 +521,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
 		}
-		if (strpos($file, '.part/') !== false) {
+		if (str_contains($file, '.part/')) {
 			return true;
 		}
 
@@ -558,7 +561,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 	}
 
-	private function runBackgroundScanJob(callable $callback, $path) {
+	protected function runBackgroundScanJob(callable $callback, $path) {
 		try {
 			$callback();
 			\OC_Hook::emit('Scanner', 'correctFolderSize', ['path' => $path]);

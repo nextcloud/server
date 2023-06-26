@@ -92,38 +92,39 @@ class UserMountCache implements IUserMountCache {
 			}
 		}, $mounts);
 		$newMounts = array_values(array_filter($newMounts));
-		$newMountRootIds = array_map(function (ICachedMountInfo $mount) {
-			return $mount->getRootId();
+		$newMountKeys = array_map(function (ICachedMountInfo $mount) {
+			return $mount->getRootId() . '::' . $mount->getMountPoint();
 		}, $newMounts);
-		$newMounts = array_combine($newMountRootIds, $newMounts);
+		$newMounts = array_combine($newMountKeys, $newMounts);
 
 		$cachedMounts = $this->getMountsForUser($user);
 		if (is_array($mountProviderClasses)) {
 			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses, $newMounts) {
 				// for existing mounts that didn't have a mount provider set
 				// we still want the ones that map to new mounts
-				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountInfo->getRootId()])) {
+				$mountKey = $mountInfo->getRootId() . '::' . $mountInfo->getMountPoint();
+				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountKey])) {
 					return true;
 				}
 				return in_array($mountInfo->getMountProvider(), $mountProviderClasses);
 			});
 		}
-		$cachedMountRootIds = array_map(function (ICachedMountInfo $mount) {
-			return $mount->getRootId();
+		$cachedRootKeys = array_map(function (ICachedMountInfo $mount) {
+			return $mount->getRootId() . '::' . $mount->getMountPoint();
 		}, $cachedMounts);
-		$cachedMounts = array_combine($cachedMountRootIds, $cachedMounts);
+		$cachedMounts = array_combine($cachedRootKeys, $cachedMounts);
 
 		$addedMounts = [];
 		$removedMounts = [];
 
-		foreach ($newMounts as $rootId => $newMount) {
-			if (!isset($cachedMounts[$rootId])) {
+		foreach ($newMounts as $mountKey => $newMount) {
+			if (!isset($cachedMounts[$mountKey])) {
 				$addedMounts[] = $newMount;
 			}
 		}
 
-		foreach ($cachedMounts as $rootId => $cachedMount) {
-			if (!isset($newMounts[$rootId])) {
+		foreach ($cachedMounts as $mountKey => $cachedMount) {
+			if (!isset($newMounts[$mountKey])) {
 				$removedMounts[] = $cachedMount;
 			}
 		}
@@ -161,13 +162,13 @@ class UserMountCache implements IUserMountCache {
 	private function findChangedMounts(array $newMounts, array $cachedMounts) {
 		$new = [];
 		foreach ($newMounts as $mount) {
-			$new[$mount->getRootId()] = $mount;
+			$new[$mount->getRootId() . '::' . $mount->getMountPoint()] = $mount;
 		}
 		$changed = [];
 		foreach ($cachedMounts as $cachedMount) {
-			$rootId = $cachedMount->getRootId();
-			if (isset($new[$rootId])) {
-				$newMount = $new[$rootId];
+			$key = $cachedMount->getRootId() . '::' . $cachedMount->getMountPoint();
+			if (isset($new[$key])) {
+				$newMount = $new[$key];
 				if (
 					$newMount->getMountPoint() !== $cachedMount->getMountPoint() ||
 					$newMount->getStorageId() !== $cachedMount->getStorageId() ||
@@ -190,7 +191,7 @@ class UserMountCache implements IUserMountCache {
 				'mount_point' => $mount->getMountPoint(),
 				'mount_id' => $mount->getMountId(),
 				'mount_provider_class' => $mount->getMountProvider(),
-			], ['root_id', 'user_id']);
+			], ['root_id', 'user_id', 'mount_point']);
 		} else {
 			// in some cases this is legitimate, like orphaned shares
 			$this->logger->debug('Could not get storage info for mount at ' . $mount->getMountPoint());
@@ -216,7 +217,8 @@ class UserMountCache implements IUserMountCache {
 
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
-			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('mount_point', $builder->createNamedParameter($mount->getMountPoint())));
 		$query->execute();
 	}
 
@@ -485,7 +487,7 @@ class UserMountCache implements IUserMountCache {
 		$path = rtrim($path, '/') . '/';
 		$mounts = $this->getMountsForUser($user);
 		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
-			return $mount->getMountPoint() !== $path && strpos($mount->getMountPoint(), $path) === 0;
+			return $mount->getMountPoint() !== $path && str_starts_with($mount->getMountPoint(), $path);
 		});
 	}
 }

@@ -23,11 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрый вечер, {name}",
     "Hello" : "Здравствуйте",
     "Hello, {name}" : "Здравствуйте, {name}!",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Начните свой день будучи информированным\n\nПриборная панель Nextcloud - это ваша отправная точка дня,\nдающая вам обзор предстоящих встреч, срочных электронных писем,\nсообщений чата, назначенных задач, последних твитов и многое\nдругое! Пользователи могут добавлять виджеты и менять фон\nна свой вкус.",
-    "Change background image" : "Изменить фоновое изображение",
-    "Pick from Files" : "Выбрать из файлов",
-    "Default images" : "Изображения по умолчанию",
-    "Plain background" : "Обычный фон",
-    "Insert from {productName}" : "Вставить из {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Начните свой день будучи информированным\n\nПриборная панель Nextcloud - это ваша отправная точка дня,\nдающая вам обзор предстоящих встреч, срочных электронных писем,\nсообщений чата, назначенных задач, последних твитов и многое\nдругое! Пользователи могут добавлять виджеты и менять фон\nна свой вкус."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

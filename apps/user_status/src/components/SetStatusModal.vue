@@ -28,7 +28,9 @@
 			<div class="set-status-modal__header">
 				<h2>{{ $t('user_status', 'Online status') }}</h2>
 			</div>
-			<div class="set-status-modal__online-status">
+			<div class="set-status-modal__online-status"
+				role="radiogroup"
+				:aria-label="$t('user_status', 'Online status')">
 				<OnlineStatusSelect v-for="status in statuses"
 					:key="status.type"
 					v-bind="status"
@@ -56,7 +58,7 @@
 				:icon="backupIcon"
 				:message="backupMessage"
 				@select="revertBackupFromServer" />
-			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
+			<PredefinedStatusesList :is-custom-status="isCustomStatus" @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
 				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
@@ -109,6 +111,7 @@ export default {
 		return {
 			clearAt: null,
 			editedMessage: '',
+			isCustomStatus: true,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -189,6 +192,7 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
+			this.isCustomStatus = true
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -204,6 +208,7 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
+			this.isCustomStatus = true
 			this.editedMessage = message
 		},
 		/**
@@ -220,6 +225,7 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
+			this.isCustomStatus = false
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,

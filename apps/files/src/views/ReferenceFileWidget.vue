@@ -115,7 +115,7 @@ export default {
 				OCA.Viewer.open({ path: this.richObject.path })
 				return
 			}
-			window.location = generateUrl('/f/' + this.id)
+			window.location = this.richObject.link
 		},
 	},
 }

@@ -46,13 +46,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Còpia in is punta de billete",
     "Copied!" : "Copiadu!",
-    "Copy" : "Còpia",
-    "Not supported!" : "Non suportadu!",
-    "Press ⌘-C to copy." : "Incarca ⌘-C pro copiare.",
-    "Press Ctrl-C to copy." : "incarca Ctrl-C pro copiare.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "As retzidu \"%3$s\" comente cumpartzidura remota dae %4$s (%1$s) (pro parte de %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "As retzidu \"%3$s\" comente cumpartidura remota dae %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud, càstia %s",
-    "Open documentation" : "Aberi documentatzione"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud, càstia %s"
 },
 "nplurals=2; plural=(n != 1);");

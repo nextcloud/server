@@ -38,9 +38,9 @@ trait CommonThemeTrait {
 	 * will change in between.
 	 */
 	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
-		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
-		$colorPrimaryElementDefault = $this->util->elementColor($this->defaultPrimaryColor);
+		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor);
+		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
 		// primary related colours
@@ -61,16 +61,17 @@ trait CommonThemeTrait {
 			'--color-primary-light' => $colorPrimaryLight,
 			'--color-primary-light-text' => $this->util->mix($this->primaryColor, $this->util->invertTextColor($colorPrimaryLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
-			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-default-hover' => $this->util->mix($colorPrimaryElementDefault, $colorMainBackground, 60),
-			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
 			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
+			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+
+			// used for hover/focus states
 			'--color-primary-element-light' => $colorPrimaryElementLight,
-			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
+			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
+			// mostly used for disabled states
 			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
 
 			// to use like this: background-image: var(--gradient-primary-background);
@@ -92,15 +93,6 @@ trait CommonThemeTrait {
 		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
 		$variables['--color-background-plain'] = $this->defaultPrimaryColor;
 
-		// If primary as background has been request or if we have a custom primary colour
-		// let's not define the background image
-		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
-			$variables['--image-background-plain'] = 'yes';
-			// If no background image is set, we need to check against the shown primary colour
-			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
-		}
-
 		// Register image variables only if custom-defined
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
@@ -110,8 +102,18 @@ trait CommonThemeTrait {
 			}
 		}
 
+		// If primary as background has been request or if we have a custom primary colour
+		// let's not define the background image
+		if ($backgroundDeleted) {
+			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
+			$variables['--image-background-plain'] = 'yes';
+			$variables['--image-background'] = 'no';
+			// If no background image is set, we need to check against the shown primary colour
+			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
+		}
+
 		if ($hasCustomLogoHeader) {
-			$variables["--image-logoheader-custom"] = 'true';
+			$variables['--image-logoheader-custom'] = 'true';
 		}
 
 		return $variables;

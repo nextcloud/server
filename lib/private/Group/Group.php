@@ -33,14 +33,16 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OC\User\LazyUser;
+use OCP\GroupInterface;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OCP\Group\Backend\INamedBackend;
+use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Events\BeforeGroupChangedEvent;
 use OCP\Group\Events\GroupChangedEvent;
-use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -242,18 +244,23 @@ class Group implements IGroup {
 	}
 
 	/**
-	 * search for users in the group by userid
-	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * Search for users in the group by userid or display name
+	 * @return IUser[]
 	 */
-	public function searchUsers($search, $limit = null, $offset = null) {
+	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			$users += $this->getVerifiedUsers($userIds);
+			if ($backend instanceof ISearchableGroupBackend) {
+				$users += $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
+			} else {
+				$userIds = $backend->usersInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
+				$userManager = \OCP\Server::get(IUserManager::class);
+				foreach ($userIds as $userId) {
+					if (!isset($users[$userId])) {
+						$users[$userId] = new LazyUser($userId, $userManager);
+					}
+				}
+			}
 			if (!is_null($limit) and $limit <= 0) {
 				return $users;
 			}
@@ -308,18 +315,11 @@ class Group implements IGroup {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
+	 * @deprecated 27.0.0 Use searchUsers instead (same implementation)
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
-		$users = [];
-		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			$users = $this->getVerifiedUsers($userIds);
-			if (!is_null($limit) and $limit <= 0) {
-				return array_values($users);
-			}
-		}
-		return array_values($users);
+		return $this->searchUsers($search, $limit, $offset);
 	}
 
 	/**
@@ -375,10 +375,7 @@ class Group implements IGroup {
 	 * @param string[] $userIds an array containing user IDs
 	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
 	 */
-	private function getVerifiedUsers($userIds) {
-		if (!is_array($userIds)) {
-			return [];
-		}
+	private function getVerifiedUsers(array $userIds): array {
 		$users = [];
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);

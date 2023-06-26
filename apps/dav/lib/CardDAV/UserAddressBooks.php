@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license AGPL-3.0
  *
@@ -30,8 +31,16 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
+use OCA\Federation\TrustedServers;
+use OCP\AppFramework\QueryException;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\CardDAV\IAddressBook;
@@ -39,7 +48,6 @@ use function array_map;
 use Sabre\DAV\MkCol;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
-
 	/** @var IL10N */
 	protected $l10n;
 
@@ -48,12 +56,18 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 	/** @var PluginManager */
 	private $pluginManager;
+	private ?IUser $user;
+	private ?IGroupManager $groupManager;
 
 	public function __construct(Backend\BackendInterface $carddavBackend,
 								string $principalUri,
-								PluginManager $pluginManager) {
+								PluginManager $pluginManager,
+								?IUser $user,
+								?IGroupManager $groupManager) {
 		parent::__construct($carddavBackend, $principalUri);
 		$this->pluginManager = $pluginManager;
+		$this->user = $user;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -69,15 +83,49 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 			$this->config = \OC::$server->getConfig();
 		}
 
+		/** @var string|array $principal */
+		$principal = $this->principalUri;
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
-		/** @var IAddressBook[] $objects */
-		$objects = array_map(function (array $addressBook) {
-			if ($addressBook['principaluri'] === 'principals/system/system') {
-				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
+		// add the system address book
+		$systemAddressBook = null;
+		if (is_string($principal) && $principal !== 'principals/system/system' && $this->carddavBackend instanceof CardDavBackend) {
+			$systemAddressBook = $this->carddavBackend->getAddressBooksByUri('principals/system/system', 'system');
+			if ($systemAddressBook !== null) {
+				$systemAddressBook['uri'] = SystemAddressbook::URI_SHARED;
 			}
+		}
+		if (!is_null($systemAddressBook)) {
+			$addressBooks[] = $systemAddressBook;
+		}
 
-			return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
-		}, $addressBooks);
+		$objects = [];
+		if (!empty($addressBooks)) {
+			/** @var IAddressBook[] $objects */
+			$objects = array_map(function (array $addressBook) {
+				$trustedServers = null;
+				$request = null;
+				try {
+					$trustedServers = \OC::$server->get(TrustedServers::class);
+					$request = \OC::$server->get(IRequest::class);
+				} catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
+					// nothing to do, the request / trusted servers don't exist
+				}
+				if ($addressBook['principaluri'] === 'principals/system/system') {
+					return new SystemAddressbook(
+						$this->carddavBackend,
+						$addressBook,
+						$this->l10n,
+						$this->config,
+						\OCP\Server::get(IUserSession::class),
+						$request,
+						$trustedServers,
+						$this->groupManager
+					);
+				}
+
+				return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
+			}, $addressBooks);
+		}
 		/** @var IAddressBook[][] $objectsFromPlugins */
 		$objectsFromPlugins = array_map(function (IAddressBookProvider $plugin): array {
 			return $plugin->fetchAllForAddressBookHome($this->principalUri);

@@ -90,11 +90,6 @@ OC.L10N.register(
     "Admin" : "Администратор",
     "Error uploading the file" : "Ошибка при загрузке файла",
     "Name cannot be empty" : "Имя не может быть пустым",
-    "Open documentation" : "Открыть документацию",
-    "https://…" : "https://",
-    "Login image" : "Изображение экрана входа в систему",
-    "Upload new login background" : "Загрузить новый фон для экрана входа в систему",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Для автоматической генерации favicon на основе загруженного логотипа и цвета нужно установить PHP расширение Imagemagick  с поддержкой изображений SVG ",
     "Migrate and clean up admin theming images" : "Перенос и очистка изображений темы администратора",
     "Failed to clean up the old admin theming images folder" : "Не удалось очистить старую папку с изображением для администрирования",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "В некоторых случаях сочетания клавиш могут мешать работе инструментов специальных возможностей. Чтобы правильно сфокусироваться на вашем инструменте, вы можете отключить здесь все сочетания клавиш. Это также отключит все доступные ярлыки в приложениях.",
@@ -103,6 +98,10 @@ OC.L10N.register(
     "Custom color" : "Свой цвет",
     "Plain background" : "Обычный фон",
     "Insert from {productName}" : "Вставить из {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Хотя вы можете выбрать и настроить свой экземпляр, пользователи могут изменять свой фон и цвета. Если вы хотите принудительно применить свою настройку для всех, вы можете включить это."
+    "Open documentation" : "Открыть документацию",
+    "https://…" : "https://",
+    "Upload new login background" : "Загрузить новый фон для экрана входа в систему",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Хотя вы можете выбрать и настроить свой экземпляр, пользователи могут изменять свой фон и цвета. Если вы хотите принудительно применить свою настройку для всех, вы можете включить это.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Для автоматической генерации favicon на основе загруженного логотипа и цвета нужно установить PHP расширение Imagemagick  с поддержкой изображений SVG "
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

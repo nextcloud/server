@@ -119,7 +119,6 @@ OC.L10N.register(
     "Add storage" : "Pridėti saugyklą",
     "All users" : "Visi naudotojai",
     "Advanced settings" : "Išplėstiniai nustatymai",
-    "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "All users. Type to select user or group." : "Visi naudotojai. Rašykite, norėdami pasirinkti naudotoją ar grupę."
+    "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -329,7 +329,7 @@ export default {
 
 		&__default {
 			background-color: var(--color-primary-default);
-			background-image: var(--image-background-default);
+			background-image: var(--image-background-plain, var(--image-background-default));
 		}
 
 		&__filepicker, &__default, &__color {
@@ -356,7 +356,7 @@ export default {
 		&:hover,
 		&:focus {
 			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary)) !important;
+			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
 		}
 
 		// Icon

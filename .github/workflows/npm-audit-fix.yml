@@ -1,0 +1,71 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Npm audit fix and compile
+
+on:
+  workflow_dispatch:
+  schedule:
+    # At 2:30 on Sundays
+    - cron: '30 2 * * 0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        branches: ["main", "master", "stable27", "stable26", "stable25", "stable24"]
+  
+    name: npm-audit-fix-${{ matrix.branches }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          ref: ${{ matrix.branches }}
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.1
+        id: versions
+        with:
+          fallbackNode: '^16'
+          fallbackNpm: '^7'
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Fix npm audit
+        run: |
+          npm audit fix
+
+      - name: Run npm ci and npm run build
+        if: always()
+        run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Create Pull Request
+        if: always()
+        uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          commit-message: "chore(deps): fix npm audit"
+          committer: GitHub <noreply@github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          signoff: true
+          branch: automated/noid/${{ matrix.branches }}-fix-npm-audit
+          title: "[${{ matrix.branches }}] Fix npm audit"
+          body: |
+            Auto-generated fix of npm audit
+          labels: |
+            dependencies
+            3. to review

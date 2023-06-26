@@ -11,7 +11,9 @@ OC.L10N.register(
     "User status" : "使用者狀態",
     "View profile" : "檢視個人檔案",
     "Clear status after" : "清空狀態於……之後",
+    "Emoji for your status message" : "狀態訊息的表情符號",
     "What is your status?" : "您目前的狀態是什麼呢？",
+    "Predefined statuses" : "預先定義的狀態",
     "Previously set" : "先前設定",
     "Reset status" : "重設狀態",
     "Set status" : "設定狀態",
@@ -41,7 +43,6 @@ OC.L10N.register(
     "1 hour" : "1小時",
     "4 hours" : "4小時",
     "Mute all notifications" : "所有通知靜音",
-    "Appear offline" : "顯示為離線",
-    "Clear status message after" : "清空狀態訊息於……之後"
+    "Appear offline" : "顯示為離線"
 },
 "nplurals=1; plural=0;");
