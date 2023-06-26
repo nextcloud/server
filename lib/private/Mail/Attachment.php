@@ -45,6 +45,7 @@ class Attachment implements IAttachment {
 	}
 
 	/**
+	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function setFilename(string $filename): IAttachment {
@@ -53,6 +54,7 @@ class Attachment implements IAttachment {
 	}
 
 	/**
+	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function setContentType(string $contentType): IAttachment {
@@ -61,6 +63,7 @@ class Attachment implements IAttachment {
 	}
 
 	/**
+	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function setBody(string $body): IAttachment {
