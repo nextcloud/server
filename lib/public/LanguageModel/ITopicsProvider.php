@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Marcel Klehr <mklehr@gmx.net>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
  * @author Marcel Klehr <mklehr@gmx.net>
  *
