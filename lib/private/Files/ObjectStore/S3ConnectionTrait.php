@@ -88,7 +88,7 @@ trait S3ConnectionTrait {
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
-		$params['verify_bucket_exists'] = empty($params['verify_bucket_exists']) ? true : $params['verify_bucket_exists'];
+		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
 		$this->params = $params;
 	}
 
