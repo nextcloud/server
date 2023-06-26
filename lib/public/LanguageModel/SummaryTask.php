@@ -3,6 +3,8 @@
 namespace OCP\LanguageModel;
 
 /**
+ * This LanguageModel Task represents summarization
+ * which sums up the passed text.
  * @since 28.0.0
  */
 final class SummaryTask extends AbstractLanguageModelTask {

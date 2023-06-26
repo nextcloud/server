@@ -3,6 +3,8 @@
 namespace OCP\LanguageModel;
 
 /**
+ * This LanguageModel Task represents headline generation
+ * which generates a headline for the passed text
  * @since 28.0.0
  */
 final class HeadlineTask extends AbstractLanguageModelTask {
