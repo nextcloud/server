@@ -338,9 +338,15 @@ class FilesReportPlugin extends ServerPlugin {
 		// exposed in API yet
 		if (!empty($systemTagIds)) {
 			$tags = $this->tagManager->getTagsByIds($systemTagIds, $this->userSession->getUser());
+
+			// For we run DB queries per tag and require intersection, we cannot apply limit and offset for DB queries on multi tag search.
+			$oneTagSearch = count($tags) === 1;
+			$dbLimit = $oneTagSearch ? $limit ?? 0 : 0;
+			$dbOffset = $oneTagSearch ? $offset ?? 0 : 0;
+
 			foreach ($tags as $tag) {
 				$tagName = $tag->getName();
-				$tmpNodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
+				$tmpNodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $dbLimit, $dbOffset);
 				if (count($nodes) === 0) {
 					$nodes = $tmpNodes;
 				} else {
@@ -352,6 +358,10 @@ class FilesReportPlugin extends ServerPlugin {
 					// there cannot be a common match when nodes are empty early.
 					return $nodes;
 				}
+			}
+
+			if (!$oneTagSearch && ($limit !== null || $offset !== null)) {
+				$nodes = array_slice($nodes, $offset, $limit);
 			}
 		}
 
