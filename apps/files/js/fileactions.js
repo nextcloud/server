@@ -597,8 +597,8 @@
 				Object.values = objectValues;
 			}
 
-			var menuActions = Object.values(this.actions.all).filter(function (action) {
-				return action.type !== OCA.Files.FileActions.TYPE_INLINE;
+			var menuActions = Object.values(actions).filter(function (action) {
+				return action.type !== OCA.Files.FileActions.TYPE_INLINE && (!defaultAction || action.name !== defaultAction.name)
 			});
 			// do not render the menu if nothing is in it
 			if (menuActions.length > 0) {
