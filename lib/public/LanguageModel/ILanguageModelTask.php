@@ -4,6 +4,7 @@ namespace OCP\LanguageModel;
 
 /**
  * @since 28.0.0
+ * @template T of ILanguageModelProvider
  */
 interface ILanguageModelTask extends \JsonSerializable {
 	/**
@@ -38,18 +39,18 @@ interface ILanguageModelTask extends \JsonSerializable {
 	];
 
 	/**
-	 * @param ILanguageModelProvider $provider
+	 * @param T $provider
 	 * @return string
 	 * @since 28.0.0
 	 */
-	public function visitProvider(ILanguageModelProvider $provider): string;
+	public function visitProvider($provider): string;
 
 	/**
-	 * @param ILanguageModelProvider $provider
+	 * @param T $provider
 	 * @return bool
 	 * @since 28.0.0
 	 */
-	public function canUseProvider(ILanguageModelProvider $provider): bool;
+	public function canUseProvider($provider): bool;
 
 
 	/**

@@ -29,6 +29,8 @@ namespace OCP\LanguageModel;
 use RuntimeException;
 
 /**
+ * This is the minimum interface is implemented by apps that
+ * implement a LanguageModel provider
  * @since 28.0.0
  */
 interface ILanguageModelProvider {
