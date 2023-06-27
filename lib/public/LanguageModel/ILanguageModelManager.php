@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\LanguageModel;
 
+use OCP\Common\Exception\NotFoundException;
 use OCP\PreConditionNotMetException;
 use RuntimeException;
 
@@ -70,7 +71,7 @@ interface ILanguageModelManager {
 	 * @param int $id The id of the task
 	 * @return ILanguageModelTask
 	 * @throws RuntimeException If the query failed
-	 * @throws \ValueError If the task could not be found
+	 * @throws NotFoundException If the task could not be found
 	 * @since 28.0.0
 	 */
 	public function getTask(int $id): ILanguageModelTask;

@@ -8,6 +8,7 @@ use OC\LanguageModel\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
+use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IServerContainer;
 use OCP\LanguageModel\AbstractLanguageModelTask;
@@ -152,14 +153,14 @@ class LanguageModelManager implements ILanguageModelManager {
 	 * @param int $id The id of the task
 	 * @return ILanguageModelTask
 	 * @throws RuntimeException If the query failed
-	 * @throws \ValueError If the task could not be found
+	 * @throws NotFoundException If the task could not be found
 	 */
 	public function getTask(int $id): ILanguageModelTask {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
 			return AbstractLanguageModelTask::fromTaskEntity($taskEntity);
 		} catch (DoesNotExistException $e) {
-			throw new \ValueError('Could not find task with the provided id');
+			throw new NotFoundException('Could not find task with the provided id');
 		} catch (MultipleObjectsReturnedException $e) {
 			throw new RuntimeException('Could not uniquely identify task with given id');
 		} catch (Exception $e) {
