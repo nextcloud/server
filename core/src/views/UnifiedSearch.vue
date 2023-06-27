@@ -22,7 +22,7 @@
 <template>
 	<NcHeaderMenu id="unified-search"
 		class="unified-search"
-		exclude-click-outside-classes="popover"
+		:exclude-click-outside-selectors="['.popover']"
 		:open.sync="open"
 		:aria-label="ariaLabel"
 		@open="onOpen"
