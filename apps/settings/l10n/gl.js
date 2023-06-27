@@ -450,7 +450,7 @@ OC.L10N.register(
     "Never" : "Nunca",
     "An error occurred during the request. Unable to proceed." : "Produciuse un erro durante a solicitude. Non é posíbel continuar.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "A aplicación foi activada pero necesita ser actualizada. Vai ser redirixido cara a páxina de actualizarións en 5 segundos.",
-    "Error: This app cannot be enabled because it makes the server unstable" : "Erro: non é posíbel activar esta aplicación porque fai que o servidor sexa inestable",
+    "Error: This app cannot be enabled because it makes the server unstable" : "Erro: non é posíbel activar esta aplicación porque fai que o servidor sexa inestábel",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Houbo demasiadas solicitudes da súa rede. Volva tentalo máis adiante ou póñase en contacto co seu administrador se se trata dun erro.",
     "Documentation" : "Documentación",
     "Forum" : "Foro",
