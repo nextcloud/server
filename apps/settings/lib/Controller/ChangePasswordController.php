@@ -188,6 +188,13 @@ class ChangePasswordController extends Controller {
 					],
 				]);
 			}
+
+			return new JSONResponse([
+				'status' => 'success',
+				'data' => [
+					'username' => $username,
+				],
+			]);
 		}
 
 		//handle the recovery case
