@@ -1,3 +1,5 @@
+/*! @license DOMPurify 2.4.5 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.4.5/LICENSE */
+
 /*! For license information please see NcAppNavigationSpacer.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */

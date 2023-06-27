@@ -196,15 +196,13 @@ export default {
 			return (this.category === 'app-bundles')
 		},
 		allBundlesEnabled() {
-			const self = this
-			return function(id) {
-				return self.bundleApps(id).filter(app => !app.active).length === 0
+			return (id) => {
+				return this.bundleApps(id).filter(app => !app.active).length === 0
 			}
 		},
 		bundleToggleText() {
-			const self = this
-			return function(id) {
-				if (self.allBundlesEnabled(id)) {
+			return (id) => {
+				if (this.allBundlesEnabled(id)) {
 					return t('settings', 'Disable all')
 				}
 				return t('settings', 'Enable all')

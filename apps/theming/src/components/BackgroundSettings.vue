@@ -252,8 +252,8 @@ export default {
 			const result = await axios.post(generateUrl('/apps/theming/background/color'), { color })
 			this.update(result.data)
 		},
-		debouncePickColor: debounce(function() {
-			this.pickColor(...arguments)
+		debouncePickColor: debounce(function(...args) {
+			this.pickColor(...args)
 		}, 200),
 
 		async pickFile() {

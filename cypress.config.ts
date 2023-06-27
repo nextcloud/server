@@ -1,5 +1,3 @@
-/* eslint-disable node/no-unpublished-import */
-
 import {
 	applyChangesToNextcloud,
 	configureNextcloud,

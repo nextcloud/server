@@ -21,11 +21,11 @@
  */
 import { action } from './editLocallyAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
+import * as ncDialogs from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import type { Navigation } from '../services/Navigation'
-import ncDialogs from '@nextcloud/dialogs'
 
 const view = {
 	id: 'files',
@@ -140,7 +140,7 @@ describe('Edit locally action execute tests', () => {
 
 	test('Edit locally fails and show error', async () => {
 		jest.spyOn(axios, 'post').mockImplementation(async () => ({}))
-		jest.spyOn(ncDialogs, 'showError')
+		jest.spyOn(ncDialogs, 'showError').mockImplementation(async () => ({}))
 
 		const file = new File({
 			id: 1,

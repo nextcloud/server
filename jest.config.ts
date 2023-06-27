@@ -55,6 +55,10 @@ const config: Config = {
 		// process `*.js` files with `babel-jest`
 		'^.+\\.js$': 'babel-jest',
 		'^.+\\.vue$': '@vue/vue2-jest',
+		'^.+\\.ts$': ['ts-jest', {
+			// @see https://github.com/kulshekhar/ts-jest/issues/4081
+			tsconfig: './__tests__/tsconfig.json',
+		}],
 	},
 	transformIgnorePatterns: [
 		'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
