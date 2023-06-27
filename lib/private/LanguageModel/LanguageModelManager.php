@@ -68,7 +68,7 @@ class LanguageModelManager implements ILanguageModelManager {
 		if ($context === null) {
 			return false;
 		}
-		return !empty($context->getSpeechToTextProviders());
+		return count($context->getSpeechToTextProviders()) > 0;
 	}
 
 	/**
@@ -93,7 +93,7 @@ class LanguageModelManager implements ILanguageModelManager {
 	}
 
 	public function canHandleTask(ILanguageModelTask $task): bool {
-		return !empty(array_filter($this->getAvailableTasks(), fn ($class) => $task instanceof $class));
+		return count(array_filter($this->getAvailableTasks(), fn ($class) => $task instanceof $class)) > 0;
 	}
 
 	/**
