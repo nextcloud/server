@@ -58,10 +58,6 @@ class Result extends BaseResult {
 	public $fileName;
 
 	/**
-	 * @param string $search
-	 * @param IComment $comment
-	 * @param string $authorName
-	 * @param string $path
 	 * @throws NotFoundException
 	 * @deprecated 20.0.0
 	 */
@@ -70,7 +66,7 @@ class Result extends BaseResult {
 								string $authorName,
 								string $path) {
 		parent::__construct(
-			(int) $comment->getId(),
+			$comment->getId(),
 			$comment->getMessage()
 		/* @todo , [link to file] */
 		);
@@ -83,8 +79,6 @@ class Result extends BaseResult {
 	}
 
 	/**
-	 * @param string $path
-	 * @return string
 	 * @throws NotFoundException
 	 */
 	protected function getVisiblePath(string $path): string {
@@ -98,9 +92,6 @@ class Result extends BaseResult {
 	}
 
 	/**
-	 * @param string $message
-	 * @param string $search
-	 * @return string
 	 * @throws NotFoundException
 	 */
 	protected function getRelevantMessagePart(string $message, string $search): string {

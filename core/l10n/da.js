@@ -119,7 +119,6 @@ OC.L10N.register(
     "The \"{header}\" HTTP header does not contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-hovedet \"{header}\" mangler \"{expected}\". Dette er en potentiel sikkerhedsrisiko. Det er anbefalet at du justerer denne indstilling.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "HTTP-headeren \"{header}\" er ikke indstillet til \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" eller \"{val5}\". Dette kan lække henvisningsoplysninger. Se {linkstart}W3C-anbefalingen ↗{linkend}.",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "HTTP-headeren \"Strict-Transport-Security\" er ikke indstillet til mindst \"{seconds}\" sekunder. For øget sikkerhed anbefales det at aktivere HSTS som beskrevet i {linkstart}sikkerhedstip ↗{linkend}.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Adgang til webstedet usikkert via HTTP. Du rådes kraftigt til at konfigurere din server til at kræve HTTPS i stedet, som beskrevet i {linkstart}sikkerhedstip ↗{linkend}.",
     "unknown text" : "ukendt tekst",
     "Hello world!" : "Hej verden!",
     "sunny" : "solrigt",
@@ -391,7 +390,6 @@ OC.L10N.register(
     "Detailed logs" : "Detaljerede logs",
     "Update needed" : "Opdatering nødvendig",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Brug venligst kommandolinje til at opdatere fordi du har en stor installation med mere end 50 brugere",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Benyt kommandolinjen til at opdatere, da automatisk opdatering er slået fra i config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "For hjælp, se  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentation</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Jeg ved at hvis jeg fortsætter med at bruge opdateringssystemet via denne web forbindelse risikerer jeg at der opstår en timeout og jeg dermed mister mine data. Men jeg har et en backuip og ved hvordan jeg kan genindlæse den hvis det sker",
     "Upgrade via web on my own risk" : "Opdatering via web er på mit eget ansvar.",
@@ -406,6 +404,7 @@ OC.L10N.register(
     "Settings" : "Indstillinger",
     "File not found" : "Filen blev ikke fundet",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentet kunne ikke findes på serveren. Måske er det slettet, eller udløbet?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Benyt kommandolinjen til at opdatere, da automatisk opdatering er slået fra i config.php.",
     "The page could not be found on the server." : "Siden kunne ikke findes på serveren."
 },
 "nplurals=2; plural=(n != 1);");

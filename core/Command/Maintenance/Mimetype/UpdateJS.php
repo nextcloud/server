@@ -31,13 +31,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateJS extends Command {
-	protected IMimeTypeDetector $mimetypeDetector;
-
 	public function __construct(
-		IMimeTypeDetector $mimetypeDetector
+		protected IMimeTypeDetector $mimetypeDetector,
 	) {
 		parent::__construct();
-		$this->mimetypeDetector = $mimetypeDetector;
 	}
 
 	protected function configure() {

@@ -12,7 +12,7 @@ OC.L10N.register(
     "No data specified" : "未指定数据",
     " Could not set configuration %s" : " 无法设定配置文件 %s",
     "Action does not exist" : "操作不存在",
-    "Renewing …" : "正在更新…",
+    "Renewing …" : "正在更新……",
     "Very weak password" : "非常弱的密码",
     "Weak password" : "弱密码",
     "So-so password" : "一般的密码",

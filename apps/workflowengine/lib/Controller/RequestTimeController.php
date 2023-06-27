@@ -26,7 +26,7 @@ namespace OCA\WorkflowEngine\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 
-class RequestTime extends Controller {
+class RequestTimeController extends Controller {
 
 	/**
 	 * @NoAdminRequired

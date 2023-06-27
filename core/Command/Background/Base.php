@@ -38,11 +38,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class Base extends Command {
 	abstract protected function getMode();
-	protected IConfig $config;
 
-	public function __construct(IConfig $config) {
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
-		$this->config = $config;
 	}
 
 	protected function configure() {

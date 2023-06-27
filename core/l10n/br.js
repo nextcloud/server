@@ -293,7 +293,6 @@ OC.L10N.register(
     "Detailed logs" : "Kazetenn munudet",
     "Update needed" : "Un adnevezadur ez eu ezhomp",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Mar-plij, implijit al linnen-urz adneveziñ peogwir m'az eo brazh o azgoulenn gant muioc'h eget 50 implijer.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Mar-plij, implijit al linenn-urzh adneveziñ peogwir eo disaotreet an adneveziñ otomatek e-barzh config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Evit kavout skoazel, sellit ouzh an <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dielvadur</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Gouzout a rañ eo posupl m'a kendalc'hañ an adnevezaden gant web UI, m'az afe va goulenn en un timeout hag e c'hell koll roadennoù, mes ur backup am eus ha gouzout a rañ penaos adkrouiñ va azgoulenn m'a vez c'huitet.",
     "Upgrade via web on my own risk" : "Adnevesaat dre ar web gant va rislkoù d'in me nemetken",
@@ -304,6 +303,7 @@ OC.L10N.register(
     "If it is not there ask your local administrator." : "M'a n'eo ket amañ, goulennit o merour lec'h.",
     "Settings" : "Arventennoù",
     "File not found" : "N'eo ket bet kavet ar restr",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "N'eo ket posuple kavout ar ragtress war ar servijour. Marteze eo re gozh pe ez eo bet lammet ar rannadenn."
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "N'eo ket posuple kavout ar ragtress war ar servijour. Marteze eo re gozh pe ez eo bet lammet ar rannadenn.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Mar-plij, implijit al linenn-urzh adneveziñ peogwir eo disaotreet an adneveziñ otomatek e-barzh config.php."
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

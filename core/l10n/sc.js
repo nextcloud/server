@@ -101,7 +101,6 @@ OC.L10N.register(
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "S'intestatzione HTTP \"{header}\" no est impostada in \"{expected}\". Calicunu elementu diat pòdere no funtzionare in sa manera curreta, tando est cussigiadu a arrangiare cust'impostatzione de cunsighèntzia.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "S'intestatzione HTTP \"{header}\" no est impostada cun \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" o \"{val5}\". Custu podet fàghere essire informatziones de s'orìgine. Càstia sa {linkstart}W3C 1Racumandatzione ↗{linkend}.",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "S'intestatzione HTTP \"Seguresa-Strinta-deTràmuda\" no est impostada pro a su mancu \"{segundos}\" segundos. Pro megiorare sa seguresa, est cussigiadu a ativare HSST comente descritu in is {linkstart}impòsitos de seguresa ↗{linkend}.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "S'atzessu a custu situ HTTP no est seguru. Ti racumandamus de impostare su serbidore pro rechèdere su HTTPS, comente descritu in is {linkstart}impòsitos de seguresa ↗{linkend}.",
     "unknown text" : "testu disconnotu",
     "Hello world!" : "Salude mundu!",
     "sunny" : "solianu",
@@ -343,7 +342,6 @@ OC.L10N.register(
     "Detailed logs" : "Registros detalliados",
     "Update needed" : "Tocat de agiornare",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Imprea s'atualizadore a lìnia de cummandu ca tenes un'istàntzia manna cun prus de 50 utentes.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Imprea s'atualizadore a lìnia de cummandu ca s'agiornamentu automàticu est disativadu in sa config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Pro agiudos, càstia sa  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentatzione</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Giai dd'isco ca chi sigu cun s'agiornamentu via internet UI ddoe at s'arriscu chi sa rechesta arribet a una pasada e podet causare sa pèrdida de is datos, ma tèngio una còpia de seguresa e isco comente recuperare s'istàntzia in casu de errore.",
     "Upgrade via web on my own risk" : "Agiorna via web suta responsabilidade mia",
@@ -355,6 +353,7 @@ OC.L10N.register(
     "If it is not there ask your local administrator." : "Si no est in cue, dimanda a s'amministratzione locale tua.",
     "Settings" : "Cunfiguratziones",
     "File not found" : "Archìviu no agatadu",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Su documentu non s'est agatadu in su serbidore. Mancari sa cumpartzidura nch'est istada cantzellada o est iscadida?"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Su documentu non s'est agatadu in su serbidore. Mancari sa cumpartzidura nch'est istada cantzellada o est iscadida?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Imprea s'atualizadore a lìnia de cummandu ca s'agiornamentu automàticu est disativadu in sa config.php."
 },
 "nplurals=2; plural=(n != 1);");

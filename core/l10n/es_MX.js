@@ -79,7 +79,6 @@ OC.L10N.register(
     "Error occurred while checking server setup" : "Se presentó un error al verificar la configuración del servidor",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "El encabezado HTTP \"{header}\" está establecido a \"{expected}\". Esto representa un riesgo potencial de seguridad o privacidad, y que se recomienda ajustar esta configuración. ",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "El encabezado HTTP \"{header}\" no está establecido a \"{expected}\". Puede que lgunas características no funcionen correctamente, y se recomienda ajustar esta confirguración. ",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Se está accediendo al sitio de manera insegura mediante HTTP. Se recomienda ampliamente que configure su servidor para que requiera HTTPS, como se describe en los {linkstart}consejos de seguridad ↗{linkend}.",
     "unknown text" : "texto desconocido",
     "Hello world!" : "¡Hola mundo!",
     "sunny" : "soleado",
@@ -270,7 +269,6 @@ OC.L10N.register(
     "Detailed logs" : "Bitácoras detalladas",
     "Update needed" : "Se requiere de una actualización",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Favor de usar el actualizador desde la línea de comandos ya que tu instancia cuenta con más de 50 usuarios.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Para más ayuda, por favor consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentación</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Estoy conciente de que si continúo haciendo la actualización vía web, la interfaz de usuario corre el riesgo de que el tiempo de la solicitud expire y cause pérdida de datos, pero cuento con un respaldo y sé como restaurar mi instancia en caso de una falla. ",
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
@@ -279,6 +277,7 @@ OC.L10N.register(
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Se envió un mensaje para reestablecer la contraseña a la dirección de correo electrónico de esta cuenta. Si no lo recibes, comprueba si está en el buzón de Correo No Deseado/Spam o pide ayuda a tu administrador local.",
     "If it is not there ask your local administrator." : "Si no está ahí ponte en contacto con el administrador local",
     "Settings" : "Configuraciones ",
-    "File not found" : "Archivo no encontrado"
+    "File not found" : "Archivo no encontrado",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

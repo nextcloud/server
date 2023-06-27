@@ -314,7 +314,6 @@ OC.L10N.register(
     "Detailed logs" : "יומן מפורט",
     "Update needed" : "עדכון נדרש",
     "Please use the command line updater because you have a big instance with more than 50 users." : "נא להשתמש בתכנית העדכון משורת הפקודה כיוון שיש לך עותק גדול עם למעלה מ־50 משתמשים.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "יש להשתמש בעדכון על בסיס שורת פקודה כיוון שעדכון אוטומטי מנוטרל בקובץ config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "לעזרה יש לעיין ב<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">תיעוד</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "ידוע לי שאם אמשיך דרך מנשק הדפדפן אהיה חשוף לסכנה, שהבקשה עשויה להיקלע לחוסר מענה וכתוצאה מכך אבדן נתונים, אך יש לי גיבוי וידוע לי איך לשחזר את העותק שלי במקרה של כשל.",
     "Upgrade via web on my own risk" : "השדרוג דרך האינטרנט הוא על אחריותי",
@@ -325,6 +324,7 @@ OC.L10N.register(
     "If it is not there ask your local administrator." : "אם זה לא נמצא, שאל את המנהל המקומי שלך.",
     "Settings" : "הגדרות",
     "File not found" : "קובץ לא נמצא",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "לא ניתן למצוא את המסמך בשרת. יכול להיות שהשיתוף נמחק או פג?"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "לא ניתן למצוא את המסמך בשרת. יכול להיות שהשיתוף נמחק או פג?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "יש להשתמש בעדכון על בסיס שורת פקודה כיוון שעדכון אוטומטי מנוטרל בקובץ config.php."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -40,6 +40,7 @@ use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
@@ -57,6 +58,7 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use Psr\Log\LoggerInterface;
 
 class FileEventsListener implements IEventListener {
 	private IRootFolder $rootFolder;
@@ -74,15 +76,18 @@ class FileEventsListener implements IEventListener {
 	 */
 	private array $versionsDeleted = [];
 	private IMimeTypeLoader $mimeTypeLoader;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		IRootFolder $rootFolder,
 		VersionsMapper $versionsMapper,
-		IMimeTypeLoader $mimeTypeLoader
+		IMimeTypeLoader $mimeTypeLoader,
+		LoggerInterface $logger,
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->versionsMapper = $versionsMapper;
 		$this->mimeTypeLoader = $mimeTypeLoader;
+		$this->logger = $logger;
 	}
 
 	public function handle(Event $event): void {
@@ -226,24 +231,37 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		if ($writeHookInfo['versionCreated'] && $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()) {
+		if (
+			($writeHookInfo['versionCreated'] || $writeHookInfo['previousNode']->getSize() === 0) &&
+			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
+		) {
 			// If a new version was created, insert a version in the DB for the current content.
 			// Unless both versions have the same mtime.
-			$versionEntity = new VersionEntity();
-			$versionEntity->setFileId($node->getId());
-			$versionEntity->setTimestamp($node->getMTime());
-			$versionEntity->setSize($node->getSize());
-			$versionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-			$versionEntity->setMetadata([]);
-			$this->versionsMapper->insert($versionEntity);
+			$this->created($node);
 		} else {
-			// If no new version was stored in the FS, no new version should be added in the DB.
-			// So we simply update the associated version.
-			$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
-			$currentVersionEntity->setTimestamp($node->getMTime());
-			$currentVersionEntity->setSize($node->getSize());
-			$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-			$this->versionsMapper->update($currentVersionEntity);
+			try {
+				// If no new version was stored in the FS, no new version should be added in the DB.
+				// So we simply update the associated version.
+				$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
+				$currentVersionEntity->setTimestamp($node->getMTime());
+				$currentVersionEntity->setSize($node->getSize());
+				$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
+				$this->versionsMapper->update($currentVersionEntity);
+			} catch (Exception $e) {
+				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
+					'exception' => $e,
+					'versionCreated' => $writeHookInfo['versionCreated'],
+					'previousNode' => [
+						'size' => $writeHookInfo['previousNode']->getSize(),
+						'mtime' => $writeHookInfo['previousNode']->getMTime(),
+					],
+					'node' => [
+						'size' => $node->getSize(),
+						'mtime' => $node->getMTime(),
+					]
+				]);
+				throw $e;
+			}
 		}
 
 		unset($this->writeHookInfo[$node->getId()]);

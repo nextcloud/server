@@ -19,6 +19,7 @@ OC.L10N.register(
     "Disconnect" : "Ühenda lahti",
     "Admin defined" : "Admini poolt määratud",
     "Saved" : "Salvestatud",
+    "Saving …" : "Salvestamine …",
     "Save" : "Salvesta",
     "Empty response from the server" : "Tühi vastus serverilt",
     "Couldn't get the list of external mount points: {type}" : "Välise ühenduspunkti hankimine ebaõnnestus: {type}",

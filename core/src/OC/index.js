@@ -29,6 +29,7 @@ import {
 	processAjaxError,
 	registerXHRForErrorProcessing,
 } from './xhr-error.js'
+import Apps from './apps.js'
 import { AppConfig, appConfig } from './appconfig.js'
 import appswebroots from './appswebroots.js'
 import Backbone from './backbone.js'
@@ -135,7 +136,7 @@ export default {
 	 * @deprecated 17.0.0
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
-
+	Apps,
 	AppConfig,
 	appConfig,
 	appswebroots,

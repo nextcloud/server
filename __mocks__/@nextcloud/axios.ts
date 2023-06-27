@@ -1,7 +1,7 @@
 /**
- * @copyright 2021 François Freitag <mail@franek.fr>
+ * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author François Freitag <mail@franek.fr>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,5 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import '@testing-library/jest-dom'
+export default {
+	delete: async () => ({ status: 200, data: {} }),
+	post: async () => ({ status: 200, data: {} }),
+}

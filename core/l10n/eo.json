@@ -321,7 +321,6 @@
     "Detailed logs" : "Detalaj protokoloj",
     "Update needed" : "Bezonas ĝisdatigi",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Bv. uzi la komandlinian ĝisdatigilon, ĉar vi havas pli da 50 uzantojn en tiu servilo.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Bv. uzi komandlinian ĝisdatigilon, ĉar aŭtomata ĝisdatigo estas malebligita en la dosiero „config.php“.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Vidu la  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaron</a> por helpo.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Mi scias, ke, se mi daŭrigas la ĝisdatigon per la reteja fasado, estas risko, ke la peto eltempiĝos kaj okazigos perdon de datumoj. Sed, mi havas sekurkopion kaj scias, kiel restaŭri mian servilon okaze de paneo.",
     "Upgrade via web on my own risk" : "Ĝisdatigi per reteja fasado je mia risko",
@@ -332,6 +331,7 @@
     "If it is not there ask your local administrator." : "Se tio ne estas tie, kontaktu vian lokan administranton.",
     "Settings" : "Agordo",
     "File not found" : "Dosiero ne troviĝis",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?"
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Bv. uzi komandlinian ĝisdatigilon, ĉar aŭtomata ĝisdatigo estas malebligita en la dosiero „config.php“."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

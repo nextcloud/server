@@ -331,7 +331,6 @@
     "Detailed logs" : "Jornals detalhats",
     "Update needed" : "Mesa a jorn requerida",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Mercés d’utilizar l’aisina de mesa a jorn en linha de comanda s’avètz una brava instància de mai de 50 utilizaires.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Mercés d’utilizar l’actualizador en linha de comanda perque la mesa a jorn automatica es desactivada dins lo config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Per d’ajuda, vejatz la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentacion</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sabi que se contunhi la mesa a jorn via l’interfàcia web i a un risc, que la requèsta s’execute e despasse lo delai e poiriá causar una pèrda de donadas, mas ai una salvagarda de seguretat e sabi cossí restaurar mon instància en cas de fracàs.",
     "Upgrade via web on my own risk" : "Accèpti lo risc de metre a nivèl",
@@ -344,6 +343,7 @@
     "Settings" : "Paramètres",
     "File not found" : "Fichièr pas trobat",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Lo document es pas trobable sul servidor. Benlèu que lo partiment foguèt suprimit o a expirat ?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Mercés d’utilizar l’actualizador en linha de comanda perque la mesa a jorn automatica es desactivada dins lo config.php.",
     "The page could not be found on the server." : "Se podiá pas trobar la pagina sul servidor."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

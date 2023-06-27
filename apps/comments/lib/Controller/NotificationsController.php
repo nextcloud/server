@@ -38,11 +38,11 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 
 /**
- * Class Notifications
+ * Class NotificationsController
  *
  * @package OCA\Comments\Controller
  */
-class Notifications extends Controller {
+class NotificationsController extends Controller {
 
 	protected IRootFolder $rootFolder;
 	protected ICommentsManager $commentsManager;
@@ -51,7 +51,7 @@ class Notifications extends Controller {
 	protected IUserSession $userSession;
 
 	/**
-	 * Notifications constructor.
+	 * NotificationsController constructor.
 	 */
 	public function __construct(
 		string $appName,

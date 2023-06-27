@@ -51,34 +51,19 @@ class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
 
-	private LoginFlowV2Service $loginFlowV2Service;
-	private IURLGenerator $urlGenerator;
-	private IUserSession $userSession;
-	private ISession $session;
-	private ISecureRandom $random;
-	private Defaults $defaults;
-	private ?string $userId;
-	private IL10N $l10n;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								LoginFlowV2Service $loginFlowV2Service,
-								IURLGenerator $urlGenerator,
-								ISession $session,
-								IUserSession $userSession,
-								ISecureRandom $random,
-								Defaults $defaults,
-								?string $userId,
-								IL10N $l10n) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoginFlowV2Service $loginFlowV2Service,
+		private IURLGenerator $urlGenerator,
+		private ISession $session,
+		private IUserSession $userSession,
+		private ISecureRandom $random,
+		private Defaults $defaults,
+		private ?string $userId,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->loginFlowV2Service = $loginFlowV2Service;
-		$this->urlGenerator = $urlGenerator;
-		$this->session = $session;
-		$this->userSession = $userSession;
-		$this->random = $random;
-		$this->defaults = $defaults;
-		$this->userId = $userId;
-		$this->l10n = $l10n;
 	}
 
 	/**

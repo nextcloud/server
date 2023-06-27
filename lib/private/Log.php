@@ -38,15 +38,18 @@ namespace OC;
 
 use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
-use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\Log\IDataLogger;
-use Throwable;
-use function array_merge;
-use OC\Log\ExceptionSerializer;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUserSession;
+use OCP\Log\BeforeMessageLoggedEvent;
+use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Log\ExceptionSerializer;
+use Throwable;
+use function array_merge;
 use function strtr;
 
 /**
@@ -64,6 +67,7 @@ class Log implements ILogger, IDataLogger {
 	private ?bool $logConditionSatisfied = null;
 	private ?Normalizer $normalizer;
 	private ?IRegistry $crashReporters;
+	private ?IEventDispatcher $eventDispatcher;
 
 	/**
 	 * @param IWriter $logger The logger that should be used
@@ -71,7 +75,12 @@ class Log implements ILogger, IDataLogger {
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct(IWriter $logger, SystemConfig $config = null, Normalizer $normalizer = null, IRegistry $registry = null) {
+	public function __construct(
+		IWriter $logger,
+		SystemConfig $config = null,
+		Normalizer $normalizer = null,
+		IRegistry $registry = null
+	) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
@@ -85,6 +94,11 @@ class Log implements ILogger, IDataLogger {
 			$this->normalizer = $normalizer;
 		}
 		$this->crashReporters = $registry;
+		$this->eventDispatcher = null;
+	}
+
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -203,6 +217,10 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
 
+		if ($this->eventDispatcher) {
+			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
+		}
+
 		try {
 			if ($level >= $minLevel) {
 				$this->writeLog($app, $entry, $level);
@@ -257,10 +275,13 @@ class Log implements ILogger, IDataLogger {
 
 				// check for user
 				if (isset($logCondition['users'])) {
-					$user = \OC::$server->getUserSession()->getUser();
+					$user = \OCP\Server::get(IUserSession::class)->getUser();
 
-					// if the user matches set the log condition to satisfied
-					if ($user !== null && in_array($user->getUID(), $logCondition['users'], true)) {
+					if ($user === null) {
+						// User is not known for this request yet
+						$this->logConditionSatisfied = null;
+					} elseif (in_array($user->getUID(), $logCondition['users'], true)) {
+						// if the user matches set the log condition to satisfied
 						$this->logConditionSatisfied = true;
 					}
 				}
@@ -321,6 +342,10 @@ class Log implements ILogger, IDataLogger {
 
 
 		array_walk($context, [$this->normalizer, 'format']);
+
+		if ($this->eventDispatcher) {
+			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
+		}
 
 		try {
 			if ($level >= $minLevel) {

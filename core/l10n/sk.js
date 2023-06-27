@@ -117,7 +117,6 @@ OC.L10N.register(
     "The \"{header}\" HTTP header does not contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Hlavička HTTP \"{header}\" neobsahuje \"{expected}\". Toto je potenciálne riziko pre bezpečnosť alebo ochranu osobných údajov a preto odporúčame toto nastavenie adekvátne upraviť.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "Hlavička HTTP „{header}“ nie je nastavená na „{val1}“, „{val2}“, „{val3}“, „{val4}“ alebo „{val5}“. To môže spôsobiť únik referer informácie. Prečítajte si {linkstart} odporúčanie W3C ↗{linkend}.",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "Hlavička HTTP „Strict-Transport-Security“ nie je nastavená na minimálne „{seconds}“ sekúnd. Kvôli zvýšenému zabezpečeniu sa odporúča povoliť HSTS, ako je popísané v {linkstart} bezpečnostných tipoch ↗{linkend}.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Prístup na túto stránku sa uskutočňuje prostredníctvom nezabezpečeného protokolu HTTP. Dôrazne sa odporúča nastaviť server tak, aby namiesto toho vyžadoval protokol HTTPS, ako je uvedené v {linkstart} bezpečnostných tipoch ↗{linkend}.",
     "unknown text" : "neznámy text",
     "Hello world!" : "Ahoj svet!",
     "sunny" : "slnečno",
@@ -386,7 +385,6 @@ OC.L10N.register(
     "Detailed logs" : "Podrobné záznamy",
     "Update needed" : "Aktualizácia je potrebná",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Použite aktualizátor z príkazového riadka, pretože máte veľkú inštanciu s viac ako 50 používateľmi.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Automatická aktualizácia je zakázaná v config.php, použite prosím aktualizáciu cez príkazový riadok.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Pre pomoc si pozrite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentáciu</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Viem, že ak budem pokračovať v aktualizácii prostredníctvom webového rozhrania, existuje riziko, že žiadosť prekročí časový limit a môže spôsobiť stratu dát, ale mám zálohu a viem, ako obnoviť svoju inštanciu v prípade zlyhania.",
     "Upgrade via web on my own risk" : "Aktualizovať cez web na vlastné riziko",
@@ -401,6 +399,7 @@ OC.L10N.register(
     "Settings" : "Nastavenia",
     "File not found" : "Súbor nenájdený",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Na serveri sa nepodarilo nájsť dokument. Je možné, že bolo zrušené sprístupnenie alebo skončila jeho platnosť.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Automatická aktualizácia je zakázaná v config.php, použite prosím aktualizáciu cez príkazový riadok.",
     "The page could not be found on the server." : "Stránka nebola nájdená na serveri."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

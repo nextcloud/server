@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2020 Marco Ambrosini <marcoambrosini@pm.me>
  *
  * @author Marco Ambrosini <marcoambrosini@pm.me>
@@ -19,42 +19,55 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { Config } from 'jest'
 
 // TODO: find a way to consolidate this in one place, with webpack.common.js
 const ignorePatterns = [
-	'vue-material-design-icons',
 	'@juliushaertl',
-	'tributejs',
+	'@mdi/svg',
 	'@nextcloud/vue',
+	'ansi-regex',
+	'char-regex',
 	'splitpanes',
 	'string-length',
 	'strip-ansi',
-	'ansi-regex',
-	'char-regex',
+	'tributejs',
+	'vue-material-design-icons',
 ]
 
-module.exports = {
-	testMatch: ['<rootDir>/apps/*/src/**/*.(spec|test).(ts|js)'],
-	modulePathIgnorePatterns: ["<rootDir>/apps-extra/"],
-	transformIgnorePatterns: [
-		'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
-	],
-    setupFilesAfterEnv: ['<rootDir>/tests/jestSetup.js'],
-	resetMocks: false,
-	collectCoverageFrom: [
-		'<rootDir>/apps/*/src/**/*.{js,vue}',
-	],
+const config: Config = {
+	testMatch: ['<rootDir>/**/*.(spec|test).(ts|js)'],
+
+	clearMocks: true,
+	setupFilesAfterEnv: ['<rootDir>/__tests__/jest-setup.ts'],
 
 	testEnvironment: 'jest-environment-jsdom',
+	preset: 'ts-jest/presets/js-with-ts',
 
-	moduleFileExtensions: [
-		'js',
-		'vue',
+	roots: [
+		'<rootDir>/__mocks__',
+		'<rootDir>/__tests__',
+		'<rootDir>/apps',
+		'<rootDir>/core',
 	],
 
 	transform: {
 		// process `*.js` files with `babel-jest`
-		'.*\\.(js)$': 'babel-jest',
+		'^.+\\.js$': 'babel-jest',
 		'^.+\\.vue$': '@vue/vue2-jest',
 	},
+	transformIgnorePatterns: [
+		'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
+	],
+
+	// Allow mocking svg files
+	moduleNameMapper: {
+		'^.+\\.svg(\\?raw)?$': '<rootDir>/__mocks__/svg.js',
+	},
+	modulePathIgnorePatterns: [
+		'<rootDir>/apps2/',
+		'<rootDir>/apps-extra/',
+	],
 }
+
+export default config

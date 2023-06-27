@@ -116,7 +116,6 @@ OC.L10N.register(
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "L'intestazione HTTP \"{header}\" non è configurata come \"{expected}\". Alcune funzionalità potrebbero non funzionare correttamente e ti consigliamo di modificare questa impostazione.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "L'intestazione HTTP \"{header}\" non è impostata a \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" o \"{val5}\". Ciò può far trapelare informazioni sul referer. Vedi la {linkstart}W3C Recommendation ↗{linkend}.",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "L'intestazione HTTP \"Strict-Transport-Security\" non è configurata con un valore di almeno \"{seconds}\" secondi. Per migliorare la sicurezza, consigliamo di abilitare HSTS come descritto nei {linkstart}consigli sulla sicurezza ↗{linkend}.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Sei connesso a questo sito in modo non sicuro tramite HTTP. Ti consigliamo vivamente di configurare il tuo server per richiedere invece HTTPS, come descritto nei {linkstart}consigli sulla sicurezza ↗{linkend}.",
     "unknown text" : "testo sconosciuto",
     "Hello world!" : "Ciao mondo!",
     "sunny" : "soleggiato",
@@ -384,7 +383,6 @@ OC.L10N.register(
     "Detailed logs" : "Log dettagliati",
     "Update needed" : "Aggiornamento necessario",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Utilizza lo strumento di aggiornamento da riga di comando perché hai un'istanza grande con più di 50 utenti.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Utilizza lo strumento da riga di comando poiché l'aggiornamento automatico è disabilitato nel file config.php.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Per la guida, vedi la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentazione</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sono consapevole che, procedendo con l'aggiornamento tramite interfaccia web, esista il rischio che la richiesta possa scadere e causare perdite di dati, ma ho una copia di sicurezza e so come ripristinare la mia istanza in caso di problemi.",
     "Upgrade via web on my own risk" : "Aggiorna tramite web a mio rischio",
@@ -398,6 +396,7 @@ OC.L10N.register(
     "Settings" : "Impostazioni",
     "File not found" : "File non trovato",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Il documento non può essere trovato sul server. Forse la condivisione è stata eliminata o è scaduta?",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Utilizza lo strumento da riga di comando poiché l'aggiornamento automatico è disabilitato nel file config.php.",
     "The page could not be found on the server." : "Impossibile trovare la pagina sul server."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

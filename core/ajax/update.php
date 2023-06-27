@@ -103,7 +103,7 @@ class FeedBackHandler {
 if (\OCP\Util::needUpgrade()) {
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
-		$eventSource->send('failure', $l->t('Please use the command line updater because updating via the browser is disabled in your config.php.'));
+		$eventSource->send('failure', $l->t('Please use the command line updater because updating via browser is disabled in your config.php.'));
 		$eventSource->close();
 		exit();
 	}

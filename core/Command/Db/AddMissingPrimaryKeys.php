@@ -45,14 +45,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core\Command\Db
  */
 class AddMissingPrimaryKeys extends Command {
-	private Connection $connection;
-	private EventDispatcherInterface $dispatcher;
-
-	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(
+		private Connection $connection,
+		private EventDispatcherInterface $dispatcher,
+	) {
 		parent::__construct();
-
-		$this->connection = $connection;
-		$this->dispatcher = $dispatcher;
 	}
 
 	protected function configure() {

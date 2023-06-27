@@ -104,14 +104,13 @@ OC.L10N.register(
     "Documentation" : "Documentation",
     "Forum" : "Foro",
     "Login" : "Login",
-    "SSL/TLS" : "SSL/TLS",
     "Open documentation" : "Aperir documentation",
     "Send mode" : "Modo de invio",
     "Encryption" : "Cryptographia",
     "From address" : "De adresse",
     "Server address" : "Adresse del servitor",
     "Port" : "Porto",
-    "Authentication method" : "Methodo de authentication",
+    "Authentication" : "Authentication",
     "Authentication required" : "Authentication requirite",
     "Credentials" : "Datos de authentication",
     "SMTP Username" : "Nomine de usator SMTP",
@@ -124,6 +123,8 @@ OC.L10N.register(
     "Enforce password protection" : "Exiger protection per contrasigno",
     "Set default expiration date" : "Assignar data predefinite de expiration",
     "png or jpg, max. 20 MB" : "formato png o jpg, dimension maxime 20 MB",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Methodo de authentication"
 },
 "nplurals=2; plural=(n != 1);");

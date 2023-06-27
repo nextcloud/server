@@ -29,6 +29,7 @@ namespace OC\Files\Node;
 use OC\Files\Utils\PathHelper;
 use OCP\Files\Folder;
 use OCP\Constants;
+use OCP\Files\Mount\IMountPoint;
 
 /**
  * Class LazyFolder
@@ -111,14 +112,14 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	/**
-	 * @inheritDoc
+	 * @return IMountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

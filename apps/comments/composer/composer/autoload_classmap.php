@@ -14,7 +14,7 @@ return array(
     'OCA\\Comments\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Comments\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\Comments\\Collaboration\\CommentersSorter' => $baseDir . '/../lib/Collaboration/CommentersSorter.php',
-    'OCA\\Comments\\Controller\\Notifications' => $baseDir . '/../lib/Controller/Notifications.php',
+    'OCA\\Comments\\Controller\\NotificationsController' => $baseDir . '/../lib/Controller/NotificationsController.php',
     'OCA\\Comments\\EventHandler' => $baseDir . '/../lib/EventHandler.php',
     'OCA\\Comments\\Listener\\CommentsEntityEventListener' => $baseDir . '/../lib/Listener/CommentsEntityEventListener.php',
     'OCA\\Comments\\Listener\\LoadAdditionalScripts' => $baseDir . '/../lib/Listener/LoadAdditionalScripts.php',

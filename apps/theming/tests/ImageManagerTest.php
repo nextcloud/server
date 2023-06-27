@@ -390,4 +390,30 @@ class ImageManagerTest extends TestCase {
 
 		$this->imageManager->updateImage($key, $tmpFile);
 	}
+
+	public function testUnsupportedImageType(): void {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Unsupported image type: text/plain');
+
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$oldFile = $this->createMock(ISimpleFile::class);
+
+		$folder->expects($this->any())
+			->method('getFile')
+			->willReturn($oldFile);
+
+		$this->rootFolder
+			->expects($this->any())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('favicon')
+			->willReturn($file);
+
+		$this->imageManager->updateImage('favicon', __DIR__ . '/../../../tests/data/lorem.txt');
+	}
 }

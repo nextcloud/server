@@ -134,14 +134,14 @@
     "Documentation" : "Dokumentācija",
     "Forum" : "Forums",
     "Login" : "Autorizēties",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Atvērt dokumentāciju",
     "Send mode" : "Sūtīšanas metode",
     "Encryption" : "Šifrēšana",
     "From address" : "No adreses",
     "Server address" : "Servera adrese",
     "Port" : "Ports",
-    "Authentication method" : "Autentifikācijas metode",
+    "Authentication" : "Autentifikācija",
     "Authentication required" : "Nepieciešama autentifikācija",
     "Credentials" : "Akreditācijas dati",
     "SMTP Username" : "SMTP lietotājvārds",
@@ -163,7 +163,8 @@
     "png or jpg, max. 20 MB" : "png vai jpg, max. 20 MB",
     "Plain" : "vienkāršs teksts",
     "NT LAN Manager" : "NT LAN Pārvaldnieks",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
-    "Avatar" : "Profila attēls"
+    "Authentication method" : "Autentifikācijas metode"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

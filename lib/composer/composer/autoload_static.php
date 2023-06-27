@@ -522,6 +522,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Lock\\ManuallyLockedException' => __DIR__ . '/../../..' . '/lib/public/Lock/ManuallyLockedException.php',
         'OCP\\Lockdown\\ILockdownManager' => __DIR__ . '/../../..' . '/lib/public/Lockdown/ILockdownManager.php',
         'OCP\\Log\\Audit\\CriticalActionPerformedEvent' => __DIR__ . '/../../..' . '/lib/public/Log/Audit/CriticalActionPerformedEvent.php',
+        'OCP\\Log\\BeforeMessageLoggedEvent' => __DIR__ . '/../../..' . '/lib/public/Log/BeforeMessageLoggedEvent.php',
         'OCP\\Log\\IDataLogger' => __DIR__ . '/../../..' . '/lib/public/Log/IDataLogger.php',
         'OCP\\Log\\IFileBased' => __DIR__ . '/../../..' . '/lib/public/Log/IFileBased.php',
         'OCP\\Log\\ILogFactory' => __DIR__ . '/../../..' . '/lib/public/Log/ILogFactory.php',

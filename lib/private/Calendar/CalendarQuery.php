@@ -28,33 +28,24 @@ namespace OC\Calendar;
 use OCP\Calendar\ICalendarQuery;
 
 class CalendarQuery implements ICalendarQuery {
-	/** @var string */
-	private $principalUri;
+	public array $searchProperties = [];
 
-	/** @var array */
-	public $searchProperties;
+	private ?string $searchPattern;
 
-	/** @var string|null */
-	private $searchPattern;
+	private array $options = [
+		'types' => [],
+	];
 
-	/** @var array */
-	private $options;
+	private ?int $offset;
 
-	/** @var int|null */
-	private $offset;
-
-	/** @var int|null */
-	private $limit;
+	private ?int $limit;
 
 	/** @var string[] */
-	private $calendarUris = [];
+	private array $calendarUris = [];
 
-	public function __construct(string $principalUri) {
-		$this->principalUri = $principalUri;
-		$this->searchProperties = [];
-		$this->options = [
-			'types' => [],
-		];
+	public function __construct(
+		private string $principalUri,
+	) {
 	}
 
 	public function getPrincipalUri(): string {

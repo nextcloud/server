@@ -39,11 +39,11 @@ interface FileActionData {
 	/** Unique ID */
 	id: string
 	/** Translatable string displayed in the menu */
-	displayName: (files: Node[], view) => string
+	displayName: (files: Node[], view: Navigation) => string
 	/** Svg as inline string. <svg><path fill="..." /></svg> */
-	iconSvgInline: (files: Node[], view) => string
+	iconSvgInline: (files: Node[], view: Navigation) => string
 	/** Condition wether this action is shown or not */
-	enabled?: (files: Node[], view) => boolean
+	enabled?: (files: Node[], view: Navigation) => boolean
 	/**
 	 * Function executed on single file action
 	 * @returns true if the action was executed, false otherwise
@@ -64,12 +64,12 @@ interface FileActionData {
 	/**
 	 * If true, the renderInline function will be called
 	 */
-	inline?: (file: Node, view) => boolean,
+	inline?: (file: Node, view: Navigation) => boolean,
 	/**
 	 * If defined, the returned html element will be
 	 * appended before the actions menu.
 	 */
-	renderInline?: (file: Node, view) => HTMLElement,
+	renderInline?: (file: Node, view: Navigation) => HTMLElement,
 }
 
 export class FileAction {
@@ -110,7 +110,7 @@ export class FileAction {
 	}
 
 	get default() {
-		return this._action.default
+		return this._action.default === true
 	}
 
 	get inline() {

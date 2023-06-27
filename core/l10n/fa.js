@@ -213,9 +213,9 @@ OC.L10N.register(
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "برای جلوگیری از وقفه در نصب های طولانی تر، شما می توانید دستورات زیر را از مسیر نصبتان اجرا کنید:",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Please use the command line updater because automatic updating is disabled in the config.php.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
     "Settings" : "تنظیمات",
-    "File not found" : "فایل یافت نشد"
+    "File not found" : "فایل یافت نشد",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Please use the command line updater because automatic updating is disabled in the config.php."
 },
 "nplurals=2; plural=(n > 1);");

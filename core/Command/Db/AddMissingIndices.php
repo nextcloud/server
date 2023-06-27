@@ -53,14 +53,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core\Command\Db
  */
 class AddMissingIndices extends Command {
-	private Connection $connection;
-	private EventDispatcherInterface $dispatcher;
-
-	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(
+		private Connection $connection,
+		private EventDispatcherInterface $dispatcher,
+	) {
 		parent::__construct();
-
-		$this->connection = $connection;
-		$this->dispatcher = $dispatcher;
 	}
 
 	protected function configure() {
@@ -472,6 +469,19 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>oc_mounts table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the oc_systemtag_object_mapping table.</info>');
+		if ($schema->hasTable('oc_systemtag_object_mapping')) {
+			$table = $schema->getTable('oc_systemtag_object_mapping');
+			if (!$table->hasIndex('systag_by_tagid')) {
+				$output->writeln('<info>Adding systag_by_tagid index to the oc_systemtag_object_mapping table, this can take some time...</info>');
+
+				$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_systemtag_object_mapping table updated successfully.</info>');
 			}
 		}
 

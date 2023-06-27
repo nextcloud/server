@@ -290,6 +290,11 @@ $CONFIG = [
 'session_lifetime' => 60 * 60 * 24,
 
 /**
+ * The timeout in seconds for requests to servers made by the DAV component (e.g., needed for federated shares).
+ */
+'davstorage.request_timeout' => 30,
+
+/**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
  * handled by Nextcloud but by either the PHP garbage collection or the expiration of
  * potential other session backends like redis.
@@ -1238,8 +1243,9 @@ $CONFIG = [
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
- *  - ``OC\Preview\Illustrator``
+ *  - ``OC\Preview\Font``
  *  - ``OC\Preview\HEIC``
+ *  - ``OC\Preview\Illustrator``
  *  - ``OC\Preview\Movie``
  *  - ``OC\Preview\MSOffice2003``
  *  - ``OC\Preview\MSOffice2007``
@@ -1250,7 +1256,6 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
- *  - ``OC\Preview\Font``
  *
  *
  * Defaults to the following providers:
@@ -1258,25 +1263,25 @@ $CONFIG = [
  *  - ``OC\Preview\BMP``
  *  - ``OC\Preview\GIF``
  *  - ``OC\Preview\JPEG``
+ *  - ``OC\Preview\Krita``
  *  - ``OC\Preview\MarkDown``
  *  - ``OC\Preview\MP3``
+ *  - ``OC\Preview\OpenDocument``
  *  - ``OC\Preview\PNG``
  *  - ``OC\Preview\TXT``
  *  - ``OC\Preview\XBitmap``
- *  - ``OC\Preview\OpenDocument``
- *  - ``OC\Preview\Krita``
  */
 'enabledPreviewProviders' => [
-	'OC\Preview\PNG',
-	'OC\Preview\JPEG',
-	'OC\Preview\GIF',
 	'OC\Preview\BMP',
-	'OC\Preview\XBitmap',
-	'OC\Preview\MP3',
-	'OC\Preview\TXT',
-	'OC\Preview\MarkDown',
-	'OC\Preview\OpenDocument',
+	'OC\Preview\GIF',
+	'OC\Preview\JPEG',
 	'OC\Preview\Krita',
+	'OC\Preview\MarkDown',
+	'OC\Preview\MP3',
+	'OC\Preview\OpenDocument',
+	'OC\Preview\PNG',
+	'OC\Preview\TXT',
+	'OC\Preview\XBitmap',
 ],
 
 /**
@@ -2153,6 +2158,11 @@ $CONFIG = [
  * Disable the web based updater
  */
 'upgrade.disable-web' => false,
+
+/**
+ * Allows to modify the cli-upgrade link in order to link to a different documentation
+ */
+'upgrade.cli-upgrade-link' => '',
 
 /**
  * Set this Nextcloud instance to debugging mode

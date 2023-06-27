@@ -152,7 +152,6 @@ OC.L10N.register(
     "Your Twitter handle" : "Tu cuenta de Twitter",
     "Your website" : "Tu sitio web",
     "Add" : "Agregar",
-    "{size} used" : "{size} usado",
     "Display name" : "Nombre a desplegar",
     "Email" : "Correo electrónico",
     "Group admin for" : "Administrador del grupo para",
@@ -161,6 +160,7 @@ OC.L10N.register(
     "Storage location" : "Úbicación del almacenamiento",
     "Last login" : "Último inicio de sesión",
     "Default quota" : "Cuota predeterminada",
+    "{size} used" : "{size} usado",
     "Unnamed device" : "Dispositivo sin nombre",
     "Your apps" : "Tus aplicaciones",
     "Changelog" : "Bitácora de cambios",
@@ -189,7 +189,7 @@ OC.L10N.register(
     "Documentation" : "Documentación",
     "Forum" : "Foro",
     "Login" : "Iniciar sesión",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Abrir documentación",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Es importante preparar este servidor para poder enviar correos electrónicos, como para restablecer contraseñas y notificaciones. ",
     "Send mode" : "Modo de envío",
@@ -197,7 +197,7 @@ OC.L10N.register(
     "From address" : "De la dirección",
     "Server address" : "Dirección del servidor",
     "Port" : "Puerto",
-    "Authentication method" : "Método de autenticación",
+    "Authentication" : "Autenticación",
     "Authentication required" : "Autenticación requerida",
     "Credentials" : "Credenciales",
     "SMTP Username" : "Usuario SMTP",
@@ -227,7 +227,8 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png o jpg max. 20 MB",
     "Plain" : "Plano",
     "NT LAN Manager" : "Administrador de LAN NT",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
-    "Avatar" : "Avatar"
+    "Authentication method" : "Método de autenticación"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

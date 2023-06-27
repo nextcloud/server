@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "لا يوجد تعليقات, ابدأ النقاش الآن!",
     "No more messages" : "لامزيد من الرسائل",
     "Retry" : "أعد المحاولة",
+    "Failed to mark comments as read" : "إخفاق في تعيين ملاحظات كمقرؤة",
     "Unable to load the comments list" : "تعذر تحميل قائمة التعليقات",
     "_%n unread comment_::_%n unread comments_" : ["%n تعليق غير مقروء","%n تعليق غير مقروء","تعليقان غير مقروءة","%n تعليقات غير مقروء","%n تعليق غير مقروء","%n تعليق غير مقروء"],
     "_1 new comment_::_{unread} new comments_" : ["1 تعليق جديد","1 تعليق جديد","{unread} تعليقات جديدة","{unread} تعليقات جديدة","{unread} تعليقات جديدة","{unread} تعليقات جديدة"],

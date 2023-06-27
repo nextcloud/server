@@ -52,7 +52,7 @@ export default class ExternalLinkActions {
 	 * @return {boolean}
 	 */
 	registerAction(action) {
-		console.warn('OCA.Sharing.ExternalLinkActions is deprecated, use OCA.Sharing.ExternalShareAction instead')
+		OC.debug && console.warn('OCA.Sharing.ExternalLinkActions is deprecated, use OCA.Sharing.ExternalShareAction instead')
 
 		if (typeof action === 'object' && action.icon && action.name && action.url) {
 			this._state.actions.push(action)

@@ -333,7 +333,6 @@ OC.L10N.register(
     "Detailed logs" : "บันทึกอย่างละเอียด",
     "Update needed" : "จำเป็นต้องอัปเดต",
     "Please use the command line updater because you have a big instance with more than 50 users." : "กรุณาใช้ตัวอัปเดตผ่านบรรทัดคำสั่ง เนื่องจากคุณมีเซิร์ฟเวอร์ขนาดใหญ่ที่มีจำนวนผู้ใช้มากกว่า 50 ผู้ใช้",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "กรุณาใช้ตัวอัปเดตผ่านบรรทัดคำสั่ง เนื่องจากการอัปเดตอัตโนมัติถูกปิดใช้งานใน config.php",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "สำหรับความช่วยเหลือ ดู<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">เอกสารประกอบ</a>",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "ฉันทราบว่าการดำเนินการอัปเดตผ่าน UI เว็บมีความเสี่ยง และหากคำขอหมดเวลาอาจทำให้ข้อมูลสูญหาย แต่ฉันได้สำรองข้อมูลไว้แล้วและทราบวิธีการกู้คืนข้อมูลหากเกิดข้อผิดพลาด",
     "Upgrade via web on my own risk" : "อัปเกรดผ่านเว็บบนความเสี่ยงของฉัน",
@@ -347,6 +346,7 @@ OC.L10N.register(
     "Settings" : "ตั้งค่า",
     "File not found" : "ไม่พบไฟล์",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ไม่พบเอกสารบนเซิร์ฟเวอร์ การแชร์อาจถูกลบหรือหมดอายุไปแล้ว",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "กรุณาใช้ตัวอัปเดตผ่านบรรทัดคำสั่ง เนื่องจากการอัปเดตอัตโนมัติถูกปิดใช้งานใน config.php",
     "The page could not be found on the server." : "ไม่พบหน้านี้บนเซิร์ฟเวอร์"
 },
 "nplurals=1; plural=0;");

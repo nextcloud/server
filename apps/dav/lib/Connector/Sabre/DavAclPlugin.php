@@ -94,8 +94,19 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$path = $request->getPath();
 
 		// prevent the plugin from causing an unneeded overhead for file requests
-		if (!str_starts_with($path, 'files/')) {
-			parent::beforeMethod($request, $response);
+		if (str_starts_with($path, 'files/')) {
+			return;
+		}
+
+		parent::beforeMethod($request, $response);
+
+		$createAddressbookOrCalendarRequest = ($request->getMethod() === 'MKCALENDAR' || $request->getMethod() === 'MKCOL')
+			&& (str_starts_with($path, 'addressbooks/') || str_starts_with($path, 'calendars/'));
+
+		if ($createAddressbookOrCalendarRequest) {
+			[$parentName] = \Sabre\Uri\split($path);
+			// is calendars/users/bob or addressbooks/users/bob writeable?
+			$this->checkPrivileges($parentName, '{DAV:}write');
 		}
 	}
 }

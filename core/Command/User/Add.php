@@ -39,13 +39,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class Add extends Command {
-	protected IUserManager $userManager;
-	protected IGroupManager $groupManager;
-
-	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
+	public function __construct(
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
 	}
 
 	protected function configure() {
