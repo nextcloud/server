@@ -27,11 +27,6 @@
 				class="sharing-entry__inherited"
 				:title="t('files_sharing', 'No others with access')"
 				:subtitle="t('files_sharing', 'People with access to parent folders will show up here')">
-				<template #avatar>
-					<NcAvatar class="sharing-entry__avatar"
-						:disableMenu="true"
-						:disableTooltip="true" />
-				</template>
 			</SharingEntrySimple>
 		</template>
 		<template v-else>
