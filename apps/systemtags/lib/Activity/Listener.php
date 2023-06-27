@@ -153,13 +153,9 @@ class Listener {
 		// Get all mount point owners
 		$cache = $this->mountCollection->getMountCache();
 
-		$users = [];
-		$filesPerUser = $cache->getReadableNodesByUserForFileId((int)$event->getObjectId());
-		if (empty($filesPerUser)) {
+		$users = $cache->getReadablePathByUserForFileId((int)$event->getObjectId());
+		if (empty($users)) {
 			return;
-		}
-		foreach ($filesPerUser as $user => $files) {
-			$users[$user] = $this->rootFolder->getUserFolder($user)->getRelativePath(reset($files)?->getPath() ?? '');
 		}
 
 		$actor = $this->session->getUser();

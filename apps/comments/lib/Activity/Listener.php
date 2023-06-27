@@ -37,10 +37,9 @@ class Listener {
 
 		$cache = $this->mountCollection->getMountCache();
 
-		$users = [];
-		$filesPerUser = $cache->getReadableNodesByUserForFileId((int)$event->getComment()->getObjectId());
-		foreach ($filesPerUser as $user => $files) {
-			$users[$user] = $this->rootFolder->getUserFolder($user)->getRelativePath(reset($files)?->getPath() ?? '');
+		$users = $cache->getReadablePathByUserForFileId((int)$event->getComment()->getObjectId());
+		if (empty($users)) {
+			return;
 		}
 
 		$actor = $this->session->getUser();

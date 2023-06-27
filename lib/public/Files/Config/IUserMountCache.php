@@ -75,6 +75,15 @@ interface IUserMountCache {
 	public function getReadableNodesByUserForFileId(int $fileId): array;
 
 	/**
+	 * Get all users having read access to a file, with a path they see it as.
+	 * They may see the same file under other paths, to get this information use exhaustive getReadableNodesByUserForFileId
+	 *
+	 * @return array<string, string> Paths giving access to the given fileId, indexed by user ID
+	 * @since 28.0.0
+	 */
+	public function getReadablePathByUserForFileId(int $fileId): array;
+
+	/**
 	 * Remove all cached mounts for a user
 	 *
 	 * @param IUser $user
