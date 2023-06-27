@@ -25,7 +25,6 @@
 		<!-- Main collapsible entry -->
 		<SharingEntrySimple class="sharing-entry__inherited"
 			:title="mainTitle"
-			:subtitle="subTitle"
 			:aria-expanded="showInheritedShares">
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
@@ -38,7 +37,7 @@
 
 		<!-- Inherited shares list -->
 		<SharingEntryInherited v-for="share in shares"
-			:key="share.id"
+			:key="share ? share.id : 0"
 			:file-info="fileInfo"
 			:share="share"
 			@remove:share="removeShare" />
@@ -92,11 +91,6 @@ export default {
 		mainTitle() {
 			return t('files_sharing', 'Others with access')
 		},
-		subTitle() {
-			return (this.showInheritedShares && this.shares.length === 0)
-				? t('files_sharing', 'No other users with access found')
-				: ''
-		},
 		toggleTooltip() {
 			return this.fileInfo.type === 'dir'
 				? t('files_sharing', 'Toggle list of others with access to this directory')
@@ -132,10 +126,16 @@ export default {
 			try {
 				const url = generateOcsUrl('apps/files_sharing/api/v1/shares/inherited?format=json&path={path}', { path: this.fullPath })
 				const shares = await axios.get(url)
-				this.shares = shares.data.ocs.data
-					.map(share => new Share(share))
-					.sort((a, b) => b.createdTime - a.createdTime)
+
+				if (shares.length > 0) {
+					this.shares = shares.data.ocs.data
+						.map(share => new Share(share))
+						.sort((a, b) => b.createdTime - a.createdTime)
+				} else {
+					this.shares.push(null)
+				}
 				console.info(this.shares)
+				
 				this.loaded = true
 			} catch (error) {
 				OC.Notification.showTemporary(t('files_sharing', 'Unable to fetch inherited shares'), { type: 'error' })

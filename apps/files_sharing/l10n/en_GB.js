@@ -275,6 +275,8 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Sharing %s failed because the back end does not support sciencemesh shares",
     "One or more of your shares will expire tomorrow" : "One or more of your shares will expire tomorrow",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Error generating password from password policy"
+    "Error generating password from password_policy" : "Error generating password from password policy",
+    "No others with access": "No others with access",
+    "People with access to parent folders will show up here": "People with access to parent folders will show up here"
 },
 "nplurals=2; plural=(n != 1);");

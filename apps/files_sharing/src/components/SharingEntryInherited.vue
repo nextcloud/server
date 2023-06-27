@@ -21,28 +21,44 @@
   -->
 
 <template>
-	<SharingEntrySimple :key="share.id"
-		class="sharing-entry__inherited"
-		:title="share.shareWithDisplayName">
-		<template #avatar>
-			<NcAvatar :user="share.shareWith"
-				:display-name="share.shareWithDisplayName"
-				class="sharing-entry__avatar" />
+	<span>
+		<template v-if="!shares">
+			<SharingEntrySimple :key="0"
+				class="sharing-entry__inherited"
+				:title="t('files_sharing', 'No others with access')"
+				:subtitle="t('files_sharing', 'People with access to parent folders will show up here')">
+				<template #avatar>
+					<NcAvatar class="sharing-entry__avatar"
+						:disableMenu="true"
+						:disableTooltip="true" />
+				</template>
+			</SharingEntrySimple>
 		</template>
-		<NcActionText icon="icon-user">
-			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
-		</NcActionText>
-		<NcActionLink v-if="share.viaPath && share.viaFileid"
-			icon="icon-folder"
-			:href="viaFileTargetUrl">
-			{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
-		</NcActionLink>
-		<NcActionButton v-if="share.canDelete"
-			icon="icon-close"
-			@click.prevent="onDelete">
-			{{ t('files_sharing', 'Unshare') }}
-		</NcActionButton>
-	</SharingEntrySimple>
+		<template v-else>
+			<SharingEntrySimple :key="share.id"
+				class="sharing-entry__inherited"
+				:title="share.shareWithDisplayName">
+				<template #avatar>
+					<NcAvatar :user="share.shareWith"
+						:display-name="share.shareWithDisplayName"
+						class="sharing-entry__avatar" />
+				</template>
+				<NcActionText icon="icon-user">
+					{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
+				</NcActionText>
+				<NcActionLink v-if="share.viaPath && share.viaFileid"
+					icon="icon-folder"
+					:href="viaFileTargetUrl">
+					{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
+				</NcActionLink>
+				<NcActionButton v-if="share.canDelete"
+					icon="icon-close"
+					@click.prevent="onDelete">
+					{{ t('files_sharing', 'Unshare') }}
+				</NcActionButton>
+			</SharingEntrySimple>
+		</template>
+	</span>
 </template>
 
 <script>
