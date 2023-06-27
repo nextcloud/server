@@ -36,7 +36,6 @@ class Certificate implements ICertificate {
 
 	protected ?string $organization;
 
-	protected $serial;
 
 	protected \DateTime $issueDate;
 
