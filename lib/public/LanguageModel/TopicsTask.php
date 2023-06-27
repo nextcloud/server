@@ -6,6 +6,7 @@ namespace OCP\LanguageModel;
  * This LanguageModel Task represents topics synthesis
  * which outputs comma-separated topics for the passed text
  * @since 28.0.0
+ * @template-extends AbstractLanguageModelTask<ITopicsProvider>
  */
 final class TopicsTask extends AbstractLanguageModelTask {
 	/**
@@ -17,9 +18,9 @@ final class TopicsTask extends AbstractLanguageModelTask {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
-	public function visitProvider(ILanguageModelProvider $provider): string {
-		if (!$provider instanceof ITopicsProvider) {
-			throw new \RuntimeException('SummaryTask#visitProvider expects IHeadlineProvider');
+	public function visitProvider($provider): string {
+		if (!$this->canUseProvider($provider)) {
+			throw new \RuntimeException('TopicsTask#visitProvider expects ITopicsProvider');
 		}
 		return $provider->findTopics($this->getInput());
 	}
@@ -28,7 +29,7 @@ final class TopicsTask extends AbstractLanguageModelTask {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
-	public function canUseProvider(ILanguageModelProvider $provider): bool {
+	public function canUseProvider($provider): bool {
 		return $provider instanceof ITopicsProvider;
 	}
 

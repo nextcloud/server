@@ -5,7 +5,11 @@ namespace OCP\LanguageModel;
 use OC\LanguageModel\Db\Task;
 
 /**
- * @since 28.0.0
+ * This is an abstract LanguageModel task that implements basic
+ * goodies for downstream tasks
+ * @since 28.0.
+ * @template T of ILanguageModelProvider
+ * @template-implements ILanguageModelTask<T>
  */
 abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	protected ?int $id;
@@ -24,21 +28,6 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 		protected ?string $userId,
 	) {
 	}
-
-	/**
-	 * @param ILanguageModelProvider $provider
-	 * @return string
-	 * @throws \RuntimeException
-	 * @since 28.0.0
-	 */
-	abstract public function visitProvider(ILanguageModelProvider $provider): string;
-
-	/**
-	 * @param ILanguageModelProvider $provider
-	 * @return bool
-	 * @since 28.0.0
-	 */
-	abstract public function canUseProvider(ILanguageModelProvider $provider): bool;
 
 	/**
 	 * @return string

@@ -6,6 +6,7 @@ namespace OCP\LanguageModel;
  * This LanguageModel Task represents headline generation
  * which generates a headline for the passed text
  * @since 28.0.0
+ * @template-extends AbstractLanguageModelTask<IHeadlineProvider>
  */
 final class HeadlineTask extends AbstractLanguageModelTask {
 	/**
@@ -17,9 +18,9 @@ final class HeadlineTask extends AbstractLanguageModelTask {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
-	public function visitProvider(ILanguageModelProvider $provider): string {
-		if (!$provider instanceof IHeadlineProvider) {
-			throw new \RuntimeException('SummaryTask#visitProvider expects IHeadlineProvider');
+	public function visitProvider($provider): string {
+		if (!$this->canUseProvider($provider)) {
+			throw new \RuntimeException('HeadlineTask#visitProvider expects IHeadlineProvider');
 		}
 		return $provider->findHeadline($this->getInput());
 	}
@@ -28,7 +29,7 @@ final class HeadlineTask extends AbstractLanguageModelTask {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
-	public function canUseProvider(ILanguageModelProvider $provider): bool {
+	public function canUseProvider($provider): bool {
 		return $provider instanceof IHeadlineProvider;
 	}
 
