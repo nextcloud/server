@@ -29,6 +29,7 @@ namespace OC\Core\Controller;
 use InvalidArgumentException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Common\Exception\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\LanguageModel\AbstractLanguageModelTask;
@@ -87,7 +88,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'task' => $task,
 			]);
-		} catch (\ValueError $e) {
+		} catch (NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
 		} catch (\RuntimeException $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
