@@ -21,7 +21,7 @@
  */
 import { action } from './openFolderAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Node, Permission } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
 import type { Navigation } from '../services/Navigation'
 
@@ -139,8 +139,7 @@ describe('Open folder action execute tests', () => {
 		const goToRouteMock = jest.fn()
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
-		// @ts-ignore null as Node
-		const exec = await action.exec(null, view, '/')
+		const exec = await action.exec(null as unknown as Node, view, '/')
 		expect(exec).toBe(false)
 		expect(goToRouteMock).toBeCalledTimes(0)
 	})

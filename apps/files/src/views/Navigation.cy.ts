@@ -161,7 +161,7 @@ describe('Quota rendering', () => {
 		// TODO: remove when @nextcloud/l10n 2.0 is released
 		// https://github.com/nextcloud/nextcloud-l10n/pull/542
 		cy.stub(L10n, 'translate', (app, text, vars = {}, number) => {
-			cy.log({app, text, vars, number})
+			cy.log({ app, text, vars, number })
 			return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
 				return vars[key]
 			})

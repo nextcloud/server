@@ -65,4 +65,3 @@ export const action = new FileAction({
 })
 
 registerFileAction(action)
-
