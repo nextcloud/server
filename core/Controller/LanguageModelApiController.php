@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Marcel Klehr <mklehr@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
