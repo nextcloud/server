@@ -83,7 +83,7 @@ class AvatarManager implements IAvatarManager {
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
 		$userId = $user->getUID();
 
-		$requestingUser = $this->userSession?->getUser();
+		$requestingUser = $this->userSession->getUser();
 
 		try {
 			$folder = $this->appData->getFolder($userId);
