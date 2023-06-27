@@ -58,6 +58,7 @@ OC.L10N.register(
     "Overview" : "نظرة شاملة",
     "Basic settings" : "الإعدادات الأساسية",
     "Sharing" : "مشاركة",
+    "Availability" : "أوقات التواجد availability",
     "Calendar" : "التقويم",
     "Personal info" : "المعلومات الشخصية",
     "Mobile & desktop" : "الجوال وسطح المكتب",
