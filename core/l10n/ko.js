@@ -153,6 +153,7 @@ OC.L10N.register(
     "Your connection is not secure" : "당신의 연결이 안전하지 않습니다.",
     "Passwordless authentication is only available over a secure connection." : "암호 없는 인증은 보안 연결에서만 사용할 수 있습니다.",
     "Reset password" : "암호 재설정",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "계정이 존재한다면, 암호 초기화 메시지가 해당 계정의 이메일 주소로 전송됩니다. 만일 메일을 수신하지 못했다면, 이메일 주소 및 계정 이름을 확인하고 스팸 메일 폴더를 확인하십시오. 또는, 가까운 관리자에게 도움을 요청하십시오.",
     "Couldn't send reset email. Please contact your administrator." : "재설정 메일을 보낼 수 없습니다. 관리자에게 문의하십시오.",
     "Password cannot be changed. Please contact your administrator." : "암호를 변경할 수 없습니다. 관리자에게 문의하십시오.",
     "Back to login" : "로그인으로 돌아가기",
