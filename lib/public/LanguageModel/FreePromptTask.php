@@ -39,7 +39,7 @@ final class FreePromptTask extends AbstractLanguageModelTask {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
-	public function visitProvider($provider): string {
+	public function visitProvider(ILanguageModelProvider $provider): string {
 		return $provider->prompt($this->getInput());
 	}
 
@@ -47,7 +47,7 @@ final class FreePromptTask extends AbstractLanguageModelTask {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
-	public function canUseProvider($provider): bool {
+	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return true;
 	}
 

@@ -62,18 +62,20 @@ interface ILanguageModelTask extends \JsonSerializable {
 	];
 
 	/**
-	 * @param T $provider
+	 * @psalm-param T $provider
+	 * @param ILanguageModelProvider $provider
 	 * @return string
 	 * @since 28.0.0
 	 */
-	public function visitProvider($provider): string;
+	public function visitProvider(ILanguageModelProvider $provider): string;
 
 	/**
-	 * @param T $provider
+	 * @psalm-param T $provider
+	 * @param ILanguageModelProvider $provider
 	 * @return bool
 	 * @since 28.0.0
 	 */
-	public function canUseProvider($provider): bool;
+	public function canUseProvider(ILanguageModelProvider $provider): bool;
 
 
 	/**
