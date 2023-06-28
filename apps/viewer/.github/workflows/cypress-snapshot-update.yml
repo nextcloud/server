@@ -60,3 +60,5 @@ jobs:
           labels: |
             dependencies
             3. to review
+          add-paths: |
+            cypress/snapshots
