@@ -6,6 +6,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IDBConnection;
 
@@ -13,7 +14,10 @@ use OCP\IDBConnection;
  * @extends QBMapper<Task>
  */
 class TaskMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
+	public function __construct(
+		IDBConnection $db,
+		private ITimeFactory $timeFactory,
+	) {
 		parent::__construct($db, 'llm_tasks', Task::class);
 	}
 
@@ -45,7 +49,7 @@ class TaskMapper extends QBMapper {
 	}
 
 	public function update(Entity $entity): Entity {
-		$entity->setLastUpdated(time());
+		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
 		return parent::update($entity);
 	}
 }
