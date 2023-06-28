@@ -63,7 +63,7 @@ OC.L10N.register(
     "App key" : "Chave da aplicación",
     "App secret" : "Segredo da aplicación",
     "OAuth2" : "OAuth2",
-    "Client ID" : "ID do cliente",
+    "Client ID" : "ID de cliente",
     "Client secret" : "Segredo do cliente",
     "OpenStack v2" : "OpenStack v2",
     "Tenant name" : "Nome do cesionario",
