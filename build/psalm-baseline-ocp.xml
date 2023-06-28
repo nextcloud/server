@@ -45,12 +45,6 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/BackgroundJob/TimedJob.php">
-    <MoreSpecificImplementedParamType>
-      <code>$jobList</code>
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/public/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
       <code>\ArrayAccess</code>
