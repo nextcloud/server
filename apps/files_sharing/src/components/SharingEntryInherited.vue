@@ -21,30 +21,28 @@
   -->
 
 <template>
-	<span>
-		<SharingEntrySimple :key="share.id"
-			class="sharing-entry__inherited"
-			:title="share.shareWithDisplayName">
-			<template #avatar>
-				<NcAvatar :user="share.shareWith"
-					:display-name="share.shareWithDisplayName"
-					class="sharing-entry__avatar" />
-			</template>
-			<NcActionText icon="icon-user">
-				{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
-			</NcActionText>
-			<NcActionLink v-if="share.viaPath && share.viaFileid"
-				icon="icon-folder"
-				:href="viaFileTargetUrl">
-				{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
-			</NcActionLink>
-			<NcActionButton v-if="share.canDelete"
-				icon="icon-close"
-				@click.prevent="onDelete">
-				{{ t('files_sharing', 'Unshare') }}
-			</NcActionButton>
-		</SharingEntrySimple>
-	</span>
+	<SharingEntrySimple :key="share.id"
+		class="sharing-entry__inherited"
+		:title="share.shareWithDisplayName">
+		<template #avatar>
+			<NcAvatar :user="share.shareWith"
+				:display-name="share.shareWithDisplayName"
+				class="sharing-entry__avatar" />
+		</template>
+		<NcActionText icon="icon-user">
+			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
+		</NcActionText>
+		<NcActionLink v-if="share.viaPath && share.viaFileid"
+			icon="icon-folder"
+			:href="viaFileTargetUrl">
+			{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
+		</NcActionLink>
+		<NcActionButton v-if="share.canDelete"
+			icon="icon-close"
+			@click.prevent="onDelete">
+			{{ t('files_sharing', 'Unshare') }}
+		</NcActionButton>
+	</SharingEntrySimple>
 </template>
 
 <script>
