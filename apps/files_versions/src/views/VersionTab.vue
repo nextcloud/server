@@ -19,6 +19,7 @@
 	<ul data-files-versions-versions-list>
 		<Version v-for="version in orderedVersions"
 			:key="version.mtime"
+			:load-preview="isActive"
 			:version="version"
 			:file-info="fileInfo"
 			:is-current="version.mtime === fileInfo.mtime"
@@ -42,6 +43,7 @@ export default {
 	data() {
 		return {
 			fileInfo: null,
+			isActive: false,
 			/** @type {import('../utils/versions.js').Version[]} */
 			versions: [],
 			loading: false,
@@ -87,6 +89,13 @@ export default {
 			this.fileInfo = fileInfo
 			this.resetState()
 			this.fetchVersions()
+		},
+
+		/**
+		 * @param {boolean} isActive whether the tab is active
+		 */
+		async setIsActive(isActive) {
+			this.isActive = isActive
 		},
 
 		/**
