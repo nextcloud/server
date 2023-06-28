@@ -22,37 +22,28 @@
 
 <template>
 	<span>
-		<template v-if="!shares">
-			<SharingEntrySimple :key="0"
-				class="sharing-entry__inherited"
-				:title="t('files_sharing', 'No others with access')"
-				:subtitle="t('files_sharing', 'People with access to parent folders will show up here')">
-			</SharingEntrySimple>
-		</template>
-		<template v-else>
-			<SharingEntrySimple :key="share.id"
-				class="sharing-entry__inherited"
-				:title="share.shareWithDisplayName">
-				<template #avatar>
-					<NcAvatar :user="share.shareWith"
-						:display-name="share.shareWithDisplayName"
-						class="sharing-entry__avatar" />
-				</template>
-				<NcActionText icon="icon-user">
-					{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
-				</NcActionText>
-				<NcActionLink v-if="share.viaPath && share.viaFileid"
-					icon="icon-folder"
-					:href="viaFileTargetUrl">
-					{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
-				</NcActionLink>
-				<NcActionButton v-if="share.canDelete"
-					icon="icon-close"
-					@click.prevent="onDelete">
-					{{ t('files_sharing', 'Unshare') }}
-				</NcActionButton>
-			</SharingEntrySimple>
-		</template>
+		<SharingEntrySimple :key="share.id"
+			class="sharing-entry__inherited"
+			:title="share.shareWithDisplayName">
+			<template #avatar>
+				<NcAvatar :user="share.shareWith"
+					:display-name="share.shareWithDisplayName"
+					class="sharing-entry__avatar" />
+			</template>
+			<NcActionText icon="icon-user">
+				{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
+			</NcActionText>
+			<NcActionLink v-if="share.viaPath && share.viaFileid"
+				icon="icon-folder"
+				:href="viaFileTargetUrl">
+				{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
+			</NcActionLink>
+			<NcActionButton v-if="share.canDelete"
+				icon="icon-close"
+				@click.prevent="onDelete">
+				{{ t('files_sharing', 'Unshare') }}
+			</NcActionButton>
+		</SharingEntrySimple>
 	</span>
 </template>
 

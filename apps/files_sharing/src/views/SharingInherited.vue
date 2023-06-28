@@ -36,11 +36,19 @@
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
-		<SharingEntryInherited v-for="share in shares"
+		<div v-if="loaded && shares.length === 0" class="sharing-entry__desc">
+			<span class="sharing-entry__title">{{ 'No others with access' }}</span>
+			<p>
+				{{ 'People with access to parent folders will show up here' }}
+			</p>
+		</div>
+		<template v-else>
+			<SharingEntryInherited v-for="share in shares"
 			:key="share ? share.id : 0"
 			:file-info="fileInfo"
 			:share="share"
 			@remove:share="removeShare" />
+		</template>
 	</ul>
 </template>
 
@@ -127,13 +135,9 @@ export default {
 				const url = generateOcsUrl('apps/files_sharing/api/v1/shares/inherited?format=json&path={path}', { path: this.fullPath })
 				const shares = await axios.get(url)
 
-				if (shares.length > 0) {
-					this.shares = shares.data.ocs.data
-						.map(share => new Share(share))
-						.sort((a, b) => b.createdTime - a.createdTime)
-				} else {
-					this.shares.push(null)
-				}
+				this.shares = shares.data.ocs.data
+					.map(share => new Share(share))
+					.sort((a, b) => b.createdTime - a.createdTime)
 				console.info(this.shares)
 				
 				this.loaded = true
@@ -167,6 +171,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sharing-entry {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	&__desc {
+		padding: 8px 8px 8px 40px;
+		line-height: 1.2em;
+		position: relative;
+		flex: 1 1;
+		min-width: 0;
+		p {
+			color: var(--color-text-maxcontrast);
+		}
+	}
+	&__title {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		max-width: inherit;
+	}
+}
+
 .sharing-entry__inherited {
 	.avatar-shared {
 		width: 32px;
