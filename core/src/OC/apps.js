@@ -90,6 +90,7 @@ export const registerAppsSlideToggle = () => {
 				})
 				area.removeClass('opened')
 				$(button).removeClass('opened')
+				$(button).attr('aria-expanded', 'false')
 			}
 
 			/**
@@ -101,6 +102,7 @@ export const registerAppsSlideToggle = () => {
 				})
 				area.addClass('opened')
 				$(button).addClass('opened')
+				$(button).attr('aria-expanded', 'true')
 				const input = $(areaSelector + ' [autofocus]')
 				if (input.length === 1) {
 					input.focus()
