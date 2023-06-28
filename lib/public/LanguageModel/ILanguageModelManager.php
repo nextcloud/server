@@ -31,6 +31,8 @@ use OCP\PreConditionNotMetException;
 use RuntimeException;
 
 /**
+ * API surface for apps interacting with and making use of LanguageModel providers
+ * without known which providers are installed
  * @since 28.0.0
  */
 interface ILanguageModelManager {
