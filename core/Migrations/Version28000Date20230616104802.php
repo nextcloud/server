@@ -78,9 +78,16 @@ class Version28000Date20230616104802 extends SimpleMigrationStep {
 				'length' => 32,
 				'default' => '',
 			]);
+			$table->addColumn('last_updated', 'integer', [
+				'notnull' => false,
+				'length' => 4,
+				'default' => 0,
+				'unsigned' => true,
+			]);
 
 			$table->setPrimaryKey(['id'], 'llm_tasks_id_index');
 			$table->addUniqueIndex(['status', 'type'], 'llm_tasks_status_type');
+			$table->addIndex(['last_updated'], 'llm_tasks_updated');
 		}
 
 		return $schema;

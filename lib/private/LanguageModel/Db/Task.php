@@ -8,6 +8,8 @@ use OCP\LanguageModel\ILanguageModelTask;
 /**
  * @method setType(string $type)
  * @method string getType()
+ * @method setLastUpdated(int $lastUpdated)
+ * @method int getLastUpdated()
  * @method setInput(string $type)
  * @method string getInput()
  * @method setStatus(int $type)
@@ -18,6 +20,8 @@ use OCP\LanguageModel\ILanguageModelTask;
  * @method string getAppId()
  */
 class Task extends Entity {
+	protected $lastUpdated;
+
 	protected $type;
 	protected $input;
 	protected $status;
@@ -27,17 +31,18 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'type', 'input', 'output', 'status', 'user_id', 'app_id'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'type', 'input', 'output', 'status', 'userId', 'appId'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId'];
 
 
 	public function __construct() {
 		// add types in constructor
 		$this->addType('id', 'integer');
+		$this->addType('lastUpdated', 'integer');
 		$this->addType('type', 'string');
 		$this->addType('input', 'string');
 		$this->addType('status', 'integer');
@@ -48,6 +53,7 @@ class Task extends Entity {
 	public static function fromLanguageModelTask(ILanguageModelTask $task): Task {
 		return Task::fromParams([
 			'type' => $task->getType(),
+			'lastUpdated' => time(),
 			'status' => $task->getStatus(),
 			'input' => $task->getInput(),
 			'output' => $task->getOutput(),

@@ -53,6 +53,7 @@ use Exception;
 use InvalidArgumentException;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\LanguageModel\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -453,6 +454,7 @@ class Setup {
 		$jobList->add(TokenCleanupJob::class);
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
+		$jobList->add(RemoveOldTasksBackgroundJob::class);
 	}
 
 	/**
