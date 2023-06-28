@@ -125,7 +125,7 @@ export default {
 
 		this.imageEditor = new FilerobotImageEditor(
 			this.$refs.editor,
-			this.config
+			this.config,
 		)
 		this.imageEditor.render()
 		window.addEventListener('keydown', this.handleKeydown, true)
@@ -220,7 +220,7 @@ export default {
 						return
 					}
 					this.onClose('warning-ignored', false)
-				}
+				},
 			)
 		},
 

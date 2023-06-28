@@ -7,6 +7,6 @@ module.exports = {
 		oc_defaults: true,
 	},
 	extends: [
-		'@nextcloud',
+		'@nextcloud/eslint-config/typescript',
 	],
 }

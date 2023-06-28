@@ -45,7 +45,7 @@ const extractFilePaths = function(path) {
  * @param {object} fileInfo1 file 1 fileinfo
  * @param {object} fileInfo2 file 2 fileinfo
  * @param {string} key key to sort with
- * @param {boolean} [asc=true] sort ascending?
+ * @param {boolean} [asc] sort ascending?
  * @return {number}
  */
 const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {

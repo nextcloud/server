@@ -81,7 +81,7 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-name').should('contain', 'image1.jpg')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
@@ -141,7 +141,7 @@ describe('See shared folder with link share', function() {
 		cy.get('body > .viewer .modal-container video').should('have.length', 1)
 		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
-		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
+		cy.get('body > .viewer .modal-name').should('contain', 'video1.mp4')
 	})
 
 	it('Does not see a loading animation', function() {

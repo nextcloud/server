@@ -68,7 +68,7 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg') {
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', fileName)
+		cy.get('body > .viewer .modal-name').should('contain', fileName)
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
