@@ -3,6 +3,7 @@
 namespace OC\LanguageModel\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -29,5 +30,22 @@ class TaskMapper extends QBMapper {
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
 		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $timeout
+	 * @return int the number of deleted tasks
+	 * @throws Exception
+	 */
+	public function deleteOlderThan(int $timeout): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter(time() - $timeout)));
+		return $qb->executeStatement();
+	}
+
+	public function update(Entity $entity): Entity {
+		$entity->setLastUpdated(time());
+		return parent::update($entity);
 	}
 }
