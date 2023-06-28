@@ -344,7 +344,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			try {
 				$data = $this->scanFile($path, $reuse, -1, null, $lock);
 				if ($data && $data['mimetype'] === 'httpd/unix-directory') {
-					$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data);
+					$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data['size']);
 					$data['size'] = $size;
 				}
 			} catch (NotFoundException $e) {
@@ -381,33 +381,29 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * scan all the files and folders in a folder
 	 *
 	 * @param string $path
-	 * @param bool $recursive
-	 * @param int $reuse
+	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
+	 * @param int $reuse a combination of self::REUSE_*
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @param array $data the data of the folder before (re)scanning the children
+	 * @param int $oldSize the size of the folder before (re)scanning the children
 	 * @return int|float the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = []) {
+	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int $oldSize) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', [$path, $this->storageId]);
 		$size = 0;
-		if (!is_null($folderId)) {
-			$folderId = $this->cache->getId($path);
-		}
 		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size);
 
-		foreach ($childQueue as $child => $childId) {
-			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock);
+		foreach ($childQueue as $child => [$childId, $childSize]) {
+			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock, $childSize);
 			if ($childSize === -1) {
 				$size = -1;
 			} elseif ($size !== -1) {
 				$size += $childSize;
 			}
 		}
-		$oldSize = $data['size'] ?? null;
 
 		// for encrypted storages, we trigger a regular folder size calculation instead of using the calculated size
 		// to make sure we also updated the unencrypted-size where applicable
@@ -461,10 +457,10 @@ class Scanner extends BasicEmitter implements IScanner {
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
-						$childQueue[$child] = $data['fileid'];
+						$childQueue[$child] = [$data['fileid'], $data['size']];
 					} elseif ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE_INCOMPLETE && $data['size'] === -1) {
 						// only recurse into folders which aren't fully scanned
-						$childQueue[$child] = $data['fileid'];
+						$childQueue[$child] = [$data['fileid'], $data['size']];
 					} elseif ($data['size'] === -1) {
 						$size = -1;
 					} elseif ($size !== -1) {
