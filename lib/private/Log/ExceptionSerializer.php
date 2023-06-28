@@ -39,6 +39,7 @@ use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCP\HintException;
 
 class ExceptionSerializer {
@@ -186,6 +187,10 @@ class ExceptionSerializer {
 			'preSetPassphrase',
 			'setPassphrase',
 		],
+		WopiMapper::class => [
+			'getPathForToken',
+			'getWopiForToken',
+		]
 	];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
