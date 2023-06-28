@@ -35,7 +35,7 @@ patcher.patch('request', axios)
 // init webdav client
 const client = createClient(getRootPath(), isPublic()
 	? { username: getToken(), password: '' }
-	: {}
+	: {},
 )
 
 export default client

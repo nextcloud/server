@@ -46,6 +46,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line n/no-missing-import
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 import logger from '../services/logger.js'
 

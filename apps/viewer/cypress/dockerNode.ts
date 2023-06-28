@@ -156,7 +156,7 @@ export const stopNextcloud = async function() {
  * @param container the container to get the ip from
  */
 export const getContainerIP = async function(
-	container: Container = docker.getContainer(CONTAINER_NAME)
+	container: Container = docker.getContainer(CONTAINER_NAME),
 ): Promise<string> {
 	let ip = ''
 	let tries = 0
@@ -195,7 +195,7 @@ export const waitOnNextcloud = async function(ip: string) {
 const runExec = async function(
 	container: Docker.Container,
 	command: string[],
-	verbose = false
+	verbose = false,
 ) {
 	const exec = await container.exec({
 		Cmd: command,

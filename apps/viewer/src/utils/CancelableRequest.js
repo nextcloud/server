@@ -40,7 +40,7 @@ const CancelableRequest = function(request) {
 	const fetch = async function(url, options) {
 		return request(
 			url,
-			{ ...options, signal: controller.signal }
+			{ ...options, signal: controller.signal },
 		)
 	}
 	return {

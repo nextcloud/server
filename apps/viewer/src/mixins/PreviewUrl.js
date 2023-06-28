@@ -1,4 +1,3 @@
-
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
