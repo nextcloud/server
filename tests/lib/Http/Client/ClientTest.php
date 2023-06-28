@@ -19,6 +19,7 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use function parse_url;
 
 /**
@@ -44,11 +45,13 @@ class ClientTest extends \Test\TestCase {
 		$this->guzzleClient = $this->createMock(\GuzzleHttp\Client::class);
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->client = new Client(
 			$this->config,
 			$this->certificateManager,
 			$this->guzzleClient,
-			$this->remoteHostValidator
+			$this->remoteHostValidator,
+			$this->logger,
 		);
 	}
 
