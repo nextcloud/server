@@ -38,9 +38,7 @@
 				:placeholder="$t('user_status', 'What is your status?')"
 				type="text"
 				:value="message"
-				@change="onChange"
-				@keyup="onKeyup"
-				@paste="onKeyup">
+				@input="onChange">
 		</div>
 	</div>
 </template>
@@ -100,12 +98,8 @@ export default {
 		 *
 		 * @param {Event} event The Change Event
 		 */
-		onKeyup(event) {
-			this.$emit('change', event.target.value)
-		},
-
 		onChange(event) {
-			this.$emit('submit', event.target.value)
+			this.$emit('change', event.target.value)
 		},
 
 		setIcon(icon) {
