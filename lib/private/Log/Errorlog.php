@@ -32,22 +32,19 @@ use OC\SystemConfig;
 use OCP\Log\IWriter;
 
 class Errorlog extends LogDetails implements IWriter {
-	/** @var string */
-	protected $tag;
-
-	public function __construct(SystemConfig $config, string $tag = 'nextcloud') {
+	public function __construct(
+		SystemConfig $config,
+		protected string $tag = 'nextcloud',
+	) {
 		parent::__construct($config);
-		$this->tag = $tag;
 	}
 
 	/**
 	 * Write a message in the log
 	 *
-	 * @param string $app
 	 * @param string|array $message
-	 * @param int $level
 	 */
-	public function write(string $app, $message, int $level) {
+	public function write(string $app, $message, int $level): void {
 		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$this->logDetailsAsJSON($app, $message, $level));
 	}
 }

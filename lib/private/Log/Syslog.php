@@ -30,7 +30,7 @@ use OCP\ILogger;
 use OCP\Log\IWriter;
 
 class Syslog extends LogDetails implements IWriter {
-	protected $levels = [
+	protected array $levels = [
 		ILogger::DEBUG => LOG_DEBUG,
 		ILogger::INFO => LOG_INFO,
 		ILogger::WARN => LOG_WARNING,
@@ -38,7 +38,10 @@ class Syslog extends LogDetails implements IWriter {
 		ILogger::FATAL => LOG_CRIT,
 	];
 
-	public function __construct(SystemConfig $config, ?string $tag = null) {
+	public function __construct(
+		SystemConfig $config,
+		?string $tag = null,
+	) {
 		parent::__construct($config);
 		if ($tag === null) {
 			$tag = $config->getValue('syslog_tag', 'Nextcloud');
@@ -52,11 +55,9 @@ class Syslog extends LogDetails implements IWriter {
 
 	/**
 	 * write a message in the log
-	 * @param string $app
 	 * @param string|array $message
-	 * @param int $level
 	 */
-	public function write(string $app, $message, int $level) {
+	public function write(string $app, $message, int $level): void {
 		$syslog_level = $this->levels[$level];
 		syslog($syslog_level, $this->logDetailsAsJSON($app, $message, $level));
 	}
