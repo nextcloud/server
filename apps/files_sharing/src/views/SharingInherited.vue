@@ -44,7 +44,7 @@
 		</div>
 		<template v-else>
 			<SharingEntryInherited v-for="share in shares"
-			:key="share ? share.id : 0"
+			:key="share.id"
 			:file-info="fileInfo"
 			:share="share"
 			@remove:share="removeShare" />
