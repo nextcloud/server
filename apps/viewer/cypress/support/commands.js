@@ -41,38 +41,31 @@ Cypress.env('baseUrl', url)
  */
 Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixture}`) => {
 	cy.clearCookies()
-	const fileName = basename(target)
 
 	// get fixture
-	return cy.fixture(fixture, 'base64').then(async file => {
-		// convert the base64 string to a blob
-		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
+	return cy.fixture(fixture, 'binary').then(file => {
+		// convert the binary to a blob
+		const blob = Cypress.Blob.binaryStringToBlob(file, mimeType)
 
-		// Process paths
+		const fileName = basename(target)
 		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
 		const filePath = target.split('/').map(encodeURIComponent).join('/')
-		try {
-			const file = new File([blob], fileName, { type: mimeType })
-			await axios({
-				url: `${rootPath}${filePath}`,
-				method: 'PUT',
-				data: file,
-				headers: {
-					'Content-Type': mimeType,
-				},
-				auth: {
-					username: user.userId,
-					password: user.password,
-				},
-			}).then(response => {
-				cy.log(`Uploaded ${fixture} as ${fileName}`, response)
-			})
-		} catch (error) {
-			cy.log(error)
-			throw new Error(`Unable to process fixture ${fixture}`)
-		}
-	})
 
+		cy.request({
+			url: `${rootPath}${filePath}`,
+			method: 'PUT',
+			body: blob,
+			headers: {
+				'Content-Type': mimeType,
+			},
+			auth: {
+				username: user.userId,
+				password: user.password,
+			},
+		}).then(response => {
+			cy.log(`Uploaded file ${fileName}`, response)
+		})
+	})
 })
 
 Cypress.Commands.add('createFolder', (user, target) => {
