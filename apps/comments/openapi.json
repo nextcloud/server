@@ -1,0 +1,103 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "comments",
+        "version": "0.0.1",
+        "description": "Files app plugin to add comments to files",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "files"
+                ],
+                "properties": {
+                    "files": {
+                        "type": "object",
+                        "required": [
+                            "comments"
+                        ],
+                        "properties": {
+                            "comments": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/index.php/apps/comments/notifications/view/{id}": {
+            "get": {
+                "operationId": "notifications-view",
+                "summary": "View a notification",
+                "tags": [
+                    "notifications"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the notification",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "303": {
+                        "description": "Redirected to notification",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Notification not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "notifications",
+            "description": "Class NotificationsController"
+        }
+    ]
+}
