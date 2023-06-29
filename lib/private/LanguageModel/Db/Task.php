@@ -12,6 +12,8 @@ use OCP\LanguageModel\ILanguageModelTask;
  * @method int getLastUpdated()
  * @method setInput(string $type)
  * @method string getInput()
+ * @method setOutput(string $type)
+ * @method string getOutput()
  * @method setStatus(int $type)
  * @method int getStatus()
  * @method setUserId(string $type)
@@ -21,9 +23,9 @@ use OCP\LanguageModel\ILanguageModelTask;
  */
 class Task extends Entity {
 	protected $lastUpdated;
-
 	protected $type;
 	protected $input;
+	protected $output;
 	protected $status;
 	protected $userId;
 	protected $appId;
@@ -45,13 +47,21 @@ class Task extends Entity {
 		$this->addType('lastUpdated', 'integer');
 		$this->addType('type', 'string');
 		$this->addType('input', 'string');
+		$this->addType('output', 'string');
 		$this->addType('status', 'integer');
 		$this->addType('userId', 'string');
 		$this->addType('appId', 'string');
 	}
 
+	public function toRow(): array {
+		return array_combine(self::$columns, array_map(function ($field) {
+			return $this->{'get'.ucfirst($field)}();
+		}, self::$fields));
+	}
+
 	public static function fromLanguageModelTask(ILanguageModelTask $task): Task {
 		return Task::fromParams([
+			'id' => $task->getId(),
 			'type' => $task->getType(),
 			'lastUpdated' => time(),
 			'status' => $task->getStatus(),

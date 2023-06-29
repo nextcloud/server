@@ -13,11 +13,15 @@ use OCP\DB\Exception;
 use OCP\IServerContainer;
 use OCP\LanguageModel\AbstractLanguageModelTask;
 use OCP\LanguageModel\FreePromptTask;
+use OCP\LanguageModel\HeadlineTask;
+use OCP\LanguageModel\IHeadlineProvider;
 use OCP\LanguageModel\ILanguageModelManager;
 use OCP\LanguageModel\ILanguageModelProvider;
 use OCP\LanguageModel\ILanguageModelTask;
 use OCP\LanguageModel\ISummaryProvider;
+use OCP\LanguageModel\ITopicsProvider;
 use OCP\LanguageModel\SummaryTask;
+use OCP\LanguageModel\TopicsTask;
 use OCP\PreConditionNotMetException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -69,7 +73,7 @@ class LanguageModelManager implements ILanguageModelManager {
 		if ($context === null) {
 			return false;
 		}
-		return count($context->getSpeechToTextProviders()) > 0;
+		return count($context->getLanguageModelProviders()) > 0;
 	}
 
 	/**
@@ -81,6 +85,12 @@ class LanguageModelManager implements ILanguageModelManager {
 			$tasks[FreePromptTask::class] = true;
 			if ($provider instanceof ISummaryProvider) {
 				$tasks[SummaryTask::class] = true;
+			}
+			if ($provider instanceof IHeadlineProvider) {
+				$tasks[HeadlineTask::class] = true;
+			}
+			if ($provider instanceof ITopicsProvider) {
+				$tasks[TopicsTask::class] = true;
 			}
 		}
 		return array_keys($tasks);
@@ -110,7 +120,8 @@ class LanguageModelManager implements ILanguageModelManager {
 			}
 			try {
 				$task->setStatus(ILanguageModelTask::STATUS_RUNNING);
-				$this->taskMapper->update(Task::fromLanguageModelTask($task));
+				$taskEntity = $this->taskMapper->update(Task::fromLanguageModelTask($task));
+				$task->setId($taskEntity->getId());
 				$output = $task->visitProvider($provider);
 				$task->setOutput($output);
 				$task->setStatus(ILanguageModelTask::STATUS_SUCCESSFUL);
@@ -140,10 +151,10 @@ class LanguageModelManager implements ILanguageModelManager {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
+		$task->setStatus(ILanguageModelTask::STATUS_SCHEDULED);
 		$taskEntity = Task::fromLanguageModelTask($task);
 		$this->taskMapper->insert($taskEntity);
 		$task->setId($taskEntity->getId());
-		$task->setStatus(ILanguageModelTask::STATUS_SCHEDULED);
 		$this->jobList->add(TaskBackgroundJob::class, [
 			'taskId' => $task->getId()
 		]);
