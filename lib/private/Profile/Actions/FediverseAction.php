@@ -34,19 +34,13 @@ use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
 class FediverseAction implements ILinkAction {
-	private ?string $value = null;
-	private IAccountManager $accountManager;
-	private IFactory $l10nFactory;
-	private IURLGenerator $urlGenerator;
+	private ?string $value = '';
 
 	public function __construct(
-		IAccountManager $accountManager,
-		IFactory $l10nFactory,
-		IURLGenerator $urlGenerator
+		private IAccountManager $accountManager,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->accountManager = $accountManager;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function preload(IUser $targetUser): void {

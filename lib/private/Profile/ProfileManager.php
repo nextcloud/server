@@ -50,38 +50,11 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class ProfileManager {
-	/** @var IAccountManager */
-	private $accountManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var ProfileConfigMapper */
-	private $configMapper;
-
-	/** @var ContainerInterface */
-	private $container;
-
-	/** @var KnownUserService */
-	private $knownUserService;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var Coordinator */
-	private $coordinator;
-
 	/** @var ILinkAction[] */
-	private $actions = [];
+	private array $actions = [];
 
 	/** @var null|ILinkAction[] */
-	private $sortedActions = null;
+	private ?array $sortedActions = null;
 	/** @var CappedMemoryCache<ProfileConfig> */
 	private CappedMemoryCache $configCache;
 
@@ -112,25 +85,16 @@ class ProfileManager {
 	];
 
 	public function __construct(
-		IAccountManager $accountManager,
-		IAppManager $appManager,
-		IConfig $config,
-		ProfileConfigMapper $configMapper,
-		ContainerInterface $container,
-		KnownUserService $knownUserService,
-		IFactory $l10nFactory,
-		LoggerInterface $logger,
-		Coordinator $coordinator
+		private IAccountManager $accountManager,
+		private IAppManager $appManager,
+		private IConfig $config,
+		private ProfileConfigMapper $configMapper,
+		private ContainerInterface $container,
+		private KnownUserService $knownUserService,
+		private IFactory $l10nFactory,
+		private LoggerInterface $logger,
+		private Coordinator $coordinator,
 	) {
-		$this->accountManager = $accountManager;
-		$this->appManager = $appManager;
-		$this->config = $config;
-		$this->configMapper = $configMapper;
-		$this->container = $container;
-		$this->knownUserService = $knownUserService;
-		$this->l10nFactory = $l10nFactory;
-		$this->logger = $logger;
-		$this->coordinator = $coordinator;
 		$this->configCache = new CappedMemoryCache();
 	}
 
@@ -239,40 +203,36 @@ class ProfileManager {
 
 		$visibility = $this->getProfileConfig($targetUser, $visitingUser)[$paramId]['visibility'];
 		// Handle profile visibility and account property scope
-		switch ($visibility) {
-			case ProfileConfig::VISIBILITY_HIDE:
-				return false;
-			case ProfileConfig::VISIBILITY_SHOW_USERS_ONLY:
-				if (!empty($scope)) {
-					switch ($scope) {
-						case IAccountManager::SCOPE_PRIVATE:
-							return $visitingUser !== null && $this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID());
-						case IAccountManager::SCOPE_LOCAL:
-						case IAccountManager::SCOPE_FEDERATED:
-						case IAccountManager::SCOPE_PUBLISHED:
-							return $visitingUser !== null;
-						default:
-							return false;
-					}
-				}
+
+		if ($visibility === ProfileConfig::VISIBILITY_SHOW_USERS_ONLY) {
+			if (empty($scope)) {
 				return $visitingUser !== null;
-			case ProfileConfig::VISIBILITY_SHOW:
-				if (!empty($scope)) {
-					switch ($scope) {
-						case IAccountManager::SCOPE_PRIVATE:
-							return $visitingUser !== null && $this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID());
-						case IAccountManager::SCOPE_LOCAL:
-						case IAccountManager::SCOPE_FEDERATED:
-						case IAccountManager::SCOPE_PUBLISHED:
-							return true;
-						default:
-							return false;
-					}
-				}
-				return true;
-			default:
-				return false;
+			}
+
+			return match ($scope) {
+				IAccountManager::SCOPE_PRIVATE => $visitingUser !== null && $this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID()),
+				IAccountManager::SCOPE_LOCAL,
+				IAccountManager::SCOPE_FEDERATED,
+				IAccountManager::SCOPE_PUBLISHED => $visitingUser !== null,
+				default => false,
+			};
 		}
+
+		if ($visibility === ProfileConfig::VISIBILITY_SHOW) {
+			if (empty($scope)) {
+				return true;
+			};
+
+			return match ($scope) {
+				IAccountManager::SCOPE_PRIVATE => $visitingUser !== null && $this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID()),
+				IAccountManager::SCOPE_LOCAL,
+				IAccountManager::SCOPE_FEDERATED,
+				IAccountManager::SCOPE_PUBLISHED => true,
+				default => false,
+			};
+		}
+
+		return false;
 	}
 
 	/**
