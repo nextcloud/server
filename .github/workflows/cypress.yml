@@ -9,7 +9,7 @@ on:
 
 env:
   APP_NAME: server
-  BRANCH: ${{ github.base_ref }}
+  BRANCH: ${{ github.base_ref || github.ref_name }} 
   TESTING: true
 
 jobs:
@@ -94,7 +94,6 @@ jobs:
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
-          CYPRESS_GH: true
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           # Needed for some specific code workarounds
