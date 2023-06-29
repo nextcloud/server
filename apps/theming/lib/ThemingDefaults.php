@@ -71,6 +71,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private string $productName;
 	private string $url;
 	private string $color;
+	private string $docBaseUrl;
 
 	private string $iTunesAppId;
 	private string $iOSClientUrl;
@@ -120,6 +121,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->iOSClientUrl = parent::getiOSClientUrl();
 		$this->AndroidClientUrl = parent::getAndroidClientUrl();
 		$this->FDroidClientUrl = parent::getFDroidClientUrl();
+		$this->docBaseUrl = parent::getDocBaseUrl();
 	}
 
 	public function getName() {
@@ -161,6 +163,10 @@ class ThemingDefaults extends \OC_Defaults {
 
 	public function getPrivacyUrl() {
 		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
+	}
+
+	public function getDocBaseUrl() {
+		return (string)$this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
 	}
 
 	public function getShortFooter() {
