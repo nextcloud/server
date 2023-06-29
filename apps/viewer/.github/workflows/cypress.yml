@@ -40,7 +40,6 @@ jobs:
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          cache: "npm"
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
@@ -80,7 +79,6 @@ jobs:
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          cache: "npm"
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
