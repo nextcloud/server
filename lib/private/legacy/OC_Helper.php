@@ -173,7 +173,7 @@ class OC_Helper {
 				if ($fileInfo->isLink()) {
 					unlink($fileInfo->getPathname());
 				} elseif ($fileInfo->isDir()) {
-					rmdir($fileInfo->getRealPath());
+					self::rmdirr($fileInfo->getRealPath());
 				} else {
 					unlink($fileInfo->getRealPath());
 				}
