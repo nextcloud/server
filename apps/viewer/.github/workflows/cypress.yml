@@ -11,7 +11,12 @@ on:
 env:
   # Adjust APP_NAME if your repository name is different
   APP_NAME: ${{ github.event.repository.name }}
-  BRANCH: ${{ github.base_ref }}
+
+  # This represents the server branch to checkout.
+  # Usually it's the base branch of the PR, but for pushes it's the branch itself.
+  # e.g. 'main', 'stable27' or 'feature/my-feature
+  # n.b. server will use head_ref, as we want to test the PR branch.
+  BRANCH: ${{ github.base_ref || github.ref_name }}
 
 jobs:
   init:
@@ -94,6 +99,9 @@ jobs:
         with:
           record: true
           parallel: true
+          # cypress run type
+          component: ${{ matrix.containers == 'component' }}
+          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
           # cypress env
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
           tag: ${{ github.event_name }}
