@@ -32,6 +32,7 @@
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserBackend;
@@ -460,5 +461,16 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 
 	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
 		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
+	}
+
+	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+		return array_map(
+			fn (OfflineUser $user) => $user->getOCName(),
+			array_slice(
+				$this->deletedUsersIndex->getUsers(),
+				$offset,
+				$limit
+			)
+		);
 	}
 }
