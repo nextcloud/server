@@ -44,4 +44,13 @@ interface IProvideEnabledStateBackend {
 	 * @param callable(bool):void $setDatabaseValue A callable to set the enabled state in the database.
 	 */
 	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool;
+
+	/**
+	 * Get the list of disabled users, to merge with the ones disabled in database
+	 *
+	 * @since 28.0.0
+	 *
+	 * @return string[]
+	 */
+	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array;
 }
