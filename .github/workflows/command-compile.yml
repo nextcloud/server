@@ -57,7 +57,8 @@ jobs:
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          fetch-depth: 0
+          # Fetch only the last 128 commits
+          fetch-depth: 128
           ref: ${{ needs.init.outputs.head_ref }}
 
       - name: Setup git
