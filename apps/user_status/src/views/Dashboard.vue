@@ -26,6 +26,7 @@
 		:empty-content-message="t('user_status', 'No recent status changes')">
 		<template #default="{ item }">
 			<NcDashboardWidgetItem :main-text="item.mainText"
+				class="user-status-panel__item"
 				:sub-text="item.subText">
 				<template #avatar>
 					<NcAvatar class="item-avatar"
@@ -117,5 +118,8 @@ export default {
 	height: 64px;
 	background-size: 64px;
 	filter: var(--background-invert-if-dark);
+}
+.user-status-panel__item p.message {
+	margin-bottom: 0!important;
 }
 </style>
