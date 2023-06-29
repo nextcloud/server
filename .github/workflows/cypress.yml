@@ -4,13 +4,15 @@ on:
   pull_request:
   push:
     branches:
+      - main
       - master
       - stable*
 
 env:
-  APP_NAME: server
-  BRANCH: ${{ github.base_ref || github.ref_name }} 
-  TESTING: true
+  # Adjust APP_NAME if your repository name is different
+  APP_NAME: ${{ github.event.repository.name }}
+  # Server requires head_ref instead of base_ref, as we want to test the PR branch
+  BRANCH: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   init:
@@ -23,6 +25,16 @@ jobs:
       - name: Checkout app
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
+      - name: Check composer.json
+        id: check_composer
+        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
+        with:
+          files: "composer.json"
+
+      - name: Install composer dependencies
+        if: steps.check_composer.outputs.files_exists == 'true'
+        run: composer install --no-dev
+
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
         id: versions
@@ -33,19 +45,18 @@ jobs:
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          cache: 'npm'
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
         run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
-      - name: Install dependencies & build app
+      - name: Install node dependencies & build app
         run: |
           npm ci
           TESTING=true npm run build --if-present
 
       - name: Save context
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -57,14 +68,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # run multiple copies of the current job in parallel
+        # Run multiple copies of the current job in parallel
+        # Please increase the number or runners as your tests suite grows
         containers: ["component", 1, 2]
 
     name: runner ${{ matrix.containers }}
 
     steps:
       - name: Restore context
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        uses: buildjet/cache/restore@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
@@ -73,12 +85,10 @@ jobs:
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          cache: 'npm'
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
-
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73 # v5.8.1
@@ -90,7 +100,7 @@ jobs:
           group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
           # cypress env
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ github.event_name }}t
+          tag: ${{ github.event_name }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -101,9 +111,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
+      - name: Upload snapshots
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: always()
+        with:
+          name: snapshots_${{ matrix.containers }}
+          path: cypress/snapshots
+
       - name: Extract NC logs
         if: failure() && matrix.containers != 'component'
-        run: docker logs nextcloud-cypress-tests-server > nextcloud.log
+        run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
