@@ -37,6 +37,8 @@ import './globals.js'
 import './jquery/index.js'
 import { initCore } from './init.js'
 
+console.debug('TEST')
+
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
 	registerAppsSlideToggle()
