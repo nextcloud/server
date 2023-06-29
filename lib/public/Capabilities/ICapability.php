@@ -25,11 +25,8 @@ namespace OCP\Capabilities;
  * Minimal interface that has to be implemented for a class to be considered
  * a capability.
  *
- * In an application use:
- *   $this->getContainer()->registerCapability('OCA\MY_APP\Capabilities');
- * To register capabilities.
- *
- * The class 'OCA\MY_APP\Capabilities' must then implement ICapability
+ * In an application use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerCapability
+ * to register capabilities.
  *
  * @since 8.2.0
  */
