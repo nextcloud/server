@@ -61,10 +61,6 @@ class VersionFile implements IFile {
 		}
 	}
 
-	public function getSourceFile(): FileInfo {
-		return $this->version->getSourceFile();
-	}
-
 	public function getContentType(): string {
 		return $this->version->getMimeType();
 	}
