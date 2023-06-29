@@ -14,8 +14,6 @@
 
 /*! For license information please see NcCounterBubble.js.LICENSE.txt */
 
-/*! For license information please see NcMultiselect.js.LICENSE.txt */
-
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *

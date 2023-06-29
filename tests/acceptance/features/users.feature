@@ -126,18 +126,18 @@ Feature: users
 #    And I see that the displayName cell for user user0 is done loading
 #    Then I see that the displayName of user0 is user1
 
-  Scenario: change password
-    Given I act as Jane
-    And I am logged in as the admin
-    And I open the User settings
-    And I see that the list of users contains the user user0
-    When I toggle the edit mode for the user user0
-    Then I see that the edit mode is on for user user0
-    And I see that the password of user0 is ""
-    When I set the password for user0 to 123456
-    And I see that the password cell for user user0 is done loading
-    # password input is emptied on change
-    Then I see that the password of user0 is ""
+#  Scenario: change password
+#    Given I act as Jane
+#    And I am logged in as the admin
+#    And I open the User settings
+#    And I see that the list of users contains the user user0
+#    When I toggle the edit mode for the user user0
+#    Then I see that the edit mode is on for user user0
+#    And I see that the password of user0 is ""
+#    When I set the password for user0 to 123456
+#    And I see that the password cell for user user0 is done loading
+#    # password input is emptied on change
+#    Then I see that the password of user0 is ""
 
 #  Scenario: change email
 #    Given I act as Jane

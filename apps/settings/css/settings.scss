@@ -1400,7 +1400,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.quota {
 				min-width: $grid-col-min-width;
 
-				.multiselect {
+				.select {
 					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
@@ -1470,10 +1470,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			&:hover {
-				input:not([type='submit']):not(:focus):not(:active) {
-					border-color: var(--color-border) !important;
-				}
-
 				&:not(#grid-header) {
 					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
@@ -1614,7 +1610,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 
 				/* Fill the grid cell */
-				.multiselect.multiselect-vue {
+				.v-select.select-vue {
 					min-width: 100%;
 					width: 100%;
 				}
