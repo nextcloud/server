@@ -39,7 +39,7 @@
 		<div v-if="loaded && shares.length === 0" class="sharing-entry__desc">
 			<span class="sharing-entry__title">{{ 'No others with access' }}</span>
 			<p>
-				{{ 'People with access to parent folders will show up here' }}
+				{{ t('files_sharing', 'People with access to parent folders will show up here') }}
 			</p>
 		</div>
 		<template v-else>
