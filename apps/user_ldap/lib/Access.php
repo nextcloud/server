@@ -1545,12 +1545,16 @@ class Access extends LDAPUtility {
 				return '';
 			}
 			// wildcards don't work with some attributes
-			$filter[] = $fallbackAttribute . '=' . $originalSearch;
+			if ($originalSearch !== '') {
+				$filter[] = $fallbackAttribute . '=' . $originalSearch;
+			}
 			$filter[] = $fallbackAttribute . '=' . $search;
 		} else {
 			foreach ($searchAttributes as $attribute) {
 				// wildcards don't work with some attributes
-				$filter[] = $attribute . '=' . $originalSearch;
+				if ($originalSearch !== '') {
+					$filter[] = $attribute . '=' . $originalSearch;
+				}
 				$filter[] = $attribute . '=' . $search;
 			}
 		}
