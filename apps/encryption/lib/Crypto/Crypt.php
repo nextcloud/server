@@ -40,8 +40,8 @@ use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use phpseclib\Crypt\RC4;
 
 /**
@@ -83,40 +83,24 @@ class Crypt {
 	// default encoding format, old Nextcloud versions used base64
 	public const BINARY_ENCODING_FORMAT = 'binary';
 
-	/** @var ILogger */
-	private $logger;
+	private string $user;
 
-	/** @var string */
-	private $user;
+	private ?string $currentCipher = null;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var string|null */
-	private $currentCipher;
-
-	/** @var bool */
-	private $supportLegacy;
+	private bool $supportLegacy;
 
 	/**
 	 * Use the legacy base64 encoding instead of the more space-efficient binary encoding.
 	 */
 	private bool $useLegacyBase64Encoding;
 
-	/**
-	 * @param ILogger $logger
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 */
-	public function __construct(ILogger $logger, IUserSession $userSession, IConfig $config, IL10N $l) {
-		$this->logger = $logger;
-		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
-		$this->config = $config;
-		$this->l = $l;
+	public function __construct(
+		private LoggerInterface $logger,
+		IUserSession $userSession,
+		private IConfig $config,
+		private IL10N $l,
+	) {
+		$this->user = $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 		$this->useLegacyBase64Encoding = $this->config->getSystemValueBool('encryption.use_legacy_base64_encoding', false);
 	}
@@ -127,15 +111,14 @@ class Crypt {
 	 * @return array|bool
 	 */
 	public function createKeyPair() {
-		$log = $this->logger;
 		$res = $this->getOpenSSLPKey();
 
 		if (!$res) {
-			$log->error("Encryption Library couldn't generate users key-pair for {$this->user}",
+			$this->logger->error("Encryption Library couldn't generate users key-pair for {$this->user}",
 				['app' => 'encryption']);
 
 			if (openssl_error_string()) {
-				$log->error('Encryption library openssl_pkey_new() fails: ' . openssl_error_string(),
+				$this->logger->error('Encryption library openssl_pkey_new() fails: ' . openssl_error_string(),
 					['app' => 'encryption']);
 			}
 		} elseif (openssl_pkey_export($res,
@@ -150,10 +133,10 @@ class Crypt {
 				'privateKey' => $privateKey
 			];
 		}
-		$log->error('Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user,
+		$this->logger->error('Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user,
 			['app' => 'encryption']);
 		if (openssl_error_string()) {
-			$log->error('Encryption Library:' . openssl_error_string(),
+			$this->logger->error('Encryption Library:' . openssl_error_string(),
 				['app' => 'encryption']);
 		}
 
@@ -172,10 +155,8 @@ class Crypt {
 
 	/**
 	 * get openSSL Config
-	 *
-	 * @return array
 	 */
-	private function getOpenSSLConfig() {
+	private function getOpenSSLConfig(): array {
 		$config = ['private_key_bits' => 4096];
 		$config = array_merge(
 			$config,
@@ -240,10 +221,9 @@ class Crypt {
 	 * @param string $iv
 	 * @param string $passPhrase
 	 * @param string $cipher
-	 * @return string
 	 * @throws EncryptionFailedException
 	 */
-	private function encrypt($plainContent, $iv, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
+	private function encrypt($plainContent, $iv, $passPhrase = '', $cipher = self::DEFAULT_CIPHER): string {
 		$options = $this->useLegacyBase64Encoding ? 0 : OPENSSL_RAW_DATA;
 		$encryptedContent = openssl_encrypt($plainContent,
 			$cipher,
@@ -264,10 +244,8 @@ class Crypt {
 	/**
 	 * return cipher either from config.php or the default cipher defined in
 	 * this class
-	 *
-	 * @return string
 	 */
-	private function getCachedCipher() {
+	private function getCachedCipher(): string {
 		if (isset($this->currentCipher)) {
 			return $this->currentCipher;
 		}
@@ -336,18 +314,16 @@ class Crypt {
 	/**
 	 * @param string $encryptedContent
 	 * @param string $iv
-	 * @return string
 	 */
-	private function concatIV($encryptedContent, $iv) {
+	private function concatIV($encryptedContent, $iv): string {
 		return $encryptedContent . '00iv00' . $iv;
 	}
 
 	/**
 	 * @param string $encryptedContent
 	 * @param string $signature
-	 * @return string
 	 */
-	private function concatSig($encryptedContent, $signature) {
+	private function concatSig($encryptedContent, $signature): string {
 		return $encryptedContent . '00sig00' . $signature;
 	}
 
@@ -357,19 +333,15 @@ class Crypt {
 	 * encrypted content and is not used in any crypto primitive.
 	 *
 	 * @param string $data
-	 * @return string
 	 */
-	private function addPadding($data) {
+	private function addPadding($data): string {
 		return $data . 'xxx';
 	}
 
 	/**
 	 * generate password hash used to encrypt the users private key
 	 *
-	 * @param string $password
-	 * @param string $cipher
 	 * @param string $uid only used for user keys
-	 * @return string
 	 */
 	protected function generatePasswordHash(string $password, string $cipher, string $uid = '', int $iterations = 600000): string {
 		$instanceId = $this->config->getSystemValue('instanceid');
@@ -546,9 +518,8 @@ class Crypt {
 	 *
 	 * @param string $padded
 	 * @param bool $hasSignature did the block contain a signature, in this case we use a different padding
-	 * @return string|false
 	 */
-	private function removePadding($padded, $hasSignature = false) {
+	private function removePadding($padded, $hasSignature = false): string|false {
 		if ($hasSignature === false && substr($padded, -2) === 'xx') {
 			return substr($padded, 0, -2);
 		} elseif ($hasSignature === true && substr($padded, -3) === 'xxx') {
@@ -564,9 +535,8 @@ class Crypt {
 	 *
 	 * @param string $catFile
 	 * @param string $cipher
-	 * @return array
 	 */
-	private function splitMetaData($catFile, $cipher) {
+	private function splitMetaData($catFile, $cipher): array {
 		if ($this->hasSignature($catFile, $cipher)) {
 			$catFile = $this->removePadding($catFile, true);
 			$meta = substr($catFile, -93);
@@ -593,10 +563,9 @@ class Crypt {
 	 *
 	 * @param string $catFile
 	 * @param string $cipher
-	 * @return bool
 	 * @throws GenericEncryptionException
 	 */
-	private function hasSignature($catFile, $cipher) {
+	private function hasSignature($catFile, $cipher): bool {
 		$skipSignatureCheck = $this->config->getSystemValueBool('encryption_skip_signature_check', false);
 
 		$meta = substr($catFile, -93);
@@ -617,12 +586,6 @@ class Crypt {
 
 
 	/**
-	 * @param string $encryptedContent
-	 * @param string $iv
-	 * @param string $passPhrase
-	 * @param string $cipher
-	 * @param boolean $binaryEncoding
-	 * @return string
 	 * @throws DecryptionFailedException
 	 */
 	private function decrypt(string $encryptedContent, string $iv, string $passPhrase = '', string $cipher = self::DEFAULT_CIPHER, bool $binaryEncoding = false): string {
@@ -669,10 +632,9 @@ class Crypt {
 	/**
 	 * generate initialization vector
 	 *
-	 * @return string
 	 * @throws GenericEncryptionException
 	 */
-	private function generateIv() {
+	private function generateIv(): string {
 		return random_bytes(16);
 	}
 
