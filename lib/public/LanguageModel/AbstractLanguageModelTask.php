@@ -35,8 +35,8 @@ use OC\LanguageModel\Db\Task;
  * @template-implements ILanguageModelTask<T>
  */
 abstract class AbstractLanguageModelTask implements ILanguageModelTask {
-	protected ?int $id;
-	protected ?string $output;
+	protected ?int $id = null;
+	protected ?string $output = null;
 	protected int $status = ILanguageModelTask::STATUS_UNKNOWN;
 
 	/**
@@ -156,6 +156,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId());
 		$task->setId($taskEntity->getId());
 		$task->setStatus($taskEntity->getStatus());
+		$task->setOutput($taskEntity->getOutput());
 		return $task;
 	}
 
@@ -169,9 +170,9 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @since 28.0.0
 	 */
 	final public static function factory(string $type, string $input, ?string $userId, string $appId): ILanguageModelTask {
-		if (!in_array($type, self::TYPES)) {
+		if (!in_array($type, array_keys(self::TYPES))) {
 			throw new \InvalidArgumentException('Unknown task type');
 		}
-		return new (ILanguageModelTask::TYPES[$type])($input, $userId, $appId);
+		return new (ILanguageModelTask::TYPES[$type])($input, $appId, $userId);
 	}
 }

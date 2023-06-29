@@ -54,7 +54,7 @@ class TaskBackgroundJob extends QueuedJob {
 		try {
 			$this->languageModelManager->runTask($task);
 			$event = new TaskSuccessfulEvent($task);
-		} catch (\RuntimeException|PreConditionNotMetException $e) {
+		} catch (\RuntimeException|PreConditionNotMetException|\Throwable $e) {
 			$event = new TaskFailedEvent($task, $e->getMessage());
 		}
 		$this->eventDispatcher->dispatchTyped($event);
