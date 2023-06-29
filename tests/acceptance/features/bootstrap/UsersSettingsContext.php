@@ -125,7 +125,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function actionsMenuOf($user) {
-		return Locator::forThe()->css(".icon-more")->
+		return Locator::forThe()->css(".userActions .action-item:not(.action-item--single)")->
 			descendantOf(self::rowForUser($user))->
 			describedAs("Actions menu for user $user in Users Settings");
 	}
@@ -134,8 +134,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function theAction($action, $user) {
-		return Locator::forThe()->xpath("//button[normalize-space() = '$action']")->
-			descendantOf(self::rowForUser($user))->
+		return Locator::forThe()->xpath("//button[@aria-label = normalize-space('$action')]")->
 			describedAs("$action action for the user $user row in Users Settings");
 	}
 
@@ -160,7 +159,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function editModeToggle($user) {
-		return Locator::forThe()->css(".toggleUserActions button")->
+		return Locator::forThe()->css(".userActions .action-items button:first-of-type")->
 			descendantOf(self::rowForUser($user))->
 			describedAs("The edit toggle button for the user $user in Users Settings");
 	}
