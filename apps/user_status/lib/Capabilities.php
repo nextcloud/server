@@ -40,9 +40,6 @@ class Capabilities implements ICapability {
 		$this->emojiHelper = $emojiHelper;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getCapabilities() {
 		return [
 			'user_status' => [

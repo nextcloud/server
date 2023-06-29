@@ -37,7 +37,19 @@ interface ICapability {
 	/**
 	 * Function an app uses to return the capabilities
 	 *
-	 * @return array Array containing the apps capabilities
+	 * ```php
+	 * return [
+	 *     'myapp' => [
+	 *         'awesomefeature' => true,
+	 *         'featureversion' => 3,
+	 *     ],
+	 *     'morecomplex' => [
+	 *         'a' => [1, 2],
+	 *     ],
+	 * ];
+	 * ```
+	 *
+	 * @return array<string, array<string, mixed>> Indexed array containing the app's capabilities
 	 * @since 8.2.0
 	 */
 	public function getCapabilities();
