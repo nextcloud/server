@@ -19,10 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { createClient, getPatcher, RequestOptions } from 'webdav'
-import { request } from '../../../../node_modules/webdav/dist/node/request.js'
+import type { RequestOptions, Response } from 'webdav'
+
+import { createClient, getPatcher } from 'webdav'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser, getRequestToken } from '@nextcloud/auth'
+import { request } from 'webdav/dist/node/request.js'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
 export const defaultRootUrl = generateRemoteUrl('dav' + rootPath)
@@ -40,7 +42,10 @@ export const getClient = (rootUrl = defaultRootUrl) => {
 	 * @see https://github.com/perry-mitchell/webdav-client/blob/8d9694613c978ce7404e26a401c39a41f125f87f/source/request.ts
 	 */
 	const patcher = getPatcher()
-	patcher.patch('request', (options: RequestOptions) => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	// https://github.com/perry-mitchell/hot-patcher/issues/6
+	patcher.patch('request', (options: RequestOptions): Promise<Response> => {
 		if (options.headers?.method) {
 			options.method = options.headers.method
 			delete options.headers.method
