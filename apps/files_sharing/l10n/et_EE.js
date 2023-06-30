@@ -145,6 +145,7 @@ OC.L10N.register(
     "Expiration date (enforced)" : "Aegumise kuupäev (jõustatud)",
     "Cancel" : "Loobu",
     "Password protect" : "Parooliga kaitsmine",
+    "Add another link" : "Lisa veel üks link",
     "Share link" : "Jaga link",
     "No recommendations. Start typing." : "Soovitusi pole. Alusta trükkimist.",
     "Resharing is not allowed" : "Edasijagamine pole lubatud",

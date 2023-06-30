@@ -316,6 +316,7 @@ OC.L10N.register(
     "Week starts on {firstDayOfWeek}" : "A semana começa em {firstDayOfWeek}",
     "Unable to update locale" : "Não foi possível atualizar a localidade",
     "No locale set" : "Nenhuma localidade definida",
+    "Your city" : "Sua cidade",
     "Your organisation" : "Sua organização",
     "Your phone number" : "Seu número de telefone",
     "Edit your Profile visibility" : "Edite a visibilidade do seu perfil",

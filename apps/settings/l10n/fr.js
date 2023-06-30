@@ -175,7 +175,7 @@ OC.L10N.register(
     "Visit website" : "Visiter le site web",
     "Report a bug" : "Signaler un bogue",
     "Admin documentation" : "Documentation administrateur",
-    "Developer documentation" : "Documentation pour développeurs",
+    "Developer documentation" : "Documentation développeurs",
     "This app is supported via your current Nextcloud subscription." : "Cette application bénéficie d'un support grâce à votre abonnement Nextcloud.",
     "Supported" : "Pris en charge",
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les applications mises en avant sont développées par la communauté. Elles proposent des fonctionnalités centrales et sont prêtes pour la production.",

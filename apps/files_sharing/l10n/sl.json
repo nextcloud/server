@@ -139,6 +139,7 @@
     "Sharing" : "Souporaba",
     "Accept user and group shares by default" : "Privzeto sprejmi uporabniško in skupinsko souporabo predmetov",
     "Error while toggling options" : "Prišlo je do napake med preklapljanjem možnosti",
+    "Set default folder for accepted shares" : "Izbor privzete mape za sprejemanje map v souporabi",
     "Reset" : "Ponastavi",
     "Reset folder to system default" : "Ponastavi mapo na privzete sistemske vrednosti",
     "Choose a default folder for accepted shares" : "Izbor privzete mape za sprejemanje map v souporabi",
