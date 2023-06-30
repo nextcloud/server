@@ -120,8 +120,12 @@ class LanguageModelManager implements ILanguageModelManager {
 			}
 			try {
 				$task->setStatus(ILanguageModelTask::STATUS_RUNNING);
-				$taskEntity = $this->taskMapper->update(Task::fromLanguageModelTask($task));
-				$task->setId($taskEntity->getId());
+				if ($task->getId() === null) {
+					$taskEntity = $this->taskMapper->insert(Task::fromLanguageModelTask($task));
+					$task->setId($taskEntity->getId());
+				}else {
+					$this->taskMapper->update(Task::fromLanguageModelTask($task));
+				}
 				$output = $task->visitProvider($provider);
 				$task->setOutput($output);
 				$task->setStatus(ILanguageModelTask::STATUS_SUCCESSFUL);
