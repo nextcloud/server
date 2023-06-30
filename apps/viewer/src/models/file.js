@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDavPath } from '../utils/fileUtils.js'
+import { getDavPath } from '../utils/fileUtils.ts'
 
 /**
  * @param {object} fileInfo a FileInfo object

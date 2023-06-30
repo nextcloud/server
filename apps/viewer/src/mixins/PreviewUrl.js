@@ -21,8 +21,8 @@
  */
 import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-import { getToken, isPublic } from '../utils/davUtils.js'
-import { getDavPath } from '../utils/fileUtils.js'
+import { getToken, isPublic } from '../utils/davUtils.ts'
+import { getDavPath } from '../utils/fileUtils.ts'
 
 export default {
 	computed: {

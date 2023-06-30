@@ -19,12 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { FileStat } from 'webdav'
 import { dirname, encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import camelcase from 'camelcase'
 
-import { getRootPath, getToken, getUserRoot, isPublic } from './davUtils.js'
-import { isNumber } from './numberUtil.js'
+import { getRootPath, getToken, getUserRoot, isPublic } from './davUtils'
+import { isNumber } from './numberUtil'
+
+declare const OC: Nextcloud.v27.OC
 
 /**
  * Extract dir and name from file path
@@ -74,14 +77,13 @@ const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
 		: -fileInfo1[key].localeCompare(fileInfo2[key], OC.getLanguage())
 }
 
+export type FileInfo = object
+
 /**
  * Generate a fileinfo object based on the full dav properties
  * It will flatten everything and put all keys to camelCase
- *
- * @param {object} obj the object
- * @return {object}
  */
-const genFileInfo = function(obj) {
+const genFileInfo = function(obj: FileStat): FileInfo {
 	const fileInfo = {}
 
 	Object.keys(obj).forEach(key => {
@@ -115,7 +117,7 @@ const genFileInfo = function(obj) {
  * @param {string} fileInfo.source the file source if any
  * @return {string}
  */
-const getDavPath = function({ filename, basename, source = '' }) {
+const getDavPath = function({ filename, basename, source = '' }: {filename: string, basename: string, source: string}) {
 	// TODO: allow proper dav access without the need of basic auth
 	// https://github.com/nextcloud/server/issues/19700
 	if (isPublic()) {

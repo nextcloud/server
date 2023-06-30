@@ -20,17 +20,14 @@
  *
  */
 
-import { getClient } from './DavClient.js'
-import { genFileInfo } from '../utils/fileUtils.js'
+import { getClient } from './WebdavClient'
+import { genFileInfo, type FileInfo } from '../utils/fileUtils'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 /**
  * Retrieve the files list
- *
- * @param {string} path the path relative to the user root
- * @param {object} [options] optional options for axios
- * @return {Array} the file list
  */
-export default async function(path, options) {
+export default async function(path: string, options = {}): Promise<FileInfo[]> {
 	// getDirectoryContents doesn't accept / for root
 	const fixedPath = path === '/' ? '' : path
 
@@ -61,7 +58,7 @@ export default async function(path, options) {
 				</d:prop>
 			</d:propfind>`,
 		details: true,
-	}, options))
+	}, options)) as ResponseDataDetailed<FileStat[]>
 
 	return response.data.map(genFileInfo)
 }
