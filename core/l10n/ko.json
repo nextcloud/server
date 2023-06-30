@@ -253,7 +253,7 @@
     "This action requires you to confirm your password" : "이 작업을 수행하려면 암호를 입력해야 합니다",
     "Confirm" : "확인",
     "Failed to authenticate, try again" : "인증할 수 없습니다. 다시 시도하십시오.",
-    "seconds ago" : "초 전",
+    "seconds ago" : "몇 초 전",
     "Connection to server lost" : "서버 연결이 끊어짐",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["페이지 불러오기 오류, %n초 후 새로 고침"],
     "Add to a project" : "프로젝트에 추가",
