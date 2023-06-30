@@ -12,6 +12,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -41,15 +42,15 @@ use Psr\Log\LoggerInterface;
  *
  * It handles headers, HTTP status code, last modified and ETag.
  * @since 6.0.0
+ * @template S of int
+ * @template H of array<string, mixed>
  */
 class Response {
 	/**
-	 * Headers - defaults to ['Cache-Control' => 'no-cache, no-store, must-revalidate']
-	 * @var array
+	 * Headers
+	 * @var H
 	 */
-	private $headers = [
-		'Cache-Control' => 'no-cache, no-store, must-revalidate'
-	];
+	private $headers;
 
 
 	/**
@@ -61,9 +62,9 @@ class Response {
 
 	/**
 	 * HTTP status code - defaults to STATUS OK
-	 * @var int
+	 * @var S
 	 */
-	private $status = Http::STATUS_OK;
+	private $status;
 
 
 	/**
@@ -91,15 +92,13 @@ class Response {
 	private $throttleMetadata = [];
 
 	/**
+	 * @param S $status
+	 * @param H $headers
 	 * @since 17.0.0
 	 */
-	public function __construct() {
-		/** @var IRequest $request */
-		/**
-		 * @psalm-suppress UndefinedClass
-		 */
-		$request = \OC::$server->get(IRequest::class);
-		$this->addHeader("X-Request-Id", $request->getId());
+	public function __construct(int $status = Http::STATUS_OK, array $headers = []) {
+		$this->setStatus($status);
+		$this->setHeaders($headers);
 	}
 
 	/**
@@ -231,11 +230,14 @@ class Response {
 
 	/**
 	 * Set the headers
-	 * @param array $headers value header pairs
-	 * @return $this
+	 * @template NewH as array<string, mixed>
+	 * @param NewH $headers value header pairs
+	 * @psalm-this-out static<S, NewH>
+	 * @return static
 	 * @since 8.0.0
 	 */
-	public function setHeaders(array $headers) {
+	public function setHeaders(array $headers): static {
+		/** @psalm-suppress InvalidPropertyAssignmentValue Expected due to @psalm-this-out */
 		$this->headers = $headers;
 
 		return $this;
@@ -244,20 +246,26 @@ class Response {
 
 	/**
 	 * Returns the set headers
-	 * @return array the headers
+	 * @return array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H} the headers
 	 * @since 6.0.0
 	 */
 	public function getHeaders() {
-		$mergeWith = [];
+		/** @var IRequest $request */
+		/**
+		 * @psalm-suppress UndefinedClass
+		 */
+		$request = \OC::$server->get(IRequest::class);
+		$mergeWith = [
+			'X-Request-Id' => $request->getId(),
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
+			'Content-Security-Policy' => $this->getContentSecurityPolicy()->buildPolicy(),
+			'Feature-Policy' => $this->getFeaturePolicy()->buildPolicy(),
+			'X-Robots-Tag' => 'noindex, nofollow',
+		];
 
 		if ($this->lastModified) {
-			$mergeWith['Last-Modified'] =
-				$this->lastModified->format(\DateTimeInterface::RFC2822);
+			$mergeWith['Last-Modified'] = $this->lastModified->format(\DateTimeInterface::RFC2822);
 		}
-
-		$this->headers['Content-Security-Policy'] = $this->getContentSecurityPolicy()->buildPolicy();
-		$this->headers['Feature-Policy'] = $this->getFeaturePolicy()->buildPolicy();
-		$this->headers['X-Robots-Tag'] = 'noindex, nofollow';
 
 		if ($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
@@ -279,11 +287,14 @@ class Response {
 
 	/**
 	 * Set response status
-	 * @param int $status a HTTP status code, see also the STATUS constants
-	 * @return Response Reference to this object
+	 * @template NewS as int
+	 * @param NewS $status a HTTP status code, see also the STATUS constants
+	 * @psalm-this-out static<NewS, H>
+	 * @return static
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setStatus($status) {
+	public function setStatus($status): static {
+		/** @psalm-suppress InvalidPropertyAssignmentValue Expected due to @psalm-this-out */
 		$this->status = $status;
 
 		return $this;
@@ -338,6 +349,7 @@ class Response {
 	/**
 	 * Get response status
 	 * @since 6.0.0
+	 * @return S
 	 */
 	public function getStatus() {
 		return $this->status;

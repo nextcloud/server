@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,34 +31,37 @@ use OCP\AppFramework\Http;
  * A generic DataResponse class that is used to return generic data responses
  * for responders to transform
  * @since 8.0.0
+ * @psalm-type DataResponseType = array|int|float|string|bool|object|null|\stdClass|\JsonSerializable
+ * @template S of int
+ * @template-covariant T of DataResponseType
+ * @template H of array<string, mixed>
+ * @template-extends Response<int, array<string, mixed>>
  */
 class DataResponse extends Response {
 	/**
 	 * response data
-	 * @var array|int|float|string|bool|object
+	 * @var T
 	 */
 	protected $data;
 
 
 	/**
-	 * @param array|int|float|string|bool|object $data the object or array that should be transformed
-	 * @param int $statusCode the Http status code, defaults to 200
-	 * @param array $headers additional key value based headers
+	 * @param T $data the object or array that should be transformed
+	 * @param S $statusCode the Http status code, defaults to 200
+	 * @param H $headers additional key value based headers
 	 * @since 8.0.0
 	 */
-	public function __construct($data = [], $statusCode = Http::STATUS_OK,
-								array $headers = []) {
-		parent::__construct();
+	public function __construct(mixed $data = [], int $statusCode = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($statusCode, $headers);
 
 		$this->data = $data;
-		$this->setStatus($statusCode);
-		$this->setHeaders(array_merge($this->getHeaders(), $headers));
 	}
 
 
 	/**
 	 * Sets values in the data json array
-	 * @param array|int|float|string|object $data an array or object which will be transformed
+	 * @psalm-suppress InvalidTemplateParam
+	 * @param T $data an array or object which will be transformed
 	 * @return DataResponse Reference to this object
 	 * @since 8.0.0
 	 */
@@ -70,7 +74,7 @@ class DataResponse extends Response {
 
 	/**
 	 * Used to get the set parameters
-	 * @return array|int|float|string|bool|object the data
+	 * @return T the data
 	 * @since 8.0.0
 	 */
 	public function getData() {
