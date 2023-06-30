@@ -113,7 +113,7 @@ class TagSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
-		$matchingTags = $this->tagManager->getAllTags(1, $query->getTerm());
+		$matchingTags = $this->tagManager->getAllTags(true, $query->getTerm());
 		if (count($matchingTags) === 0) {
 			return SearchResult::complete($this->l10n->t('Tags'), []);
 		}
