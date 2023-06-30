@@ -2,15 +2,17 @@
 	"extends": "@vue/tsconfig/tsconfig.json",
 	"include": ["./src/**/*.ts"],
 	"compilerOptions": {
-		"types": ["cypress", "cypress-visual-regression", "node", "dockerode"],
-		"allowSyntheticDefaultImports": true,
-		"moduleResolution": "node",
+		"types": ["cypress", "cypress-visual-regression", "node", "dockerode", "@nextcloud/typings"],
 		"target": "ESNext",
 		"module": "esnext",
-		"declaration": true,
-		"strict": true,
+		"moduleResolution": "node",
+		// Allow ts to import js files
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"declaration": false,
 		"noImplicitAny": false,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"strict": true,
 	},
 	"ts-node": {
 		// these options are overrides used only by ts-node

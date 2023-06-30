@@ -10,7 +10,7 @@ import { Node } from '@nextcloud/files'
 
 import logger from '../services/logger.js'
 import translations from '../models/editorTranslations.js'
-import { rawStat } from '../services/FileInfo.js'
+import { rawStat } from '../services/FileInfo.ts'
 
 let TABS, TOOLS
 

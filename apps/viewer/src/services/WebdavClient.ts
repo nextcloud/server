@@ -21,7 +21,7 @@
  */
 
 import { createClient } from 'webdav'
-import { getRootPath, getToken, isPublic } from '../utils/davUtils.js'
+import { getRootPath, getToken, isPublic } from '../utils/davUtils'
 import { getRequestToken } from '@nextcloud/auth'
 
 export const getClient = () => {

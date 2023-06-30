@@ -20,9 +20,9 @@
  *
  */
 
-import { getClient } from './DavClient.js'
-import { genFileInfo } from '../utils/fileUtils.js'
-import { createClient } from 'webdav'
+import { getClient } from './WebdavClient'
+import { genFileInfo, type FileInfo } from '../utils/fileUtils'
+import { createClient, type FileStat, type ResponseDataDetailed } from 'webdav'
 
 const statData = `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:"
@@ -53,33 +53,24 @@ const statData = `<?xml version="1.0"?>
 
 /**
  * Retrieve the files list
- *
- * @param {string} path the path relative to the user root
- * @param {object} [options] optional options for axios
- * @return {Promise<Array>} the file list
  */
-export default async function(path, options) {
+export default async function(path: string, options = {}): Promise<FileInfo> {
 	const response = await getClient().stat(path, Object.assign({
 		data: statData,
 		details: true,
-	}, options))
+	}, options)) as ResponseDataDetailed<FileStat>
 	return genFileInfo(response.data)
 }
 
 /**
  * Retrieve the files list
- *
- * @param {string} origin
- * @param {string} path the path relative to the user root
- * @param {object} [options] optional options for axios
- * @return {Promise<object>} the file list
  */
-export async function rawStat(origin, path, options) {
+export async function rawStat(origin: string, path: string, options = {}) {
 	const response = await createClient(origin).stat(path, {
 		...options,
 		data: statData,
 		details: true,
-	})
+	}) as ResponseDataDetailed<FileStat>
 
 	return response.data
 }

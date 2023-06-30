@@ -59,6 +59,6 @@ export const isPublic = function() {
  * Get the current share link token
  */
 export const getToken = function() {
-	return document.getElementById('sharingToken')
-		&& document.getElementById('sharingToken').value
+	const tokenInput = document.getElementById('sharingToken') as HTMLInputElement
+	return tokenInput && tokenInput.value
 }

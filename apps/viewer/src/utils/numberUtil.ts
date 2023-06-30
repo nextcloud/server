@@ -20,7 +20,7 @@
  *
  */
 
-const isNumber = function(num) {
+const isNumber = function(num: any): boolean {
 	if (!num) {
 		return false
 	}
