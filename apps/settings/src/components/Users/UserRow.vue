@@ -44,7 +44,6 @@
 	<!-- User full data -->
 	<UserRowSimple v-else-if="!editing"
 		:editing.sync="editing"
-		:feedback-message="feedbackMessage"
 		:groups="groups"
 		:languages="languages"
 		:loading="loading"
@@ -222,59 +221,41 @@
 		</div>
 
 		<div class="userActions">
-			<div v-if="!loading.all"
-				class="toggleUserActions">
-				<NcActions>
-					<NcActionButton icon="icon-checkmark"
-						:title="t('settings', 'Done')"
-						:aria-label="t('settings', 'Done')"
-						@click="handleDoneButton" />
-				</NcActions>
-				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
-					<button class="icon-more"
-						:aria-expanded="openedMenu"
-						:aria-label="t('settings', 'Toggle user actions menu')"
-						@click.prevent="toggleMenu" />
-					<div :class="{ 'open': openedMenu }" class="popovermenu">
-						<NcPopoverMenu :menu="userActions" />
-					</div>
-				</div>
-			</div>
-			<div :style="{opacity: feedbackMessage !== '' ? 1 : 0}"
-				class="feedback">
-				<div class="icon-checkmark" />
-				{{ feedbackMessage }}
-			</div>
+			<UserRowActions v-if="!loading.all"
+				:actions="userActions"
+				:edit="true"
+				@update:edit="toggleEdit" />
 		</div>
 	</div>
 </template>
 
 <script>
+import { showSuccess, showError } from '@nextcloud/dialogs'
+
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import ClickOutside from 'vue-click-outside'
 
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import UserRowActions from './UserRowActions.vue'
 import UserRowSimple from './UserRowSimple.vue'
 import UserRowMixin from '../../mixins/UserRowMixin.js'
-import { showSuccess, showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'UserRow',
+
 	components: {
-		UserRowSimple,
-		NcPopoverMenu,
-		NcActions,
-		NcActionButton,
 		NcSelect,
 		NcTextField,
+		UserRowActions,
+		UserRowSimple,
 	},
+
 	directives: {
 		ClickOutside,
 	},
+
 	mixins: [UserRowMixin],
+
 	props: {
 		users: {
 			type: Array,
@@ -325,7 +306,6 @@ export default {
 			selectedQuota: false,
 			rand: parseInt(Math.random() * 1000),
 			openedMenu: false,
-			feedbackMessage: '',
 			possibleManagers: [],
 			currentManager: '',
 			editing: false,
@@ -348,8 +328,8 @@ export default {
 			editedMail: this.user.email ?? '',
 		}
 	},
-	computed: {
 
+	computed: {
 		/* USER POPOVERMENU ACTIONS */
 		userActions() {
 			const actions = [
@@ -400,8 +380,10 @@ export default {
 			return this.languages[0].languages.concat(this.languages[1].languages)
 		},
 	},
+
 	async beforeMount() {
 		await this.searchUserManager()
+
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
@@ -432,13 +414,14 @@ export default {
 						this.loading.wipe = true
 						this.loading.all = true
 						this.$store.dispatch('wipeUserDevices', userid)
-							.then(() => {
+							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
+							.finally(() => {
 								this.loading.wipe = false
 								this.loading.all = false
 							})
 					}
 				},
-				true
+				true,
 			)
 		},
 
@@ -500,7 +483,7 @@ export default {
 							})
 					}
 				},
-				true
+				true,
 			)
 		},
 
@@ -778,19 +761,13 @@ export default {
 		sendWelcomeMail() {
 			this.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)
-				.then(success => {
-					if (success) {
-						// Show feedback to indicate the success
-						this.feedbackMessage = t('setting', 'Welcome mail sent!')
-						setTimeout(() => {
-							this.feedbackMessage = ''
-						}, 2000)
-					}
+				.then(() => showSuccess(t('setting', 'Welcome mail sent!'), { timeout: 2000 }))
+				.finally(() => {
 					this.loading.all = false
 				})
 		},
 
-		handleDoneButton() {
+		toggleEdit() {
 			this.editing = false
 			if (this.editedDisplayName !== this.user.displayname) {
 				this.editedDisplayName = this.user.displayname
@@ -807,7 +784,12 @@ export default {
 		z-index: 1 !important;
 	}
 
-  .row :deep() {
+	.row :deep() {
+		.v-select.select {
+			// reset min width to 100% instead of X px
+			min-width: 100%;
+		}
+
 		.mailAddress,
 		.password,
 		.displayName {
