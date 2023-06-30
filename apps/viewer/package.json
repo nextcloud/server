@@ -62,7 +62,7 @@
     "vue": "^2.7.14",
     "vue-async-computed": "^3.9.0",
     "vue-material-design-icons": "^5.2.0",
-    "webdav": "^4.11.2"
+    "webdav": "^5.2.2"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"

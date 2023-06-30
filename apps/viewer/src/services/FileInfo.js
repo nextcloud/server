@@ -20,7 +20,7 @@
  *
  */
 
-import client from './DavClient.js'
+import { getClient } from './DavClient.js'
 import { genFileInfo } from '../utils/fileUtils.js'
 import { createClient } from 'webdav'
 
@@ -59,7 +59,7 @@ const statData = `<?xml version="1.0"?>
  * @return {Promise<Array>} the file list
  */
 export default async function(path, options) {
-	const response = await client.stat(path, Object.assign({
+	const response = await getClient().stat(path, Object.assign({
 		data: statData,
 		details: true,
 	}, options))
