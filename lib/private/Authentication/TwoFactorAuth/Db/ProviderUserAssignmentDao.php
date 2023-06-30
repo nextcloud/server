@@ -69,7 +69,7 @@ class ProviderUserAssignmentDao {
 	/**
 	 * Persist a new/updated (provider_id, uid, enabled) tuple
 	 */
-	public function persist(string $providerId, string $uid, int $enabled) {
+	public function persist(string $providerId, string $uid, int $enabled): void {
 		$qb = $this->conn->getQueryBuilder();
 
 		try {
@@ -96,7 +96,7 @@ class ProviderUserAssignmentDao {
 	 *
 	 * @param string $uid
 	 *
-	 * @return int[]
+	 * @return list<array{provider_id: string, uid: string, enabled: bool}>
 	 */
 	public function deleteByUser(string $uid): array {
 		$qb1 = $this->conn->getQueryBuilder();
@@ -122,7 +122,7 @@ class ProviderUserAssignmentDao {
 		}, $rows);
 	}
 
-	public function deleteAll(string $providerId) {
+	public function deleteAll(string $providerId): void {
 		$qb = $this->conn->getQueryBuilder();
 
 		$deleteQuery = $qb->delete(self::TABLE_NAME)
