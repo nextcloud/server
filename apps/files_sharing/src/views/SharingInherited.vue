@@ -37,7 +37,7 @@
 
 		<!-- Inherited shares list -->
 		<div v-if="loaded && shares.length === 0" class="sharing-entry__desc">
-			<span class="sharing-entry__title">{{ 'No others with access' }}</span>
+			<span class="sharing-entry__title">{{ t('files_sharing', 'No others with access') }}</span>
 			<p>
 				{{ t('files_sharing', 'People with access to parent folders will show up here') }}
 			</p>
