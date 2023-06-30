@@ -123,7 +123,7 @@ class LanguageModelManager implements ILanguageModelManager {
 				if ($task->getId() === null) {
 					$taskEntity = $this->taskMapper->insert(Task::fromLanguageModelTask($task));
 					$task->setId($taskEntity->getId());
-				}else {
+				} else {
 					$this->taskMapper->update(Task::fromLanguageModelTask($task));
 				}
 				$output = $task->visitProvider($provider);
