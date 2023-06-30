@@ -15,6 +15,7 @@ use OC\EventDispatcher\EventDispatcher;
 use OC\LanguageModel\Db\Task;
 use OC\LanguageModel\Db\TaskMapper;
 use OC\LanguageModel\LanguageModelManager;
+use OC\LanguageModel\RemoveOldTasksBackgroundJob;
 use OC\LanguageModel\TaskBackgroundJob;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -108,6 +109,8 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->coordinator->expects($this->any())->method('getRegistrationContext')->willReturn($this->registrationContext);
 
+		$this->currentTime = new \DateTimeImmutable('now');
+
 		$this->taskMapper = $this->createMock(TaskMapper::class);
 		$this->tasksDb = [];
 		$this->taskMapper
@@ -115,6 +118,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 			->method('insert')
 			->willReturnCallback(function (Task $task) {
 				$task->setId(count($this->tasksDb) ? max(array_keys($this->tasksDb)) : 1);
+				$task->setLastUpdated($this->currentTime->getTimestamp());
 				$this->tasksDb[$task->getId()] = $task->toRow();
 				return $task;
 			});
@@ -122,6 +126,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('update')
 			->willReturnCallback(function (Task $task) {
+				$task->setLastUpdated($this->currentTime->getTimestamp());
 				$this->tasksDb[$task->getId()] = $task->toRow();
 				return $task;
 			});
@@ -133,6 +138,14 @@ class LanguageModelManagerTest extends \Test\TestCase {
 					throw new DoesNotExistException('Could not find it');
 				}
 				return Task::fromRow($this->tasksDb[$id]);
+			});
+		$this->taskMapper
+			->expects($this->any())
+			->method('deleteOlderThan')
+			->willReturnCallback(function (int $timeout) {
+				$this->tasksDb = array_filter($this->tasksDb, function (array $task) use ($timeout) {
+					return $task['last_updated'] >= $this->currentTime->getTimestamp() - $timeout;
+				});
 			});
 
 		$this->jobList = $this->createPartialMock(DummyJobList::class, ['add']);
@@ -335,5 +348,29 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->assertEquals('Hello', $task3->getInput());
 		$this->assertNull($task3->getOutput());
 		$this->assertEquals(ILanguageModelTask::STATUS_FAILED, $task3->getStatus());
+	}
+
+	public function testOldTasksShouldBeCleanedUp() {
+		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([
+			new ServiceRegistration('test', TestVanillaLanguageModelProvider::class)
+		]);
+		$this->assertCount(1, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(1, $this->languageModelManager->getAvailableTaskTypes());
+		$this->assertTrue($this->languageModelManager->hasProviders());
+		$task = new FreePromptTask('Hello', 'test', null);
+		$this->assertEquals('Hello Free Prompt', $this->languageModelManager->runTask($task));
+
+		$this->currentTime = $this->currentTime->add(new \DateInterval('P1Y'));
+		// run background job
+		$bgJob = new RemoveOldTasksBackgroundJob(
+			\OC::$server->get(ITimeFactory::class),
+			$this->taskMapper,
+			\OC::$server->get(LoggerInterface::class),
+		);
+		$bgJob->setArgument([]);
+		$bgJob->start($this->jobList);
+
+		$this->expectException(NotFoundException::class);
+		$this->languageModelManager->getTask($task->getId());
 	}
 }
