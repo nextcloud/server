@@ -49,6 +49,8 @@ export interface Navigation {
 	id: string
 	/** Translated view name */
 	name: string
+	/** Translated view accessible description */
+	caption?: string
 	/**
 	 * Method return the content of the  provided path
 	 * This ideally should be a cancellable promise.
@@ -169,6 +171,11 @@ const isValidNavigation = function(view: Navigation): boolean {
 
 	if (!view.name || typeof view.name !== 'string') {
 		throw new Error('Navigation name is required and must be a string')
+	}
+
+	if (view.columns && view.columns.length > 0
+		&& (!view.caption || typeof view.caption !== 'string')) {
+		throw new Error('Navigation caption is required for top-level views and must be a string')
 	}
 
 	/**
