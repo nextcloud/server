@@ -91,7 +91,7 @@ try {
 
 	$application = new Application(
 		\OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher(),
+		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getRequest(),
 		\OC::$server->get(\Psr\Log\LoggerInterface::class),
 		\OC::$server->query(\OC\MemoryInfo::class)
