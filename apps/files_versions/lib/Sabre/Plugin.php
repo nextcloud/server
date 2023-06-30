@@ -27,6 +27,8 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCP\IPreview;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
@@ -39,12 +41,12 @@ use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
 	private Server $server;
-	private IRequest $request;
 
 	public const VERSION_LABEL = '{http://nextcloud.org/ns}version-label';
 
 	public function __construct(
-		IRequest $request
+		private IRequest $request,
+		private IPreview $previewManager,
 	) {
 		$this->request = $request;
 	}
@@ -91,6 +93,7 @@ class Plugin extends ServerPlugin {
 	public function propFind(PropFind $propFind, INode $node): void {
 		if ($node instanceof VersionFile) {
 			$propFind->handle(self::VERSION_LABEL, fn() => $node->getLabel());
+			$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, fn () => $this->previewManager->isMimeSupported($node->getContentType()));
 		}
 	}
 

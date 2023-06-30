@@ -23,11 +23,15 @@
 			:force-display-actions="true"
 			data-files-versions-version>
 			<template #icon>
-				<img v-if="!previewError"
+				<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
+				<img v-else-if="isCurrent || version.hasPreview"
 					:src="previewURL"
 					alt=""
+					decoding="async"
+					fetchpriority="low"
+					loading="lazy"
 					class="version__image"
-					@error="previewError = true">
+					@load="previewLoaded = true">
 				<div v-else
 					class="version__image">
 					<ImageOffOutline :size="20" />
@@ -182,13 +186,17 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		loadPreview: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
+			previewLoaded: false,
 			showVersionLabelForm: false,
 			formVersionLabelValue: this.version.label,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
-			previewError: false,
 		}
 	},
 	computed: {
