@@ -63,6 +63,8 @@ const defaultDavNamespaces = {
 
 /**
  * TODO: remove and move to @nextcloud/files
+ * @param prop
+ * @param namespace
  */
 export const registerDavProperty = function(prop: string, namespace: DavProperty = { nc: 'http://nextcloud.org/ns' }): void {
 	if (typeof window._nc_dav_properties === 'undefined') {

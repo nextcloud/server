@@ -38,7 +38,7 @@ describe('Download action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('download')
 		expect(action.displayName([], view)).toBe('Download')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(30)
 	})

@@ -42,7 +42,7 @@ describe('Open folder action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-folder')
 		expect(action.displayName([folder], view)).toBe('Open folder FooBar')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-100)
 	})

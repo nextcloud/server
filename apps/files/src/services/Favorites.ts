@@ -25,7 +25,7 @@ import { getClient, rootPath } from './WebdavClient'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getDavNameSpaces, getDavProperties, getDefaultPropfind } from './DavProperties'
 import type { ContentsWithRoot } from './Navigation'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
 const client = getClient()
 
@@ -39,23 +39,30 @@ const reportPayload = `<?xml version="1.0"?>
 	</oc:filter-rules>
 </oc:filter-files>`
 
+interface ResponseProps extends DAVResultResponseProps {
+	permissions: string,
+	fileid: number,
+	size: number,
+}
+
 const resultToNode = function(node: FileStat): File | Folder {
-	const permissions = parseWebdavPermissions(node.props?.permissions)
+	const props = node.props as ResponseProps
+	const permissions = parseWebdavPermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
-	const previewUrl = generateUrl('/core/preview?fileId={fileid}&x=32&y=32&forceIcon=0', node.props)
+	const previewUrl = generateUrl('/core/preview?fileId={fileid}&x=32&y=32&forceIcon=0', props)
 
 	const nodeData = {
-		id: node.props?.fileid as number || 0,
+		id: props?.fileid as number || 0,
 		source: generateRemoteUrl('dav' + rootPath + node.filename),
 		mtime: new Date(node.lastmod),
 		mime: node.mime as string,
-		size: node.props?.size as number || 0,
+		size: props?.size as number || 0,
 		permissions,
 		owner,
 		root: rootPath,
 		attributes: {
 			...node,
-			...node.props,
+			...props,
 			previewUrl,
 		},
 	}

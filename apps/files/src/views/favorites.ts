@@ -33,7 +33,7 @@ import { Node, FileType } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 
-const generateFolderView = function(folder: string, index = 0): Navigation {
+export const generateFolderView = function(folder: string, index = 0): Navigation {
 	return {
 		id: generateIdFromPath(folder),
 		name: basename(folder),
@@ -53,14 +53,15 @@ const generateFolderView = function(folder: string, index = 0): Navigation {
 	} as Navigation
 }
 
-const generateIdFromPath = function(path: string): string {
+export const generateIdFromPath = function(path: string): string {
 	return `favorite-${hashCode(path)}`
 }
 
-const favoriteFolders = loadState('files', 'favoriteFolders', []) as string[]
-const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index))
-
 export default () => {
+	// Load state in function for mock testing purposes
+	const favoriteFolders = loadState('files', 'favoriteFolders', []) as string[]
+	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index))
+
 	const Navigation = window.OCP.Files.Navigation as NavigationService
 	Navigation.register({
 		id: 'favorites',
