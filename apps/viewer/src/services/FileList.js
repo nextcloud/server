@@ -20,7 +20,7 @@
  *
  */
 
-import client from './DavClient.js'
+import { getClient } from './DavClient.js'
 import { genFileInfo } from '../utils/fileUtils.js'
 
 /**
@@ -34,7 +34,7 @@ export default async function(path, options) {
 	// getDirectoryContents doesn't accept / for root
 	const fixedPath = path === '/' ? '' : path
 
-	const response = await client.getDirectoryContents(fixedPath, Object.assign({
+	const response = await getClient().getDirectoryContents(fixedPath, Object.assign({
 		data: `<?xml version="1.0"?>
 			<d:propfind  xmlns:d="DAV:"
 				xmlns:oc="http://owncloud.org/ns"
