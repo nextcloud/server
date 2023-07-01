@@ -235,6 +235,7 @@ OC.L10N.register(
     "Account deletion" : "Eyðing á aðgangi",
     "Delete {userid}'s account" : "Eyða notandaaðgangi {userid}",
     "Welcome mail sent!" : "Kveðjupóstur sendur!",
+    "Edit" : "Breyta",
     "{size} used" : "{size} notað",
     "Passwordless authentication requires a secure connection." : "Lykilorðalaus auðkenning krefst öruggrar tengingar.",
     "Add WebAuthn device" : "Bæta við WebAuthn-tæki",

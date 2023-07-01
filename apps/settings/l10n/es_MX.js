@@ -187,6 +187,7 @@ OC.L10N.register(
     "Delete user" : "Borrar usuario",
     "Disable user" : "Deshabilitar usuario",
     "Enable user" : "Habilitar usuario",
+    "Edit" : "Editar",
     "{size} used" : "{size} usado",
     "Unnamed device" : "Dispositivo sin nombre",
     "Your apps" : "Tus aplicaciones",

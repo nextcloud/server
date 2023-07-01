@@ -161,6 +161,7 @@ OC.L10N.register(
     "Last login" : "Hyrja e fundit",
     "Default quota" : "Kuota Parazgjedhje",
     "New user" : "Përdorues i ri",
+    "Edit" : "Përpuno",
     "{size} used" : "{madhësia} e përdorur",
     "Name your device" : "Emërtoni pajisjen tuaj",
     "Adding your device …" : "Shtoni pajisjen tuaj ...",

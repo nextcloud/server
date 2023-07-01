@@ -206,6 +206,7 @@ OC.L10N.register(
     "Enable user" : "Kích hoạt người dùng",
     "Resend welcome email" : "Gửi lại email chào mừng",
     "Welcome mail sent!" : "Thư chào mừng đã được gửi!",
+    "Edit" : "Chỉnh sửa",
     "{size} used" : "{size} đã sử dụng",
     "Your apps" : "Ứng dụng của bạn",
     "Changelog" : "Sổ cập nhập thay đổi",
