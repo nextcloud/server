@@ -201,6 +201,7 @@ OC.L10N.register(
     "Quota" : "Cotă",
     "Default language" : "Limba implicită",
     "You do not have permissions to see the details of this user" : "Nu aveți permisiuni pentru a vedea detaliile acestui utilizator",
+    "Edit" : "Editează",
     "{size} used" : "{size} folosită",
     "Add WebAuthn device" : "Adăugați dispozitivul WebAuthn",
     "Name your device" : "Numiți dispozitivul dvs.",

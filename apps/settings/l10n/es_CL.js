@@ -165,6 +165,7 @@ OC.L10N.register(
     "Storage location" : "Úbicación del almacenamiento",
     "Last login" : "Último inicio de sesión",
     "Default quota" : "Cuota predeterminada",
+    "Edit" : "Editar",
     "{size} used" : "{size} usado",
     "Unnamed device" : "Dispositivo sin nombre",
     "Your apps" : "Tus aplicaciones",
