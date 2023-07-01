@@ -30,7 +30,8 @@
 		:menu-open="openGroupMenu"
 		@update:menuOpen="handleGroupMenuOpen">
 		<template #counter>
-			<NcCounterBubble v-if="count">
+			<NcCounterBubble v-if="count"
+				:type="active ? 'highlighted' : undefined">
 				{{ count }}
 			</NcCounterBubble>
 		</template>
@@ -67,17 +68,33 @@ export default {
 		NcAppNavigationItem,
 	},
 	props: {
+		/**
+		 * If this group is currently selected
+		 */
+		active: {
+			type: Boolean,
+			required: true,
+		},
+		/**
+		 * Number of members within this group
+		 */
+		count: {
+			type: Number,
+			required: true,
+		},
+		/**
+		 * Identifier of this group
+		 */
 		id: {
 			type: String,
 			required: true,
 		},
+		/**
+		 * Title of this group
+		 */
 		title: {
 			type: String,
 			required: true,
-		},
-		count: {
-			type: Number,
-			required: false,
 		},
 	},
 	data() {
