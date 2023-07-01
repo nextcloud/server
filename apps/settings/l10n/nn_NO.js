@@ -82,6 +82,7 @@ OC.L10N.register(
     "Email" : "E-post",
     "Quota" : "Kvote",
     "Last login" : "Siste innlogging",
+    "Edit" : "Rediger",
     "Add group" : "Legg til gruppe",
     "Active users" : "Aktive brukarare",
     "Email sent" : "E-post sendt",

@@ -87,6 +87,7 @@ OC.L10N.register(
     "Email" : "E-posta",
     "Quota" : "Quota",
     "Default quota" : "Quota predefinite",
+    "Edit" : "Modificar",
     "Add group" : "Adder gruppo",
     "Active users" : "Usatores active",
     "Admins" : "Administratores",
