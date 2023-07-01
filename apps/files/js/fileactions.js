@@ -373,18 +373,23 @@
 			$trigger.attr('aria-expanded', 'true');
 
 			menu = new OCA.Files.FileActionsMenu();
-
 			context.$file.find('td.filename').append(menu.$el);
+			const menuFocusTrap = OCA.createFocusTrap(menu.$el.get(0), {
+				allowOutsideClick: true,
+				fallbackFocus: menu.$el,
+			});
 
 			menu.$el.on('afterHide', function() {
 				context.$file.removeClass('mouseOver');
 				$trigger.removeClass('open');
 				$trigger.attr('aria-expanded', 'false');
+				menuFocusTrap.deactivate()
 				menu.remove();
 			});
 
 			context.$file.addClass('mouseOver');
 			menu.show(context);
+			menuFocusTrap.activate();
 		},
 
 		/**

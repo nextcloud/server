@@ -21,6 +21,7 @@
  */
 
 import Search from './search.js'
+import { createFocusTrap } from 'focus-trap'
 
 /**
  * Namespace for apps
@@ -32,4 +33,5 @@ export default {
 	 * @deprecated 20.0.0, will be removed in Nextcloud 22
 	 */
 	Search,
+	createFocusTrap,
 }
