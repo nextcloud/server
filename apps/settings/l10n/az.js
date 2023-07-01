@@ -145,6 +145,7 @@ OC.L10N.register(
     "Add" : "Əlavə etmək",
     "Email" : "Email",
     "Quota" : "Norma",
+    "Edit" : "Dəyişiklik et",
     "Admins" : "İnzibatçılar",
     "Show user backend" : "Daxili istifadəçini göstər",
     "Send email to new user" : "Yeni istifadəçiyə məktub yolla",

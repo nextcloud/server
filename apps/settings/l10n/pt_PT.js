@@ -211,6 +211,7 @@ OC.L10N.register(
     "Storage location" : "Localização do armazenamento",
     "Last login" : "Último início de sessão",
     "Default quota" : "Quota padrão",
+    "Edit" : "Editar",
     "{size} used" : "{size} utilizado",
     "Your apps" : "As suas apps",
     "Changelog" : "Registo de alterações",

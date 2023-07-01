@@ -174,6 +174,7 @@ OC.L10N.register(
     "Enable user" : "Luba kasutaja",
     "Resend welcome email" : "Saada tervitusmeil uuesti",
     "Welcome mail sent!" : "Tervitusmeil saadetud!",
+    "Edit" : "Redigeeri",
     "{size} used" : "{size} kasutatud",
     "Unnamed device" : "Nimetu seade",
     "Your apps" : "Sinu rakendused",
