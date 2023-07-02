@@ -26,6 +26,8 @@
     "Bad Signature" : "Sinatura errónea",
     "Missing Signature" : "Non se atopa a sinatura",
     "one-time password for server-side-encryption" : "Contrasinal de só un uso para o cifrado no lado do servidor",
+    "Encryption password" : "Contrasinal de cifrado",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Acceda na interface web, vaia á sección «Seguranza» dos seus axustes persoais e actualice o seu contrasinal de cifrado introducindo este contrasinal no campo «Contrasinal antigo de acceso» e o seu contrasinal de acceso actual.",
     "Default encryption module" : "Módulo de cifrado predeterminado",
     "Default encryption module for server-side encryption" : "Módulo de cifrado predeterminado para o cifrado no lado do servidor",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as súas chaves non foron preparadas, saia da sesión e volva acceder de novo",
