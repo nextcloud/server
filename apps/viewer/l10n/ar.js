@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Simple file viewer with slideshow for media" : "مستعرض ملفات بسيط مع عارض شرائح للوسائط",
     "Your browser does not support audio." : "متصفحك لا يدعم الصوت.",
+    "Image saved" : "تم حفظ الصورة",
     "Your browser does not support videos." : "متصفحك لا يدعم الفيديوهات.",
     "Edit" : "تعديل",
     "Open sidebar" : "إفتح الشريط الجانبي",
