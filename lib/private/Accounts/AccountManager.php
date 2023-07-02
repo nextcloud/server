@@ -85,7 +85,7 @@ class AccountManager implements IAccountManager {
 
 	private string $table = 'accounts';
 	private string $dataTable = 'accounts_data';
-	private IL10N $l10n;
+	private ?IL10N $l10n = null;
 	private CappedMemoryCache $internalCache;
 
 	/**
@@ -120,7 +120,6 @@ class AccountManager implements IAccountManager {
 		private ICrypto $crypto,
 	) {
 		$this->internalCache = new CappedMemoryCache();
-		$this->l10n = $factory->get('core');
 	}
 
 	/**
@@ -348,12 +347,10 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function searchUsersForRelatedCollection(string $property, array $values): array {
-		switch ($property) {
-			case IAccountManager::PROPERTY_EMAIL:
-				return array_flip($this->searchUsers(IAccountManager::COLLECTION_EMAIL, $values));
-			default:
-				return [];
-		}
+		return match ($property) {
+			IAccountManager::PROPERTY_EMAIL => array_flip($this->searchUsers(IAccountManager::COLLECTION_EMAIL, $values)),
+			default => [],
+		};
 	}
 
 	/**
@@ -415,6 +412,10 @@ class AccountManager implements IAccountManager {
 		$emailTemplate = $this->mailer->createEMailTemplate('core.EmailVerification', [
 			'link' => $link,
 		]);
+
+		if (!$this->l10n) {
+			$this->l10n = $this->factory->get('core');
+		}
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();
