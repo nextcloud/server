@@ -380,6 +380,7 @@ OC.L10N.register(
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Im Falle des Verlusts des Gerätes oder des Verlassens der Organisation können mit dieser Funktion sämtliche Nextcloud-Daten von allen Geräten, die mit {userid} verbunden sind, gelöscht werden. Funktioniert nur, wenn das Gerät mit dem Internet verbunden ist.",
     "Remote wipe of devices" : "Fernlöschung von Geräten",
     "Wipe {userid}'s devices" : "Lösche {userid}s Geräte",
+    "Wiped {userid}'s devices" : "{userid}'s Geräte bereinigt",
     "Update of user manager was failed" : "Die Aktualisierung des Benutzermanagers ist fehlgeschlagen",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Lösche {userid}s Konto vollständig inklusive aller persönlichen Dateien, App-Daten, usw.",
     "Account deletion" : "Löschung des Kontos",
