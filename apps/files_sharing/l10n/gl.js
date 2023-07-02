@@ -244,7 +244,7 @@ OC.L10N.register(
     "Error updating the share" : "Produciuse un erro ao actualizar a compartición",
     "File \"{path}\" has been unshared" : "Foi retirado o ficheiro compartido «{path}».",
     "Folder \"{path}\" has been unshared" : "Foi retirado o cartafol compartido «{path}».",
-    "Share {propertyName} saved" : "Recurso compartido {propertyName} gardado",
+    "Share {propertyName} saved" : "{propertyName} do recurso compartido foi gardado",
     "Shared" : "Compartido",
     "Share" : "Compartir",
     "Shared with" : "Compartido con",
