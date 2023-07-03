@@ -63,11 +63,6 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
-  <file src="apps/comments/lib/Search/Result.php">
-    <InvalidArgument>
-      <code><![CDATA[(int) $comment->getId()]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/contactsinteraction/lib/Listeners/ContactInteractionListener.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
@@ -439,42 +434,15 @@
       <code>$groups</code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="apps/dav/lib/Comments/CommentNode.php">
-    <InvalidNullableReturnType>
-      <code>int</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="apps/dav/lib/Comments/CommentsPlugin.php">
-    <InvalidArgument>
-      <code>200</code>
-    </InvalidArgument>
-    <InvalidScalarArgument>
-      <code>$args['datetime']</code>
-    </InvalidScalarArgument>
     <UndefinedFunction>
       <code>\Sabre\HTTP\toDate($value)</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/dav/lib/Comments/EntityTypeCollection.php">
-    <TypeDoesNotContainType>
-      <code>!is_string($name)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/Comments/RootCollection.php">
     <InvalidArgument>
       <code>CommentsEntityEvent::EVENT_ENTITY</code>
     </InvalidArgument>
-    <InvalidNullableReturnType>
-      <code>\Sabre\DAV\INode[]</code>
-      <code>int</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->entityTypeCollections]]></code>
-      <code>null</code>
-    </NullableReturnStatement>
     <TooManyArguments>
       <code>dispatch</code>
     </TooManyArguments>
@@ -521,9 +489,6 @@
     <InvalidNullableReturnType>
       <code>bool</code>
     </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code>$resultFileIds</code>
-    </NullableReturnStatement>
     <TooManyArguments>
       <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
     </TooManyArguments>
@@ -1864,9 +1829,6 @@
     </RedundantCast>
   </file>
   <file src="core/Controller/UnifiedSearchController.php">
-    <NullArgument>
-      <code>null</code>
-    </NullArgument>
     <UndefinedInterfaceMethod>
       <code>findMatchingRoute</code>
     </UndefinedInterfaceMethod>
@@ -2247,21 +2209,7 @@
       <code>$serializedCommand</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Comments/Comment.php">
-    <ImplementedReturnTypeMismatch>
-      <code>\DateTime|null</code>
-    </ImplementedReturnTypeMismatch>
-    <ParamNameMismatch>
-      <code>$timestamp</code>
-    </ParamNameMismatch>
-    <TypeDoesNotContainType>
-      <code>!is_array($mentions[0])</code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="lib/private/Comments/Manager.php">
-    <InvalidDocblock>
-      <code>public function getForObjectSince(</code>
-    </InvalidDocblock>
     <RedundantCast>
       <code>(string)$id</code>
     </RedundantCast>
@@ -2678,9 +2626,6 @@
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Files/Node/Node.php">
-    <ImplementedReturnTypeMismatch>
-      <code>Node</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidArgument>
       <code>'\OCP\Files::' . $hook</code>
     </InvalidArgument>
@@ -2705,9 +2650,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Node/Root.php">
-    <ImplementedReturnTypeMismatch>
-      <code>Node</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType>
       <code>\OC\User\User</code>
     </InvalidNullableReturnType>
@@ -2785,9 +2727,6 @@
       <code>ArrayCache</code>
       <code>ArrayCache</code>
     </InvalidClass>
-    <InvalidNullableReturnType>
-      <code>getETag</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[$response->getBody()]]></code>
     </InvalidReturnStatement>
@@ -3728,25 +3667,11 @@
       <code>$column</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/public/AppFramework/Http/JSONResponse.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->data]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>array</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/public/Authentication/TwoFactorAuth/IProvider.php">
     <AmbiguousConstantInheritance>
       <code>EVENT_FAILED</code>
       <code>EVENT_SUCCESS</code>
     </AmbiguousConstantInheritance>
-  </file>
-  <file src="lib/public/BackgroundJob/TimedJob.php">
-    <MoreSpecificImplementedParamType>
-      <code>$jobList</code>
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/public/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>

@@ -26,14 +26,6 @@
       <code>$column</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/public/AppFramework/Http/JSONResponse.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->data]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>array</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php">
     <UndefinedClass>
       <code>\OC</code>
