@@ -85,6 +85,7 @@
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "الاسم المميز للعميل المستخدم الذي يجب ربطه به، على سبيل المثال uid = العميل، dc = مثال، dc = com. للوصول مجهول الهوية، اترك خانتي الاسم المميز وكلمة المرور فارغتين.",
     "Password" : "كلمة المرور",
     "For anonymous access, leave DN and Password empty." : "للوصول المجهول، اترك حقل الاسم المميز وكلمة المرور فارغين.",
+    "Save Credentials" : "حفظ بيانات الاعتماد",
     "One Base DN per line" : "اسم مميز واحد أساسي لكل سطر",
     "You can specify Base DN for users and groups in the Advanced tab" : "يمكنك تحديد اسم مميز أساسي Base DN للمستخدمين والمجموعات من علامة تبويب الإعدادات المتقدمة",
     "Detect Base DN" : "اكتشاف الاسم المميز الأساسي",
@@ -166,6 +167,7 @@
     "UUID Attribute for Users:" : "خاصية المعرف الفريد العالمي للمستخدمين:",
     "UUID Attribute for Groups:" : "خاصية المعرف الفريد العالمي للمجموعات:",
     "Username-LDAP User Mapping" : "اسم المستخدم- تعيين مستخدم بروتوكول الوصول إلي الدليل البسيط",
+    "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "تُستخدم أسماء المستخدمين لتخزين وتخصيص البيانات التعريف الوصفية. من أجل تحديد المستخدمين والتعرف عليهم بدقة، سيكون لكل مستخدم خادوم بروتوكول الوصول إلي الدليل البسيط \"LDAP\" اسم مستخدم داخلي. يتطلب هذا تعيينًا من اسم المستخدم إلى مستخدم خادوم بروتوكول الوصول إلي الدليل البسيط \"LDAP\". يتم تعيين اسم المستخدم الذي تم إنشاؤه إلى المعرف الفريد العالمي\"UUID\" لمستخدم LDAP. بالإضافة إلى ذلك، يتم تخزين الاسم المميز مؤقتًا أيضًا لتقليل تفاعل LDAP، ولكنه لا يستخدم لتحديد الهوية. وعند تغير الاسم المميز يتم العثور على التغييرات. ويتم استخدام اسم المستخدم الداخلي في كل مكان. مسح التعيينات سيكون له آثار متبقية في كل مكان. مسح التعيينات ليس حساسًا للتكوين، فهو يؤثر على جميع تكوينات LDAP! لا تقم مطلقًا بمسح التعيينات في بيئة الإنتاج، فقط في مرحلة الاختبار أو المرحلة التجريبية.",
     "Clear Username-LDAP User Mapping" : "مسح اسم المستخدم- تعيين مستخدم بروتوكول الوصول إلي الدليل البسيط",
     "Clear Groupname-LDAP Group Mapping" : "مسح اسم المجموعة - تعيين مجموعة بروتوكول الوصول إلي الدليل البسيط "
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
