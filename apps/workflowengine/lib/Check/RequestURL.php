@@ -90,9 +90,9 @@ class RequestURL extends AbstractStringCheck {
 		}
 		return substr($this->request->getScriptName(), 0 - strlen('/remote.php')) === '/remote.php' && (
 			$this->request->getPathInfo() === '/webdav' ||
-			str_starts_with($this->request->getPathInfo(), '/webdav/') ||
+			str_starts_with($this->request->getPathInfo() ?? '', '/webdav/') ||
 			$this->request->getPathInfo() === '/dav/files' ||
-			str_starts_with($this->request->getPathInfo(), '/dav/files/')
+			str_starts_with($this->request->getPathInfo() ?? '', '/dav/files/')
 		);
 	}
 }
