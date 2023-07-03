@@ -37,8 +37,6 @@ class Capabilities implements ICapability {
 
 	/**
 	 * Function an app uses to return the capabilities
-	 *
-	 * @return array Array containing the apps capabilities
 	 */
 	public function getCapabilities() {
 		$federatedScopeEnabled = $this->appManager->isEnabledForUser('federation');
