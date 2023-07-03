@@ -35,32 +35,28 @@ use OCP\IContainer;
 use OCP\Share;
 
 class Search implements ISearch {
-	/** @var IContainer */
-	private $c;
+	protected array $pluginList = [];
 
-	protected $pluginList = [];
-
-	public function __construct(IContainer $c) {
-		$this->c = $c;
+	public function __construct(
+		private IContainer $container,
+	) {
 	}
 
 	/**
 	 * @param string $search
-	 * @param array $shareTypes
 	 * @param bool $lookup
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return array
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function search($search, array $shareTypes, $lookup, $limit, $offset) {
+	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 
 		// Trim leading and trailing whitespace characters, e.g. when query is copy-pasted
 		$search = trim($search);
 
 		/** @var ISearchResult $searchResult */
-		$searchResult = $this->c->resolve(SearchResult::class);
+		$searchResult = $this->container->resolve(SearchResult::class);
 
 		foreach ($shareTypes as $type) {
 			if (!isset($this->pluginList[$type])) {
@@ -68,14 +64,14 @@ class Search implements ISearch {
 			}
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
-				$searchPlugin = $this->c->resolve($plugin);
+				$searchPlugin = $this->container->resolve($plugin);
 				$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 			}
 		}
 
 		// Get from lookup server, not a separate share type
 		if ($lookup) {
-			$searchPlugin = $this->c->resolve(LookupPlugin::class);
+			$searchPlugin = $this->container->resolve(LookupPlugin::class);
 			$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 		}
 
@@ -105,7 +101,7 @@ class Search implements ISearch {
 		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
-	public function registerPlugin(array $pluginInfo) {
+	public function registerPlugin(array $pluginInfo): void {
 		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
 		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');

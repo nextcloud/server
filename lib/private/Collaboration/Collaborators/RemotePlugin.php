@@ -37,32 +37,22 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class RemotePlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
+	protected bool $shareeEnumeration;
 
-	/** @var IManager */
-	private $contactsManager;
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var string */
-	private $userId = '';
+	private string $userId;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IUserManager $userManager, IUserSession $userSession) {
-		$this->contactsManager = $contactsManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$user = $userSession->getUser();
-		if ($user !== null) {
-			$this->userId = $user->getUID();
-		}
+	public function __construct(
+		private IManager $contactsManager,
+		private ICloudIdManager $cloudIdManager,
+		private IConfig $config,
+		private IUserManager $userManager,
+		IUserSession $userSession,
+	) {
+		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remotes');
 
@@ -185,7 +175,7 @@ class RemotePlugin implements ISearchPlugin {
 	 * @return array [user, remoteURL]
 	 * @throws \InvalidArgumentException
 	 */
-	public function splitUserRemote($address) {
+	public function splitUserRemote($address): array {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
 			return [$cloudId->getUser(), $cloudId->getRemote()];
