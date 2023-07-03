@@ -544,7 +544,7 @@ class User {
 		// use the checksum before modifications
 		$checksum = md5($this->image->data());
 
-		if ($checksum === $this->config->getUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', '')) {
+		if ($checksum === $this->config->getUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', '') && $this->avatarExists()) {
 			return true;
 		}
 
@@ -556,6 +556,15 @@ class User {
 		}
 
 		return $isSet;
+	}
+
+	private function avatarExists(): bool {
+		try {
+			$currentAvatar = $this->avatarManager->getAvatar($this->uid);
+			return $currentAvatar->exists() && $currentAvatar->isCustomAvatar();
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**
