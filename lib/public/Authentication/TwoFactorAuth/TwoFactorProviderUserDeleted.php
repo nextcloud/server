@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,36 +30,30 @@ use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
- * @since 15.0.0
- * @deprecated 28.0.0 Use TwoFactorProviderForUserRegistered or TwoFactorProviderForUserUnregistered instead
- * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered
- * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered
+ * @since 28.0.0
  */
-class RegistryEvent extends Event {
-	private IProvider $provider;
-
-	private IUser $user;
-
+final class TwoFactorProviderUserDeleted extends Event {
 	/**
-	 * @since 15.0.0
+	 * @since 28.0.0
 	 */
-	public function __construct(IProvider $provider, IUser $user) {
+	public function __construct(
+		private IUser $user,
+		private string $providerId,
+	) {
 		parent::__construct();
-		$this->provider = $provider;
-		$this->user = $user;
 	}
 
 	/**
-	 * @since 15.0.0
-	 */
-	public function getProvider(): IProvider {
-		return $this->provider;
-	}
-
-	/**
-	 * @since 15.0.0
+	 * @since 28.0.0
 	 */
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	/**
+	 * @since 28.0.0
+	 */
+	public function getProviderId(): string {
+		return $this->providerId;
 	}
 }

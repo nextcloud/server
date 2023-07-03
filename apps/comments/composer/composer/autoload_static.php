@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitComments
 {
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OCA\\Comments\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Comments\\' =>
+        'OCA\\Comments\\' => 
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
