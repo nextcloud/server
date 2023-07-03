@@ -677,6 +677,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Backend\\IGetRealUIDBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetRealUIDBackend.php',
         'OCP\\User\\Backend\\IPasswordConfirmationBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
         'OCP\\User\\Backend\\IProvideAvatarBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IProvideAvatarBackend.php',
+        'OCP\\User\\Backend\\IProvideEnabledStateBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IProvideEnabledStateBackend.php',
         'OCP\\User\\Backend\\ISearchKnownUsersBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISearchKnownUsersBackend.php',
         'OCP\\User\\Backend\\ISetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISetDisplayNameBackend.php',
         'OCP\\User\\Backend\\ISetPasswordBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISetPasswordBackend.php',

@@ -644,6 +644,7 @@ return array(
     'OCP\\User\\Backend\\IGetRealUIDBackend' => $baseDir . '/lib/public/User/Backend/IGetRealUIDBackend.php',
     'OCP\\User\\Backend\\IPasswordConfirmationBackend' => $baseDir . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
     'OCP\\User\\Backend\\IProvideAvatarBackend' => $baseDir . '/lib/public/User/Backend/IProvideAvatarBackend.php',
+    'OCP\\User\\Backend\\IProvideEnabledStateBackend' => $baseDir . '/lib/public/User/Backend/IProvideEnabledStateBackend.php',
     'OCP\\User\\Backend\\ISearchKnownUsersBackend' => $baseDir . '/lib/public/User/Backend/ISearchKnownUsersBackend.php',
     'OCP\\User\\Backend\\ISetDisplayNameBackend' => $baseDir . '/lib/public/User/Backend/ISetDisplayNameBackend.php',
     'OCP\\User\\Backend\\ISetPasswordBackend' => $baseDir . '/lib/public/User/Backend/ISetPasswordBackend.php',
