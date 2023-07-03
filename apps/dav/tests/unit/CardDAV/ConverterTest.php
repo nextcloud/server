@@ -34,6 +34,7 @@ use OCA\DAV\CardDAV\Converter;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\IURLGenerator;
 use OCP\IImage;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -47,11 +48,15 @@ class ConverterTest extends TestCase {
 	/** @var IUserManager|(IUserManager&MockObject)|MockObject */
 	private IUserManager|MockObject $userManager;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 	}
 
 	/**
@@ -103,7 +108,7 @@ class ConverterTest extends TestCase {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
@@ -124,7 +129,7 @@ class ConverterTest extends TestCase {
 			->willReturn('Manager');
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
 		$vCard = $converter->createCardFromUser($user);
 
 		$this->compareData(
@@ -212,7 +217,7 @@ class ConverterTest extends TestCase {
 	 * @param $fullName
 	 */
 	public function testNameSplitter($expected, $fullName): void {
-		$converter = new Converter($this->accountManager, $this->userManager);
+		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);
