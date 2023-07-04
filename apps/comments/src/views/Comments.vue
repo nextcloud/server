@@ -22,9 +22,9 @@
   -->
 
 <template>
-	<div class="comments"
-		:class="{ 'icon-loading': isFirstLoading }"
-		v-observe-visibility="onVisibilityChange">
+	<div v-observe-visibility="onVisibilityChange"
+		class="comments"
+		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"

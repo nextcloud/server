@@ -193,13 +193,13 @@ const actions = {
 								showInfo(
 									t(
 										'settings',
-										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.',
 									),
 									{
 										onClick: () => window.location.reload(),
 										close: false,
 
-									}
+									},
 								)
 								setTimeout(function() {
 									location.reload()

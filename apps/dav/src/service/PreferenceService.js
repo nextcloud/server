@@ -33,7 +33,7 @@ export async function enableUserStatusAutomation() {
 		}),
 		{
 			configValue: 'yes',
-		}
+		},
 	)
 }
 
@@ -45,6 +45,6 @@ export async function disableUserStatusAutomation() {
 		generateOcsUrl('/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
 			appId: 'dav',
 			configKey: 'user_status_automation',
-		})
+		}),
 	)
 }

@@ -35,7 +35,7 @@
 					class="group_select"
 					:title="t('settings', 'All')"
 					value="">
-				<br />
+				<br>
 				<label for="limitToGroups">
 					<span>{{ t('settings', 'Limit app usage to groups') }}</span>
 				</label>

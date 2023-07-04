@@ -39,7 +39,7 @@ const cancelableRequest = function(request) {
 	const fetch = async function(url, options) {
 		const response = await request(
 			url,
-			Object.assign({ signal }, options)
+			Object.assign({ signal }, options),
 		)
 		return response
 	}

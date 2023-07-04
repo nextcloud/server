@@ -29,12 +29,13 @@ import type { ServerTag, Tag, TagWithId } from './types.js'
 export const parseTags = (tags: Required<FileStat>[]): TagWithId[] => {
 	return tags.map(({ props }) => Object.fromEntries(
 		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), value])
+			.map(([key, value]) => [camelCase(key), value]),
 	)) as TagWithId[]
 }
 
 /**
  * Parse id from `Content-Location` header
+ * @param url
  */
 export const parseIdFromLocation = (url: string): number => {
 	const queryPos = url.indexOf('?')

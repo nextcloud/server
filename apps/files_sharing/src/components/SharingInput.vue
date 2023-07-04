@@ -24,6 +24,7 @@
 	<div class="sharing-search">
 		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
 		<NcSelect ref="select"
+			v-model="value"
 			input-id="sharing-search-input"
 			class="sharing-search__input"
 			:disabled="!canReshare"
@@ -33,7 +34,6 @@
 			:clear-search-on-blur="() => false"
 			:user-select="true"
 			:options="options"
-			v-model="value"
 			@open="handleOpen"
 			@search="asyncFind"
 			@option:selected="addShare">
@@ -176,7 +176,7 @@ export default {
 		 * Get suggestions
 		 *
 		 * @param {string} search the search query
-		 * @param {boolean} [lookup=false] search on lookup server
+		 * @param {boolean} [lookup] search on lookup server
 		 */
 		async getSuggestions(search, lookup = false) {
 			this.loading = true

@@ -45,7 +45,7 @@ export default {
 	 * or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
-	 * @param {boolean} [replace=false] whether to replace instead of pushing
+	 * @param {boolean} [replace] whether to replace instead of pushing
 	 */
 	_pushState(params, url, replace) {
 		let strParams

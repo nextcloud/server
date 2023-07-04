@@ -50,27 +50,27 @@ describe('CalDavSettings', () => {
 			},
 			Vue => {
 				Vue.prototype.$t = jest.fn((app, text) => text)
-			}
+			},
 		)
 		expect(TLUtils.container).toMatchSnapshot()
 		const sendInvitations = TLUtils.getByLabelText(
-			'Send invitations to attendees'
+			'Send invitations to attendees',
 		)
 		expect(sendInvitations).toBeChecked()
 		const generateBirthdayCalendar = TLUtils.getByLabelText(
-			'Automatically generate a birthday calendar'
+			'Automatically generate a birthday calendar',
 		)
 		expect(generateBirthdayCalendar).toBeChecked()
 		const sendEventReminders = TLUtils.getByLabelText(
-			'Send notifications for events'
+			'Send notifications for events',
 		)
 		expect(sendEventReminders).toBeChecked()
 		const sendEventRemindersToSharedUsers = TLUtils.getByLabelText(
-			'Send reminder notifications to calendar sharees as well'
+			'Send reminder notifications to calendar sharees as well',
 		)
 		expect(sendEventRemindersToSharedUsers).toBeChecked()
 		const sendEventRemindersPush = TLUtils.getByLabelText(
-			'Enable notifications for events via push'
+			'Enable notifications for events via push',
 		)
 		expect(sendEventRemindersPush).toBeChecked()
 

@@ -168,7 +168,7 @@ export default {
 					{
 						user,
 						version: oc_userconfig.avatar.version,
-					}
+					},
 				)
 			} else {
 				return generateUrl(
@@ -176,7 +176,7 @@ export default {
 					{
 						user,
 						version: oc_userconfig.avatar.version,
-					}
+					},
 				)
 			}
 		},

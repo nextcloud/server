@@ -100,7 +100,7 @@ export default {
 		 * Update the storage stats
 		 * Throttled at max 1 refresh per minute
 		 *
-		 * @param {Event} [event = null] if user interaction
+		 * @param {Event} [event] if user interaction
 		 */
 		async updateStorageStats(event = null) {
 			if (this.loadingStorageStats) {

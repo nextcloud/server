@@ -42,13 +42,13 @@ export default {
 		 * @param {string} data.path  path to the file/folder which should be shared
 		 * @param {number} data.shareType  0 = user; 1 = group; 3 = public link; 6 = federated cloud share
 		 * @param {string} data.shareWith  user/group id with which the file should be shared (optional for shareType > 1)
-		 * @param {boolean} [data.publicUpload=false]  allow public upload to a public shared folder
+		 * @param {boolean} [data.publicUpload]  allow public upload to a public shared folder
 		 * @param {string} [data.password]  password to protect public link Share with
-		 * @param {number} [data.permissions=31]  1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all (default: 31, for public shares: 1)
-		 * @param {boolean} [data.sendPasswordByTalk=false] send the password via a talk conversation
-		 * @param {string} [data.expireDate=''] expire the shareautomatically after
-		 * @param {string} [data.label=''] custom label
-		 * @param {string} [data.attributes=null] Share attributes encoded as json
+		 * @param {number} [data.permissions]  1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all (default: 31, for public shares: 1)
+		 * @param {boolean} [data.sendPasswordByTalk] send the password via a talk conversation
+		 * @param {string} [data.expireDate] expire the shareautomatically after
+		 * @param {string} [data.label] custom label
+		 * @param {string} [data.attributes] Share attributes encoded as json
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
@@ -66,7 +66,7 @@ export default {
 				const errorMessage = error?.response?.data?.ocs?.meta?.message
 				OC.Notification.showTemporary(
 					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
-					{ type: 'error' }
+					{ type: 'error' },
 				)
 				throw error
 			}
@@ -91,7 +91,7 @@ export default {
 				const errorMessage = error?.response?.data?.ocs?.meta?.message
 				OC.Notification.showTemporary(
 					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
-					{ type: 'error' }
+					{ type: 'error' },
 				)
 				throw error
 			}
@@ -118,7 +118,7 @@ export default {
 					const errorMessage = error?.response?.data?.ocs?.meta?.message
 					OC.Notification.showTemporary(
 						errorMessage ? t('files_sharing', 'Error updating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error updating the share'),
-						{ type: 'error' }
+						{ type: 'error' },
 					)
 				}
 				const message = error.response.data.ocs.meta.message

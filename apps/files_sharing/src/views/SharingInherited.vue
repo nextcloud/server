@@ -44,10 +44,10 @@
 		</div>
 		<template v-else>
 			<SharingEntryInherited v-for="share in shares"
-			:key="share.id"
-			:file-info="fileInfo"
-			:share="share"
-			@remove:share="removeShare" />
+				:key="share.id"
+				:file-info="fileInfo"
+				:share="share"
+				@remove:share="removeShare" />
 		</template>
 	</ul>
 </template>
@@ -139,7 +139,7 @@ export default {
 					.map(share => new Share(share))
 					.sort((a, b) => b.createdTime - a.createdTime)
 				console.info(this.shares)
-				
+
 				this.loaded = true
 			} catch (error) {
 				OC.Notification.showTemporary(t('files_sharing', 'Unable to fetch inherited shares'), { type: 'error' })

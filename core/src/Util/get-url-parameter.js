@@ -27,6 +27,6 @@
 export default function getURLParameter(name) {
 	return decodeURIComponent(
 		// eslint-disable-next-line no-sparse-arrays
-		(new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(/\+/g, '%20')
+		(new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(/\+/g, '%20'),
 	) || ''
 }

@@ -72,8 +72,8 @@ const getInterval = () => {
 		24 * 3600,
 		Math.max(
 			60,
-			isNaN(interval) ? 900 : interval
-		)
+			isNaN(interval) ? 900 : interval,
+		),
 	)
 }
 

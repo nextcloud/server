@@ -127,7 +127,7 @@
 								success() {
 									_.each(tagIds, function(tagId) {
 										const tag = OC.SystemTags.collection.get(
-											tagId
+											tagId,
 										)
 										if (!_.isUndefined(tag)) {
 											tags.push(tag.toJSON())
@@ -189,7 +189,7 @@
 				})
 				this.$filterField.on(
 					'change',
-					_.bind(this._onTagsChanged, this)
+					_.bind(this._onTagsChanged, this),
 				)
 				return this.$filterField
 			},
@@ -203,7 +203,7 @@
 				OC.SystemTags.collection.fetch({
 					success() {
 						const results = OC.SystemTags.collection.filterByName(
-							query.term
+							query.term,
 						)
 
 						query.callback({
@@ -242,7 +242,7 @@
 				this.$el.trigger(
 					$.Event('changeDirectory', {
 						dir: this._systemTagIds.join('/'),
-					})
+					}),
 				)
 				this.reload()
 			},
@@ -260,9 +260,9 @@
 									+ '<h2>'
 									+ t(
 										'systemtags',
-										'Please select tags to filter by'
+										'Please select tags to filter by',
 									)
-									+ '</h2>'
+									+ '</h2>',
 							)
 					} else {
 						// tags selected but no results
@@ -273,9 +273,9 @@
 									+ '<h2>'
 									+ t(
 										'systemtags',
-										'No files found for the selected tags'
+										'No files found for the selected tags',
 									)
-									+ '</h2>'
+									+ '</h2>',
 							)
 					}
 					this.$el
@@ -287,7 +287,7 @@
 				} else {
 					OCA.Files.FileList.prototype.updateEmptyContent.apply(
 						this,
-						arguments
+						arguments,
 					)
 				}
 			},
@@ -326,7 +326,7 @@
 					},
 					{
 						properties: this._getWebdavProperties(),
-					}
+					},
 				)
 				if (this._detailsView) {
 					// close sidebar
@@ -345,10 +345,10 @@
 				return OCA.Files.FileList.prototype.reloadCallback.call(
 					this,
 					status,
-					result
+					result,
 				)
 			},
-		}
+		},
 	)
 
 	OCA.SystemTags.FileList = FileList

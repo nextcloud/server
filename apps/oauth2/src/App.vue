@@ -115,7 +115,7 @@ export default {
 				{
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri,
-				}
+				},
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)

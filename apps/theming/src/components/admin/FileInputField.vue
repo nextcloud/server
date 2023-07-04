@@ -24,8 +24,8 @@
 	<div class="field">
 		<label :for="id">{{ displayName }}</label>
 		<div class="field__row">
-			<NcButton type="secondary"
-				:id="id"
+			<NcButton :id="id"
+				type="secondary"
 				:aria-label="ariaLabel"
 				data-admin-theming-setting-file-picker
 				@click="activateLocalFilePicker">

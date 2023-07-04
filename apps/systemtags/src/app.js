@@ -53,7 +53,7 @@
 					// created.
 					shown: true,
 					systemTagIds: initialTags,
-				}
+				},
 			)
 
 			this._fileList.appName = t('systemtags', 'Tags')
@@ -102,7 +102,7 @@
 			} else if (ev.defaultAction) {
 				this._fileList.fileActions.setDefault(
 					ev.defaultAction.mime,
-					ev.defaultAction.name
+					ev.defaultAction.name,
 				)
 			}
 		},

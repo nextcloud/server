@@ -124,7 +124,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendInvitations',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventReminders(value) {
@@ -134,7 +134,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendEventRemindersToSharedUsers',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventRemindersPush(value) {

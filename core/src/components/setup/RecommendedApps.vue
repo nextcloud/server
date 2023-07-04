@@ -127,7 +127,7 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl: loadState('core', 'defaultPageUrl')
+			defaultPageUrl: loadState('core', 'defaultPageUrl'),
 		}
 	},
 	computed: {

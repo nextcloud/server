@@ -123,7 +123,7 @@ export const hideMenus = function(complete) {
 /**
  * Shows a given element as menu
  *
- * @param {object} [$toggle=null] menu toggle
+ * @param {object} [$toggle] menu toggle
  * @param {object} $menuEl menu element
  * @param {Function} complete callback when the showing animation is done
  */

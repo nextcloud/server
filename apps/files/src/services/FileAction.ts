@@ -46,13 +46,13 @@ interface FileActionData {
 	enabled?: (files: Node[], view: Navigation) => boolean
 	/**
 	 * Function executed on single file action
-	 * @returns true if the action was executed, false otherwise
+	 * @return true if the action was executed, false otherwise
 	 * @throws Error if the action failed
 	 */
 	exec: (file: Node, view: Navigation, dir: string) => Promise<boolean|null>,
 	/**
 	 * Function executed on multiple files action
-	 * @returns true if the action was executed successfully,
+	 * @return true if the action was executed successfully,
 	 * false otherwise and null if the action is silent/undefined.
 	 * @throws Error if the action failed
 	 */

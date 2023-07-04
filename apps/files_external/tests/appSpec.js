@@ -1,5 +1,5 @@
 /**
-* @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -39,7 +39,7 @@ describe('OCA.Files_External.App tests', function() {
 			+ '<div id="app-content-extstoragemounts" class="hidden">'
 			+ '</div>'
 			+ '</div>'
-			+ '</div>'
+			+ '</div>',
 		)
 		fileList = App.initList($('#app-content-extstoragemounts'))
 	})

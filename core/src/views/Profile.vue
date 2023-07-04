@@ -131,7 +131,7 @@
 							:ref="'section-' + index"
 							:key="index"
 							class="profile__additionalContent">
-							<component :is="section($refs['section-'+index], userId)" :userId="userId" />
+							<component :is="section($refs['section-'+index], userId)" :user-id="userId" />
 						</div>
 					</template>
 					<template v-else>

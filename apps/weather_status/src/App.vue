@@ -518,7 +518,7 @@ export default {
 				? weatherOptions[weatherCode].text(
 					Math.round(this.getLocalizedTemperature(temperature)),
 					this.temperatureUnit,
-					later
+					later,
 				)
 				: t('weather_status', 'Set location for weather')
 		},

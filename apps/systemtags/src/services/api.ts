@@ -99,6 +99,8 @@ export const selectTag = async (fileId: number, tag: Tag | ServerTag): Promise<v
 }
 
 /**
+ * @param fileId
+ * @param tag
  * @return created tag id
  */
 export const createTag = async (fileId: number, tag: Tag): Promise<number> => {

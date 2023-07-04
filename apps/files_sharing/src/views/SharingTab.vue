@@ -307,7 +307,7 @@ export default {
 						'Shared with you by {owner}',
 						{ owner: this.fileInfo.shareOwner },
 						undefined,
-						{ escape: false }
+						{ escape: false },
 					),
 					user: this.fileInfo.shareOwnerId,
 				}

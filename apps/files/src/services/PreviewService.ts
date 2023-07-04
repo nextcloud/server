@@ -25,6 +25,7 @@ const SWCacheName = 'previews'
 
 /**
  * Check if the preview is already cached by the service worker
+ * @param previewUrl
  */
 export const isCachedPreview = function(previewUrl: string) {
 	return caches.open(SWCacheName)

@@ -50,7 +50,7 @@
 					<span>{{ example.time }}</span>
 				</p>
 				<p>
-					{{ t('settings', 'Week starts on {firstDayOfWeek}', { firstDayOfWeek: this.example.firstDayOfWeek }) }}
+					{{ t('settings', 'Week starts on {firstDayOfWeek}', { firstDayOfWeek: example.firstDayOfWeek }) }}
 				</p>
 			</div>
 		</div>
@@ -107,7 +107,7 @@ export default {
 		allLocales() {
 			return Object.freeze(
 				[...this.localesForLanguage, ...this.otherLocales]
-					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {})
+					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {}),
 			)
 		},
 	},

@@ -75,7 +75,7 @@ export async function restoreVersion(version) {
 		logger.debug('Restoring version', { url: version.url })
 		await client.moveFile(
 			`/versions/${getCurrentUser()?.uid}/versions/${version.fileId}/${version.fileVersion}`,
-			`/versions/${getCurrentUser()?.uid}/restore/target`
+			`/versions/${getCurrentUser()?.uid}/restore/target`,
 		)
 	} catch (exception) {
 		logger.error('Could not restore version', { exception })
@@ -129,7 +129,7 @@ export async function setVersionLabel(version, newLabel) {
 						</d:prop>
 					</d:set>
 					</d:propertyupdate>`,
-		}
+		},
 	)
 }
 

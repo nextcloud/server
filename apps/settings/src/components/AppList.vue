@@ -235,7 +235,7 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id }))
+				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
 				)
 		},
 	},
