@@ -46,26 +46,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ScanAppData extends Base {
+	protected float $execTime = 0;
 
-	/** @var IRootFolder */
-	protected $root;
-	/** @var IConfig */
-	protected $config;
-	/** @var float */
-	protected $execTime = 0;
-	/** @var int */
-	protected $foldersCounter = 0;
-	/** @var int */
-	protected $filesCounter = 0;
+	protected int $foldersCounter = 0;
 
-	public function __construct(IRootFolder $rootFolder, IConfig $config) {
+	protected int $filesCounter = 0;
+
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IConfig $config,
+	) {
 		parent::__construct();
-
-		$this->root = $rootFolder;
-		$this->config = $config;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -80,7 +74,7 @@ class ScanAppData extends Base {
 			$appData = $this->getAppDataFolder();
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>NoAppData folder found</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		if ($folder !== '') {
@@ -88,7 +82,7 @@ class ScanAppData extends Base {
 				$appData = $appData->get($folder);
 			} catch (NotFoundException $e) {
 				$output->writeln('<error>Could not find folder: ' . $folder . '</error>');
-				return 1;
+				return self::FAILURE;
 			}
 		}
 
@@ -126,21 +120,21 @@ class ScanAppData extends Base {
 		} catch (ForbiddenException $e) {
 			$output->writeln('<error>Storage not writable</error>');
 			$output->writeln('<info>Make sure you\'re running the scan command only as the user the web server runs as</info>');
-			return 1;
+			return self::FAILURE;
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('<info>Interrupted by user</info>');
-			return 1;
+			return self::FAILURE;
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		} catch (\Exception $e) {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 
 
@@ -167,7 +161,7 @@ class ScanAppData extends Base {
 	/**
 	 * Initialises some useful tools for the Command
 	 */
-	protected function initTools() {
+	protected function initTools(): void {
 		// Start the timer
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
@@ -186,7 +180,7 @@ class ScanAppData extends Base {
 	 *
 	 * @throws \ErrorException
 	 */
-	public function exceptionErrorHandler($severity, $message, $file, $line) {
+	public function exceptionErrorHandler($severity, $message, $file, $line): void {
 		if (!(error_reporting() & $severity)) {
 			// This error code is not included in error_reporting
 			return;
@@ -194,10 +188,7 @@ class ScanAppData extends Base {
 		throw new \ErrorException($message, 0, $severity, $file, $line);
 	}
 
-	/**
-	 * @param OutputInterface $output
-	 */
-	protected function presentStats(OutputInterface $output) {
+	protected function presentStats(OutputInterface $output): void {
 		// Stop the timer
 		$this->execTime += microtime(true);
 
@@ -213,9 +204,8 @@ class ScanAppData extends Base {
 	 *
 	 * @param string[] $headers
 	 * @param string[] $rows
-	 * @param OutputInterface $output
 	 */
-	protected function showSummary($headers, $rows, OutputInterface $output) {
+	protected function showSummary($headers, $rows, OutputInterface $output): void {
 		$niceDate = $this->formatExecTime();
 		if (!$rows) {
 			$rows = [
@@ -233,11 +223,9 @@ class ScanAppData extends Base {
 
 
 	/**
-	 * Formats microtime into a human readable format
-	 *
-	 * @return string
+	 * Formats microtime into a human-readable format
 	 */
-	protected function formatExecTime() {
+	protected function formatExecTime(): string {
 		$secs = round($this->execTime);
 		# convert seconds into HH:MM:SS form
 		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), (int)$secs % 60);
@@ -273,6 +261,6 @@ class ScanAppData extends Base {
 			throw new NotFoundException();
 		}
 
-		return $this->root->get('appdata_'.$instanceId);
+		return $this->rootFolder->get('appdata_'.$instanceId);
 	}
 }

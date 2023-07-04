@@ -54,26 +54,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Scan extends Base {
-	private IUserManager $userManager;
 	protected float $execTime = 0;
 	protected int $foldersCounter = 0;
 	protected int $filesCounter = 0;
 	protected int $errorsCounter = 0;
-	private IRootFolder $root;
-	private MetadataManager $metadataManager;
 
 	public function __construct(
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		MetadataManager $metadataManager
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		private MetadataManager $metadataManager
 	) {
-		$this->userManager = $userManager;
 		parent::__construct();
-		$this->root = $rootFolder;
-		$this->metadataManager = $metadataManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -134,7 +128,7 @@ class Scan extends Base {
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
 			if ($scanMetadata) {
-				$node = $this->root->get($path);
+				$node = $this->rootFolder->get($path);
 				if ($node instanceof File) {
 					$this->metadataManager->generateMetadata($node, false);
 				}
@@ -181,7 +175,7 @@ class Scan extends Base {
 		}
 	}
 
-	public function filterHomeMount(IMountPoint $mountPoint) {
+	public function filterHomeMount(IMountPoint $mountPoint): bool {
 		// any mountpoint inside '/$user/files/'
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
@@ -202,7 +196,7 @@ class Scan extends Base {
 		$users_total = count($users);
 		if ($users_total === 0) {
 			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$this->initTools($output);
@@ -212,7 +206,7 @@ class Scan extends Base {
 			if (is_object($user)) {
 				$user = $user->getUID();
 			}
-			$path = $inputPath ? $inputPath : '/' . $user;
+			$path = $inputPath ?: '/' . $user;
 			++$user_count;
 			if ($this->userManager->userExists($user)) {
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
@@ -231,13 +225,13 @@ class Scan extends Base {
 		}
 
 		$this->presentStats($output);
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * Initialises some useful tools for the Command
 	 */
-	protected function initTools(OutputInterface $output) {
+	protected function initTools(OutputInterface $output): void {
 		// Start the timer
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
@@ -270,10 +264,7 @@ class Scan extends Base {
 		return true;
 	}
 
-	/**
-	 * @param OutputInterface $output
-	 */
-	protected function presentStats(OutputInterface $output) {
+	protected function presentStats(OutputInterface $output): void {
 		// Stop the timer
 		$this->execTime += microtime(true);
 
@@ -299,11 +290,9 @@ class Scan extends Base {
 
 
 	/**
-	 * Formats microtime into a human readable format
-	 *
-	 * @return string
+	 * Formats microtime into a human-readable format
 	 */
-	protected function formatExecTime() {
+	protected function formatExecTime(): string {
 		$secs = (int)round($this->execTime);
 		# convert seconds into HH:MM:SS form
 		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), $secs % 60);
