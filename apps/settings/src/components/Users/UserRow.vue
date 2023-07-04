@@ -221,12 +221,10 @@
 		</div>
 
 		<div class="userActions">
-<<<<<<< HEAD
 			<UserRowActions v-if="!loading.all"
 				:actions="userActions"
 				:edit="true"
 				@update:edit="toggleEdit" />
-=======
 			<div v-if="!loading.all"
 				class="toggleUserActions">
 				<NcActions>
@@ -250,7 +248,6 @@
 				<div class="icon-checkmark" />
 				{{ feedbackMessage }}
 			</div>
->>>>>>> 7a2938b01f3 (Add cancel button for when user entry is being edited)
 		</div>
 	</div>
 </template>
