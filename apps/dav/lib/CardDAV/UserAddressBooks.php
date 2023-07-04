@@ -107,7 +107,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 				try {
 					$trustedServers = \OC::$server->get(TrustedServers::class);
 					$request = \OC::$server->get(IRequest::class);
-				} catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
+				} catch (QueryException | NotFoundExceptionInterface | ContainerExceptionInterface $e) {
 					// nothing to do, the request / trusted servers don't exist
 				}
 				if ($addressBook['principaluri'] === 'principals/system/system') {
