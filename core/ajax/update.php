@@ -65,12 +65,11 @@ class FeedBackHandler {
 	private int $progressStateMax = 100;
 	private int $progressStateStep = 0;
 	private string $currentStep = '';
-	private IEventSource $eventSource;
-	private IL10N $l10n;
 
-	public function __construct(IEventSource $eventSource, IL10N $l10n) {
-		$this->eventSource = $eventSource;
-		$this->l10n = $l10n;
+	public function __construct(
+		private IEventSource $eventSource,
+		private IL10N $l10n,
+	) {
 	}
 
 	public function handleRepairFeedback(Event $event): void {
