@@ -474,6 +474,7 @@ OC.L10N.register(
     "Always ask for a password" : "Vedno zahtevaj geslo",
     "Enforce password protection" : "Vsili zaščito z geslom",
     "Set default expiration date" : "Nastavi privzeti datum poteka",
+    "Exclude groups from creating link shares:" : "Onemogoči navedenim skupinam ustvarjanje povezav do mest uporabe:",
     "Allow resharing" : "Dovoli nadaljnje omogočanje souporabe",
     "Allow sharing with groups" : "Dovoli souporabo s skupinami",
     "Restrict users to only share with users in their groups" : "Uporabnikom dovoli omogočanje souporabe le znotraj njihove skupine",
