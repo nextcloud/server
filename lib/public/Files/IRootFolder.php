@@ -26,6 +26,7 @@ namespace OCP\Files;
 
 use OC\Hooks\Emitter;
 use OC\User\NoUserException;
+use OCP\Files\Mount\IMountPoint;
 
 /**
  * Interface IRootFolder
@@ -55,4 +56,16 @@ interface IRootFolder extends Folder, Emitter {
 	 * @since 24.0.0
 	 */
 	public function getByIdInPath(int $id, string $path);
+
+	/**
+	 * @return IMountPoint[]
+	 *
+	 * @since 27.0.1
+	 */
+	public function getMountsIn(string $mountPoint): array;
+
+	/**
+	 * @since 27.0.1
+	 */
+	public function getMount(string $mountPoint): IMountPoint;
 }
