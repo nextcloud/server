@@ -72,7 +72,7 @@ class Node implements INode {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?Node $parent = null) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
@@ -285,7 +285,11 @@ class Node implements INode {
 		return $this->getFileInfo()->isCreatable();
 	}
 
-	public function getParent(): INode|IRootFolder {
+	/**
+	 * @return INode|IRootFolder
+	 * @throws NotFoundException
+	 */
+	public function getParent() {
 		if ($this->parent === null) {
 			$newPath = dirname($this->path);
 			if ($newPath === '' || $newPath === '.' || $newPath === '/') {

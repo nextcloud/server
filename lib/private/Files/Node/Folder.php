@@ -109,7 +109,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}, $folderContent);
 	}
 
-	protected function createNode(string $path, ?FileInfo $info = null, bool $infoHasSubMountsIncluded = true): INode {
+	protected function createNode(string $path, ?FileInfo $info = null): INode {
 		if (is_null($info)) {
 			$isDir = $this->view->is_dir($path);
 		} else {
@@ -326,7 +326,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @param int $id
 	 * @return array
 	 */
-	protected function getByIdInRootMount(int $id): array {
+	protected function 	getByIdInRootMount(int $id): array {
 		if (!method_exists($this->root, 'createNode')) {
 			// Always expected to be false. Being a method of Folder, this is
 			// always implemented. For it is an internal method and should not
@@ -335,7 +335,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 		$mount = $this->root->getMount('');
 		$storage = $mount->getStorage();
-		$cacheEntry = $storage?->getCache($this->path)->get($id);
+		$cacheEntry = $storage ? $storage->getCache($this->path)->get($id) : null;
 		if (!$cacheEntry) {
 			return [];
 		}

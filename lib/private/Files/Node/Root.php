@@ -336,9 +336,10 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
+	 * @return INode|IRootFolder
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function getParent(): INode|IRootFolder {
+	public function getParent() {
 		throw new NotFoundException();
 	}
 
