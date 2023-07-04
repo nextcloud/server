@@ -378,6 +378,7 @@
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "如果遺失裝置或退出組織，這可以從與 {userid} 相關的所有裝置遠端抹除 Nextcloud 資料。僅當裝置連線到網際網路時才有效。",
     "Remote wipe of devices" : "遠端抹除裝置",
     "Wipe {userid}'s devices" : "抹除 {userid} 的裝置",
+    "Wiped {userid}'s devices" : "抹除了 {userid} 的裝置",
     "Update of user manager was failed" : "使用者管理員更新失敗",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "完全刪除 {userid} 的帳號，包含他們所有的個人檔案、應用程式資料等等。",
     "Account deletion" : "帳號刪除",
