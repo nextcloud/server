@@ -83,6 +83,10 @@
 		<file name="3rdparty/sabre/uri/lib/functions.php" />
 	</stubs>
 	<issueHandlers>
+		<LessSpecificReturnStatement errorLevel="error"/>
+		<LessSpecificReturnType errorLevel="error"/>
+		<LessSpecificImplementedReturnType errorLevel="error"/>
+		<MoreSpecificReturnType errorLevel="error"/>
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
