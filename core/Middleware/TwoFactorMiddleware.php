@@ -59,8 +59,11 @@ class TwoFactorMiddleware extends Middleware {
 	/**
 	 * @param Controller $controller
 	 * @param string $methodName
+	 * @throws TwoFactorAuthRequiredException
+	 * @throws UserAlreadyLoggedInException
+	 * @throws Exception
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if ($this->reflector->hasAnnotation('NoTwoFactorRequired')) {
 			// Route handler explicitly marked to work without finished 2FA are
 			// not blocked
@@ -111,7 +114,11 @@ class TwoFactorMiddleware extends Middleware {
 		// TODO: dont check/enforce 2FA if a auth token is used
 	}
 
-	private function checkTwoFactor(Controller $controller, $methodName, IUser $user) {
+	/**
+	 * @throws UserAlreadyLoggedInException
+	 * @throws TwoFactorAuthRequiredException
+	 */
+	private function checkTwoFactor(Controller $controller, $methodName, IUser $user): void {
 		// If two-factor auth is in progress disallow access to any controllers
 		// defined within "LoginController".
 		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor($user);
@@ -129,7 +136,7 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, Exception $exception) {
+	public function afterException($controller, $methodName, Exception $exception): RedirectResponse {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [];
 			if (isset($this->request->server['REQUEST_URI'])) {
