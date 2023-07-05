@@ -31,18 +31,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionCleanupCommand extends Command {
-	/** @var RetentionService */
-	private $service;
-
-	public function __construct(RetentionService $service) {
+	public function __construct(
+		private RetentionService $service,
+	) {
 		parent::__construct('dav:retention:clean-up');
-
-		$this->service = $service;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->service->cleanUp();
 
-		return 0;
+		return self::SUCCESS;
 	}
 }
