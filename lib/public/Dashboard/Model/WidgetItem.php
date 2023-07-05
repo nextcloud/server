@@ -33,7 +33,7 @@ use JsonSerializable;
  *
  * This class is used by IAPIWidget interface.
  * It represents an widget item data that can be provided to clients via the Dashboard API
- * @see IAPIWidget::getWidgetItems
+ * @see IAPIWidget::getItems
  *
  * @since 22.0.0
  *
