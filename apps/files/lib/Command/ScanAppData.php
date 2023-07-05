@@ -182,7 +182,7 @@ class ScanAppData extends Base {
 	 *
 	 * @throws \ErrorException
 	 */
-	public function exceptionErrorHandler($severity, $message, $file, $line): void {
+	public function exceptionErrorHandler($severity, $message, $file, $line) {
 		if (!(error_reporting() & $severity)) {
 			// This error code is not included in error_reporting
 			return;
