@@ -11,13 +11,11 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\Migrator;
-use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
@@ -65,8 +63,6 @@ class MigratorTest extends \Test\TestCase {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this->connection, $this->config, $dispatcher);
 		}
 		return new Migrator($this->connection, $this->config, $dispatcher);
 	}
@@ -136,10 +132,6 @@ class MigratorTest extends \Test\TestCase {
 
 	private function isSQLite() {
 		return $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
-	}
-
-	private function isMySQL() {
-		return $this->connection->getDatabasePlatform() instanceof MySQLPlatform;
 	}
 
 	public function testUpgrade() {

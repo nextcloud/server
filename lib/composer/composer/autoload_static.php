@@ -1227,7 +1227,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\MissingColumnInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingColumnInformation.php',
         'OC\\DB\\MissingIndexInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingIndexInformation.php',
         'OC\\DB\\MissingPrimaryKeyInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingPrimaryKeyInformation.php',
-        'OC\\DB\\MySQLMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/MySQLMigrator.php',
         'OC\\DB\\MySqlTools' => __DIR__ . '/../../..' . '/lib/private/DB/MySqlTools.php',
         'OC\\DB\\OCSqlitePlatform' => __DIR__ . '/../../..' . '/lib/private/DB/OCSqlitePlatform.php',
         'OC\\DB\\ObjectParameter' => __DIR__ . '/../../..' . '/lib/private/DB/ObjectParameter.php',
