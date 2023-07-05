@@ -46,7 +46,7 @@
 				</div>
 			</template>
 			<template #actions>
-				<NcActionButton	v-if="capabilities.files.version_labeling === true"
+				<NcActionButton	v-if="enableLabeling"
 					:close-after-click="true"
 					@click="openVersionLabelModal">
 					<template #icon>
@@ -70,7 +70,7 @@
 					</template>
 					{{ t('files_versions', 'Download version') }}
 				</NcActionLink>
-				<NcActionButton v-if="!isCurrent && capabilities.files.version_deletion === true"
+				<NcActionButton v-if="!isCurrent && enableDeletion"
 					:close-after-click="true"
 					@click="deleteVersion">
 					<template #icon>
@@ -250,6 +250,16 @@ export default {
 		formattedDate() {
 			return moment(this.version.mtime).format('LLL')
 		},
+
+		/** @return {boolean} */
+		enableLabeling() {
+			return this.capabilities.files.version_labeling === true && this.fileInfo.mountType !== 'group'
+		},
+
+		/** @return {boolean} */
+		enableDeletion() {
+			return this.capabilities.files.version_deletion === true && this.fileInfo.mountType !== 'group'
+		}
 	},
 	methods: {
 		openVersionLabelModal() {
