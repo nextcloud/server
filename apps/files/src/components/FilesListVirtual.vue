@@ -287,6 +287,13 @@ export default Vue.extend({
 				top: 4px;
 				right: -8px;
 				color: #a08b00;
+				// Sow a border around the icon for better contrast
+				svg path {
+					stroke: var(--color-main-background);
+					stroke-width: 10px;
+					stroke-linejoin: round;
+					paint-order: stroke
+				}
 			}
 		}
 
