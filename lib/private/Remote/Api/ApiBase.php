@@ -73,25 +73,14 @@ class ApiBase {
 
 		$client = $this->getHttpClient();
 
-		switch ($method) {
-			case 'get':
-				$response = $client->get($fullUrl, $options);
-				break;
-			case 'post':
-				$response = $client->post($fullUrl, $options);
-				break;
-			case 'put':
-				$response = $client->put($fullUrl, $options);
-				break;
-			case 'delete':
-				$response = $client->delete($fullUrl, $options);
-				break;
-			case 'options':
-				$response = $client->options($fullUrl, $options);
-				break;
-			default:
-				throw new \InvalidArgumentException('Invalid method ' . $method);
-		}
+		$response = match ($method) {
+			'get' => $client->get($fullUrl, $options),
+			'post' => $client->post($fullUrl, $options),
+			'put' => $client->put($fullUrl, $options),
+			'delete' => $client->delete($fullUrl, $options),
+			'options' => $client->options($fullUrl, $options),
+			default => throw new \InvalidArgumentException('Invalid method ' . $method),
+		};
 
 		return $response->getBody();
 	}
