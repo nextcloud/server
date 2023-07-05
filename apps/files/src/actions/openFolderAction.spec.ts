@@ -22,7 +22,7 @@
 import { action } from './openFolderAction'
 import { expect } from '@jest/globals'
 import { File, Folder, Node, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { DefaultType, FileAction } from '../services/FileAction'
 import type { Navigation } from '../services/Navigation'
 
 const view = {
@@ -42,8 +42,8 @@ describe('Open folder action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-folder')
 		expect(action.displayName([folder], view)).toBe('Open folder FooBar')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(true)
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-100)
 	})
 })

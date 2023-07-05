@@ -129,11 +129,6 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'Api#getNodeType',
-				'url' => '/api/v1/quickaccess/get/NodeType',
-				'verb' => 'GET',
-			],
-			[
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
 				'verb' => 'GET'

@@ -22,7 +22,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { Permission, Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import ArrowDown from '@mdi/svg/svg/arrow-down.svg?raw'
+import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
 import { registerFileAction, FileAction } from '../services/FileAction'
 import { generateUrl } from '@nextcloud/router'
@@ -48,7 +48,7 @@ const downloadNodes = function(dir: string, nodes: Node[]) {
 export const action = new FileAction({
 	id: 'download',
 	displayName: () => t('files', 'Download'),
-	iconSvgInline: () => ArrowDown,
+	iconSvgInline: () => ArrowDownSvg,
 
 	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes

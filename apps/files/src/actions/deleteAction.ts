@@ -23,7 +23,7 @@ import { emit } from '@nextcloud/event-bus'
 import { Permission, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
+import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
 
 import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
@@ -36,7 +36,7 @@ export const action = new FileAction({
 			? t('files_trashbin', 'Delete permanently')
 			: t('files', 'Delete')
 	},
-	iconSvgInline: () => TrashCan,
+	iconSvgInline: () => TrashCanSvg,
 
 	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes

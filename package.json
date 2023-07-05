@@ -57,6 +57,7 @@
     "@nextcloud/vue": "^7.12.0",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "@skjnldsv/sanitize-svg": "^1.0.2",
+    "@vueuse/components": "^10.2.0",
     "autosize": "^6.0.1",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
@@ -114,7 +115,7 @@
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "webdav": "^5.2.1"
+    "webdav": "^5.2.2"
   },
   "devDependencies": {
     "@babel/node": "^7.20.7",

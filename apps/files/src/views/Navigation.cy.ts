@@ -4,7 +4,7 @@ import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
 import { createTestingPinia } from '@pinia/testing'
 
-import NavigationService from '../services/Navigation.ts'
+import NavigationService from '../services/Navigation'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
 import { useViewConfigStore } from '../store/viewConfig'

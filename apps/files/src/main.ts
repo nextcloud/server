@@ -1,8 +1,14 @@
 import './templates.js'
 import './legacy/filelistSearch.js'
+
 import './actions/deleteAction'
+import './actions/downloadAction'
+import './actions/editLocallyAction'
+import './actions/favoriteAction'
 import './actions/openFolderAction'
+import './actions/renameAction'
 import './actions/sidebarAction'
+import './actions/viewInFolderAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -11,6 +17,7 @@ import FilesListView from './views/FilesList.vue'
 import NavigationService from './services/Navigation'
 import NavigationView from './views/Navigation.vue'
 import processLegacyFilesViews from './legacy/navigationMapper.js'
+import registerFavoritesView from './views/favorites'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 import router from './router/router.js'
 import RouterService from './services/RouterService'
@@ -70,6 +77,7 @@ FilesList.$mount('#app-content-vue')
 
 // Init legacy and new files views
 processLegacyFilesViews()
+registerFavoritesView()
 
 // Register preview service worker
 registerPreviewServiceWorker()
