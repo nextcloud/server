@@ -22,6 +22,7 @@
  */
 namespace OC\Remote\Api;
 
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Remote\ICredentials;
 use OCP\Remote\IInstance;
@@ -34,11 +35,11 @@ class ApiBase {
 	) {
 	}
 
-	protected function getHttpClient() {
+	protected function getHttpClient(): IClient {
 		return $this->clientService->newClient();
 	}
 
-	protected function addDefaultHeaders(array $headers) {
+	protected function addDefaultHeaders(array $headers): array {
 		return array_merge([
 			'OCS-APIREQUEST' => 'true',
 			'Accept' => 'application/json'
@@ -52,9 +53,9 @@ class ApiBase {
 	 * @param array $query
 	 * @param array $headers
 	 * @return resource|string
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException|\Exception
 	 */
-	protected function request($method, $url, array $body = [], array $query = [], array $headers = []) {
+	protected function request(string $method, string $url, array $body = [], array $query = [], array $headers = []) {
 		$fullUrl = trim($this->instance->getFullUrl(), '/') . '/' . $url;
 		$options = [
 			'query' => $query,

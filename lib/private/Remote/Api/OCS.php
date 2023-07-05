@@ -43,7 +43,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
-	protected function request($method, $url, array $body = [], array $query = [], array $headers = []) {
+	protected function request(string $method, string $url, array $body = [], array $query = [], array $headers = []): array {
 		try {
 			$response = json_decode(parent::request($method, 'ocs/v2.php/' . $url, $body, $query, $headers), true);
 		} catch (ClientException $e) {
@@ -77,7 +77,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	 * @param string[] $keys
 	 * @throws \Exception
 	 */
-	private function checkResponseArray(array $data, $type, array $keys) {
+	private function checkResponseArray(array $data, string $type, array $keys): void {
 		foreach ($keys as $key) {
 			if (!array_key_exists($key, $data)) {
 				throw new \Exception('Invalid ' . $type . ' response, expected field ' . $key . ' not found');
@@ -85,7 +85,12 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		}
 	}
 
-	public function getUser($userId) {
+	/**
+	 * @throws ForbiddenException
+	 * @throws NotFoundException
+	 * @throws \Exception
+	 */
+	public function getUser($userId): User {
 		$result = $this->request('get', 'cloud/users/' . $userId);
 		$this->checkResponseArray($result, 'user', User::EXPECTED_KEYS);
 		return new User($result);
@@ -93,8 +98,10 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 
 	/**
 	 * @return array The capabilities in the form of [$appId => [$capability => $value]]
+	 * @throws ForbiddenException
+	 * @throws NotFoundException
 	 */
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		$result = $this->request('get', 'cloud/capabilities');
 		return $result['capabilities'];
 	}

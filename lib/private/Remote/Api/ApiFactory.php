@@ -33,7 +33,7 @@ class ApiFactory implements IApiFactory {
 	) {
 	}
 
-	public function getApiCollection(IInstance $instance, ICredentials $credentials) {
+	public function getApiCollection(IInstance $instance, ICredentials $credentials): ApiCollection {
 		return new ApiCollection($instance, $credentials, $this->clientService);
 	}
 }

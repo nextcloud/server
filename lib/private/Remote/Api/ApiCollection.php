@@ -35,11 +35,11 @@ class ApiCollection implements IApiCollection {
 	) {
 	}
 
-	public function getCapabilitiesApi() {
+	public function getCapabilitiesApi(): OCS {
 		return new OCS($this->instance, $this->credentials, $this->clientService);
 	}
 
-	public function getUserApi() {
+	public function getUserApi(): OCS {
 		return new OCS($this->instance, $this->credentials, $this->clientService);
 	}
 }

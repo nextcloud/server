@@ -32,10 +32,10 @@ use OCP\Remote\IInstance;
  */
 class Instance implements IInstance {
 	/** @var string */
-	private $url;
+	private string $url;
 
 	/** @var array|null */
-	private $status;
+	private ?array $status;
 
 	/**
 	 * @param string $url
@@ -54,29 +54,31 @@ class Instance implements IInstance {
 	/**
 	 * @return string The url of the remote server without protocol
 	 */
-	public function getUrl() {
+	public function getUrl(): string {
 		return $this->url;
 	}
 
 	/**
 	 * @return string The of of the remote server with protocol
 	 */
-	public function getFullUrl() {
+	public function getFullUrl(): string {
 		return $this->getProtocol() . '://' . $this->getUrl();
 	}
 
 	/**
 	 * @return string The full version string in '13.1.2.3' format
+	 * @throws NotFoundException
 	 */
-	public function getVersion() {
+	public function getVersion(): string {
 		$status = $this->getStatus();
 		return $status['version'];
 	}
 
 	/**
 	 * @return string 'http' or 'https'
+	 * @throws NotFoundException
 	 */
-	public function getProtocol() {
+	public function getProtocol(): string {
 		$status = $this->getStatus();
 		return $status['protocol'];
 	}
@@ -85,8 +87,9 @@ class Instance implements IInstance {
 	 * Check that the remote server is installed and not in maintenance mode
 	 *
 	 * @return bool
+	 * @throws NotFoundException
 	 */
-	public function isActive() {
+	public function isActive(): bool {
 		$status = $this->getStatus();
 		return $status['installed'] && !$status['maintenance'];
 	}
@@ -96,7 +99,7 @@ class Instance implements IInstance {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
-	private function getStatus() {
+	private function getStatus(): ?array {
 		if ($this->status) {
 			return $this->status;
 		}
@@ -133,7 +136,7 @@ class Instance implements IInstance {
 	 * @param string $url
 	 * @return bool|string
 	 */
-	private function downloadStatus($url) {
+	private function downloadStatus(string $url): bool|string {
 		try {
 			$request = $this->clientService->newClient()->get($url);
 			return $request->getBody();

@@ -38,14 +38,14 @@ class Credentials implements ICredentials {
 	/**
 	 * @return string
 	 */
-	public function getUsername() {
+	public function getUsername(): string {
 		return $this->user;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPassword() {
+	public function getPassword(): string {
 		return $this->password;
 	}
 }

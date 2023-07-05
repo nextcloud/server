@@ -33,7 +33,7 @@ class InstanceFactory implements IInstanceFactory {
 	) {
 	}
 
-	public function getInstance($url) {
+	public function getInstance($url): Instance {
 		return new Instance($url, $this->cache, $this->clientService);
 	}
 }
