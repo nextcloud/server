@@ -31,11 +31,13 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
@@ -48,73 +50,31 @@ use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class RequestHandlerController extends OCSController {
 
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var Share\IManager */
-	private $shareManager;
-
-	/** @var Notifications */
-	private $notifications;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var  IUserManager */
-	private $userManager;
-
 	/** @var string */
-	private $shareTable = 'share';
+	private string $shareTable = 'share';
 
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ICloudFederationFactory */
-	private $cloudFederationFactory;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								FederatedShareProvider $federatedShareProvider,
-								IDBConnection $connection,
-								Share\IManager $shareManager,
-								Notifications $notifications,
-								AddressHandler $addressHandler,
-								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager,
-								LoggerInterface $logger,
-								ICloudFederationFactory $cloudFederationFactory,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								IEventDispatcher $eventDispatcher
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private FederatedShareProvider $federatedShareProvider,
+		private IDBConnection $connection,
+		private Share\IManager $shareManager,
+		private Notifications $notifications,
+		private AddressHandler $addressHandler,
+		private IUserManager $userManager,
+		private ICloudIdManager $cloudIdManager,
+		private LoggerInterface $logger,
+		private ICloudFederationFactory $cloudFederationFactory,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->connection = $connection;
-		$this->shareManager = $shareManager;
-		$this->notifications = $notifications;
-		$this->addressHandler = $addressHandler;
-		$this->userManager = $userManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->logger = $logger;
-		$this->cloudFederationFactory = $cloudFederationFactory;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -145,7 +105,7 @@ class RequestHandlerController extends OCSController {
 		?int $remoteId = null,
 		?string $sharedByFederatedId = null,
 		?string $ownerFederatedId = null,
-	) {
+	): Http\DataResponse {
 		if ($ownerFederatedId === null) {
 			$ownerFederatedId = $this->cloudIdManager->getCloudId($owner, $this->cleanupRemote($remote))->getId();
 		}
@@ -203,7 +163,7 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
 	 */
-	public function reShare(int $id, ?string $token = null, ?string $shareWith = null, ?int $permission = 0, ?int $remoteId = 0) {
+	public function reShare(int $id, ?string $token = null, ?string $shareWith = null, ?int $permission = 0, ?int $remoteId = 0): Http\DataResponse {
 		if ($token === null ||
 			$shareWith === null ||
 			$permission === null ||
@@ -246,12 +206,10 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id
 	 * @param string|null $token
-	 * @return Http\DataResponse
+	 * @return DataResponse
 	 * @throws OCSException
-	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
 	 */
-	public function acceptShare(int $id, ?string $token = null) {
+	public function acceptShare(int $id, ?string $token = null): DataResponse {
 		$notification = [
 			'sharedSecret' => $token,
 			'message' => 'Recipient accept the share'
@@ -283,7 +241,7 @@ class RequestHandlerController extends OCSController {
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 */
-	public function declineShare(int $id, ?string $token = null) {
+	public function declineShare(int $id, ?string $token = null): DataResponse {
 		$notification = [
 			'sharedSecret' => $token,
 			'message' => 'Recipient declined the share'
@@ -315,7 +273,7 @@ class RequestHandlerController extends OCSController {
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 */
-	public function unshare(int $id, ?string $token = null) {
+	public function unshare(int $id, ?string $token = null): DataResponse {
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
@@ -332,7 +290,7 @@ class RequestHandlerController extends OCSController {
 		return new Http\DataResponse();
 	}
 
-	private function cleanupRemote($remote) {
+	private function cleanupRemote($remote): string {
 		$remote = substr($remote, strpos($remote, '://') + 3);
 
 		return rtrim($remote, '/');
@@ -350,7 +308,7 @@ class RequestHandlerController extends OCSController {
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function revoke(int $id, ?string $token = null) {
+	public function revoke(int $id, ?string $token = null): DataResponse {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$notification = ['sharedSecret' => $token];
@@ -366,8 +324,10 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param bool $incoming
 	 * @return bool
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	private function isS2SEnabled($incoming = false) {
+	private function isS2SEnabled(bool $incoming = false): bool {
 		$result = \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_sharing');
 
 		if ($incoming) {
@@ -391,7 +351,7 @@ class RequestHandlerController extends OCSController {
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function updatePermissions(int $id, ?string $token = null, ?int $permissions = null) {
+	public function updatePermissions(int $id, ?string $token = null, ?int $permissions = null): DataResponse {
 		$ncPermissions = $permissions;
 
 		try {
@@ -414,7 +374,7 @@ class RequestHandlerController extends OCSController {
 	 * @param $ncPermissions
 	 * @return array
 	 */
-	protected function ncPermissions2ocmPermissions($ncPermissions) {
+	protected function ncPermissions2ocmPermissions($ncPermissions): array {
 		$ocmPermissions = [];
 
 		if ($ncPermissions & Constants::PERMISSION_SHARE) {
@@ -443,12 +403,14 @@ class RequestHandlerController extends OCSController {
 	 * @param string|null $token
 	 * @param string|null $remote
 	 * @param string|null $remote_id
-	 * @return Http\DataResponse
+	 * @return DataResponse
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
-	public function move(int $id, ?string $token = null, ?string $remote = null, ?string $remote_id = null) {
+	public function move(int $id, ?string $token = null, ?string $remote = null, ?string $remote_id = null): DataResponse {
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}

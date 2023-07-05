@@ -57,30 +57,6 @@ use OCP\Share\IShare;
  */
 class MountPublicLinkController extends Controller {
 
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var IManager  */
-	private $shareManager;
-
-	/** @var  ISession */
-	private $session;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var ICloudIdManager  */
-	private $cloudIdManager;
-
 	/**
 	 * MountPublicLinkController constructor.
 	 *
@@ -95,27 +71,19 @@ class MountPublicLinkController extends Controller {
 	 * @param IClientService $clientService
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								FederatedShareProvider $federatedShareProvider,
-								IManager $shareManager,
-								AddressHandler $addressHandler,
-								ISession $session,
-								IL10N $l,
-								IUserSession $userSession,
-								IClientService $clientService,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		$appName,
+		IRequest $request,
+		private FederatedShareProvider $federatedShareProvider,
+		private IManager $shareManager,
+		private AddressHandler $addressHandler,
+		private ISession $session,
+		private IL10N $l,
+		private IUserSession $userSession,
+		private IClientService $clientService,
+		private ICloudIdManager $cloudIdManager,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->shareManager = $shareManager;
-		$this->addressHandler = $addressHandler;
-		$this->session = $session;
-		$this->l = $l;
-		$this->userSession = $userSession;
-		$this->clientService = $clientService;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -130,7 +98,7 @@ class MountPublicLinkController extends Controller {
 	 * @param string $password
 	 * @return JSONResponse
 	 */
-	public function createFederatedShare($shareWith, $token, $password = '') {
+	public function createFederatedShare(string $shareWith, string $token, string $password = ''): JSONResponse {
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -198,7 +166,7 @@ class MountPublicLinkController extends Controller {
 	 * @param string $name (only for legacy reasons, can be removed with legacyMountPublicLink())
 	 * @return JSONResponse
 	 */
-	public function askForFederatedShare($token, $remote, $password = '', $owner = '', $ownerDisplayName = '', $name = '') {
+	public function askForFederatedShare(string $token, string $remote, string $password = '', string $owner = '', string $ownerDisplayName = '', string $name = ''): JSONResponse {
 		// check if server admin allows to mount public links from other servers
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() === false) {
 			return new JSONResponse(['message' => $this->l->t('Server to server sharing is not enabled on this server')], Http::STATUS_BAD_REQUEST);
@@ -236,7 +204,7 @@ class MountPublicLinkController extends Controller {
 			return new JSONResponse(['message' => $this->l->t('Federated Share request sent, you will receive an invitation. Check your notifications.')]);
 		}
 
-		// if we doesn't get the expected response we assume that we try to add
+		// if we don't get the expected response we assume that we try to add
 		// a federated share from a Nextcloud <= 9 server
 		$message = $this->l->t("Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9).");
 		return new JSONResponse(['message' => $message], Http::STATUS_BAD_REQUEST);
