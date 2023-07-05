@@ -721,7 +721,13 @@ class Storage {
 		}
 
 		foreach ($versions as $key => $version) {
-			if ($expiration->isExpired($version['version'], $quotaExceeded) && !isset($toDelete[$key])) {
+			if (!is_numeric($version['version'])) {
+				\OC::$server->get(LoggerInterface::class)->error(
+					'Found a non-numeric timestamp version: '. json_encode($version),
+					['app' => 'files_versions']);
+				continue;
+			}
+			if ($expiration->isExpired((int)($version['version']), $quotaExceeded) && !isset($toDelete[$key])) {
 				$size += $version['size'];
 				$toDelete[$key] = $version['path'] . '.v' . $version['version'];
 			}
