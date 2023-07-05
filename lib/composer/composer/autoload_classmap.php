@@ -1594,7 +1594,6 @@ return array(
     'OC\\Repair\\RepairDavShares' => $baseDir . '/lib/private/Repair/RepairDavShares.php',
     'OC\\Repair\\RepairInvalidShares' => $baseDir . '/lib/private/Repair/RepairInvalidShares.php',
     'OC\\Repair\\RepairMimeTypes' => $baseDir . '/lib/private/Repair/RepairMimeTypes.php',
-    'OC\\Repair\\SqliteAutoincrement' => $baseDir . '/lib/private/Repair/SqliteAutoincrement.php',
     'OC\\RichObjectStrings\\Validator' => $baseDir . '/lib/private/RichObjectStrings/Validator.php',
     'OC\\Route\\CachingRouter' => $baseDir . '/lib/private/Route/CachingRouter.php',
     'OC\\Route\\Route' => $baseDir . '/lib/private/Route/Route.php',
