@@ -19,18 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import type { PathOptions, ServicesState } from '../types'
-
+import type { FileId, PathsStore, PathOptions, ServicesState } from '../types'
 import { defineStore } from 'pinia'
-import { subscribe } from '@nextcloud/event-bus'
-import type { FileId, PathsStore } from '../types'
 import Vue from 'vue'
 
-export const usePathsStore = function() {
+export const usePathsStore = function(...args) {
 	const store = defineStore('paths', {
 		state: () => ({
-			paths: {} as ServicesState
+			paths: {} as ServicesState,
 		} as PathsStore),
 
 		getters: {
@@ -54,10 +50,10 @@ export const usePathsStore = function() {
 				// Now we can set the provided path
 				Vue.set(this.paths[payload.service], payload.path, payload.fileid)
 			},
-		}
+		},
 	})
 
-	const pathsStore = store(...arguments)
+	const pathsStore = store(...args)
 	// Make sure we only register the listeners once
 	if (!pathsStore._initialized) {
 		// TODO: watch folders to update paths?

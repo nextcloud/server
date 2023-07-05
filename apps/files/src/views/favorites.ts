@@ -59,7 +59,7 @@ export const generateIdFromPath = function(path: string): string {
 
 export default () => {
 	// Load state in function for mock testing purposes
-	const favoriteFolders = loadState('files', 'favoriteFolders', []) as string[]
+	const favoriteFolders = loadState<string[]>('files', 'favoriteFolders', [])
 	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index))
 
 	const Navigation = window.OCP.Files.Navigation as NavigationService

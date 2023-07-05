@@ -19,9 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import type { Folder } from '@nextcloud/files'
-import type { Node } from '@nextcloud/files'
+import type { Folder, Node } from '@nextcloud/files'
 
 // Global definitions
 export type Service = string
@@ -29,11 +27,6 @@ export type FileId = number
 export type ViewId = string
 
 // Files store
-export type FilesState = {
-	files: FilesStore,
-	roots: RootsStore,
-}
-
 export type FilesStore = {
 	[fileid: FileId]: Node
 }
@@ -42,18 +35,23 @@ export type RootsStore = {
 	[service: Service]: Folder
 }
 
+export type FilesState = {
+	files: FilesStore,
+	roots: RootsStore,
+}
+
 export interface RootOptions {
 	root: Folder
 	service: Service
 }
 
 // Paths store
-export type ServicesState = {
-	[service: Service]: PathConfig
-}
-
 export type PathConfig = {
 	[path: string]: number
+}
+
+export type ServicesState = {
+	[service: Service]: PathConfig
 }
 
 export type PathsStore = {

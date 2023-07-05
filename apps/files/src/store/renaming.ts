@@ -19,13 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
 import type { Node } from '@nextcloud/files'
 import type { RenamingStore } from '../types'
 
-export const useRenamingStore = function() {
+export const useRenamingStore = function(...args) {
 	const store = defineStore('renaming', {
 		state: () => ({
 			renamingNode: undefined,
@@ -33,7 +32,7 @@ export const useRenamingStore = function() {
 		} as RenamingStore),
 	})
 
-	const renamingStore = store(...arguments)
+	const renamingStore = store(...args)
 
 	// Make sure we only register the listeners once
 	if (!renamingStore._initialized) {

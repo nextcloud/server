@@ -286,7 +286,7 @@ export default Vue.extend({
 				position: absolute;
 				top: 4px;
 				right: -8px;
-				color: #ffcc00;
+				color: #a08b00;
 			}
 		}
 

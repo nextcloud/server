@@ -19,14 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import { loadState } from '@nextcloud/initial-state'
-import { generateUrl } from '@nextcloud/router'
-import { defineStore } from 'pinia'
-import Vue from 'vue'
-import axios from '@nextcloud/axios'
 import type { UserConfig, UserConfigStore } from '../types'
+import { defineStore } from 'pinia'
 import { emit, subscribe } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
+import axios from '@nextcloud/axios'
+import Vue from 'vue'
 
 const userConfig = loadState('files', 'config', {
 	show_hidden: false,
@@ -34,7 +33,7 @@ const userConfig = loadState('files', 'config', {
 	sort_favorites_first: true,
 }) as UserConfig
 
-export const useUserConfigStore = function() {
+export const useUserConfigStore = function(...args) {
 	const store = defineStore('userconfig', {
 		state: () => ({
 			userConfig,
@@ -57,11 +56,11 @@ export const useUserConfigStore = function() {
 				})
 
 				emit('files:config:updated', { key, value })
-			}
-		}
+			},
+		},
 	})
 
-	const userConfigStore = store(...arguments)
+	const userConfigStore = store(...args)
 
 	// Make sure we only register the listeners once
 	if (!userConfigStore._initialized) {
@@ -73,4 +72,3 @@ export const useUserConfigStore = function() {
 
 	return userConfigStore
 }
-

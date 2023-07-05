@@ -20,7 +20,7 @@
  *
  */
 import { File, Folder, parseWebdavPermissions } from '@nextcloud/files'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { generateRemoteUrl } from '@nextcloud/router'
 import { getClient, rootPath } from './WebdavClient'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getDavNameSpaces, getDavProperties, getDefaultPropfind } from './DavProperties'
@@ -49,7 +49,6 @@ const resultToNode = function(node: FileStat): File | Folder {
 	const props = node.props as ResponseProps
 	const permissions = parseWebdavPermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
-	const previewUrl = generateUrl('/core/preview?fileId={fileid}&x=32&y=32&forceIcon=0', props)
 
 	const nodeData = {
 		id: props?.fileid as number || 0,
@@ -63,7 +62,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 		attributes: {
 			...node,
 			...props,
-			previewUrl,
+			hasPreview: props?.['has-preview'],
 		},
 	}
 
