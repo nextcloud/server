@@ -153,6 +153,8 @@
     "One User Base DN per line" : "Un DN base de usuario por liña",
     "User Search Attributes" : "Atributos de busca do usuario",
     "Optional; one attribute per line" : "Opcional; un atributo por liña",
+    "Disable users missing from LDAP" : "Desactivar usuarios que faltan en LDAP",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Cando estea activado, desactivaranse os usuarios importados de LDAP e que logo faltan",
     "Group Display Name Field" : "Campo de nome de grupo para amosar",
     "The LDAP attribute to use to generate the groups's display name." : "O atributo LDAP úsase para xerar os nomes dos grupos que amosar.",
     "Base Group Tree" : "Base da árbore de grupo",

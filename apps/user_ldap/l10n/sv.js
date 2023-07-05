@@ -155,6 +155,8 @@ OC.L10N.register(
     "One User Base DN per line" : "En användarstart-DN per rad",
     "User Search Attributes" : "Användarsökningsattribut",
     "Optional; one attribute per line" : "Valfritt; ett attribut per rad",
+    "Disable users missing from LDAP" : "Inaktivera användare som saknas via LDAP",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "När aktiverad kommer användare som importerats från LDAP som sedan saknas att inaktiveras",
     "Group Display Name Field" : "Attribut för gruppnamn",
     "The LDAP attribute to use to generate the groups's display name." : "LDAP-attributet som ska användas för att generera gruppens visningsnamn.",
     "Base Group Tree" : "Bas för grupper i katalogtjänst",
