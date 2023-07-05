@@ -65,7 +65,6 @@ export const action = new FileAction({
 		return null
 	},
 
-	default: DefaultType.DEFAULT,
 	order: 25,
 })
 

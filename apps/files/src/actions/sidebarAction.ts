@@ -60,7 +60,6 @@ export const action = new FileAction({
 		}
 	},
 
-	default: DefaultType.DEFAULT,
 	order: -50,
 })
 
