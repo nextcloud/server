@@ -155,6 +155,8 @@ OC.L10N.register(
     "One User Base DN per line" : "Један Корисников јединствени назив DN по линији",
     "User Search Attributes" : "Параметри претраге корисника",
     "Optional; one attribute per line" : "Опционо; један параметар по линији",
+    "Disable users missing from LDAP" : "Искључи кориниске којих нема у LDAP",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Када је укључено, корисници који се увезу из LDAP па онда недостају ће се искључити",
     "Group Display Name Field" : "Име приказа групе",
     "The LDAP attribute to use to generate the groups's display name." : "LDAP параметар за формирање имена за приказ група.",
     "Base Group Tree" : "Стабло основне групе",
