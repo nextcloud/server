@@ -155,6 +155,8 @@ OC.L10N.register(
     "One User Base DN per line" : "一行一個使用者 Base DN",
     "User Search Attributes" : "User Search Attributes",
     "Optional; one attribute per line" : "非必要，一行一項屬性",
+    "Disable users missing from LDAP" : "停用 LDAP 中缺少的使用者",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "開啟後，從 LDAP 匯入但隨後遺失的使用者將被停用",
     "Group Display Name Field" : "群組顯示名稱欄位",
     "The LDAP attribute to use to generate the groups's display name." : "用於生成群組顯示名稱的 LDAP 屬性。",
     "Base Group Tree" : "Base Group Tree",
