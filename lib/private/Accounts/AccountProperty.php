@@ -32,25 +32,17 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 
 class AccountProperty implements IAccountProperty {
-	/** @var string */
-	private $name;
-	/** @var string */
-	private $value;
-	/** @var string */
-	private $scope;
-	/** @var string */
-	private $verified;
-	/** @var string */
-	private $verificationData;
-	/** @var string */
-	private $locallyVerified = IAccountManager::NOT_VERIFIED;
+	private string $scope;
+	private string $locallyVerified = IAccountManager::NOT_VERIFIED;
 
-	public function __construct(string $name, string $value, string $scope, string $verified, string $verificationData) {
-		$this->name = $name;
-		$this->value = $value;
+	public function __construct(
+		private string $name,
+		private string $value,
+		string $scope,
+		private string $verified,
+		private string $verificationData,
+	) {
 		$this->setScope($scope);
-		$this->verified = $verified;
-		$this->verificationData = $verificationData;
 	}
 
 	public function jsonSerialize(): array {
@@ -67,9 +59,6 @@ class AccountProperty implements IAccountProperty {
 	 * Set the value of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $value
-	 * @return IAccountProperty
 	 */
 	public function setValue(string $value): IAccountProperty {
 		$this->value = $value;
@@ -80,9 +69,6 @@ class AccountProperty implements IAccountProperty {
 	 * Set the scope of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $scope
-	 * @return IAccountProperty
 	 */
 	public function setScope(string $scope): IAccountProperty {
 		$newScope = $this->mapScopeToV2($scope);
@@ -102,9 +88,6 @@ class AccountProperty implements IAccountProperty {
 	 * Set the verification status of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $verified
-	 * @return IAccountProperty
 	 */
 	public function setVerified(string $verified): IAccountProperty {
 		$this->verified = $verified;
@@ -115,8 +98,6 @@ class AccountProperty implements IAccountProperty {
 	 * Get the name of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getName(): string {
 		return $this->name;
@@ -126,8 +107,6 @@ class AccountProperty implements IAccountProperty {
 	 * Get the value of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getValue(): string {
 		return $this->value;
@@ -137,8 +116,6 @@ class AccountProperty implements IAccountProperty {
 	 * Get the scope of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getScope(): string {
 		return $this->scope;
@@ -149,25 +126,18 @@ class AccountProperty implements IAccountProperty {
 			return $scope;
 		}
 
-		switch ($scope) {
-			case IAccountManager::VISIBILITY_PRIVATE:
-			case '':
-				return IAccountManager::SCOPE_LOCAL;
-			case IAccountManager::VISIBILITY_CONTACTS_ONLY:
-				return IAccountManager::SCOPE_FEDERATED;
-			case IAccountManager::VISIBILITY_PUBLIC:
-				return IAccountManager::SCOPE_PUBLISHED;
-			default:
-				return $scope;
-		}
+		return match ($scope) {
+			IAccountManager::VISIBILITY_PRIVATE, '' => IAccountManager::SCOPE_LOCAL,
+			IAccountManager::VISIBILITY_CONTACTS_ONLY => IAccountManager::SCOPE_FEDERATED,
+			IAccountManager::VISIBILITY_PUBLIC => IAccountManager::SCOPE_PUBLISHED,
+			default => $scope,
+		};
 	}
 
 	/**
 	 * Get the verification status of a property
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getVerified(): string {
 		return $this->verified;
