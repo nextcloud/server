@@ -1201,7 +1201,6 @@ return array(
     'OC\\DB\\OracleConnection' => $baseDir . '/lib/private/DB/OracleConnection.php',
     'OC\\DB\\OracleMigrator' => $baseDir . '/lib/private/DB/OracleMigrator.php',
     'OC\\DB\\PgSqlTools' => $baseDir . '/lib/private/DB/PgSqlTools.php',
-    'OC\\DB\\PostgreSqlMigrator' => $baseDir . '/lib/private/DB/PostgreSqlMigrator.php',
     'OC\\DB\\PreparedStatement' => $baseDir . '/lib/private/DB/PreparedStatement.php',
     'OC\\DB\\QueryBuilder\\CompositeExpression' => $baseDir . '/lib/private/DB/QueryBuilder/CompositeExpression.php',
     'OC\\DB\\QueryBuilder\\ExpressionBuilder\\ExpressionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php',

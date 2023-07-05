@@ -1234,7 +1234,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\OracleConnection' => __DIR__ . '/../../..' . '/lib/private/DB/OracleConnection.php',
         'OC\\DB\\OracleMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/OracleMigrator.php',
         'OC\\DB\\PgSqlTools' => __DIR__ . '/../../..' . '/lib/private/DB/PgSqlTools.php',
-        'OC\\DB\\PostgreSqlMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/PostgreSqlMigrator.php',
         'OC\\DB\\PreparedStatement' => __DIR__ . '/../../..' . '/lib/private/DB/PreparedStatement.php',
         'OC\\DB\\QueryBuilder\\CompositeExpression' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/CompositeExpression.php',
         'OC\\DB\\QueryBuilder\\ExpressionBuilder\\ExpressionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php',
