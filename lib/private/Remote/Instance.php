@@ -34,12 +34,6 @@ class Instance implements IInstance {
 	/** @var string */
 	private $url;
 
-	/** @var ICache */
-	private $cache;
-
-	/** @var IClientService */
-	private $clientService;
-
 	/** @var array|null */
 	private $status;
 
@@ -48,11 +42,13 @@ class Instance implements IInstance {
 	 * @param ICache $cache
 	 * @param IClientService $clientService
 	 */
-	public function __construct($url, ICache $cache, IClientService $clientService) {
+	public function __construct(
+		$url,
+		private ICache $cache,
+		private IClientService $clientService,
+	) {
 		$url = str_replace('https://', '', $url);
 		$this->url = str_replace('http://', '', $url);
-		$this->cache = $cache;
-		$this->clientService = $clientService;
 	}
 
 	/**
