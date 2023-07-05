@@ -47,6 +47,7 @@ OC.L10N.register(
     "Android client" : "عميل أندرويد",
     "iOS client" : "عميل نظام التشغيل آي أو إس \"iOS\"",
     "Desktop client" : "تطبيق سطح المكتب",
+    "Thunderbird & Outlook addons" : "إضافات ثندربيرد و أوت لوك",
     "and" : "و",
     "Cancel" : "إلغاء",
     "Delete" : "حذف ",

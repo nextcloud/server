@@ -155,6 +155,8 @@ OC.L10N.register(
     "One User Base DN per line" : "Jedna uživatelská základní DN na řádku",
     "User Search Attributes" : "Atributy vyhledávání uživatelů",
     "Optional; one attribute per line" : "Volitelné, každý atribut na zvlášť řádek",
+    "Disable users missing from LDAP" : "Znepřístupnit uživatelské účty, které se nenachází v LDAP",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Pokud zapnuto, uživatelské účty naimportovaní z LDAP, kteří pak budou chybět, budou znepřístupněny.",
     "Group Display Name Field" : "Kolonka zobrazovaného názvu skupiny",
     "The LDAP attribute to use to generate the groups's display name." : "LDAP atribut použitý k vytvoření zobrazovaného jména skupiny.",
     "Base Group Tree" : "Základ stromu skupin",
