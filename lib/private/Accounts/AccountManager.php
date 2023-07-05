@@ -115,7 +115,7 @@ class AccountManager implements IAccountManager {
 		private IVerificationToken $verificationToken,
 		private IMailer $mailer,
 		private Defaults $defaults,
-		private IFactory $factory,
+		private IFactory $l10nFactory,
 		private IURLGenerator $urlGenerator,
 		private ICrypto $crypto,
 	) {
@@ -414,7 +414,7 @@ class AccountManager implements IAccountManager {
 		]);
 
 		if (!$this->l10n) {
-			$this->l10n = $this->factory->get('core');
+			$this->l10n = $this->l10nFactory->get('core');
 		}
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
