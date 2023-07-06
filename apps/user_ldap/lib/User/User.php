@@ -695,9 +695,9 @@ class User {
 
 	/**
 	 * @brief attempts to get an image from LDAP and sets it as Nextcloud avatar
-	 * @return bool
+	 * @return bool true when the avatar was set successfully or is up to date
 	 */
-	public function updateAvatar($force = false) {
+	public function updateAvatar(bool $force = false): bool {
 		if (!$force && $this->wasRefreshed('avatar')) {
 			return false;
 		}
