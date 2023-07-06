@@ -20,10 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import './actions/acceptShareAction'
-import './actions/rejectShareAction'
-import './actions/restoreShareAction'
-import registerSharingViews from './views/shares'
 
 // register default shares types
 Object.assign(window.OC, {
@@ -41,5 +37,3 @@ Object.assign(window.OC, {
 		SHARE_TYPE_SCIENCEMESH: 15,
 	},
 })
-
-registerSharingViews()
