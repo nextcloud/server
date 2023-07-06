@@ -7,7 +7,6 @@
     "Show list view" : "Näita loendivaadet",
     "Home" : "Kodu",
     "Close" : "Sulge",
-    "Favorites" : "Lemmikud",
     "Could not create folder \"{dir}\"" : "Kausta \"{dir}\" loomine ebaõnnestus",
     "This will stop your current uploads." : "See peatab praegused üleslaadimised.",
     "Upload cancelled." : "Üleslaadimine tühistati.",
@@ -90,7 +89,6 @@
     "Favorited" : "Lemmikud",
     "Favorite" : "Lemmik",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopeeri otselink (töötab ainult nende kasutajate jaoks, kelle on ligipääs sellele failile/kaustale)",
-    "You can only favorite a single file or folder at a time" : "Korraga saab lemmikuks märkida ainult ühe faili või kausta",
     "New folder" : "Uus kaust",
     "Create new folder" : "Loo uus kaust",
     "Upload file" : "Laadi fail üles",
@@ -105,6 +103,7 @@
     "Removed from favorites" : "Lemmikutest eemaldatud",
     "You added {file} to your favorites" : "Lisasid {file} lemmikutesse",
     "You removed {file} from your favorites" : "Eemaldasid {file} lemmikutest",
+    "Favorites" : "Lemmikud",
     "File changes" : "Failimuudatused",
     "Created by {user}" : "Loodud kasutaja {user} poolt",
     "Changed by {user}" : "Muudetud kasutaja {user} poolt",
@@ -149,7 +148,6 @@
     "File Management" : "Failihaldus",
     "Reload current directory" : "Värskenda jooksvat kataloogi",
     "Go to the \"{dir}\" directory" : "Mine kataloogi \"{dir}\"",
-    "Open folder {name}" : "Ava kaust {name}",
     "Download file {name}" : "Laadi fail {name} alla",
     "Select all" : "Vali kõik",
     "{usedQuotaByte} used" : "{usedQuotaByte} kasutusel",
@@ -194,6 +192,7 @@
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Storage invalid" : "Vigane andmehoidla",
+    "You can only favorite a single file or folder at a time" : "Korraga saab lemmikuks märkida ainult ühe faili või kausta",
     "Unlimited" : "Piiramatult",
     "Search users" : "Otsi kasutajaid",
     "Cancel" : "Loobu",
@@ -201,6 +200,7 @@
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s / %2$s kasutusel",
     "Deleted files" : "Kustutatud failid",
+    "Open folder {name}" : "Ava kaust {name}",
     "Search for an account" : "Otsi kontot"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
