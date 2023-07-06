@@ -66,10 +66,10 @@ class Instance implements IInstance {
 	}
 
 	/**
-	 * @return string The full version string in '13.1.2.3' format
+	 * @return string|null The full version string in '13.1.2.3' format
 	 * @throws NotFoundException
 	 */
-	public function getVersion(): string {
+	public function getVersion(): ?string {
 		$status = $this->getStatus();
 		return $status['version'];
 	}
