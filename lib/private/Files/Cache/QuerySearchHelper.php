@@ -89,6 +89,7 @@ class QuerySearchHelper {
 		$storageToPathsMap = [];
 		$otherCaches = [];
 		foreach ($caches as $cache) {
+			\OC::$server->getLogger()->debug("generateStorageFilters: cache: " . get_class($cache));
 			if (($cache instanceof \OCA\Files_Sharing\Cache) and $cache->isFileShare()) {
 				$storage = $cache->getNumericStorageId();
 				$storageToPathsMap[$storage][] = $cache->getGetUnjailedRoot();
