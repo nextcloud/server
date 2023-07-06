@@ -371,7 +371,7 @@ class RequestHandlerController extends OCSController {
 	/**
 	 * translate Nextcloud permissions to OCM Permissions
 	 *
-	 * @param $ncPermissions
+	 * @param int|null $ncPermissions
 	 * @return array
 	 */
 	protected function ncPermissions2ocmPermissions(?int $ncPermissions = null): array {
