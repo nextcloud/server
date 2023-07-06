@@ -64,7 +64,8 @@ class Task extends Entity {
 	}
 
 	public static function fromLanguageModelTask(ILanguageModelTask $task): Task {
-		return Task::fromParams([
+		/** @var Task $task */
+		$task = Task::fromParams([
 			'id' => $task->getId(),
 			'type' => $task->getType(),
 			'lastUpdated' => time(),
@@ -75,5 +76,6 @@ class Task extends Entity {
 			'appId' => $task->getAppId(),
 			'identifier' => $task->getIdentifier(),
 		]);
+		return $task;
 	}
 }
