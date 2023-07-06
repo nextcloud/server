@@ -50,39 +50,39 @@ class AuditLogger implements IAuditLogger {
 		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
 	}
 
-	public function emergency($message, array $context = array()) {
+	public function emergency($message, array $context = array()): void {
 		$this->parentLogger->emergency($message, $context);
 	}
 
-	public function alert($message, array $context = array()) {
+	public function alert($message, array $context = array()): void {
 		$this->parentLogger->alert($message, $context);
 	}
 
-	public function critical($message, array $context = array()) {
+	public function critical($message, array $context = array()): void {
 		$this->parentLogger->critical($message, $context);
 	}
 
-	public function error($message, array $context = array()) {
+	public function error($message, array $context = array()): void {
 		$this->parentLogger->error($message, $context);
 	}
 
-	public function warning($message, array $context = array()) {
+	public function warning($message, array $context = array()): void {
 		$this->parentLogger->warning($message, $context);
 	}
 
-	public function notice($message, array $context = array()) {
+	public function notice($message, array $context = array()): void {
 		$this->parentLogger->notice($message, $context);
 	}
 
-	public function info($message, array $context = array()) {
+	public function info($message, array $context = array()): void {
 		$this->parentLogger->info($message, $context);
 	}
 
-	public function debug($message, array $context = array()) {
+	public function debug($message, array $context = array()): void {
 		$this->parentLogger->debug($message, $context);
 	}
 
-	public function log($level, $message, array $context = array()) {
+	public function log($level, $message, array $context = array()): void {
 		$this->parentLogger->log($level, $message, $context);
 	}
 }
