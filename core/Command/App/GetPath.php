@@ -29,7 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetPath extends Base {
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -67,7 +67,7 @@ class GetPath extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app') {
 			return \OC_App::getAllApps();
 		}

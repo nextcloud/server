@@ -29,6 +29,8 @@ namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,7 +38,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Install extends Command {
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:install')
 			->setDescription('install an app')
@@ -66,6 +68,11 @@ class Install extends Command {
 		;
 	}
 
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 * @throws \Exception
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 		$forceEnable = (bool) $input->getOption('force');
