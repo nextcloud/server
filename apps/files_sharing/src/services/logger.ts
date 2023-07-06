@@ -1,8 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license AGPL-3.0-or-later
  *
@@ -20,20 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getLoggerBuilder } from '@nextcloud/logger'
 
-// register default shares types
-Object.assign(OC, {
-	Share: {
-		SHARE_TYPE_USER: 0,
-		SHARE_TYPE_GROUP: 1,
-		SHARE_TYPE_LINK: 3,
-		SHARE_TYPE_EMAIL: 4,
-		SHARE_TYPE_REMOTE: 6,
-		SHARE_TYPE_CIRCLE: 7,
-		SHARE_TYPE_GUEST: 8,
-		SHARE_TYPE_REMOTE_GROUP: 9,
-		SHARE_TYPE_ROOM: 10,
-		SHARE_TYPE_DECK: 12,
-		SHARE_TYPE_SCIENCEMESH: 15,
-	},
-})
+export default getLoggerBuilder()
+	.setApp('files_sharing')
+	.detectUser()
+	.build()

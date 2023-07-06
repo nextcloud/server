@@ -231,7 +231,7 @@ class Application extends App implements IBootstrap {
 
 			if ($shareManager->sharingDisabledForUser($userId) === false) {
 				$sharingSublistArray[] = [
-					'id' => 'sharingout',
+					'id' => 'sharingoutOld',
 					'appname' => 'files_sharing',
 					'script' => 'list.php',
 					'order' => 16,
@@ -240,7 +240,7 @@ class Application extends App implements IBootstrap {
 			}
 
 			$sharingSublistArray[] = [
-				'id' => 'sharingin',
+				'id' => 'sharinginOld',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
 				'order' => 15,
@@ -251,7 +251,7 @@ class Application extends App implements IBootstrap {
 				// Check if sharing by link is enabled
 				if ($shareManager->shareApiAllowLinks()) {
 					$sharingSublistArray[] = [
-						'id' => 'sharinglinks',
+						'id' => 'sharinglinksOld',
 						'appname' => 'files_sharing',
 						'script' => 'list.php',
 						'order' => 17,
@@ -261,7 +261,7 @@ class Application extends App implements IBootstrap {
 			}
 
 			$sharingSublistArray[] = [
-				'id' => 'deletedshares',
+				'id' => 'deletedsharesOld',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
 				'order' => 19,
@@ -269,7 +269,7 @@ class Application extends App implements IBootstrap {
 			];
 
 			$sharingSublistArray[] = [
-				'id' => 'pendingshares',
+				'id' => 'pendingsharesOld',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
 				'order' => 19,
@@ -277,11 +277,11 @@ class Application extends App implements IBootstrap {
 			];
 
 			return [
-				'id' => 'shareoverview',
+				'id' => 'shareoverviewOld',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
 				'order' => 18,
-				'name' => $l->t('Shares'),
+				'name' => $l->t('Shares (old)'),
 				'classes' => 'collapsible',
 				'sublist' => $sharingSublistArray,
 			];

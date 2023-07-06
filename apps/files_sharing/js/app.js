@@ -370,40 +370,40 @@ OCA.Sharing.App = {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-	$('#app-content-sharingin').on('show', function(e) {
+	$('#app-content-sharinginOld').on('show', function(e) {
 		OCA.Sharing.App.initSharingIn($(e.target))
 	})
-	$('#app-content-sharingin').on('hide', function() {
+	$('#app-content-sharinginOld').on('hide', function() {
 		OCA.Sharing.App.removeSharingIn()
 	})
-	$('#app-content-sharingout').on('show', function(e) {
+	$('#app-content-sharingoutOld').on('show', function(e) {
 		OCA.Sharing.App.initSharingOut($(e.target))
 	})
-	$('#app-content-sharingout').on('hide', function() {
+	$('#app-content-sharingoutOld').on('hide', function() {
 		OCA.Sharing.App.removeSharingOut()
 	})
-	$('#app-content-sharinglinks').on('show', function(e) {
+	$('#app-content-sharinglinksOld').on('show', function(e) {
 		OCA.Sharing.App.initSharingLinks($(e.target))
 	})
-	$('#app-content-sharinglinks').on('hide', function() {
+	$('#app-content-sharinglinksOld').on('hide', function() {
 		OCA.Sharing.App.removeSharingLinks()
 	})
-	$('#app-content-deletedshares').on('show', function(e) {
+	$('#app-content-deletedsharesOld').on('show', function(e) {
 		OCA.Sharing.App.initSharingDeleted($(e.target))
 	})
-	$('#app-content-deletedshares').on('hide', function() {
+	$('#app-content-deletedsharesOld').on('hide', function() {
 		OCA.Sharing.App.removeSharingDeleted()
 	})
-	$('#app-content-pendingshares').on('show', function(e) {
+	$('#app-content-pendingsharesOld').on('show', function(e) {
 		OCA.Sharing.App.initSharingPening($(e.target))
 	})
-	$('#app-content-pendingshares').on('hide', function() {
+	$('#app-content-pendingsharesOld').on('hide', function() {
 		OCA.Sharing.App.removeSharingPending()
 	})
-	$('#app-content-shareoverview').on('show', function(e) {
+	$('#app-content-shareoverviewOld').on('show', function(e) {
 		OCA.Sharing.App.initShareingOverview($(e.target))
 	})
-	$('#app-content-shareoverview').on('hide', function() {
+	$('#app-content-shareoverviewOld').on('hide', function() {
 		OCA.Sharing.App.removeSharingOverview()
 	})
 })
