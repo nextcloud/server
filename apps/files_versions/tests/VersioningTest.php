@@ -39,6 +39,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\Share\IShare;
 use OCA\Files_Versions\Versions\IVersionManager;
+use Test\Traits\MountProviderTrait;
 
 /**
  * Class Test_Files_versions
@@ -50,6 +51,7 @@ class VersioningTest extends \Test\TestCase {
 	public const TEST_VERSIONS_USER = 'test-versions-user';
 	public const TEST_VERSIONS_USER2 = 'test-versions-user2';
 	public const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
+	use MountProviderTrait;
 
 	/**
 	 * @var \OC\Files\View
@@ -647,7 +649,8 @@ class VersioningTest extends \Test\TestCase {
 
 	public function testRestoreCrossStorage() {
 		$storage2 = new Temporary([]);
-		\OC\Files\Filesystem::mount($storage2, [], self::TEST_VERSIONS_USER . '/files/sub');
+		$this->registerMount(self::TEST_VERSIONS_USER, $storage2, self::TEST_VERSIONS_USER . '/files/sub');
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		$this->doTestRestore();
 	}
