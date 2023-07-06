@@ -133,7 +133,7 @@ describe('Remove the default background and restore it', function() {
 	})
 })
 
-describe.only('Remove the default background with a bright color', function() {
+describe('Remove the default background with a bright color', function() {
 	before(function() {
 		// Just in case previous test failed
 		cy.resetAdminTheming()
