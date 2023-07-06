@@ -85,13 +85,13 @@ interface ILanguageModelTask extends \JsonSerializable {
 	public function getType(): string;
 
 	/**
-	 * @return int
+	 * @return ILanguageModelTask::STATUS_*
 	 * @since 28.0.0
 	 */
 	public function getStatus(): int;
 
 	/**
-	 * @param int $status
+	 * @param ILanguageModelTask::STATUS_* $status
 	 * @since 28.0.0
 	 */
 	public function setStatus(int $status): void;
