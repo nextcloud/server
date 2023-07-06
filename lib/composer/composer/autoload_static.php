@@ -119,6 +119,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\OCS\\OCSException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/OCS/OCSException.php',
         'OCP\\AppFramework\\OCS\\OCSForbiddenException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/OCS/OCSForbiddenException.php',
         'OCP\\AppFramework\\OCS\\OCSNotFoundException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/OCS/OCSNotFoundException.php',
+        'OCP\\AppFramework\\OCS\\OCSPreconditionFailedException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/OCS/OCSPreconditionFailedException.php',
         'OCP\\AppFramework\\PublicShareController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/PublicShareController.php',
         'OCP\\AppFramework\\QueryException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/QueryException.php',
         'OCP\\AppFramework\\Services\\IAppConfig' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Services/IAppConfig.php',

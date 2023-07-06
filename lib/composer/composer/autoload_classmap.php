@@ -86,6 +86,7 @@ return array(
     'OCP\\AppFramework\\OCS\\OCSException' => $baseDir . '/lib/public/AppFramework/OCS/OCSException.php',
     'OCP\\AppFramework\\OCS\\OCSForbiddenException' => $baseDir . '/lib/public/AppFramework/OCS/OCSForbiddenException.php',
     'OCP\\AppFramework\\OCS\\OCSNotFoundException' => $baseDir . '/lib/public/AppFramework/OCS/OCSNotFoundException.php',
+    'OCP\\AppFramework\\OCS\\OCSPreconditionFailedException' => $baseDir . '/lib/public/AppFramework/OCS/OCSPreconditionFailedException.php',
     'OCP\\AppFramework\\PublicShareController' => $baseDir . '/lib/public/AppFramework/PublicShareController.php',
     'OCP\\AppFramework\\QueryException' => $baseDir . '/lib/public/AppFramework/QueryException.php',
     'OCP\\AppFramework\\Services\\IAppConfig' => $baseDir . '/lib/public/AppFramework/Services/IAppConfig.php',
