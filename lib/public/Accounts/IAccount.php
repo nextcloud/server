@@ -148,11 +148,11 @@ interface IAccount extends \JsonSerializable {
 	 * as IAccountProperty instances. They for properties of IAccountPropertyCollection are
 	 * suffixed incrementally, i.e. #0, #1 ... #n – the numbers have no further meaning.
 	 *
+	 * @param string|null $scope Must be one of the VISIBILITY_ prefixed constants of \OCP\Accounts\IAccountManager
+	 * @param string|null $verified \OCP\Accounts\IAccountManager::NOT_VERIFIED | \OCP\Accounts\IAccountManager::VERIFICATION_IN_PROGRESS | \OCP\Accounts\IAccountManager::VERIFIED
+	 * @return IAccountProperty[]
 	 * @since 15.0.0
 	 *
-	 * @param string $scope Must be one of the VISIBILITY_ prefixed constants of \OCP\Accounts\IAccountManager
-	 * @param string $verified \OCP\Accounts\IAccountManager::NOT_VERIFIED | \OCP\Accounts\IAccountManager::VERIFICATION_IN_PROGRESS | \OCP\Accounts\IAccountManager::VERIFIED
-	 * @return IAccountProperty[]
 	 */
 	public function getFilteredProperties(string $scope = null, string $verified = null): array;
 

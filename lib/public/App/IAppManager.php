@@ -46,10 +46,12 @@ interface IAppManager {
 	 * Returns the app information from "appinfo/info.xml".
 	 *
 	 * @param string $appId
+	 * @param bool $path
+	 * @param null $lang
 	 * @return mixed
 	 * @since 14.0.0
 	 */
-	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+	public function getAppInfo(string $appId, bool $path = false, $lang = null): mixed;
 
 	/**
 	 * Returns the app information from "appinfo/info.xml".
@@ -65,11 +67,11 @@ interface IAppManager {
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently loggedin user will be used
+	 * @param IUser|null $user (optional) if not defined, the currently loggedin user will be used
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isEnabledForUser($appId, $user = null);
+	public function isEnabledForUser(string $appId, IUser $user = null): bool;
 
 	/**
 	 * Check if an app is enabled in the instance
@@ -80,7 +82,7 @@ interface IAppManager {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isInstalled($appId);
+	public function isInstalled(string $appId): bool;
 
 	/**
 	 * Check if an app should be enabled by default
@@ -124,13 +126,13 @@ interface IAppManager {
 	 * @return bool
 	 * @since 12.0.0
 	 */
-	public function hasProtectedAppType($types);
+	public function hasProtectedAppType(array $types): bool;
 
 	/**
 	 * Enable an app only for specific groups
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[] $groups
+	 * @param IGroup[] $groups
 	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @since 8.0.0
@@ -144,17 +146,17 @@ interface IAppManager {
 	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp($appId, $automaticDisabled = false);
+	public function disableApp(string $appId, bool $automaticDisabled = false);
 
 	/**
 	 * Get the directory for the given app.
 	 *
 	 * @param string $appId
 	 * @return string
-	 * @since 11.0.0
 	 * @throws AppPathNotFoundException
+	 *@since 11.0.0
 	 */
-	public function getAppPath($appId);
+	public function getAppPath(string $appId): string;
 
 	/**
 	 * Get the web path for the given app.
@@ -169,11 +171,11 @@ interface IAppManager {
 	/**
 	 * List all apps enabled for a user
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return string[]
 	 * @since 8.1.0
 	 */
-	public function getEnabledAppsForUser(IUser $user);
+	public function getEnabledAppsForUser(IUser $user): array;
 
 	/**
 	 * List all installed apps
@@ -181,7 +183,7 @@ interface IAppManager {
 	 * @return string[]
 	 * @since 8.1.0
 	 */
-	public function getInstalledApps();
+	public function getInstalledApps(): array;
 
 	/**
 	 * Clear the cached list of apps when enabling/disabling an app
@@ -194,7 +196,7 @@ interface IAppManager {
 	 * @return boolean
 	 * @since 9.0.0
 	 */
-	public function isShipped($appId);
+	public function isShipped(string $appId): bool;
 
 	/**
 	 * Loads all apps
@@ -221,7 +223,7 @@ interface IAppManager {
 	 * @return string[]
 	 * @since 9.0.0
 	 */
-	public function getAlwaysEnabledApps();
+	public function getAlwaysEnabledApps(): array;
 
 	/**
 	 * @return string[] app IDs
@@ -230,7 +232,7 @@ interface IAppManager {
 	public function getDefaultEnabledApps(): array;
 
 	/**
-	 * @param \OCP\IGroup $group
+	 * @param IGroup $group
 	 * @return String[]
 	 * @since 17.0.0
 	 */

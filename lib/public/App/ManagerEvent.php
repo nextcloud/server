@@ -24,6 +24,7 @@
 namespace OCP\App;
 
 use OCP\EventDispatcher\Event;
+use OCP\IGroup;
 
 /**
  * Class ManagerEvent
@@ -52,32 +53,26 @@ class ManagerEvent extends Event {
 	 */
 	public const EVENT_APP_UPDATE = 'OCP\App\IAppManager::updateApp';
 
-	/** @var string */
-	protected $event;
-	/** @var string */
-	protected $appID;
-	/** @var \OCP\IGroup[]|null */
-	protected $groups;
-
 	/**
 	 * DispatcherEvent constructor.
 	 *
 	 * @param string $event
-	 * @param $appID
-	 * @param \OCP\IGroup[]|null $groups
+	 * @param string $appID
+	 * @param IGroup[]|null $groups
 	 * @since 9.0.0
 	 */
-	public function __construct($event, $appID, array $groups = null) {
-		$this->event = $event;
-		$this->appID = $appID;
-		$this->groups = $groups;
+	public function __construct(
+		protected string $event,
+		protected string $appID,
+		protected ?array $groups = null,
+	) {
 	}
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getEvent() {
+	public function getEvent(): string {
 		return $this->event;
 	}
 
@@ -85,7 +80,7 @@ class ManagerEvent extends Event {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getAppID() {
+	public function getAppID(): string {
 		return $this->appID;
 	}
 
@@ -94,7 +89,7 @@ class ManagerEvent extends Event {
 	 * @return string[]
 	 * @since 9.0.0
 	 */
-	public function getGroups() {
+	public function getGroups(): array {
 		return array_map(function ($group) {
 			/** @var \OCP\IGroup $group */
 			return $group->getGID();

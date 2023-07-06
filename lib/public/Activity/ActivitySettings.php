@@ -33,25 +33,25 @@ abstract class ActivitySettings implements ISetting {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 20.0.0
 	 */
-	abstract public function getIdentifier();
+	abstract public function getIdentifier(): string;
 
 	/**
 	 * @return string A translated string
 	 * @since 20.0.0
 	 */
-	abstract public function getName();
+	abstract public function getName(): string;
 
 	/**
 	 * @return string Lowercase a-z and underscore only group identifier
 	 * @since 20.0.0
 	 */
-	abstract public function getGroupIdentifier();
+	abstract public function getGroupIdentifier(): string;
 
 	/**
 	 * @return string A translated string for the settings group
 	 * @since 20.0.0
 	 */
-	abstract public function getGroupName();
+	abstract public function getGroupName(): string;
 
 	/**
 	 * @return int whether the filter should be rather on the top or bottom of
@@ -59,13 +59,13 @@ abstract class ActivitySettings implements ISetting {
 	 * priority values. It is required to return a value between 0 and 100.
 	 * @since 20.0.0
 	 */
-	abstract public function getPriority();
+	abstract public function getPriority(): int;
 
 	/**
 	 * @return bool True when the option can be changed for the mail
 	 * @since 20.0.0
 	 */
-	public function canChangeMail() {
+	public function canChangeMail(): bool {
 		return true;
 	}
 
@@ -73,23 +73,23 @@ abstract class ActivitySettings implements ISetting {
 	 * @return bool True when the option can be changed for the notification
 	 * @since 20.0.0
 	 */
-	public function canChangeNotification() {
+	public function canChangeNotification(): bool {
 		return true;
 	}
 
 	/**
-	 * @return bool Whether or not an activity email should be send by default
+	 * @return bool Whether an activity email should be sent by default
 	 * @since 20.0.0
 	 */
-	public function isDefaultEnabledMail() {
+	public function isDefaultEnabledMail(): bool {
 		return false;
 	}
 
 	/**
-	 * @return bool Whether or not an activity notification should be send by default
+	 * @return bool Whether an activity notification should be sent by default
 	 * @since 20.0.0
 	 */
-	public function isDefaultEnabledNotification() {
+	public function isDefaultEnabledNotification(): bool {
 		return $this->isDefaultEnabledMail() && !$this->canChangeMail();
 	}
 
@@ -99,7 +99,7 @@ abstract class ActivitySettings implements ISetting {
 	 * @return bool
 	 * @since 20.0.0
 	 */
-	public function canChangeStream() {
+	public function canChangeStream(): bool {
 		return false;
 	}
 
@@ -109,7 +109,7 @@ abstract class ActivitySettings implements ISetting {
 	 * @return bool
 	 * @since 20.0.0
 	 */
-	public function isDefaultEnabledStream() {
+	public function isDefaultEnabledStream(): bool {
 		return true;
 	}
 }

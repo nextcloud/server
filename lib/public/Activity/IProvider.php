@@ -38,5 +38,5 @@ interface IProvider {
 	 * @throws \InvalidArgumentException Should be thrown if your provider does not know this event
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null);
+	public function parse(string $language, IEvent $event, IEvent $previousEvent = null): IEvent;
 }

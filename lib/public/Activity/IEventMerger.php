@@ -57,5 +57,5 @@ interface IEventMerger {
 	 * @return IEvent
 	 * @since 11.0
 	 */
-	public function mergeEvents($mergeParameter, IEvent $event, IEvent $previousEvent = null);
+	public function mergeEvents(string $mergeParameter, IEvent $event, IEvent $previousEvent = null): IEvent;
 }
