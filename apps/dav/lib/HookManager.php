@@ -36,7 +36,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class HookManager {
 
