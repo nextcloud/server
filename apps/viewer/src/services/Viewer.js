@@ -48,6 +48,7 @@ export default class Viewer {
 		this._state.file = ''
 		this._state.fileInfo = null
 		this._state.files = []
+		this._state.enableSidebar = true
 		this._state.el = null
 		this._state.loadMore = () => ([])
 		this._state.onPrev = () => {}
@@ -114,6 +115,16 @@ export default class Viewer {
 	 */
 	get files() {
 		return this._state.files
+	}
+
+	/**
+	 * Whether to enable the sidebar or not
+	 *
+	 * @memberof Viewer
+	 * @return {boolean} whether to enable the sidebar or not
+	 */
+	get enableSidebar() {
+		return this._state.enableSidebar
 	}
 
 	/**
@@ -216,13 +227,14 @@ export default class Viewer {
 	 * @param {?string} options.path path of the file to open
 	 * @param {?Fileinfo} options.fileInfo file info of the file to open
 	 * @param {Fileinfo[]} [options.list] the list of files as objects (fileinfo) format
+	 * @param {boolean} options.enableSidebar whether to enable the sidebar or not
 	 * @param {Function} options.loadMore callback for loading more files
 	 * @param {boolean} options.canLoop can the viewer loop over the array
 	 * @param {Function} options.onPrev callback when navigating back to previous file
 	 * @param {Function} options.onNext callback when navigation forward to next file
 	 * @param {Function} options.onClose callback when closing the viewer
 	 */
-	open({ path, fileInfo, list = [], loadMore = () => ([]), canLoop = true, onPrev = () => {}, onNext = () => {}, onClose = () => {} } = {}) {
+	open({ path, fileInfo, list = [], enableSidebar = true, loadMore = () => ([]), canLoop = true, onPrev = () => {}, onNext = () => {}, onClose = () => {} } = {}) {
 		if (typeof arguments[0] === 'string') {
 			throw new Error('Opening the viewer with a single string parameter is deprecated. Please use a destructuring object instead', `OCA.Viewer.open({ path: '${path}' })`)
 		}
@@ -250,6 +262,7 @@ export default class Viewer {
 		}
 		if (!this._state.el) {
 			this._state.files = list
+			this._state.enableSidebar = enableSidebar
 			this._state.loadMore = loadMore
 			this._state.onPrev = onPrev
 			this._state.onNext = onNext
@@ -266,6 +279,7 @@ export default class Viewer {
 	 * @param {object} options Options for opening the viewer
 	 * @param {string} options.path path of the file to open
 	 * @param {object[]} [options.list] the list of files as objects (fileinfo) format
+	 * @param {boolean} [options.enableSidebar] Whether to enable the sidebar or not
 	 * @param {Function} options.loadMore callback for loading more files
 	 * @param {boolean} options.canLoop can the viewer loop over the array
 	 * @param {Function} options.onPrev callback when navigating back to previous file
@@ -286,6 +300,7 @@ export default class Viewer {
 		this._state.file = ''
 		this._state.fileInfo = null
 		this._state.files = []
+		this._state.enableSidebar = true
 		this._state.canLoop = true
 		this._state.loadMore = () => ([])
 		this._state.overrideHandlerId = null
