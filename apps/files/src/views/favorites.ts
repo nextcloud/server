@@ -129,9 +129,16 @@ export default () => {
 	// Add a folder to the favorites paths array and update the views
 	const addPathToFavorites = function(path: string) {
 		const view = generateFolderView(path)
+
+		// Skip if already exists
+		if (favoriteFolders.find(folder => folder === path)) {
+			return
+		}
+
 		// Update arrays
 		favoriteFolders.push(path)
 		favoriteFoldersViews.push(view)
+
 		// Update and sort views
 		updateAndSortViews()
 		Navigation.register(view)
@@ -140,10 +147,18 @@ export default () => {
 	// Remove a folder from the favorites paths array and update the views
 	const removePathFromFavorites = function(path: string) {
 		const id = generateIdFromPath(path)
-		const index = favoriteFolders.findIndex(f => f === path)
+		const index = favoriteFolders.findIndex(folder => folder === path)
+
+		// Skip if not exists
+		if (index === -1) {
+			return
+		}
+
 		// Update arrays
 		favoriteFolders.splice(index, 1)
 		favoriteFoldersViews.splice(index, 1)
+
+		// Update and sort views
 		Navigation.remove(id)
 		updateAndSortViews()
 	}

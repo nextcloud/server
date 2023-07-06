@@ -21,9 +21,9 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
-import type { Node } from '@nextcloud/files'
+import { Permission, type Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
+import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 
 export const ACTION_DETAILS = 'details'
@@ -45,7 +45,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		return nodes[0].root?.startsWith('/files/') ?? false
+		return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== Permission.NONE) ?? false
 	},
 
 	async exec(node: Node) {

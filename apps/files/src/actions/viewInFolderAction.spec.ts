@@ -48,6 +48,7 @@ describe('View in folder action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()
@@ -107,13 +108,14 @@ describe('View in folder action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.READ,
 		})
 
 		const exec = await action.exec(file, view, '/')
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { view: 'files' }, { dir: '/' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/' })
 	})
 
 	test('View in (sub) folder', async () => {
@@ -126,13 +128,14 @@ describe('View in folder action execute tests', () => {
 			root: '/files/admin',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.READ,
 		})
 
 		const exec = await action.exec(file, view, '/')
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { view: 'files' }, { dir: '/Foo/Bar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo/Bar' })
 	})
 
 	test('View in folder fails without node', async () => {
