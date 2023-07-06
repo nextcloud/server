@@ -58,6 +58,9 @@ class Job extends Command {
 		;
 	}
 
+	/**
+	 * @throws \ReflectionException
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$jobId = (int) $input->getArgument('job-id');
 
@@ -102,7 +105,10 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface$output): void {
+	/**
+	 * @throws \ReflectionException
+	 */
+	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
