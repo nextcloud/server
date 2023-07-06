@@ -86,7 +86,7 @@
 				</template>
 				{{ isFullscreenMode ? t('viewer', 'Exit full screen') : t('viewer', 'Full screen') }}
 			</NcActionButton>
-			<NcActionButton v-if="Sidebar && sidebarOpenFilePath && !isSidebarShown"
+			<NcActionButton v-if="enableSidebar && Sidebar && sidebarOpenFilePath && !isSidebarShown"
 				:close-after-click="true"
 				icon="icon-menu-sidebar"
 				@click="showSidebar">
@@ -276,6 +276,9 @@ export default {
 		},
 		files() {
 			return this.Viewer.files
+		},
+		enableSidebar() {
+			return this.Viewer.enableSidebar
 		},
 		el() {
 			return this.Viewer.el
@@ -950,7 +953,7 @@ export default {
 			// Open the sidebar sharing tab
 			// TODO: also hide figure, needs a proper method for it in server Sidebar
 
-			if (OCA?.Files?.Sidebar) {
+			if (this.enableSidebar && OCA?.Files?.Sidebar) {
 				await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
 			}
 		},
