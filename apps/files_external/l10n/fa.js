@@ -23,6 +23,7 @@ OC.L10N.register(
     "Admin defined" : "مدیر تعریف شده",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Saved" : "ذخیره شد",
+    "Saving …" : "ذخیره کردن …",
     "Save" : "ذخیره",
     "Empty response from the server" : "خالی از پاسخ سرور",
     "Couldn't access. Please log out and in again to activate this mount point" : "دسترسی پیدا نشد. لطفاً برای فعال کردن این نقطه نصب از سیستم خارج شوید و دوباره وارد سیستم شوید",

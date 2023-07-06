@@ -133,7 +133,7 @@ OC.L10N.register(
     "Advanced" : "Додатково",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Увага:</ b> Потрібний модуль PHP LDAP не встановлено, базова програма працювати не буде. Будь ласка, зверніться до системного адміністратора, щоб встановити його.",
     "Connection Settings" : "Налаштування З'єднання",
-    "Configuration Active" : "Налаштування Активне",
+    "Configuration Active" : "Налаштування активне",
     "When unchecked, this configuration will be skipped." : "Якщо \"галочка\" знята, ця конфігурація буде пропущена.",
     "Backup (Replica) Host" : "Сервер для резервних копій",
     "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "Вкажіть додатковий резервний сервер. Він повинен бути копією головного LDAP/AD сервера.",
