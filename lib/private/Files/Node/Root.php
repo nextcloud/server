@@ -45,6 +45,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IUser;
@@ -153,11 +154,7 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->addMount($mount);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint
-	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
@@ -165,7 +162,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $mountPoint
 	 * @return \OC\Files\Mount\MountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
@@ -339,7 +336,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return Node
+	 * @return INode|IRootFolder
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getParent() {

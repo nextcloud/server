@@ -34,6 +34,8 @@ use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
@@ -41,16 +43,13 @@ use OCP\PreConditionNotMetException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
-class Node implements \OCP\Files\Node {
+class Node implements INode {
 	/**
 	 * @var \OC\Files\View $view
 	 */
 	protected $view;
 
-	/**
-	 * @var \OC\Files\Node\Root $root
-	 */
-	protected $root;
+	protected IRootFolder $root;
 
 	/**
 	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
@@ -73,7 +72,7 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?Node $parent = null) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
@@ -124,7 +123,9 @@ class Node implements \OCP\Files\Node {
 		$args = !empty($args) ? $args : [$this];
 		$dispatcher = \OC::$server->getEventDispatcher();
 		foreach ($hooks as $hook) {
-			$this->root->emit('\OC\Files', $hook, $args);
+			if (method_exists($this->root, 'emit')) {
+				$this->root->emit('\OC\Files', $hook, $args);
+			}
 			$dispatcher->dispatch('\OCP\Files::' . $hook, new GenericEvent($args));
 		}
 	}
@@ -285,7 +286,8 @@ class Node implements \OCP\Files\Node {
 	}
 
 	/**
-	 * @return Node
+	 * @return INode|IRootFolder
+	 * @throws NotFoundException
 	 */
 	public function getParent() {
 		if ($this->parent === null) {
@@ -396,7 +398,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return INode
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException if copy not allowed or failed
@@ -422,7 +424,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return INode
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException if move not allowed or failed

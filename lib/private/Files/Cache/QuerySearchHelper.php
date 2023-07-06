@@ -26,15 +26,14 @@
 namespace OC\Files\Cache;
 
 use OC\Files\Cache\Wrapper\CacheJail;
-use OC\Files\Node\Root;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchQuery;
@@ -197,24 +196,29 @@ class QuerySearchHelper {
 	}
 
 	/**
-	 * @return array{array<string, ICache>, array<string, IMountPoint>}
+	 * @return array{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
 	 */
-	public function getCachesAndMountPointsForSearch(Root $root, string $path, bool $limitToHome = false): array {
+	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
 		$rootLength = strlen($path);
 		$mount = $root->getMount($path);
 		$storage = $mount->getStorage();
+		if ($storage === null) {
+			return [];
+		}
 		$internalPath = $mount->getInternalPath($path);
 
 		if ($internalPath !== '') {
 			// a temporary CacheJail is used to handle filtering down the results to within this folder
+			/** @var ICache[] $caches */
 			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
 		} else {
+			/** @var ICache[] $caches */
 			$caches = ['' => $storage->getCache('')];
 		}
+		/** @var IMountPoint[] $mountByMountPoint */
 		$mountByMountPoint = ['' => $mount];
 
 		if (!$limitToHome) {
-			/** @var IMountPoint[] $mounts */
 			$mounts = $root->getMountsIn($path);
 			foreach ($mounts as $mount) {
 				$storage = $mount->getStorage();
