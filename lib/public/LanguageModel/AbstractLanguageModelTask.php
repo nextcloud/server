@@ -77,7 +77,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
-	 * @return int
+	 * @return ILanguageModelTask::STATUS_*
 	 * @since 28.0.0
 	 */
 	final public function getStatus(): int {
@@ -85,7 +85,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
-	 * @param int $status
+	 * @psalm-param ILanguageModelTask::STATUS_* $status
 	 * @since 28.0.0
 	 */
 	final public function setStatus(int $status): void {
