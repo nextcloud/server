@@ -31,10 +31,10 @@ namespace OCA\AdminAudit\Actions;
 use OCA\AdminAudit\IAuditLogger;
 
 class Action {
-
 	public function __construct(
 		private IAuditLogger $logger,
-	) {}
+	) {
+	}
 
 	/**
 	 * Log a single action with a log level of info

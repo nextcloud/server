@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Actions;
 
 class AppManagement extends Action {
-
 	/**
 	 * @param string $appName
 	 */

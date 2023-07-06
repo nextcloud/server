@@ -38,7 +38,6 @@ use OCP\IUser;
  * @package OCA\AdminAudit\Actions
  */
 class GroupManagement extends Action {
-
 	/**
 	 * log add user to group event
 	 *

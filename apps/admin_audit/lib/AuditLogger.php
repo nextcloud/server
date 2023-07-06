@@ -31,7 +31,6 @@ use Psr\Log\LoggerInterface;
  * Logger that logs in the audit log file instead of the normal log file
  */
 class AuditLogger implements IAuditLogger {
-
 	private LoggerInterface $parentLogger;
 
 	public function __construct(ILogFactory $logFactory, IConfig $config) {

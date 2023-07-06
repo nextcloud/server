@@ -60,6 +60,7 @@ use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Log\ILogFactory;
@@ -70,7 +71,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
-
 	protected LoggerInterface $logger;
 
 	public function __construct() {
