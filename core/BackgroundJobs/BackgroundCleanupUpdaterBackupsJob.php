@@ -43,7 +43,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	/**
 	 * This job cleans up all backups except the latest 3 from the updaters backup directory
 	 */
-	public function run($arguments) {
+	public function run($arguments): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 

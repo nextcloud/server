@@ -40,7 +40,7 @@ class LookupServerSendCheckBackgroundJob extends QueuedJob {
 		parent::__construct($time);
 	}
 
-	public function run($arguments) {
+	public function run($arguments): void {
 		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '1');
 		});
