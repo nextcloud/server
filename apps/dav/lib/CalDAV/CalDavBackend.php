@@ -2841,7 +2841,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendarId = $shareable->getResourceId();
 			$calendarRow = $this->getCalendarById($calendarId);
 			if ($calendarRow === null) {
-				throw new \RuntimeException('Trying to update shares for innexistant calendar: ' . $calendarId);
+				throw new \RuntimeException('Trying to update shares for non-existing calendar: ' . $calendarId);
 			}
 			$oldShares = $this->getShares($calendarId);
 

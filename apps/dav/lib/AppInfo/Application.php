@@ -71,6 +71,7 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
@@ -215,7 +216,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerHooks(HookManager $hm,
-								   EventDispatcherInterface $dispatcher,
+								   IEventDispatcher $dispatcher,
 								   IAppContainer $container,
 								   IServerContainer $serverContainer) {
 		$hm->setup();
@@ -227,7 +228,7 @@ class Application extends App implements IBootstrap {
 			}
 		});
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($container) {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function ($event) use ($container) {
 			$user = $event->getSubject();
 			/** @var SyncService $syncService */
 			$syncService = $container->query(SyncService::class);
