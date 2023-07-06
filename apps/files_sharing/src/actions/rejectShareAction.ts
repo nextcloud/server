@@ -24,11 +24,11 @@ import type { Navigation } from '../../../files/src/services/Navigation'
 
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 
+import { FileAction, registerFileAction } from '../../../files/src/services/FileAction'
 import { pendingSharesViewId } from '../views/shares'
 
 export const action = new FileAction({
@@ -41,12 +41,17 @@ export const action = new FileAction({
 			return false
 		}
 
+		if (nodes.length === 0) {
+			return false
+		}
+
 		// disable rejecting group shares from the pending list because they anyway
 		// land back into that same list after rejecting them
 		if (nodes.some(node => node.attributes.remote_id
 			&& node.attributes.share_type === window.OC.Share.SHARE_TYPE_REMOTE_GROUP)) {
 			return false
 		}
+
 		return true
 	},
 

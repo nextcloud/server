@@ -22,21 +22,21 @@
 import type { Node } from '@nextcloud/files'
 import type { Navigation } from '../../../files/src/services/Navigation'
 
+import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import CheckSvg from '@mdi/svg/svg/check.svg?raw'
 
+import { FileAction, registerFileAction } from '../../../files/src/services/FileAction'
 import { pendingSharesViewId } from '../views/shares'
-import { emit } from '@nextcloud/event-bus'
 
 export const action = new FileAction({
 	id: 'accept-share',
 	displayName: (nodes: Node[]) => n('files_sharing', 'Accept share', 'Accept shares', nodes.length),
 	iconSvgInline: () => CheckSvg,
 
-	enabled: (files, view) => view.id === pendingSharesViewId,
+	enabled: (nodes, view) => nodes.length > 0 && view.id === pendingSharesViewId,
 
 	async exec(node: Node) {
 		try {

@@ -55,6 +55,19 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!([file], view)).toBe(true)
 	})
 
+	test('Disabled without permissions', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.NONE,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
+	})
+
 	test('Disabled for non-dav ressources', () => {
 		const file = new File({
 			id: 1,

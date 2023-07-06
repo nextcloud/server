@@ -22,14 +22,14 @@
 import type { Node } from '@nextcloud/files'
 import type { Navigation } from '../../../files/src/services/Navigation'
 
+import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import ArrowULeftTopSvg from '@mdi/svg/svg/arrow-u-left-top.svg?raw'
 
+import { FileAction, registerFileAction } from '../../../files/src/services/FileAction'
 import { deletedSharesViewId } from '../views/shares'
-import { emit } from '@nextcloud/event-bus'
 
 export const action = new FileAction({
 	id: 'restore-share',
@@ -37,7 +37,7 @@ export const action = new FileAction({
 
 	iconSvgInline: () => ArrowULeftTopSvg,
 
-	enabled: (nodes, view) => view.id === deletedSharesViewId,
+	enabled: (nodes, view) => nodes.length > 0 && view.id === deletedSharesViewId,
 
 	async exec(node: Node) {
 		try {
