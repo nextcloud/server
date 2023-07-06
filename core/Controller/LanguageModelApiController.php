@@ -85,6 +85,10 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 		try {
 			$task = $this->languageModelManager->getTask($id);
 
+			if ($this->userId !== $task->getUserId()) {
+				return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			}
+
 			return new DataResponse([
 				'task' => $task,
 			]);
