@@ -32,8 +32,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\AppInfo;
 
-use Exception;
-use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\CalendarManager;
@@ -106,7 +104,6 @@ use OCP\IServerContainer;
 use OCP\IUser;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Throwable;
 use function is_null;
@@ -217,8 +214,7 @@ class Application extends App implements IBootstrap {
 
 	public function registerHooks(HookManager $hm,
 								   IEventDispatcher $dispatcher,
-								   IAppContainer $container,
-								   IServerContainer $serverContainer) {
+								   IAppContainer $container) {
 		$hm->setup();
 
 		// first time login event setup
@@ -248,20 +244,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
-		$eventHandler = function () use ($container, $serverContainer): void {
-			try {
-				/** @var UpdateCalendarResourcesRoomsBackgroundJob $job */
-				$job = $container->query(UpdateCalendarResourcesRoomsBackgroundJob::class);
-				$job->run([]);
-				$serverContainer->getJobList()->setLastRun($job);
-			} catch (Exception $ex) {
-				$serverContainer->get(LoggerInterface::class)->error($ex->getMessage(), ['exception' => $ex]);
-			}
-		};
-
-		$dispatcher->addListener('\OCP\Calendar\Resource\ForceRefreshEvent', $eventHandler);
-		$dispatcher->addListener('\OCP\Calendar\Room\ForceRefreshEvent', $eventHandler);
 	}
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
