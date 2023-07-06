@@ -334,8 +334,6 @@ class FilesReportPlugin extends ServerPlugin {
 
 		$nodes = [];
 
-		// type check to ensure searchBySystemTag is available, it is not
-		// exposed in API yet
 		if (!empty($systemTagIds)) {
 			$tags = $this->tagManager->getTagsByIds($systemTagIds, $this->userSession->getUser());
 
