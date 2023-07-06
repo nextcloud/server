@@ -190,7 +190,7 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('bodyid', 'body-public');
 
 			/** @var IRegistry $subscription */
-			$subscription = \OC::$server->query(IRegistry::class);
+			$subscription = \OCP\Server::get(IRegistry::class);
 			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
 			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
 				$showSimpleSignup = false;
@@ -226,7 +226,7 @@ class TemplateLayout extends \OC_Template {
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
 				\OC::$server->getL10N('lib'),
-				\OC::$server->query(Defaults::class),
+				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),
 				\OC::$server->getSession(),
 				\OC::$server->getUserSession()->getUser(),
@@ -235,7 +235,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),
 				\OC::$server->getCapabilitiesManager(),
-				\OC::$server->query(IInitialStateService::class)
+				\OCP\Server::get(IInitialStateService::class)
 			);
 			$config = $jsConfigHelper->getConfig();
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {

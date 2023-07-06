@@ -333,7 +333,7 @@ class OC_Files {
 			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), $fileSize);
 		}
 
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$dispatcher = \OCP\Server::get(IEventDispatcher::class);
 		$event = new BeforeDirectFileDownloadEvent($filename);
 		$dispatcher->dispatchTyped($event);
 
