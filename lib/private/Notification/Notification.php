@@ -32,7 +32,6 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
-
 	/** @var string */
 	protected string $app;
 
