@@ -20,6 +20,8 @@ use OCP\LanguageModel\ILanguageModelTask;
  * @method string getuserId()
  * @method setAppId(string $type)
  * @method string getAppId()
+ * @method setIdentifier(string $type)
+ * @method string getIdentifier()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -29,16 +31,17 @@ class Task extends Entity {
 	protected $status;
 	protected $userId;
 	protected $appId;
+	protected $identifier;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'identifier'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'identifier'];
 
 
 	public function __construct() {
@@ -51,6 +54,7 @@ class Task extends Entity {
 		$this->addType('status', 'integer');
 		$this->addType('userId', 'string');
 		$this->addType('appId', 'string');
+		$this->addType('identifier', 'string');
 	}
 
 	public function toRow(): array {
@@ -69,6 +73,7 @@ class Task extends Entity {
 			'output' => $task->getOutput(),
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
+			'identifier' => $task->getIdentifier(),
 		]);
 	}
 }

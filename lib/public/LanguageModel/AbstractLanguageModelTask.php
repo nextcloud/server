@@ -43,12 +43,14 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param string $input
 	 * @param string $appId
 	 * @param string|null $userId
+	 * @param string $identifier An arbitrary identifier for this task. max length: 255 chars
 	 * @since 28.0.0
 	 */
 	final public function __construct(
 		protected string $input,
 		protected string $appId,
 		protected ?string $userId,
+		protected string $identifier = '',
 	) {
 	}
 
@@ -123,6 +125,14 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
+	final public function getIdentifier(): string {
+		return $this->identifier;
+	}
+
+	/**
 	 * @return string|null
 	 * @since 28.0.0
 	 */
@@ -143,6 +153,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 			'appId' => $this->getAppId(),
 			'input' => $this->getInput(),
 			'output' => $this->getOutput(),
+			'identifier' => $this->getIdentifier(),
 		];
 	}
 
@@ -153,7 +164,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @since 28.0.0
 	 */
 	final public static function fromTaskEntity(Task $taskEntity): ILanguageModelTask {
-		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId());
+		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId(), $taskEntity->getIdentifier());
 		$task->setId($taskEntity->getId());
 		$task->setStatus($taskEntity->getStatus());
 		$task->setOutput($taskEntity->getOutput());
@@ -165,14 +176,15 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param string $input
 	 * @param string|null $userId
 	 * @param string $appId
+	 * @param string $identifier
 	 * @return ILanguageModelTask
 	 * @throws \InvalidArgumentException
 	 * @since 28.0.0
 	 */
-	final public static function factory(string $type, string $input, ?string $userId, string $appId): ILanguageModelTask {
+	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier): ILanguageModelTask {
 		if (!in_array($type, array_keys(self::TYPES))) {
 			throw new \InvalidArgumentException('Unknown task type');
 		}
-		return new (ILanguageModelTask::TYPES[$type])($input, $appId, $userId);
+		return new (ILanguageModelTask::TYPES[$type])($input, $appId, $userId, $identifier);
 	}
 }

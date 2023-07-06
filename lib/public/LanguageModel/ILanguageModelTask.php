@@ -133,6 +133,12 @@ interface ILanguageModelTask extends \JsonSerializable {
 	public function getAppId(): string;
 
 	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getIdentifier(): string;
+
+	/**
 	 * @return string|null
 	 * @since 28.0.0
 	 */

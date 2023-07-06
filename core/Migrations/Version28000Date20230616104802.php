@@ -78,6 +78,11 @@ class Version28000Date20230616104802 extends SimpleMigrationStep {
 				'length' => 32,
 				'default' => '',
 			]);
+			$table->addColumn('identifier', Types::STRING, [
+				'notnull' => true,
+				'length' => 255,
+				'default' => '',
+			]);
 			$table->addColumn('last_updated', 'integer', [
 				'notnull' => false,
 				'length' => 4,
