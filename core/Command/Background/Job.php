@@ -105,9 +105,6 @@ class Job extends Command {
 		return 0;
 	}
 
-	/**
-	 * @throws \ReflectionException
-	 */
 	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
