@@ -8,7 +8,7 @@
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Статус погоди інтегрований до застосунку з панеллю віджетів (Dashboard). Розташування користувача може визначатися автоматично або вручну. В застосунку показується прогноз на 6 годин.\nСтатус може показуватися й інших застосунках, як-от у \"Календарі\".",
     "Detect location" : "Визначити місце розташування",
     "Set custom address" : "Встановити власну адресу",
-    "Favorites" : "Улюблене",
+    "Favorites" : "Вподобане",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} ясне небо пізніше сьогодні",
     "{temperature} {unit} clear sky" : "{temperature} {unit} ясне небо",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} хмарно пізніше сьогодні",
