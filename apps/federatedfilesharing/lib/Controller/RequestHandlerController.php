@@ -290,7 +290,7 @@ class RequestHandlerController extends OCSController {
 		return new Http\DataResponse();
 	}
 
-	private function cleanupRemote($remote): string {
+	private function cleanupRemote(?string $remote = null): string {
 		$remote = substr($remote, strpos($remote, '://') + 3);
 
 		return rtrim($remote, '/');
@@ -374,7 +374,7 @@ class RequestHandlerController extends OCSController {
 	 * @param $ncPermissions
 	 * @return array
 	 */
-	protected function ncPermissions2ocmPermissions($ncPermissions): array {
+	protected function ncPermissions2ocmPermissions(?int $ncPermissions = null): array {
 		$ocmPermissions = [];
 
 		if ($ncPermissions & Constants::PERMISSION_SHARE) {
