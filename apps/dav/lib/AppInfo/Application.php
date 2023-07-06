@@ -236,14 +236,14 @@ class Application extends App implements IBootstrap {
 		});
 
 
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function (GenericEvent $event) use ($container) {
+		$dispatcher->addListener(CalendarShareUpdatedEvent::class, function (CalendarShareUpdatedEvent $event) use ($container) {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
 			$backend->onCalendarUpdateShares(
-				$event->getArgument('calendarData'),
-				$event->getArgument('shares'),
-				$event->getArgument('add'),
-				$event->getArgument('remove')
+				$event->getCalendarData(),
+				$event->getOldShares(),
+				$event->getAdded(),
+				$event->getRemoved()
 			);
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
