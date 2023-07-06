@@ -336,7 +336,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 		// type check to ensure searchBySystemTag is available, it is not
 		// exposed in API yet
-		if (!empty($systemTagIds)) {
+		if (!empty($systemTagIds) && method_exists($this->userFolder, 'searchBySystemTag')) {
 			$tags = $this->tagManager->getTagsByIds($systemTagIds, $this->userSession->getUser());
 
 			// For we run DB queries per tag and require intersection, we cannot apply limit and offset for DB queries on multi tag search.

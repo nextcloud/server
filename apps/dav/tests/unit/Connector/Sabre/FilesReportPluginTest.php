@@ -114,6 +114,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->userFolder = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
+			->addMethods(['searchBySystemTag'])
+			->onlyMethods(get_class_methods(Folder::class))
 			->getMock();
 
 		$this->previewManager = $this->getMockBuilder(IPreview::class)
