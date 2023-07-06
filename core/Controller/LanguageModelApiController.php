@@ -61,9 +61,9 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 * @UserRateThrottle(limit=20, period=120)
 	 * @AnonRateThrottle(limit=5, period=120)
 	 */
-	public function schedule(string $text, string $type, ?string $appId): DataResponse {
+	public function schedule(string $text, string $type, ?string $appId, string $identifier = ''): DataResponse {
 		try {
-			$task = AbstractLanguageModelTask::factory($type, $text, $this->userId, $appId);
+			$task = AbstractLanguageModelTask::factory($type, $text, $this->userId, $appId, $identifier);
 		} catch (InvalidArgumentException $e) {
 			return new DataResponse(['message' => $this->l->t('Requested task type does not exist')], Http::STATUS_BAD_REQUEST);
 		}

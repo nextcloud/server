@@ -37,6 +37,10 @@ use OC\LanguageModel\Db\Task;
 abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	protected ?int $id = null;
 	protected ?string $output = null;
+
+	/**
+	 * @psalm-var ILanguageModelTask::STATUS_*
+	 */
 	protected int $status = ILanguageModelTask::STATUS_UNKNOWN;
 
 	/**
@@ -77,7 +81,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
-	 * @return ILanguageModelTask::STATUS_*
+	 * @psalm-return ILanguageModelTask::STATUS_*
 	 * @since 28.0.0
 	 */
 	final public function getStatus(): int {
@@ -181,7 +185,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @throws \InvalidArgumentException
 	 * @since 28.0.0
 	 */
-	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier): ILanguageModelTask {
+	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier = ''): ILanguageModelTask {
 		if (!in_array($type, array_keys(self::TYPES))) {
 			throw new \InvalidArgumentException('Unknown task type');
 		}
