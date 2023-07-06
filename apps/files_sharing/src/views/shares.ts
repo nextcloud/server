@@ -33,8 +33,8 @@ import ShareVariantSvg from '@mdi/svg/svg/share-variant.svg?raw'
 import { getContents } from '../services/SharingService'
 
 export const sharesViewId = 'shareoverview'
-export const pendingSharesViewId = 'pendingshares'
 export const deletedSharesViewId = 'deletedshares'
+export const pendingSharesViewId = 'pendingshares'
 
 export default () => {
 	const Navigation = window.OCP.Files.Navigation as NavigationService
@@ -57,7 +57,7 @@ export default () => {
 		caption: t('files_sharing', 'List of files that are shared with you.'),
 
 		icon: AccountSvg,
-		order: 20,
+		order: 1,
 		parent: sharesViewId,
 
 		columns: [],
@@ -71,7 +71,7 @@ export default () => {
 		caption: t('files_sharing', 'List of files that you shared with others.'),
 
 		icon: AccountGroupSvg,
-		order: 20,
+		order: 2,
 		parent: sharesViewId,
 
 		columns: [],
@@ -82,10 +82,10 @@ export default () => {
 	Navigation.register({
 		id: 'sharinglinks',
 		name: t('files_sharing', 'Shared by link'),
-		caption: t('files_sharing', 'List of files that you shared with a share link.'),
+		caption: t('files_sharing', 'List of files that are shared by link.'),
 
 		icon: LinkSvg,
-		order: 20,
+		order: 3,
 		parent: sharesViewId,
 
 		columns: [],
@@ -99,7 +99,7 @@ export default () => {
 		caption: t('files_sharing', 'List of shares that you removed yourself from.'),
 
 		icon: DeleteSvg,
-		order: 20,
+		order: 4,
 		parent: sharesViewId,
 
 		columns: [],
@@ -113,7 +113,7 @@ export default () => {
 		caption: t('files_sharing', 'List of unapproved shares.'),
 
 		icon: AccountClockSvg,
-		order: 20,
+		order: 5,
 		parent: sharesViewId,
 
 		columns: [],

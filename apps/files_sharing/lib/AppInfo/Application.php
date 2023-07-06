@@ -117,7 +117,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
 		$context->injectFn([$this, 'registerDownloadEvents']);
-		$context->injectFn([$this, 'loadFilesSharing']);
 
 		Helper::registerHooks();
 
@@ -213,13 +212,5 @@ class Application extends App implements IBootstrap {
 				}
 			}
 		);
-	}
-
-	public function loadFilesSharing(IManager $shareManager): void {
-		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
-			return;
-		}
-
-		Util::addScript(self::APP_ID, 'files_sharing', 'files');
 	}
 }

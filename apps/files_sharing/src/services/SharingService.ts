@@ -26,11 +26,12 @@ import type { ContentsWithRoot } from '../../../files/src/services/Navigation'
 import { Folder, File } from '@nextcloud/files'
 import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { rootPath } from '../../../files/src/services/WebdavClient'
 import axios from '@nextcloud/axios'
 import logger from './logger'
 
-type OCSResponse = {
+export const rootPath = `/files/${getCurrentUser()?.uid}`
+
+export type OCSResponse = {
 	ocs: {
 		meta: {
 			status: string
@@ -47,19 +48,20 @@ const headers = {
 
 const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 	try {
-		const Node = ocsEntry?.item_type === 'folder' ? Folder : File
+		const isFolder = ocsEntry?.item_type === 'folder'
+		const hasPreview = ocsEntry?.has_preview === true
+		const Node = isFolder ? Folder : File
 
-		// Sometimes it's an int, sometimes it contains the identifier like "ocinternal:123"
 		const fileid = ocsEntry.file_source
-		const previewUrl = generateUrl('/core/preview?fileId={fileid}&x=32&y=32&forceIcon=0', { fileid })
+		const previewUrl = hasPreview ? generateUrl('/core/preview?fileId={fileid}&x=32&y=32&forceIcon=0', { fileid }) : undefined
 
 		// Generate path and strip double slashes
 		const path = ocsEntry?.path || ocsEntry.file_target
-		const source = generateRemoteUrl(`dav/${rootPath}/${path}`.replace(/\/\//, '/'))
+		const source = generateRemoteUrl(`dav/${rootPath}/${path}`.replaceAll(/\/\//gm, '/'))
 
-		// Prefer share time if more recent than mtime
-		let mtime = ocsEntry?.mtime ? new Date((ocsEntry.mtime) * 1000) : undefined
-		if (ocsEntry?.stime > (ocsEntry?.mtime || 0)) {
+		// Prefer share time if more recent than item mtime
+		let mtime = ocsEntry?.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
+		if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
 			mtime = new Date((ocsEntry.stime) * 1000)
 		}
 
@@ -69,12 +71,13 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 			owner: ocsEntry?.uid_owner,
 			mime: ocsEntry?.mimetype,
 			mtime,
-			size: ocsEntry?.size || undefined,
-			permissions: ocsEntry?.permissions,
+			size: ocsEntry?.item_size,
+			permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,
 			root: rootPath,
 			attributes: {
 				...ocsEntry,
 				previewUrl,
+				'has-preview': hasPreview,
 				favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0,
 			},
 		})
@@ -86,8 +89,7 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 
 const getShares = function(shared_with_me = false): AxiosPromise<OCSResponse> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares')
-	return axios({
-		url,
+	return axios.get(url, {
 		headers,
 		params: {
 			shared_with_me,
@@ -101,13 +103,12 @@ const getSharedWithYou = function(): AxiosPromise<OCSResponse> {
 }
 
 const getSharedWithOthers = function(): AxiosPromise<OCSResponse> {
-	return getShares(false)
+	return getShares()
 }
 
 const getRemoteShares = function(): AxiosPromise<OCSResponse> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/remote_shares')
-	return axios({
-		url,
+	return axios.get(url, {
 		headers,
 		params: {
 			include_tags: true,
@@ -117,8 +118,7 @@ const getRemoteShares = function(): AxiosPromise<OCSResponse> {
 
 const getPendingShares = function(): AxiosPromise<OCSResponse> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares/pending')
-	return axios({
-		url,
+	return axios.get(url, {
 		headers,
 		params: {
 			include_tags: true,
@@ -128,8 +128,7 @@ const getPendingShares = function(): AxiosPromise<OCSResponse> {
 
 const getRemotePendingShares = function(): AxiosPromise<OCSResponse> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/remote_shares/pending')
-	return axios({
-		url,
+	return axios.get(url, {
 		headers,
 		params: {
 			include_tags: true,
@@ -139,8 +138,7 @@ const getRemotePendingShares = function(): AxiosPromise<OCSResponse> {
 
 const getDeletedShares = function(): AxiosPromise<OCSResponse> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/deletedshares')
-	return axios({
-		url,
+	return axios.get(url, {
 		headers,
 		params: {
 			include_tags: true,
@@ -176,8 +174,9 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 		folder: new Folder({
 			id: 0,
 			source: generateRemoteUrl('dav' + rootPath),
-			owner: getCurrentUser()?.uid || '',
+			owner: getCurrentUser()?.uid || null,
 		}),
 		contents,
 	}
 }
+

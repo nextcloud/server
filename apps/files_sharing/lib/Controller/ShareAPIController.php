@@ -232,7 +232,7 @@ class ShareAPIController extends OCSController {
 
 		// Get the original node permission if the share owner is the current user
 		if ($isOwnShare) {
-			$result['permissions'] = $node->getPermissions();
+			$result['item_permissions'] = $node->getPermissions();
 		}
 
 		$result['mimetype'] = $node->getMimetype();
@@ -243,8 +243,8 @@ class ShareAPIController extends OCSController {
 		$result['file_source'] = $node->getId();
 		$result['file_parent'] = $node->getParent()->getId();
 		$result['file_target'] = $share->getTarget();
-		$result['size'] = $node->getSize();
-		$result['mtime'] = $node->getMTime();
+		$result['item_size'] = $node->getSize();
+		$result['item_mtime'] = $node->getMTime();
 
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {
