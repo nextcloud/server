@@ -32,8 +32,7 @@ use Psr\Log\LoggerInterface;
  */
 class AuditLogger implements IAuditLogger {
 
-	/** @var LoggerInterface */
-	private $parentLogger;
+	private LoggerInterface $parentLogger;
 
 	public function __construct(ILogFactory $logFactory, IConfig $config) {
 		$auditType = $config->getSystemValueString('log_type_audit', 'file');
