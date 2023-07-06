@@ -44,27 +44,19 @@ class Sharing extends Action {
 	 * @param array $params
 	 */
 	public function shared(array $params): void {
-		if ($params['shareType'] === IShare::TYPE_LINK) {
-			$this->sharedLinkType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_USER) {
-			$this->sharedUserType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_GROUP) {
-			$this->sharedGroupType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_ROOM) {
-			$this->sharedRoomType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_EMAIL) {
-			$this->sharedEmailType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_CIRCLE) {
-			$this->sharedCircleType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_REMOTE) {
-			$this->sharedRemoteType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_REMOTE_GROUP) {
-			$this->sharedRemoteGroupType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_DECK) {
-			$this->sharedDeckType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_SCIENCEMESH) {
-			$this->sharedSciencemeshType($params);
-		}
+		match ($params['shareType']) {
+			IShare::TYPE_LINK => $this->sharedLinkType($params),
+			IShare::TYPE_USER => $this->sharedUserType($params),
+			IShare::TYPE_GROUP => $this->sharedGroupType($params),
+			IShare::TYPE_ROOM => $this->sharedRoomType($params),
+			IShare::TYPE_EMAIL => $this->sharedEmailType($params),
+			IShare::TYPE_CIRCLE => $this->sharedCircleType($params),
+			IShare::TYPE_REMOTE => $this->sharedRemoteType($params),
+			IShare::TYPE_REMOTE_GROUP => $this->sharedRemoteGroupType($params),
+			IShare::TYPE_DECK => $this->sharedDeckType($params),
+			IShare::TYPE_SCIENCEMESH => $this->sharedSciencemeshType($params),
+			default => null,
+		};
 	}
 
 	protected function sharedLinkType(array $params): void {
@@ -222,27 +214,19 @@ class Sharing extends Action {
 	 * @param array $params
 	 */
 	public function unshare(array $params): void {
-		if ($params['shareType'] === IShare::TYPE_LINK) {
-			$this->unshareLinkType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_USER) {
-			$this->unshareUserType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_GROUP) {
-			$this->unshareGroupType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_ROOM) {
-			$this->unshareRoomType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_EMAIL) {
-			$this->unshareEmailType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_CIRCLE) {
-			$this->unshareCircleType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_REMOTE) {
-			$this->unshareRemoteType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_REMOTE_GROUP) {
-			$this->unshareRemoteGroupType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_DECK) {
-			$this->unshareDeckType($params);
-		} elseif ($params['shareType'] === IShare::TYPE_SCIENCEMESH) {
-			$this->unshareSciencemeshType($params);
-		}
+		match ($params['shareType']) {
+			IShare::TYPE_LINK => $this->unshareLinkType($params),
+			IShare::TYPE_USER => $this->unshareUserType($params),
+			IShare::TYPE_GROUP => $this->unshareGroupType($params),
+			IShare::TYPE_ROOM => $this->unshareRoomType($params),
+			IShare::TYPE_EMAIL => $this->unshareEmailType($params),
+			IShare::TYPE_CIRCLE => $this->unshareCircleType($params),
+			IShare::TYPE_REMOTE => $this->unshareRemoteType($params),
+			IShare::TYPE_REMOTE_GROUP => $this->unshareRemoteGroupType($params),
+			IShare::TYPE_DECK => $this->unshareDeckType($params),
+			IShare::TYPE_SCIENCEMESH => $this->unshareSciencemeshType($params),
+			default => null,
+		};
 	}
 
 	protected function unshareLinkType(array $params): void {
