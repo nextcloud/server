@@ -225,10 +225,12 @@ class Application extends App implements IBootstrap {
 		});
 
 		$dispatcher->addListener('OC\AccountManager::userUpdated', function ($event) use ($container) {
-			$user = $event->getSubject();
-			/** @var SyncService $syncService */
-			$syncService = $container->query(SyncService::class);
-			$syncService->updateUser($user);
+			if ($event instanceof GenericEvent) {
+				$user = $event->getSubject();
+				/** @var SyncService $syncService */
+				$syncService = $container->query(SyncService::class);
+				$syncService->updateUser($user);
+			}
 		});
 
 
