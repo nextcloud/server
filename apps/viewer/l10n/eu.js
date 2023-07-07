@@ -12,6 +12,8 @@ OC.L10N.register(
     "Drop changes" : "Jaregin aldaketak",
     "Your browser does not support videos." : "Zure nabigatzaileak ez ditu bideoak onartzen.",
     "Edit" : "Aldatu",
+    "Exit full screen" : "Irten pantaila osotik",
+    "Full screen" : "Pantaila osoa",
     "Open sidebar" : "Ireki albo-barra",
     "Download" : "Deskargatu",
     "Delete" : "Ezabatu",
