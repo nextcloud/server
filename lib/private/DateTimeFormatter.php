@@ -125,7 +125,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @return string Formatted relative date string
 	 */
 	public function formatDateRelativeDay($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
-		if (substr($format, -1) !== '*' && substr($format, -1) !== '*') {
+		if (!str_ends_with($format, '*') && !str_ends_with($format, '*')) {
 			$format .= '^';
 		}
 
@@ -289,7 +289,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @return string Formatted relative date and time string
 	 */
 	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
-		if (substr($formatDate, -1) !== '^' && substr($formatDate, -1) !== '*') {
+		if (!str_ends_with($formatDate, '^') && !str_ends_with($formatDate, '*')) {
 			$formatDate .= '^';
 		}
 

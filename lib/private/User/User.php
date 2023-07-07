@@ -610,7 +610,7 @@ class User implements IUser {
 	public function getCloudId() {
 		$uid = $this->getUID();
 		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
-		if (substr($server, -10) === '/index.php') {
+		if (str_ends_with($server, '/index.php')) {
 			$server = substr($server, 0, -10);
 		}
 		$server = $this->removeProtocolFromUrl($server);
