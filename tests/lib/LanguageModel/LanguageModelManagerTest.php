@@ -163,7 +163,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 
 	public function testShouldNotHaveAnyProviders() {
 		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([]);
-		$this->assertCount(0, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(0, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(0, $this->languageModelManager->getAvailableTaskTypes());
 		$this->assertFalse($this->languageModelManager->hasProviders());
 		$this->expectException(PreConditionNotMetException::class);
@@ -174,7 +174,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([
 			new ServiceRegistration('test', TestVanillaLanguageModelProvider::class)
 		]);
-		$this->assertCount(1, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(1, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(1, $this->languageModelManager->getAvailableTaskTypes());
 		$this->assertTrue($this->languageModelManager->hasProviders());
 		$this->assertEquals('Hello Free Prompt', $this->languageModelManager->runTask(new FreePromptTask('Hello', 'test', null)));
@@ -189,7 +189,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([
 			new ServiceRegistration('test', TestVanillaLanguageModelProvider::class)
 		]);
-		$this->assertCount(1, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(1, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(1, $this->languageModelManager->getAvailableTaskTypes());
 		$this->assertTrue($this->languageModelManager->hasProviders());
 
@@ -259,7 +259,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 			new ServiceRegistration('test', TestVanillaLanguageModelProvider::class),
 			new ServiceRegistration('test', TestFullLanguageModelProvider::class),
 		]);
-		$this->assertCount(3, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(3, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(3, $this->languageModelManager->getAvailableTaskTypes());
 		$this->assertTrue($this->languageModelManager->hasProviders());
 
@@ -287,7 +287,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([
 			new ServiceRegistration('test', TestFailingLanguageModelProvider::class),
 		]);
-		$this->assertCount(1, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(1, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(1, $this->languageModelManager->getAvailableTaskTypes());
 		$this->assertTrue($this->languageModelManager->hasProviders());
 
@@ -354,7 +354,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([
 			new ServiceRegistration('test', TestVanillaLanguageModelProvider::class)
 		]);
-		$this->assertCount(1, $this->languageModelManager->getAvailableTasks());
+		$this->assertCount(1, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(1, $this->languageModelManager->getAvailableTaskTypes());
 		$this->assertTrue($this->languageModelManager->hasProviders());
 		$task = new FreePromptTask('Hello', 'test', null);

@@ -45,7 +45,7 @@ interface ILanguageModelManager {
 	 * @return string[]
 	 * @since 28.0.0
 	 */
-	public function getAvailableTasks(): array;
+	public function getAvailableTaskClasses(): array;
 
 	/**
 	 * @return string[]
