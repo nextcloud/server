@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,15 +26,17 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Controller;
 
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\PredefinedStatusService;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 /**
- * Class DefaultStatusController
- *
  * @package OCA\UserStatus\Controller
+ *
+ * @psalm-import-type UserStatusPredefined from ResponseDefinitions
  */
 class PredefinedStatusController extends OCSController {
 
@@ -55,9 +58,11 @@ class PredefinedStatusController extends OCSController {
 	}
 
 	/**
+	 * Get all predefined messages
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPredefined[], array{}>
 	 */
 	public function findAll():DataResponse {
 		// Filtering out the invisible one, that should only be set by API
