@@ -82,7 +82,7 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 			},
 		})
 	} catch (error) {
-		logger.error('Error while parsing OCS entry', error)
+		logger.error('Error while parsing OCS entry', { error })
 		return null
 	}
 }
