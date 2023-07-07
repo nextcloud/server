@@ -45,7 +45,7 @@
     "Select attributes" : "Seleccione os atributos",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>" : "Non se atopou o usuario. Recomendase consultar os atributos de acceso e o nome de usuario. Filtro eficaz (copiar e pegar para a validación en liña de ordes): <br/>",
     "User found and settings verified." : "Atopouse o usuario e verificáronse os axustes.",
-    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Considere restrinxir a súa busca, pois abrange moitos usuarios, apenas o primeiro deles poderá acceder.",
+    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Considere restrinxir a súa busca, pois abrangue moitos usuarios, apenas o primeiro deles poderá acceder.",
     "An unspecified error occurred. Please check log and settings." : "Produciuse un erro non especificado. Comprobe o rexistro e os axustes.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "O filtro de busca é incorrecto, probabelmente por mor de erros de sintaxe como un número impar de chaves de apertura/peche. Revíseo.",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Produciuse un erro de conexión a LDAP/AD. Verifique a máquina, o porto e as credenciais.",
