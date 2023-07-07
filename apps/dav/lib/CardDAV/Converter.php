@@ -92,7 +92,19 @@ class Converter {
 					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'OTHER', 'X-NC-SCOPE' => $scope]));
 					break;
 				case IAccountManager::PROPERTY_ADDRESS:
-					$vCard->add(new Text($vCard, 'ADR', $property->getValue(), ['TYPE' => 'OTHER', 'X-NC-SCOPE' => $scope]));
+					// structured prop: https://www.rfc-editor.org/rfc/rfc6350.html#section-6.3.1
+					// post office box;extended address;street address;locality;region;postal code;country
+					$vCard->add(
+						new Text(
+							$vCard,
+							'ADR',
+							[ '', '', '', $property->getValue(), '', '', ''	],
+							[
+								'TYPE' => 'OTHER',
+								'X-NC-SCOPE' => $scope,
+							]
+						)
+					);
 					break;
 				case IAccountManager::PROPERTY_TWITTER:
 					$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $property->getValue(), ['TYPE' => 'TWITTER', 'X-NC-SCOPE' => $scope]));
