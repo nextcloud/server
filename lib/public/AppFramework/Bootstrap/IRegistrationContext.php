@@ -226,7 +226,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $providerClass
 	 * @psalm-param class-string<ILanguageModelProvider> $providerClass
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function registerLanguageModelProvider(string $providerClass): void;
 

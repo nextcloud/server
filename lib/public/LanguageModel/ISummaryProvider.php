@@ -31,13 +31,13 @@ use RuntimeException;
 /**
  * This LanguageModel Provider implements summarization
  * which sums up the passed text.
- * @since 28.0.0
+ * @since 27.1.0
  */
 interface ISummaryProvider extends ILanguageModelProvider {
 	/**
 	 * @param string $text The text to summarize
 	 * @returns string the summary
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 * @throws RuntimeException If the text could not be transcribed
 	 */
 	public function summarize(string $text): string;

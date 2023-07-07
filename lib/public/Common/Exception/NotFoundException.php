@@ -27,13 +27,13 @@ namespace OCP\Common\Exception;
 /**
  * This is thrown whenever something was expected to exist but doesn't
  *
- * @since 28.0.0
+ * @since 27.1.0
  */
 class NotFoundException extends \Exception {
 	/**
 	 * Constructor
 	 * @param string $msg the error message
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function __construct(string $msg) {
 		parent::__construct($msg);

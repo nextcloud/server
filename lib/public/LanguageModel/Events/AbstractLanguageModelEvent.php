@@ -29,11 +29,11 @@ use OCP\EventDispatcher\Event;
 use OCP\LanguageModel\ILanguageModelTask;
 
 /**
- * @since 28.0.0
+ * @since 27.1.0
  */
 abstract class AbstractLanguageModelEvent extends Event {
 	/**
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function __construct(
 		private ILanguageModelTask $task
@@ -43,7 +43,7 @@ abstract class AbstractLanguageModelEvent extends Event {
 
 	/**
 	 * @return ILanguageModelTask
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function getTask(): ILanguageModelTask {
 		return $this->task;
