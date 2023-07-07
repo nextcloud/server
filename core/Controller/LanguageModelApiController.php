@@ -34,7 +34,9 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\LanguageModel\AbstractLanguageModelTask;
 use OCP\LanguageModel\ILanguageModelManager;
+use OCP\LanguageModel\ILanguageModelTask;
 use OCP\PreConditionNotMetException;
+use Punic\Data;
 
 class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
@@ -48,22 +50,38 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * This endpoint returns all available LanguageModel task types
+	 *
 	 * @PublicPage
+	 * @return DataResponse<Http::STATUS_OK,array{types: string[]}, array{}>
+	 *
+	 * 200: Task types returned
 	 */
 	public function taskTypes(): DataResponse {
 		return new DataResponse([
-			'tasks' => $this->languageModelManager->getAvailableTaskTypes(),
+			'types' => $this->languageModelManager->getAvailableTaskTypes(),
 		]);
 	}
 
 	/**
+	 * This endpoint allows scheduling a language model task
+	 *
 	 * @PublicPage
 	 * @UserRateThrottle(limit=20, period=120)
 	 * @AnonRateThrottle(limit=5, period=120)
+	 * @param string $input The input for the language model task
+	 * @param string $type The task type
+	 * @param string $appId The originating app ID
+	 * @param string $identifier An identifier to identify this task
+	 * @return DataResponse<Http::STATUS_OK,array{task: array{id: int,type:string,status: ILanguageModelTask::STATUS_*,userId: string, appId: string,input: string,output: string, identifier: string}},array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED,array{message: string}, array{}>
+	 *
+	 * 200: Task scheduled
+	 * 400: Task type does not exist
+	 * 412: Task type not available
 	 */
-	public function schedule(string $text, string $type, ?string $appId, string $identifier = ''): DataResponse {
+	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
 		try {
-			$task = AbstractLanguageModelTask::factory($type, $text, $this->userId, $appId, $identifier);
+			$task = AbstractLanguageModelTask::factory($type, $input, $this->userId, $appId, $identifier);
 		} catch (InvalidArgumentException $e) {
 			return new DataResponse(['message' => $this->l->t('Requested task type does not exist')], Http::STATUS_BAD_REQUEST);
 		}
@@ -79,7 +97,16 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * This endpoint allows checking the status and results of a task.
+	 * Tasks are removed 1 week after receiving their last update.
+	 *
 	 * @PublicPage
+	 * @param int $id The id of the task
+	 * @return DataResponse<Htpp::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message:string}>|DataResponse<Http::STATUS_OK,array{task: array{id: int,type:string,status: ILanguageModelTask::STATUS_*,userId: string, appId: string,input: string,output: string, identifier: string}},array{}>
+	 *
+	 * 200: Task returned
+	 * 404: Task not found
+	 * 500: Internal error
 	 */
 	public function getTask(int $id): DataResponse {
 		try {
