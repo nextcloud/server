@@ -30,35 +30,24 @@ use OCP\AppFramework\OCSController;
 use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class DirectEditingController extends OCSController {
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IManager */
-	private $directEditingManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var DirectEditingService */
-	private $directEditingService;
-
-	public function __construct($appName, IRequest $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge,
-								IEventDispatcher $eventDispatcher, IURLGenerator $urlGenerator, IManager $manager, DirectEditingService $directEditingService, ILogger $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		string $corsMethods,
+		string $corsAllowedHeaders,
+		int $corsMaxAge,
+		private IEventDispatcher $eventDispatcher,
+		private IURLGenerator $urlGenerator,
+		private IManager $directEditingManager,
+		private DirectEditingService $directEditingService,
+		private LoggerInterface $logger
+		) {
 		parent::__construct($appName, $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge);
-
-		$this->eventDispatcher = $eventDispatcher;
-		$this->directEditingManager = $manager;
-		$this->directEditingService = $directEditingService;
-		$this->logger = $logger;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -100,7 +89,12 @@ class DirectEditingController extends OCSController {
 				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', ['token' => $token])
 			]);
 		} catch (Exception $e) {
-			$this->logger->logException($e, ['message' => 'Exception when creating a new file through direct editing']);
+			$this->logger->error(
+				'Exception when creating a new file through direct editing',
+				[
+					'exception' => $e
+				],
+			);
 			return new DataResponse(['message' => 'Failed to create file: ' . $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
@@ -131,7 +125,12 @@ class DirectEditingController extends OCSController {
 				'url' => $this->urlGenerator->linkToRouteAbsolute('files.DirectEditingView.edit', ['token' => $token])
 			]);
 		} catch (Exception $e) {
-			$this->logger->logException($e, ['message' => 'Exception when opening a file through direct editing']);
+			$this->logger->error(
+				'Exception when opening a file through direct editing',
+				[
+					'exception' => $e
+				],
+			);
 			return new DataResponse(['message' => 'Failed to open file: ' . $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
@@ -159,7 +158,12 @@ class DirectEditingController extends OCSController {
 		try {
 			return new DataResponse($this->directEditingManager->getTemplates($editorId, $creatorId));
 		} catch (Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error(
+				$e->getMessage(),
+				[
+					'exception' => $e
+				],
+			);
 			return new DataResponse(['message' => 'Failed to obtain template list: ' . $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
