@@ -73,7 +73,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $type The task type
 	 * @param string $appId The originating app ID
 	 * @param string $identifier An identifier to identify this task
-	 * @return DataResponse<Http::STATUS_OK,array{task: array{id: int,type:string,status: ILanguageModelTask::STATUS_*,userId: string, appId: string,input: string,output: string, identifier: string}},array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED,array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK,array{task: array{id: int,type:string,status: ILanguageModelTask::STATUS_*,userId: string, appId: string,input: string,output: string, identifier: string}},array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED|Http::STATUS_BAD_REQUEST,array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled
 	 * 400: Task type does not exist
@@ -89,7 +89,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 			$this->languageModelManager->scheduleTask($task);
 
 			return new DataResponse([
-				'task' => $task,
+				'task' => $task->jsonSerialize(),
 			]);
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l->t('Necessary language model provider is not available')], Http::STATUS_PRECONDITION_FAILED);
@@ -102,7 +102,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @PublicPage
 	 * @param int $id The id of the task
-	 * @return DataResponse<Htpp::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message:string}>|DataResponse<Http::STATUS_OK,array{task: array{id: int,type:string,status: ILanguageModelTask::STATUS_*,userId: string, appId: string,input: string,output: string, identifier: string}},array{}>
+	 * @return DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message:string}>|DataResponse<Http::STATUS_OK,array{task: array{id: int,type:string,status: ILanguageModelTask::STATUS_*,userId: string, appId: string,input: string,output: string, identifier: string}},array{}>
 	 *
 	 * 200: Task returned
 	 * 404: Task not found
