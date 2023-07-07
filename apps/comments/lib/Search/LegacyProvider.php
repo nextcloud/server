@@ -35,7 +35,6 @@ use OCP\Comments\ICommentsManager;
 use function count;
 
 class LegacyProvider extends Provider {
-
 	/**
 	 * Search for $query
 	 *

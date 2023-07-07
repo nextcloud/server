@@ -35,28 +35,17 @@ use OCP\IUserSession;
 use OCP\Share\IShareHelper;
 
 class Listener {
-	protected IManager $activityManager;
-	protected IUserSession $session;
-	protected IAppManager $appManager;
-	protected IMountProviderCollection $mountCollection;
-	protected IRootFolder $rootFolder;
-	protected IShareHelper $shareHelper;
-
 	/**
 	 * Listener constructor.
 	 */
-	public function __construct(IManager $activityManager,
-								IUserSession $session,
-								IAppManager $appManager,
-								IMountProviderCollection $mountCollection,
-								IRootFolder $rootFolder,
-								IShareHelper $shareHelper) {
-		$this->activityManager = $activityManager;
-		$this->session = $session;
-		$this->appManager = $appManager;
-		$this->mountCollection = $mountCollection;
-		$this->rootFolder = $rootFolder;
-		$this->shareHelper = $shareHelper;
+	public function __construct(
+		protected IManager $activityManager,
+		protected IUserSession $session,
+		protected IAppManager $appManager,
+		protected IMountProviderCollection $mountCollection,
+		protected IRootFolder $rootFolder,
+		protected IShareHelper $shareHelper,
+	) {
 	}
 
 	public function commentEvent(CommentsEvent $event): void {

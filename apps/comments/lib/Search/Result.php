@@ -39,41 +39,38 @@ class Result extends BaseResult {
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $comment;
+	public string $comment;
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $authorId;
+	public string $authorId;
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $authorName;
+	public string $path;
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $path;
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public $fileName;
+	public string $fileName;
 
 	/**
 	 * @throws NotFoundException
 	 * @deprecated 20.0.0
 	 */
-	public function __construct(string $search,
-								IComment $comment,
-								string $authorName,
-								string $path) {
+	public function __construct(
+		string $search,
+		IComment $comment,
+		public string $authorName,
+		string $path,
+	) {
 		parent::__construct(
 			$comment->getId(),
 			$comment->getMessage()
-		/* @todo , [link to file] */
+			/* @todo , [link to file] */
 		);
 
 		$this->comment = $this->getRelevantMessagePart($comment->getMessage(), $search);
 		$this->authorId = $comment->getActorId();
-		$this->authorName = $authorName;
 		$this->fileName = basename($path);
 		$this->path = $this->getVisiblePath($path);
 	}
