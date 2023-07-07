@@ -127,7 +127,12 @@ class LanguageModelManager implements ILanguageModelManager {
 	}
 
 	public function canHandleTask(ILanguageModelTask $task): bool {
-		return count(array_filter($this->getAvailableTaskClasses(), fn ($class) => $task instanceof $class)) > 0;
+		foreach ($this->getAvailableTaskClasses() as $class) {
+			if ($task instanceof $class) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
