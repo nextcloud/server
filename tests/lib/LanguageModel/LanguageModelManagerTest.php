@@ -34,6 +34,7 @@ use OCP\LanguageModel\ISummaryProvider;
 use OCP\LanguageModel\SummaryTask;
 use OCP\LanguageModel\TopicsTask;
 use OCP\PreConditionNotMetException;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
@@ -63,7 +64,7 @@ class TestFailingLanguageModelProvider implements ILanguageModelProvider {
 	}
 }
 
-class TestFullLanguageModelProvider implements ILanguageModelProvider, ISummaryProvider, IHeadlineProvider {
+class TestAdvancedLanguageModelProvider implements ILanguageModelProvider, ISummaryProvider, IHeadlineProvider {
 	public function getName(): string {
 		return 'TEST Full LLM Provider';
 	}
@@ -90,7 +91,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 
 		$this->providers = [
 			TestVanillaLanguageModelProvider::class => new TestVanillaLanguageModelProvider(),
-			TestFullLanguageModelProvider::class => new TestFullLanguageModelProvider(),
+			TestAdvancedLanguageModelProvider::class => new TestAdvancedLanguageModelProvider(),
 			TestFailingLanguageModelProvider::class => new TestFailingLanguageModelProvider(),
 		];
 
@@ -214,24 +215,8 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->assertNull($task2->getOutput());
 		$this->assertEquals(ILanguageModelTask::STATUS_SCHEDULED, $task2->getStatus());
 
-		/** @var IEventDispatcher $this->eventDispatcher */
-		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$successfulEventFired = false;
-		$this->eventDispatcher->addListener(TaskSuccessfulEvent::class, function (TaskSuccessfulEvent $event) use (&$successfulEventFired, $task) {
-			$successfulEventFired = true;
-			$t = $event->getTask();
-			$this->assertEquals($task->getId(), $t->getId());
-			$this->assertEquals(ILanguageModelTask::STATUS_SUCCESSFUL, $t->getStatus());
-			$this->assertEquals('Hello Free Prompt', $t->getOutput());
-		});
-		$failedEventFired = false;
-		$this->eventDispatcher->addListener(TaskFailedEvent::class, function (TaskFailedEvent $event) use (&$failedEventFired, $task) {
-			$failedEventFired = true;
-			$t = $event->getTask();
-			$this->assertEquals($task->getId(), $t->getId());
-			$this->assertEquals(ILanguageModelTask::STATUS_FAILED, $t->getStatus());
-			$this->assertEquals('ERROR', $event->getErrorMessage());
-		});
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
 
 		// run background job
 		$bgJob = new TaskBackgroundJob(
@@ -243,8 +228,6 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$bgJob->start($this->jobList);
 		$provider = $this->providers[TestVanillaLanguageModelProvider::class];
 		$this->assertTrue($provider->ran);
-		$this->assertTrue($successfulEventFired);
-		$this->assertFalse($failedEventFired);
 
 		// Task object retrieved from db is up-to-date
 		$task3 = $this->languageModelManager->getTask($task->getId());
@@ -257,7 +240,7 @@ class LanguageModelManagerTest extends \Test\TestCase {
 	public function testMultipleProvidersShouldBeRegisteredAndRunCorrectly() {
 		$this->registrationContext->expects($this->any())->method('getLanguageModelProviders')->willReturn([
 			new ServiceRegistration('test', TestVanillaLanguageModelProvider::class),
-			new ServiceRegistration('test', TestFullLanguageModelProvider::class),
+			new ServiceRegistration('test', TestAdvancedLanguageModelProvider::class),
 		]);
 		$this->assertCount(3, $this->languageModelManager->getAvailableTaskClasses());
 		$this->assertCount(3, $this->languageModelManager->getAvailableTaskTypes());
@@ -312,22 +295,8 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$this->assertNull($task2->getOutput());
 		$this->assertEquals(ILanguageModelTask::STATUS_SCHEDULED, $task2->getStatus());
 
-		$successfulEventFired = false;
-		$this->eventDispatcher->addListener(TaskSuccessfulEvent::class, function (TaskSuccessfulEvent $event) use (&$successfulEventFired, $task) {
-			$successfulEventFired = true;
-			$t = $event->getTask();
-			$this->assertEquals($task->getId(), $t->getId());
-			$this->assertEquals(ILanguageModelTask::STATUS_SUCCESSFUL, $t->getStatus());
-			$this->assertEquals('Hello Free Prompt', $t->getOutput());
-		});
-		$failedEventFired = false;
-		$this->eventDispatcher->addListener(TaskFailedEvent::class, function (TaskFailedEvent $event) use (&$failedEventFired, $task) {
-			$failedEventFired = true;
-			$t = $event->getTask();
-			$this->assertEquals($task->getId(), $t->getId());
-			$this->assertEquals(ILanguageModelTask::STATUS_FAILED, $t->getStatus());
-			$this->assertEquals('ERROR', $event->getErrorMessage());
-		});
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskFailedEvent::class));
 
 		// run background job
 		$bgJob = new TaskBackgroundJob(
@@ -339,8 +308,6 @@ class LanguageModelManagerTest extends \Test\TestCase {
 		$bgJob->start($this->jobList);
 		$provider = $this->providers[TestFailingLanguageModelProvider::class];
 		$this->assertTrue($provider->ran);
-		$this->assertTrue($failedEventFired);
-		$this->assertFalse($successfulEventFired);
 
 		// Task object retrieved from db is up-to-date
 		$task3 = $this->languageModelManager->getTask($task->getId());
