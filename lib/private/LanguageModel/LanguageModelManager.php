@@ -102,7 +102,7 @@ class LanguageModelManager implements ILanguageModelManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function getAvailableTasks(): array {
+	public function getAvailableTaskClasses(): array {
 		$tasks = [];
 		foreach ($this->getProviders() as $provider) {
 			$tasks[FreePromptTask::class] = true;
@@ -123,11 +123,11 @@ class LanguageModelManager implements ILanguageModelManager {
 	 * @inheritDoc
 	 */
 	public function getAvailableTaskTypes(): array {
-		return array_map(fn ($taskClass) => $taskClass::TYPE, $this->getAvailableTasks());
+		return array_map(fn ($taskClass) => $taskClass::TYPE, $this->getAvailableTaskClasses());
 	}
 
 	public function canHandleTask(ILanguageModelTask $task): bool {
-		return count(array_filter($this->getAvailableTasks(), fn ($class) => $task instanceof $class)) > 0;
+		return count(array_filter($this->getAvailableTaskClasses(), fn ($class) => $task instanceof $class)) > 0;
 	}
 
 	/**
