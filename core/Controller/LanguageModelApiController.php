@@ -115,7 +115,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 			}
 
 			return new DataResponse([
-				'task' => $task,
+				'task' => $task->jsonSerialize(),
 			]);
 		} catch (NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
