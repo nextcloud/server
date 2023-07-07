@@ -439,7 +439,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$childQueue = [];
 		$newChildNames = [];
 		foreach ($newChildren as $fileMeta) {
-			$permissions = isset($fileMeta['scan_permissions']) ? $fileMeta['scan_permissions'] : $fileMeta['permissions'];
+			$permissions = $fileMeta['scan_permissions'] ?? $fileMeta['permissions'];
 			if ($permissions === 0) {
 				continue;
 			}
@@ -456,7 +456,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
-				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
+				$existingData = $existingChildren[$file] ?? false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
