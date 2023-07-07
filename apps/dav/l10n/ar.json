@@ -117,6 +117,7 @@
     "File is not updatable: %1$s" : "ملف غير قابل للتعديل: %1$s",
     "Could not write to final file, canceled by hook" : "تعذرت الكتابة إلى الملف النهائي، تم إلغاؤه بواسطة خطّاف hook",
     "Could not write file contents" : "تعذرت كتابة محتويات الملف",
+    "_%n byte_::_%n bytes_" : ["بايت","بايت","بايت","بايت","بايت","%n بايت"],
     "Error while copying file to target location (copied: %1$s, expected filesize: %2$s)" : "حدث خطأ أثناء نسخ الملف إلى الموقع المقصد (تمّ نسخه: %1$s, حجم الملف المتوقع: %2$s)",
     "Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side." : "الحجم المتوقع للملف هو %1$s؛ بينما المقروء من ( الجهاز العميل لنكست كلاود)  و المكتوب في (تخزين نكست كلاود) هو %2$s. يمكن أن يكون السبب إمّا مشكلة اتصال في جانب الجهاز العميل أو مشكلة في الكتابة في وحدة التخزين في جانب خادوم نكست كلاود .",
     "Could not rename part file to final file, canceled by hook" : "تعذّرت إعادة تسمية ملف جزئي إلى ملف نهائي. تمّ الإلغاء من قِبَل الخطّاف hook.",
