@@ -58,7 +58,7 @@ class LanguageModelManager implements ILanguageModelManager {
 			$class = $providerServiceRegistration->getService();
 			try {
 				$this->providers[$class] = $this->serverContainer->get($class);
-			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Throwable $e) {
+			} catch (Throwable $e) {
 				$this->logger->error('Failed to load LanguageModel provider ' . $class, [
 					'exception' => $e,
 				]);
