@@ -51,8 +51,14 @@ export interface Navigation {
 	id: string
 	/** Translated view name */
 	name: string
-	/** Translated view accessible description */
+	/** Translated accessible description of the view */
 	caption?: string
+
+	/** Translated title of the empty view */
+	emptyTitle?: string
+	/** Translated description of the empty view */
+	emptyCaption?: string
+
 	/**
 	 * Method return the content of the  provided path
 	 * This ideally should be a cancellable promise.
