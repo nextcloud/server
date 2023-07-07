@@ -168,11 +168,11 @@ class LanguageModelManager implements ILanguageModelManager {
 				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(ILanguageModelTask::STATUS_FAILED);
 				$this->taskMapper->update(Task::fromLanguageModelTask($task));
-				throw new RuntimeException('LanguageModel call using provider ' . $provider->getName() . ' failed: ' . $e->getMessage());
+				throw new RuntimeException('LanguageModel call using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
 			}
 		}
 
-		throw new RuntimeException('Could not transcribe file');
+		throw new RuntimeException('Could not run task');
 	}
 
 	/**
@@ -205,9 +205,9 @@ class LanguageModelManager implements ILanguageModelManager {
 		} catch (DoesNotExistException $e) {
 			throw new NotFoundException('Could not find task with the provided id');
 		} catch (MultipleObjectsReturnedException $e) {
-			throw new RuntimeException('Could not uniquely identify task with given id');
+			throw new RuntimeException('Could not uniquely identify task with given id', 0, $e);
 		} catch (Exception $e) {
-			throw new RuntimeException('Failure while trying to find task by id: '.$e->getMessage());
+			throw new RuntimeException('Failure while trying to find task by id: '.$e->getMessage(), 0, $e);
 		}
 	}
 }
