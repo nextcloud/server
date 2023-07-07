@@ -247,7 +247,6 @@ abstract class QBMapper {
 			'json' => IQueryBuilder::PARAM_JSON,
 			default => IQueryBuilder::PARAM_STR,
 		};
-
 	}
 
 	/**
