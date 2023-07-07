@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\LanguageModel\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\LanguageModel\AbstractLanguageModelTask;
 use OCP\LanguageModel\ILanguageModelTask;
 
 /**
@@ -99,6 +100,14 @@ class Task extends Entity {
 			'appId' => $task->getAppId(),
 			'identifier' => $task->getIdentifier(),
 		]);
+		return $task;
+	}
+
+	public function toLanguageModelTask(): ILanguageModelTask {
+		$task = AbstractLanguageModelTask::factory($this->getType(), $this->getInput(), $this->getuserId(), $this->getAppId(), $this->getIdentifier());
+		$task->setId($this->getId());
+		$task->setStatus($this->getStatus());
+		$task->setOutput($this->getOutput());
 		return $task;
 	}
 }

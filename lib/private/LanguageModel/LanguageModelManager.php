@@ -201,7 +201,7 @@ class LanguageModelManager implements ILanguageModelManager {
 	public function getTask(int $id): ILanguageModelTask {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
-			return AbstractLanguageModelTask::fromTaskEntity($taskEntity);
+			return $taskEntity->toLanguageModelTask();
 		} catch (DoesNotExistException $e) {
 			throw new NotFoundException('Could not find task with the provided id');
 		} catch (MultipleObjectsReturnedException $e) {
