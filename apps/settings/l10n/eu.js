@@ -340,6 +340,7 @@ OC.L10N.register(
     "User backend" : "Erabiltzaile jatorria",
     "Storage location" : "Biltegiratze kokapena",
     "Last login" : "Azken saioa",
+    "Manager" : "Zuzendaria",
     "No users in here" : "Ez dago erabiltzailerik hemen",
     "Default quota" : "Kuota lehenetsia",
     "Default language" : "Hizkuntza lehenetsia",

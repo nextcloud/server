@@ -18,6 +18,7 @@
     "Could not delete version" : "لم يُمكن حذف النسخة",
     "${version.label} restored" : "${version.label} تمّت استعادتها",
     "Failed to revert {file} to revision {timestamp}." : "فشل في استعادة {ملف} لنتقيح {الطابع الزمني}",
+    "_%n byte_::_%n bytes_" : ["بايت","بايت","بايت","بايت","بايت","%n بايت"],
     "Restore" : "استعادة ",
     "No other versions available" : "لا تتوفر هناك نُسخ أخرى"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

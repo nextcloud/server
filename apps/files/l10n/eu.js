@@ -169,6 +169,7 @@ OC.L10N.register(
     "Reload current directory" : "Birkargatu uneko direktorioa",
     "Go to the \"{dir}\" directory" : "Joan \"{dir}\" direktoriora",
     "Select the row for {displayName}" : "Hautatu {displayName} errenkada",
+    "Rename file" : "Berrizendatu fitxategia",
     "File name" : "Fitxategi izena",
     "Download file {name}" : "Deskargatu {name} fitxategia ",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" ekintza behar bezala exekutatu da",
