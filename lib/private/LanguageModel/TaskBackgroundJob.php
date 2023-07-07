@@ -41,6 +41,8 @@ class TaskBackgroundJob extends QueuedJob {
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($timeFactory);
+		// We want to avoid overloading the machine with these jobs
+		// so we only allow running one job at a time
 		$this->setAllowParallelRuns(false);
 	}
 
