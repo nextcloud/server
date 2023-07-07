@@ -62,7 +62,8 @@ interface ILanguageModelManager {
 
 	/**
 	 * Will schedule an LLM inference process in the background. The result will become available
-	 * with the \OCP\LanguageModel\Events\TaskFinishedEvent
+	 * with the \OCP\LanguageModel\Events\TaskSuccessfulEvent
+	 * If inference fails a \OCP\LanguageModel\Events\TaskFailedEvent will be dispatched instead
 	 *
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @since 28.0.0
