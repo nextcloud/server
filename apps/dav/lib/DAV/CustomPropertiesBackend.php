@@ -166,7 +166,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		// substr of calendars/ => path is inside the CalDAV component
 		// two '/' => this a calendar (no calendar-home nor calendar object)
-		if (substr($path, 0, 10) === 'calendars/' && substr_count($path, '/') === 2) {
+		if (str_starts_with($path, 'calendars/') && substr_count($path, '/') === 2) {
 			$allRequestedProps = $propFind->getRequestedProperties();
 			$customPropertiesForShares = [
 				'{DAV:}displayname',
