@@ -91,7 +91,7 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTagsByIds($tagIds): array {
+	public function getTagsByIds($tagIds, ?IUser $user = null): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -116,7 +116,12 @@ class SystemTagManager implements ISystemTagManager {
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$tags[$row['id']] = $this->createSystemTagFromRow($row);
+			$tag = $this->createSystemTagFromRow($row);
+			if ($user && !$this->canUserSeeTag($tag, $user)) {
+				// if a user is given, hide invisible tags
+				continue;
+			}
+			$tags[$row['id']] = $tag;
 		}
 
 		$result->closeCursor();
