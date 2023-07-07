@@ -25,8 +25,6 @@ declare(strict_types=1);
 
 namespace OCP\LanguageModel;
 
-use OC\LanguageModel\Db\Task;
-
 /**
  * This is an abstract LanguageModel task that implements basic
  * goodies for downstream tasks
@@ -159,20 +157,6 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 			'output' => $this->getOutput(),
 			'identifier' => $this->getIdentifier(),
 		];
-	}
-
-
-	/**
-	 * @param Task $taskEntity
-	 * @return ILanguageModelTask
-	 * @since 28.0.0
-	 */
-	final public static function fromTaskEntity(Task $taskEntity): ILanguageModelTask {
-		$task = self::factory($taskEntity->getType(), $taskEntity->getInput(), $taskEntity->getuserId(), $taskEntity->getAppId(), $taskEntity->getIdentifier());
-		$task->setId($taskEntity->getId());
-		$task->setStatus($taskEntity->getStatus());
-		$task->setOutput($taskEntity->getOutput());
-		return $task;
 	}
 
 	/**
