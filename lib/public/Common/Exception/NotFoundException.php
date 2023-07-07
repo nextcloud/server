@@ -35,7 +35,7 @@ class NotFoundException extends \Exception {
 	 * @param string $msg the error message
 	 * @since 28.0.0
 	 */
-	public function __construct($msg) {
+	public function __construct(string $msg) {
 		parent::__construct($msg);
 	}
 }
