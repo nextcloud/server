@@ -29,7 +29,7 @@ namespace OCP\LanguageModel;
 use RuntimeException;
 
 /**
- * This is the minimum interface is implemented by apps that
+ * This is the minimum interface that is implemented by apps that
  * implement a LanguageModel provider
  * @since 28.0.0
  */
