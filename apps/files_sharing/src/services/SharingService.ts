@@ -179,4 +179,3 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 		contents,
 	}
 }
-
