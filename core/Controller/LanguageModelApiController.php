@@ -50,7 +50,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
-	public function tasks(): DataResponse {
+	public function taskTypes(): DataResponse {
 		return new DataResponse([
 			'tasks' => $this->languageModelManager->getAvailableTaskTypes(),
 		]);
