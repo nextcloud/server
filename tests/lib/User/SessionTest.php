@@ -159,15 +159,10 @@ class SessionTest extends \Test\TestCase {
 		$session->expects($this->exactly(2))
 			->method('set')
 			->with($this->callback(function ($key) {
-				switch ($key) {
-					case 'user_id':
-					case 'loginname':
-						return true;
-						break;
-					default:
-						return false;
-						break;
-				}
+				return match ($key) {
+					'user_id', 'loginname' => true,
+					default => false,
+				};
 			}, 'foo'));
 
 		$managerMethods = get_class_methods(Manager::class);

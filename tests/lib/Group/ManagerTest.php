@@ -558,38 +558,36 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->any())
 			->method('inGroup')
 			->willReturnCallback(function ($uid, $gid) {
-				switch ($uid) {
-					case 'user1': return false;
-					case 'user2': return true;
-					case 'user3': return false;
-					case 'user33': return true;
-					default:
-						return null;
-				}
+				return match ($uid) {
+					'user1' => false,
+					'user2' => false,
+					'user3' => false,
+					'user33' => true,
+					default => null,
+				};
 			});
 
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
 			->willReturnCallback(function ($search, $limit, $offset) {
-				switch ($offset) {
-					case 0: return ['user3' => $this->getTestUser('user3'),
-						'user33' => $this->getTestUser('user33')];
-					case 2: return [];
-				}
-				return null;
+				return match ($offset) {
+					0 => ['user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33')],
+					2 => [],
+					default => null,
+				};
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($uid) {
-				switch ($uid) {
-					case 'user1': return $this->getTestUser('user1');
-					case 'user2': return $this->getTestUser('user2');
-					case 'user3': return $this->getTestUser('user3');
-					case 'user33': return $this->getTestUser('user33');
-					default:
-						return null;
-				}
+				return match ($uid) {
+					'user1' => $this->getTestUser('user1'),
+					'user2' => $this->getTestUser('user2'),
+					'user3' => $this->getTestUser('user3'),
+					'user33' => $this->getTestUser('user33'),
+					default => null,
+				};
 			});
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
@@ -616,40 +614,38 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->any())
 			->method('inGroup')
 			->willReturnCallback(function ($uid, $gid) {
-				switch ($uid) {
-					case 'user1': return false;
-					case 'user2': return true;
-					case 'user3': return false;
-					case 'user33': return true;
-					case 'user333': return true;
-					default:
-						return null;
-				}
+				return match ($uid) {
+					'user1' => false,
+					'user2' => true,
+					'user3' => false,
+					'user33' => true,
+					'user333' => true,
+					default => null,
+				};
 			});
 
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
 			->willReturnCallback(function ($search, $limit, $offset) {
-				switch ($offset) {
-					case 0: return ['user3' => $this->getTestUser('user3'),
-						'user33' => $this->getTestUser('user33')];
-					case 2: return ['user333' => $this->getTestUser('user333')];
-				}
-				return null;
+				return match ($offset) {
+					0 => ['user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33')],
+					2 => ['user333' => $this->getTestUser('user333')],
+					default => null,
+				};
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($uid) {
-				switch ($uid) {
-					case 'user1': return $this->getTestUser('user1');
-					case 'user2': return $this->getTestUser('user2');
-					case 'user3': return $this->getTestUser('user3');
-					case 'user33': return $this->getTestUser('user33');
-					case 'user333': return $this->getTestUser('user333');
-					default:
-						return null;
-				}
+				return match ($uid) {
+					'user1' => $this->getTestUser('user1'),
+					'user2' => $this->getTestUser('user2'),
+					'user3' => $this->getTestUser('user3'),
+					'user33' => $this->getTestUser('user33'),
+					'user333' => $this->getTestUser('user333'),
+					default => null,
+				};
 			});
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
@@ -677,43 +673,40 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->any())
 			->method('inGroup')
 			->willReturnCallback(function ($uid) {
-				switch ($uid) {
-					case 'user1': return false;
-					case 'user2': return true;
-					case 'user3': return false;
-					case 'user33': return true;
-					case 'user333': return true;
-					default:
-						return null;
-				}
+				return match ($uid) {
+					'user1' => false,
+					'user2' => true,
+					'user3' => false,
+					'user33' => true,
+					'user333' => true,
+					default => null,
+				};
 			});
 
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
 			->willReturnCallback(function ($search, $limit, $offset) {
-				switch ($offset) {
-					case 0:
-						return [
-							'user3' => $this->getTestUser('user3'),
-							'user33' => $this->getTestUser('user33'),
-							'user333' => $this->getTestUser('user333')
-						];
-				}
-				return null;
+				return match ($offset) {
+					0 => [
+						'user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33'),
+						'user333' => $this->getTestUser('user333')
+					],
+					default => null,
+				};
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($uid) {
-				switch ($uid) {
-					case 'user1': return $this->getTestUser('user1');
-					case 'user2': return $this->getTestUser('user2');
-					case 'user3': return $this->getTestUser('user3');
-					case 'user33': return $this->getTestUser('user33');
-					case 'user333': return $this->getTestUser('user333');
-					default:
-						return null;
-				}
+				return match ($uid) {
+					'user1' => $this->getTestUser('user1'),
+					'user2' => $this->getTestUser('user2'),
+					'user3' => $this->getTestUser('user3'),
+					'user33' => $this->getTestUser('user33'),
+					'user333' => $this->getTestUser('user333'),
+					default => null,
+				};
 			});
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);

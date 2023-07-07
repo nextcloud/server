@@ -466,16 +466,12 @@ class GroupPluginTest extends TestCase {
 					if ($appName !== 'core') {
 						return $default;
 					}
-					switch ($key) {
-						case 'shareapi_only_share_with_group_members':
-							return $shareWithGroupOnly ? 'yes' : 'no';
-						case 'shareapi_allow_share_dialog_user_enumeration':
-							return $shareeEnumeration ? 'yes' : 'no';
-						case 'shareapi_allow_group_sharing':
-							return $groupSharingDisabled ? 'no' : 'yes';
-						default:
-							return $default;
-					}
+					return match ($key) {
+						'shareapi_only_share_with_group_members' => $shareWithGroupOnly ? 'yes' : 'no',
+						'shareapi_allow_share_dialog_user_enumeration' => $shareeEnumeration ? 'yes' : 'no',
+						'shareapi_allow_group_sharing' => $groupSharingDisabled ? 'no' : 'yes',
+						default => $default,
+					};
 				}
 			);
 
