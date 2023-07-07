@@ -31,18 +31,18 @@ use RuntimeException;
 /**
  * This is the minimum interface that is implemented by apps that
  * implement a LanguageModel provider
- * @since 28.0.0
+ * @since 27.1.0
  */
 interface ILanguageModelProvider {
 	/**
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function getName(): string;
 
 	/**
 	 * @param string $prompt The prompt to call the model with
 	 * @return string the output
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 * @throws RuntimeException If the text could not be transcribed
 	 */
 	public function prompt(string $prompt): string;

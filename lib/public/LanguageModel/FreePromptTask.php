@@ -26,18 +26,18 @@ declare(strict_types=1);
 namespace OCP\LanguageModel;
 
 /**
- * @since 28.0.0
+ * @since 27.1.0
  * @template-extends AbstractLanguageModelTask<ILanguageModelProvider>
  */
 final class FreePromptTask extends AbstractLanguageModelTask {
 	/**
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public const TYPE = 'free_prompt';
 
 	/**
 	 * @inheritDoc
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function visitProvider(ILanguageModelProvider $provider): string {
 		return $provider->prompt($this->getInput());
@@ -45,7 +45,7 @@ final class FreePromptTask extends AbstractLanguageModelTask {
 
 	/**
 	 * @inheritDoc
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function canUseProvider(ILanguageModelProvider $provider): bool {
 		return true;
@@ -53,7 +53,7 @@ final class FreePromptTask extends AbstractLanguageModelTask {
 
 	/**
 	 * @inheritDoc
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function getType(): string {
 		return self::TYPE;

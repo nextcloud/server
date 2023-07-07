@@ -31,13 +31,13 @@ use RuntimeException;
 /**
  * This LanguageModel Provider implements topics synthesis
  * which outputs comma-separated topics for the passed text
- * @since 28.0.0
+ * @since 27.1.0
  */
 interface ITopicsProvider extends ILanguageModelProvider {
 	/**
 	 * @param string $text The text to find topics for
 	 * @returns string the topics, comma separated
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 * @throws RuntimeException If the text could not be transcribed
 	 */
 	public function findTopics(string $text): string;

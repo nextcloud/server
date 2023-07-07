@@ -33,30 +33,30 @@ use RuntimeException;
 /**
  * API surface for apps interacting with and making use of LanguageModel providers
  * without known which providers are installed
- * @since 28.0.0
+ * @since 27.1.0
  */
 interface ILanguageModelManager {
 	/**
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function hasProviders(): bool;
 
 	/**
 	 * @return string[]
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function getAvailableTaskClasses(): array;
 
 	/**
 	 * @return string[]
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function getAvailableTaskTypes(): array;
 
 	/**
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @throws RuntimeException If something else failed
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function runTask(ILanguageModelTask $task): string;
 
@@ -66,7 +66,7 @@ interface ILanguageModelManager {
 	 * If inference fails a \OCP\LanguageModel\Events\TaskFailedEvent will be dispatched instead
 	 *
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function scheduleTask(ILanguageModelTask $task) : void;
 
@@ -75,7 +75,7 @@ interface ILanguageModelManager {
 	 * @return ILanguageModelTask
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function getTask(int $id): ILanguageModelTask;
 }

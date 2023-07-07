@@ -31,13 +31,13 @@ use RuntimeException;
 /**
  * This LanguageModel Provider represents headline generation
  * which generates a headline for the passed text
- * @since 28.0.0
+ * @since 27.1.0
  */
 interface IHeadlineProvider extends ILanguageModelProvider {
 	/**
 	 * @param string $text The text to find headline for
 	 * @returns string the headline
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 * @throws RuntimeException If the text could not be transcribed
 	 */
 	public function findHeadline(string $text): string;

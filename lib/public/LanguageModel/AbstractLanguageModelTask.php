@@ -46,7 +46,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param string $appId
 	 * @param string|null $userId
 	 * @param string $identifier An arbitrary identifier for this task. max length: 255 chars
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function __construct(
 		protected string $input,
@@ -58,13 +58,13 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	abstract public function getType(): string;
 
 	/**
 	 * @return string|null
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getOutput(): ?string {
 		return $this->output;
@@ -72,7 +72,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @param string|null $output
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function setOutput(?string $output): void {
 		$this->output = $output;
@@ -80,7 +80,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @psalm-return ILanguageModelTask::STATUS_*
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getStatus(): int {
 		return $this->status;
@@ -88,7 +88,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @psalm-param ILanguageModelTask::STATUS_* $status
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function setStatus(int $status): void {
 		$this->status = $status;
@@ -96,7 +96,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return int|null
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getId(): ?int {
 		return $this->id;
@@ -104,7 +104,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @param int|null $id
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function setId(?int $id): void {
 		$this->id = $id;
@@ -112,7 +112,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getInput(): string {
 		return $this->input;
@@ -120,7 +120,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getAppId(): string {
 		return $this->appId;
@@ -128,7 +128,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getIdentifier(): string {
 		return $this->identifier;
@@ -136,7 +136,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return string|null
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public function getUserId(): ?string {
 		return $this->userId;
@@ -144,7 +144,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 
 	/**
 	 * @return array
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	public function jsonSerialize() {
 		return [
@@ -167,7 +167,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param string $identifier
 	 * @return ILanguageModelTask
 	 * @throws \InvalidArgumentException
-	 * @since 28.0.0
+	 * @since 27.1.0
 	 */
 	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier = ''): ILanguageModelTask {
 		if (!in_array($type, array_keys(self::TYPES))) {
