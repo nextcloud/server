@@ -57,7 +57,7 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @return string
 	 */
-	protected function getLogoutUrl() {
+	protected function getLogoutUrl(): string {
 		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
 
@@ -85,8 +85,9 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse
+	 * @throws \Exception
 	 */
-	public function selectChallenge($redirect_url) {
+	public function selectChallenge($redirect_url): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
@@ -112,9 +113,10 @@ class TwoFactorChallengeController extends Controller {
 	 * @param string $challengeProviderId
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse|RedirectResponse
+	 * @throws \Exception
 	 */
 	#[UseSession]
-	public function showChallenge($challengeProviderId, $redirect_url) {
+	public function showChallenge(string $challengeProviderId, string $redirect_url): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$provider = $providerSet->getProvider($challengeProviderId);
@@ -164,11 +166,11 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $challenge
-	 * @param string $redirect_url
+	 * @param string|null $redirect_url
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
-	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
+	public function solveChallenge(string $challengeProviderId, string $challenge, string $redirect_url = null): RedirectResponse {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {
@@ -204,6 +206,7 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @throws \Exception
 	 */
 	public function setupProviders(): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
@@ -220,8 +223,9 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @throws \Exception
 	 */
-	public function setupProvider(string $providerId) {
+	public function setupProvider(string $providerId): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
 		$providers = $this->twoFactorManager->getLoginSetupProviders($user);
 
@@ -254,7 +258,7 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @todo handle the extreme edge case of an invalid provider ID and redirect to the provider selection page
 	 */
-	public function confirmProviderSetup(string $providerId) {
+	public function confirmProviderSetup(string $providerId): RedirectResponse {
 		return new RedirectResponse($this->urlGenerator->linkToRoute(
 			'core.TwoFactorChallenge.showChallenge',
 			[

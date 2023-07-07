@@ -116,7 +116,7 @@ class UnifiedSearchController extends OCSController {
 			// Optionally strip webroot from URL. Required for route matching on setups
 			// with Nextcloud in a webserver subfolder (webroot).
 			$webroot = $this->urlGenerator->getWebroot();
-			if ($webroot !== '' && substr($urlPath, 0, strlen($webroot)) === $webroot) {
+			if ($webroot !== '' && str_starts_with($urlPath, $webroot)) {
 				$urlPath = substr($urlPath, strlen($webroot));
 			}
 
@@ -125,7 +125,7 @@ class UnifiedSearchController extends OCSController {
 
 				// contacts.PageController.index => contacts.Page.index
 				$route = $parameters['caller'];
-				if (substr($route[1], -10) === 'Controller') {
+				if (str_ends_with($route[1], 'Controller')) {
 					$route[1] = substr($route[1], 0, -10);
 				}
 				$routeStr = implode('.', $route);

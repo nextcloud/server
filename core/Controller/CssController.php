@@ -64,7 +64,8 @@ class CssController extends Controller {
 	 *
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css folder name
-	 * @return FileDisplayResponse|NotFoundResponse
+	 * @return Response
+	 * @throws \Exception
 	 */
 	public function getCss(string $fileName, string $appName): Response {
 		try {

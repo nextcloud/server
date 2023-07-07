@@ -54,10 +54,12 @@ class ContactsMenuController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @param int $shareType
+	 * @param string $shareWith
 	 * @return JSONResponse|\JsonSerializable
 	 * @throws Exception
 	 */
-	public function findOne(int $shareType, string $shareWith) {
+	public function findOne(int $shareType, string $shareWith): JSONResponse|\JsonSerializable {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
 
 		if ($contact) {

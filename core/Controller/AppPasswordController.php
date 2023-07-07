@@ -102,6 +102,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @throws OCSForbiddenException
 	 */
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
@@ -122,6 +123,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @throws OCSForbiddenException
 	 */
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {

@@ -64,7 +64,8 @@ class JsController extends Controller {
 	 *
 	 * @param string $fileName js filename with extension
 	 * @param string $appName js folder name
-	 * @return FileDisplayResponse|NotFoundResponse
+	 * @return Response
+	 * @throws \Exception
 	 */
 	public function getJs(string $fileName, string $appName): Response {
 		try {

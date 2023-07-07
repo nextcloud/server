@@ -39,11 +39,14 @@ use OC\Authentication\Token\IToken;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\UseSession;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\DB\Exception;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
@@ -224,11 +227,15 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return Http\RedirectResponse|Response
+	 * @param string $stateToken
+	 * @param string $clientIdentifier
+	 * @return Response|StandaloneTemplateResponse|RedirectResponse
+	 * @throws ClientNotFoundException
+	 * @throws Exception
 	 */
 	#[UseSession]
 	public function generateAppPassword(string $stateToken,
-										string $clientIdentifier = '') {
+										string $clientIdentifier = ''): Response|StandaloneTemplateResponse|Http\RedirectResponse {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();

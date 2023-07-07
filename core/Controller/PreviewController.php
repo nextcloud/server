@@ -27,15 +27,19 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use OC\User\NoUserException;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IPreview;
 use OCP\IRequest;
 
@@ -54,7 +58,15 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse|FileDisplayResponse
+	 * @param string $file
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
+	 * @return Response
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	public function getPreview(
 		string $file = '',
@@ -81,7 +93,15 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse|FileDisplayResponse
+	 * @param int $fileId
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
+	 * @return DataResponse|Response|FileDisplayResponse
+	 * @throws NoUserException
+	 * @throws NotPermittedException
 	 */
 	public function getPreviewByFileId(
 		int $fileId = -1,
@@ -89,7 +109,7 @@ class PreviewController extends Controller {
 		int $y = 32,
 		bool $a = false,
 		bool $forceIcon = true,
-		string $mode = 'fill') {
+		string $mode = 'fill'): DataResponse|Response|FileDisplayResponse {
 		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -107,7 +127,15 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @return DataResponse|FileDisplayResponse
+	 * @param Node $node
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
+	 * @return Response
+	 * @throws NotFoundException
+	 * @throws InvalidPathException
 	 */
 	private function fetchPreview(
 		Node $node,

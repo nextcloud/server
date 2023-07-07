@@ -32,6 +32,7 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\DB\Exception;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -53,6 +54,14 @@ class ProfileApiController extends OCSController {
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 * @UserRateThrottle(limit=40, period=600)
+	 * @param string $targetUserId
+	 * @param string $paramId
+	 * @param string $visibility
+	 * @return DataResponse
+	 * @throws OCSBadRequestException
+	 * @throws OCSForbiddenException
+	 * @throws OCSNotFoundException
+	 * @throws Exception
 	 */
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();

@@ -47,7 +47,7 @@ class UserController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function getDisplayNames($users) {
+	public function getDisplayNames(array $users): JSONResponse {
 		$result = [];
 
 		foreach ($users as $user) {

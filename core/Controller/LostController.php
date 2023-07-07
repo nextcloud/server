@@ -60,6 +60,7 @@ use OC\Core\Events\PasswordResetEvent;
 use OC\Core\Exception\ResetPasswordException;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -176,7 +177,7 @@ class LostController extends Controller {
 
 		$user = trim($user);
 
-		\OCP\Util::emitHook(
+		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			['uid' => &$user]
@@ -252,7 +253,6 @@ class LostController extends Controller {
 
 	/**
 	 * @throws ResetPasswordException
-	 * @throws \OCP\PreConditionNotMetException
 	 */
 	protected function sendEmail(string $input): void {
 		$user = $this->findUserByIdOrMail($input);

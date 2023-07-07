@@ -31,6 +31,8 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Files\Filesystem;
+use OC\NotSquareException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -38,9 +40,11 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
+use OCP\Image;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -74,7 +78,7 @@ class AvatarController extends Controller {
 	 *
 	 * @return JSONResponse|FileDisplayResponse
 	 */
-	public function getAvatarDark(string $userId, int $size) {
+	public function getAvatarDark(string $userId, int $size): FileDisplayResponse|JSONResponse {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -113,7 +117,7 @@ class AvatarController extends Controller {
 	 *
 	 * @return JSONResponse|FileDisplayResponse
 	 */
-	public function getAvatar(string $userId, int $size) {
+	public function getAvatar(string $userId, int $size): FileDisplayResponse|JSONResponse {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -173,7 +177,7 @@ class AvatarController extends Controller {
 
 			try {
 				$content = $node->getContent();
-			} catch (\OCP\Files\NotPermittedException $e) {
+			} catch (NotPermittedException $e) {
 				return new JSONResponse(
 					['data' => ['message' => $this->l10n->t('The selected file cannot be read.')]],
 					Http::STATUS_BAD_REQUEST
@@ -183,7 +187,7 @@ class AvatarController extends Controller {
 			if (
 				$files['error'][0] === 0 &&
 				 is_uploaded_file($files['tmp_name'][0]) &&
-				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
+				!Filesystem::isFileBlacklisted($files['tmp_name'][0])
 			) {
 				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(
@@ -221,7 +225,7 @@ class AvatarController extends Controller {
 		}
 
 		try {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData($content);
 			$image->readExif($content);
 			$image->fixOrientation();
@@ -284,7 +288,7 @@ class AvatarController extends Controller {
 	 *
 	 * @return JSONResponse|DataDisplayResponse
 	 */
-	public function getTmpAvatar() {
+	public function getTmpAvatar(): JSONResponse|DataDisplayResponse {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
@@ -293,7 +297,7 @@ class AvatarController extends Controller {
 				Http::STATUS_NOT_FOUND);
 		}
 
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData($tmpAvatar);
 
 		$resp = new DataDisplayResponse(
@@ -329,7 +333,7 @@ class AvatarController extends Controller {
 				Http::STATUS_BAD_REQUEST);
 		}
 
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData($tmpAvatar);
 		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
 		try {
@@ -338,7 +342,7 @@ class AvatarController extends Controller {
 			// Clean up
 			$this->cache->remove('tmpAvatar');
 			return new JSONResponse(['status' => 'success']);
-		} catch (\OC\NotSquareException $e) {
+		} catch (NotSquareException $e) {
 			return new JSONResponse(['data' => ['message' => $this->l10n->t('Crop is not square')]],
 				Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {

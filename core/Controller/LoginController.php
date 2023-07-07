@@ -45,6 +45,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -86,7 +87,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
-	public function logout() {
+	public function logout(): RedirectResponse {
 		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
 			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
@@ -113,10 +114,10 @@ class LoginController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param string $user
-	 * @param string $redirect_url
+	 * @param string|null $user
+	 * @param string|null $redirect_url
 	 *
-	 * @return TemplateResponse|RedirectResponse
+	 * @return Response
 	 */
 	#[UseSession]
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
@@ -196,7 +197,7 @@ class LoginController extends Controller {
 	/**
 	 * Sets the password reset state
 	 *
-	 * @param string $username
+	 * @param string|null $username
 	 */
 	private function setPasswordResetInitialState(?string $username): void {
 		if ($username !== null && $username !== '') {
@@ -264,6 +265,12 @@ class LoginController extends Controller {
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
 	 *
+	 * @param Chain $loginChain
+	 * @param string $user
+	 * @param string $password
+	 * @param string|null $redirect_url
+	 * @param string $timezone
+	 * @param string $timezone_offset
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
@@ -327,7 +334,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	private function createLoginFailedResponse(
-		$user, $originalUser, $redirect_url, string $loginMessage) {
+		string $user, string $originalUser, string $redirect_url, string $loginMessage): RedirectResponse {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
 		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];

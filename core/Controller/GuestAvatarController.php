@@ -25,6 +25,7 @@ namespace OC\Core\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\IAvatarManager;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -53,9 +54,10 @@ class GuestAvatarController extends Controller {
 	 *
 	 * @param string $guestName The guest name, e.g. "Albert"
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
-	 * @return FileDisplayResponse|Http\Response
+	 * @param bool|null $darkTheme
+	 * @return FileDisplayResponse|Response
 	 */
-	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false) {
+	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false): Http\Response|FileDisplayResponse {
 		$size = (int) $size;
 		$darkTheme = $darkTheme ?? false;
 
@@ -98,7 +100,7 @@ class GuestAvatarController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 */
-	public function getAvatarDark(string $guestName, string $size) {
+	public function getAvatarDark(string $guestName, string $size): Response|FileDisplayResponse {
 		return $this->getAvatar($guestName, $size, true);
 	}
 }

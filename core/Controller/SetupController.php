@@ -78,7 +78,7 @@ class SetupController {
 		}
 	}
 
-	private function displaySetupForbidden() {
+	private function displaySetupForbidden(): void {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
