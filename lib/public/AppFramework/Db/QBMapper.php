@@ -238,24 +238,16 @@ abstract class QBMapper {
 			return IQueryBuilder::PARAM_STR;
 		}
 
-		switch ($types[ $property ]) {
-			case 'int':
-			case 'integer':
-				return IQueryBuilder::PARAM_INT;
-			case 'string':
-				return IQueryBuilder::PARAM_STR;
-			case 'bool':
-			case 'boolean':
-				return IQueryBuilder::PARAM_BOOL;
-			case 'blob':
-				return IQueryBuilder::PARAM_LOB;
-			case 'datetime':
-				return IQueryBuilder::PARAM_DATE;
-			case 'json':
-				return IQueryBuilder::PARAM_JSON;
-		}
+		return match ($types[$property]) {
+			'int', 'integer' => IQueryBuilder::PARAM_INT,
+			'string' => IQueryBuilder::PARAM_STR,
+			'bool', 'boolean' => IQueryBuilder::PARAM_BOOL,
+			'blob' => IQueryBuilder::PARAM_LOB,
+			'datetime' => IQueryBuilder::PARAM_DATE,
+			'json' => IQueryBuilder::PARAM_JSON,
+			default => IQueryBuilder::PARAM_STR,
+		};
 
-		return IQueryBuilder::PARAM_STR;
 	}
 
 	/**

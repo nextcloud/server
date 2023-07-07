@@ -68,21 +68,14 @@ class StorageNotAvailableException extends HintException {
 	 * @since 9.0.0
 	 */
 	public static function getStateCodeName($code) {
-		switch ($code) {
-			case self::STATUS_SUCCESS:
-				return 'ok';
-			case self::STATUS_ERROR:
-				return 'error';
-			case self::STATUS_INDETERMINATE:
-				return 'indeterminate';
-			case self::STATUS_UNAUTHORIZED:
-				return 'unauthorized';
-			case self::STATUS_TIMEOUT:
-				return 'timeout';
-			case self::STATUS_NETWORK_ERROR:
-				return 'network error';
-			default:
-				return 'unknown';
-		}
+		return match ($code) {
+			self::STATUS_SUCCESS => 'ok',
+			self::STATUS_ERROR => 'error',
+			self::STATUS_INDETERMINATE => 'indeterminate',
+			self::STATUS_UNAUTHORIZED => 'unauthorized',
+			self::STATUS_TIMEOUT => 'timeout',
+			self::STATUS_NETWORK_ERROR => 'network error',
+			default => 'unknown',
+		};
 	}
 }
