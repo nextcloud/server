@@ -58,9 +58,6 @@ class Job extends Command {
 		;
 	}
 
-	/**
-	 * @throws \ReflectionException
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$jobId = (int) $input->getArgument('job-id');
 
