@@ -13,8 +13,10 @@ class TaskFailedEvent extends AbstractLanguageModelEvent {
 	 * @param string $errorMessage
 	 * @since 28.0.0
 	 */
-	public function __construct(ILanguageModelTask $task,
-		private string $errorMessage) {
+	public function __construct(
+		ILanguageModelTask $task,
+		private string $errorMessage,
+	) {
 		parent::__construct($task);
 	}
 
