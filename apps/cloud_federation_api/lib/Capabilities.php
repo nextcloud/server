@@ -26,18 +26,15 @@ use OCP\Capabilities\ICapability;
 use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IURLGenerator $urlGenerator) {
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**
 	 * Function an app uses to return the capabilities
 	 */
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
 		$capabilities = ['ocm' =>
 			[

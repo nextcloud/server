@@ -33,12 +33,9 @@ use OCP\Federation\ICloudFederationProviderManager;
  * @package OCA\CloudFederationAPI
  */
 class Config {
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	public function __construct(ICloudFederationProviderManager $cloudFederationProviderManager) {
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
+	public function __construct(
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+	) {
 	}
 
 	/**
@@ -47,7 +44,7 @@ class Config {
 	 * @param string $resourceType
 	 * @return array
 	 */
-	public function getSupportedShareTypes($resourceType) {
+	public function getSupportedShareTypes(string $resourceType): array {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			return $provider->getSupportedShareTypes();
