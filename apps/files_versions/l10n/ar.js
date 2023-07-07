@@ -20,6 +20,7 @@ OC.L10N.register(
     "Could not delete version" : "لم يُمكن حذف النسخة",
     "${version.label} restored" : "${version.label} تمّت استعادتها",
     "Failed to revert {file} to revision {timestamp}." : "فشل في استعادة {ملف} لنتقيح {الطابع الزمني}",
+    "_%n byte_::_%n bytes_" : ["بايت","بايت","بايت","بايت","بايت","%n بايت"],
     "Restore" : "استعادة ",
     "No other versions available" : "لا تتوفر هناك نُسخ أخرى"
 },
