@@ -23,8 +23,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files\Command;
 
+use OC\DB\QueryBuilder\Literal;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,8 +54,47 @@ class RepairTree extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		$rows = $this->findBrokenTreeBits();
 		$fix = !$input->getOption('dry-run');
+
+		$this->repairParent($fix, $output);
+		$this->repairPaths($fix, $output);
+
+		return 0;
+	}
+
+	private function repairParent(bool $fix, OutputInterface $output) {
+		$rows = $this->findMissingParents();
+
+		$output->writeln("Found " . count($rows) . " file entries with an invalid parent");
+
+		if ($fix) {
+			$this->connection->beginTransaction();
+		}
+
+		$query = $this->connection->getQueryBuilder();
+		$query->update('filecache')
+			->set('parent', $query->createParameter('parent'))
+			->where($query->expr()->eq('fileid', $query->createParameter('fileid')));
+
+		foreach ($rows as $row) {
+			$output->writeln("Parent of file <info>{$row['fileid']}</info> (<info>{$row['path']}</info>) is <info>-1</info> but should be <info>{$row['parent_id']}</info> based on its path", OutputInterface::VERBOSITY_VERBOSE);
+
+			if ($fix) {
+				$query->setParameters([
+					'fileid' => $row['fileid'],
+					'parent' => $row['parent_id'],
+				]);
+				$query->execute();
+			}
+		}
+
+		if ($fix) {
+			$this->connection->commit();
+		}
+	}
+
+	private function repairPaths(bool $fix, OutputInterface $output) {
+		$rows = $this->findBrokenTreeBits();
 
 		$output->writeln("Found " . count($rows) . " file entries with an invalid path");
 
@@ -68,7 +110,7 @@ class RepairTree extends Command {
 			->where($query->expr()->eq('fileid', $query->createParameter('fileid')));
 
 		foreach ($rows as $row) {
-			$output->writeln("Path of file {$row['fileid']} is {$row['path']} but should be {$row['parent_path']}/{$row['name']} based on its parent", OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln("Path of file <info>{$row['fileid']}</info> is <info>{$row['path']}</info> but should be <info>{$row['parent_path']}/{$row['name']}</info> based on its parent", OutputInterface::VERBOSITY_VERBOSE);
 
 			if ($fix) {
 				$fileId = $this->getFileId((int)$row['parent_storage'], $row['parent_path'] . '/' . $row['name']);
@@ -89,8 +131,6 @@ class RepairTree extends Command {
 		if ($fix) {
 			$this->connection->commit();
 		}
-
-		return 0;
 	}
 
 	private function getFileId(int $storage, string $path) {
@@ -127,7 +167,49 @@ class RepairTree extends Command {
 					$query->expr()->neq('f.path', 'f.name')
 				),
 				$query->expr()->neq('f.storage', 'p.storage')
-			));
+			))
+			->andWhere($query->expr()->neq('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
+
+		return $query->execute()->fetchAll();
+	}
+
+	private function findMissingParents(): array {
+		$query = $this->connection->getQueryBuilder();
+
+		// find all items with parent == -1 && path !== ''
+		// and also find the matching parent item by p.path == dirname(f.path)
+		//
+		// we implement dirname in sql by doing substr(1, max(0, strlen(path) - strlen(name) - 1))
+		//   1 because sql substr starts at 1 instead of 0
+		//   -1 for the slash
+		//   max(0, ...) to handle the cases where path==name
+
+		$query->select('f.fileid', 'f.path')
+			->selectAlias('p.fileid', 'parent_id')
+			->from('filecache', 'f')
+			->innerJoin('f', 'filecache', 'p', $query->expr()->andX(
+				$query->expr()->eq(
+					'p.path_hash',
+					$query->func()->md5($query->func()->substring(
+						'f.path',
+						$query->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+						$query->func()->greatest(
+							$query->func()->subtract(
+								$query->func()->subtract(
+									$query->func()->charLength('f.path'),
+									$query->func()->charLength('f.name'),
+								),
+								$query->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+							),
+							$query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+						)
+
+					))
+				),
+				$query->expr()->eq('f.storage', 'p.storage')
+			))
+			->where($query->expr()->neq('f.path_hash', $query->createNamedParameter(md5(''))))
+			->andWhere($query->expr()->eq('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
 
 		return $query->execute()->fetchAll();
 	}
