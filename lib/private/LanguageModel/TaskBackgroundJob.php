@@ -32,7 +32,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\LanguageModel\Events\TaskFailedEvent;
 use OCP\LanguageModel\Events\TaskSuccessfulEvent;
 use OCP\LanguageModel\ILanguageModelManager;
-use OCP\PreConditionNotMetException;
 
 class TaskBackgroundJob extends QueuedJob {
 	public function __construct(

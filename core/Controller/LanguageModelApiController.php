@@ -34,9 +34,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\LanguageModel\AbstractLanguageModelTask;
 use OCP\LanguageModel\ILanguageModelManager;
-use OCP\LanguageModel\ILanguageModelTask;
 use OCP\PreConditionNotMetException;
-use Punic\Data;
 
 class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
