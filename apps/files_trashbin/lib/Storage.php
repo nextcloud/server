@@ -33,13 +33,13 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\ILogger;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Storage extends Wrapper {
 	/** @var IMountPoint */
@@ -51,7 +51,7 @@ class Storage extends Wrapper {
 	/** @var ILogger */
 	private $logger;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	/** @var IRootFolder */
@@ -69,7 +69,7 @@ class Storage extends Wrapper {
 	 * @param ITrashManager $trashManager
 	 * @param IUserManager|null $userManager
 	 * @param ILogger|null $logger
-	 * @param EventDispatcherInterface|null $eventDispatcher
+	 * @param IEventDispatcher|null $eventDispatcher
 	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
@@ -77,7 +77,7 @@ class Storage extends Wrapper {
 		ITrashManager $trashManager = null,
 		IUserManager $userManager = null,
 		ILogger $logger = null,
-		EventDispatcherInterface $eventDispatcher = null,
+		IEventDispatcher $eventDispatcher = null,
 		IRootFolder $rootFolder = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
@@ -153,6 +153,7 @@ class Storage extends Wrapper {
 
 		foreach ($nodes as $node) {
 			$event = $this->createMoveToTrashEvent($node);
+			$this->eventDispatcher->dispatchTyped($event);
 			$this->eventDispatcher->dispatch('OCA\Files_Trashbin::moveToTrash', $event);
 			if ($event->shouldMoveToTrashBin() === false) {
 				return false;
@@ -217,7 +218,7 @@ class Storage extends Wrapper {
 				\OC::$server->query(ITrashManager::class),
 				\OC::$server->getUserManager(),
 				\OC::$server->getLogger(),
-				\OC::$server->getEventDispatcher(),
+				\OC::$server->get(IEventDispatcher::class),
 				\OC::$server->getLazyRootFolder()
 			);
 		}, 1);
