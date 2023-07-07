@@ -36,7 +36,8 @@
 				:user="user.id" />
 		</td>
 
-		<td class="row__cell row__cell--displayname">
+		<td class="row__cell row__cell--displayname"
+			:data-test="user.id">
 			<template v-if="idState.editing && user.backendCapabilities.setDisplayName">
 				<label class="hidden-visually"
 					:for="'displayName' + uniqueId">
