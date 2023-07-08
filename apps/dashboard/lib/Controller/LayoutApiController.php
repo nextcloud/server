@@ -31,21 +31,15 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class LayoutApiController extends OCSController {
-	/** @var IConfig */
-	private $config;
-	/** @var string */
-	private $userId;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IConfig $config,
-		$userId
+		private IConfig $config,
+		private string $userId
 	) {
 		parent::__construct($appName, $request);
 
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	/**

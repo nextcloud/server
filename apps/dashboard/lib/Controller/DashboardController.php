@@ -44,32 +44,17 @@ use OCP\IRequest;
 
 class DashboardController extends Controller {
 
-	/** @var IInitialState */
-	private $initialState;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var IManager */
-	private $dashboardManager;
-	/** @var IConfig */
-	private $config;
-	/** @var string */
-	private $userId;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IInitialState $initialState,
-		IEventDispatcher $eventDispatcher,
-		IManager $dashboardManager,
-		IConfig $config,
-		$userId
+		private IInitialState $initialState,
+		private IEventDispatcher $eventDispatcher,
+		private IManager $dashboardManager,
+		private IConfig $config,
+		private string $userId,
 	) {
 		parent::__construct($appName, $request);
 
-		$this->initialState = $initialState;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->dashboardManager = $dashboardManager;
-		$this->config = $config;
 		$this->userId = $userId;
 	}
 

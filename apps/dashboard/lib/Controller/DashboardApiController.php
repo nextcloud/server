@@ -43,25 +43,14 @@ use OCP\Dashboard\Model\WidgetItem;
 
 class DashboardApiController extends OCSController {
 
-	/** @var IManager */
-	private $dashboardManager;
-	/** @var IConfig */
-	private $config;
-	/** @var string|null */
-	private $userId;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IManager $dashboardManager,
-		IConfig $config,
-		?string $userId
+		private IManager $dashboardManager,
+		private IConfig $config,
+		private ?string $userId
 	) {
 		parent::__construct($appName, $request);
-
-		$this->dashboardManager = $dashboardManager;
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	/**
