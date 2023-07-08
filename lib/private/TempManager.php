@@ -75,9 +75,9 @@ class TempManager implements ITempManager {
 	 * Create a temporary file and return the path
 	 *
 	 * @param string $postFix Postfix appended to the temporary file name
-	 * @return bool|string
+	 * @return string
 	 */
-	public function getTemporaryFile($postFix = ''): bool|string {
+	public function getTemporaryFile($postFix = '') {
 		if (is_writable($this->tmpBaseDir)) {
 			// To create a unique file and prevent the risk of race conditions
 			// or duplicated temporary files by other means such as collisions
@@ -112,9 +112,9 @@ class TempManager implements ITempManager {
 	 * Create a temporary folder and return the path
 	 *
 	 * @param string $postFix Postfix appended to the temporary folder name
-	 * @return bool|string
+	 * @return string
 	 */
-	public function getTemporaryFolder($postFix = ''): bool|string {
+	public function getTemporaryFolder($postFix = '') {
 		if (is_writable($this->tmpBaseDir)) {
 			// To create an unique directory and prevent the risk of race conditions
 			// or duplicated temporary files by other means such as collisions
