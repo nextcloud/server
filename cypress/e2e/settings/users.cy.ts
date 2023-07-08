@@ -42,11 +42,11 @@ describe('Settings: Create and delete users', function() {
 		cy.visit('/settings/users')
 
 		// see that the user is in the list
-		cy.get(`.user-list-grid .row[data-id="${jdoe.userId}"]`).within(() => {
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// open the actions menu for the user
-			cy.get('.userActions button.action-item__menutoggle').click()
+			cy.get('td.row__cell--actions button.action-item__menutoggle').click()
 		})
 
 		// The "Delete user" action in the actions menu is shown and clicked
@@ -54,6 +54,6 @@ describe('Settings: Create and delete users', function() {
 		// And confirmation dialog accepted
 		cy.get('.oc-dialog button').contains(`Delete ${jdoe.userId}`).click()
 		// deleted clicked the user is not shown anymore
-		cy.get(`.user-list-grid .row[data-id="${jdoe.userId}"]`).should('not.exist')
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').should('not.be.visible')
 	})
 })
