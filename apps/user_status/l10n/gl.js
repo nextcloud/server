@@ -22,7 +22,7 @@ OC.L10N.register(
     "Your status was set automatically" : "O seu estado foi estabelecido automaticamente",
     "Clear status message" : "Limpar a mensaxe de estado",
     "Set status message" : "Estabelecer a mensaxe de estado",
-    "Reset status to \"{icon} {message}\"" : "Restabelecer o estado a «{icon} {mensaxe}¢",
+    "Reset status to \"{icon} {message}\"" : "Restabelecer o estado a «{icon} {message}»",
     "Reset status to \"{message}\"" : "Restabelecer o estado a «{message}»",
     "Reset status to \"{icon}\"" : "Restabelecer o estado a «{icon}»",
     "There was an error saving the status" : "Produciuse un erro ao gardar o estado",
