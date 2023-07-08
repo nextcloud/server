@@ -57,22 +57,22 @@ use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
 class TemplateLayout extends \OC_Template {
-	private static $versionHash = '';
+	private static string $versionHash = '';
 
 	/** @var CSSResourceLocator|null */
-	public static $cssLocator = null;
+	public static ?CSSResourceLocator $cssLocator = null;
 
 	/** @var JSResourceLocator|null */
-	public static $jsLocator = null;
+	public static ?JSResourceLocator $jsLocator = null;
 
 	/** @var IConfig */
-	private $config;
+	private mixed $config;
 
 	/** @var IInitialStateService */
-	private $initialState;
+	private mixed $initialState;
 
 	/** @var INavigationManager */
-	private $navigationManager;
+	private mixed $navigationManager;
 
 	/**
 	 * @param string $renderAs
@@ -279,7 +279,7 @@ class TemplateLayout extends \OC_Template {
 			$web = $info[1];
 			$file = $info[2];
 
-			if (substr($file, -strlen('print.css')) === 'print.css') {
+			if (str_ends_with($file, 'print.css')) {
 				$this->append('printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 			} else {
 				$suffix = $this->getVersionHashSuffix($web, $file);
@@ -299,11 +299,11 @@ class TemplateLayout extends \OC_Template {
 	}
 
 	/**
-	 * @param string $path
-	 * @param string $file
+	 * @param bool|string $path
+	 * @param bool|string $file
 	 * @return string
 	 */
-	protected function getVersionHashSuffix($path = false, $file = false) {
+	protected function getVersionHashSuffix(bool|string $path = false, bool|string $file = false): string {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
@@ -342,7 +342,7 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $styles
 	 * @return array
 	 */
-	public static function findStylesheetFiles($styles, $compileScss = true) {
+	public static function findStylesheetFiles(array $styles, $compileScss = true): array {
 		if (!self::$cssLocator) {
 			self::$cssLocator = \OCP\Server::get(CSSResourceLocator::class);
 		}
@@ -354,7 +354,7 @@ class TemplateLayout extends \OC_Template {
 	 * @param string $path
 	 * @return string|boolean
 	 */
-	public function getAppNamefromPath($path) {
+	public function getAppNamefromPath(string $path): bool|string {
 		if ($path !== '' && is_string($path)) {
 			$pathParts = explode('/', $path);
 			if ($pathParts[0] === 'css') {
@@ -370,7 +370,7 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $scripts
 	 * @return array
 	 */
-	public static function findJavascriptFiles($scripts) {
+	public static function findJavascriptFiles(array $scripts): array {
 		if (!self::$jsLocator) {
 			self::$jsLocator = \OCP\Server::get(JSResourceLocator::class);
 		}
@@ -380,11 +380,12 @@ class TemplateLayout extends \OC_Template {
 
 	/**
 	 * Converts the absolute file path to a relative path from \OC::$SERVERROOT
+	 *
 	 * @param string $filePath Absolute path
 	 * @return string Relative path
 	 * @throws \Exception If $filePath is not under \OC::$SERVERROOT
 	 */
-	public static function convertToRelativePath($filePath) {
+	public static function convertToRelativePath(string $filePath): string {
 		$relativePath = explode(\OC::$SERVERROOT, $filePath);
 		if (count($relativePath) !== 2) {
 			throw new \Exception('$filePath is not under the \OC::$SERVERROOT');

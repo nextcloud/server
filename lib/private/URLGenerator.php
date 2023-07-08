@@ -55,31 +55,17 @@ use RuntimeException;
  * Class to generate URLs
  */
 class URLGenerator implements IURLGenerator {
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	public $userSession;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var IRequest */
-	private $request;
-	/** @var Router */
-	private $router;
 	/** @var null|string */
-	private $baseUrl = null;
+	private ?string $baseUrl = null;
 	private ?IAppManager $appManager = null;
 
-	public function __construct(IConfig $config,
-								IUserSession $userSession,
-								ICacheFactory $cacheFactory,
-								IRequest $request,
-								Router $router
+	public function __construct(
+		private IConfig $config,
+		public IUserSession $userSession,
+		private ICacheFactory $cacheFactory,
+		private IRequest $request,
+		private Router $router,
 	) {
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->cacheFactory = $cacheFactory;
-		$this->request = $request;
-		$this->router = $router;
 	}
 
 	private function getAppManager(): IAppManager {
@@ -147,7 +133,7 @@ class URLGenerator implements IURLGenerator {
 			$app_path = $this->getAppManager()->getAppPath($appName);
 			// Check if the app is in the app folder
 			if (file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) === 'php') {
+				if (str_ends_with($file, 'php')) {
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $appName;
 					if ($frontControllerActive) {
 						$urlLinkTo = \OC::$WEBROOT . '/apps/' . $appName;
@@ -183,7 +169,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * @param string $appName app
 	 * @param string $file image name
-	 * @throws \RuntimeException If the image does not exist
+	 * @throws \RuntimeException|AppPathNotFoundException If the image does not exist
 	 * @return string the url
 	 *
 	 * Returns the path to the image.
@@ -198,7 +184,7 @@ class URLGenerator implements IURLGenerator {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
-		//if a theme has a png but not an svg always use the png
+		//if a theme has a png but not a svg always use the png
 		$basename = substr(basename($file), 0, -4);
 
 		try {

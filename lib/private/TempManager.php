@@ -38,23 +38,18 @@ use Psr\Log\LoggerInterface;
 
 class TempManager implements ITempManager {
 	/** @var string[] Current temporary files and folders, used for cleanup */
-	protected $current = [];
+	protected array $current = [];
 	/** @var string i.e. /tmp on linux systems */
-	protected $tmpBaseDir;
-	/** @var LoggerInterface */
-	protected $log;
-	/** @var IConfig */
-	protected $config;
-	/** @var IniGetWrapper */
-	protected $iniGetWrapper;
+	protected string $tmpBaseDir;
 
 	/** Prefix */
 	public const TMP_PREFIX = 'oc_tmp_';
 
-	public function __construct(LoggerInterface $logger, IConfig $config, IniGetWrapper $iniGetWrapper) {
-		$this->log = $logger;
-		$this->config = $config;
-		$this->iniGetWrapper = $iniGetWrapper;
+	public function __construct(
+		protected LoggerInterface $log,
+		protected IConfig $config,
+		protected IniGetWrapper $iniGetWrapper,
+	) {
 		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
@@ -66,7 +61,7 @@ class TempManager implements ITempManager {
 	 * @param string $postFix Postfix appended to the temporary file name, may be user controlled
 	 * @return string
 	 */
-	private function buildFileNameWithSuffix($absolutePath, $postFix = '') {
+	private function buildFileNameWithSuffix(string $absolutePath, string $postFix = ''): string {
 		if ($postFix !== '') {
 			$postFix = '.' . ltrim($postFix, '.');
 			$postFix = str_replace(['\\', '/'], '', $postFix);
@@ -80,11 +75,11 @@ class TempManager implements ITempManager {
 	 * Create a temporary file and return the path
 	 *
 	 * @param string $postFix Postfix appended to the temporary file name
-	 * @return string
+	 * @return bool|string
 	 */
-	public function getTemporaryFile($postFix = '') {
+	public function getTemporaryFile($postFix = ''): bool|string {
 		if (is_writable($this->tmpBaseDir)) {
-			// To create an unique file and prevent the risk of race conditions
+			// To create a unique file and prevent the risk of race conditions
 			// or duplicated temporary files by other means such as collisions
 			// we need to create the file using `tempnam` and append a possible
 			// postfix to it later
@@ -117,9 +112,9 @@ class TempManager implements ITempManager {
 	 * Create a temporary folder and return the path
 	 *
 	 * @param string $postFix Postfix appended to the temporary folder name
-	 * @return string
+	 * @return bool|string
 	 */
-	public function getTemporaryFolder($postFix = '') {
+	public function getTemporaryFolder($postFix = ''): bool|string {
 		if (is_writable($this->tmpBaseDir)) {
 			// To create an unique directory and prevent the risk of race conditions
 			// or duplicated temporary files by other means such as collisions
@@ -148,14 +143,14 @@ class TempManager implements ITempManager {
 	/**
 	 * Remove the temporary files and folders generated during this request
 	 */
-	public function clean() {
+	public function clean(): void {
 		$this->cleanFiles($this->current);
 	}
 
 	/**
 	 * @param string[] $files
 	 */
-	protected function cleanFiles($files) {
+	protected function cleanFiles(array $files): void {
 		foreach ($files as $file) {
 			if (file_exists($file)) {
 				try {
@@ -176,7 +171,7 @@ class TempManager implements ITempManager {
 	/**
 	 * Remove old temporary files and folders that were failed to be cleaned
 	 */
-	public function cleanOld() {
+	public function cleanOld(): void {
 		$this->cleanFiles($this->getOldFiles());
 	}
 
@@ -185,7 +180,7 @@ class TempManager implements ITempManager {
 	 *
 	 * @return string[]
 	 */
-	protected function getOldFiles() {
+	protected function getOldFiles(): array {
 		$cutOfTime = time() - 3600;
 		$files = [];
 		$dh = opendir($this->tmpBaseDir);
@@ -209,7 +204,7 @@ class TempManager implements ITempManager {
 	 * @return string Path to the temporary directory or null
 	 * @throws \UnexpectedValueException
 	 */
-	public function getTempBaseDir() {
+	public function getTempBaseDir(): string {
 		if ($this->tmpBaseDir) {
 			return $this->tmpBaseDir;
 		}
@@ -254,7 +249,7 @@ class TempManager implements ITempManager {
 	 * @param mixed $directory
 	 * @return bool
 	 */
-	private function checkTemporaryDirectory($directory) {
+	private function checkTemporaryDirectory(mixed $directory): bool {
 		// suppress any possible errors caused by is_writable
 		// checks missing or invalid path or characters, wrong permissions etc
 		try {
@@ -274,7 +269,7 @@ class TempManager implements ITempManager {
 	 *
 	 * @param string $directory
 	 */
-	public function overrideTempBaseDir($directory) {
+	public function overrideTempBaseDir(string $directory): void {
 		$this->tmpBaseDir = $directory;
 	}
 }

@@ -45,10 +45,6 @@ class Tags implements ITags {
 	 * Used for storing objectid/categoryname pairs while rescanning.
 	 */
 	private static array $relations = [];
-	private string $type;
-	private string $user;
-	private IDBConnection $db;
-	private LoggerInterface $logger;
 	private array $tags = [];
 
 	/**
@@ -61,11 +57,6 @@ class Tags implements ITags {
 	 * user, if $this->includeShared === true.
 	 */
 	private array $owners = [];
-
-	/**
-	 * The Mapper we are using to communicate our Tag objects to the database.
-	 */
-	private TagMapper $mapper;
 
 	/**
 	 * The sharing backend for objects of $this->type. Required if
@@ -86,14 +77,16 @@ class Tags implements ITags {
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
-	public function __construct(TagMapper $mapper, string $user, string $type, LoggerInterface $logger, IDBConnection $connection, array $defaultTags = []) {
-		$this->mapper = $mapper;
-		$this->user = $user;
-		$this->type = $type;
+	public function __construct(
+		private TagMapper $mapper,
+		private string $user,
+		private string $type,
+		private LoggerInterface $logger,
+		private IDBConnection $db,
+		array $defaultTags = [],
+	) {
 		$this->owners = [$this->user];
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
-		$this->db = $connection;
-		$this->logger = $logger;
 
 		if (count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
@@ -116,7 +109,7 @@ class Tags implements ITags {
 	 * @param string $id The ID of the tag that is going to be mapped
 	 * @return array|false
 	 */
-	public function getTag(string $id) {
+	public function getTag(string $id): bool|array {
 		$key = $this->getTagById($id);
 		if ($key !== false) {
 			return $this->tagMap($this->tags[$key]);
@@ -175,7 +168,7 @@ class Tags implements ITags {
 	 * @return array|false of tags id as key to array of tag names
 	 * or false if an error occurred
 	 */
-	public function getTagsForObjects(array $objIds) {
+	public function getTagsForObjects(array $objIds): bool|array {
 		$entries = [];
 
 		try {
@@ -213,7 +206,7 @@ class Tags implements ITags {
 	}
 
 	/**
-	 * Get the a list if items tagged with $tag.
+	 * Get the list if items tagged with $tag.
 	 *
 	 * Throws an exception if the tag could not be found.
 	 *
@@ -221,7 +214,7 @@ class Tags implements ITags {
 	 * @return int[]|false An array of object ids or false on error.
 	 * @throws \Exception
 	 */
-	public function getIdsForTag($tag) {
+	public function getIdsForTag($tag): array|bool {
 		$tagId = false;
 		if (is_numeric($tag)) {
 			$tagId = $tag;
@@ -291,7 +284,7 @@ class Tags implements ITags {
 	 * @param string $name A string with a name of the tag
 	 * @return false|int the id of the added tag or false on error.
 	 */
-	public function add(string $name) {
+	public function add(string $name): bool|int {
 		$name = trim($name);
 
 		if ($name === '') {
@@ -478,7 +471,7 @@ class Tags implements ITags {
 	 *
 	 * @return array|false An array of object ids.
 	 */
-	public function getFavorites() {
+	public function getFavorites(): array|bool {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			return [];
 		}
@@ -501,7 +494,7 @@ class Tags implements ITags {
 	 * @param int $objid The id of the object
 	 * @return boolean
 	 */
-	public function addToFavorites($objid) {
+	public function addToFavorites($objid): bool {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			$this->add(ITags::TAG_FAVORITE);
 		}
@@ -514,7 +507,7 @@ class Tags implements ITags {
 	 * @param int $objid The id of the object
 	 * @return boolean
 	 */
-	public function removeFromFavorites($objid) {
+	public function removeFromFavorites($objid): bool {
 		return $this->unTag($objid, ITags::TAG_FAVORITE);
 	}
 
@@ -525,7 +518,7 @@ class Tags implements ITags {
 	 * @param string $tag The id or name of the tag
 	 * @return boolean Returns false on error.
 	 */
-	public function tagAs($objid, $tag) {
+	public function tagAs($objid, $tag): bool {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
@@ -565,7 +558,7 @@ class Tags implements ITags {
 	 * @param string $tag The id or name of the tag
 	 * @return boolean
 	 */
-	public function unTag($objid, $tag) {
+	public function unTag($objid, $tag): bool {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
@@ -601,7 +594,7 @@ class Tags implements ITags {
 	 * @param string[]|integer[] $names An array of tags (names or IDs) to delete
 	 * @return bool Returns false on error
 	 */
-	public function delete($names) {
+	public function delete($names): bool {
 		if (!is_array($names)) {
 			$names = [$names];
 		}
@@ -647,7 +640,7 @@ class Tags implements ITags {
 	}
 
 	// case-insensitive array_search
-	protected function array_searchi($needle, $haystack, $mem = 'getName') {
+	protected function array_searchi($needle, $haystack, $mem = 'getName'): bool|int|string {
 		if (!is_array($haystack)) {
 			return false;
 		}
@@ -664,7 +657,7 @@ class Tags implements ITags {
 	 * @param string $name The tag name to look for.
 	 * @return string|bool The tag's id or false if no matching tag is found.
 	 */
-	private function getTagId($name) {
+	private function getTagId(string $name): bool|string {
 		$key = $this->array_searchi($name, $this->tags);
 		if ($key !== false) {
 			return $this->tags[$key]->getId();
@@ -676,10 +669,10 @@ class Tags implements ITags {
 	 * Get a tag by its name.
 	 *
 	 * @param string $name The tag name.
-	 * @return integer|bool The tag object's offset within the $this->tags
+	 * @return bool|int|string The tag object's offset within the $this->tags
 	 *                      array or false if it doesn't exist.
 	 */
-	private function getTagByName($name) {
+	private function getTagByName(string $name): bool|int|string {
 		return $this->array_searchi($name, $this->tags, 'getName');
 	}
 
@@ -687,10 +680,10 @@ class Tags implements ITags {
 	 * Get a tag by its ID.
 	 *
 	 * @param string $id The tag ID to look for.
-	 * @return integer|bool The tag object's offset within the $this->tags
+	 * @return bool|int|string The tag object's offset within the $this->tags
 	 *                      array or false if it doesn't exist.
 	 */
-	private function getTagById($id) {
+	private function getTagById(string $id): bool|int|string {
 		return $this->array_searchi($id, $this->tags, 'getId');
 	}
 
@@ -701,7 +694,7 @@ class Tags implements ITags {
 	 * @param Tag $tag The tag that is going to be mapped
 	 * @return array
 	 */
-	private function tagMap(Tag $tag) {
+	private function tagMap(Tag $tag): array {
 		return [
 			'id' => $tag->getId(),
 			'name' => $tag->getName(),

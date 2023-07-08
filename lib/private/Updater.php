@@ -73,19 +73,7 @@ use Psr\Log\LoggerInterface;
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
-	/** @var LoggerInterface */
-	private $log;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var Checker */
-	private $checker;
-
-	/** @var Installer */
-	private $installer;
-
-	private $logLevelNames = [
+	private array $logLevelNames = [
 		0 => 'Debug',
 		1 => 'Info',
 		2 => 'Warning',
@@ -93,14 +81,12 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
-	public function __construct(IConfig $config,
-								Checker $checker,
-								?LoggerInterface $log,
-								Installer $installer) {
-		$this->log = $log;
-		$this->config = $config;
-		$this->checker = $checker;
-		$this->installer = $installer;
+	public function __construct(
+		private IConfig $config,
+		private Checker $checker,
+		private ?LoggerInterface $log,
+		private Installer $installer,
+	) {
 	}
 
 	/**
@@ -271,7 +257,7 @@ class Updater extends BasicEmitter {
 		$this->checkAppsRequirements();
 		$this->doAppUpgrade();
 
-		// Update the appfetchers version so it downloads the correct list from the appstore
+		// Update the appfetchers version, so it downloads the correct list from the appstore
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
 		/** @var AppManager $appManager */
