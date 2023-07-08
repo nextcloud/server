@@ -39,23 +39,21 @@ describe('Settings: Change user properties', function() {
 		// open the User settings
 		cy.visit('/settings/users')
 
-		cy.get(`.user-list-grid .row[data-id="${jdoe.userId}"]`).within(($row) => {
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// toggle the edit mode for the user jdoe
-			cy.get('.userActions .action-items > button:first-of-type').click()
+			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
 		})
 
-		cy.get(`.user-list-grid .row[data-id="${jdoe.userId}"]`).within(($row) => {
-			// see that the edit mode is on
-			cy.wrap($row).should('have.class', 'row--editable')
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the password of user0 is ""
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			// set the password for user0 to 123456
 			cy.get('input[type="password"]').type('123456')
 			// When I set the password for user0 to 123456
 			cy.get('input[type="password"]').should('have.value', '123456')
-			cy.get('.password button').click()
+			cy.get('input[type="password"] ~ button').click()
 
 			// Ignore failure if modal is not shown
 			cy.once('fail', (error) => {
