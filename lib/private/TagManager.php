@@ -63,7 +63,7 @@ class TagManager implements ITagManager, IEventListener {
 	 * since 20.0.0 $includeShared isn't used anymore
 	 * @see \OCP\ITags
 	 */
-	public function load($type, $defaultTags = [], $includeShared = false, ?string $userId = null) {
+	public function load($type, $defaultTags = [], $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
 			$user = $this->userSession->getUser();
 			if ($user === null) {
