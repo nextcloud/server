@@ -41,6 +41,7 @@ OC.L10N.register(
     "Check %s does not exist" : "تحقق من%s غير موجود",
     "Check %s is invalid" : "تحقق من%sغير صالح",
     "Check %s is not allowed with this entity" : "التحقق من %s غير مسموح به مع هذا الكيان",
+    "The provided check value is too long" : "قيمة التحقق المقدمة طويلة جدًا",
     "Check #%s does not exist" : "تحقق من#%s غير موجود",
     "Check %s is invalid or does not exist" : "التحقق من %s فهو غير صالح أو غير موجود",
     "Flow" : "تدفُّق Flow",

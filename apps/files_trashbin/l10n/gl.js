@@ -22,7 +22,7 @@ OC.L10N.register(
     "Error while emptying trash bin" : "Produciuse un erro ao baleirar o cesto do lixo",
     "Error while removing files from trash bin" : "Produciuse un erro ao retirar ficheiros do cesto do lixo",
     "This operation is forbidden" : "Esta operación está prohibida",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto co administrador",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto coa administración desta instancia.",
     "Delete" : "Eliminar"
 },
 "nplurals=2; plural=(n != 1);");
