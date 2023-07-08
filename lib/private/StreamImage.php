@@ -34,24 +34,13 @@ use OCP\IImage;
  * valid result.
  */
 class StreamImage implements IStreamImage {
-	/** @var resource The internal stream */
-	private $stream;
-
-	/** @var null|string */
-	private $mimeType;
-
-	/** @var int */
-	private $width;
-
-	/** @var int */
-	private $height;
-
 	/** @param resource $stream */
-	public function __construct($stream, string $mimeType, int $width, int $height) {
-		$this->stream = $stream;
-		$this->mimeType = $mimeType;
-		$this->width = $width;
-		$this->height = $height;
+	public function __construct(
+		private $stream,
+		private ?string $mimeType,
+		private int $width,
+		private int $height,
+	) {
 	}
 
 	/** @inheritDoc */

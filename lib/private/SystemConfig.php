@@ -35,7 +35,7 @@ use OCP\IConfig;
  */
 class SystemConfig {
 	/** @var array */
-	protected $sensitiveValues = [
+	protected array $sensitiveValues = [
 		'instanceid' => true,
 		'datadirectory' => true,
 		'dbname' => true,
@@ -120,18 +120,16 @@ class SystemConfig {
 		],
 	];
 
-	/** @var Config */
-	private $config;
-
-	public function __construct(Config $config) {
-		$this->config = $config;
+	public function __construct(
+		private Config $config,
+	) {
 	}
 
 	/**
 	 * Lists all available config keys
 	 * @return array an array of key names
 	 */
-	public function getKeys() {
+	public function getKeys(): array {
 		return $this->config->getKeys();
 	}
 
@@ -141,7 +139,7 @@ class SystemConfig {
 	 * @param string $key the key of the value, under which will be saved
 	 * @param mixed $value the value that should be stored
 	 */
-	public function setValue($key, $value) {
+	public function setValue(string $key, mixed $value): void {
 		$this->config->setValue($key, $value);
 	}
 
@@ -151,7 +149,7 @@ class SystemConfig {
 	 * @param array $configs Associative array with `key => value` pairs
 	 *                       If value is null, the config key will be deleted
 	 */
-	public function setValues(array $configs) {
+	public function setValues(array $configs): void {
 		$this->config->setValues($configs);
 	}
 
@@ -162,7 +160,7 @@ class SystemConfig {
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return mixed the value or $default
 	 */
-	public function getValue($key, $default = '') {
+	public function getValue(string $key, mixed $default = ''): mixed {
 		return $this->config->getValue($key, $default);
 	}
 
@@ -173,7 +171,7 @@ class SystemConfig {
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return mixed the value or $default
 	 */
-	public function getFilteredValue($key, $default = '') {
+	public function getFilteredValue(string $key, mixed $default = ''): mixed {
 		$value = $this->getValue($key, $default);
 
 		if (isset($this->sensitiveValues[$key])) {
@@ -188,7 +186,7 @@ class SystemConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 */
-	public function deleteValue($key) {
+	public function deleteValue(string $key): void {
 		$this->config->deleteKey($key);
 	}
 
@@ -197,7 +195,7 @@ class SystemConfig {
 	 * @param mixed $value
 	 * @return mixed
 	 */
-	protected function removeSensitiveValue($keysToRemove, $value) {
+	protected function removeSensitiveValue(bool|array $keysToRemove, mixed $value): mixed {
 		if ($keysToRemove === true) {
 			return IConfig::SENSITIVE_VALUE;
 		}

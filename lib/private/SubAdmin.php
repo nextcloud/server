@@ -42,32 +42,12 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IDBConnection $dbConn
-	 */
-	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IDBConnection $dbConn,
-								IEventDispatcher $eventDispatcher) {
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->dbConn = $dbConn;
-		$this->eventDispatcher = $eventDispatcher;
-
+	public function __construct(
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IDBConnection $dbConn,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		$this->userManager->listen('\OC\User', 'postDelete', function ($user) {
 			$this->post_deleteUser($user);
 		});
@@ -240,7 +220,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$fetch = $result->fetch();
 		$result->closeCursor();
-		$result = !empty($fetch) ? true : false;
+		$result = !empty($fetch);
 
 		return $result;
 	}
@@ -294,7 +274,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * delete all SubAdmins by $user
 	 * @param IUser $user
 	 */
-	private function post_deleteUser(IUser $user) {
+	private function post_deleteUser(IUser $user): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->delete('group_admin')
@@ -306,7 +286,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * delete all SubAdmins by $group
 	 * @param IGroup $group
 	 */
-	private function post_deleteGroup(IGroup $group) {
+	private function post_deleteGroup(IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->delete('group_admin')
