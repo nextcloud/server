@@ -65,7 +65,7 @@
     "Upload new favicon" : "Enviar un novo favicon",
     "User settings" : "Axustes de usuario",
     "Disable user theming" : "Desactivar o tema do usuario",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Aínda que pode seleccionar e personalizar a súa instancia, os usuarios poden cambiar o seu fondo e cores. Se quere forzar a súa personalización, pode activar esta opción.",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Aínda que pode seleccionar e personalizar a súa instancia, os usuarios poden cambiar o seu fondo e cores. Se quere impor a súa personalización, pode activar esta opción.",
     "Keyboard shortcuts" : "Atallos de teclado",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Nalgúns casos, os atallos de teclado poden interferir coas ferramentas de accesibilidade. Para poder centrarse na súa ferramenta correctamente, pode desactivar aquí todos os atallos de teclado. Isto tamén desactivará todos os atallos dispoñíbeis nas aplicacións.",
     "Disable all keyboard shortcuts" : "Desactivar todos os atallos de teclado",
@@ -99,7 +99,7 @@
     "Open documentation" : "Abrir a documentación",
     "https://…" : "https://…",
     "Upload new login background" : "Enviar unha nova imaxe de fondo",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Aínda que pode seleccionar e personalizar a súa instancia, os usuarios poden cambiar o seu fondo e cores. Se quere forzar a súa personalización, pode marcar esta caixa.",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Aínda que pode seleccionar e personalizar a súa instancia, os usuarios poden cambiar o seu fondo e cores. Se quere impor a súa personalización, pode marcar esta caixa.",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensión de PHP Imagemagick con compatibilidade con imaxes SVG para xerar automáticamente faviconos baseados no logotipo e cor enviados."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
