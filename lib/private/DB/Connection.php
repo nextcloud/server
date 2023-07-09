@@ -370,6 +370,12 @@ class Connection extends PrimaryReadReplicaConnection {
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
 				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
 			}
+			$postfix = '';
+			if ($this->systemConfig->getValue('query_log_file_backtrace') === 'yes') {
+				$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+				array_pop($trace);
+				$postfix .= '; ' . json_encode($trace);
+			}
 
 			// FIXME:  Improve to log the actual target db host
 			$isPrimary = $this->connections['primary'] === $this->_conn;
@@ -378,7 +384,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
-				$prefix . $sql . "\n",
+				$prefix . $sql . $postfix . "\n",
 				FILE_APPEND
 			);
 		}
