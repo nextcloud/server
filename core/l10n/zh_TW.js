@@ -128,7 +128,7 @@ OC.L10N.register(
     "The \"{header}\" HTTP header does not contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "目前 HTTP 的 \"{header}\" 標頭設定並不包含 \"{expected}\" ，這是一個潛在的安全性和隱私風險，我們建議調整此項設定。",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "目前 HTTP 的 \"{header}\" 標頭設定並不是 \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" 或 \"{val5}\"，這將會洩漏一些訊息。{linkstart}請參考 W3C 建議文件 ↗{linkend}。",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "HTTP \"Strict-Transport-Security\" 標頭並未被設定持續至少{seconds}秒。為了提高安全性，我們在{linkstart}安全建議 ↗{linkend}中有詳述並建議啟用 HSTS。",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "您正在透過不安全的 HTTP 存取網站，強烈建議您設定您的伺服器啟用 HTTPS，更多資訊請查閱{linkstart}安全建議 ↗{linkend}。",
+    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}. Without it some important web functionality like \"copy to clipboard\" or \"service workers\" will not work!" : "您正在透過不安全的 HTTP 存取網站，強烈建議您設定您的伺服器啟用 HTTPS，更多資訊請查閱{linkstart}安全建議 ↗{linkend}。若不將伺服器設定為以 HTTPS 運作，部份重要的網站功能，如「複製到剪貼簿」或「Service Worker」將無法運作！",
     "unknown text" : "未知的文字",
     "Hello world!" : "哈囉，世界！",
     "sunny" : "晴朗的",

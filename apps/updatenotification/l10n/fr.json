@@ -16,7 +16,7 @@
     "View in store" : "Afficher dans le magasin d'applications",
     "Apps with compatible version" : "Applications compatibles avec la nouvelle version",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",
-    "Open updater" : "Ouvrir le système de mise à jour",
+    "Open updater" : "Ouvrir l'interface de mise à jour",
     "Download now" : "Télécharger maintenant",
     "Please use the command line updater to update." : "Veuillez utiliser le programme de mise à jour en ligne de commande pour mettre à jour. ",
     "What's new?" : "Quoi de neuf ?",

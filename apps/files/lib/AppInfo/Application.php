@@ -172,15 +172,6 @@ class Application extends App implements IBootstrap {
 				'name' => $l10n->t('Recent')
 			];
 		});
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
-			return [
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'order' => 5,
-				'name' => $l10n->t('Favorites'),
-			];
-		});
 	}
 
 	private function registerHooks(): void {

@@ -1386,7 +1386,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			// Scroll if too much groups
 			&:not(.row--editable) {
 				.groups,
-                                .subadmins,
+				.subadmins,
 				.subAdminsGroups {
 					overflow: auto;
 					max-height: 100%;
@@ -1395,12 +1395,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 			.managers,
 			.groups,
-                        .subadmins,
+			.subadmins,
 			.subAdminsGroups,
 			.quota {
 				min-width: $grid-col-min-width;
 
-				.multiselect {
+				.select {
 					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
@@ -1470,10 +1470,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			&:hover {
-				input:not([type='submit']):not(:focus):not(:active) {
-					border-color: var(--color-border) !important;
-				}
-
 				&:not(#grid-header) {
 					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
@@ -1573,50 +1569,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 				&.userActions {
 					display: flex;
+					align-items: center;
 					justify-content: flex-end;
 
-					#newsubmit {
-						width: 100%;
-					}
-
-					.toggleUserActions {
-						position: relative;
-						display: flex;
-						align-items: center;
-						background-color: var(--color-main-background);
-
-						.icon-more {
-							width: 44px;
-							height: 44px;
-							opacity: .5;
-							cursor: pointer;
-
-							&:focus,
-							&:hover,
-							&:active {
-								opacity: .7;
-								background-color: var(--color-background-dark)
-							}
-						}
-					}
-
-					.feedback {
-						display: flex;
-						align-items: center;
-						white-space: nowrap;
-						transition: opacity 200ms ease-in-out;
-
-						.icon-checkmark {
-							opacity: .5;
-							margin-right: 5px;
-						}
-					}
-				}
-
-				/* Fill the grid cell */
-				.multiselect.multiselect-vue {
-					min-width: 100%;
-					width: 100%;
+					// Make sure to cover whole row
+					height: 100%;
+					width: fit-content;
+					padding-inline: 12px;
+					background-color: var(--color-main-background);
 				}
 			}
 		}

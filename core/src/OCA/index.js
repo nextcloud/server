@@ -20,16 +20,9 @@
  *
  */
 
-import Search from './search.js'
-
 /**
  * Namespace for apps
  *
  * @namespace OCA
  */
-export default {
-	/**
-	 * @deprecated 20.0.0, will be removed in Nextcloud 22
-	 */
-	Search,
-}
+export default { }

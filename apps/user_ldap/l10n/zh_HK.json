@@ -153,6 +153,8 @@
     "One User Base DN per line" : "一行一個用戶 Base DN",
     "User Search Attributes" : "用戶搜尋屬性",
     "Optional; one attribute per line" : "非必要，一行一項屬性",
+    "Disable users missing from LDAP" : "停用 LDAP 中找不到的的用戶",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "開啟後，從 LDAP 匯入但隨後找不到的的用戶將被停用",
     "Group Display Name Field" : "群組顯示名稱欄位",
     "The LDAP attribute to use to generate the groups's display name." : "LDAP設定值，用於產生用戶群組的顯示名稱",
     "Base Group Tree" : "基本群組樹",

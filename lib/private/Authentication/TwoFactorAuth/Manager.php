@@ -36,6 +36,8 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserDisabled;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserEnabled;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -286,6 +288,7 @@ class Manager {
 			$this->legacyDispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
 
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_success', [
 				'provider' => $provider->getDisplayName(),
@@ -295,6 +298,7 @@ class Manager {
 			$this->legacyDispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
 
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_failed', [
 				'provider' => $provider->getDisplayName(),

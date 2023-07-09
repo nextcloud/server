@@ -43,6 +43,10 @@
 			<span>{{ totalSize }}</span>
 		</td>
 
+		<!-- Mtime -->
+		<td v-if="isMtimeAvailable"
+			class="files-list__column files-list__row-mtime" />
+
 		<!-- Custom views columns -->
 		<th v-for="column in columns"
 			:key="column.id"
@@ -67,6 +71,10 @@ export default Vue.extend({
 	},
 
 	props: {
+		isMtimeAvailable: {
+			type: Boolean,
+			default: false,
+		},
 		isSizeAvailable: {
 			type: Boolean,
 			default: false,

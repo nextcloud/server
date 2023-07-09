@@ -125,7 +125,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -264,7 +264,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -316,7 +316,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
 
 		$this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 	}
@@ -366,7 +366,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
 
 		$result = $this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 		$this->assertSame($preview, $result);
@@ -405,7 +405,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
 
 		$this->expectException(NotFoundException::class);
 		$this->generator->getPreview($file, 100, 100);
@@ -543,7 +543,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode));
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {

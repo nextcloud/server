@@ -31,11 +31,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupLoginFlowV2 extends TimedJob {
-	private LoginFlowV2Mapper $loginFlowV2Mapper;
-
-	public function __construct(ITimeFactory $time, LoginFlowV2Mapper $loginFlowV2Mapper) {
+	public function __construct(
+		ITimeFactory $time,
+		private LoginFlowV2Mapper $loginFlowV2Mapper,
+	) {
 		parent::__construct($time);
-		$this->loginFlowV2Mapper = $loginFlowV2Mapper;
 
 		$this->setInterval(3600);
 	}

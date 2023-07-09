@@ -34,6 +34,7 @@ use OCP\Migration\SimpleMigrationStep;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Version1027Date20230504122946 extends SimpleMigrationStep {
 	private SyncService $syncService;
@@ -49,6 +50,13 @@ class Version1027Date20230504122946 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		$this->syncService->syncInstance();
+		try {
+			$this->syncService->syncInstance();
+		} catch (Throwable $e) {
+			$this->logger->error('Could not sync system address books during update', [
+				'exception' => $e,
+			]);
+			$output->warning('System address book sync failed. See logs for details');
+		}
 	}
 }

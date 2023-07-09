@@ -42,6 +42,7 @@ use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
@@ -50,34 +51,32 @@ use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
-	/** @var \OCP\IConfig */
-	protected $ocConfig;
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+	protected IConfig $ocConfig;
+	protected INotificationManager $notificationManager;
+	protected UserPluginManager $userPluginManager;
+	protected LoggerInterface $logger;
+	protected DeletedUsersIndex $deletedUsersIndex;
 
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var UserPluginManager */
-	protected $userPluginManager;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/**
-	 * @param Access $access
-	 * @param \OCP\IConfig $ocConfig
-	 * @param \OCP\Notification\IManager $notificationManager
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession, UserPluginManager $userPluginManager) {
+	public function __construct(
+		Access $access,
+		IConfig $ocConfig,
+		INotificationManager $notificationManager,
+		IUserSession $userSession,
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
+	) {
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	/**
@@ -392,13 +391,13 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 		}
 
-		$marked = (int)$this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if ($marked === 0) {
+		$marked = $this->deletedUsersIndex->isUserMarked($uid);
+		if (!$marked) {
 			try {
 				$user = $this->access->userManager->get($uid);
 				if (($user instanceof User) && !$this->userExistsOnLDAP($uid, true)) {
 					$user->markUser();
-					$marked = 1;
+					$marked = true;
 				}
 			} catch (\Exception $e) {
 				$this->logger->debug(
@@ -406,7 +405,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 					['app' => 'user_ldap', 'exception' => $e]
 				);
 			}
-			if ($marked === 0) {
+			if (!$marked) {
 				$this->logger->notice(
 					'User '.$uid . ' is not marked as deleted, not cleaning up.',
 					['app' => 'user_ldap']
@@ -668,5 +667,22 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return (bool) $dn;
 		}
 		return false;
+	}
+
+	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
+		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
+			return false;
+		} else {
+			return $queryDatabaseValue();
+		}
+	}
+
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
+		$setDatabaseValue($enabled);
+		return $enabled;
+	}
+
+	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 }

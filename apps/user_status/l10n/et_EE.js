@@ -13,6 +13,7 @@ OC.L10N.register(
     "What is your status?" : "Mis on su staatus?",
     "Predefined statuses" : "Eeldefineeritud staatused",
     "Status message" : "Staatuse teade",
+    "Clear status message" : "Tühjenda staatuseteade",
     "Away" : "Eemal",
     "Do not disturb" : "Mitte segada",
     "Don't clear" : "Ära tühjenda",

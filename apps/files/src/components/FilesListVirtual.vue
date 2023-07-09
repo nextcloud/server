@@ -35,6 +35,7 @@
 			<!-- File row -->
 			<FileEntry :active="active"
 				:index="index"
+				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:files-list-width="filesListWidth"
 				:nodes="nodes"
@@ -50,6 +51,7 @@
 
 			<!-- Thead-->
 			<FilesListHeader :files-list-width="filesListWidth"
+				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
 		</template>
@@ -57,6 +59,7 @@
 		<template #after>
 			<!-- Tfoot-->
 			<FilesListFooter :files-list-width="filesListWidth"
+				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
 				:summary="summary" />
@@ -120,6 +123,13 @@ export default Vue.extend({
 		},
 		summary() {
 			return translate('files', '{summaryFile} and {summaryFolder}', this)
+		},
+		isMtimeAvailable() {
+			// Hide mtime column on narrow screens
+			if (this.filesListWidth < 768) {
+				return false
+			}
+			return this.nodes.some(node => node.mtime !== undefined)
 		},
 		isSizeAvailable() {
 			// Hide size column on narrow screens
@@ -232,6 +242,7 @@ export default Vue.extend({
 			}
 		}
 
+		// Entry preview or mime icon
 		.files-list__row-icon {
 			position: relative;
 			display: flex;
@@ -246,13 +257,18 @@ export default Vue.extend({
 			margin-right: var(--checkbox-padding);
 			color: var(--color-primary-element);
 
-			& > span {
-				justify-content: flex-start;
+			// Icon is also clickable
+			* {
+				cursor: pointer;
 			}
 
-			&> span:not(.files-list__row-icon-favorite) svg {
-				width: var(--icon-preview-size);
-				height: var(--icon-preview-size);
+			& > span {
+				justify-content: flex-start;
+
+				&:not(.files-list__row-icon-favorite) svg {
+					width: var(--icon-preview-size);
+					height: var(--icon-preview-size);
+				}
 			}
 
 			&-preview {
@@ -270,10 +286,18 @@ export default Vue.extend({
 				position: absolute;
 				top: 4px;
 				right: -8px;
-				color: #ffcc00;
+				color: #a08b00;
+				// Sow a border around the icon for better contrast
+				svg path {
+					stroke: var(--color-main-background);
+					stroke-width: 10px;
+					stroke-linejoin: round;
+					paint-order: stroke
+				}
 			}
 		}
 
+		// Entry link
 		.files-list__row-name {
 			// Prevent link from overflowing
 			overflow: hidden;
@@ -286,6 +310,8 @@ export default Vue.extend({
 				// Fill cell height and width
 				width: 100%;
 				height: 100%;
+				// Necessary for flex grow to work
+				min-width: 0;
 
 				// Keyboard indicator a11y
 				&:focus .files-list__row-name-text,
@@ -299,6 +325,31 @@ export default Vue.extend({
 				// Make some space for the outline
 				padding: 5px 10px;
 				margin-left: -10px;
+				// Align two name and ext
+				display: inline-flex;
+			}
+
+			.files-list__row-name-ext {
+				color: var(--color-text-maxcontrast);
+			}
+		}
+
+		// Rename form
+		.files-list__row-rename {
+			width: 100%;
+			max-width: 600px;
+			input {
+				width: 100%;
+				// Align with text, 0 - padding - border
+				margin-left: -8px;
+				padding: 2px 6px;
+				border-width: 2px;
+
+				&:invalid {
+					// Show red border on invalid input
+					border-color: var(--color-error);
+					color: red;
+				}
 			}
 		}
 
@@ -323,6 +374,7 @@ export default Vue.extend({
 			}
 		}
 
+		.files-list__row-mtime,
 		.files-list__row-size {
 			// Right align text
 			justify-content: flex-end;
@@ -337,6 +389,10 @@ export default Vue.extend({
 					flex-direction: row;
 				}
 			}
+		}
+
+		.files-list__row-mtime {
+			width: calc(var(--row-height) * 2);
 		}
 
 		.files-list__row-column-custom {

@@ -46,6 +46,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\Migration\\Version0002Date20200902144824' => __DIR__ . '/..' . '/../lib/Migration/Version0002Date20200902144824.php',
         'OCA\\UserStatus\\Migration\\Version1000Date20201111130204' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20201111130204.php',
         'OCA\\UserStatus\\Migration\\Version2301Date20210809144824' => __DIR__ . '/..' . '/../lib/Migration/Version2301Date20210809144824.php',
+        'OCA\\UserStatus\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\UserStatus\\Service\\JSDataService' => __DIR__ . '/..' . '/../lib/Service/JSDataService.php',
         'OCA\\UserStatus\\Service\\PredefinedStatusService' => __DIR__ . '/..' . '/../lib/Service/PredefinedStatusService.php',
         'OCA\\UserStatus\\Service\\StatusService' => __DIR__ . '/..' . '/../lib/Service/StatusService.php',

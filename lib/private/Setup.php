@@ -424,20 +424,20 @@ class Setup {
 				unlink(\OC::$configDir.'/CAN_INSTALL');
 			}
 
-			$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$bootstrapCoordinator = \OCP\Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 			$bootstrapCoordinator->runInitialRegistration();
 
 			// Create a session token for the newly created user
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */
 			$userSession = \OC::$server->getUserSession();
-			$provider = \OC::$server->query(PublicKeyTokenProvider::class);
+			$provider = \OCP\Server::get(PublicKeyTokenProvider::class);
 			$userSession->setTokenProvider($provider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
 
 			$session = $userSession->getSession();
-			$session->set('last-password-confirm', \OC::$server->query(ITimeFactory::class)->getTime());
+			$session->set('last-password-confirm', \OCP\Server::get(ITimeFactory::class)->getTime());
 
 			// Set email for admin
 			if (!empty($options['adminemail'])) {
@@ -506,10 +506,10 @@ class Setup {
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
 			\OC::$server->getL10N('lib'),
-			\OC::$server->query(Defaults::class),
+			\OCP\Server::get(Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
+			\OCP\Server::get(Installer::class)
 		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());

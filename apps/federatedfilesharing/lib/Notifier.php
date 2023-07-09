@@ -102,8 +102,9 @@ class Notifier implements INotifier {
 				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 
 				$params = $notification->getSubjectParameters();
+				$displayName = (count($params) > 3) ? $params[3] : '';
 				if ($params[0] !== $params[1] && $params[1] !== null) {
-					$remoteInitiator = $this->createRemoteUser($params[0]);
+					$remoteInitiator = $this->createRemoteUser($params[0], $displayName);
 					$remoteOwner = $this->createRemoteUser($params[1]);
 					$params[3] = $remoteInitiator['name'] . '@' . $remoteInitiator['server'];
 					$params[4] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
@@ -121,7 +122,7 @@ class Notifier implements INotifier {
 						]
 					);
 				} else {
-					$remoteOwner = $this->createRemoteUser($params[0]);
+					$remoteOwner = $this->createRemoteUser($params[0], $displayName);
 					$params[3] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
 
 					$notification->setRichSubject(
@@ -166,19 +167,21 @@ class Notifier implements INotifier {
 
 	/**
 	 * @param string $cloudId
+	 * @param string $displayName - overwrite display name
+	 *
 	 * @return array
 	 */
-	protected function createRemoteUser($cloudId, $displayName = null) {
+	protected function createRemoteUser(string $cloudId, string $displayName = '') {
 		try {
 			$resolvedId = $this->cloudIdManager->resolveCloudId($cloudId);
-			if ($displayName === null) {
+			if ($displayName === '') {
 				$displayName = $this->getDisplayName($resolvedId);
 			}
 			$user = $resolvedId->getUser();
 			$server = $resolvedId->getRemote();
 		} catch (HintException $e) {
 			$user = $cloudId;
-			$displayName = $cloudId;
+			$displayName = ($displayName !== '') ? $displayName : $cloudId;
 			$server = '';
 		}
 

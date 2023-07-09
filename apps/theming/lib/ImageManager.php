@@ -240,7 +240,7 @@ class ImageManager {
 		$supportedFormats = $this->getSupportedUploadImageFormats($key);
 		$detectedMimeType = mime_content_type($tmpFile);
 		if (!in_array($detectedMimeType, $supportedFormats, true)) {
-			throw new \Exception('Unsupported image type');
+			throw new \Exception('Unsupported image type: ' . $detectedMimeType);
 		}
 
 		if ($key === 'background' && $this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {

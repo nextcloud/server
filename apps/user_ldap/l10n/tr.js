@@ -155,6 +155,8 @@ OC.L10N.register(
     "One User Base DN per line" : "Her Satıra Bir Kullanıcı Base DN",
     "User Search Attributes" : "Kullanıcı arama öznitelikleri",
     "Optional; one attribute per line" : "İsteğe bağlı; her satıra bir öznitelik",
+    "Disable users missing from LDAP" : "LDAP üzerinde bulunmayan kullanıcılar devre dışı bırakılsın",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Bu seçenek etkinleştirildiğinde, LDAP üzerinden içe aktarılmış ancak daha sonra kaybolmuş kullanıcılar devre dışı bırakılır",
     "Group Display Name Field" : "Görüntülenecek Grup Adı Alanı",
     "The LDAP attribute to use to generate the groups's display name." : "Görüntülenecek grup adını oluşturmak için kullanılacak LDAP özniteliği.",
     "Base Group Tree" : "Temel Grup Ağacı",

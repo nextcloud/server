@@ -52,82 +52,6 @@
 		$favoriteMarkEl.toggleClass('permanent', state);
 	}
 
-	/**
-	 * Remove Item from Quickaccesslist
-	 *
-	 * @param {String} appfolder folder to be removed
-	 */
-	function removeFavoriteFromList (appfolder) {
-		var quickAccessList = 'sublist-favorites';
-		var listULElements = document.getElementById(quickAccessList);
-		if (!listULElements) {
-			return;
-		}
-
-		var apppath=appfolder;
-		if(appfolder.startsWith("//")){
-			apppath=appfolder.substring(1, appfolder.length);
-		}
-
-		$(listULElements).find('[data-dir="' + _.escape(apppath) + '"]').remove();
-
-		if (listULElements.childElementCount === 0) {
-			var collapsibleButton = $(listULElements).parent().find('button.collapse');
-			collapsibleButton.hide();
-			$("#button-collapse-parent-favorites").removeClass('collapsible');
-		}
-	}
-
-	/**
-	 * Add Item to Quickaccesslist
-	 *
-	 * @param {String} appfolder folder to be added
-	 */
-	function addFavoriteToList (appfolder) {
-		var quickAccessList = 'sublist-favorites';
-		var listULElements = document.getElementById(quickAccessList);
-		if (!listULElements) {
-			return;
-		}
-		var listLIElements = listULElements.getElementsByTagName('li');
-
-		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
-		var apppath = appfolder;
-
-		if(appfolder.startsWith("//")){
-			apppath = appfolder.substring(1, appfolder.length);
-		}
-		var url = OC.generateUrl('/apps/files/?dir=' + apppath + '&view=files');
-
-		var innerTagA = document.createElement('A');
-		innerTagA.setAttribute("href", url);
-		innerTagA.setAttribute("class", "nav-icon-files svg");
-		innerTagA.innerHTML = _.escape(appName);
-
-		var length = listLIElements.length + 1;
-		var innerTagLI = document.createElement('li');
-		innerTagLI.setAttribute("data-id", apppath.replace('/', '-'));
-		innerTagLI.setAttribute("data-dir", apppath);
-		innerTagLI.setAttribute("data-view", 'files');
-		innerTagLI.setAttribute("class", "nav-" + appName);
-		innerTagLI.setAttribute("folderpos", length.toString());
-		innerTagLI.appendChild(innerTagA);
-
-		$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/NodeType"),{folderpath: apppath}, function (data, status) {
-				if (data === "dir") {
-					if (listULElements.childElementCount <= 0) {
-						listULElements.appendChild(innerTagLI);
-						var collapsibleButton = $(listULElements).parent().find('button.collapse');
-						collapsibleButton.show();
-						$(listULElements).parent().addClass('collapsible');
-					} else {
-						listLIElements[listLIElements.length - 1].after(innerTagLI);
-					}
-				}
-			}
-		);
-	}
-
 	OCA.Files = OCA.Files || {};
 
 	/**
@@ -194,13 +118,23 @@
 					tags = tags.split('|');
 					tags = _.without(tags, '');
 					var isFavorite = tags.indexOf(OC.TAG_FAVORITE) >= 0;
+
+					// Fake Node object for vue compatibility
+					const node = {
+						type: 'folder',
+						path: (dir + '/' + fileName).replace(/\/\/+/g, '/'),
+						root: '/files/' + OC.getCurrentUser().uid
+					}
+
 					if (isFavorite) {
 						// remove tag from list
 						tags = _.without(tags, OC.TAG_FAVORITE);
-						removeFavoriteFromList(dir + '/' + fileName);
+						// vue compatibility
+						window._nc_event_bus.emit('files:favorites:removed', node)
 					} else {
 						tags.push(OC.TAG_FAVORITE);
-						addFavoriteToList(dir + '/' + fileName);
+						// vue compatibility
+						window._nc_event_bus.emit('files:favorites:added', node)
 					}
 
 					// pre-toggle the star

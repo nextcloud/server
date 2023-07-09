@@ -31,6 +31,11 @@ declare global {
 	}
 }
 
+export enum DefaultType {
+	DEFAULT = 'default',
+	HIDDEN = 'hidden',
+}
+
 /**
  * TODO: remove and move to @nextcloud/files
  * @see https://github.com/nextcloud/nextcloud-files/pull/608
@@ -39,11 +44,11 @@ interface FileActionData {
 	/** Unique ID */
 	id: string
 	/** Translatable string displayed in the menu */
-	displayName: (files: Node[], view) => string
+	displayName: (files: Node[], view: Navigation) => string
 	/** Svg as inline string. <svg><path fill="..." /></svg> */
-	iconSvgInline: (files: Node[], view) => string
+	iconSvgInline: (files: Node[], view: Navigation) => string
 	/** Condition wether this action is shown or not */
-	enabled?: (files: Node[], view) => boolean
+	enabled?: (files: Node[], view: Navigation) => boolean
 	/**
 	 * Function executed on single file action
 	 * @returns true if the action was executed, false otherwise
@@ -60,16 +65,16 @@ interface FileActionData {
 	/** This action order in the list */
 	order?: number,
 	/** Make this action the default */
-	default?: boolean,
+	default?: DefaultType,
 	/**
 	 * If true, the renderInline function will be called
 	 */
-	inline?: (file: Node, view) => boolean,
+	inline?: (file: Node, view: Navigation) => boolean,
 	/**
 	 * If defined, the returned html element will be
 	 * appended before the actions menu.
 	 */
-	renderInline?: (file: Node, view) => HTMLElement,
+	renderInline?: (file: Node, view: Navigation) => HTMLElement,
 }
 
 export class FileAction {
@@ -151,7 +156,7 @@ export class FileAction {
 			throw new Error('Invalid order')
 		}
 
-		if ('default' in action && typeof action.default !== 'boolean') {
+		if (action.default && !Object.values(DefaultType).includes(action.default)) {
 			throw new Error('Invalid default')
 		}
 

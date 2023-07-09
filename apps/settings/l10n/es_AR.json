@@ -156,6 +156,7 @@
     "Storage location" : "Úbicación del almacenamiento",
     "Last login" : "Último inicio de sesión",
     "Default quota" : "Cuota predeterminada",
+    "Edit" : "Editar",
     "Unnamed device" : "Dispositivo sin nombre",
     "Your apps" : "Sus aplicaciones",
     "Changelog" : "Bitácora de cambios",
@@ -184,7 +185,7 @@
     "Documentation" : "Documentación",
     "Forum" : "Foro",
     "Login" : "Inicio de sesión",
-    "SSL/TLS" : "SSL/TLS",
+    "SSL" : "SSL",
     "Open documentation" : "Abrir documentación",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Es importante preparar este servidor para poder enviar correos electrónicos, como para restablecer contraseñas y notificaciones. ",
     "Send mode" : "Modo de envío",
@@ -192,7 +193,7 @@
     "From address" : "De la dirección",
     "Server address" : "Dirección del servidor",
     "Port" : "Puerto",
-    "Authentication method" : "Método de autenticación",
+    "Authentication" : "Autenticación",
     "Authentication required" : "Autenticación requerida",
     "Credentials" : "Credenciales",
     "SMTP Username" : "nombre de usuario SMTP",
@@ -222,6 +223,8 @@
     "png or jpg, max. 20 MB" : "png o jpg max. 20 MB",
     "Plain" : "Plano",
     "NT LAN Manager" : "Administrador de LAN NT",
-    "STARTTLS" : "STARTTLS"
+    "SSL/TLS" : "SSL/TLS",
+    "STARTTLS" : "STARTTLS",
+    "Authentication method" : "Método de autenticación"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

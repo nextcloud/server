@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -41,7 +42,7 @@ class Capabilities implements ICapability {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @return array{user_status: array{enabled: bool, restore: bool, supports_emoji: bool}}
 	 */
 	public function getCapabilities() {
 		return [

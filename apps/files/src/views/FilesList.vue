@@ -78,6 +78,7 @@ import Vue from 'vue'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
@@ -103,14 +104,16 @@ export default Vue.extend({
 	],
 
 	setup() {
-		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
+		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
+		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 		return {
 			filesStore,
 			pathsStore,
 			selectionStore,
+			userConfigStore,
 			viewConfigStore,
 		}
 	},
@@ -123,6 +126,10 @@ export default Vue.extend({
 	},
 
 	computed: {
+		userConfig() {
+			return this.userConfigStore.userConfig
+		},
+
 		/** @return {Navigation} */
 		currentView() {
 			return this.$navigation.active
@@ -179,11 +186,13 @@ export default Vue.extend({
 			return orderBy(
 				[...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)],
 				[
+					// Sort favorites first if enabled
+					...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
 					// Sort folders first if sorting by name
 					...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
 					// Use sorting mode
 					v => v[this.sortingMode],
-					// Fallback to name
+					// Finally, fallback to name
 					v => v.basename,
 				],
 				this.isAscSorting ? ['asc', 'asc', 'asc'] : ['desc', 'desc', 'desc'],

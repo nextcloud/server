@@ -41,19 +41,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class AddAppPassword extends Command {
-	protected IUserManager $userManager;
-	protected IProvider $tokenProvider;
-	private ISecureRandom $random;
-	private IEventDispatcher $eventDispatcher;
-
-	public function __construct(IUserManager $userManager,
-								IProvider $tokenProvider,
-								ISecureRandom $random,
-								IEventDispatcher $eventDispatcher) {
-		$this->tokenProvider = $tokenProvider;
-		$this->userManager = $userManager;
-		$this->random = $random;
-		$this->eventDispatcher = $eventDispatcher;
+	public function __construct(
+		protected IUserManager $userManager,
+		protected IProvider $tokenProvider,
+		private ISecureRandom $random,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct();
 	}
 

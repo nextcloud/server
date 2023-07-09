@@ -23,6 +23,7 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ClientServiceTest
@@ -41,13 +42,15 @@ class ClientServiceTest extends \Test\TestCase {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 
 		$clientService = new ClientService(
 			$config,
 			$certificateManager,
 			$dnsPinMiddleware,
 			$remoteHostValidator,
-			$eventLogger
+			$eventLogger,
+			$logger,
 		);
 
 		$handler = new CurlHandler();
@@ -65,7 +68,8 @@ class ClientServiceTest extends \Test\TestCase {
 				$config,
 				$certificateManager,
 				$guzzleClient,
-				$remoteHostValidator
+				$remoteHostValidator,
+				$logger,
 			),
 			$clientService->newClient()
 		);

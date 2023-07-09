@@ -28,11 +28,10 @@
  */
 namespace OC\Preview;
 
-use ID3Parser\ID3Parser;
-
 use OCP\Files\File;
 use OCP\IImage;
 use Psr\Log\LoggerInterface;
+use wapmorgan\Mp3Info\Mp3Info;
 
 class MP3 extends ProviderV2 {
 	/**
@@ -46,11 +45,12 @@ class MP3 extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		$getID3 = new ID3Parser();
-
 		$tmpPath = $this->getLocalFile($file);
+
 		try {
-			$tags = $getID3->analyze($tmpPath);
+			$audio = new Mp3Info($tmpPath, true);
+			/** @var string|null|false $picture */
+			$picture = $audio->getCover();
 		} catch (\Throwable $e) {
 			\OC::$server->get(LoggerInterface::class)->info($e->getMessage(), [
 				'exception' => $e,
@@ -61,12 +61,7 @@ class MP3 extends ProviderV2 {
 			$this->cleanTmpFiles();
 		}
 
-		$picture = isset($tags['id3v2']['APIC'][0]['data']) ? $tags['id3v2']['APIC'][0]['data'] : null;
-		if (is_null($picture) && isset($tags['id3v2']['PIC'][0]['data'])) {
-			$picture = $tags['id3v2']['PIC'][0]['data'];
-		}
-
-		if (!is_null($picture)) {
+		if (is_string($picture)) {
 			$image = new \OCP\Image();
 			$image->loadFromData($picture);
 

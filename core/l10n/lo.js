@@ -90,7 +90,6 @@ OC.L10N.register(
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "ຫົວຂໍ້ HTTP \"{header}\" ບໍ່ໄດ້ຖືກກໍານົດ\"{expected}\". ບາງຄຸນລັກສະນະອາດຈະເຮັດວຽກບໍ່ຖືກຕ້ອງ , ແນະນໍາໃຫ້ປັບການຕັ້ງຄ່ານີ້ຕາມທີ່ວາງໄວ້.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "ຫົວຂໍ້ \"{header}\" HTTP ບໍ່ໄດ້ກໍານົດ \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" ຫຼື \"{val5}\". ສາມາດເຮັດໃຫ້ຂໍ້ມູນ referer ຮົ່ວ. ເບິ່ງຂໍ້ແນະນໍາ {linkstart}W3C ↗{linkend}.",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "ຫົວຂໍ້ \"Strict-Transport-Security\" HTTP ບໍ່ໄດ້ກໍານົດໄວ້ຢ່າງຫນ້ອຍ \"{seconds}\" ວິນາທີ. ສໍາລັບເພີ່ມຄວາມປອດໄພ, ແນະນໍາໃຫ້ເຮັດໃຫ້ HSTS ຕາມທີ່ໄດ້ບັນຍາຍໄວ້ໃນ{linkstart}↗{linkend}ຄໍາແນະນໍາຄວາມປອດໄພ ",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "ການເຂົ້າເຖິງເວັບໄຊບໍ່ປອດໄພຜ່ານ HTTP. ທ່ານໄດ້ ຮັບຄໍາແນະນໍາທີ່ ຈະ ຕັ້ງ server ຂອງທ່ານ ເພື່ອ ຮຽກໃຊ້ HTTPS ແທນ , ດັ່ງ ທີ່ ໄດ້ ບັນ ຍາຍ ໃນ {linkstart}↗{linkend} ຄໍາແນະນໍາຄວາມປອດໄພ .",
     "unknown text" : "ຂໍ້ຄວາມທີ່ບໍ່ຮູ້",
     "Hello world!" : "ສະບາຍດີ",
     "sunny" : "ມີເເດດ",

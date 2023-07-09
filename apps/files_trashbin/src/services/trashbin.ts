@@ -25,27 +25,19 @@ import { File, Folder, parseWebdavPermissions } from '@nextcloud/files'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
+import { getDavNameSpaces, getDavProperties } from '../../../files/src/services/DavProperties'
 import type { ContentsWithRoot } from '../../../files/src/services/Navigation.ts'
 
 import client, { rootPath } from './client'
 
 const data = `<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:"
-	xmlns:oc="http://owncloud.org/ns"
-	xmlns:nc="http://nextcloud.org/ns">
+<d:propfind ${getDavNameSpaces()}>
 	<d:prop>
 		<nc:trashbin-filename />
 		<nc:trashbin-deletion-time />
 		<nc:trashbin-original-location />
 		<nc:trashbin-title />
-		<d:getlastmodified />
-		<d:getetag />
-		<d:getcontenttype />
-		<d:resourcetype />
-		<oc:fileid />
-		<oc:permissions />
-		<oc:size />
-		<d:getcontentlength />
+		${getDavProperties()}
 	</d:prop>
 </d:propfind>`
 
@@ -58,7 +50,8 @@ const resultToNode = function(node: FileStat): File | Folder {
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
 		source: generateRemoteUrl('dav' + rootPath + node.filename),
-		mtime: new Date(node.lastmod),
+		// do not show the mtime column
+		// mtime: new Date(node.lastmod),
 		mime: node.mime as string,
 		size: node.props?.size as number || 0,
 		permissions,
@@ -72,6 +65,8 @@ const resultToNode = function(node: FileStat): File | Folder {
 			previewUrl,
 		},
 	}
+
+	delete nodeData.attributes.props
 
 	return node.type === 'file'
 		? new File(nodeData)

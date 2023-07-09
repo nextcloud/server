@@ -1243,8 +1243,9 @@ $CONFIG = [
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
- *  - ``OC\Preview\Illustrator``
+ *  - ``OC\Preview\Font``
  *  - ``OC\Preview\HEIC``
+ *  - ``OC\Preview\Illustrator``
  *  - ``OC\Preview\Movie``
  *  - ``OC\Preview\MSOffice2003``
  *  - ``OC\Preview\MSOffice2007``
@@ -1255,7 +1256,6 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
- *  - ``OC\Preview\Font``
  *
  *
  * Defaults to the following providers:
@@ -1263,25 +1263,25 @@ $CONFIG = [
  *  - ``OC\Preview\BMP``
  *  - ``OC\Preview\GIF``
  *  - ``OC\Preview\JPEG``
+ *  - ``OC\Preview\Krita``
  *  - ``OC\Preview\MarkDown``
  *  - ``OC\Preview\MP3``
+ *  - ``OC\Preview\OpenDocument``
  *  - ``OC\Preview\PNG``
  *  - ``OC\Preview\TXT``
  *  - ``OC\Preview\XBitmap``
- *  - ``OC\Preview\OpenDocument``
- *  - ``OC\Preview\Krita``
  */
 'enabledPreviewProviders' => [
-	'OC\Preview\PNG',
-	'OC\Preview\JPEG',
-	'OC\Preview\GIF',
 	'OC\Preview\BMP',
-	'OC\Preview\XBitmap',
-	'OC\Preview\MP3',
-	'OC\Preview\TXT',
-	'OC\Preview\MarkDown',
-	'OC\Preview\OpenDocument',
+	'OC\Preview\GIF',
+	'OC\Preview\JPEG',
 	'OC\Preview\Krita',
+	'OC\Preview\MarkDown',
+	'OC\Preview\MP3',
+	'OC\Preview\OpenDocument',
+	'OC\Preview\PNG',
+	'OC\Preview\TXT',
+	'OC\Preview\XBitmap',
 ],
 
 /**
