@@ -1925,7 +1925,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OC\OCSClient
 	 * @deprecated 20.0.0
 	 */
-	public function getOcsClient(): OCSClient {
+	public function getOcsClient() {
 		return $this->get('OcsClient');
 	}
 
