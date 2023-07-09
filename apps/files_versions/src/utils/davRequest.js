@@ -30,5 +30,6 @@ export default `<?xml version="1.0"?>
 		<d:getcontenttype />
 		<d:getlastmodified />
 		<nc:version-label />
+		<nc:has-preview />
 	</d:prop>
 </d:propfind>`

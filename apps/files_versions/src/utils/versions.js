@@ -36,6 +36,7 @@ import moment from '@nextcloud/moment'
  * @property {string} size - Human readable size
  * @property {string} type - 'file'
  * @property {number} mtime - Version creation date as a timestamp
+ * @property {boolean} hasPreview - Whether the version has a preview
  * @property {string} preview - Preview URL of the version
  * @property {string} url - Download URL of the version
  * @property {string|null} fileVersion - The version id, null for the current version
@@ -98,6 +99,7 @@ function formatVersion(version, fileInfo) {
 		size: version.size,
 		type: version.type,
 		mtime: moment(version.lastmod).unix() * 1000,
+		hasPreview: version.props['has-preview'] === 1,
 		preview: generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
 			file: joinPaths(fileInfo.path, fileInfo.name),
 			fileVersion: version.basename,

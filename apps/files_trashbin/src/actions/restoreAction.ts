@@ -27,8 +27,9 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
-import { registerFileAction, FileAction } from '../../../files/src/services/FileAction.ts'
+import { registerFileAction, FileAction } from '../../../files/src/services/FileAction'
 import logger from '../../../files/src/logger.js'
+import type { Navigation } from '../../../files/src/services/Navigation'
 
 registerFileAction(new FileAction({
 	id: 'restore',
@@ -69,8 +70,8 @@ registerFileAction(new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view) {
-		return Promise.all(nodes.map(node => this.exec(node, view)))
+	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 
 	order: 1,

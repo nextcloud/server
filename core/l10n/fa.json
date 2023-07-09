@@ -131,6 +131,7 @@
     "Home" : "خانه ",
     "Copy to {folder}" : "کپی به {folder}",
     "Move to {folder}" : "انتقال به {folder}",
+    "Saving …" : "ذخیره کردن …",
     "Authentication required" : "احراز هویت مورد نیاز است",
     "This action requires you to confirm your password" : "این اقدام نیاز به تایید رمز عبور شما دارد",
     "Confirm" : "تایید",

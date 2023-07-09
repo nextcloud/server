@@ -157,7 +157,7 @@ class PreviewControllerTest extends TestCase {
 
 		$this->overwriteService(ITimeFactory::class, $this->time);
 
-		$res = $this->controller->getPreview(42, 10, 10, true);
+		$res = $this->controller->getPreview(42, 10, 10, false);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'previewMime']);
 		$expected->cacheFor(3600 * 24);
 

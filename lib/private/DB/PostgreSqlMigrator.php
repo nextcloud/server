@@ -42,7 +42,7 @@ class PostgreSqlMigrator extends Migrator {
 					}
 					$fromDefault = $column->fromColumn->getDefault();
 					$toDefault = $column->column->getDefault();
-					$fromDefault = trim($fromDefault, "()");
+					$fromDefault = trim((string) $fromDefault, '()');
 
 					// by intention usage of !=
 					return $fromDefault != $toDefault;

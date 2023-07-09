@@ -202,36 +202,7 @@ class ViewController extends Controller {
 			$favElements['folders'] = [];
 		}
 
-		$collapseClasses = '';
-		if (count($favElements['folders']) > 0) {
-			$collapseClasses = 'collapsible';
-		}
-
-		$favoritesSublistArray = [];
-
-		$navBarPositionPosition = 6;
-		foreach ($favElements['folders'] as $favElement) {
-			$element = [
-				'id' => str_replace('/', '-', $favElement),
-				'dir' => $favElement,
-				'order' => $navBarPositionPosition,
-				'name' => basename($favElement),
-				'icon' => 'folder',
-				'params' => [
-					'view' => 'files',
-					'dir' => $favElement,
-				],
-			];
-
-			array_push($favoritesSublistArray, $element);
-			$navBarPositionPosition++;
-		}
-
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-
-		// add the favorites entry in menu
-		$navItems['favorites']['sublist'] = $favoritesSublistArray;
-		$navItems['favorites']['classes'] = $collapseClasses;
 
 		// parse every menu and add the expanded user value
 		foreach ($navItems as $key => $item) {
@@ -253,6 +224,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
+		$this->initialState->provideInitialState('favoriteFolders', $favElements['folders'] ?? []);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);

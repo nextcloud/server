@@ -26,6 +26,10 @@
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :title="t('files', 'Files settings')">
+			<NcCheckboxRadioSwitch :checked="userConfig.sort_favorites_first"
+				@update:checked="setConfig('sort_favorites_first', $event)">
+				{{ t('files', 'Sort favorites first') }}
+			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch :checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}

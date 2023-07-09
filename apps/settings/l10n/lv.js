@@ -114,6 +114,7 @@ OC.L10N.register(
     "Storage location" : "Krātuves atrašanās vieta",
     "Last login" : "Pēdējā pieteikšanās",
     "Default quota" : "Apjoms pēc noklusējuma",
+    "Edit" : "Rediģēt",
     "Changelog" : "Izmaiņu žurnāls",
     "Add group" : "Pievienot grupu",
     "Active users" : "Aktīvie lietotāji",

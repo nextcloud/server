@@ -58,7 +58,7 @@ class EventDispatcher implements IEventDispatcher {
 
 		// inject the event dispatcher into the logger
 		// this is done here because there is a cyclic dependency between the event dispatcher and logger
-		if ($this->logger instanceof Log or $this->logger instanceof Log\PsrLoggerAdapter) {
+		if ($this->logger instanceof Log || $this->logger instanceof Log\PsrLoggerAdapter) {
 			$this->logger->setEventDispatcher($this);
 		}
 	}

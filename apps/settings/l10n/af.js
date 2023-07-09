@@ -111,6 +111,7 @@ OC.L10N.register(
     "Check out our blog" : "Besoek ons woernaal",
     "Subscribe to our newsletter" : "Teken in op ons nuusbrief",
     "png or jpg, max. 20 MB" : "png of jpg, maks. 20 MB",
+    "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS"
 },
 "nplurals=2; plural=(n != 1);");

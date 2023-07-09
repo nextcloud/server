@@ -30,7 +30,8 @@
 		:menu-open="openGroupMenu"
 		@update:menuOpen="handleGroupMenuOpen">
 		<template #counter>
-			<NcCounterBubble v-if="count">
+			<NcCounterBubble v-if="count"
+				:type="active ? 'highlighted' : undefined">
 				{{ count }}
 			</NcCounterBubble>
 		</template>
@@ -67,17 +68,33 @@ export default {
 		NcAppNavigationItem,
 	},
 	props: {
+		/**
+		 * If this group is currently selected
+		 */
+		active: {
+			type: Boolean,
+			required: true,
+		},
+		/**
+		 * Number of members within this group
+		 */
+		count: {
+			type: Number,
+			required: true,
+		},
+		/**
+		 * Identifier of this group
+		 */
 		id: {
 			type: String,
 			required: true,
 		},
+		/**
+		 * Title of this group
+		 */
 		title: {
 			type: String,
 			required: true,
-		},
-		count: {
-			type: Number,
-			required: false,
 		},
 	},
 	data() {
@@ -123,16 +140,15 @@ export default {
 			}
 		},
 		removeGroup(groupid) {
-			const self = this
 			// TODO migrate to a vue js confirm dialog component
 			OC.dialogs.confirm(
 				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', { group: groupid }),
 				t('settings', 'Please confirm the group removal '),
-				function(success) {
+				(success) => {
 					if (success) {
-						self.$store.dispatch('removeGroup', groupid)
+						this.$store.dispatch('removeGroup', groupid)
 					}
-				}
+				},
 			)
 		},
 	},

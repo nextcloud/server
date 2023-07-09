@@ -55,6 +55,7 @@ use OCP\User\GetQuotaEvent;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -116,7 +117,7 @@ class User implements IUser {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
 		// TODO: inject
-		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = \OCP\Server::get(IEventDispatcher::class);
 	}
 
 	/**
@@ -298,7 +299,7 @@ class User implements IUser {
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
-			$avatarManager = \OC::$server->query(AvatarManager::class);
+			$avatarManager = \OCP\Server::get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
 			$notification = \OC::$server->getNotificationManager()->createNotification();
@@ -306,7 +307,7 @@ class User implements IUser {
 			\OC::$server->getNotificationManager()->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
-			$accountManager = \OC::$server->query(AccountManager::class);
+			$accountManager = \OCP\Server::get(AccountManager::class);
 			$accountManager->deleteUser($this);
 
 			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
@@ -432,25 +433,46 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function isEnabled() {
-		if ($this->enabled === null) {
-			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-			$this->enabled = $enabled === 'true';
+		$queryDatabaseValue = function (): bool {
+			if ($this->enabled === null) {
+				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+				$this->enabled = $enabled === 'true';
+			}
+			return $this->enabled;
+		};
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			return $this->backend->isUserEnabled($this->uid, $queryDatabaseValue);
+		} else {
+			return $queryDatabaseValue();
 		}
-		return (bool) $this->enabled;
 	}
 
 	/**
 	 * set the enabled status for the user
 	 *
-	 * @param bool $enabled
+	 * @return void
 	 */
 	public function setEnabled(bool $enabled = true) {
 		$oldStatus = $this->isEnabled();
-		$this->enabled = $enabled;
-		if ($oldStatus !== $this->enabled) {
-			// TODO: First change the value, then trigger the event as done for all other properties.
-			$this->triggerChange('enabled', $enabled, $oldStatus);
+		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
+			$this->enabled = $enabled;
+		};
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			$queryDatabaseValue = function (): bool {
+				if ($this->enabled === null) {
+					$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+					$this->enabled = $enabled === 'true';
+				}
+				return $this->enabled;
+			};
+			$enabled = $this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
+			if ($oldStatus !== $enabled) {
+				$this->triggerChange('enabled', $enabled, $oldStatus);
+			}
+		} elseif ($oldStatus !== $enabled) {
+			$setDatabaseValue($enabled);
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 		}
 	}
 

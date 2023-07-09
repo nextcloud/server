@@ -1,7 +1,7 @@
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,14 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-export default class Search {
-
-	/**
-	 * @deprecated 20.0.0, will be removed in Nextcloud 22
-	 */
-	constructor() {
-		OC.debug && console.warn('OCA.Search is deprecated. Please use the unified search API instead')
+export const createClient = () => {}
+export const getPatcher = () => {
+	return {
+		patch: () => {}
 	}
-
 }

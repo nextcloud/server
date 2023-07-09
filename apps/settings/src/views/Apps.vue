@@ -46,9 +46,9 @@
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
 					:title="$options.APPS_SECTION_ENUM.updates">
-					<NcAppNavigationCounter slot="counter">
-						{{ updateCount }}
-					</NcAppNavigationCounter>
+					<template #counter>
+						<NcCounterBubble>{{ updateCount }}</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
@@ -141,11 +141,11 @@ import VueLocalStorage from 'vue-localstorage'
 
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer.js'
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 
 import AppList from '../components/AppList.vue'
@@ -166,9 +166,9 @@ export default {
 		AppDetails,
 		AppList,
 		NcAppNavigation,
-		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationSpacer,
+		NcCounterBubble,
 		AppScore,
 		NcAppSidebar,
 		NcAppSidebarTab,

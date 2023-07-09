@@ -23,14 +23,14 @@ import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 import type { Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
+import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 import logger from '../logger.js'
 
 export const ACTION_DETAILS = 'details'
 
 export const action = new FileAction({
 	id: ACTION_DETAILS,
-	displayName: () => t('files', 'Details'),
+	displayName: () => t('files', 'Open details'),
 	iconSvgInline: () => InformationSvg,
 
 	// Sidebar currently supports user folder only, /files/USER
@@ -60,9 +60,7 @@ export const action = new FileAction({
 		}
 	},
 
-	default: true,
 	order: -50,
 })
 
 registerFileAction(action)
-

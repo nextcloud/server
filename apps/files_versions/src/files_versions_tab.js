@@ -59,6 +59,9 @@ window.addEventListener('DOMContentLoaded', function() {
 		update(fileInfo) {
 			TabInstance.update(fileInfo)
 		},
+		setIsActive(isActive) {
+			TabInstance.setIsActive(isActive)
+		},
 		destroy() {
 			TabInstance.$destroy()
 			TabInstance = null

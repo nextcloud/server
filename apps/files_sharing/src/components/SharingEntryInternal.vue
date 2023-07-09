@@ -1,4 +1,3 @@
-
 <template>
 	<ul>
 		<SharingEntrySimple ref="shareEntrySimple"

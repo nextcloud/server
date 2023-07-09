@@ -21,11 +21,11 @@
  */
 import { action } from './editLocallyAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Permission } from '@nextcloud/files'
+import { DefaultType, FileAction } from '../services/FileAction'
+import * as ncDialogs from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import type { Navigation } from '../services/Navigation'
-import ncDialogs from '@nextcloud/dialogs'
 
 const view = {
 	id: 'files',
@@ -37,8 +37,8 @@ describe('Edit locally action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('edit-locally')
 		expect(action.displayName([], view)).toBe('Edit locally')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(true)
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(25)
 	})
 })

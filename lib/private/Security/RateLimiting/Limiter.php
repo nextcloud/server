@@ -32,27 +32,21 @@ use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OCP\IUser;
 
 class Limiter {
-	/** @var IBackend */
-	private $backend;
-
-	/**
-	 * @param IBackend $backend
-	 */
-	public function __construct(IBackend $backend) {
-		$this->backend = $backend;
+	public function __construct(
+		private IBackend $backend,
+	) {
 	}
 
 	/**
-	 * @param string $methodIdentifier
-	 * @param string $userIdentifier
 	 * @param int $period in seconds
-	 * @param int $limit
 	 * @throws RateLimitExceededException
 	 */
-	private function register(string $methodIdentifier,
-							  string $userIdentifier,
-							  int $period,
-							  int $limit): void {
+	private function register(
+		string $methodIdentifier,
+		string $userIdentifier,
+		int $period,
+		int $limit,
+	): void {
 		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier);
 		if ($existingAttempts >= $limit) {
 			throw new RateLimitExceededException();
@@ -64,16 +58,15 @@ class Limiter {
 	/**
 	 * Registers attempt for an anonymous request
 	 *
-	 * @param string $identifier
-	 * @param int $anonLimit
 	 * @param int $anonPeriod in seconds
-	 * @param string $ip
 	 * @throws RateLimitExceededException
 	 */
-	public function registerAnonRequest(string $identifier,
-										int $anonLimit,
-										int $anonPeriod,
-										string $ip): void {
+	public function registerAnonRequest(
+		string $identifier,
+		int $anonLimit,
+		int $anonPeriod,
+		string $ip,
+	): void {
 		$ipSubnet = (new IpAddress($ip))->getSubnet();
 
 		$anonHashIdentifier = hash('sha512', 'anon::' . $identifier . $ipSubnet);
@@ -83,16 +76,15 @@ class Limiter {
 	/**
 	 * Registers attempt for an authenticated request
 	 *
-	 * @param string $identifier
-	 * @param int $userLimit
 	 * @param int $userPeriod in seconds
-	 * @param IUser $user
 	 * @throws RateLimitExceededException
 	 */
-	public function registerUserRequest(string $identifier,
-										int $userLimit,
-										int $userPeriod,
-										IUser $user): void {
+	public function registerUserRequest(
+		string $identifier,
+		int $userLimit,
+		int $userPeriod,
+		IUser $user,
+	): void {
 		$userHashIdentifier = hash('sha512', 'user::' . $identifier . $user->getUID());
 		$this->register($identifier, $userHashIdentifier, $userPeriod, $userLimit);
 	}

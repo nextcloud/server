@@ -47,9 +47,11 @@
 					:title="t('settings', 'Active users')"
 					:to="{ name: 'users' }"
 					icon="icon-contacts-dark">
-					<NcAppNavigationCounter v-if="userCount > 0" slot="counter">
-						{{ userCount }}
-					</NcAppNavigationCounter>
+					<template #counter>
+						<NcCounterBubble :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							{{ userCount }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem v-if="settings.isAdmin"
 					id="admin"
@@ -57,9 +59,11 @@
 					:title="t('settings', 'Admins')"
 					:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
 					icon="icon-user-admin">
-					<NcAppNavigationCounter v-if="adminGroupMenu.count" slot="counter">
-						{{ adminGroupMenu.count }}
-					</NcAppNavigationCounter>
+					<template v-if="adminGroupMenu.count > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
+							{{ adminGroupMenu.count }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 
 				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
@@ -69,15 +73,18 @@
 					:title="t('settings', 'Disabled users')"
 					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
 					icon="icon-disabled-users">
-					<NcAppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
-						{{ disabledGroupMenu.usercount }}
-					</NcAppNavigationCounter>
+					<template v-if="disabledGroupMenu.usercount > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
+							{{ disabledGroupMenu.usercount }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 
 				<NcAppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
 				<GroupListItem v-for="group in groupList"
 					:id="group.id"
 					:key="group.id"
+					:active="selectedGroupDecoded === group.id"
 					:title="group.title"
 					:count="group.count" />
 			</template>
@@ -137,12 +144,12 @@ import VueLocalStorage from 'vue-localstorage'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
 import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigationNewItem.js'
 import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
@@ -163,12 +170,12 @@ export default {
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationCaption,
-		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
 		NcAppNavigationNewItem,
 		NcAppNavigationSettings,
 		NcCheckboxRadioSwitch,
+		NcCounterBubble,
 		NcContent,
 		NcSelect,
 		Plus,

@@ -39,7 +39,7 @@ class ObjectStoreScanner extends Scanner {
 		return [];
 	}
 
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = []) {
+	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int $oldSize) {
 		return 0;
 	}
 

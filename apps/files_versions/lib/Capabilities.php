@@ -42,17 +42,13 @@ class Capabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
-	 *
-	 * @return array
 	 */
 	public function getCapabilities() {
-		$groupFolderInstalled = $this->appManager->isInstalled('groupfolders');
-
 		return [
 			'files' => [
 				'versioning' => true,
-				'version_labeling' => !$groupFolderInstalled && $this->config->getSystemValueBool('enable_version_labeling', true),
-				'version_deletion' => !$groupFolderInstalled && $this->config->getSystemValueBool('enable_version_deletion', true),
+				'version_labeling' => $this->config->getSystemValueBool('enable_version_labeling', true),
+				'version_deletion' => $this->config->getSystemValueBool('enable_version_deletion', true),
 			]
 		];
 	}

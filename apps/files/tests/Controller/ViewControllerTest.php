@@ -199,65 +199,6 @@ class ViewControllerTest extends TestCase {
 				'expanded' => false,
 				'unread' => 0,
 			],
-			'favorites' => [
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'order' => 5,
-				'name' => \OC::$server->getL10N('files')->t('Favorites'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => 'collapsible',
-				'sublist' => [
-					[
-						'id' => '-test1',
-						'dir' => '/test1',
-						'order' => 6,
-						'name' => 'test1',
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test1',
-						],
-					],
-					[
-						'name' => 'test2',
-						'id' => '-test2-',
-						'dir' => '/test2/',
-						'order' => 7,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test2/',
-						],
-					],
-					[
-						'name' => 'sub4',
-						'id' => '-test3-sub4',
-						'dir' => '/test3/sub4',
-						'order' => 8,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test3/sub4',
-						],
-					],
-					[
-						'name' => 'sub6',
-						'id' => '-test5-sub6-',
-						'dir' => '/test5/sub6/',
-						'order' => 9,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test5/sub6/',
-						],
-					],
-				],
-				'expanded' => false,
-				'unread' => 0,
-			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
@@ -347,10 +288,6 @@ class ViewControllerTest extends TestCase {
 						'id' => 'recent',
 						'content' => null,
 					],
-					'favorites' => [
-						'id' => 'favorites',
-						'content' => null,
-					],
 					'systemtagsfilter' => [
 						'id' => 'systemtagsfilter',
 						'content' => null,
@@ -378,22 +315,6 @@ class ViewControllerTest extends TestCase {
 					'shareoverview' => [
 						'id' => 'shareoverview',
 						'content' => null,
-					],
-					'-test1' => [
-						'id' => '-test1',
-						'content' => '',
-					],
-					'-test2-' => [
-						'id' => '-test2-',
-						'content' => '',
-					],
-					'-test3-sub4' => [
-						'id' => '-test3-sub4',
-						'content' => '',
-					],
-					'-test5-sub6-' => [
-						'id' => '-test5-sub6-',
-						'content' => '',
 					],
 				],
 				'hiddenFields' => [],

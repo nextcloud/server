@@ -3,11 +3,11 @@ OC.L10N.register(
     {
     "Comments" : "Коментарі",
     "You commented" : "Ви прокоментували",
-    "{author} commented" : "{author} прокоментував",
+    "{author} commented" : "{author} прокоментував(-ла)",
     "You commented on %1$s" : "Ви прокоментували на %1$s",
     "You commented on {file}" : "Ви прокоментували {file}",
     "%1$s commented on %2$s" : "%1$s прокоментовано у %2$s",
-    "{author} commented on {file}" : "{author} прокоментував {file}",
+    "{author} commented on {file}" : "{author} прокоментував(-ла) {file}",
     "<strong>Comments</strong> for files" : "З'явилися <strong>коментарі</strong> до файлів",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вас згадали в \"{file}\" у коментарі користувача, який згодом було видалено",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} згадав вас у коментарі до \"{file}\"",

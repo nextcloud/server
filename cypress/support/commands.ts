@@ -34,6 +34,11 @@ declare global {
 	namespace Cypress {
 		interface Chainable<Subject = any> {
 			/**
+			 * Enable or disable a given user
+			 */
+			enableUser(user: User, enable?: boolean): Cypress.Chainable<Cypress.Response<any>>,
+
+			/**
 			 * Upload a file from the fixtures folder to a given user storage.
 			 * **Warning**: Using this function will reset the previous session
 			 */
@@ -68,6 +73,33 @@ declare global {
 
 const url = (Cypress.config('baseUrl') || '').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
+
+/**
+ * Enable or disable a user
+ * TODO: standardise in @nextcloud/cypress
+ *
+ * @param {User} user the user to dis- / enable
+ * @param {boolean} enable True if the user should be enable, false to disable
+ */
+Cypress.Commands.add('enableUser', (user: User, enable = true) => {
+	const url = `${Cypress.config('baseUrl')}/ocs/v2.php/cloud/users/${user.userId}/${enable ? 'enable' : 'disable'}`.replace('index.php/', '')
+	return cy.request({
+		method: 'PUT',
+		url,
+		form: true,
+		auth: {
+			user: 'admin',
+			password: 'admin',
+		},
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+	}).then((response) => {
+		cy.log(`Enabled user ${user}`, response.status)
+		return cy.wrap(response)
+	})
+})
 
 /**
  * cy.uploadedFile - uploads a file from the fixtures folder

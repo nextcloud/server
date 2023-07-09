@@ -1,6 +1,6 @@
 <?php
 
-style('user_ldap', 	'vendor/ui-multiselect/jquery.multiselect');
+style('user_ldap', 'vendor/ui-multiselect/jquery.multiselect');
 
 script('user_ldap', [
 	'vendor/ui-multiselect/src/jquery.multiselect',
@@ -69,7 +69,7 @@ style('user_ldap', 'settings');
 	if (!function_exists('ldap_connect')) {
 		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
 	}
-	?>
+?>
 	<?php require_once __DIR__ . '/part.wizard-server.php'; ?>
 	<?php require_once __DIR__ . '/part.wizard-userfilter.php'; ?>
 	<?php require_once __DIR__ . '/part.wizard-loginfilter.php'; ?>
@@ -91,20 +91,21 @@ style('user_ldap', 'settings');
 				<p><label for="ldap_user_display_name_2"><?php p($l->t('2nd User Display Name Field'));?></label><input type="text" id="ldap_user_display_name_2" name="ldap_user_display_name_2" data-default="<?php p($_['ldap_user_display_name_2_default']); ?>" aria-describedby="ldap_user_display_name_2_instructions" title="<?php p($l->t('Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«.'));?>" /><p class="hidden-visually" id="ldap_user_display_name_2_instructions"><?php p($l->t('Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«.'));?></p></p>
 				<p><label for="ldap_base_users"><?php p($l->t('Base User Tree'));?></label><textarea id="ldap_base_users" name="ldap_base_users" placeholder="<?php p($l->t('One User Base DN per line'));?>" data-default="<?php p($_['ldap_base_users_default']); ?>" aria-describedby="ldap_base_users_instructions" title="<?php p($l->t('Base User Tree'));?>"></textarea><p class="hidden-visually" id="ldap_base_users_instructions"><?php p($l->t('Base User Tree'));?></p></p>
 				<p><label for="ldap_attributes_for_user_search"><?php p($l->t('User Search Attributes'));?></label><textarea id="ldap_attributes_for_user_search" name="ldap_attributes_for_user_search" placeholder="<?php p($l->t('Optional; one attribute per line'));?>" data-default="<?php p($_['ldap_attributes_for_user_search_default']); ?>" aria-describedby="ldap_attributes_for_user_search_instructions" title="<?php p($l->t('User Search Attributes'));?>"></textarea><p class="hidden-visually" id="ldap_attributes_for_user_search_instructions"><?php p($l->t('User Search Attributes'));?></p></p>
+				<p><label for="ldap_mark_remnants_as_disabled"><?php p($l->t('Disable users missing from LDAP'));?></label><input type="checkbox" id="ldap_mark_remnants_as_disabled" name="ldap_mark_remnants_as_disabled" value="1" data-default="<?php p($_['ldap_mark_remnants_as_disabled_default']); ?>" aria-describedby="ldap_mark_remnants_as_disabled_instructions" title="<?php p($l->t('When switched on, users imported from LDAP which are then missing will be disabled'));?>" /><p class="hidden-visually" id="ldap_mark_remnants_as_disabled_instructions"><?php p($l->t('When switched on, users imported from LDAP which are then missing will be disabled'));?></p></p>
 				<p><label for="ldap_group_display_name"><?php p($l->t('Group Display Name Field'));?></label><input type="text" id="ldap_group_display_name" name="ldap_group_display_name" data-default="<?php p($_['ldap_group_display_name_default']); ?>" aria-describedby="ldap_group_display_name_instructions" title="<?php p($l->t('The LDAP attribute to use to generate the groups\'s display name.'));?>" /><p class="hidden-visually" id="ldap_group_display_name_instructions"><?php p($l->t('The LDAP attribute to use to generate the groups\'s display name.'));?></p></p>
 				<p><label for="ldap_base_groups"><?php p($l->t('Base Group Tree'));?></label><textarea id="ldap_base_groups" name="ldap_base_groups" placeholder="<?php p($l->t('One Group Base DN per line'));?>" data-default="<?php p($_['ldap_base_groups_default']); ?>" aria-describedby="ldap_base_groups_instructions" title="<?php p($l->t('Base Group Tree'));?>"></textarea><p class="hidden-visually" id="ldap_base_groups_instructions"><?php p($l->t('Base Group Tree'));?></p></p>
 				<p><label for="ldap_attributes_for_group_search"><?php p($l->t('Group Search Attributes'));?></label><textarea id="ldap_attributes_for_group_search" name="ldap_attributes_for_group_search" placeholder="<?php p($l->t('Optional; one attribute per line'));?>" data-default="<?php p($_['ldap_attributes_for_group_search_default']); ?>" aria-describedby="ldap_attributes_for_group_search_instructions" title="<?php p($l->t('Group Search Attributes'));?>"></textarea><p class="hidden-visually" id="ldap_attributes_for_group_search_instructions"><?php p($l->t('Group Search Attributes'));?></p></p>
 				<p><label for="ldap_group_member_assoc_attribute"><?php p($l->t('Group-Member association'));?></label><select id="ldap_group_member_assoc_attribute" name="ldap_group_member_assoc_attribute" data-default="<?php p($_['ldap_group_member_assoc_attribute_default']); ?>" ><option value="uniqueMember"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'uniqueMember')) {
-		p(' selected');
-	} ?>>uniqueMember</option><option value="memberUid"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'memberUid')) {
-		p(' selected');
-	} ?>>memberUid</option><option value="member"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'member')) {
-		p(' selected');
-	} ?>>member (AD)</option><option value="gidNumber"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'gidNumber')) {
-		p(' selected');
-	} ?>>gidNumber</option><option value="zimbraMailForwardingAddress"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'zimbraMailForwardingAddress')) {
-		p(' selected');
-	} ?>>zimbraMailForwardingAddress</option></select></p>
+					p(' selected');
+				} ?>>uniqueMember</option><option value="memberUid"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'memberUid')) {
+					p(' selected');
+				} ?>>memberUid</option><option value="member"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'member')) {
+					p(' selected');
+				} ?>>member (AD)</option><option value="gidNumber"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'gidNumber')) {
+					p(' selected');
+				} ?>>gidNumber</option><option value="zimbraMailForwardingAddress"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'zimbraMailForwardingAddress')) {
+					p(' selected');
+				} ?>>zimbraMailForwardingAddress</option></select></p>
 				<p><label for="ldap_dynamic_group_member_url"><?php p($l->t('Dynamic Group Member URL'));?></label><input type="text" id="ldap_dynamic_group_member_url" name="ldap_dynamic_group_member_url" aria-describedby="ldap_dynamic_group_member_url_instructions" title="<?php p($l->t('The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)'));?>" data-default="<?php p($_['ldap_dynamic_group_member_url_default']); ?>" /><p class="hidden-visually" id="ldap_dynamic_group_member_url_instructions"><?php p($l->t('The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)'));?></p></p>
 				<p><label for="ldap_nested_groups"><?php p($l->t('Nested Groups'));?></label><input type="checkbox" id="ldap_nested_groups" name="ldap_nested_groups" value="1" data-default="<?php p($_['ldap_nested_groups_default']); ?>" aria-describedby="ldap_nested_groups_instructions" title="<?php p($l->t('When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)'));?>" /><p class="hidden-visually" id="ldap_nested_groups_instructions"><?php p($l->t('When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)'));?></p></p>
 				<p><label for="ldap_paging_size"><?php p($l->t('Paging chunksize'));?></label><input type="number" id="ldap_paging_size" name="ldap_paging_size" aria-describedby="ldap_paging_size_instructions" title="<?php p($l->t('Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)'));?>" data-default="<?php p($_['ldap_paging_size_default']); ?>" /><p class="hidden-visually" id="ldap_paging_size_instructions"><?php p($l->t('Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)'));?></p></p>

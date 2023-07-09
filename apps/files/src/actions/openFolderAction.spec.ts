@@ -21,8 +21,8 @@
  */
 import { action } from './openFolderAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Folder, Node, Permission } from '@nextcloud/files'
+import { DefaultType, FileAction } from '../services/FileAction'
 import type { Navigation } from '../services/Navigation'
 
 const view = {
@@ -42,8 +42,8 @@ describe('Open folder action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-folder')
 		expect(action.displayName([folder], view)).toBe('Open folder FooBar')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(true)
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-100)
 	})
 })
@@ -139,8 +139,7 @@ describe('Open folder action execute tests', () => {
 		const goToRouteMock = jest.fn()
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
-		// @ts-ignore null as Node
-		const exec = await action.exec(null, view, '/')
+		const exec = await action.exec(null as unknown as Node, view, '/')
 		expect(exec).toBe(false)
 		expect(goToRouteMock).toBeCalledTimes(0)
 	})

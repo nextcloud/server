@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OC\Security\RateLimiting\Backend;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -35,38 +36,22 @@ use OCP\IDBConnection;
 class DatabaseBackend implements IBackend {
 	private const TABLE_NAME = 'ratelimit_entries';
 
-	/** @var IConfig */
-	private $config;
-	/** @var IDBConnection */
-	private $dbConnection;
-	/** @var ITimeFactory */
-	private $timeFactory;
-
 	public function __construct(
-		IConfig $config,
-		IDBConnection $dbConnection,
-		ITimeFactory $timeFactory
+		private IConfig $config,
+		private IDBConnection $dbConnection,
+		private ITimeFactory $timeFactory
 	) {
-		$this->config = $config;
-		$this->dbConnection = $dbConnection;
-		$this->timeFactory = $timeFactory;
 	}
 
-	/**
-	 * @param string $methodIdentifier
-	 * @param string $userIdentifier
-	 * @return string
-	 */
-	private function hash(string $methodIdentifier,
-						  string $userIdentifier): string {
+	private function hash(
+		string $methodIdentifier,
+		string $userIdentifier,
+	): string {
 		return hash('sha512', $methodIdentifier . $userIdentifier);
 	}
 
 	/**
-	 * @param string $identifier
-	 * @param int $seconds
-	 * @return int
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
 	private function getExistingAttemptCount(
 		string $identifier
@@ -97,8 +82,10 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier): int {
+	public function getAttempts(
+		string $methodIdentifier,
+		string $userIdentifier,
+	): int {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		return $this->getExistingAttemptCount($identifier);
 	}
@@ -106,9 +93,11 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function registerAttempt(string $methodIdentifier,
-									string $userIdentifier,
-									int $period) {
+	public function registerAttempt(
+		string $methodIdentifier,
+		string $userIdentifier,
+		int $period,
+	): void {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$deleteAfter = $this->timeFactory->getDateTime()->add(new \DateInterval("PT{$period}S"));
 

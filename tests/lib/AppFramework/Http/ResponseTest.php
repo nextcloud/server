@@ -52,12 +52,15 @@ class ResponseTest extends \Test\TestCase {
 			'ETag' => 3,
 			'Something-Else' => 'hi',
 			'X-Robots-Tag' => 'noindex, nofollow',
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 		];
 
 		$this->childResponse->setHeaders($expected);
-		$headers = $this->childResponse->getHeaders();
 		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 		$expected['Feature-Policy'] = "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'";
+
+		$headers = $this->childResponse->getHeaders();
+		unset($headers['X-Request-Id']);
 
 		$this->assertEquals($expected, $headers);
 	}

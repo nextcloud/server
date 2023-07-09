@@ -261,6 +261,7 @@ OC.L10N.register(
     "Enable user" : "Aktifkan pengguna",
     "Resend welcome email" : "Kirim ulang surel selamat datang",
     "Welcome mail sent!" : "Surat selamat datang terkirim!",
+    "Edit" : "Sunting",
     "{size} used" : "{size} digunakan",
     "Passwordless authentication requires a secure connection." : "Otentikasi tanpa kata sandi membutuhkan koneksi aman.",
     "Passwordless Authentication" : "Otentikasi Tanpa Kata Sandi",
