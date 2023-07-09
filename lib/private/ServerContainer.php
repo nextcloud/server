@@ -40,13 +40,13 @@ use function strtolower;
  */
 class ServerContainer extends SimpleContainer {
 	/** @var DIContainer[] */
-	protected $appContainers;
+	protected array $appContainers;
 
 	/** @var string[] */
-	protected $hasNoAppContainer;
+	protected array $hasNoAppContainer;
 
 	/** @var string[] */
-	protected $namespaces;
+	protected array $namespaces;
 
 	/**
 	 * ServerContainer constructor.

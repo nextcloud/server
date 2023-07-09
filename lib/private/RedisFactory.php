@@ -33,23 +33,23 @@ class RedisFactory {
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
 	/** @var  \Redis|\RedisCluster */
-	private $instance;
-
-	private SystemConfig $config;
-
-	private IEventLogger $eventLogger;
+	private \Redis|\RedisCluster $instance;
 
 	/**
 	 * RedisFactory constructor.
 	 *
 	 * @param SystemConfig $config
 	 */
-	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
-		$this->config = $config;
-		$this->eventLogger = $eventLogger;
+	public function __construct(
+		private SystemConfig $config,
+		private IEventLogger $eventLogger,
+	) {
 	}
 
-	private function create() {
+	/**
+	 * @throws \Exception
+	 */
+	private function create(): void {
 		$isCluster = in_array('redis.cluster', $this->config->getKeys(), true);
 		$config = $isCluster
 			? $this->config->getValue('redis.cluster', [])
@@ -137,7 +137,7 @@ class RedisFactory {
 	 * @return array|null
 	 * @throws \UnexpectedValueException
 	 */
-	private function getSslContext($config) {
+	private function getSslContext(array $config): ?array {
 		if (isset($config['ssl_context'])) {
 			if (!$this->isConnectionParametersSupported()) {
 				throw new \UnexpectedValueException(\sprintf(
@@ -150,7 +150,10 @@ class RedisFactory {
 		return null;
 	}
 
-	public function getInstance() {
+	/**
+	 * @throws \Exception
+	 */
+	public function getInstance(): \RedisCluster|\Redis {
 		if (!$this->isAvailable()) {
 			throw new \Exception('Redis support is not available');
 		}

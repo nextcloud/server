@@ -36,8 +36,8 @@ use OCP\Search\Provider;
  */
 class Search implements ISearch {
 	/** @var Provider[] */
-	private $providers = [];
-	private $registeredProviders = [];
+	private array $providers = [];
+	private array $registeredProviders = [];
 
 	/**
 	 * Search all providers for $query
@@ -47,7 +47,7 @@ class Search implements ISearch {
 	 * @param int $size, 0 = all
 	 * @return array An array of OC\Search\Result's
 	 */
-	public function searchPaged($query, array $inApps = [], $page = 1, $size = 30) {
+	public function searchPaged($query, array $inApps = [], $page = 1, $size = 30): array {
 		$this->initProviders();
 		$results = [];
 		foreach ($this->providers as $provider) {
@@ -74,7 +74,7 @@ class Search implements ISearch {
 	/**
 	 * Remove all registered search providers
 	 */
-	public function clearProviders() {
+	public function clearProviders(): void {
 		$this->providers = [];
 		$this->registeredProviders = [];
 	}
@@ -83,7 +83,7 @@ class Search implements ISearch {
 	 * Remove one existing search provider
 	 * @param string $provider class name of a OC\Search\Provider
 	 */
-	public function removeProvider($provider) {
+	public function removeProvider($provider): void {
 		$this->registeredProviders = array_filter(
 			$this->registeredProviders,
 			function ($element) use ($provider) {
@@ -99,14 +99,14 @@ class Search implements ISearch {
 	 * @param string $class class name of a OC\Search\Provider
 	 * @param array $options optional
 	 */
-	public function registerProvider($class, array $options = []) {
+	public function registerProvider($class, array $options = []): void {
 		$this->registeredProviders[] = ['class' => $class, 'options' => $options];
 	}
 
 	/**
 	 * Create instances of all the registered search providers
 	 */
-	private function initProviders() {
+	private function initProviders(): void {
 		if (! empty($this->providers)) {
 			return;
 		}

@@ -90,30 +90,24 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Repair implements IOutput {
-	/** @var IRepairStep[] */
-	private array $repairSteps;
-
-	private IEventDispatcher $dispatcher;
-
 	private string $currentStep;
-
-	private LoggerInterface $logger;
 
 	/**
 	 * Creates a new repair step runner
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
 	 */
-	public function __construct(array $repairSteps, IEventDispatcher $dispatcher, LoggerInterface $logger) {
-		$this->repairSteps = $repairSteps;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private array $repairSteps,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
 	 * Run a series of repair steps for common problems
 	 */
-	public function run() {
+	public function run(): void {
 		if (count($this->repairSteps) === 0) {
 			$this->dispatcher->dispatchTyped(new RepairInfoEvent('No repair steps available'));
 
@@ -135,10 +129,10 @@ class Repair implements IOutput {
 	/**
 	 * Add repair step
 	 *
-	 * @param IRepairStep|string $repairStep repair step
+	 * @param string|IRepairStep $repairStep repair step
 	 * @throws \Exception
 	 */
-	public function addStep($repairStep) {
+	public function addStep(string|IRepairStep $repairStep): void {
 		if (is_string($repairStep)) {
 			try {
 				$s = \OC::$server->get($repairStep);
@@ -221,7 +215,7 @@ class Repair implements IOutput {
 	 *
 	 * @return IRepairStep[]
 	 */
-	public static function getExpensiveRepairSteps() {
+	public static function getExpensiveRepairSteps(): array {
 		return [
 			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
 			\OC::$server->get(ValidatePhoneNumber::class),
@@ -234,7 +228,7 @@ class Repair implements IOutput {
 	 *
 	 * @return IRepairStep[]
 	 */
-	public static function getBeforeUpgradeRepairSteps() {
+	public static function getBeforeUpgradeRepairSteps(): array {
 		/** @var Connection $connection */
 		$connection = \OC::$server->get(Connection::class);
 		/** @var ConnectionAdapter $connectionAdapter */
@@ -253,7 +247,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
-	public function info($message) {
+	public function info($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairInfoEvent($message));
 	}
@@ -261,7 +255,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
-	public function warning($message) {
+	public function warning($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairWarningEvent($message));
 	}
@@ -269,7 +263,7 @@ class Repair implements IOutput {
 	/**
 	 * @param int $max
 	 */
-	public function startProgress($max = 0) {
+	public function startProgress($max = 0): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairStartEvent($max, $this->currentStep));
 	}
@@ -278,15 +272,12 @@ class Repair implements IOutput {
 	 * @param int $step number of step to advance
 	 * @param string $description
 	 */
-	public function advance($step = 1, $description = '') {
+	public function advance($step = 1, $description = ''): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairAdvanceEvent($step, $description));
 	}
 
-	/**
-	 * @param int $max
-	 */
-	public function finishProgress() {
+	public function finishProgress(): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairFinishEvent());
 	}

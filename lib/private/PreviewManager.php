@@ -180,7 +180,7 @@ class PreviewManager implements IPreview {
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null): ISimpleFile {
 		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
 		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
 		try {
@@ -203,7 +203,7 @@ class PreviewManager implements IPreview {
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 19.0.0
 	 */
-	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
+	public function generatePreviews(File $file, array $specifications, $mimeType = null): ISimpleFile {
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
@@ -213,7 +213,7 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeType
 	 * @return boolean
 	 */
-	public function isMimeSupported($mimeType = '*') {
+	public function isMimeSupported($mimeType = '*'): bool {
 		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
@@ -299,9 +299,9 @@ class PreviewManager implements IPreview {
 	 *  - OC\Preview\SVG
 	 *  - OC\Preview\TIFF
 	 *
-	 * @return array
+	 * @return array|null
 	 */
-	protected function getEnabledDefaultProvider() {
+	protected function getEnabledDefaultProvider(): ?array {
 		if ($this->defaultProviders !== null) {
 			return $this->defaultProviders;
 		}
@@ -335,8 +335,9 @@ class PreviewManager implements IPreview {
 	 *
 	 * @param string $class
 	 * @param string $mimeType
+	 * @param array $options
 	 */
-	protected function registerCoreProvider($class, $mimeType, $options = []) {
+	protected function registerCoreProvider(string $class, string $mimeType, array $options = []): void {
 		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
 			$this->registerProvider($mimeType, function () use ($class, $options) {
 				return new $class($options);
@@ -347,7 +348,7 @@ class PreviewManager implements IPreview {
 	/**
 	 * Register the default providers (if enabled)
 	 */
-	protected function registerCoreProviders() {
+	protected function registerCoreProviders(): void {
 		if ($this->registeredCoreProviders) {
 			return;
 		}
