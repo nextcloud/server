@@ -1273,7 +1273,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1')
 			->willReturn(5);
 		$this->timeFactory
@@ -1323,7 +1323,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn('192.168.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1')
 			->willReturn(5);
 		$this->timeFactory
