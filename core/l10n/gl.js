@@ -226,7 +226,7 @@ OC.L10N.register(
     "Search contacts …" : "Buscar contactos…",
     "No contacts found" : "Non se atoparon contactos",
     "Show all contacts …" : "Amosar todos os contactos…",
-    "Install the Contacts app" : "Instalar a apli de Contactos",
+    "Install the Contacts app" : "Instalar a aplicación de Contactos",
     "Loading your contacts …" : "Cargando os seus contactos…",
     "Looking for {term} …" : "Buscando {term}…",
     "No" : "Non",
