@@ -198,7 +198,7 @@ class DBConfigServiceTest extends TestCase {
 
 	public function testGetAdminMounts() {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
-		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAl);
+		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 
 		$mounts = $this->dbConfig->getAdminMounts();
 		$this->assertCount(1, $mounts);
@@ -208,7 +208,7 @@ class DBConfigServiceTest extends TestCase {
 	public function testGetAdminMountsFor() {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_ADMIN);
-		$id3 = $this->addMount('/test3', 'foo3', 'bar3', 100, DBConfigService::MOUNT_TYPE_PERSONAl);
+		$id3 = $this->addMount('/test3', 'foo3', 'bar3', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 
 		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_USER, 'test');
 		$this->dbConfig->addApplicable($id3, DBConfigService::APPLICABLE_TYPE_USER, 'test');
@@ -221,8 +221,8 @@ class DBConfigServiceTest extends TestCase {
 
 	public function testGetUserMountsFor() {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
-		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAl);
-		$id3 = $this->addMount('/test3', 'foo3', 'bar3', 100, DBConfigService::MOUNT_TYPE_PERSONAl);
+		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
+		$id3 = $this->addMount('/test3', 'foo3', 'bar3', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 
 		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_USER, 'test');
 		$this->dbConfig->addApplicable($id3, DBConfigService::APPLICABLE_TYPE_USER, 'test');
@@ -285,7 +285,7 @@ class DBConfigServiceTest extends TestCase {
 
 	public function testGetAllMounts() {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
-		$id2 = $this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAl);
+		$id2 = $this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 
 		$mounts = $this->dbConfig->getAllMounts();
 		$this->assertCount(2, $mounts);
