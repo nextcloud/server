@@ -34,6 +34,7 @@
  */
 namespace OC;
 
+use OC\Repair\AddRepairMimeTypeJob;
 use OC\Repair\CleanUpAbandonedApps;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -174,7 +175,7 @@ class Repair implements IOutput {
 	public static function getRepairSteps(): array {
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
-			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			\OCP\Server::get(AddRepairMimeTypeJob::class),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
@@ -221,8 +222,9 @@ class Repair implements IOutput {
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
-			\OC::$server->get(ValidatePhoneNumber::class),
+			\OCP\Server::get(OldGroupMembershipShares::class),
+			\OCP\Server::get(ValidatePhoneNumber::class),
+			\OCP\Server::get(RepairMimeTypes::class),
 		];
 	}
 
