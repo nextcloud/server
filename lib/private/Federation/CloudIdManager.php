@@ -209,11 +209,12 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $url
 	 * @return string
 	 */
-	private function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
-			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
+	public function removeProtocolFromUrl(string $url): string {
+		if (str_starts_with($url, 'https://')) {
+			return substr($url, 8);
+		}
+		if (str_starts_with($url, 'http://')) {
+			return substr($url, 7);
 		}
 
 		return $url;
