@@ -157,6 +157,10 @@ class ThemingDefaults extends \OC_Defaults {
 		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', parent::getSlogan($lang)));
 	}
 
+	public function getSupportUrl(): string {
+		return $this->config->getAppValue('theming', 'supportUrl', '');
+	}
+
 	public function getImprintUrl() {
 		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
 	}
@@ -181,6 +185,10 @@ class ThemingDefaults extends \OC_Defaults {
 		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
 
 		$links = [
+			[
+				'text' => $this->l->t('Customer support'),
+				'url' => $this->getSupportUrl()
+			],
 			[
 				'text' => $this->l->t('Legal notice'),
 				'url' => (string)$this->getImprintUrl()
@@ -371,7 +379,7 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		$variables['has-legal-links'] = 'false';
-		if ($this->getImprintUrl() !== '' || $this->getPrivacyUrl() !== '') {
+		if ($this->getSupportUrl() !== '' || $this->getImprintUrl() !== '' || $this->getPrivacyUrl() !== '') {
 			$variables['has-legal-links'] = 'true';
 		}
 

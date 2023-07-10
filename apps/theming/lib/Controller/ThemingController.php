@@ -129,6 +129,14 @@ class ThemingController extends Controller {
 					$error = $this->l10n->t('The given web address is not a valid URL');
 				}
 				break;
+			case 'supportUrl':
+				if (strlen($value) > 500) {
+					$error = $this->l10n->t('The given customer support address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given customer support address is not a valid URL');
+				}
+				break;
 			case 'imprintUrl':
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given legal notice address is too long');
