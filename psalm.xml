@@ -84,6 +84,7 @@
 			<errorLevel type="suppress">
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
+				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -127,6 +128,7 @@
 				<!-- Helper classes for sharing API integration from other apps -->
 				<referencedClass name="OCA\Deck\Sharing\ShareAPIHelper" />
 				<referencedClass name="OCA\Talk\Share\Helper\DeletedShareAPIController" />
+				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedDocblockClass>
 	</issueHandlers>

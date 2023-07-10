@@ -55,10 +55,13 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Util;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class CloudFederationProviderFiles implements ICloudFederationProvider {
 
@@ -250,26 +253,29 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
+				// get DisplayName about the owner of the share
+				$ownerDisplayName = $this->getUserDisplayName($ownerFederatedId);
+
 				if ($shareType === IShare::TYPE_USER) {
 					$event = $this->activityManager->generateEvent();
 					$event->setApp('files_sharing')
 						->setType('remote_share')
-						->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/')])
+						->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/'), $ownerDisplayName])
 						->setAffectedUser($shareWith)
 						->setObject('remote_share', $shareId, $name);
 					\OC::$server->getActivityManager()->publish($event);
-					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
+					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 				} else {
 					$groupMembers = $this->groupManager->get($shareWith)->getUsers();
 					foreach ($groupMembers as $user) {
 						$event = $this->activityManager->generateEvent();
 						$event->setApp('files_sharing')
 							->setType('remote_share')
-							->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/')])
+							->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/'), $ownerDisplayName])
 							->setAffectedUser($user->getUID())
 							->setObject('remote_share', $shareId, $name);
 						\OC::$server->getActivityManager()->publish($event);
-						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
+						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 					}
 				}
 				return $shareId;
@@ -335,13 +341,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		return $result;
 	}
 
-	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name): void {
+	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $displayName): void {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files_sharing')
 			->setUser($shareWith)
 			->setDateTime(new \DateTime())
 			->setObject('remote_share', $shareId)
-			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/')]);
+			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/'), $displayName]);
 
 		$declineAction = $notification->createAction();
 		$declineAction->setLabel('decline')
@@ -579,6 +585,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$share['id'])));
 			$qb->execute();
 
+			$ownerDisplayName = $this->getUserDisplayName($owner->getId());
+
 			if ((int)$share['share_type'] === IShare::TYPE_USER) {
 				if ($share['accepted']) {
 					$path = trim($mountpoint, '/');
@@ -594,7 +602,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				$event = $this->activityManager->generateEvent();
 				$event->setApp('files_sharing')
 					->setType('remote_share')
-					->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
+					->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path, $ownerDisplayName])
 					->setAffectedUser($user)
 					->setObject('remote_share', (int)$share['id'], $path);
 				\OC::$server->getActivityManager()->publish($event);
@@ -823,5 +831,26 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	public function getSupportedShareTypes() {
 		return ['user', 'group'];
+	}
+
+
+	public function getUserDisplayName(string $userId): string {
+		// check if gss is enabled and available
+		if (!$this->appManager->isInstalled('globalsiteselector')
+			|| !class_exists('\OCA\GlobalSiteSelector\Service\SlaveService')) {
+			return '';
+		}
+
+		try {
+			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
+		} catch (\Throwable $e) {
+			Server::get(LoggerInterface::class)->error(
+				$e->getMessage(),
+				['exception' => $e]
+			);
+			return '';
+		}
+
+		return $slaveService->getUserDisplayName($this->cloudIdManager->removeProtocolFromUrl($userId), false);
 	}
 }
