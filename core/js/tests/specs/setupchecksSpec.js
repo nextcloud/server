@@ -714,7 +714,7 @@ describe('OC.SetupChecks tests', function() {
 					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
-          isPreviewMaxSetCorrectly: true,
+					isPreviewMaxSetCorrectly: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: true,
 					hasValidTransactionIsolationLevel: true,
