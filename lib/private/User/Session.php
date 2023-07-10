@@ -467,15 +467,7 @@ class Session implements IUserSession, Emitter {
 			}
 			$users = $this->manager->getByEmail($user);
 			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
-				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
-
-				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
-
-				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
-
-				if ($currentDelay === 0) {
-					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
-				}
+				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
 		}
