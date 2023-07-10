@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Тут можна додати коментарі",
     "No more messages" : "Більше жодних повідомлень",
     "Retry" : "Ще раз",
+    "Failed to mark comments as read" : "Не вдалося позначити коментарі прочитаними",
     "Unable to load the comments list" : "Не вдалося завантажити список коментарів",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитаний коментар","%n непрочитаних коментарів","%n непрочитаних коментарів","%n непрочитаних коментарів"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} новий коментар","{unread} нових коментарів","{unread} нових коментарів","{unread} нових коментарів"],
