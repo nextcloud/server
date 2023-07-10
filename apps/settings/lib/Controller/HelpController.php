@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IGroupManager;
@@ -38,6 +40,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
+#[IgnoreOpenAPI]
 class HelpController extends Controller {
 
 	/** @var INavigationManager */

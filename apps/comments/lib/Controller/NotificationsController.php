@@ -27,7 +27,7 @@ namespace OCA\Comments\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Files\IRootFolder;
@@ -38,8 +38,6 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 
 /**
- * Class NotificationsController
- *
  * @package OCA\Comments\Controller
  */
 class NotificationsController extends Controller {
@@ -73,8 +71,17 @@ class NotificationsController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 *
+	 * View a notification
+	 *
+	 * @param string $id ID of the notification
+	 *
+	 * @return RedirectResponse<Http::STATUS_SEE_OTHER, array{}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 *
+	 * 303: Redirected to notification
+	 * 404: Notification not found
 	 */
-	public function view(string $id): Response {
+	public function view(string $id): RedirectResponse|NotFoundResponse {
 		$currentUser = $this->userSession->getUser();
 		if (!$currentUser instanceof IUser) {
 			return new RedirectResponse(

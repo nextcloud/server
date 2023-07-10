@@ -225,7 +225,7 @@ OC.L10N.register(
     "Email" : "电子邮箱",
     "Circle" : "圈子",
     "Talk conversation" : "通话应用对话",
-    "Deck board" : "Deck 看板",
+    "Deck board" : "看板",
     "ScienceMesh" : "ScienceMesh",
     "on {server}" : "在 {server} 上",
     "Others with access" : "其他具有访问权限的人",

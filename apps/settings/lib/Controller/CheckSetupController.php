@@ -26,6 +26,7 @@
  * @author Timo Förster <tfoerster@webfoersterei.de>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author MichaIng <micha@dietpi.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -69,6 +70,7 @@ use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -89,6 +91,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+#[IgnoreOpenAPI]
 class CheckSetupController extends Controller {
 	/** @var IConfig */
 	private $config;
