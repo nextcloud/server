@@ -38,6 +38,7 @@ interface ISystemTagManager {
 	 * Returns the tag objects matching the given tag ids.
 	 *
 	 * @param array|string $tagIds id or array of unique ids of the tag to retrieve
+	 * @param ?IUser $user optional user to run a visibility check against for each tag
 	 *
 	 * @return ISystemTag[] array of system tags with tag id as key
 	 *
@@ -45,9 +46,9 @@ interface ISystemTagManager {
 	 * @throws TagNotFoundException if at least one given tag ids did no exist
 	 * 			The message contains a json_encoded array of the ids that could not be found
 	 *
-	 * @since 9.0.0
+	 * @since 9.0.0, optional parameter $user added in 26.0.4
 	 */
-	public function getTagsByIds($tagIds): array;
+	public function getTagsByIds($tagIds, ?IUser $user = null): array;
 
 	/**
 	 * Returns the tag object matching the given attributes.
