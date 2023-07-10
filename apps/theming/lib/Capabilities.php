@@ -7,6 +7,7 @@
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -64,6 +65,25 @@ class Capabilities implements IPublicCapability {
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{
+	 *     theming: array{
+	 *         name: string,
+	 *         url: string,
+	 *         slogan: string,
+	 *         color: string,
+	 *         color-text: string,
+	 *         color-element: string,
+	 *         color-element-bright: string,
+	 *         color-element-dark: string,
+	 *         logo: string,
+	 *         background: string,
+	 *         background-plain: bool,
+	 *         background-default: bool,
+	 *         logoheader: string,
+	 *         favicon: string,
+	 *     },
+	 * }
 	 */
 	public function getCapabilities() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
