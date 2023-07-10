@@ -23,6 +23,7 @@
 import { getClient } from './WebdavClient'
 import { genFileInfo, type FileInfo } from '../utils/fileUtils'
 import { createClient, type FileStat, type ResponseDataDetailed } from 'webdav'
+import { getRequestToken } from '@nextcloud/auth'
 
 const statData = `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:"
@@ -53,6 +54,8 @@ const statData = `<?xml version="1.0"?>
 
 /**
  * Retrieve the files list
+ * @param path
+ * @param options
  */
 export default async function(path: string, options = {}): Promise<FileInfo> {
 	const response = await getClient().stat(path, Object.assign({
@@ -64,9 +67,12 @@ export default async function(path: string, options = {}): Promise<FileInfo> {
 
 /**
  * Retrieve the files list
+ * @param origin
+ * @param path
+ * @param options
  */
 export async function rawStat(origin: string, path: string, options = {}) {
-	const response = await createClient(origin).stat(path, {
+	const response = await createClient(origin, { headers: { requesttoken: getRequestToken() || '' } }).stat(path, {
 		...options,
 		data: statData,
 		details: true,
