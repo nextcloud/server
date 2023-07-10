@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Virhe OAuth2:n asetuksia tehdessä",
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
+    "Type to select user or group." : "Kirjoita valitaksesi käyttäjän tai ryhmän.",
     "(Group)" : "(Ryhmä)",
     "Compatibility with Mac NFD encoding (slow)" : "Yhteensopivuus Mac NFD -enkoodauksen kanssa (hidas)",
     "Enable encryption" : "Käytä salausta",
@@ -128,7 +129,6 @@ OC.L10N.register(
     "All users" : "Kaikki käyttäjät",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
-    "All users. Type to select user or group." : "Kaikki käyttäjät. Kirjoita valitaksesi käyttäjän tai ryhmän."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
 },
 "nplurals=2; plural=(n != 1);");

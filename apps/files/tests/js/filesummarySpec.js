@@ -44,7 +44,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.hasClass('hidden')).toEqual(false);
 		expect($container.find('.dirinfo').text()).toEqual('5 folders');
 		expect($container.find('.fileinfo').text()).toEqual('2 files');
-		expect($container.find('.filesize').text()).toEqual('250 KB');
+		expect($container.find('.filesize').text()).toEqual('256 KB');
 	});
 	it('hides summary when no files or folders', function() {
 		var s = new FileSummary($container);
@@ -68,7 +68,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.hasClass('hidden')).toEqual(false);
 		expect($container.find('.dirinfo').text()).toEqual('6 folders');
 		expect($container.find('.fileinfo').text()).toEqual('3 files');
-		expect($container.find('.filesize').text()).toEqual('500 KB');
+		expect($container.find('.filesize').text()).toEqual('512 KB');
 		expect(s.summary.totalDirs).toEqual(6);
 		expect(s.summary.totalFiles).toEqual(3);
 		expect(s.summary.totalSize).toEqual(512100);
@@ -86,7 +86,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.hasClass('hidden')).toEqual(false);
 		expect($container.find('.dirinfo').text()).toEqual('4 folders');
 		expect($container.find('.fileinfo').text()).toEqual('1 file');
-		expect($container.find('.filesize').text()).toEqual('125 KB');
+		expect($container.find('.filesize').text()).toEqual('128 KB');
 		expect(s.summary.totalDirs).toEqual(4);
 		expect(s.summary.totalFiles).toEqual(1);
 		expect(s.summary.totalSize).toEqual(127900);
@@ -104,7 +104,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.find('.dirinfo').text()).toEqual('5 folders');
 		expect($container.find('.fileinfo').text()).toEqual('2 files');
 		expect($container.find('.filter').text()).toEqual(' match "foo"');
-		expect($container.find('.filesize').text()).toEqual('250 KB');
+		expect($container.find('.filesize').text()).toEqual('256 KB');
 	});
 	it('hides filtered summary when no files or folders', function() {
 		var s = new FileSummary($container);
@@ -133,7 +133,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.find('.dirinfo').text()).toEqual('6 folders');
 		expect($container.find('.fileinfo').text()).toEqual('3 files');
 		expect($container.find('.filter').text()).toEqual(' match "foo"');
-		expect($container.find('.filesize').text()).toEqual('500 KB');
+		expect($container.find('.filesize').text()).toEqual('512 KB');
 		expect(s.summary.totalDirs).toEqual(6);
 		expect(s.summary.totalFiles).toEqual(3);
 		expect(s.summary.totalSize).toEqual(512103);
@@ -155,7 +155,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.find('.dirinfo').text()).toEqual('4 folders');
 		expect($container.find('.fileinfo').text()).toEqual('1 file');
 		expect($container.find('.filter').text()).toEqual(' match "foo"');
-		expect($container.find('.filesize').text()).toEqual('125 KB');
+		expect($container.find('.filesize').text()).toEqual('128 KB');
 		expect(s.summary.totalDirs).toEqual(4);
 		expect(s.summary.totalFiles).toEqual(1);
 		expect(s.summary.totalSize).toEqual(127903);
@@ -215,7 +215,7 @@ describe('OCA.Files.FileSummary tests', function() {
 			expect($container.find('.fileinfo').text()).toEqual('1 file');
 			expect($container.find('.hiddeninfo').hasClass('hidden')).toEqual(false);
 			expect($container.find('.hiddeninfo').text()).toEqual(' (including 1 hidden)');
-			expect($container.find('.filesize').text()).toEqual('750 KB');
+			expect($container.find('.filesize').text()).toEqual('768 KB');
 		});
 		it('does not render hidden count section when hidden files exist but are visible', function() {
 			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: true });
@@ -228,7 +228,7 @@ describe('OCA.Files.FileSummary tests', function() {
 			expect($container.find('.dirinfo').text()).toEqual('2 folders');
 			expect($container.find('.fileinfo').text()).toEqual('1 file');
 			expect($container.find('.hiddeninfo').hasClass('hidden')).toEqual(true);
-			expect($container.find('.filesize').text()).toEqual('750 KB');
+			expect($container.find('.filesize').text()).toEqual('768 KB');
 		});
 		it('does not render hidden count section when no hidden files exist', function() {
 			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
@@ -240,7 +240,7 @@ describe('OCA.Files.FileSummary tests', function() {
 			expect($container.find('.dirinfo').text()).toEqual('1 folder');
 			expect($container.find('.fileinfo').text()).toEqual('1 file');
 			expect($container.find('.hiddeninfo').hasClass('hidden')).toEqual(true);
-			expect($container.find('.filesize').text()).toEqual('250 KB');
+			expect($container.find('.filesize').text()).toEqual('256 KB');
 		});
 	});
 });

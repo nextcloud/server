@@ -6,6 +6,8 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
     errorBaseline="build/psalm-baseline-ocp.xml"
+	findUnusedBaselineEntry="false"
+	findUnusedCode="false"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
@@ -20,6 +22,7 @@
 	<stubs>
 		<file name="build/stubs/gd.php"/>
 		<file name="build/stubs/ldap.php"/>
+		<file name="build/stubs/psr_container.php"/>
 	</stubs>
 	<extraFiles>
 		<directory name="3rdparty"/>

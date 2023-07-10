@@ -260,6 +260,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					: null;
 			case 'parameters':
 			case 'params':
+				if ($this->isPutStreamContent()) {
+					return $this->items['parameters'];
+				}
 				return $this->getContent();
 			default:
 				return isset($this[$name])
@@ -391,12 +394,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
-		if ($this->method === 'PUT'
-			&& $this->getHeader('Content-Length') !== '0'
-			&& $this->getHeader('Content-Length') !== ''
-			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
-			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
-		) {
+		if ($this->isPutStreamContent()) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
@@ -409,6 +407,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->decodeContent();
 			return $this->items['parameters'];
 		}
+	}
+
+	private function isPutStreamContent(): bool {
+		return $this->method === 'PUT'
+			&& $this->getHeader('Content-Length') !== '0'
+			&& $this->getHeader('Content-Length') !== ''
+			&& !str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')
+			&& !str_contains($this->getHeader('Content-Type'), 'application/json');
 	}
 
 	/**
@@ -433,7 +439,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		// or post correctly
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
-				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
+				&& str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')) {
 			parse_str(file_get_contents($this->inputStream), $params);
 			if (\is_array($params)) {
 				$this->items['params'] = $params;
@@ -597,7 +603,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 						$IP = trim($IP);
 
 						// remove brackets from IPv6 addresses
-						if (strpos($IP, '[') === 0 && substr($IP, -1) === ']') {
+						if (str_starts_with($IP, '[') && str_ends_with($IP, ']')) {
 							$IP = substr($IP, 1, -1);
 						}
 
@@ -618,7 +624,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(string $type = ''): bool {
-		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
 		|| $type !== 'protocol';
@@ -630,13 +636,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server protocol (http or https)
 	 */
 	public function getServerProtocol(): string {
-		if ($this->config->getSystemValue('overwriteprotocol') !== ''
+		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
 			&& $this->isOverwriteCondition('protocol')) {
-			return $this->config->getSystemValue('overwriteprotocol');
+			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
-			if (strpos($this->server['HTTP_X_FORWARDED_PROTO'], ',') !== false) {
+			if (str_contains($this->server['HTTP_X_FORWARDED_PROTO'], ',')) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_PROTO']);
 				$proto = strtolower(trim($parts[0]));
 			} else {
@@ -690,7 +696,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
-		if ($this->config->getSystemValue('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
+		if ($this->config->getSystemValueString('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
 			$uri = $this->getScriptName() . substr($uri, \strlen($this->server['SCRIPT_NAME']));
 		}
 		return $uri;
@@ -718,7 +724,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		// FIXME: Sabre does not really belong here
 		[$path, $name] = \Sabre\Uri\split($scriptName);
 		if (!empty($path)) {
-			if ($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
+			if ($path === $pathInfo || str_starts_with($pathInfo, $path . '/')) {
 				$pathInfo = substr($pathInfo, \strlen($path));
 			} else {
 				throw new \Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
@@ -728,10 +734,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$name = '';
 		}
 
-		if (strpos($pathInfo, '/'.$name) === 0) {
+		if (str_starts_with($pathInfo, '/' . $name)) {
 			$pathInfo = substr($pathInfo, \strlen($name) + 1);
 		}
-		if ($name !== '' && strpos($pathInfo, $name) === 0) {
+		if ($name !== '' && str_starts_with($pathInfo, $name)) {
 			$pathInfo = substr($pathInfo, \strlen($name));
 		}
 		if ($pathInfo === false || $pathInfo === '/') {
@@ -758,7 +764,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'];
-		$overwriteWebRoot = $this->config->getSystemValue('overwritewebroot');
+		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
 			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
 			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -\strlen('lib/private/appframework/http/')));
@@ -797,7 +803,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		$host = 'localhost';
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_HOST'])) {
-			if (strpos($this->server['HTTP_X_FORWARDED_HOST'], ',') !== false) {
+			if (str_contains($this->server['HTTP_X_FORWARDED_HOST'], ',')) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_HOST']);
 				$host = trim(current($parts));
 			} else {
@@ -853,8 +859,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * isn't met
 	 */
 	private function getOverwriteHost() {
-		if ($this->config->getSystemValue('overwritehost') !== '' && $this->isOverwriteCondition()) {
-			return $this->config->getSystemValue('overwritehost');
+		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {
+			return $this->config->getSystemValueString('overwritehost');
 		}
 		return null;
 	}

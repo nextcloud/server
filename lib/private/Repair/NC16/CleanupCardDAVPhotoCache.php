@@ -96,7 +96,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 
 	private function shouldRun(): bool {
 		return version_compare(
-			$this->config->getSystemValue('version', '0.0.0.0'),
+			$this->config->getSystemValueString('version', '0.0.0.0'),
 			'16.0.0.0',
 			'<='
 		);

@@ -45,11 +45,11 @@
 namespace OCA\User_LDAP;
 
 use Exception;
+use OC\ServerNotAvailableException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\GroupInterface;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
-use OC\ServerNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
@@ -466,7 +466,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
-	 * @return array A list of users that have the given group as gid number
+	 * @return array<int,string> A list of users that have the given group as gid number
 	 * @throws ServerNotAvailableException
 	 */
 	public function getUsersInGidNumber(
@@ -591,6 +591,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 	/**
 	 * @throws ServerNotAvailableException
+	 * @return array<int,string>
 	 */
 	public function getUsersInPrimaryGroup(
 		string $groupDN,
@@ -840,7 +841,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with user ids
+	 * @return array<int,string> user ids
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
@@ -909,7 +910,11 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 					if (empty($ldap_users)) {
 						break;
 					}
-					$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
+					$uid = $this->access->dn2username($ldap_users[0]['dn'][0]);
+					if (!$uid) {
+						break;
+					}
+					$groupUsers[] = $uid;
 					break;
 				default:
 					//we got DNs, check if we need to filter by search or we can give back all of them
@@ -1163,7 +1168,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * Returns the supported actions as int to be
 	 * compared with GroupInterface::CREATE_GROUP etc.
 	 */
-	public function implementsActions($actions) {
+	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS |
 				GroupInterface::DELETE_GROUP |
 				$this->groupPluginManager->getImplementedActions()) & $actions);

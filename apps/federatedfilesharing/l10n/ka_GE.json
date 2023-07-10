@@ -18,8 +18,6 @@
     "Accept" : "მიღება",
     "Decline" : "უარყოფა",
     "Federated Cloud Sharing" : "ფედერალური ქლაუდ გაზიარება",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით, იხილეთ %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Sharing" : "გაზიარება",
     "Federated file sharing" : "ფედერალური ფაილების გაზიარება",
     "Allow users on this server to receive shares from other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე მიიღონ გაზიარებები სხვა სერვერებიდან",
@@ -32,12 +30,9 @@
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Copy to clipboard" : "კოპირება ბუფერში",
     "Copied!" : "კოპირებულია!",
-    "Copy" : "კოპირება",
-    "Not supported!" : "არაა მხარდაჭერილი!",
-    "Press ⌘-C to copy." : "კოპირებისთვის დააჭირეთ ⌘-C.",
-    "Press Ctrl-C to copy." : "კოპირებისთვის დააჭირეთ Ctrl-C-ს.",
-    "Open documentation" : "ღია დოკუმენტაცია"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით, იხილეთ %s"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

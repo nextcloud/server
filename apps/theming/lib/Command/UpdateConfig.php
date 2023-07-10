@@ -111,8 +111,13 @@ class UpdateConfig extends Command {
 			return 0;
 		}
 
+		if ($key === 'background' && $value === 'backgroundColor') {
+			$this->themingDefaults->undo($key);
+			$key = $key . 'Mime';
+		}
+
 		if (in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
-			if (strpos($value, '/') !== 0) {
+			if (!str_starts_with($value, '/')) {
 				$output->writeln('<error>The image file needs to be provided as an absolute path: ' . $value . '.</error>');
 				return 1;
 			}

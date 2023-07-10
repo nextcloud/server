@@ -61,7 +61,6 @@ class Mail implements IDelegatedSettings {
 			'mail_smtpsecure' => $this->config->getSystemValue('mail_smtpsecure', ''),
 			'mail_smtphost' => $this->config->getSystemValue('mail_smtphost', ''),
 			'mail_smtpport' => $this->config->getSystemValue('mail_smtpport', ''),
-			'mail_smtpauthtype' => $this->config->getSystemValue('mail_smtpauthtype', ''),
 			'mail_smtpauth' => $this->config->getSystemValue('mail_smtpauth', false),
 			'mail_smtpname' => $this->config->getSystemValue('mail_smtpname', ''),
 			'mail_smtppassword' => $this->config->getSystemValue('mail_smtppassword', ''),

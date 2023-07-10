@@ -45,6 +45,7 @@ declare(strict_types=1);
  */
 namespace OC\User;
 
+use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -85,6 +86,8 @@ class Database extends ABackend implements
 	/** @var string */
 	private $table;
 
+	use TTransactional;
+
 	/**
 	 * \OC\User\Database constructor.
 	 *
@@ -94,7 +97,7 @@ class Database extends ABackend implements
 	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
 		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->query(IEventDispatcher::class);
+		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OCP\Server::get(IEventDispatcher::class);
 	}
 
 	/**
@@ -122,20 +125,24 @@ class Database extends ABackend implements
 		if (!$this->userExists($uid)) {
 			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
-			$qb = $this->dbConn->getQueryBuilder();
-			$qb->insert($this->table)
-				->values([
-					'uid' => $qb->createNamedParameter($uid),
-					'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
-					'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
-				]);
+			return $this->atomic(function () use ($uid, $password) {
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->insert($this->table)
+					->values([
+						'uid' => $qb->createNamedParameter($uid),
+						'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
+						'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
+					]);
 
-			$result = $qb->execute();
+				$result = $qb->executeStatement();
 
-			// Clear cache
-			unset($this->cache[$uid]);
+				// Clear cache
+				unset($this->cache[$uid]);
+				// Repopulate the cache
+				$this->loadUser($uid);
 
-			return $result ? true : false;
+				return (bool) $result;
+			}, $this->dbConn);
 		}
 
 		return false;
@@ -440,7 +447,7 @@ class Database extends ABackend implements
 	 */
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
-			return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;

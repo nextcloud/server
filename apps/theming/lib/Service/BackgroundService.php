@@ -55,6 +55,28 @@ class BackgroundService {
 
 	public const DEFAULT_BACKGROUND_IMAGE = 'kamil-porembinski-clouds.jpg';
 	public const SHIPPED_BACKGROUNDS = [
+		'hannah-maclean-soft-floral.jpg' => [
+			'attribution' => 'Soft floral (Hannah MacLean, CC0)',
+			'attribution_url' => 'https://stocksnap.io/photo/soft-floral-XOYWCCW5PA',
+			'theming' => self::THEMING_MODE_DARK,
+			'primary_color' => '#9f652f',
+		],
+		'ted-moravec-morning-fog.jpg' => [
+			'attribution' => 'Morning fog (Ted Moravec, Public Domain)',
+			'attribution_url' => 'https://flickr.com/photos/tmoravec/52392410261',
+			'theming' => self::THEMING_MODE_DARK,
+			'primary_color' => '#114c3b',
+		],
+		'stefanus-martanto-setyo-husodo-underwater-ocean.jpg' => [
+			'attribution' => 'Underwater ocean (Stefanus Martanto Setyo Husodo, CC0)',
+			'attribution_url' => 'https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS',
+			'primary_color' => '#04577e',
+		],
+		'zoltan-voros-rhythm-and-blues.jpg' => [
+			'attribution' => 'Rhythm and blues (Zoltán Vörös, CC BY)',
+			'attribution_url' => 'https://flickr.com/photos/v923z/51634409289/',
+			'primary_color' => '#1c243c',
+		],
 		'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
 			'attribution' => 'Butterfly wing scale (Anatoly Mikhaltsov, CC BY-SA)',
 			'attribution_url' => 'https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%88%D1%83%D0%B9%D0%BA%D0%B8_%D0%BA%D1%80%D1%8B%D0%BB%D0%B0_%D0%B1%D0%B0%D0%B1%D0%BE%D1%87%D0%BA%D0%B8.jpg',

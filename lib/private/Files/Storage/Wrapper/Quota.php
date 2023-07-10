@@ -41,7 +41,8 @@ use OCP\Files\Storage\IStorage;
 class Quota extends Wrapper {
 	/** @var callable|null */
 	protected $quotaCallback;
-	protected ?int $quota;
+	/** @var int|float|null int on 64bits, float on 32bits for bigint */
+	protected int|float|null $quota;
 	protected string $sizeRoot;
 	private SystemConfig $config;
 
@@ -57,9 +58,9 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * @return int quota value
+	 * @return int|float quota value
 	 */
-	public function getQuota(): int {
+	public function getQuota(): int|float {
 		if ($this->quota === null) {
 			$quotaCallback = $this->quotaCallback;
 			if ($quotaCallback === null) {
@@ -77,7 +78,8 @@ class Quota extends Wrapper {
 
 	/**
 	 * @param string $path
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param IStorage $storage
+	 * @return int|float
 	 */
 	protected function getSize($path, $storage = null) {
 		if ($this->config->getValue('quota_include_external_storage', false)) {
@@ -101,13 +103,13 @@ class Quota extends Wrapper {
 	 * Get free space as limited by the quota
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		if (!$this->hasQuota()) {
 			return $this->storage->free_space($path);
 		}
-		if ($this->getQuota() < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
+		if ($this->getQuota() < 0 || str_starts_with($path, 'cache') || str_starts_with($path, 'uploads')) {
 			return $this->storage->free_space($path);
 		} else {
 			$used = $this->getSize($this->sizeRoot);
@@ -128,7 +130,7 @@ class Quota extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		if (!$this->hasQuota()) {
@@ -177,7 +179,7 @@ class Quota extends Wrapper {
 		// don't apply quota for part files
 		if (!$this->isPartFile($path)) {
 			$free = $this->free_space($path);
-			if ($source && is_int($free) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+			if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
 				// only apply quota for files, not metadata, trash or others
 				if ($this->shouldApplyQuota($path)) {
 					return \OC\Files\Stream\Quota::wrap($source, $free);
@@ -192,7 +194,7 @@ class Quota extends Wrapper {
 	 * Checks whether the given path is a part file
 	 *
 	 * @param string $path Path that may identify a .part file
-	 * @return string File path without .part extension
+	 * @return bool
 	 * @note this is needed for reusing keys
 	 */
 	private function isPartFile($path) {
@@ -205,7 +207,7 @@ class Quota extends Wrapper {
 	 * Only apply quota for files, not metadata, trash or others
 	 */
 	private function shouldApplyQuota(string $path): bool {
-		return strpos(ltrim($path, '/'), 'files/') === 0;
+		return str_starts_with(ltrim($path, '/'), 'files/');
 	}
 
 	/**

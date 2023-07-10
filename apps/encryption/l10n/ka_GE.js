@@ -29,8 +29,6 @@ OC.L10N.register(
     "Missing Signature" : "ხელმოწერა აკლია",
     "one-time password for server-side-encryption" : "ერთჯერადი პაროლი სერვერული მხარის შიფრაციისთვის",
     "Default encryption module" : "საწყისი შიფრაციის მოდული",
-    "The share will expire on %s." : "გაზიარება გაუქმდება %s-ზე.",
-    "Cheers!" : "წარმატებები!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "შიფრაციის აპლიკაცია მოქმედია, მაგრამ თქვენი გასაღებები არაა ინციალიზირებული, გთხოვთ გახვიდეთ და ახლიდან გაიაროთ ავტორიზაცია",
     "Encrypt the home storage" : "სახლის საცავის შიფრაცია",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "ამ არჩევნის ამოქმედება დაშიფრავს ყველა ფაილს, რომელიც განთავსებულია მთავარ საცავში, სხვა შემთხვევაში დაიშიფრება მოხოლოდ ექსტერნალურ საცავში არსებული ფაილები",
@@ -54,6 +52,8 @@ OC.L10N.register(
     "Enable password recovery:" : "აამოქმედეთ პაროლის აღდგენა:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
-    "Disabled" : "არაა მოქმედი"
+    "Disabled" : "არაა მოქმედი",
+    "The share will expire on %s." : "გაზიარება გაუქმდება %s-ზე.",
+    "Cheers!" : "წარმატებები!"
 },
 "nplurals=2; plural=(n!=1);");

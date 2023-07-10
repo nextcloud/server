@@ -133,19 +133,15 @@ export default {
 			.body {
 				flex-grow: 1;
 				padding-left: 8px;
+				min-width: 0;
 
 				div {
 					position: relative;
 					width: 100%;
-				}
-
-				.full-name, .last-message {
-					/* TODO: don't use fixed width */
-					max-width: 204px;
-					overflow: hidden;
-					white-space: nowrap;
+					overflow-x: hidden;
 					text-overflow: ellipsis;
 				}
+
 				.last-message, .email-address {
 					color: var(--color-text-maxcontrast);
 				}

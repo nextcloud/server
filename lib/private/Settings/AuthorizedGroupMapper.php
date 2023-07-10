@@ -32,6 +32,9 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 
+/**
+ * @template-extends QBMapper<AuthorizedGroup>
+ */
 class AuthorizedGroupMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'authorized_groups', AuthorizedGroup::class);

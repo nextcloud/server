@@ -53,14 +53,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core\Command\Db
  */
 class AddMissingIndices extends Command {
-	private Connection $connection;
-	private EventDispatcherInterface $dispatcher;
-
-	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(
+		private Connection $connection,
+		private EventDispatcherInterface $dispatcher,
+	) {
 		parent::__construct();
-
-		$this->connection = $connection;
-		$this->dispatcher = $dispatcher;
 	}
 
 	protected function configure() {
@@ -175,6 +172,16 @@ class AddMissingIndices extends Command {
 			if (!$table->hasIndex('fs_storage_path_prefix') && !$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
 				$output->writeln('<info>Adding additional path index to the filecache table, this can take some time...</info>');
 				$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
+				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+				if ($dryRun && $sqlQueries !== null) {
+					$output->writeln($sqlQueries);
+				}
+				$updated = true;
+				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
+			if (!$table->hasIndex('fs_parent')) {
+				$output->writeln('<info>Adding additional parent index to the filecache table, this can take some time...</info>');
+				$table->addIndex(['parent'], 'fs_parent');
 				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
 				if ($dryRun && $sqlQueries !== null) {
 					$output->writeln($sqlQueries);
@@ -454,6 +461,27 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>oc_mounts table updated successfully.</info>');
+			}
+			if (!$table->hasIndex('mounts_user_root_path_index')) {
+				$output->writeln('<info>Adding mounts_user_root_path_index index to the oc_mounts table, this can take some time...</info>');
+
+				$table->addIndex(['user_id', 'root_id', 'mount_point'], 'mounts_user_root_path_index', [], ['lengths' => [null, null, 128]]);
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_mounts table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the oc_systemtag_object_mapping table.</info>');
+		if ($schema->hasTable('oc_systemtag_object_mapping')) {
+			$table = $schema->getTable('oc_systemtag_object_mapping');
+			if (!$table->hasIndex('systag_by_tagid')) {
+				$output->writeln('<info>Adding systag_by_tagid index to the oc_systemtag_object_mapping table, this can take some time...</info>');
+
+				$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_systemtag_object_mapping table updated successfully.</info>');
 			}
 		}
 

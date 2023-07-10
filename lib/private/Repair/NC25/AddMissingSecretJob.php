@@ -42,8 +42,8 @@ class AddMissingSecretJob implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
-		$passwordSalt = $this->config->getSystemValue('passwordsalt', null);
-		if ($passwordSalt === null || $passwordSalt === '') {
+		$passwordSalt = $this->config->getSystemValueString('passwordsalt', '');
+		if ($passwordSalt === '') {
 			try {
 				$this->config->setSystemValue('passwordsalt', $this->random->generate(30));
 			} catch (HintException $e) {
@@ -51,8 +51,8 @@ class AddMissingSecretJob implements IRepairStep {
 			}
 		}
 
-		$secret = $this->config->getSystemValue('secret', null);
-		if ($secret === null || $secret === '') {
+		$secret = $this->config->getSystemValueString('secret', '');
+		if ($secret === '') {
 			try {
 				$this->config->setSystemValue('secret', $this->random->generate(48));
 			} catch (HintException $e) {

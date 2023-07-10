@@ -117,8 +117,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 
-		if ($folderExistCache->hasKey($parent)) {
-			$parentExists = $folderExistCache->get($parent);
+		$cached = $folderExistCache->get($parent);
+		if ($cached) {
+			$parentExists = $cached;
 		} else {
 			$parentExists = $this->recipientView->is_dir($parent);
 			$folderExistCache->set($parent, $parentExists);
@@ -251,6 +252,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	public function getShare() {
 		return $this->superShare;
+	}
+
+	/**
+	 * @return \OCP\Share\IShare[]
+	 */
+	public function getGroupedShares(): array {
+		return $this->groupedShares;
 	}
 
 	/**

@@ -73,7 +73,7 @@ class Manager implements IManager {
 	 * @return bool true if enabled, false if not
 	 */
 	public function isEnabled() {
-		$installed = $this->config->getSystemValue('installed', false);
+		$installed = $this->config->getSystemValueBool('installed', false);
 		if (!$installed) {
 			return false;
 		}

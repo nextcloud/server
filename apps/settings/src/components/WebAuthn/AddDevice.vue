@@ -64,11 +64,11 @@
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 
-import logger from '../../logger'
+import logger from '../../logger.js'
 import {
 	startRegistration,
 	finishRegistration,
-} from '../../service/WebAuthnRegistrationSerice'
+} from '../../service/WebAuthnRegistrationSerice.js'
 
 const logAndPass = (text) => (data) => {
 	logger.debug(text)

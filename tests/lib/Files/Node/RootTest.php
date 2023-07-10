@@ -52,6 +52,17 @@ class RootTest extends \Test\TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
+	/**
+	 * @return \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+	 */
+	protected function getRootViewMock() {
+		$view = $this->createMock(View::class);
+		$view->expects($this->any())
+			->method('getRoot')
+			->willReturn('');
+		return $view;
+	}
+
 	protected function getFileInfo($data) {
 		return new FileInfo('', null, '', $data, null);
 	}
@@ -63,12 +74,7 @@ class RootTest extends \Test\TestCase {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
 			->getMock();
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
@@ -100,12 +106,7 @@ class RootTest extends \Test\TestCase {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
 			->getMock();
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
@@ -129,12 +130,7 @@ class RootTest extends \Test\TestCase {
 	public function testGetInvalidPath() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
@@ -152,12 +148,7 @@ class RootTest extends \Test\TestCase {
 	public function testGetNoStorages() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
@@ -174,7 +165,7 @@ class RootTest extends \Test\TestCase {
 	public function testGetUserFolder() {
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
-			$this->createMock(View::class),
+			$this->getRootViewMock(),
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
@@ -215,7 +206,7 @@ class RootTest extends \Test\TestCase {
 
 		$root = new \OC\Files\Node\Root(
 			$this->createMock(Manager::class),
-			$this->createMock(View::class),
+			$this->getRootViewMock(),
 			null,
 			$this->userMountCache,
 			$this->logger,

@@ -44,7 +44,6 @@ use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 
 class KeyManager {
-
 	/**
 	 * @var Session
 	 */
@@ -441,17 +440,21 @@ class KeyManager {
 	/**
 	 * @param string $path
 	 * @param $uid
+	 * @param ?bool $useLegacyFileKey null means try both
 	 * @return string
 	 */
-	public function getFileKey($path, $uid) {
+	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey): string {
 		if ($uid === '') {
 			$uid = null;
 		}
 		$publicAccess = is_null($uid);
-		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
+		$encryptedFileKey = '';
+		if ($useLegacyFileKey ?? true) {
+			$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
 
-		if (empty($encryptedFileKey)) {
-			return '';
+			if (empty($encryptedFileKey) && $useLegacyFileKey) {
+				return '';
+			}
 		}
 
 		if ($this->util->isMasterKeyEnabled()) {
@@ -475,10 +478,17 @@ class KeyManager {
 			$privateKey = $this->session->getPrivateKey();
 		}
 
-		if ($encryptedFileKey && $shareKey && $privateKey) {
-			return $this->crypt->multiKeyDecrypt($encryptedFileKey,
-				$shareKey,
-				$privateKey);
+		if ($useLegacyFileKey ?? true) {
+			if ($encryptedFileKey && $shareKey && $privateKey) {
+				return $this->crypt->multiKeyDecryptLegacy($encryptedFileKey,
+					$shareKey,
+					$privateKey);
+			}
+		}
+		if (!($useLegacyFileKey ?? false)) {
+			if ($shareKey && $privateKey) {
+				return $this->crypt->multiKeyDecrypt($shareKey, $privateKey);
+			}
 		}
 
 		return '';
@@ -654,6 +664,10 @@ class KeyManager {
 	 */
 	public function deleteAllFileKeys($path) {
 		return $this->keyStorage->deleteAllFileKeys($path);
+	}
+
+	public function deleteLegacyFileKey(string $path): bool {
+		return $this->keyStorage->deleteFileKey($path, $this->fileKeyId, Encryption::ID);
 	}
 
 	/**

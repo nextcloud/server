@@ -22,6 +22,7 @@ OC.L10N.register(
     "No file uploaded" : "לא הועלה קובץ",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "כבר נעשה שימוש בערכת עיצוב מותאמת אישית. יכול להיות שהגדרות יישומון ערכות העיצוב יידרסו.",
     "Theming" : "ערכות נושא",
+    "Appearance and accessibility" : "תצוגה ונגישות",
     "Dark theme" : "ערכת עיצוב כהה",
     "Enable dark theme" : "הפעלת ערכת עיצוב כהה",
     "Dyslexia font" : "גופן דיסלקציה",
@@ -58,14 +59,13 @@ OC.L10N.register(
     "Loading preview…" : "תצוגה מקדימה נטענת…",
     "Admin" : "ניהול",
     "Name cannot be empty" : "השם לא יכול להישאר ריק",
-    "Open documentation" : "פתיחת תיעוד",
-    "https://…" : "https://…‎",
-    "Login image" : "תמונת כניסה",
-    "Upload new login background" : "העלאת תמונת כניסה חדשה",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע.",
     "Pick from Files" : "בחירה מקבצים",
     "Custom color" : "צבע בהתאמה אישית",
     "Plain background" : "רקע רגיל",
-    "Insert from {productName}" : "הכנס מ-{productName}"
+    "Insert from {productName}" : "הכנס מ-{productName}",
+    "Open documentation" : "פתיחת תיעוד",
+    "https://…" : "https://…‎",
+    "Upload new login background" : "העלאת תמונת כניסה חדשה",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

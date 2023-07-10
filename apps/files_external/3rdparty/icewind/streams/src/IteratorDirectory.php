@@ -92,7 +92,7 @@ class IteratorDirectory extends WrapperHandler implements Directory {
 	 * Creates a directory handle from the provided array or iterator
 	 *
 	 * @param \Iterator | array $source
-	 * @return resource|bool
+	 * @return resource|false
 	 *
 	 * @throws \BadMethodCallException
 	 */

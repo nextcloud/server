@@ -19,15 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/cypress'
 
 import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
 
 const defaultPrimary = '#006aa3'
 const defaultBackground = 'kamil-porembinski-clouds.jpg'
+const admin = new User('admin', 'admin')
 
 describe('User default background settings', function() {
 	before(function() {
+		cy.resetAdminTheming()
+		cy.resetUserTheming(admin)
 		cy.createRandomUser().then((user: User) => {
 			cy.login(user)
 		})
@@ -159,7 +162,7 @@ describe('User select a bright custom color and remove background', function() {
 
 	it('See the header being inverted', function() {
 		cy.waitUntil(() => cy.window().then((win) => {
-			const firstEntry = win.document.querySelector('.app-menu-main li')
+			const firstEntry = win.document.querySelector('.app-menu-main li img')
 			if (!firstEntry) {
 				return false
 			}

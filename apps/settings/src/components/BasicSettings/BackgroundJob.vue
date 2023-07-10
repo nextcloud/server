@@ -196,7 +196,7 @@ export default {
 	margin-top: 8px;
 	padding: 5px;
 	border-radius: var(--border-radius);
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	background-color: var(--color-error);
 	width: initial;
 }
@@ -204,7 +204,7 @@ export default {
 	margin-top: 8px;
 	padding: 5px;
 	border-radius: var(--border-radius);
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	background-color: var(--color-warning);
 	width: initial;
 }

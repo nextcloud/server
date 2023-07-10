@@ -24,7 +24,7 @@
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import { manageToken, setToken } from '../../OC/requesttoken'
+import { manageToken, setToken } from '../../OC/requesttoken.js'
 
 describe('request token', () => {
 

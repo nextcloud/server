@@ -23,7 +23,7 @@
 import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 
-import WebAuthnSection from './components/WebAuthn/Section'
+import WebAuthnSection from './components/WebAuthn/Section.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)

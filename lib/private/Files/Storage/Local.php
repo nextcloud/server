@@ -44,6 +44,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
@@ -51,6 +52,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -92,7 +94,7 @@ class Local extends \OC\Files\Storage\Common {
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 
 		// support Write-Once-Read-Many file systems
-		$this->unlinkOnTruncate = $this->config->getSystemValue('localstorage.unlink_on_truncate', false);
+		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
 	}
 
 	public function __destruct() {
@@ -134,10 +136,10 @@ class Local extends \OC\Files\Storage\Common {
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
-				} elseif ($file->isDir()) {
-					rmdir($file->getPathname());
 				} elseif ($file->isFile() || $file->isLink()) {
 					unlink($file->getPathname());
+				} elseif ($file->isDir()) {
+					rmdir($file->getPathname());
 				}
 				$it->next();
 			}
@@ -170,6 +172,11 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		$statResult = @stat($fullPath);
+		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
+			$filesize = $this->filesize($path);
+			$statResult['size'] = $filesize;
+			$statResult[7] = $filesize;
+		}
 		if (is_array($statResult)) {
 			$statResult['full_path'] = $fullPath;
 		}
@@ -236,11 +243,15 @@ class Local extends \OC\Files\Storage\Common {
 		return $filetype;
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		if (!$this->is_file($path)) {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
+		if (PHP_INT_SIZE === 4) {
+			$helper = new \OC\LargeFileHelper;
+			return $helper->getFileSize($fullPath);
+		}
 		return filesize($fullPath);
 	}
 
@@ -261,6 +272,10 @@ class Local extends \OC\Files\Storage\Common {
 		clearstatcache(true, $fullPath);
 		if (!$this->file_exists($path)) {
 			return false;
+		}
+		if (PHP_INT_SIZE === 4) {
+			$helper = new \OC\LargeFileHelper();
+			return $helper->getFileMtime($fullPath);
 		}
 		return filemtime($fullPath);
 	}
@@ -404,11 +419,11 @@ class Local extends \OC\Files\Storage\Common {
 			// disk_free_space doesn't work on files
 			$sourcePath = dirname($sourcePath);
 		}
-		$space = function_exists('disk_free_space') ? disk_free_space($sourcePath) : false;
+		$space = (function_exists('disk_free_space') && is_dir($sourcePath)) ? disk_free_space($sourcePath) : false;
 		if ($space === false || is_null($space)) {
 			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}
-		return (int)$space;
+		return Util::numericToNumber($space);
 	}
 
 	public function search($query) {
@@ -416,10 +431,6 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function getLocalFile($path) {
-		return $this->getSourcePath($path);
-	}
-
-	public function getLocalFolder($path) {
 		return $this->getSourcePath($path);
 	}
 
@@ -476,7 +487,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		$allowSymlinks = $this->config->getSystemValue('localstorage.allowsymlinks', false);
+		$allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
 		if ($allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}
@@ -543,6 +554,16 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
+	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+		return $sourceStorage->instanceOfStorage(Local::class)
+			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
+			// Instead, use the slower recursive copying in php from Common::copyFromStorage with
+			// more permissions checks.
+			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
+			// when moving encrypted files we have to handle keys and the target might not be encrypted
+			&& !$sourceStorage->instanceOfStorage(Encryption::class);
+	}
+
 	/**
 	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
@@ -551,10 +572,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
-		// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
-		// Instead use the slower recursive copying in php from Common::copyFromStorage with
-		// more permissions checks.
-		if ($sourceStorage->instanceOfStorage(Local::class) && !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')) {
+		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
@@ -578,7 +596,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage->instanceOfStorage(Local::class)) {
+		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
@@ -596,6 +614,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
+		/** @var int|false $result We consider here that returned size will never be a float because we write less than 4GB */
 		$result = $this->file_put_contents($path, $stream);
 		if (is_resource($stream)) {
 			fclose($stream);

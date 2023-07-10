@@ -13,6 +13,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OCP\Cache\CappedMemoryCache;
 use OC\User\Manager;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\ICacheFactory;
@@ -67,7 +68,7 @@ class UserMountCacheTest extends TestCase {
 		$userBackend->createUser('u2', '');
 		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class));
+		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class), $this->createMock(IEventLogger::class));
 	}
 
 	protected function tearDown(): void {

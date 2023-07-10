@@ -23,23 +23,23 @@ import { getCurrentUser } from '@nextcloud/auth'
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
-import { basename, joinPaths } from '@nextcloud/paths'
+import { joinPaths } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-import { translate } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
  * @typedef {object} Version
- * @property {string} title - 'Current version' or ''
+ * @property {string} fileId - The id of the file associated to the version.
+ * @property {string} label - 'Current version' or ''
  * @property {string} fileName - File name relative to the version DAV endpoint
  * @property {string} mimeType - Empty for the current version, else the actual mime type of the version
  * @property {string} size - Human readable size
  * @property {string} type - 'file'
  * @property {number} mtime - Version creation date as a timestamp
+ * @property {boolean} hasPreview - Whether the version has a preview
  * @property {string} preview - Preview URL of the version
  * @property {string} url - Download URL of the version
  * @property {string|null} fileVersion - The version id, null for the current version
- * @property {boolean} isCurrent - Whether this is the current version of the file
  */
 
 /**
@@ -50,11 +50,15 @@ export async function fetchVersions(fileInfo) {
 	const path = `/versions/${getCurrentUser()?.uid}/versions/${fileInfo.id}`
 
 	try {
-		/** @type {import('webdav').FileStat[]} */
+		/** @type {import('webdav').ResponseDataDetailed<import('webdav').FileStat[]>} */
 		const response = await client.getDirectoryContents(path, {
 			data: davRequest,
+			details: true,
 		})
-		return response.map(version => formatVersion(version, fileInfo))
+		return response.data
+			// Filter out root
+			.filter(({ mime }) => mime !== '')
+			.map(version => formatVersion(version, fileInfo))
 	} catch (exception) {
 		logger.error('Could not fetch version', { exception })
 		throw exception
@@ -65,13 +69,12 @@ export async function fetchVersions(fileInfo) {
  * Restore the given version
  *
  * @param {Version} version
- * @param {object} fileInfo
  */
-export async function restoreVersion(version, fileInfo) {
+export async function restoreVersion(version) {
 	try {
 		logger.debug('Restoring version', { url: version.url })
 		await client.moveFile(
-			`/versions/${getCurrentUser()?.uid}/versions/${fileInfo.id}/${version.fileVersion}`,
+			`/versions/${getCurrentUser()?.uid}/versions/${version.fileId}/${version.fileVersion}`,
 			`/versions/${getCurrentUser()?.uid}/restore/target`
 		)
 	} catch (exception) {
@@ -88,37 +91,51 @@ export async function restoreVersion(version, fileInfo) {
  * @return {Version}
  */
 function formatVersion(version, fileInfo) {
-	const isCurrent = version.mime === ''
-	const fileVersion = isCurrent ? null : basename(version.filename)
-
-	let url = null
-	let preview = null
-
-	if (isCurrent) {
-		// https://nextcloud_server2.test/remote.php/webdav/welcome.txt?downloadStartSecret=hl5awd7tbzg
-		url = joinPaths('/remote.php/webdav', fileInfo.path, fileInfo.name)
-		preview = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
-			fileId: fileInfo.id,
-			fileEtag: fileInfo.etag,
-		})
-	} else {
-		url = joinPaths('/remote.php/dav', version.filename)
-		preview = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
-			fileVersion,
-		})
-	}
-
 	return {
-		title: isCurrent ? translate('files_versions', 'Current version') : '',
+		fileId: fileInfo.id,
+		label: version.props['version-label'],
 		fileName: version.filename,
 		mimeType: version.mime,
-		size: isCurrent ? fileInfo.size : version.size,
+		size: version.size,
 		type: version.type,
-		mtime: moment(isCurrent ? fileInfo.mtime : version.lastmod).unix(),
-		preview,
-		url,
-		fileVersion,
-		isCurrent,
+		mtime: moment(version.lastmod).unix() * 1000,
+		hasPreview: version.props['has-preview'] === 1,
+		preview: generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
+			file: joinPaths(fileInfo.path, fileInfo.name),
+			fileVersion: version.basename,
+		}),
+		url: joinPaths('/remote.php/dav', version.filename),
+		fileVersion: version.basename,
 	}
+}
+
+/**
+ * @param {Version} version
+ * @param {string} newLabel
+ */
+export async function setVersionLabel(version, newLabel) {
+	return await client.customRequest(
+		version.fileName,
+		{
+			method: 'PROPPATCH',
+			data: `<?xml version="1.0"?>
+					<d:propertyupdate xmlns:d="DAV:"
+						xmlns:oc="http://owncloud.org/ns"
+						xmlns:nc="http://nextcloud.org/ns"
+						xmlns:ocs="http://open-collaboration-services.org/ns">
+					<d:set>
+						<d:prop>
+							<nc:version-label>${newLabel}</nc:version-label>
+						</d:prop>
+					</d:set>
+					</d:propertyupdate>`,
+		}
+	)
+}
+
+/**
+ * @param {Version} version
+ */
+export async function deleteVersion(version) {
+	await client.deleteFile(version.fileName)
 }

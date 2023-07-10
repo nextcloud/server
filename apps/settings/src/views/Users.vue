@@ -30,23 +30,28 @@
 				@keyup.enter="showNewUserMenu"
 				@keyup.space="showNewUserMenu" />
 			<template #list>
-				<NcAppNavigationItem id="addgroup"
+				<NcAppNavigationNewItem id="addgroup"
 					ref="addGroup"
 					:edit-placeholder="t('settings', 'Enter group name')"
 					:editable="true"
 					:loading="loadingAddGroup"
 					:title="t('settings', 'Add group')"
-					icon="icon-add"
 					@click="showAddGroupForm"
-					@update:title="createGroup" />
+					@new-item="createGroup">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcAppNavigationNewItem>
 				<NcAppNavigationItem id="everyone"
 					:exact="true"
 					:title="t('settings', 'Active users')"
 					:to="{ name: 'users' }"
 					icon="icon-contacts-dark">
-					<NcAppNavigationCounter v-if="userCount > 0" slot="counter">
-						{{ userCount }}
-					</NcAppNavigationCounter>
+					<template #counter>
+						<NcCounterBubble :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							{{ userCount }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem v-if="settings.isAdmin"
 					id="admin"
@@ -54,9 +59,11 @@
 					:title="t('settings', 'Admins')"
 					:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
 					icon="icon-user-admin">
-					<NcAppNavigationCounter v-if="adminGroupMenu.count" slot="counter">
-						{{ adminGroupMenu.count }}
-					</NcAppNavigationCounter>
+					<template v-if="adminGroupMenu.count > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
+							{{ adminGroupMenu.count }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 
 				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
@@ -66,69 +73,58 @@
 					:title="t('settings', 'Disabled users')"
 					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
 					icon="icon-disabled-users">
-					<NcAppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
-						{{ disabledGroupMenu.usercount }}
-					</NcAppNavigationCounter>
+					<template v-if="disabledGroupMenu.usercount > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
+							{{ disabledGroupMenu.usercount }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 
 				<NcAppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
 				<GroupListItem v-for="group in groupList"
 					:id="group.id"
 					:key="group.id"
+					:active="selectedGroupDecoded === group.id"
 					:title="group.title"
 					:count="group.count" />
 			</template>
 			<template #footer>
-				<NcAppNavigationSettings>
-					<div>
-						<p>{{ t('settings', 'Default quota:') }}</p>
-						<NcMultiselect :value="defaultQuota"
-							:options="quotaOptions"
-							tag-placeholder="create"
-							:placeholder="t('settings', 'Select default quota')"
-							label="label"
-							track-by="id"
-							:allow-empty="false"
-							:taggable="true"
-							@tag="validateQuota"
-							@input="setDefaultQuota" />
-					</div>
-					<div>
-						<input id="showLanguages"
-							v-model="showLanguages"
-							type="checkbox"
-							class="checkbox">
-						<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
-					</div>
-					<div>
-						<input id="showLastLogin"
-							v-model="showLastLogin"
-							type="checkbox"
-							class="checkbox">
-						<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
-					</div>
-					<div>
-						<input id="showUserBackend"
-							v-model="showUserBackend"
-							type="checkbox"
-							class="checkbox">
-						<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
-					</div>
-					<div>
-						<input id="showStoragePath"
-							v-model="showStoragePath"
-							type="checkbox"
-							class="checkbox">
-						<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
-					</div>
-					<div>
-						<input id="sendWelcomeMail"
-							v-model="sendWelcomeMail"
-							:disabled="loadingSendMail"
-							type="checkbox"
-							class="checkbox">
-						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
-					</div>
+				<NcAppNavigationSettings exclude-click-outside-selectors=".vs__dropdown-menu">
+					<label for="default-quota-select">{{ t('settings', 'Default quota:') }}</label>
+					<NcSelect v-model="defaultQuota"
+						input-id="default-quota-select"
+						:taggable="true"
+						:options="quotaOptions"
+						:create-option="validateQuota"
+						:placeholder="t('settings', 'Select default quota')"
+						:clearable="false"
+						@option:selected="setDefaultQuota" />
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showLanguages"
+						:checked.sync="showLanguages">
+						{{ t('settings', 'Show languages') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showLastLogin"
+						:checked.sync="showLastLogin">
+						{{ t('settings', 'Show last login') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showUserBackend"
+						:checked.sync="showUserBackend">
+						{{ t('settings', 'Show user backend') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showStoragePath"
+						:checked.sync="showStoragePath">
+						{{ t('settings', 'Show storage path') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="sendWelcomeMail"
+						:checked.sync="sendWelcomeMail"
+						:disabled="loadingSendMail">
+						{{ t('settings', 'Send email to new user') }}
+					</NcCheckboxRadioSwitch>
 				</NcAppNavigationSettings>
 			</template>
 		</NcAppNavigation>
@@ -142,38 +138,47 @@
 </template>
 
 <script>
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation'
-import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew'
-import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings'
-import axios from '@nextcloud/axios'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent'
-import { generateUrl } from '@nextcloud/router'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
-import GroupListItem from '../components/GroupListItem'
-import UserList from '../components/UserList'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
+import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
+import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigationNewItem.js'
+import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+
+import Plus from 'vue-material-design-icons/Plus.vue'
+
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+
+import GroupListItem from '../components/GroupListItem.vue'
+import UserList from '../components/UserList.vue'
 
 Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Users',
 	components: {
+		GroupListItem,
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationCaption,
-		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
+		NcAppNavigationNewItem,
 		NcAppNavigationSettings,
+		NcCheckboxRadioSwitch,
+		NcCounterBubble,
 		NcContent,
-		GroupListItem,
-		NcMultiselect,
+		NcSelect,
+		Plus,
 		UserList,
 	},
 	props: {
@@ -336,11 +341,6 @@ export default {
 	methods: {
 		showNewUserMenu() {
 			this.showConfig.showNewUserForm = true
-			if (this.showConfig.showNewUserForm) {
-				Vue.nextTick(() => {
-					window.newusername.focus()
-				})
-			}
 		},
 		getLocalstorage(key) {
 			// force initialization
@@ -361,6 +361,10 @@ export default {
 		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 */
 		setDefaultQuota(quota = 'none') {
+			// Make sure correct label is set for unlimited quota
+			if (quota === 'none') {
+				quota = this.unlimitedQuota
+			}
 			this.$store.dispatch('setAppConfig', {
 				app: 'files',
 				key: 'default_quota',
@@ -377,17 +381,21 @@ export default {
 		/**
 		 * Validate quota string to make sure it's a valid human file size
 		 *
-		 * @param {string} quota Quota in readable format '5 GB'
-		 * @return {Promise|boolean}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {object} The validated quota object or unlimited quota if input is invalid
 		 */
 		validateQuota(quota) {
+			if (typeof quota === 'object') {
+				quota = quota?.id || quota.label
+			}
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota === null) {
-				return this.setDefaultQuota('none')
+				return this.unlimitedQuota
 			} else {
 				// unify format output
-				return this.setDefaultQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
+				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				return { id: quota, label: quota }
 			}
 		},
 
@@ -438,16 +446,15 @@ export default {
 		},
 
 		showAddGroupForm() {
-			this.$refs.addGroup.editingActive = true
-			this.$refs.addGroup.onMenuToggle(false)
+			this.$refs.addGroup.newItemActive = true
 			this.$nextTick(() => {
-				this.$refs.addGroup.$refs.editingInput.focusInput()
+				this.$refs.addGroup.$refs.newItemInput.focusInput()
 			})
 		},
 
 		hideAddGroupForm() {
-			this.$refs.addGroup.editingActive = false
-			this.$refs.addGroup.editingValue = ''
+			this.$refs.addGroup.newItemActive = false
+			this.$refs.addGroup.newItemValue = ''
 		},
 
 		/**

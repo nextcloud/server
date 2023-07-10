@@ -20,16 +20,19 @@
   -->
 
 <template>
-	<div v-if="hasLoaded"
-		class="predefined-statuses-list">
+	<ul v-if="statusesHaveLoaded"
+		class="predefined-statuses-list"
+		role="radiogroup"
+		:aria-label="t('user_status', 'Predefined statuses')">
 		<PredefinedStatus v-for="status in predefinedStatuses"
 			:key="status.id"
 			:message-id="status.id"
 			:icon="status.icon"
 			:message="status.message"
 			:clear-at="status.clearAt"
+			:selected="!isCustomStatus && lastSelected === status.id"
 			@select="selectStatus(status)" />
-	</div>
+	</ul>
 	<div v-else
 		class="predefined-statuses-list">
 		<div class="icon icon-loading-small" />
@@ -37,32 +40,37 @@
 </template>
 
 <script>
-import PredefinedStatus from './PredefinedStatus'
-import { mapState } from 'vuex'
+import PredefinedStatus from './PredefinedStatus.vue'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
 	name: 'PredefinedStatusesList',
 	components: {
 		PredefinedStatus,
 	},
+	props: {
+		/** If the current selected status is a custom one */
+		isCustomStatus: {
+			type: Boolean,
+			required: true,
+		},
+	},
+	data() {
+		return {
+			lastSelected: null,
+		}
+	},
 	computed: {
 		...mapState({
 			predefinedStatuses: state => state.predefinedStatuses.predefinedStatuses,
 		}),
-		/**
-		 * Indicator whether the predefined statuses have already been loaded
-		 *
-		 * @return {boolean}
-		 */
-		hasLoaded() {
-			return this.predefinedStatuses.length > 0
-		},
+		...mapGetters(['statusesHaveLoaded']),
 	},
 	/**
 	 * Loads all predefined statuses from the server
 	 * when this component is mounted
 	 */
-	mounted() {
+	created() {
 		this.$store.dispatch('loadAllPredefinedStatuses')
 	},
 	methods: {
@@ -72,6 +80,7 @@ export default {
 		 * @param {object} status The selected status
 		 */
 		selectStatus(status) {
+			this.lastSelected = status.id
 			this.$emit('select-status', status)
 		},
 	},

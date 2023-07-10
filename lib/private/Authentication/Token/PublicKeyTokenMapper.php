@@ -229,4 +229,31 @@ class PublicKeyTokenMapper extends QBMapper {
 			);
 		$update->executeStatement();
 	}
+
+	public function updateHashesForUser(string $userId, string $passwordHash): void {
+		$qb = $this->db->getQueryBuilder();
+		$update = $qb->update($this->getTableName())
+			->set('password_hash', $qb->createNamedParameter($passwordHash))
+			->where(
+				$qb->expr()->eq('uid', $qb->createNamedParameter($userId))
+			);
+		$update->executeStatement();
+	}
+
+	public function getFirstTokenForUser(string $userId): ?PublicKeyToken {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId)))
+			->setMaxResults(1)
+			->orderBy('id');
+		$result = $qb->executeQuery();
+
+		$data = $result->fetch();
+		$result->closeCursor();
+		if ($data === false) {
+			return null;
+		}
+		return PublicKeyToken::fromRow($data);
+	}
 }

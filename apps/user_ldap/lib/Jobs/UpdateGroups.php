@@ -44,7 +44,7 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class UpdateGroups extends TimedJob {
-    /** @var ?array<string, array{owncloudusers: string, owncloudname: string}>  */
+	/** @var ?array<string, array{owncloudusers: string, owncloudname: string}>  */
 	private ?array $groupsFromDB = null;
 	private Group_Proxy $groupBackend;
 	private IEventDispatcher $dispatcher;
@@ -157,6 +157,17 @@ class UpdateGroups extends TimedJob {
 			$hasChanged = false;
 
 			$groupObject = $this->groupManager->get($group);
+			if ($groupObject === null) {
+				/* We are not expecting the group to not be found since it was returned by $this->groupBackend->getGroups() */
+				$this->logger->error(
+					'bgJ "updateGroups" – Failed to get group {group} for update',
+					[
+						'app' => 'user_ldap',
+						'group' => $group
+					]
+				);
+				continue;
+			}
 			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
 				$userObject = $this->userManager->get($removedUser);
 				if ($userObject instanceof IUser) {

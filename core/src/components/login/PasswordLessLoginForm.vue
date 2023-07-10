@@ -4,38 +4,31 @@
 		method="post"
 		name="login"
 		@submit.prevent="submit">
+		<h2>{{ t('core', 'Log in with a device') }}</h2>
 		<fieldset>
-			<p class="grouptop groupbottom">
-				<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
-				<input id="user"
-					ref="user"
-					v-model="user"
-					type="text"
-					name="user"
-					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-					:placeholder="t('core', 'Username or email')"
-					:aria-label="t('core', 'Username or email')"
-					required
-					@change="$emit('update:username', user)">
-			</p>
-
-			<div v-if="!validCredentials" class="body-login-container update form__message-box">
-				{{ t('core', 'Your account is not setup for passwordless login.') }}
-			</div>
+			<NcTextField required
+				:value="user"
+				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+				:error="!validCredentials"
+				:label-visible="true"
+				:label="t('core', 'Username or email')"
+				:placeholder="t('core', 'Username or email')"
+				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+				@update:value="changeUsername" />
 
 			<LoginButton v-if="validCredentials"
 				:loading="loading"
 				@click="authenticate" />
 		</fieldset>
 	</form>
-	<div v-else-if="!hasPublicKeyCredential" class="body-login-container update">
+	<div v-else-if="!hasPublicKeyCredential" class="update">
 		<InformationIcon size="70" />
 		<h2>{{ t('core', 'Browser not supported') }}</h2>
 		<p class="infogroup">
 			{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
 		</p>
 	</div>
-	<div v-else-if="!isHttps && !isLocalhost" class="body-login-container update">
+	<div v-else-if="!isHttps && !isLocalhost" class="update">
 		<LockOpenIcon size="70" />
 		<h2>{{ t('core', 'Your connection is not secure') }}</h2>
 		<p class="infogroup">
@@ -48,10 +41,11 @@
 import {
 	startAuthentication,
 	finishAuthentication,
-} from '../../services/WebAuthnAuthenticationService'
-import LoginButton from './LoginButton'
-import InformationIcon from 'vue-material-design-icons/Information'
-import LockOpenIcon from 'vue-material-design-icons/LockOpen'
+} from '../../services/WebAuthnAuthenticationService.js'
+import LoginButton from './LoginButton.vue'
+import InformationIcon from 'vue-material-design-icons/Information.vue'
+import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 class NoValidCredentials extends Error {
 
@@ -63,6 +57,7 @@ export default {
 		LoginButton,
 		InformationIcon,
 		LockOpenIcon,
+		NcTextField,
 	},
 	props: {
 		username: {
@@ -99,6 +94,11 @@ export default {
 	},
 	methods: {
 		authenticate() {
+			// check required fields
+			if (!this.$refs.loginForm.checkValidity()) {
+				return
+			}
+
 			console.debug('passwordless login initiated')
 
 			this.getAuthenticationData(this.user)
@@ -115,6 +115,10 @@ export default {
 					}
 					console.debug(error)
 				})
+		},
+		changeUsername(username) {
+			this.user = username
+			this.$emit('update:username', this.user)
 		},
 		getAuthenticationData(uid) {
 			const base64urlDecode = function(input) {
@@ -221,12 +225,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.body-login-container.update {
-		margin: 15px 0;
+	fieldset {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 
-		&.form__message-box {
-			width: 240px;
-			margin: 5px;
+		:deep(label) {
+			text-align: initial;
 		}
+	}
+
+	.update {
+		margin: 0 auto;
 	}
 </style>

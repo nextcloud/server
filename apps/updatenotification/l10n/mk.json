@@ -6,6 +6,7 @@
     "The update server could not be reached since %d days to check for new updates." : "Серверот за ажурирање не е проверен %d дена.",
     "Please check the Nextcloud and server log files for errors." : "Проверете ги записите во Cloud-от и записите во серверот за грешките.",
     "Update to %1$s is available." : "Достапно е аурирање во верзија %1$s.",
+    "Update to {serverAndVersion} is available." : "Достапно е ажурирање во {serverAndVersion} верзија.",
     "Update for {app} to version %s is available." : "Достапно е ажурирање за {app} во верзија %s.",
     "Update notification" : "Известување за ажурирање",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Прикажува известувања за ажурирање на Nextcloud и овозможува SSO за надградувачот.",

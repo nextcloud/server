@@ -39,9 +39,13 @@ class SQLiteMigrator extends Migrator {
 		$platform->registerDoctrineTypeMapping('smallint unsigned', 'integer');
 		$platform->registerDoctrineTypeMapping('varchar ', 'string');
 
-		// with sqlite autoincrement columns is of type integer
 		foreach ($targetSchema->getTables() as $table) {
 			foreach ($table->getColumns() as $column) {
+				// column comments are not supported on SQLite
+				if ($column->getComment() !== null) {
+					$column->setComment(null);
+				}
+				// with sqlite autoincrement columns is of type integer
 				if ($column->getType() instanceof BigIntType && $column->getAutoincrement()) {
 					$column->setType(Type::getType('integer'));
 				}

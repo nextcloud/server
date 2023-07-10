@@ -138,7 +138,7 @@ class File extends Node implements IFile {
 	public function put($data) {
 		try {
 			$exists = $this->fileView->file_exists($this->path);
-			if ($this->info && $exists && !$this->info->isUpdateable()) {
+			if ($exists && !$this->info->isUpdateable()) {
 				throw new Forbidden();
 			}
 		} catch (StorageNotAvailableException $e) {
@@ -422,14 +422,15 @@ class File extends Node implements IFile {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 */
-	private function emitPreHooks($exists, $path = null) {
+	private function emitPreHooks(bool $exists, ?string $path = null): bool {
 		if (is_null($path)) {
 			$path = $this->path;
 		}
 		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
+		if ($hookPath === null) {
+			// We only trigger hooks from inside default view
+			return true;
+		}
 		$run = true;
 
 		if (!$exists) {
@@ -450,14 +451,15 @@ class File extends Node implements IFile {
 		return $run;
 	}
 
-	/**
-	 * @param string $path
-	 */
-	private function emitPostHooks($exists, $path = null) {
+	private function emitPostHooks(bool $exists, ?string $path = null): void {
 		if (is_null($path)) {
 			$path = $this->path;
 		}
 		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
+		if ($hookPath === null) {
+			// We only trigger hooks from inside default view
+			return;
+		}
 		if (!$exists) {
 			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, [
 				\OC\Files\Filesystem::signal_param_path => $hookPath
@@ -759,9 +761,6 @@ class File extends Node implements IFile {
 	 * @return string|null
 	 */
 	public function getChecksum() {
-		if (!$this->info) {
-			return null;
-		}
 		return $this->info->getChecksum();
 	}
 

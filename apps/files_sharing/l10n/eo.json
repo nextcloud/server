@@ -97,8 +97,8 @@
     "Public upload disabled by the administrator" : "Publikan alŝuton malebligis la administranto",
     "Public upload is only possible for publicly shared folders" : "Publika alŝuto eblas nur por publike kunhavigitaj dosierujoj",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo de %s per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita.",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nevalida dato; datoformo estu JJJJ-MM-TT",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Kunhavigo de %1$s malsukcesis, ĉar la servilo ne permesas kunhavon de tipo %2$s",
+    "Invalid date, date format must be YYYY-MM-DD" : "Nevalida dato; datoformo estu JJJJ-MM-TT",
     "You cannot share to a Circle if the app is not enabled" : "Vi ne povas kunhavigi per Rondo, se la aplikaĵo „Rondo“ ne estas ebligita",
     "Please specify a valid circle" : "Bv. doni validan rondon",
     "Sharing %s failed because the back end does not support room shares" : "Kunhavigo de %s malsukcesis, ĉar la servilo ne subtenas kunhavon de ĉambro",
@@ -200,10 +200,6 @@
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
-    "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
-    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
-    "Copy to clipboard" : "Kopii tondejen",
-    "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
-    "Toggle grid view" : "Baskuligi kradan vidon"
+    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

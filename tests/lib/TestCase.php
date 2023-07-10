@@ -266,7 +266,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				return self::$realDatabase;
 			});
 		}
-		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
+		$dataDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
 			$db = \OC::$server->getDatabaseConnection();
 			if ($db->inTransaction()) {

@@ -33,7 +33,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ExpireVersionsTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	private $config;
 
@@ -70,7 +69,7 @@ class ExpireVersionsTest extends TestCase {
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('getTime')
 			->with()
-			->willReturn(99999999999);
+			->willReturn(999999999);
 
 		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration, $timeFactory);
 		$job->start($this->jobList);

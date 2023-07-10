@@ -190,17 +190,21 @@ class LDAP implements ILDAPWrapper {
 	 * {@inheritDoc}
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0, int $pageSize = 0, string $cookie = '') {
-		$serverControls = [[
-			'oid' => LDAP_CONTROL_PAGEDRESULTS,
-			'value' => [
-				'size' => $pageSize,
-				'cookie' => $cookie,
-			],
-			'iscritical' => false,
-		]];
+		if ($pageSize > 0 || $cookie !== '') {
+			$serverControls = [[
+				'oid' => LDAP_CONTROL_PAGEDRESULTS,
+				'value' => [
+					'size' => $pageSize,
+					'cookie' => $cookie,
+				],
+				'iscritical' => false,
+			]];
+		} else {
+			$serverControls = [];
+		}
 
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
-			if (strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
+			if (str_contains($message, 'Partial search results returned: Sizelimit exceeded')) {
 				return true;
 			}
 			$oldHandler($no, $message, $file, $line);
@@ -387,7 +391,7 @@ class LDAP implements ILDAPWrapper {
 		if ($this->isResource($this->curArgs[0])) {
 			$resource = $this->curArgs[0];
 		} elseif (
-			   $functionName === 'ldap_search'
+			$functionName === 'ldap_search'
 			&& is_array($this->curArgs[0])
 			&& $this->isResource($this->curArgs[0][0])
 		) {

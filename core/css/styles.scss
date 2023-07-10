@@ -36,12 +36,14 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 /** Let vue apps handle the focus themselves */
 .content:not(#content-vue) :focus-visible,
 .app-navigation:not(#app-navigation-vue) :focus-visible {
-	box-shadow: inset 0 0 0 2px var(--color-primary);
+	box-shadow: inset 0 0 0 2px var(--color-primary-element);
 	outline: none;
 }
 
 html, body {
 	height: 100%;
+	// disable pull-down-to-refresh on chromium mobile
+	overscroll-behavior-y: contain;
 }
 
 article, aside, dialog, figure, footer, header, hgroup, nav, section {
@@ -112,7 +114,7 @@ body {
 
 .two-factor-provider {
 	text-align: center;
-	width: 258px !important;
+	width: 100% !important;
 	display: inline-block;
 	margin-bottom: 0 !important;
 	background-color: var(--color-background-darker) !important;
@@ -140,7 +142,7 @@ body {
 	z-index: 9000;
 	text-align: center;
 	background-color: var(--color-background-darker);
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	line-height: 125%;
 	font-size: 24px;
 	div {
@@ -151,10 +153,10 @@ body {
 		margin: 0px auto;
 	}
 	a {
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		border-bottom: 2px dotted var(--color-main-background);
 		&:hover, &:focus {
-			color: var(--color-primary-text-dark);
+			color: var(--color-primary-element-text-dark);
 		}
 	}
 }
@@ -164,6 +166,10 @@ body {
 ::-webkit-scrollbar {
 	width: 12px;
 	height: 12px
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -182,7 +188,7 @@ body {
 
 ::selection {
 	background-color: var(--color-primary-element);
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 }
 
 
@@ -262,7 +268,7 @@ body {
 	opacity: .8;
 }
 #show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
-	box-shadow: var(--color-primary) 0 0 0 2px;
+	box-shadow: var(--color-primary-element) 0 0 0 2px;
 	opacity: 1;
 	border-radius: 9999px;
 }
@@ -423,7 +429,7 @@ tr {
 	}
 }
 
-tbody tr {
+tbody tr:not(.group-header) {
 	&:hover, &:focus, &:active {
 		background-color: var(--color-background-dark);
 	}
@@ -515,8 +521,8 @@ code {
 			&.ui-datepicker-current-day a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
-				background-color: var(--color-primary);
-				color: var(--color-primary-text);
+				background-color: var(--color-primary-element);
+				color: var(--color-primary-element-text);
 				font-weight: bold;
 			}
 
@@ -587,8 +593,8 @@ code {
 			&.ui-timepicker-minute-cell a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
-				background-color: var(--color-primary);
-				color: var(--color-primary-text);
+				background-color: var(--color-primary-element);
+				color: var(--color-primary-element-text);
 				font-weight: bold;
 			}
 
@@ -645,8 +651,10 @@ code {
 		flex-wrap: wrap;
 		box-sizing: border-box;
 		padding-right: 140px;
+		display: flex;
 
 		div:first-child a {
+			font-size: 0px;
 			background-image: var(--icon-home-dark);
 			background-repeat: no-repeat;
 			background-position: left center;
@@ -678,7 +686,7 @@ code {
 		&:hover,
 		&:active,
 		&:focus {
-			box-shadow: 0 0 0 2px var(--color-primary);
+			box-shadow: 0 0 0 2px var(--color-primary-element);
 			opacity: 1;
 		}
 	}
@@ -872,7 +880,10 @@ code {
 							width: 100%;
 						}
 						&.date {
-							display: none;
+							align-self: center;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							min-width: 110px;
 						}
 					}
 				}
@@ -940,8 +951,9 @@ span.ui-icon {
 /* ---- BREADCRUMB ---- */
 .breadcrumb {
 	display: inline-flex;
+	height: 50px;
 }
-div.crumb {
+li.crumb {
 	display: inline-flex;
 	background-image: url('../img/breadcrumb.svg?v=1');
 	background-repeat: no-repeat;

@@ -18,8 +18,6 @@
     "Accept" : "Aceitar",
     "Decline" : "Recusar",
     "Federated Cloud Sharing" : "Partilha de Nuvem Federada",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud, veja %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud",
     "Sharing" : "Partilha",
     "Federated file sharing" : "Partilha federada de ficheiros",
     "Provide federated file sharing across servers" : "Permita a partilha federada de ficheiros entre servidores",
@@ -33,12 +31,9 @@
     "Add to your website" : "Adicione ao seu site da Web",
     "Share with me via Nextcloud" : "Partilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Copied!" : "Copiado!",
-    "Copy" : "Copiar",
-    "Not supported!" : "Não suportado!",
-    "Press ⌘-C to copy." : "Pressione ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Pressione Ctrl-C para copiar.",
-    "Open documentation" : "Abrir documentação"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud, veja %s"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

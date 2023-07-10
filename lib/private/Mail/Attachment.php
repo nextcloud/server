@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Mail;
 
 use OCP\Mail\IAttachment;
+use Symfony\Component\Mime\Email;
 
 /**
  * Class Attachment
@@ -35,47 +36,46 @@ use OCP\Mail\IAttachment;
  * @since 13.0.0
  */
 class Attachment implements IAttachment {
-	/** @var \Swift_Mime_Attachment */
-	protected $swiftAttachment;
-
-	public function __construct(\Swift_Mime_Attachment $attachment) {
-		$this->swiftAttachment = $attachment;
+	public function __construct(
+		private ?string $body,
+		private ?string $name,
+		private ?string $contentType,
+		private ?string $path = null
+	) {
 	}
 
 	/**
-	 * @param string $filename
 	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function setFilename(string $filename): IAttachment {
-		$this->swiftAttachment->setFilename($filename);
+		$this->name = $filename;
 		return $this;
 	}
 
 	/**
-	 * @param string $contentType
 	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function setContentType(string $contentType): IAttachment {
-		$this->swiftAttachment->setContentType($contentType);
+		$this->contentType = $contentType;
 		return $this;
 	}
 
 	/**
-	 * @param string $body
 	 * @return $this
 	 * @since 13.0.0
 	 */
 	public function setBody(string $body): IAttachment {
-		$this->swiftAttachment->setBody($body);
+		$this->body = $body;
 		return $this;
 	}
 
-	/**
-	 * @return \Swift_Mime_Attachment
-	 */
-	public function getSwiftAttachment(): \Swift_Mime_Attachment {
-		return $this->swiftAttachment;
+	public function attach(Email $symfonyEmail): void {
+		if ($this->path !== null) {
+			$symfonyEmail->attachFromPath($this->path, $this->name, $this->contentType);
+		} else {
+			$symfonyEmail->attach($this->body, $this->name, $this->contentType);
+		}
 	}
 }

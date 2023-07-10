@@ -27,7 +27,7 @@ import $ from 'jquery'
 import moment from 'moment'
 import { generateUrl } from '@nextcloud/router'
 
-import OC from './index'
+import OC from './index.js'
 
 /**
  * @namespace OC.PasswordConfirmation
@@ -94,9 +94,10 @@ export default {
 					const $error = $('<p></p>').addClass('msg warning').text(config.error)
 					$dialog.find('.oc-dialog-content').append($error)
 				}
-				$dialog.find('.oc-dialog-buttonrow').addClass('aside')
+				const $buttonrow = $dialog.find('.oc-dialog-buttonrow')
+				$buttonrow.addClass('aside')
 
-				const $buttons = $dialog.find('button')
+				const $buttons = $buttonrow.find('button')
 				$buttons.eq(0).hide()
 				$buttons.eq(1).text(config.confirm)
 			})

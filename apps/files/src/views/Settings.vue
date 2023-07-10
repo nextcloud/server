@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @author Gary Kim <gary@garykim.dev>
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -26,11 +26,15 @@
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :title="t('files', 'Files settings')">
-			<NcCheckboxRadioSwitch :checked.sync="show_hidden"
+			<NcCheckboxRadioSwitch :checked="userConfig.sort_favorites_first"
+				@update:checked="setConfig('sort_favorites_first', $event)">
+				{{ t('files', 'Sort favorites first') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch :checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked.sync="crop_image_previews"
+			<NcCheckboxRadioSwitch :checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
@@ -46,7 +50,7 @@
 		</NcAppSettingsSection>
 
 		<!-- Webdav URL-->
-		<NcAppSettingsSection id="webdav" :title="t('files', 'Webdav')">
+		<NcAppSettingsSection id="webdav" :title="t('files', 'WebDAV')">
 			<NcInputField id="webdav-url-input"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
@@ -61,8 +65,17 @@
 				</template>
 			</NcInputField>
 			<em>
-				<a :href="webdavDocs" target="_blank" rel="noreferrer noopener">
+				<a class="setting-link"
+					:href="webdavDocs"
+					target="_blank"
+					rel="noreferrer noopener">
 					{{ t('files', 'Use this address to access your Files via WebDAV') }} ↗
+				</a>
+			</em>
+			<br>
+			<em>
+				<a class="setting-link" :href="appPasswordUrl">
+					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
 				</a>
 			</em>
 		</NcAppSettingsSection>
@@ -74,21 +87,14 @@ import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDia
 import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Clipboard from 'vue-material-design-icons/Clipboard.vue'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import Setting from '../components/Setting.vue'
 
-import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-
-const userConfig = loadState('files', 'config', {
-	show_hidden: false,
-	crop_image_previews: true,
-})
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default {
 	name: 'Settings',
@@ -108,19 +114,30 @@ export default {
 		},
 	},
 
+	setup() {
+		const userConfigStore = useUserConfigStore()
+		return {
+			userConfigStore,
+		}
+	},
+
 	data() {
 		return {
-
-			...userConfig,
-
 			// Settings API
 			settings: window.OCA?.Files?.Settings?.settings || [],
 
 			// Webdav infos
 			webdavUrl: generateRemoteUrl('dav/files/' + encodeURIComponent(getCurrentUser()?.uid)),
 			webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
+			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
 		}
+	},
+
+	computed: {
+		userConfig() {
+			return this.userConfigStore.userConfig
+		},
 	},
 
 	beforeMount() {
@@ -139,10 +156,7 @@ export default {
 		},
 
 		setConfig(key, value) {
-			emit('files:config:updated', { key, value })
-			axios.post(generateUrl('/apps/files/api/v1/config/' + key), {
-				value,
-			})
+			this.userConfigStore.update(key, value)
 		},
 
 		async copyCloudId() {
@@ -156,7 +170,7 @@ export default {
 
 			await navigator.clipboard.writeText(this.webdavUrl)
 			this.webdavUrlCopied = true
-			showSuccess(t('files', 'Webdav URL copied to clipboard'))
+			showSuccess(t('files', 'WebDAV URL copied to clipboard'))
 			setTimeout(() => {
 				this.webdavUrlCopied = false
 			}, 5000)
@@ -168,5 +182,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.setting-link:hover {
+	text-decoration: underline;
+}
 </style>

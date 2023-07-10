@@ -1,5 +1,7 @@
 { "translations": {
+    "Unknown address" : "Ukjent adresse",
     "No result." : "Ingen resultat.",
+    "Malformed JSON data." : "Feilaktige JSON-data.",
     "Error" : "Feil",
     "Weather status" : "Værstatus",
     "Weather status in your dashboard" : "Værstatus i dashbordet ditt",
@@ -25,6 +27,22 @@
     "{temperature} {unit} heavy rainfall" : "{temperature} {unit} kraftig nedbør",
     "{temperature} {unit} rainfall showers later today" : "{temperature} {unit} regnbyger senere i dag",
     "{temperature} {unit} rainfall showers" : "{temperature} {unit} regnbyger",
-    "Remove from favorites" : "Fjern fra favoritter"
+    "{temperature} {unit} light rainfall showers later today" : "{temperatur} {unit} lett regnbyger senere i dag",
+    "{temperature} {unit} light rainfall showers" : "{temperatur} {unit} lett regnbyger",
+    "{temperature} {unit} heavy rainfall showers later today" : "{temperatur} {unit} kraftige regnbyger senere i dag",
+    "{temperature} {unit} heavy rainfall showers" : "{temperatur} {unit} kraftige regnbyger",
+    "More weather for {adr}" : "Mer vær for {adr}",
+    "Loading weather" : "Laster vær",
+    "Remove from favorites" : "Fjern fra favoritter",
+    "Add as favorite" : "Legg til som favoritt",
+    "You are not logged in." : "Du er ikke logget inn.",
+    "There was an error getting the weather status information." : "Det oppsto en feil ved å hente værstatusinformasjonen.",
+    "No weather information found" : "Ingen værinformasjon funnet",
+    "Location not found" : "Finner ikke posisjon",
+    "There was an error setting the location address." : "Det oppsto en feil ved å angi posisjonsadressen.",
+    "There was an error setting the location." : "Det oppsto en feil ved å angi posisjonen.",
+    "There was an error saving the mode." : "Det oppsto en feil da modusen skulle lagres.",
+    "There was an error using personal address." : "Det oppsto en feil ved bruk av personlig adresse.",
+    "Set location for weather" : "Angi posisjon for været"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

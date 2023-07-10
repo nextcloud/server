@@ -23,10 +23,10 @@
 
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import users from './users'
-import apps from './apps'
-import settings from './settings'
-import oc from './oc'
+import users from './users.js'
+import apps from './apps.js'
+import settings from './settings.js'
+import oc from './oc.js'
 import { showError } from '@nextcloud/dialogs'
 
 Vue.use(Vuex)

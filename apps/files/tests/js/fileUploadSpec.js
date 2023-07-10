@@ -119,7 +119,7 @@ describe('OC.Upload tests', function() {
 				expect(failStub.calledOnce).toEqual(true);
 				expect(failStub.getCall(0).args[1].textStatus).toEqual('notenoughspace');
 				expect(failStub.getCall(0).args[1].errorThrown).toEqual(
-					'Not enough free space, you are uploading 5 KB but only 1000 B is left'
+					'Not enough free space, you are uploading 5 KB but only 1 KB is left'
 				);
 				setTimeout(done, 0);
 			});

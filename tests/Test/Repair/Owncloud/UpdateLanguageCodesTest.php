@@ -109,7 +109,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			);
 
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version', '0.0.0')
 			->willReturn('12.0.0.13');
 
@@ -155,7 +155,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->method('info');
 
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version', '0.0.0')
 			->willReturn('12.0.0.14');
 

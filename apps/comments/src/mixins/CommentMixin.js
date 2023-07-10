@@ -20,9 +20,9 @@
  *
  */
 
-import NewComment from '../services/NewComment'
-import DeleteComment from '../services/DeleteComment'
-import EditComment from '../services/EditComment'
+import NewComment from '../services/NewComment.js'
+import DeleteComment from '../services/DeleteComment.js'
+import EditComment from '../services/EditComment.js'
 import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
 
 export default {

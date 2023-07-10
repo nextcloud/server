@@ -31,7 +31,6 @@ OC.L10N.register(
     "1 hour" : "1 uur",
     "4 hours" : "4 uur",
     "Mute all notifications" : "Demp alle kennisgewings",
-    "Appear offline" : "Toon as vanlyn",
-    "Clear status message after" : "Wis statusboodskap na"
+    "Appear offline" : "Toon as vanlyn"
 },
 "nplurals=2; plural=(n != 1);");

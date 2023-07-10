@@ -59,6 +59,7 @@ use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
+use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\LdapInvalidUuids;
@@ -289,17 +290,6 @@ class CheckSetupController extends Controller {
 			$features = $this->l10n->t('Federated Cloud Sharing');
 		}
 
-		// Check if at least OpenSSL after 1.01d or 1.0.2b
-		if (strpos($versionString, 'OpenSSL/') === 0) {
-			$majorVersion = substr($versionString, 8, 5);
-			$patchRelease = substr($versionString, 13, 6);
-
-			if (($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
-				($majorVersion === '1.0.2' && ord($patchRelease) < ord('b'))) {
-				return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['OpenSSL', $versionString, $features]);
-			}
-		}
-
 		// Check if NSS and perform heuristic check
 		if (strpos($versionString, 'NSS/') === 0) {
 			try {
@@ -330,7 +320,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 80000;
+		return PHP_VERSION_ID < 80100;
 	}
 
 	/**
@@ -499,6 +489,8 @@ Raw output
 			}
 		} elseif (!$isPermitted) {
 			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
+		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
+			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply <code>opcache.file_cache_only=0</code> to your PHP configuration and use the file cache as second level cache only.');
 		} else {
 			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
@@ -629,6 +621,10 @@ Raw output
 		return !($this->lockingProvider instanceof NoopLockingProvider);
 	}
 
+	protected function hasDBFileLocking(): bool {
+		return ($this->lockingProvider instanceof DBLockingProvider);
+	}
+
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -642,7 +638,7 @@ Raw output
 	}
 
 	protected function getLastCronInfo(): array {
-		$lastCronRun = $this->config->getAppValue('core', 'lastcron', 0);
+		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
 		return [
 			'diffInSeconds' => time() - $lastCronRun,
 			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
@@ -732,6 +728,12 @@ Raw output
 		if (!extension_loaded('sysvsem')) {
 			// used to limit the usage of resources by preview generator
 			$recommendedPHPModules[] = 'sysvsem';
+		}
+
+		if (!extension_loaded('exif')) {
+			// used to extract metadata from images
+			// required for correct orientation of preview images
+			$recommendedPHPModules[] = 'exif';
 		}
 
 		if (!defined('PASSWORD_ARGON2I')) {
@@ -880,6 +882,7 @@ Raw output
 				'isPreviewMaxSetCorrectly' => $this->isPreviewMaxSetCorrectly(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
+				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),

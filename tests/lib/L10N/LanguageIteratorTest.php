@@ -82,6 +82,10 @@ class LanguageIteratorTest extends TestCase {
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, $forcedLang],
+			]);
+		$this->config->expects($this->any())
+			->method('getSystemValueString')
+			->willReturnMap([
 				['default_language', 'en', $sysLang],
 			]);
 		$this->config->expects($this->any())

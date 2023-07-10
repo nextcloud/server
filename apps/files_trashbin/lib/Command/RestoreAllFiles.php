@@ -146,7 +146,7 @@ class RestoreAllFiles extends Base {
 			$timestamp = $trashFile->getMtime();
 			$humanTime = $this->l10n->l('datetime', $timestamp);
 			$output->write("File <info>$filename</info> originally deleted at <info>$humanTime</info> ");
-			$file = $filename . '.d' . $timestamp;
+			$file = Trashbin::getTrashFilename($filename, $timestamp);
 			$location = Trashbin::getLocation($uid, $filename, (string) $timestamp);
 			if ($location === '.') {
 				$location = '';

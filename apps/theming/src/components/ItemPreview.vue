@@ -20,7 +20,7 @@
 
 <script>
 import { generateFilePath } from '@nextcloud/router'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 export default {
 	name: 'ItemPreview',
@@ -95,6 +95,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@use 'sass:math';
+
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
@@ -125,6 +127,11 @@ export default {
 		display: flex;
 		flex-direction: column;
 
+		h3 {
+			font-weight: bold;
+			margin-bottom: 0;
+		}
+
 		label {
 			padding: 12px 0;
 		}
@@ -139,7 +146,7 @@ export default {
 	}
 }
 
-@media (max-width: (1024px / 1.5)) {
+@media (max-width: math.div(1024px, 1.5)) {
 	.theming__preview {
 		flex-direction: column;
 

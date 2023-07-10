@@ -24,7 +24,7 @@
 
 import $ from 'jquery'
 
-import OC from '../OC'
+import OC from '../OC/index.js'
 import { isA11yActivation } from '../Util/a11y.js'
 
 const LIST = ''

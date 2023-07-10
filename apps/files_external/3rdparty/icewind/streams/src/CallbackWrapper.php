@@ -58,7 +58,7 @@ class CallbackWrapper extends Wrapper {
 	 * @param callable|null $close (optional)
 	 * @param callable|null $readDir (optional)
 	 * @param callable|null $preClose (optional)
-	 * @return resource|bool
+	 * @return resource|false
 	 *
 	 */
 	public static function wrap($source, $read = null, $write = null, $close = null, $readDir = null, $preClose = null) {

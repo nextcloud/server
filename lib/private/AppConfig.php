@@ -34,6 +34,7 @@ namespace OC;
 
 use OC\DB\Connection;
 use OC\DB\OracleConnection;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 
@@ -111,6 +112,7 @@ class AppConfig implements IAppConfig {
 		'spreed' => [
 			'/^bridge_bot_password$/',
 			'/^hosted-signaling-server-(.*)$/',
+			'/^recording_servers$/',
 			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
 			'/^signaling_token_privkey_(.*)$/',
@@ -298,7 +300,7 @@ class AppConfig implements IAppConfig {
 				$sql->andWhere(
 					$sql->expr()->orX(
 						$sql->expr()->isNull('configvalue'),
-						$sql->expr()->neq('configvalue', $sql->createNamedParameter($value))
+						$sql->expr()->neq('configvalue', $sql->createNamedParameter($value), IQueryBuilder::PARAM_STR)
 					)
 				);
 			}

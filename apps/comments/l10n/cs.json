@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "Zatím bez komentářů, začněte konverzaci!",
     "No more messages" : "Žádné další zprávy",
     "Retry" : "Zkusit znovu",
+    "Failed to mark comments as read" : "Nepodařilo se označit komentáře jako přečtené",
     "Unable to load the comments list" : "Nedaří se načíst seznam komentářů",
     "_%n unread comment_::_%n unread comments_" : ["%n nepřečtený komentář","%n nepřečtené komentáře","%n nepřečtených komentářů","%n nepřečtené komentáře"],
     "_1 new comment_::_{unread} new comments_" : ["Jeden nový komentář","{unread} nové komentáře","{unread} nových komentářů","{unread} nové komentáře"],

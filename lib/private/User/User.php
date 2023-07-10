@@ -55,12 +55,17 @@ use OCP\User\GetQuotaEvent;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function json_decode;
+use function json_encode;
 
 class User implements IUser {
+	private const CONFIG_KEY_MANAGERS = 'manager';
+
 	/** @var IAccountManager */
 	protected $accountManager;
 	/** @var string */
@@ -112,7 +117,7 @@ class User implements IUser {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
 		// TODO: inject
-		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = \OCP\Server::get(IEventDispatcher::class);
 	}
 
 	/**
@@ -294,7 +299,7 @@ class User implements IUser {
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
-			$avatarManager = \OC::$server->query(AvatarManager::class);
+			$avatarManager = \OCP\Server::get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
 			$notification = \OC::$server->getNotificationManager()->createNotification();
@@ -302,7 +307,7 @@ class User implements IUser {
 			\OC::$server->getNotificationManager()->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
-			$accountManager = \OC::$server->query(AccountManager::class);
+			$accountManager = \OCP\Server::get(AccountManager::class);
 			$accountManager->deleteUser($this);
 
 			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
@@ -363,7 +368,7 @@ class User implements IUser {
 			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
 			} elseif ($this->config) {
-				$this->home = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
+				$this->home = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
 			} else {
 				$this->home = \OC::$SERVERROOT . '/data/' . $this->uid;
 			}
@@ -416,7 +421,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		if ($this->config->getSystemValue('allow_user_to_change_display_name') === false) {
+		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
@@ -428,25 +433,46 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function isEnabled() {
-		if ($this->enabled === null) {
-			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-			$this->enabled = $enabled === 'true';
+		$queryDatabaseValue = function (): bool {
+			if ($this->enabled === null) {
+				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+				$this->enabled = $enabled === 'true';
+			}
+			return $this->enabled;
+		};
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			return $this->backend->isUserEnabled($this->uid, $queryDatabaseValue);
+		} else {
+			return $queryDatabaseValue();
 		}
-		return (bool) $this->enabled;
 	}
 
 	/**
 	 * set the enabled status for the user
 	 *
-	 * @param bool $enabled
+	 * @return void
 	 */
 	public function setEnabled(bool $enabled = true) {
 		$oldStatus = $this->isEnabled();
-		$this->enabled = $enabled;
-		if ($oldStatus !== $this->enabled) {
-			// TODO: First change the value, then trigger the event as done for all other properties.
-			$this->triggerChange('enabled', $enabled, $oldStatus);
+		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
+			$this->enabled = $enabled;
+		};
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			$queryDatabaseValue = function (): bool {
+				if ($this->enabled === null) {
+					$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+					$this->enabled = $enabled === 'true';
+				}
+				return $this->enabled;
+			};
+			$enabled = $this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
+			if ($oldStatus !== $enabled) {
+				$this->triggerChange('enabled', $enabled, $oldStatus);
+			}
+		} elseif ($oldStatus !== $enabled) {
+			$setDatabaseValue($enabled);
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 		}
 	}
 
@@ -513,18 +539,44 @@ class User implements IUser {
 	 *
 	 * @param string $quota
 	 * @return void
+	 * @throws InvalidArgumentException
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
-			$quota = OC_Helper::computerFileSize($quota);
-			$quota = OC_Helper::humanFileSize((int)$quota);
+			$bytesQuota = OC_Helper::computerFileSize($quota);
+			if ($bytesQuota === false) {
+				throw new InvalidArgumentException('Failed to set quota to invalid value '.$quota);
+			}
+			$quota = OC_Helper::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
+		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
+	}
+
+	public function getManagerUids(): array {
+		$encodedUids = $this->config->getUserValue(
+			$this->uid,
+			'settings',
+			self::CONFIG_KEY_MANAGERS,
+			'[]'
+		);
+		return json_decode($encodedUids, false, 512, JSON_THROW_ON_ERROR);
+	}
+
+	public function setManagerUids(array $uids): void {
+		$oldUids = $this->getManagerUids();
+		$this->config->setUserValue(
+			$this->uid,
+			'settings',
+			self::CONFIG_KEY_MANAGERS,
+			json_encode($uids, JSON_THROW_ON_ERROR)
+		);
+		$this->triggerChange('managers', $uids, $oldUids);
 	}
 
 	/**
@@ -541,7 +593,7 @@ class User implements IUser {
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
-		$image = $avatar->get(-1);
+		$image = $avatar->get($size);
 		if ($image) {
 			return $image;
 		}
@@ -566,7 +618,7 @@ class User implements IUser {
 	}
 
 	private function removeProtocolFromUrl(string $url): string {
-		if (strpos($url, 'https://') === 0) {
+		if (str_starts_with($url, 'https://')) {
 			return substr($url, strlen('https://'));
 		}
 

@@ -440,7 +440,7 @@ class ProfileManager {
 			],
 			IAccountManager::PROPERTY_DISPLAYNAME => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get('lib')->t('Full name'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Display name'),
 			],
 			IAccountManager::PROPERTY_HEADLINE => [
 				'appId' => self::CORE_APP_ID,

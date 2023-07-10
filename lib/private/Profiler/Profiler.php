@@ -61,11 +61,19 @@ class Profiler implements IProfiler {
 	}
 
 	public function loadProfile(string $token): ?IProfile {
-		return $this->storage->read($token);
+		if ($this->storage) {
+			return $this->storage->read($token);
+		} else {
+			return null;
+		}
 	}
 
 	public function saveProfile(IProfile $profile): bool {
-		return $this->storage->write($profile);
+		if ($this->storage) {
+			return $this->storage->write($profile);
+		} else {
+			return false;
+		}
 	}
 
 	public function collect(Request $request, Response $response): IProfile {
@@ -88,7 +96,11 @@ class Profiler implements IProfiler {
 	 */
 	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end,
 						 string $statusCode = null): array {
-		return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
+		if ($this->storage) {
+			return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
+		} else {
+			return [];
+		}
 	}
 
 	public function dataProviders(): array {

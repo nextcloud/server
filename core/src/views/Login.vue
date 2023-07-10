@@ -21,7 +21,7 @@
 
 <template>
 	<div class="guest-box login-box">
-		<div v-if="!hideLoginForm || directLogin">
+		<template v-if="!hideLoginForm || directLogin">
 			<transition name="fade" mode="out-in">
 				<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''">
 					<LoginForm :username.sync="user"
@@ -65,7 +65,7 @@
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
 					key="reset"
-					class="login-additional">
+					class="login-additional login-passwordless">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
@@ -73,9 +73,12 @@
 						:is-localhost="isLocalhost"
 						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
-					<a href="#" class="login-box__link" @click.prevent="passwordlessLogin = false">
+					<NcButton type="tertiary"
+						:aria-label="t('core', 'Back to login form')"
+						:wide="true"
+						@click="passwordlessLogin = false">
 						{{ t('core', 'Back') }}
-					</a>
+					</NcButton>
 				</div>
 				<div v-else-if="!loading && canResetPassword"
 					key="reset"
@@ -93,14 +96,14 @@
 						@done="passwordResetFinished" />
 				</div>
 			</transition>
-		</div>
-		<div v-else>
+		</template>
+		<template v-else>
 			<transition name="fade" mode="out-in">
 				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
 					{{ t('core', 'Please contact your administrator.') }}
 				</NcNoteCard>
 			</transition>
-		</div>
+		</template>
 
 		<div id="alternative-logins" class="alternative-logins">
 			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
@@ -193,7 +196,9 @@ body {
 }
 
 .login-box {
-	width: 300px;
+	// Same size as dashboard panels
+	width: 320px;
+	box-sizing: border-box;
 
 	&__link {
 		display: block;
@@ -203,6 +208,34 @@ body {
 		font-weight: normal !important;
 	}
 }
+
+// Same look like a dashboard panel
+.login-box.guest-box, footer {
+	color: var(--color-main-text);
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
+}
+
+footer {
+	// Usually the same size as the login box, but allow longer texts
+	min-width: 320px;
+	box-sizing: border-box;
+	// align with login box
+	box-shadow: 0 0 10px var(--color-box-shadow);
+	// set border to pill style and adjust padding for it
+	border-radius: var(--border-radius-pill);
+	padding: 6px 24px;
+	// always show above bottom
+	margin-bottom: 1rem;
+	min-height: unset;
+
+	// reset margin to reduce height of pill
+	p.info {
+		margin: auto 0px;
+	}
+}
+
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .3s;
 }
@@ -217,6 +250,12 @@ body {
 
 	.button-vue {
 		box-sizing: border-box;
+	}
+}
+
+.login-passwordless {
+	.button-vue {
+		margin-top: 0.5rem;
 	}
 }
 </style>

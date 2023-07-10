@@ -64,7 +64,6 @@ OC.L10N.register(
     "Custom background" : "Сопствена позадина",
     "Default background" : "Стандардна позадина",
     "Change color" : "Промени боја",
-    "Remove background" : "Избриши ја позадината",
     "Select a background from your files" : "Избери позадина од датотеките",
     "Select a custom color" : "Избери боја",
     "Reset to default" : "Ресетирај на стандардно",
@@ -74,15 +73,14 @@ OC.L10N.register(
     "Admin" : "Администратор",
     "Error uploading the file" : "Грешка при прикачување на датотеката",
     "Name cannot be empty" : "Името неможе да биде празно",
-    "Open documentation" : "Отвори ја документацијата",
-    "https://…" : "https://…",
-    "Login image" : "Слика на најава",
-    "Upload new login background" : "Прикачи нова слика за позадина на најавната страница",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја.",
     "Pick from Files" : "Избери од датотеките",
     "Default image" : "Стандардна слика",
     "Custom color" : "Прилагодена боја",
     "Plain background" : "Обична позадина",
-    "Insert from {productName}" : "Вметнни од {productName}"
+    "Insert from {productName}" : "Вметнни од {productName}",
+    "Open documentation" : "Отвори ја документацијата",
+    "https://…" : "https://…",
+    "Upload new login background" : "Прикачи нова слика за позадина на најавната страница",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

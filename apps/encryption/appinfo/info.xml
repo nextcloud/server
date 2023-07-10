@@ -5,16 +5,11 @@
 	<name>Default encryption module</name>
 	<summary>Default encryption module for server-side encryption</summary>
 	<description>
-		In order to use this encryption module you need to enable server-side
-		encryption in the admin settings. Once enabled this module will encrypt
-		all your files transparently. The encryption is based on AES 256 keys.
-		The module won't touch existing files, only new files will be encrypted
-		after server-side encryption was enabled. It is also not possible to
-		disable the encryption again and switch back to a unencrypted system.
-		Please read the documentation to know all implications before you decide
-		to enable server-side encryption.
+In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.
+The module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.
+Please read the documentation to know all implications before you decide to enable server-side encryption.
 	</description>
-	<version>2.14.0</version>
+	<version>2.16.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Clark Tomlinson</author>
@@ -31,7 +26,7 @@
 
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="26" max-version="26"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 
 	<repair-steps>
@@ -47,6 +42,7 @@
 		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
 		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
 		<command>OCA\Encryption\Command\FixKeyLocation</command>
+		<command>OCA\Encryption\Command\DropLegacyFileKey</command>
 	</commands>
 
 	<settings>

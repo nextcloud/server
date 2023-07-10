@@ -113,8 +113,8 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Ylläpitäjä on estänyt julkisen lähetyksen",
     "Public upload is only possible for publicly shared folders" : "Julkinen lähettäminen on mahdollista vain julkisesti jaetuille kansioille",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kohteen %s jakaminen lähettämällä salasana Nextcloud Talkin kautta epäonnistui, koska Nextcloud Talk ei ole käytössä",
-    "Invalid date, date format must be YYYY-MM-DD" : "Virheellinen päiväys, päivämäärän muodon tulee olla VVVV-KK-PP",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tietovarasto ei salli %2$s tyyppisiä jakoja",
+    "Invalid date, date format must be YYYY-MM-DD" : "Virheellinen päiväys, päivämäärän muodon tulee olla VVVV-KK-PP",
     "You cannot share to a Circle if the app is not enabled" : "Et voi jakaa piiriin, jos sovellusta ei ole aktivoitu",
     "Please specify a valid circle" : "Määritä kelvollinen piiri",
     "Sharing %s failed because the back end does not support room shares" : "Kohteen %s jakaminen epäonnistui, koska taustaosa ei tue huonejakoja",
@@ -231,6 +231,8 @@ OC.L10N.register(
     "Error creating the share" : "Virhe jakoa luotaessa",
     "Error updating the share: {errorMessage}" : "Virhe päivittäessä jakoa: {errorMessage}",
     "Error updating the share" : "Virhe jakoa päivittäessä",
+    "File \"{path}\" has been unshared" : "Tiedoston \"{path}\" jakaminen on lopetettu",
+    "Folder \"{path}\" has been unshared" : "Kansion \"{path}\" jakaminen on lopetettu",
     "Share {propertyName} saved" : "Jako {propertyName} tallennettu",
     "Shared" : "Jaettu",
     "Share" : "Jaa",
@@ -258,10 +260,6 @@ OC.L10N.register(
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
-    "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
-    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna",
-    "Copy to clipboard" : "Kopioi leikepöydälle",
-    "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
-    "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
+    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna"
 },
 "nplurals=2; plural=(n != 1);");

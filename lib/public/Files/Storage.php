@@ -88,7 +88,7 @@ interface Storage extends IStorage {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource|false
 	 * @since 6.0.0
 	 */
 	public function opendir($path);
@@ -135,7 +135,7 @@ interface Storage extends IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return false|int|float
 	 * @since 6.0.0
 	 */
 	public function filesize($path);
@@ -217,7 +217,7 @@ interface Storage extends IStorage {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 6.0.0
 	 */
 	public function file_get_contents($path);
@@ -227,7 +227,7 @@ interface Storage extends IStorage {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 * @since 6.0.0
 	 */
 	public function file_put_contents($path, $data);
@@ -254,7 +254,7 @@ interface Storage extends IStorage {
 	/**
 	 * see https://www.php.net/manual/en/function.copy.php
 	 *
-	 * @param string $soruce
+	 * @param string $source
 	 * @param string $target
 	 * @return bool
 	 * @since 6.0.0
@@ -296,7 +296,7 @@ interface Storage extends IStorage {
 	 * see https://www.php.net/manual/en/function.disk-free-space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 * @since 6.0.0
 	 */
 	public function free_space($path);
@@ -326,7 +326,7 @@ interface Storage extends IStorage {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 6.0.0
 	 */
 	public function getLocalFile($path);
@@ -348,7 +348,7 @@ interface Storage extends IStorage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 6.0.0
 	 */
 	public function getETag($path);

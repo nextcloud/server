@@ -59,14 +59,11 @@ class OC_Files {
 	public const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
 
 
-	private static $multipartBoundary = '';
+	private static string $multipartBoundary = '';
 
-	/**
-	 * @return string
-	 */
-	private static function getBoundary() {
+	private static function getBoundary(): string {
 		if (empty(self::$multipartBoundary)) {
-			self::$multipartBoundary = md5(mt_rand());
+			self::$multipartBoundary = md5((string)mt_rand());
 		}
 		return self::$multipartBoundary;
 	}
@@ -76,7 +73,7 @@ class OC_Files {
 	 * @param string $name
 	 * @param array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
-	private static function sendHeaders($filename, $name, array $rangeArray) {
+	private static function sendHeaders($filename, $name, array $rangeArray): void {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
 		header('Pragma: public');// enable caching in IE
@@ -182,7 +179,7 @@ class OC_Files {
 
 			$streamer->sendHeaders($name);
 			$executionTime = (int)OC::$server->get(IniGetWrapper::class)->getNumeric('max_execution_time');
-			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 				@set_time_limit(0);
 			}
 			ignore_user_abort(true);
@@ -247,10 +244,10 @@ class OC_Files {
 
 	/**
 	 * @param string $rangeHeaderPos
-	 * @param int $fileSize
+	 * @param int|float $fileSize
 	 * @return array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
-	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize) {
+	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize): array {
 		$rArray = explode(',', $rangeHeaderPos);
 		$minOffset = 0;
 		$ind = 0;
@@ -336,7 +333,7 @@ class OC_Files {
 			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), $fileSize);
 		}
 
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$dispatcher = \OCP\Server::get(IEventDispatcher::class);
 		$event = new BeforeDirectFileDownloadEvent($filename);
 		$dispatcher->dispatchTyped($event);
 

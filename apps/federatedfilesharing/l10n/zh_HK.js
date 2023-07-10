@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "接受",
     "Decline" : "拒絕",
     "Federated Cloud Sharing" : "聯盟式雲端分享",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請看 %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享",
     "Sharing" : "分享 ",
     "Federated file sharing" : "聯盟式檔案分享",
     "Provide federated file sharing across servers" : "在伺服器間提供聯盟式檔案分享 ",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
     "HTML Code:" : "HTML 代碼：",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請見 {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享",
     "Cloud ID copied to the clipboard" : "已複製 Cloud ID 至剪貼板",
     "Copy to clipboard" : "複製到剪貼板",
     "Clipboard is not available" : "剪貼板不可用",
     "Copied!" : "已複製！",
-    "Copy" : "複製",
-    "Not supported!" : "不支援！",
-    "Press ⌘-C to copy." : "請按 ⌘-C 來複製",
-    "Press Ctrl-C to copy." : "請按【Ctrl-C】以複製。",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "您收到了來自%4$s（%1$s）的作為遠程分享 的\"%3$s\"（代表%5$s（%2$s））",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "您收到了來自%4$s（%1$s）作為遠程分享的\"%3$s\"",
-    "Open documentation" : "打開說明書"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請看 %s"
 },
 "nplurals=1; plural=0;");

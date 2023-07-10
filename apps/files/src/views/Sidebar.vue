@@ -36,10 +36,16 @@
 		@closed="handleClosed">
 		<!-- TODO: create a standard to allow multiple elements here? -->
 		<template v-if="fileInfo" #description>
-			<LegacyView v-for="view in views"
-				:key="view.cid"
-				:component="view"
-				:file-info="fileInfo" />
+			<div class="sidebar__description">
+				<SystemTags v-if="isSystemTagsEnabled"
+					v-show="showTags"
+					:file-id="fileInfo.id"
+					@has-tags="value => showTags = value" />
+				<LegacyView v-for="view in views"
+					:key="view.cid"
+					:component="view"
+					:file-info="fileInfo" />
+			</div>
 		</template>
 
 		<!-- Actions menu -->
@@ -89,29 +95,32 @@ import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
-import FileInfo from '../services/FileInfo'
-import SidebarTab from '../components/SidebarTab'
-import LegacyView from '../components/LegacyView'
+import FileInfo from '../services/FileInfo.js'
+import SidebarTab from '../components/SidebarTab.vue'
+import LegacyView from '../components/LegacyView.vue'
+import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 
 export default {
 	name: 'Sidebar',
 
 	components: {
+		LegacyView,
 		NcActionButton,
 		NcAppSidebar,
 		NcEmptyContent,
-		LegacyView,
 		SidebarTab,
+		SystemTags,
 	},
 
 	data() {
 		return {
 			// reactive state
 			Sidebar: OCA.Files.Sidebar.state,
+			showTags: false,
 			error: null,
 			loading: true,
 			fileInfo: null,
@@ -357,6 +366,7 @@ export default {
 		 */
 		setActiveTab(id) {
 			OCA.Files.Sidebar.setActiveTab(id)
+			this.tabs.forEach(tab => tab.setIsActive(id === tab.id))
 		},
 
 		/**
@@ -410,9 +420,7 @@ export default {
 		 * Toggle the tags selector
 		 */
 		toggleTags() {
-			if (OCA.SystemTags && OCA.SystemTags.View) {
-				OCA.SystemTags.View.toggle()
-			}
+			this.showTags = !this.showTags
 		},
 
 		/**
@@ -446,6 +454,7 @@ export default {
 						if (this.$refs.tabs) {
 							this.$refs.tabs.updateTabs()
 						}
+						this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
 					})
 				} catch (error) {
 					this.error = t('files', 'Error while loading the file data')
@@ -463,6 +472,7 @@ export default {
 		 */
 		close() {
 			this.Sidebar.file = ''
+			this.showTags = false
 			this.resetData()
 		},
 
@@ -505,7 +515,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .app-sidebar {
-	&--has-preview::v-deep {
+	&--has-preview:deep {
 		.app-sidebar-header__figure {
 			background-size: cover;
 		}
@@ -525,6 +535,12 @@ export default {
 		height: 100% !important;
 	}
 
+	:deep {
+		.app-sidebar-header__description {
+			margin: 0 16px 4px 16px !important;
+		}
+	}
+
 	.svg-icon {
 		::v-deep svg {
 			width: 20px;
@@ -532,5 +548,12 @@ export default {
 			fill: currentColor;
 		}
 	}
+}
+
+.sidebar__description {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 8px 0;
 }
 </style>

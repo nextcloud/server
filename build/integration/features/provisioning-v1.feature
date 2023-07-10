@@ -199,6 +199,28 @@ Feature: provisioning
 			| value | private |
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | email |
+			| value | no-reply@nextcloud.com |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		# Duplicating primary address
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | additional_mail |
+			| value | no-reply@nextcloud.com |
+		And the OCS status code should be "102"
+		And the HTTP status code should be "200"
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | additional_mail |
+			| value | no.reply2@nextcloud.com |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		# Duplicating another additional address
+		And sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | additional_mail |
+			| value | no.reply2@nextcloud.com |
+		And the OCS status code should be "102"
+		And the HTTP status code should be "200"
 		Then user "brand-new-user" has
 			| id | brand-new-user |
 			| phoneScope | v2-private |
@@ -214,21 +236,21 @@ Feature: provisioning
     And As an "brand-new-user"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
-      | value | no.reply@nextcloud.com |
+      | value | no.reply3@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
-      | value | noreply@nextcloud.com |
+      | value | noreply4@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
-      | key | no.reply@nextcloud.com |
+      | key | no.reply3@nextcloud.com |
       | value | v2-federated |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
-      | key | noreply@nextcloud.com |
+      | key | noreply4@nextcloud.com |
       | value | v2-published |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -260,11 +282,11 @@ Feature: provisioning
     And As an "brand-new-user"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
-      | value | no.reply@nextcloud.com |
+      | value | no.reply5@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
-      | key | no.reply@nextcloud.com |
+      | key | no.reply5@nextcloud.com |
       | value | invalid |
     Then the OCS status code should be "102"
     And the HTTP status code should be "200"
@@ -274,23 +296,23 @@ Feature: provisioning
     And As an "brand-new-user"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
-      | value | no.reply@nextcloud.com |
+      | value | no.reply6@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
-      | value | noreply@nextcloud.com |
+      | value | noreply7@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user/additional_mail" with
-      | key | no.reply@nextcloud.com |
+      | key | no.reply6@nextcloud.com |
       | value | |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     Then user "brand-new-user" has
-      | additional_mail | noreply@nextcloud.com |
+      | additional_mail | noreply7@nextcloud.com |
     Then user "brand-new-user" has not
-      | additional_mail | no.reply@nextcloud.com |
+      | additional_mail | no.reply6@nextcloud.com |
 
 	Scenario: An admin cannot edit user account property scopes
     Given As an "admin"

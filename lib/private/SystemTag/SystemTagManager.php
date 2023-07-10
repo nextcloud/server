@@ -91,7 +91,7 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTagsByIds($tagIds): array {
+	public function getTagsByIds($tagIds, ?IUser $user = null): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -116,7 +116,12 @@ class SystemTagManager implements ISystemTagManager {
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$tags[$row['id']] = $this->createSystemTagFromRow($row);
+			$tag = $this->createSystemTagFromRow($row);
+			if ($user && !$this->canUserSeeTag($tag, $user)) {
+				// if a user is given, hide invisible tags
+				continue;
+			}
+			$tags[$row['id']] = $tag;
 		}
 
 		$result->closeCursor();
@@ -193,10 +198,12 @@ class SystemTagManager implements ISystemTagManager {
 	 * {@inheritdoc}
 	 */
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
+		// Length of name column is 64
+		$truncatedTagName = substr($tagName, 0, 64);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TAG_TABLE)
 			->values([
-				'name' => $query->createNamedParameter($tagName),
+				'name' => $query->createNamedParameter($truncatedTagName),
 				'visibility' => $query->createNamedParameter($userVisible ? 1 : 0),
 				'editable' => $query->createNamedParameter($userAssignable ? 1 : 0),
 			]);
@@ -205,7 +212,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query->execute();
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
-				'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
+				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
 				0,
 				$e
 			);
@@ -215,7 +222,7 @@ class SystemTagManager implements ISystemTagManager {
 
 		$tag = new SystemTag(
 			(string)$tagId,
-			$tagName,
+			$truncatedTagName,
 			$userVisible,
 			$userAssignable
 		);

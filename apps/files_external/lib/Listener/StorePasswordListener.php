@@ -59,12 +59,12 @@ class StorePasswordListener implements IEventListener {
 		$newCredentials = $storedCredentials;
 		$shouldUpdate = false;
 
-		if (isset($storedCredentials['password']) && $storedCredentials['password'] !== $event->getPassword()) {
+		if (($storedCredentials['password'] ?? null) !== $event->getPassword() && $event->getPassword() !== null) {
 			$shouldUpdate = true;
 			$newCredentials['password'] = $event->getPassword();
 		}
 
-		if (isset($storedCredentials['user']) && $event instanceof UserLoggedInEvent && $storedCredentials['user'] !== $event->getLoginName()) {
+		if ($event instanceof UserLoggedInEvent && ($storedCredentials['user'] ?? null) !== $event->getLoginName()) {
 			$shouldUpdate = true;
 			$newCredentials['user'] = $event->getLoginName();
 		}

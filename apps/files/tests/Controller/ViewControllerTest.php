@@ -35,6 +35,7 @@ namespace OCA\Files\Tests\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
@@ -90,6 +91,8 @@ class ViewControllerTest extends TestCase {
 	private $shareManager;
 	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $userConfig;
+	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $viewConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +116,7 @@ class ViewControllerTest extends TestCase {
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -129,6 +133,7 @@ class ViewControllerTest extends TestCase {
 				$this->templateManager,
 				$this->shareManager,
 				$this->userConfig,
+				$this->viewConfig,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -194,65 +199,6 @@ class ViewControllerTest extends TestCase {
 				'expanded' => false,
 				'unread' => 0,
 			],
-			'favorites' => [
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'order' => 5,
-				'name' => \OC::$server->getL10N('files')->t('Favorites'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => 'collapsible',
-				'sublist' => [
-					[
-						'id' => '-test1',
-						'dir' => '/test1',
-						'order' => 6,
-						'name' => 'test1',
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test1',
-						],
-					],
-					[
-						'name' => 'test2',
-						'id' => '-test2-',
-						'dir' => '/test2/',
-						'order' => 7,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test2/',
-						],
-					],
-					[
-						'name' => 'sub4',
-						'id' => '-test3-sub4',
-						'dir' => '/test3/sub4',
-						'order' => 8,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test3/sub4',
-						],
-					],
-					[
-						'name' => 'sub6',
-						'id' => '-test5-sub6-',
-						'dir' => '/test5/sub6/',
-						'order' => 9,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test5/sub6/',
-						],
-					],
-				],
-				'expanded' => false,
-				'unread' => 0,
-			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
@@ -263,19 +209,6 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
-			'trashbin' => [
-				'id' => 'trashbin',
-				'appname' => 'files_trashbin',
-				'script' => 'list.php',
-				'order' => 50,
-				'name' => \OC::$server->getL10N('files_trashbin')->t('Deleted files'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => 'pinned',
 				'expanded' => false,
 				'unread' => 0,
 			],
@@ -339,7 +272,7 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 				'isPublic' => false,
-				'defaultFileSorting' => 'name',
+				'defaultFileSorting' => 'basename',
 				'defaultFileSortingDirection' => 'asc',
 				'showHiddenFiles' => 0,
 				'cropImagePreviews' => 1,
@@ -355,16 +288,8 @@ class ViewControllerTest extends TestCase {
 						'id' => 'recent',
 						'content' => null,
 					],
-					'favorites' => [
-						'id' => 'favorites',
-						'content' => null,
-					],
 					'systemtagsfilter' => [
 						'id' => 'systemtagsfilter',
-						'content' => null,
-					],
-					'trashbin' => [
-						'id' => 'trashbin',
 						'content' => null,
 					],
 					'sharingout' => [
@@ -390,22 +315,6 @@ class ViewControllerTest extends TestCase {
 					'shareoverview' => [
 						'id' => 'shareoverview',
 						'content' => null,
-					],
-					'-test1' => [
-						'id' => '-test1',
-						'content' => '',
-					],
-					'-test2-' => [
-						'id' => '-test2-',
-						'content' => '',
-					],
-					'-test3-sub4' => [
-						'id' => '-test3-sub4',
-						'content' => '',
-					],
-					'-test5-sub6-' => [
-						'id' => '-test5-sub6-',
-						'content' => '',
 					],
 				],
 				'hiddenFields' => [],

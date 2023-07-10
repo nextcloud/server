@@ -45,6 +45,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IUser;
@@ -153,11 +154,7 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->addMount($mount);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint
-	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
@@ -165,7 +162,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $mountPoint
 	 * @return \OC\Files\Mount\MountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
@@ -202,9 +199,9 @@ class Root extends Folder implements IRootFolder {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
-			$fileInfo = $this->view->getFileInfo($fullPath);
+			$fileInfo = $this->view->getFileInfo($fullPath, false);
 			if ($fileInfo) {
-				return $this->createNode($fullPath, $fileInfo);
+				return $this->createNode($fullPath, $fileInfo, false);
 			} else {
 				throw new NotFoundException($path);
 			}
@@ -290,9 +287,9 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		return 0;
 	}
 
@@ -339,10 +336,9 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return Node
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function getParent() {
+	public function getParent(): INode|IRootFolder {
 		throw new NotFoundException();
 	}
 
@@ -395,7 +391,7 @@ class Root extends Folder implements IRootFolder {
 					$folder = $this->newFolder('/' . $userId . '/files');
 				}
 			} else {
-				$folder = new LazyUserFolder($this, $userObject);
+				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
 			}
 
 			$this->userFolderCache->set($userId, $folder);

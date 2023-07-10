@@ -20,8 +20,6 @@ OC.L10N.register(
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
     "Federated Cloud Sharing" : "Jagamine liitpilves",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID, vaata %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID",
     "Sharing" : "Jagamine",
     "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest",
     "Search global and public address book for users" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust",
@@ -33,12 +31,9 @@ OC.L10N.register(
     "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via Nextcloud" : "Jaga minuga läbi Nextcloudi",
     "HTML Code:" : "HTML kood:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Copied!" : "Kopeeritud!",
-    "Copy" : "Kopeeri",
-    "Not supported!" : "Pole toetatud!",
-    "Press ⌘-C to copy." : "Kopeerimiseks vajuta ⌘ + C.",
-    "Press Ctrl-C to copy." : "Kopeerimiseks vajuta Ctrl + C.",
-    "Open documentation" : "Ava dokumentatsioon"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID, vaata %s"
 },
 "nplurals=2; plural=(n != 1);");

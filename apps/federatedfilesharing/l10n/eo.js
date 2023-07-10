@@ -24,8 +24,6 @@ OC.L10N.register(
     "Accept" : "Akcepti",
     "Decline" : "Malakcepti",
     "Federated Cloud Sharing" : "Federnuba kunhavigo",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Kunhavigi kun mi per mia identigilo de #Nextcloud-federnuba identigilo; vidu %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Kunhavigi kun mi per mia #Nextcloud-federnuba identigilo",
     "Sharing" : "Kunhavigo",
     "Federated file sharing" : "Federa dosierkunhavado",
     "Provide federated file sharing across servers" : "Provizas federan dosierkunhavigon inter serviloj",
@@ -42,14 +40,11 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Kunhavigi kun mi per mia #Nextcloud-federnuba identigilo",
     "Copy to clipboard" : "Kopii tondejen",
     "Copied!" : "Kopiita!",
-    "Copy" : "Kopii",
-    "Not supported!" : "Ne subtenite!",
-    "Press ⌘-C to copy." : "Premu ⌘-C por kopii.",
-    "Press Ctrl-C to copy." : "Premu Ctrl-C por kopii.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Vi ricevis „%3$s“ kiel foran kunhavon el %4$s [%1$s]  (nome de %5$s [%2$s])",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Vi ricevis „%3$s“ kiel foran kunhavon el %4$s (%1$s)",
-    "Open documentation" : "Malfermi la dokumentaron"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Kunhavigi kun mi per mia identigilo de #Nextcloud-federnuba identigilo; vidu %s"
 },
 "nplurals=2; plural=(n != 1);");

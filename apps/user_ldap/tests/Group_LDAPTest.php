@@ -157,8 +157,8 @@ class Group_LDAPTest extends TestCase {
 				//to analyze the "dn". All other times we just need to return
 				//something that is neither null or false, but once an array
 				//with the users in the group – so we do so all other times for
-				//simplicicity.
-				if (strpos($name, 'u') === 0) {
+				//simplicity.
+				if (str_starts_with($name, 'u')) {
 					return strpos($name, '3');
 				}
 				return ['u11', 'u22', 'u33', 'u34'];
@@ -1009,7 +1009,7 @@ class Group_LDAPTest extends TestCase {
 				if (!$nestedGroups) {
 					// When nested groups are enabled, groups cannot be filtered early as it would
 					// exclude intermediate groups. But we can, and should, when working with flat groups.
-					$this->assertTrue(strpos($filter, $groupFilter) !== false);
+					$this->assertTrue(str_contains($filter, $groupFilter));
 				}
 				[$memberFilter] = explode('&', $filter);
 				if ($memberFilter === 'member='.$dn) {

@@ -28,16 +28,24 @@ use OCP\DB\Types;
 /**
  * @method string getGroupName()
  * @method void setGroupName(string $groupName)
- * @method array getMetadata()
- * @method void setMetadata(array $metadata)
+ * @method string getValue()
+ * @method void setValue(string $value)
  * @see \OC\Core\Migrations\Version240000Date20220404230027
  */
 class FileMetadata extends Entity {
 	protected ?string $groupName = null;
-	protected ?array $metadata = null;
+	protected ?string $value = null;
 
 	public function __construct() {
 		$this->addType('groupName', 'string');
-		$this->addType('metadata', Types::JSON);
+		$this->addType('value', Types::STRING);
+	}
+
+	public function getDecodedValue(): array {
+		return json_decode($this->getValue(), true) ?? [];
+	}
+
+	public function setArrayAsValue(array $value): void {
+		$this->setValue(json_encode($value, JSON_THROW_ON_ERROR));
 	}
 }

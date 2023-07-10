@@ -72,7 +72,7 @@ class Jail extends Wrapper {
 	public function getJailedPath($path) {
 		$root = rtrim($this->rootPath, '/') . '/';
 
-		if ($path !== $this->rootPath && strpos($path, $root) !== 0) {
+		if ($path !== $this->rootPath && !str_starts_with($path, $root)) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->rootPath));
@@ -108,7 +108,7 @@ class Jail extends Wrapper {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource|false
 	 */
 	public function opendir($path) {
 		return $this->getWrapperStorage()->opendir($this->getUnjailedPath($path));
@@ -158,11 +158,8 @@ class Jail extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int|bool
 	 */
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		return $this->getWrapperStorage()->filesize($this->getUnjailedPath($path));
 	}
 
@@ -251,7 +248,7 @@ class Jail extends Wrapper {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		return $this->getWrapperStorage()->file_get_contents($this->getUnjailedPath($path));
@@ -262,7 +259,7 @@ class Jail extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		return $this->getWrapperStorage()->file_put_contents($this->getUnjailedPath($path), $data);
@@ -338,7 +335,7 @@ class Jail extends Wrapper {
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		return $this->getWrapperStorage()->free_space($this->getUnjailedPath($path));
@@ -371,7 +368,7 @@ class Jail extends Wrapper {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getLocalFile($path) {
 		return $this->getWrapperStorage()->getLocalFile($this->getUnjailedPath($path));
@@ -434,7 +431,7 @@ class Jail extends Wrapper {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getETag($path) {
 		return $this->getWrapperStorage()->getETag($this->getUnjailedPath($path));

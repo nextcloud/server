@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joshua Trees <me@jtrees.io>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2023, Joshua Trees <me@jtrees.io>
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -171,6 +173,7 @@ class LostControllerTest extends TestCase {
 				]
 			],
 			'guest');
+		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -446,7 +449,7 @@ class LostControllerTest extends TestCase {
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['status' => 'error', 'msg' => ''];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordSuccessful() {
@@ -474,7 +477,7 @@ class LostControllerTest extends TestCase {
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordExpiredToken() {
@@ -493,7 +496,7 @@ class LostControllerTest extends TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is expired',
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordInvalidDataInDb() {
@@ -513,7 +516,7 @@ class LostControllerTest extends TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is invalid',
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testIsSetPasswordWithoutTokenFailing() {
@@ -532,7 +535,7 @@ class LostControllerTest extends TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordForDisabledUser() {
@@ -562,7 +565,7 @@ class LostControllerTest extends TestCase {
 			'status' => 'error',
 			'msg' => 'Could not reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSendEmailNoEmail() {
@@ -598,7 +601,7 @@ class LostControllerTest extends TestCase {
 			}]]);
 		$response = $this->lostController->setPassword('myToken', 'user', 'newpass', false);
 		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordDontProceedMasterKey() {
@@ -626,7 +629,7 @@ class LostControllerTest extends TestCase {
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', false);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testTwoUsersWithSameEmail() {
@@ -719,5 +722,39 @@ class LostControllerTest extends TestCase {
 
 		$result = self::invokePrivate($this->lostController, 'findUserByIdOrMail', ['test@example.com']);
 		$this->assertInstanceOf(IUser::class, $result);
+	}
+
+	public function testTrimEmailInput() {
+		$this->userManager
+				->expects($this->once())
+				->method('getByEmail')
+				->with('test@example.com')
+				->willReturn([$this->existingUser]);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		$response = $this->lostController->email('  test@example.com  ');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testUsernameInput() {
+		$this->userManager
+				->expects($this->once())
+				->method('get')
+				->with('ExistingUser')
+				->willReturn($this->existingUser);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		$response = $this->lostController->email('  ExistingUser  ');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 }

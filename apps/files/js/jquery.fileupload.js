@@ -733,6 +733,12 @@
                 promise = dfd.promise(),
                 jqXHR,
                 upload;
+
+            // Dynamically adjust the chunk size for Chunking V2 to fit into the 10000 chunk limit
+            if (file.size/mcs > 10000) {
+                mcs = Math.ceil(file.size/10000)
+            }
+
             if (!(this._isXHRUpload(options) && slice && (ub || mcs < fs)) ||
                     options.data) {
                 return false;

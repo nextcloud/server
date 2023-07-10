@@ -29,8 +29,6 @@ OC.L10N.register(
     "Missing Signature" : "Semnătură lipsă",
     "Default encryption module" : "Modulul implicit de criptare",
     "Default encryption module for server-side encryption" : "Modulul implicit de criptare pentru criptarea pe server",
-    "The share will expire on %s." : "Partajarea va expira în data de %s.",
-    "Cheers!" : "Noroc!",
     "Enable recovery key" : "Activează cheia de recuperare",
     "Disable recovery key" : "Dezactivează cheia de recuperare",
     "Recovery key password" : "Parola cheii de recuperare",
@@ -47,6 +45,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Activează recuperarea parolei:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activarea acestei opțiuni îți va permite să redobândești accesul la fișierele tale criptate în cazul pierderii parolei",
     "Enabled" : "Activat",
-    "Disabled" : "Dezactivat"
+    "Disabled" : "Dezactivat",
+    "The share will expire on %s." : "Partajarea va expira în data de %s.",
+    "Cheers!" : "Noroc!"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

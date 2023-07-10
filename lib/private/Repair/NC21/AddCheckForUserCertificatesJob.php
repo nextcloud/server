@@ -44,7 +44,7 @@ class AddCheckForUserCertificatesJob implements IRepairStep {
 	}
 
 	private function shouldRun() {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 
 		// was added to 21.0.0.2
 		return version_compare($versionFromBeforeUpdate, '21.0.0.2', '<');

@@ -53,10 +53,8 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\Uri;
 
 class FilesPlugin extends ServerPlugin {
-
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
@@ -352,7 +350,7 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
 				return json_encode($this->previewManager->isAvailable($node->getFileInfo()), JSON_THROW_ON_ERROR);
 			});
-			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?int {
+			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): int|float {
 				return $node->getSize();
 			});
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
@@ -382,7 +380,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 			/**
 			 * Return file/folder name as displayname. The primary reason to
-			 * implement it this way is to avoid costly fallback to 
+			 * implement it this way is to avoid costly fallback to
 			 * CustomPropertiesBackend (esp. visible when querying all files
 			 * in a folder).
 			 */
@@ -438,7 +436,7 @@ class FilesPlugin extends ServerPlugin {
 						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
 					}
 
-					return json_encode((object)$sizeMetadata->getMetadata(), JSON_THROW_ON_ERROR);
+					return $sizeMetadata->getValue();
 				});
 			}
 		}

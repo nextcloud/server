@@ -245,7 +245,7 @@ class Listener {
 		$lastUsedTags = json_decode($lastUsedTags, true);
 
 		array_unshift($lastUsedTags, $tag->getId());
-		array_unique($lastUsedTags);
+		$lastUsedTags = array_unique($lastUsedTags);
 		$lastUsedTags = array_slice($lastUsedTags, 0, 10);
 
 		$this->config->setUserValue($actor, 'systemtags', 'last_used', json_encode($lastUsedTags));

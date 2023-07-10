@@ -20,8 +20,8 @@
  *
  */
 
-import L10n from '../OC/l10n'
-import OC from '../OC/index'
+import L10n from '../OC/l10n.js'
+import OC from '../OC/index.js'
 
 export default {
 	data() {

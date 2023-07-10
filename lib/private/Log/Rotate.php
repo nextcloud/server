@@ -39,7 +39,7 @@ class Rotate extends \OCP\BackgroundJob\Job {
 		$systemConfig = \OC::$server->getSystemConfig();
 		$this->filePath = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 
-		$this->maxSize = \OC::$server->getConfig()->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
+		$this->maxSize = \OC::$server->getConfig()->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
 			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';

@@ -20,7 +20,7 @@
  *
  */
 
-import client from './DavClient'
+import client from './DavClient.js'
 
 /**
  * Edit an existing comment

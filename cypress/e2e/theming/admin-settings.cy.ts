@@ -133,7 +133,7 @@ describe('Remove the default background and restore it', function() {
 	})
 })
 
-describe.only('Remove the default background with a bright color', function() {
+describe('Remove the default background with a bright color', function() {
 	before(function() {
 		// Just in case previous test failed
 		cy.resetAdminTheming()
@@ -167,7 +167,7 @@ describe.only('Remove the default background with a bright color', function() {
 
 	it('See the header being inverted', function() {
 		cy.waitUntil(() => cy.window().then((win) => {
-			const firstEntry = win.document.querySelector('.app-menu-main li')
+			const firstEntry = win.document.querySelector('.app-menu-main li img')
 			if (!firstEntry) {
 				return false
 			}

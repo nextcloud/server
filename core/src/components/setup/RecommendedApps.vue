@@ -59,8 +59,7 @@
 			<NcButton v-if="showInstallButton"
 				type="tertiary"
 				role="link"
-				href="defaultPageUrl"
-				@click="goTo(defaultPageUrl)">
+				:href="defaultPageUrl">
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
@@ -80,9 +79,9 @@ import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
-import logger from '../../logger'
+import logger from '../../logger.js'
 
 const recommended = {
 	calendar: {
@@ -106,12 +105,15 @@ const recommended = {
 		description: t('core', 'Collaborative documents, spreadsheets and presentations, built on Collabora Online.'),
 		icon: imagePath('core', 'apps/richdocuments.svg'),
 	},
+	notes: {
+		description: t('core', 'Distraction free note taking app.'),
+		icon: imagePath('core', 'apps/notes.svg'),
+	},
 	richdocumentscode: {
 		hidden: true,
 	},
 }
 const recommendedIds = Object.keys(recommended)
-const defaultPageUrl = loadState('core', 'defaultPageUrl')
 
 export default {
 	name: 'RecommendedApps',
@@ -125,7 +127,7 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl,
+			defaultPageUrl: loadState('core', 'defaultPageUrl')
 		}
 	},
 	computed: {
@@ -176,7 +178,7 @@ export default {
 				.then(() => {
 					logger.info('all recommended apps installed, redirecting …')
 
-					window.location = defaultPageUrl
+					window.location = this.defaultPageUrl
 				})
 				.catch(error => logger.error('could not install recommended apps', { error }))
 		},
@@ -205,9 +207,6 @@ export default {
 				return false
 			}
 			return !!recommended[appId].hidden
-		},
-		goTo(href) {
-			window.location.href = href
 		},
 	},
 }

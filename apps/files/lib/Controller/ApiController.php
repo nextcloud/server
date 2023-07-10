@@ -40,12 +40,15 @@ namespace OCA\Files\Controller;
 use OC\Files\Node\Node;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
@@ -67,28 +70,20 @@ class ApiController extends Controller {
 	private IPreview $previewManager;
 	private IUserSession $userSession;
 	private IConfig $config;
-	private Folder $userFolder;
+	private ?Folder $userFolder;
 	private UserConfig $userConfig;
+	private ViewConfig $viewConfig;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param TagService $tagService
-	 * @param IPreview $previewManager
-	 * @param IManager $shareManager
-	 * @param IConfig $config
-	 * @param Folder $userFolder
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IUserSession $userSession,
 								TagService $tagService,
 								IPreview $previewManager,
 								IManager $shareManager,
 								IConfig $config,
-								Folder $userFolder,
-								UserConfig $userConfig) {
+								?Folder $userFolder,
+								UserConfig $userConfig,
+								ViewConfig $viewConfig) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
@@ -97,6 +92,7 @@ class ApiController extends Controller {
 		$this->config = $config;
 		$this->userFolder = $userFolder;
 		$this->userConfig = $userConfig;
+		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -209,6 +205,7 @@ class ApiController extends Controller {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH,
 		];
 		$shareTypes = [];
 
@@ -272,30 +269,39 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Change the default sort mode
+	 * Set a user view config
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $mode
-	 * @param string $direction
-	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @param string $view
+	 * @param string $key
+	 * @param string|bool $value
+	 * @return JSONResponse
 	 */
-	public function updateFileSorting($mode, $direction) {
-		$allowedMode = ['name', 'size', 'mtime'];
-		$allowedDirection = ['asc', 'desc'];
-		if (!in_array($mode, $allowedMode) || !in_array($direction, $allowedDirection)) {
-			$response = new Response();
-			$response->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
-			return $response;
+	public function setViewConfig(string $view, string $key, $value): JSONResponse {
+		try {
+			$this->viewConfig->setConfig($view, $key, (string)$value);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting', $mode);
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting_direction', $direction);
-		return new Response();
+
+		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfig($view)]);
+	}
+
+
+	/**
+	 * Get the user view config
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getViewConfigs(): JSONResponse {
+		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfigs()]);
 	}
 
 	/**
-	 * Toggle default files user config
+	 * Set a user config
 	 *
 	 * @NoAdminRequired
 	 *
@@ -378,42 +384,20 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Toggle default for showing/hiding xxx folder
-	 *
 	 * @NoAdminRequired
-	 *
-	 * @param int $show
-	 * @param string $key the key of the folder
-	 *
-	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @NoCSRFRequired
 	 */
-	public function toggleShowFolder(int $show, string $key): Response {
-		if ($show !== 0 && $show !== 1) {
-			return new DataResponse([
-				'message' => 'Invalid show value. Only 0 and 1 are allowed.'
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		$userId = $this->userSession->getUser()->getUID();
-
-		// Set the new value and return it
-		// Using a prefix prevents the user from setting arbitrary keys
-		$this->config->setUserValue($userId, 'files', 'show_' . $key, (string)$show);
-		return new JSONResponse([$key => $show]);
-	}
-
-	/**
-	 * Get sorting-order for custom sorting
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @param string $folderpath
-	 * @return string
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function getNodeType($folderpath) {
-		$node = $this->userFolder->get($folderpath);
-		return $node->getType();
+	public function serviceWorker(): StreamResponse {
+		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');
+		$response->setHeaders([
+			'Content-Type' => 'application/javascript',
+			'Service-Worker-Allowed' => '/'
+		]);
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedWorkerSrcDomain("'self'");
+		$policy->addAllowedScriptDomain("'self'");
+		$policy->addAllowedConnectDomain("'self'");
+		$response->setContentSecurityPolicy($policy);
+		return $response;
 	}
 }

@@ -48,6 +48,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC_App;
 use OC_Helper;
+use OCP\App\IAppManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -113,7 +114,7 @@ class Installer {
 		}
 
 		$l = \OC::$server->getL10N('core');
-		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true, $l->getLanguageCode());
+		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($basedir . '/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
 			throw new \Exception(
@@ -164,7 +165,7 @@ class Installer {
 		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
 		//set the installed version
-		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id'], false));
+		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
 		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
@@ -349,7 +350,7 @@ class Installer {
 					}
 
 					// Check if the version is lower than before
-					$currentVersion = OC_App::getAppVersion($appId);
+					$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
 					$newVersion = (string)$xml->version;
 					if (version_compare($currentVersion, $newVersion) === 1) {
 						throw new \Exception(
@@ -423,7 +424,7 @@ class Installer {
 
 		foreach ($this->apps as $app) {
 			if ($app['id'] === $appId) {
-				$currentVersion = OC_App::getAppVersion($appId);
+				$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
 
 				if (!isset($app['releases'][0]['version'])) {
 					return false;
@@ -593,7 +594,7 @@ class Installer {
 		//run appinfo/install.php
 		self::includeAppScript("$appPath/appinfo/install.php");
 
-		$info = OC_App::getAppInfo($app);
+		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
 		if (is_null($info)) {
 			return false;
 		}
@@ -601,7 +602,7 @@ class Installer {
 
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 
-		$config->setAppValue($app, 'installed_version', OC_App::getAppVersion($app));
+		$config->setAppValue($app, 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($app));
 		if (array_key_exists('ocsid', $info)) {
 			$config->setAppValue($app, 'ocsid', $info['ocsid']);
 		}

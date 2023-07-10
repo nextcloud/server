@@ -85,7 +85,7 @@ class AdminController extends Controller {
 	 */
 	public function setChannel(string $channel): DataResponse {
 		Util::setChannel($channel);
-		$this->config->setAppValue('core', 'lastupdatedat', 0);
+		$this->config->setAppValue('core', 'lastupdatedat', '0');
 		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
 	}
 
@@ -99,7 +99,7 @@ class AdminController extends Controller {
 
 		// Create a new job and store the creation date
 		$this->jobList->add(ResetTokenBackgroundJob::class);
-		$this->config->setAppValue('core', 'updater.secret.created', $this->timeFactory->getTime());
+		$this->config->setAppValue('core', 'updater.secret.created', (string)$this->timeFactory->getTime());
 
 		// Create a new token
 		$newToken = $this->secureRandom->generate(64);

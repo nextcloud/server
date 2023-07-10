@@ -355,4 +355,48 @@ class ManagerTest extends TestCase {
 
 		$this->manager->updatePasswords('uid', 'pass');
 	}
+
+	public function testInvalidateTokensOfUserNoClientName() {
+		$t1 = new PublicKeyToken();
+		$t2 = new PublicKeyToken();
+		$t1->setId(123);
+		$t2->setId(456);
+
+		$this->publicKeyTokenProvider
+			->expects($this->once())
+			->method('getTokenByUser')
+			->with('theUser')
+			->willReturn([$t1, $t2]);
+		$this->publicKeyTokenProvider
+			->expects($this->exactly(2))
+			->method('invalidateTokenById')
+			->withConsecutive(
+				['theUser', 123],
+				['theUser', 456],
+			);
+		$this->manager->invalidateTokensOfUser('theUser', null);
+	}
+
+	public function testInvalidateTokensOfUserClientNameGiven() {
+		$t1 = new PublicKeyToken();
+		$t2 = new PublicKeyToken();
+		$t3 = new PublicKeyToken();
+		$t1->setId(123);
+		$t1->setName('Firefox session');
+		$t2->setId(456);
+		$t2->setName('My Client Name');
+		$t3->setId(789);
+		$t3->setName('mobile client');
+
+		$this->publicKeyTokenProvider
+			->expects($this->once())
+			->method('getTokenByUser')
+			->with('theUser')
+			->willReturn([$t1, $t2, $t3]);
+		$this->publicKeyTokenProvider
+			->expects($this->once())
+			->method('invalidateTokenById')
+			->with('theUser', 456);
+		$this->manager->invalidateTokensOfUser('theUser', 'My Client Name');
+	}
 }

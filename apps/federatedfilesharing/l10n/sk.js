@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Schváliť",
     "Decline" : "Odmietnuť",
     "Federated Cloud Sharing" : "Sprístupnenie prostredníctvom Federated Cloud",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID, viac na %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID",
     "Sharing" : "Sprístupnenie",
     "Federated file sharing" : "Združené sprístupňovanie súborov",
     "Provide federated file sharing across servers" : "Poskytnúť združené sprístupňovanie súborov naprieč servermi",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Zdieľajte so mnou prostredníctvom môjho #Nextcloud Federated Cloud ID, pozrite {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID bol skopírovaný do schránky",
     "Copy to clipboard" : "Skopírovať do schránky",
     "Clipboard is not available" : "Schránka nie je prístupná",
     "Copied!" : "Skopírované!",
-    "Copy" : "Kopírovať",
-    "Not supported!" : "Nie je podporované!",
-    "Press ⌘-C to copy." : "Stlač ⌘-C pre skopírovanie.",
-    "Press Ctrl-C to copy." : "Stlač Ctrl-C pre skopírovanie.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "\"%3$s\" ste dostali ako vzdialenú zdieľanú položku od %4$s (%1$s) (v mene %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "\"%3$s\" ste dostali ako vzdialený zdieľaný súbor od %4$s (%1$s)",
-    "Open documentation" : "Otvoriť dokumentáciu"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sprístupnite mi obsah prostredníctvom môjho #Nextcloud Federated Cloud ID, viac na %s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -44,12 +44,13 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
+use Exception;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\SharedStorage;
-use OCA\Files\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -59,9 +60,9 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -74,12 +75,14 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use OCP\Share;
+use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Share20OCS
@@ -274,7 +277,11 @@ class ShareAPIController extends OCSController {
 
 			$result['token'] = $share->getToken();
 			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
-		} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
+		} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $this->getCachedFederatedDisplayName($share->getSharedWith());
+			$result['token'] = $share->getToken();
+		} elseif ($share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
 			$result['token'] = $share->getToken();
@@ -320,6 +327,14 @@ class ShareAPIController extends OCSController {
 				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
 			} catch (QueryException $e) {
 			}
+		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = '';
+
+			try {
+				$result = array_merge($result, $this->getSciencemeshShareHelper()->formatShare($share));
+			} catch (QueryException $e) {
+			}
 		}
 
 
@@ -336,7 +351,7 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * Check if one of the users address books knows the exact property, if
-	 * yes we return the full name.
+	 * not we return the full name.
 	 *
 	 * @param string $query
 	 * @param string $property
@@ -344,11 +359,20 @@ class ShareAPIController extends OCSController {
 	 */
 	private function getDisplayNameFromAddressBook(string $query, string $property): string {
 		// FIXME: If we inject the contacts manager it gets initialized before any address books are registered
-		$result = \OC::$server->getContactsManager()->search($query, [$property], [
-			'limit' => 1,
-			'enumeration' => false,
-			'strict_search' => true,
-		]);
+		try {
+			$result = \OC::$server->getContactsManager()->search($query, [$property], [
+				'limit' => 1,
+				'enumeration' => false,
+				'strict_search' => true,
+			]);
+		} catch (Exception $e) {
+			Server::get(LoggerInterface::class)->error(
+				$e->getMessage(),
+				['exception' => $e]
+			);
+			return $query;
+		}
+
 		foreach ($result as $r) {
 			foreach ($r[$property] as $value) {
 				if ($value === $query && $r['FN']) {
@@ -359,6 +383,102 @@ class ShareAPIController extends OCSController {
 
 		return $query;
 	}
+
+
+	/**
+	 * @param array $shares
+	 * @param array|null $updatedDisplayName
+	 *
+	 * @return array
+	 */
+	private function fixMissingDisplayName(array $shares, ?array $updatedDisplayName = null): array {
+		$userIds = $updated = [];
+		foreach ($shares as $share) {
+			// share is federated and share have no display name yet
+			if ($share['share_type'] === IShare::TYPE_REMOTE
+				&& ($share['share_with'] ?? '') !== ''
+				&& ($share['share_with_displayname'] ?? '') === '') {
+				$userIds[] = $userId = $share['share_with'];
+
+				if ($updatedDisplayName !== null && array_key_exists($userId, $updatedDisplayName)) {
+					$share['share_with_displayname'] = $updatedDisplayName[$userId];
+				}
+			}
+
+			// prepping userIds with displayName to be updated
+			$updated[] = $share;
+		}
+
+		// if $updatedDisplayName is not null, it means we should have already fixed displayNames of the shares
+		if ($updatedDisplayName !== null) {
+			return $updated;
+		}
+
+		// get displayName for the generated list of userId with no displayName
+		$displayNames = $this->retrieveFederatedDisplayName($userIds);
+
+		// if no displayName are updated, we exit
+		if (empty($displayNames)) {
+			return $updated;
+		}
+
+		// let's fix missing display name and returns all shares
+		return $this->fixMissingDisplayName($shares, $displayNames);
+	}
+
+
+	/**
+	 * get displayName of a list of userIds from the lookup-server; through the globalsiteselector app.
+	 * returns an array with userIds as keys and displayName as values.
+	 *
+	 * @param array $userIds
+	 * @param bool $cacheOnly - do not reach LUS, get data from cache.
+	 *
+	 * @return array
+	 * @throws ContainerExceptionInterface
+	 */
+	private function retrieveFederatedDisplayName(array $userIds, bool $cacheOnly = false): array {
+		// check if gss is enabled and available
+		if (count($userIds) === 0
+			|| !$this->appManager->isInstalled('globalsiteselector')
+			|| !class_exists('\OCA\GlobalSiteSelector\Service\SlaveService')) {
+			return [];
+		}
+
+		try {
+			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
+		} catch (\Throwable $e) {
+			Server::get(LoggerInterface::class)->error(
+				$e->getMessage(),
+				['exception' => $e]
+			);
+			return [];
+		}
+
+		return $slaveService->getUsersDisplayName($userIds, $cacheOnly);
+	}
+
+
+	/**
+	 * retrieve displayName from cache if available (should be used on federated shares)
+	 * if not available in cache/lus, try for get from address-book, else returns empty string.
+	 *
+	 * @param string $userId
+	 * @param bool $cacheOnly if true will not reach the lus but will only get data from cache
+	 *
+	 * @return string
+	 */
+	private function getCachedFederatedDisplayName(string $userId, bool $cacheOnly = true): string {
+		$details = $this->retrieveFederatedDisplayName([$userId], $cacheOnly);
+		if (array_key_exists($userId, $details)) {
+			return $details[$userId];
+		}
+
+		$displayName = $this->getDisplayNameFromAddressBook($userId, 'CLOUD');
+		return ($displayName === $userId) ? '' : $displayName;
+	}
+
+
 
 	/**
 	 * Get a specific share by id
@@ -619,16 +739,6 @@ class ShareAPIController extends OCSController {
 
 				$share->setSendPasswordByTalk(true);
 			}
-
-			//Expire date
-			if ($expireDate !== '') {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-				}
-			}
 		} elseif ($shareType === IShare::TYPE_REMOTE) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
@@ -648,6 +758,8 @@ class ShareAPIController extends OCSController {
 					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
 				}
 			}
+
+			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
 				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
@@ -692,8 +804,24 @@ class ShareAPIController extends OCSController {
 			} catch (QueryException $e) {
 				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$node->getPath()]));
 			}
+		} elseif ($shareType === IShare::TYPE_SCIENCEMESH) {
+			try {
+				$this->getSciencemeshShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
+			} catch (QueryException $e) {
+				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support ScienceMesh shares', [$node->getPath()]));
+			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
+		}
+
+		//Expire date
+		if ($expireDate !== '') {
+			try {
+				$expireDate = $this->parseDate($expireDate);
+				$share->setExpirationDate($expireDate);
+			} catch (\Exception $e) {
+				throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+			}
 		}
 
 		$share->setShareType($shareType);
@@ -730,8 +858,9 @@ class ShareAPIController extends OCSController {
 		$circleShares = $this->shareManager->getSharedWith($this->currentUser, IShare::TYPE_CIRCLE, $node, -1, 0);
 		$roomShares = $this->shareManager->getSharedWith($this->currentUser, IShare::TYPE_ROOM, $node, -1, 0);
 		$deckShares = $this->shareManager->getSharedWith($this->currentUser, IShare::TYPE_DECK, $node, -1, 0);
+		$sciencemeshShares = $this->shareManager->getSharedWith($this->currentUser, IShare::TYPE_SCIENCEMESH, $node, -1, 0);
 
-		$shares = array_merge($userShares, $groupShares, $circleShares, $roomShares, $deckShares);
+		$shares = array_merge($userShares, $groupShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares);
 
 		$filteredShares = array_filter($shares, function (IShare $share) {
 			return $share->getShareOwner() !== $this->currentUser;
@@ -777,7 +906,6 @@ class ShareAPIController extends OCSController {
 
 		// filter out duplicate shares
 		$known = [];
-
 
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
@@ -941,6 +1069,9 @@ class ShareAPIController extends OCSController {
 		if (!$resharingRight) {
 			$formatted = $miniFormatted;
 		}
+
+		// fix eventual missing display name from federated shares
+		$formatted = $this->fixMissingDisplayName($formatted);
 
 		if ($includeTags) {
 			$formatted =
@@ -1201,17 +1332,6 @@ class ShareAPIController extends OCSController {
 				$permissions = $newPermissions;
 			}
 
-			if ($expireDate === '') {
-				$share->setExpirationDate(null);
-			} elseif ($expireDate !== null) {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSBadRequestException($e->getMessage(), $e);
-				}
-				$share->setExpirationDate($expireDate);
-			}
-
 			if ($password === '') {
 				$share->setPassword(null);
 			} elseif ($password !== null) {
@@ -1241,17 +1361,17 @@ class ShareAPIController extends OCSController {
 			if ($permissions !== null) {
 				$share->setPermissions($permissions);
 			}
+		}
 
-			if ($expireDate === '') {
-				$share->setExpirationDate(null);
-			} elseif ($expireDate !== null) {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSBadRequestException($e->getMessage(), $e);
-				}
-				$share->setExpirationDate($expireDate);
+		if ($expireDate === '') {
+			$share->setExpirationDate(null);
+		} elseif ($expireDate !== null) {
+			try {
+				$expireDate = $this->parseDate($expireDate);
+			} catch (\Exception $e) {
+				throw new OCSBadRequestException($e->getMessage(), $e);
 			}
+			$share->setExpirationDate($expireDate);
 		}
 
 		try {
@@ -1414,6 +1534,14 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
+		if ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
+			try {
+				return $this->getSciencemeshShareHelper()->canAccessShare($share, $this->currentUser);
+			} catch (QueryException $e) {
+				return false;
+			}
+		}
+
 		return false;
 	}
 
@@ -1490,7 +1618,8 @@ class ShareAPIController extends OCSController {
 	protected function canDeleteShareFromSelf(\OCP\Share\IShare $share): bool {
 		if ($share->getShareType() !== IShare::TYPE_GROUP &&
 			$share->getShareType() !== IShare::TYPE_ROOM &&
-			$share->getShareType() !== IShare::TYPE_DECK
+			$share->getShareType() !== IShare::TYPE_DECK &&
+			$share->getShareType() !== IShare::TYPE_SCIENCEMESH
 		) {
 			return false;
 		}
@@ -1522,6 +1651,14 @@ class ShareAPIController extends OCSController {
 		if ($share->getShareType() === IShare::TYPE_DECK) {
 			try {
 				return $this->getDeckShareHelper()->canAccessShare($share, $this->currentUser);
+			} catch (QueryException $e) {
+				return false;
+			}
+		}
+
+		if ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
+			try {
+				return $this->getSciencemeshShareHelper()->canAccessShare($share, $this->currentUser);
 			} catch (QueryException $e) {
 				return false;
 			}
@@ -1606,6 +1743,15 @@ class ShareAPIController extends OCSController {
 			// Do nothing, just try the other share type
 		}
 
+		try {
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
+				$share = $this->shareManager->getShareById('sciencemesh:' . $id, $this->currentUser);
+				return $share;
+			}
+		} catch (ShareNotFound $e) {
+			// Do nothing, just try the other share type
+		}
+
 		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			throw new ShareNotFound();
 		}
@@ -1670,6 +1816,23 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Returns the helper of ShareAPIHelper for sciencemesh shares.
+	 *
+	 * If the sciencemesh application is not enabled or the helper is not available
+	 * a QueryException is thrown instead.
+	 *
+	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @throws QueryException
+	 */
+	private function getSciencemeshShareHelper() {
+		if (!$this->appManager->isEnabledForUser('sciencemesh')) {
+			throw new QueryException();
+		}
+
+		return $this->serverContainer->get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
+	}
+
+	/**
 	 * @param string $viewer
 	 * @param Node $node
 	 * @param bool $reShares
@@ -1684,7 +1847,8 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,
-			IShare::TYPE_DECK
+			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH
 		];
 
 		// Should we assume that the (currentUser) viewer is the owner of the node !?
@@ -1793,7 +1957,7 @@ class ShareAPIController extends OCSController {
 
 		if ($share->getShareType() === IShare::TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
 			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
-			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
+			$hasCircleId = (str_ends_with($share->getSharedWith(), ']'));
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
 			if ($shareWithLength === false) {
@@ -1837,7 +2001,11 @@ class ShareAPIController extends OCSController {
 		// TALK SHARES
 		$roomShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_ROOM, $path, $reshares, -1, 0);
 
+		// DECK SHARES
 		$deckShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_DECK, $path, $reshares, -1, 0);
+
+		// SCIENCEMESH SHARES
+		$sciencemeshShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_SCIENCEMESH, $path, $reshares, -1, 0);
 
 		// FEDERATION
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
@@ -1851,7 +2019,7 @@ class ShareAPIController extends OCSController {
 			$federatedGroupShares = [];
 		}
 
-		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $federatedShares, $federatedGroupShares);
+		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares, $federatedShares, $federatedGroupShares);
 	}
 
 

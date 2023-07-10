@@ -134,6 +134,8 @@ $application->registerRoutes($this, [
 		['root' => '/references', 'name' => 'ReferenceApi#resolveOne', 'url' => '/resolve', 'verb' => 'GET'],
 		['root' => '/references', 'name' => 'ReferenceApi#extract', 'url' => '/extract', 'verb' => 'POST'],
 		['root' => '/references', 'name' => 'ReferenceApi#resolve', 'url' => '/resolve', 'verb' => 'POST'],
+		['root' => '/references', 'name' => 'ReferenceApi#getProvidersInfo', 'url' => '/providers', 'verb' => 'GET'],
+		['root' => '/references', 'name' => 'ReferenceApi#touchProvider', 'url' => '/provider/{providerId}', 'verb' => 'PUT'],
 
 		['root' => '/profile', 'name' => 'ProfileApi#setVisibility', 'url' => '/{targetUserId}', 'verb' => 'PUT'],
 
@@ -141,6 +143,8 @@ $application->registerRoutes($this, [
 		['root' => '/search', 'name' => 'UnifiedSearch#getProviders', 'url' => '/providers', 'verb' => 'GET'],
 		['root' => '/search', 'name' => 'UnifiedSearch#search', 'url' => '/providers/{providerId}/search', 'verb' => 'GET'],
 
+		['root' => '/translation', 'name' => 'TranslationApi#languages', 'url' => '/languages', 'verb' => 'GET'],
+		['root' => '/translation', 'name' => 'TranslationApi#translate', 'url' => '/translate', 'verb' => 'POST'],
 	],
 ]);
 

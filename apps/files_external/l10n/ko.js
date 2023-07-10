@@ -122,11 +122,10 @@ OC.L10N.register(
     "Authentication" : "인증",
     "Configuration" : "설정",
     "Available for" : "다음으로 사용 가능",
-    "Click to recheck the configuration" : "설정을 다시 확인하려면 누르십시오",
+    "Click to recheck the configuration" : "설정을 다시 확인하려면 클릭",
     "Add storage" : "저장소 추가",
     "Advanced settings" : "고급 설정",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
-    "All users. Type to select user or group." : "모든 사용자입니다. 사용자나 그룹을 선택하려면 입력하십시오."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
 },
 "nplurals=1; plural=0;");

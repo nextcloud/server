@@ -40,4 +40,8 @@ class ExternalMountPoint extends MountPoint {
 	public function getMountType() {
 		return ($this->storageConfig->getAuthMechanism() instanceof SessionCredentials) ? 'external-session' : 'external';
 	}
+
+	public function getStorageConfig(): StorageConfig {
+		return $this->storageConfig;
+	}
 }

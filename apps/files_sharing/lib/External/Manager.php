@@ -660,7 +660,7 @@ class Manager {
 
 
 		$query->delete('federated_reshares')
-			->where($query->expr()->in('share_id', $query->createFunction('(' . $select . ')')));
+			->where($query->expr()->in('share_id', $query->createFunction($select)));
 		$query->execute();
 
 		$deleteReShares = $this->connection->getQueryBuilder();
@@ -730,10 +730,10 @@ class Manager {
 			// delete group share entry and matching sub-entries
 			$qb->delete('share_external')
 			   ->where(
-				   $qb->expr()->orX(
-					   $qb->expr()->eq('id', $qb->createParameter('share_id')),
-					   $qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
-				   )
+			   	$qb->expr()->orX(
+			   		$qb->expr()->eq('id', $qb->createParameter('share_id')),
+			   		$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
+			   	)
 			   );
 
 			foreach ($shares as $share) {

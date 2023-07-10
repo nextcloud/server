@@ -56,8 +56,8 @@
 
 <script>
 
-import Delete from 'vue-material-design-icons/Delete'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'OAuthItem',

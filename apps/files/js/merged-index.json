@@ -4,8 +4,6 @@
   "detailfileinfoview.js",
   "detailsview.js",
   "detailtabview.js",
-  "favoritesfilelist.js",
-  "favoritesplugin.js",
   "file-upload.js",
   "fileactions.js",
   "fileactionsmenu.js",
@@ -27,5 +25,6 @@
   "sidebarpreviewmanager.js",
   "sidebarpreviewtext.js",
   "tagsplugin.js",
+  "systemtagsplugin.js",
   "templates.js"
 ]

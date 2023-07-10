@@ -25,15 +25,18 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\IRequest;
 
 class ReferenceApiController extends \OCP\AppFramework\OCSController {
-	private IReferenceManager $referenceManager;
-
-	public function __construct(string $appName, IRequest $request, IReferenceManager $referenceManager) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IReferenceManager $referenceManager,
+		private ?string $userId,
+	) {
 		parent::__construct($appName, $request);
-		$this->referenceManager = $referenceManager;
 	}
 
 	/**
@@ -87,5 +90,27 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 		return new DataResponse([
 			'references' => array_filter($result)
 		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function getProvidersInfo(): DataResponse {
+		$providers = $this->referenceManager->getDiscoverableProviders();
+		$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
+			return $provider->jsonSerialize();
+		}, $providers);
+		return new DataResponse($jsonProviders);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function touchProvider(string $providerId, ?int $timestamp = null): DataResponse {
+		if ($this->userId !== null) {
+			$success = $this->referenceManager->touchProvider($this->userId, $providerId, $timestamp);
+			return new DataResponse(['success' => $success]);
+		}
+		return new DataResponse(['success' => false]);
 	}
 }

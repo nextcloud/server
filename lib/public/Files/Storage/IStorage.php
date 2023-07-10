@@ -85,7 +85,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource|false
 	 * @since 9.0.0
 	 */
 	public function opendir($path);
@@ -132,7 +132,7 @@ interface IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return false|int|float
 	 * @since 9.0.0
 	 */
 	public function filesize($path);
@@ -214,7 +214,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function file_get_contents($path);
@@ -224,7 +224,7 @@ interface IStorage {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 * @since 9.0.0
 	 */
 	public function file_put_contents($path, $data);
@@ -293,7 +293,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 * @since 9.0.0
 	 */
 	public function free_space($path);
@@ -314,7 +314,7 @@ interface IStorage {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function getLocalFile($path);
@@ -336,7 +336,7 @@ interface IStorage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function getETag($path);

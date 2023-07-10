@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud munkafolyamat-motor",
     "Select a filter" : "Válasszon szűrőt",
     "Select a comparator" : "Válasszon összehasonlítót",
+    "Remove filter" : "Szűrő eltávolítása",
     "Select a file type" : "Válasszon fájltípust",
     "e.g. httpd/unix-directory" : "például httpd/unix-directory",
     "Folder" : "Mappa",
@@ -58,9 +59,7 @@ OC.L10N.register(
     "Custom mimetype" : "Egyéni MIME-típus",
     "Please enter a valid time span" : "Érvényes időtartamot adjon meg",
     "Select a request URL" : "Válassza ki a kérés URL-jét",
-    "Predefined URLs" : "Előre definiált URL-ek",
     "Files WebDAV" : "WebDAV-fájlok",
-    "Others" : "Egyebek",
     "Custom URL" : "Egyéni URL",
     "Select a user agent" : "Válasszon felhasználói ügynököt",
     "Android client" : "Android kliens",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Add new flow" : "Új folyamat hozzáadása",
     "When" : "Mikor",
     "and" : "és",
+    "Add a new filter" : "Új szűrő hozzáadása",
     "Cancel" : "Mégse",
     "Delete" : "Törlés",
     "The configuration is invalid" : "A konfiguráció érvénytelen",
@@ -112,9 +112,7 @@ OC.L10N.register(
     "User group membership" : "Felhasználói csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
-    "Select a tag" : "Válasszon címkét",
-    "No results" : "Nincs találat",
-    "%s (invisible)" : "%s (láthatatlan)",
-    "%s (restricted)" : "%s (korlátozott)"
+    "Predefined URLs" : "Előre definiált URL-ek",
+    "Others" : "Egyebek"
 },
 "nplurals=2; plural=(n != 1);");

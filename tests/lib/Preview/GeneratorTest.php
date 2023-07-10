@@ -105,15 +105,12 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
 
-		$previewFolder->method('getDirectoryListing')
-			->willReturn([$maxPreview]);
-
 		$previewFile = $this->createMock(ISimpleFile::class);
 		$previewFile->method('getSize')->willReturn(1000);
+		$previewFile->method('getName')->willReturn('256-256.png');
 
-		$previewFolder->method('getFile')
-			->with($this->equalTo('256-256.png'))
-			->willReturn($previewFile);
+		$previewFolder->method('getDirectoryListing')
+			->willReturn([$maxPreview, $previewFile]);
 
 		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
@@ -128,7 +125,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -267,7 +264,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -319,7 +316,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
 
 		$this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 	}
@@ -344,14 +341,12 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
 
-		$previewFolder->method('getDirectoryListing')
-			->willReturn([$maxPreview]);
-
 		$preview = $this->createMock(ISimpleFile::class);
 		$preview->method('getSize')->willReturn(1000);
-		$previewFolder->method('getFile')
-			->with($this->equalTo('1024-512-crop.png'))
-			->willReturn($preview);
+		$preview->method('getName')->willReturn('1024-512-crop.png');
+
+		$previewFolder->method('getDirectoryListing')
+			->willReturn([$maxPreview, $preview]);
 
 		$this->previewManager->expects($this->never())
 			->method('isMimeSupported');
@@ -371,7 +366,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
 
 		$result = $this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 		$this->assertSame($preview, $result);
@@ -410,7 +405,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
 
 		$this->expectException(NotFoundException::class);
 		$this->generator->getPreview($file, 100, 100);
@@ -548,7 +543,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file));
+			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode));
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {

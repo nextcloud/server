@@ -33,6 +33,7 @@
 			tabindex="0"
 			@click="pickFile">
 			{{ t('theming', 'Custom background') }}
+			<ImageEdit v-if="backgroundImage !== 'custom'" :size="26" />
 			<Check :size="44" />
 		</button>
 
@@ -60,6 +61,17 @@
 			</button>
 		</NcColorPicker>
 
+		<!-- Remove background -->
+		<button class="background background__delete"
+			:class="{ 'background--active': isBackgroundDisabled }"
+			data-user-theming-background-clear
+			tabindex="0"
+			@click="removeBackground">
+			{{ t('theming', 'No background') }}
+			<Close v-if="!isBackgroundDisabled" :size="32" />
+			<Check :size="44" />
+		</button>
+
 		<!-- Background set selection -->
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
@@ -74,15 +86,6 @@
 			@click="setShipped(shippedBackground.name)">
 			<Check :size="44" />
 		</button>
-
-		<!-- Remove background -->
-		<button class="background background__delete"
-			data-user-theming-background-clear
-			tabindex="0"
-			@click="removeBackground">
-			{{ t('theming', 'Remove background') }}
-			<Close :size="32" />
-		</button>
 	</div>
 </template>
 
@@ -92,10 +95,11 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import Check from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
 import debounce from 'debounce'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import Vibrant from 'node-vibrant'
-import { Palette } from 'node-vibrant/lib/color'
+import { Palette } from 'node-vibrant/lib/color.js'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 
@@ -118,6 +122,7 @@ export default {
 	components: {
 		Check,
 		Close,
+		ImageEdit,
 		NcColorPicker,
 	},
 
@@ -158,6 +163,11 @@ export default {
 
 		isGlobalBackgroundDeleted() {
 			return themingDefaultBackground === 'backgroundColor'
+		},
+
+		isBackgroundDisabled() {
+			return this.backgroundImage === 'disabled'
+			|| !this.backgroundImage
 		},
 	},
 
@@ -242,8 +252,8 @@ export default {
 			const result = await axios.post(generateUrl('/apps/theming/background/color'), { color })
 			this.update(result.data)
 		},
-		debouncePickColor: debounce(function() {
-			this.pickColor(...arguments)
+		debouncePickColor: debounce(function(...args) {
+			this.pickColor(...args)
 		}, 200),
 
 		async pickFile() {
@@ -319,7 +329,7 @@ export default {
 
 		&__default {
 			background-color: var(--color-primary-default);
-			background-image: var(--image-background-default);
+			background-image: var(--image-background-plain, var(--image-background-default));
 		}
 
 		&__filepicker, &__default, &__color {
@@ -346,7 +356,7 @@ export default {
 		&:hover,
 		&:focus {
 			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary)) !important;
+			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
 		}
 
 		// Icon
@@ -354,14 +364,15 @@ export default {
 			margin: 4px;
 		}
 
-		&__filepicker span,
-		&__default span,
-		&__shipped span {
+		.check-icon {
 			display: none;
 		}
 
-		&--active:not(.icon-loading) span {
-			display: block !important;
+		&--active:not(.icon-loading) {
+			.check-icon {
+				// Show checkmark
+				display: block !important;
+			}
 		}
 	}
 }

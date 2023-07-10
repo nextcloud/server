@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @author Gary Kim <gary@garykim.dev>
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -27,18 +27,25 @@
 				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
 				:icon="view.iconClass"
-				:open="view.expanded"
+				:open="isExpanded(view)"
 				:pinned="view.sticky"
 				:title="view.name"
 				:to="generateToNavigation(view)"
 				@update:open="onToggleExpand(view)">
+				<!-- Sanitized icon as svg if provided -->
+				<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+
+				<!-- Child views if any -->
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"
 					:exact="true"
 					:icon="child.iconClass"
 					:title="child.name"
-					:to="generateToNavigation(child)" />
+					:to="generateToNavigation(child)">
+					<!-- Sanitized icon as svg if provided -->
+					<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
+				</NcAppNavigationItem>
 			</NcAppNavigationItem>
 		</template>
 
@@ -67,14 +74,14 @@
 
 <script>
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
 import { translate } from '@nextcloud/l10n'
-
-import axios from '@nextcloud/axios'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
+import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
 import Navigation from '../services/Navigation.ts'
 import NavigationQuota from '../components/NavigationQuota.vue'
@@ -85,10 +92,11 @@ export default {
 
 	components: {
 		Cog,
+		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcIconSvgWrapper,
 		SettingsModal,
-		NavigationQuota,
 	},
 
 	props: {
@@ -97,6 +105,13 @@ export default {
 			type: Navigation,
 			required: true,
 		},
+	},
+
+	setup() {
+		const viewConfigStore = useViewConfigStore()
+		return {
+			viewConfigStore,
+		}
 	},
 
 	data() {
@@ -150,7 +165,16 @@ export default {
 
 	watch: {
 		currentView(view, oldView) {
-			logger.debug('View changed', { id: view.id, view })
+			// If undefined, it means we're initializing the view
+			// This is handled by the legacy-view:initialized event
+			// TODO: remove when legacy views are dropped
+			if (view?.id === oldView?.id) {
+				return
+			}
+
+			this.Navigation.setActive(view)
+			logger.debug('Navigation changed', { id: view.id, view })
+
 			this.showView(view, oldView)
 		},
 	},
@@ -162,6 +186,12 @@ export default {
 		}
 
 		subscribe('files:legacy-navigation:changed', this.onLegacyNavigationChanged)
+
+		// TODO: remove this once the legacy navigation is gone
+		subscribe('files:legacy-view:initialized', () => {
+			logger.debug('Legacy view initialized', { ...this.currentView })
+			this.showView(this.currentView)
+		})
 	},
 
 	methods: {
@@ -173,7 +203,7 @@ export default {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
 
-			if (view.legacy) {
+			if (view?.legacy) {
 				const newAppContent = document.querySelector('#app-content #app-content-' + this.currentView.id + '.viewcontainer')
 				document.querySelectorAll('#app-content .viewcontainer').forEach(el => {
 					el.classList.add('hidden')
@@ -187,10 +217,10 @@ export default {
 				logger.debug('Triggering legacy navigation event', params)
 				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
 				window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
-
 			}
 
 			this.Navigation.setActive(view)
+			setPageHeading(view.name)
 			emit('files:navigation:changed', view)
 		},
 
@@ -219,8 +249,22 @@ export default {
 		 */
 		onToggleExpand(view) {
 			// Invert state
-			view.expanded = !view.expanded
-			axios.post(generateUrl(`/apps/files/api/v1/toggleShowFolder/${view.id}`), { show: view.expanded })
+			const isExpanded = this.isExpanded(view)
+			// Update the view expanded state, might not be necessary
+			view.expanded = !isExpanded
+			this.viewConfigStore.update(view.id, 'expanded', !isExpanded)
+		},
+
+		/**
+		 * Check if a view is expanded by user config
+		 * or fallback to the default value.
+		 *
+		 * @param {Navigation} view the view to check
+		 */
+		isExpanded(view) {
+			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
+				? this.viewConfigStore.getConfig(view.id).expanded === true
+				: view.expanded === true
 		},
 
 		/**

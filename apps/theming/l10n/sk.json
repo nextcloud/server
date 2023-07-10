@@ -73,16 +73,15 @@
     "Admin" : "Správca",
     "Error uploading the file" : "Chyba pri nahrávaní súboru",
     "Name cannot be empty" : "Názov nemôže byť prázdny",
-    "Open documentation" : "Otvoriť dokumentáciu",
-    "https://…" : "https://...",
-    "Login image" : "Prihlasovací obrázok",
-    "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V niektorých prípadoch môžu klávesové skratky zasahovať do nástrojov dostupnosti. Aby ste mohli správne zaostriť na svoj nástroj, môžete tu vypnúť všetky klávesové skratky. Tým sa tiež zakážu všetky dostupné skratky v aplikáciách.",
     "Pick from Files" : "Vybrať zo súborov",
     "Default image" : "Predvolený obrázok",
     "Custom color" : "Vlastná farba",
     "Plain background" : "Obyčajné pozadie",
-    "Insert from {productName}" : "Vložiť z {productName}"
+    "Insert from {productName}" : "Vložiť z {productName}",
+    "Open documentation" : "Otvoriť dokumentáciu",
+    "https://…" : "https://...",
+    "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

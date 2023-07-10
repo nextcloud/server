@@ -78,6 +78,9 @@ class MetadataManager implements IMetadataManager {
 		$this->fileMetadataMapper->clear($fileId);
 	}
 
+	/**
+	 * @return array<int, FileMetadata>
+	 */
 	public function fetchMetadataFor(string $group, array $fileIds): array {
 		return $this->fileMetadataMapper->findForGroupForFiles($fileIds, $group);
 	}

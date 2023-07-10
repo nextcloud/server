@@ -1,5 +1,5 @@
 /* eslint-disable quote-props */
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import path from 'path'
 import fs from 'fs'
 import sass from 'sass'
@@ -7,7 +7,8 @@ import sass from 'sass'
 const colors = {
 	dark: '000',
 	white: 'fff',
-	yellow: 'FC0',
+	// gold but for backwards compatibility called yellow
+	yellow: 'a08b00',
 	red: 'e9322d',
 	orange: 'eca700',
 	green: '46ba61',
@@ -94,6 +95,7 @@ const icons = {
 	'sound': path.join(__dirname, '../img', 'actions', 'sound.svg'),
 	'star': path.join(__dirname, '../img', 'actions', 'star.svg'),
 	'starred': path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
+	'star-rounded': path.join(__dirname, '../img', 'actions', 'star-rounded.svg'),
 	'tablet': path.join(__dirname, '../img', 'clients', 'tablet.svg'),
 	'tag': path.join(__dirname, '../img', 'actions', 'tag.svg'),
 	'talk': path.join(__dirname, '../img', 'apps', 'spreed.svg'),

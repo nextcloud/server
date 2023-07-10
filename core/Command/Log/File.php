@@ -36,10 +36,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class File extends Command implements Completion\CompletionAwareInterface {
-	protected IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
 	}
 
@@ -115,14 +114,12 @@ class File extends Command implements Completion\CompletionAwareInterface {
 	}
 
 	/**
-	 * @param mixed $rotateSize
 	 * @throws \InvalidArgumentException
 	 */
-	protected function validateRotateSize(&$rotateSize) {
+	protected function validateRotateSize(false|int|float $rotateSize): void {
 		if ($rotateSize === false) {
 			throw new \InvalidArgumentException('Error parsing log rotation file size');
 		}
-		$rotateSize = (int) $rotateSize;
 		if ($rotateSize < 0) {
 			throw new \InvalidArgumentException('Log rotation file size must be non-negative');
 		}

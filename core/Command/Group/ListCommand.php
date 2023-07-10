@@ -32,10 +32,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
-	protected IGroupManager $groupManager;
-
-	public function __construct(IGroupManager $groupManager) {
-		$this->groupManager = $groupManager;
+	public function __construct(
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
 	}
 
@@ -76,6 +75,17 @@ class ListCommand extends Base {
 	}
 
 	/**
+	 * @param IGroup $group
+	 * @return string[]
+	 */
+	public function usersForGroup(IGroup $group) {
+		$users = array_keys($group->getUsers());
+		return array_map(function ($userId) {
+			return (string)$userId;
+		}, $users);
+	}
+
+	/**
 	 * @param IGroup[] $groups
 	 * @return array
 	 */
@@ -88,12 +98,12 @@ class ListCommand extends Base {
 			$values = array_map(function (IGroup $group) {
 				return [
 					'backends' => $group->getBackendNames(),
-					'users' => array_keys($group->getUsers()),
+					'users' => $this->usersForGroup($group),
 				];
 			}, $groups);
 		} else {
 			$values = array_map(function (IGroup $group) {
-				return array_keys($group->getUsers());
+				return $this->usersForGroup($group);
 			}, $groups);
 		}
 		return array_combine($keys, $values);

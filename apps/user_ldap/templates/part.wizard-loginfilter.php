@@ -9,8 +9,12 @@
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_username"
+				   aria-describedby="ldap_loginfilter_username_instructions"
 				   title="<?php p($l->t('Allows login against the LDAP/AD username, which is either "uid" or "sAMAccountName" and will be detected.'));?>"
 				   name="ldap_loginfilter_username" value="1" />
+			<p class="hidden-visually" id="ldap_loginfilter_username_instructions">
+				<?php p($l->t('Allows login against the LDAP/AD username, which is either "uid" or "sAMAccountName" and will be detected.'));?>
+			</p>
 		</p>
 		<p>
 			<label for="ldap_loginfilter_email">
@@ -19,7 +23,11 @@
 
 			<input type="checkbox" id="ldap_loginfilter_email"
 				   title="<?php p($l->t('Allows login against an email attribute. "mail" and "mailPrimaryAddress" allowed.'));?>"
+				   aria-describedby="ldap_loginfilter_email_instructions"
 				   name="ldap_loginfilter_email" value="1" />
+			<p class="hidden-visually" id="ldap_loginfilter_email_instructions">
+				<?php p($l->t('Allows login against an email attribute. "mail" and "mailPrimaryAddress" allowed.'));?>
+			</p>
 		</p>
 		<p>
 			<label for="ldap_loginfilter_attributes">
@@ -41,8 +49,12 @@
 			<textarea type="text" id="ldap_login_filter" name="ldap_login_filter"
 				class="ldapFilterInputElement"
 				placeholder="<?php p($l->t('Edit LDAP Query'));?>"
+				aria-describedby="ldap_login_filter_instructions"
 				title="<?php p($l->t('Defines the filter to apply, when login is attempted. "%%uid" replaces the username in the login action. Example: "uid=%%uid"'));?>">
 			</textarea>
+		<p class="hidden-visually" id="ldap_login_filter_instructions">
+			<?php p($l->t('Defines the filter to apply, when login is attempted. "%%uid" replaces the username in the login action. Example: "uid=%%uid"'));?>
+		</p>
 		</p>
 		<p>
 			<div class="ldapWizardInfo invisible">&nbsp;</div>
@@ -51,7 +63,11 @@
 			<input type="text" id="ldap_test_loginname" name="ldap_test_loginname"
 				   placeholder="<?php p($l->t('Test Loginname'));?>"
 				   class="ldapVerifyInput"
-				   title="Attempts to receive a DN for the given loginname and the current login filter"/>
+				   aria-describedby="ldap_test_loginname_instructions"
+				   title="<?php p($l->t('Attempts to receive a DN for the given loginname and the current login filter'));?>"/>
+			<p class="hidden-visually" id="ldap_test_loginname_instructions">
+				<?php p($l->t('Attempts to receive a DN for the given loginname and the current login filter'));?>
+			</p>
 			<button class="ldapVerifyLoginName" name="ldapTestLoginSettings" type="button" disabled="disabled">
 				<?php p($l->t('Verify settings'));?>
 			</button>

@@ -44,7 +44,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 export default {
 	name: 'ProfilePreviewCard',
@@ -161,12 +161,12 @@ export default {
 	&__header {
 		height: 70px;
 		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
-		background-color: var(--color-primary);
+		background-color: var(--color-primary-element);
 		background-image: var(--gradient-primary-background);
 
 		span {
 			bottom: 0;
-			color: var(--color-primary-text);
+			color: var(--color-primary-element-text);
 			font-size: 18px;
 			font-weight: bold;
 			margin: 0 4px 8px 0;

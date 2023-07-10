@@ -7,12 +7,13 @@ on:
 
 jobs:
   stale:
-
     runs-on: ubuntu-latest
-    
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     permissions:
       issues: write
-    
+
     steps:
     - uses: actions/stale@v5
       with:
@@ -29,4 +30,4 @@ jobs:
         days-before-stale: 30
         days-before-close: 14
         # debug-only: true
- 
+

@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Ok",
     "Decline" : "Abgelehnt",
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Über meine #Nextcloud Federated-Cloud-ID teilen, siehe %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Sharing" : "Teilen",
     "Federated file sharing" : "Federated Datei-Freigabe",
     "Provide federated file sharing across servers" : "Bietet Federated Datei-Freigaben über Servergrenzen hinweg",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID, siehe {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Cloud ID copied to the clipboard" : "Cloud-ID in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "Copied!" : "Kopiert!",
-    "Copy" : "Kopieren",
-    "Not supported!" : "Nicht unterstützt!",
-    "Press ⌘-C to copy." : "⌘-C zum Kopieren drücken.",
-    "Press Ctrl-C to copy." : "Zum Kopieren Strg-C drücken.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du hast \"%3$s\" als externe Freigabe von %4$s (%1$s) empfangen (im Auftrag von %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du hast  \"%3$s\" als externe Freigabe von %4$s (%1$s) erhalten",
-    "Open documentation" : "Dokumentation öffnen"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Über meine #Nextcloud Federated-Cloud-ID teilen, siehe %s"
 },
 "nplurals=2; plural=(n != 1);");

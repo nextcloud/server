@@ -37,6 +37,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "En fils <strong>systemmærkning</strong> er blevet ændret",
     "Tags" : "Mærker",
     "Collaborative tags" : "Kollaborativ tags",
+    "Failed to load tags" : "Kunne ikke indlæse tags.",
     "Tagged files" : "Mærkede filer",
     "Select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
     "No tags found" : "Ingen tags fundet",

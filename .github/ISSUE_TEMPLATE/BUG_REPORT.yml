@@ -17,11 +17,9 @@ body:
       options:
         - label: This is a **bug**, not a question or a configuration/webserver/proxy issue.
           required: true
-        - label: This issue is **not** already reported on Github _(I've searched it)_.
+        - label: This issue is **not** already reported on [Github](https://github.com/nextcloud/server/issues?q=is%3Aopen+is%3Aissue+label%3Abug) OR [Nextcloud Community Forum](https://help.nextcloud.com/) _(I've searched it)_.
           required: true
         - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
-          required: true
-        - label: Nextcloud Server **is** running on 64bit capable CPU, PHP and OS.
           required: true
         - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/).
           required: true
@@ -62,7 +60,6 @@ body:
         Select installation method you've used.
         _Describe the method in the "Additional info" section if you chose "Other"._
       options:
-        - "Official All-in-One appliance"
         - "Community Web installer on a VPS or web space"
         - "Community Manual installation with Archive"
         - "Community Docker image"
@@ -70,6 +67,21 @@ body:
         - "Community SNAP package"
         - "Community VM appliance"
         - "Other Community project"
+        - "Official All-in-One appliance"
+  - type: dropdown
+    id: nextcloud-version
+    attributes:
+      label: Nextcloud Server version
+      description: |
+        Select Nextcloud Server version.
+        _Versions not listed here are not maintained and not supported anymore_
+      options:
+        - "25"
+        - "26"
+        - "27"
+        - "master"
+    validations:
+      required: true
   - type: dropdown
     id: system
     attributes:
@@ -89,10 +101,10 @@ body:
         Select PHP engine version serving Nextcloud Server.
         _Describe in the "Additional info" section if you chose "Other"._
       options:
-        - "PHP 7.3"
         - "PHP 7.4"
         - "PHP 8.0"
         - "PHP 8.1"
+        - "PHP 8.2"
         - "Other"
   - type: dropdown
     id: webserver
@@ -104,7 +116,6 @@ body:
       options:
         - "Apache (supported)"
         - "Nginx"
-        - "Lighttpd"
         - "Other"
   - type: dropdown
     id: database
@@ -127,8 +138,8 @@ body:
       description: |
         Select if bug is present after an update or on a fresh install.
       options:
-        - "Updated from a minor version (ex. 22.2.3 to 22.2.4)"
-        - "Updated to a major version (ex. 22.2.3 to 23.0.1)"
+        - "Updated from a MINOR version (ex. 22.1 to 22.2)"
+        - "Upgraded to a MAJOR version (ex. 22 to 23)"
         - "Fresh Nextcloud Server install"
   - type: dropdown
     id: encryption
@@ -178,8 +189,6 @@ body:
         ```
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
-    validations:
-      required: true
   - type: textarea
     id: nextcloud-signingstatus
     attributes:

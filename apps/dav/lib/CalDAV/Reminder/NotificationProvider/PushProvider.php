@@ -73,13 +73,13 @@ class PushProvider extends AbstractProvider {
 	 * Send push notification to all users.
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
 	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName,
+						 ?string $calendarDisplayName,
 						 array $principalEmailAddresses,
 						 array $users = []):void {
 		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
@@ -87,7 +87,6 @@ class PushProvider extends AbstractProvider {
 		}
 
 		$eventDetails = $this->extractEventDetails($vevent);
-		$eventDetails['calendar_displayname'] = $calendarDisplayName;
 		$eventUUID = (string) $vevent->UID;
 		if (!$eventUUID) {
 			return;
@@ -95,6 +94,8 @@ class PushProvider extends AbstractProvider {
 		$eventUUIDHash = hash('sha256', $eventUUID, false);
 
 		foreach ($users as $user) {
+			$eventDetails['calendar_displayname'] = $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($this->l10nFactory->getUserLanguage($user));
+
 			/** @var INotification $notification */
 			$notification = $this->manager->createNotification();
 			$notification->setApp(Application::APP_ID)

@@ -64,8 +64,6 @@ class Capabilities implements IPublicCapability {
 
 	/**
 	 * Return this classes capabilities
-	 *
-	 * @return array
 	 */
 	public function getCapabilities() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');

@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
     "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med mig gennem min #Nextcloud Federated Cloud ID, se %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Del med mig gennem min #Nextcloud Federated Cloud ID",
     "Sharing" : "Deling",
     "Federated file sharing" : "Fødereret fildeling",
     "Provide federated file sharing across servers" : "Giv fødereret fildeling på tværs af servere",
@@ -45,14 +43,12 @@ OC.L10N.register(
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
     "HTML Code:" : "HTMLkode:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Del med mig gennem min #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Kopier til udklipsholder",
+    "Clipboard is not available" : "Udklipsholderen er ikke tilgængelig",
     "Copied!" : "Kopieret!",
-    "Copy" : "Kopiér",
-    "Not supported!" : "Ikke understøttet!",
-    "Press ⌘-C to copy." : "Tryk ⌘-C for kopiering.",
-    "Press Ctrl-C to copy." : "Tryk Ctrl-C for at kopiere.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du modtog \"%3$s\" som en fjerndeling fra %4$s (%1$s) (på vegne af %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du modtog \"%3$s\" som en fjerndeling fra %4$s (%1$s)",
-    "Open documentation" : "Åbn dokumentation"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med mig gennem min #Nextcloud Federated Cloud ID, se %s"
 },
 "nplurals=2; plural=(n != 1);");

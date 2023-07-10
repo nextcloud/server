@@ -68,25 +68,9 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyScriptAllowInline() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
-
-		$this->contentSecurityPolicy->allowInlineScript(true);
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyScriptAllowInlineWithDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' www.owncloud.com 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
-
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->allowInlineScript(true);
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyScriptDisallowInlineAndEval() {
+	public function testGetPolicyScriptDisallowEval() {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
 
-		$this->contentSecurityPolicy->allowInlineScript(false);
 		$this->contentSecurityPolicy->allowEvalScript(false);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}

@@ -52,7 +52,9 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\IAccountPropertyCollection;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -73,7 +75,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
-
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var IConfig|MockObject */
@@ -497,7 +498,7 @@ class UsersControllerTest extends TestCase {
 			->method('generate')
 			->with(10)
 			->willReturnCallback(function () {
-				return (string)rand(1000000000, 9999999999);
+				return (string)rand(100000000, 999999999);
 			});
 
 		$this->assertTrue(key_exists(
@@ -1072,6 +1073,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1091,6 +1093,7 @@ class UsersControllerTest extends TestCase {
 			'biography' => 'biography',
 			'profile_enabled' => '1',
 			'notify_email' => null,
+			'manager' => '',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1211,6 +1214,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1230,6 +1234,7 @@ class UsersControllerTest extends TestCase {
 			'biography' => 'biography',
 			'profile_enabled' => '1',
 			'notify_email' => null,
+			'manager' => '',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1388,6 +1393,7 @@ class UsersControllerTest extends TestCase {
 			'quota' => ['DummyValue'],
 			'email' => 'subadmin@nextcloud.com',
 			'displayname' => 'Subadmin User',
+			'display-name' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1407,6 +1413,7 @@ class UsersControllerTest extends TestCase {
 			'biography' => 'biography',
 			'profile_enabled' => '1',
 			'notify_email' => null,
+			'manager' => '',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1542,7 +1549,162 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@nextcloud.com')->getData());
 	}
 
+	public function testEditUserRegularUserSelfEditAddAdditionalEmailValid(): void {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UID');
+		$targetUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UID');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
+		$userAccount = $this->createMock(IAccount::class);
+
+		$this->accountManager
+			->expects($this->once())
+			->method('getAccount')
+			->with($targetUser)
+			->willReturn($userAccount);
+		$this->accountManager
+			->expects($this->once())
+			->method('updateAccount')
+			->with($userAccount);
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'additional_mail', 'demo1@nextcloud.com')->getData());
+	}
+
+	public function testEditUserRegularUserSelfEditAddAdditionalEmailMainAddress(): void {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UID');
+		$targetUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UID');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+		$targetUser
+			->expects($this->any())
+			->method('getSystemEMailAddress')
+			->willReturn('demo@nextcloud.com');
+
+		$userAccount = $this->createMock(IAccount::class);
+
+		$this->accountManager
+			->expects($this->never())
+			->method('getAccount')
+			->with($targetUser)
+			->willReturn($userAccount);
+		$this->accountManager
+			->expects($this->never())
+			->method('updateAccount')
+			->with($userAccount);
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(102);
+		$this->api->editUser('UserToEdit', 'additional_mail', 'demo@nextcloud.com')->getData();
+	}
+
+	public function testEditUserRegularUserSelfEditAddAdditionalEmailDuplicate(): void {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UID');
+		$targetUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UID');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$property->method('getValue')
+			->willReturn('demo1@nextcloud.com');
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->method('getPropertyByValue')
+			->with('demo1@nextcloud.com')
+			->willReturn($property);
+
+		$userAccount = $this->createMock(IAccount::class);
+		$userAccount->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($collection);
+
+		$this->accountManager
+			->expects($this->once())
+			->method('getAccount')
+			->with($targetUser)
+			->willReturn($userAccount);
+		$this->accountManager
+			->expects($this->never())
+			->method('updateAccount')
+			->with($userAccount);
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(102);
+		$this->api->editUser('UserToEdit', 'additional_mail', 'demo1@nextcloud.com')->getData();
+	}
 
 	public function testEditUserRegularUserSelfEditChangeEmailInvalid() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
@@ -3543,6 +3705,7 @@ class UsersControllerTest extends TestCase {
 					'quota' => ['DummyValue'],
 					'email' => 'demo@nextcloud.com',
 					'displayname' => 'Demo User',
+					'display-name' => 'Demo User',
 					'phone' => 'phone',
 					'address' => 'address',
 					'website' => 'website',
@@ -3561,6 +3724,8 @@ class UsersControllerTest extends TestCase {
 			'enabled' => 'true',
 			'quota' => ['DummyValue'],
 			'email' => 'demo@nextcloud.com',
+			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -3571,7 +3736,6 @@ class UsersControllerTest extends TestCase {
 			'headline' => 'headline',
 			'biography' => 'biography',
 			'profile_enabled' => '1',
-			'display-name' => 'Demo User'
 		];
 
 		$this->assertSame($expected, $api->getCurrentUser()->getData());
@@ -3630,6 +3794,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'fediverse' => 'fediverse',
 			'displayname' => 'Demo User',
+			'display-name' => 'Demo User',
 			'organisation' => 'organisation',
 			'role' => 'role',
 			'headline' => 'headline',

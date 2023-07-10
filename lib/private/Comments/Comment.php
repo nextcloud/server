@@ -30,7 +30,7 @@ use OCP\Comments\IllegalIDChangeException;
 use OCP\Comments\MessageTooLongException;
 
 class Comment implements IComment {
-	protected $data = [
+	protected array $data = [
 		'id' => '',
 		'parentId' => '0',
 		'topmostParentId' => '0',
@@ -61,21 +61,20 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the ID of the comment
+	 * Returns the ID of the comment
 	 *
 	 * It may return an empty string, if the comment was not stored.
 	 * It is expected that the concrete Comment implementation gives an ID
 	 * by itself (e.g. after saving).
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->data['id'];
 	}
 
 	/**
-	 * sets the ID of the comment and returns itself
+	 * Sets the ID of the comment and returns itself
 	 *
 	 * It is only allowed to set the ID only, if the current id is an empty
 	 * string (which means it is not stored in a database, storage or whatever
@@ -87,7 +86,7 @@ class Comment implements IComment {
 	 * @throws IllegalIDChangeException
 	 * @since 9.0.0
 	 */
-	public function setId($id) {
+	public function setId($id): IComment {
 		if (!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
@@ -102,23 +101,21 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the parent ID of the comment
+	 * Returns the parent ID of the comment
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getParentId() {
+	public function getParentId(): string {
 		return $this->data['parentId'];
 	}
 
 	/**
-	 * sets the parent ID and returns itself
+	 * Sets the parent ID and returns itself
 	 *
 	 * @param string $parentId
-	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setParentId($parentId) {
+	public function setParentId($parentId): IComment {
 		if (!is_string($parentId)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
@@ -127,24 +124,22 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the topmost parent ID of the comment
+	 * Returns the topmost parent ID of the comment
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getTopmostParentId() {
+	public function getTopmostParentId(): string {
 		return $this->data['topmostParentId'];
 	}
 
 
 	/**
-	 * sets the topmost parent ID and returns itself
+	 * Sets the topmost parent ID and returns itself
 	 *
 	 * @param string $id
-	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setTopmostParentId($id) {
+	public function setTopmostParentId($id): IComment {
 		if (!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
@@ -153,23 +148,21 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the number of children
+	 * Returns the number of children
 	 *
-	 * @return int
 	 * @since 9.0.0
 	 */
-	public function getChildrenCount() {
+	public function getChildrenCount(): int {
 		return $this->data['childrenCount'];
 	}
 
 	/**
-	 * sets the number of children
+	 * Sets the number of children
 	 *
 	 * @param int $count
-	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setChildrenCount($count) {
+	public function setChildrenCount($count): IComment {
 		if (!is_int($count)) {
 			throw new \InvalidArgumentException('Integer expected.');
 		}
@@ -178,12 +171,10 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the message of the comment
-	 *
-	 * @return string
+	 * Returns the message of the comment
 	 * @since 9.0.0
 	 */
-	public function getMessage() {
+	public function getMessage(): string {
 		return $this->data['message'];
 	}
 
@@ -192,11 +183,10 @@ class Comment implements IComment {
 	 *
 	 * @param string $message
 	 * @param int $maxLength
-	 * @return IComment
 	 * @throws MessageTooLongException
 	 * @since 9.0.0
 	 */
-	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH) {
+	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH): IComment {
 		if (!is_string($message)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
@@ -228,9 +218,9 @@ class Comment implements IComment {
 	 * ]
 	 *
 	 */
-	public function getMentions() {
+	public function getMentions(): array {
 		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"group\/[a-z0-9_\-@\.\' ]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
-		if (!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
+		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
 		$mentionIds = array_unique($mentions[0]);
@@ -240,9 +230,9 @@ class Comment implements IComment {
 		$result = [];
 		foreach ($mentionIds as $mentionId) {
 			$cleanId = trim(substr($mentionId, 1), '"');
-			if (strpos($cleanId, 'guest/') === 0) {
+			if (str_starts_with($cleanId, 'guest/')) {
 				$result[] = ['type' => 'guest', 'id' => $cleanId];
-			} elseif (strpos($cleanId, 'group/') === 0) {
+			} elseif (str_starts_with($cleanId, 'group/')) {
 				$result[] = ['type' => 'group', 'id' => substr($cleanId, 6)];
 			} else {
 				$result[] = ['type' => 'user', 'id' => $cleanId];
@@ -252,23 +242,21 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the verb of the comment
+	 * Returns the verb of the comment
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getVerb() {
+	public function getVerb(): string {
 		return $this->data['verb'];
 	}
 
 	/**
-	 * sets the verb of the comment, e.g. 'comment' or 'like'
+	 * Sets the verb of the comment, e.g. 'comment' or 'like'
 	 *
 	 * @param string $verb
-	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setVerb($verb) {
+	public function setVerb($verb): IComment {
 		if (!is_string($verb) || !trim($verb)) {
 			throw new \InvalidArgumentException('Non-empty String expected.');
 		}
@@ -277,34 +265,29 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the actor type
-	 *
-	 * @return string
+	 * Returns the actor type
 	 * @since 9.0.0
 	 */
-	public function getActorType() {
+	public function getActorType(): string {
 		return $this->data['actorType'];
 	}
 
 	/**
-	 * returns the actor ID
-	 *
-	 * @return string
+	 * Returns the actor ID
 	 * @since 9.0.0
 	 */
-	public function getActorId() {
+	public function getActorId(): string {
 		return $this->data['actorId'];
 	}
 
 	/**
-	 * sets (overwrites) the actor type and id
+	 * Sets (overwrites) the actor type and id
 	 *
 	 * @param string $actorType e.g. 'users'
 	 * @param string $actorId e.g. 'zombie234'
-	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setActor($actorType, $actorId) {
+	public function setActor($actorType, $actorId): IComment {
 		if (
 			!is_string($actorType) || !trim($actorType)
 			|| !is_string($actorId) || $actorId === ''
@@ -317,76 +300,68 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the creation date of the comment.
+	 * Returns the creation date of the comment.
 	 *
 	 * If not explicitly set, it shall default to the time of initialization.
-	 *
-	 * @return \DateTime
 	 * @since 9.0.0
+	 * @throw \LogicException if creation date time is not set yet
 	 */
-	public function getCreationDateTime() {
+	public function getCreationDateTime(): \DateTime {
+		if (!isset($this->data['creationDT'])) {
+			throw new \LogicException('Cannot get creation date before setting one or writting to database');
+		}
 		return $this->data['creationDT'];
 	}
 
 	/**
-	 * sets the creation date of the comment and returns itself
-	 *
-	 * @param \DateTime $timestamp
-	 * @return IComment
+	 * Sets the creation date of the comment and returns itself
 	 * @since 9.0.0
 	 */
-	public function setCreationDateTime(\DateTime $timestamp) {
-		$this->data['creationDT'] = $timestamp;
+	public function setCreationDateTime(\DateTime $dateTime): IComment {
+		$this->data['creationDT'] = $dateTime;
 		return $this;
 	}
 
 	/**
-	 * returns the DateTime of the most recent child, if set, otherwise null
-	 *
-	 * @return \DateTime|null
+	 * Returns the DateTime of the most recent child, if set, otherwise null
 	 * @since 9.0.0
 	 */
-	public function getLatestChildDateTime() {
+	public function getLatestChildDateTime(): ?\DateTime {
 		return $this->data['latestChildDT'];
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function setLatestChildDateTime(?\DateTime $dateTime = null) {
+	public function setLatestChildDateTime(?\DateTime $dateTime = null): IComment {
 		$this->data['latestChildDT'] = $dateTime;
 		return $this;
 	}
 
 	/**
-	 * returns the object type the comment is attached to
-	 *
-	 * @return string
+	 * Returns the object type the comment is attached to
 	 * @since 9.0.0
 	 */
-	public function getObjectType() {
+	public function getObjectType(): string {
 		return $this->data['objectType'];
 	}
 
 	/**
-	 * returns the object id the comment is attached to
-	 *
-	 * @return string
+	 * Returns the object id the comment is attached to
 	 * @since 9.0.0
 	 */
-	public function getObjectId() {
+	public function getObjectId(): string {
 		return $this->data['objectId'];
 	}
 
 	/**
-	 * sets (overwrites) the object of the comment
+	 * Sets (overwrites) the object of the comment
 	 *
 	 * @param string $objectType e.g. 'files'
 	 * @param string $objectId e.g. '16435'
-	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setObject($objectType, $objectId) {
+	public function setObject($objectType, $objectId): IComment {
 		if (
 			!is_string($objectType) || !trim($objectType)
 			|| !is_string($objectId) || trim($objectId) === ''
@@ -399,9 +374,7 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the reference id of the comment
-	 *
-	 * @return string|null
+	 * Returns the reference id of the comment
 	 * @since 19.0.0
 	 */
 	public function getReferenceId(): ?string {
@@ -409,10 +382,9 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * sets (overwrites) the reference id of the comment
+	 * Sets (overwrites) the reference id of the comment
 	 *
 	 * @param string $referenceId e.g. sha256 hash sum
-	 * @return IComment
 	 * @since 19.0.0
 	 */
 	public function setReferenceId(?string $referenceId): IComment {
@@ -463,9 +435,8 @@ class Comment implements IComment {
 	 * database.
 	 *
 	 * @param array $data
-	 * @return IComment
 	 */
-	protected function fromArray($data) {
+	protected function fromArray($data): IComment {
 		foreach (array_keys($data) as $key) {
 			// translate DB keys to internal setter names
 			$setter = 'set' . implode('', array_map('ucfirst', explode('_', $key)));

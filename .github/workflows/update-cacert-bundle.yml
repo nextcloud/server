@@ -3,7 +3,7 @@ name: Update CA certificate bundle
 on:
   workflow_dispatch:
   schedule:
-    - cron: "5 4 * * *"
+    - cron: "5 2 * * *"
 
 jobs:
   update-ca-certificate-bundle:
@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable25", "stable24", "stable23", "stable22"]
+        branches: ["master", "stable27", "stable26", "stable25", "stable24", "stable23", "stable22"]
 
     name: update-ca-certificate-bundle-${{ matrix.branches }}
 
@@ -29,12 +29,12 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: Update CA certificate bundle
+          commit-message: "fix(security): Update CA certificate bundle"
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
           branch: automated/noid/${{ matrix.branches }}-update-ca-cert-bundle
-          title: "[${{ matrix.branches }}] Update ca-cert bundle"
+          title: "[${{ matrix.branches }}] fix(security): Update CA certificate bundle"
           body: |
             Auto-generated update of CA certificate bundle from [https://curl.se/docs/caextract.html](https://curl.se/docs/caextract.html)
           labels: |

@@ -4,7 +4,7 @@
 		:doc-url="authorizedSettingsDocLink">
 		<div class="setting-list">
 			<div v-for="setting in availableSettings" :key="setting.class">
-				<h3>{{ setting.sectionName }}</h3>
+				<label :for="setting.id">{{ setting.sectionName }}</label>
 				<GroupSelect :available-groups="availableGroups" :authorized-groups="authorizedGroups" :setting="setting" />
 			</div>
 		</div>
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import GroupSelect from './AdminDelegation/GroupSelect'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import GroupSelect from './AdminDelegation/GroupSelect.vue'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
@@ -32,3 +32,12 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+label {
+	display: block;
+	font-size: 16px;
+	margin: 12px 0;
+	color: var(--color-text-light);
+}
+</style>

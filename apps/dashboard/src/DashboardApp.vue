@@ -2,11 +2,11 @@
 	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
-			<div v-for="status in sortedRegisteredStatus"
+			<li v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
 				<div :ref="'status-' + status" />
-			</div>
+			</li>
 		</ul>
 
 		<Draggable v-model="layout"
@@ -17,9 +17,13 @@
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
 					<h2>
-						<div :class="panels[panelId].iconClass" role="img" />
+						<div aria-labelledby="panel--header--icon--description"
+							aria-hidden="true"
+							:class="panels[panelId].iconClass"
+							role="img" />
 						{{ panels[panelId].title }}
 					</h2>
+					<span id="panel--header--icon--description" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
 				</div>
 				<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
 					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
@@ -47,7 +51,7 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<div :class="statusInfo[status].icon" role="img" />
+							<div :class="statusInfo[status].icon" aria-hidden="true" role="img" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -65,7 +69,7 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<div :class="panel.iconClass" role="img" />
+							<div :class="panel.iconClass" aria-hidden="true" role="img" />
 							{{ panel.title }}
 						</label>
 					</li>
@@ -92,9 +96,9 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Draggable from 'vuedraggable'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
@@ -382,7 +386,7 @@ export default {
 	background-attachment: fixed;
 
 	> h2 {
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
@@ -405,10 +409,11 @@ export default {
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
+	align-self: stretch;
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-rounded);
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
@@ -556,7 +561,7 @@ export default {
 			}
 
 			&:hover {
-				border-color: var(--color-primary);
+				border-color: var(--color-primary-element);
 			}
 		}
 
@@ -572,7 +577,7 @@ export default {
 		}
 
 		input:focus + label {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 	}
 
@@ -622,7 +627,7 @@ export default {
 	flex-wrap: wrap;
 	margin-bottom: 36px;
 
-	& > div {
+	& > li {
 		margin: 8px;
 	}
 }

@@ -116,7 +116,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -143,7 +143,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -173,7 +173,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -207,7 +207,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -241,7 +241,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -275,7 +275,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 

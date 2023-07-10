@@ -5,7 +5,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>1.21.1</version>
+	<version>1.23.0</version>
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Vincent Petry</author>
@@ -18,7 +18,7 @@
 	<category>files</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="26" max-version="26"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 
 	<background-jobs>
@@ -35,6 +35,12 @@
 		<command>OCA\Files\Command\TransferOwnership</command>
 		<command>OCA\Files\Command\ScanAppData</command>
 		<command>OCA\Files\Command\RepairTree</command>
+		<command>OCA\Files\Command\Get</command>
+		<command>OCA\Files\Command\Put</command>
+		<command>OCA\Files\Command\Delete</command>
+		<command>OCA\Files\Command\Object\Delete</command>
+		<command>OCA\Files\Command\Object\Get</command>
+		<command>OCA\Files\Command\Object\Put</command>
 	</commands>
 
 	<activity>

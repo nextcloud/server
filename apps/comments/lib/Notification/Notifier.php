@@ -118,7 +118,7 @@ class Notifier implements INotifier {
 				$node = $nodes[0];
 
 				$path = rtrim($node->getPath(), '/');
-				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
+				if (str_starts_with($path, '/' . $notification->getUser() . '/files/')) {
 					// Remove /user/files/...
 					$fullPath = $path;
 					[,,, $path] = explode('/', $fullPath, 4);
@@ -182,7 +182,7 @@ class Notifier implements INotifier {
 			// index of the mentions of that type.
 			$mentionParameterId = 'mention-' . $mention['type'] . $mentionTypeCount[$mention['type']];
 			$message = str_replace('@"' . $mention['id'] . '"', '{' . $mentionParameterId . '}', $message);
-			if (strpos($mention['id'], ' ') === false && strpos($mention['id'], 'guest/') !== 0) {
+			if (!str_contains($mention['id'], ' ') && !str_starts_with($mention['id'], 'guest/')) {
 				$message = str_replace('@' . $mention['id'], '{' . $mentionParameterId . '}', $message);
 			}
 

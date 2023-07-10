@@ -54,7 +54,7 @@ class GenericEventWrapper extends GenericEvent {
 		}
 
 		$class = ($this->event !== null && is_object($this->event)) ? get_class($this->event) : 'null';
-		$this->logger->info(
+		$this->logger->debug(
 			'Deprecated event type for {name}: {class} is used',
 			[ 'name' => $this->eventName, 'class' => $class]
 		);

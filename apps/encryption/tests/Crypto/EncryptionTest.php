@@ -42,7 +42,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptionTest extends TestCase {
-
 	/** @var Encryption */
 	private $instance;
 
@@ -156,7 +155,7 @@ class EncryptionTest extends TestCase {
 			->willReturnCallback([$this, 'addSystemKeysCallback']);
 		$this->cryptMock->expects($this->any())
 			->method('multiKeyEncrypt')
-			->willReturn(true);
+			->willReturn([]);
 
 		$this->instance->end('/foo/bar');
 	}
@@ -276,7 +275,7 @@ class EncryptionTest extends TestCase {
 			->with($path, $recoveryKeyId)
 			->willReturn($recoveryShareKey);
 		$this->cryptMock->expects($this->once())
-			->method('multiKeyDecrypt')
+			->method('multiKeyDecryptLegacy')
 			->with('encryptedFileKey', $recoveryShareKey, $decryptAllKey)
 			->willReturn($fileKey);
 
@@ -378,6 +377,7 @@ class EncryptionTest extends TestCase {
 				function ($fileKey, $publicKeys) {
 					$this->assertEmpty($publicKeys);
 					$this->assertSame('fileKey', $fileKey);
+					return [];
 				}
 			);
 

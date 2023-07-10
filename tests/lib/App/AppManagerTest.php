@@ -14,7 +14,10 @@ namespace Test\App;
 use OC\App\AppManager;
 use OC\AppConfig;
 use OCP\App\AppPathNotFoundException;
+use OCP\App\Events\AppDisableEvent;
+use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -91,6 +94,9 @@ class AppManagerTest extends TestCase {
 	protected $cacheFactory;
 
 	/** @var EventDispatcherInterface|MockObject */
+	protected $legacyEventDispatcher;
+
+	/** @var IEventDispatcher|MockObject */
 	protected $eventDispatcher;
 
 	/** @var LoggerInterface|MockObject */
@@ -108,7 +114,8 @@ class AppManagerTest extends TestCase {
 		$this->appConfig = $this->getAppConfig();
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->legacyEventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
@@ -120,29 +127,24 @@ class AppManagerTest extends TestCase {
 			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
+			$this->legacyEventDispatcher,
 			$this->eventDispatcher,
 			$this->logger
 		);
 	}
 
-	protected function expectClearCache() {
-		$this->cache->expects($this->once())
-			->method('clear')
-			->with('listApps');
-	}
-
 	public function testEnableApp() {
-		$this->expectClearCache();
 		// making sure "files_trashbin" is disabled
 		if ($this->manager->isEnabledForUser('files_trashbin')) {
 			$this->manager->disableApp('files_trashbin');
 		}
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('files_trashbin'));
 		$this->manager->enableApp('files_trashbin');
 		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp() {
-		$this->expectClearCache();
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppDisableEvent('files_trashbin'));
 		$this->manager->disableApp('files_trashbin');
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
@@ -170,12 +172,11 @@ class AppManagerTest extends TestCase {
 			->willReturn('group2');
 
 		$groups = [$group1, $group2];
-		$this->expectClearCache();
 
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -186,6 +187,8 @@ class AppManagerTest extends TestCase {
 			->method('getAppPath')
 			->with('test')
 			->willReturn('apps/test');
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -217,12 +220,11 @@ class AppManagerTest extends TestCase {
 			->willReturn('group2');
 
 		$groups = [$group1, $group2];
-		$this->expectClearCache();
 
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -239,6 +241,8 @@ class AppManagerTest extends TestCase {
 			->method('getAppInfo')
 			->with('test')
 			->willReturn($appInfo);
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -276,7 +280,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -295,6 +299,8 @@ class AppManagerTest extends TestCase {
 			->willReturn([
 				'types' => [$type],
 			]);
+
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 	}
@@ -470,7 +476,7 @@ class AppManagerTest extends TestCase {
 	public function testGetAppsNeedingUpgrade() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -521,7 +527,7 @@ class AppManagerTest extends TestCase {
 	public function testGetIncompatibleApps() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -600,5 +606,48 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals([], $this->manager->getAppRestriction('test1'));
 		$this->assertEquals([], $this->manager->getAppRestriction('test2'));
 		$this->assertEquals(['foo'], $this->manager->getAppRestriction('test3'));
+	}
+
+	public function provideDefaultApps(): array {
+		return [
+			// none specified, default to files
+			[
+				'',
+				'files',
+			],
+			// unexisting or inaccessible app specified, default to files
+			[
+				'unexist',
+				'files',
+			],
+			// non-standard app
+			[
+				'settings',
+				'settings',
+			],
+			// non-standard app with fallback
+			[
+				'unexist,settings',
+				'settings',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideDefaultApps
+	 */
+	public function testGetDefaultAppForUser($defaultApps, $expectedApp) {
+		$user = $this->newUser('user1');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('defaultapp', $this->anything())
+			->willReturn($defaultApps);
+
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
 	}
 }

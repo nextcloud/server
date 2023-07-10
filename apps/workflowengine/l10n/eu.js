@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Mime mota pertsonalizatua",
     "Please enter a valid time span" : "Sartu baliozko denbora tarte bat",
     "Select a request URL" : "Hautatu eskaera URL bat",
-    "Predefined URLs" : "Aurrez definitutako URL-ak",
     "Files WebDAV" : "WebDAV fitxategiak",
-    "Others" : "Bestelakoak",
     "Custom URL" : "URL pertsonalizatua",
     "Select a user agent" : "Hautatu erabiltzaile-agentea",
     "Android client" : "Android bezeroa",
@@ -112,9 +110,7 @@ OC.L10N.register(
     "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
     "is not member of" : "ez da hemengo kide:",
-    "Select a tag" : "Hautatu etiketa bat",
-    "No results" : "Emaitzarik ez",
-    "%s (invisible)" : "%s (ikusezina)",
-    "%s (restricted)" : "%s (mugatua)"
+    "Predefined URLs" : "Aurrez definitutako URL-ak",
+    "Others" : "Bestelakoak"
 },
 "nplurals=2; plural=(n != 1);");

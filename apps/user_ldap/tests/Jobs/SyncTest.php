@@ -43,7 +43,6 @@ use OCP\Notification\IManager;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
-
 	/** @var  array */
 	protected $arguments;
 	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
@@ -99,7 +98,7 @@ class SyncTest extends TestCase {
 			'accessFactory' => $this->accessFactory,
 		];
 
-		$this->sync = new Sync($this->userManager, $this->createMock(ITimeFactory::class));
+		$this->sync = new Sync($this->createMock(ITimeFactory::class));
 	}
 
 	public function intervalDataProvider() {

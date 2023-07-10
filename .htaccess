@@ -31,7 +31,7 @@
     Header always set X-Permitted-Cross-Domain-Policies "none"
 
     Header onsuccess unset X-Robots-Tag
-    Header always set X-Robots-Tag "none"
+    Header always set X-Robots-Tag "noindex, nofollow"
 
     Header onsuccess unset X-XSS-Protection
     Header always set X-XSS-Protection "1; mode=block"
@@ -40,12 +40,13 @@
   </IfModule>
 
   # Add cache control for static resources
-  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)$">
-    Header set Cache-Control "max-age=15778463"
-  </FilesMatch>
-
-  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)(\?v=.*)?$">
-    Header set Cache-Control "max-age=15778463, immutable"
+  <FilesMatch "\.(css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite)$">
+    <If "%{QUERY_STRING} =~ /(^|&)v=/">
+      Header set Cache-Control "max-age=15778463, immutable"
+    </If>
+    <Else>
+      Header set Cache-Control "max-age=15778463"
+    </Else>
   </FilesMatch>
 
   # Let browsers cache WOFF files for a week
@@ -54,17 +55,6 @@
   </FilesMatch>
 </IfModule>
 
-# PHP 7.x
-<IfModule mod_php7.c>
-  php_value mbstring.func_overload 0
-  php_value default_charset 'UTF-8'
-  php_value output_buffering 0
-  <IfModule mod_env.c>
-    SetEnv htaccessWorking true
-  </IfModule>
-</IfModule>
-
-# PHP 8+
 <IfModule mod_php.c>
   php_value mbstring.func_overload 0
   php_value default_charset 'UTF-8'
@@ -78,6 +68,8 @@
   AddType image/svg+xml svg svgz
   AddType application/wasm wasm
   AddEncoding gzip svgz
+  # Serve ESM javascript files (.mjs) with correct mime type
+  AddType text/javascript js mjs
 </IfModule>
 
 <IfModule mod_dir.c>

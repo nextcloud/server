@@ -5,7 +5,7 @@
 	<name>User status</name>
 	<summary>User status</summary>
 	<description><![CDATA[User status]]></description>
-	<version>1.6.0</version>
+	<version>1.8.0</version>
 	<licence>agpl</licence>
 	<author mail="oc.list@georgehrke.com" >Georg Ehrke</author>
 	<namespace>UserStatus</namespace>
@@ -13,15 +13,14 @@
 	<bugs>https://github.com/nextcloud/server</bugs>
 	<navigations>
 		<navigation>
-			<id>user_status-menuitem</id>
+			<id>user_status-menu-entry</id>
 			<name>User status</name>
-			<route />
 			<order>1</order>
 			<type>settings</type>
 		</navigation>
 	</navigations>
 	<dependencies>
-		<nextcloud min-version="26" max-version="26"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\UserStatus\BackgroundJob\ClearOldStatusesBackgroundJob</job>

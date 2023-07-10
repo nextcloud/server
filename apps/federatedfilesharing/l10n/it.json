@@ -23,8 +23,6 @@
     "Accept" : "Accetta",
     "Decline" : "Rifiuta",
     "Federated Cloud Sharing" : "Condivisione cloud federata",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud, vedi %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud",
     "Sharing" : "Condivisione",
     "Federated file sharing" : "Condivisione file federata",
     "Provide federated file sharing across servers" : "Fornisce una condivisione di file federata tra server",
@@ -43,14 +41,12 @@
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud",
     "Copy to clipboard" : "Copia negli appunti",
+    "Clipboard is not available" : "Appunti non disponibili",
     "Copied!" : "Copiato!",
-    "Copy" : "Copia",
-    "Not supported!" : "Non supportato!",
-    "Press ⌘-C to copy." : "Premi ⌘-C per copiare.",
-    "Press Ctrl-C to copy." : "Premi Ctrl-C per copiare.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Hai ricevuto \"%3$s\" come condivisione remota da %4$s (%1$s) (per conto di %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Hai ricevuto \"%3$s\" come condivisione remota da %4$s (%1$s)",
-    "Open documentation" : "Apri la documentazione"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud, vedi %s"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

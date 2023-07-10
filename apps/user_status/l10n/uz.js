@@ -34,7 +34,6 @@ OC.L10N.register(
     "1 hour" : "1 hour",
     "4 hours" : "4 hours",
     "Mute all notifications" : "Mute all notifications",
-    "Appear offline" : "Appear offline",
-    "Clear status message after" : "Clear status message after"
+    "Appear offline" : "Appear offline"
 },
 "nplurals=1; plural=0;");

@@ -79,14 +79,13 @@ OC.L10N.register(
     "Admin" : "مدیر",
     "Error uploading the file" : "خطا در بارگذاری پرونده",
     "Name cannot be empty" : "نام نمی‌تواند خالی باشد",
-    "Open documentation" : "گشودن مستندات",
-    "https://…" : "https://…",
-    "Login image" : "تصویر ورود",
-    "Upload new login background" : "بارگذاری تصویر ورود جدید",
     "Pick from Files" : "گزینش از پرونده‌ها",
     "Default image" : "تصویر پیش‌گزیده",
     "Custom color" : "رنگ سفارشی",
     "Plain background" : "پس‌زمینهٔ ساده",
-    "Insert from {productName}" : "درج از {productName}"
+    "Insert from {productName}" : "درج از {productName}",
+    "Open documentation" : "گشودن مستندات",
+    "https://…" : "https://…",
+    "Upload new login background" : "بارگذاری تصویر ورود جدید"
 },
 "nplurals=2; plural=(n > 1);");

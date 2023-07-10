@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "Decline" : "Denegar",
     "Federated Cloud Sharing" : "Compartido en Cloud Federado",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartirlo conmigo a través de mi ID de Nube Federada #Nextcloud, ver %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Compartirlo conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Sharing" : "Compartir",
     "Federated file sharing" : "Compartir federado",
     "Provide federated file sharing across servers" : "Provee compartición federada de archivos entre servidores",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparte conmigo a través de mi #Nextcloud Federated Cloud ID, ver {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Compartirlo conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Cloud ID copied to the clipboard" : "ID de nube copiado al portapapeles",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Clipboard is not available" : "El portapapeles no está disponible",
     "Copied!" : "¡Copiado!",
-    "Copy" : "Copiar",
-    "Not supported!" : "¡No soportado!",
-    "Press ⌘-C to copy." : "Presiona ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Presiona Ctrl-C para copiar.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Has recibido \"%3$s\" como recurso remoto compartido de %4$s (%1$s) (en nombre de %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Has recibido \"%3$s\" como un recurso compartido remoto de %4$s (%1$s)",
-    "Open documentation" : "Abrir documentación"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartirlo conmigo a través de mi ID de Nube Federada #Nextcloud, ver %s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

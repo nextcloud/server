@@ -37,13 +37,13 @@ namespace OCP;
 
 /**
  * This class provides access to the internal filesystem abstraction layer. Use
- * this class exlusively if you want to access files
+ * this class exclusively if you want to access files
  * @since 5.0.0
  * @deprecated 14.0.0
  */
 class Files {
 	/**
-	 * Recusive deletion of folders
+	 * Recursive deletion of folders
 	 * @return bool
 	 * @since 5.0.0
 	 * @deprecated 14.0.0

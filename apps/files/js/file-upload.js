@@ -269,8 +269,12 @@ OC.FileUpload.prototype = {
 			&& this.getFile().size > this.uploader.fileUploadParam.maxChunkSize
 		) {
 			data.isChunked = true;
+			var headers = {
+				Destination: this.uploader.davClient._buildUrl(this.getTargetDestination())
+			};
+
 			chunkFolderPromise = this.uploader.davClient.createDirectory(
-				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
+				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId(), headers
 			);
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
@@ -309,15 +313,20 @@ OC.FileUpload.prototype = {
 		}
 		if (size) {
 			headers['OC-Total-Length'] = size;
-
 		}
+		headers['Destination'] = this.uploader.davClient._buildUrl(this.getTargetDestination());
 
 		return this.uploader.davClient.move(
 			'uploads/' + uid + '/' + this.getId() + '/.file',
-			'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
+			this.getTargetDestination(),
 			true,
 			headers
 		);
+	},
+
+	getTargetDestination: function() {
+		var uid = OC.getCurrentUser().uid;
+		return 'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName());
 	},
 
 	_deleteChunkFolder: function() {
@@ -1326,6 +1335,10 @@ OC.Uploader.prototype = _.extend({
 					}
 					var range = data.contentRange.split(' ')[1];
 					var chunkId = range.split('/')[0].split('-')[0];
+					// Use a numeric chunk id and set the Destination header on all request for ChunkingV2
+					chunkId = Math.ceil((data.chunkSize+Number(chunkId)) / upload.uploader.fileUploadParam.maxChunkSize);
+					data.headers['Destination'] = self.davClient._buildUrl(upload.getTargetDestination());
+
 					data.url = OC.getRootPath() +
 						'/remote.php/dav/uploads' +
 						'/' + OC.getCurrentUser().uid +

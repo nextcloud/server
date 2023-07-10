@@ -37,22 +37,15 @@
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
-				<NcMultiselect id="targetUser"
+				<NcSelect input-id="targetUser"
 					v-model="selectedUser"
 					:options="formatedUserSuggestions"
 					:multiple="false"
-					:searchable="true"
-					:placeholder="t('files', 'Search users')"
-					:preselect-first="true"
-					:preserve-search="true"
 					:loading="loadingUsers"
-					track-by="user"
 					label="displayName"
-					:internal-search="false"
-					:clear-on-select="false"
 					:user-select="true"
 					class="middle-align"
-					@search-change="findUserDebounced" />
+					@search="findUserDebounced" />
 			</p>
 			<p>
 				<input type="submit"
@@ -70,11 +63,11 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
-import logger from '../logger'
+import logger from '../logger.js'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)
@@ -86,7 +79,7 @@ const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to trans
 export default {
 	name: 'TransferOwnershipDialogue',
 	components: {
-		NcMultiselect,
+		NcSelect,
 		NcButton,
 	},
 	data() {

@@ -203,6 +203,7 @@
 	"vstm": ["application/vnd.ms-visio.template.macroEnabled.12"],
 	"vstx": ["application/vnd.ms-visio.template"],
 	"wav": ["audio/wav"],
+	"weba": ["audio/webm"],
 	"webloc": ["application/internet-shortcut"],
 	"webm": ["video/webm"],
 	"webp": ["image/webp"],

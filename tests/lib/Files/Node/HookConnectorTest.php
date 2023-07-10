@@ -69,8 +69,9 @@ class HookConnectorTest extends TestCase {
 		parent::setUp();
 		$this->userId = $this->getUniqueID();
 		$this->createUser($this->userId, 'pass');
+		// this will setup the FS
+		$this->loginAsUser($this->userId);
 		$this->registerMount($this->userId, new Temporary(), '/' . $this->userId . '/files/');
-		\OC_Util::setupFS($this->userId);
 		$this->view = new View();
 		$this->root = new Root(
 			Filesystem::getMountManager(),

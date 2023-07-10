@@ -24,8 +24,8 @@ import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 
 import SidebarView from './views/Sidebar.vue'
-import Sidebar from './services/Sidebar'
-import Tab from './models/Tab'
+import Sidebar from './services/Sidebar.js'
+import Tab from './models/Tab.js'
 
 Vue.prototype.t = t
 

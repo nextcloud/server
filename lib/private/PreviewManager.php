@@ -33,6 +33,7 @@ namespace OC;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\IMagickSupport;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -73,6 +74,7 @@ class PreviewManager implements IPreview {
 	private array $loadedBootstrapProviders = [];
 	private IServerContainer $container;
 	private IBinaryFinder $binaryFinder;
+	private IMagickSupport $imagickSupport;
 
 	public function __construct(
 		IConfig                  $config,
@@ -84,7 +86,8 @@ class PreviewManager implements IPreview {
 		?string                  $userId,
 		Coordinator              $bootstrapCoordinator,
 		IServerContainer         $container,
-		IBinaryFinder            $binaryFinder
+		IBinaryFinder            $binaryFinder,
+		IMagickSupport           $imagickSupport
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -96,6 +99,7 @@ class PreviewManager implements IPreview {
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
 		$this->container = $container;
 		$this->binaryFinder = $binaryFinder;
+		$this->imagickSupport = $imagickSupport;
 	}
 
 	/**
@@ -109,7 +113,7 @@ class PreviewManager implements IPreview {
 	 * @return void
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable): void {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return;
 		}
 
@@ -124,7 +128,7 @@ class PreviewManager implements IPreview {
 	 * Get all providers
 	 */
 	public function getProviders(): array {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return [];
 		}
 
@@ -215,7 +219,7 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	public function isMimeSupported($mimeType = '*') {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
 
@@ -240,7 +244,7 @@ class PreviewManager implements IPreview {
 	 * Check if a preview can be generated for a file
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file): bool {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
 
@@ -368,9 +372,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
 
 		// SVG, Office and Bitmap require imagick
-		if (extension_loaded('imagick')) {
-			$checkImagick = new \Imagick();
-
+		if ($this->imagickSupport->hasExtension()) {
 			$imagickProviders = [
 				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
 				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => Preview\TIFF::class],
@@ -390,12 +392,12 @@ class PreviewManager implements IPreview {
 					continue;
 				}
 
-				if (count($checkImagick->queryFormats($queryFormat)) === 1) {
+				if ($this->imagickSupport->supportsFormat($queryFormat)) {
 					$this->registerCoreProvider($class, $provider['mimetype']);
 				}
 			}
 
-			if (count($checkImagick->queryFormats('PDF')) === 1) {
+			if ($this->imagickSupport->supportsFormat('PDF')) {
 				// Office requires openoffice or libreoffice
 				$officeBinary = $this->config->getSystemValue('preview_libreoffice_path', null);
 				if (!is_string($officeBinary)) {

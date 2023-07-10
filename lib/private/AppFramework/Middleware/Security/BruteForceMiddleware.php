@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -31,6 +32,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TooManyRequestsResponse;
 use OCP\AppFramework\Middleware;
@@ -38,6 +40,8 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use Psr\Log\LoggerInterface;
+use ReflectionMethod;
 
 /**
  * Class BruteForceMiddleware performs the bruteforce protection for controllers
@@ -47,16 +51,12 @@ use OCP\Security\Bruteforce\MaxDelayReached;
  * @package OC\AppFramework\Middleware\Security
  */
 class BruteForceMiddleware extends Middleware {
-	private ControllerMethodReflector $reflector;
-	private Throttler $throttler;
-	private IRequest $request;
-
-	public function __construct(ControllerMethodReflector $controllerMethodReflector,
-								Throttler $throttler,
-								IRequest $request) {
-		$this->reflector = $controllerMethodReflector;
-		$this->throttler = $throttler;
-		$this->request = $request;
+	public function __construct(
+		protected ControllerMethodReflector $reflector,
+		protected Throttler $throttler,
+		protected IRequest $request,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -68,6 +68,20 @@ class BruteForceMiddleware extends Middleware {
 		if ($this->reflector->hasAnnotation('BruteForceProtection')) {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $action);
+		} else {
+			$reflectionMethod = new ReflectionMethod($controller, $methodName);
+			$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
+
+			if (!empty($attributes)) {
+				$remoteAddress = $this->request->getRemoteAddress();
+
+				foreach ($attributes as $attribute) {
+					/** @var BruteForceProtection $protection */
+					$protection = $attribute->newInstance();
+					$action = $protection->getAction();
+					$this->throttler->sleepDelayOrThrowOnMax($remoteAddress, $action);
+				}
+			}
 		}
 	}
 
@@ -75,11 +89,42 @@ class BruteForceMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 */
 	public function afterController($controller, $methodName, Response $response) {
-		if ($this->reflector->hasAnnotation('BruteForceProtection') && $response->isThrottled()) {
-			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
-			$ip = $this->request->getRemoteAddress();
-			$this->throttler->sleepDelay($ip, $action);
-			$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
+		if ($response->isThrottled()) {
+			try {
+				if ($this->reflector->hasAnnotation('BruteForceProtection')) {
+					$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
+					$ip = $this->request->getRemoteAddress();
+					$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
+					$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+				} else {
+					$reflectionMethod = new ReflectionMethod($controller, $methodName);
+					$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
+
+					if (!empty($attributes)) {
+						$ip = $this->request->getRemoteAddress();
+						$metaData = $response->getThrottleMetadata();
+
+						foreach ($attributes as $attribute) {
+							/** @var BruteForceProtection $protection */
+							$protection = $attribute->newInstance();
+							$action = $protection->getAction();
+
+							if (!isset($metaData['action']) || $metaData['action'] === $action) {
+								$this->throttler->registerAttempt($action, $ip, $metaData);
+								$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+							}
+						}
+					} else {
+						$this->logger->debug('Response for ' . get_class($controller) . '::' . $methodName . ' got bruteforce throttled but has no annotation nor attribute defined.');
+					}
+				}
+			} catch (MaxDelayReached $e) {
+				if ($controller instanceof OCSController) {
+					throw new OCSException($e->getMessage(), Http::STATUS_TOO_MANY_REQUESTS);
+				}
+
+				return new TooManyRequestsResponse();
+			}
 		}
 
 		return parent::afterController($controller, $methodName, $response);

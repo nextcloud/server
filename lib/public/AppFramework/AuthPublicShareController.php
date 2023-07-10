@@ -28,6 +28,10 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework;
 
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
@@ -70,6 +74,8 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 *
 	 * @since 14.0.0
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function showAuthenticate(): TemplateResponse {
 		return new TemplateResponse('core', 'publicshareauth', [], 'guest');
 	}
@@ -129,7 +135,7 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
-	 * Function called after successfull authentication
+	 * Function called after successful authentication
 	 *
 	 * You can use this to do some logging for example
 	 *
@@ -147,6 +153,9 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 *
 	 * @since 14.0.0
 	 */
+	#[BruteForceProtection(action: 'publicLinkAuth')]
+	#[PublicPage]
+	#[UseSession]
 	final public function authenticate(string $password = '', string $passwordRequest = 'no', string $identityToken = '') {
 		// Already authenticated
 		if ($this->isAuthenticated()) {

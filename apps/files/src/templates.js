@@ -25,11 +25,11 @@ import { getLoggerBuilder } from '@nextcloud/logger'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentDirectory } from './utils/davUtils'
+import { getCurrentDirectory } from './utils/davUtils.js'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import TemplatePickerView from './views/TemplatePicker'
+import TemplatePickerView from './views/TemplatePicker.vue'
 import { showError } from '@nextcloud/dialogs'
 
 // Set up logger
@@ -80,6 +80,7 @@ window.addEventListener('DOMContentLoaded', function() {
 					templateName: t('files', 'Templates'),
 					iconClass: 'icon-template-add',
 					fileType: 'file',
+					actionLabel: t('files', 'Create new templates folder'),
 					actionHandler(name) {
 						initTemplatesFolder(name)
 						menu.removeMenuEntry('template-init')
@@ -109,6 +110,7 @@ templates.forEach((provider, index) => {
 				templateName: provider.label + provider.extension,
 				iconClass: provider.iconClass || 'icon-file',
 				fileType: 'file',
+				actionLabel: provider.actionLabel,
 				actionHandler(name) {
 					TemplatePicker.open(name, provider)
 				},

@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "Inga kommentarer ännu.",
     "No more messages" : "Inga fler meddelanden",
     "Retry" : "Försök igen",
+    "Failed to mark comments as read" : "Kunde inte markera kommentarer som lästa",
     "Unable to load the comments list" : "Det gick inte att ladda kommentarlistan",
     "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"],
     "_1 new comment_::_{unread} new comments_" : ["1 ny kommentar","{unread} nya kommentarer"],

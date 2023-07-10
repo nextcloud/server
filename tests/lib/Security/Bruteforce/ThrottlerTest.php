@@ -183,7 +183,7 @@ class ThrottlerTest extends TestCase {
 			->willReturn(array_keys($whitelists));
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('auth.bruteforce.protection.enabled', true)
 			->willReturn($enabled);
 

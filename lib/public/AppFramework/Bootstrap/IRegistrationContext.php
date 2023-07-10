@@ -39,6 +39,8 @@ use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
+use OCP\SpeechToText\ISpeechToTextProvider;
+use OCP\Translation\ITranslationProvider;
 
 /**
  * The context object passed to IBootstrap::register
@@ -138,14 +140,16 @@ interface IRegistrationContext {
 
 	/**
 	 * @param string $class
+	 * @param bool $global load this middleware also for requests of other apps? Added in Nextcloud 26
 	 * @psalm-param class-string<\OCP\AppFramework\Middleware> $class
 	 *
 	 * @return void
 	 * @see IAppContainer::registerMiddleWare()
 	 *
 	 * @since 20.0.0
+	 * @since 26.0.0 Added optional argument $global
 	 */
-	public function registerMiddleware(string $class): void;
+	public function registerMiddleware(string $class, bool $global = false): void;
 
 	/**
 	 * Register a search provider for the unified search
@@ -206,6 +210,16 @@ interface IRegistrationContext {
 	public function registerWellKnownHandler(string $class): void;
 
 	/**
+	 * Register a custom SpeechToText provider class that can provide transcription
+	 * of audio through the OCP\SpeechToText APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ISpeechToTextProvider> $providerClass
+	 * @since 27.0.0
+	 */
+	public function registerSpeechToTextProvider(string $providerClass): void;
+
+	/**
 	 * Register a custom template provider class that is able to inject custom templates
 	 * in addition to the user defined ones
 	 *
@@ -214,6 +228,16 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerTemplateProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom translation provider class that can provide translation
+	 * between languages through the OCP\Translation APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITranslationProvider> $providerClass
+	 * @since 21.0.0
+	 */
+	public function registerTranslationProvider(string $providerClass): void;
 
 	/**
 	 * Register an INotifier class
@@ -326,4 +350,14 @@ interface IRegistrationContext {
 	 * @since 25.0.0
 	 */
 	public function registerSensitiveMethods(string $class, array $methods): void;
+
+	/**
+	 * Register an implementation of IPublicShareTemplateProvider.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Share\IPublicShareTemplateProvider> $class
+	 * @return void
+	 * @since 26.0.0
+	 */
+	public function registerPublicShareTemplateProvider(string $class): void;
 }

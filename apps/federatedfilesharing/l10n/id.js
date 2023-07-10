@@ -19,8 +19,6 @@ OC.L10N.register(
     "Accept" : "Terima",
     "Decline" : "Tolak",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
     "Sharing" : "Berbagi",
     "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
     "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna",
@@ -30,11 +28,10 @@ OC.L10N.register(
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
     "HTML Code:" : "Kode HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
+    "Copy to clipboard" : "Salin ke papan klip",
+    "Clipboard is not available" : "Papan klip tidak tersedia",
     "Copied!" : "Tersalin!",
-    "Copy" : "Salin",
-    "Not supported!" : "Tidak didukung!",
-    "Press ⌘-C to copy." : "Tekan ⌘-C untuk menyalin.",
-    "Press Ctrl-C to copy." : "Tekan Ctrl-C untuk menyalin.",
-    "Open documentation" : "Buka dokumentasi"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s"
 },
 "nplurals=1; plural=0;");

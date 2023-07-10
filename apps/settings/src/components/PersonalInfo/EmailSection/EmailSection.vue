@@ -63,7 +63,6 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 
 import Email from './Email.vue'
 import HeaderBar from '../shared/HeaderBar.vue'
@@ -71,7 +70,7 @@ import HeaderBar from '../shared/HeaderBar.vue'
 import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
 import { validateEmail } from '../../../utils/validate.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -186,8 +185,7 @@ export default {
 
 		handleResponse(status, errorMessage, error) {
 			if (status !== 'ok') {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 

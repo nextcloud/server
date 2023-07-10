@@ -24,6 +24,7 @@ declare(strict_types=1);
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -45,7 +46,6 @@ namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
 use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Authentication\Token\RemoteWipe;
@@ -77,7 +77,6 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var LoggerInterface */
@@ -245,7 +244,7 @@ class UsersController extends AUserData {
 			foreach ($phoneNumbers as $phone) {
 				try {
 					$phoneNumber = $phoneUtil->parse($phone, $location);
-					if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+					if ($phoneUtil->isValidNumber($phoneNumber)) {
 						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 					}
@@ -258,7 +257,7 @@ class UsersController extends AUserData {
 					// when it's different to the user's given region.
 					try {
 						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
-						if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+						if ($phoneUtil->isValidNumber($phoneNumber)) {
 							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 						}
@@ -338,7 +337,8 @@ class UsersController extends AUserData {
 		array $groups = [],
 		array $subadmin = [],
 		string $quota = '',
-		string $language = ''
+		string $language = '',
+		?string $manager = null,
 	): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
@@ -374,7 +374,7 @@ class UsersController extends AUserData {
 				$group = $this->groupManager->get($groupid);
 				// Check if group exists
 				if ($group === null) {
-					throw new OCSException('Subadmin group does not exist',  102);
+					throw new OCSException('Subadmin group does not exist', 102);
 				}
 				// Check if trying to make subadmin of admin group
 				if ($group->getGID() === 'admin') {
@@ -445,6 +445,15 @@ class UsersController extends AUserData {
 
 			if ($language !== '') {
 				$this->editUser($userid, self::USER_FIELD_LANGUAGE, $language);
+			}
+
+			/**
+			 * null -> nothing sent
+			 * '' -> unset manager
+			 * else -> set manager
+			 */
+			if ($manager !== null) {
+				$this->editUser($userid, self::USER_FIELD_MANAGER, $manager);
 			}
 
 			// Send new user mail only if a mail is set
@@ -546,10 +555,6 @@ class UsersController extends AUserData {
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$data = $this->getUserData($user->getUID(), true);
-			// rename "displayname" to "display-name" only for this call to keep
-			// the API stable.
-			$data['display-name'] = $data['displayname'];
-			unset($data['displayname']);
 			return new DataResponse($data);
 		}
 
@@ -635,6 +640,7 @@ class UsersController extends AUserData {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=5, period=60)
 	 *
 	 * @throws OCSException
 	 */
@@ -727,6 +733,7 @@ class UsersController extends AUserData {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=50, period=600)
 	 *
 	 * edit users
 	 *
@@ -802,9 +809,11 @@ class UsersController extends AUserData {
 
 			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
-			// If admin they can edit their own quota
+			// If admin they can edit their own quota and manager
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
+				$permittedFields[] = self::USER_FIELD_MANAGER;
+
 			}
 		} else {
 			// Check if admin / subadmin
@@ -838,6 +847,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
+				$permittedFields[] = self::USER_FIELD_MANAGER;
 			} else {
 				// No rights
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -886,6 +896,9 @@ class UsersController extends AUserData {
 					}
 				}
 				$targetUser->setQuota($quota);
+				break;
+			case self::USER_FIELD_MANAGER:
+				$targetUser->setManagerUids([$value]);
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {
@@ -944,11 +957,11 @@ class UsersController extends AUserData {
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getSystemEMailAddress()) {
 					$userAccount = $this->accountManager->getAccount($targetUser);
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
-					foreach ($mailCollection->getProperties() as $property) {
-						if ($property->getValue() === $value) {
-							break;
-						}
+
+					if ($mailCollection->getPropertyByValue($value)) {
+						throw new OCSException('', 102);
 					}
+
 					$mailCollection->addPropertyWithDefaults($value);
 					$this->accountManager->updateAccount($userAccount);
 				} else {
@@ -1311,7 +1324,7 @@ class UsersController extends AUserData {
 		}
 		// Check if group exists
 		if ($group === null) {
-			throw new OCSException('Group does not exist',  102);
+			throw new OCSException('Group does not exist', 102);
 		}
 		// Check if trying to make subadmin of admin group
 		if ($group->getGID() === 'admin') {

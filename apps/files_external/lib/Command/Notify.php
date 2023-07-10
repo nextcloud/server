@@ -326,7 +326,10 @@ class Notify extends Base {
 
 	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output) {
 		usleep(100 * 1000); //give time for the notify to start
-		$storage->file_put_contents('/.nc_test_file.txt', 'test content');
+		if (!$storage->file_put_contents('/.nc_test_file.txt', 'test content')) {
+			$output->writeln("Failed to create test file for self-test");
+			return;
+		}
 		$storage->mkdir('/.nc_test_folder');
 		$storage->file_put_contents('/.nc_test_folder/subfile.txt', 'test content');
 

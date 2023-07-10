@@ -74,6 +74,8 @@ class Constants {
 	public const SHARE_TYPE_DECK = 12;
 	// const SHARE_TYPE_DECK_USER = 13; // Internal type used by DeckShareProvider
 
+	// Note to developers: Do not add new share types here
+
 	public const FORMAT_NONE = -1;
 	public const FORMAT_STATUSES = -2;
 	public const FORMAT_SOURCES = -3;  // ToDo Check if it is still in use otherwise remove it

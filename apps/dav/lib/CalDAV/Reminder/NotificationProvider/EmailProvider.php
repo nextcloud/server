@@ -70,13 +70,13 @@ class EmailProvider extends AbstractProvider {
 	 * Send out notification via email
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
 	 * @param string[] $principalEmailAddresses
 	 * @param array $users
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName,
+						 ?string $calendarDisplayName,
 						 array $principalEmailAddresses,
 						 array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
@@ -115,7 +115,7 @@ class EmailProvider extends AbstractProvider {
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
 			$this->addSubjectAndHeading($template, $l10n, $vevent);
-			$this->addBulletList($template, $l10n, $calendarDisplayName, $vevent);
+			$this->addBulletList($template, $l10n, $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($lang), $vevent);
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {

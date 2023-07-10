@@ -33,6 +33,7 @@ declare(strict_types=1);
 namespace OC\Security;
 
 use OC\Files\Filesystem;
+use OC\Files\View;
 use OCP\ICertificate;
 use OCP\ICertificateManager;
 use OCP\IConfig;
@@ -43,24 +44,14 @@ use Psr\Log\LoggerInterface;
  * Manage trusted certificates for users
  */
 class CertificateManager implements ICertificateManager {
-	/**
-	 * @var \OC\Files\View
-	 */
-	protected $view;
-
-	/**
-	 * @var IConfig
-	 */
-	protected $config;
-
+	protected View $view;
+	protected IConfig $config;
 	protected LoggerInterface $logger;
-
-	/** @var ISecureRandom */
-	protected $random;
+	protected ISecureRandom $random;
 
 	private ?string $bundlePath = null;
 
-	public function __construct(\OC\Files\View $view,
+	public function __construct(View $view,
 								IConfig $config,
 								LoggerInterface $logger,
 								ISecureRandom $random) {
@@ -76,7 +67,7 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates(): array {
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return [];
 		}
 
@@ -92,8 +83,14 @@ class CertificateManager implements ICertificateManager {
 		while (false !== ($file = readdir($handle))) {
 			if ($file != '.' && $file != '..') {
 				try {
-					$result[] = new Certificate($this->view->file_get_contents($path . $file), $file);
+					$content = $this->view->file_get_contents($path . $file);
+					if ($content !== false) {
+						$result[] = new Certificate($content, $file);
+					} else {
+						$this->logger->error("Failed to read certificate from $path");
+					}
 				} catch (\Exception $e) {
+					$this->logger->error("Failed to read certificate from $path", ['exception' => $e]);
 				}
 			}
 		}
@@ -102,7 +99,7 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	private function hasCertificates(): bool {
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return false;
 		}
 
@@ -146,6 +143,10 @@ class CertificateManager implements ICertificateManager {
 		$certPath = $path . 'rootcerts.crt';
 		$tmpPath = $certPath . '.tmp' . $this->random->generate(10, ISecureRandom::CHAR_DIGITS);
 		$fhCerts = $this->view->fopen($tmpPath, 'w');
+
+		if (!is_resource($fhCerts)) {
+			throw new \RuntimeException('Unable to open file handler to create certificate bundle "' . $tmpPath . '".');
+		}
 
 		// Write user certificates
 		foreach ($certs as $cert) {
@@ -233,12 +234,11 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Get the full local path to the certificate bundle
-	 *
-	 * @return string
+	 * @throws \Exception when getting bundle path fails
 	 */
 	public function getAbsoluteBundlePath(): string {
 		try {
-			if (!$this->bundlePath) {
+			if ($this->bundlePath === null) {
 				if (!$this->hasCertificates()) {
 					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 				}
@@ -247,17 +247,20 @@ class CertificateManager implements ICertificateManager {
 					$this->createCertificateBundle();
 				}
 
-				$this->bundlePath = $this->view->getLocalFile($this->getCertificateBundle());
+				$certificateBundle = $this->getCertificateBundle();
+				$this->bundlePath = $this->view->getLocalFile($certificateBundle) ?: null;
+
+				if ($this->bundlePath === null) {
+					throw new \RuntimeException('Unable to get certificate bundle "' . $certificateBundle . '".');
+				}
 			}
 			return $this->bundlePath;
 		} catch (\Exception $e) {
+			$this->logger->error('Failed to get absolute bundle path. Fallback to default ca-bundle.crt', ['exception' => $e]);
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 	}
 
-	/**
-	 * @return string
-	 */
 	private function getPathToCertificates(): string {
 		return '/files_external/';
 	}

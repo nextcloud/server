@@ -34,8 +34,12 @@ namespace OC\Route;
 
 use OC\AppFramework\Routing\RouteParser;
 use OCP\AppFramework\App;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IConfig;
+use OCP\IRequest;
 use OCP\Route\IRouter;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -64,11 +68,21 @@ class Router implements IRouter {
 	protected LoggerInterface $logger;
 	/** @var RequestContext */
 	protected $context;
+	private IEventLogger $eventLogger;
+	private IConfig $config;
+	private ContainerInterface $container;
 
-	public function __construct(LoggerInterface $logger) {
+	public function __construct(
+		LoggerInterface $logger,
+		IRequest $request,
+		IConfig $config,
+		IEventLogger $eventLogger,
+		ContainerInterface $container
+	) {
 		$this->logger = $logger;
+		$this->config = $config;
 		$baseUrl = \OC::$WEBROOT;
-		if (!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
@@ -76,12 +90,13 @@ class Router implements IRouter {
 		} else {
 			$method = 'GET';
 		}
-		$request = \OC::$server->getRequest();
 		$host = $request->getServerHost();
 		$schema = $request->getServerProtocol();
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');
+		$this->eventLogger = $eventLogger;
+		$this->container = $container;
 	}
 
 	/**
@@ -134,7 +149,7 @@ class Router implements IRouter {
 				$routingFiles = [];
 			}
 		}
-		\OC::$server->getEventLogger()->start('loadroutes' . $requestedApp, 'Loading Routes');
+		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
 				if (!\OC_App::isAppLoaded($app)) {
@@ -170,7 +185,7 @@ class Router implements IRouter {
 			$collection->addPrefix('/ocs');
 			$this->root->addCollection($collection);
 		}
-		\OC::$server->getEventLogger()->end('loadroutes' . $requestedApp);
+		$this->eventLogger->end('route:load:' . $requestedApp);
 	}
 
 	/**
@@ -231,6 +246,7 @@ class Router implements IRouter {
 	 * @return array
 	 */
 	public function findMatchingRoute(string $url): array {
+		$this->eventLogger->start('route:match', 'Match route');
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			[, , $app,] = explode('/', $url, 4);
@@ -249,7 +265,7 @@ class Router implements IRouter {
 			$this->loadRoutes('settings');
 		} elseif (substr($url, 0, 6) === '/core/') {
 			\OC::$REQUESTEDAPP = $url;
-			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
+			if (!$this->config->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();
 			}
 			$this->loadRoutes('core');
@@ -276,6 +292,7 @@ class Router implements IRouter {
 			}
 		}
 
+		$this->eventLogger->end('route:match');
 		return $parameters;
 	}
 
@@ -289,7 +306,7 @@ class Router implements IRouter {
 	public function match($url) {
 		$parameters = $this->findMatchingRoute($url);
 
-		\OC::$server->getEventLogger()->start('run_route', 'Run route');
+		$this->eventLogger->start('route:run', 'Run route');
 		if (isset($parameters['caller'])) {
 			$caller = $parameters['caller'];
 			unset($parameters['caller']);
@@ -303,13 +320,15 @@ class Router implements IRouter {
 			}
 			unset($parameters['action']);
 			unset($parameters['caller']);
+			$this->eventLogger->start('route:run:call', 'Run callable route');
 			call_user_func($action, $parameters);
+			$this->eventLogger->end('route:run:call');
 		} elseif (isset($parameters['file'])) {
 			include $parameters['file'];
 		} else {
 			throw new \Exception('no action available');
 		}
-		\OC::$server->getEventLogger()->end('run_route');
+		$this->eventLogger->end('route:run');
 	}
 
 	/**
@@ -342,7 +361,7 @@ class Router implements IRouter {
 			$referenceType = UrlGenerator::ABSOLUTE_PATH;
 		}
 		$name = $this->fixLegacyRootName($name);
-		if (strpos($name, '.') !== false) {
+		if (str_contains($name, '.')) {
 			[$appName, $other] = explode('.', $name, 3);
 			// OCS routes are prefixed with "ocs."
 			if ($appName === 'ocs') {
@@ -434,7 +453,7 @@ class Router implements IRouter {
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
 		if (class_exists($applicationClassName)) {
-			$application = \OC::$server->query($applicationClassName);
+			$application = $this->container->get($applicationClassName);
 		} else {
 			$application = new App($appName);
 		}

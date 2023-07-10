@@ -46,6 +46,7 @@
     "Nextcloud workflow engine" : "Nextcloud iş akışı işleyici",
     "Select a filter" : "Bir süzgeç seçin",
     "Select a comparator" : "Bir karşılaştırıcı seçin",
+    "Remove filter" : "Süzgeci kaldır",
     "Select a file type" : "Bir dosya türü seçin",
     "e.g. httpd/unix-directory" : "örnek httpd/unix-directory",
     "Folder" : "Klasör",
@@ -56,9 +57,7 @@
     "Custom mimetype" : "Özel MIME türü",
     "Please enter a valid time span" : "Lütfen geçerli bir tarih aralığı seçin",
     "Select a request URL" : "Bir istek adresi seçin",
-    "Predefined URLs" : "Hazır adresler",
     "Files WebDAV" : "Dosya WebDAV",
-    "Others" : "Diğerleri",
     "Custom URL" : "Özel adres",
     "Select a user agent" : "Bir kullanıcı uygulaması seçin",
     "Android client" : "Android istemcisi",
@@ -70,6 +69,7 @@
     "Add new flow" : "Akış ekle",
     "When" : "Şu zamanda",
     "and" : "ve",
+    "Add a new filter" : "Yeni süzgeç ekle",
     "Cancel" : "İptal",
     "Delete" : "Sil",
     "The configuration is invalid" : "Yapılandırma geçersiz",
@@ -102,7 +102,7 @@
     "File system tag" : "Dosya sistemi etiketi",
     "is tagged with" : "şununla etiketlenmiş",
     "is not tagged with" : "şununla etiketlenmemiş",
-    "Request URL" : "İstek Adresi",
+    "Request URL" : "İstek adresi",
     "Request time" : "İstek zamanı",
     "between" : "şunların arasında olan",
     "not between" : "şunların arasında olmayan",
@@ -110,9 +110,7 @@
     "User group membership" : "Kullanıcı grubu üyeliği",
     "is member of" : "şunun üyesi olan",
     "is not member of" : "şunun üyesi olmayan",
-    "Select a tag" : "Etiket seçin",
-    "No results" : "Herhangi bir sonuç bulunamadı",
-    "%s (invisible)" : "%s (görünmez)",
-    "%s (restricted)" : "%s (kısıtlı)"
+    "Predefined URLs" : "Hazır adresler",
+    "Others" : "Diğerleri"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

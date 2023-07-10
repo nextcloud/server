@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Aceitar",
     "Decline" : "Rejeitar",
     "Federated Cloud Sharing" : "Compartilhamento de Nuvem Federada",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud, veja %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud",
     "Sharing" : "Compartilhar",
     "Federated file sharing" : "Compartilhamento federado de arquivos",
     "Provide federated file sharing across servers" : "Fornecer compartilhamento federado entre servidores",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Compartilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Compartilhe comigo por meio do meu ID de nuvem federado #Nextcloud, consulte {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud",
     "Cloud ID copied to the clipboard" : "Cloud ID copiado para a área de transferência",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Clipboard is not available" : "A área de transferência não está disponível",
     "Copied!" : "Copiado!",
-    "Copy" : "Copiar",
-    "Not supported!" : "Não suportado!",
-    "Press ⌘-C to copy." : "Pressione ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Pressione Ctrl-C para copiar.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Você recebeu \"%3$s\" como um compartilhamento remoto de %4$s (%1$s) (em nome de %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Você recebeu \"%3$s\" como um compartilhamento remoto de %4$s (%1$s)",
-    "Open documentation" : "Abrir documentação"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud, veja %s"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Atzeta",
     "Decline" : "Refuda",
     "Federated Cloud Sharing" : "Cumpartzidura Nue virtuale federada",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud, càstia %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud Federated Cloud ID",
     "Sharing" : "Cumpartzidura",
     "Federated file sharing" : "Cumpartzidura archìviu federadu",
     "Provide federated file sharing across servers" : "Frunit una cumpartzidura de archìvios federados intre serbidores",
@@ -45,14 +43,11 @@ OC.L10N.register(
     "Add to your website" : "Agiunghe a su situ ìnternet tuo",
     "Share with me via Nextcloud" : "Cumpartzi cun megus tràmite Nextcloud",
     "HTML Code:" : "Còdighe HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Còpia in is punta de billete",
     "Copied!" : "Copiadu!",
-    "Copy" : "Còpia",
-    "Not supported!" : "Non suportadu!",
-    "Press ⌘-C to copy." : "Incarca ⌘-C pro copiare.",
-    "Press Ctrl-C to copy." : "incarca Ctrl-C pro copiare.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "As retzidu \"%3$s\" comente cumpartzidura remota dae %4$s (%1$s) (pro parte de %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "As retzidu \"%3$s\" comente cumpartidura remota dae %4$s (%1$s)",
-    "Open documentation" : "Aberi documentatzione"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud, càstia %s"
 },
 "nplurals=2; plural=(n != 1);");

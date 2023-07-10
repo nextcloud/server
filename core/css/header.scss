@@ -31,7 +31,7 @@
 		width: 12px;
 		height: 2px;
 		border-radius: 3px;
-		background-color: var(--color-primary-text);
+		background-color: var(--color-primary-element-text);
 		left: 50%;
 		opacity: 1;
 	}
@@ -130,61 +130,6 @@
 			-webkit-overflow-scrolling: touch;
 			@include header-menu-height();
 		}
-
-		/* Use by the settings right menu */
-		&.settings-menu > ul {
-			padding: 4px;
-			display: flex;
-			flex-direction: column;
-			gap: 2px;
-			li {
-				a {
-					border-radius: 6px;
-					display: inline-flex;
-					align-items: center;
-					height: $header-menu-entry-height;
-					color: var(--color-main-text);
-					padding: 10px 12px;
-					box-sizing: border-box;
-					white-space: nowrap;
-					position: relative;
-					width: 100%;
-					&:hover,
-					&:focus {
-						background-color: var(--color-background-hover);
-					}
-					&:active,
-					&.active {
-						background-color: var(--color-primary-light);
-					}
-					&:focus-visible {
-						box-shadow: inset 0 0 0 2px var(--color-primary);
-						outline: none;
-					}
-					span {
-						display: inline-block;
-						padding-bottom: 0;
-						color: var(--color-main-text);
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						max-width: 110px;
-					}
-					.icon-loading-small {
-						margin-right: 10px;
-						background-size: 16px 16px;
-					}
-					img,
-					svg {
-						opacity: .7;
-						margin-right: 10px;
-						height: 16px;
-						width: 16px;
-						filter: var(--background-invert-if-dark);
-					}
-				}
-			}
-		}
 	}
 	.logo {
 		display: inline-flex;
@@ -262,7 +207,7 @@
 /* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	font-size: 16px;
 	font-weight: bold;
 	margin: 0;
@@ -275,93 +220,13 @@
 }
 
 .header-shared-by  {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	position: relative;
 	font-weight: 300;
 	font-size: 11px;
 	line-height: 11px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-/* USER MENU -----------------------------------------------------------------*/
-#settings {
-	display: inline-block;
-	height: 100%;
-	cursor: pointer;
-	flex: 0 0 auto;
-
-	/* User menu on the right */
-	#expand {
-		opacity: 1; /* override icon opacity */
-		margin-right: 12px;
-
-		&:hover,
-		&:focus,
-		&:active {
-			color: var(--color-primary-text);
-
-			#expandDisplayName,
-			.avatardiv{
-				border-radius: 50%;
-				border: 2px solid var(--color-primary-text);
-				margin: -2px;
-			}
-			.avatardiv{
-				background-color: var(--color-primary-text);
-			}
-			#expandDisplayName {
-				opacity: 1;
-			}
-		}
-
-		/* Profile picture in header */
-		.avatardiv {
-			cursor: pointer;
-			height: 32px;
-			width: 32px;
-
-			img {
-				opacity: 1;
-				cursor: pointer;
-			}
-			/* do not show display name when profile picture is present */
-			&.avatardiv-shown + #expandDisplayName {
-				display: none;
-			}
-		}
-
-		#expandDisplayName {
-			padding: 8px;
-			opacity: .6;
-			cursor: pointer;
-
-			/* full opacity for gear icon if active */
-			#body-settings & {
-				opacity: 1;
-			}
-		}
-
-		/* show triangle below user menu if active */
-		#body-settings &:before {
-			content: ' ';
-			height: 0;
-			width: 0;
-			position: absolute;
-			pointer-events: none;
-			bottom: 2px;
-			z-index: 100;
-			display: block;
-			width: 10px;
-			height: 5px;
-			border-radius: 3px;
-			background-color: var(--color-primary-text);
-		}
-	}
-
-	#expanddiv:after {
-		right: 22px;
-	}
 }
 
 /* Skip navigation links – show only on keyboard focus */
@@ -371,14 +236,15 @@
 	z-index: 9999;
 	top: -999px;
 	left: 3px;
-	height: 50px;
 	padding: 11px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 11px;
 
 	&:focus-within {
 		top: variables.$header-height;
 	}
 }
-
 
 /* Empty content messages in the header e.g. notifications, contacts menu, … */
 header #emptycontent,

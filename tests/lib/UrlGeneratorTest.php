@@ -13,7 +13,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserSession;
 
 /**
@@ -216,21 +215,16 @@ class UrlGeneratorTest extends \Test\TestCase {
 		];
 	}
 
-	private function mockLinkToDefaultPageUrl(string $defaultAppConfig = '', bool $ignoreFrontControllerConfig = false) {
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->withConsecutive(
-				['defaultapp', $this->anything()],
-				['htaccess.IgnoreFrontController', $this->anything()],
-			)
-			->will($this->onConsecutiveCalls(
-				$defaultAppConfig,
-				$ignoreFrontControllerConfig
-			));
+	private function mockLinkToDefaultPageUrl(bool $ignoreFrontControllerConfig = false) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('core', 'defaultpage')
 			->willReturn('');
+
+		$this->config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('htaccess.IgnoreFrontController', $this->anything())
+			->willReturn($ignoreFrontControllerConfig);
 	}
 
 	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController() {
@@ -246,7 +240,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		putenv('front_controller_active=false');
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/index.php/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/index.php/apps/dashboard/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
@@ -255,70 +249,16 @@ class UrlGeneratorTest extends \Test\TestCase {
 		putenv('front_controller_active=true');
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/dashboard/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	public function testLinkToDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
 		$this->mockBaseUrl();
-		$this->mockLinkToDefaultPageUrl('', true);
+		$this->mockLinkToDefaultPageUrl(true);
 		putenv('front_controller_active=false');
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
-	}
-
-	/**
-	 * @dataProvider provideDefaultApps
-	 */
-	public function testLinkToDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath) {
-		$userId = $this->getUniqueID();
-
-		/** @var \PHPUnit\Framework\MockObject\MockObject|IUser $userMock */
-		$userMock = $this->createMock(IUser::class);
-		$userMock->expects($this->once())
-			->method('getUID')
-			->willReturn($userId);
-
-		$this->mockBaseUrl();
-		$this->mockLinkToDefaultPageUrl($defaultAppConfig);
-
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with($userId, 'core', 'defaultapp')
-			->willReturn('');
-		$this->userSession->expects($this->once())
-			->method('isLoggedIn')
-			->willReturn(true);
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->willReturn($userMock);
-
-		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
-	}
-
-	public function provideDefaultApps(): array {
-		return [
-			// none specified, default to files
-			[
-				'',
-				'/index.php/apps/files/',
-			],
-			// unexisting or inaccessible app specified, default to files
-			[
-				'unexist',
-				'/index.php/apps/files/',
-			],
-			// non-standard app
-			[
-				'settings',
-				'/index.php/apps/settings/',
-			],
-			// non-standard app with fallback
-			[
-				'unexist,settings',
-				'/index.php/apps/settings/',
-			],
-		];
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/dashboard/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	public function imagePathProvider(): array {

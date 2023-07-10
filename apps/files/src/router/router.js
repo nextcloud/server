@@ -22,7 +22,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 
 Vue.use(Router)
 
@@ -49,7 +49,7 @@ const router = new Router({
 
 	// Custom stringifyQuery to prevent encoding of slashes in the url
 	stringifyQuery(query) {
-		const result = stringify(query).replace(/%2F/gmi, '/')
+		const result = queryString.stringify(query).replace(/%2F/gmi, '/')
 		return result ? ('?' + result) : ''
 	},
 })

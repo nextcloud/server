@@ -86,9 +86,11 @@ class FileSearchBackendTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->view = $this->createMock(View::class);
+
+		$this->view->expects($this->any())
+			->method('getRoot')
+			->willReturn('');
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')

@@ -26,11 +26,11 @@
 			<input :id="inputId"
 				ref="email"
 				type="email"
+				autocomplete="email"
 				:placeholder="inputPlaceholder"
 				:value="email"
 				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
 				autocapitalize="none"
-				autocomplete="on"
 				autocorrect="off"
 				@input="onEmailChange">
 
@@ -86,15 +86,15 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton } from '@nextcloud/vue'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
-import Check from 'vue-material-design-icons/Check'
-import { showError } from '@nextcloud/dialogs'
+import Check from 'vue-material-design-icons/Check.vue'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl.vue'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
@@ -358,8 +358,7 @@ export default {
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}

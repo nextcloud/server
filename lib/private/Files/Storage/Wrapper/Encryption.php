@@ -17,6 +17,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -133,32 +134,38 @@ class Encryption extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int
 	 */
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		$fullPath = $this->getFullPath($path);
 
-		/** @var CacheEntry $info */
 		$info = $this->getCache()->get($path);
+		if ($info === false) {
+			return false;
+		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
-			// update file cache
-			if ($info instanceof ICacheEntry) {
-				$info['encrypted'] = $info['encryptedVersion'];
-			} else {
-				if (!is_array($info)) {
-					$info = [];
-				}
-				$info['encrypted'] = true;
-				$info = new CacheEntry($info);
-			}
 
-			if ($size !== $info->getUnencryptedSize()) {
-				$this->getCache()->update($info->getId(), [
-					'unencrypted_size' => $size
-				]);
+			// Update file cache (only if file is already cached).
+			// Certain files are not cached (e.g. *.part).
+			if (isset($info['fileid'])) {
+				if ($info instanceof ICacheEntry) {
+					$info['encrypted'] = $info['encryptedVersion'];
+				} else {
+					/**
+					 * @psalm-suppress RedundantCondition
+					 */
+					if (!is_array($info)) {
+						$info = [];
+					}
+					$info['encrypted'] = true;
+					$info = new CacheEntry($info);
+				}
+
+				if ($size !== $info->getUnencryptedSize()) {
+					$this->getCache()->update($info->getId(), [
+						'unencrypted_size' => $size
+					]);
+				}
 			}
 
 			return $size;
@@ -183,10 +190,12 @@ class Encryption extends Wrapper {
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$data['encrypted'] = true;
 			$data['size'] = $this->unencryptedSize[$fullPath];
+			$data['unencrypted_size'] = $data['size'];
 		} else {
 			if (isset($info['fileid']) && $info['encrypted']) {
 				$data['size'] = $this->verifyUnencryptedSize($path, $info->getUnencryptedSize());
 				$data['encrypted'] = true;
+				$data['unencrypted_size'] = $data['size'];
 			}
 		}
 
@@ -216,7 +225,7 @@ class Encryption extends Wrapper {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		$encryptionModule = $this->getEncryptionModule($path);
@@ -497,7 +506,8 @@ class Encryption extends Wrapper {
 		$result = $unencryptedSize;
 
 		if ($unencryptedSize < 0 ||
-			($size > 0 && $unencryptedSize === $size)
+			($size > 0 && $unencryptedSize === $size) ||
+			$unencryptedSize > $size
 		) {
 			// check if we already calculate the unencrypted size for the
 			// given path to avoid recursions
@@ -819,16 +829,13 @@ class Encryption extends Wrapper {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
 				[, $result] = \OC_Helper::streamCopy($source, $target);
-				fclose($source);
-				fclose($target);
-			} catch (\Exception $e) {
+			} finally {
 				if (is_resource($source)) {
 					fclose($source);
 				}
 				if (is_resource($target)) {
 					fclose($target);
 				}
-				throw $e;
 			}
 			if ($result) {
 				if ($preserveMtime) {
@@ -923,7 +930,7 @@ class Encryption extends Wrapper {
 		}
 		$firstBlock = $this->readFirstBlock($path);
 
-		if (substr($firstBlock, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
+		if (str_starts_with($firstBlock, Util::HEADER_START)) {
 			$headerSize = $this->util->getHeaderSize();
 		}
 
@@ -938,7 +945,7 @@ class Encryption extends Wrapper {
 	 */
 	protected function parseRawHeader($rawHeader) {
 		$result = [];
-		if (substr($rawHeader, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
+		if (str_starts_with($rawHeader, Util::HEADER_START)) {
 			$header = $rawHeader;
 			$endAt = strpos($header, Util::HEADER_END);
 			if ($endAt !== false) {

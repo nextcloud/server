@@ -139,13 +139,13 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	private function splitUser($user) {
-		if (strpos($user, '/')) {
+		if (str_contains($user, '/')) {
 			return explode('/', $user, 2);
-		} elseif (strpos($user, '\\')) {
+		} elseif (str_contains($user, '\\')) {
 			return explode('\\', $user);
-		} else {
-			return [null, $user];
 		}
+
+		return [null, $user];
 	}
 
 	/**
@@ -194,13 +194,15 @@ class SMB extends Common implements INotifyStorage {
 			}
 		} catch (ConnectException $e) {
 			$this->throwUnavailable($e);
+		} catch (NotFoundException $e) {
+			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		} catch (ForbiddenException $e) {
 			// with php-smbclient, this exception is thrown when the provided password is invalid.
 			// Possible is also ForbiddenException with a different error code, so we check it.
 			if ($e->getCode() === 1) {
 				$this->throwUnavailable($e);
 			}
-			throw $e;
+			throw new \OCP\Files\ForbiddenException($e->getMessage(), false, $e);
 		}
 	}
 
@@ -283,6 +285,8 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while getting folder content']);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+		} catch (NotFoundException $e) {
+			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		}
 	}
 
@@ -348,7 +352,7 @@ class SMB extends Common implements INotifyStorage {
 			$result = $this->formatInfo($this->getFileInfo($path));
 		} catch (ForbiddenException $e) {
 			return false;
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
 		} catch (TimedOutException $e) {
 			if ($retry) {
@@ -565,7 +569,7 @@ class SMB extends Common implements INotifyStorage {
 	public function getMetaData($path) {
 		try {
 			$fileInfo = $this->getFileInfo($path);
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return null;
 		} catch (ForbiddenException $e) {
 			return null;
@@ -641,7 +645,7 @@ class SMB extends Common implements INotifyStorage {
 	public function filetype($path) {
 		try {
 			return $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
@@ -665,7 +669,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			$this->getFileInfo($path);
 			return true;
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
@@ -678,7 +682,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			$info = $this->getFileInfo($path);
 			return $this->showHidden || !$info->isHidden();
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
@@ -691,7 +695,7 @@ class SMB extends Common implements INotifyStorage {
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
 			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $info->isDirectory());
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
@@ -702,7 +706,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			$info = $this->getFileInfo($path);
 			return ($this->showHidden || !$info->isHidden()) && !$info->isReadOnly();
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
@@ -727,6 +731,10 @@ class SMB extends Common implements INotifyStorage {
 	public function test() {
 		try {
 			return parent::test();
+		} catch (StorageAuthException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
 		} catch (Exception $e) {
 			$this->logger->logException($e);
 			return false;

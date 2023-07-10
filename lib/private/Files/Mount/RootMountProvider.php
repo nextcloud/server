@@ -64,7 +64,7 @@ class RootMountProvider implements IRootMountProvider {
 
 		// instantiate object store implementation
 		$name = $config['class'];
-		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
+		if (str_starts_with($name, 'OCA\\') && substr_count($name, '\\') >= 2) {
 			$segments = explode('\\', $name);
 			OC_App::loadApp(strtolower($segments[1]));
 		}

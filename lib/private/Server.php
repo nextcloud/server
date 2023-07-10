@@ -86,6 +86,7 @@ use OC\EventDispatcher\SymfonyAdapter;
 use OC\Federation\CloudFederationFactory;
 use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
+use OC\Files\Config\MountProviderCollection;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Lock\LockManager;
@@ -126,9 +127,11 @@ use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\IMagickSupport;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
+use OC\Route\CachingRouter;
 use OC\Route\Router;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
@@ -145,10 +148,12 @@ use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
+use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
 use OC\Template\JSCombiner;
+use OC\Translation\TranslationManager;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
@@ -159,6 +164,7 @@ use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Reference\IReferenceManager;
@@ -205,6 +211,7 @@ use OCP\IBinaryFinder;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
+use OCP\IEventSourceFactory;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
@@ -241,9 +248,11 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
+use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
+use OCP\Translation\ITranslationManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
@@ -336,7 +345,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ISession::class)->get('user_id'),
 				$c->get(Coordinator::class),
 				$c->get(IServerContainer::class),
-				$c->get(IBinaryFinder::class)
+				$c->get(IBinaryFinder::class),
+				$c->get(IMagickSupport::class)
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -432,7 +442,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c->get('SystemTagManagerFactory')->getObjectMapper();
 		});
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
-			$manager = \OC\Files\Filesystem::getMountManager(null);
+			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
 			$root = new Root(
 				$manager,
@@ -544,6 +554,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IStore::class, Store::class);
 		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
+		$this->registerAlias(OCPIProvider::class, Authentication\Token\Manager::class);
 
 		$this->registerService(\OC\User\Session::class, function (Server $c) {
 			$manager = $c->get(IUserManager::class);
@@ -718,9 +729,15 @@ class Server extends ServerContainer implements IServerContainer {
 			/** @var \OCP\IConfig $config */
 			$config = $c->get(\OCP\IConfig::class);
 
-			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				if (!$config->getSystemValueBool('log_query')) {
-					$v = \OC_App::getAppVersions();
+					try {
+						$v = \OC_App::getAppVersions();
+					} catch (\Doctrine\DBAL\Exception $e) {
+						// Database service probably unavailable
+						// Probably related to https://github.com/nextcloud/server/issues/37424
+						return $arrayCacheFactory;
+					}
 				} else {
 					// If the log_query is enabled, we can not get the app versions
 					// as that does a query, which will be logged and the logging
@@ -819,11 +836,10 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Router::class, function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
-			$logger = $c->get(LoggerInterface::class);
 			if ($cacheFactory->isLocalCacheAvailable()) {
-				$router = new \OC\Route\CachingRouter($cacheFactory->createLocal('route'), $logger);
+				$router = $c->resolve(CachingRouter::class);
 			} else {
-				$router = new \OC\Route\Router($logger);
+				$router = $c->resolve(Router::class);
 			}
 			return $router;
 		});
@@ -839,11 +855,13 @@ class Server extends ServerContainer implements IServerContainer {
 			$cacheFactory = $c->get(ICacheFactory::class);
 			if ($cacheFactory->isAvailable()) {
 				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
+					$c->get(AllConfig::class),
 					$this->get(ICacheFactory::class),
 					new \OC\AppFramework\Utility\TimeFactory()
 				);
 			} else {
 				$backend = new \OC\Security\RateLimiting\Backend\DatabaseBackend(
+					$c->get(AllConfig::class),
 					$c->get(IDBConnection::class),
 					new \OC\AppFramework\Utility\TimeFactory()
 				);
@@ -923,6 +941,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
 				$c->get(SymfonyAdapter::class),
+				$c->get(IEventDispatcher::class),
 				$c->get(LoggerInterface::class)
 			);
 		});
@@ -946,11 +965,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('DateTimeFormatter', IDateTimeFormatter::class);
 
 		$this->registerService(IUserMountCache::class, function (ContainerInterface $c) {
-			$mountCache = new UserMountCache(
-				$c->get(IDBConnection::class),
-				$c->get(IUserManager::class),
-				$c->get(LoggerInterface::class)
-			);
+			$mountCache = $c->get(UserMountCache::class);
 			$listener = new UserMountCacheListener($mountCache);
 			$listener->listen($c->get(IUserManager::class));
 			return $mountCache;
@@ -959,9 +974,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('UserMountCache', IUserMountCache::class);
 
 		$this->registerService(IMountProviderCollection::class, function (ContainerInterface $c) {
-			$loader = \OC\Files\Filesystem::getLoader();
+			$loader = $c->get(IStorageFactory::class);
 			$mountCache = $c->get(IUserMountCache::class);
-			$manager = new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+			$eventLogger = $c->get(IEventLogger::class);
+			$manager = new MountProviderCollection($loader, $mountCache, $eventLogger);
 
 			// builtin providers
 
@@ -981,7 +997,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 20.0.0 */
 		$this->registerDeprecatedAlias('IniWrapper', IniGetWrapper::class);
 		$this->registerService(IBus::class, function (ContainerInterface $c) {
-			$busClass = $c->get(\OCP\IConfig::class)->getSystemValue('commandbus');
+			$busClass = $c->get(\OCP\IConfig::class)->getSystemValueString('commandbus');
 			if ($busClass) {
 				[$app, $class] = explode('::', $busClass, 2);
 				if ($c->get(IAppManager::class)->isInstalled($app)) {
@@ -1100,8 +1116,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ILockingProvider::class, function (ContainerInterface $c) {
 			$ini = $c->get(IniGetWrapper::class);
 			$config = $c->get(\OCP\IConfig::class);
-			$ttl = $config->getSystemValue('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
-			if ($config->getSystemValue('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			$ttl = $config->getSystemValueInt('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
+			if ($config->getSystemValueBool('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->get(ICacheFactory::class);
 				$memcache = $memcacheFactory->createLocking('lock');
@@ -1194,20 +1210,14 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OC_Defaults::class, 'ThemingDefaults');
 		$this->registerService('ThemingDefaults', function (Server $c) {
-			/*
-			 * Dark magic for autoloader.
-			 * If we do a class_exists it will try to load the class which will
-			 * make composer cache the result. Resulting in errors when enabling
-			 * the theming app.
-			 */
-			$prefixes = \OC::$composerAutoloader->getPrefixesPsr4();
-			if (isset($prefixes['OCA\\Theming\\'])) {
-				$classExists = true;
-			} else {
+			try {
+				$classExists = class_exists('OCA\Theming\ThemingDefaults');
+			} catch (\OCP\AutoloadNotAllowedException $e) {
+				// App disabled or in maintenance mode
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValue('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
 					$c->getAppDataDir('theming'),
@@ -1385,6 +1395,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
 		$this->registerAlias(\OCP\AppFramework\Utility\ITimeFactory::class, \OC\AppFramework\Utility\TimeFactory::class);
+		$this->registerAlias(\Psr\Clock\ClockInterface::class, \OCP\AppFramework\Utility\ITimeFactory::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('TimeFactory', \OCP\AppFramework\Utility\ITimeFactory::class);
 
@@ -1450,6 +1461,14 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Files\AppData\IAppDataFactory::class, \OC\Files\AppData\Factory::class);
 
 		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
+
+		$this->registerAlias(\OCP\Share\IPublicShareTemplateFactory::class, \OC\Share20\PublicShareTemplateFactory::class);
+
+		$this->registerAlias(ITranslationManager::class, TranslationManager::class);
+
+		$this->registerAlias(ISpeechToTextManager::class, SpeechToTextManager::class);
+
+		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
 
 		$this->connectDispatcher();
 	}
@@ -1910,16 +1929,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getHTTPClientService() {
 		return $this->get(IClientService::class);
-	}
-
-	/**
-	 * Create a new event source
-	 *
-	 * @return \OCP\IEventSource
-	 * @deprecated 20.0.0
-	 */
-	public function createEventSource() {
-		return new \OC_EventSource();
 	}
 
 	/**

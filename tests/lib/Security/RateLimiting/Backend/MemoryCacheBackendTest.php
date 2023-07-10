@@ -28,9 +28,12 @@ use OC\Security\RateLimiting\Backend\MemoryCacheBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use Test\TestCase;
 
 class MemoryCacheBackendTest extends TestCase {
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $config;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -43,6 +46,7 @@ class MemoryCacheBackendTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->cache = $this->createMock(ICache::class);
@@ -53,7 +57,12 @@ class MemoryCacheBackendTest extends TestCase {
 			->with('OC\Security\RateLimiting\Backend\MemoryCacheBackend')
 			->willReturn($this->cache);
 
+		$this->config->method('getSystemValueBool')
+			->with('ratelimit.protection.enabled')
+			->willReturn(true);
+
 		$this->memoryCache = new MemoryCacheBackend(
+			$this->config,
 			$this->cacheFactory,
 			$this->timeFactory
 		);

@@ -34,7 +34,6 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Request;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
@@ -43,6 +42,7 @@ use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -55,7 +55,6 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\Util;
 
@@ -63,52 +62,30 @@ class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 
-	private IUserManager $userManager;
-	private IConfig $config;
-	private ISession $session;
-	/** @var IUserSession|Session */
-	private $userSession;
-	private IURLGenerator $urlGenerator;
-	private Defaults $defaults;
-	private Throttler $throttler;
-	private IInitialStateService $initialStateService;
-	private WebAuthnManager $webAuthnManager;
-	private IManager $manager;
-	private IL10N $l10n;
-
-	public function __construct(?string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								ISession $session,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								Defaults $defaults,
-								Throttler $throttler,
-								IInitialStateService $initialStateService,
-								WebAuthnManager $webAuthnManager,
-								IManager $manager,
-								IL10N $l10n) {
+	public function __construct(
+		?string $appName,
+		IRequest $request,
+		private IUserManager $userManager,
+		private IConfig $config,
+		private ISession $session,
+		private Session $userSession,
+		private IURLGenerator $urlGenerator,
+		private Defaults $defaults,
+		private Throttler $throttler,
+		private IInitialStateService $initialStateService,
+		private WebAuthnManager $webAuthnManager,
+		private IManager $manager,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->session = $session;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->defaults = $defaults;
-		$this->throttler = $throttler;
-		$this->initialStateService = $initialStateService;
-		$this->webAuthnManager = $webAuthnManager;
-		$this->manager = $manager;
-		$this->l10n = $l10n;
 	}
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @return RedirectResponse
 	 */
+	#[UseSession]
 	public function logout() {
 		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
@@ -124,7 +101,8 @@ class LoginController extends Controller {
 		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
 
-		if (!$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])) {
+		if ($this->request->getServerProtocol() === 'https') {
+			// This feature is available only in secure contexts
 			$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		}
 
@@ -134,13 +112,13 @@ class LoginController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @UseSession
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[UseSession]
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
@@ -274,7 +252,7 @@ class LoginController extends Controller {
 			$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-			if (strpos($location, '@') === false) {
+			if (!str_contains($location, '@')) {
 				return new RedirectResponse($location);
 			}
 		}
@@ -283,15 +261,15 @@ class LoginController extends Controller {
 
 	/**
 	 * @PublicPage
-	 * @UseSession
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
 	 *
 	 * @return RedirectResponse
 	 */
+	#[UseSession]
 	public function tryLogin(Chain $loginChain,
-							 string $user,
-							 string $password,
+							 string $user = '',
+							 string $password = '',
 							 string $redirect_url = null,
 							 string $timezone = '',
 							 string $timezone_offset = ''): RedirectResponse {
@@ -368,12 +346,12 @@ class LoginController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 * @BruteForceProtection(action=sudo)
 	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
 	 */
+	#[UseSession]
 	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);

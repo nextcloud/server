@@ -6,6 +6,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -27,20 +28,24 @@ namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
+use OCP\DB\Exception;
 use OCP\IL10N;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Backend\BackendInterface;
-use Sabre\CardDAV\Card;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\IMoveTarget;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropPatch;
 
 /**
  * Class AddressBook
  *
  * @package OCA\DAV\CardDAV
- * @property BackendInterface|CardDavBackend $carddavBackend
+ * @property CardDavBackend $carddavBackend
  */
-class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
+class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
 
 	/**
 	 * AddressBook constructor.
@@ -51,6 +56,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 */
 	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n) {
 		parent::__construct($carddavBackend, $addressBookInfo);
+
 
 		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME &&
 			$this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
@@ -160,6 +166,30 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
 
+	public function getChildren()
+	{
+		$objs = $this->carddavBackend->getCards($this->addressBookInfo['id']);
+		$children = [];
+		foreach ($objs as $obj) {
+			$obj['acl'] = $this->getChildACL();
+			$children[] = new Card($this->carddavBackend, $this->addressBookInfo, $obj);
+		}
+
+		return $children;
+	}
+
+	public function getMultipleChildren(array $paths)
+	{
+		$objs = $this->carddavBackend->getMultipleCards($this->addressBookInfo['id'], $paths);
+		$children = [];
+		foreach ($objs as $obj) {
+			$obj['acl'] = $this->getChildACL();
+			$children[] = new Card($this->carddavBackend, $this->addressBookInfo, $obj);
+		}
+
+		return $children;
+	}
+
 	public function getResourceId(): int {
 		return $this->addressBookInfo['id'];
 	}
@@ -222,5 +252,22 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		}
 
 		return parent::getChanges($syncToken, $syncLevel, $limit);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function moveInto($targetName, $sourcePath, INode $sourceNode) {
+		if (!($sourceNode instanceof Card)) {
+			return false;
+		}
+
+		try {
+			return $this->carddavBackend->moveCard($sourceNode->getAddressbookId(), (int)$this->addressBookInfo['id'], $sourceNode->getUri(), $sourceNode->getOwner());
+		} catch (Exception $e) {
+			// Avoid injecting LoggerInterface everywhere
+			Server::get(LoggerInterface::class)->error('Could not move calendar object: ' . $e->getMessage(), ['exception' => $e]);
+			return false;
+		}
 	}
 }

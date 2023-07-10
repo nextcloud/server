@@ -29,11 +29,15 @@ namespace OC\Http\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\Middleware;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ClientService
@@ -48,15 +52,21 @@ class ClientService implements IClientService {
 	/** @var DnsPinMiddleware */
 	private $dnsPinMiddleware;
 	private IRemoteHostValidator $remoteHostValidator;
+	private IEventLogger $eventLogger;
 
-	public function __construct(IConfig $config,
-								ICertificateManager $certificateManager,
-								DnsPinMiddleware $dnsPinMiddleware,
-								IRemoteHostValidator $remoteHostValidator) {
+	public function __construct(
+		IConfig $config,
+		ICertificateManager $certificateManager,
+		DnsPinMiddleware $dnsPinMiddleware,
+		IRemoteHostValidator $remoteHostValidator,
+		IEventLogger $eventLogger,
+		protected LoggerInterface $logger,
+	) {
 		$this->config = $config;
 		$this->certificateManager = $certificateManager;
 		$this->dnsPinMiddleware = $dnsPinMiddleware;
 		$this->remoteHostValidator = $remoteHostValidator;
+		$this->eventLogger = $eventLogger;
 	}
 
 	/**
@@ -66,6 +76,11 @@ class ClientService implements IClientService {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		$stack->push(Middleware::tap(function (RequestInterface $request) {
+			$this->eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
+		}, function () {
+			$this->eventLogger->end('http:request');
+		}), 'event logger');
 
 		$client = new GuzzleClient(['handler' => $stack]);
 
@@ -74,6 +89,7 @@ class ClientService implements IClientService {
 			$this->certificateManager,
 			$client,
 			$this->remoteHostValidator,
+			$this->logger,
 		);
 	}
 }

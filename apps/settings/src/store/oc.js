@@ -21,7 +21,7 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import { generateOcsUrl } from '@nextcloud/router'
 
 const state = {}

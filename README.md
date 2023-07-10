@@ -138,6 +138,9 @@ After that, please also include the autoloader file changes in your commits.
 - [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
 - [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
 
+#### Helpful bots at github :robot:
+
+- Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
 
 ## Contribution guidelines 📜
 

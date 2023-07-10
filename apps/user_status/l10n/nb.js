@@ -17,8 +17,8 @@ OC.L10N.register(
     "Status message" : "Statusmelding",
     "Clear status message" : "Fjern statusmelding",
     "Set status message" : "Velg statusmelding",
-    "There was an error saving the status" : "Det oppstod en feil ved lagring av status",
-    "There was an error clearing the status" : "Det oppstod en feil ved fjerning av status",
+    "There was an error saving the status" : "Det oppsto en feil ved lagring av status",
+    "There was an error clearing the status" : "Det oppsto en feil ved fjerning av status",
     "No recent status changes" : "Ingen nylige statusendringer",
     "Away" : "Borte",
     "Do not disturb" : "Ikke forstyrr",
@@ -29,12 +29,11 @@ OC.L10N.register(
     "Online" : "Pålogget",
     "Invisible" : "Usynlig",
     "Offline" : "Frakoblet",
-    "There was an error saving the new status" : "Det oppstod en feil ved lagring av ny status",
+    "There was an error saving the new status" : "Det oppsto en feil ved lagring av ny status",
     "30 minutes" : "30 minutter",
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
     "Mute all notifications" : "Demp alle varslinger",
-    "Appear offline" : "Vis som frakoblet",
-    "Clear status message after" : "Fjern statusmelding etter"
+    "Appear offline" : "Vis som frakoblet"
 },
 "nplurals=2; plural=(n != 1);");

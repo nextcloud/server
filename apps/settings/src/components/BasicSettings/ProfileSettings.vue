@@ -43,11 +43,11 @@
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 
-import { saveProfileDefault } from '../../service/ProfileService'
-import { validateBoolean } from '../../utils/validate'
-import logger from '../../logger'
+import { saveProfileDefault } from '../../service/ProfileService.js'
+import { validateBoolean } from '../../utils/validate.js'
+import logger from '../../logger.js'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
 

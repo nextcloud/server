@@ -179,6 +179,7 @@ class SymfonyAdapterTest extends TestCase {
 		$symfonyDispatcher->expects(self::once())
 			->method('dispatch')
 			->with(
+				$this->anything(),
 				$eventName
 			)
 			->willReturnArgument(0);

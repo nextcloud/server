@@ -54,6 +54,9 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->view->expects($this->any())
+			->method('getRoot')
+			->willReturn('');
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
@@ -63,6 +66,17 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->eventDispatcher])
 			->getMock();
+	}
+
+	/**
+	 * @return \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+	 */
+	protected function getRootViewMock() {
+		$view = $this->createMock(View::class);
+		$view->expects($this->any())
+			->method('getRoot')
+			->willReturn('');
+		return $view;
 	}
 
 	/**

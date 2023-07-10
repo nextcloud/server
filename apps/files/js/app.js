@@ -51,7 +51,6 @@
 		 * Initializes the files app
 		 */
 		initialize: function() {
-			this.navigation = OCP.Files.Navigation;
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
@@ -109,15 +108,19 @@
 							iconClass: 'icon-delete',
 							order: 99,
 						},
-						{
-							name: 'tags',
-							displayName:  t('files', 'Tags'),
-							iconClass: 'icon-tag',
-							order: 100,
-						},
+						...(
+							OCA?.SystemTags === undefined ? [] : ([{
+								name: 'tags',
+								displayName:  t('files', 'Tags'),
+								iconClass: 'icon-tag',
+								order: 100,
+							}])
+						),
 					],
 					sorting: {
-						mode: $('#defaultFileSorting').val(),
+						mode: $('#defaultFileSorting').val() === 'basename'
+							? 'name'
+							: $('#defaultFileSorting').val(),
 						direction: $('#defaultFileSortingDirection').val()
 					},
 					config: this._filesConfig,
@@ -135,16 +138,15 @@
 			OC.Plugins.attach('OCA.Files.App', this);
 
 			this._setupEvents();
-			// trigger URL change event handlers
-			this._onPopState({ ...OC.Util.History.parseUrlQuery(), view: this.navigation?.active?.id });
-
-			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
-			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
 
 			if (sessionStorage.getItem('WhatsNewServerCheck') < (Date.now() - 3600*1000)) {
 				OCP.WhatsNew.query(); // for Nextcloud server
 				sessionStorage.setItem('WhatsNewServerCheck', Date.now());
 			}
+
+			window._nc_event_bus.emit('files:legacy-view:initialized', this);
+
+			this.navigation = OCP.Files.Navigation
 		},
 
 		/**
@@ -225,7 +227,8 @@
 		 * @return view id
 		 */
 		getActiveView: function() {
-			return this.navigation.active
+			return this.navigation
+				&& this.navigation.active
 				&& this.navigation.active.id;
 		},
 
@@ -314,7 +317,7 @@
 				view: 'files'
 			}, params);
 
-			var lastId = this.navigation.active;
+			var lastId = this.getActiveView();
 			if (!this.navigation.views.find(view => view.id === params.view)) {
 				params.view = 'files';
 			}
@@ -322,10 +325,10 @@
 			this.setActiveView(params.view, {silent: true});
 			if (lastId !== this.getActiveView()) {
 				this.getCurrentAppContainer().trigger(new $.Event('show', params));
+				window._nc_event_bus.emit('files:navigation:changed')
 			}
 
 			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
-			window._nc_event_bus.emit('files:navigation:changed')
 
 		},
 

@@ -396,15 +396,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getCertificateManager();
 
 	/**
-	 * Create a new event source
-	 *
-	 * @return \OCP\IEventSource
-	 * @since 8.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function createEventSource();
-
-	/**
 	 * Returns an instance of the HTTP client service
 	 *
 	 * @return \OCP\Http\Client\IClientService

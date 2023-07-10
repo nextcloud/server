@@ -70,7 +70,7 @@ class Crypto implements ICrypto {
 	 */
 	public function calculateHMAC(string $message, string $password = ''): string {
 		if ($password === '') {
-			$password = $this->config->getSystemValue('secret');
+			$password = $this->config->getSystemValueString('secret');
 		}
 
 		// Append an "a" behind the password and hash it to prevent reusing the same password as for encryption
@@ -92,7 +92,7 @@ class Crypto implements ICrypto {
 	 */
 	public function encrypt(string $plaintext, string $password = ''): string {
 		if ($password === '') {
-			$password = $this->config->getSystemValue('secret');
+			$password = $this->config->getSystemValueString('secret');
 		}
 		$keyMaterial = hash_hkdf('sha512', $password);
 		$this->cipher->setPassword(substr($keyMaterial, 0, 32));

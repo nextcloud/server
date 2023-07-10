@@ -36,6 +36,19 @@ const fetchCurrentStatus = async () => {
 }
 
 /**
+ * Fetches the current user-status
+ *
+ * @param {string} userId
+ * @return {Promise<object>}
+ */
+const fetchBackupStatus = async (userId) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/statuses/{userId}', { userId: '_' + userId })
+	const response = await HttpClient.get(url)
+
+	return response.data.ocs.data
+}
+
+/**
  * Sets the status
  *
  * @param {string} statusType The status (online / away / dnd / invisible)
@@ -90,10 +103,25 @@ const clearMessage = async () => {
 	await HttpClient.delete(url)
 }
 
+/**
+ * Revert the automated status
+ *
+ * @param {string} messageId
+ * @return {Promise<object>}
+ */
+const revertToBackupStatus = async (messageId) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/revert/{messageId}', { messageId })
+	const response = await HttpClient.delete(url)
+
+	return response.data.ocs.data
+}
+
 export {
 	fetchCurrentStatus,
+	fetchBackupStatus,
 	setStatus,
 	setCustomMessage,
 	setPredefinedMessage,
 	clearMessage,
+	revertToBackupStatus,
 }

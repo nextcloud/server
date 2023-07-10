@@ -263,7 +263,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$cacheInfo = ['encryptedVersion' => 1, 'encrypted' => 1];
 		$cache1->put($fileCache1->getPath(), $cacheInfo);
 
-		$absPath = $view->getLocalFolder(''). '/hello.txt';
+		$absPath = $storage1->getSourcePath('').$fileInfo1->getInternalPath();
 
 		// create unencrypted file on disk, the version stays
 		file_put_contents($absPath, 'hello contents');

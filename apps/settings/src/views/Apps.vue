@@ -46,9 +46,9 @@
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
 					:title="$options.APPS_SECTION_ENUM.updates">
-					<NcAppNavigationCounter slot="counter">
-						{{ updateCount }}
-					</NcAppNavigationCounter>
+					<template #counter>
+						<NcCounterBubble>{{ updateCount }}</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
@@ -139,20 +139,20 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer'
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer.js'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
+import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 
-import AppList from '../components/AppList'
-import AppDetails from '../components/AppDetails'
-import AppManagement from '../mixins/AppManagement'
-import AppScore from '../components/AppList/AppScore'
-import Markdown from '../components/Markdown'
+import AppList from '../components/AppList.vue'
+import AppDetails from '../components/AppDetails.vue'
+import AppManagement from '../mixins/AppManagement.js'
+import AppScore from '../components/AppList/AppScore.vue'
+import Markdown from '../components/Markdown.vue'
 
 import { APPS_SECTION_ENUM } from './../constants/AppsConstants.js'
 
@@ -166,9 +166,9 @@ export default {
 		AppDetails,
 		AppList,
 		NcAppNavigation,
-		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationSpacer,
+		NcCounterBubble,
 		AppScore,
 		NcAppSidebar,
 		NcAppSidebarTab,

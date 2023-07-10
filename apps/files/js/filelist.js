@@ -383,6 +383,9 @@
 				}
 			});
 
+			window._nc_event_bus.subscribe('files_sharing:share:created', () => { self.reload(true) });
+			window._nc_event_bus.subscribe('files_sharing:share:deleted', () => { self.reload(true) });
+
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
 			this.$fileList.on("droppedOnFavorites", function (event, file) {
@@ -433,7 +436,9 @@
 							OCA.Files.Files.handleDownload(url);
 						}
 
-						OCA.Files.Sidebar.open(fileInfo.path);
+						if (document.documentElement.clientWidth > 1024) {
+							OCA.Files.Sidebar.open(fileInfo.path);
+						}
 					} catch (error) {
 						console.error(`Failed to trigger default action on the file for URL: ${location.href}`, error)
 					}
@@ -661,7 +666,7 @@
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
-			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
+			OC.debug && console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
 				OCA.Files.Sidebar.setActiveTab(tabId);
@@ -2179,8 +2184,10 @@
 
 			if (persist && OC.getCurrentUser().uid) {
 				$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
-					mode: sort,
-					direction: direction
+					// Compatibility with new files-to-vue API
+					mode: sort === 'name' ? 'basename' : sort,
+					direction: direction,
+					view: 'files'
 				});
 			}
 		},
@@ -2197,7 +2204,7 @@
 		 *
 		 * @return ajax call object
 		 */
-		reload: function() {
+		reload: function(keepOpen) {
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
 			if (this._currentFileModel) {
@@ -2212,7 +2219,7 @@
 					properties: this._getWebdavProperties()
 				}
 			);
-			if (this._detailsView) {
+			if (this._detailsView && !keepOpen) {
 				// close sidebar
 				this._updateDetailsView(null);
 			}
@@ -3340,7 +3347,9 @@
 			}
 			if (file.length === 1) {
 				_.defer(function() {
-					this.showDetailsView(file[0]);
+					if (document.documentElement.clientWidth > 1024) {
+						this.showDetailsView(file[0]);
+					}
 				}.bind(this));
 			}
 			this.highlightFiles(file, function($tr) {
@@ -3859,7 +3868,7 @@
 				this._newFileMenu = new OCA.Files.NewFileMenu({
 					fileList: this
 				});
-				$('.actions').append(this._newFileMenu.$el);
+				this.$el.find('.files-controls .actions').append(this._newFileMenu.$el);
 			}
 			this._newFileMenu.showAt($target);
 
@@ -3870,7 +3879,7 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
+			OC.debug && console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
 				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
@@ -3896,7 +3905,7 @@
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
+			OC.debug && console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
 			if (detailView.el) {
 				OCA.Files.Sidebar.registerSecondaryView(detailView)
 			}

@@ -285,6 +285,15 @@ class Config {
 				'This can usually be fixed by giving the webserver write access to the config directory.');
 		}
 
+		// Never write file back if disk space should be too low
+		if (function_exists('disk_free_space')) {
+			$df = disk_free_space($this->configDir);
+			$size = strlen($content) + 10240;
+			if ($df !== false && $df < (float)$size) {
+				throw new \Exception($this->configDir . " does not have enough space for writing the config file! Not writing it back!");
+			}
+		}
+
 		// Try to acquire a file lock
 		if (!flock($filePointer, LOCK_EX)) {
 			throw new \Exception(sprintf('Could not acquire an exclusive lock on the config file %s', $this->configFilePath));

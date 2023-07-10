@@ -23,8 +23,6 @@
     "Accept" : "Akceptuj",
     "Decline" : "Odrzuć",
     "Federated Cloud Sharing" : "Udostępnianie Chmury Federacyjnej",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej",
     "Sharing" : "Udostępnianie",
     "Federated file sharing" : "Udostępnianie federacyjne plików",
     "Provide federated file sharing across servers" : "Zezwól na udostępnianie federacyjne plików na serwerach",
@@ -47,16 +45,13 @@
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
     "HTML Code:" : "Kod HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej",
     "Cloud ID copied to the clipboard" : "ID chmury skopiowany do schowka",
     "Copy to clipboard" : "Kopiuj do schowka",
     "Clipboard is not available" : "Schowek jest niedostępny",
     "Copied!" : "Skopiowano!",
-    "Copy" : "Kopiuj",
-    "Not supported!" : "Brak wsparcia!",
-    "Press ⌘-C to copy." : "Wciśnij ⌘-C by skopiować.",
-    "Press Ctrl-C to copy." : "Wciśnij Ctrl-C by skopiować.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s) (w imieniu %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s)",
-    "Open documentation" : "Otwórz dokumentację"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz %s"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

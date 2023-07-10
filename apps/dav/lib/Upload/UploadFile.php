@@ -29,7 +29,6 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\IFile;
 
 class UploadFile implements IFile {
-
 	/**  @var File */
 	private $file;
 
@@ -45,6 +44,10 @@ class UploadFile implements IFile {
 		return $this->file->get();
 	}
 
+	public function getId() {
+		return $this->file->getId();
+	}
+
 	public function getContentType() {
 		return $this->file->getContentType();
 	}
@@ -53,6 +56,10 @@ class UploadFile implements IFile {
 		return $this->file->getETag();
 	}
 
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
 	public function getSize() {
 		return $this->file->getSize();
 	}
@@ -71,5 +78,17 @@ class UploadFile implements IFile {
 
 	public function getLastModified() {
 		return $this->file->getLastModified();
+	}
+
+	public function getInternalPath(): string {
+		return $this->file->getInternalPath();
+	}
+
+	public function getFile(): File {
+		return $this->file;
+	}
+
+	public function getNode() {
+		return $this->file->getNode();
 	}
 }

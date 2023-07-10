@@ -47,9 +47,9 @@
 import _ from 'underscore'
 import $ from 'jquery'
 
-import OC from './index'
-import OCA from '../OCA/index'
-import { isA11yActivation } from '../Util/a11y'
+import OC from './index.js'
+import OCA from '../OCA/index.js'
+import { isA11yActivation } from '../Util/a11y.js'
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -309,7 +309,7 @@ const Dialogs = {
 				multiselect = false
 			}
 
-			$('body').prepend(self.$filePicker)
+			$(options?.target ?? 'body').prepend(self.$filePicker)
 
 			self.$showGridView = $('button#picker-showgridview')
 			self.$showGridView.on('click keydown', function(event) {
@@ -427,7 +427,7 @@ const Dialogs = {
 				if (checkInput()) {
 					var newname = $input.val()
 					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
-						self._fillFilePicker(self.$filePicker.data('path') + "/" + newname)
+						self._fillFilePicker(self.$filePicker.data('path') + "/" + newname, type)
 					})
 					OC.hideMenus()
 					self.$filePicker.ocdialog('unsetEnterCallback')
@@ -444,7 +444,7 @@ const Dialogs = {
 				self.$filelist = self.$filePicker.find('.filelist tbody')
 				self.$filelistContainer = self.$filePicker.find('.filelist-container')
 				self.$dirTree = self.$filePicker.find('.dirtree')
-				self.$dirTree.on('click keydown', 'div:not(:last-child)', self, function(event) {
+				self.$dirTree.on('click keydown', '.crumb', self, function(event) {
 					if (isA11yActivation(event)) {
 						self._handleTreeListSelect(event, type)
 					}
@@ -459,10 +459,10 @@ const Dialogs = {
 						var dir = self.$filePicker.data('path')
 						self.filepicker.sortField = $(event.currentTarget).data('sort')
 						self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
-						self._fillFilePicker(dir)
+						self._fillFilePicker(dir, type)
 					}
 				})
-				self._fillFilePicker(path)
+				self._fillFilePicker(path, type)
 			})
 
 			// build buttons
@@ -1120,7 +1120,7 @@ const Dialogs = {
 	/**
 	 * fills the filepicker with files
 	 */
-	_fillFilePicker: async function(dir) {
+	_fillFilePicker: async function(dir, type) {
 		var self = this
 		this.$filelist.empty()
 		this.$filePicker.find('.emptycontent').hide()
@@ -1155,6 +1155,7 @@ const Dialogs = {
 			console.error('Requested path does not exists, falling back to root')
 			var files = await getFolderContents('/')
 			this.$filePicker.data('path', '/')
+			this._changeButtonsText(type, '')
 		}
 
 		self.filelist = files
@@ -1171,9 +1172,8 @@ const Dialogs = {
 		// Check if the showHidden input field exist and if it exist follow it
 		// Otherwise just show the hidden files
 		const showHiddenInput = document.getElementById('showHiddenFiles')
-		const showHidden = showHiddenInput === null || showHiddenInput.value === "1"
-		if (!showHidden) {
-			files = files.filter(function(file) {
+		if (showHiddenInput?.value !== "1") {
+			files = files.filter(function (file) {
 				return !file.name.startsWith('.')
 			})
 		}
@@ -1289,11 +1289,13 @@ const Dialogs = {
 		this.$dirTree.empty()
 		var self = this
 
+		self.$dirTree.append('<nav></nav>')
 		self.$dirTree.append(addButton)
 
 		var dir
 		var path = this.$filePicker.data('path')
-		var $template = $('<div data-dir="{dir}" tabindex="0"><a>{name}</a></div>').addClass('crumb')
+		var $template = $('<li data-dir="{dir}" tabindex="0"><a class="{classList}">{name}</a></li>').addClass('crumb')
+		var $breadcrumbs = $('<ul class="breadcrumb"></ul>')
 		if (path) {
 			var paths = path.split('/')
 			$.each(paths, function(index, dir) {
@@ -1301,18 +1303,20 @@ const Dialogs = {
 				if (dir === '') {
 					return false
 				}
-				self.$dirTree.prepend($template.octemplate({
+				$breadcrumbs.prepend($template.octemplate({
 					dir: paths.join('/') + '/' + dir,
 					name: dir
 				}))
 			})
 		}
-
 		$template.octemplate({
 			dir: '',
-			name: '' // Ugly but works ;)
-		}, { escapeFunction: null }).prependTo(this.$dirTree)
+			name: t('core', 'Home'),
+			classList: 'icon-home'
+		}, { escapeFunction: null }).addClass('crumb svg crumbhome').prependTo($breadcrumbs)
 
+
+		this.$dirTree.find('> nav').prepend($breadcrumbs)
 	},
 	/**
 	 * handle selection made in the tree list
@@ -1320,7 +1324,7 @@ const Dialogs = {
 	_handleTreeListSelect: function(event, type) {
 		var self = event.data
 		var dir = $(event.target).closest('.crumb').data('dir')
-		self._fillFilePicker(dir)
+		self._fillFilePicker(dir, type)
 		var getOcDialog = (event.target).closest('.oc-dialog')
 		var buttonEnableDisable = $('.primary', getOcDialog)
 		this._changeButtonsText(type, dir.split(/[/]+/).pop())
@@ -1343,7 +1347,7 @@ const Dialogs = {
 			$element.toggleClass('filepicker_element_selected')
 			buttonEnableDisable.prop('disabled', false)
 		} else if ($element.data('type') === 'dir') {
-			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'))
+			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'), type)
 			this._changeButtonsText(type, $element.data('entryname'))
 			if (this.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || this.$filePicker.data('allowDirectoryChooser')) {
 				buttonEnableDisable.prop('disabled', false)

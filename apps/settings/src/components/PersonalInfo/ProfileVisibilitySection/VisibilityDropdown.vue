@@ -26,26 +26,24 @@
 		<label :for="inputId">
 			{{ displayId }}
 		</label>
-		<NcMultiselect :id="inputId"
-			class="visibility-container__multiselect"
+		<NcSelect :input-id="inputId"
+			class="visibility-container__select"
+			:clearable="false"
 			:options="visibilityOptions"
-			track-by="name"
-			label="label"
 			:value="visibilityObject"
-			@change="onVisibilityChange" />
+			@option:selected="onVisibilityChange" />
 	</div>
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
@@ -53,7 +51,7 @@ export default {
 	name: 'VisibilityDropdown',
 
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 
 	props: {
@@ -137,8 +135,7 @@ export default {
 				// Ensure that local state reflects server state
 				this.initialVisibility = visibility
 			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 
@@ -173,8 +170,8 @@ export default {
 		line-height: 50px;
 	}
 
-	&__multiselect {
-		width: 260px;
+	&__select {
+		width: 270px;
 		max-width: 40vw;
 	}
 }

@@ -27,7 +27,7 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import axios from '@nextcloud/axios'
-import { getApiUrl } from './helpers/api'
+import { getApiUrl } from './helpers/api.js'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 import { loadState } from '@nextcloud/initial-state'

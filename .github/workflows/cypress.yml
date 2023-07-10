@@ -4,48 +4,62 @@ on:
   pull_request:
   push:
     branches:
+      - main
       - master
       - stable*
 
 env:
-  APP_NAME: viewer
-  BRANCH: ${{ github.ref }}
-  TESTING: true
+  # Adjust APP_NAME if your repository name is different
+  APP_NAME: ${{ github.event.repository.name }}
+  # Server requires head_ref instead of base_ref, as we want to test the PR branch
+  BRANCH: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   init:
     runs-on: ubuntu-latest
+    outputs:
+      nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
+      npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     steps:
-      - name: Checkout server
-        uses: actions/checkout@v3
+      - name: Checkout app
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: Check composer.json
+        id: check_composer
+        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
+        with:
+          files: "composer.json"
+
+      - name: Install composer dependencies
+        if: steps.check_composer.outputs.files_exists == 'true'
+        run: composer install --no-dev
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@v1.2
+        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
         id: versions
         with:
-          fallbackNode: "^12"
-          fallbackNpm: "^6"
+          fallbackNode: "^14"
+          fallbackNpm: "^7"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          cache: "npm"
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
         run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
-      - name: Install dependencies & build app
+      - name: Install node dependencies & build app
         run: |
           npm ci
           TESTING=true npm run build --if-present
 
       - name: Save context
-        uses: actions/cache@v3
+        uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
           key: cypress-context-${{ github.run_id }}
-          path: /home/runner/work/server
+          path: ./
 
   cypress:
     runs-on: ubuntu-latest
@@ -54,21 +68,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # run multiple copies of the current job in parallel
-        containers: ['component', 1, 2]
+        # Run multiple copies of the current job in parallel
+        # Please increase the number or runners as your tests suite grows
+        containers: ["component", 1, 2]
 
     name: runner ${{ matrix.containers }}
 
     steps:
       - name: Restore context
-        uses: actions/cache@v3
+        uses: buildjet/cache/restore@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
+          fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
-          path: /home/runner/work/server
+          path: ./
+
+      - name: Set up node ${{ needs.init.outputs.nodeVersion }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: ${{ needs.init.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ needs.init.outputs.npmVersion }}
+        run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@d69252d52b9a31bad4f418f05ba2bc83687a02eb # v5.8.3
         with:
           record: true
           parallel: true
@@ -77,17 +100,45 @@ jobs:
           group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
           # cypress env
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ github.event_name }}t
+          tag: ${{ github.event_name }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
-          CYPRESS_GH: true
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           # Needed for some specific code workarounds
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Upload snapshots
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: always()
+        with:
+          name: snapshots_${{ matrix.containers }}
+          path: cypress/snapshots
+
+      - name: Extract NC logs
+        if: failure() && matrix.containers != 'component'
+        run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
+
+      - name: Upload NC logs
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: failure() && matrix.containers != 'component'
+        with:
+          name: nc_logs_${{ matrix.containers }}
+          path: nextcloud.log
+
+      - name: Create data dir archive
+        if: failure() && matrix.containers != 'component'
+        run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
+
+      - name: Upload data dir archive
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: failure() && matrix.containers != 'component'
+        with:
+          name: nc_data_${{ matrix.containers }}
+          path: data.tar
 
   summary:
     runs-on: ubuntu-latest

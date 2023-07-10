@@ -43,7 +43,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
-import SelectShareFolderDialogue from './SelectShareFolderDialogue'
+import SelectShareFolderDialogue from './SelectShareFolderDialogue.vue'
 
 export default {
 	name: 'PersonalSettings',

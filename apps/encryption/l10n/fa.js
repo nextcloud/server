@@ -28,11 +28,10 @@ OC.L10N.register(
     "Bad Signature" : "امضاء نامعتبر",
     "Missing Signature" : "امضاء از دست رفته",
     "one-time password for server-side-encryption" : "رمز عبور یک بار برای رمزگذاری سمت سرور",
+    "Encryption password" : "رمزنگاری گذرواژه",
+    "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "مدیریت، رمزنگاری سمت کارساز را فعال کرده است. پرونده‌های شما با گذرواژه <strong>%s</strong> رمزنگاری شدند.",
     "Default encryption module" : "ماژول رمزگذاری پیش فرض",
     "Default encryption module for server-side encryption" : "ماژول رمزگذاری پیش فرض برای رمزگذاری سمت سرور",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "برای استفاده از این ماژول رمزگذاری باید سمت سرور را فعال کنید پس از فعال کردن ماژول رمزگذاری در تنظیمات مدیر، رمزگذاری می شود همه پرونده های شما با شفافیت رمزگذاری بر اساس کلید AES 256 است. ماژول پرونده های موجود را لمس نمی کند، فقط پرونده های جدید رمزگذاری می شوند پس از فعال کردن رمزگذاری سمت سرور ممکن نیست رمزنگاری را مجدد غیرفعال کنید و به یک سیستم رمز نشده بازگردید. قبل از انجام عملیات و فعال کردن رمزگذاری سمت سرور توضیحات را بخوانید.",
-    "The share will expire on %s." : "اشتراک‌گذاری در %s منقضی خواهد شد.",
-    "Cheers!" : "سلامتی!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "برنامه رمزگذاری فعال شده است اما کلیدهای شما اولیه نیستند، لطفاً از سیستم خارج و دوباره وارد سیستم شوید.",
     "Encrypt the home storage" : "رمزگذاری حافظه اصلی",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "با فعال کردن این گزینه، فایل های ذخیره شده در حافظه اصلی رمزگذاری می شود؛ در غیر این صورت فقط پرونده های موجود در حافظه خارجی رمزگذاری می شوند.",
@@ -56,6 +55,9 @@ OC.L10N.register(
     "Enable password recovery:" : "فعال سازی بازیابی رمزعبور:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید.",
     "Enabled" : "فعال شده",
-    "Disabled" : "غیرفعال شده"
+    "Disabled" : "غیرفعال شده",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "برای استفاده از این ماژول رمزگذاری باید سمت سرور را فعال کنید پس از فعال کردن ماژول رمزگذاری در تنظیمات مدیر، رمزگذاری می شود همه پرونده های شما با شفافیت رمزگذاری بر اساس کلید AES 256 است. ماژول پرونده های موجود را لمس نمی کند، فقط پرونده های جدید رمزگذاری می شوند پس از فعال کردن رمزگذاری سمت سرور ممکن نیست رمزنگاری را مجدد غیرفعال کنید و به یک سیستم رمز نشده بازگردید. قبل از انجام عملیات و فعال کردن رمزگذاری سمت سرور توضیحات را بخوانید.",
+    "The share will expire on %s." : "اشتراک‌گذاری در %s منقضی خواهد شد.",
+    "Cheers!" : "سلامتی!"
 },
 "nplurals=2; plural=(n > 1);");

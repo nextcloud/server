@@ -50,6 +50,7 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 try {
 	OC_App::loadApps(['session']);
 	OC_App::loadApps(['authentication']);
+	OC_App::loadApps(['extended_authentication']);
 
 	// load all apps to get all api routes properly setup
 	// FIXME: this should ideally appear after handleLogin but will cause

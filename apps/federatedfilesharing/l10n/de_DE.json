@@ -23,8 +23,6 @@
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Sharing" : "Teilen",
     "Federated file sharing" : "Federated Datei-Freigabe",
     "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
@@ -47,16 +45,13 @@
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Cloud ID copied to the clipboard" : "Cloud-ID wurde in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "Copied!" : "Kopiert!",
-    "Copy" : "Kopieren",
-    "Not supported!" : "Nicht unterstützt!",
-    "Press ⌘-C to copy." : "⌘-C zum Kopieren drücken.",
-    "Press Ctrl-C to copy." : "Zum Kopieren Strg-C drücken.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Sie haben \"%3$s\" als externe Freigabe von %4$s (%1$s) erhalten (im Auftrag von %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Sie haben \"%3$s\" als externe Freigabe von %4$s (%1$s) erhalten",
-    "Open documentation" : "Dokumentation öffnen"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -63,6 +63,7 @@ use Psr\Log\LoggerInterface;
  * @property string ldapEmailAttribute
  * @property string ldapExtStorageHomeAttribute
  * @property string homeFolderNamingRule
+ * @property bool|string markRemnantsAsDisabled
  * @property bool|string ldapNestedGroups
  * @property string[] ldapBaseGroups
  * @property string ldapGroupFilter
@@ -73,6 +74,15 @@ use Psr\Log\LoggerInterface;
  * @property int hasMemberOfFilterSupport
  * @property int useMemberOfToDetectMembership
  * @property string ldapMatchingRuleInChainState
+ * @property string ldapAttributePhone
+ * @property string ldapAttributeWebsite
+ * @property string ldapAttributeAddress
+ * @property string ldapAttributeTwitter
+ * @property string ldapAttributeFediverse
+ * @property string ldapAttributeOrganisation
+ * @property string ldapAttributeRole
+ * @property string ldapAttributeHeadline
+ * @property string ldapAttributeBiography
  */
 class Connection extends LDAPUtility {
 	/**
@@ -368,7 +378,7 @@ class Connection extends LDAPUtility {
 		foreach ($cta as $dbkey => $configkey) {
 			switch ($configkey) {
 				case 'homeFolderNamingRule':
-					if (strpos($config[$configkey], 'attr:') === 0) {
+					if (str_starts_with($config[$configkey], 'attr:')) {
 						$result[$dbkey] = substr($config[$configkey], 5);
 					} else {
 						$result[$dbkey] = '';

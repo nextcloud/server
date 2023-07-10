@@ -78,7 +78,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$discoveryService = \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
 
 		[$protocol, $remote] = explode('://', $this->cloudId->getRemote());
-		if (strpos($remote, '/')) {
+		if (str_contains($remote, '/')) {
 			[$host, $root] = explode('/', $remote, 2);
 		} else {
 			$host = $remote;
@@ -214,7 +214,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	public function checkStorageAvailability() {
 		// see if we can find out why the share is unavailable
 		try {
-			$this->getShareInfo();
+			$this->getShareInfo(0);
 		} catch (NotFoundException $e) {
 			// a 404 can either mean that the share no longer exists or there is no Nextcloud on the remote
 			if ($this->testRemote()) {
@@ -265,8 +265,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	private function testRemoteUrl(string $url): bool {
 		$cache = $this->memcacheFactory->createDistributed('files_sharing_remote_url');
-		if ($cache->hasKey($url)) {
-			return (bool)$cache->get($url);
+		$cached = $cache->get($url);
+		if ($cached !== null) {
+			return (bool)$cached;
 		}
 
 		$client = $this->httpClient->newClient();
@@ -308,7 +309,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
-	public function getShareInfo() {
+	public function getShareInfo(int $depth = -1) {
 		$remote = $this->getRemote();
 		$token = $this->getToken();
 		$password = $this->getPassword();
@@ -331,7 +332,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$client = \OC::$server->getHTTPClientService()->newClient();
 		try {
 			$response = $client->post($url, [
-				'body' => ['password' => $password],
+				'body' => ['password' => $password, 'depth' => $depth],
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);

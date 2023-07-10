@@ -18,7 +18,7 @@
 				<input v-if="lastCheckComplete"
 					type="button"
 					class="check--add"
-					value="Add a new filter"
+					:value="t('workflowengine', 'Add a new filter')"
 					@click="onAddFilter">
 			</p>
 		</div>
@@ -53,17 +53,17 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import CheckMark from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 
-import Event from './Event'
-import Check from './Check'
-import Operation from './Operation'
+import Event from './Event.vue'
+import Check from './Check.vue'
+import Operation from './Operation.vue'
 
 export default {
 	name: 'Rule',
@@ -213,10 +213,11 @@ export default {
 		flex-wrap: wrap;
 		border-left: 5px solid var(--color-primary-element);
 
-		.trigger, .action {
+		.trigger,
+		.action {
 			flex-grow: 1;
 			min-height: 100px;
-			max-width: 700px;
+			max-width: 920px;
 		}
 		.action {
 			max-width: 400px;
@@ -246,6 +247,9 @@ export default {
 	}
 	.trigger p:first-child span {
 			padding-top: 3px;
+	}
+	.trigger p:last-child {
+			padding-top: 8px;
 	}
 
 	.check--add {

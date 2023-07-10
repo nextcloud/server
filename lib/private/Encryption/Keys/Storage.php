@@ -237,7 +237,7 @@ class Storage implements IStorage {
 
 		if (!array_key_exists('uid', $data) || $data['uid'] !== $uid) {
 			// If the migration is done we error out
-			$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+			$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 			if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
 				return $data['key'];
 			}
@@ -272,7 +272,7 @@ class Storage implements IStorage {
 				$data = $this->view->file_get_contents($path);
 
 				// Version <20.0.0.1 doesn't have this
-				$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+				$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 				if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
 					$key = [
 						'key' => base64_encode($data),
@@ -335,7 +335,7 @@ class Storage implements IStorage {
 	private function setKey($path, $key) {
 		$this->keySetPreparation(dirname($path));
 
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
 			// Only store old format if this happens during the migration.
 			// TODO: Remove for 21

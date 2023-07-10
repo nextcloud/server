@@ -105,9 +105,9 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
 			->orderBy('id', 'ASC');
 
-		$stmt = $query->execute();
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-			$offset = $row['id'];
+		$result = $query->executeQuery();
+		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+			$offset = (int) $row['id'];
 			if (is_resource($row['calendardata'])) {
 				$row['calendardata'] = stream_get_contents($row['calendardata']);
 			}
@@ -120,10 +120,12 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			}
 
 			if (($this->timeFactory->getTime() - $startTime) > 15) {
+				$result->closeCursor();
 				return $offset;
 			}
 		}
 
+		$result->closeCursor();
 		return $stopAt;
 	}
 }

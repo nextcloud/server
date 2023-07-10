@@ -107,6 +107,7 @@ class Internal extends Session {
 		$this->reopen();
 		$this->invoke('session_unset');
 		$this->regenerateId();
+		$this->invoke('session_write_close');
 		$this->startSession(true);
 		$_SESSION = [];
 	}
@@ -148,7 +149,7 @@ class Internal extends Session {
 			$newId = $this->getId();
 
 			/** @var IProvider $tokenProvider */
-			$tokenProvider = \OC::$server->query(IProvider::class);
+			$tokenProvider = \OCP\Server::get(IProvider::class);
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
@@ -194,15 +195,6 @@ class Internal extends Session {
 	public function trapError(int $errorNumber, string $errorString) {
 		if ($errorNumber & E_ERROR) {
 			throw new \ErrorException($errorString);
-		}
-	}
-
-	/**
-	 * @throws \Exception
-	 */
-	private function validateSession() {
-		if ($this->sessionClosed) {
-			throw new SessionNotAvailableException('Session has been closed - no further changes to the session are allowed');
 		}
 	}
 

@@ -30,9 +30,6 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "eins-skiptis lykilorð fyrir dulritun á þjóni",
     "Default encryption module" : "Sjálfgefin dulritunareining",
     "Default encryption module for server-side encryption" : "Sjálfgefin dulritunareining fyrir dulritun á vefþjóni",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Til að geta notað þessa dulritunareiningu þarftu að virkja dulritun á þjóni\n\t\tí kerfisstjórnunarstillingunum. Þegar hún er orðin virk mun einingin dulrita\n\t\tallar skrárnar þínar á gagnsæan máta. Dulritunin byggir á AES 256-lyklum.\n\t\tEiningin mun ekki eiga við fyrirliggjandi skrár, einungis nýjar skrár verða\n\t\tdulritaðar eftir að dulritun er orðin virk á þjóni. Ekki er heldur hægt að\n\t\tgera dulritun aftur óvirka og skipta aftur til baka í ódulritað kerfi.\n\t\tÞú skalt endilega lesa hjálparskjölin til að sjá allar afleiðingar þessa\n\t\táður en þú virkjar dulritun á þjóninum.",
-    "The share will expire on %s." : "Gildistími deilingar rennur út %s.",
-    "Cheers!" : "Til hamingju!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Dulritunarforritið er virkt en dulritunarlyklarnir þínir eru ekki tilbúnir til notkunar, skráðu þig út og svo aftur inn",
     "Encrypt the home storage" : "Dulrita heimamöppuna",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ef þessi kostur er virkur verða allar skrár í aðalgeymslu dulritaðar, annars verða einungis skrár í ytri gagnageymslum dulritaðar",
@@ -56,6 +53,9 @@ OC.L10N.register(
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt"
+    "Disabled" : "Óvirkt",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Til að geta notað þessa dulritunareiningu þarftu að virkja dulritun á þjóni\n\t\tí kerfisstjórnunarstillingunum. Þegar hún er orðin virk mun einingin dulrita\n\t\tallar skrárnar þínar á gagnsæan máta. Dulritunin byggir á AES 256-lyklum.\n\t\tEiningin mun ekki eiga við fyrirliggjandi skrár, einungis nýjar skrár verða\n\t\tdulritaðar eftir að dulritun er orðin virk á þjóni. Ekki er heldur hægt að\n\t\tgera dulritun aftur óvirka og skipta aftur til baka í ódulritað kerfi.\n\t\tÞú skalt endilega lesa hjálparskjölin til að sjá allar afleiðingar þessa\n\t\táður en þú virkjar dulritun á þjóninum.",
+    "The share will expire on %s." : "Gildistími deilingar rennur út %s.",
+    "Cheers!" : "Til hamingju!"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

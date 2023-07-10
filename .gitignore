@@ -96,6 +96,7 @@ nbproject
 
 # vscode
 .vscode
+*.code-workspace
 
 # geany
 *.geany
@@ -153,6 +154,7 @@ Vagrantfile
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml
+/coverage
 
 # Tests - dependencies
 tests/acceptance/vendor/

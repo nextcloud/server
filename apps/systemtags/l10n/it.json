@@ -44,6 +44,7 @@
     "Collaborative tags" : "Etichette collaborative",
     "Collaborative tagging functionality which shares tags among users." : "Funzionalità di etichettatura collaborativa che condivide le etichette tra gli utenti.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funzionalità di etichettatura collaborativa che condivide le etichette tra gli utenti. Ottima per le squadre.\n\t(Se sei un fornitore con un'installazione multi-tenant, ti consigliamo di disattivare questa applicazione poiché le etichette sono condivise.)",
+    "Failed to load tags" : "Caricamento etichette non riuscito",
     "Tagged files" : "File etichettati",
     "Select tags to filter by" : "Seleziona le etichette per filtrare",
     "No tags found" : "Nessuna etichetta trovata",

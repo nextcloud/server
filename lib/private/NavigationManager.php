@@ -61,7 +61,7 @@ class NavigationManager implements INavigationManager {
 	private $l10nFac;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var IGroupManager|Manager */
+	/** @var Manager */
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
@@ -189,7 +189,7 @@ class NavigationManager implements INavigationManager {
 		$this->init = true;
 
 		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValue('knowledgebaseenabled', true)) {
+		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'help',
@@ -301,10 +301,12 @@ class NavigationManager implements INavigationManager {
 				continue;
 			}
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
+				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
 					continue;
 				}
-				if (!isset($nav['route'])) {
+				// Allow settings navigation items with no route entry, all other types require one
+				if (!isset($nav['route']) && $nav['type'] !== 'settings') {
 					continue;
 				}
 				$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
@@ -314,8 +316,8 @@ class NavigationManager implements INavigationManager {
 				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = isset($nav['order']) ? $nav['order'] : 100;
-				$type = isset($nav['type']) ? $nav['type'] : 'link';
-				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'];
+				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {

@@ -44,7 +44,7 @@ interface ILogFactory {
 	 * @param string $path
 	 * @return ILogger
 	 * @since 14.0.0
-	 * @deprecated use \OCP\Log\ILogFactory::getCustomPsrLogger
+	 * @deprecated 22.0.0 Use \OCP\Log\ILogFactory::getCustomPsrLogger
 	 * @see \OCP\Log\ILogFactory::getCustomPsrLogger
 	 */
 	public function getCustomLogger(string $path): ILogger;

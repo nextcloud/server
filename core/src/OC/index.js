@@ -24,17 +24,15 @@
 
 import { subscribe } from '@nextcloud/event-bus'
 
-import { addScript, addStyle } from './legacy-loader'
 import {
 	ajaxConnectionLostHandler,
 	processAjaxError,
 	registerXHRForErrorProcessing,
-} from './xhr-error'
-import Apps from './apps'
-import { AppConfig, appConfig } from './appconfig'
-import { appSettings } from './appsettings'
-import appswebroots from './appswebroots'
-import Backbone from './backbone'
+} from './xhr-error.js'
+import Apps from './apps.js'
+import { AppConfig, appConfig } from './appconfig.js'
+import appswebroots from './appswebroots.js'
+import Backbone from './backbone.js'
 import {
 	basename,
 	dirname,
@@ -45,8 +43,8 @@ import {
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string'
-import Config from './config'
+} from './query-string.js'
+import Config from './config.js'
 import {
 	coreApps,
 	menuSpeed,
@@ -58,35 +56,34 @@ import {
 	PERMISSION_SHARE,
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
-} from './constants'
-import ContactsMenu from './contactsmenu'
-import { currentUser, getCurrentUser } from './currentuser'
-import Dialogs from './dialogs'
-import EventSource from './eventsource'
-import { get, set } from './get_set'
-import { getCapabilities } from './capabilities'
+} from './constants.js'
+import ContactsMenu from './contactsmenu.js'
+import { currentUser, getCurrentUser } from './currentuser.js'
+import Dialogs from './dialogs.js'
+import EventSource from './eventsource.js'
+import { get, set } from './get_set.js'
+import { getCapabilities } from './capabilities.js'
 import {
 	getHost,
 	getHostName,
 	getPort,
 	getProtocol,
-} from './host'
+} from './host.js'
 import {
 	getToken as getRequestToken,
-} from './requesttoken'
+} from './requesttoken.js'
 import {
 	hideMenus,
 	registerMenu,
 	showMenu,
 	unregisterMenu,
-} from './menu'
-import { isUserAdmin } from './admin'
-import L10N, {
-	getLanguage,
-	getLocale,
-} from './l10n'
+} from './menu.js'
+import { isUserAdmin } from './admin.js'
+import L10N from './l10n.js'
 import {
 	getCanonicalLocale,
+	getLanguage,
+	getLocale,
 } from '@nextcloud/l10n'
 
 import {
@@ -101,16 +98,16 @@ import {
 
 import {
 	linkToRemoteBase,
-} from './routing'
-import msg from './msg'
-import Notification from './notification'
-import PasswordConfirmation from './password-confirmation'
-import Plugins from './plugins'
-import { theme } from './theme'
-import Util from './util'
-import { debug } from './debug'
-import { redirect, reload } from './navigation'
-import webroot from './webroot'
+} from './routing.js'
+import msg from './msg.js'
+import Notification from './notification.js'
+import PasswordConfirmation from './password-confirmation.js'
+import Plugins from './plugins.js'
+import { theme } from './theme.js'
+import Util from './util.js'
+import { debug } from './debug.js'
+import { redirect, reload } from './navigation.js'
+import webroot from './webroot.js'
 
 /** @namespace OC */
 export default {
@@ -139,13 +136,9 @@ export default {
 	 * @deprecated 17.0.0
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
-
-	addScript,
-	addStyle,
 	Apps,
 	AppConfig,
 	appConfig,
-	appSettings,
 	appswebroots,
 	Backbone,
 	ContactsMenu,
@@ -231,17 +224,14 @@ export default {
 	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
 	getCanonicalLocale,
-	getLocale,
-	getLanguage,
 	/**
-	 * Loads translations for the given app asynchronously.
-	 *
-	 * @param {string} app app name
-	 * @param {Function} callback callback to call after loading
-	 * @return {Promise}
-	 * @deprecated 17.0.0 use OC.L10N.load instead
+	 * @deprecated 26.0.0 use `getLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
-	addTranslations: L10N.load,
+	getLocale,
+	/**
+	 * @deprecated 26.0.0 use `getLanguage` from https://www.npmjs.com/package/@nextcloud/l10n
+	 */
+	getLanguage,
 
 	/**
 	 * Query string helpers

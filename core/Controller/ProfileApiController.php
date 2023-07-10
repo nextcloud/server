@@ -38,29 +38,21 @@ use OCP\IUserSession;
 use OC\Profile\ProfileManager;
 
 class ProfileApiController extends OCSController {
-	private ProfileConfigMapper $configMapper;
-	private ProfileManager $profileManager;
-	private IUserManager $userManager;
-	private IUserSession $userSession;
-
 	public function __construct(
 		IRequest $request,
-		ProfileConfigMapper $configMapper,
-		ProfileManager $profileManager,
-		IUserManager $userManager,
-		IUserSession $userSession
+		private ProfileConfigMapper $configMapper,
+		private ProfileManager $profileManager,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
 	) {
 		parent::__construct('core', $request);
-		$this->configMapper = $configMapper;
-		$this->profileManager = $profileManager;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=40, period=600)
 	 */
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();

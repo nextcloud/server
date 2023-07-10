@@ -27,6 +27,7 @@ namespace Test;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IServerContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use function json_encode;
 use JsonSerializable;
@@ -36,18 +37,22 @@ use stdClass;
 class InitialStateServiceTest extends TestCase {
 	/** @var InitialStateService */
 	private $service;
+	/** @var MockObject|LoggerInterface|(LoggerInterface&MockObject)  */
+	protected $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->logger = $this->createMock(LoggerInterface::class);
+
 		$this->service = new InitialStateService(
-			$this->createMock(LoggerInterface::class),
+			$this->logger,
 			$this->createMock(Coordinator::class),
 			$this->createMock(IServerContainer::class)
 		);
 	}
 
-	public function staticData() {
+	public function staticData(): array {
 		return [
 			['string'],
 			[23],
@@ -63,7 +68,7 @@ class InitialStateServiceTest extends TestCase {
 	/**
 	 * @dataProvider staticData
 	 */
-	public function testStaticData($value) {
+	public function testStaticData(mixed $value): void {
 		$this->service->provideInitialState('test', 'key', $value);
 		$data = $this->service->getInitialStates();
 
@@ -73,7 +78,23 @@ class InitialStateServiceTest extends TestCase {
 		);
 	}
 
-	public function testStaticButInvalidData() {
+	public function testValidDataButFailsToJSONEncode(): void {
+		$this->logger->expects($this->once())
+			->method('error');
+
+		$this->service->provideInitialState('test', 'key', ['upload' => INF]);
+		$data = $this->service->getInitialStates();
+
+		$this->assertEquals(
+			[],
+			$data
+		);
+	}
+
+	public function testStaticButInvalidData(): void {
+		$this->logger->expects($this->once())
+			->method('warning');
+
 		$this->service->provideInitialState('test', 'key', new stdClass());
 		$data = $this->service->getInitialStates();
 
@@ -86,7 +107,7 @@ class InitialStateServiceTest extends TestCase {
 	/**
 	 * @dataProvider staticData
 	 */
-	public function testLazyData($value) {
+	public function testLazyData(mixed $value): void {
 		$this->service->provideLazyInitialState('test', 'key', function () use ($value) {
 			return $value;
 		});

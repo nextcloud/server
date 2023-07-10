@@ -598,7 +598,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool true if allocating is allowed, false otherwise
 	 */
 	private function checkImageSize($path) {
-		$size = getimagesize($path);
+		$size = @getimagesize($path);
 		if (!$size) {
 			return true;
 		}
@@ -619,7 +619,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool true if allocating is allowed, false otherwise
 	 */
 	private function checkImageDataSize($data) {
-		$size = getimagesizefromstring($data);
+		$size = @getimagesizefromstring($data);
 		if (!$size) {
 			return true;
 		}
@@ -758,7 +758,7 @@ class OC_Image implements \OCP\IImage {
 				if (!$this->checkImageDataSize($data)) {
 					return false;
 				}
-				$this->resource = imagecreatefromstring($data);
+				$this->resource = @imagecreatefromstring($data);
 				$iType = IMAGETYPE_PNG;
 				$this->logger->debug('OC_Image->loadFromFile, Default', ['app' => 'core']);
 				break;

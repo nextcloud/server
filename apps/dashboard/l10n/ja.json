@@ -1,7 +1,6 @@
 { "translations": {
     "Dashboard" : "ダッシュボード",
     "Dashboard app" : "ダッシュボードアプリ",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "情報に基づいて1日を始めましょう\n\nNextcloud ダッシュボードは、あなたの1日の始まりであり、予定されているアポイントの概要、重要なメール、チャットメッセージ、受信したチケット、最新のツイートなどをお届けします！ユーザーは、自由にウィジェットを追加し、背景もお好みのものに変更が可能です。",
     "Customize" : "カスタマイズ",
     "Edit widgets" : "ウィジェットを編集",
     "Get more widgets from the App Store" : "アプリストアから他のガジェットを入手",
@@ -20,10 +19,6 @@
     "Good evening, {name}" : "こんばんは、{name} さん",
     "Hello" : "こんにちは",
     "Hello, {name}" : "こんにちは、{name} さん",
-    "Change background image" : "背景画像を変更",
-    "Pick from Files" : "ファイルから選択",
-    "Default images" : "デフォルトの画像",
-    "Plain background" : "シンプルな背景",
-    "Insert from {productName}" : "{productName} から挿入"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "情報に基づいて1日を始めましょう\n\nNextcloud ダッシュボードは、あなたの1日の始まりであり、予定されているアポイントの概要、重要なメール、チャットメッセージ、受信したチケット、最新のツイートなどをお届けします！ユーザーは、自由にウィジェットを追加し、背景もお好みのものに変更が可能です。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

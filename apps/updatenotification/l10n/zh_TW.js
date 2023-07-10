@@ -29,6 +29,7 @@ OC.L10N.register(
     "Update channel:" : "更新頻道：",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "您始終可以更新到較新的版本。但您無法降級到較穩定的版本。",
     "Notify members of the following groups about available updates:" : "有可用更新時通知這些群組的成員：",
+    "No groups" : "無群組",
     "Only notifications for app updates are available." : "僅適用於應用程式更新的通知。",
     "The selected update channel makes dedicated notifications for the server obsolete." : "選定的更新通道將會讓伺服器專用的通知過時。",
     "The selected update channel does not support updates of the server." : "選定的更新頻道不支援伺服器更新。",

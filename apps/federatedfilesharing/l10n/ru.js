@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Принять",
     "Decline" : "Отклонить",
     "Federated Cloud Sharing" : "Межсерверный обмен",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ, смотрите %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ",
     "Sharing" : "Общий доступ",
     "Federated file sharing" : "Межсерверный обмен файлами",
     "Provide federated file sharing across servers" : "Приложение позволяет использовать межсерверный обмен файлами",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поделитесь со мной через мой #Nextcloud Federated Cloud ID, см. {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ",
     "Cloud ID copied to the clipboard" : "Идентификатор облака скопирован в буфер обмена",
     "Copy to clipboard" : "Копировать в буфер",
     "Clipboard is not available" : "Буфер обмена недоступен",
     "Copied!" : "Скопировано!",
-    "Copy" : "Копировать",
-    "Not supported!" : "Не поддерживается!",
-    "Press ⌘-C to copy." : "Нажмите ⌘-C для копирования.",
-    "Press Ctrl-C to copy." : "Нажмите Ctrl-C для копирования.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Вам предоставлен общий доступ к ресурсу «%3$s»  расположенному на сервере %4$s (%1$s) (от лица %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Вам предоставлен доступ к «%3$s» в качестве удалённого ресурса из %4$s (%1$s)",
-    "Open documentation" : "Открыть документацию"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ, смотрите %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

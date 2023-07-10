@@ -26,10 +26,10 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import logger from '../logger'
+import logger from '../logger.js'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -184,6 +184,10 @@ const mutations = {
 				state.userCount-- // decrement Active Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					if (!group) {
+						console.warn('User group ' + userGroup + ' does not exist during user removal')
+						return
+					}
 					group.usercount-- // decrement group total count
 				})
 			} else {
@@ -248,6 +252,41 @@ const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
 
 const actions = {
+
+	/**
+	 * search users
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search Search amongst users
+	 * @return {Promise}
+	 */
+	searchUsers(context, { offset, limit, search }) {
+		search = typeof search === 'string' ? search : ''
+
+		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search })).catch((error) => {
+			if (!axios.isCancel(error)) {
+				context.commit('API_FAILURE', error)
+			}
+		})
+	},
+
+	/**
+	 * Get user details
+	 *
+	 * @param {object} context store context
+	 * @param {string} userId user id
+	 * @return {Promise}
+	 */
+	getUser(context, userId) {
+		return api.get(generateOcsUrl(`cloud/users/${userId}`)).catch((error) => {
+			if (!axios.isCancel(error)) {
+				context.commit('API_FAILURE', error)
+			}
+		})
+	},
 
 	/**
 	 * Get all users with full details
@@ -544,11 +583,12 @@ const actions = {
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
 	 * @param {string} options.language User language
+	 * @param {string} options.manager User manager
 	 * @return {Promise}
 	 */
-	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {
+	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language, manager }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/users'), { userid, password, displayName, email, groups, subadmin, quota, language })
+			return api.post(generateOcsUrl('cloud/users'), { userid, password, displayName, email, groups, subadmin, quota, language, manager })
 				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.id))
 				.catch((error) => { throw error })
 		}).catch((error) => {
@@ -601,8 +641,8 @@ const actions = {
 	 * @return {Promise}
 	 */
 	setUserData(context, { userid, key, value }) {
-		const allowedEmpty = ['email', 'displayname']
-		if (['email', 'language', 'quota', 'displayname', 'password'].indexOf(key) !== -1) {
+		const allowedEmpty = ['email', 'displayname', 'manager']
+		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
 			if (typeof value === 'string'
 				&& (

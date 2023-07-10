@@ -19,9 +19,11 @@
   -
   -->
 <template>
-	<div class="custom-input">
+	<div class="custom-input" role="group">
 		<NcEmojiPicker container=".custom-input" @select="setIcon">
-			<NcButton class="custom-input__emoji-button" type="tertiary">
+			<NcButton type="tertiary"
+				class="custom-input__emoji-button"
+				:aria-label="t('user_status', 'Emoji for your status message')">
 				{{ visibleIcon }}
 			</NcButton>
 		</NcEmojiPicker>
@@ -36,9 +38,7 @@
 				:placeholder="$t('user_status', 'What is your status?')"
 				type="text"
 				:value="message"
-				@change="onChange"
-				@keyup="onKeyup"
-				@paste="onKeyup">
+				@input="onChange">
 		</div>
 	</div>
 </template>
@@ -98,12 +98,8 @@ export default {
 		 *
 		 * @param {Event} event The Change Event
 		 */
-		onKeyup(event) {
-			this.$emit('change', event.target.value)
-		},
-
 		onChange(event) {
-			this.$emit('submit', event.target.value)
+			this.$emit('change', event.target.value)
 		},
 
 		setIcon(icon) {

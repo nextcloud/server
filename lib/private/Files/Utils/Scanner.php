@@ -27,11 +27,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Utils;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Home;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
@@ -211,13 +213,24 @@ class Scanner extends PublicEmitter {
 			}
 
 			// if the home storage isn't writable then the scanner is run as the wrong user
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') and
-				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
-			) {
-				if ($storage->is_dir('files')) {
-					throw new ForbiddenException();
-				} else {// if the root exists in neither the cache nor the storage the user isn't setup yet
-					break;
+			if ($storage->instanceOfStorage(Home::class)) {
+				/** @var Home $storage */
+				foreach (['', 'files'] as $path) {
+					if (!$storage->isCreatable($path)) {
+						$fullPath = $storage->getSourcePath($path);
+						if (!$storage->is_dir($path) && $storage->getCache()->inCache($path)) {
+							throw new NotFoundException("User folder $fullPath exists in cache but not on disk");
+						} elseif ($storage->is_dir($path)) {
+							$ownerUid = fileowner($fullPath);
+							$owner = posix_getpwuid($ownerUid);
+							$owner = $owner['name'] ?? $ownerUid;
+							$permissions = decoct(fileperms($fullPath));
+							throw new ForbiddenException("User folder $fullPath is not writable, folders is owned by $owner and has mode $permissions");
+						} else {
+							// if the root exists in neither the cache nor the storage the user isn't setup yet
+							break 2;
+						}
+					}
 				}
 			}
 

@@ -28,7 +28,7 @@ body {
 	color: var(--color-text);
 	text-align: center;
 	/* As guest, there is no color-background-plain */
-	background-color: var(--color-background-plain, var(--color-primary-default, #0082c9));
+	background-color: var(--color-background-plain, var(--color-primary-element-default, #0082c9));
 	/* As guest, there is no user background (--image-background)
 	1. User background if logged in ('no' if removed, that way the variable is _defined_)
 	2. Empty background if enabled ('yes' is used, that way the variable is _defined_)
@@ -91,17 +91,15 @@ body {
 
 #header {
 	.logo {
-		max-width: 175px;
-		width: auto;
-		max-height: 130px;
+		background-image: var(--image-logo, url('../../core/img/logo/logo.svg'));
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		width: 175px;
+		height: 130px;
 		margin: 0 auto;
 		position: relative;
 		left: unset;
-		img {
-			opacity: 0;
-			max-width: 100%;
-			max-height: 200px;
-		}
 	}
 }
 
@@ -311,7 +309,7 @@ button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
 a.primary:not(:disabled):focus {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 }
 
 /* Checkboxes - white only for login */
@@ -421,7 +419,7 @@ form input[type='checkbox']+label {
 form .warning input[type='checkbox']:hover+label,
 form .warning input[type='checkbox']:focus+label,
 form .warning input[type='checkbox']+label {
-	color: var(--color-primary-text) !important;
+	color: var(--color-primary-element-text) !important;
 }
 
 .body-login-container.two-factor {
@@ -799,7 +797,7 @@ a.legal {
 	color: var(--color-main-text);
 	background-color: var(--color-main-background);
 	padding: $guest-container-padding;
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-rounded);
 	box-shadow: 0 0 10px var(--color-box-shadow);
 	display: inline-block;
 }

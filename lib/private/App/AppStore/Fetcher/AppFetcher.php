@@ -99,7 +99,7 @@ class AppFetcher extends Fetcher {
 			foreach ($app['releases'] as $release) {
 				// Exclude all nightly and pre-releases if required
 				if (($allowNightly || $release['isNightly'] === false)
-					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
+					&& ($allowPreReleases || !str_contains($release['version'], '-'))) {
 					// Exclude all versions not compatible with the current version
 					try {
 						$versionParser = new VersionParser();

@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -131,8 +131,7 @@ class WeatherStatusService {
 
 	/**
 	 * Get favorites list
-	 * @param array $favorites
-	 * @return array success state
+	 * @return string[]
 	 */
 	public function getFavorites(): array {
 		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
@@ -141,7 +140,7 @@ class WeatherStatusService {
 
 	/**
 	 * Set favorites list
-	 * @param array $favorites
+	 * @param string[] $favorites
 	 * @return array success state
 	 */
 	public function setFavorites(array $favorites): array {
@@ -310,13 +309,14 @@ class WeatherStatusService {
 	 */
 	private function searchForAddress(string $address): array {
 		$params = [
+			'q' => $address,
 			'format' => 'json',
 			'addressdetails' => '1',
 			'extratags' => '1',
 			'namedetails' => '1',
 			'limit' => '1',
 		];
-		$url = 'https://nominatim.openstreetmap.org/search/' . $address;
+		$url = 'https://nominatim.openstreetmap.org/search';
 		$results = $this->requestJSON($url, $params);
 		if (count($results) > 0) {
 			return $results[0];

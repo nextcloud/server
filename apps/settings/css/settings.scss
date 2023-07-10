@@ -55,8 +55,7 @@ input {
 .personal-settings-setting-box {
 	.section {
 		padding: 10px 30px;
-
-		h3 {
+		.headerbar-label {
 			margin-bottom: 0;
 		}
 
@@ -90,6 +89,7 @@ select {
 	padding: 20px;
 	max-width: 1700px;
 	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-column-gap: 10px;
 
 	.section {
 		padding: 10px 10px;
@@ -97,6 +97,12 @@ select {
 
 		h2 {
 			margin-bottom: 12px;
+		}
+
+		h3 {
+			> label {
+				font-weight: bold;
+			}
 		}
 	}
 
@@ -129,18 +135,18 @@ select {
 	display: inline-block;
 	margin: 16px;
 	padding: 14px 20px;
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-element);
 	color: #fff;
 	border-radius: var(--border-radius-pill);
-	border: 1px solid var(--color-primary);
+	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
 	&:active,
 	&:hover,
 	&:focus {
-		color: var(--color-primary);
-		background-color: var(--color-primary-text);
-		border-color: var(--color-primary) !important;
+		color: var(--color-primary-element);
+		background-color: var(--color-primary-element-text);
+		border-color: var(--color-primary-element) !important;
 	}
 
 	&.icon-file {
@@ -275,7 +281,7 @@ select {
 				}
 
 				&.active {
-					box-shadow: inset 2px 0 var(--color-primary);
+					box-shadow: inset 2px 0 var(--color-primary-element);
 
 					.menuitem-text {
 						font-weight: bold;
@@ -1123,12 +1129,12 @@ table.grid td.date {
 }
 
 #shareAPI {
-	p {
-		padding-bottom: 0.8em;
+	&.loading > div {
+		display: none;
 	}
 
-	input#shareapiExpireAfterNDays {
-		width: 40px;
+	p {
+		padding-bottom: 0.8em;
 	}
 
 	.indent {
@@ -1340,6 +1346,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					minmax($grid-col-min-width, 1fr) // email
 					minmax(1.5*$grid-col-min-width, 1fr) // groups
 					minmax(1.5*$grid-col-min-width, 1fr) // group admins
+					minmax($grid-col-min-width, 1fr) // quota
+					minmax(1.5*$grid-col-min-width, 1fr) // manager
 					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
 
@@ -1378,18 +1386,21 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			// Scroll if too much groups
 			&:not(.row--editable) {
 				.groups,
-				.subadmins {
+				.subadmins,
+				.subAdminsGroups {
 					overflow: auto;
 					max-height: 100%;
 				}
 			}
 
+			.managers,
 			.groups,
 			.subadmins,
+			.subAdminsGroups,
 			.quota {
 				min-width: $grid-col-min-width;
 
-				.multiselect {
+				.select {
 					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
@@ -1459,10 +1470,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			&:hover {
-				input:not([type='submit']):not(:focus):not(:active) {
-					border-color: var(--color-border) !important;
-				}
-
 				&:not(#grid-header) {
 					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
@@ -1562,50 +1569,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 				&.userActions {
 					display: flex;
+					align-items: center;
 					justify-content: flex-end;
 
-					#newsubmit {
-						width: 100%;
-					}
-
-					.toggleUserActions {
-						position: relative;
-						display: flex;
-						align-items: center;
-						background-color: var(--color-main-background);
-
-						.icon-more {
-							width: 44px;
-							height: 44px;
-							opacity: .5;
-							cursor: pointer;
-
-							&:focus,
-							&:hover,
-							&:active {
-								opacity: .7;
-								background-color: var(--color-background-dark)
-							}
-						}
-					}
-
-					.feedback {
-						display: flex;
-						align-items: center;
-						white-space: nowrap;
-						transition: opacity 200ms ease-in-out;
-
-						.icon-checkmark {
-							opacity: .5;
-							margin-right: 5px;
-						}
-					}
-				}
-
-				/* Fill the grid cell */
-				.multiselect.multiselect-vue {
-					min-width: 100%;
-					width: 100%;
+					// Make sure to cover whole row
+					height: 100%;
+					width: fit-content;
+					padding-inline: 12px;
+					background-color: var(--color-main-background);
 				}
 			}
 		}

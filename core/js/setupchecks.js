@@ -229,6 +229,14 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
+					if(data.hasDBFileLocking) {
+						messages.push({
+							msg: t('core', 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
+								.replace('{linkend}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
 					if (data.suggestedOverwriteCliURL !== '') {
 						messages.push({
 							msg: t('core', 'Please make sure to set the "overwrite.cli.url" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: "{suggestedOverwriteCliURL}". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
@@ -306,6 +314,14 @@
 							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of {linkstart}performance and security updates provided by the PHP Group ↗{linkend} as soon as your distribution supports it.', { version: data.phpSupported.version })
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
 								.replace('{linkend}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
+					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '8.0') {
+						messages.push({
+							msg: t('core', 'PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible.')
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
+							.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -427,7 +443,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this.'
+								'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this.'
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-system-requirements') + '">')
 								.replace('{linkend}', '</a>'),
 							),
@@ -508,6 +524,12 @@
 							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
 								.replace('{linkend}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
+					if (window.oc_debug) {
+						messages.push({
+							msg: t('core', 'This instance is running in debug mode. Only enable this for local development and not in production environments.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
@@ -634,13 +656,13 @@
 			if (xhr.status === 200) {
 				var securityHeaders = {
 					'X-Content-Type-Options': ['nosniff'],
-					'X-Robots-Tag': ['none'],
+					'X-Robots-Tag': ['noindex, nofollow'],
 					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
 					'X-Permitted-Cross-Domain-Policies': ['none'],
 				};
 				for (var header in securityHeaders) {
 					var option = securityHeaders[header][0];
-					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== option.toLowerCase()) {
+					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).replace(/, /, ',').toLowerCase() !== option.replace(/, /, ',').toLowerCase()) {
 						var msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
 						if(xhr.getResponseHeader(header) && securityHeaders[header].length > 1 && xhr.getResponseHeader(header).toLowerCase() === securityHeaders[header][1].toLowerCase()) {
 							msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". Some features might not work correctly, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
@@ -723,12 +745,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-				} else {
+				} else if (!/(?:^(?:localhost|127\.0\.0\.1|::1)|\.onion)$/.exec(window.location.hostname)) {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}.')
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}. Without it some important web functionality like "copy to clipboard" or "service workers" will not work!')
 							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
 							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					});
 				}
 			} else {

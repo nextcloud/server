@@ -292,7 +292,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
 					$c->get(IControllerMethodReflector::class),
 					$c->get(OC\Security\Bruteforce\Throttler::class),
-					$c->get(IRequest::class)
+					$c->get(IRequest::class),
+					$c->get(LoggerInterface::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -321,7 +322,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			if ($registrationContext !== null) {
 				$appId = $this->getAppName();
 				foreach ($registrationContext->getMiddlewareRegistrations() as $middlewareRegistration) {
-					if ($middlewareRegistration->getAppId() === $appId) {
+					if ($middlewareRegistration->getAppId() === $appId
+						|| $middlewareRegistration->isGlobal()) {
 						$dispatcher->registerMiddleware($c->get($middlewareRegistration->getService()));
 					}
 				}

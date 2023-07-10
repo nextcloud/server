@@ -33,6 +33,7 @@
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IEventSource;
+use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\ILogger;
 use OC\DB\MigratorExecuteSqlEvent;
@@ -43,16 +44,18 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
+use OCP\L10N\IFactory;
 
-if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
 }
 
 require_once '../../lib/base.php';
 
-$l = \OC::$server->getL10N('core');
+/** @var \OCP\IL10N $l */
+$l = \OC::$server->get(IFactory::class)->get('core');
 
-$eventSource = \OC::$server->createEventSource();
+$eventSource = \OC::$server->get(IEventSourceFactory::class)->create();
 // need to send an initial message to force-init the event source,
 // which will then trigger its own CSRF check and produces its own CSRF error
 // message
@@ -62,12 +65,11 @@ class FeedBackHandler {
 	private int $progressStateMax = 100;
 	private int $progressStateStep = 0;
 	private string $currentStep = '';
-	private IEventSource $eventSource;
-	private IL10N $l10n;
 
-	public function __construct(IEventSource $eventSource, IL10N $l10n) {
-		$this->eventSource = $eventSource;
-		$this->l10n = $l10n;
+	public function __construct(
+		private IEventSource $eventSource,
+		private IL10N $l10n,
+	) {
 	}
 
 	public function handleRepairFeedback(Event $event): void {
@@ -100,7 +102,7 @@ class FeedBackHandler {
 if (\OCP\Util::needUpgrade()) {
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
-		$eventSource->send('failure', $l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));
+		$eventSource->send('failure', $l->t('Please use the command line updater because updating via browser is disabled in your config.php.'));
 		$eventSource->close();
 		exit();
 	}

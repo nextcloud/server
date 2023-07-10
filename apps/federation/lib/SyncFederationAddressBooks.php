@@ -82,10 +82,14 @@ class SyncFederationAddressBooks {
 			} catch (\Exception $ex) {
 				if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_ACCESS_REVOKED);
-					$this->logger->error("Server sync for $url failed because of revoked access.");
+					$this->logger->error("Server sync for $url failed because of revoked access.", [
+						'exception' => $ex,
+					]);
 				} else {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_FAILURE);
-					$this->logger->error("Server sync for $url failed.");
+					$this->logger->error("Server sync for $url failed.", [
+						'exception' => $ex,
+					]);
 				}
 				$callback($url, $ex);
 			}

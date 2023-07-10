@@ -20,8 +20,6 @@ OC.L10N.register(
     "Accept" : "Pranoje",
     "Decline" : "Hidhe poshtë",
     "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Sharing" : "Ndarje",
     "Federated file sharing" : "Shpërndarja e skedarëve të federuar",
     "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
@@ -34,12 +32,9 @@ OC.L10N.register(
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
     "HTML Code:" : "Kod HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Copy to clipboard" : "Kopjo në dërrasë ",
     "Copied!" : "U kopjua!",
-    "Copy" : "Kopjo",
-    "Not supported!" : "Nuk mbështetet!",
-    "Press ⌘-C to copy." : "Shtyp ⌘-C për të kopjuar.",
-    "Press Ctrl-C to copy." : "Shtypni Ctrl-C për të kopjuar",
-    "Open documentation" : "Hap dokumentimin"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,9 +21,9 @@
  *
  */
 
-import './app'
-import './templates'
-import './filesplugin'
-import './activitytabviewplugin'
+import './app.js'
+import './templates.js'
+import './filesplugin.js'
+import './activitytabviewplugin.js'
 
 window.OCA.Comments = OCA.Comments

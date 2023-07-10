@@ -24,7 +24,10 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC;
+
+use OCP\Util;
 
 /**
  * Helper class that covers memory info.
@@ -45,14 +48,14 @@ class MemoryInfo {
 	/**
 	 * Returns the php memory limit.
 	 *
-	 * @return int The memory limit in bytes.
+	 * @return int|float The memory limit in bytes.
 	 */
-	public function getMemoryLimit(): int {
+	public function getMemoryLimit(): int|float {
 		$iniValue = trim(ini_get('memory_limit'));
 		if ($iniValue === '-1') {
 			return -1;
-		} elseif (is_numeric($iniValue) === true) {
-			return (int)$iniValue;
+		} elseif (is_numeric($iniValue)) {
+			return Util::numericToNumber($iniValue);
 		} else {
 			return $this->memoryLimitToBytes($iniValue);
 		}
@@ -62,11 +65,15 @@ class MemoryInfo {
 	 * Converts the ini memory limit to bytes.
 	 *
 	 * @param string $memoryLimit The "memory_limit" ini value
-	 * @return int
 	 */
-	private function memoryLimitToBytes(string $memoryLimit): int {
+	private function memoryLimitToBytes(string $memoryLimit): int|float {
 		$last = strtolower(substr($memoryLimit, -1));
-		$memoryLimit = (int)substr($memoryLimit, 0, -1);
+		$number = substr($memoryLimit, 0, -1);
+		if (is_numeric($number)) {
+			$memoryLimit = Util::numericToNumber($number);
+		} else {
+			throw new \InvalidArgumentException($number.' is not a valid numeric string (in memory_limit ini directive)');
+		}
 
 		// intended fall through
 		switch ($last) {

@@ -129,6 +129,11 @@ abstract class Avatar implements IAvatar {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
+		$formats = Imagick::queryFormats();
+		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
+		if (in_array("RSVG", $formats, true)) {
+			return null;
+		}
 		try {
 			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
 			$svg = $this->getAvatarVector($size, $darkTheme);

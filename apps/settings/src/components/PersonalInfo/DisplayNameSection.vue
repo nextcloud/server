@@ -23,6 +23,7 @@
 <template>
 	<AccountPropertySection v-bind.sync="displayName"
 		:placeholder="t('settings', 'Your full name')"
+		autocomplete="username"
 		:is-editable="displayNameChangeSupported"
 		:on-validate="onValidate"
 		:on-save="onSave" />

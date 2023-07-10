@@ -24,8 +24,6 @@ OC.L10N.register(
     "Encryption app is enabled and ready" : "Šifrēšanas lietotne ir iespējota un gatava",
     "Bad Signature" : "Nederīgs paraksts",
     "Missing Signature" : "Trūkst paraksta",
-    "The share will expire on %s." : "Koplietošana beigsies %s.",
-    "Cheers!" : "Priekā!",
     "Change Password" : "Mainīt paroli",
     "Your private key password no longer matches your log-in password." : "Jūsu privātās atslēgas parole vairs nesakrīt ar jūsu pieteikšanās paroli.",
     "Set your old private key password to your current log-in password:" : "Iestatiet savu veco privātās atslēgas paroli uz pašreizējo pieteikšanās paroli:",
@@ -33,6 +31,8 @@ OC.L10N.register(
     "Current log-in password" : "Pašreizējā pieteikšanās parole",
     "Enable password recovery:" : "Iespējot paroles atjaunošanu:",
     "Enabled" : "Pievienots",
-    "Disabled" : "Atspējots"
+    "Disabled" : "Atspējots",
+    "The share will expire on %s." : "Koplietošana beigsies %s.",
+    "Cheers!" : "Priekā!"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

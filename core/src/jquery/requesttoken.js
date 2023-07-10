@@ -23,7 +23,7 @@
 
 import $ from 'jquery'
 
-import { getToken } from '../OC/requesttoken'
+import { getToken } from '../OC/requesttoken.js'
 
 $(document).on('ajaxSend', function(elm, xhr, settings) {
 	if (settings.crossDomain === false) {

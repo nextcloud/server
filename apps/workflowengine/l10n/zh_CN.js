@@ -57,9 +57,7 @@ OC.L10N.register(
     "Custom mimetype" : "自定义MIME类型",
     "Please enter a valid time span" : "请输入有效的时间范围",
     "Select a request URL" : "选择一个请求URL",
-    "Predefined URLs" : "预定义 URL",
     "Files WebDAV" : "文件 WebDAV",
-    "Others" : "其它",
     "Custom URL" : "自定义URL",
     "Select a user agent" : "选择一个用户代理",
     "Android client" : "Android 客户端",
@@ -111,9 +109,7 @@ OC.L10N.register(
     "User group membership" : "用户组成员资格",
     "is member of" : "是成员",
     "is not member of" : "不是成员",
-    "Select a tag" : "选择标签",
-    "No results" : "没有结果",
-    "%s (invisible)" : "%s（不可见）",
-    "%s (restricted)" : "%s（受限）"
+    "Predefined URLs" : "预定义 URL",
+    "Others" : "其它"
 },
 "nplurals=1; plural=0;");

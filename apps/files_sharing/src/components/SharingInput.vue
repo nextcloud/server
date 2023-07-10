@@ -24,7 +24,7 @@
 	<div class="sharing-search">
 		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
 		<NcSelect ref="select"
-			id="sharing-search-input"
+			input-id="sharing-search-input"
 			class="sharing-search__input"
 			:disabled="!canReshare"
 			:loading="loading"
@@ -34,6 +34,7 @@
 			:user-select="true"
 			:options="options"
 			v-model="value"
+			@open="handleOpen"
 			@search="asyncFind"
 			@option:selected="addShare">
 			<template #no-options="{ search }">
@@ -46,15 +47,16 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import Config from '../services/ConfigService'
-import GeneratePassword from '../utils/GeneratePassword'
-import Share from '../models/Share'
-import ShareRequests from '../mixins/ShareRequests'
-import ShareTypes from '../mixins/ShareTypes'
+import Config from '../services/ConfigService.js'
+import GeneratePassword from '../utils/GeneratePassword.js'
+import Share from '../models/Share.js'
+import ShareRequests from '../mixins/ShareRequests.js'
+import ShareTypes from '../mixins/ShareTypes.js'
 
 export default {
 	name: 'SharingInput',
@@ -153,6 +155,11 @@ export default {
 	},
 
 	methods: {
+		handleOpen() {
+			// Fix dropdown not opening when viewer is open, see https://github.com/nextcloud/viewer/pull/1319
+			emit('viewer:trapElements:changed', this.$refs.select.$el)
+		},
+
 		async asyncFind(query) {
 			// save current query to check if we display
 			// recommendations or search results
@@ -187,6 +194,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
 				this.SHARE_TYPES.SHARE_TYPE_DECK,
+				this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {
@@ -412,6 +420,11 @@ export default {
 				return {
 					icon: 'icon-deck',
 					iconTitle: t('files_sharing', 'Deck board'),
+				}
+			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
+				return {
+					icon: 'icon-sciencemesh',
+					iconTitle: t('files_sharing', 'ScienceMesh'),
 				}
 			default:
 				return {}

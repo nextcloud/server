@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Ετικέτες συνεργασίας",
     "Collaborative tagging functionality which shares tags among users." : "Λειτουργία προσθήκης ετικετών με συνεργασία που μοιράζεται ετικέτες μεταξύ χρηστών.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Λειτουργία προσθήκης ετικετών με συνεργασία που μοιράζεται ετικέτες μεταξύ χρηστών. Χρήσιμο για ομάδες.\n\t(Εάν είστε πάροχος με πολλαπλές εγκαταστάσεις, συνιστάται να απενεργοποιήσετε αυτήν την εφαρμογή καθώς οι ετικέτες μοιράζονται.)",
+    "Failed to load tags" : "Απέτυχε η φόρτωση ετικετών",
     "Tagged files" : "Αρχεία με ετικέτες",
     "Select tags to filter by" : "Επιλογή ετικετών για φιλτράρισμα με",
     "No tags found" : "Δεν βρέθηκαν ετικέτες",

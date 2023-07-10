@@ -29,9 +29,12 @@
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
+use OC\Files\Filesystem;
 use OC\Files\Node\Node;
 use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Mount\IMountPoint;
 use Test\Traits\UserTrait;
@@ -63,7 +66,7 @@ class TestViewDirectory extends \OC\Files\View {
 		return $this->canRename;
 	}
 
-	public function getRelativePath($path) {
+	public function getRelativePath($path): ?string {
 		return $path;
 	}
 }
@@ -73,7 +76,6 @@ class TestViewDirectory extends \OC\Files\View {
  * @group DB
  */
 class DirectoryTest extends \Test\TestCase {
-
 	use UserTrait;
 
 	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
@@ -92,6 +94,10 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(Node::TYPE_FOLDER);
 		$this->info->method('getName')
 			->willReturn("folder");
+		$this->info->method('getPath')
+			->willReturn("/admin/files/folder");
+		$this->info->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
 	}
 
 	private function getDir($path = '/') {
@@ -208,12 +214,21 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->view->expects($this->once())
 			->method('getDirectoryContent')
-			->with('')
 			->willReturn([$info1, $info2]);
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')
-			->willReturn('');
+			->willReturnCallback(function ($path) {
+				return str_replace('/admin/files/', '', $path);
+			});
+
+		$this->view->expects($this->any())
+			->method('getAbsolutePath')
+			->willReturnCallback(function ($path) {
+				return Filesystem::normalizePath('/admin/files' . $path);
+			});
+
+		$this->overwriteService(View::class, $this->view);
 
 		$dir = new Directory($this->view, $this->info);
 		$nodes = $dir->getChildren();
@@ -304,6 +319,10 @@ class DirectoryTest extends \Test\TestCase {
 			->method('free_space')
 			->willReturn(800);
 
+		$this->info->expects($this->any())
+			->method('getPath')
+			->willReturn('/admin/files/foo');
+
 		$this->info->expects($this->once())
 			->method('getSize')
 			->willReturn(200);
@@ -311,6 +330,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->once())
 			->method('getMountPoint')
 			->willReturn($mountPoint);
+
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->willReturn('/foo');
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
@@ -358,6 +381,10 @@ class DirectoryTest extends \Test\TestCase {
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
+
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->willReturn('/foo');
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free

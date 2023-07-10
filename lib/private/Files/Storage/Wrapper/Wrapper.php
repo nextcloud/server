@@ -98,7 +98,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource|false
 	 */
 	public function opendir($path) {
 		return $this->getWrapperStorage()->opendir($path);
@@ -148,11 +148,8 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int|bool
 	 */
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		return $this->getWrapperStorage()->filesize($path);
 	}
 
@@ -241,7 +238,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		return $this->getWrapperStorage()->file_get_contents($path);
@@ -252,7 +249,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		return $this->getWrapperStorage()->file_put_contents($path, $data);
@@ -328,7 +325,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		return $this->getWrapperStorage()->free_space($path);
@@ -361,7 +358,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getLocalFile($path) {
 		return $this->getWrapperStorage()->getLocalFile($path);
@@ -459,7 +456,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getETag($path) {
 		return $this->getWrapperStorage()->getETag($path);

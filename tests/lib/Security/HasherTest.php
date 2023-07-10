@@ -209,7 +209,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 
@@ -233,7 +233,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
 		}
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(false);
 
@@ -251,7 +251,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 

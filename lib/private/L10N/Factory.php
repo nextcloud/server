@@ -195,7 +195,7 @@ class Factory implements IFactory {
 		 *
 		 * @link https://github.com/owncloud/core/issues/21955
 		 */
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			$userId = !is_null($this->userSession->getUser()) ? $this->userSession->getUser()->getUID() :  null;
 			if (!is_null($userId)) {
 				$userLang = $this->config->getUserValue($userId, 'core', 'lang', null);
@@ -247,7 +247,7 @@ class Factory implements IFactory {
 		}
 
 		// Step 3.1: Check if Nextcloud is already installed before we try to access user info
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return 'en';
 		}
 		// Step 3.2: Check the current user (if any) for their preferred language
@@ -282,7 +282,7 @@ class Factory implements IFactory {
 			return $forceLocale;
 		}
 
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
 			$userLocale = null;
 			if (null !== $userId) {
@@ -366,7 +366,7 @@ class Factory implements IFactory {
 		}
 
 		// merge with translations from theme
-		$theme = $this->config->getSystemValue('theme');
+		$theme = $this->config->getSystemValueString('theme');
 		if (!empty($theme)) {
 			$themeDir = $this->serverRoot . '/themes/' . $theme . substr($dir, strlen($this->serverRoot));
 
@@ -452,7 +452,7 @@ class Factory implements IFactory {
 			}
 		}
 
-		return $this->config->getSystemValue('default_language', 'en');
+		return $this->config->getSystemValueString('default_language', 'en');
 	}
 
 	/**
@@ -539,12 +539,12 @@ class Factory implements IFactory {
 	 */
 	private function isSubDirectory($sub, $parent) {
 		// Check whether $sub contains no ".."
-		if (strpos($sub, '..') !== false) {
+		if (str_contains($sub, '..')) {
 			return false;
 		}
 
 		// Check whether $sub is a subdirectory of $parent
-		if (strpos($sub, $parent) === 0) {
+		if (str_starts_with($sub, $parent)) {
 			return true;
 		}
 
@@ -576,7 +576,7 @@ class Factory implements IFactory {
 		}
 
 		// merge with translations from theme
-		$theme = $this->config->getSystemValue('theme');
+		$theme = $this->config->getSystemValueString('theme');
 		if (!empty($theme)) {
 			$transFile = $this->serverRoot . '/themes/' . $theme . substr($transFile, strlen($this->serverRoot));
 			if (file_exists($transFile)) {

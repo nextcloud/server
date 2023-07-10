@@ -29,6 +29,7 @@ OC.L10N.register(
     "Update channel:" : "Update channel:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "You can always update to a newer version, but you can never downgrade to a more stable version.",
     "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
+    "No groups" : "No groups",
     "Only notifications for app updates are available." : "Only notifications for app updates are available.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "The selected update channel makes dedicated notifications for the server obsolete.",
     "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",

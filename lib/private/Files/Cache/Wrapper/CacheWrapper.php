@@ -56,6 +56,15 @@ class CacheWrapper extends Cache {
 		return $this->cache;
 	}
 
+	protected function hasEncryptionWrapper(): bool {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->hasEncryptionWrapper();
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
@@ -240,8 +249,8 @@ class CacheWrapper extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($this->getCache() instanceof Cache) {

@@ -65,7 +65,7 @@ class ShareInfoController extends ApiController {
 	 * @param ?string $dir
 	 * @return JSONResponse
 	 */
-	public function info(string $t, ?string $password = null, ?string $dir = null) {
+	public function info(string $t, ?string $password = null, ?string $dir = null, int $depth = -1): JSONResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {
@@ -96,34 +96,39 @@ class ShareInfoController extends ApiController {
 			}
 		}
 
-		return new JSONResponse($this->parseNode($node, $permissionMask));
+		return new JSONResponse($this->parseNode($node, $permissionMask, $depth));
 	}
 
-	private function parseNode(Node $node, int $permissionMask) {
+	private function parseNode(Node $node, int $permissionMask, int $depth): array {
 		if ($node instanceof File) {
 			return $this->parseFile($node, $permissionMask);
 		}
-		return $this->parseFolder($node, $permissionMask);
+		/** @var Folder $node */
+		return $this->parseFolder($node, $permissionMask, $depth);
 	}
 
-	private function parseFile(File $file, int $permissionMask) {
+	private function parseFile(File $file, int $permissionMask): array {
 		return $this->format($file, $permissionMask);
 	}
 
-	private function parseFolder(Folder $folder, int $permissionMask) {
+	private function parseFolder(Folder $folder, int $permissionMask, int $depth): array {
 		$data = $this->format($folder, $permissionMask);
+
+		if ($depth === 0) {
+			return $data;
+		}
 
 		$data['children'] = [];
 
 		$nodes = $folder->getDirectoryListing();
 		foreach ($nodes as $node) {
-			$data['children'][] = $this->parseNode($node, $permissionMask);
+			$data['children'][] = $this->parseNode($node, $permissionMask, $depth <= -1 ? -1 : $depth - 1);
 		}
 
 		return $data;
 	}
 
-	private function format(Node $node, int $permissionMask) {
+	private function format(Node $node, int $permissionMask): array {
 		$entry = [];
 
 		$entry['id'] = $node->getId();

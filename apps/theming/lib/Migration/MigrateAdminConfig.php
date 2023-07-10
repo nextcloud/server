@@ -47,11 +47,11 @@ class MigrateAdminConfig implements IRepairStep {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Failed to clean up the old admin theming images folder');
+		return $this->l10n->t('Failed to clean up the old administration theming images folder');
 	}
 
 	public function run(IOutput $output): void {
-		$output->info('Migrating admin images');
+		$output->info('Migrating administration images');
 		$this->migrateAdminImages($output);
 		$this->cleanupAdminImages($output);
 	}
@@ -59,7 +59,7 @@ class MigrateAdminConfig implements IRepairStep {
 	private function migrateAdminImages(IOutput $output): void {
 		try {
 			$images = $this->appData->getFolder('images');
-			$output->info('Migrating admin images');
+			$output->info('Migrating administration images');
 
 				// get or init the global folder if any
 			try {
@@ -84,7 +84,7 @@ class MigrateAdminConfig implements IRepairStep {
 
 			$output->finishProgress();
 		} catch(NotFoundException $e) {
-			$output->info('No admin images to migrate');
+			$output->info('No administration images to migrate');
 		}
 	}
 
@@ -95,7 +95,7 @@ class MigrateAdminConfig implements IRepairStep {
 			$images->delete();
 		} catch (NotFoundException $e) {
 		} catch (Throwable $e) {
-			$output->warning($this->l10n->t('Failed to cleanup the old admin image folder', [$e->getMessage()]));
+			$output->warning($this->l10n->t('Failed to clean up the old administration image folder', [$e->getMessage()]));
 		}
 	}
 }

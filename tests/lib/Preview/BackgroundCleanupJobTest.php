@@ -69,7 +69,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->userId = $this->getUniqueID();
-		$this->createUser($this->userId, $this->userId);
+		$user = $this->createUser($this->userId, $this->userId);
 
 		$storage = new \OC\Files\Storage\Temporary([]);
 		$this->registerMount($this->userId, $storage, '');
@@ -79,7 +79,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->loginAsUser($this->userId);
 
 		$appManager = \OC::$server->getAppManager();
-		$this->trashEnabled = $appManager->isEnabledForUser('files_trashbin', $this->userId);
+		$this->trashEnabled = $appManager->isEnabledForUser('files_trashbin', $user);
 		$appManager->disableApp('files_trashbin');
 
 		$this->connection = \OC::$server->getDatabaseConnection();

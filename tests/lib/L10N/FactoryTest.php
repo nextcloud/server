@@ -47,6 +47,12 @@ class FactoryTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->serverRoot = \OC::$SERVERROOT;
+
+		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['installed', false, true],
+			]);
 	}
 
 	/**
@@ -121,14 +127,12 @@ class FactoryTest extends TestCase {
 					true,
 				);
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getSystemValue')
 			->withConsecutive(
 				['force_language', false],
-				['installed', false],
 			)->willReturnOnConsecutiveCalls(
 				false,
-				true,
 			);
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
@@ -159,11 +163,10 @@ class FactoryTest extends TestCase {
 				['MyApp', 'es', true],
 			]);
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, false],
-				['installed', false, true],
 				['default_language', false, 'es']
 			]);
 		$user = $this->getMockBuilder(IUser::class)
@@ -195,11 +198,10 @@ class FactoryTest extends TestCase {
 				['MyApp', 'es', false],
 			]);
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, false],
-				['installed', false, true],
 				['default_language', false, 'es']
 			]);
 		$user = $this->getMockBuilder(IUser::class)
@@ -234,11 +236,10 @@ class FactoryTest extends TestCase {
 				['MyApp', 'es', false],
 			]);
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, false],
-				['installed', false, true],
 				['default_language', false, 'es']
 			]);
 		$user = $this->getMockBuilder(IUser::class)
@@ -319,7 +320,7 @@ class FactoryTest extends TestCase {
 			->willReturn($this->serverRoot . '/apps/files/l10n/');
 		$this->config
 			->expects(self::once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('theme')
 			->willReturn('abc');
 
@@ -474,9 +475,7 @@ class FactoryTest extends TestCase {
 		$this->config->expects(self::any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($var, $default) use ($defaultLang) {
-				if ($var === 'installed') {
-					return true;
-				} elseif ($var === 'default_language') {
+				if ($var === 'default_language') {
 					return $defaultLang;
 				} else {
 					return $default;
@@ -562,12 +561,11 @@ class FactoryTest extends TestCase {
 
 	public function testFindGenericLanguageByUserLanguage(): void {
 		$factory = $this->getFactory();
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(2))
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, false,],
 				['default_language', false, false,],
-				['installed', false, true],
 			]);
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects(self::once())
@@ -590,7 +588,6 @@ class FactoryTest extends TestCase {
 			->willReturnMap([
 				['force_language', false, false,],
 				['default_language', false, false,],
-				['installed', false, true],
 			]);
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects(self::once())
@@ -621,7 +618,6 @@ class FactoryTest extends TestCase {
 			->willReturnMap([
 				['force_language', false, false,],
 				['default_language', false, false,],
-				['installed', false, true],
 			]);
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects(self::once())

@@ -104,10 +104,10 @@
 </template>
 
 <script>
-import AppItem from './AppList/AppItem'
-import PrefixMixin from './PrefixMixin'
+import AppItem from './AppList/AppItem.vue'
+import PrefixMixin from './PrefixMixin.vue'
 import pLimit from 'p-limit'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppList',
@@ -196,15 +196,13 @@ export default {
 			return (this.category === 'app-bundles')
 		},
 		allBundlesEnabled() {
-			const self = this
-			return function(id) {
-				return self.bundleApps(id).filter(app => !app.active).length === 0
+			return (id) => {
+				return this.bundleApps(id).filter(app => !app.active).length === 0
 			}
 		},
 		bundleToggleText() {
-			const self = this
-			return function(id) {
-				if (self.allBundlesEnabled(id)) {
+			return (id) => {
+				if (this.allBundlesEnabled(id)) {
 					return t('settings', 'Disable all')
 				}
 				return t('settings', 'Enable all')

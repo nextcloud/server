@@ -49,6 +49,7 @@ use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -69,7 +70,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface as LegacyDispatch
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager implements IManager {
-
 	/** @var IStorage */
 	protected $storage;
 
@@ -120,6 +120,7 @@ class Manager implements IManager {
 
 	/** @var IConfig */
 	private $config;
+	private ICacheFactory $cacheFactory;
 
 	public function __construct(
 		IDBConnection $connection,
@@ -129,7 +130,8 @@ class Manager implements IManager {
 		ILogger $logger,
 		IUserSession $session,
 		IEventDispatcher $dispatcher,
-		IConfig $config
+		IConfig $config,
+		ICacheFactory $cacheFactory,
 	) {
 		$this->connection = $connection;
 		$this->container = $container;
@@ -140,6 +142,7 @@ class Manager implements IManager {
 		$this->session = $session;
 		$this->dispatcher = $dispatcher;
 		$this->config = $config;
+		$this->cacheFactory = $cacheFactory;
 	}
 
 	public function getRuleMatcher(): IRuleMatcher {
@@ -153,6 +156,12 @@ class Manager implements IManager {
 	}
 
 	public function getAllConfiguredEvents() {
+		$cache = $this->cacheFactory->createDistributed('flow');
+		$cached = $cache->get('events');
+		if ($cached !== null) {
+			return $cached;
+		}
+
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('class', 'entity')
@@ -176,6 +185,8 @@ class Manager implements IManager {
 		}
 		$result->closeCursor();
 
+		$cache->set('events', $operations, 3600);
+
 		return $operations;
 	}
 
@@ -187,6 +198,13 @@ class Manager implements IManager {
 		static $scopesByOperation = [];
 		if (isset($scopesByOperation[$operationClass])) {
 			return $scopesByOperation[$operationClass];
+		}
+
+		try {
+			/** @var IOperation $operation */
+			$operation = $this->container->query($operationClass);
+		} catch (QueryException $e) {
+			return [];
 		}
 
 		$query = $this->connection->getQueryBuilder();
@@ -203,6 +221,11 @@ class Manager implements IManager {
 		$scopesByOperation[$operationClass] = [];
 		while ($row = $result->fetch()) {
 			$scope = new ScopeContext($row['type'], $row['value']);
+
+			if (!$operation->isAvailableForScope((int) $row['type'])) {
+				continue;
+			}
+
 			$scopesByOperation[$operationClass][$scope->getHash()] = $scope;
 		}
 
@@ -232,6 +255,17 @@ class Manager implements IManager {
 
 		$this->operations[$scopeContext->getHash()] = [];
 		while ($row = $result->fetch()) {
+			try {
+				/** @var IOperation $operation */
+				$operation = $this->container->query($row['class']);
+			} catch (QueryException $e) {
+				continue;
+			}
+
+			if (!$operation->isAvailableForScope((int) $row['scope_type'])) {
+				continue;
+			}
+
 			if (!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
 				$this->operations[$scopeContext->getHash()][$row['class']] = [];
 			}
@@ -289,6 +323,8 @@ class Manager implements IManager {
 			]);
 		$query->execute();
 
+		$this->cacheFactory->createDistributed('flow')->remove('events');
+
 		return $query->getLastInsertId();
 	}
 
@@ -310,7 +346,7 @@ class Manager implements IManager {
 		string $entity,
 		array $events
 	) {
-		$this->validateOperation($class, $name, $checks, $operation, $entity, $events);
+		$this->validateOperation($class, $name, $checks, $operation, $scope, $entity, $events);
 
 		$this->connection->beginTransaction();
 
@@ -383,7 +419,7 @@ class Manager implements IManager {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$row = $this->getOperation($id);
-		$this->validateOperation($row['class'], $name, $checks, $operation, $entity, $events);
+		$this->validateOperation($row['class'], $name, $checks, $operation, $scopeContext, $entity, $events);
 
 		$checkIds = [];
 		try {
@@ -407,6 +443,7 @@ class Manager implements IManager {
 			throw $e;
 		}
 		unset($this->operations[$scopeContext->getHash()]);
+		$this->cacheFactory->createDistributed('flow')->remove('events');
 
 		return $this->getOperation($id);
 	}
@@ -443,6 +480,8 @@ class Manager implements IManager {
 		if (isset($this->operations[$scopeContext->getHash()])) {
 			unset($this->operations[$scopeContext->getHash()]);
 		}
+
+		$this->cacheFactory->createDistributed('flow')->remove('events');
 
 		return $result;
 	}
@@ -483,9 +522,12 @@ class Manager implements IManager {
 	 * @param string $name
 	 * @param array[] $checks
 	 * @param string $operation
+	 * @param ScopeContext $scope
+	 * @param string $entity
+	 * @param array $events
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateOperation($class, $name, array $checks, $operation, string $entity, array $events) {
+	public function validateOperation($class, $name, array $checks, $operation, ScopeContext $scope, string $entity, array $events) {
 		try {
 			/** @var IOperation $instance */
 			$instance = $this->container->query($class);
@@ -494,6 +536,10 @@ class Manager implements IManager {
 		}
 
 		if (!($instance instanceof IOperation)) {
+			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]));
+		}
+
+		if (!$instance->isAvailableForScope($scope->getScope())) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]));
 		}
 

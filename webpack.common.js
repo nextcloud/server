@@ -3,6 +3,9 @@ const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
+
 const modules = require('./webpack.modules.js')
 
 const formatOutputFromModules = (modules) => {
@@ -86,7 +89,16 @@ module.exports = {
 			},
 			{
 				test: /\.tsx?$/,
-				use: 'babel-loader',
+				use: [
+					'babel-loader',
+					{
+						// Fix TypeScript syntax errors in Vue
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+						},
+					},
+				],
 				exclude: BabelLoaderExcludeNodeModulesExcept([]),
 			},
 			{
@@ -131,11 +143,11 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			automaticNameDelimiter: '-',
+			minChunks: 3, // minimum number of chunks that must share the module
 			cacheGroups: {
 				vendors: {
 					// split every dependency into one bundle
 					test: /[\\/]node_modules[\\/]/,
-					enforce: true,
 					// necessary to keep this name to properly inject it
 					// see OC_Template.php
 					name: 'core-common',
@@ -147,6 +159,7 @@ module.exports = {
 
 	plugins: [
 		new VueLoaderPlugin(),
+		new NodePolyfillPlugin(),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
@@ -158,9 +171,40 @@ module.exports = {
 			// break if two separate versions of the library are used (e.g. bundled one
 			// and global one).
 			ICAL: 'ical.js',
+		}),
 
-			// https://github.com/webpack/changelog-v5/issues/10
-			Buffer: ['buffer', 'Buffer'],
+		new WorkboxPlugin.GenerateSW({
+			swDest: 'preview-service-worker.js',
+			clientsClaim: true,
+			skipWaiting: true,
+			exclude: [/.*/], // don't do pre-caching
+			inlineWorkboxRuntime: true,
+			sourcemap: false,
+
+			// Increase perfs with less logging
+			disableDevLogs: true,
+
+			// Define runtime caching rules.
+			runtimeCaching: [{
+				// Match any preview file request
+				// /apps/files_trashbin/preview?fileId=156380&a=1
+				// /core/preview?fileId=155842&a=1
+				urlPattern: /^.*\/(apps|core)(\/[a-z-_]+)?\/preview.*/i,
+
+				// Apply a strategy.
+				handler: 'CacheFirst',
+
+				options: {
+					// Use a custom cache name.
+					cacheName: 'previews',
+
+					// Only cache 10000 images.
+					expiration: {
+						maxAgeSeconds: 3600 * 24 * 7, // one week
+						maxEntries: 10000,
+					},
+				},
+			}],
 		}),
 	],
 	externals: {
@@ -172,13 +216,19 @@ module.exports = {
 		alias: {
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
+			vue$: path.resolve('./node_modules/vue'),
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
+		extensionAlias: {
+			/**
+			 * Resolve TypeScript files when using fully-specified esm import paths
+			 * https://github.com/webpack/webpack/issues/13252
+			 */
+			'.js': ['.js', '.ts'],
+		},
 		symlinks: true,
 		fallback: {
-			buffer: require.resolve('buffer'),
 			fs: false,
-			stream: require.resolve('stream-browserify'),
 		},
 	},
 }

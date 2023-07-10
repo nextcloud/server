@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Adds functionality to the request password button
 	var passwordRequestButton = document.getElementById('request-password-button-not-talk');
-	passwordRequestButton.addEventListener('click', showEmailAddressPromptForm);
+	if (passwordRequestButton) {
+		passwordRequestButton.addEventListener('click', showEmailAddressPromptForm);
+	}
 
 });

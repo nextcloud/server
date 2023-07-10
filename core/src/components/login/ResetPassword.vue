@@ -34,9 +34,7 @@
 
 			<NcNoteCard v-if="message === 'send-success'"
 				type="success">
-				{{ t('core', 'A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help.') }}
-				<br>
-				{{ t('core', 'If it is not there ask your local administrator.') }}
+				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help.') }}
 			</NcNoteCard>
 			<NcNoteCard v-else-if="message === 'send-error'"
 				type="error">

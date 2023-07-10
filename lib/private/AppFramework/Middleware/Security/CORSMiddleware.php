@@ -33,10 +33,13 @@ use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\CORS;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
+use ReflectionMethod;
 
 /**
  * This middleware sets the correct CORS headers on a response if the
@@ -81,9 +84,12 @@ class CORSMiddleware extends Middleware {
 	 * @since 6.0.0
 	 */
 	public function beforeController($controller, $methodName) {
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
-		if ($this->reflector->hasAnnotation('CORS') && !$this->reflector->hasAnnotation('PublicPage')) {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) &&
+			(!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
@@ -103,7 +109,28 @@ class CORSMiddleware extends Middleware {
 	}
 
 	/**
-	 * This is being run after a successful controllermethod call and allows
+	 * @template T
+	 *
+	 * @param ReflectionMethod $reflectionMethod
+	 * @param string $annotationName
+	 * @param class-string<T> $attributeClass
+	 * @return boolean
+	 */
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
+		if ($this->reflector->hasAnnotation($annotationName)) {
+			return true;
+		}
+
+
+		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * This is being run after a successful controller method call and allows
 	 * the manipulation of a Response object. The middleware is run in reverse order
 	 *
 	 * @param Controller $controller the controller that is being called
@@ -114,23 +141,25 @@ class CORSMiddleware extends Middleware {
 	 * @throws SecurityException
 	 */
 	public function afterController($controller, $methodName, Response $response) {
-		// only react if its a CORS request and if the request sends origin and
+		// only react if it's a CORS request and if the request sends origin and
 
-		if (isset($this->request->server['HTTP_ORIGIN']) &&
-			$this->reflector->hasAnnotation('CORS')) {
-			// allow credentials headers must not be true or CSRF is possible
-			// otherwise
-			foreach ($response->getHeaders() as $header => $value) {
-				if (strtolower($header) === 'access-control-allow-credentials' &&
-				   strtolower(trim($value)) === 'true') {
-					$msg = 'Access-Control-Allow-Credentials must not be '.
-						   'set to true in order to prevent CSRF';
-					throw new SecurityException($msg);
+		if (isset($this->request->server['HTTP_ORIGIN'])) {
+			$reflectionMethod = new ReflectionMethod($controller, $methodName);
+			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)) {
+				// allow credentials headers must not be true or CSRF is possible
+				// otherwise
+				foreach ($response->getHeaders() as $header => $value) {
+					if (strtolower($header) === 'access-control-allow-credentials' &&
+					   strtolower(trim($value)) === 'true') {
+						$msg = 'Access-Control-Allow-Credentials must not be '.
+							   'set to true in order to prevent CSRF';
+						throw new SecurityException($msg);
+					}
 				}
-			}
 
-			$origin = $this->request->server['HTTP_ORIGIN'];
-			$response->addHeader('Access-Control-Allow-Origin', $origin);
+				$origin = $this->request->server['HTTP_ORIGIN'];
+				$response->addHeader('Access-Control-Allow-Origin', $origin);
+			}
 		}
 		return $response;
 	}

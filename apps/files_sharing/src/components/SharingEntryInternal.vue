@@ -1,4 +1,3 @@
-
 <template>
 	<ul>
 		<SharingEntrySimple ref="shareEntrySimple"
@@ -22,8 +21,8 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { showSuccess } from '@nextcloud/dialogs'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import SharingEntrySimple from './SharingEntrySimple'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import SharingEntrySimple from './SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingEntryInternal',
@@ -84,7 +83,7 @@ export default {
 	methods: {
 		async copyLink() {
 			try {
-				await this.$copyText(this.internalLink)
+				await navigator.clipboard.writeText(this.internalLink)
 				showSuccess(t('files_sharing', 'Link copied'))
 				// focus and show the tooltip (note: cannot set ref on NcActionLink)
 				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()

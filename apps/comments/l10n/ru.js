@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Комментарии отсутствуют, начните обсуждение!",
     "No more messages" : "Сообщений нет",
     "Retry" : "Повторить",
+    "Failed to mark comments as read" : "Не удалось пометить комментарии как прочитанные",
     "Unable to load the comments list" : "Невозможно загрузить список комментариев",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитанный комментарий","%n непрочитанных комментариев","%n непрочитанных комментариев","%n непрочитанных комментариев"],
     "_1 new comment_::_{unread} new comments_" : ["1 новый комментарий","{unread} новых комментариев","{unread} новых комментариев","{unread} новых комментариев"],

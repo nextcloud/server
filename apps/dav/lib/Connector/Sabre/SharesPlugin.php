@@ -110,6 +110,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_ROOM,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			$shares = $this->shareManager->getSharesBy(

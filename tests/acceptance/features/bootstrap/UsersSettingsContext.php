@@ -34,7 +34,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function newUserForm() {
-		return Locator::forThe()->id("new-user")->
+		return Locator::forThe()->css('[data-test="form"]')->
 			describedAs("New user form in Users Settings");
 	}
 
@@ -42,7 +42,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function userNameFieldForNewUser() {
-		return Locator::forThe()->field("newusername")->
+		return Locator::forThe()->css('[data-test="username"]')->
 			describedAs("User name field for new user in Users Settings");
 	}
 
@@ -50,7 +50,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function displayNameFieldForNewUser() {
-		return Locator::forThe()->field("newdisplayname")->
+		return Locator::forThe()->css('[data-test="displayName"]')->
 			describedAs("Display name field for new user in Users Settings");
 	}
 
@@ -58,7 +58,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordFieldForNewUser() {
-		return Locator::forThe()->field("newuserpassword")->
+		return Locator::forThe()->css('[data-test="password"]')->
 			describedAs("Password field for new user in Users Settings");
 	}
 
@@ -74,7 +74,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createNewUserButton() {
-		return Locator::forThe()->xpath("//form[@id = 'new-user']//button[@type = 'submit']")->
+		return Locator::forThe()->css('[data-test="submit"]')->
 			describedAs("Create user button in Users Settings");
 	}
 
@@ -117,8 +117,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function optionInInputForUser($cell, $user) {
-		return Locator::forThe()->css(".multiselect__option--highlight")->
-			descendantOf(self::classCellForUser($cell, $user))->
+		return Locator::forThe()->css(".vs__dropdown-option--highlight")->
 			describedAs("Selected $cell option in $cell input for user $user in Users Settings");
 	}
 
@@ -126,7 +125,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function actionsMenuOf($user) {
-		return Locator::forThe()->css(".icon-more")->
+		return Locator::forThe()->css(".userActions .action-item:not(.action-item--single)")->
 			descendantOf(self::rowForUser($user))->
 			describedAs("Actions menu for user $user in Users Settings");
 	}
@@ -135,8 +134,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function theAction($action, $user) {
-		return Locator::forThe()->xpath("//button[normalize-space() = '$action']")->
-			descendantOf(self::rowForUser($user))->
+		return Locator::forThe()->xpath("//button[@aria-label = normalize-space('$action')]")->
 			describedAs("$action action for the user $user row in Users Settings");
 	}
 
@@ -152,7 +150,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function selectedSelectOption($cell, $user) {
-		return Locator::forThe()->css(".multiselect__single")->
+		return Locator::forThe()->css(".vs__selected .name-parts")->
 			descendantOf(self::classCellForUser($cell, $user))->
 			describedAs("The selected option of the $cell select for the user $user in Users Settings");
 	}
@@ -161,7 +159,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function editModeToggle($user) {
-		return Locator::forThe()->css(".toggleUserActions button")->
+		return Locator::forThe()->css(".userActions .action-items button:first-of-type")->
 			descendantOf(self::rowForUser($user))->
 			describedAs("The edit toggle button for the user $user in Users Settings");
 	}

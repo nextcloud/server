@@ -1,0 +1,55 @@
+name: Update 3rdparty command
+
+on:
+  issue_comment:
+    types: created
+
+permissions:
+  contents: read
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: none
+
+    # On pull requests and if the comment starts with `/update-3rdparty`
+    if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/update-3rdparty')
+
+    steps:
+      - name: Add reaction on start
+        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reaction-type: "+1"
+
+      - name: Checkout the latest code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+
+      - name: Setup git
+        run: |
+          git config --local user.email "nextcloud-command@users.noreply.github.com"
+          git config --local user.name "nextcloud-command"
+
+      - name: Pull 3rdparty
+        run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin ${{ github.event.issue.pull_request.base.ref }}; fi'
+
+      - name: Commit and push changes
+        run: |
+          git add 3rdparty
+          git commit -s -m "Update submodule 3rdparty to latest ${{ github.event.issue.pull_request.base.ref }}"
+          git push
+
+      - name: Add reaction on failure
+        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa
+        if: failure()
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reaction-type: "-1"

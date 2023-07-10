@@ -145,7 +145,7 @@ interface Node extends FileInfo {
 	 * Get the size of the file or folder in bytes
 	 *
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @since 6.0.0

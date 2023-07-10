@@ -45,20 +45,17 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use function pcntl_signal;
 
 class Repair extends Command {
-	protected IConfig $config;
-	private IRootFolder $rootFolder;
-	private LoggerInterface $logger;
 	private bool $stopSignalReceived = false;
 	private int $memoryLimit;
 	private int $memoryTreshold;
-	private ILockingProvider $lockingProvider;
 
-	public function __construct(IConfig $config, IRootFolder $rootFolder, LoggerInterface $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
-		$this->logger = $logger;
-		$this->lockingProvider = $lockingProvider;
-
+	public function __construct(
+		protected IConfig $config,
+		private IRootFolder $rootFolder,
+		private LoggerInterface $logger,
+		IniGetWrapper $phpIni,
+		private ILockingProvider $lockingProvider,
+	) {
 		$this->memoryLimit = (int)$phpIni->getBytes('memory_limit');
 		$this->memoryTreshold = $this->memoryLimit - 25 * 1024 * 1024;
 
@@ -149,7 +146,7 @@ class Repair extends Command {
 
 		$output->writeln("A total of $total preview files need to be migrated.");
 		$output->writeln("");
-		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This fill finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
+		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This will finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
 
 		if ($input->getOption('batch')) {
 			$output->writeln('Batch mode active: migration is started right away.');

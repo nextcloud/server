@@ -24,11 +24,17 @@ declare(strict_types=1);
 namespace Test\Route;
 
 use OC\Route\Router;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IConfig;
+use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class RouterTest
+ *
+ * @group RoutingWeirdness
  *
  * @package Test\Route
  */
@@ -36,7 +42,19 @@ class RouterTest extends TestCase {
 	public function testGenerateConsecutively(): void {
 		/** @var LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$router = new Router($logger);
+		$logger->method('info')
+			->willReturnCallback(
+				function (string $message, array $data) {
+					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
+				}
+			);
+		$router = new Router(
+			$logger,
+			$this->createMock(IRequest::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(IEventLogger::class),
+			$this->createMock(ContainerInterface::class),
+		);
 
 		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
 

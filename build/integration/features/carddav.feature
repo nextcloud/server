@@ -46,7 +46,7 @@ Feature: carddav
         |X-Content-Type-Options |nosniff|
         |X-Frame-Options|SAMEORIGIN|
         |X-Permitted-Cross-Domain-Policies|none|
-        |X-Robots-Tag|none|
+        |X-Robots-Tag|noindex, nofollow|
         |X-XSS-Protection|1; mode=block|
 
   Scenario: Exporting the picture of ones own contact
@@ -60,5 +60,20 @@ Feature: carddav
       |X-Content-Type-Options |nosniff|
       |X-Frame-Options|SAMEORIGIN|
       |X-Permitted-Cross-Domain-Policies|none|
-      |X-Robots-Tag|none|
+      |X-Robots-Tag|noindex, nofollow|
       |X-XSS-Protection|1; mode=block|
+
+  Scenario: Create addressbook request for non-existing addressbook of another user
+    Given user "user0" exists
+    When "user0" sends a create addressbook request to "admin/MyAddressbook2" on the endpoint "/remote.php/dav/addressbooks/"
+    Then The CardDAV HTTP status code should be "404"
+    And The CardDAV exception is "Sabre\DAV\Exception\NotFound"
+    And The CardDAV error message is "File not found: admin in 'addressbooks'"
+
+  Scenario: Create addressbook request for existing addressbook of another user
+    Given user "user0" exists
+    When "admin" creates an addressbook named "MyAddressbook2" with statuscode "201"
+    When "user0" sends a create addressbook request to "admin/MyAddressbook2" on the endpoint "/remote.php/dav/addressbooks/"
+    Then The CardDAV HTTP status code should be "404"
+    And The CardDAV exception is "Sabre\DAV\Exception\NotFound"
+    And The CardDAV error message is "File not found: admin in 'addressbooks'"

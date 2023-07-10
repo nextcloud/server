@@ -20,9 +20,7 @@
     "Check %s is invalid or does not exist" : "Pārbaude %s ir nederīga vai nepastāv",
     "Folder" : "Mape",
     "Images" : "Attēli",
-    "Predefined URLs" : "Standarta URLs",
     "Files WebDAV" : "WebDAV datnes",
-    "Others" : "Citi",
     "Android client" : "Android klients",
     "iOS client" : "iOS klients",
     "Desktop client" : "Darbvirsmas klients",
@@ -56,8 +54,7 @@
     "User group membership" : "Lietotāju grupas piederība",
     "is member of" : "ir biedrs",
     "is not member of" : "nav biedrs",
-    "No results" : "Nav rezultātu",
-    "%s (invisible)" : "%s (neredzams)",
-    "%s (restricted)" : "%s (ierobežots)"
+    "Predefined URLs" : "Standarta URLs",
+    "Others" : "Citi"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

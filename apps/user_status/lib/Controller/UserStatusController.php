@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Simon Spannagel <simonspa@kth.se>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,8 +34,10 @@ use OCA\UserStatus\Exception\InvalidMessageIdException;
 use OCA\UserStatus\Exception\InvalidStatusIconException;
 use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -42,6 +45,9 @@ use OCP\AppFramework\OCSController;
 use OCP\ILogger;
 use OCP\IRequest;
 
+/**
+ * @psalm-import-type UserStatusPrivate from ResponseDefinitions
+ */
 class UserStatusController extends OCSController {
 
 	/** @var string */
@@ -74,10 +80,14 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * Get the status of the current user
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
+	 * @throws OCSNotFoundException The user was not found
+	 *
+	 * 200: The status was found successfully
 	 */
 	public function getStatus(): DataResponse {
 		try {
@@ -90,11 +100,15 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * Update the status type of the current user
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $statusType
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * @param string $statusType The new status type
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
+	 * @throws OCSBadRequestException The status type is invalid
+	 *
+	 * 200: The status was updated successfully
 	 */
 	public function setStatus(string $statusType): DataResponse {
 		try {
@@ -109,12 +123,16 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * Set the message to a predefined message for the current user
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $messageId
-	 * @param int|null $clearAt
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * @param string $messageId ID of the predefined message
+	 * @param int|null $clearAt When the message should be cleared
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
+	 * @throws OCSBadRequestException The clearAt or message-id is invalid
+	 *
+	 * 200: The message was updated successfully
 	 */
 	public function setPredefinedMessage(string $messageId,
 										 ?int $clearAt): DataResponse {
@@ -132,13 +150,17 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * Set the message to a custom message for the current user
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string|null $statusIcon
-	 * @param string|null $message
-	 * @param int|null $clearAt
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * @param string|null $statusIcon Icon of the status
+	 * @param string|null $message Message of the status
+	 * @param int|null $clearAt When the message should be cleared
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
+	 * @throws OCSBadRequestException The clearAt or icon is invalid or the message is too long
+	 *
+	 * 200: The message was updated successfully
 	 */
 	public function setCustomMessage(?string $statusIcon,
 									 ?string $message,
@@ -165,19 +187,11 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * Clear the message of the current user
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
-	 */
-	public function clearStatus(): DataResponse {
-		$this->service->clearStatus($this->userId);
-		return new DataResponse([]);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 */
 	public function clearMessage(): DataResponse {
 		$this->service->clearMessage($this->userId);
@@ -185,8 +199,27 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * Revert the status to the previous status
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $messageId ID of the message to delete
+	 *
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate|array<empty>, array{}>
+	 *
+	 * 200: Status reverted
+	 */
+	public function revertStatus(string $messageId): DataResponse {
+		$backupStatus = $this->service->revertUserStatus($this->userId, $messageId, true);
+		if ($backupStatus) {
+			return new DataResponse($this->formatStatus($backupStatus));
+		}
+		return new DataResponse([]);
+	}
+
+	/**
 	 * @param UserStatus $status
-	 * @return array
+	 * @return UserStatusPrivate
 	 */
 	private function formatStatus(UserStatus $status): array {
 		return [

@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Onartu",
     "Decline" : "Uko egin",
     "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz, ikus %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz",
     "Sharing" : "Partekatzea",
     "Federated file sharing" : "Fitxategien partekatze federatua",
     "Provide federated file sharing across servers" : "Eskaini zerbitzarien arteko federatutako partekatzea",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud bidez",
     "HTML Code:" : "HTML kodea:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz, ikus {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz",
     "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
     "Copy to clipboard" : "Kopiatu arbelera",
     "Clipboard is not available" : "Arbela ez dago erabilgarri",
     "Copied!" : "Kopiatuta!",
-    "Copy" : "Kopiatu",
-    "Not supported!" : "Euskarririk ez!",
-    "Press ⌘-C to copy." : "Sakatu ⌘-C kopiatzeko.",
-    "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "\"%3$s\" jaso duzu urruneko partekatze gisa %4$s(r)engandik (%1$s) (%5$s(%2$s) bidez) ",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "\"%3$s\" jaso duzu urruneko partekatze gisa %4$s(%1$s)(r)engandik",
-    "Open documentation" : "Ireki dokumentazioa"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz, ikus %s"
 },
 "nplurals=2; plural=(n != 1);");

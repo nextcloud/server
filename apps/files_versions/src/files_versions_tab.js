@@ -22,7 +22,7 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import VersionTab from './views/VersionTab.vue'
 import VTooltip from 'v-tooltip'
-// eslint-disable-next-line node/no-missing-import, import/no-unresolved
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
 
 Vue.prototype.t = t
@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 		id: 'version_vue',
-		name: t('files_versions', 'Version'),
+		name: t('files_versions', 'Versions'),
 		iconSvg: BackupRestore,
 
 		async mount(el, fileInfo, context) {
@@ -58,6 +58,9 @@ window.addEventListener('DOMContentLoaded', function() {
 		},
 		update(fileInfo) {
 			TabInstance.update(fileInfo)
+		},
+		setIsActive(isActive) {
+			TabInstance.setIsActive(isActive)
 		},
 		destroy() {
 			TabInstance.$destroy()

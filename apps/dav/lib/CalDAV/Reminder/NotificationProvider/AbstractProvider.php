@@ -82,13 +82,13 @@ abstract class AbstractProvider implements INotificationProvider {
 	 * Send notification
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
 	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @return void
 	 */
 	abstract public function send(VEvent $vevent,
-						   string $calendarDisplayName,
+						   ?string $calendarDisplayName,
 						   array $principalEmailAddresses,
 						   array $users = []): void;
 
@@ -184,5 +184,9 @@ abstract class AbstractProvider implements INotificationProvider {
 		}
 
 		return clone $vevent->DTSTART;
+	}
+
+	protected function getCalendarDisplayNameFallback(string $lang): string {
+		return $this->getL10NForLang($lang)->t('Untitled calendar');
 	}
 }

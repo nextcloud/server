@@ -58,11 +58,12 @@ class LegacyTrashBackend implements ITrashBackend {
 			if (!$originalLocation) {
 				$originalLocation = $file->getName();
 			}
+			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 			return new TrashItem(
 				$this,
 				$originalLocation,
 				$file->getMTime(),
-				$parentTrashPath . '/' . $file->getName() . ($isRoot ? '.d' . $file->getMtime() : ''),
+				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
 				$file,
 				$user
 			);

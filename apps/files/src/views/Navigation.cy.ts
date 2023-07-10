@@ -2,27 +2,33 @@ import * as InitialState from '@nextcloud/initial-state'
 import * as L10n from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
+import { createTestingPinia } from '@pinia/testing'
 
 import NavigationService from '../services/Navigation'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
+import { useViewConfigStore } from '../store/viewConfig'
 
 describe('Navigation renders', () => {
-	const Navigation = new NavigationService()
+	const Navigation = new NavigationService() as NavigationService
 
 	before(() => {
 		cy.stub(InitialState, 'loadState')
 			.returns({
-				used: 1024 * 1024 * 1024,
+				used: 1000 * 1000 * 1000,
 				quota: -1,
 			})
-
 	})
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
@@ -33,13 +39,13 @@ describe('Navigation renders', () => {
 })
 
 describe('Navigation API', () => {
-	const Navigation = new NavigationService()
+	const Navigation = new NavigationService() as NavigationService
 
 	it('Check API entries rendering', () => {
 		Navigation.register({
 			id: 'files',
 			name: 'Files',
-			getFiles: () => [],
+			getContents: () => Promise.resolve(),
 			icon: FolderSvg,
 			order: 1,
 		})
@@ -47,6 +53,11 @@ describe('Navigation API', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 			router,
 		})
@@ -61,7 +72,7 @@ describe('Navigation API', () => {
 		Navigation.register({
 			id: 'sharing',
 			name: 'Sharing',
-			getFiles: () => [],
+			getContents: () => Promise.resolve(),
 			icon: ShareSvg,
 			order: 2,
 		})
@@ -69,6 +80,11 @@ describe('Navigation API', () => {
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 			router,
 		})
@@ -83,7 +99,7 @@ describe('Navigation API', () => {
 		Navigation.register({
 			id: 'sharingin',
 			name: 'Shared with me',
-			getFiles: () => [],
+			getContents: () => Promise.resolve(),
 			parent: 'sharing',
 			icon: ShareSvg,
 			order: 1,
@@ -93,26 +109,36 @@ describe('Navigation API', () => {
 			propsData: {
 				Navigation,
 			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
+			},
 			router,
 		})
+
+		cy.wrap(useViewConfigStore()).as('viewConfigStore')
 
 		cy.get('[data-cy-files-navigation]').should('be.visible')
 		cy.get('[data-cy-files-navigation-item]').should('have.length', 3)
 
-		// Intercept collapse preference request
-		cy.intercept('POST', '*/apps/files/api/v1/toggleShowFolder/*', {
-			statusCode: 200,
-		  }).as('toggleShowFolder')
-
 		// Toggle the sharing entry children
 		cy.get('[data-cy-files-navigation-item="sharing"] button.icon-collapse').should('exist')
 		cy.get('[data-cy-files-navigation-item="sharing"] button.icon-collapse').click({ force: true })
-		cy.wait('@toggleShowFolder')
+
+		// Expect store update to be called
+		cy.get('@viewConfigStore').its('update').should('have.been.calledWith', 'sharing', 'expanded', true)
 
 		// Validate children
 		cy.get('[data-cy-files-navigation-item="sharingin"]').should('be.visible')
 		cy.get('[data-cy-files-navigation-item="sharingin"]').should('contain.text', 'Shared with me')
 
+		// Toggle the sharing entry children 🇦again
+		cy.get('[data-cy-files-navigation-item="sharing"] button.icon-collapse').click({ force: true })
+		cy.get('[data-cy-files-navigation-item="sharingin"]').should('not.be.visible')
+
+		// Expect store update to be called
+		cy.get('@viewConfigStore').its('update').should('have.been.calledWith', 'sharing', 'expanded', false)
 	})
 
 	it('Throws when adding a duplicate entry', () => {
@@ -120,7 +146,7 @@ describe('Navigation API', () => {
 			Navigation.register({
 				id: 'files',
 				name: 'Files',
-				getFiles: () => [],
+				getContents: () => Promise.resolve(),
 				icon: FolderSvg,
 				order: 1,
 			})
@@ -135,7 +161,7 @@ describe('Quota rendering', () => {
 		// TODO: remove when @nextcloud/l10n 2.0 is released
 		// https://github.com/nextcloud/nextcloud-l10n/pull/542
 		cy.stub(L10n, 'translate', (app, text, vars = {}, number) => {
-			cy.log({app, text, vars, number})
+			cy.log({ app, text, vars, number })
 			return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
 				return vars[key]
 			})
@@ -151,6 +177,11 @@ describe('Quota rendering', () => {
 			propsData: {
 				Navigation,
 			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
+			},
 		})
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('not.exist')
@@ -160,13 +191,18 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 1024 * 1024 * 1024,
+				used: 1000 * 1000 * 1000,
 				quota: -1,
 			})
 
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
@@ -179,14 +215,19 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 1024 * 1024 * 1024,
-				quota: 5 * 1024 * 1024 * 1024,
+				used: 1000 * 1000 * 1000,
+				quota: 5 * 1000 * 1000 * 1000,
 				relative: 20, // percent
 			})
 
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 
@@ -200,14 +241,19 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 5 * 1024 * 1024 * 1024,
-				quota: 1024 * 1024 * 1024,
+				used: 5 * 1000 * 1000 * 1000,
+				quota: 1000 * 1000 * 1000,
 				relative: 500, // percent
 			})
 
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
+			},
+			global: {
+				plugins: [createTestingPinia({
+					createSpy: cy.spy,
+				})],
 			},
 		})
 

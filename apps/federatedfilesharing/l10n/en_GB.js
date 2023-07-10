@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Accept",
     "Decline" : "Decline",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Share with me through my #Nextcloud Federated Cloud ID, see %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Sharing" : "Sharing",
     "Federated file sharing" : "Federated file sharing",
     "Provide federated file sharing across servers" : "Provide federated file sharing across servers",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Share with me through my #Nextcloud Federated Cloud ID, see {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
     "Copy to clipboard" : "Copy to clipboard",
     "Clipboard is not available" : "Clipboard is not available",
     "Copied!" : "Copied!",
-    "Copy" : "Copy",
-    "Not supported!" : "Not supported!",
-    "Press ⌘-C to copy." : "Press ⌘-C to copy.",
-    "Press Ctrl-C to copy." : "Press Ctrl-C to copy.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "You received \"%3$s\" as a remote share from %4$s (%1$s)",
-    "Open documentation" : "Open documentation"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Share with me through my #Nextcloud Federated Cloud ID, see %s"
 },
 "nplurals=2; plural=(n != 1);");

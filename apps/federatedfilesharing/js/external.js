@@ -65,8 +65,8 @@
 		var $buttons = $dialog.find('button');
 		// hack the buttons
 		$dialog.find('.ui-icon').remove();
-		$buttons.eq(0).text(t('core', 'Cancel'));
-		$buttons.eq(1).text(t('files_sharing', 'Add remote share'));
+		$buttons.eq(1).text(t('core', 'Cancel'));
+		$buttons.eq(2).text(t('files_sharing', 'Add remote share'));
 	};
 
 	OCA.Sharing.ExternalShareDialogPlugin = {

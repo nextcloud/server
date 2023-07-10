@@ -89,12 +89,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 <script>
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import Twitter from 'vue-material-design-icons/Twitter'
-import Facebook from 'vue-material-design-icons/Facebook'
-import Web from 'vue-material-design-icons/Web'
-import Clipboard from 'vue-material-design-icons/Clipboard'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import Twitter from 'vue-material-design-icons/Twitter.vue'
+import Facebook from 'vue-material-design-icons/Facebook.vue'
+import Web from 'vue-material-design-icons/Web.vue'
+import Clipboard from 'vue-material-design-icons/Clipboard.vue'
 
 export default {
 	name: 'PersonalSettings',

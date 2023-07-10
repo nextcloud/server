@@ -12,6 +12,8 @@ OC.L10N.register(
     "View profile" : "Ikusi profila",
     "Clear status after" : "Garbitu egoera honen ondoren",
     "What is your status?" : "Zein da zure egoera?",
+    "Previously set" : "Lehendik ezarrita",
+    "Reset status" : "Berrezarri egoera",
     "Set status" : "Ezarri egoera",
     "Online status" : "Lineako egoera",
     "Status message" : "Egoera-mezua",
@@ -34,7 +36,6 @@ OC.L10N.register(
     "1 hour" : "Ordu 1",
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
-    "Appear offline" : "Lineaz kanpo agertu",
-    "Clear status message after" : "Garbitu egoera mezua ondoren"
+    "Appear offline" : "Lineaz kanpo agertu"
 },
 "nplurals=2; plural=(n != 1);");

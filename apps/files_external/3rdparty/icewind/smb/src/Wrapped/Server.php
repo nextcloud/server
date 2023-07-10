@@ -66,7 +66,7 @@ class Server extends AbstractServer {
 			throw new ConnectionException((string)$connection->readLine());
 		}
 
-		$parser = new Parser($this->timezoneProvider->get($this->host));
+		$parser = new Parser('UTC');
 
 		$output = $connection->readAll();
 		if (isset($output[0])) {

@@ -160,13 +160,8 @@ class AvatarManager implements IAvatarManager {
 	public function clearCachedAvatars() {
 		$users = $this->config->getUsersForUserValue('avatar', 'generated', 'true');
 		foreach ($users as $userId) {
-			try {
-				$folder = $this->appData->getFolder($userId);
-				$folder->delete();
-			} catch (NotFoundException $e) {
-				$this->logger->debug("No cache for the user $userId. Ignoring...");
-			}
-			$this->config->setUserValue($userId, 'avatar', 'generated', 'false');
+			// This also bumps the avatar version leading to cache invalidation in browsers
+			$this->getAvatar($userId)->remove();
 		}
 	}
 

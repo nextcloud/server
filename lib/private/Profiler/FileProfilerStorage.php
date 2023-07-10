@@ -66,7 +66,7 @@ class FileProfilerStorage {
 			[$csvToken, $csvMethod, $csvUrl, $csvTime, $csvParent, $csvStatusCode] = $values;
 			$csvTime = (int) $csvTime;
 
-			if ($url && false === strpos($csvUrl, $url) || $method && false === strpos($csvMethod, $method) || $statusCode && false === strpos($csvStatusCode, $statusCode)) {
+			if ($url && !str_contains($csvUrl, $url) || $method && !str_contains($csvMethod, $method) || $statusCode && !str_contains($csvStatusCode, $statusCode)) {
 				continue;
 			}
 
@@ -99,7 +99,7 @@ class FileProfilerStorage {
 		$iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
 
 		foreach ($iterator as $file) {
-			$file = $file->getPathInfo();
+			$file = (string)$file->getPathInfo();
 			if (is_file($file)) {
 				unlink($file);
 			} else {

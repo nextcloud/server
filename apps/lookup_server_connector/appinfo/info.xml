@@ -5,7 +5,7 @@
 	<name>Lookup Server Connector</name>
 	<summary>Sync public user information with the lookup server</summary>
 	<description>Sync public user information with the lookup server</description>
-	<version>1.14.0</version>
+	<version>1.16.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>LookupServerConnector</namespace>
@@ -16,6 +16,6 @@
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="26" max-version="26"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 </info>

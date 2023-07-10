@@ -77,23 +77,25 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_STR_ARRAY)
 			->setParameter('objecttype', $objectType)
 			->addOrderBy('objectid', 'ASC')
 			->addOrderBy('systemtagid', 'ASC');
-
+		$chunks = array_chunk($objIds, 900, false);
 		$mapping = [];
 		foreach ($objIds as $objId) {
 			$mapping[$objId] = [];
 		}
+		foreach ($chunks as $chunk) {
+			$query->setParameter('objectids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				$objectId = $row['objectid'];
+				$mapping[$objectId][] = $row['systemtagid'];
+			}
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
-			$objectId = $row['objectid'];
-			$mapping[$objectId][] = $row['systemtagid'];
+			$result->closeCursor();
 		}
 
-		$result->closeCursor();
 
 		return $mapping;
 	}
@@ -133,6 +135,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		while ($row = $result->fetch()) {
 			$objectIds[] = $row['objectid'];
 		}
+		$result->closeCursor();
 
 		return $objectIds;
 	}

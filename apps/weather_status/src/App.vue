@@ -24,48 +24,58 @@
 		<div id="weather-status-menu-item">
 			<NcActions class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
+				:aria-hidden="true"
+				:aria-label="currentWeatherMessage"
 				:menu-title="currentWeatherMessage">
 				<NcActionText v-if="gotWeather"
+					:aria-hidden="true"
 					:icon="futureWeatherIcon">
 					{{ forecastMessage }}
 				</NcActionText>
 				<NcActionLink v-if="gotWeather"
 					icon="icon-address"
 					target="_blank"
+					:aria-hidden="true"
 					:href="weatherLinkTarget"
 					:close-after-click="true">
 					{{ locationText }}
 				</NcActionLink>
 				<NcActionButton v-if="gotWeather"
-					:icon="addRemoveFavoriteIcon"
+					:aria-hidden="true"
 					@click="onAddRemoveFavoriteClick">
+					<template #icon>
+						<component :is="addRemoveFavoriteIcon" :size="20" class="favorite-color" />
+					</template>
 					{{ addRemoveFavoriteText }}
 				</NcActionButton>
 				<NcActionSeparator v-if="address && !errorMessage" />
 				<NcActionButton icon="icon-crosshair"
 					:close-after-click="true"
+					:aria-hidden="true"
 					@click="onBrowserLocationClick">
 					{{ t('weather_status', 'Detect location') }}
 				</NcActionButton>
 				<NcActionInput ref="addressInput"
 					:disabled="false"
 					icon="icon-rename"
+					:aria-hidden="true"
 					type="text"
 					value=""
 					@submit="onAddressSubmit">
 					{{ t('weather_status', 'Set custom address') }}
 				</NcActionInput>
-				<NcActionButton v-show="favorites.length > 0"
-					:icon="toggleFavoritesIcon"
-					@click="showFavorites = !showFavorites">
-					{{ t('weather_status', 'Favorites') }}
-				</NcActionButton>
-				<NcActionButton v-for="f in displayedFavorites"
-					:key="f"
-					icon="icon-starred"
-					@click="onFavoriteClick($event, f)">
-					{{ f }}
-				</NcActionButton>
+				<template v-if="favorites.length > 0">
+					<NcActionCaption :title="t('weather_status', 'Favorites')" />
+					<NcActionButton v-for="favorite in favorites"
+						:key="favorite"
+						:aria-hidden="true"
+						@click="onFavoriteClick($event, favorite)">
+						<template #icon>
+							<IconStar :size="20" :class="{'favorite-color': address === favorite}" />
+						</template>
+						{{ favorite }}
+					</NcActionButton>
+				</template>
 			</NcActions>
 		</div>
 	</li>
@@ -75,13 +85,16 @@
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
-import * as network from './services/weatherStatusService'
+import IconStar from 'vue-material-design-icons/Star.vue'
+import IconStarOutline from 'vue-material-design-icons/StarOutline.vue'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import * as network from './services/weatherStatusService.js'
 
 const MODE_BROWSER_LOCATION = 1
 const MODE_MANUAL_LOCATION = 2
@@ -193,8 +206,10 @@ const weatherOptions = {
 export default {
 	name: 'App',
 	components: {
+		IconStar,
 		NcActions,
 		NcActionButton,
+		NcActionCaption,
 		NcActionInput,
 		NcActionLink,
 		NcActionSeparator,
@@ -220,7 +235,6 @@ export default {
 			forecasts: [],
 			loop: null,
 			favorites: [],
-			showFavorites: false,
 		}
 	},
 	computed: {
@@ -280,8 +294,8 @@ export default {
 		},
 		addRemoveFavoriteIcon() {
 			return this.currentAddressIsFavorite
-				? 'icon-starred'
-				: 'icon-star'
+				? IconStar
+				: IconStarOutline
 		},
 		addRemoveFavoriteText() {
 			return this.currentAddressIsFavorite
@@ -292,16 +306,6 @@ export default {
 			return this.favorites.find((f) => {
 				return f === this.address
 			})
-		},
-		toggleFavoritesIcon() {
-			return this.showFavorites
-				? 'icon-triangle-s'
-				: 'icon-triangle-e'
-		},
-		displayedFavorites() {
-			return this.showFavorites
-				? this.favorites
-				: []
 		},
 	},
 	mounted() {
@@ -591,6 +595,11 @@ export default {
     -webkit-mask-position: center;
     min-width: 44px !important;
     min-height: 44px !important;
+}
+
+// Set color to primary element for current / active favorite address
+.favorite-color {
+	color: #a08b00;
 }
 
 li:not(.inline) .weather-status-menu-item {

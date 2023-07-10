@@ -56,8 +56,10 @@ OC.L10N.register(
     "Domain" : "โดเมน",
     "Rackspace" : "Rackspace",
     "API key" : "รหัส API",
+    "Log-in credentials, save in database" : "ข้อมูลประจำตัวสำหรับเข้าสู่ระบบ บันทึกในฐานข้อมูล",
     "Username and password" : "ชื่อผู้ใช้และรหัสผ่าน",
     "Log-in credentials, save in session" : "ข้อมูลประจำตัวสำหรับเข้าสู่ระบบ, บันทึกในเซสชัน",
+    "User entered, store in database" : "ใส่โดยผู้ใช้ จัดเก็บในฐานข้อมูล",
     "RSA public key" : "คีย์สาธารณะ RSA",
     "Public key" : "คีย์สาธารณะ",
     "Amazon S3" : "Amazon S3",
@@ -95,7 +97,6 @@ OC.L10N.register(
     "Available for" : "ใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "การตั้งค่าขั้นสูง",
-    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
-    "All users. Type to select user or group." : "ผู้ใช้ทุกคน พิมพ์เพื่อเลือกผู้ใช้หรือกลุ่ม"
+    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก"
 },
 "nplurals=1; plural=0;");

@@ -35,8 +35,8 @@ class HomeCache extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($path !== '/' and $path !== '' and $path !== 'files' and $path !== 'files_trashbin' and $path !== 'files_versions') {
@@ -44,46 +44,18 @@ class HomeCache extends Cache {
 		} elseif ($path === '' or $path === '/') {
 			// since the size of / isn't used (the size of /files is used instead) there is no use in calculating it
 			return 0;
+		} else {
+			return $this->calculateFolderSizeInner($path, $entry, true);
 		}
-
-		$totalSize = 0;
-		if (is_null($entry)) {
-			$entry = $this->get($path);
-		}
-		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
-			$id = $entry['fileid'];
-
-			$query = $this->connection->getQueryBuilder();
-			$query->selectAlias($query->func()->sum('size'), 'f1')
-				->from('filecache')
-				->where($query->expr()->eq('parent', $query->createNamedParameter($id)))
-				->andWhere($query->expr()->eq('storage', $query->createNamedParameter($this->getNumericStorageId())))
-				->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
-
-			$result = $query->execute();
-			$row = $result->fetch();
-			$result->closeCursor();
-
-			if ($row) {
-				[$sum] = array_values($row);
-				$totalSize = 0 + $sum;
-				$entry['size'] += 0;
-				if ($entry['size'] !== $totalSize) {
-					$this->update($id, ['size' => $totalSize]);
-				}
-			}
-			$result->closeCursor();
-		}
-		return $totalSize;
 	}
 
 	/**
-	 * @param string $path
+	 * @param string $file
 	 * @return ICacheEntry
 	 */
-	public function get($path) {
-		$data = parent::get($path);
-		if ($path === '' or $path === '/') {
+	public function get($file) {
+		$data = parent::get($file);
+		if ($file === '' or $file === '/') {
 			// only the size of the "files" dir counts
 			$filesData = parent::get('files');
 

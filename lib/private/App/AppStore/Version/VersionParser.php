@@ -64,7 +64,7 @@ class VersionParser {
 				if (!$this->isValidVersionString($firstVersionNumber)) {
 					break;
 				}
-				if (strpos($firstVersion, '>') === 0) {
+				if (str_starts_with($firstVersion, '>')) {
 					return new Version($firstVersionNumber, '');
 				}
 				return new Version('', $firstVersionNumber);

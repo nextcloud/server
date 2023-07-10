@@ -27,7 +27,7 @@ import Vue from 'vue'
 
 import AdminTwoFactor from './components/AdminTwoFactor.vue'
 import Encryption from './components/Encryption.vue'
-import store from './store/admin-security'
+import store from './store/admin-security.js'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)

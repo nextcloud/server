@@ -24,21 +24,20 @@
  */
 
 /* eslint-disable @nextcloud/no-deprecations */
-import { initCore } from './init'
+import { initCore } from './init.js'
 
 import _ from 'underscore'
 import $ from 'jquery'
-import 'jquery-migrate/dist/jquery-migrate.min'
+import 'jquery-migrate/dist/jquery-migrate.min.js'
 // TODO: switch to `jquery-ui` package and import widgets and effects individually
 //       `jquery-ui-dist` is used as a workaround for the issue of missing effects
-import 'jquery-ui-dist/jquery-ui'
+import 'jquery-ui-dist/jquery-ui.js'
 import 'jquery-ui-dist/jquery-ui.css'
 import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
 import autosize from 'autosize'
 import Backbone from 'backbone'
-import 'bootstrap/js/dist/tooltip'
-import './Polyfill/tooltip'
+import './Polyfill/tooltip.js'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
@@ -46,18 +45,18 @@ import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
 import 'select2/select2.css'
-import 'snap.js/dist/snap'
+import 'snap.js/dist/snap.js'
 import 'strengthify'
 import 'strengthify/strengthify.css'
 
-import OC from './OC/index'
-import OCP from './OCP/index'
-import OCA from './OCA/index'
-import { getToken as getRequestToken } from './OC/requesttoken'
+import OC from './OC/index.js'
+import OCP from './OCP/index.js'
+import OCA from './OCA/index.js'
+import { getToken as getRequestToken } from './OC/requesttoken.js'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
-		console.warn.apply(console, arguments)
+		OC.debug && console.warn.apply(console, arguments)
 	}
 }
 

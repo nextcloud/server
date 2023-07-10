@@ -24,20 +24,27 @@
  */
 namespace OC\Route;
 
+use OCP\Diagnostics\IEventLogger;
+use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class CachingRouter extends Router {
-	/**
-	 * @var \OCP\ICache
-	 */
-	protected $cache;
+	protected ICache $cache;
 
-	/**
-	 * @param \OCP\ICache $cache
-	 */
-	public function __construct($cache, LoggerInterface $logger) {
-		$this->cache = $cache;
-		parent::__construct($logger);
+	public function __construct(
+		ICacheFactory $cacheFactory,
+		LoggerInterface $logger,
+		IRequest $request,
+		IConfig $config,
+		IEventLogger $eventLogger,
+		ContainerInterface $container
+	) {
+		$this->cache = $cacheFactory->createLocal('route');
+		parent::__construct($logger, $request, $config, $eventLogger, $container);
 	}
 
 	/**

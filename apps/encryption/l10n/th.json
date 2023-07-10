@@ -22,8 +22,6 @@
     "Bad Signature" : "ลายเซ็นไม่ดี",
     "Missing Signature" : "ลายเซ็นขาดหายไป",
     "one-time password for server-side-encryption" : "รหัสผ่านใช้ครั้งเดียว สำหรับการเข้ารหัสฝั่งเซิร์ฟเวอร์",
-    "The share will expire on %s." : "การแชร์จะหมดอายุในวันที่ %s",
-    "Cheers!" : "ไชโย!",
     "Encrypt the home storage" : "การเข้ารหัสพื้นที่จัดเก็บโฮม",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "การเปิดใช้งานตัวเลือกนี้จะเข้ารหัสไฟล์ทั้งหมดที่เก็บไว้ในพื้นที่จัดเก็บข้อมูลหลัก มิฉะนั้นจะเข้ารหัสเฉพาะไฟล์บนพื้นที่จัดเก็บข้อมูลภายนอก",
     "Enable recovery key" : "เปิดใช้งานคีย์การกู้คืน",
@@ -45,6 +43,8 @@
     "Enable password recovery:" : "เปิดใช้งานการกู้คืนด้วยรหัสผ่าน:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณสามารถเข้าถึงไฟล์ของคุณที่เข้ารหัสไว้ ในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดใช้งาน",
-    "Disabled" : "ปิดใช้งาน"
+    "Disabled" : "ปิดใช้งาน",
+    "The share will expire on %s." : "การแชร์จะหมดอายุในวันที่ %s",
+    "Cheers!" : "ไชโย!"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

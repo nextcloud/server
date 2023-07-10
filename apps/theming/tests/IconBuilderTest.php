@@ -103,7 +103,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -132,7 +132,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -165,7 +165,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);

@@ -54,7 +54,7 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function readObject($urn) {
-		return SeekableHttpStream::open(function ($range) use ($urn) {
+		$fh = SeekableHttpStream::open(function ($range) use ($urn) {
 			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
@@ -88,6 +88,10 @@ trait S3ObjectTrait {
 			$context = stream_context_create($opts);
 			return fopen($request->getUri(), 'r', false, $context);
 		});
+		if (!$fh) {
+			throw new \Exception("Failed to read object $urn");
+		}
+		return $fh;
 	}
 
 

@@ -32,6 +32,7 @@ OC.L10N.register(
     "Delete" : "Kustuta",
     "You can upload into this folder" : "Sa saad sellesse kausta faile üles laadida",
     "Terms of service" : "Kasutustingimused",
+    "Show list view" : "Näita loendivaadet",
     "No compatible server found at {remote}" : "Aadressil {remote} ei leitud ühilduvat serverit",
     "Invalid server URL" : "Vigane serveri URL",
     "Failed to add the public link to your Nextcloud" : "Avaliku lingi lisamine sinu Nextcloudi ebaõnnestus",
@@ -144,7 +145,9 @@ OC.L10N.register(
     "Expiration date (enforced)" : "Aegumise kuupäev (jõustatud)",
     "Cancel" : "Loobu",
     "Password protect" : "Parooliga kaitsmine",
+    "Add another link" : "Lisa veel üks link",
     "Share link" : "Jaga link",
+    "No recommendations. Start typing." : "Soovitusi pole. Alusta trükkimist.",
     "Resharing is not allowed" : "Edasijagamine pole lubatud",
     "Searching …" : "Otsin ...",
     "Guest" : "Külaline",
@@ -173,9 +176,6 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
-    "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
-    "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme",
-    "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
-    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
+    "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme"
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,15 +45,6 @@ class LookupServerSendCheck implements IRepairStep {
 		return 'Add background job to set the lookup server share state for users';
 	}
 
-	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
-
-		// was added to 22.0.0.3
-		return (version_compare($versionFromBeforeUpdate, '22.0.0.3', '<') && version_compare($versionFromBeforeUpdate, '22.0.0.0', '>='))
-			||
-			(version_compare($versionFromBeforeUpdate, '21.0.1.2', '<') && version_compare($versionFromBeforeUpdate, '21.0.0.0', '>'));
-	}
-
 	public function run(IOutput $output): void {
 		$this->jobList->add(LookupServerSendCheckBackgroundJob::class);
 	}

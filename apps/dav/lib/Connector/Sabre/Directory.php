@@ -35,10 +35,10 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
 use OC\Metadata\FileMetadata;
-use OC\Metadata\MetadataGroup;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\Upload\FutureFile;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
@@ -57,7 +57,6 @@ use Sabre\DAV\INode;
 use OCP\Share\IManager as IShareManager;
 
 class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
-
 	/**
 	 * Cached directory content
 	 * @var \OCP\Files\FileInfo[]
@@ -116,7 +115,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			// for chunked upload also updating a existing file is a "createFile"
 			// because we create all the chunks before re-assemble them to the existing file.
 			if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-
 				// exit if we can't create a new file and we don't updatable existing file
 				$chunkInfo = \OC_FileChunking::decodeName($name);
 				if (!$this->fileView->isCreatable($this->path) &&
@@ -328,8 +326,14 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		if ($this->quotaInfo) {
 			return $this->quotaInfo;
 		}
+		$relativePath = $this->fileView->getRelativePath($this->info->getPath());
+		if ($relativePath === null) {
+			$logger->warning("error while getting quota as the relative path cannot be found");
+			return [0, 0];
+		}
+
 		try {
-			$storageInfo = \OC_Helper::getStorageInfo($this->info->getPath(), $this->info, false);
+			$storageInfo = \OC_Helper::getStorageInfo($relativePath, $this->info, false);
 			if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				$free = \OCP\Files\FileInfo::SPACE_UNLIMITED;
 			} else {

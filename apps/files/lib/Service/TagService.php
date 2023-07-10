@@ -42,25 +42,18 @@ class TagService {
 	private $userSession;
 	/** @var IManager */
 	private $activityManager;
-	/** @var ITags */
+	/** @var ITags|null */
 	private $tagger;
-	/** @var Folder */
+	/** @var Folder|null */
 	private $homeFolder;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	/**
-	 * @param IUserSession $userSession
-	 * @param IManager $activityManager
-	 * @param ITags $tagger
-	 * @param Folder $homeFolder
-	 * @param EventDispatcherInterface $dispatcher
-	 */
 	public function __construct(
 		IUserSession $userSession,
 		IManager $activityManager,
-		ITags $tagger,
-		Folder $homeFolder,
+		?ITags $tagger,
+		?Folder $homeFolder,
 		EventDispatcherInterface $dispatcher
 	) {
 		$this->userSession = $userSession;
@@ -81,6 +74,13 @@ class TagService {
 	 * @throws \OCP\Files\NotFoundException if the file does not exist
 	 */
 	public function updateFileTags($path, $tags) {
+		if ($this->tagger === null) {
+			throw new \RuntimeException('No tagger set');
+		}
+		if ($this->homeFolder === null) {
+			throw new \RuntimeException('No homeFolder set');
+		}
+
 		$fileId = $this->homeFolder->get($path)->getId();
 
 		$currentTags = $this->tagger->getTagsForObjects([$fileId]);

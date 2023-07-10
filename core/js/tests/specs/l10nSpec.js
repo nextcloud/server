@@ -110,8 +110,11 @@ describe('OC.L10N tests', function() {
 		});
 	});
 	describe('async loading of translations', function() {
+		afterEach(() => {
+			document.documentElement.removeAttribute('data-locale')
+		})
 		it('loads bundle for given app and calls callback', function(done) {
-			var localeStub = sinon.stub(OC, 'getLocale').returns('zh_CN');
+			document.documentElement.setAttribute('data-locale', 'zh_CN')
 			var callbackStub = sinon.stub();
 			var promiseStub = sinon.stub();
 			var loading = OC.L10N.load(TEST_APP, callbackStub);
@@ -129,9 +132,9 @@ describe('OC.L10N tests', function() {
 					expect(callbackStub.calledOnce).toEqual(true);
 					expect(promiseStub.calledOnce).toEqual(true);
 					expect(t(TEST_APP, 'Hello world!')).toEqual('你好世界!');
-					localeStub.restore();
 				})
-				.then(done);
+				.then(done)
+				.catch(e => expect(e).toBe('No error expected!'));
 
 			expect(promiseStub.notCalled).toEqual(true);
 			req.respond(

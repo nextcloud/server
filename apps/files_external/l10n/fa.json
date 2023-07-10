@@ -21,6 +21,7 @@
     "Admin defined" : "مدیر تعریف شده",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Saved" : "ذخیره شد",
+    "Saving …" : "ذخیره کردن …",
     "Save" : "ذخیره",
     "Empty response from the server" : "خالی از پاسخ سرور",
     "Couldn't access. Please log out and in again to activate this mount point" : "دسترسی پیدا نشد. لطفاً برای فعال کردن این نقطه نصب از سیستم خارج شوید و دوباره وارد سیستم شوید",
@@ -124,7 +125,6 @@
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "All users. Type to select user or group." : "همه کاربران. کاربر یا گروه را برای انتخاب تایپ کنید"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -43,6 +43,7 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -59,6 +60,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -123,7 +125,7 @@ class Cache implements ICache {
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$this->querySearchHelper = \OC::$server->query(QuerySearchHelper::class);
+		$this->querySearchHelper = \OCP\Server::get(QuerySearchHelper::class);
 	}
 
 	protected function getQueryBuilder() {
@@ -186,10 +188,12 @@ class Cache implements ICache {
 	 */
 	public static function cacheEntryFromData($data, IMimeTypeLoader $mimetypeLoader) {
 		//fix types
+		$data['name'] = (string)$data['name'];
+		$data['path'] = (string)$data['path'];
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
-		$data['size'] = 0 + $data['size'];
-		$data['unencrypted_size'] = 0 + ($data['unencrypted_size'] ?? 0);
+		$data['size'] = Util::numericToNumber($data['size']);
+		$data['unencrypted_size'] = Util::numericToNumber($data['unencrypted_size'] ?? 0);
 		$data['mtime'] = (int)$data['mtime'];
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
@@ -560,20 +564,7 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Get all sub folders of a folder
-	 *
-	 * @param ICacheEntry $entry the cache entry of the folder to get the subfolders for
-	 * @return ICacheEntry[] the cache entries for the subfolders
-	 */
-	private function getSubFolders(ICacheEntry $entry) {
-		$children = $this->getFolderContentsById($entry->getId());
-		return array_filter($children, function ($child) {
-			return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
-		});
-	}
-
-	/**
-	 * Recursively remove all children of a folder
+	 * Remove all children of a folder
 	 *
 	 * @param ICacheEntry $entry the cache entry of the folder to remove the children of
 	 * @throws \OC\DatabaseException
@@ -581,6 +572,8 @@ class Cache implements ICache {
 	private function removeChildren(ICacheEntry $entry) {
 		$parentIds = [$entry->getId()];
 		$queue = [$entry->getId()];
+		$deletedIds = [];
+		$deletedPaths = [];
 
 		// we walk depth first through the file tree, removing all filecache_extended attributes while we walk
 		// and collecting all folder ids to later use to delete the filecache entries
@@ -589,6 +582,12 @@ class Cache implements ICache {
 			$childIds = array_map(function (ICacheEntry $cacheEntry) {
 				return $cacheEntry->getId();
 			}, $children);
+			$childPaths = array_map(function (ICacheEntry $cacheEntry) {
+				return $cacheEntry->getPath();
+			}, $children);
+
+			$deletedIds = array_merge($deletedIds, $childIds);
+			$deletedPaths = array_merge($deletedPaths, $childPaths);
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
@@ -617,6 +616,16 @@ class Cache implements ICache {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->execute();
 		}
+
+		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
+			$cacheEntryRemovedEvent = new CacheEntryRemovedEvent(
+				$this->storage,
+				$filePath,
+				$fileId,
+				$this->getNumericStorageId()
+			);
+			$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
+		}
 	}
 
 	/**
@@ -637,6 +646,10 @@ class Cache implements ICache {
 	 */
 	protected function getMoveInfo($path) {
 		return [$this->getNumericStorageId(), $path];
+	}
+
+	protected function hasEncryptionWrapper(): bool {
+		return $this->storage->instanceOfStorage(Encryption::class);
 	}
 
 	/**
@@ -690,6 +703,11 @@ class Cache implements ICache {
 					->where($query->expr()->eq('storage', $query->createNamedParameter($sourceStorageId, IQueryBuilder::PARAM_INT)))
 					->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($sourcePath) . '/%')));
 
+				// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+				if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+					$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+				}
+
 				try {
 					$query->execute();
 				} catch (\OC\DatabaseException $e) {
@@ -706,6 +724,12 @@ class Cache implements ICache {
 				->set('name', $query->createNamedParameter(basename($targetPath)))
 				->set('parent', $query->createNamedParameter($newParentId, IQueryBuilder::PARAM_INT))
 				->whereFileId($sourceId);
+
+			// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+			if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+				$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
+			}
+
 			$query->execute();
 
 			$this->connection->commit();
@@ -800,7 +824,7 @@ class Cache implements ICache {
 	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 */
 	public function searchByMime($mimetype) {
-		if (strpos($mimetype, '/') === false) {
+		if (!str_contains($mimetype, '/')) {
 			$operator = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%');
 		} else {
 			$operator = new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', $mimetype);
@@ -863,10 +887,23 @@ class Cache implements ICache {
 	 * calculate the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
+		return $this->calculateFolderSizeInner($path, $entry);
+	}
+
+
+	/**
+	 * inner function because we can't add new params to the public function without breaking any child classes
+	 *
+	 * @param string $path
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
+	 * @return int|float
+	 */
+	protected function calculateFolderSizeInner(string $path, $entry = null, bool $ignoreUnknown = false) {
 		$totalSize = 0;
 		if (is_null($entry) || !isset($entry['fileid'])) {
 			$entry = $this->get($path);
@@ -878,6 +915,9 @@ class Cache implements ICache {
 			$query->select('size', 'unencrypted_size')
 				->from('filecache')
 				->whereParent($id);
+			if ($ignoreUnknown) {
+				$query->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
+			}
 
 			$result = $query->execute();
 			$rows = $result->fetchAll();
@@ -885,13 +925,13 @@ class Cache implements ICache {
 
 			if ($rows) {
 				$sizes = array_map(function (array $row) {
-					return (int)$row['size'];
+					return Util::numericToNumber($row['size']);
 				}, $rows);
 				$unencryptedOnlySizes = array_map(function (array $row) {
-					return (int)$row['unencrypted_size'];
+					return Util::numericToNumber($row['unencrypted_size']);
 				}, $rows);
 				$unencryptedSizes = array_map(function (array $row) {
-					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
+					return Util::numericToNumber(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
 				}, $rows);
 
 				$sum = array_sum($sizes);
@@ -918,9 +958,16 @@ class Cache implements ICache {
 				$unencryptedTotal = 0;
 				$unencryptedMax = 0;
 			}
-			if ($entry['size'] !== $totalSize) {
-				// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
-				if ($unencryptedMax > 0 || $totalSize === 0) {
+
+			// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || $entry['unencrypted_size'] > 0;
+			if ($entry['size'] !== $totalSize || ($entry['unencrypted_size'] !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
+				if ($shouldWriteUnEncryptedSize) {
+					// if all children have an unencrypted size of 0, just set the folder unencrypted size to 0 instead of summing the sizes
+					if ($unencryptedMax === 0) {
+						$unencryptedTotal = 0;
+					}
+
 					$this->update($id, [
 						'size' => $totalSize,
 						'unencrypted_size' => $unencryptedTotal,
@@ -977,7 +1024,12 @@ class Cache implements ICache {
 		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		return $path;
+		if ($path === false) {
+			return false;
+		}
+
+		// Make sure Oracle does not continue with null for empty strings
+		return (string)$path;
 	}
 
 	/**
@@ -1060,6 +1112,12 @@ class Cache implements ICache {
 			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
 		}
 		$data = $this->cacheEntryToArray($sourceEntry);
+
+		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
+		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+			$data['encrypted'] = 0;
+		}
+
 		$fileId = $this->put($targetPath, $data);
 		if ($fileId <= 0) {
 			throw new \RuntimeException("Failed to copy to " . $targetPath . " from cache with source data " . json_encode($data) . " ");

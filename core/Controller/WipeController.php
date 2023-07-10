@@ -33,15 +33,12 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class WipeController extends Controller {
-	/** @var RemoteWipe */
-	private $remoteWipe;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								RemoteWipe $remoteWipe) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private RemoteWipe $remoteWipe,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**

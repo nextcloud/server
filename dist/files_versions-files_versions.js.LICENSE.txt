@@ -1,3 +1,5 @@
+/*! For license information please see NcListItem.js.LICENSE.txt */
+
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  * @license AGPL-3.0-or-later

@@ -29,11 +29,12 @@ OC.L10N.register(
     "Update channel:" : "Kanál aktualizací:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté už se ale nelze vrátit zpět ke starší verzi ze stabilního kanálu.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupnost aktualizací:",
+    "No groups" : "Žádné skupiny",
     "Only notifications for app updates are available." : "K dispozici jsou upozornění pouze na aktualizace aplikací.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pro zvolený kanál aktualizací se už vyhrazená upozorňování pro server nepoužívají.",
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Je k dispozici nová verze: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Můžete si všimnout, že po vydání nové verze se aktualizace objeví až po vydání první opravné aktualizace. Nové verze totiž distribuujeme mezi uživatele postupně a občas, pokud jsou nalezeny chyby, danou verzi i přeskočíme. Zjištěte více o aktualizacích a kanálech aktualizací kliknutím na {link}",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Můžete si všimnout, že po vydání nové verze se aktualizace objeví až po vydání první opravné aktualizace. Nové verze totiž distribuujeme mezi uživatele postupně – a občas, pokud jsou nalezeny chyby, danou verzi i přeskočíme. Zjistěte více o aktualizacích a kanálech aktualizací kliknutím na {link}",
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
     "Checking apps for compatible versions" : "Kontrola kompatibilních verzí aplikací",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ověřte, že v souboru s nastaveními config.php není volba <samp>appstoreenabled</samp> nastavena na hodnotu false.",
@@ -46,7 +47,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi",
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 aplikace nemá kompatibilní verzi pro verzi tohoto Nextcloud serveru.","1%n1 aplikace nemají kompatibilní verzi pro verzi tohoto Nextcloud serveru.","1%n1 aplikací nemá kompatibilní verzi pro verzi tohoto Nextcloud serveru.","1%n1 aplikace nemají kompatibilní verzi pro verzi tohoto Nextcloud serveru."],
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru."],
     "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -9,6 +9,10 @@
 
 namespace Test\Memcache;
 
+/**
+ * @group Memcache
+ * @group Redis
+ */
 class RedisTest extends Cache {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -51,5 +55,11 @@ class RedisTest extends Cache {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new \OC\Memcache\Redis($this->getUniqueID());
+	}
+
+	public function testScriptHashes() {
+		foreach (\OC\Memcache\Redis::LUA_SCRIPTS as $script) {
+			$this->assertEquals(sha1($script[0]), $script[1]);
+		}
 	}
 }

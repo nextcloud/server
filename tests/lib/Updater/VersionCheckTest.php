@@ -111,21 +111,21 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', json_encode($expectedResult)]
 			);
 
@@ -163,21 +163,21 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', '[]']
 			);
 
@@ -217,21 +217,21 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', $this->isType('string')]
 			);
 
@@ -270,21 +270,21 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', json_encode($expectedResult)]
 			);
 
@@ -324,21 +324,21 @@ class VersionCheckTest extends \Test\TestCase {
 				['core', 'lastupdatedat'],
 			)
 			->willReturnOnConsecutiveCalls(
-				0,
+				'0',
 				'installedat',
 				'installedat',
 				'lastupdatedat'
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
 			->withConsecutive(
-				['core', 'lastupdatedat', $this->isType('integer')],
+				['core', 'lastupdatedat', $this->isType('string')],
 				['core', 'lastupdateResult', $this->isType('string')]
 			);
 

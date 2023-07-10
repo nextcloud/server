@@ -57,7 +57,11 @@ abstract class AbstractTrash implements ITrash {
 		return $this->data;
 	}
 
-	public function getSize(): int {
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
+	public function getSize(): int|float {
 		return $this->data->getSize();
 	}
 

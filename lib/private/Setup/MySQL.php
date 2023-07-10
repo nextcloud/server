@@ -49,7 +49,14 @@ class MySQL extends AbstractDatabase {
 			$connection = $this->connect(['dbname' => null]);
 		}
 
-		$this->createSpecificUser($username, new ConnectionAdapter($connection));
+		if ($this->tryCreateDbUser) {
+			$this->createSpecificUser($username, new ConnectionAdapter($connection));
+		}
+
+		$this->config->setValues([
+			'dbuser' => $this->dbUser,
+			'dbpassword' => $this->dbPassword,
+		]);
 
 		//create the database
 		$this->createDatabase($connection);
@@ -147,8 +154,7 @@ class MySQL extends AbstractDatabase {
 			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
 			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
 			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
-			. $this->random->generate(2, $saveSymbols)
-		;
+			. $this->random->generate(2, $saveSymbols);
 		$this->dbPassword = str_shuffle($password);
 
 		try {
@@ -196,10 +202,5 @@ class MySQL extends AbstractDatabase {
 			$this->dbUser = $rootUser;
 			$this->dbPassword = $rootPassword;
 		}
-
-		$this->config->setValues([
-			'dbuser' => $this->dbUser,
-			'dbpassword' => $this->dbPassword,
-		]);
 	}
 }

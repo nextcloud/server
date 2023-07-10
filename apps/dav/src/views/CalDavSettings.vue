@@ -51,7 +51,7 @@
 		</p>
 		<p class="indented">
 			<NcCheckboxRadioSwitch id="caldavSendEventRemindersToSharedGroupMembers"
-				:checked.sync="sendEventRemindersToSharedGroupMembers"
+				:checked.sync="sendEventRemindersToSharedUsers"
 				type="switch"
 				:disabled="!sendEventReminders">
 				{{ $t('dav', 'Send reminder notifications to calendar sharees as well' ) }}
@@ -75,8 +75,8 @@
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 const userSyncCalendarsDocUrl = loadState('dav', 'userSyncCalendarsDocUrl', '#')
 
@@ -130,10 +130,10 @@ export default {
 		sendEventReminders(value) {
 			OCP.AppConfig.setValue('dav', 'sendEventReminders', value ? 'yes' : 'no')
 		},
-		sendEventRemindersToSharedGroupMembers(value) {
+		sendEventRemindersToSharedUsers(value) {
 			OCP.AppConfig.setValue(
 				'dav',
-				'sendEventRemindersToSharedGroupMembers',
+				'sendEventRemindersToSharedUsers',
 				value ? 'yes' : 'no'
 			)
 		},

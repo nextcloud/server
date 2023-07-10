@@ -37,10 +37,13 @@ use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
+use OC\User\LoginException;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
+use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
@@ -104,14 +107,11 @@ class Auth extends AbstractBasic {
 		if ($this->userSession->isLoggedIn() &&
 			$this->isDavAuthenticated($this->userSession->getUser()->getUID())
 		) {
-			\OC_Util::setupFS($this->userSession->getUser()->getUID());
 			$this->session->close();
 			return true;
 		} else {
-			\OC_Util::setupFS(); //login hooks may need early access to the filesystem
 			try {
 				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
-					\OC_Util::setupFS($this->userSession->getUser()->getUID());
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
 					$this->session->close();
 					return true;
@@ -122,6 +122,9 @@ class Auth extends AbstractBasic {
 			} catch (PasswordLoginForbiddenException $ex) {
 				$this->session->close();
 				throw new PasswordLoginForbidden();
+			} catch (MaxDelayReached $ex) {
+				$this->session->close();
+				throw new TooManyRequests();
 			}
 		}
 	}

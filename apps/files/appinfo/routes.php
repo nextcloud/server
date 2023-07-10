@@ -40,12 +40,12 @@ namespace OCA\Files\AppInfo;
 use OCA\Files\Controller\OpenLocalEditorController;
 
 // Legacy routes above
-/** @var $this \OC\Route\Router */
+/** @var \OC\Route\Router $this */
 $this->create('files_ajax_download', 'apps/files/ajax/download.php')
 	->actionInclude('files/ajax/download.php');
 
 /** @var Application $application */
-$application = \OC::$server->query(Application::class);
+$application = \OC::$server->get(Application::class);
 $application->registerRoutes(
 	$this,
 	[
@@ -62,75 +62,80 @@ $application->registerRoutes(
 				'root' => '',
 			],
 			[
-				'name' => 'API#getThumbnail',
+				'name' => 'Api#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
 				'verb' => 'GET',
 				'requirements' => ['file' => '.+']
 			],
 			[
-				'name' => 'API#updateFileTags',
+				'name' => 'Api#updateFileTags',
 				'url' => '/api/v1/files/{path}',
 				'verb' => 'POST',
 				'requirements' => ['path' => '.+'],
 			],
 			[
-				'name' => 'API#getRecentFiles',
+				'name' => 'Api#getRecentFiles',
 				'url' => '/api/v1/recent/',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#getStorageStats',
+				'name' => 'Api#getStorageStats',
 				'url' => '/api/v1/stats',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#setConfig',
-				'url' => '/api/v1/config/{key}',
-				'verb' => 'POST'
+				'name' => 'Api#setViewConfig',
+				'url' => '/api/v1/views/{view}/{key}',
+				'verb' => 'PUT'
 			],
 			[
-				'name' => 'API#getConfigs',
+				'name' => 'Api#getViewConfigs',
+				'url' => '/api/v1/views',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#getViewConfig',
+				'url' => '/api/v1/views/{view}',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#setConfig',
+				'url' => '/api/v1/config/{key}',
+				'verb' => 'PUT'
+			],
+			[
+				'name' => 'Api#getConfigs',
 				'url' => '/api/v1/configs',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#updateFileSorting',
-				'url' => '/api/v1/sorting',
-				'verb' => 'POST'
-			],
-			[
-				'name' => 'API#showHiddenFiles',
+				'name' => 'Api#showHiddenFiles',
 				'url' => '/api/v1/showhidden',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#cropImagePreviews',
+				'name' => 'Api#cropImagePreviews',
 				'url' => '/api/v1/cropimagepreviews',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#showGridView',
+				'name' => 'Api#showGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#getGridView',
+				'name' => 'Api#getGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'API#toggleShowFolder',
-				'url' => '/api/v1/toggleShowFolder/{key}',
-				'verb' => 'POST'
-			],
-			[
-				'name' => 'API#getNodeType',
-				'url' => '/api/v1/quickaccess/get/NodeType',
-				'verb' => 'GET',
-			],
-			[
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#serviceWorker',
+				'url' => '/preview-service-worker.js',
 				'verb' => 'GET'
 			],
 			[

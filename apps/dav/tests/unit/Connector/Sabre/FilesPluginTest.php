@@ -228,13 +228,13 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('00000123instanceid', $propFind->get(self::FILEID_PROPERTYNAME));
 		$this->assertEquals('123', $propFind->get(self::INTERNAL_FILEID_PROPERTYNAME));
 		$this->assertEquals('1973-11-29T21:33:09+00:00', $propFind->get(self::CREATIONDATE_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::SIZE_PROPERTYNAME));
+		$this->assertEquals(0, $propFind->get(self::SIZE_PROPERTYNAME));
 		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals('http://example.com/', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 		$this->assertEquals('foo', $propFind->get(self::OWNER_ID_PROPERTYNAME));
 		$this->assertEquals('M. Foo', $propFind->get(self::OWNER_DISPLAY_NAME_PROPERTYNAME));
 		$this->assertEquals('my_fingerprint', $propFind->get(self::DATA_FINGERPRINT_PROPERTYNAME));
-		$this->assertEquals([self::SIZE_PROPERTYNAME], $propFind->get404Properties());
+		$this->assertEquals([], $propFind->get404Properties());
 	}
 
 	public function testGetPropertiesStorageNotAvailable(): void {

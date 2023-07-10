@@ -64,8 +64,8 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 
 export default {
 	name: 'AppMenu',
@@ -146,8 +146,6 @@ $header-icon-size: 20px;
 		height: 50px;
 		position: relative;
 		display: flex;
-		opacity: .7;
-		filter: var(--background-image-invert-if-bright);
 
 		&.app-menu-entry__active {
 			opacity: 1;
@@ -161,7 +159,7 @@ $header-icon-size: 20px;
 				width: 12px;
 				height: 5px;
 				border-radius: 3px;
-				background-color: var(--color-primary-text);
+				background-color: var(--color-primary-element-text);
 				left: 50%;
 				bottom: 6px;
 				display: block;
@@ -178,7 +176,7 @@ $header-icon-size: 20px;
 			width: calc(100% - 4px);
 			height: calc(100% - 4px);
 			margin: 2px;
-			color: var(--color-primary-text);
+			color: var(--color-primary-element-text);
 			position: relative;
 		}
 
@@ -188,15 +186,15 @@ $header-icon-size: 20px;
 			height: $header-icon-size;
 			padding: calc((100% - $header-icon-size) / 2);
 			box-sizing: content-box;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		.app-menu-entry--label {
 			opacity: 0;
 			position: absolute;
 			font-size: 12px;
-			color: var(--color-primary-text);
+			color: var(--color-primary-element-text);
 			text-align: center;
-			bottom: -5px;
 			left: 50%;
 			top: 45%;
 			display: block;
@@ -247,14 +245,18 @@ $header-icon-size: 20px;
 }
 
 ::v-deep .app-menu-more .button-vue--vue-tertiary {
-	color: var(--color-primary-text);
 	opacity: .7;
 	margin: 3px;
 	filter: var(--background-image-invert-if-bright);
 
-	&:hover {
-		opacity: 1;
-		background-color: transparent !important;
+	/* Remove all background and align text color if not expanded */
+	&:not([aria-expanded="true"]) {
+		color: var(--color-primary-element-text);
+
+		&:hover {
+			opacity: 1;
+			background-color: transparent !important;
+		}
 	}
 
 	&:focus-visible {
@@ -267,6 +269,8 @@ $header-icon-size: 20px;
 	.app-icon {
 		position: relative;
 		height: 44px;
+		/* Icons are bright so invert them if bright color theme == bright background is used */
+		filter: var(--background-invert-if-bright);
 
 		&.has-unread::after {
 			background-color: var(--color-main-text);
@@ -284,7 +288,7 @@ $header-icon-size: 20px;
 	content: "";
 	width: 8px;
 	height: 8px;
-	background-color: var(--color-primary-text);
+	background-color: var(--color-primary-element-text);
 	border-radius: 50%;
 	position: absolute;
 	display: block;

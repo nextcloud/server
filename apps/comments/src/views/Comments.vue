@@ -22,7 +22,9 @@
   -->
 
 <template>
-	<div class="comments" :class="{ 'icon-loading': isFirstLoading }">
+	<div class="comments"
+		:class="{ 'icon-loading': isFirstLoading }"
+		v-observe-visibility="onVisibilityChange">
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
@@ -40,18 +42,19 @@
 					<MessageReplyTextIcon />
 				</template>
 			</NcEmptyContent>
-
-			<!-- Comments -->
-			<Comment v-for="comment in comments"
-				v-else
-				:key="comment.props.id"
-				v-bind="comment.props"
-				:auto-complete="autoComplete"
-				:message.sync="comment.props.message"
-				:ressource-id="ressourceId"
-				:user-data="genMentionsData(comment.props.mentions)"
-				class="comments__list"
-				@delete="onDelete" />
+			<ul v-else>
+				<!-- Comments -->
+				<Comment v-for="comment in comments"
+					:key="comment.props.id"
+					tag="li"
+					v-bind="comment.props"
+					:auto-complete="autoComplete"
+					:message.sync="comment.props.message"
+					:ressource-id="ressourceId"
+					:user-data="genMentionsData(comment.props.mentions)"
+					class="comments__list"
+					@delete="onDelete" />
+			</ul>
 
 			<!-- Loading more message -->
 			<div v-if="loading && !isFirstLoading" class="comments__info icon-loading" />
@@ -82,21 +85,25 @@
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
+import VueObserveVisibility from 'vue-observe-visibility'
 
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import RefreshIcon from 'vue-material-design-icons/Refresh'
-import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText'
-import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
+import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue'
+import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
-import getComments, { DEFAULT_LIMIT } from '../services/GetComments.js'
+import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
 import cancelableRequest from '../utils/cancelableRequest.js'
+import { markCommentsAsRead } from '../services/ReadComments.ts'
 
 Vue.use(VTooltip)
+Vue.use(VueObserveVisibility)
 
 export default {
 	name: 'Comments',
@@ -144,6 +151,16 @@ export default {
 	},
 
 	methods: {
+		async onVisibilityChange(isVisible) {
+			if (isVisible) {
+				try {
+					await markCommentsAsRead(this.commentsType, this.ressourceId, new Date())
+				} catch (e) {
+					showError(e.message || t('comments', 'Failed to mark comments as read'))
+				}
+			}
+		},
+
 		/**
 		 * Update current ressourceId and fetch new data
 		 *
@@ -205,14 +222,14 @@ export default {
 				this.error = ''
 
 				// Init cancellable request
-				const { request, cancel } = cancelableRequest(getComments)
-				this.cancelRequest = cancel
+				const { request, abort } = cancelableRequest(getComments)
+				this.cancelRequest = abort
 
 				// Fetch comments
-				const comments = await request({
+				const { data: comments } = await request({
 					commentsType: this.commentsType,
 					ressourceId: this.ressourceId,
-				}, { offset: this.offset })
+				}, { offset: this.offset }) || { data: [] }
 
 				this.logger.debug(`Processed ${comments.length} comments`, { comments })
 

@@ -20,10 +20,10 @@
  *
  */
 
-import RequestUserAgent from './RequestUserAgent'
-import RequestTime from './RequestTime'
-import RequestURL from './RequestURL'
-import RequestUserGroup from './RequestUserGroup'
+import RequestUserAgent from './RequestUserAgent.vue'
+import RequestTime from './RequestTime.vue'
+import RequestURL from './RequestURL.vue'
+import RequestUserGroup from './RequestUserGroup.vue'
 
 const RequestChecks = [
 	{
@@ -38,7 +38,7 @@ const RequestChecks = [
 		component: RequestURL,
 	},
 	{
-		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
+		class: 'OCA\\WorkflowEngine\\Check\\RequestTimeController',
 		name: t('workflowengine', 'Request time'),
 		operators: [
 			{ operator: 'in', name: t('workflowengine', 'between') },

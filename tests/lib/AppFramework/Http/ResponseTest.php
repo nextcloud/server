@@ -51,13 +51,16 @@ class ResponseTest extends \Test\TestCase {
 			'Last-Modified' => 1,
 			'ETag' => 3,
 			'Something-Else' => 'hi',
-			'X-Robots-Tag' => 'none',
+			'X-Robots-Tag' => 'noindex, nofollow',
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 		];
 
 		$this->childResponse->setHeaders($expected);
-		$headers = $this->childResponse->getHeaders();
 		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 		$expected['Feature-Policy'] = "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'";
+
+		$headers = $this->childResponse->getHeaders();
+		unset($headers['X-Request-Id']);
 
 		$this->assertEquals($expected, $headers);
 	}
@@ -67,7 +70,6 @@ class ResponseTest extends \Test\TestCase {
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self' data:;connect-src 'self';media-src 'self'",
 		];
 		$policy = new Http\ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$headers = $this->childResponse->getHeaders();
@@ -77,7 +79,6 @@ class ResponseTest extends \Test\TestCase {
 
 	public function testGetCsp() {
 		$policy = new Http\ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$this->assertEquals($policy, $this->childResponse->getContentSecurityPolicy());

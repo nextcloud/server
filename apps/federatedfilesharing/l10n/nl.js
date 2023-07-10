@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID, zie %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID",
     "Sharing" : "Delen",
     "Federated file sharing" : "Gefedereerd delen",
     "Provide federated file sharing across servers" : "Voorzien in gefedereerd delen van bestanden over verschillende servers",
@@ -47,14 +45,11 @@ OC.L10N.register(
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
     "HTML Code:" : "HTML Code:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID",
     "Copy to clipboard" : "Kopiëren naar het klembord",
     "Copied!" : "Gekopieerd!",
-    "Copy" : "Kopiëren",
-    "Not supported!" : "Niet ondersteund!",
-    "Press ⌘-C to copy." : "Druk op ⌘-C om te kopiëren.",
-    "Press Ctrl-C to copy." : "Druk op Ctrl-C om te kopiëren.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Je ontving  \"%3$s\" als een externe deellink van %4$s (%1$s) (namens %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Je ontving \"%3$s\" als een externe deellink van %4$s (%1$s)",
-    "Open documentation" : "Open documentatie"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID, zie %s"
 },
 "nplurals=2; plural=(n != 1);");

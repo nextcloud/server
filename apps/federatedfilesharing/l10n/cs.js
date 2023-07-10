@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
     "Federated Cloud Sharing" : "Sdílení v rámci federovaného cloudu",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sdílejte se mnou prostřednictvím mého #Nextcloud identifikátoru v rámci federovaného cloudu – více na %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Sdílejte se mnou pomocí mého #Nextcloud identifikátoru v rámci federovaného cloudu",
     "Sharing" : "Sdílení",
     "Federated file sharing" : "Federované sdílení souborů",
     "Provide federated file sharing across servers" : "Poskytnout federované sdílení souborů napříč servery",
@@ -49,16 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Sdílejte se mnou prostřednictvím mého #Nextcloud identifikátoru v rámci federovaného cloudu – více na {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Sdílejte se mnou pomocí mého #Nextcloud identifikátoru v rámci federovaného cloudu",
     "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Clipboard is not available" : "Schránka není k dispozici",
     "Copied!" : "Zkopírováno",
-    "Copy" : "Kopie",
-    "Not supported!" : "Nepodporováno!",
-    "Press ⌘-C to copy." : "Zkopírujete stisknutím ⌘C.",
-    "Press Ctrl-C to copy." : "Zkopírujete stisknutím Ctrl+C.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Obdrželi jste „%3$s“ jako vzdálené sdílení od %4$s (%1$s) (na pokyn %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Obdrželi jste „%3$s“ jako vzdálené sdílení od %4$s (%1$s)",
-    "Open documentation" : "Otevřít dokumentaci"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sdílejte se mnou prostřednictvím mého #Nextcloud identifikátoru v rámci federovaného cloudu – více na %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

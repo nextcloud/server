@@ -47,7 +47,7 @@ $urlGenerator = $_['urlGenerator'];
 
 	<p id="redirect-link">
 		<form id="login-form" action="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState'], 'user' => $_['user'], 'direct' => $_['direct']])) ?>" method="get">
-			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>">
+			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>" disabled>
 		</form>
 	</p>
 

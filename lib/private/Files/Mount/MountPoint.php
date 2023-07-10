@@ -44,6 +44,7 @@ class MountPoint implements IMountPoint {
 	protected $storage = null;
 	protected $class;
 	protected $storageId;
+	protected $numericStorageId = null;
 	protected $rootId = null;
 
 	/**
@@ -120,7 +121,7 @@ class MountPoint implements IMountPoint {
 			$this->storage = $this->loader->wrap($this, $storage);
 		} else {
 			// Update old classes to new namespace
-			if (strpos($storage, 'OC_Filestorage_') !== false) {
+			if (str_contains($storage, 'OC_Filestorage_')) {
 				$storage = '\OC\Files\Storage\\' . substr($storage, 15);
 			}
 			$this->class = $storage;
@@ -195,19 +196,15 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getStorageId() {
 		if (!$this->storageId) {
-			if (is_null($this->storage)) {
-				$storage = $this->createStorage(); //FIXME: start using exceptions
-				if (is_null($storage)) {
-					return null;
-				}
-
-				$this->storage = $storage;
+			$storage = $this->getStorage();
+			if (is_null($storage)) {
+				return null;
 			}
-			$this->storageId = $this->storage->getId();
+			$this->storageId = $storage->getId();
 			if (strlen($this->storageId) > 64) {
 				$this->storageId = md5($this->storageId);
 			}
@@ -219,7 +216,14 @@ class MountPoint implements IMountPoint {
 	 * @return int
 	 */
 	public function getNumericStorageId() {
-		return $this->getStorage()->getStorageCache()->getNumericId();
+		if (is_null($this->numericStorageId)) {
+			$storage = $this->getStorage();
+			if (is_null($storage)) {
+				return -1;
+			}
+			$this->numericStorageId = $storage->getStorageCache()->getNumericId();
+		}
+		return $this->numericStorageId;
 	}
 
 	/**

@@ -29,7 +29,7 @@
 /* eslint-disable */
 import $ from 'jquery'
 
-import { getToken } from './requesttoken'
+import { getToken } from './requesttoken.js'
 
 /**
  * Create a new event source

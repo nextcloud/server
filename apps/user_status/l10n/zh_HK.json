@@ -9,14 +9,23 @@
     "User status" : "用戶狀態",
     "View profile" : "查看個人資料",
     "Clear status after" : "繼此之後清空狀態",
+    "Emoji for your status message" : "狀態訊息的表情符號",
     "What is your status?" : "您目前的狀態是什麼呢？",
+    "Predefined statuses" : "預先定義的狀態",
+    "Previously set" : "先前設定",
+    "Reset status" : "重設狀態",
     "Set status" : "設定狀態",
     "Online status" : "線上狀態",
     "Status message" : "狀態訊息",
+    "Your status was set automatically" : "您的狀態是自動設置的",
     "Clear status message" : "清空狀態訊息",
     "Set status message" : "設定狀態訊息",
+    "Reset status to \"{icon} {message}\"" : "將狀態重置為 “{icon} {message}”",
+    "Reset status to \"{message}\"" : "將狀態重置為“{message}”",
+    "Reset status to \"{icon}\"" : "將狀態重置為“{icon}”",
     "There was an error saving the status" : "儲存狀態時發生錯誤",
     "There was an error clearing the status" : "變更狀態時發生錯誤",
+    "There was an error reverting the status" : "恢復狀態時出錯",
     "No recent status changes" : "最近沒有狀態變更",
     "Away" : "離開",
     "Do not disturb" : "請勿打擾",
@@ -32,7 +41,6 @@
     "1 hour" : "1 小時",
     "4 hours" : "4 小時",
     "Mute all notifications" : "靜音所有通知",
-    "Appear offline" : "顯示為離線",
-    "Clear status message after" : "繼此之後清空狀態訊息"
+    "Appear offline" : "顯示為離線"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

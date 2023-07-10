@@ -60,7 +60,7 @@ interface IEncryptionModule {
 	 * @param array $header contains the header data read from the file
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
-	 * $return array $header contain data as key-value pairs which should be
+	 * @return array $header contain data as key-value pairs which should be
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
 	 * @since 8.1.0

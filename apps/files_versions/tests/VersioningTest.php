@@ -35,6 +35,10 @@
 namespace OCA\Files_Versions\Tests;
 
 use OC\Files\Storage\Temporary;
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Db\VersionsMapper;
+use OCA\Files_Versions\Versions\IVersionManager;
+use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Share\IShare;
@@ -54,6 +58,14 @@ class VersioningTest extends \Test\TestCase {
 	 * @var \OC\Files\View
 	 */
 	private $rootView;
+	/**
+	 * @var VersionsMapper
+	 */
+	private $versionsMapper;
+	/**
+	 * @var IMimeTypeLoader
+	 */
+	private $mimeTypeLoader;
 	private $user1;
 	private $user2;
 
@@ -100,13 +112,16 @@ class VersioningTest extends \Test\TestCase {
 		// clear hooks
 		\OC_Hook::clear();
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
-		\OCA\Files_Versions\Hooks::connectHooks();
+		\OC::$server->boot();
 
 		self::loginHelper(self::TEST_VERSIONS_USER);
 		$this->rootView = new \OC\Files\View();
 		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
 			$this->rootView->mkdir(self::USERS_VERSIONS_ROOT);
 		}
+
+		$this->versionsMapper = \OCP\Server::get(VersionsMapper::class);
+		$this->mimeTypeLoader = \OCP\Server::get(IMimeTypeLoader::class);
 
 		$this->user1 = $this->createMock(IUser::class);
 		$this->user1->method('getUID')
@@ -762,6 +777,7 @@ class VersioningTest extends \Test\TestCase {
 		$filePath = self::TEST_VERSIONS_USER . '/files/sub/test.txt';
 		$this->rootView->file_put_contents($filePath, 'test file');
 
+		$fileInfo = $this->rootView->getFileInfo($filePath);
 		$t0 = $this->rootView->filemtime($filePath);
 
 		// not exactly the same timestamp as the file
@@ -774,8 +790,26 @@ class VersioningTest extends \Test\TestCase {
 		$v2 = self::USERS_VERSIONS_ROOT . '/sub/test.txt.v' . $t2;
 
 		$this->rootView->mkdir(self::USERS_VERSIONS_ROOT . '/sub');
+
 		$this->rootView->file_put_contents($v1, 'version1');
+		$fileInfoV1 = $this->rootView->getFileInfo($v1);
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($fileInfo->getId());
+		$versionEntity->setTimestamp($t1);
+		$versionEntity->setSize($fileInfoV1->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($fileInfoV1->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
+
 		$this->rootView->file_put_contents($v2, 'version2');
+		$fileInfoV2 = $this->rootView->getFileInfo($v2);
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($fileInfo->getId());
+		$versionEntity->setTimestamp($t2);
+		$versionEntity->setSize($fileInfoV2->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($fileInfoV2->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
 
 		$oldVersions = \OCA\Files_Versions\Storage::getVersions(
 			self::TEST_VERSIONS_USER, '/sub/test.txt'
@@ -789,7 +823,12 @@ class VersioningTest extends \Test\TestCase {
 		$params = [];
 		$this->connectMockHooks('rollback', $params);
 
-		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2, $this->user1));
+		$versionManager = \OCP\Server::get(IVersionManager::class);
+		$versions = $versionManager->getVersionsForFile($this->user1, $info1);
+		$version = array_filter($versions, function ($version) use ($t2) {
+			return $version->getRevisionId() === $t2;
+		});
+		$this->assertTrue($versionManager->rollback(current($version)));
 		$expectedParams = [
 			'path' => '/sub/test.txt',
 		];

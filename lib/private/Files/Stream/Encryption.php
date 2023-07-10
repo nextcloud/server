@@ -143,8 +143,8 @@ class Encryption extends Wrapper {
 	 * @param \OC\Encryption\Util $util
 	 * @param \OC\Encryption\File $file
 	 * @param string $mode
-	 * @param int $size
-	 * @param int $unencryptedSize
+	 * @param int|float $size
+	 * @param int|float $unencryptedSize
 	 * @param int $headerSize
 	 * @param bool $signed
 	 * @param string $wrapper stream wrapper class
@@ -158,7 +158,7 @@ class Encryption extends Wrapper {
 								\OC\Files\Storage\Storage $storage,
 								\OC\Files\Storage\Wrapper\Encryption $encStorage,
 								\OC\Encryption\Util $util,
-								 \OC\Encryption\File $file,
+								\OC\Encryption\File $file,
 								$mode,
 								$size,
 								$unencryptedSize,

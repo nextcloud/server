@@ -59,6 +59,11 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		$colorError = '#e9322d';
+		$colorWarning = '#c28900';
+		$colorSuccess = '#3fa857';
+		$colorInfo = '#006aa3';
+
 		return array_merge(
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
@@ -81,6 +86,23 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 2),
 				'--color-text-light' => $this->util->darken($colorMainText, 10),
 				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
+
+				'--color-error' => $colorError,
+				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+				'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
+				'--color-error-text' => $this->util->lighten($colorError, 3),
+				'--color-warning' => $colorWarning,
+				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+				'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
+				'--color-warning-text' => $colorWarning,
+				'--color-success' => $colorSuccess,
+				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+				'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
+				'--color-success-text' => $colorSuccess,
+				'--color-info' => $colorInfo,
+				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+				'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
+				'--color-info-text' => $this->util->lighten($colorInfo, 9),
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',

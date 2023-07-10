@@ -72,14 +72,19 @@ function emit_css_loading_tags($obj) {
  * Prints a <script> tag with nonce and defer depending on config
  * @param string $src the source URL, ignored when empty
  * @param string $script_content the inline script content, ignored when empty
+ * @param string $content_type the type of the source (e.g. 'module')
  */
-function emit_script_tag($src, $script_content = '') {
+function emit_script_tag(string $src, string $script_content = '', string $content_type = '') {
+	$nonceManager = \OC::$server->get(\OC\Security\CSP\ContentSecurityPolicyNonceManager::class);
+
 	$defer_str = ' defer';
-	$s = '<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
+	$type = $content_type !== '' ? ' type="' . $content_type . '"' : '';
+
+	$s = '<script nonce="' . $nonceManager->getNonce() . '"';
 	if (!empty($src)) {
 		// emit script tag for deferred loading from $src
-		$s .= $defer_str.' src="' . $src .'">';
-	} elseif (!empty($script_content)) {
+		$s .= $defer_str.' src="' . $src .'"' . $type . '>';
+	} elseif ($script_content !== '') {
 		// emit script tag for inline script from $script_content without defer (see MDN)
 		$s .= ">\n".$script_content."\n";
 	} else {
@@ -96,7 +101,8 @@ function emit_script_tag($src, $script_content = '') {
  */
 function emit_script_loading_tags($obj) {
 	foreach ($obj['jsfiles'] as $jsfile) {
-		emit_script_tag($jsfile, '');
+		$type = str_ends_with($jsfile, '.mjs') ? 'module' : '';
+		emit_script_tag($jsfile, '', $type);
 	}
 	if (!empty($obj['inline_ocjs'])) {
 		emit_script_tag('', $obj['inline_ocjs']);
@@ -302,7 +308,7 @@ function strip_time($timestamp) {
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
 	/** @var \OC\DateTimeFormatter $formatter */
-	$formatter = \OC::$server->query('DateTimeFormatter');
+	$formatter = \OCP\Server::get('DateTimeFormatter');
 
 	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);

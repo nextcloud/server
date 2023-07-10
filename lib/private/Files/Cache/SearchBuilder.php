@@ -69,20 +69,17 @@ class SearchBuilder {
 	}
 
 	/**
-	 * Whether or not the tag tables should be joined to complete the search
-	 *
-	 * @param ISearchOperator $operator
-	 * @return boolean
+	 * @return string[]
 	 */
-	public function shouldJoinTags(ISearchOperator $operator) {
+	public function extractRequestedFields(ISearchOperator $operator): array {
 		if ($operator instanceof ISearchBinaryOperator) {
-			return array_reduce($operator->getArguments(), function ($shouldJoin, ISearchOperator $operator) {
-				return $shouldJoin || $this->shouldJoinTags($operator);
-			}, false);
+			return array_reduce($operator->getArguments(), function (array $fields, ISearchOperator $operator) {
+				return array_unique(array_merge($fields, $this->extractRequestedFields($operator)));
+			}, []);
 		} elseif ($operator instanceof ISearchComparison) {
-			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite' || $operator->getField() === 'systemtag';
+			return [$operator->getField()];
 		}
-		return false;
+		return [];
 	}
 
 	/**
@@ -152,7 +149,7 @@ class SearchBuilder {
 					$field = 'mimepart';
 					$value = (int)$this->mimetypeLoader->getId($matches[1]);
 					$type = ISearchComparison::COMPARE_EQUAL;
-				} elseif (strpos($value, '%') !== false) {
+				} elseif (str_contains($value, '%')) {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				} else {
 					$field = 'mimetype';

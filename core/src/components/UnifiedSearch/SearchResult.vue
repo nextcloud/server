@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight'
+import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight.js'
 
 export default {
 	name: 'SearchResult',
@@ -172,19 +172,18 @@ $margin: 10px;
 	align-items: center;
 	height: $clickable-area;
 	padding: $margin;
-	border-bottom: 1px solid var(--color-border);
+	border: 2px solid transparent;
 	border-radius: var(--border-radius-large) !important;
 
-	// Load more entry,
-	&:last-child {
-		border-bottom: none;
+	&--focused {
+		background-color: var(--color-background-hover);
 	}
 
-	&--focused,
 	&:active,
 	&:hover,
 	&:focus {
 		background-color: var(--color-background-hover);
+		border: 2px solid var(--color-border-maxcontrast);
 	}
 
 	* {

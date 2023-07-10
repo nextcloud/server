@@ -115,6 +115,9 @@ class OwnershipTransferService {
 
 		// setup filesystem
 		// Requesting the user folder will set it up if the user hasn't logged in before
+		// We need a setupFS for the full filesystem setup before as otherwise we will just return
+		// a lazy root folder which does not create the destination users folder
+		\OC_Util::setupFS($destinationUser->getUID());
 		\OC::$server->getUserFolder($destinationUser->getUID());
 		Filesystem::initMountPoints($sourceUid);
 		Filesystem::initMountPoints($destinationUid);
@@ -286,7 +289,7 @@ class OwnershipTransferService {
 		$shares = [];
 		$progress = new ProgressBar($output);
 
-		foreach ([IShare::TYPE_GROUP, IShare::TYPE_USER, IShare::TYPE_LINK, IShare::TYPE_REMOTE, IShare::TYPE_ROOM, IShare::TYPE_EMAIL, IShare::TYPE_CIRCLE, IShare::TYPE_DECK] as $shareType) {
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_USER, IShare::TYPE_LINK, IShare::TYPE_REMOTE, IShare::TYPE_ROOM, IShare::TYPE_EMAIL, IShare::TYPE_CIRCLE, IShare::TYPE_DECK, IShare::TYPE_SCIENCEMESH] as $shareType) {
 			$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset);

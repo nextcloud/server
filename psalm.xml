@@ -6,6 +6,8 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
     errorBaseline="build/psalm-baseline.xml"
+	findUnusedBaselineEntry="false"
+	findUnusedCode="false"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
@@ -77,12 +79,19 @@
 		<file name="build/stubs/ftp.php"/>
 		<file name="build/stubs/pcntl.php"/>
 		<file name="build/stubs/zip.php"/>
+		<file name="build/stubs/psr_container.php"/>
+		<file name="3rdparty/sabre/uri/lib/functions.php" />
 	</stubs>
 	<issueHandlers>
+		<LessSpecificReturnStatement errorLevel="error"/>
+		<LessSpecificReturnType errorLevel="error"/>
+		<LessSpecificImplementedReturnType errorLevel="error"/>
+		<MoreSpecificReturnType errorLevel="error"/>
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
+				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -126,6 +135,7 @@
 				<!-- Helper classes for sharing API integration from other apps -->
 				<referencedClass name="OCA\Deck\Sharing\ShareAPIHelper" />
 				<referencedClass name="OCA\Talk\Share\Helper\DeletedShareAPIController" />
+				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedDocblockClass>
 	</issueHandlers>

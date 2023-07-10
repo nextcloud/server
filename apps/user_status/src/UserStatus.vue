@@ -26,7 +26,7 @@
 			<a v-if="!inline"
 				class="user-status-menu-item__header"
 				:href="profilePageLink"
-				@click="loadProfilePage">
+				@click.exact="loadProfilePage">
 				<div class="user-status-menu-item__header-content">
 					<div class="user-status-menu-item__header-content-displayname">{{ displayName }}</div>
 					<div v-if="!loadingProfilePage" class="user-status-menu-item__header-content-placeholder" />
@@ -43,7 +43,7 @@
 				class="user-status-menu-item__toggle"
 				href="#"
 				@click.prevent.stop="openModal">
-				<span :class="statusIcon" class="user-status-menu-item__toggle-icon" />
+				<span aria-hidden="true" :class="statusIcon" class="user-status-menu-item__toggle-icon" />
 				{{ visibleMessage }}
 			</toggle>
 		</div>
@@ -61,8 +61,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 
-import { sendHeartbeat } from './services/heartbeatService'
-import OnlineStatusMixin from './mixins/OnlineStatusMixin'
+import { sendHeartbeat } from './services/heartbeatService.js'
+import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
 
 const { profileEnabled } = loadState('user_status', 'profileEnabled', false)
 
@@ -70,7 +70,7 @@ export default {
 	name: 'UserStatus',
 
 	components: {
-		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal'),
+		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
 	mixins: [OnlineStatusMixin],
 
@@ -233,11 +233,6 @@ export default {
 		padding: 10px 12px 5px 12px !important;
 		align-items: flex-start !important;
 		color: var(--color-main-text) !important;
-
-		&:focus-visible {
-			padding: 6px 8px 1px 8px !important;
-			margin: 2px !important;
-		}
 
 		&:not([href]) {
 			height: var(--header-menu-item-height) !important;

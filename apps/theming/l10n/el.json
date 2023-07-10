@@ -75,17 +75,16 @@
     "Loading preview…" : "Φόρτωση προεπισκόπησης ...",
     "Admin" : "Διαχειριστής",
     "Name cannot be empty" : "Το όνομα δεν μπορεί να είναι κενό",
-    "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "https://…" : "https://…",
-    "Login image" : "Εικόνα εισόδου",
-    "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Σε ορισμένες περιπτώσεις, οι συντομεύσεις πληκτρολογίου μπορεί να επηρεάσουν τα εργαλεία προσβασιμότητας. Για να επιτρέψετε τη σωστή εστίαση στο εργαλείο σας, μπορείτε να απενεργοποιήσετε όλες τις συντομεύσεις πληκτρολογίου εδώ. Αυτό θα απενεργοποιήσει επίσης όλες τις διαθέσιμες συντομεύσεις στις εφαρμογές.",
     "Pick from Files" : "Επιλέξτε από αρχεία",
     "Default image" : "Προεπιλεγμένη εικόνα",
     "Custom color" : "Προσαρμοσμένο χρώμα",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Αν και μπορείτε να επιλέξετε και να προσαρμόσετε την εγκατάστασή σας, οι χρήστες μπορούν να αλλάξουν το φόντο και τα χρώματά τους. Εάν θέλετε να επιβάλετε την προσαρμογή σας, μπορείτε να επιλέξετε αυτό το κουτί."
+    "Open documentation" : "Άνοιγμα τεκμηρίωσης",
+    "https://…" : "https://…",
+    "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Αν και μπορείτε να επιλέξετε και να προσαρμόσετε την εγκατάστασή σας, οι χρήστες μπορούν να αλλάξουν το φόντο και τα χρώματά τους. Εάν θέλετε να επιβάλετε την προσαρμογή σας, μπορείτε να επιλέξετε αυτό το κουτί.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

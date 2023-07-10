@@ -49,15 +49,15 @@
 </template>
 
 <script>
-import Rule from './Rule'
-import Operation from './Operation'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import Rule from './Rule.vue'
+import Operation from './Operation.vue'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import MenuUp from 'vue-material-design-icons/MenuUp'
-import MenuDown from 'vue-material-design-icons/MenuDown'
+import MenuUp from 'vue-material-design-icons/MenuUp.vue'
+import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 
 const ACTION_LIMIT = 3
 

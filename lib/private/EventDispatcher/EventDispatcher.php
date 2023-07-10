@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OC\EventDispatcher;
 
+use OC\Log;
 use Psr\Log\LoggerInterface;
 use function get_class;
 use OC\Broadcast\Events\BroadcastEvent;
@@ -54,6 +55,12 @@ class EventDispatcher implements IEventDispatcher {
 		$this->dispatcher = $dispatcher;
 		$this->container = $container;
 		$this->logger = $logger;
+
+		// inject the event dispatcher into the logger
+		// this is done here because there is a cyclic dependency between the event dispatcher and logger
+		if ($this->logger instanceof Log || $this->logger instanceof Log\PsrLoggerAdapter) {
+			$this->logger->setEventDispatcher($this);
+		}
 	}
 
 	public function addListener(string $eventName,

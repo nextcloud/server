@@ -131,7 +131,6 @@ OC.L10N.register(
     "All users" : "Totu is utentes",
     "Advanced settings" : "Impostatziones avantzadas",
     "Allow users to mount external storage" : "Permiti a is utentes de montare archiviatziones de foras",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
-    "All users. Type to select user or group." : "Totu is utentes. Inserta pro ischertare utente e grupu."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales."
 },
 "nplurals=2; plural=(n != 1);");

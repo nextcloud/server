@@ -211,7 +211,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getEstimatedExportSize(IUser $user): int {
+	public function getEstimatedExportSize(IUser $user): int|float {
 		$calendarExports = $this->getCalendarExports($user, new NullOutput());
 		$calendarCount = count($calendarExports);
 
@@ -230,7 +230,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 		// 450B for each component (events, todos, alarms, etc.)
 		$size += ($componentCount * 450) / 1024;
 
-		return (int)ceil($size);
+		return ceil($size);
 	}
 
 	/**

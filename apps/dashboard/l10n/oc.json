@@ -17,9 +17,6 @@
     "Good evening" : "Bonser",
     "Good evening, {name}" : "Bonser, {name}",
     "Hello" : "Adieu",
-    "Hello, {name}" : "Adieu, {name}",
-    "Change background image" : "Cambiar l’imatge de fons",
-    "Default images" : "Imatges per defaut",
-    "Plain background" : "Fons unit"
+    "Hello, {name}" : "Adieu, {name}"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

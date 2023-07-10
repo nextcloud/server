@@ -52,7 +52,7 @@
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid var(--color-primary);
+	border: 1px solid var(--color-primary-element);
 	background: var(--color-main-background) none;
 	font-weight: bold;
 	color: var(--color-main-text);
@@ -223,9 +223,9 @@
 }
 
 .ui-button.primary {
-	background-color: var(--color-primary);
-	color: var(--color-primary-text);
-	border: 1px solid var(--color-primary-text);
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-element-text);
+	border: 1px solid var(--color-primary-element-text);
 }
 
 // fix ui-buttons on hover
