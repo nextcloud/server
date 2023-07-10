@@ -66,7 +66,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/** @var ITags|MockObject */
 	private $privateTags;
 
-	private ITagManager|MockObject $privateTagManager;
+	/** @var ITagManager|MockObject|(object&MockObject)|(ITagManager&object&MockObject)|(ITagManager&MockObject)  */
+	private $privateTagManager;
 
 	/** @var  \OCP\IUserSession */
 	private $userSession;

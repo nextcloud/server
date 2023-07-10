@@ -442,7 +442,11 @@ class FilesReportPlugin extends ServerPlugin {
 		return $results;
 	}
 
-	protected function wrapNode(\OCP\Files\File|\OCP\Files\Folder $node): File|Directory {
+	/**
+	 * @param \OCP\Files\File|\OCP\Files\Folder $node
+	 * @return File|Directory
+	 */
+	protected function wrapNode($node): \OCA\DAV\Connector\Sabre\Node {
 		if ($node instanceof \OCP\Files\File) {
 			return new File($this->fileView, $node);
 		} else {

@@ -64,7 +64,7 @@ class QuerySearchHelper {
 		LoggerInterface $logger,
 		SearchBuilder $searchBuilder,
 		QueryOptimizer $queryOptimizer,
-		IGroupManager $groupManager,
+		IGroupManager $groupManager
 	) {
 		$this->mimetypeLoader = $mimetypeLoader;
 		$this->connection = $connection;
