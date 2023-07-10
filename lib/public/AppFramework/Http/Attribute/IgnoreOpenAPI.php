@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Kate Döen <kate.doeen@nextcloud.com>
  *
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,26 +16,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace OCA\Comments;
 
-use OCP\Capabilities\ICapability;
+namespace OCP\AppFramework\Http\Attribute;
 
-class Capabilities implements ICapability {
-	/**
-	 * @return array{files: array{comments: bool}}
-	 */
-	public function getCapabilities(): array {
-		return [
-			'files' => [
-				'comments' => true,
-			]
-		];
-	}
+use Attribute;
+
+/**
+ * Attribute for controller methods that should be ignored when generating OpenAPI documentation
+ *
+ * @since 28.0.0
+ */
+#[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_CLASS)]
+class IgnoreOpenAPI {
 }

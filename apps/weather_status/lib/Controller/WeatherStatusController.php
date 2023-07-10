@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\WeatherStatus\Controller;
 
+use OCA\WeatherStatus\ResponseDefinitions;
 use OCA\WeatherStatus\Service\WeatherStatusService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -32,6 +33,9 @@ use OCP\AppFramework\OCSController;
 use OCP\ILogger;
 use OCP\IRequest;
 
+/**
+ * @psalm-import-type WeatherStatusForecast from ResponseDefinitions
+ */
 class WeatherStatusController extends OCSController {
 
 	/** @var string */
@@ -59,7 +63,7 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * Try to use the address set in user personal settings as weather location
 	 *
-	 * @return DataResponse with success state and address information
+	 * @return DataResponse<Http::STATUS_OK, array{success: bool, lat: ?float, lon: ?float, address: ?string}, array{}>
 	 */
 	public function usePersonalAddress(): DataResponse {
 		return new DataResponse($this->service->usePersonalAddress());
@@ -73,7 +77,7 @@ class WeatherStatusController extends OCSController {
 	 * - use the user defined address
 	 *
 	 * @param int $mode New mode
-	 * @return DataResponse success state
+	 * @return DataResponse<Http::STATUS_OK, array{success: bool}, array{}>
 	 */
 	public function setMode(int $mode): DataResponse {
 		return new DataResponse($this->service->setMode($mode));
@@ -88,7 +92,7 @@ class WeatherStatusController extends OCSController {
 	 * @param string|null $address Any approximative or exact address
 	 * @param float|null $lat Latitude in decimal degree format
 	 * @param float|null $lon Longitude in decimal degree format
-	 * @return DataResponse with success state and address information
+	 * @return DataResponse<Http::STATUS_OK, array{success: bool, lat: ?float, lon: ?float, address: ?string}, array{}>
 	 */
 	public function setLocation(?string $address, ?float $lat, ?float $lon): DataResponse {
 		$currentWeather = $this->service->setLocation($address, $lat, $lon);
@@ -100,7 +104,7 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * Get stored user location
 	 *
-	 * @return DataResponse which contains coordinates, formatted address and current weather status mode
+	 * @return DataResponse<Http::STATUS_OK, array{lat: float, lon: float, address: string, mode: int}, array{}>
 	 */
 	public function getLocation(): DataResponse {
 		$location = $this->service->getLocation();
@@ -112,7 +116,10 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * Get forecast for current location
 	 *
-	 * @return DataResponse which contains success state and filtered forecast data
+	 * @return DataResponse<Http::STATUS_OK, WeatherStatusForecast[], array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{success: bool}, array{}>
+	 *
+	 * 200: Forecast returned
+	 * 404: Forecast not found
 	 */
 	public function getForecast(): DataResponse {
 		$forecast = $this->service->getForecast();
@@ -128,7 +135,7 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * Get favorites list
 	 *
-	 * @return DataResponse which contains the favorite list
+	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 */
 	public function getFavorites(): DataResponse {
 		return new DataResponse($this->service->getFavorites());
@@ -139,8 +146,8 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * Set favorites list
 	 *
-	 * @param array $favorites
-	 * @return DataResponse success state
+	 * @param string[] $favorites Favorite addresses
+	 * @return DataResponse<Http::STATUS_OK, array{success: bool}, array{}>
 	 */
 	public function setFavorites(array $favorites): DataResponse {
 		return new DataResponse($this->service->setFavorites($favorites));
