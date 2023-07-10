@@ -38,6 +38,8 @@ use OCP\Security\ICrypto;
 class DBConfigService {
 	public const MOUNT_TYPE_ADMIN = 1;
 	public const MOUNT_TYPE_PERSONAL = 2;
+	/** @deprecated use MOUNT_TYPE_PERSONAL (full uppercase) instead */
+	public const MOUNT_TYPE_PERSONAl = 2;
 
 	public const APPLICABLE_TYPE_GLOBAL = 1;
 	public const APPLICABLE_TYPE_GROUP = 2;

@@ -41,6 +41,8 @@ use OCA\Files_External\ResponseDefinitions;
 class StorageConfig implements \JsonSerializable {
 	public const MOUNT_TYPE_ADMIN = 1;
 	public const MOUNT_TYPE_PERSONAL = 2;
+	/** @deprecated use MOUNT_TYPE_PERSONAL (full uppercase) instead */
+	public const MOUNT_TYPE_PERSONAl = 2;
 
 	/**
 	 * Storage config id
