@@ -118,6 +118,8 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} оновив(-ла) контакт {card} в адресній книзі {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Ви оновили контакт {card} в адресній книзі {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>Контактну</strong> або <strong>адресну книгу</strong> було змінено",
+    "Accounts" : "Облікові записи",
+    "System address book which holds all accounts" : "Системна адресна книга, в якій містяться всі облікові записи",
     "File is not updatable: %1$s" : "Файл не оновлюється: %1$s",
     "Could not write to final file, canceled by hook" : "Не вдалося записати в остаточний файл, скасовано перехопленням",
     "Could not write file contents" : "Не вдалося записати вміст файлу",
