@@ -326,7 +326,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @param int $id
 	 * @return array
 	 */
-	protected function 	getByIdInRootMount(int $id): array {
+	protected function getByIdInRootMount(int $id): array {
 		if (!method_exists($this->root, 'createNode')) {
 			// Always expected to be false. Being a method of Folder, this is
 			// always implemented. For it is an internal method and should not
