@@ -2248,9 +2248,6 @@
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Files/Node/Node.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Node</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidArgument occurrences="1">
       <code>'\OCP\Files::' . $hook</code>
     </InvalidArgument>
@@ -2282,9 +2279,6 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Node/Root.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Node</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="1">
       <code>\OC\User\User</code>
     </InvalidNullableReturnType>
