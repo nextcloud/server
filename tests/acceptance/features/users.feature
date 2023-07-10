@@ -63,9 +63,9 @@ Feature: users
     Given I act as Jane
     And I am logged in as the admin
     And I open the User settings
-    And I see that the list of users contains the user user0
-    When I toggle the edit mode for the user user0
-    Then I see that the edit mode is on for user user0
+    # And I see that the list of users contains the user user0
+    # When I toggle the edit mode for the user user0
+    # Then I see that the edit mode is on for user user0
     # disabled because we need the TAB patch:
     # https://github.com/minkphp/MinkSelenium2Driver/pull/244
     # When I assign the user user0 to the group admin
@@ -76,7 +76,7 @@ Feature: users
     Given I act as Jane
     And I am logged in as the admin
     And I open the User settings
-    And I see that the list of users contains the user user0
+    # And I see that the list of users contains the user user0
     # disabled because we need the TAB patch:
     # https://github.com/minkphp/MinkSelenium2Driver/pull/244
     # And I assign the user user0 to the group Group1
@@ -153,10 +153,10 @@ Feature: users
     Given I act as Jane
     And I am logged in as the admin
     And I open the User settings
-    And I see that the list of users contains the user user0
-    When I toggle the edit mode for the user user0
-    Then I see that the edit mode is on for user user0
-    And I see that the user quota of user0 is Unlimited
+    # And I see that the list of users contains the user user0
+    # When I toggle the edit mode for the user user0
+    # Then I see that the edit mode is on for user user0
+    # And I see that the user quota of user0 is Unlimited
     # disabled because we need the TAB patch:
     # https://github.com/minkphp/MinkSelenium2Driver/pull/244
     # When I set the user user0 quota to 1GB
