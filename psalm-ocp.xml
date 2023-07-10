@@ -20,8 +20,6 @@
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>
-		<file name="build/stubs/gd.php"/>
-		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/psr_container.php"/>
 	</stubs>
 	<extraFiles>

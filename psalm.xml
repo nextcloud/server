@@ -65,11 +65,9 @@
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
-		<file name="build/stubs/gd.php"/>
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
 		<file name="build/stubs/IntlChar.php"/>
-		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
 		<file name="build/stubs/redis.php"/>
 		<file name="build/stubs/redis_cluster.php"/>
