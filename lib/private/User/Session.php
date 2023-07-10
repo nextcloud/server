@@ -438,7 +438,7 @@ class Session implements IUserSession, Emitter {
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
 		$remoteAddress = $request->getRemoteAddress();
-		$currentDelay = $throttler->sleepDelay($remoteAddress, 'login');
+		$currentDelay = $throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
 			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
@@ -467,15 +467,7 @@ class Session implements IUserSession, Emitter {
 			}
 			$users = $this->manager->getByEmail($user);
 			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
-				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
-
-				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
-
-				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
-
-				if ($currentDelay === 0) {
-					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
-				}
+				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
 		}
@@ -497,7 +489,7 @@ class Session implements IUserSession, Emitter {
 		$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
 
 		if ($currentDelay === 0) {
-			$throttler->sleepDelay($remoteAddress, 'login');
+			$throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 		}
 	}
 
