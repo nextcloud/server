@@ -51,7 +51,6 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
@@ -60,116 +59,31 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Util;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class CloudFederationProviderFiles implements ICloudFederationProvider {
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	/** @var IActivityManager */
-	private $activityManager;
-
-	/** @var INotificationManager */
-	private $notificationManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudFederationFactory */
-	private $cloudFederationFactory;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var Manager */
-	private $externalShareManager;
-
 	/**
 	 * CloudFederationProvider constructor.
-	 *
-	 * @param IAppManager $appManager
-	 * @param FederatedShareProvider $federatedShareProvider
-	 * @param AddressHandler $addressHandler
-	 * @param ILogger $logger
-	 * @param IUserManager $userManager
-	 * @param IManager $shareManager
-	 * @param ICloudIdManager $cloudIdManager
-	 * @param IActivityManager $activityManager
-	 * @param INotificationManager $notificationManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICloudFederationFactory $cloudFederationFactory
-	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
-	 * @param IDBConnection $connection
-	 * @param IGroupManager $groupManager
-	 * @param IConfig $config
-	 * @param Manager $externalShareManager
 	 */
 	public function __construct(
-		IAppManager $appManager,
-		FederatedShareProvider $federatedShareProvider,
-		AddressHandler $addressHandler,
-		ILogger $logger,
-		IUserManager $userManager,
-		IManager $shareManager,
-		ICloudIdManager $cloudIdManager,
-		IActivityManager $activityManager,
-		INotificationManager $notificationManager,
-		IURLGenerator $urlGenerator,
-		ICloudFederationFactory $cloudFederationFactory,
-		ICloudFederationProviderManager $cloudFederationProviderManager,
-		IDBConnection $connection,
-		IGroupManager $groupManager,
-		IConfig $config,
-		Manager $externalShareManager
+		private IAppManager $appManager,
+		private FederatedShareProvider $federatedShareProvider,
+		private AddressHandler $addressHandler,
+		private IUserManager $userManager,
+		private IManager $shareManager,
+		private ICloudIdManager $cloudIdManager,
+		private IActivityManager $activityManager,
+		private INotificationManager $notificationManager,
+		private IURLGenerator $urlGenerator,
+		private ICloudFederationFactory $cloudFederationFactory,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private IDBConnection $connection,
+		private IGroupManager $groupManager,
+		private IConfig $config,
+		private Manager $externalShareManager,
+		private LoggerInterface $logger,
 	) {
-		$this->appManager = $appManager;
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->addressHandler = $addressHandler;
-		$this->logger = $logger;
-		$this->userManager = $userManager;
-		$this->shareManager = $shareManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->activityManager = $activityManager;
-		$this->notificationManager = $notificationManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudFederationFactory = $cloudFederationFactory;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->connection = $connection;
-		$this->groupManager = $groupManager;
-		$this->config = $config;
-		$this->externalShareManager = $externalShareManager;
 	}
-
-
 
 	/**
 	 * @return string
@@ -239,18 +153,18 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				$this->logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
 				if (!$this->userManager->userExists($shareWith)) {
-					throw new ProviderCouldNotAddShareException('User does not exists', '',Http::STATUS_BAD_REQUEST);
+					throw new ProviderCouldNotAddShareException('User does not exists', '', Http::STATUS_BAD_REQUEST);
 				}
 
 				\OC_Util::setupFS($shareWith);
 			}
 
 			if ($shareType === IShare::TYPE_GROUP && !$this->groupManager->groupExists($shareWith)) {
-				throw new ProviderCouldNotAddShareException('Group does not exists', '',Http::STATUS_BAD_REQUEST);
+				throw new ProviderCouldNotAddShareException('Group does not exists', '', Http::STATUS_BAD_REQUEST);
 			}
 
 			try {
-				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
+				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType, false, $shareWith, $remoteId);
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
 				// get DisplayName about the owner of the share
@@ -280,10 +194,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				}
 				return $shareId;
 			} catch (\Exception $e) {
-				$this->logger->logException($e, [
-					'message' => 'Server can not add remote share.',
-					'level' => ILogger::ERROR,
-					'app' => 'files_sharing'
+				$this->logger->error('Server can not add remote share.', [
+					'app' => 'files_sharing',
+					'exception' => $e,
 				]);
 				throw new ProviderCouldNotAddShareException('internal server error, was not able to add share from ' . $remote, '', HTTP::STATUS_INTERNAL_SERVER_ERROR);
 			}

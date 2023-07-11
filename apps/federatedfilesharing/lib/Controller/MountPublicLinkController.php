@@ -41,12 +41,12 @@ use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class MountPublicLinkController
@@ -56,66 +56,23 @@ use OCP\Share\IShare;
  * @package OCA\FederatedFileSharing\Controller
  */
 class MountPublicLinkController extends Controller {
-
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var IManager  */
-	private $shareManager;
-
-	/** @var  ISession */
-	private $session;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var ICloudIdManager  */
-	private $cloudIdManager;
-
 	/**
 	 * MountPublicLinkController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param FederatedShareProvider $federatedShareProvider
-	 * @param IManager $shareManager
-	 * @param AddressHandler $addressHandler
-	 * @param ISession $session
-	 * @param IL10N $l
-	 * @param IUserSession $userSession
-	 * @param IClientService $clientService
-	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								FederatedShareProvider $federatedShareProvider,
-								IManager $shareManager,
-								AddressHandler $addressHandler,
-								ISession $session,
-								IL10N $l,
-								IUserSession $userSession,
-								IClientService $clientService,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private FederatedShareProvider $federatedShareProvider,
+		private IManager $shareManager,
+		private AddressHandler $addressHandler,
+		private ISession $session,
+		private IL10N $l,
+		private IUserSession $userSession,
+		private IClientService $clientService,
+		private ICloudIdManager $cloudIdManager,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->shareManager = $shareManager;
-		$this->addressHandler = $addressHandler;
-		$this->session = $session;
-		$this->l = $l;
-		$this->userSession = $userSession;
-		$this->clientService = $clientService;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -175,9 +132,9 @@ class MountPublicLinkController extends Controller {
 		try {
 			$this->federatedShareProvider->create($share);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::WARN,
+			$this->logger->warning($e->getMessage(), [
 				'app' => 'federatedfilesharing',
+				'exception' => $e,
 			]);
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
