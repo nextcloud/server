@@ -1328,7 +1328,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query->select($query->func()->max('id'))
 			->from('addressbookchanges');
 
-		$maxId =  $query->executeQuery()->fetchOne();
+		$result = $query->executeQuery();
+		$maxId = (int) $result->fetchOne();
+		$result->closeCursor();
 		if (!$maxId || $maxId < $keep) {
 		    return 0;
 		}
