@@ -71,7 +71,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $type The task type
 	 * @param string $appId The originating app ID
 	 * @param string $identifier An identifier to identify this task
-	 * @return DataResponse<Http::STATUS_OK, array{task: array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string}}, array{}>| DataResponse<Http::STATUS_PRECONDITION_FAILED|Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{task: array{id: ?int, type: string, status: int, userId: ?string, appId: string, input: string, output: ?string, identifier: string}}, array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED|Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled
 	 * 400: Task type does not exist
