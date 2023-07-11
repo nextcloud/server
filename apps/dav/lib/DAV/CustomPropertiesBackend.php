@@ -22,9 +22,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\DAV;
 
 use Exception;
+use OCA\DAV\Connector\Sabre\Directory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -134,7 +136,8 @@ class CustomPropertiesBackend implements BackendInterface {
 	public function __construct(
 		Tree $tree,
 		IDBConnection $connection,
-		IUser $user) {
+		IUser $user
+	) {
 		$this->tree = $tree;
 		$this->connection = $connection;
 		$this->user = $user;
@@ -178,6 +181,11 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		if (empty($requestedProps)) {
 			return;
+		}
+
+		$node = $this->tree->getNodeForPath($path);
+		if ($node instanceof Directory && $propFind->getDepth() !== 0) {
+			$this->cacheDirectory($path, $node);
 		}
 
 		// First fetch the published properties (set by another user), then get the ones set by
@@ -263,6 +271,38 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	/**
+	 * prefetch all user properties in a directory
+	 */
+	private function cacheDirectory(string $path, Directory $node): void {
+		$prefix = ltrim($path . '/', '/');
+		$query = $this->connection->getQueryBuilder();
+		$query->select('name', 'propertypath', 'propertyname', 'propertyvalue', 'valuetype')
+			->from('filecache', 'f')
+			->leftJoin('f', 'properties', 'p', $query->expr()->andX(
+				$query->expr()->eq('propertypath', $query->func()->concat(
+					$query->createNamedParameter($prefix),
+					'name'
+				)),
+				$query->expr()->eq('userid', $query->createNamedParameter($this->user->getUID()))
+			))
+			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)));
+		$result = $query->executeQuery();
+
+		$propsByPath = [];
+
+		while ($row = $result->fetch()) {
+			$childPath = $prefix . $row['name'];
+			if (!isset($propsByPath[$childPath])) {
+				$propsByPath[$childPath] = [];
+			}
+			if (isset($row['propertyname'])) {
+				$propsByPath[$childPath][$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
+			}
+		}
+		$this->userCache = array_merge($this->userCache, $propsByPath);
+	}
+
+	/**
 	 * Returns a list of properties for the given path and current user
 	 *
 	 * @param string $path
@@ -321,7 +361,7 @@ class CustomPropertiesBackend implements BackendInterface {
 				$dbParameters = [
 					'userid' => $this->user->getUID(),
 					'propertyPath' => $this->formatPath($path),
-					'propertyName' => $propertyName
+					'propertyName' => $propertyName,
 				];
 
 				// If it was null, we need to delete the property
