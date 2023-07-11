@@ -22,10 +22,10 @@
     "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"],
     "_1 new comment_::_{unread} new comments_" : ["1 comentario novo","{unread} comentarios novos"],
     "Comment" : "Comentario",
-    "An error occurred while trying to edit the comment" : "Produciuse un erro mentres tentaba editar o comentario",
+    "An error occurred while trying to edit the comment" : "Produciuse un erro cando tentaba editar o comentario",
     "Comment deleted" : "Comentario eliminado",
-    "An error occurred while trying to delete the comment" : "Produciuse un erro mentres tentaba eliminar o comentario",
-    "An error occurred while trying to create the comment" : "Produciuse un erro mentres tentaba crear o comentario",
+    "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
+    "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
     "%1$s commented" : "%1$s comentados"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
