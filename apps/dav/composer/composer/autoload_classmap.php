@@ -233,6 +233,7 @@ return array(
     'OCA\\DAV\\Events\\CardDeletedEvent' => $baseDir . '/../lib/Events/CardDeletedEvent.php',
     'OCA\\DAV\\Events\\CardMovedEvent' => $baseDir . '/../lib/Events/CardMovedEvent.php',
     'OCA\\DAV\\Events\\CardUpdatedEvent' => $baseDir . '/../lib/Events/CardUpdatedEvent.php',
+    'OCA\\DAV\\Events\\SabrePluginAddEvent' => $baseDir . '/../lib/Events/SabrePluginAddEvent.php',
     'OCA\\DAV\\Events\\SabrePluginAuthInitEvent' => $baseDir . '/../lib/Events/SabrePluginAuthInitEvent.php',
     'OCA\\DAV\\Events\\SubscriptionCreatedEvent' => $baseDir . '/../lib/Events/SubscriptionCreatedEvent.php',
     'OCA\\DAV\\Events\\SubscriptionDeletedEvent' => $baseDir . '/../lib/Events/SubscriptionDeletedEvent.php',
