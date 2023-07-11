@@ -36,53 +36,25 @@ use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
-use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class MountProvider implements IMountProvider {
 	/**
-	 * @var \OCP\IConfig
-	 */
-	protected $config;
-
-	/**
-	 * @var IManager
-	 */
-	protected $shareManager;
-
-	/**
-	 * @var ILogger
-	 */
-	protected $logger;
-
-	/** @var IEventDispatcher */
-	protected $eventDispatcher;
-
-	/** @var ICacheFactory */
-	protected $cacheFactory;
-
-	/**
 	 * @param \OCP\IConfig $config
 	 * @param IManager $shareManager
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
-		IConfig $config,
-		IManager $shareManager,
-		ILogger $logger,
-		IEventDispatcher $eventDispatcher,
-		ICacheFactory $cacheFactory
+		protected IConfig $config,
+		protected IManager $shareManager,
+		protected LoggerInterface $logger,
+		protected IEventDispatcher $eventDispatcher,
+		protected ICacheFactory $cacheFactory
 	) {
-		$this->config = $config;
-		$this->shareManager = $shareManager;
-		$this->logger = $logger;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->cacheFactory = $cacheFactory;
 	}
-
 
 	/**
 	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
@@ -157,8 +129,13 @@ class MountProvider implements IMountProvider {
 					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (\Exception $e) {
-				$this->logger->logException($e);
-				$this->logger->error('Error while trying to create shared mount');
+				$this->logger->error(
+					'Error while trying to create shared mount',
+					[
+						'app' => 'files_sharing',
+						'exception' => $e,
+					],
+				);
 			}
 		}
 
@@ -234,7 +211,9 @@ class MountProvider implements IMountProvider {
 			// Since these are readly available here, storing them
 			// enables the DAV FilesPlugin to avoid executing many
 			// DB queries to retrieve the same information.
-			$allNotes = implode("\n", array_map(function ($sh) { return $sh->getNote(); }, $shares));
+			$allNotes = implode("\n", array_map(function ($sh) {
+				return $sh->getNote();
+			}, $shares));
 			$superShare->setNote($allNotes);
 
 			// use most permissive permissions
