@@ -21,7 +21,7 @@
  */
 import { action } from './acceptShareAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { FileAction } from '../../../files/src/services/FileAction'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'

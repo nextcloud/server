@@ -33,6 +33,9 @@ import ShareVariantSvg from '@mdi/svg/svg/share-variant.svg?raw'
 import { getContents } from '../services/SharingService'
 
 export const sharesViewId = 'shareoverview'
+export const sharedWithYouViewId = 'sharingin'
+export const sharedWithOthersViewId = 'sharingout'
+export const sharingByLinksViewId = 'sharinglinks'
 export const deletedSharesViewId = 'deletedshares'
 export const pendingSharesViewId = 'pendingshares'
 
@@ -52,7 +55,7 @@ export default () => {
 	} as Navigation)
 
 	Navigation.register({
-		id: 'sharingin',
+		id: sharedWithYouViewId,
 		name: t('files_sharing', 'Shared with you'),
 		caption: t('files_sharing', 'List of files that are shared with you.'),
 
@@ -66,7 +69,7 @@ export default () => {
 	} as Navigation)
 
 	Navigation.register({
-		id: 'sharingout',
+		id: sharedWithOthersViewId,
 		name: t('files_sharing', 'Shared with others'),
 		caption: t('files_sharing', 'List of files that you shared with others.'),
 
@@ -80,7 +83,7 @@ export default () => {
 	} as Navigation)
 
 	Navigation.register({
-		id: 'sharinglinks',
+		id: sharingByLinksViewId,
 		name: t('files_sharing', 'Shared by link'),
 		caption: t('files_sharing', 'List of files that are shared by link.'),
 
@@ -108,7 +111,7 @@ export default () => {
 	} as Navigation)
 
 	Navigation.register({
-		id: 'pendingshares',
+		id: pendingSharesViewId,
 		name: t('files_sharing', 'Pending shares'),
 		caption: t('files_sharing', 'List of unapproved shares.'),
 

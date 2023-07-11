@@ -23,6 +23,7 @@
 import registerSharingViews from './views/shares'
 
 import './actions/acceptShareAction'
+import './actions/openInFilesAction'
 import './actions/rejectShareAction'
 import './actions/restoreShareAction'
 
