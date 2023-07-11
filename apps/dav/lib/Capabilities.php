@@ -5,6 +5,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Louis Chemineau <louis@chmn.me>
  * @author Côme Chilliet <come.chilliet@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -33,6 +34,9 @@ class Capabilities implements ICapability {
 		$this->config = $config;
 	}
 
+	/**
+	 * @return array{dav: array{chunking: string, bulkupload?: string}}
+	 */
 	public function getCapabilities() {
 		$capabilities = [
 			'dav' => [
