@@ -754,6 +754,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['objecttype', 'objectid', 'systemtagid'], 'som_pk');
 //			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
+			$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
 		}
 
 		if (!$schema->hasTable('systemtag_group')) {
