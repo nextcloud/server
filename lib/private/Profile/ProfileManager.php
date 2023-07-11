@@ -169,7 +169,7 @@ class ProfileManager {
 				return;
 			}
 			if (!$this->appManager->isEnabledForUser($action->getAppId(), $visitingUser)) {
-				$this->logger->notice('App: ' . $action->getAppId() . ' cannot register actions as it is not enabled for the visiting user: ' . $visitingUser->getUID());
+				$this->logger->notice('App: ' . $action->getAppId() . ' cannot register actions as it is not enabled for the visiting user: ' . ($visitingUser ? $visitingUser->getUID() : '(user not connected)'));
 				return;
 			}
 		}
