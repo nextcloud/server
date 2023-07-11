@@ -19,14 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { Route } from 'vue-router';
-import type VueRouter from 'vue-router';
-import type { Dictionary } from 'vue-router/types/router';
-import type { Location } from 'vue-router/types/router';
+import type { Route } from 'vue-router'
+import type VueRouter from 'vue-router'
+import type { Dictionary, Location } from 'vue-router/types/router'
 
 export default class RouterService {
 
-	private _router: VueRouter;
+	private _router: VueRouter
 
 	constructor(router: VueRouter) {
 		this._router = router
@@ -34,12 +33,12 @@ export default class RouterService {
 
 	/**
 	 * Trigger a route change on the files app
-	 * 
+	 *
 	 * @param path the url path, eg: '/trashbin?dir=/Deleted'
 	 * @param replace replace the current history
 	 * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
 	 */
-	goTo(path: string, replace: boolean = false): Promise<Route> {
+	goTo(path: string, replace = false): Promise<Route> {
 		return this._router.push({
 			path,
 			replace,
@@ -68,4 +67,5 @@ export default class RouterService {
 			replace,
 		} as Location)
 	}
+
 }

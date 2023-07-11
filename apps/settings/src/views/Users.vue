@@ -47,9 +47,11 @@
 					:title="t('settings', 'Active users')"
 					:to="{ name: 'users' }"
 					icon="icon-contacts-dark">
-					<NcAppNavigationCounter v-if="userCount > 0" slot="counter">
-						{{ userCount }}
-					</NcAppNavigationCounter>
+					<template #counter>
+						<NcCounterBubble :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							{{ userCount }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem v-if="settings.isAdmin"
 					id="admin"
@@ -57,9 +59,11 @@
 					:title="t('settings', 'Admins')"
 					:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
 					icon="icon-user-admin">
-					<NcAppNavigationCounter v-if="adminGroupMenu.count" slot="counter">
-						{{ adminGroupMenu.count }}
-					</NcAppNavigationCounter>
+					<template v-if="adminGroupMenu.count > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
+							{{ adminGroupMenu.count }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 
 				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
@@ -69,67 +73,58 @@
 					:title="t('settings', 'Disabled users')"
 					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
 					icon="icon-disabled-users">
-					<NcAppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
-						{{ disabledGroupMenu.usercount }}
-					</NcAppNavigationCounter>
+					<template v-if="disabledGroupMenu.usercount > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
+							{{ disabledGroupMenu.usercount }}
+						</NcCounterBubble>
+					</template>
 				</NcAppNavigationItem>
 
 				<NcAppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
 				<GroupListItem v-for="group in groupList"
 					:id="group.id"
 					:key="group.id"
+					:active="selectedGroupDecoded === group.id"
 					:title="group.title"
 					:count="group.count" />
 			</template>
 			<template #footer>
 				<NcAppNavigationSettings exclude-click-outside-selectors=".vs__dropdown-menu">
-					<div>
-						<label for="default-quota-multiselect">{{ t('settings', 'Default quota:') }}</label>
-						<NcSelect v-model="defaultQuota"
-							input-id="default-quota-multiselect"
-							:taggable="true"
-							:options="quotaOptions"
-							:create-option="validateQuota"
-							:placeholder="t('settings', 'Select default quota')"
-							:close-on-select="true"
-							@option:selected="setDefaultQuota" />
-					</div>
-					<div>
-						<input id="showLanguages"
-							v-model="showLanguages"
-							type="checkbox"
-							class="checkbox">
-						<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
-					</div>
-					<div>
-						<input id="showLastLogin"
-							v-model="showLastLogin"
-							type="checkbox"
-							class="checkbox">
-						<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
-					</div>
-					<div>
-						<input id="showUserBackend"
-							v-model="showUserBackend"
-							type="checkbox"
-							class="checkbox">
-						<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
-					</div>
-					<div>
-						<input id="showStoragePath"
-							v-model="showStoragePath"
-							type="checkbox"
-							class="checkbox">
-						<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
-					</div>
-					<div>
-						<input id="sendWelcomeMail"
-							v-model="sendWelcomeMail"
-							:disabled="loadingSendMail"
-							type="checkbox"
-							class="checkbox">
-						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
-					</div>
+					<label for="default-quota-select">{{ t('settings', 'Default quota:') }}</label>
+					<NcSelect v-model="defaultQuota"
+						input-id="default-quota-select"
+						:taggable="true"
+						:options="quotaOptions"
+						:create-option="validateQuota"
+						:placeholder="t('settings', 'Select default quota')"
+						:clearable="false"
+						@option:selected="setDefaultQuota" />
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showLanguages"
+						:checked.sync="showLanguages">
+						{{ t('settings', 'Show languages') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showLastLogin"
+						:checked.sync="showLastLogin">
+						{{ t('settings', 'Show last login') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showUserBackend"
+						:checked.sync="showUserBackend">
+						{{ t('settings', 'Show user backend') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="showStoragePath"
+						:checked.sync="showStoragePath">
+						{{ t('settings', 'Show storage path') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch type="switch"
+						data-test="sendWelcomeMail"
+						:checked.sync="sendWelcomeMail"
+						:disabled="loadingSendMail">
+						{{ t('settings', 'Send email to new user') }}
+					</NcCheckboxRadioSwitch>
 				</NcAppNavigationSettings>
 			</template>
 		</NcAppNavigation>
@@ -143,40 +138,45 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueLocalStorage from 'vue-localstorage'
+
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
 import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigationNewItem.js'
 import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
-import axios from '@nextcloud/axios'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-import { generateUrl } from '@nextcloud/router'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import Vue from 'vue'
-import VueLocalStorage from 'vue-localstorage'
+
+import Plus from 'vue-material-design-icons/Plus.vue'
+
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 
 import GroupListItem from '../components/GroupListItem.vue'
 import UserList from '../components/UserList.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
 
 Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Users',
 	components: {
+		GroupListItem,
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationCaption,
-		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
 		NcAppNavigationNewItem,
 		NcAppNavigationSettings,
+		NcCheckboxRadioSwitch,
+		NcCounterBubble,
 		NcContent,
-		GroupListItem,
 		NcSelect,
 		Plus,
 		UserList,
@@ -341,11 +341,6 @@ export default {
 	methods: {
 		showNewUserMenu() {
 			this.showConfig.showNewUserForm = true
-			if (this.showConfig.showNewUserForm) {
-				Vue.nextTick(() => {
-					window.newusername.focus()
-				})
-			}
 		},
 		getLocalstorage(key) {
 			// force initialization

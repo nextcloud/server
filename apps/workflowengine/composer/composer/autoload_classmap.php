@@ -24,7 +24,7 @@ return array(
     'OCA\\WorkflowEngine\\Command\\Index' => $baseDir . '/../lib/Command/Index.php',
     'OCA\\WorkflowEngine\\Controller\\AWorkflowController' => $baseDir . '/../lib/Controller/AWorkflowController.php',
     'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => $baseDir . '/../lib/Controller/GlobalWorkflowsController.php',
-    'OCA\\WorkflowEngine\\Controller\\RequestTime' => $baseDir . '/../lib/Controller/RequestTime.php',
+    'OCA\\WorkflowEngine\\Controller\\RequestTimeController' => $baseDir . '/../lib/Controller/RequestTimeController.php',
     'OCA\\WorkflowEngine\\Controller\\UserWorkflowsController' => $baseDir . '/../lib/Controller/UserWorkflowsController.php',
     'OCA\\WorkflowEngine\\Entity\\File' => $baseDir . '/../lib/Entity/File.php',
     'OCA\\WorkflowEngine\\Helper\\LogContext' => $baseDir . '/../lib/Helper/LogContext.php',

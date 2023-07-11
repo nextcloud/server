@@ -39,7 +39,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Command\\Index' => __DIR__ . '/..' . '/../lib/Command/Index.php',
         'OCA\\WorkflowEngine\\Controller\\AWorkflowController' => __DIR__ . '/..' . '/../lib/Controller/AWorkflowController.php',
         'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/GlobalWorkflowsController.php',
-        'OCA\\WorkflowEngine\\Controller\\RequestTime' => __DIR__ . '/..' . '/../lib/Controller/RequestTime.php',
+        'OCA\\WorkflowEngine\\Controller\\RequestTimeController' => __DIR__ . '/..' . '/../lib/Controller/RequestTimeController.php',
         'OCA\\WorkflowEngine\\Controller\\UserWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/UserWorkflowsController.php',
         'OCA\\WorkflowEngine\\Entity\\File' => __DIR__ . '/..' . '/../lib/Entity/File.php',
         'OCA\\WorkflowEngine\\Helper\\LogContext' => __DIR__ . '/..' . '/../lib/Helper/LogContext.php',

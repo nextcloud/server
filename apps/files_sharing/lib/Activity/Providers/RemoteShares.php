@@ -115,13 +115,14 @@ class RemoteShares extends Base {
 		switch ($subject) {
 			case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 			case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+				$displayName = (count($parameters) > 2) ? $parameters[2] : '';
 				return [
 					'file' => [
 						'type' => 'pending-federated-share',
 						'id' => $parameters[1],
 						'name' => $parameters[1],
 					],
-					'user' => $this->getUser($parameters[0]),
+					'user' => $this->getUser($parameters[0], $displayName)
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:

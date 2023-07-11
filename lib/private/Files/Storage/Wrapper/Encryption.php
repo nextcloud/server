@@ -17,6 +17,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -143,21 +144,28 @@ class Encryption extends Wrapper {
 		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
-			// update file cache
-			if ($info instanceof ICacheEntry) {
-				$info['encrypted'] = $info['encryptedVersion'];
-			} else {
-				if (!is_array($info)) {
-					$info = [];
-				}
-				$info['encrypted'] = true;
-				$info = new CacheEntry($info);
-			}
 
-			if ($size !== $info->getUnencryptedSize()) {
-				$this->getCache()->update($info->getId(), [
-					'unencrypted_size' => $size
-				]);
+			// Update file cache (only if file is already cached).
+			// Certain files are not cached (e.g. *.part).
+			if (isset($info['fileid'])) {
+				if ($info instanceof ICacheEntry) {
+					$info['encrypted'] = $info['encryptedVersion'];
+				} else {
+					/**
+					 * @psalm-suppress RedundantCondition
+					 */
+					if (!is_array($info)) {
+						$info = [];
+					}
+					$info['encrypted'] = true;
+					$info = new CacheEntry($info);
+				}
+
+				if ($size !== $info->getUnencryptedSize()) {
+					$this->getCache()->update($info->getId(), [
+						'unencrypted_size' => $size
+					]);
+				}
 			}
 
 			return $size;

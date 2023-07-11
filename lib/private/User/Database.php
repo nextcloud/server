@@ -97,7 +97,7 @@ class Database extends ABackend implements
 	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
 		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->query(IEventDispatcher::class);
+		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OCP\Server::get(IEventDispatcher::class);
 	}
 
 	/**

@@ -77,7 +77,6 @@
     "Error occurred while checking server setup" : "Se presentó un error al verificar la configuración del servidor",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "El encabezado HTTP \"{header}\" está establecido a \"{expected}\". Esto representa un riesgo potencial de seguridad o privacidad, y que se recomienda ajustar esta configuración. ",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "El encabezado HTTP \"{header}\" no está establecido a \"{expected}\". Puede que lgunas características no funcionen correctamente, y se recomienda ajustar esta confirguración. ",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Se está accediendo al sitio de manera insegura mediante HTTP. Se recomienda ampliamente que configure su servidor para que requiera HTTPS, como se describe en los {linkstart}consejos de seguridad ↗{linkend}.",
     "unknown text" : "texto desconocido",
     "Hello world!" : "¡Hola mundo!",
     "sunny" : "soleado",

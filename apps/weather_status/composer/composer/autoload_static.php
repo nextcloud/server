@@ -25,6 +25,7 @@ class ComposerStaticInitWeatherStatus
         'OCA\\WeatherStatus\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\WeatherStatus\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\WeatherStatus\\Controller\\WeatherStatusController' => __DIR__ . '/..' . '/../lib/Controller/WeatherStatusController.php',
+        'OCA\\WeatherStatus\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\WeatherStatus\\Service\\WeatherStatusService' => __DIR__ . '/..' . '/../lib/Service/WeatherStatusService.php',
     );
 

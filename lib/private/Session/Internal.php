@@ -149,7 +149,7 @@ class Internal extends Session {
 			$newId = $this->getId();
 
 			/** @var IProvider $tokenProvider */
-			$tokenProvider = \OC::$server->query(IProvider::class);
+			$tokenProvider = \OCP\Server::get(IProvider::class);
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);

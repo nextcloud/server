@@ -3,21 +3,18 @@ module.exports = {
 		__webpack_nonce__: true,
 		_: true,
 		$: true,
-		moment: true,
-		escapeHTML: true,
-		oc_userconfig: true,
 		dayNames: true,
+		escapeHTML: true,
 		firstDay: true,
-		'cypress/globals': true,
-	},
-	parserOptions: {
-		parser: '@typescript-eslint/parser',
+		moment: true,
+		oc_userconfig: true,
+		sinon: true,
 	},
 	plugins: [
 		'cypress',
 	],
 	extends: [
-		'@nextcloud',
+		'@nextcloud/eslint-config/typescript',
 		'plugin:cypress/recommended',
 	],
 	rules: {

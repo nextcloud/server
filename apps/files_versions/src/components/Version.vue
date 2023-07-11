@@ -23,11 +23,15 @@
 			:force-display-actions="true"
 			data-files-versions-version>
 			<template #icon>
-				<img v-if="!previewError"
+				<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
+				<img v-else-if="isCurrent || version.hasPreview"
 					:src="previewURL"
 					alt=""
+					decoding="async"
+					fetchpriority="low"
+					loading="lazy"
 					class="version__image"
-					@error="previewError = true">
+					@load="previewLoaded = true">
 				<div v-else
 					class="version__image">
 					<ImageOffOutline :size="20" />
@@ -42,7 +46,7 @@
 				</div>
 			</template>
 			<template #actions>
-				<NcActionButton	v-if="capabilities.files.version_labeling === true"
+				<NcActionButton	v-if="enableLabeling"
 					:close-after-click="true"
 					@click="openVersionLabelModal">
 					<template #icon>
@@ -66,7 +70,7 @@
 					</template>
 					{{ t('files_versions', 'Download version') }}
 				</NcActionLink>
-				<NcActionButton v-if="!isCurrent && capabilities.files.version_deletion === true"
+				<NcActionButton v-if="!isCurrent && enableDeletion"
 					:close-after-click="true"
 					@click="deleteVersion">
 					<template #icon>
@@ -182,13 +186,17 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		loadPreview: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
+			previewLoaded: false,
 			showVersionLabelForm: false,
 			formVersionLabelValue: this.version.label,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
-			previewError: false,
 		}
 	},
 	computed: {
@@ -242,6 +250,16 @@ export default {
 		formattedDate() {
 			return moment(this.version.mtime).format('LLL')
 		},
+
+		/** @return {boolean} */
+		enableLabeling() {
+			return this.capabilities.files.version_labeling === true && this.fileInfo.mountType !== 'group'
+		},
+
+		/** @return {boolean} */
+		enableDeletion() {
+			return this.capabilities.files.version_deletion === true && this.fileInfo.mountType !== 'group'
+		}
 	},
 	methods: {
 		openVersionLabelModal() {

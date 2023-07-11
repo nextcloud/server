@@ -69,20 +69,17 @@ class SearchBuilder {
 	}
 
 	/**
-	 * Whether or not the tag tables should be joined to complete the search
-	 *
-	 * @param ISearchOperator $operator
-	 * @return boolean
+	 * @return string[]
 	 */
-	public function shouldJoinTags(ISearchOperator $operator) {
+	public function extractRequestedFields(ISearchOperator $operator): array {
 		if ($operator instanceof ISearchBinaryOperator) {
-			return array_reduce($operator->getArguments(), function ($shouldJoin, ISearchOperator $operator) {
-				return $shouldJoin || $this->shouldJoinTags($operator);
-			}, false);
+			return array_reduce($operator->getArguments(), function (array $fields, ISearchOperator $operator) {
+				return array_unique(array_merge($fields, $this->extractRequestedFields($operator)));
+			}, []);
 		} elseif ($operator instanceof ISearchComparison) {
-			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite' || $operator->getField() === 'systemtag';
+			return [$operator->getField()];
 		}
-		return false;
+		return [];
 	}
 
 	/**

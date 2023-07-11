@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
+/* eslint-disable no-use-before-define */
 import type { Folder, Node } from '@nextcloud/files'
 import isSvg from 'is-svg'
 
@@ -39,8 +39,10 @@ export interface Column {
 	render: (node: Node, view: Navigation) => HTMLElement
 	/** Function used to sort Nodes between them */
 	sort?: (nodeA: Node, nodeB: Node) => number
-	/** Custom summary of the column to display at the end of the list.
-	 Will not be displayed if  nothing is provided */
+	/**
+	 * Custom summary of the column to display at the end of the list.
+	 * Will not be displayed if  nothing is provided
+	 */
 	summary?: (node: Node[], view: Navigation) => string
 }
 
@@ -49,6 +51,8 @@ export interface Navigation {
 	id: string
 	/** Translated view name */
 	name: string
+	/** Translated view accessible description */
+	caption?: string
 	/**
 	 * Method return the content of the  provided path
 	 * This ideally should be a cancellable promise.
@@ -62,8 +66,11 @@ export interface Navigation {
 	icon: string
 	/** The view order */
 	order: number
-	/** This view column(s). Name and actions are
-	by default always included */
+
+	/**
+	 * This view column(s). Name and actions are
+	 * by default always included
+	 */
 	columns?: Column[]
 	/** The empty view element to render your empty content into */
 	emptyView?: (div: HTMLDivElement) => void
@@ -71,7 +78,9 @@ export interface Navigation {
 	parent?: string
 	/** This view is sticky (sent at the bottom) */
 	sticky?: boolean
-	/** This view has children and is expanded or not,
+
+	/**
+	 * This view has children and is expanded or not,
 	 * will be overridden by user config.
 	 */
 	expanded?: boolean
@@ -79,7 +88,7 @@ export interface Navigation {
 	/**
 	 * Will be used as default if the user
 	 * haven't customized their sorting column
-	 * */
+	 */
 	defaultSortKey?: string
 
 	/**
@@ -88,8 +97,9 @@ export interface Navigation {
 	 * @deprecated It will be removed in a near future
 	 */
 	legacy?: boolean
+
 	/**
-	 * An icon class. 
+	 * An icon class.
 	 * @deprecated It will be removed in a near future
 	 */
 	iconClass?: string
@@ -169,6 +179,11 @@ const isValidNavigation = function(view: Navigation): boolean {
 
 	if (!view.name || typeof view.name !== 'string') {
 		throw new Error('Navigation name is required and must be a string')
+	}
+
+	if (view.columns && view.columns.length > 0
+		&& (!view.caption || typeof view.caption !== 'string')) {
+		throw new Error('Navigation caption is required for top-level views and must be a string')
 	}
 
 	/**

@@ -19,17 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
 import type { Folder, Node } from '@nextcloud/files'
-import type { FilesStore, RootsStore, RootOptions, Service, FilesState } from '../types.ts'
+import type { FilesStore, RootsStore, RootOptions, Service, FilesState, FileId } from '../types'
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
-import type { FileId } from '../types'
 import Vue from 'vue'
 
-export const useFilesStore = function() {
+export const useFilesStore = function(...args) {
 	const store = defineStore('files', {
 		state: (): FilesState => ({
 			files: {} as FilesStore,
@@ -40,7 +38,7 @@ export const useFilesStore = function() {
 			/**
 			 * Get a file or folder by id
 			 */
-			getNode: (state)  => (id: FileId): Node|undefined => state.files[id],
+			getNode: (state) => (id: FileId): Node|undefined => state.files[id],
 
 			/**
 			 * Get a list of files or folders by their IDs
@@ -52,7 +50,7 @@ export const useFilesStore = function() {
 			/**
 			 * Get a file or folder by id
 			 */
-			getRoot: (state)  => (service: Service): Folder|undefined => state.roots[service],
+			getRoot: (state) => (service: Service): Folder|undefined => state.roots[service],
 		},
 
 		actions: {
@@ -67,7 +65,7 @@ export const useFilesStore = function() {
 					return acc
 				}, {} as FilesStore)
 
-				Vue.set(this, 'files', {...this.files, ...files})
+				Vue.set(this, 'files', { ...this.files, ...files })
 			},
 
 			deleteNodes(nodes: Node[]) {
@@ -85,10 +83,10 @@ export const useFilesStore = function() {
 			onDeletedNode(node: Node) {
 				this.deleteNodes([node])
 			},
-		}
+		},
 	})
 
-	const fileStore = store(...arguments)
+	const fileStore = store(...args)
 	// Make sure we only register the listeners once
 	if (!fileStore._initialized) {
 		// subscribe('files:node:created', fileStore.onCreatedNode)

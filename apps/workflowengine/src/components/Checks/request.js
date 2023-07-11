@@ -38,7 +38,7 @@ const RequestChecks = [
 		component: RequestURL,
 	},
 	{
-		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
+		class: 'OCA\\WorkflowEngine\\Check\\RequestTimeController',
 		name: t('workflowengine', 'Request time'),
 		operators: [
 			{ operator: 'in', name: t('workflowengine', 'between') },

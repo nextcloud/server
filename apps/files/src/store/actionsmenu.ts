@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
 import { defineStore } from 'pinia'
 import type { ActionsMenuStore } from '../types'
 

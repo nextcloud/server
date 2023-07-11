@@ -58,7 +58,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'comments') {
 			throw new \InvalidArgumentException();
 		}
@@ -182,7 +182,7 @@ class Provider implements IProvider {
 				}
 
 				$message = str_replace('@"' . $mention['id'] . '"', '{mention' . $mentionCount . '}', $message);
-				if (strpos($mention['id'], ' ') === false && strpos($mention['id'], 'guest/') !== 0) {
+				if (!str_contains($mention['id'], ' ') && !str_starts_with($mention['id'], 'guest/')) {
 					$message = str_replace('@' . $mention['id'], '{mention' . $mentionCount . '}', $message);
 				}
 

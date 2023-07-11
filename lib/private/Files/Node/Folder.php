@@ -40,6 +40,7 @@ use OC\Files\Utils\PathHelper;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
@@ -109,12 +110,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}, $folderContent);
 	}
 
-	/**
-	 * @param string $path
-	 * @param FileInfo $info
-	 * @return File|Folder
-	 */
-	protected function createNode($path, FileInfo $info = null, bool $infoHasSubMountsIncluded = true) {
+	protected function createNode(string $path, ?FileInfo $info = null, bool $infoHasSubMountsIncluded = true): INode {
 		if (is_null($info)) {
 			$isDir = $this->view->is_dir($path);
 		} else {
@@ -208,7 +204,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$user = null;
 		} else {
 			/** @var IUserManager $userManager */
-			$userManager = \OC::$server->query(IUserManager::class);
+			$userManager = \OCP\Server::get(IUserManager::class);
 			$user = $userManager->get($uid);
 		}
 		return new SearchQuery($operator, $limit, $offset, [], $user);
@@ -304,6 +300,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->search($query);
 	}
 
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
+		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'systemtag', $tagName), $userId, $limit, $offset);
+		return $this->search($query);
+	}
+
 	/**
 	 * @param int $id
 	 * @return \OC\Files\Node\Node[]
@@ -330,8 +331,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return array
 	 */
 	protected function getByIdInRootMount(int $id): array {
+		if (!method_exists($this->root, 'createNode')) {
+			// Always expected to be false. Being a method of Folder, this is
+			// always implemented. For it is an internal method and should not
+			// be exposed and made public, it is not part of an interface.
+			return [];
+		}
 		$mount = $this->root->getMount('');
-		$cacheEntry = $mount->getStorage()->getCache($this->path)->get($id);
+		$storage = $mount->getStorage();
+		$cacheEntry = $storage?->getCache($this->path)->get($id);
 		if (!$cacheEntry) {
 			return [];
 		}
@@ -346,7 +354,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return [$this->root->createNode(
 			$absolutePath, new \OC\Files\FileInfo(
 				$absolutePath,
-				$mount->getStorage(),
+				$storage,
 				$cacheEntry->getPath(),
 				$cacheEntry,
 				$mount
@@ -384,7 +392,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	/**
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\Files\Node[]
+	 * @return INode[]
 	 */
 	public function getRecent($limit, $offset = 0) {
 		$filterOutNonEmptyFolder = new SearchBinaryOperator(

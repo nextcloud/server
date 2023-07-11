@@ -39,29 +39,13 @@ use function json_encode;
 class VerificationToken implements IVerificationToken {
 	protected const TOKEN_LIFETIME = 60 * 60 * 24 * 7;
 
-	/** @var IConfig */
-	private $config;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var IJobList */
-	private $jobList;
-
 	public function __construct(
-		IConfig $config,
-		ICrypto $crypto,
-		ITimeFactory $timeFactory,
-		ISecureRandom $secureRandom,
-		IJobList $jobList
+		private IConfig $config,
+		private ICrypto $crypto,
+		private ITimeFactory $timeFactory,
+		private ISecureRandom $secureRandom,
+		private IJobList $jobList
 	) {
-		$this->config = $config;
-		$this->crypto = $crypto;
-		$this->timeFactory = $timeFactory;
-		$this->secureRandom = $secureRandom;
-		$this->jobList = $jobList;
 	}
 
 	/**
@@ -71,7 +55,13 @@ class VerificationToken implements IVerificationToken {
 		throw new InvalidTokenException($code);
 	}
 
-	public function check(string $token, ?IUser $user, string $subject, string $passwordPrefix = '', bool $expiresWithLogin = false): void {
+	public function check(
+		string $token,
+		?IUser $user,
+		string $subject,
+		string $passwordPrefix = '',
+		bool $expiresWithLogin = false,
+	): void {
 		if ($user === null || !$user->isEnabled()) {
 			$this->throwInvalidTokenException(InvalidTokenException::USER_UNKNOWN);
 		}
@@ -107,7 +97,11 @@ class VerificationToken implements IVerificationToken {
 		}
 	}
 
-	public function create(IUser $user, string $subject, string $passwordPrefix = ''): string {
+	public function create(
+		IUser $user,
+		string $subject,
+		string $passwordPrefix = '',
+	): string {
 		$token = $this->secureRandom->generate(
 			21,
 			ISecureRandom::CHAR_DIGITS.

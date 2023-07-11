@@ -93,7 +93,6 @@ OC.L10N.register(
     "For more details see the {linkstart}documentation ↗{linkend}." : "Lue lisätietoja {linkstart}dokumentaatiosta ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-header \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Kyseessä on mahdollinen tietoturvaan tai -suojaan liittyvä riski, joten on suositeltavaa muuttaa asetuksen arvoa.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "HTTP-header \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Jotkin toiminnot eivät vättämättä toimi oikein, joten on suositeltavaa muuttaa asetuksen arvoa.",
-    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}." : "Sivua käytetään turvattoman HTTP:n kautta. Palvelimen määrittäminen käyttämään HTTPS-protokollaa on vahvasti suositeltua, kuten kuvattu {linkstart}turvallisuusvinkeissä ↗{linkend}.",
     "unknown text" : "tuntematon teksti",
     "Hello world!" : "Hei maailma!",
     "sunny" : "aurinkoinen",

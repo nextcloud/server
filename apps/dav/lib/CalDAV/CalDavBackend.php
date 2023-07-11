@@ -2732,7 +2732,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarData
 	 * @return array
 	 */
-	public function getDenormalizedData($calendarData) {
+	public function getDenormalizedData(string $calendarData): array {
 		$vObject = Reader::read($calendarData);
 		$vEvents = [];
 		$componentType = null;
@@ -2746,7 +2746,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if ($component->name !== 'VTIMEZONE') {
 				// Finding all VEVENTs, and track them
 				if ($component->name === 'VEVENT') {
-					array_push($vEvents, $component);
+					$vEvents[] = $component;
 					if ($component->DTSTART) {
 						$hasDTSTART = true;
 					}
@@ -2814,7 +2814,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			'size' => strlen($calendarData),
 			'componentType' => $componentType,
 			'firstOccurence' => is_null($firstOccurrence) ? null : max(0, $firstOccurrence),
-			'lastOccurence' => $lastOccurrence,
+			'lastOccurence' => is_null($lastOccurrence) ? null : max(0, $lastOccurrence),
 			'uid' => $uid,
 			'classification' => $classification
 		];
@@ -3134,10 +3134,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->max('id'))
+			->from('calendarchanges');
+
+		$maxId =  $query->executeQuery()->fetchOne();
+		if (!$maxId || $maxId < $keep) {
+		    return 0;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
-			->orderBy('id', 'DESC')
-			->setFirstResult($keep);
+			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $query->executeStatement();
 	}
 

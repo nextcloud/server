@@ -23,11 +23,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class File extends Command {
 	private IL10N $l10n;
-	private FileUtils $fileUtils;
 
-	public function __construct(IFactory $l10nFactory, FileUtils $fileUtils) {
+	public function __construct(
+		IFactory $l10nFactory,
+		private FileUtils $fileUtils,
+	) {
 		$this->l10n = $l10nFactory->get("core");
-		$this->fileUtils = $fileUtils;
 		parent::__construct();
 	}
 

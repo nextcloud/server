@@ -853,15 +853,54 @@ class CardDavBackendTest extends TestCase {
 	 */
 	public function testPruneOutdatedSyncTokens(): void {
 		$addressBookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, '', 1);
+		$syncToken = $changes['syncToken'];
+
 		$uri = $this->getUniqueID('card');
 		$this->backend->createCard($addressBookId, $uri, $this->vcardTest0);
 		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
 		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
-		$changes = $this->backend->getChangesForAddressBook($addressBookId, '5', 1);
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 1);
 		$this->assertEmpty($changes['added']);
 		$this->assertEmpty($changes['modified']);
 		$this->assertEmpty($changes['deleted']);
+
+		// Test that objects remain
+
+		// Currently changes are empty
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100);
+		$this->assertEquals(0, count($changes['added'] + $changes['modified'] + $changes['deleted']));
+
+		// Create card
+		$uri = $this->getUniqueID('card');
+		$this->backend->createCard($addressBookId, $uri, $this->vcardTest0);
+		// We now have one add
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100);
+		$this->assertEquals(1, count($changes['added']));
+		$this->assertEmpty($changes['modified']);
+		$this->assertEmpty($changes['deleted']);
+
+		// Update card
+		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
+		// One add, one modify, but shortened to modify
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100);
+		$this->assertEmpty($changes['added']);
+		$this->assertEquals(1, count($changes['modified']));
+		$this->assertEmpty($changes['deleted']);
+
+		// Delete all but last change
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$this->assertEquals(1, $deleted); // We had two changes before, now one
+
+		// Only update should remain
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100);
+		$this->assertEmpty($changes['added']);
+		$this->assertEquals(1, count($changes['modified']));
+		$this->assertEmpty($changes['deleted']);
+		
+		// Check that no crash occurs when prune is called without current changes
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
 	}
 }
