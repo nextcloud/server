@@ -71,7 +71,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $type The task type
 	 * @param string $appId The originating app ID
 	 * @param string $identifier An identifier to identify this task
-	 * @return DataResponse<Http::STATUS_OK, array{task: array{id: int, type: string, status: int, userId: string, appId: string, input: string, output: string, identifier: string}}, array{}>| DataResponse<Http::STATUS_PRECONDITION_FAILED|Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{task: array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string}}, array{}>| DataResponse<Http::STATUS_PRECONDITION_FAILED|Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled
 	 * 400: Task type does not exist
@@ -86,8 +86,11 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 		try {
 			$this->languageModelManager->scheduleTask($task);
 
+			/** @var array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string} $json */
+			$json = $task->jsonSerialize();
+
 			return new DataResponse([
-				'task' => $task->jsonSerialize(),
+				'task' => $json,
 			]);
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l->t('Necessary language model provider is not available')], Http::STATUS_PRECONDITION_FAILED);
@@ -100,7 +103,7 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @PublicPage
 	 * @param int $id The id of the task
-	 * @return DataResponse<Http::STATUS_NOT_FOUND | Http::STATUS_INTERNAL_SERVER_ERROR, array{message:string}> | DataResponse<Http::STATUS_OK, array{task: array{id: int, type: string, status: int, userId: string, appId: string, input: string, output: string, identifier: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_NOT_FOUND | Http::STATUS_INTERNAL_SERVER_ERROR, array{message:string}, array{}> | DataResponse<Http::STATUS_OK, array{task: array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string}}, array{}>
 	 *
 	 * 200: Task returned
 	 * 404: Task not found
@@ -114,8 +117,11 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 				return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
 			}
 
+			/** @var array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string} $json */
+			$json = $task->jsonSerialize();
+
 			return new DataResponse([
-				'task' => $task->jsonSerialize(),
+				'task' => $json,
 			]);
 		} catch (NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
