@@ -89,7 +89,7 @@ class Converter {
 					$vCard->add(new Text($vCard, 'URL', $property->getValue(), ['X-NC-SCOPE' => $scope]));
 					break;
 				case IAccountManager::PROPERTY_PHONE:
-					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'OTHER', 'X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'VOICE', 'X-NC-SCOPE' => $scope]));
 					break;
 				case IAccountManager::PROPERTY_ADDRESS:
 					// structured prop: https://www.rfc-editor.org/rfc/rfc6350.html#section-6.3.1
