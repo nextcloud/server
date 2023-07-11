@@ -117,7 +117,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
 		$context->injectFn([$this, 'registerDownloadEvents']);
-		$context->injectFn([$this, 'setupSharingMenus']);
 
 		Helper::registerHooks();
 
@@ -213,78 +212,5 @@ class Application extends App implements IBootstrap {
 				}
 			}
 		);
-	}
-
-	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession): void {
-		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
-			return;
-		}
-
-		$navigationManager = \OCA\Files\App::getNavigationManager();
-		// show_Quick_Access stored as string
-		$navigationManager->add(function () use ($shareManager, $l10nFactory, $userSession) {
-			$l = $l10nFactory->get('files_sharing');
-			$user = $userSession->getUser();
-			$userId = $user ? $user->getUID() : null;
-
-			$sharingSublistArray = [];
-
-			if ($shareManager->sharingDisabledForUser($userId) === false) {
-				$sharingSublistArray[] = [
-					'id' => 'sharingout',
-					'appname' => 'files_sharing',
-					'script' => 'list.php',
-					'order' => 16,
-					'name' => $l->t('Shared with others'),
-				];
-			}
-
-			$sharingSublistArray[] = [
-				'id' => 'sharingin',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 15,
-				'name' => $l->t('Shared with you'),
-			];
-
-			if ($shareManager->sharingDisabledForUser($userId) === false) {
-				// Check if sharing by link is enabled
-				if ($shareManager->shareApiAllowLinks()) {
-					$sharingSublistArray[] = [
-						'id' => 'sharinglinks',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 17,
-						'name' => $l->t('Shared by link'),
-					];
-				}
-			}
-
-			$sharingSublistArray[] = [
-				'id' => 'deletedshares',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 19,
-				'name' => $l->t('Deleted shares'),
-			];
-
-			$sharingSublistArray[] = [
-				'id' => 'pendingshares',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 19,
-				'name' => $l->t('Pending shares'),
-			];
-
-			return [
-				'id' => 'shareoverview',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 18,
-				'name' => $l->t('Shares'),
-				'classes' => 'collapsible',
-				'sublist' => $sharingSublistArray,
-			];
-		});
 	}
 }

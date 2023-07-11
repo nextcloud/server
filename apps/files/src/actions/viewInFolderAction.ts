@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Node, FileType } from '@nextcloud/files'
+import { Node, FileType, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 
@@ -43,6 +43,10 @@ export const action = new FileAction({
 		const node = nodes[0]
 
 		if (!node.isDavRessource) {
+			return false
+		}
+
+		if (node.permissions === Permission.NONE) {
 			return false
 		}
 
