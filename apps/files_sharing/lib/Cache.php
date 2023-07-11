@@ -88,7 +88,7 @@ class Cache extends CacheJail {
 		return $this->root;
 	}
 
-	public function getGetUnjailedRoot() {
+	protected function getGetUnjailedRoot() {
 		return $this->sourceRootInfo->getPath();
 	}
 
@@ -182,15 +182,11 @@ class Cache extends CacheJail {
 		// Not a valid action for Shared Cache
 	}
 
-	public function isFileShare(): bool {
-		return ($this->storage->getItemType() === 'file');
-	}
-
 	public function getQueryFilterForStorage(): ISearchOperator {
 		$storageFilter = \OC\Files\Cache\Cache::getQueryFilterForStorage();
 
 		// Do the normal jail behavior for non files
-		if (!$this->isFileShare()) {
+		if ($this->storage->getItemType() !== 'file') {
 			return $this->addJailFilterQuery($storageFilter);
 		}
 

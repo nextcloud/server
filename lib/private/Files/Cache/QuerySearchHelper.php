@@ -84,23 +84,39 @@ class QuerySearchHelper {
 		);
 	}
 
+	private function checkStorageAndPathFilter(ISearchBinaryOperator $operator, array &$storageToPathsMap, array &$storageOtherFilters): void {
+		if ($operator->getType() === ISearchBinaryOperator::OPERATOR_AND && count($operator->getArguments()) == 2) {
+			$a = $operator->getArguments()[0];
+			$b = $operator->getArguments()[1];
+			if ($a instanceof ISearchComparison && $a->getField() === "storage" &&
+				$b instanceof ISearchComparison && $b->getField() === "path") {
+					$storage = $a->getValue();
+					$path = $b->getValue();
+					\OC::$server->getLogger()->debug("QuerySearchHelper::checkStorageAndPathFilter: storage=" . $storage . " " . "path=" . $path);
+					$storageToPathsMap[$storage][] = $path;
+					return;
+			}
+		}
+		$storageOtherFilters[] = $operator;
+	}
+
 	private function generateStorageFilters(array $caches): array {
+		// Generate simple (unoptimized) storage filters
+		$simpleStorageFilters = array_map(function (ICache $cache) {
+			return $cache->getQueryFilterForStorage();
+		}, $caches);
+
 		// Pick up single file shares to prepare more efficient query
 		$storageToPathsMap = [];
-		$otherCaches = [];
-		foreach ($caches as $cache) {
-			\OC::$server->getLogger()->debug("generateStorageFilters: cache: " . get_class($cache));
-			if (($cache instanceof \OCA\Files_Sharing\Cache) and $cache->isFileShare()) {
-				$storage = $cache->getNumericStorageId();
-				$storageToPathsMap[$storage][] = $cache->getGetUnjailedRoot();
-			} else {
-				$otherCaches[] = $cache;
-			}
+		$storageOtherFilters = [];
+		foreach ($simpleStorageFilters as $storageFilter) {
+			$this->checkStorageAndPathFilter($storageFilter, $storageToPathsMap, $storageOtherFilters);
 		}
 
 		// Create filters for single file shares
 		$singleFileFilters = [];
 		foreach ($storageToPathsMap as $storage => $paths) {
+			\OC::$server->getLogger()->debug("QuerySearchHelper::generateStorageFilters: storage=" . $storage . " " . "paths=" . implode (", ", $paths));
 			$singleFileFilters[] = new SearchBinaryOperator(
 				ISearchBinaryOperator::OPERATOR_AND,
 				[
@@ -109,10 +125,6 @@ class QuerySearchHelper {
 				]
 			);
 		}
-
-		$storageOtherFilters = array_map(function (ICache $cache) {
-			return $cache->getQueryFilterForStorage();
-		}, $otherCaches);
 
 		return array_merge($storageOtherFilters, $singleFileFilters);
 	}
