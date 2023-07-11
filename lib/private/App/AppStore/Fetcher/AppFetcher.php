@@ -39,11 +39,9 @@ use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
-	/** @var CompareVersion */
-	private $compareVersion;
 
 	/** @var IRegistry */
-	protected $registry;
+	protected IRegistry $registry;
 
 	/** @var bool */
 	private $ignoreMaxVersion;
@@ -64,7 +62,6 @@ class AppFetcher extends Fetcher {
 			$registry
 		);
 
-		$this->compareVersion = $compareVersion;
 		$this->registry = $registry;
 
 		$this->fileName = 'apps.json';

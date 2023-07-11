@@ -74,14 +74,6 @@ class AppManager implements IAppManager {
 		'prevent_group_restriction',
 	];
 
-	private IUserSession $userSession;
-	private IConfig $config;
-	private AppConfig $appConfig;
-	private IGroupManager $groupManager;
-	private ICacheFactory $memCacheFactory;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
-
 	/** @var string[] $appId => $enabled */
 	private array $installedAppsCache = [];
 
@@ -104,20 +96,15 @@ class AppManager implements IAppManager {
 	/** @var array<string, true> */
 	private array $loadedApps = [];
 
-	public function __construct(IUserSession $userSession,
-		IConfig $config,
-		AppConfig $appConfig,
-		IGroupManager $groupManager,
-		ICacheFactory $memCacheFactory,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger) {
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->groupManager = $groupManager;
-		$this->memCacheFactory = $memCacheFactory;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private IGroupManager $groupManager,
+		private ICacheFactory $memCacheFactory,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**

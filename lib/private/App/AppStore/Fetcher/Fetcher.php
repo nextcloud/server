@@ -47,16 +47,6 @@ abstract class Fetcher {
 
 	/** @var IAppData */
 	protected $appData;
-	/** @var IClientService */
-	protected $clientService;
-	/** @var ITimeFactory */
-	protected $timeFactory;
-	/** @var IConfig */
-	protected $config;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var IRegistry */
-	protected $registry;
 
 	/** @var string */
 	protected $fileName;
@@ -67,18 +57,15 @@ abstract class Fetcher {
 	/** @var ?string */
 	protected $channel = null;
 
-	public function __construct(Factory $appDataFactory,
-		IClientService $clientService,
-		ITimeFactory $timeFactory,
-		IConfig $config,
-		LoggerInterface $logger,
-		IRegistry $registry) {
+	public function __construct(
+		Factory $appDataFactory,
+		protected IClientService $clientService,
+		protected ITimeFactory $timeFactory,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IRegistry $registry,
+	) {
 		$this->appData = $appDataFactory->get('appstore');
-		$this->clientService = $clientService;
-		$this->timeFactory = $timeFactory;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->registry = $registry;
 	}
 
 	/**

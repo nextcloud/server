@@ -34,12 +34,14 @@ use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class CategoryFetcher extends Fetcher {
-	public function __construct(Factory $appDataFactory,
+	public function __construct(
+		Factory $appDataFactory,
 		IClientService $clientService,
 		ITimeFactory $timeFactory,
 		IConfig $config,
 		LoggerInterface $logger,
-		IRegistry $registry) {
+		IRegistry $registry,
+	) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
