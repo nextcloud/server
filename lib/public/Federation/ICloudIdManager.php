@@ -62,4 +62,14 @@ interface ICloudIdManager {
 	 * @since 12.0.0
 	 */
 	public function isValidCloudId(string $cloudId): bool;
+
+	/**
+	 * remove scheme/protocol from an url
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function removeProtocolFromUrl(string $url): string;
 }
