@@ -54,4 +54,17 @@ const router = new Router({
 	},
 })
 
+router.beforeEach((to, from, next) => {
+	// TODO: Remove this when the legacy files list is removed
+	try {
+		const views = window.OCP.Files?.Navigation?.views || []
+		const isLegacy = views.find(view => view?.id === to?.params?.view)?.legacy === true
+		if (isLegacy && to?.query?.dir !== from?.query?.dir) {
+			// https://github.com/nextcloud/server/blob/1b422df12ac8eb26514849fb117e0dcf58623b88/apps/files/js/filelist.js#L2052-L2076
+			window.OCA.Files.App.fileList.changeDirectory(to?.query?.dir || '/', false, false, to?.query?.fileid, true)
+		}
+	} catch (error) {}
+	next()
+})
+
 export default router
