@@ -522,7 +522,8 @@ export default {
 		background-color: var(--color-background-hover)!important;
 	}
 	&:focus-visible {
-		box-shadow: 0 0 0 2px var(--color-main-text) !important;
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
 	}
 }
 
