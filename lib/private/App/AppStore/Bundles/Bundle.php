@@ -26,7 +26,6 @@ namespace OC\App\AppStore\Bundles;
 use OCP\IL10N;
 
 abstract class Bundle {
-
 	/**
 	 * @param IL10N $l10n
 	 */

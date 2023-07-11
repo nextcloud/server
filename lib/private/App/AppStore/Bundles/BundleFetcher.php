@@ -27,9 +27,7 @@ namespace OC\App\AppStore\Bundles;
 use OCP\IL10N;
 
 class BundleFetcher {
-
-	public function __construct
-	(
+	public function __construct(
 		private IL10N $l10n,
 	) {
 	}

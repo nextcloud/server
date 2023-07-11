@@ -23,7 +23,6 @@
 namespace OC\App\AppStore\Version;
 
 class Version {
-
 	/**
 	 * @param string $minVersion
 	 * @param string $maxVersion

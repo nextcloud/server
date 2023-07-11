@@ -39,7 +39,6 @@ use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
-
 	/** @var IRegistry */
 	protected IRegistry $registry;
 

@@ -36,7 +36,6 @@ use OCP\IConfig;
  * @package OC\App
  */
 class Platform {
-
 	public function __construct(
 		private IConfig $config,
 	) {

@@ -34,7 +34,6 @@ use function libxml_disable_entity_loader;
 use function simplexml_load_string;
 
 class InfoParser {
-
 	/**
 	 * @param ICache|null $cache
 	 */
