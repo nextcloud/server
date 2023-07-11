@@ -480,7 +480,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function searchByTag($tag, $userId) {
+	public function searchByTag($tag, $userId, int $limit = 0, int $offset = 0) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

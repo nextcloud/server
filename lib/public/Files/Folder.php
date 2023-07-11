@@ -136,10 +136,12 @@ interface Folder extends Node {
 	 *
 	 * @param string|int $tag tag name or tag id
 	 * @param string $userId owner of the tags
+	 * @param int $limit since 28.0.0
+	 * @param int $offset since 28.0.0
 	 * @return \OCP\Files\Node[]
 	 * @since 8.0.0
 	 */
-	public function searchByTag($tag, $userId);
+	public function searchByTag($tag, $userId, int $limit = 0, int $offset = 0);
 
 	/**
 	 * search for files by system tag

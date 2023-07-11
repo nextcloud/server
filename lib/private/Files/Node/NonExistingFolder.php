@@ -150,7 +150,7 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function searchByTag($tag, $userId) {
+	public function searchByTag($tag, $userId, int $limit = 0, int $offset = 0) {
 		throw new NotFoundException();
 	}
 

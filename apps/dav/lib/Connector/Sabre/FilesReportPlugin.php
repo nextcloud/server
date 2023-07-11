@@ -343,7 +343,7 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 
 		if ($this->hasFilterFavorites($filterRules)) {
-			$tmpNodes = $this->userFolder->searchByTag(ITags::TAG_FAVORITE, $this->userSession->getUser()->getUID());
+			$tmpNodes = $this->userFolder->searchByTag(ITags::TAG_FAVORITE, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
 			$nodes = $this->intersectNodes($nodes, $tmpNodes);
 			if ($nodes === []) {
 				// there cannot be a common match when nodes are empty early.
