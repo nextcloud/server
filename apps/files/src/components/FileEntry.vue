@@ -59,7 +59,11 @@
 				</span>
 
 				<!-- File name -->
-				<span class="files-list__row-name-text">{{ displayName }}</span>
+				<span class="files-list__row-name-text">
+					<!-- Keep the displayName stuck to the extension to avoid whitespace rendering issues-->
+					<span class="files-list__row-name-name" v-text="displayName" />
+					<span class="files-list__row-name-ext" v-text="source.extension" />
+				</span>
 			</a>
 		</td>
 
@@ -237,8 +241,12 @@ export default Vue.extend({
 			return this.source?.fileid?.toString?.()
 		},
 		displayName() {
-			return this.source.attributes.displayName
-				|| this.source.basename
+			const ext = (this.source.extension || '')
+			const name = (this.source.attributes.displayName
+				|| this.source.basename)
+
+			// Strip extension from name if defined
+			return !ext ? name : name.slice(0, 0 - ext.length)
 		},
 
 		size() {
