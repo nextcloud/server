@@ -40,7 +40,7 @@ jobs:
           sudo apt-get install -y ffmpeg imagemagick libmagickcore-6.q16-3-extra
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9c77701ae57b0c47f6732beebfbdec76e4e5c90a #debian bookworm fix
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu
