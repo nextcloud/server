@@ -38,6 +38,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -84,17 +85,17 @@ class QuerySearchHelper {
 		);
 	}
 
-	private function checkStorageAndPathFilter(ISearchBinaryOperator $operator, array &$storageToPathsMap, array &$storageOtherFilters): void {
-		if ($operator->getType() === ISearchBinaryOperator::OPERATOR_AND && count($operator->getArguments()) == 2) {
+	private function checkStorageAndPathFilter(ISearchOperator $operator, array &$storageToPathsMap, array &$storageOtherFilters): void {
+		if ($operator instanceof ISearchBinaryOperator && $operator->getType() === ISearchBinaryOperator::OPERATOR_AND && count($operator->getArguments()) == 2) {
 			$a = $operator->getArguments()[0];
 			$b = $operator->getArguments()[1];
 			if ($a instanceof ISearchComparison && $a->getField() === "storage" &&
 				$b instanceof ISearchComparison && $b->getField() === "path") {
-					$storage = $a->getValue();
-					$path = $b->getValue();
-					\OC::$server->getLogger()->debug("QuerySearchHelper::checkStorageAndPathFilter: storage=" . $storage . " " . "path=" . $path);
-					$storageToPathsMap[$storage][] = $path;
-					return;
+				$storage = $a->getValue();
+				$path = $b->getValue();
+				\OC::$server->getLogger()->debug("QuerySearchHelper::checkStorageAndPathFilter: storage=" . $storage . " " . "path=" . $path);
+				$storageToPathsMap[$storage][] = $path;
+				return;
 			}
 		}
 		$storageOtherFilters[] = $operator;
@@ -116,7 +117,7 @@ class QuerySearchHelper {
 		// Create filters for single file shares
 		$singleFileFilters = [];
 		foreach ($storageToPathsMap as $storage => $paths) {
-			\OC::$server->getLogger()->debug("QuerySearchHelper::generateStorageFilters: storage=" . $storage . " " . "paths=" . implode (", ", $paths));
+			\OC::$server->getLogger()->debug("QuerySearchHelper::generateStorageFilters: storage=" . $storage . " " . "paths=" . implode(", ", $paths));
 			$singleFileFilters[] = new SearchBinaryOperator(
 				ISearchBinaryOperator::OPERATOR_AND,
 				[
