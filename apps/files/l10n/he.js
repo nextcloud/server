@@ -177,12 +177,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
     "No favorites yet" : "אין מועדפים עדיין",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
-    "Shares" : "שיתופים",
-    "Shared with others" : "משותף עם אחרים",
-    "Shared with you" : "משותף אתך",
-    "Shared by link" : "משותף על ידי קישור",
-    "Deleted shares" : "שיתופים שנמחקו",
-    "Pending shares" : "שיתופים ממתינים",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Storage invalid" : "אחסון לא חוקי",
@@ -192,6 +186,12 @@ OC.L10N.register(
     "Cancel" : "ביטול",
     "%s used" : "%s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Deleted files" : "קבצים שנמחקו"
+    "Deleted files" : "קבצים שנמחקו",
+    "Shares" : "שיתופים",
+    "Shared with others" : "משותף עם אחרים",
+    "Shared with you" : "משותף אתך",
+    "Shared by link" : "משותף על ידי קישור",
+    "Deleted shares" : "שיתופים שנמחקו",
+    "Pending shares" : "שיתופים ממתינים"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

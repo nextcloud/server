@@ -136,10 +136,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando cargar sobrepasan el tamaño máximo permitido para la carga de archivos en este servidor.",
     "No favorites yet" : "Aún no hay favoritos",
     "Files and folders you mark as favorite will show up here" : "Los archivos y carpetas que marques como favoritos se mostrarán aquí. ",
-    "Shares" : "Elementos compartidos",
-    "Shared with others" : "Compartido con otros",
-    "Shared with you" : "Compartido con usted",
-    "Shared by link" : "Compartido por liga",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Storage invalid" : "El almacenamiento es inválido",
@@ -147,6 +143,10 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "%s used" : "%s usado",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "Deleted files" : "Archivos borrados"
+    "Deleted files" : "Archivos borrados",
+    "Shares" : "Elementos compartidos",
+    "Shared with others" : "Compartido con otros",
+    "Shared with you" : "Compartido con usted",
+    "Shared by link" : "Compartido por liga"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

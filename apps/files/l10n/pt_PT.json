@@ -157,10 +157,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que está a tentar enviar excedem o tamanho máximo para os envios de ficheiro neste servidor.",
     "No favorites yet" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
-    "Shares" : "Partilhas",
-    "Shared with others" : "Partilhado com terceiros",
-    "Shared with you" : "Partilhado consigo ",
-    "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Storage invalid" : "Armazenamento inválido",
@@ -169,6 +165,10 @@
     "Cancel" : "Cancelar",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "Deleted files" : "Ficheiros eliminados"
+    "Deleted files" : "Ficheiros eliminados",
+    "Shares" : "Partilhas",
+    "Shared with others" : "Partilhado com terceiros",
+    "Shared with you" : "Partilhado consigo ",
+    "Shared by link" : "Partilhado por hiperligação"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
