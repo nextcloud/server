@@ -191,12 +191,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "No favorites yet" : "‎Chưa có yêu thích nào‎",
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
-    "Shares" : "Chia sẻ",
-    "Shared with others" : "Chia sẻ với người khác",
-    "Shared with you" : "Đã chia sẻ với bạn",
-    "Shared by link" : "Được chia sẻ bởi liên kết",
-    "Deleted shares" : "‎Chia sẻ đã xóa‎",
-    "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
     "Storage invalid" : "Lưu trữ không hợp lệ",
@@ -206,6 +200,12 @@
     "Cancel" : "‎Hủy bỏ‎",
     "%s used" : "%s ‎đã sử dụng‎",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
-    "Deleted files" : "Thùng rác"
+    "Deleted files" : "Thùng rác",
+    "Shares" : "Chia sẻ",
+    "Shared with others" : "Chia sẻ với người khác",
+    "Shared with you" : "Đã chia sẻ với bạn",
+    "Shared by link" : "Được chia sẻ bởi liên kết",
+    "Deleted shares" : "‎Chia sẻ đã xóa‎",
+    "Pending shares" : "Chia sẻ đang chờ xử lý‎"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

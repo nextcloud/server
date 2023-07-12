@@ -200,12 +200,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
     "No favorites yet" : "Nu aveți favorite încă",
     "Files and folders you mark as favorite will show up here" : "FIșierele și directoarele pe care le marchezi ca favorite vor apărea aici",
-    "Shares" : "Partajări",
-    "Shared with others" : "Partajat cu alții",
-    "Shared with you" : "Partajat cu tine",
-    "Shared by link" : "Partajat prin link",
-    "Deleted shares" : "Partajări șterse",
-    "Pending shares" : "Partajări in asteptare",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
     "Storage invalid" : "Spațiu de stocare invalid",
@@ -215,6 +209,12 @@
     "Cancel" : "Anulare",
     "%s used" : "%s folosiți",
     "%1$s of %2$s used" : "%1$s din %2$s utilizat",
-    "Deleted files" : "Fișiere șterse"
+    "Deleted files" : "Fișiere șterse",
+    "Shares" : "Partajări",
+    "Shared with others" : "Partajat cu alții",
+    "Shared with you" : "Partajat cu tine",
+    "Shared by link" : "Partajat prin link",
+    "Deleted shares" : "Partajări șterse",
+    "Pending shares" : "Partajări in asteptare"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
