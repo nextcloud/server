@@ -521,9 +521,6 @@
     <InvalidNullableReturnType>
       <code>bool</code>
     </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code>$resultFileIds</code>
-    </NullableReturnStatement>
     <TooManyArguments>
       <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
     </TooManyArguments>
@@ -2787,9 +2784,6 @@
       <code>ArrayCache</code>
       <code>ArrayCache</code>
     </InvalidClass>
-    <InvalidNullableReturnType>
-      <code>getETag</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[$response->getBody()]]></code>
     </InvalidReturnStatement>
