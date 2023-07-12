@@ -24,6 +24,7 @@ namespace OCA\Files\Controller;
 
 use Exception;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\DirectEditing\IManager;
@@ -32,6 +33,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IRequest;
 
+#[IgnoreOpenAPI]
 class DirectEditingViewController extends Controller {
 
 	/** @var IEventDispatcher */
