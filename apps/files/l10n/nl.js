@@ -210,12 +210,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
     "No favorites yet" : "Nog geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
-    "Shares" : "Shares",
-    "Shared with others" : "Gedeeld met anderen",
-    "Shared with you" : "Gedeeld met jou",
-    "Shared by link" : "Gedeeld via link",
-    "Deleted shares" : "Verwijderde shares",
-    "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Storage invalid" : "Opslag ongeldig",
@@ -226,6 +220,12 @@ OC.L10N.register(
     "%s used" : "%s gebruikt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
-    "Deleted files" : "Verwijderde bestanden"
+    "Deleted files" : "Verwijderde bestanden",
+    "Shares" : "Shares",
+    "Shared with others" : "Gedeeld met anderen",
+    "Shared with you" : "Gedeeld met jou",
+    "Shared by link" : "Gedeeld via link",
+    "Deleted shares" : "Verwijderde shares",
+    "Pending shares" : "Deellinks in behandeling"
 },
 "nplurals=2; plural=(n != 1);");

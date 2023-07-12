@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "صور",
     "Office documents" : "مستندات المكتب",
     "PDF documents" : "مستندات PDF",
+    "Custom MIME type" : "نوع MIME مخصص",
     "Custom mimetype" : "أنواع ملفات مخصصة",
     "Please enter a valid time span" : "الرجاء إدخال نطاق زمني صالح",
     "Select a request URL" : "حدد عنوان URL الخاص بالطلب",

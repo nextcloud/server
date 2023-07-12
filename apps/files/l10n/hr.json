@@ -193,12 +193,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate otpremiti premašuju maksimalnu veličinu za otpremu datoteka na ovom poslužitelju.",
     "No favorites yet" : "Još nema favorita",
     "Files and folders you mark as favorite will show up here" : "Ovdje će se prikazati datoteke i mape koje označite kao favorite",
-    "Shares" : "Dijeljenja",
-    "Shared with others" : "Podijeljeno s ostalima",
-    "Shared with you" : "Podijeljeno s vama",
-    "Shared by link" : "Podijeljeno putem poveznice",
-    "Deleted shares" : "Izbrisana dijeljenja",
-    "Pending shares" : "Dijeljenja na čekanju",
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Storage invalid" : "Neispravna pohrana",
@@ -208,6 +202,12 @@
     "Cancel" : "Odustani",
     "%s used" : "Iskorišteno %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "Deleted files" : "Izbrisane datoteke"
+    "Deleted files" : "Izbrisane datoteke",
+    "Shares" : "Dijeljenja",
+    "Shared with others" : "Podijeljeno s ostalima",
+    "Shared with you" : "Podijeljeno s vama",
+    "Shared by link" : "Podijeljeno putem poveznice",
+    "Deleted shares" : "Izbrisana dijeljenja",
+    "Pending shares" : "Dijeljenja na čekanju"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

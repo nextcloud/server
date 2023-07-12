@@ -201,12 +201,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį.",
     "No favorites yet" : "Kol kas nėra mėgstamų",
     "Files and folders you mark as favorite will show up here" : "Čia bus rodomi failai ir aplankai, kuriuos pažymėsite kaip mėgstamus",
-    "Shares" : "Viešiniai",
-    "Shared with others" : "Bendrinama su kitais",
-    "Shared with you" : "Bendrinama su jumis",
-    "Shared by link" : "Bendrinama pagal nuorodą",
-    "Deleted shares" : "Ištrinti viešiniai",
-    "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
     "Storage invalid" : "Saugykla netinkama naudoti",
@@ -217,6 +211,12 @@ OC.L10N.register(
     "%s used" : "%s panaudota",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
-    "Deleted files" : "Ištrinti failai"
+    "Deleted files" : "Ištrinti failai",
+    "Shares" : "Viešiniai",
+    "Shared with others" : "Bendrinama su kitais",
+    "Shared with you" : "Bendrinama su jumis",
+    "Shared by link" : "Bendrinama pagal nuorodą",
+    "Deleted shares" : "Ištrinti viešiniai",
+    "Pending shares" : "Laukiantys viešiniai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
