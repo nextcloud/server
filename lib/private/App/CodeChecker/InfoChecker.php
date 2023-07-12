@@ -44,6 +44,14 @@ class InfoChecker extends BasicEmitter {
 			throw new \RuntimeException("No app with given id <$appId> known.");
 		}
 
+		libxml_set_external_entity_loader(static function ($public, $system, $context) {
+			if ($system === \OC::$SERVERROOT . '/resources/app-info.xsd'
+				|| \OC::$SERVERROOT . '/resources/app-info-shipped.xsd') {
+				return $system;
+			}
+			return null;
+		});
+
 		$xml = new \DOMDocument();
 		$xml->load($appPath . '/appinfo/info.xml');
 
@@ -67,6 +75,10 @@ class InfoChecker extends BasicEmitter {
 				$this->emit('InfoChecker', 'parseError', [$error->message]);
 			}
 		}
+
+		libxml_set_external_entity_loader(static function () {
+			return null;
+		});
 
 		return $errors;
 	}
