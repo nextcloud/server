@@ -334,10 +334,10 @@ class Installer {
 					// Check if appinfo/info.xml has the same app ID as well
 					if ((PHP_VERSION_ID < 80000)) {
 						$loadEntities = libxml_disable_entity_loader(false);
-						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
 						libxml_disable_entity_loader($loadEntities);
 					} else {
-						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
 					}
 					if ((string)$xml->id !== $appId) {
 						throw new \Exception(
