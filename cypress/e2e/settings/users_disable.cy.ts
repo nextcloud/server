@@ -29,6 +29,8 @@ describe('Settings: Disable and enable users', function() {
 	before(function() {
 		cy.createUser(jdoe)
 		cy.login(admin)
+		// open the User settings
+		cy.visit('/settings/users')
 	})
 
 	after(() => {
@@ -38,8 +40,7 @@ describe('Settings: Disable and enable users', function() {
 	it('Can disable the user', function() {
 		// ensure user is enabled
 		cy.enableUser(jdoe)
-		// open the User settings
-		cy.visit('/settings/users')
+
 		// see that the user is in the list of active users
 		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the list of users contains the user jdoe
@@ -64,13 +65,12 @@ describe('Settings: Disable and enable users', function() {
 	it('Can enable the user', function() {
 		// ensure user is disabled
 		cy.enableUser(jdoe, false)
-		// open the User settings
-		cy.visit('/settings/users')
 
 		// Open disabled users section
 		cy.get('#disabled a').click()
 		cy.url().should('match', /\/disabled/)
 
+		// see that the user is in the list of active users
 		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the list of disabled users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')

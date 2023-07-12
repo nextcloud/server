@@ -44,6 +44,7 @@
 					{{ t('settings', 'Edit display name') }}
 				</label>
 				<NcTextField :id="'displayName' + uniqueId"
+					data-test="displayNameField"
 					ref="displayNameField"
 					:show-trailing-button="true"
 					class="user-row-text-field"
@@ -211,7 +212,8 @@
 		</td>
 
 		<td v-if="showConfig.showLanguages"
-			class="row__cell row__cell--large">
+			class="row__cell row__cell--large"
+			data-test="language">
 			<template v-if="idState.editing">
 				<label class="hidden-visually"
 					:for="'language' + uniqueId">
@@ -248,7 +250,8 @@
 
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
-			class="row__cell">
+			class="row__cell"
+			data-test="lastLogin">
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
