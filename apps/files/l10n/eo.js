@@ -154,11 +154,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
     "No favorites yet" : "Ankoraŭ neniu pliŝataĵo",
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas kiel pliŝataĵoj, aperos ĉi tie",
-    "Shares" : "Kunhavigoj",
-    "Shared with others" : "Kunhavata kun aliaj",
-    "Shared with you" : "Kunhavata kun vi",
-    "Shared by link" : "Kunhavata per ligilo",
-    "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "Storage invalid" : "Konservejo ne validas",
@@ -168,6 +163,11 @@ OC.L10N.register(
     "Cancel" : "Nuligi",
     "%s used" : "%s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Deleted files" : "Forigitaj dosieroj"
+    "Deleted files" : "Forigitaj dosieroj",
+    "Shares" : "Kunhavigoj",
+    "Shared with others" : "Kunhavata kun aliaj",
+    "Shared with you" : "Kunhavata kun vi",
+    "Shared by link" : "Kunhavata per ligilo",
+    "Deleted shares" : "Forigitaj kunhavigoj"
 },
 "nplurals=2; plural=(n != 1);");

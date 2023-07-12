@@ -211,12 +211,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
     "No favorites yet" : "Zatiaľ žiadne obľúbené",
     "Files and folders you mark as favorite will show up here" : "Súbory a priečinky označené ako obľúbené budú zobrazené tu",
-    "Shares" : "Zdieľania",
-    "Shared with others" : "Sprístupnené ostatným",
-    "Shared with you" : "Vám sprístupnené",
-    "Shared by link" : "Sprístupnené prostredníctvom odkazu",
-    "Deleted shares" : "Vymazané zdieľania",
-    "Pending shares" : "Čakajúce prístupy",
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
     "Storage invalid" : "Úložisko nie je platné",
@@ -227,6 +221,12 @@ OC.L10N.register(
     "%s used" : "%s použitých",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Využité: %1$s z %2$s",
-    "Deleted files" : "Zmazané súbory"
+    "Deleted files" : "Zmazané súbory",
+    "Shares" : "Zdieľania",
+    "Shared with others" : "Sprístupnené ostatným",
+    "Shared with you" : "Vám sprístupnené",
+    "Shared by link" : "Sprístupnené prostredníctvom odkazu",
+    "Deleted shares" : "Vymazané zdieľania",
+    "Pending shares" : "Čakajúce prístupy"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -35,7 +35,7 @@ OC.L10N.register(
     "There was an error with message: " : "produciuse un erro coa mensaxe:",
     "External mount error" : "Produciuse un erro de montaxe externo",
     "external-storage" : "almacenamento externo",
-    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Non é posíbel obter a lista de unidades en rede e os seus puntos de montaxe de Windows: resposta baleira dende o servidor",
+    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Non é posíbel recuperar a lista de unidades en rede e os seus puntos de montaxe de Windows: resposta baleira dende o servidor",
     "Please enter the credentials for the {mount} mount" : "Introduza as credenciais para o punto de montaxe {mount}",
     "Username" : "Nome de usuario",
     "Password" : "Contrasinal",

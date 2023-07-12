@@ -219,12 +219,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
     "No favorites yet" : "Сеуште нема фаворити",
     "Files and folders you mark as favorite will show up here" : "Датотеките и папките кои ќе ги означите како чести, ќе се појават тука",
-    "Shares" : "Споделувања",
-    "Shared with others" : "Споделно со други",
-    "Shared with you" : "Споделено со тебе",
-    "Shared by link" : "Споделено со линк",
-    "Deleted shares" : "Избришани споделувања",
-    "Pending shares" : "Споделувања на чекање",
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Storage invalid" : "Невалидно складиште",
@@ -235,6 +229,12 @@ OC.L10N.register(
     "%s used" : "Искористено %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Искористено %1$s од %2$s",
-    "Deleted files" : "Избришани датотеки"
+    "Deleted files" : "Избришани датотеки",
+    "Shares" : "Споделувања",
+    "Shared with others" : "Споделно со други",
+    "Shared with you" : "Споделено со тебе",
+    "Shared by link" : "Споделено со линк",
+    "Deleted shares" : "Избришани споделувања",
+    "Pending shares" : "Споделувања на чекање"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

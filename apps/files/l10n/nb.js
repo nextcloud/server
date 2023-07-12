@@ -216,12 +216,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å laste opp er for store til å laste opp til denne serveren.",
     "No favorites yet" : "Ingen favoritter enda",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du gjør til favoritter vises her",
-    "Shares" : "Delinger",
-    "Shared with others" : "Delt med andre",
-    "Shared with you" : "Delt med deg",
-    "Shared by link" : "Delt med lenke",
-    "Deleted shares" : "Slettede delinger",
-    "Pending shares" : "Ventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
     "Storage invalid" : "Lagringsplass ugyldig",
@@ -232,6 +226,12 @@ OC.L10N.register(
     "%s used" : "%s brukt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
-    "Deleted files" : "Slettede filer"
+    "Deleted files" : "Slettede filer",
+    "Shares" : "Delinger",
+    "Shared with others" : "Delt med andre",
+    "Shared with you" : "Delt med deg",
+    "Shared by link" : "Delt med lenke",
+    "Deleted shares" : "Slettede delinger",
+    "Pending shares" : "Ventende delinger"
 },
 "nplurals=2; plural=(n != 1);");

@@ -219,12 +219,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
     "No favorites yet" : "Ingen foretrukne endnu",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her",
-    "Shares" : "Delinger",
-    "Shared with others" : "Delt med andre",
-    "Shared with you" : "Delt med dig",
-    "Shared by link" : "Delt via link",
-    "Deleted shares" : "Slettede delinger",
-    "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst fil.txt",
     "Storage invalid" : "Lagerplads er ugyldig",
@@ -235,6 +229,12 @@ OC.L10N.register(
     "%s used" : "%s brugt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s af %2$s brugt",
-    "Deleted files" : "Slettede filer"
+    "Deleted files" : "Slettede filer",
+    "Shares" : "Delinger",
+    "Shared with others" : "Delt med andre",
+    "Shared with you" : "Delt med dig",
+    "Shared by link" : "Delt via link",
+    "Deleted shares" : "Slettede delinger",
+    "Pending shares" : "Afventende delinger"
 },
 "nplurals=2; plural=(n != 1);");
