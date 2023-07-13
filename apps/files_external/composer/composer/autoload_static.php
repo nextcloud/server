@@ -120,6 +120,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Migration\\Version22000Date20210216084416' => __DIR__ . '/..' . '/../lib/Migration/Version22000Date20210216084416.php',
         'OCA\\Files_External\\MountConfig' => __DIR__ . '/..' . '/../lib/MountConfig.php',
         'OCA\\Files_External\\NotFoundException' => __DIR__ . '/..' . '/../lib/NotFoundException.php',
+        'OCA\\Files_External\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files_External\\Service\\BackendService' => __DIR__ . '/..' . '/../lib/Service/BackendService.php',
         'OCA\\Files_External\\Service\\DBConfigService' => __DIR__ . '/..' . '/../lib/Service/DBConfigService.php',
         'OCA\\Files_External\\Service\\GlobalStoragesService' => __DIR__ . '/..' . '/../lib/Service/GlobalStoragesService.php',
