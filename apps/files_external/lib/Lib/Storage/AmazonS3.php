@@ -497,7 +497,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 				try {
 					return $this->readObject($path);
-				} catch (S3Exception $e) {
+				} catch (\Exception $e) {
 					$this->logger->error($e->getMessage(), [
 						'app' => 'files_external',
 						'exception' => $e,
