@@ -210,6 +210,7 @@ class Log implements ILogger, IDataLogger {
 	 * @return void
 	 */
 	public function log(int $level, string $message, array $context = []) {
+		static $inLogEvent = false;
 		$minLevel = $this->getLogLevel($context);
 
 		array_walk($context, [$this->normalizer, 'format']);
@@ -217,8 +218,13 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
 
-		if ($this->eventDispatcher) {
-			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
+		if ($this->eventDispatcher && !$inLogEvent) {
+			$inLogEvent = true;
+			try {
+				$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
+			} catch (Throwable $e) {
+				// ignore exceptions from inside the logger, as trying to log them would lead to recursion
+			}
 		}
 
 		try {
