@@ -101,7 +101,7 @@ OC.L10N.register(
     "Vertical" : "Vertical",
     "Opacity" : "Opacidade",
     "Position" : "Posicion",
-    "Stroke" : "Trazado",
+    "Stroke" : "Contorno",
     "Save image as" : "Gardar a imaxe como",
     "Extension" : "Extensión",
     "Name is required." : "É obrigatorio  o nome.",
