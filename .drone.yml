@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: jsunit
 
@@ -2353,3 +2354,6 @@ trigger:
 #    - pull_request
 #    - push
 
+---
+kind: signature
+hmac: ee6b569725c5531692b659d843f65b505ef2deec233799d2436350ea1b042107
