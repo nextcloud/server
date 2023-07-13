@@ -137,7 +137,10 @@ class RequestHandlerController extends Controller {
 			!isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
-				['message' => 'Missing arguments'],
+				[
+					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
@@ -158,7 +161,10 @@ class RequestHandlerController extends Controller {
 
 			if (!$this->userManager->userExists($shareWith)) {
 				$response = new JSONResponse(
-					['message' => 'User "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
+					[
+						'message' => 'User "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl(),
+						'validationErrors' => [],
+					],
 					Http::STATUS_BAD_REQUEST
 				);
 				$response->throttle();
@@ -169,7 +175,10 @@ class RequestHandlerController extends Controller {
 		if ($shareType === 'group') {
 			if (!$this->groupManager->groupExists($shareWith)) {
 				$response = new JSONResponse(
-					['message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
+					[
+						'message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl(),
+						'validationErrors' => [],
+					],
 					Http::STATUS_BAD_REQUEST
 				);
 				$response->throttle();
@@ -192,20 +201,18 @@ class RequestHandlerController extends Controller {
 			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
-		} catch (ProviderDoesNotExistsException $e) {
+		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_NOT_IMPLEMENTED
 			);
-		} catch (ProviderCouldNotAddShareException $e) {
-			return new JSONResponse(
-				['message' => $e->getMessage()],
-				$e->getCode()
-			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(
-				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
+				[
+					'message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
@@ -243,7 +250,10 @@ class RequestHandlerController extends Controller {
 			!is_array($notification)
 		) {
 			return new JSONResponse(
-				['message' => 'Missing arguments'],
+				[
+					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
@@ -253,12 +263,18 @@ class RequestHandlerController extends Controller {
 			$result = $provider->notificationReceived($notificationType, $providerId, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
-				['message' => $e->getMessage()],
+				[
+					'message' => $e->getMessage(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		} catch (ShareNotFound $e) {
 			$response = new JSONResponse(
-				['message' => $e->getMessage()],
+				[
+					'message' => $e->getMessage(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 			$response->throttle();
@@ -276,7 +292,10 @@ class RequestHandlerController extends Controller {
 			return $response;
 		} catch (\Exception $e) {
 			return new JSONResponse(
-				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
+				[
+					'message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
