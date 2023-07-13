@@ -97,7 +97,9 @@ class QuerySearchHelper {
 			$a = $operator->getArguments()[0];
 			$b = $operator->getArguments()[1];
 			if ($this->isCompareEqual($a, "storage") && $this->isCompareEqual($b, "path")) {
+				/** @psalm-suppress UndefinedInterfaceMethod */
 				$storage = $a->getValue();
+				/** @psalm-suppress UndefinedInterfaceMethod */
 				$path = $b->getValue();
 				\OC::$server->getLogger()->debug("QuerySearchHelper::checkStorageAndPathFilter: storage=" . $storage . " " . "path=" . $path);
 				$storageToPathsMap[$storage][] = $path;
