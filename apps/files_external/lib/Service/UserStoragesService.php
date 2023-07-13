@@ -143,4 +143,10 @@ class UserStoragesService extends StoragesService {
 	protected function isApplicable(StorageConfig $config) {
 		return ($config->getApplicableUsers() === [$this->getUser()->getUID()]) && $config->getType() === StorageConfig::MOUNT_TYPE_PERSONAl;
 	}
+
+	public function removeStorage($id) {
+		// verify ownership through $this->isApplicable() and otherwise throws an exception
+		$this->getStorage($id);
+		parent::removeStorage($id);
+	}
 }
