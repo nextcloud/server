@@ -34,7 +34,7 @@ use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
 class FediverseAction implements ILinkAction {
-	private ?string $value = '';
+	private string $value = '';
 
 	public function __construct(
 		private IAccountManager $accountManager,
