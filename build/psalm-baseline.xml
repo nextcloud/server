@@ -49,11 +49,6 @@
       <code>(int) $comment-&gt;getId()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/contactsinteraction/lib/AddressBook.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <UndefinedGlobalVariable occurrences="1">
       <code>$baseuri</code>
@@ -105,11 +100,6 @@
       <code>getAppDataDir</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/dav/lib/Avatars/AvatarHome.php">
-    <UndefinedFunction occurrences="1">
-      <code>Uri\split($this-&gt;principalInfo['uri'])</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
     <UndefinedMethod occurrences="2">
       <code>setDateTime</code>
@@ -151,12 +141,6 @@
     <RedundantCast occurrences="1">
       <code>(int)$calendarId</code>
     </RedundantCast>
-    <UndefinedFunction occurrences="4">
-      <code>Uri\split($principalUri)</code>
-      <code>Uri\split($row['principaluri'])</code>
-      <code>Uri\split($row['principaluri'])</code>
-      <code>Uri\split($row['principaluri'])</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/CalendarHome.php">
     <InvalidNullableReturnType occurrences="1">
@@ -172,11 +156,6 @@
       <code>calendarSearch</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/dav/lib/CalDAV/CalendarImpl.php">
-    <UndefinedFunction occurrences="1">
-      <code>uriSplit($this-&gt;calendar-&gt;getPrincipalURI())</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/dav/lib/CalDAV/CalendarRoot.php">
     <ParamNameMismatch occurrences="1">
       <code>$principal</code>
@@ -186,11 +165,6 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
-    <UndefinedFunction occurrences="3">
-      <code>\Sabre\Uri\split($principalUrl)</code>
-      <code>\Sabre\Uri\split($principalUrl)</code>
-      <code>\Sabre\Uri\split($principalUrl)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/Principal/Collection.php">
     <ParamNameMismatch occurrences="1">
@@ -245,10 +219,6 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <UndefinedFunction occurrences="2">
-      <code>\Sabre\Uri\split($path)</code>
-      <code>\Sabre\Uri\split($path)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
     <ImplicitToStringCast occurrences="2">
@@ -282,9 +252,6 @@
       <code>[$aclPlugin, 'propFind']</code>
       <code>[$aclPlugin, 'propFind']</code>
     </InvalidArgument>
-    <UndefinedFunction occurrences="1">
-      <code>split($principalUrl)</code>
-    </UndefinedFunction>
     <UndefinedInterfaceMethod occurrences="2">
       <code>get</code>
       <code>getChildren</code>
@@ -338,10 +305,6 @@
     <TypeDoesNotContainType occurrences="1">
       <code>$addressBooks[$row['id']][$readOnlyPropertyName] === 0</code>
     </TypeDoesNotContainType>
-    <UndefinedFunction occurrences="2">
-      <code>\Sabre\Uri\split($principalUri)</code>
-      <code>\Sabre\Uri\split($row['principaluri'])</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
     <InvalidNullableReturnType occurrences="1">
@@ -355,19 +318,11 @@
     <NullableReturnStatement occurrences="1">
       <code>$type</code>
     </NullableReturnStatement>
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\URI\parse($val)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CardDAV/Plugin.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
-    <UndefinedFunction occurrences="3">
-      <code>\Sabre\Uri\split($principal)</code>
-      <code>\Sabre\Uri\split($principal)</code>
-      <code>\Sabre\Uri\split($principal)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument occurrences="2">
@@ -418,11 +373,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/dav/lib/Connector/LegacyDAVACL.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($principal)</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/dav/lib/Connector/Sabre/AnonymousOptionsPlugin.php">
     <InvalidNullableReturnType occurrences="1">
       <code>bool</code>
@@ -454,9 +404,6 @@
     <ParamNameMismatch occurrences="1">
       <code>$fullSourcePath</code>
     </ParamNameMismatch>
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($sourceNode-&gt;getPath())</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FakeLockerPlugin.php">
     <TooManyArguments occurrences="1">
@@ -467,16 +414,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$data</code>
     </MoreSpecificImplementedParamType>
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($this-&gt;path)</code>
-    </UndefinedFunction>
-  </file>
-  <file src="apps/dav/lib/Connector/Sabre/FilesPlugin.php">
-    <UndefinedFunction occurrences="3">
-      <code>\Sabre\Uri\split($destination)</code>
-      <code>\Sabre\Uri\split($filePath)</code>
-      <code>\Sabre\Uri\split($source)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
     <InvalidNullableReturnType occurrences="1">
@@ -486,9 +423,6 @@
       <code>0</code>
       <code>200</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>$resultFileIds</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
     </TooManyArguments>
@@ -509,17 +443,6 @@
       <code>$this-&gt;info-&gt;getId()</code>
       <code>$this-&gt;info-&gt;getId()</code>
     </NullableReturnStatement>
-    <UndefinedFunction occurrences="2">
-      <code>\Sabre\Uri\split($name)</code>
-      <code>\Sabre\Uri\split($this-&gt;path)</code>
-    </UndefinedFunction>
-  </file>
-  <file src="apps/dav/lib/Connector/Sabre/ObjectTree.php">
-    <UndefinedFunction occurrences="3">
-      <code>\Sabre\Uri\split($destinationPath)</code>
-      <code>\Sabre\Uri\split($destinationPath)</code>
-      <code>\Sabre\Uri\split($path)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Principal.php">
     <InvalidNullableReturnType occurrences="1">
@@ -544,17 +467,8 @@
       <code>\OCA\Circles\Api\v1\Circles</code>
       <code>\OCA\Circles\Api\v1\Circles</code>
     </UndefinedClass>
-    <UndefinedFunction occurrences="4">
-      <code>\Sabre\Uri\split($path)</code>
-      <code>\Sabre\Uri\split($prefix)</code>
-      <code>\Sabre\Uri\split($principal)</code>
-      <code>\Sabre\Uri\split($principal)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/QuotaPlugin.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($path)</code>
-    </UndefinedFunction>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getPath</code>
       <code>getPath</code>
@@ -574,11 +488,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$share-&gt;getShareType()</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="apps/dav/lib/Connector/Sabre/SharesPlugin.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($sabreNode-&gt;getPath())</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/TagsPlugin.php">
     <NullableReturnStatement occurrences="1">
@@ -629,9 +538,6 @@
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($principal)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Direct/Server.php">
     <UndefinedThisPropertyAssignment occurrences="1">
@@ -657,11 +563,6 @@
       <code>$operator-&gt;arguments[0]-&gt;name</code>
     </UndefinedPropertyFetch>
   </file>
-  <file src="apps/dav/lib/Files/FilesHome.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/dav/lib/Files/LazySearchBackend.php">
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;backend-&gt;getArbiterPath()</code>
@@ -670,21 +571,11 @@
       <code>bool</code>
     </InvalidReturnType>
   </file>
-  <file src="apps/dav/lib/Files/RootCollection.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($principalInfo['uri'])</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/dav/lib/HookManager.php">
     <InvalidPropertyAssignmentValue occurrences="2">
       <code>$this-&gt;usersToDelete</code>
       <code>$this-&gt;usersToDelete</code>
     </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarDeletionDefaultUpdaterListener.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($principalUri)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch occurrences="1">
@@ -780,17 +671,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$members</code>
     </MoreSpecificImplementedParamType>
-    <UndefinedFunction occurrences="9">
-      <code>\Sabre\Uri\split($member)</code>
-      <code>\Sabre\Uri\split($principal)</code>
-      <code>\Sabre\Uri\split($principal)</code>
-      <code>\Sabre\Uri\split($principalUri)</code>
-      <code>\Sabre\Uri\split($principalUri)</code>
-      <code>\Sabre\Uri\split($principalUri)</code>
-      <code>\Sabre\Uri\split($principalUri)</code>
-      <code>\Sabre\Uri\split($principalUri)</code>
-      <code>\Sabre\Uri\split($realPrincipalUri)</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Upload/AssemblyStream.php">
     <FalsableReturnStatement occurrences="1">
@@ -808,11 +688,6 @@
     <RedundantFunctionCall occurrences="1">
       <code>array_values</code>
     </RedundantFunctionCall>
-  </file>
-  <file src="apps/dav/lib/Upload/UploadHome.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
     <InvalidOperand occurrences="1">
@@ -1453,11 +1328,6 @@
       <code>INode</code>
     </MismatchingDocblockReturnType>
   </file>
-  <file src="apps/files_trashbin/lib/Sabre/TrashHome.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/files_trashbin/lib/Sabre/TrashRoot.php">
     <InvalidReturnStatement occurrences="1">
       <code>$entry</code>
@@ -1513,18 +1383,10 @@
       <code>null</code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/files_versions/lib/Sabre/RootCollection.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($principalInfo['uri'])</code>
-    </UndefinedFunction>
-  </file>
   <file src="apps/files_versions/lib/Sabre/VersionHome.php">
     <InvalidNullableReturnType occurrences="1">
       <code>getChild</code>
     </InvalidNullableReturnType>
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
-    </UndefinedFunction>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidScalarArgument occurrences="1">
@@ -2210,9 +2072,8 @@
     <RedundantCondition occurrences="1">
       <code>\is_array($params)</code>
     </RedundantCondition>
-    <UndefinedFunction occurrences="2">
+    <UndefinedFunction occurrences="1">
       <code>\Sabre\HTTP\decodePath($pathInfo)</code>
-      <code>\Sabre\Uri\split($scriptName)</code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/AppFramework/Logger.php">
@@ -2835,9 +2696,6 @@
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Files/Node/Node.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Node</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidArgument occurrences="1">
       <code>'\OCP\Files::' . $hook</code>
     </InvalidArgument>
@@ -2873,9 +2731,6 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Node/Root.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Node</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="1">
       <code>\OC\User\User</code>
     </InvalidNullableReturnType>
