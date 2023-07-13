@@ -473,8 +473,8 @@ class AddMissingIndices extends Command {
 		}
 
 		$output->writeln('<info>Check indices of the oc_systemtag_object_mapping table.</info>');
-		if ($schema->hasTable('oc_systemtag_object_mapping')) {
-			$table = $schema->getTable('oc_systemtag_object_mapping');
+		if ($schema->hasTable('systemtag_object_mapping')) {
+			$table = $schema->getTable('systemtag_object_mapping');
 			if (!$table->hasIndex('systag_by_tagid')) {
 				$output->writeln('<info>Adding systag_by_tagid index to the oc_systemtag_object_mapping table, this can take some time...</info>');
 
