@@ -1,9 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
   - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
+	- @author Christopher Ng <chrng8@gmail.com>
   - @author Gary Kim <gary@garykim.dev>
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -23,251 +24,325 @@
   -->
 
 <template>
-	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
-	<div v-if="Object.keys(user).length ===1" :data-id="user.id" class="row">
-		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
-			class="avatar">
-			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id, isDarkTheme)"
-				alt=""
-				height="32"
-				width="32">
-		</div>
-		<div class="name">
-			{{ user.id }}
-		</div>
-		<div class="obfuscated">
-			{{ t('settings','You do not have permissions to see the details of this user') }}
-		</div>
-	</div>
+	<Fragment>
+		<td class="row__cell row__cell--avatar">
+			<NcLoadingIcon v-if="isLoadingUser"
+				:title="t('settings', 'Loading user …')"
+				:size="32" />
+			<NcAvatar v-else
+				:key="user.id"
+				disable-menu
+				:show-user-status="false"
+				:user="user.id" />
+		</td>
 
-	<!-- User full data -->
-	<UserRowSimple v-else-if="!editing"
-		:editing.sync="editing"
-		:groups="groups"
-		:languages="languages"
-		:loading="loading"
-		:opened-menu.sync="openedMenu"
-		:settings="settings"
-		:show-config="showConfig"
-		:sub-admins-groups="subAdminsGroups"
-		:user-actions="userActions"
-		:user="user"
-		:is-dark-theme="isDarkTheme"
-		:class="{'row--menu-opened': openedMenu}" />
-	<div v-else
-		:class="{
-			'disabled': loading.delete || loading.disable,
-			'row--menu-opened': openedMenu
-		}"
-		:data-id="user.id"
-		class="row row--editable">
-		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
-			class="avatar">
-			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id, isDarkTheme)"
-				alt=""
-				height="32"
-				width="32">
-		</div>
-		<!-- dirty hack to ellipsis on two lines -->
-		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
-			<label class="hidden-visually" :for="'displayName'+user.id+rand">{{ t('settings', 'Edit display name') }}</label>
-			<NcTextField :id="'displayName'+user.id+rand"
-				:show-trailing-button="true"
-				class="user-row-text-field"
-				:class="{'icon-loading-small': loading.displayName}"
-				:disabled="loading.displayName||loading.all"
-				trailing-button-icon="arrowRight"
-				:value.sync="editedDisplayName"
-				autocapitalize="off"
-				autocomplete="off"
-				autocorrect="off"
-				spellcheck="false"
-				type="text"
-				@trailing-button-click="updateDisplayName" />
-		</div>
-		<div v-else class="name">
-			{{ user.id }}
-			<div class="displayName subtitle">
-				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
+		<td class="row__cell row__cell--displayname"
+			:data-test="user.id">
+			<template v-if="idState.editing && user.backendCapabilities.setDisplayName">
+				<label class="hidden-visually"
+					:for="'displayName' + uniqueId">
+					{{ t('settings', 'Edit display name') }}
+				</label>
+				<NcTextField :id="'displayName' + uniqueId"
+					data-test="displayNameField"
+					ref="displayNameField"
+					:show-trailing-button="true"
+					class="user-row-text-field"
+					:class="{ 'icon-loading-small': idState.loading.displayName }"
+					:disabled="idState.loading.displayName || isLoadingField"
+					trailing-button-icon="arrowRight"
+					:value.sync="idState.editedDisplayName"
+					autocapitalize="off"
+					autocomplete="off"
+					autocorrect="off"
+					spellcheck="false"
+					type="text"
+					@trailing-button-click="updateDisplayName" />
+			</template>
+			<template v-else>
+				<strong v-if="!isObfuscated"
+					:title="user.displayname?.length > 20 ? user.displayname : null">
 					{{ user.displayname }}
-				</div>
-			</div>
-		</div>
-		<div v-if="settings.canChangePassword && user.backendCapabilities.setPassword" class="password">
-			<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
-			<NcTextField :id="'password'+user.id+rand"
-				:show-trailing-button="true"
-				class="user-row-text-field"
-				:class="{'icon-loading-small': loading.password}"
-				:disabled="loading.password || loading.all"
-				:minlength="minPasswordLength"
-				maxlength="469"
-				:placeholder="t('settings', 'Add new password')"
-				trailing-button-icon="arrowRight"
-				:value.sync="editedPassword"
-				autocapitalize="off"
-				autocomplete="new-password"
-				autocorrect="off"
-				required
-				spellcheck="false"
-				type="password"
-				@trailing-button-click="updatePassword" />
-		</div>
+				</strong>
+				<span class="row__subtitle">{{ user.id }}</span>
+			</template>
+		</td>
 
-		<div v-else />
+		<td class="row__cell"
+			:class="{ 'row__cell--obfuscated': hasObfuscated }">
+			<template v-if="idState.editing && settings.canChangePassword && user.backendCapabilities.setPassword">
+				<label class="hidden-visually"
+					:for="'password' + uniqueId">
+					{{ t('settings', 'Add new password') }}
+				</label>
+				<NcTextField :id="'password' + uniqueId"
+					:show-trailing-button="true"
+					class="user-row-text-field"
+					:class="{'icon-loading-small': idState.loading.password}"
+					:disabled="idState.loading.password || isLoadingField"
+					:minlength="minPasswordLength"
+					maxlength="469"
+					:placeholder="t('settings', 'Add new password')"
+					trailing-button-icon="arrowRight"
+					:value.sync="idState.editedPassword"
+					autocapitalize="off"
+					autocomplete="new-password"
+					autocorrect="off"
+					required
+					spellcheck="false"
+					type="password"
+					@trailing-button-click="updatePassword" />
+			</template>
+			<span v-else-if="isObfuscated">
+				{{ t('settings', 'You do not have permissions to see the details of this user') }}
+			</span>
+		</td>
 
-		<div class="mailAddress">
-			<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
-			<NcTextField :id="'mailAddress'+user.id+rand"
-				:show-trailing-button="true"
-				class="user-row-text-field"
-				:class="{'icon-loading-small': loading.mailAddress}"
-				:disabled="loading.mailAddress||loading.all"
-				:placeholder="t('settings', 'Add new email address')"
-				trailing-button-icon="arrowRight"
-				:value.sync="editedMail"
-				autocapitalize="off"
-				autocomplete="new-password"
-				autocorrect="off"
-				spellcheck="false"
-				type="email"
-				@trailing-button-click="updateEmail" />
-		</div>
-		<div :class="{'icon-loading-small': loading.groups}" class="groups">
-			<label class="hidden-visually" :for="'groups'+user.id+rand">{{ t('settings', 'Add user to group') }}</label>
-			<NcSelect :input-id="'groups'+user.id+rand"
-				:close-on-select="false"
-				:disabled="loading.groups||loading.all"
-				:multiple="true"
-				:options="availableGroups"
-				:placeholder="t('settings', 'Add user to group')"
-				:taggable="settings.isAdmin"
-				:value="userGroups"
-				class="select-vue"
-				label="name"
-				:no-wrap="true"
-				:selectable="() => userGroups.length < 2"
-				:create-option="(value) => ({ name: value, isCreating: true })"
-				@option:created="createGroup"
-				@option:selected="options => addUserGroup(options.at(-1))"
-				@option:deselected="removeUserGroup" />
-		</div>
-		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
-			:class="{'icon-loading-small': loading.subadmins}"
-			class="subadmins">
-			<label class="hidden-visually" :for="'subadmins'+user.id+rand">{{ t('settings', 'Set user as admin for') }}</label>
-			<NcSelect :id="'subadmins'+user.id+rand"
-				:close-on-select="false"
-				:disabled="loading.subadmins||loading.all"
-				label="name"
-				:multiple="true"
-				:no-wrap="true"
-				:selectable="() => userSubAdminsGroups.length < 2"
-				:options="subAdminsGroups"
-				:placeholder="t('settings', 'Set user as admin for')"
-				:value="userSubAdminsGroups"
-				class="select-vue"
-				@option:deselected="removeUserSubAdmin"
-				@option:selected="options => addUserSubAdmin(options.at(-1))" />
-		</div>
-		<div :title="usedSpace"
-			:class="{'icon-loading-small': loading.quota}"
-			class="quota">
-			<label class="hidden-visually" :for="'quota'+user.id+rand">{{ t('settings', 'Select user quota') }}</label>
-			<NcSelect v-model="userQuota"
-				:close-on-select="true"
-				:create-option="validateQuota"
-				:disabled="loading.quota||loading.all"
-				:input-id="'quota'+user.id+rand"
-				class="select-vue"
-				:options="quotaOptions"
-				:placeholder="t('settings', 'Select user quota')"
-				:taggable="true"
-				@option:selected="setUserQuota" />
-		</div>
-		<div v-if="showConfig.showLanguages"
-			:class="{'icon-loading-small': loading.languages}"
-			class="languages">
-			<label class="hidden-visually" :for="'language'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
-			<NcSelect :id="'language'+user.id+rand"
-				:allow-empty="false"
-				:disabled="loading.languages||loading.all"
-				:options="availableLanguages"
-				:placeholder="t('settings', 'No language set')"
-				:value="userLanguage"
-				label="name"
-				class="select-vue"
-				@input="setUserLanguage" />
-		</div>
+		<td class="row__cell">
+			<template v-if="idState.editing">
+				<label class="hidden-visually"
+					:for="'mailAddress' + uniqueId">
+					{{ t('settings', 'Add new email address') }}
+				</label>
+				<NcTextField :id="'mailAddress' + uniqueId"
+					:show-trailing-button="true"
+					class="user-row-text-field"
+					:class="{'icon-loading-small': idState.loading.mailAddress}"
+					:disabled="idState.loading.mailAddress || isLoadingField"
+					:placeholder="t('settings', 'Add new email address')"
+					trailing-button-icon="arrowRight"
+					:value.sync="idState.editedMail"
+					autocapitalize="off"
+					autocomplete="new-password"
+					autocorrect="off"
+					spellcheck="false"
+					type="email"
+					@trailing-button-click="updateEmail" />
+			</template>
+			<span v-else-if="!isObfuscated"
+				:title="user.email?.length > 20 ? user.email : null">
+				{{ user.email }}
+			</span>
+		</td>
 
-		<div v-if="showConfig.showStoragePath || showConfig.showUserBackend"
-			class="storageLocation" />
-		<div v-if="showConfig.showLastLogin" />
+		<td class="row__cell row__cell--large row__cell--multiline">
+			<template v-if="idState.editing">
+				<label class="hidden-visually"
+					:for="'groups' + uniqueId">
+					{{ t('settings', 'Add user to group') }}
+				</label>
+				<NcSelect :input-id="'groups' + uniqueId"
+					:close-on-select="false"
+					:disabled="idState.loading.groups || isLoadingField"
+					:loading="idState.loading.groups"
+					:multiple="true"
+					:options="availableGroups"
+					:placeholder="t('settings', 'Add user to group')"
+					:taggable="settings.isAdmin"
+					:value="userGroups"
+					class="select-vue"
+					label="name"
+					:no-wrap="true"
+					:create-option="(value) => ({ name: value, isCreating: true })"
+					@option:created="createGroup"
+					@option:selected="options => addUserGroup(options.at(-1))"
+					@option:deselected="removeUserGroup" />
+			</template>
+			<span v-else-if="!isObfuscated"
+				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : null">
+				{{ userGroupsLabels }}
+			</span>
+		</td>
 
-		<div :class="{'icon-loading-small': loading.manager}" class="managers">
-			<label class="hidden-visually" :for="'manager'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
-			<NcSelect v-model="currentManager"
-				:input-id="'manager'+user.id+rand"
-				:close-on-select="true"
-				label="displayname"
-				:options="possibleManagers"
-				:placeholder="t('settings', 'Select manager')"
-				class="select-vue"
-				@search="searchUserManager"
-				@option:selected="updateUserManager"
-				@input="updateUserManager" />
-		</div>
+		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+			class="row__cell row__cell--large row__cell--multiline">
+			<template v-if="idState.editing && settings.isAdmin && subAdminsGroups.length > 0">
+				<label class="hidden-visually"
+					:for="'subadmins' + uniqueId">
+					{{ t('settings', 'Set user as admin for') }}
+				</label>
+				<NcSelect :id="'subadmins' + uniqueId"
+					:close-on-select="false"
+					:disabled="idState.loading.subadmins || isLoadingField"
+					:loading="idState.loading.subadmins"
+					label="name"
+					:multiple="true"
+					:no-wrap="true"
+					:options="subAdminsGroups"
+					:placeholder="t('settings', 'Set user as admin for')"
+					:value="userSubAdminsGroups"
+					class="select-vue"
+					@option:deselected="removeUserSubAdmin"
+					@option:selected="options => addUserSubAdmin(options.at(-1))" />
+			</template>
+			<span v-else-if="!isObfuscated"
+				:title="userSubAdminsGroupsLabels?.length > 40 ? userSubAdminsGroupsLabels : null">
+				{{ userSubAdminsGroupsLabels }}
+			</span>
+		</td>
 
-		<div class="userActions">
-			<UserRowActions v-if="!loading.all"
+		<td class="row__cell">
+			<template v-if="idState.editing">
+				<label class="hidden-visually"
+					:for="'quota' + uniqueId">
+					{{ t('settings', 'Select user quota') }}
+				</label>
+				<NcSelect v-model="editedUserQuota"
+					:close-on-select="true"
+					:create-option="validateQuota"
+					:disabled="idState.loading.quota || isLoadingField"
+					:loading="idState.loading.quota"
+					:clearable="false"
+					:input-id="'quota' + uniqueId"
+					class="select-vue"
+					:options="quotaOptions"
+					:placeholder="t('settings', 'Select user quota')"
+					:taggable="true"
+					@option:selected="setUserQuota" />
+			</template>
+			<template v-else-if="!isObfuscated">
+				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
+				<NcProgressBar class="row__progress"
+					:id="'quota-progress' + uniqueId"
+					:class="{
+						'row__progress--warn': usedQuota > 80,
+					}"
+					:value="usedQuota" />
+			</template>
+		</td>
+
+		<td v-if="showConfig.showLanguages"
+			class="row__cell row__cell--large"
+			data-test="language">
+			<template v-if="idState.editing">
+				<label class="hidden-visually"
+					:for="'language' + uniqueId">
+					{{ t('settings', 'Set the language') }}
+				</label>
+				<NcSelect :id="'language' + uniqueId"
+					:allow-empty="false"
+					:disabled="idState.loading.languages || isLoadingField"
+					:loading="idState.loading.languages"
+					:clearable="false"
+					:options="availableLanguages"
+					:placeholder="t('settings', 'No language set')"
+					:value="userLanguage"
+					label="name"
+					class="select-vue"
+					@input="setUserLanguage" />
+			</template>
+			<span v-else-if="!isObfuscated">
+				{{ userLanguage.name }}
+			</span>
+		</td>
+
+		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+			class="row__cell row__cell--large">
+			<template v-if="!isObfuscated">
+				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
+				<span v-if="showConfig.showStoragePath"
+					:title="user.storageLocation"
+					class="row__subtitle">
+					{{ user.storageLocation }}
+				</span>
+			</template>
+		</td>
+
+		<td v-if="showConfig.showLastLogin"
+			:title="userLastLoginTooltip"
+			class="row__cell"
+			data-test="lastLogin">
+			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
+		</td>
+
+		<td class="row__cell row__cell--large">
+			<template v-if="idState.editing">
+				<label class="hidden-visually"
+					:for="'manager' + uniqueId">
+					{{ t('settings', 'Set the manager') }}
+				</label>
+				<NcSelect v-model="idState.currentManager"
+					:input-id="'manager' + uniqueId"
+					:close-on-select="true"
+					:disabled="idState.loading.manager || isLoadingField"
+					:loading="idState.loading.manager"
+					label="displayname"
+					:options="idState.possibleManagers"
+					:placeholder="t('settings', 'Select manager')"
+					class="select-vue"
+					@search="searchUserManager"
+					@option:selected="updateUserManager"
+					@input="updateUserManager" />
+			</template>
+			<span v-else-if="!isObfuscated">
+				{{ user.manager }}
+			</span>
+		</td>
+
+		<td class="row__cell row__cell--actions">
+			<UserRowActions v-if="!isObfuscated && canEdit && !idState.loading.all"
 				:actions="userActions"
-				:edit="true"
+				:disabled="isLoadingField"
+				:edit="idState.editing"
 				@update:edit="toggleEdit" />
-		</div>
-	</div>
+		</td>
+	</Fragment>
 </template>
 
 <script>
+import { Fragment } from 'vue-frag'
+import { IdState } from 'vue-virtual-scroller'
+import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import ClickOutside from 'vue-click-outside'
 
 import UserRowActions from './UserRowActions.vue'
-import UserRowSimple from './UserRowSimple.vue'
+
 import UserRowMixin from '../../mixins/UserRowMixin.js'
+import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
 
 export default {
 	name: 'UserRow',
 
 	components: {
+		Fragment,
+		NcAvatar,
+		NcLoadingIcon,
+		NcProgressBar,
 		NcSelect,
 		NcTextField,
 		UserRowActions,
-		UserRowSimple,
 	},
 
-	directives: {
-		ClickOutside,
-	},
-
-	mixins: [UserRowMixin],
+	mixins: [
+		/**
+		 * Use scoped `idState` instead of `data` which is reused between rows
+		 *
+		 * See https://github.com/Akryum/vue-virtual-scroller/tree/v1/packages/vue-virtual-scroller#why-is-this-useful
+		 */
+		IdState({
+			idProp: vm => vm.user.id,
+		}),
+		UserRowMixin,
+	],
 
 	props: {
-		users: {
-			type: Array,
-			required: true,
-		},
 		user: {
 			type: Object,
 			required: true,
 		},
-		settings: {
-			type: Object,
-			default: () => ({}),
+		users: {
+			type: Array,
+			required: true,
+		},
+		hasObfuscated: {
+			type: Boolean,
+			required: true,
 		},
 		groups: {
 			type: Array,
@@ -275,37 +350,30 @@ export default {
 		},
 		subAdminsGroups: {
 			type: Array,
-			default: () => [],
+			required: true,
 		},
 		quotaOptions: {
 			type: Array,
-			default: () => [],
-		},
-		showConfig: {
-			type: Object,
-			default: () => ({}),
+			required: true,
 		},
 		languages: {
 			type: Array,
+			required: true,
+		},
+		settings: {
+			type: Object,
 			required: true,
 		},
 		externalActions: {
 			type: Array,
 			default: () => [],
 		},
-		isDarkTheme: {
-			type: Boolean,
-			required: true,
-		},
 	},
-	data() {
+
+	idState() {
 		return {
-			// default quota is set to unlimited
-			unlimitedQuota: { id: 'none', label: t('settings', 'Unlimited') },
-			// temporary value used for multiselect change
 			selectedQuota: false,
-			rand: parseInt(Math.random() * 1000),
-			openedMenu: false,
+			rand: Math.random().toString(36).substring(2),
 			possibleManagers: [],
 			currentManager: '',
 			editing: false,
@@ -330,7 +398,69 @@ export default {
 	},
 
 	computed: {
-		/* USER POPOVERMENU ACTIONS */
+		isObfuscated() {
+			return isObfuscated(this.user)
+		},
+
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
+		isLoadingUser() {
+			return this.idState.loading.delete || this.idState.loading.disable || this.idState.loading.wipe
+		},
+
+		isLoadingField() {
+			return this.idState.loading.delete || this.idState.loading.disable || this.idState.loading.all
+		},
+
+		uniqueId() {
+			return this.user.id + this.idState.rand
+		},
+
+		userGroupsLabels() {
+			return this.userGroups
+				.map(group => group.name)
+				.join(', ')
+		},
+
+		userSubAdminsGroupsLabels() {
+			return this.userSubAdminsGroups
+				.map(group => group.name)
+				.join(', ')
+		},
+
+		usedSpace() {
+			if (this.user.quota?.used) {
+				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota?.used) })
+			}
+			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+		},
+
+		canEdit() {
+			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin
+		},
+
+		userQuota() {
+			let quota = this.user.quota?.quota
+
+			if (quota === 'default') {
+				quota = this.settings.defaultQuota
+				if (quota !== 'none') {
+					// convert to numeric value to match what the server would usually return
+					quota = OC.Util.computerFileSize(quota)
+				}
+			}
+
+			// when the default quota is unlimited, the server returns -3 here, map it to "none"
+			if (quota === 'none' || quota === -3) {
+				return t('settings', 'Unlimited')
+			} else if (quota >= 0) {
+				return OC.Util.humanFileSize(quota)
+			}
+			return OC.Util.humanFileSize(0)
+		},
+
 		userActions() {
 			const actions = [
 				{
@@ -360,19 +490,19 @@ export default {
 		},
 
 		// mapping saved values to objects
-		userQuota: {
+		editedUserQuota: {
 			get() {
-				if (this.selectedQuota !== false) {
-					return this.selectedQuota
+				if (this.idState.selectedQuota !== false) {
+					return this.idState.selectedQuota
 				}
-				if (this.settings.defaultQuota !== this.unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
 					// if value is valid, let's map the quotaOptions or return custom quota
 					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
 				}
-				return this.unlimitedQuota // unlimited
+				return unlimitedQuota // unlimited
 			},
 			set(quota) {
-				this.selectedQuota = quota
+				this.idState.selectedQuota = quota
 			},
 		},
 
@@ -390,14 +520,6 @@ export default {
 	},
 
 	methods: {
-		/* MENU HANDLING */
-		toggleMenu() {
-			this.openedMenu = !this.openedMenu
-		},
-		hideMenu() {
-			this.openedMenu = false
-		},
-
 		wipeUserDevices() {
 			const userid = this.user.id
 			OC.dialogs.confirmDestructive(
@@ -411,13 +533,13 @@ export default {
 				},
 				(result) => {
 					if (result) {
-						this.loading.wipe = true
-						this.loading.all = true
+						this.idState.loading.wipe = true
+						this.idState.loading.all = true
 						this.$store.dispatch('wipeUserDevices', userid)
 							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
 							.finally(() => {
-								this.loading.wipe = false
-								this.loading.all = false
+								this.idState.loading.wipe = false
+								this.idState.loading.all = false
 							})
 					}
 				},
@@ -428,36 +550,38 @@ export default {
 		filterManagers(managers) {
 			return managers.filter((manager) => manager.id !== this.user.id)
 		},
+
 		async initManager(userId) {
 			await this.$store.dispatch('getUser', userId).then(response => {
-				this.currentManager = response?.data.ocs.data
+				this.idState.currentManager = response?.data.ocs.data
 			})
 		},
+
 		async searchUserManager(query) {
 			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
 				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []
 				if (users.length > 0) {
-					this.possibleManagers = users
+					this.idState.possibleManagers = users
 				}
 			})
 		},
 
 		updateUserManager(manager) {
 			if (manager === null) {
-				this.currentManager = ''
+				this.idState.currentManager = ''
 			}
-			this.loading.manager = true
+			this.idState.loading.manager = true
 			try {
 				this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'manager',
-					value: this.currentManager ? this.currentManager.id : '',
+					value: this.idState.currentManager ? this.idState.currentManager.id : '',
 				})
 			} catch (error) {
 				showError(t('setting', 'Update of user manager was failed'))
 				console.error(error)
 			} finally {
-				this.loading.manager = false
+				this.idState.loading.manager = false
 			}
 		},
 
@@ -474,12 +598,12 @@ export default {
 				},
 				(result) => {
 					if (result) {
-						this.loading.delete = true
-						this.loading.all = true
+						this.idState.loading.delete = true
+						this.idState.loading.all = true
 						return this.$store.dispatch('deleteUser', userid)
 							.then(() => {
-								this.loading.delete = false
-								this.loading.all = false
+								this.idState.loading.delete = false
+								this.idState.loading.all = false
 							})
 					}
 				},
@@ -488,8 +612,8 @@ export default {
 		},
 
 		enableDisableUser() {
-			this.loading.delete = true
-			this.loading.all = true
+			this.idState.loading.delete = true
+			this.idState.loading.all = true
 			const userid = this.user.id
 			const enabled = !this.user.enabled
 			return this.$store.dispatch('enableDisableUser', {
@@ -497,8 +621,8 @@ export default {
 				enabled,
 			})
 				.then(() => {
-					this.loading.delete = false
-					this.loading.all = false
+					this.idState.loading.delete = false
+					this.idState.loading.all = false
 				})
 		},
 
@@ -508,14 +632,14 @@ export default {
 		 * @param {string} displayName The display name
 		 */
 		updateDisplayName() {
-			this.loading.displayName = true
+			this.idState.loading.displayName = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'displayname',
-				value: this.editedDisplayName,
+				value: this.idState.editedDisplayName,
 			}).then(() => {
-				this.loading.displayName = false
-				if (this.editedDisplayName === this.user.displayname) {
+				this.idState.loading.displayName = false
+				if (this.idState.editedDisplayName === this.user.displayname) {
 					showSuccess(t('setting', 'Display name was successfully changed'))
 				}
 			})
@@ -527,18 +651,18 @@ export default {
 		 * @param {string} password The email address
 		 */
 		updatePassword() {
-			this.loading.password = true
-			if (this.editedPassword.length === 0) {
+			this.idState.loading.password = true
+			if (this.idState.editedPassword.length === 0) {
 				showError(t('setting', "Password can't be empty"))
-				this.loading.password = false
+				this.idState.loading.password = false
 			} else {
 				this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'password',
-					value: this.editedPassword,
+					value: this.idState.editedPassword,
 				}).then(() => {
-					this.loading.password = false
-					this.editedPassword = ''
+					this.idState.loading.password = false
+					this.idState.editedPassword = ''
 					showSuccess(t('setting', 'Password was successfully changed'))
 				})
 			}
@@ -550,19 +674,19 @@ export default {
 		 * @param {string} mailAddress The email address
 		 */
 		updateEmail() {
-			this.loading.mailAddress = true
-			if (this.editedMail === '') {
+			this.idState.loading.mailAddress = true
+			if (this.idState.editedMail === '') {
 				showError(t('setting', "Email can't be empty"))
-				this.loading.mailAddress = false
-				this.editedMail = this.user.email
+				this.idState.loading.mailAddress = false
+				this.idState.editedMail = this.user.email
 			} else {
 				this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'email',
-					value: this.editedMail,
+					value: this.idState.editedMail,
 				}).then(() => {
-					this.loading.mailAddress = false
-					if (this.editedMail === this.user.email) {
+					this.idState.loading.mailAddress = false
+					if (this.idState.editedMail === this.user.email) {
 						showSuccess(t('setting', 'Email was successfully changed'))
 					}
 				})
@@ -575,7 +699,7 @@ export default {
 		 * @param {string} gid Group id
 		 */
 		async createGroup({ name: gid }) {
-			this.loading = { groups: true, subadmins: true }
+			this.idState.loading = { groups: true, subadmins: true }
 			try {
 				await this.$store.dispatch('addGroup', gid)
 				const userid = this.user.id
@@ -583,7 +707,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.loading = { groups: false, subadmins: false }
+				this.idState.loading = { groups: false, subadmins: false }
 			}
 			return this.$store.getters.getGroups[this.groups.length]
 		},
@@ -599,7 +723,7 @@ export default {
 				// Ignore
 				return
 			}
-			this.loading.groups = true
+			this.idState.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
 			if (group.canAdd === false) {
@@ -610,7 +734,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.loading.groups = false
+				this.idState.loading.groups = false
 			}
 		},
 
@@ -623,7 +747,7 @@ export default {
 			if (group.canRemove === false) {
 				return false
 			}
-			this.loading.groups = true
+			this.idState.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
 			try {
@@ -631,13 +755,13 @@ export default {
 					userid,
 					gid,
 				})
-				this.loading.groups = false
+				this.idState.loading.groups = false
 				// remove user from current list if current list is the removed group
 				if (this.$route.params.selectedGroup === gid) {
 					this.$store.commit('deleteUser', userid)
 				}
 			} catch {
-				this.loading.groups = false
+				this.idState.loading.groups = false
 			}
 		},
 
@@ -647,7 +771,7 @@ export default {
 		 * @param {object} group Group object
 		 */
 		async addUserSubAdmin(group) {
-			this.loading.subadmins = true
+			this.idState.loading.subadmins = true
 			const userid = this.user.id
 			const gid = group.id
 			try {
@@ -655,7 +779,7 @@ export default {
 					userid,
 					gid,
 				})
-				this.loading.subadmins = false
+				this.idState.loading.subadmins = false
 			} catch (error) {
 				console.error(error)
 			}
@@ -667,7 +791,7 @@ export default {
 		 * @param {object} group Group object
 		 */
 		async removeUserSubAdmin(group) {
-			this.loading.subadmins = true
+			this.idState.loading.subadmins = true
 			const userid = this.user.id
 			const gid = group.id
 
@@ -679,7 +803,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.loading.subadmins = false
+				this.idState.loading.subadmins = false
 			}
 		},
 
@@ -692,9 +816,9 @@ export default {
 		async setUserQuota(quota = 'none') {
 			// Make sure correct label is set for unlimited quota
 			if (quota === 'none') {
-				quota = this.unlimitedQuota
+				quota = unlimitedQuota
 			}
-			this.loading.quota = true
+			this.idState.loading.quota = true
 			// ensure we only send the preset id
 			quota = quota.id ? quota.id : quota
 
@@ -707,7 +831,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.loading.quota = false
+				this.idState.loading.quota = false
 			}
 			return quota
 		},
@@ -725,7 +849,7 @@ export default {
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota === null) {
-				return this.unlimitedQuota
+				return unlimitedQuota
 			} else {
 				// unify format output
 				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
@@ -740,7 +864,7 @@ export default {
 		 * @return {object}
 		 */
 		async setUserLanguage(lang) {
-			this.loading.languages = true
+			this.idState.loading.languages = true
 			// ensure we only send the preset id
 			try {
 				await this.$store.dispatch('setUserData', {
@@ -748,7 +872,7 @@ export default {
 					key: 'language',
 					value: lang.code,
 				})
-				this.loading.languages = false
+				this.idState.loading.languages = false
 			} catch (error) {
 				console.error(error)
 			}
@@ -759,48 +883,65 @@ export default {
 		 * Dispatch new welcome mail request
 		 */
 		sendWelcomeMail() {
-			this.loading.all = true
+			this.idState.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)
 				.then(() => showSuccess(t('setting', 'Welcome mail sent!'), { timeout: 2000 }))
 				.finally(() => {
-					this.loading.all = false
+					this.idState.loading.all = false
 				})
 		},
 
-		toggleEdit() {
-			this.editing = false
-			if (this.editedDisplayName !== this.user.displayname) {
-				this.editedDisplayName = this.user.displayname
-			} else if (this.editedMail !== this.user.email) {
-				this.editedMail = this.user.email
+		async toggleEdit() {
+			this.idState.editing = !this.idState.editing
+			if (this.idState.editing) {
+				await this.$nextTick()
+				this.$refs.displayNameField?.$refs?.inputField?.$refs?.input?.focus()
+			}
+			if (this.idState.editedDisplayName !== this.user.displayname) {
+				this.idState.editedDisplayName = this.user.displayname
+			} else if (this.idState.editedMail !== this.user.email) {
+				this.idState.editedMail = this.user.email ?? ''
 			}
 		},
 	},
 }
 </script>
-<style scoped lang="scss">
-	// Force menu to be above other rows
-	.row--menu-opened {
-		z-index: 1 !important;
+
+<style lang="scss" scoped>
+@import './shared/styles.scss';
+
+.row {
+	@include cell;
+
+	&__cell {
+		:deep {
+			.input-field,
+			.input-field__main-wrapper,
+			.input-field__input {
+				height: 48px !important;
+			}
+
+			.button-vue--icon-only {
+				height: 44px !important;
+			}
+
+			.v-select.select {
+				min-width: var(--cell-min-width);
+			}
+		}
 	}
 
-	.row :deep() {
-		.v-select.select {
-			// reset min width to 100% instead of X px
-			min-width: 100%;
-		}
+	&__progress {
+		margin-top: 4px;
 
-		.mailAddress,
-		.password,
-		.displayName {
-			.input-field,
-			.input-field__input {
-				height: 48px!important;
+		&--warn {
+			&::-moz-progress-bar {
+				background: var(--color-warning) !important;
 			}
-			.button-vue--icon-only {
-				height: 44px!important;
+			&::-webkit-progress-value {
+				background: var(--color-warning) !important;
 			}
 		}
-  }
-
+	}
+}
 </style>

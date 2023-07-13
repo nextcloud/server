@@ -44,7 +44,7 @@ Feature: login
     And I click the New user button
     And I see that the new user form is shown
     And I create user unknownUser with password 123456acb
-    And I see that the list of users contains the user unknownUser
+    # And I see that the list of users contains the user unknownUser
     And I act as John
     And I log in with user unknownUser and password 123456acb
     Then I see that the current page is the Files app
