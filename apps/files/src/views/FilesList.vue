@@ -23,7 +23,7 @@
 	<NcAppContent v-show="!currentView?.legacy"
 		:class="{'app-content--hidden': currentView?.legacy}"
 		data-cy-files-content>
-		<div class="files-list__header">
+		<div class="files-list__crumbs">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent" />
 
@@ -339,7 +339,7 @@ $margin: 4px;
 $navigationToggleSize: 50px;
 
 .files-list {
-	&__header {
+	&__crumbs {
 		display: flex;
 		align-content: center;
 		// Do not grow or shrink (vertically)

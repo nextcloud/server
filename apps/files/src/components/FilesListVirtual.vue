@@ -143,8 +143,10 @@ export default Vue.extend({
 	mounted() {
 		// Make the root recycle scroller a table for proper semantics
 		const slots = this.$el.querySelectorAll('.vue-recycle-scroller__slot')
-		slots[0].setAttribute('role', 'thead')
-		slots[1].setAttribute('role', 'tfoot')
+		slots[0].classList.add('files-list__header')
+		slots[0].setAttribute('role', 'rowgroup')
+		slots[1].classList.add('files-list__footer')
+		slots[1].setAttribute('role', 'rowgroup')
 	},
 
 	methods: {
@@ -182,7 +184,7 @@ export default Vue.extend({
 		}
 
 		// Table header
-		.vue-recycle-scroller__slot[role='thead'] {
+		.vue-recycle-scroller__slot.files-list__header {
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
