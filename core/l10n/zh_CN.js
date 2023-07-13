@@ -157,7 +157,7 @@ OC.L10N.register(
     "Log in to {productName}" : "登录到 {productName}",
     "Wrong username or password." : "错误的用户名或密码。",
     "User disabled" : "用户不可用",
-    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "我们检测到您的 IP 进行了多次无效登录尝试。因此，您的下一次登录最长会延迟 30 秒。",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "我们检测到您的IP进行了多次无效登录尝试。因此，您的下一次登录最长会延迟30秒。",
     "Log in with a device" : "使用设备登录",
     "Username or email" : "用户名或邮箱",
     "Your account is not setup for passwordless login." : "您的账号未设置无密码登录。",
