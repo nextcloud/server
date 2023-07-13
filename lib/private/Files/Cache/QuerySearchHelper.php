@@ -85,12 +85,18 @@ class QuerySearchHelper {
 		);
 	}
 
+	private function isCompareEqual(ISearchOperator $operator, string $fieldName): bool {
+		return
+			$operator instanceof ISearchComparison &&
+			$operator->getType() === ISearchComparison::COMPARE_EQUAL &&
+			$operator->getField() === $fieldName;
+	}
+
 	private function checkStorageAndPathFilter(ISearchOperator $operator, array &$storageToPathsMap, array &$storageOtherFilters): void {
 		if ($operator instanceof ISearchBinaryOperator && $operator->getType() === ISearchBinaryOperator::OPERATOR_AND && count($operator->getArguments()) == 2) {
 			$a = $operator->getArguments()[0];
 			$b = $operator->getArguments()[1];
-			if ($a instanceof ISearchComparison && $a->getField() === "storage" &&
-				$b instanceof ISearchComparison && $b->getField() === "path") {
+			if ($this->isCompareEqual($a, "storage") && $this->isCompareEqual($b, "path")) {
 				$storage = $a->getValue();
 				$path = $b->getValue();
 				\OC::$server->getLogger()->debug("QuerySearchHelper::checkStorageAndPathFilter: storage=" . $storage . " " . "path=" . $path);
@@ -101,23 +107,32 @@ class QuerySearchHelper {
 		$storageOtherFilters[] = $operator;
 	}
 
-	private function generateStorageFilters(array $caches): array {
-		// Generate simple (unoptimized) storage filters
-		$simpleStorageFilters = array_map(function (ICache $cache) {
-			return $cache->getQueryFilterForStorage();
-		}, $caches);
+	private function optimizeStorageFilters(array $storageFilters): array {
+		//
+		// Optimize the storage filters query, when there are many shared files.
+		//
+		// Originally for each shared file the following section is added to the SQL WHERE clause:
+		//
+		//   (`storage` = <storage-id>) AND (`path` = <file-path>)
+		//
+		// When many files are shared between the same two users, the storage part of the filter is repeated many times.
+		//
+		// Here we want to refactor the query to have a single filter for each storage
+		// and provide all `path_hash` values for the same storage in the IN clause:
+		//
+		//   (`storage` = <storage-id>) AND (`path_hash` IN (<path-hash-1>, <path-hash-2>, ...))
 
 		// Pick up single file shares to prepare more efficient query
 		$storageToPathsMap = [];
 		$storageOtherFilters = [];
-		foreach ($simpleStorageFilters as $storageFilter) {
+		foreach ($storageFilters as $storageFilter) {
 			$this->checkStorageAndPathFilter($storageFilter, $storageToPathsMap, $storageOtherFilters);
 		}
 
 		// Create filters for single file shares
 		$singleFileFilters = [];
 		foreach ($storageToPathsMap as $storage => $paths) {
-			\OC::$server->getLogger()->debug("QuerySearchHelper::generateStorageFilters: storage=" . $storage . " " . "paths=" . implode(", ", $paths));
+			\OC::$server->getLogger()->debug("QuerySearchHelper::optimizeStorageFilters: storage=" . $storage . " " . "paths=" . implode(", ", $paths));
 			$singleFileFilters[] = new SearchBinaryOperator(
 				ISearchBinaryOperator::OPERATOR_AND,
 				[
@@ -131,8 +146,11 @@ class QuerySearchHelper {
 	}
 
 	protected function applySearchConstraints(CacheQueryBuilder $query, ISearchQuery $searchQuery, array $caches): void {
-		$storageFilters = $this->generateStorageFilters($caches);
-		$storageFilter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters);
+		$storageFilters = array_values(array_map(function (ICache $cache) {
+			return $cache->getQueryFilterForStorage();
+		}, $caches));
+		$optimizedStorageFilters = $this->optimizeStorageFilters($storageFilters);
+		$storageFilter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $optimizedStorageFilters);
 		$filter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [$searchQuery->getSearchOperation(), $storageFilter]);
 		$this->queryOptimizer->processOperator($filter);
 
