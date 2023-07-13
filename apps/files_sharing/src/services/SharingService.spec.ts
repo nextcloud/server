@@ -45,7 +45,7 @@ describe('SharingService methods definitions', () => {
 						},
 						data: [],
 					},
-				} as OCSResponse,
+				} as OCSResponse<any>,
 			}
 		})
 	})

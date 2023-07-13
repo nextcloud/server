@@ -48,9 +48,9 @@ export const action = new FileAction({
 		return null
 	},
 
-	default: DefaultType.HIDDEN,
 	// Before openFolderAction
 	order: -1000,
+	default: DefaultType.HIDDEN,
 })
 
 registerFileAction(action)

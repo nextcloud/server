@@ -276,35 +276,12 @@ abstract class StoragesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function index() {
-		$storages = $this->formatStoragesForUI($this->service->getStorages());
+		$storages = array_map(static fn ($storage) => $storage->jsonSerialize(true), $this->service->getStorages());
 
 		return new DataResponse(
 			$storages,
 			Http::STATUS_OK
 		);
-	}
-
-	protected function formatStoragesForUI(array $storages): array {
-		return array_map(function ($storage) {
-			return $this->formatStorageForUI($storage);
-		}, $storages);
-	}
-
-	protected function formatStorageForUI(StorageConfig $storage): StorageConfig {
-		/** @var DefinitionParameter[] $parameters */
-		$parameters = array_merge($storage->getBackend()->getParameters(), $storage->getAuthMechanism()->getParameters());
-
-		$options = $storage->getBackendOptions();
-		foreach ($options as $key => $value) {
-			foreach ($parameters as $parameter) {
-				if ($parameter->getName() === $key && $parameter->getType() === DefinitionParameter::VALUE_PASSWORD) {
-					$storage->setBackendOption($key, DefinitionParameter::UNMODIFIED_PLACEHOLDER);
-					break;
-				}
-			}
-		}
-
-		return $storage;
 	}
 
 	/**
@@ -329,7 +306,7 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
-		$data = $this->formatStorageForUI($storage)->jsonSerialize();
+		$data = $storage->jsonSerialize(true);
 		$isAdmin = $this->groupManager->isAdmin($this->userSession->getUser()->getUID());
 		$data['can_edit'] = $storage->getType() === StorageConfig::MOUNT_TYPE_PERSONAl || $isAdmin;
 

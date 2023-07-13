@@ -23,7 +23,7 @@
 	<span />
 </template>
 
-<script>
+<script lang="ts">
 /**
  * This component is used to render custom
  * elements provided by an API. Vue doesn't allow
@@ -46,20 +46,29 @@ export default {
 			required: true,
 		},
 	},
-	computed: {
-		element() {
-			return this.render(this.source, this.currentView)
-		},
-	},
 	watch: {
-		element() {
-			this.$el.replaceWith(this.element)
-			this.$el = this.element
+		source() {
+			this.updateRootElement()
+		},
+		currentView() {
+			this.updateRootElement()
 		},
 	},
 	mounted() {
-		this.$el.replaceWith(this.element)
-		this.$el = this.element
+		this.updateRootElement()
+	},
+	methods: {
+		async updateRootElement() {
+			const span = document.createElement('span') as HTMLSpanElement
+			this.$el.replaceWith(span)
+			this.$el = span
+
+			const element = await this.render(this.source, this.currentView)
+			if (element) {
+				this.$el.replaceWith(element)
+				this.$el = element
+			}
+		},
 	},
 }
 </script>

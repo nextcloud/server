@@ -37,30 +37,22 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
-use OCP\IUserSession;
 
 /**
  * @psalm-import-type FilesExternalMount from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
-	/** @var IUserSession */
-	private $userSession;
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-	/** @var UserStoragesService */
-	private $userStoragesService;
+	private UserGlobalStoragesService $userGlobalStoragesService;
+	private UserStoragesService $userStoragesService;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IUserSession $userSession,
 		UserGlobalStoragesService $userGlobalStorageService,
 		UserStoragesService $userStorageService
 	) {
 		parent::__construct($appName, $request);
-
-		$this->userSession = $userSession;
 		$this->userGlobalStoragesService = $userGlobalStorageService;
 		$this->userStoragesService = $userStorageService;
 	}
@@ -89,14 +81,15 @@ class ApiController extends OCSController {
 		}
 
 		$entry = [
+			'id' => $mountConfig->getId(),
+			'type' => 'dir',
 			'name' => basename($mountPoint),
 			'path' => $path,
-			'type' => 'dir',
-			'backend' => $mountConfig->getBackend()->getText(),
-			'scope' => $isSystemMount ? 'system' : 'personal',
 			'permissions' => $permissions,
-			'id' => $mountConfig->getId(),
+			'scope' => $isSystemMount ? 'system' : 'personal',
+			'backend' => $mountConfig->getBackend()->getText(),
 			'class' => $mountConfig->getBackend()->getIdentifier(),
+			'config' => $mountConfig->jsonSerialize(true),
 		];
 		return $entry;
 	}
@@ -126,5 +119,32 @@ class ApiController extends OCSController {
 		}
 
 		return new DataResponse($entries);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Ask for credentials using a browser's native basic auth prompt
+	 * Then returns it if provided
+	 */
+	public function askNativeAuth(): DataResponse {
+		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
+			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);
+			$response->addHeader('WWW-Authenticate', 'Basic realm="Storage authentification needed"');
+			return $response;
+		}
+
+		$user = $_SERVER['PHP_AUTH_USER'];
+		$password = $_SERVER['PHP_AUTH_PW'];
+
+		// Reset auth 
+		unset($_SERVER['PHP_AUTH_USER']);
+		unset($_SERVER['PHP_AUTH_PW']);
+
+		// Using 401 again to ensure we clear any cached Authorization
+		return new DataResponse([
+			'user' => $user,
+			'password' => $password,
+		], Http::STATUS_UNAUTHORIZED);
 	}
 }
