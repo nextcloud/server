@@ -21,7 +21,8 @@
   -->
 <template>
 	<tr>
-		<th class="files-list__row-checkbox">
+		<th class="files-list__row-checkbox"
+			scope="row">
 			<span class="hidden-visually">{{ t('files', 'Total rows summary') }}</span>
 		</th>
 
@@ -50,7 +51,8 @@
 		<!-- Custom views columns -->
 		<th v-for="column in columns"
 			:key="column.id"
-			:class="classForColumn(column)">
+			:class="classForColumn(column)"
+			scope="row">
 			<span>{{ column.summary?.(nodes, currentView) }}</span>
 		</th>
 	</tr>

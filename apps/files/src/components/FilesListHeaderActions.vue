@@ -20,7 +20,9 @@
   -
   -->
 <template>
-	<th class="files-list__column files-list__row-actions-batch" colspan="2">
+	<th class="files-list__column files-list__row-actions-batch"
+		colspan="2"
+		scope="col">
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-title="true"

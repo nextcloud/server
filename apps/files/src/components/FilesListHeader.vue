@@ -21,7 +21,8 @@
   -->
 <template>
 	<tr>
-		<th class="files-list__column files-list__row-checkbox">
+		<th class="files-list__column files-list__row-checkbox"
+			scope="col">
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
@@ -34,7 +35,8 @@
 		<template v-else>
 			<!-- Link to file -->
 			<th class="files-list__column files-list__row-name files-list__column--sortable"
-				@click.stop.prevent="toggleSortBy('basename')">
+				@click.stop.prevent="toggleSortBy('basename')"
+				scope="col">
 				<!-- Icon or preview -->
 				<span class="files-list__row-icon" />
 
@@ -43,26 +45,29 @@
 			</th>
 
 			<!-- Actions -->
-			<th class="files-list__row-actions" />
+			<th class="files-list__row-actions" scope="col" />
 
 			<!-- Size -->
 			<th v-if="isSizeAvailable"
 				:class="{'files-list__column--sortable': isSizeAvailable}"
-				class="files-list__column files-list__row-size">
+				class="files-list__column files-list__row-size"
+				scope="col">
 				<FilesListHeaderButton :name="t('files', 'Size')" mode="size" />
 			</th>
 
 			<!-- Mtime -->
 			<th v-if="isMtimeAvailable"
 				:class="{'files-list__column--sortable': isMtimeAvailable}"
-				class="files-list__column files-list__row-mtime">
+				class="files-list__column files-list__row-mtime"
+				scope="col">
 				<FilesListHeaderButton :name="t('files', 'Modified')" mode="mtime" />
 			</th>
 
 			<!-- Custom views columns -->
 			<th v-for="column in columns"
 				:key="column.id"
-				:class="classForColumn(column)">
+				:class="classForColumn(column)"
+				scope="col">
 				<FilesListHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
 				<span v-else>
 					{{ column.title }}
