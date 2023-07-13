@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: checkers
 
@@ -2352,3 +2353,6 @@ trigger:
 #  event:
 #    - pull_request
 #    - push
+---
+kind: signature
+hmac: 5647bd81c8bc7327a18b657fb5223e5345fe9ee28754d0e5e34c3fe02ea1876f
