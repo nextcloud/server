@@ -2705,6 +2705,9 @@
     <InvalidReturnType occurrences="1">
       <code>getChecksum</code>
     </InvalidReturnType>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>INode|IRootFolder</code>
+    </LessSpecificImplementedReturnType>
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;getFileInfo()-&gt;getId()</code>
     </NullableReturnStatement>
@@ -2734,6 +2737,9 @@
     <InvalidNullableReturnType occurrences="1">
       <code>\OC\User\User</code>
     </InvalidNullableReturnType>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>INode|IRootFolder</code>
+    </LessSpecificImplementedReturnType>
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;user</code>
     </NullableReturnStatement>
