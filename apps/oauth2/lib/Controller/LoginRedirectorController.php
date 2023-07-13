@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,8 +31,8 @@ namespace OCA\OAuth2\Controller;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -74,14 +75,19 @@ class LoginRedirectorController extends Controller {
 	 * @NoCSRFRequired
 	 * @UseSession
 	 *
-	 * @param string $client_id
-	 * @param string $state
-	 * @param string $response_type
-	 * @return Response
+	 * Authorize the user
+	 *
+	 * @param string $client_id Client ID
+	 * @param string $state State of the flow
+	 * @param string $response_type Response type for the flow
+	 * @return TemplateResponse<Http::STATUS_OK, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 *
+	 * 200: Client not found
+	 * 303: Redirect to login URL
 	 */
 	public function authorize($client_id,
 							  $state,
-							  $response_type): Response {
+							  $response_type): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
 		} catch (ClientNotFoundException $e) {
