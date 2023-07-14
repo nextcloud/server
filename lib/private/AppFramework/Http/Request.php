@@ -78,11 +78,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
-
-	protected string $inputStream;
-	protected $content;
-	protected array $items = [];
-	protected array $allowedKeys = [
+	public const ALLOWED_KEYS = [
 		'get',
 		'post',
 		'files',
@@ -94,6 +90,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'method',
 		'requesttoken',
 	];
+
+	protected string $inputStream;
+	protected $content;
+	protected array $items = [];
 	protected IRequestId $requestId;
 	protected IConfig $config;
 	protected ?CsrfTokenManager $csrfTokenManager;
@@ -132,7 +132,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$vars['method'] = 'GET';
 		}
 
-		foreach ($this->allowedKeys as $name) {
+		foreach (self::ALLOWED_KEYS as $name) {
 			$this->items[$name] = $vars[$name] ?? [];
 		}
 
@@ -276,7 +276,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	public function __isset($name) {
-		if (\in_array($name, $this->allowedKeys, true)) {
+		if (\in_array($name, self::ALLOWED_KEYS, true)) {
 			return true;
 		}
 		return isset($this->items['parameters'][$name]);

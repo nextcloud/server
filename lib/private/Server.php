@@ -61,6 +61,7 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
+use OC\AppFramework\Http\RequestVars;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
@@ -983,6 +984,27 @@ class Server extends ServerContainer implements IServerContainer {
 				$appManager,
 				$c->get(IMimeTypeDetector::class)
 			);
+		});
+		$this->registerService(RequestVars::class, function (ContainerInterface $c) {
+			if (isset($this['urlParams'])) {
+				$urlParams = $this['urlParams'];
+			} else {
+				$urlParams = [];
+			}
+
+			return new RequestVars(
+				[
+					'get' => $_GET,
+					'post' => $_POST,
+					'files' => $_FILES,
+					'server' => $_SERVER,
+					'env' => $_ENV,
+					'cookies' => $_COOKIE,
+					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
+						? $_SERVER['REQUEST_METHOD']
+						: '',
+					'urlParams' => $urlParams,
+				]);
 		});
 		$this->registerService(\OCP\IRequest::class, function (ContainerInterface $c) {
 			if (isset($this['urlParams'])) {
