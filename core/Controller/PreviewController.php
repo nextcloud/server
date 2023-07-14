@@ -103,7 +103,7 @@ class PreviewController extends Controller {
 		int $y = 32,
 		bool $a = false,
 		bool $forceIcon = true,
-		string $mode = 'fill'): DataResponse|Response|FileDisplayResponse {
+		string $mode = 'fill'): DataResponse|FileDisplayResponse {
 		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
