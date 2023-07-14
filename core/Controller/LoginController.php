@@ -117,7 +117,7 @@ class LoginController extends Controller {
 	 * @param string|null $user
 	 * @param string|null $redirect_url
 	 *
-	 * @return Response
+	 * @return TemplateResponse|RedirectResponse
 	 */
 	#[UseSession]
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {

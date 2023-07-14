@@ -58,12 +58,6 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @param string $file
-	 * @param int $x
-	 * @param int $y
-	 * @param bool $a
-	 * @param bool $forceIcon
-	 * @param string $mode
 	 * @return Response
 	 * @throws NotPermittedException
 	 * @throws NoUserException
