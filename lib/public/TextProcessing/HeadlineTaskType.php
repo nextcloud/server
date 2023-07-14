@@ -23,44 +23,38 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCP\LanguageModel;
+namespace OCP\TextProcessing;
+
+use OCP\IL10N;
 
 /**
- * This is an absctract LanguageModel Task represents summarization
- * which sums up the passed text.
+ * This is the text processing task type for creating headline
  * @since 27.1.0
- * @template-extends AbstractLanguageModelTask<ISummaryProvider>
  */
-final class SummaryTask extends AbstractLanguageModelTask {
+class HeadlineTaskType implements ITaskType {
 	/**
+	 * Constructor for HeadlineTaskType
+	 *
+	 * @param IL10N $l
 	 * @since 27.1.0
 	 */
-	public const TYPE = 'summarize';
+	public function __construct(
+		private IL10N $l,
+	) {
+	}
+
 
 	/**
 	 * @inheritDoc
-	 * @since 27.1.0
 	 */
-	public function visitProvider(ILanguageModelProvider $provider): string {
-		if (!$this->canUseProvider($provider)) {
-			throw new \RuntimeException('SummaryTask#visitProvider expects ISummaryProvider');
-		}
-		return $provider->summarize($this->getInput());
+	public function getName(): string {
+		return $this->l->t('Generate headline');
 	}
 
 	/**
 	 * @inheritDoc
-	 * @since 27.1.0
 	 */
-	public function canUseProvider(ILanguageModelProvider $provider): bool {
-		return $provider instanceof ISummaryProvider;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @since 27.1.0
-	 */
-	public function getType(): string {
-		return self::TYPE;
+	public function getDescription(): string {
+		return $this->l->t('Generates a possible headline for a text');
 	}
 }

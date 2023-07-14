@@ -24,19 +24,19 @@ declare(strict_types=1);
  */
 
 
-namespace OC\LanguageModel;
+namespace OC\TextProcessing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\LanguageModel\Events\TaskFailedEvent;
-use OCP\LanguageModel\Events\TaskSuccessfulEvent;
-use OCP\LanguageModel\ILanguageModelManager;
+use OCP\TextProcessing\Events\TaskFailedEvent;
+use OCP\TextProcessing\Events\TaskSuccessfulEvent;
+use OCP\TextProcessing\IManager;
 
 class TaskBackgroundJob extends QueuedJob {
 	public function __construct(
-		ITimeFactory $timeFactory,
-		private ILanguageModelManager $languageModelManager,
+		ITimeFactory             $timeFactory,
+		private IManager         $textProcessingManager,
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($timeFactory);
@@ -51,9 +51,9 @@ class TaskBackgroundJob extends QueuedJob {
 	 */
 	protected function run($argument) {
 		$taskId = $argument['taskId'];
-		$task = $this->languageModelManager->getTask($taskId);
+		$task = $this->textProcessingManager->getTask($taskId);
 		try {
-			$this->languageModelManager->runTask($task);
+			$this->textProcessingManager->runTask($task);
 			$event = new TaskSuccessfulEvent($task);
 		} catch (\Throwable $e) {
 			$event = new TaskFailedEvent($task, $e->getMessage());

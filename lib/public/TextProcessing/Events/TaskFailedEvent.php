@@ -1,20 +1,20 @@
 <?php
 
-namespace OCP\LanguageModel\Events;
+namespace OCP\TextProcessing\Events;
 
-use OCP\LanguageModel\ILanguageModelTask;
+use OCP\TextProcessing\Task;
 
 /**
  * @since 27.1.0
  */
-class TaskFailedEvent extends AbstractLanguageModelEvent {
+class TaskFailedEvent extends AbstractTextProcessingEvent {
 	/**
-	 * @param ILanguageModelTask $task
+	 * @param Task $task
 	 * @param string $errorMessage
 	 * @since 27.1.0
 	 */
 	public function __construct(
-		ILanguageModelTask $task,
+		Task $task,
 		private string $errorMessage,
 	) {
 		parent::__construct($task);

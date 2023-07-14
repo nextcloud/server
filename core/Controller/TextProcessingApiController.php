@@ -32,17 +32,24 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\Common\Exception\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\LanguageModel\AbstractLanguageModelTask;
-use OCP\LanguageModel\ILanguageModelManager;
+use OCP\TextProcessing\ITaskType;
+use OCP\TextProcessing\Task;
+use OCP\TextProcessing\IManager;
 use OCP\PreConditionNotMetException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
-class LanguageModelApiController extends \OCP\AppFramework\OCSController {
+class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string $appName,
-		IRequest $request,
-		private ILanguageModelManager $languageModelManager,
-		private IL10N $l,
-		private ?string $userId,
+		string           $appName,
+		IRequest         $request,
+		private IManager $languageModelManager,
+		private IL10N    $l,
+		private ?string  $userId,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -51,13 +58,31 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 * This endpoint returns all available LanguageModel task types
 	 *
 	 * @PublicPage
-	 * @return DataResponse<Http::STATUS_OK, array{types: string[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{types: list<array{id: string, name: string, description: string}>}, array{}>
 	 *
 	 * 200: Task types returned
 	 */
 	public function taskTypes(): DataResponse {
+		$typeClasses = $this->languageModelManager->getAvailableTaskTypes();
+		/** @var list<array{id: string, name: string, description: string}> $types */
+		$types = [];
+		foreach ($typeClasses as $typeClass) {
+			/** @var ITaskType $object */
+			try {
+				$object = $this->container->get($typeClass);
+			} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+				$this->logger->warning('Could not find ' . $typeClass, ['exception' => $e]);
+				continue;
+			}
+			$types[] = [
+				'id' => $typeClass,
+				'name' => $object->getName(),
+				'description' => $object->getDescription(),
+			];
+		}
+
 		return new DataResponse([
-			'types' => $this->languageModelManager->getAvailableTaskTypes(),
+			'types' => $types,
 		]);
 	}
 
@@ -79,14 +104,13 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 	 */
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
 		try {
-			$task = AbstractLanguageModelTask::factory($type, $input, $this->userId, $appId, $identifier);
-		} catch (InvalidArgumentException $e) {
+			$task = Task::factory($type, $input, $this->userId, $appId, $identifier);
+		} catch (InvalidArgumentException) {
 			return new DataResponse(['message' => $this->l->t('Requested task type does not exist')], Http::STATUS_BAD_REQUEST);
 		}
 		try {
 			$this->languageModelManager->scheduleTask($task);
 
-			/** @var array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string} $json */
 			$json = $task->jsonSerialize();
 
 			return new DataResponse([
@@ -117,7 +141,6 @@ class LanguageModelApiController extends \OCP\AppFramework\OCSController {
 				return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
 			}
 
-			/** @var array{id: int|null, type: string, status: int, userId: string|null, appId: string, input: string, output: string|null, identifier: string} $json */
 			$json = $task->jsonSerialize();
 
 			return new DataResponse([

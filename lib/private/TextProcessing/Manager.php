@@ -23,34 +23,27 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\LanguageModel;
+namespace OC\TextProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OC\LanguageModel\Db\Task;
-use OC\LanguageModel\Db\TaskMapper;
+use OC\TextProcessing\Db\Task as DbTask;
+use \OCP\TextProcessing\Task as OCPTask;
+use OC\TextProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IServerContainer;
-use OCP\LanguageModel\FreePromptTask;
-use OCP\LanguageModel\HeadlineTask;
-use OCP\LanguageModel\IHeadlineProvider;
-use OCP\LanguageModel\ILanguageModelManager;
-use OCP\LanguageModel\ILanguageModelProvider;
-use OCP\LanguageModel\ILanguageModelTask;
-use OCP\LanguageModel\ISummaryProvider;
-use OCP\LanguageModel\ITopicsProvider;
-use OCP\LanguageModel\SummaryTask;
-use OCP\LanguageModel\TopicsTask;
+use OCP\TextProcessing\IManager;
+use OCP\TextProcessing\IProvider;
 use OCP\PreConditionNotMetException;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
 
-class LanguageModelManager implements ILanguageModelManager {
-	/** @var ?ILanguageModelProvider[] */
+class Manager implements IManager {
+	/** @var ?IProvider[] */
 	private ?array $providers = null;
 
 	public function __construct(
@@ -74,12 +67,12 @@ class LanguageModelManager implements ILanguageModelManager {
 
 		$this->providers = [];
 
-		foreach ($context->getLanguageModelProviders() as $providerServiceRegistration) {
+		foreach ($context->getTextProcessingProviders() as $providerServiceRegistration) {
 			$class = $providerServiceRegistration->getService();
 			try {
 				$this->providers[$class] = $this->serverContainer->get($class);
 			} catch (Throwable $e) {
-				$this->logger->error('Failed to load LanguageModel provider ' . $class, [
+				$this->logger->error('Failed to load Text processing provider ' . $class, [
 					'exception' => $e,
 				]);
 			}
@@ -93,78 +86,57 @@ class LanguageModelManager implements ILanguageModelManager {
 		if ($context === null) {
 			return false;
 		}
-		return count($context->getLanguageModelProviders()) > 0;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAvailableTaskClasses(): array {
-		$tasks = [];
-		foreach ($this->getProviders() as $provider) {
-			$tasks[FreePromptTask::class] = true;
-			if ($provider instanceof ISummaryProvider) {
-				$tasks[SummaryTask::class] = true;
-			}
-			if ($provider instanceof IHeadlineProvider) {
-				$tasks[HeadlineTask::class] = true;
-			}
-			if ($provider instanceof ITopicsProvider) {
-				$tasks[TopicsTask::class] = true;
-			}
-		}
-		return array_keys($tasks);
+		return count($context->getTextProcessingProviders()) > 0;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getAvailableTaskTypes(): array {
-		return array_map(fn ($taskClass) => $taskClass::TYPE, $this->getAvailableTaskClasses());
+		$tasks = [];
+		foreach ($this->getProviders() as $provider) {
+			$tasks[$provider->getTaskType()] = true;
+		}
+		return array_keys($tasks);
 	}
 
-	public function canHandleTask(ILanguageModelTask $task): bool {
-		foreach ($this->getAvailableTaskClasses() as $class) {
-			if ($task instanceof $class) {
-				return true;
-			}
-		}
-		return false;
+	public function canHandleTask(OCPTask $task): bool {
+		return in_array($task->getType(), $this->getAvailableTaskTypes());
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function runTask(ILanguageModelTask $task): string {
+	public function runTask(OCPTask $task): string {
 		if (!$this->canHandleTask($task)) {
-			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
+			throw new PreConditionNotMetException('No text processing provider is installed that can handle this task');
 		}
 		foreach ($this->getProviders() as $provider) {
 			if (!$task->canUseProvider($provider)) {
 				continue;
 			}
 			try {
-				$task->setStatus(ILanguageModelTask::STATUS_RUNNING);
+				$task->setStatus(OCPTask::STATUS_RUNNING);
 				if ($task->getId() === null) {
-					$taskEntity = $this->taskMapper->insert(Task::fromLanguageModelTask($task));
+					$taskEntity = $this->taskMapper->insert(DbTask::fromPublicTask($task));
 					$task->setId($taskEntity->getId());
 				} else {
-					$this->taskMapper->update(Task::fromLanguageModelTask($task));
+					$this->taskMapper->update(DbTask::fromPublicTask($task));
 				}
 				$output = $task->visitProvider($provider);
 				$task->setOutput($output);
-				$task->setStatus(ILanguageModelTask::STATUS_SUCCESSFUL);
-				$this->taskMapper->update(Task::fromLanguageModelTask($task));
+				$task->setStatus(OCPTask::STATUS_SUCCESSFUL);
+				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				return $output;
 			} catch (\RuntimeException $e) {
 				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
-				$task->setStatus(ILanguageModelTask::STATUS_FAILED);
-				$this->taskMapper->update(Task::fromLanguageModelTask($task));
+				$task->setStatus(OCPTask::STATUS_FAILED);
+				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				throw $e;
 			} catch (\Throwable $e) {
 				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
-				$task->setStatus(ILanguageModelTask::STATUS_FAILED);
-				$this->taskMapper->update(Task::fromLanguageModelTask($task));
+				$task->setStatus(OCPTask::STATUS_FAILED);
+				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				throw new RuntimeException('LanguageModel call using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
 			}
 		}
@@ -176,12 +148,12 @@ class LanguageModelManager implements ILanguageModelManager {
 	 * @inheritDoc
 	 * @throws Exception
 	 */
-	public function scheduleTask(ILanguageModelTask $task): void {
+	public function scheduleTask(OCPTask $task): void {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
-		$task->setStatus(ILanguageModelTask::STATUS_SCHEDULED);
-		$taskEntity = Task::fromLanguageModelTask($task);
+		$task->setStatus(OCPTask::STATUS_SCHEDULED);
+		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->insert($taskEntity);
 		$task->setId($taskEntity->getId());
 		$this->jobList->add(TaskBackgroundJob::class, [
@@ -191,14 +163,14 @@ class LanguageModelManager implements ILanguageModelManager {
 
 	/**
 	 * @param int $id The id of the task
-	 * @return ILanguageModelTask
+	 * @return OCPTask
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 */
-	public function getTask(int $id): ILanguageModelTask {
+	public function getTask(int $id): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
-			return $taskEntity->toLanguageModelTask();
+			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
 			throw new NotFoundException('Could not find task with the provided id');
 		} catch (MultipleObjectsReturnedException $e) {

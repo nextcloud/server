@@ -24,26 +24,38 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\LanguageModel;
+namespace OCP\TextProcessing;
 
 use RuntimeException;
 
 /**
- * This is the minimum interface that is implemented by apps that
- * implement a LanguageModel provider
+ * This is the interface that is implemented by apps that
+ * implement a text processing provider
+ * @template T of ITaskType
  * @since 27.1.0
  */
-interface ILanguageModelProvider {
+interface IProvider {
 	/**
+	 * The localized name of this provider
 	 * @since 27.1.0
 	 */
 	public function getName(): string;
 
 	/**
-	 * @param string $prompt The prompt to call the model with
-	 * @return string the output
+	 * Processes a text
+	 *
+	 * @param string $prompt The input text
+	 * @return string the output text
 	 * @since 27.1.0
-	 * @throws RuntimeException If the text could not be transcribed
+	 * @throws RuntimeException If the text could not be processed
 	 */
-	public function prompt(string $prompt): string;
+	public function process(string $prompt): string;
+
+	/**
+	 * Returns the task type class string of the task type, that this
+	 * provider handles
+	 *
+	 * @return class-string<T>
+	 */
+	public function getTaskType(): string;
 }

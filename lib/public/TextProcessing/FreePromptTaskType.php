@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Marcel Klehr <mklehr@gmx.net>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
  * @author Marcel Klehr <mklehr@gmx.net>
  *
@@ -23,22 +23,38 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace OCP\TextProcessing;
 
-namespace OCP\LanguageModel;
-
-use RuntimeException;
+use OCP\IL10N;
 
 /**
- * This LanguageModel Provider implements summarization
- * which sums up the passed text.
+ * This is the text processing task type for free prompting
  * @since 27.1.0
  */
-interface ISummaryProvider extends ILanguageModelProvider {
+class FreePromptTaskType implements ITaskType {
 	/**
-	 * @param string $text The text to summarize
-	 * @returns string the summary
+	 * Constructor for FreePromptTaskType
+	 *
+	 * @param IL10N $l
 	 * @since 27.1.0
-	 * @throws RuntimeException If the text could not be transcribed
 	 */
-	public function summarize(string $text): string;
+	public function __construct(
+		private IL10N $l,
+	) {
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getName(): string {
+		return $this->l->t('Free prompt');
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDescription(): string {
+		return $this->l->t('Runs an arbitrary prompt through the built-in language model.');
+	}
 }

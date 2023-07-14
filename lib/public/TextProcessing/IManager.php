@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\LanguageModel;
+namespace OCP\TextProcessing;
 
 use OCP\Common\Exception\NotFoundException;
 use OCP\PreConditionNotMetException;
@@ -35,47 +35,43 @@ use RuntimeException;
  * without known which providers are installed
  * @since 27.1.0
  */
-interface ILanguageModelManager {
+interface IManager {
 	/**
 	 * @since 27.1.0
 	 */
 	public function hasProviders(): bool;
 
 	/**
-	 * @return string[]
-	 * @since 27.1.0
-	 */
-	public function getAvailableTaskClasses(): array;
-
-	/**
-	 * @return string[]
+	 * @return class-string<ITaskType>[]
 	 * @since 27.1.0
 	 */
 	public function getAvailableTaskTypes(): array;
 
 	/**
+	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @throws RuntimeException If something else failed
 	 * @since 27.1.0
 	 */
-	public function runTask(ILanguageModelTask $task): string;
+	public function runTask(Task $task): string;
 
 	/**
 	 * Will schedule an LLM inference process in the background. The result will become available
 	 * with the \OCP\LanguageModel\Events\TaskSuccessfulEvent
 	 * If inference fails a \OCP\LanguageModel\Events\TaskFailedEvent will be dispatched instead
 	 *
+	 * @param Task $task The task to schedule
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @since 27.1.0
 	 */
-	public function scheduleTask(ILanguageModelTask $task) : void;
+	public function scheduleTask(Task $task) : void;
 
 	/**
 	 * @param int $id The id of the task
-	 * @return ILanguageModelTask
+	 * @return Task
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 * @since 27.1.0
 	 */
-	public function getTask(int $id): ILanguageModelTask;
+	public function getTask(int $id): Task;
 }

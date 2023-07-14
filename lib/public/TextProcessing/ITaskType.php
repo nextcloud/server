@@ -21,31 +21,29 @@ declare(strict_types=1);
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
-namespace OCP\LanguageModel\Events;
 
-use OCP\EventDispatcher\Event;
-use OCP\LanguageModel\ILanguageModelTask;
+namespace OCP\TextProcessing;
 
 /**
+ * This is a task type interface that is implemented by text processing
+ * task types
  * @since 27.1.0
  */
-abstract class AbstractLanguageModelEvent extends Event {
+interface ITaskType {
 	/**
+	 * Returns the localized name of this task type
+	 *
 	 * @since 27.1.0
+	 * @return string
 	 */
-	public function __construct(
-		private ILanguageModelTask $task
-	) {
-		parent::__construct();
-	}
+	public function getName(): string;
 
 	/**
-	 * @return ILanguageModelTask
+	 * Returns the localized description of this task type
+	 *
 	 * @since 27.1.0
+	 * @return string
 	 */
-	public function getTask(): ILanguageModelTask {
-		return $this->task;
-	}
+	public function getDescription(): string;
 }
