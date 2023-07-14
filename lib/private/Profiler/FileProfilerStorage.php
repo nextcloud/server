@@ -34,6 +34,7 @@ use OCP\Profiler\IProfile;
 class FileProfilerStorage {
 	// Folder where profiler data are stored.
 	private string $folder;
+	private bool $folderPrepared = false;
 
 	/**
 	 * Constructs the file storage using a "dsn-like" path.
@@ -44,6 +45,13 @@ class FileProfilerStorage {
 	 */
 	public function __construct(string $folder) {
 		$this->folder = $folder;
+	}
+
+	private function prepareFolder() {
+		if ($this->folderPrepared) {
+			return;
+		}
+		$this->folderPrepared = true;
 
 		if (!is_dir($this->folder) && false === @mkdir($this->folder, 0777, true) && !is_dir($this->folder)) {
 			throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
@@ -51,6 +59,7 @@ class FileProfilerStorage {
 	}
 
 	public function find(?string $url, ?int $limit, ?string $method, int $start = null, int $end = null, string $statusCode = null): array {
+		$this->prepareFolder();
 		$file = $this->getIndexFilename();
 
 		if (!file_exists($file)) {
@@ -94,6 +103,7 @@ class FileProfilerStorage {
 	}
 
 	public function purge(): void {
+		$this->prepareFolder();
 		$flags = \FilesystemIterator::SKIP_DOTS;
 		$iterator = new \RecursiveDirectoryIterator($this->folder, $flags);
 		$iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
@@ -109,6 +119,7 @@ class FileProfilerStorage {
 	}
 
 	public function read(string $token): ?IProfile {
+		$this->prepareFolder();
 		if (!$token || !file_exists($file = $this->getFilename($token))) {
 			return null;
 		}
@@ -124,6 +135,7 @@ class FileProfilerStorage {
 	 * @throws \RuntimeException
 	 */
 	public function write(IProfile $profile): bool {
+		$this->prepareFolder();
 		$file = $this->getFilename($profile->getToken());
 
 		$profileIndexed = is_file($file);
