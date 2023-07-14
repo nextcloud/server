@@ -123,18 +123,18 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
     "No favorites yet" : "هنوز مورد دلخواه وجود ندارد",
     "Files and folders you mark as favorite will show up here" : "فایل‌ها و پوشه‌های انتخاب شده به عنوان برگزیده توسط شما، در اینجا نمایش داده می‌شود",
-    "Shares" : "اشتراک گذاری ها",
-    "Shared with others" : "موارد به اشتراک گذاشته شده با دیگران",
-    "Shared with you" : "Shared with you",
-    "Shared by link" : "اشتراک گذاشته شده از طریق لینک",
-    "Deleted shares" : "اشتراک گذاری های حذف شده",
-    "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
     "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt",
     "Storage invalid" : "فضای ذخیره‌سازی نامعتبر",
     "Unlimited" : "نامحدود",
     "Cancel" : "لغو",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
-    "Deleted files" : "پرونده‌های حذف شده"
+    "Deleted files" : "پرونده‌های حذف شده",
+    "Shares" : "اشتراک گذاری ها",
+    "Shared with others" : "موارد به اشتراک گذاشته شده با دیگران",
+    "Shared with you" : "Shared with you",
+    "Shared by link" : "اشتراک گذاشته شده از طریق لینک",
+    "Deleted shares" : "اشتراک گذاری های حذف شده",
+    "Pending shares" : "اشتراک در حال انتظار "
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

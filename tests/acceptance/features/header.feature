@@ -50,7 +50,7 @@ Feature: header
     And I click the New user button
     And I see that the new user form is shown
     And I create user user2 with password 123456acb
-    And I see that the list of users contains the user user2
+    # And I see that the list of users contains the user user2
     When I open the Contacts menu
     Then I see that the Contacts menu is shown
     And I see that the contact "user0" in the Contacts menu is shown
@@ -84,4 +84,3 @@ Feature: header
     Then I see that the no results message in the Contacts menu is shown
     And I see that the contact "user0" in the Contacts menu is not shown
     And I see that the contact "admin" in the Contacts menu is not shown
-

@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Přijímáte pozvání?",
     "Tentative" : "Nezávazně",
     "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
-    "Invitation canceled" : "Pozvánka zrušena",
-    "Invitation updated" : "Pozvánka aktualizována",
-    "Invitation" : "Pozvání"
+    "%1$s has responded your invitation" : "%1$s odpověděl(a) na vaši pozvánku"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

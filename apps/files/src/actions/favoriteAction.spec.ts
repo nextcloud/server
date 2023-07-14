@@ -22,7 +22,7 @@
 import * as favoriteAction from './favoriteAction'
 import { action } from './favoriteAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
@@ -120,6 +120,7 @@ describe('Favorite action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()

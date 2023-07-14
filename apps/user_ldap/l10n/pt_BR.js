@@ -155,6 +155,8 @@ OC.L10N.register(
     "One User Base DN per line" : "Um usuário de Base DN por linha",
     "User Search Attributes" : "Atributos de Busca de Usuário",
     "Optional; one attribute per line" : "Opcional; um atributo por linha",
+    "Disable users missing from LDAP" : "Desabilitar usuários ausentes do LDAP",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Quando ativado, os usuários importados do LDAP que estiverem ausentes serão desativados",
     "Group Display Name Field" : "Campo de nome de exibição do Grupo",
     "The LDAP attribute to use to generate the groups's display name." : "O atributo LDAP a usar para gerar o nome de apresentação do grupo.",
     "Base Group Tree" : "Árvore de Grupo Base",

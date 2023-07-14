@@ -322,6 +322,7 @@ export default Vue.extend({
 			}
 
 			.files-list__row-name-text {
+				color: var(--color-main-text);
 				// Make some space for the outline
 				padding: 5px 10px;
 				margin-left: -10px;

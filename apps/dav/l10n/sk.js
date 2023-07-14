@@ -178,9 +178,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prosím kontaktujte priamo organizátora.",
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
-    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
-    "Invitation canceled" : "Pozvánka bola zrušená",
-    "Invitation updated" : "Pozvánka bola aktualizovaná",
-    "Invitation" : "Pozvánka"
+    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

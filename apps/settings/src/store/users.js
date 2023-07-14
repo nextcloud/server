@@ -62,12 +62,22 @@ const state = {
 	usersOffset: 0,
 	usersLimit: 25,
 	userCount: 0,
+	showConfig: {
+		showStoragePath: false,
+		showUserBackend: false,
+		showLastLogin: false,
+		showNewUserForm: false,
+		showLanguages: false,
+	},
 }
 
 const mutations = {
 	appendUsers(state, usersObj) {
-		// convert obj to array
-		const users = state.users.concat(Object.keys(usersObj).map(userid => usersObj[userid]))
+		const existingUsers = state.users.map(({ id }) => id)
+		const newUsers = Object.values(usersObj)
+			.filter(({ id }) => !existingUsers.includes(id))
+
+		const users = state.users.concat(newUsers)
 		state.usersOffset += state.usersLimit
 		state.users = users
 	},
@@ -149,7 +159,7 @@ const mutations = {
 	},
 	addUserData(state, response) {
 		const user = response.data.ocs.data
-		state.users.push(user)
+		state.users.unshift(user)
 		this.commit('updateUserCounts', { user, actionType: 'create' })
 	},
 	enableDisableUser(state, { userid, enabled }) {
@@ -221,6 +231,10 @@ const mutations = {
 		state.users = []
 		state.usersOffset = 0
 	},
+
+	setShowConfig(state, { key, value }) {
+		state.showConfig[key] = value
+	},
 }
 
 const getters = {
@@ -245,6 +259,9 @@ const getters = {
 	},
 	getUserCount(state) {
 		return state.userCount
+	},
+	getShowConfig(state) {
+		return state.showConfig
 	},
 }
 

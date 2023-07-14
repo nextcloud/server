@@ -731,7 +731,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 			}
 		}
 	}
-	
+
 	&::-webkit-scrollbar-button {
 		height:  var(--body-container-radius);
 	}
@@ -1429,4 +1429,8 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	&.selection .app-content-list-item-checkbox.checkbox + label {
 		display: flex;
 	}
+}
+.button.primary.skip-navigation:focus-visible {
+	box-shadow: 0 0 0 4px var(--color-main-background) !important;
+	outline: 2px solid var(--color-main-text) !important;
 }

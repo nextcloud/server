@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,10 +29,12 @@ namespace OC\Core\Controller;
 use OC\Http\WellKnown\RequestManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
+#[IgnoreOpenAPI]
 class WellKnownController extends Controller {
 	public function __construct(
 		IRequest $request,

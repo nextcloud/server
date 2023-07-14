@@ -22,11 +22,10 @@ OC.L10N.register(
     "Download now" : "Last ned nå",
     "Please use the command line updater to update." : "Bruk kommandolinjen for å oppdatere.",
     "What's new?" : "Hva er nytt?",
+    "View changelog" : "Se endringslogg",
     "The update check is not yet finished. Please refresh the page." : "Oppdateringssjekken er ikke ferdig, vennligst oppdater siden.",
     "Your version is up to date." : "Du har nyeste versjon.",
     "A non-default update server is in use to be checked for updates:" : "En ikke-forvalgt oppdateringsserver brukes for å se etter oppdateringer:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan endre oppdateringskanalen nedenfor som også påvirker appadministrasjonssiden. F.eks. etter å ha byttet til betakanalen, vil betaappoppdateringer bli tilbudt deg på appadministrasjonssiden.",
-    "Update channel:" : "Oppdateringskanal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Du kan alltid oppdatere til en nyere versjon. Men du kan aldri nedgradere til en mer stabil versjon.",
     "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
     "Only notifications for app updates are available." : "Bare varsler for appoppdateringer er tilgjengelige.",
@@ -39,7 +38,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Forsikre deg om at <samp>appstoreenabled</samp> ikke er satt til false i config.php.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kunne ikke koble til appbutikken eller ingen oppdateringer har blitt returnert i det hele tatt. Søk manuelt etter oppdateringer eller sørg for at serveren din har tilgang til internett og kan koble til appbutikken.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Alle</strong> apper har en kompatibel versjon for denne Nextcloud-versjonen tilgjengelig.",
-    "View changelog" : "Se endringslogg",
     "Enterprise" : "Bedrift",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "For bedriftsbruk. Tilbyr alltid det siste oppdateringsnivået, men oppdateres ikke til neste store utgivelse umiddelbart. Denne oppdateringen skjer når Nextcloud GmbH har gjort ytterligere herding og testing for store og oppdragskritiske distribusjoner. Denne kanalen er bare tilgjengelig for kunder og tilbyr Nextcloud Enterprise-pakken.",
     "Stable" : "Stabil",
@@ -47,6 +45,8 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En pre-release versjon bare for testing av nye funksjoner, ikke for produksjonsmiljøer.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig.","<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig."],
-    "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig."
+    "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan endre oppdateringskanalen nedenfor som også påvirker appadministrasjonssiden. F.eks. etter å ha byttet til betakanalen, vil betaappoppdateringer bli tilbudt deg på appadministrasjonssiden.",
+    "Update channel:" : "Oppdateringskanal:"
 },
 "nplurals=2; plural=(n != 1);");

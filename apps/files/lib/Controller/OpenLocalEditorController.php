@@ -70,6 +70,14 @@ class OpenLocalEditorController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @UserRateThrottle(limit=10, period=120)
+	 *
+	 * Create a local editor
+	 *
+	 * @param string $path Path of the file
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{userId: ?string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 *
+	 * 200: Local editor returned
 	 */
 	public function create(string $path): DataResponse {
 		$pathHash = sha1($path);
@@ -107,6 +115,16 @@ class OpenLocalEditorController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @BruteForceProtection(action=openLocalEditor)
+	 *
+	 * Validate a local editor
+	 *
+	 * @param string $path Path of the file
+	 * @param string $token Token of the local editor
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{userId: string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Local editor validated successfully
+	 * 404: Local editor not found
 	 */
 	public function validate(string $path, string $token): DataResponse {
 		$pathHash = sha1($path);

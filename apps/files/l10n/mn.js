@@ -127,15 +127,15 @@ OC.L10N.register(
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
     "Upload too large" : "маш том байршуулалт",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
-    "Shares" : "Түгээлтүүд",
-    "Shared with others" : "Бусдад түгээсэн",
-    "Shared with you" : "тантай хуваалцсан",
-    "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
     "Storage invalid" : "Хадгалах төхөөрөмж буруу байна",
     "Cancel" : "болиулах",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
-    "Deleted files" : "Устгасан файлууд"
+    "Deleted files" : "Устгасан файлууд",
+    "Shares" : "Түгээлтүүд",
+    "Shared with others" : "Бусдад түгээсэн",
+    "Shared with you" : "тантай хуваалцсан",
+    "Shared by link" : "Холбоосоор түгээсэн"
 },
 "nplurals=2; plural=(n != 1);");

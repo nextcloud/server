@@ -20,13 +20,15 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
+import { Permission, type Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import StarSvg from '@mdi/svg/svg/star.svg?raw'
-import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
-import type { Node } from '@nextcloud/files'
+import Vue from 'vue'
 
-import { generateUrl } from '@nextcloud/router'
+import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
+import StarSvg from '@mdi/svg/svg/star.svg?raw'
+
 import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 import type { Navigation } from '../services/Navigation'
@@ -54,7 +56,7 @@ export const favoriteNode = async (node: Node, view: Navigation, willFavorite: b
 		}
 
 		// Update the node webdav attribute
-		node.attributes.favorite = willFavorite ? 1 : 0
+		Vue.set(node.attributes, 'favorite', willFavorite ? 1 : 0)
 
 		// Dispatch event to whoever is interested
 		if (willFavorite) {
@@ -85,8 +87,9 @@ export const action = new FileAction({
 	},
 
 	enabled(nodes: Node[]) {
-		// We can only favorite nodes within files
+		// We can only favorite nodes within files and with permissions
 		return !nodes.some(node => !node.root?.startsWith?.('/files'))
+			&& nodes.every(node => node.permissions !== Permission.NONE)
 	},
 
 	async exec(node: Node, view: Navigation) {

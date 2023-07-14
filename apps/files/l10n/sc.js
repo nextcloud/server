@@ -196,12 +196,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Is archìvios chi boles carrigare passant sa mannària màssima de carrigamentu de archìvios in custu serbidore.",
     "No favorites yet" : "Ancora perunu preferidu",
     "Files and folders you mark as favorite will show up here" : "Is archìvios e is cartellas chi marcas comente preferidos ant a aparèssere inoghe",
-    "Shares" : "Cumpartziduras",
-    "Shared with others" : "Cumpartzidu cun àtere",
-    "Shared with you" : "Cumpartzidu cun tegus",
-    "Shared by link" : "Cumpartzidu cun ligòngiu",
-    "Deleted shares" : "Cumpartziduras cantzelladas",
-    "Pending shares" : "Cumpartziduras in suspesu",
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou",
     "Storage invalid" : "Archiviatzione non vàlida",
@@ -211,6 +205,12 @@ OC.L10N.register(
     "Cancel" : "Annulla",
     "%s used" : "%s impreadu",
     "%1$s of %2$s used" : "%1$s de %2$s impreadu",
-    "Deleted files" : "Archìvios cantzellados"
+    "Deleted files" : "Archìvios cantzellados",
+    "Shares" : "Cumpartziduras",
+    "Shared with others" : "Cumpartzidu cun àtere",
+    "Shared with you" : "Cumpartzidu cun tegus",
+    "Shared by link" : "Cumpartzidu cun ligòngiu",
+    "Deleted shares" : "Cumpartziduras cantzelladas",
+    "Pending shares" : "Cumpartziduras in suspesu"
 },
 "nplurals=2; plural=(n != 1);");

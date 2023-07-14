@@ -60,8 +60,6 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 /**
- * Class ApiController
- *
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
@@ -104,10 +102,14 @@ class ApiController extends Controller {
 	 * @NoCSRFRequired
 	 * @StrictCookieRequired
 	 *
-	 * @param int $x
-	 * @param int $y
+	 * @param int $x Width of the thumbnail
+	 * @param int $y Height of the thumbnail
 	 * @param string $file URL-encoded filename
-	 * @return DataResponse|FileDisplayResponse
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array{message?: string}, array{}>
+	 *
+	 * 200: Thumbnail returned
+	 * 400: Getting thumbnail is not possible
+	 * 404: File not found
 	 */
 	public function getThumbnail($x, $y, $file) {
 		if ($x < 1 || $y < 1) {
@@ -386,6 +388,12 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * Get the service-worker Javascript for previews
+	 *
+	 * @psalm-suppress MoreSpecificReturnType The value of Service-Worker-Allowed is not relevant
+	 * @psalm-suppress LessSpecificReturnStatement The value of Service-Worker-Allowed is not relevant
+	 * @return StreamResponse<Http::STATUS_OK, array{Content-Type: 'application/javascript', Service-Worker-Allowed: string}>
 	 */
 	public function serviceWorker(): StreamResponse {
 		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');

@@ -181,9 +181,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ta kontakt med arrangøren direkte.",
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
-    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
-    "Invitation canceled" : "Invitasjon tilbakekalt",
-    "Invitation updated" : "Invitasjon oppdatert",
-    "Invitation" : "Invitasjon"
+    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert."
 },
 "nplurals=2; plural=(n != 1);");

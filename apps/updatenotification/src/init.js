@@ -20,6 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { translate, translatePlural } from '@nextcloud/l10n'
 
 import Vue from 'vue'
 import Root from './components/UpdateNotification.vue'
@@ -27,10 +28,10 @@ import Root from './components/UpdateNotification.vue'
 Vue.mixin({
 	methods: {
 		t(app, text, vars, count, options) {
-			return OC.L10N.translate(app, text, vars, count, options)
+			return translate(app, text, vars, count, options)
 		},
 		n(app, textSingular, textPlural, count, vars, options) {
-			return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
+			return translatePlural(app, textSingular, textPlural, count, vars, options)
 		},
 	},
 })

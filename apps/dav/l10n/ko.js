@@ -178,9 +178,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Invitation canceled" : "초대장 취소됨",
-    "Invitation updated" : "초대장 업데이트됨",
-    "Invitation" : "초대"
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
 },
 "nplurals=1; plural=0;");
