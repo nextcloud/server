@@ -108,30 +108,30 @@ class User implements IUser {
 	}
 
 	/**
-	 * @return int
+	 * @return int|float
 	 */
-	public function getUsedSpace(): int {
+	public function getUsedSpace(): int|float {
 		return $this->data['quota']['used'];
 	}
 
 	/**
-	 * @return int
+	 * @return int|float
 	 */
-	public function getFreeSpace(): int {
+	public function getFreeSpace(): int|float {
 		return $this->data['quota']['free'];
 	}
 
 	/**
-	 * @return int
+	 * @return int|float
 	 */
-	public function getTotalSpace(): int {
+	public function getTotalSpace(): int|float {
 		return $this->data['quota']['total'];
 	}
 
 	/**
-	 * @return int
+	 * @return int|float
 	 */
-	public function getQuota(): int {
+	public function getQuota(): int|float {
 		return $this->data['quota']['quota'];
 	}
 }
