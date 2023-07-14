@@ -398,7 +398,7 @@ class AppManager implements IAppManager {
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
 
 		$eventLogger = \OC::$server->get(IEventLogger::class);
-		$eventLogger->start('bootstrap:load_app_' . $app, 'Load app: ' . $app);
+		$eventLogger->start("bootstrap:load_app:$app", 'Load app: ' . $app);
 		if ($isBootable && $hasAppPhpFile) {
 			$this->logger->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
 				'app' => $app,
