@@ -28,7 +28,9 @@ namespace OCP\TextProcessing;
 /**
  * This is a text processing task
  * @since 27.1.0
- * @template T of ITaskType
+ * @psalm-template T of ITaskType
+ * @psalm-template S as class-string<T>
+ * @psalm-template P as IProvider<T>
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
@@ -71,7 +73,8 @@ final class Task implements \JsonSerializable {
 	protected int $status = self::STATUS_UNKNOWN;
 
 	/**
-	 * @param class-string<T> $type
+	 * @psalm-param S $type
+	 * @param string $type
 	 * @param string $input
 	 * @param string $appId
 	 * @param string|null $userId
@@ -88,7 +91,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-param IProvider<T> $provider
+	 * @psalm-param P $provider
 	 * @param IProvider $provider
 	 * @return string
 	 * @since 27.1.0
@@ -102,7 +105,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-param IProvider<T> $provider
+	 * @psalm-param P $provider
 	 * @param IProvider $provider
 	 * @return bool
 	 * @since 27.1.0
@@ -112,7 +115,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return class-string<T>
+	 * @psalm-return S
 	 * @since 27.1.0
 	 */
 	final public function getType(): string {
@@ -200,7 +203,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array{id: ?string, type: class-string<T>, status: int, userId: ?string, appId: string, input: string, output: ?string, identifier: string}
+	 * @psalm-return array{id: ?int, type: S, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, output: ?string, identifier: string}
 	 * @since 27.1.0
 	 */
 	public function jsonSerialize(): array {
