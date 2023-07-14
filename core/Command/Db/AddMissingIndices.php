@@ -36,6 +36,8 @@ namespace OC\Core\Command\Db;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
+use OCP\DB\Events\AddMissingIndicesEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -55,6 +57,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class AddMissingIndices extends Command {
 	public function __construct(
 		private Connection $connection,
+		private IEventDispatcher $eventDispatcher,
 		private EventDispatcherInterface $dispatcher,
 	) {
 		parent::__construct();
@@ -68,11 +71,37 @@ class AddMissingIndices extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$this->addCoreIndexes($output, $input->getOption('dry-run'));
+		$dryRun = $input->getOption('dry-run');
+
+		$this->addCoreIndexes($output, $dryRun);
 
 		// Dispatch event so apps can also update indexes if needed
 		$event = new GenericEvent($output);
 		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_INDEXES_EVENT, $event);
+
+		$event = new AddMissingIndicesEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+
+		$missingIndices = $event->getMissingIndices();
+		if ($missingIndices !== []) {
+			$schema = new SchemaWrapper($this->connection);
+
+			foreach ($missingIndices as $missingIndex) {
+				if ($schema->hasTable($missingIndex['tableName'])) {
+					$table = $schema->getTable($missingIndex['tableName']);
+					if (!$table->hasIndex($missingIndex['indexName'])) {
+						$output->writeln('<info>Adding additional ' . $missingIndex['indexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+						$table->addIndex($missingIndex['columns'], $missingIndex['indexName']);
+						$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+						if ($dryRun && $sqlQueries !== null) {
+							$output->writeln($sqlQueries);
+						}
+						$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
+					}
+				}
+			}
+		}
+
 		return 0;
 	}
 
