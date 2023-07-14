@@ -235,6 +235,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Contacts\\ContactsMenu\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IProvider.php',
         'OCP\\Contacts\\Events\\ContactInteractedWithEvent' => __DIR__ . '/../../..' . '/lib/public/Contacts/Events/ContactInteractedWithEvent.php',
         'OCP\\Contacts\\IManager' => __DIR__ . '/../../..' . '/lib/public/Contacts/IManager.php',
+        'OCP\\DB\\Events\\AddMissingIndicesEvent' => __DIR__ . '/../../..' . '/lib/public/DB/Events/AddMissingIndicesEvent.php',
         'OCP\\DB\\Exception' => __DIR__ . '/../../..' . '/lib/public/DB/Exception.php',
         'OCP\\DB\\IPreparedStatement' => __DIR__ . '/../../..' . '/lib/public/DB/IPreparedStatement.php',
         'OCP\\DB\\IResult' => __DIR__ . '/../../..' . '/lib/public/DB/IResult.php',
