@@ -58,17 +58,13 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * This endpoint returns all available LanguageModel task types
 	 *
 	 * @PublicPage
-	 * @return DataResponse<Http::STATUS_OK, array{types: list<array{id: string, name: string, description: string}>}, array{}>
-	 *
-	 * 200: Task types returned
 	 */
 	public function taskTypes(): DataResponse {
 		$typeClasses = $this->languageModelManager->getAvailableTaskTypes();
-		/** @var list<array{id: string, name: string, description: string}> $types */
 		$types = [];
 		foreach ($typeClasses as $typeClass) {
-			/** @var ITaskType $object */
 			try {
+				/** @var ITaskType $object */
 				$object = $this->container->get($typeClass);
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 				$this->logger->warning('Could not find ' . $typeClass, ['exception' => $e]);
@@ -92,15 +88,6 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @PublicPage
 	 * @UserRateThrottle(limit=20, period=120)
 	 * @AnonRateThrottle(limit=5, period=120)
-	 * @param string $input The input for the language model task
-	 * @param string $type The task type
-	 * @param string $appId The originating app ID
-	 * @param string $identifier An identifier to identify this task
-	 * @return DataResponse<Http::STATUS_OK, array{task: array{id: ?int, type: string, status: int, userId: ?string, appId: string, input: string, output: ?string, identifier: string}}, array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED|Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
-	 *
-	 * 200: Task scheduled
-	 * 400: Task type does not exist
-	 * 412: Task type not available
 	 */
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
 		try {
@@ -127,11 +114,6 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @PublicPage
 	 * @param int $id The id of the task
-	 * @return DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message:string}, array{}>|DataResponse<Http::STATUS_OK, array{task: array{id: ?int, type: string, status: int, userId: ?string, appId: string, input: string, output: ?string, identifier: string}}, array{}>
-	 *
-	 * 200: Task returned
-	 * 404: Task not found
-	 * 500: Internal error
 	 */
 	public function getTask(int $id): DataResponse {
 		try {
