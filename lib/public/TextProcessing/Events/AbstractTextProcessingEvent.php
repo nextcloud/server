@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OCP\TextProcessing\Events;
 
 use OCP\EventDispatcher\Event;
-use OCP\TextProcessing\ILanguageModelTask;
 use OCP\TextProcessing\Task;
 
 /**
