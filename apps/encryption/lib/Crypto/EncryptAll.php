@@ -438,7 +438,7 @@ class EncryptAll {
 					$l->t('The administration enabled server-side-encryption. Your files were encrypted using the password "%s".', $password)
 				);
 				$template->addBodyText(
-					$l->t('Please login to the web interface, go to the "Security" section of your personal settings and update your encryption password by entering this password into the "Old log-in password" field and your current login-password.')
+					$l->t('Please login to the web interface, go to the "Security" section of your personal settings and update your encryption password by entering this password into the "Old login password" field and your current login password.')
 				);
 				$template->addFooter();
 
