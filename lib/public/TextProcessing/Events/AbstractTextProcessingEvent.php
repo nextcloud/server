@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Marcel Klehr <mklehr@gmx.net>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
  * @author Marcel Klehr <mklehr@gmx.net>
  *
@@ -21,24 +21,32 @@ declare(strict_types=1);
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
+namespace OCP\TextProcessing\Events;
 
-
-namespace OCP\LanguageModel;
-
-use RuntimeException;
+use OCP\EventDispatcher\Event;
+use OCP\TextProcessing\ILanguageModelTask;
+use OCP\TextProcessing\Task;
 
 /**
- * This LanguageModel Provider represents headline generation
- * which generates a headline for the passed text
  * @since 27.1.0
  */
-interface IHeadlineProvider extends ILanguageModelProvider {
+abstract class AbstractTextProcessingEvent extends Event {
 	/**
-	 * @param string $text The text to find headline for
-	 * @returns string the headline
 	 * @since 27.1.0
-	 * @throws RuntimeException If the text could not be transcribed
 	 */
-	public function findHeadline(string $text): string;
+	public function __construct(
+		private Task $task
+	) {
+		parent::__construct();
+	}
+
+	/**
+	 * @return Task
+	 * @since 27.1.0
+	 */
+	public function getTask(): Task {
+		return $this->task;
+	}
 }

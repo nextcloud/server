@@ -23,39 +23,37 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCP\LanguageModel;
 
-/**
- * @since 27.1.0
- * @template-extends AbstractLanguageModelTask<ILanguageModelProvider>
- */
-final class FreePromptTask extends AbstractLanguageModelTask {
-	/**
-	 * @since 27.1.0
-	 */
-	public const TYPE = 'free_prompt';
+namespace OC\TextProcessing;
 
-	/**
-	 * @inheritDoc
-	 * @since 27.1.0
-	 */
-	public function visitProvider(ILanguageModelProvider $provider): string {
-		return $provider->prompt($this->getInput());
+use OC\TextProcessing\Db\TaskMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
+use OCP\DB\Exception;
+use Psr\Log\LoggerInterface;
+
+class RemoveOldTasksBackgroundJob extends TimedJob {
+	public const MAX_TASK_AGE_SECONDS = 60 * 50 * 24 * 7; // 1 week
+
+	public function __construct(
+		ITimeFactory $timeFactory,
+		private TaskMapper $taskMapper,
+		private LoggerInterface $logger,
+
+	) {
+		parent::__construct($timeFactory);
+		$this->setInterval(60 * 60 * 24);
 	}
 
 	/**
+	 * @param mixed $argument
 	 * @inheritDoc
-	 * @since 27.1.0
 	 */
-	public function canUseProvider(ILanguageModelProvider $provider): bool {
-		return true;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @since 27.1.0
-	 */
-	public function getType(): string {
-		return self::TYPE;
+	protected function run($argument) {
+		try {
+			$this->taskMapper->deleteOlderThan(self::MAX_TASK_AGE_SECONDS);
+		} catch (Exception $e) {
+			$this->logger->warning('Failed to delete stale language model tasks', ['exception' => $e]);
+		}
 	}
 }

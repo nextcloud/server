@@ -23,44 +23,38 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCP\LanguageModel;
+namespace OCP\TextProcessing;
+
+use OCP\IL10N;
 
 /**
- * This LanguageModel Task represents topics synthesis
- * which outputs comma-separated topics for the passed text
+ * This is the text processing task type for topics extraction
  * @since 27.1.0
- * @template-extends AbstractLanguageModelTask<ITopicsProvider>
  */
-final class TopicsTask extends AbstractLanguageModelTask {
+class TopicsTaskType implements ITaskType {
 	/**
+	 * Constructor for TopicsTaskType
+	 *
+	 * @param IL10N $l
 	 * @since 27.1.0
 	 */
-	public const TYPE = 'topics';
+	public function __construct(
+		private IL10N $l,
+	) {
+	}
+
 
 	/**
 	 * @inheritDoc
-	 * @since 27.1.0
 	 */
-	public function visitProvider(ILanguageModelProvider $provider): string {
-		if (!$this->canUseProvider($provider)) {
-			throw new \RuntimeException('TopicsTask#visitProvider expects ITopicsProvider');
-		}
-		return $provider->findTopics($this->getInput());
+	public function getName(): string {
+		return $this->l->t('Extract topics');
 	}
 
 	/**
 	 * @inheritDoc
-	 * @since 27.1.0
 	 */
-	public function canUseProvider(ILanguageModelProvider $provider): bool {
-		return $provider instanceof ITopicsProvider;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @since 27.1.0
-	 */
-	public function getType(): string {
-		return self::TYPE;
+	public function getDescription(): string {
+		return $this->l->t('Extracts topics from a text and outputs them separated by commas.');
 	}
 }

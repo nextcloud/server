@@ -110,7 +110,6 @@ use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use OC\LanguageModel\LanguageModelManager;
 use OC\LDAP\NullLDAPProviderFactory;
 use OC\KnownUser\KnownUserService;
 use OC\Lock\DBLockingProvider;
@@ -230,7 +229,6 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\LanguageModel\ILanguageModelManager;
 use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\ILDAPProviderFactory;
 use OCP\Lock\ILockingProvider;
@@ -1472,7 +1470,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
 
-		$this->registerAlias(ILanguageModelManager::class, LanguageModelManager::class);
+		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
 
 		$this->connectDispatcher();
 	}

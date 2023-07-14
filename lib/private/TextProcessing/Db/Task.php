@@ -23,11 +23,10 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\LanguageModel\Db;
+namespace OC\TextProcessing\Db;
 
 use OCP\AppFramework\Db\Entity;
-use OCP\LanguageModel\AbstractLanguageModelTask;
-use OCP\LanguageModel\ILanguageModelTask;
+use OCP\TextProcessing\Task as OCPTask;
 
 /**
  * @method setType(string $type)
@@ -87,7 +86,7 @@ class Task extends Entity {
 		}, self::$fields));
 	}
 
-	public static function fromLanguageModelTask(ILanguageModelTask $task): Task {
+	public static function fromPublicTask(OCPTask $task): Task {
 		/** @var Task $task */
 		$task = Task::fromParams([
 			'id' => $task->getId(),
@@ -103,8 +102,8 @@ class Task extends Entity {
 		return $task;
 	}
 
-	public function toLanguageModelTask(): ILanguageModelTask {
-		$task = AbstractLanguageModelTask::factory($this->getType(), $this->getInput(), $this->getuserId(), $this->getAppId(), $this->getIdentifier());
+	public function toPublicTask(): OCPTask {
+		$task = OCPTask::factory($this->getType(), $this->getInput(), $this->getuserId(), $this->getAppId(), $this->getIdentifier());
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
 		$task->setOutput($this->getOutput());

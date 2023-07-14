@@ -33,7 +33,7 @@ use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Collaboration\Reference\IReferenceProvider;
-use OCP\LanguageModel\ILanguageModelProvider;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Talk\ITalkBackend;
 use OCP\Translation\ITranslationProvider;
@@ -116,8 +116,8 @@ class RegistrationContext {
 	/** @var ServiceRegistration<ISpeechToTextProvider>[] */
 	private $speechToTextProviders = [];
 
-	/** @var ServiceRegistration<ILanguageModelProvider>[] */
-	private $languageModelProviders = [];
+	/** @var ServiceRegistration<ITextProcessingProvider>[] */
+	private $textProcessingProviders = [];
 
 	/** @var ServiceRegistration<ICustomTemplateProvider>[] */
 	private $templateProviders = [];
@@ -266,8 +266,8 @@ class RegistrationContext {
 					$providerClass
 				);
 			}
-			public function registerLanguageModelProvider(string $providerClass): void {
-				$this->context->registerLanguageModelProvider(
+			public function registerTextProcessingProvider(string $providerClass): void {
+				$this->context->registerTextProcessingProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -439,8 +439,8 @@ class RegistrationContext {
 		$this->speechToTextProviders[] = new ServiceRegistration($appId, $class);
 	}
 
-	public function registerLanguageModelProvider(string $appId, string $class): void {
-		$this->languageModelProviders[] = new ServiceRegistration($appId, $class);
+	public function registerTextProcessingProvider(string $appId, string $class): void {
+		$this->textProcessingProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerTemplateProvider(string $appId, string $class): void {
@@ -722,10 +722,10 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @return ServiceRegistration<ILanguageModelProvider>[]
+	 * @return ServiceRegistration<ITextProcessingProvider>[]
 	 */
-	public function getLanguageModelProviders(): array {
-		return $this->languageModelProviders;
+	public function getTextProcessingProviders(): array {
+		return $this->textProcessingProviders;
 	}
 
 	/**

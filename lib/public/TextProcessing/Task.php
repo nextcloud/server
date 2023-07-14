@@ -23,25 +23,55 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCP\LanguageModel;
+namespace OCP\TextProcessing;
 
 /**
- * This is an abstract LanguageModel task that implements basic
- * goodies for downstream tasks
- * @since 28.0.
- * @template T of ILanguageModelProvider
- * @template-implements ILanguageModelTask<T>
+ * This is a text processing task
+ * @since 27.1.0
+ * @template T of ITaskType
  */
-abstract class AbstractLanguageModelTask implements ILanguageModelTask {
+final class Task implements \JsonSerializable {
 	protected ?int $id = null;
 	protected ?string $output = null;
 
 	/**
-	 * @psalm-var ILanguageModelTask::STATUS_*
+	 * @since 27.1.0
 	 */
-	protected int $status = ILanguageModelTask::STATUS_UNKNOWN;
+	public const TYPES = [
+		FreePromptTaskType::class,
+		SummaryTaskType::class,
+		HeadlineTaskType::class,
+		TopicsTaskType::class,
+	];
 
 	/**
+	 * @since 27.1.0
+	 */
+	public const STATUS_FAILED = 4;
+	/**
+	 * @since 27.1.0
+	 */
+	public const STATUS_SUCCESSFUL = 3;
+	/**
+	 * @since 27.1.0
+	 */
+	public const STATUS_RUNNING = 2;
+	/**
+	 * @since 27.1.0
+	 */
+	public const STATUS_SCHEDULED = 1;
+	/**
+	 * @since 27.1.0
+	 */
+	public const STATUS_UNKNOWN = 0;
+
+	/**
+	 * @psalm-var self::STATUS_*
+	 */
+	protected int $status = self::STATUS_UNKNOWN;
+
+	/**
+	 * @param class-string<T> $type
 	 * @param string $input
 	 * @param string $appId
 	 * @param string|null $userId
@@ -49,6 +79,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @since 27.1.0
 	 */
 	final public function __construct(
+		protected string $type,
 		protected string $input,
 		protected string $appId,
 		protected ?string $userId,
@@ -57,10 +88,36 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
+	 * @psalm-param IProvider<T> $provider
+	 * @param IProvider $provider
 	 * @return string
 	 * @since 27.1.0
 	 */
-	abstract public function getType(): string;
+	public function visitProvider(IProvider $provider): string {
+		if ($this->canUseProvider($provider)) {
+			return $provider->process($this->getInput());
+		} else {
+			throw new \RuntimeException('Task of type ' . $this->getType() . ' cannot visit provider with task type ' . $provider->getTaskType());
+		}
+	}
+
+	/**
+	 * @psalm-param IProvider<T> $provider
+	 * @param IProvider $provider
+	 * @return bool
+	 * @since 27.1.0
+	 */
+	public function canUseProvider(IProvider $provider): bool {
+		return $provider->getTaskType() === $this->getType();
+	}
+
+	/**
+	 * @return class-string<T>
+	 * @since 27.1.0
+	 */
+	final public function getType(): string {
+		return $this->type;
+	}
 
 	/**
 	 * @return string|null
@@ -79,7 +136,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
-	 * @psalm-return ILanguageModelTask::STATUS_*
+	 * @psalm-return self::STATUS_*
 	 * @since 27.1.0
 	 */
 	final public function getStatus(): int {
@@ -87,7 +144,7 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
-	 * @psalm-param ILanguageModelTask::STATUS_* $status
+	 * @psalm-param self::STATUS_* $status
 	 * @since 27.1.0
 	 */
 	final public function setStatus(int $status): void {
@@ -143,10 +200,10 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	}
 
 	/**
-	 * @return array
+	 * @return array{id: ?string, type: class-string<T>, status: int, userId: ?string, appId: string, input: string, output: ?string, identifier: string}
 	 * @since 27.1.0
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
 			'type' => $this->getType(),
@@ -165,14 +222,14 @@ abstract class AbstractLanguageModelTask implements ILanguageModelTask {
 	 * @param string|null $userId
 	 * @param string $appId
 	 * @param string $identifier
-	 * @return ILanguageModelTask
+	 * @return Task
 	 * @throws \InvalidArgumentException
 	 * @since 27.1.0
 	 */
-	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier = ''): ILanguageModelTask {
-		if (!in_array($type, array_keys(self::TYPES))) {
+	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier = ''): Task {
+		if (!in_array($type, self::TYPES)) {
 			throw new \InvalidArgumentException('Unknown task type');
 		}
-		return new (ILanguageModelTask::TYPES[$type])($input, $appId, $userId, $identifier);
+		return new Task($type, $input, $appId, $userId, $identifier);
 	}
 }
