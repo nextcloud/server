@@ -209,6 +209,7 @@ return array(
     'OCP\\Contacts\\ContactsMenu\\IProvider' => $baseDir . '/lib/public/Contacts/ContactsMenu/IProvider.php',
     'OCP\\Contacts\\Events\\ContactInteractedWithEvent' => $baseDir . '/lib/public/Contacts/Events/ContactInteractedWithEvent.php',
     'OCP\\Contacts\\IManager' => $baseDir . '/lib/public/Contacts/IManager.php',
+    'OCP\\DB\\Events\\AddMissingIndicesEvent' => $baseDir . '/lib/public/DB/Events/AddMissingIndicesEvent.php',
     'OCP\\DB\\Exception' => $baseDir . '/lib/public/DB/Exception.php',
     'OCP\\DB\\IPreparedStatement' => $baseDir . '/lib/public/DB/IPreparedStatement.php',
     'OCP\\DB\\IResult' => $baseDir . '/lib/public/DB/IResult.php',
