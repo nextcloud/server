@@ -290,7 +290,7 @@ class RequestHandlerController extends OCSController {
 		return new Http\DataResponse();
 	}
 
-	private function cleanupRemote(?string $remote = null): string {
+	private function cleanupRemote(string $remote): string {
 		$remote = substr($remote, strpos($remote, '://') + 3);
 
 		return rtrim($remote, '/');
