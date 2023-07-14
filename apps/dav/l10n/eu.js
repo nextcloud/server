@@ -119,6 +119,7 @@ OC.L10N.register(
     "You updated contact {card} in address book {addressbook}" : "{card} kontaktua eguneratu duzu {addressbook} helbide-liburuan",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>kontaktu</strong> edo <strong>helbide-liburu</strong>bat aldatu da",
     "Accounts" : "Kontuak",
+    "System address book which holds all accounts" : "Kontu guztiak dituen sistemaren helbide-liburua",
     "File is not updatable: %1$s" : "Fitxategia ez da eguneragarria: %1$s",
     "Could not write to final file, canceled by hook" : "Ezin izan da azken fitxategian idatzi, kakoak bertan behera utzi du",
     "Could not write file contents" : "Ezin izan dira fitxategiaren edukiak idatzi",
@@ -188,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "Invitation canceled" : "Gonbidapena ezeztatua",
-    "Invitation updated" : "Gonbidapena eguneratu da",
-    "Invitation" : "Gonbidapena"
+    "%1$s has responded your invitation" : "%1$s-k zure gonbidapena erantzun du"
 },
 "nplurals=2; plural=(n != 1);");

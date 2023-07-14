@@ -268,7 +268,7 @@ OC.L10N.register(
     "Shared with others" : "Compartido con outros",
     "Shared with you" : "Compartido con Vde.",
     "Shared by link" : "Compartido por ligazón",
-    "Deleted shares" : "Recursos compartidos eliminados",
+    "Deleted shares" : "Comparticións eliminadas",
     "Pending shares" : "Comparticións pendentes",
     "Open folder {name}" : "Abrir o cartafol {name}",
     "Search for an account" : "Buscar por unha conta"

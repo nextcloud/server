@@ -221,7 +221,7 @@ OC.L10N.register(
     "Error updating the share" : "خطأ في تحديث المشاركة",
     "File \"{path}\" has been unshared" : "الملف \"{path}\" تمّ إلغاء مشاركته",
     "Folder \"{path}\" has been unshared" : "المجلّد \"{path}\" تمّ إلغاء مشاركته",
-    "Share {propertyName} saved" : "اسم المشاركة {propertyName} تمّ حفظه",
+    "Share {propertyName} saved" : "المُشارَكة {propertyName} تمّ حفظها",
     "Shared" : "مشترك",
     "Share" : "شارك",
     "Shared by" : "تم مشاركتها بواسطة",

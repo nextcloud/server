@@ -146,9 +146,6 @@
     "Please contact the organizer directly." : "Контактирајте го организаторот директно.",
     "Are you accepting the invitation?" : "Дали ја прифаќате поканата?",
     "Tentative" : "Прелиминарно",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "Invitation canceled" : "Поканата е откажана",
-    "Invitation updated" : "Поканата е ажурирана",
-    "Invitation" : "Покани"
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

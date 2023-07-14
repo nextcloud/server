@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
     "Your attendance was updated successfully." : "Ihr Teilnehmerstatus wurde aktualisiert.",
-    "Invitation canceled" : "Einladung abgebrochen",
-    "Invitation updated" : "Einladung aktualisiert",
-    "Invitation" : "Einladung"
+    "%1$s has responded your invitation" : "%1$s hat auf Ihre Einladung geantwortet"
 },
 "nplurals=2; plural=(n != 1);");

@@ -188,9 +188,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta Vde. o convite?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
-    "Invitation canceled" : "Convite cancelado",
-    "Invitation updated" : "Convite actualizado",
-    "Invitation" : "Convite"
+    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente."
 },
 "nplurals=2; plural=(n != 1);");

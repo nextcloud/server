@@ -188,9 +188,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
-    "Your attendance was updated successfully." : "您的出席状态更新成功。",
-    "Invitation canceled" : "邀请已取消",
-    "Invitation updated" : "邀请已更新",
-    "Invitation" : "邀请"
+    "Your attendance was updated successfully." : "您的出席状态更新成功。"
 },
 "nplurals=1; plural=0;");

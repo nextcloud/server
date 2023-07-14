@@ -57,7 +57,7 @@
     "Copied {origin} and {nbfiles} other files inside {destination}" : "منسوخ {origin} و {nbfiles} ملفات اخرى داخل {destination}",
     "Failed to redirect to client" : "فشل في التحويل الى العميل",
     "{newName} already exists" : "{newname} موجود مسبقاً",
-    "Could not rename \"{fileName}\", it does not exist any more" : "لا يمكن اعادة تسمية \"{fileName}\", لانه لم يعد موجوداً",
+    "Could not rename \"{fileName}\", it does not exist any more" : "لا يمكن اعادة تسمية \"{fileName}\", لأنه لم يعد موجوداً",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "الاسم \"{targetName}\" مستخدم من قبل في المجلد \"{dir}\". الرجاء اختيار اسم اخر.",
     "Could not rename \"{fileName}\"" : "إعادة تسمية الملف \"{fileName}\" لم تنجح",
     "Could not create file \"{file}\"" : "لا يمكن إنشاء الملف\"{file}\"",
