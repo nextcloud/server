@@ -57,7 +57,7 @@ class GuestAvatarController extends Controller {
 	 * @param bool|null $darkTheme
 	 * @return FileDisplayResponse|Response
 	 */
-	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false): Http\Response|FileDisplayResponse {
+	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false): Response|FileDisplayResponse {
 		$size = (int) $size;
 		$darkTheme = $darkTheme ?? false;
 
