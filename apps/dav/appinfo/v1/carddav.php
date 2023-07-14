@@ -37,6 +37,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Profiler\ProfilerPlugin;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
@@ -103,6 +104,7 @@ $server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\P
 	\OC::$server->get(LoggerInterface::class)
 )));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->get(LoggerInterface::class)));
+$server->addPlugin(\OC::$server->get(ProfilerPlugin::class));
 
 // And off we go!
 $server->exec();

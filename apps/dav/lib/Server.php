@@ -127,7 +127,7 @@ class Server {
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
 		$this->server->setBaseUri($this->baseUri);
 
-		$this->server->addPlugin(new ProfilerPlugin($this->request));
+		$this->server->addPlugin(\OC::$server->get(ProfilerPlugin::class));
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
 		$authPlugin = new Plugin();
@@ -361,16 +361,7 @@ class Server {
 	}
 
 	public function exec() {
-		/** @var IEventLogger $eventLogger */
-		$eventLogger = \OC::$server->get(IEventLogger::class);
-		$eventLogger->start('dav_server_exec', '');
 		$this->server->exec();
-		$eventLogger->end('dav_server_exec');
-		if ($this->profiler->isEnabled()) {
-			$eventLogger->end('runtime');
-			$profile = $this->profiler->collect(\OC::$server->get(IRequest::class), new Response());
-			$this->profiler->saveProfile($profile);
-		}
 	}
 
 	private function requestIsForSubtree(array $subTrees): bool {

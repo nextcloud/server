@@ -31,6 +31,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Profiler\ProfilerPlugin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
@@ -99,6 +100,7 @@ class ServerFactory {
 		$server->setBaseUri($baseUri);
 
 		// Load plugins
+		$server->addPlugin(\OC::$server->get(ProfilerPlugin::class));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config, $this->l10n));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin());

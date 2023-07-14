@@ -25,6 +25,7 @@ declare(strict_types=1);
  *
  */
 use \OCA\DAV\Direct\ServerFactory;
+use OCA\DAV\Profiler\ProfilerPlugin;
 
 // no php execution timeout for webdav
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -48,5 +49,6 @@ $server = $serverFactory->createServer(
 	\OC::$server->getBruteForceThrottler(),
 	\OC::$server->getRequest()
 );
+$server->addPlugin(\OC::$server->get(ProfilerPlugin::class));
 
 $server->exec();

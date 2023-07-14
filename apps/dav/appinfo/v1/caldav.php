@@ -34,6 +34,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Profiler\ProfilerPlugin;
 use OCP\Accounts\IAccountManager;
 use Psr\Log\LoggerInterface;
 
@@ -116,6 +117,7 @@ if ($sendInvitations) {
 	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 }
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
+$server->addPlugin(\OC::$server->get(ProfilerPlugin::class));
 
 // And off we go!
 $server->exec();

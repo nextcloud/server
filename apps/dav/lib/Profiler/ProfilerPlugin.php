@@ -23,25 +23,70 @@
 
 namespace OCA\DAV\Profiler;
 
+use OCP\AppFramework\Http\Response;
+use OCP\Diagnostics\IEventLogger;
 use OCP\IRequest;
+use OCP\Profiler\IProfiler;
 use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
-class ProfilerPlugin extends \Sabre\DAV\ServerPlugin {
-	private IRequest $request;
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+class ProfilerPlugin extends ServerPlugin {
+	private bool $finalized = false;
+	public function __construct(
+		private IRequest $request,
+		private IProfiler $profiler,
+		private IEventLogger $eventLogger,
+	) {
+		$a = 1;
 	}
 
 	/** @return void */
 	public function initialize(Server $server) {
-		$server->on('afterMethod:*', [$this, 'afterMethod']);
+		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 1);
+		$server->on('afterMethod:*', [$this, 'afterMethod'], 9999);
+		$server->on('afterResponse', [$this, 'afterResponse'], 9999);
+		$server->on('exception', [$this, 'exception']);
+	}
+
+	public function beforeMethod() {
+		$this->eventLogger->start('dav:server:method', 'Processing dav request');
 	}
 
 	/** @return void */
 	public function afterMethod(RequestInterface $request, ResponseInterface $response) {
-		$response->addHeader('X-Debug-Token', $this->request->getId());
+		$this->eventLogger->end('dav:server:method');
+		$this->eventLogger->start('dav:server:response', 'Sending dav response');
+		if ($this->profiler->isEnabled()) {
+			$response->addHeader('X-Debug-Token', $this->request->getId());
+		}
+	}
+
+	public function afterResponse(RequestInterface $request, ResponseInterface $response) {
+		$this->eventLogger->end('dav:server:response');
+		$this->finalize($response->getStatus());
+	}
+
+	public function exception(): void {
+		$this->finalize();
+	}
+
+	public function __destruct() {
+		// in error cases, the "afterResponse" isn't called, so we do the finalization now
+		$this->finalize();
+	}
+
+	public function finalize(int $status = null): void {
+		if ($this->finalized) {
+			return;
+		}
+		$this->finalized = true;
+
+		$this->eventLogger->end('runtime');
+		if ($this->profiler->isEnabled()) {
+			$profile = $this->profiler->collect($this->request, new Response($status));
+			$this->profiler->saveProfile($profile);
+		}
 	}
 }
