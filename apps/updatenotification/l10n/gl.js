@@ -22,11 +22,10 @@ OC.L10N.register(
     "Download now" : "Descargar agora",
     "Please use the command line updater to update." : "Utilice o actualizador de liña de ordes para actualizar.",
     "What's new?" : "Que hai de novo?",
+    "View changelog" : "Ver o rexistro de cambios",
     "The update check is not yet finished. Please refresh the page." : "A comprobación de actualización aínda non rematou. Recargue a páxina.",
     "Your version is up to date." : "A súa versión está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Está en uso un servidor de actualizacións que non é o predeterminado para comprobar as actualizacións:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Pode cambiar a canle de actualización a seguir, o que tamén afecta á páxina de xestión de aplicacións. p.ex. após cambiar á canle beta, ofreceranse actualizacións da aplicación beta na páxina de xestión de aplicacións.",
-    "Update channel:" : "Canle de actualización:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Sempre poderá actualizar á versión más recente, mais nunca poderá volver a unha canle máis estábel.",
     "Notify members of the following groups about available updates:" : "Notificar aos membros dos seguintes grupos sobre actualizacións dispoñíbeis:",
     "No groups" : "Non hai grupos",
@@ -40,7 +39,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Asegúrese de que o seu config.php non ten configurado <samp>appstoreenabled</samp> como «false».",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Non foi posíbel conectar á Tenda de aplicacións ou non se devolveu ningunha actualización. Busque actualizacións manualmente ou asegúrese de que o seu servidor ten acceso a Internet e pode conectarse á Tenda de aplicacións.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Todas</strong> as aplicacións teñen dispoñíbel unha versión compatíbel para esta versión de Nextcloud.",
-    "View changelog" : "Ver o rexistro de cambios",
     "Enterprise" : "Empresarial",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Para uso empresarial. Ofrece sempre o último nivel de parches, pero non se actualizará inmediatamente á seguinte versión principal. Esta actualización prodúcese unha vez que Nextcloud GmbH teña feitas as probas e reforzos para implementacións a gran escala e de obxectivos críticos. Esta canle só está dispoñíbel para os clientes e fornece o paquete Nextcloud empresarial.",
     "Stable" : "Estábel",
@@ -48,6 +46,8 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Unha versión preliminar só para probar funcionalidades novas, non para contornos de produción",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación non ten dispoñíbel unha versión compatíbel para esta versión de Nextcloud.","<strong>%n</strong> aplicacións non teñen dispoñíbel unha versión compatíbel para esta versión de Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s."
+    "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Pode cambiar a canle de actualización a seguir, o que tamén afecta á páxina de xestión de aplicacións. p.ex. após cambiar á canle beta, ofreceranse actualizacións da aplicación beta na páxina de xestión de aplicacións.",
+    "Update channel:" : "Canle de actualización:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -113,7 +113,7 @@ OC.L10N.register(
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "يُلغي طلبات  LDAP التلقائية. يُفضّل استعماله في حالة الخوادم التي تخدم أعداداً كبيرة، ولكنه يتطلب بعض المعرفة فيما يخص بروتوكول LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "الإدخال اليدوي لفلاتر بروتوكول LDAP (يُنصح به  في حالة الأدلة الكبيرة)",
     "Listing and searching for users is constrained by these criteria:" : "العرض والبحث عن المستخدمين مُقيّدٌ بهذه الشروط:",
-    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "أكثر فئات الكائنات شيوعًا بالنسبة بالنسبة للمستخدمين هي: organizationalPerson, person, user, and  inetOrgPerson. إذا لم تكن متأكدًا من فئة الكائن التي تريد تحديدها، فيرجى استشارة مشرف خادوم الـ LDAP.",
+    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "أكثر فئات الكائنات شيوعًا بالنسبة للمستخدمين هي:  الشخص التنظيمي \"organizationalPerson\" والشخص \"person\" والمستخدم \"user\"وinetOrgPerson. إذا لم تكن متأكدًا من فئة الكائن التي تريد تحديدها، فيرجى استشارة مسئول الدليل الخاص بك.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "يُحدِّد الفلتر أيّ مستخدمي LDAP يمكنه الوصول إلى الخادوم %s.",
     "Verify settings and count users" : "التّحقق من الإعدادات وعدد المستخدمين",
     "Saving" : "الحفظ جارٍ ...",
