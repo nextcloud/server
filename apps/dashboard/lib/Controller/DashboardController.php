@@ -51,7 +51,7 @@ class DashboardController extends Controller {
 		private IEventDispatcher $eventDispatcher,
 		private IManager $dashboardManager,
 		private IConfig $config,
-		private string $userId,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 
