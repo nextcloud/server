@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,6 +28,7 @@ namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
@@ -37,6 +39,7 @@ use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
+#[IgnoreOpenAPI]
 class AdminSettingsController extends Controller {
 	use CommonSettingsTrait;
 

@@ -21,7 +21,7 @@
  */
 import { action } from './sidebarAction'
 import { expect } from '@jest/globals'
-import { File } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
 import type { Navigation } from '../services/Navigation'
 import logger from '../logger'
@@ -51,10 +51,27 @@ describe('Open sidebar action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
+	})
+
+	test('Disabled without permissions', () => {
+		window.OCA = { Files: { Sidebar: {} } }
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.NONE,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
+
 	})
 
 	test('Disabled if more than one node', () => {

@@ -45,6 +45,27 @@ class Capabilities implements ICapability {
 		$this->settingsManager = $settingsManager;
 	}
 
+	/**
+	 * @return array{
+	 *     files_sharing: array{
+	 *         sharebymail: array{
+	 *             enabled: bool,
+	 *             send_password_by_mail: bool,
+	 *             upload_files_drop: array{
+	 *                 enabled: bool,
+	 *             },
+	 *             password: array{
+	 *                 enabled: bool,
+	 *                 enforced: bool,
+	 *             },
+	 *             expire_date: array{
+	 *                 enabled: bool,
+	 *                 enforced: bool,
+	 *             },
+	 *         }
+	 *     }
+	 * }
+	 */
 	public function getCapabilities(): array {
 		return [
 			'files_sharing' =>

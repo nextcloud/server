@@ -20,11 +20,10 @@
     "Download now" : "Stáhnout nyní",
     "Please use the command line updater to update." : "Aktualizaci proveďte nástrojem z příkazového řádku.",
     "What's new?" : "Co je nového?",
+    "View changelog" : "Zobrazit souhrn změn",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Níže je možné změnit kanál aktualizací, což se projeví také na stránce pro správu aplikací. Např. po přepnutí kanálu na beta (testování před vydáním), budou zde nabízeny také aktualizace na testovací verze aplikací.",
-    "Update channel:" : "Kanál aktualizací:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté už se ale nelze vrátit zpět ke starší verzi ze stabilního kanálu.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupnost aktualizací:",
     "No groups" : "Žádné skupiny",
@@ -38,7 +37,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ověřte, že v souboru s nastaveními config.php není volba <samp>appstoreenabled</samp> nastavena na hodnotu false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Nedaří se spojit s katalogem aplikací nebo tento nevrátil vůbec žádné aktualizace. Vyhledejte aktualizace ručně nebo ověřte, zda má váš server přístup k Internetu a může se spojit s katalogem.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Všechny</strong> aplikace mají k dispozici kompatibilní verzi s verzí tohoto Nextcloud serveru.",
-    "View changelog" : "Zobrazit souhrn změn",
     "Enterprise" : "Podnikové",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pro podnikové nasazení. Poskytuje vždy nejnovější opravy, ale nebude hned aktualizováno na další hlavní vydání. K tomu dochází až když Nextcloud GmbH dokončí další zodolnění a testování pro rozsáhlá a kritická nasazení. Tento kanál je k dispozici pouze zákazníkům a poskytuje balíček Nextcloud Enterprise.",
     "Stable" : "Stabilní",
@@ -46,6 +44,8 @@
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru."],
-    "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s."
+    "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Níže je možné změnit kanál aktualizací, což se projeví také na stránce pro správu aplikací. Např. po přepnutí kanálu na beta (testování před vydáním), budou zde nabízeny také aktualizace na testovací verze aplikací.",
+    "Update channel:" : "Kanál aktualizací:"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

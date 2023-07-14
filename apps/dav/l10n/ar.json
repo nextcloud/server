@@ -58,6 +58,10 @@
     "Date:" : "التاريخ:",
     "Where:" : "المكان:",
     "Description:" : "الوصف:",
+    "_%n year_::_%n years_" : ["في %n أعوام","في %nعام","في %nأعوام","في %nأعوام","في %n أعوام","في %nأعوام"],
+    "_%n month_::_%n months_" : [" %n شهور","%n شهر","%n  شهور","%n  شهور","%n  شهور","%n شهور"],
+    "_%n day_::_%n days_" : ["%n أيام","%n يوم","%nأيام","%nأيام","%n أيام","%n أيام"],
+    "_%n hour_::_%n hours_" : ["%nساعات","%n ساعة","%n ساعات","%n ساعات","%n ساعات","%n ساعات"],
     "_%n minute_::_%n minutes_" : ["%n دقيقة","%n دقيقة","%n دقيقتيْن","%n دقائق","%n دقائق","%n دقائق"],
     "%s (in %s)" : "%s (في %s)",
     "%s (%s ago)" : "%s (%s مضت)",
@@ -182,9 +186,6 @@
     "Please contact the organizer directly." : "رجاءً، تواصل مع المُنظّم أو المُنظّمين مُباشرةً.",
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
-    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
-    "Invitation canceled" : "تمّ إلغاء الدعوة",
-    "Invitation updated" : "تمّ تعديل الدعوة",
-    "Invitation" : "دعوة"
+    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

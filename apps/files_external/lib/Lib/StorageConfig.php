@@ -136,7 +136,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the configuration id
 	 *
-	 * @retun int
+	 * @return int
 	 */
 	public function getId() {
 		return $this->id;

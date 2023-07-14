@@ -168,12 +168,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
     "No favorites yet" : "Engin eftirlæti ennþá",
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem eftirlæti birtast hér",
-    "Shares" : "Sameignir",
-    "Shared with others" : "Deilt með öðrum",
-    "Shared with you" : "Deilt með þér",
-    "Shared by link" : "Deilt með tengli",
-    "Deleted shares" : "Eyddar sameignir",
-    "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Storage invalid" : "Ógild geymsla",
@@ -183,6 +177,12 @@
     "Cancel" : "Hætta við",
     "%s used" : "%s notað",
     "%1$s of %2$s used" : "%1$s af %2$s notað",
-    "Deleted files" : "Eyddar skrár"
+    "Deleted files" : "Eyddar skrár",
+    "Shares" : "Sameignir",
+    "Shared with others" : "Deilt með öðrum",
+    "Shared with you" : "Deilt með þér",
+    "Shared by link" : "Deilt með tengli",
+    "Deleted shares" : "Eyddar sameignir",
+    "Pending shares" : "Sameignir í bið"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

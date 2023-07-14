@@ -47,12 +47,12 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FederatedShareProviderTest
@@ -61,39 +61,38 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @group DB
  */
 class FederatedShareProviderTest extends \Test\TestCase {
-
 	/** @var IDBConnection */
 	protected $connection;
-	/** @var AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|MockObject */
 	protected $addressHandler;
-	/** @var Notifications | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Notifications|MockObject */
 	protected $notifications;
-	/** @var TokenHandler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var TokenHandler|MockObject */
 	protected $tokenHandler;
 	/** @var IL10N */
 	protected $l;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
-	/** @var IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	protected $rootFolder;
-	/** @var  IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IConfig|MockObject */
 	protected $config;
-	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IUserManager|MockObject */
 	protected $userManager;
-	/** @var  \OCP\GlobalScale\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var  \OCP\GlobalScale\IConfig|MockObject */
 	protected $gsConfig;
 
 	/** @var IManager */
 	protected $shareManager;
 	/** @var FederatedShareProvider */
 	protected $provider;
-	/** @var IContactsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContactsManager|MockObject */
 	protected $contactsManager;
 
 	/** @var  ICloudIdManager */
 	private $cloudIdManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ICloudFederationProviderManager */
+	/** @var MockObject|ICloudFederationProviderManager */
 	private $cloudFederationProviderManager;
 
 	protected function setUp(): void {
@@ -111,7 +110,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
@@ -137,13 +136,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->notifications,
 			$this->tokenHandler,
 			$this->l,
-			$this->logger,
 			$this->rootFolder,
 			$this->config,
 			$this->userManager,
 			$this->cloudIdManager,
 			$this->gsConfig,
-			$this->cloudFederationProviderManager
+			$this->cloudFederationProviderManager,
+			$this->logger,
 		);
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -476,13 +475,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					$this->notifications,
 					$this->tokenHandler,
 					$this->l,
-					$this->logger,
 					$this->rootFolder,
 					$this->config,
 					$this->userManager,
 					$this->cloudIdManager,
 					$this->gsConfig,
-					$this->cloudFederationProviderManager
+					$this->cloudFederationProviderManager,
+					$this->logger,
 				]
 			)->setMethods(['sendPermissionUpdate'])->getMock();
 

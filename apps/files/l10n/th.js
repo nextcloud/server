@@ -213,12 +213,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ไฟล์ที่คุณพยายามที่จะอัปโหลดมีขนาดเกินกว่าขนาดสูงสุดที่อัปโหลดได้สำหรับเซิร์ฟเวอร์นี้",
     "No favorites yet" : "ยังไม่มีรายการโปรด",
     "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณระบุเป็นรายการโปรดจะแสดงที่นี่",
-    "Shares" : "การแชร์",
-    "Shared with others" : "แชร์กับผู้อื่น",
-    "Shared with you" : "แชร์กับคุณ",
-    "Shared by link" : "แชร์โดยลิงก์",
-    "Deleted shares" : "การแชร์ที่ถูกลบ",
-    "Pending shares" : "การแชร์ที่กำลังดำเนินการ",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่.txt",
     "Storage invalid" : "การจัดเก็บข้อมูลไม่ถูกต้อง",
@@ -229,6 +223,12 @@ OC.L10N.register(
     "%s used" : "ใช้ไป %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "ใช้ไป %1$s จาก %2$s",
-    "Deleted files" : "ไฟล์ที่ถูกลบ"
+    "Deleted files" : "ไฟล์ที่ถูกลบ",
+    "Shares" : "การแชร์",
+    "Shared with others" : "แชร์กับผู้อื่น",
+    "Shared with you" : "แชร์กับคุณ",
+    "Shared by link" : "แชร์โดยลิงก์",
+    "Deleted shares" : "การแชร์ที่ถูกลบ",
+    "Pending shares" : "การแชร์ที่กำลังดำเนินการ"
 },
 "nplurals=1; plural=0;");

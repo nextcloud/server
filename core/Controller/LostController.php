@@ -17,6 +17,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -37,6 +38,7 @@ namespace OC\Core\Controller;
 
 use Exception;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -72,6 +74,7 @@ use function reset;
  *
  * @package OC\Core\Controller
  */
+#[IgnoreOpenAPI]
 class LostController extends Controller {
 	protected string $from;
 

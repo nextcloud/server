@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "接受邀請嗎？",
     "Tentative" : "暫定",
     "Your attendance was updated successfully." : "您的參與狀況成功更新",
-    "Invitation canceled" : "邀請被取消了",
-    "Invitation updated" : "邀請已更新",
-    "Invitation" : "邀請"
+    "%1$s has responded your invitation" : "%1$s 已回應您的邀請"
 },
 "nplurals=1; plural=0;");

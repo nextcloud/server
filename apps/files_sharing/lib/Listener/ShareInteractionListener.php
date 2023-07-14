@@ -30,10 +30,10 @@ use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use function in_array;
 
 class ShareInteractionListener implements IEventListener {
@@ -43,21 +43,11 @@ class ShareInteractionListener implements IEventListener {
 		IShare::TYPE_REMOTE,
 	];
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct(IEventDispatcher $dispatcher,
-								IUserManager $userManager,
-								ILogger $logger) {
-		$this->dispatcher = $dispatcher;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {

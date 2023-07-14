@@ -1,0 +1,110 @@
+/**
+ * @copyright 2023 Christopher Ng <chrng8@gmail.com>
+ *
+ * @author Christopher Ng <chrng8@gmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+@mixin row {
+	position: absolute;
+	display: flex;
+	height: var(--row-height);
+	background-color: var(--color-main-background);
+}
+
+@mixin cell {
+	&__cell {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 0 var(--cell-padding);
+		width: var(--cell-width);
+		color: var(--color-main-text);
+
+		strong,
+		span,
+		label {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow-wrap: anywhere;
+		}
+
+		@media (min-width: 670px) { /* Show one &--large column between stickied columns */
+			&--avatar,
+			&--displayname {
+				position: sticky;
+				z-index: 10;
+				background-color: var(--color-main-background);
+			}
+
+			&--avatar {
+				left: 0;
+			}
+
+			&--displayname {
+				left: var(--avatar-cell-width);
+				border-right: 1px solid var(--color-border);
+			}
+		}
+
+		&--avatar {
+			width: var(--avatar-cell-width);
+			align-items: center;
+			padding: 0;
+			user-select: none;
+		}
+
+		&--multiline {
+			span {
+				line-height: 1.3em;
+				white-space: unset;
+
+				@supports (-webkit-line-clamp: 2) {
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
+			}
+		}
+
+		&--large {
+			width: 300px;
+		}
+
+		&--obfuscated {
+			width: 400px;
+		}
+
+		&--actions {
+			position: sticky;
+			right: 0;
+			z-index: 10;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width: 110px;
+			background-color: var(--color-main-background);
+			border-left: 1px solid var(--color-border);
+		}
+	}
+
+	&__subtitle {
+		color: var(--color-text-maxcontrast);
+	}
+}

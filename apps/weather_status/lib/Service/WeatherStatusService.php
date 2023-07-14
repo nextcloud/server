@@ -131,8 +131,7 @@ class WeatherStatusService {
 
 	/**
 	 * Get favorites list
-	 * @param array $favorites
-	 * @return array success state
+	 * @return string[]
 	 */
 	public function getFavorites(): array {
 		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
@@ -141,7 +140,7 @@ class WeatherStatusService {
 
 	/**
 	 * Set favorites list
-	 * @param array $favorites
+	 * @param string[] $favorites
 	 * @return array success state
 	 */
 	public function setFavorites(array $favorites): array {

@@ -105,9 +105,6 @@ OC.L10N.register(
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Įsitikinkite, kad tinkamai nusistatėte {emailopen}el. pašto serverį{linkclose}.",
     "Please contact the organizer directly." : "Prašome susisiekti su organizatoriumi tiesiogiai.",
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
-    "Tentative" : "Preliminarus",
-    "Invitation canceled" : "Pakvietimo atsisakyta",
-    "Invitation updated" : "Pakvietimas atnaujintas",
-    "Invitation" : "Pakvietimas"
+    "Tentative" : "Preliminarus"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

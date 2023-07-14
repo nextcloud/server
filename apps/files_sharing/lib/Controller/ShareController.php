@@ -49,14 +49,9 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
-use OCA\Viewer\Event\LoadViewer;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
-use OCP\AppFramework\Http\Template\LinkMenuAction;
-use OCP\AppFramework\Http\Template\PublicTemplateResponse;
-use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -65,12 +60,10 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
@@ -86,63 +79,33 @@ use OCP\Template;
  * @package OCA\Files_Sharing\Controllers
  */
 class ShareController extends AuthPublicShareController {
-	protected IConfig $config;
-	protected IUserManager $userManager;
-	protected ILogger $logger;
-	protected \OCP\Activity\IManager $activityManager;
-	protected IPreview $previewManager;
-	protected IRootFolder $rootFolder;
-	protected FederatedShareProvider $federatedShareProvider;
-	protected IAccountManager $accountManager;
-	protected IEventDispatcher $eventDispatcher;
-	protected IL10N $l10n;
-	protected Defaults $defaults;
-	protected ShareManager $shareManager;
-	protected ISecureRandom $secureRandom;
 	protected ?Share\IShare $share = null;
-	private IPublicShareTemplateFactory $publicShareTemplateFactory;
-
-	public function __construct(
-		string $appName,
-		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager,
-		ILogger $logger,
-		\OCP\Activity\IManager $activityManager,
-		ShareManager $shareManager,
-		ISession $session,
-		IPreview $previewManager,
-		IRootFolder $rootFolder,
-		FederatedShareProvider $federatedShareProvider,
-		IAccountManager $accountManager,
-		IEventDispatcher $eventDispatcher,
-		IL10N $l10n,
-		ISecureRandom $secureRandom,
-		Defaults $defaults,
-		IPublicShareTemplateFactory $publicShareTemplateFactory
-	) {
-		parent::__construct($appName, $request, $session, $urlGenerator);
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->activityManager = $activityManager;
-		$this->previewManager = $previewManager;
-		$this->rootFolder = $rootFolder;
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->accountManager = $accountManager;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->l10n = $l10n;
-		$this->secureRandom = $secureRandom;
-		$this->defaults = $defaults;
-		$this->shareManager = $shareManager;
-		$this->publicShareTemplateFactory = $publicShareTemplateFactory;
-	}
 
 	public const SHARE_ACCESS = 'access';
 	public const SHARE_AUTH = 'auth';
 	public const SHARE_DOWNLOAD = 'download';
+
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		protected IConfig $config,
+		IURLGenerator $urlGenerator,
+		protected IUserManager $userManager,
+		protected \OCP\Activity\IManager $activityManager,
+		protected ShareManager $shareManager,
+		ISession $session,
+		protected IPreview $previewManager,
+		protected IRootFolder $rootFolder,
+		protected FederatedShareProvider $federatedShareProvider,
+		protected IAccountManager $accountManager,
+		protected IEventDispatcher $eventDispatcher,
+		protected IL10N $l10n,
+		protected ISecureRandom $secureRandom,
+		protected Defaults $defaults,
+		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+	) {
+		parent::__construct($appName, $request, $session, $urlGenerator);
+	}
 
 	/**
 	 * @PublicPage
@@ -212,7 +175,6 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	protected function validateIdentity(?string $identityToken = null): bool {
-
 		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
 			return false;
 		}
@@ -496,7 +458,6 @@ class ShareController extends AuthPublicShareController {
 		if (!empty($downloadStartSecret)
 			&& !isset($downloadStartSecret[32])
 			&& preg_match('!^[a-zA-Z0-9]+$!', $downloadStartSecret) === 1) {
-
 			// FIXME: set on the response once we use an actual app framework response
 			setcookie('ocDownloadStarted', $downloadStartSecret, time() + 20, '/');
 		}

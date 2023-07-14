@@ -20,11 +20,10 @@
     "Download now" : "Hämta nu",
     "Please use the command line updater to update." : "Vänligen uppdatera via kommandotolken.",
     "What's new?" : "Vad är nytt?",
+    "View changelog" : "Visa ändringslogg",
     "The update check is not yet finished. Please refresh the page." : "Uppdateringskontrollen är inte färdig ännu. Vänligen uppdatera sidan.",
     "Your version is up to date." : "Din version är uppdaterad.",
     "A non-default update server is in use to be checked for updates:" : "En icke-standard uppdateringsserver används för att kontrolleras efter uppdateringar:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan ändra uppdateringskanalen nedan, vilket också påverkar apphanteringssidan. T.ex. efter att du har bytt till betakanalen kommer betaappuppdateringar att erbjudas på apphanteringssidan.",
-    "Update channel:" : "Uppdateringskanal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Du kan alltid uppdatera till en nyare version, men du kan aldrig nedgradera till en mer stabil version.",
     "Notify members of the following groups about available updates:" : "Notifiera medlemmar i följande grupper om tillgängliga uppdateraingar:",
     "No groups" : "Inga grupper",
@@ -38,7 +37,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Se till att din config.php inte ställer in <samp>appstoreenabled</samp> till falsk.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kunde inte ansluta till appbutiken eller så returnerades inga uppdateringar alls. Sök manuellt för uppdateringar och säkerställ att din server har tillgång till internet och kan ansluta till appbutiken.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Alla</strong> appar har en kompatibel version för denna version av Nextcloud.",
-    "View changelog" : "Visa ändringslogg",
     "Enterprise" : "Enterprise",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Innehåller alltid den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Den uppdateringen sker när Nextcloud GmbH har utfört ytterligare verifiering och testning för storskaliga och kritiska installationer. Den här kanalen är endast tillgänglig för kunder och tillhandahåller Nextcloud Enterprise-paketet.",
     "Stable" : "Stabil",
@@ -46,6 +44,8 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Uppdatering för %1$s till version %2$s är tillgänglig."
+    "Update for %1$s to version %2$s is available." : "Uppdatering för %1$s till version %2$s är tillgänglig.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan ändra uppdateringskanalen nedan, vilket också påverkar apphanteringssidan. T.ex. efter att du har bytt till betakanalen kommer betaappuppdateringar att erbjudas på apphanteringssidan.",
+    "Update channel:" : "Uppdateringskanal:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

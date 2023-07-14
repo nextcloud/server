@@ -40,6 +40,7 @@ return array(
     'OCP\\AppFramework\\Http\\Attribute\\AuthorizedAdminSetting' => $baseDir . '/lib/public/AppFramework/Http/Attribute/AuthorizedAdminSetting.php',
     'OCP\\AppFramework\\Http\\Attribute\\BruteForceProtection' => $baseDir . '/lib/public/AppFramework/Http/Attribute/BruteForceProtection.php',
     'OCP\\AppFramework\\Http\\Attribute\\CORS' => $baseDir . '/lib/public/AppFramework/Http/Attribute/CORS.php',
+    'OCP\\AppFramework\\Http\\Attribute\\IgnoreOpenAPI' => $baseDir . '/lib/public/AppFramework/Http/Attribute/IgnoreOpenAPI.php',
     'OCP\\AppFramework\\Http\\Attribute\\NoAdminRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/NoAdminRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\NoCSRFRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/NoCSRFRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\PasswordConfirmationRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/PasswordConfirmationRequired.php',

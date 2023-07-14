@@ -144,13 +144,13 @@
 .nav-icon-favorites {
 	@include icon-color('starred', 'actions', variables.$color-black, 2, true);
 }
-.nav-icon-sharingin,
-.nav-icon-sharingout,
-.nav-icon-pendingshares,
-.nav-icon-shareoverview {
+.nav-icon-sharinginOld,
+.nav-icon-sharingoutOld,
+.nav-icon-pendingsharesOld,
+.nav-icon-shareoverviewOld {
 	@include icon-color('share', 'files', variables.$color-black);
 }
-.nav-icon-sharinglinks {
+.nav-icon-sharinglinksOld {
 	@include icon-color('public', 'files', variables.$color-black);
 }
 .nav-icon-extstoragemounts {
@@ -162,7 +162,7 @@
 .nav-icon-trashbin-starred {
 	@include icon-color('delete', 'files', #ff0000);
 }
-.nav-icon-deletedshares {
+.nav-icon-deletedsharesOld {
 	@include icon-color('unshare', 'files', variables.$color-black);
 }
 .nav-icon-favorites-starred {

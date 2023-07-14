@@ -29,6 +29,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Share\IManager;
 use OCP\Util;
 
 class LoadAdditionalListener implements IEventListener {
@@ -37,10 +38,13 @@ class LoadAdditionalListener implements IEventListener {
 			return;
 		}
 
-		// After files for the files list shared content
-		Util::addScript(Application::APP_ID, 'files_sharing', 'files');
 		// After files for the breadcrumb share indicator
 		Util::addScript(Application::APP_ID, 'additionalScripts', 'files');
 		Util::addStyle(Application::APP_ID, 'icons');
+
+		$shareManager = \OC::$server->get(IManager::class);
+		if ($shareManager->shareApiEnabled() && class_exists('\OCA\Files\App')) {
+			Util::addScript(Application::APP_ID, 'files_sharing', 'files');
+		}
 	}
 }

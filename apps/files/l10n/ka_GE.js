@@ -131,10 +131,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
     "No favorites yet" : "ჯერ რჩეულები არაა",
     "Files and folders you mark as favorite will show up here" : "აქ გამოჩნდებიან ფაილები და დირექტორიები, რომლებსაც მონიშნავთ რჩეულებად",
-    "Shares" : "გაზიარებები",
-    "Shared with others" : "გაზიარდა სხვებთან",
-    "Shared with you" : "გაზიარდა თქვენთან",
-    "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
     "Storage invalid" : "საცავი არასწორია",
@@ -142,6 +138,10 @@ OC.L10N.register(
     "Cancel" : "უარყოფა",
     "%s used" : "%s მოხმარებულია",
     "%1$s of %2$s used" : "გამოყენებულია %1$s სულ %2$s-იდან ",
-    "Deleted files" : "გაუქმებული ფაილები"
+    "Deleted files" : "გაუქმებული ფაილები",
+    "Shares" : "გაზიარებები",
+    "Shared with others" : "გაზიარდა სხვებთან",
+    "Shared with you" : "გაზიარდა თქვენთან",
+    "Shared by link" : "გაზიარდა ბმულით"
 },
 "nplurals=2; plural=(n!=1);");

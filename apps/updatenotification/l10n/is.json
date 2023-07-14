@@ -14,10 +14,10 @@
     "Open updater" : "Opna uppfærslustýringu",
     "Download now" : "Sækja núna",
     "What's new?" : "Hvað er nýtt á döfinni?",
+    "View changelog" : "Skoða breytingaannál",
     "The update check is not yet finished. Please refresh the page." : "Athugun á uppfærslum er ekki ennþá lokið. Endurlestu síðuna.",
     "Your version is up to date." : "Útgáfan þín er af nýjustu gerð.",
     "A non-default update server is in use to be checked for updates:" : "Uppfærsluþjónn sem ekki er sjálfgefinn er núna í notkun til að athuga með uppfærslur:",
-    "Update channel:" : "Uppfærslurás:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Þú getur alltaf uppfært í nýrri útgáfu. En þú getur aldrei niðurfært í stöðugri útgáfu.",
     "Notify members of the following groups about available updates:" : "Tilkynna meðlimum eftirfarandi hópa um tiltækar uppfærslur:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn.",
@@ -25,12 +25,12 @@
     "A new version is available: <strong>{newVersionString}</strong>" : "Ný útgáfa er tiltæk: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Athugað þann {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Gakktu úr skugga um að í config.php sé <samp>appstoreenabled</samp> ekki sett sem ósatt/false.",
-    "View changelog" : "Skoða breytingaannál",
     "Enterprise" : "Fyrirtæki",
     "Stable" : "Stöðug",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nýjasta stöðuga útgáfan. Hún hentar fyrir alla venjulega notkun og er alltaf uppfærð í nýjustu aðalútgáfu.",
     "Beta" : "BETA-prófunarútgáfa",
     "A pre-release version only for testing new features, not for production environments." : "For-útgáfa sem einungis er hugsuð til að prófa nýja eiginleika, og er alls ekki ætluð fyrir alvöru vinnslu.",
-    "Update for %1$s to version %2$s is available." : "Uppfærsla %1$s í útgáfu %2$s er tiltæk."
+    "Update for %1$s to version %2$s is available." : "Uppfærsla %1$s í útgáfu %2$s er tiltæk.",
+    "Update channel:" : "Uppfærslurás:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -19,12 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { emit } from '@nextcloud/event-bus'
 import { Permission, Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
+import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 import { generateUrl } from '@nextcloud/router'
 import type { Navigation } from '../services/Navigation'
 

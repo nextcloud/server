@@ -50,12 +50,12 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FederatedShareProvider
@@ -65,90 +65,29 @@ use OCP\Share\IShareProvider;
 class FederatedShareProvider implements IShareProvider {
 	public const SHARE_TYPE_REMOTE = 6;
 
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var Notifications */
-	private $notifications;
-
-	/** @var TokenHandler */
-	private $tokenHandler;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IConfig */
-	private $config;
-
 	/** @var string */
 	private $externalShareTable = 'share_external';
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	/** @var \OCP\GlobalScale\IConfig */
-	private $gsConfig;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
 
 	/** @var array list of supported share types */
 	private $supportedShareType = [IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_CIRCLE];
 
 	/**
 	 * DefaultShareProvider constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param AddressHandler $addressHandler
-	 * @param Notifications $notifications
-	 * @param TokenHandler $tokenHandler
-	 * @param IL10N $l10n
-	 * @param ILogger $logger
-	 * @param IRootFolder $rootFolder
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param ICloudIdManager $cloudIdManager
-	 * @param \OCP\GlobalScale\IConfig $globalScaleConfig
-	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 */
 	public function __construct(
-			IDBConnection $connection,
-			AddressHandler $addressHandler,
-			Notifications $notifications,
-			TokenHandler $tokenHandler,
-			IL10N $l10n,
-			ILogger $logger,
-			IRootFolder $rootFolder,
-			IConfig $config,
-			IUserManager $userManager,
-			ICloudIdManager $cloudIdManager,
-			\OCP\GlobalScale\IConfig $globalScaleConfig,
-			ICloudFederationProviderManager $cloudFederationProviderManager
+			private IDBConnection $dbConnection,
+			private AddressHandler $addressHandler,
+			private Notifications $notifications,
+			private TokenHandler $tokenHandler,
+			private IL10N $l,
+			private IRootFolder $rootFolder,
+			private IConfig $config,
+			private IUserManager $userManager,
+			private ICloudIdManager $cloudIdManager,
+			private \OCP\GlobalScale\IConfig $gsConfig,
+			private ICloudFederationProviderManager $cloudFederationProviderManager,
+			private LoggerInterface $logger,
 	) {
-		$this->dbConnection = $connection;
-		$this->addressHandler = $addressHandler;
-		$this->notifications = $notifications;
-		$this->tokenHandler = $tokenHandler;
-		$this->l = $l10n;
-		$this->logger = $logger;
-		$this->rootFolder = $rootFolder;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->gsConfig = $globalScaleConfig;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 	}
 
 	/**
@@ -303,10 +242,9 @@ class FederatedShareProvider implements IShareProvider {
 				$failure = true;
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed to notify remote server of federated share, removing share.',
-				'level' => ILogger::ERROR,
+			$this->logger->error('Failed to notify remote server of federated share, removing share.', [
 				'app' => 'federatedfilesharing',
+				'exception' => $e,
 			]);
 			$failure = true;
 		}
@@ -873,7 +811,6 @@ class FederatedShareProvider implements IShareProvider {
 	 * @throws ShareNotFound
 	 */
 	private function getRawShare($id) {
-
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')

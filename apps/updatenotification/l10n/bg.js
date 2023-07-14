@@ -22,11 +22,10 @@ OC.L10N.register(
     "Download now" : "Свали сега",
     "Please use the command line updater to update." : "Моля, използвайте програмата за актуализиране на командния ред, за да актуализирате.",
     "What's new?" : "Какви са промените?",
+    "View changelog" : "Преглед на списъка с промени",
     "The update check is not yet finished. Please refresh the page." : "Проверката за актуализации не е приключила. Заредете страницата отново.",
     "Your version is up to date." : "Ползвате последната версия.",
     "A non-default update server is in use to be checked for updates:" : "Проверката за налични актуализации се извършва чрез сървър, който е различен от стандартния:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Можете да промените канала за актуализиране по-долу, който също засяга страницата за управление на приложения. Например, след като преминете към бета канала, актуализациите на бета приложенията ще ви бъдат предложени в страницата за управление на приложенията.",
-    "Update channel:" : "Канал за актуализиране:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Винаги може да актуализирате до по-нова версия. Но не може да се върнете до по-стабилна (по-стара) версия.",
     "Notify members of the following groups about available updates:" : "Известявай следните групи при наличие на актуализация:",
     "No groups" : "Няма групи",
@@ -40,7 +39,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Моля, уверете се, че в config.php не е зададено <samp>appstoreenabled</samp> на false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Свързването с магазина за приложения App Store не е възможно или изобщо не са върнати актуализации. Търсете ръчно за актуализации или се уверете, че вашият сървър има достъп до интернет и може да се свърже с App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Всички</strong>  приложения имат налична съвместима версия за тази версия на Nextcloud.",
-    "View changelog" : "Преглед на списъка с промени",
     "Enterprise" : "Предприятие",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Осигурява винаги най-новото ниво на корекция, но няма да се актуализира веднага до следващото голямо издание. Тази актуализация се случва, след като Nextcloud GmbH направи допълнително подсилване и тестване за широкомащабни и критични за мисията внедрявания. Този канал е достъпен само за клиенти и доставчици на пакета Nextcloud Enterprise.",
     "Stable" : "Стабилна",
@@ -48,6 +46,8 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> приложения нямат налична съвместима версия за тази версия на Nextcloud.","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Налична е актуализация от %1$s до версия %2$s."
+    "Update for %1$s to version %2$s is available." : "Налична е актуализация от %1$s до версия %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Можете да промените канала за актуализиране по-долу, който също засяга страницата за управление на приложения. Например, след като преминете към бета канала, актуализациите на бета приложенията ще ви бъдат предложени в страницата за управление на приложенията.",
+    "Update channel:" : "Канал за актуализиране:"
 },
 "nplurals=2; plural=(n != 1);");
