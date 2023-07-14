@@ -29,33 +29,80 @@ describe('Settings: Change user properties', function() {
 	before(function() {
 		cy.createUser(jdoe)
 		cy.login(admin)
+		// open the User settings
+		cy.visit('/settings/users')
+	})
+
+	beforeEach(function() {
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+			// reset edit mode for the user jdoe
+			cy.get('td.row__cell--actions .action-items > button:first-of-type')
+				.invoke('attr', 'title')
+				.then((title) => {
+					if (title === 'Done') {
+						cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
+					}
+				})
+		})
 	})
 
 	after(() => {
 		cy.deleteUser(jdoe)
 	})
 
-	it('Can change the password', function() {
-		// open the User settings
-		cy.visit('/settings/users')
-
-		cy.get(`.user-list-grid .row[data-id="${jdoe.userId}"]`).within(($row) => {
+	it('Can change the display name', function() {
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// toggle the edit mode for the user jdoe
-			cy.get('.userActions .action-items > button:first-of-type').click()
+			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
 		})
 
-		cy.get(`.user-list-grid .row[data-id="${jdoe.userId}"]`).within(($row) => {
-			// see that the edit mode is on
-			cy.wrap($row).should('have.class', 'row--editable')
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+			// set the display name
+			cy.get('input[data-test="displayNameField"]').should('exist').and('have.value', 'jdoe')
+			cy.get('input[data-test="displayNameField"]').clear()
+			cy.get('input[data-test="displayNameField"]').type('John Doe')
+			cy.get('input[data-test="displayNameField"]').should('have.value', 'John Doe')
+			cy.get('input[data-test="displayNameField"] ~ button').click()
+
+			// Ignore failure if modal is not shown
+			cy.once('fail', (error) => {
+				expect(error.name).to.equal('AssertionError')
+				expect(error).to.have.property('node', '.modal-container')
+			})
+			// Make sure no confirmation modal is shown
+			cy.root().closest('body').find('.modal-container').then(($modal) => {
+				if ($modal.length > 0) {
+					cy.wrap($modal).find('input[type="password"]').type(admin.password)
+					cy.wrap($modal).find('button').contains('Confirm').click()
+				}
+			})
+
+			// see that the display name cell is done loading
+			cy.get('.user-row-text-field.icon-loading-small').should('exist')
+			cy.waitUntil(() => cy.get('.user-row-text-field.icon-loading-small').should('not.exist'), { timeout: 10000 })
+		})
+		// Success message is shown
+		cy.get('.toastify.toast-success').contains(/Display.+name.+was.+successfully.+changed/i).should('exist')
+	})
+
+	it('Can change the password', function() {
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+			// see that the list of users contains the user jdoe
+			cy.contains(jdoe.userId).should('exist')
+			// toggle the edit mode for the user jdoe
+			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
+		})
+
+		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
 			// see that the password of user0 is ""
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			// set the password for user0 to 123456
 			cy.get('input[type="password"]').type('123456')
 			// When I set the password for user0 to 123456
 			cy.get('input[type="password"]').should('have.value', '123456')
-			cy.get('.password button').click()
+			cy.get('input[type="password"] ~ button').click()
 
 			// Ignore failure if modal is not shown
 			cy.once('fail', (error) => {

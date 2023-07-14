@@ -58,8 +58,8 @@ module.exports = {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
 		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing_tab.js'),
-		files_sharing: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing.js'),
-		main: path.join(__dirname, 'apps/files_sharing/src', 'index.js'),
+		files_sharing: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing.ts'),
+		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 	},
 	files_trashbin: {

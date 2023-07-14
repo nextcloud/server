@@ -1265,6 +1265,63 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
+	public function dataMatchClientVersion(): array {
+		return [
+			[
+				'Mozilla/5.0 (Android) Nextcloud-android/3.24.1',
+				Request::USER_AGENT_CLIENT_ANDROID,
+				'3.24.1',
+			],
+			[
+				'Mozilla/5.0 (iOS) Nextcloud-iOS/4.8.2',
+				Request::USER_AGENT_CLIENT_IOS,
+				'4.8.2',
+			],
+			[
+				'Mozilla/5.0 (Windows) mirall/3.8.1',
+				Request::USER_AGENT_CLIENT_DESKTOP,
+				'3.8.1',
+			],
+			[
+				'Mozilla/5.0 (Android) Nextcloud-Talk v17.10.0',
+				Request::USER_AGENT_TALK_ANDROID,
+				'17.10.0',
+			],
+			[
+				'Mozilla/5.0 (iOS) Nextcloud-Talk v17.0.1',
+				Request::USER_AGENT_TALK_IOS,
+				'17.0.1',
+			],
+			[
+				'Mozilla/5.0 (Windows) Nextcloud-Talk v0.6.0',
+				Request::USER_AGENT_TALK_DESKTOP,
+				'0.6.0',
+			],
+			[
+				'Mozilla/5.0 (Windows) Nextcloud-Outlook v1.0.0',
+				Request::USER_AGENT_OUTLOOK_ADDON,
+				'1.0.0',
+			],
+			[
+				'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v1.0.0',
+				Request::USER_AGENT_THUNDERBIRD_ADDON,
+				'1.0.0',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataMatchClientVersion
+	 * @param string $testAgent
+	 * @param string $userAgent
+	 * @param string $version
+	 */
+	public function testMatchClientVersion(string $testAgent, string $userAgent, string $version): void {
+		preg_match($userAgent, $testAgent, $matches);
+
+		$this->assertSame($version, $matches[1]);
+	}
+
 	public function testInsecureServerHostServerNameHeader() {
 		$request = new Request(
 			[

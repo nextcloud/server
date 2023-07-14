@@ -20,11 +20,10 @@
     "Download now" : "Download now",
     "Please use the command line updater to update." : "Please use the command line updater to update.",
     "What's new?" : "What's new?",
+    "View changelog" : "View changelog",
     "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page.",
     "Your version is up to date." : "Your version is up to date.",
     "A non-default update server is in use to be checked for updates:" : "A non-default update server is in use to be checked for updates:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.",
-    "Update channel:" : "Update channel:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "You can always update to a newer version, but you can never downgrade to a more stable version.",
     "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
     "No groups" : "No groups",
@@ -38,7 +37,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>All</strong> apps have a compatible version for this Nextcloud version available.",
-    "View changelog" : "View changelog",
     "Enterprise" : "Enterprise",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.",
     "Stable" : "Stable",
@@ -46,6 +44,8 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "A pre-release version only for testing new features, not for production environments.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
-    "Update for %1$s to version %2$s is available." : "Update for %1$s to version %2$s is available."
+    "Update for %1$s to version %2$s is available." : "Update for %1$s to version %2$s is available.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.",
+    "Update channel:" : "Update channel:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

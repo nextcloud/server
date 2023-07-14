@@ -35,6 +35,7 @@
  */
 namespace OCA\Files\Controller;
 
+use OC\AppFramework\Http;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -44,6 +45,7 @@ use OCA\Files\Service\ViewConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
@@ -63,10 +65,9 @@ use OCP\IUserSession;
 use OCP\Share\IManager;
 
 /**
- * Class ViewController
- *
  * @package OCA\Files\Controller
  */
+#[IgnoreOpenAPI]
 class ViewController extends Controller {
 	private IURLGenerator $urlGenerator;
 	private IL10N $l10n;

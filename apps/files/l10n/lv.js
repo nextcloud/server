@@ -128,12 +128,6 @@ OC.L10N.register(
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
-    "Shares" : "Koplietots",
-    "Shared with others" : "Koplietots ar citiem",
-    "Shared with you" : "Koplietots ar tevi",
-    "Shared by link" : "Koplietots ar saiti",
-    "Deleted shares" : "Dzēstās koplietotnes",
-    "Pending shares" : "Gaidošie koplietojumi",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "Storage invalid" : "Nepareiza glabātuve",
@@ -141,6 +135,12 @@ OC.L10N.register(
     "Cancel" : "Atcelt",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "Deleted files" : "Dzēstās datnes"
+    "Deleted files" : "Dzēstās datnes",
+    "Shares" : "Koplietots",
+    "Shared with others" : "Koplietots ar citiem",
+    "Shared with you" : "Koplietots ar tevi",
+    "Shared by link" : "Koplietots ar saiti",
+    "Deleted shares" : "Dzēstās koplietotnes",
+    "Pending shares" : "Gaidošie koplietojumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

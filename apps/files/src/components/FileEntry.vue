@@ -150,7 +150,7 @@
 <script lang='ts'>
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
-import { formatFileSize } from '@nextcloud/files'
+import { formatFileSize, Permission } from '@nextcloud/files'
 import { Fragment } from 'vue-frag'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
@@ -166,6 +166,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
+import type moment from 'moment'
 
 import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
 import { getFileActions, DefaultType } from '../services/FileAction.ts'
@@ -173,7 +174,6 @@ import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
-import type moment from 'moment'
 import { useKeyboardStore } from '../store/keyboard.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
@@ -336,11 +336,16 @@ export default Vue.extend({
 				}
 			}
 
+			if (this.source?.permissions & Permission.READ) {
+				return {
+					download: this.source.basename,
+					href: this.source.source,
+					title: this.t('files', 'Download file {name}', { name: this.displayName }),
+				}
+			}
+
 			return {
-				download: this.source.basename,
-				href: this.source.source,
-				// TODO: Use first action title ?
-				title: this.t('files', 'Download file {name}', { name: this.displayName }),
+				is: 'span',
 			}
 		},
 
@@ -398,7 +403,15 @@ export default Vue.extend({
 
 		// Actions shown in the menu
 		enabledMenuActions() {
-			return this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN)
+			return [
+				// Showing inline first for the NcActions inline prop
+				...this.enabledInlineActions,
+				// Then the rest
+				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN),
+			].filter((value, index, self) => {
+				// Then we filter duplicates to prevent inline actions to be shown twice
+				return index === self.findIndex(action => action.id === value.id)
+			})
 		},
 		openedMenu: {
 			get() {
@@ -602,7 +615,7 @@ export default Vue.extend({
 		},
 
 		openDetailsIfAvailable(event) {
-			const detailsAction = this.enabledDefaultActions.find(action => action.id === ACTION_DETAILS)
+			const detailsAction = this.enabledActions.find(action => action.id === ACTION_DETAILS)
 			if (detailsAction) {
 				event.preventDefault()
 				event.stopPropagation()

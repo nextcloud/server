@@ -114,9 +114,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Παρακαλώ επικοινωνήστε απ' ευθείας με τον διοργανωτή.",
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
-    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
-    "Invitation canceled" : "Η πρόσκληση ακυρώθηκε.",
-    "Invitation updated" : "Ενημερώθηκε η πρόσκληση.",
-    "Invitation" : "Πρόσκληση"
+    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία."
 },
 "nplurals=2; plural=(n != 1);");

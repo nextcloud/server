@@ -123,16 +123,16 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * create a new share
 	 *
-	 * @param string|null $remote
-	 * @param string|null $token
-	 * @param string|null $name
-	 * @param string|null $owner
-	 * @param string|null $sharedBy
-	 * @param string|null $shareWith
-	 * @param int|null $remoteId
-	 * @param string|null $sharedByFederatedId
-	 * @param string|null $ownerFederatedId
-	 * @return Http\DataResponse
+	 * @param string|null $remote Address of the remote
+	 * @param string|null $token Shared secret between servers
+	 * @param string|null $name Name of the shared resource
+	 * @param string|null $owner Display name of the receiver
+	 * @param string|null $sharedBy Display name of the sender
+	 * @param string|null $shareWith ID of the user that receives the share
+	 * @param int|null $remoteId ID of the remote
+	 * @param string|null $sharedByFederatedId Federated ID of the sender
+	 * @param string|null $ownerFederatedId Federated ID of the receiver
+	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
 	 */
 	public function createShare(
@@ -194,19 +194,19 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * create re-share on behalf of another user
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @param string|null $shareWith
-	 * @param int|null $permission
-	 * @param int|null $remoteId
-	 * @return Http\DataResponse
-	 * @throws OCSBadRequestException
+	 * @param int $id ID of the share
+	 * @param string|null $token Shared secret between servers
+	 * @param string|null $shareWith ID of the user that receives the share
+	 * @param int|null $remoteId ID of the remote
+	 * @return Http\DataResponse<Http::STATUS_OK, array{token: string, remoteId: string}, array{}>
+	 * @throws OCSBadRequestException Re-sharing is not possible
 	 * @throws OCSException
+	 *
+	 * 200: Remote share returned
 	 */
-	public function reShare(int $id, ?string $token = null, ?string $shareWith = null, ?int $permission = 0, ?int $remoteId = 0) {
+	public function reShare(int $id, ?string $token = null, ?string $shareWith = null, ?int $remoteId = 0) {
 		if ($token === null ||
 			$shareWith === null ||
-			$permission === null ||
 			$remoteId === null
 		) {
 			throw new OCSBadRequestException();
@@ -244,12 +244,14 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * accept server-to-server share
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @return Http\DataResponse
+	 * @param int $id ID of the remote share
+	 * @param string|null $token Shared secret between servers
+	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
 	 * @throws ShareNotFound
 	 * @throws \OCP\HintException
+	 *
+	 * 200: Share accepted successfully
 	 */
 	public function acceptShare(int $id, ?string $token = null) {
 		$notification = [
@@ -278,9 +280,9 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * decline server-to-server share
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @return Http\DataResponse
+	 * @param int $id ID of the remote share
+	 * @param string|null $token Shared secret between servers
+	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
 	 */
 	public function declineShare(int $id, ?string $token = null) {
@@ -310,9 +312,9 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * remove server-to-server share if it was unshared by the owner
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @return Http\DataResponse
+	 * @param int $id ID of the share
+	 * @param string|null $token Shared secret between servers
+	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
 	 */
 	public function unshare(int $id, ?string $token = null) {
@@ -345,10 +347,12 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * federated share was revoked, either by the owner or the re-sharer
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @return Http\DataResponse
-	 * @throws OCSBadRequestException
+	 * @param int $id ID of the share
+	 * @param string|null $token Shared secret between servers
+	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSBadRequestException Revoking the share is not possible
+	 *
+	 * 200: Share revoked successfully
 	 */
 	public function revoke(int $id, ?string $token = null) {
 		try {
@@ -385,11 +389,13 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * update share information to keep federated re-shares in sync
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @param int|null $permissions
-	 * @return Http\DataResponse
-	 * @throws OCSBadRequestException
+	 * @param int $id ID of the share
+	 * @param string|null $token Shared secret between servers
+	 * @param int|null $permissions New permissions
+	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSBadRequestException Updating permissions is not possible
+	 *
+	 * 200: Permissions updated successfully
 	 */
 	public function updatePermissions(int $id, ?string $token = null, ?int $permissions = null) {
 		$ncPermissions = $permissions;
@@ -439,14 +445,14 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * change the owner of a server-to-server share
 	 *
-	 * @param int $id
-	 * @param string|null $token
-	 * @param string|null $remote
-	 * @param string|null $remote_id
-	 * @return Http\DataResponse
-	 * @throws OCSBadRequestException
-	 * @throws OCSException
-	 * @throws \OCP\DB\Exception
+	 * @param int $id ID of the share
+	 * @param string|null $token Shared secret between servers
+	 * @param string|null $remote Address of the remote
+	 * @param string|null $remote_id ID of the remote
+	 * @return Http\DataResponse<Http::STATUS_OK, array{remote: string, owner: string}, array{}>
+	 * @throws OCSBadRequestException Moving share is not possible
+	 *
+	 * 200: Share moved successfully
 	 */
 	public function move(int $id, ?string $token = null, ?string $remote = null, ?string $remote_id = null) {
 		if (!$this->isS2SEnabled()) {

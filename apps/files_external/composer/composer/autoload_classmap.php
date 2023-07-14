@@ -105,6 +105,7 @@ return array(
     'OCA\\Files_External\\Migration\\Version22000Date20210216084416' => $baseDir . '/../lib/Migration/Version22000Date20210216084416.php',
     'OCA\\Files_External\\MountConfig' => $baseDir . '/../lib/MountConfig.php',
     'OCA\\Files_External\\NotFoundException' => $baseDir . '/../lib/NotFoundException.php',
+    'OCA\\Files_External\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files_External\\Service\\BackendService' => $baseDir . '/../lib/Service/BackendService.php',
     'OCA\\Files_External\\Service\\DBConfigService' => $baseDir . '/../lib/Service/DBConfigService.php',
     'OCA\\Files_External\\Service\\GlobalStoragesService' => $baseDir . '/../lib/Service/GlobalStoragesService.php',

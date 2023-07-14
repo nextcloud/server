@@ -67,6 +67,7 @@ OC.L10N.register(
     "Desktop client" : "Skrivbordsklient",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook - tillägg",
     "Custom user agent" : "Anpassad användaragent",
+    "Select a trigger" : "Välj en utlösare",
     "At least one event must be selected" : "Minst en händelse måste väljas",
     "Add new flow" : "Lägg till nytt flöde",
     "When" : "När",

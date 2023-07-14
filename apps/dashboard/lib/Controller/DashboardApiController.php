@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2021 Julien Veyssier <eneiluj@posteo.net>
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,7 +27,9 @@ declare(strict_types=1);
 
 namespace OCA\Dashboard\Controller;
 
+use OCA\Dashboard\ResponseDefinitions;
 use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
@@ -41,6 +44,10 @@ use OCP\IRequest;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\Model\WidgetItem;
 
+/**
+ * @psalm-import-type DashboardWidget from ResponseDefinitions
+ * @psalm-import-type DashboardWidgetItem from ResponseDefinitions
+ */
 class DashboardApiController extends OCSController {
 
 	/** @var IManager */
@@ -65,15 +72,15 @@ class DashboardApiController extends OCSController {
 	}
 
 	/**
-	 * Example request with Curl:
-	 * curl -u user:passwd http://my.nc/ocs/v2.php/apps/dashboard/api/v1/widget-items -H Content-Type:application/json -X GET -d '{"sinceIds":{"github_notifications":"2021-03-22T15:01:10Z"}}'
-	 *
-	 * @param array $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
-	 * @param int $limit Limit number of result items per widget
-	 * @param string[] $widgets Limit results to specific widgets
-	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * Get the items for the widgets
+	 *
+	 * @param array<string, string> $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
+	 * @param int $limit Limit number of result items per widget
+	 * @param string[] $widgets Limit results to specific widgets
+	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItem[]>, array{}>
 	 */
 	public function getWidgetItems(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$showWidgets = $widgets;
@@ -97,11 +104,12 @@ class DashboardApiController extends OCSController {
 	}
 
 	/**
-	 * Example request with Curl:
-	 * curl -u user:passwd http://my.nc/ocs/v2.php/apps/dashboard/api/v1/widgets
+	 * Get the widgets
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * @return DataResponse<Http::STATUS_OK, DashboardWidget[], array{}>
 	 */
 	public function getWidgets(): DataResponse {
 		$widgets = $this->dashboardManager->getWidgets();
