@@ -20,11 +20,10 @@
     "Download now" : "حمل الآن",
     "Please use the command line updater to update." : "رجاءً، للتحديث استخدم المُحدّث عن طريق سطر الأوامر.",
     "What's new?" : "مالجديد؟",
+    "View changelog" : "اعرض سجل التغييرات",
     "The update check is not yet finished. Please refresh the page." : "التحقق من التحديث لم ينته بعد. يرجى تحديث الصفحة.",
     "Your version is up to date." : "النسخة لديك هي الأحدث.",
     "A non-default update server is in use to be checked for updates:" : "يتم استخدام خادم تحديث غير افتراضي للتحقق من وجود تحديثات:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "يُمكنك تغيير قناة التحديث أدناه. و لاحظ أنها بدورها ستوثر في صفحة إدارة التطبيقات. مثال: بعد التحوّل إلى القناة باء، ستُعرض عليك تحديثات القناة باء في صفحة تحديث التطبيقات.",
-    "Update channel:" : "قناة التحديث:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "يمكنك دائمًا التحديث إلى إصدار أحدث. لكن لا يمكنك الرجوع إلى إصدار أكثر استقرارًا.",
     "Notify members of the following groups about available updates:" : "إشعار أعضاء المجموعات التالية بتوفر التحديثات:",
     "No groups" : "لا توجد مجموعات",
@@ -38,7 +37,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "الرجاء التأكد أن ملف الconfig.php الخاص بك لا يعين قيمة <samp>appstoreenabled</samp> إلى false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "لم يُمكن الاتصال مع متجر التطبيقات App Store أو لم يتم إرجاع أي تحديثات. إبحث يدويّاً عن التحديثات أو تأكّد من أنك خادومك متصل بالإنترنت و يستطيع الاتصال بالمتجر.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>كل </strong>التطبيقات لها نسخ متوفقة مع نسخة نكست كلاود هذه.",
-    "View changelog" : "اعرض سجل التغييرات",
     "Enterprise" : "المؤسسة",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "لاستخدام المؤسسات. يوفر دائمًا أحدث مستوى من التصحيح ، ولكنه لن يتم تحديثه إلى الإصدار الرئيسي التالي على الفور. يحدث هذا التحديث بمجرد أن تقوم شركة Nextcloud GmbH بإجراء مزيد من الصلابة والاختبار لعمليات النشر واسعة النطاق والمهمة. هذه القناة متاحة فقط للعملاء وتوفر حزمة Nextcloud للمؤسسة.",
     "Stable" : "مستقر",
@@ -46,6 +44,8 @@
     "Beta" : "تجريبي",
     "A pre-release version only for testing new features, not for production environments." : "نسخة تجريبية فقط لاختبار الميزات الجديدة ، وليس لبيئات الإنتاجية.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong>تطبيق  ليس له إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح."],
-    "Update for %1$s to version %2$s is available." : "التحديث من النسخة %1$s إلى %2$s متوفر."
+    "Update for %1$s to version %2$s is available." : "التحديث من النسخة %1$s إلى %2$s متوفر.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "يُمكنك تغيير قناة التحديث أدناه. و لاحظ أنها بدورها ستوثر في صفحة إدارة التطبيقات. مثال: بعد التحوّل إلى القناة باء، ستُعرض عليك تحديثات القناة باء في صفحة تحديث التطبيقات.",
+    "Update channel:" : "قناة التحديث:"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

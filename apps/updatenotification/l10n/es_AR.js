@@ -21,11 +21,10 @@ OC.L10N.register(
     "Download now" : "Descargar ahora",
     "Please use the command line updater to update." : "Por favor, utilice el actualizador de línea de comandos para actualizar.",
     "What's new?" : "¿Qué novedades hay?",
+    "View changelog" : "Ver registro de cambios",
     "The update check is not yet finished. Please refresh the page." : "La comprobación de actualizaciones no ha finalizado aún. Por favor, recargá la página.",
     "Your version is up to date." : "Su versión está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Se está usando un servidor de actualizaciones no estándar para comprobar las actualizaciones:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Podés cambiar el canal de actualización a continuación, lo que también afecta a la página de gestión de aplicaciones. Por ejemplo, después de cambiar al canal beta, las actualizaciones de aplicaciones beta se ofrecerán en la página de gestión de aplicaciones.",
-    "Update channel:" : "Actualizar el canal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Siempre puedes actualizar a una versión más reciente. Pero no podrás volver a una versión anterior estable.",
     "Notify members of the following groups about available updates:" : "Notificar a los miembros de los siguientes grupos de las actualizaciones disponibles:",
     "Only notifications for app updates are available." : "Solo están disponibles las notificaciones para actualizaciones de apps.",
@@ -38,7 +37,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor, asegurate de que tu archivo config.php no establezca <samp>appstoreenabled</samp> a \"false\".",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "No se ha podido conectar a la App Store o no se ha devuelto ninguna actualización. Busque manualmente las actualizaciones o asegúrese de que su servidor tiene acceso a Internet y pueda conectarse a la App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Todas</strong> las apps son compatibles con esta versión de Nextcloud.",
-    "View changelog" : "Ver registro de cambios",
     "Enterprise" : "Enterprise",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Para uso empresarial. Proporciona siempre el último nivel de actualización, pero no realiza inmediatamente la actualización a la siguiente versión mayor. La actualización ocurre cuando Nextcloud GmbH ha realizado una revisión dedicada, pruebas para despliegues a gran escala y servicios críticos. Este canal está disponible únicamente para los clientes del paquete Nextcloud Enterprise.",
     "Stable" : "Estable",
@@ -46,6 +44,8 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["La app <strong>%n</strong> no tiene una versión disponible compatible con esta versión de Nextcloud.","Las apps 1%n1 no tienen una versión disponible compatible con esta versión de Nextcloud.","Las apps <strong>%n</strong> no tienen una versión compatible con esta versión de Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible."
+    "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Podés cambiar el canal de actualización a continuación, lo que también afecta a la página de gestión de aplicaciones. Por ejemplo, después de cambiar al canal beta, las actualizaciones de aplicaciones beta se ofrecerán en la página de gestión de aplicaciones.",
+    "Update channel:" : "Actualizar el canal:"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -67,6 +67,7 @@ OC.L10N.register(
     "Desktop client" : "Десктоп клијент",
     "Thunderbird & Outlook addons" : "Додаци за Thunderbird & Outlook",
     "Custom user agent" : "Произвољни агент захтева",
+    "Select a trigger" : "Изаберите окидач",
     "At least one event must be selected" : "Мора бити одабран бар један догађај",
     "Add new flow" : "Додај нови ток",
     "When" : "Када",

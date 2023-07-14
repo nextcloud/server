@@ -22,11 +22,10 @@ OC.L10N.register(
     "Download now" : "Скачать сейчас",
     "Please use the command line updater to update." : "Для обновления воспользуйтесь инструментом для командной строки.",
     "What's new?" : "Что нового?",
+    "View changelog" : "Просмотреть изменения",
     "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу.",
     "Your version is up to date." : "Версия не требует обновления.",
     "A non-default update server is in use to be checked for updates:" : "Не сервер по умолчанию используется как сервер для проверки обновлений:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Изменение канала обновлений также влияет на установку обновлений приложений: при использовании канала бета-версии Nextcloud для используемых приложений также будут предлагаться бета-версии.",
-    "Update channel:" : "Канал обновлений:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Вы всегда можете обновиться до более новой версии. Но учтите, что вы не сможете откатиться до более стабильной версии.",
     "Notify members of the following groups about available updates:" : "Уведомлять о наличии обновлений участников следующих групп:",
     "No groups" : "Без групп",
@@ -40,7 +39,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Убедитесь, что значением параметра <samp>appstoreenabled</samp> в файле «config.php» не является «false».",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Не удалось подключиться к App Store или обновления не были получены. Выполните поиск обновлений вручную или убедитесь, что ваш сервер имеет доступ к Интернету и может подключиться к App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Все</strong> приложения имеют версию, совместимую с этой версией Nextcloud.",
-    "View changelog" : "Просмотреть изменения",
     "Enterprise" : "Использование на предприятии (Enterprise)",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Для корпоративного использования. Всегда обеспечивает самый последний уровень исправлений, но не будет немедленно обновляться до следующего основного выпуска. Обновление произойдет, когда Nextcloud GmbH проведут дополнительное тестирование для крупномасштабных и критически важных развертываний. Этот канал доступен только для клиентов и предоставляет пакет Nextcloud Enterprise.",
     "Stable" : "Стабильные выпуски (Stable)",
@@ -48,6 +46,8 @@ OC.L10N.register(
     "Beta" : "Бета-версии (Beta)",
     "A pre-release version only for testing new features, not for production environments." : "Предрелизная версия, предназначенная только для тестирования новых возможностей.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["У <strong>%n</strong> приложения нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Для приложения %1$s доступно обновление до версии %2$s."
+    "Update for %1$s to version %2$s is available." : "Для приложения %1$s доступно обновление до версии %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Изменение канала обновлений также влияет на установку обновлений приложений: при использовании канала бета-версии Nextcloud для используемых приложений также будут предлагаться бета-версии.",
+    "Update channel:" : "Канал обновлений:"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

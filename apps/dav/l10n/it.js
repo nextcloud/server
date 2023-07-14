@@ -160,9 +160,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contatta direttamente l'amministratore.",
     "Are you accepting the invitation?" : "Accetti l'invito?",
     "Tentative" : "Provvisorio",
-    "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
-    "Invitation canceled" : "Invito annullato",
-    "Invitation updated" : "Invito aggiornato",
-    "Invitation" : "Invito"
+    "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
