@@ -93,7 +93,7 @@ class PreviewController extends Controller {
 	 * @param bool $a
 	 * @param bool $forceIcon
 	 * @param string $mode
-	 * @return DataResponse|Response|FileDisplayResponse
+	 * @return DataResponse|FileDisplayResponse
 	 * @throws NoUserException
 	 * @throws NotPermittedException
 	 */
