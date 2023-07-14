@@ -20,11 +20,10 @@
     "Download now" : "Prejmi takoj",
     "Please use the command line updater to update." : "Za posodabljanje uporabite možnosti prek ukazne vrstice.",
     "What's new?" : "Kaj je novega?",
+    "View changelog" : "Ogled Dnevnika sprememb",
     "The update check is not yet finished. Please refresh the page." : "Preverjanje za posodobitve še ni končano. Osvežite stran za ponovno vzpostavitev seje.",
     "Your version is up to date." : "Nameščena je najnovejša različica.",
     "A non-default update server is in use to be checked for updates:" : "Za posodobitev bo uporabljen neprivzet strežnik:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Kanal za posodobitve, ki vpliva tudi na upravljanje z nameščenimi programi, je mogoče spremeniti. Pri preklopu na različico beta so za namestitev na primer na voljo tudi beta različice programske opreme.",
-    "Update channel:" : "Kanal za posodobitve:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Nadgradnja na višjo različico je vedno mogoča, ne pa tudi povrnitev na predhodno, bolj stabilno.",
     "Notify members of the following groups about available updates:" : "O posodobitvah bodo obveščeni člani skupin:",
     "No groups" : "Ni navedenih skupin",
@@ -38,7 +37,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Prepričajte se, da v datoteki config.php možnost <samp>appstoreenabled</samp> ni nastavljena na vrednost napak – false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Povezava s trgovino programov ni na voljo, ali pa ni nobene posodobitve. Posodobitve je mogoče iskati ročno, preveriti pa je treba tudi povezljivost programa s strežnikom posodobitev.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Vsi</strong> programi imajo izdano skladno različico za trenutno nameščen oblak Nextcloud.",
-    "View changelog" : "Ogled Dnevnika sprememb",
     "Enterprise" : "Poslovno",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Za poslovno uporabo. Na voljo so najnovejši popravki programov in manjše posodobitve, ne pa tudi takojšnja nadgradnja sistema na naslednjo večjo različico. Ta posodobitev je na voljo šele po daljšem in podrobnejšem preizkušanju sistema. Ta kanal je na voljo le naročnikom, ki uporabljajo paket Nextcloud Enterprise.",
     "Stable" : "Stabilno",
@@ -46,6 +44,8 @@
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> nameščen program nima skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščena programa nimata skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščeni programi nimajo skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščenih programov nima skladne različice s trenutno različico oblaka Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Na voljo je posodobitev %1$s na različico %2$s."
+    "Update for %1$s to version %2$s is available." : "Na voljo je posodobitev %1$s na različico %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Kanal za posodobitve, ki vpliva tudi na upravljanje z nameščenimi programi, je mogoče spremeniti. Pri preklopu na različico beta so za namestitev na primer na voljo tudi beta različice programske opreme.",
+    "Update channel:" : "Kanal za posodobitve:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

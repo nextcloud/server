@@ -18,10 +18,10 @@
     "Download now" : "Iscàrriga immoe",
     "Please use the command line updater to update." : "Imprea sa funtzione de agiornamentu dae sa lìnia de cumandu pro agiornare.",
     "What's new?" : "Ite noas?",
+    "View changelog" : "Visualiza le novidade",
     "The update check is not yet finished. Please refresh the page." : "Su controllu de is agiornamentos no est terminadu ancora. Agiorna sa pàgina.",
     "Your version is up to date." : "Sa versione tua est agiornada.",
     "A non-default update server is in use to be checked for updates:" : "Ses impreende unu serbidore non predefinidu pro controllare is agiornamentos:",
-    "Update channel:" : "Canale de agiornamentu:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Podes agiornare semper a una versine noa. Ma non podes torrare mai a una versione de in antis.",
     "Notify members of the following groups about available updates:" : "Notìficas a is membros de is grupos in fatu in contu de sa disponibilidade de agiornamentos:",
     "Only notifications for app updates are available." : "Sunt a disponimentu isceti is notìficas pro is agiornamentos de is aplicatziones.",
@@ -33,13 +33,13 @@
     "Checking apps for compatible versions" : "Controllu de aplicatziones cun versiones cumpatìbiles",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Segura·ti chi su config.php tuo non tèngiat <samp>appstoreenabled</samp> impostada a false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "No at fatu a si connètere a sa butega de aplicatziones o a sa butega de aplicatziones no at torradu perunu agiornamentu. Chirca a manu is agiornamentos o segura·ti chi su serbidore potzat intrare a Internet e si potzat collegare a sa butega de aplicatziones.",
-    "View changelog" : "Visualiza le novidade",
     "Enterprise" : "Impresa",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pro un'impreu aziendale. Frunit semper s'ùrtimu livellu de patch, ma non s'at a agiornare deretu a s'ùrtima versione printzipale. Tale agiornamentu at a èssere a disponimentu in su momentu chi Nextcloud GmbH at a àere megioradu sa seguresa, at a àere fatu proas a iscala manna e installatziones in ambientes de importu mannu. Custu canale est a disponimentu isceti pro is clientes e frunit is pachetes Nextcloud Enterprise.",
     "Stable" : "Istàbile",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Sa versione istàbile prus reghente. Est dèghida pro s'impreu fitianu e at a èssere semper agiornada a s'ùrtima versione printzipale.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
-    "Update for %1$s to version %2$s is available." : "Est a disponimentu s'agiornamentu de %1$s a sa versione %2$s."
+    "Update for %1$s to version %2$s is available." : "Est a disponimentu s'agiornamentu de %1$s a sa versione %2$s.",
+    "Update channel:" : "Canale de agiornamentu:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

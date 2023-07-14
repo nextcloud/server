@@ -188,9 +188,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Skontaktuj się bezpośrednio z orgnizatorem.",
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
     "Tentative" : "Niepewne",
-    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
-    "Invitation canceled" : "Zaproszenie anulowane",
-    "Invitation updated" : "Zaproszenie zaktualizowane",
-    "Invitation" : "Zaproszenie"
+    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

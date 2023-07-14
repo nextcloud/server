@@ -161,9 +161,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
-    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "Invitation canceled" : "Uitnodiging geannuleerd",
-    "Invitation updated" : "Uitnodiging bijgewerkt",
-    "Invitation" : "Uitnodiging"
+    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt."
 },
 "nplurals=2; plural=(n != 1);");

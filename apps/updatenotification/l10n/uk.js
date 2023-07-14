@@ -22,11 +22,10 @@ OC.L10N.register(
     "Download now" : "Звантажити зараз",
     "Please use the command line updater to update." : "Для оновлення використовуйте програму оновлення командного рядка.",
     "What's new?" : "Що нового?",
+    "View changelog" : "Переглянути журнал змін",
     "The update check is not yet finished. Please refresh the page." : "Перевірку на нові версії не завершено. Будь ласка, перезавантажте сторінку.",
     "Your version is up to date." : "У вас актуальна версія",
     "A non-default update server is in use to be checked for updates:" : "Використовується нетиповий сервер оновлення для перевірки на оновлення:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Ви можете змінити канал оновлення нижче, що також впливає на сторінку керування програмами. наприклад після переходу на бета-канал оновлення бета-версії програми будуть запропоновані вам на сторінці керування програмами.",
-    "Update channel:" : "Канал оновлення:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Ви завжди зможете перейти на нову версію, проте не можна буде повернутися на стабільну версію.",
     "Notify members of the following groups about available updates:" : "Повідомляти учасників таких груп про доступні оновлення:",
     "No groups" : "Без груп",
@@ -40,7 +39,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Будь ласка, переконайтеся, що ваш config.php не встановлює для <samp>appstoreenabled</samp> значення false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Неможливо з'єднатися із App Store або оновлення не надійшли взагалі. Шукайте оновлення вручну або переконайтеся, що ваш сервер має доступ до Інтернету та може з'єднатися із App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Усі</strong> програми мають сумісну версію для цієї версії Nextcloud.",
-    "View changelog" : "Переглянути журнал змін",
     "Enterprise" : "Для бізнесу",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Для корпоративного використання. Завжди надає останній рівень виправлення, але не оновлюється до наступного основного випуску негайно. Це оновлення відбувається після того, як Nextcloud GmbH виконає додаткову надійність і тестування для широкомасштабних і критично важливих розгортань. Цей канал доступний лише для клієнтів і надає пакет Nextcloud Enterprise.",
     "Stable" : "Стабільна",
@@ -48,6 +46,8 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s."
+    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Ви можете змінити канал оновлення нижче, що також впливає на сторінку керування програмами. наприклад після переходу на бета-канал оновлення бета-версії програми будуть запропоновані вам на сторінці керування програмами.",
+    "Update channel:" : "Канал оновлення:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
