@@ -28,6 +28,7 @@ use OC\Log;
 use OC\SystemConfig;
 use OCP\Diagnostics\IEvent;
 use OCP\Diagnostics\IEventLogger;
+use OCP\Profiler\IProfiler;
 use Psr\Log\LoggerInterface;
 
 class EventLogger implements IEventLogger {
@@ -47,11 +48,13 @@ class EventLogger implements IEventLogger {
 	 * @var bool - Module needs to be activated by some app
 	 */
 	private $activated = false;
+	private IProfiler $profiler;
 
-	public function __construct(SystemConfig $config, LoggerInterface $logger, Log $internalLogger) {
+	public function __construct(SystemConfig $config, LoggerInterface $logger, Log $internalLogger, IProfiler $profiler) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->internalLogger = $internalLogger;
+		$this->profiler = $profiler;
 
 		if ($this->isLoggingActivated()) {
 			$this->activate();
@@ -59,15 +62,18 @@ class EventLogger implements IEventLogger {
 	}
 
 	public function isLoggingActivated(): bool {
-		$systemValue = (bool)$this->config->getValue('diagnostics.logging', false)
-			|| (bool)$this->config->getValue('profiler', false);
+		if ($this->profiler->isEnabled()) {
+			return true;
+		}
 
-		if ($systemValue && $this->config->getValue('debug', false)) {
+		$diagnosticsEnabled = $this->config->getValue('diagnostics.logging', false);
+
+		if ($diagnosticsEnabled && $this->config->getValue('debug', false)) {
 			return true;
 		}
 
 		$isDebugLevel = $this->internalLogger->getLogLevel([]) === Log::DEBUG;
-		return $systemValue && $isDebugLevel;
+		return $diagnosticsEnabled && $isDebugLevel;
 	}
 
 	/**

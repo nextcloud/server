@@ -352,9 +352,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService(IProfiler::class, function (Server $c) {
-			return new Profiler($c->get(SystemConfig::class));
-		});
+		$this->registerAlias(IProfiler::class, Profiler::class);
 
 		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c): Encryption\Manager {
 			$view = new View();
@@ -847,7 +845,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('HttpClientService', IClientService::class);
 		$this->registerService(IEventLogger::class, function (ContainerInterface $c) {
-			return new EventLogger($c->get(SystemConfig::class), $c->get(LoggerInterface::class), $c->get(Log::class));
+			return new EventLogger($c->get(SystemConfig::class), $c->get(LoggerInterface::class), $c->get(Log::class), $c->get(IProfiler::class));
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('EventLogger', IEventLogger::class);

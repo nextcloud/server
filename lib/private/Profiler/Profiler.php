@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @copyright 2021 Carl Schwan <carl@carlschwan.eu>
@@ -27,11 +27,14 @@ declare(strict_types = 1);
 namespace OC\Profiler;
 
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Http\RequestVars;
 use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\IDataCollector;
+use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\Profiler\IProfile;
 use OC\SystemConfig;
+use Psr\Container\ContainerInterface;
 
 class Profiler implements IProfiler {
 	/** @var array<string, IDataCollector> */
@@ -41,11 +44,34 @@ class Profiler implements IProfiler {
 
 	private bool $enabled = false;
 
-	public function __construct(SystemConfig $config) {
-		$this->enabled = $config->getValue('profiler', false);
-		if ($this->enabled) {
-			$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/profiler');
+	/**
+	 * we inject the container, else we get a loop with the IRequest
+	 */
+	public function __construct(SystemConfig $config, RequestVars $request) {
+		$this->enabled = $this->shouldProfilerBeEnabled($config, $request);
+		$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/profiler');
+	}
+
+	private function shouldProfilerBeEnabled(SystemConfig $config, RequestVars $request): bool {
+		if ($config->getValue('profiler', false)) {
+			return true;
 		}
+		$condition = $config->getValue('profiler.condition', []);
+		if (isset($condition['shared_secret'])) {
+			if ($request->getMethod() === 'PUT' &&
+				!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
+				!str_contains($request->getHeader('Content-Type'), 'application/json')) {
+				$logSecretRequest = '';
+			} else {
+				$logSecretRequest = $request->getParam('profiler_secret', '');
+			}
+
+			// if token is found in the request change set the log condition to satisfied
+			if (hash_equals($condition['shared_secret'], $logSecretRequest)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public function add(IDataCollector $dataCollector): void {
@@ -94,13 +120,15 @@ class Profiler implements IProfiler {
 	/**
 	 * @return array[]
 	 */
-	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end,
-						 string $statusCode = null): array {
-		if ($this->storage) {
-			return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
-		} else {
-			return [];
-		}
+	public function find(
+		?string $url,
+		?int $limit,
+		?string $method,
+		?int $start,
+		?int $end,
+		string $statusCode = null
+	): array {
+		return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
 	}
 
 	public function dataProviders(): array {
