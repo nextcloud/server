@@ -15,7 +15,7 @@ OC.L10N.register(
     "It is not allowed to send federated group shares from this server." : "Non está permitido enviar unha compartición de grupos federados  dende este servidor.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallou a compartición de %1$s por mor de que este elemento xa foi compartido co usuario %2$s",
     "Not allowed to create a federated share with the same user" : "Non está permitido crear unha compartición federada co mesmo usuario",
-    "Federated shares require read permissions" : "As comparticións federadas requiren permisos de lectura",
+    "Federated shares require read permissions" : "As comparticións federadas precisan permisos de lectura",
     "File is already shared with %s" : "O ficheiro xa está a ser compartido con %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Produciuse un fallo ao compartir %1$s Non foi posíbel atopar %2$s, quizais haxa un problema de conexión co servidor  ou emprega un certificado autoasinado.",
     "Could not find share" : "Non foi posíbel atopar a compartición",

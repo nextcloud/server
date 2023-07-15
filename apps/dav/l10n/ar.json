@@ -186,6 +186,7 @@
     "Please contact the organizer directly." : "رجاءً، تواصل مع المُنظّم أو المُنظّمين مُباشرةً.",
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
-    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ"
+    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
+    "%1$s has responded your invitation" : "%1$s تفاعل مع دعوتك"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
