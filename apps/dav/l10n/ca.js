@@ -188,6 +188,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacteu amb l'organització directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència."
+    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
+    "%1$s has responded your invitation" : "%1$s ha respost a la vostra invitació"
 },
 "nplurals=2; plural=(n != 1);");
