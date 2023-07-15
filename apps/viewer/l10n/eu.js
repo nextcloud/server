@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Errorea irudia gordetzean",
     "Unsaved changes" : "Gorde gabeko aldaketak",
     "Drop changes" : "Jaregin aldaketak",
+    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Zure nabigatzaileak ez ditu bideoak onartzen.",
     "Edit" : "Aldatu",
     "Exit full screen" : "Irten pantaila osotik",
