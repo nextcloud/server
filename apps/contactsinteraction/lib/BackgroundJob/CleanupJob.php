@@ -43,7 +43,7 @@ class CleanupJob extends TimedJob {
 
 	}
 
-	protected function run($argument): void {
+	protected function run(mixed $argument): void {
 		$time = $this->time->getDateTime();
 		$time->modify('-7days');
 		$this->mapper->cleanUp($time->getTimestamp());
