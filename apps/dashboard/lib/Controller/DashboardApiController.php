@@ -48,7 +48,7 @@ class DashboardApiController extends OCSController {
 		IRequest $request,
 		private IManager $dashboardManager,
 		private IConfig $config,
-		private ?string $userId
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}

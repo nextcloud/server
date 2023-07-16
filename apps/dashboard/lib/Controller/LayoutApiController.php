@@ -36,7 +36,7 @@ class LayoutApiController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private IConfig $config,
-		private string $userId
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 
