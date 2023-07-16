@@ -34,6 +34,7 @@
 namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
@@ -46,12 +47,12 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 interface IDBConnection {
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @deprecated 22.0.0 this is an internal event, use {@see AddMissingIndicesEvent} instead
 	 */
 	public const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @deprecated 22.0.0 this is an internal event, use {@see AddMissingIndicesEvent} instead
 	 */
 	public const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
 

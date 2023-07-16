@@ -188,6 +188,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
+    "%1$s has responded your invitation" : "%1$s har svarat på din inbjudan"
 },
 "nplurals=2; plural=(n != 1);");

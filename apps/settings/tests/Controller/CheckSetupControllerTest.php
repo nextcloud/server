@@ -47,6 +47,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
@@ -87,6 +88,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
 	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
 	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
@@ -137,6 +140,7 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
@@ -167,6 +171,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
+				$this->eventDispatcher,
 				$this->dispatcher,
 				$this->db,
 				$this->lockingProvider,
@@ -676,6 +681,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
+				$this->eventDispatcher,
 				$this->dispatcher,
 				$this->db,
 				$this->lockingProvider,
@@ -1403,6 +1409,7 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
+			$this->eventDispatcher,
 			$this->dispatcher,
 			$this->db,
 			$this->lockingProvider,
@@ -1457,6 +1464,7 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
+			$this->eventDispatcher,
 			$this->dispatcher,
 			$this->db,
 			$this->lockingProvider,
