@@ -46,7 +46,7 @@ interface IInstance {
 	public function getFullUrl();
 
 	/**
-	 * @return string The full version string in '13.1.2.3' format
+	 * @return string|null The full version string in '13.1.2.3' format
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0

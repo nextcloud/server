@@ -102,7 +102,7 @@ interface IUser {
 	public function getLanguage();
 
 	/**
-	 * @return int
+	 * @return int|float
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
@@ -110,7 +110,7 @@ interface IUser {
 	public function getUsedSpace();
 
 	/**
-	 * @return int
+	 * @return int|float
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
@@ -118,7 +118,7 @@ interface IUser {
 	public function getFreeSpace();
 
 	/**
-	 * @return int
+	 * @return int|float
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
@@ -126,7 +126,7 @@ interface IUser {
 	public function getTotalSpace();
 
 	/**
-	 * @return int
+	 * @return int|float
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
