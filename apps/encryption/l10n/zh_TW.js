@@ -31,7 +31,6 @@ OC.L10N.register(
     "Encryption password" : "加密密碼",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "管理員啟用了伺服器端加密。您的檔案已使用密碼 <strong>%s</strong> 加密。",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "管理員啟用了伺服器端加密。您的檔案已使用密碼「%s」加密。",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "請登入網頁界面，請到個人設定中的「安全」區塊，透過輸入此密碼至「舊登入密碼」欄位與您目前的登入密碼來更新您的加密密碼。",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法解密這個檔案，也許這是分享的檔案。請要求檔案所有人重新分享檔案給您。",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法讀取這個檔案，也許這是分享的檔案。請要求檔案所有人重新分享檔案給您。",
     "Default encryption module" : "預設加密模組",
@@ -65,6 +64,7 @@ OC.L10N.register(
     "Hey there,\n\nThe administration enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.\n\n" : "嗨，請看這裡，\n\n管理員啟用了伺服器端加密的功能，您的檔案將會使用密碼「%s」加密。\n\n請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。\n\n",
     "The share will expire on %s." : "這個分享將會於 %s 過期。",
     "Cheers!" : "太棒了！",
-    "Hey there,<br><br>The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.<br><br>" : "嗨，請看這裡，<br><br>管理員啟用了伺服器端加密的功能，您的檔案將會使用密碼<strong>%s</strong>加密。<br><br>請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。<br><br>"
+    "Hey there,<br><br>The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.<br><br>" : "嗨，請看這裡，<br><br>管理員啟用了伺服器端加密的功能，您的檔案將會使用密碼<strong>%s</strong>加密。<br><br>請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。<br><br>",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "請登入網頁界面，請到個人設定中的「安全」區塊，透過輸入此密碼至「舊登入密碼」欄位與您目前的登入密碼來更新您的加密密碼。"
 },
 "nplurals=1; plural=0;");
