@@ -31,9 +31,9 @@
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members
-/apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen
-*/TwoFactorAuth/*                   @ChristophWurst @miaulalala @nickvergessen
-/core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen
+**/TwoFactorAuth                    @ChristophWurst @miaulalala @nickvergessen @st3iny
+/apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen @st3iny
+/core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen @st3iny
 
 # Personal interest
 */Activity/*                        @nickvergessen
