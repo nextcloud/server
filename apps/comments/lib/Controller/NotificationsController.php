@@ -43,9 +43,6 @@ use OCP\Notification\IManager;
  */
 #[IgnoreOpenAPI]
 class NotificationsController extends Controller {
-	/**
-	 * NotificationsController constructor.
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,

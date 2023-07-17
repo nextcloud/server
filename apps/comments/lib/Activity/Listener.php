@@ -35,9 +35,6 @@ use OCP\IUserSession;
 use OCP\Share\IShareHelper;
 
 class Listener {
-	/**
-	 * Listener constructor.
-	 */
 	public function __construct(
 		protected IManager $activityManager,
 		protected IUserSession $session,

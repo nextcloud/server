@@ -39,7 +39,8 @@ class Provider implements IProvider {
 
 	public function __construct(
 		protected IFactory $languageFactory,
-		protected IURLGenerator $url, protected ICommentsManager $commentsManager,
+		protected IURLGenerator $url,
+		protected ICommentsManager $commentsManager,
 		protected IUserManager $userManager,
 		protected IManager $activityManager,
 	) {
