@@ -66,6 +66,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 *
 	 * @throws OCSForbiddenException
 	 */
