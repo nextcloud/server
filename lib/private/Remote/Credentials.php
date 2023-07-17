@@ -35,9 +35,6 @@ class Credentials implements ICredentials {
 		return $this->user;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getPassword(): string {
 		return $this->password;
 	}
