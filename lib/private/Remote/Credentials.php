@@ -25,10 +25,6 @@ namespace OC\Remote;
 use OCP\Remote\ICredentials;
 
 class Credentials implements ICredentials {
-	/**
-	 * @param string $user
-	 * @param string $password
-	 */
 	public function __construct(
 		private string $user,
 		private string $password,
