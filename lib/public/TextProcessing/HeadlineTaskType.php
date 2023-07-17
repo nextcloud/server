@@ -46,6 +46,7 @@ class HeadlineTaskType implements ITaskType {
 
 	/**
 	 * @inheritDoc
+	 * @since 27.1.0
 	 */
 	public function getName(): string {
 		return $this->l->t('Generate headline');
@@ -53,6 +54,7 @@ class HeadlineTaskType implements ITaskType {
 
 	/**
 	 * @inheritDoc
+	 * @since 27.1.0
 	 */
 	public function getDescription(): string {
 		return $this->l->t('Generates a possible headline for a text');

@@ -55,6 +55,7 @@ interface IProvider {
 	 * Returns the task type class string of the task type, that this
 	 * provider handles
 	 *
+	 * @since 27.1.0
 	 * @return class-string<T>
 	 */
 	public function getTaskType(): string;
