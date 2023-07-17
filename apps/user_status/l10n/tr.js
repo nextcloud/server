@@ -17,7 +17,7 @@ OC.L10N.register(
     "Previously set" : "Önceden ayarlanmış",
     "Reset status" : "Durumu sıfırla",
     "Set status" : "Durumu ayarla",
-    "Online status" : "Çevrimiçi durumu",
+    "Online status" : "Çevrim içi durumu",
     "Status message" : "Durum iletisi",
     "Your status was set automatically" : "Durumunuz otomatik olarak ayarlanmış",
     "Clear status message" : "Durum iletisini temizle",
@@ -35,14 +35,14 @@ OC.L10N.register(
     "Don't clear" : "Kaldırılmasın",
     "Today" : "Bugün",
     "This week" : "Bu hafta",
-    "Online" : "Çevrimiçi",
+    "Online" : "Çevrim içi",
     "Invisible" : "Gizli",
-    "Offline" : "Çevrimdışı",
+    "Offline" : "Çevrim dışı",
     "There was an error saving the new status" : "Yeni durum kaydedilirken bir sorun çıktı",
     "30 minutes" : "30 dakika",
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
-    "Appear offline" : "Çevrimdışı görün"
+    "Appear offline" : "Çevrim dışı görün"
 },
 "nplurals=2; plural=(n > 1);");

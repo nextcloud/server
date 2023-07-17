@@ -29,6 +29,7 @@
     "Encryption password" : "加密密碼",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "管理啟用了伺服器端加密 您的檔案已使用密碼 <strong>%s</strong> 加密。",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "管理員啟用了伺服器端加密。您的檔案已使用密碼 \"%s\" 加密。",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "請登錄到網絡界面，轉到您個人設置的「安全」部分，並通過在「舊登錄密碼」字段中輸入此密碼和您當前的登錄密碼來更新您的登入密碼。",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法解密這個檔案，也許這是分享的檔案。請讓檔案所有者與您重新共享檔案。",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法檢視這個檔案，或許這是分享的檔案。請讓檔案所有者與您重新共享檔案。",
     "Default encryption module" : "默認加密模組",
