@@ -72,7 +72,7 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol dende <strong>outro servidor</strong>",
     "Files" : "Ficheiros",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",
-    "Shared link" : "Ligazón para compartir",
+    "Shared link" : "Ligazón compartida",
     "Wrong share ID, share does not exist" : "O ID da compartición é erróneo, a compartición non existe",
     "Could not delete share" : "Non foi posíbel eliminar a compartición",
     "Please specify a file or folder path" : "Especifique a ruta dun ficheiro ou cartafol",

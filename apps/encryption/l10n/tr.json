@@ -29,6 +29,7 @@
     "Encryption password" : "Şifreleme parolası",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Yönetim, sunucu tarafı şifrelemeyi etkinleştirmiş. Dosyalarınız <strong>%s</strong> parolası ile şifrelendi .",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Yönetim, sunucu tarafı şifrelemeyi etkinleştirmiş. Dosyalarınız \"<strong>%s</strong>\" parolası ile şifrelendi .",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Lütfen yönetim bölümünden oturum açarak kişisel ayarlarınızdaki \"Güvenlik\" bölümüne gidin ve \"Eski oturum açma parolası\" alanına bu parolayı ve geçerli oturum açma parolanızı yazarak şifreleme parolanızı güncelleyin.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosyanın şifresi çözülemedi ve büyük olasılıkla paylaşılan bir dosya. Lütfen dosya sahibi ile görüşerek sizinle yeniden paylaşmasını isteyin.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosya okunamadı ve büyük olasılıkla paylaşılan bir dosya. Lütfen dosya sahibi ile görüşerek sizinle yeniden paylaşmasını isteyin.",
     "Default encryption module" : "Varsayılan şifreleme modülü",
