@@ -71,7 +71,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Types;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
@@ -101,6 +103,8 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 	/** @var Connection */
@@ -134,6 +138,7 @@ class CheckSetupController extends Controller {
 								IL10N $l10n,
 								Checker $checker,
 								LoggerInterface $logger,
+								IEventDispatcher $eventDispatcher,
 								EventDispatcherInterface $dispatcher,
 								Connection $db,
 								ILockingProvider $lockingProvider,
@@ -154,6 +159,7 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
+		$this->eventDispatcher = $eventDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->db = $db;
 		$this->lockingProvider = $lockingProvider;
@@ -550,9 +556,26 @@ Raw output
 
 	protected function hasMissingIndexes(): array {
 		$indexInfo = new MissingIndexInformation();
+
 		// Dispatch event so apps can also hint for pending index updates if needed
 		$event = new GenericEvent($indexInfo);
 		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_INDEXES_EVENT, $event);
+
+		$event = new AddMissingIndicesEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+		$missingIndices = $event->getMissingIndices();
+
+		if ($missingIndices !== []) {
+			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
+			foreach ($missingIndices as $missingIndex) {
+				if ($schema->hasTable($missingIndex['tableName'])) {
+					$table = $schema->getTable($missingIndex['tableName']);
+					if (!$table->hasIndex($missingIndex['indexName'])) {
+						$indexInfo->addHintForMissingSubject($missingIndex['tableName'], $missingIndex['indexName']);
+					}
+				}
+			}
+		}
 
 		return $indexInfo->getListOfMissingIndexes();
 	}

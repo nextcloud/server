@@ -109,7 +109,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
 	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->get(LoggerInterface::class)));
 	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->get(\OC\DB\Connection::class)));
-	$application->add(new OC\Core\Command\Db\AddMissingIndices(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getEventDispatcher()));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingIndices::class));
 	$application->add(new OC\Core\Command\Db\AddMissingColumns(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Db\AddMissingPrimaryKeys(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getEventDispatcher()));
 
