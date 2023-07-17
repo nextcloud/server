@@ -278,6 +278,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 		if (!$this->uploadFolder->getStorage()->instanceOfStorage(IChunkedFileWrite::class)) {
 			throw new StorageInvalidException('Storage does not support chunked file writing');
 		}
+		if ($this->uploadFolder->getStorage()->instanceOfStorage(ObjectStoreStorage::class) && !$this->uploadFolder->getStorage()->getObjectStore() instanceof IObjectStoreMultiPartUpload) {
+			throw new StorageInvalidException('Storage does not support multi part uploads');
+		}
 
 		if ($checkUploadMetadata) {
 			if ($this->uploadId === null || $this->uploadPath === null) {
