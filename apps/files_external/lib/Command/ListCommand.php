@@ -242,7 +242,7 @@ class ListCommand extends Base {
 		}
 	}
 
-	protected function getStorageService($userId): StoragesService {
+	protected function getStorageService(string $userId): StoragesService {
 		if (empty($userId)) {
 			return $this->globalService;
 		}
