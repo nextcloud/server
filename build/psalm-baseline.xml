@@ -374,9 +374,6 @@
       <code>0</code>
       <code>200</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>$resultFileIds</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
     </TooManyArguments>
@@ -651,13 +648,6 @@
     <TypeDoesNotContainType occurrences="1">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
     </TypeDoesNotContainType>
-  </file>
-  <file src="apps/encryption/lib/Crypto/EncryptAll.php">
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>setHtmlBody</code>
-      <code>setPlainBody</code>
-      <code>setSubject</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
     <FalsableReturnStatement occurrences="1">
