@@ -104,7 +104,7 @@ class Crypt {
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
 		$this->config = $config;
 		$this->l = $l;
-		$this->supportedKeyFormats = ['hash', 'password'];
+		$this->supportedKeyFormats = ['hash2', 'hash', 'password'];
 
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', true);
 	}
@@ -206,11 +206,11 @@ class Crypt {
 	/**
 	 * generate header for encrypted file
 	 *
-	 * @param string $keyFormat (can be 'hash' or 'password')
+	 * @param string $keyFormat (can be 'hash2', 'hash' or 'password')
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	public function generateHeader($keyFormat = 'hash') {
+	public function generateHeader($keyFormat = 'hash2') {
 		if (in_array($keyFormat, $this->supportedKeyFormats, true) === false) {
 			throw new \InvalidArgumentException('key format "' . $keyFormat . '" is not supported');
 		}
@@ -350,22 +350,20 @@ class Crypt {
 	 * @param string $uid only used for user keys
 	 * @return string
 	 */
-	protected function generatePasswordHash($password, $cipher, $uid = '') {
+	protected function generatePasswordHash(string $password, string $cipher, string $uid = '', int $iterations = 600000): string {
 		$instanceId = $this->config->getSystemValue('instanceid');
 		$instanceSecret = $this->config->getSystemValue('secret');
 		$salt = hash('sha256', $uid . $instanceId . $instanceSecret, true);
 		$keySize = $this->getKeySize($cipher);
 
-		$hash = hash_pbkdf2(
+		return hash_pbkdf2(
 			'sha256',
 			$password,
 			$salt,
-			100000,
+			$iterations,
 			$keySize,
 			true
 		);
-
-		return $hash;
 	}
 
 	/**
@@ -411,7 +409,9 @@ class Crypt {
 		}
 
 		if ($keyFormat === 'hash') {
-			$password = $this->generatePasswordHash($password, $cipher, $uid);
+			$password = $this->generatePasswordHash($password, $cipher, $uid, 100000);
+		} elseif ($keyFormat === 'hash2') {
+			$password = $this->generatePasswordHash($password, $cipher, $uid, 600000);
 		}
 
 		// If we found a header we need to remove it from the key we want to decrypt
