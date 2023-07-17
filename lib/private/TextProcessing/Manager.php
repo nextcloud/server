@@ -27,7 +27,7 @@ namespace OC\TextProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
-use \OCP\TextProcessing\Task as OCPTask;
+use OCP\TextProcessing\Task as OCPTask;
 use OC\TextProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
