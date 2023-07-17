@@ -44,9 +44,6 @@ class User implements IUser {
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getUserId(): string {
 		return $this->data['id'];
 	}
