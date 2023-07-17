@@ -46,6 +46,7 @@ class FreePromptTaskType implements ITaskType {
 
 	/**
 	 * @inheritDoc
+	 * @since 27.1.0
 	 */
 	public function getName(): string {
 		return $this->l->t('Free prompt');
@@ -53,6 +54,7 @@ class FreePromptTaskType implements ITaskType {
 
 	/**
 	 * @inheritDoc
+	 * @since 27.1.0
 	 */
 	public function getDescription(): string {
 		return $this->l->t('Runs an arbitrary prompt through the built-in language model.');

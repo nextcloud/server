@@ -46,6 +46,7 @@ class TopicsTaskType implements ITaskType {
 
 	/**
 	 * @inheritDoc
+	 * @since 27.1.0
 	 */
 	public function getName(): string {
 		return $this->l->t('Extract topics');
@@ -53,6 +54,7 @@ class TopicsTaskType implements ITaskType {
 
 	/**
 	 * @inheritDoc
+	 * @since 27.1.0
 	 */
 	public function getDescription(): string {
 		return $this->l->t('Extracts topics from a text and outputs them separated by commas.');
