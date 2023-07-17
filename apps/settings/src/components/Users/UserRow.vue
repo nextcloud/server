@@ -259,7 +259,7 @@
 			<template v-if="idState.editing">
 				<label class="hidden-visually"
 					:for="'manager' + uniqueId">
-					{{ t('settings', 'Set the manager') }}
+					{{ managerLabel }}
 				</label>
 				<NcSelect v-model="idState.currentManager"
 					:input-id="'manager' + uniqueId"
@@ -268,7 +268,7 @@
 					:loading="idState.loading.manager"
 					label="displayname"
 					:options="idState.possibleManagers"
-					:placeholder="t('settings', 'Select manager')"
+					:placeholder="managerLabel"
 					class="select-vue"
 					@search="searchUserManager"
 					@option:selected="updateUserManager"
@@ -394,6 +394,8 @@ export default {
 			editedDisplayName: this.user.displayname,
 			editedPassword: '',
 			editedMail: this.user.email ?? '',
+			// TRANSLATORS This string describes a manager in the context of an organization
+			managerLabel: t('settings', 'Set user manager'),
 		}
 	},
 
@@ -578,7 +580,8 @@ export default {
 					value: this.idState.currentManager ? this.idState.currentManager.id : '',
 				})
 			} catch (error) {
-				showError(t('setting', 'Update of user manager was failed'))
+				// TRANSLATORS This string describes a manager in the context of an organization
+				showError(t('setting', 'Failed to update user manager'))
 				console.error(error)
 			} finally {
 				this.idState.loading.manager = false
