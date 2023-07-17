@@ -67,6 +67,7 @@ OC.L10N.register(
     "Desktop client" : "Masaüstü istemcisi",
     "Thunderbird & Outlook addons" : "Thunderbird ve Outlook eklentileri",
     "Custom user agent" : "Özel kullanıcı uygulaması",
+    "Select a trigger" : "Bir tetikleyici seçin",
     "At least one event must be selected" : "En az bir etkinlik seçilmelidir",
     "Add new flow" : "Akış ekle",
     "When" : "Şu zamanda",
