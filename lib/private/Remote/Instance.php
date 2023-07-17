@@ -43,7 +43,7 @@ class Instance implements IInstance {
 	 * @param IClientService $clientService
 	 */
 	public function __construct(
-		$url,
+		string $url,
 		private ICache $cache,
 		private IClientService $clientService,
 	) {
