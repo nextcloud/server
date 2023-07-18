@@ -248,6 +248,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Events\\CardDeletedEvent' => __DIR__ . '/..' . '/../lib/Events/CardDeletedEvent.php',
         'OCA\\DAV\\Events\\CardMovedEvent' => __DIR__ . '/..' . '/../lib/Events/CardMovedEvent.php',
         'OCA\\DAV\\Events\\CardUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/CardUpdatedEvent.php',
+        'OCA\\DAV\\Events\\SabrePluginAddEvent' => __DIR__ . '/..' . '/../lib/Events/SabrePluginAddEvent.php',
         'OCA\\DAV\\Events\\SabrePluginAuthInitEvent' => __DIR__ . '/..' . '/../lib/Events/SabrePluginAuthInitEvent.php',
         'OCA\\DAV\\Events\\SubscriptionCreatedEvent' => __DIR__ . '/..' . '/../lib/Events/SubscriptionCreatedEvent.php',
         'OCA\\DAV\\Events\\SubscriptionDeletedEvent' => __DIR__ . '/..' . '/../lib/Events/SubscriptionDeletedEvent.php',
