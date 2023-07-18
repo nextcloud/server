@@ -118,7 +118,7 @@ class TwoFactorMiddleware extends Middleware {
 	 * @throws UserAlreadyLoggedInException
 	 * @throws TwoFactorAuthRequiredException
 	 */
-	private function checkTwoFactor(Controller $controller, $methodName, IUser $user): void {
+	private function checkTwoFactor(Controller $controller, string $methodName, IUser $user): void {
 		// If two-factor auth is in progress disallow access to any controllers
 		// defined within "LoginController".
 		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor($user);
