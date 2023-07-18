@@ -136,7 +136,7 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, Exception $exception): RedirectResponse {
+	public function afterException(Controller $controller, string $methodName, Exception $exception): RedirectResponse {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [];
 			if (isset($this->request->server['REQUEST_URI'])) {
