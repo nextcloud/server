@@ -101,7 +101,6 @@ class QuerySearchHelper {
 				$storage = $a->getValue();
 				/** @psalm-suppress UndefinedInterfaceMethod */
 				$path = $b->getValue();
-				\OC::$server->getLogger()->debug("QuerySearchHelper::checkStorageAndPathFilter: storage=" . $storage . " " . "path=" . $path);
 				$storageToPathsMap[$storage][] = $path;
 				return;
 			}
@@ -134,7 +133,6 @@ class QuerySearchHelper {
 		// Create filters for single file shares
 		$singleFileFilters = [];
 		foreach ($storageToPathsMap as $storage => $paths) {
-			\OC::$server->getLogger()->debug("QuerySearchHelper::optimizeStorageFilters: storage=" . $storage . " " . "paths=" . implode(", ", $paths));
 			$singleFileFilters[] = new SearchBinaryOperator(
 				ISearchBinaryOperator::OPERATOR_AND,
 				[
