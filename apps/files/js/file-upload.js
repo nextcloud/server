@@ -249,6 +249,11 @@ OC.FileUpload.prototype = {
 		this.data.multipart = false;
 		this.data.type = 'PUT';
 
+		// retry options
+		data.retries = 0;
+		data.maxRetries = 10;
+		data.retryInterval = 500;
+
 		delete this.data.headers['If-None-Match'];
 		if (this._conflictMode === OC.FileUpload.CONFLICT_MODE_DETECT
 			|| this._conflictMode === OC.FileUpload.CONFLICT_MODE_AUTORENAME) {
@@ -665,11 +670,13 @@ OC.Uploader.prototype = _.extend({
 	 * cancels all uploads
 	 */
 	cancelUploads:function() {
-		this.log('canceling uploads');
+		var self = this;
+		self.log('canceling uploads');
 		jQuery.each(this._uploads, function(i, upload) {
 			upload.abort();
+			self.removeUpload(upload);
 		});
-		this.clear();
+		self.clear();
 	},
 	/**
 	 * Clear uploads
@@ -860,6 +867,10 @@ OC.Uploader.prototype = _.extend({
 	},
 
 	_updateProgressBarOnUploadStop: function() {
+		if (this._activeUploadCount() > 0) {
+			// There are still uploads running, so still show progress bar.
+			return;
+		}
 		if (this._pendingUploadDoneCount === 0) {
 			// All the uploads ended and there is no pending operation, so hide
 			// the progress bar.
@@ -1122,7 +1133,22 @@ OC.Uploader.prototype = _.extend({
 							return
 						}
 						status = upload.getResponseStatus();
+
+						// retry function
+						if ( data.errorThrown !== 'abort'
+							&& data.uploadedBytes < data.files[0].size 
+							&& data.retries < data.maxRetries) {
+							data.retries += 1;
+							
+							window.setTimeout(function(){
+									data.submit(); 
+								}, data.retries * data.retryInterval);
+							return
+						}
 					}
+					// reset retries
+					data.retries = 0;
+
 					self.log('fail', e, upload);
 
 					self.removeUpload(upload);
@@ -1165,6 +1191,9 @@ OC.Uploader.prototype = _.extend({
 				done:function(e, data) {
 					var upload = self.getUpload(data);
 					var that = $(this);
+
+					data.retries = 0;
+
 					self.log('done', e, upload);
 
 					self.removeUpload(upload);

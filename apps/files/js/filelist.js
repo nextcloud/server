@@ -3040,7 +3040,7 @@
 				)
 				.done(function() {
 					// TODO: error handling / conflicts
-					options = _.extend({scrollTo: true}, options || {});
+					options = _.extend({scrollTo: true}, options || {});
 					self.addAndFetchFileInfo(targetPath, '', options).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
@@ -3175,10 +3175,25 @@
 					deferred.resolve(status, data);
 				})
 				.fail(function(status) {
-					OCP.Toast.error(
-						t('files', 'Could not fetch file details "{file}"', { file: fileName })
-					);
-					deferred.reject(status);
+					// retry properties files only if options.retry is true
+					if (options.retry){
+						options.maxRetries = options.maxRetries || 10;
+						options.delay = options.delay || 500;
+						options.retries = options.retries || 0;
+						
+						options.retries++;
+						if (options.retries >= options.maxRetries) {
+							options.retry = false;
+						}
+						setTimeout(function() {
+							return self.addAndFetchFileInfo(fileName, dir, options);
+						}, options.delay * options.retries);
+					} else {
+						OCP.Toast.error(
+							t('files', 'Could not fetch file details "{file}"', { file: fileName })
+						);
+						deferred.reject(status);
+					}
 				});
 
 			return deferred.promise();
@@ -3721,7 +3736,8 @@
 				}
 
 				var fileName = upload.getFileName();
-				var fetchInfoPromise = self.addAndFetchFileInfo(fileName, upload.getFullPath());
+				var options = { retry: true };
+				var fetchInfoPromise = self.addAndFetchFileInfo(fileName, upload.getFullPath(), options);
 				if (!self._uploads) {
 					self._uploads = {};
 				}
