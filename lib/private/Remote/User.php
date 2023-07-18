@@ -48,9 +48,6 @@ class User implements IUser {
 		return $this->data['id'];
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEmail(): string {
 		return $this->data['email'];
 	}
