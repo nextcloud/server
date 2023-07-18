@@ -509,7 +509,7 @@ OC.L10N.register(
     "Enforce password protection" : "Impor a protección por contrasinal",
     "Exclude groups from password requirements:" : "Excluír grupos dos requisitos de contrasinal:",
     "Set default expiration date" : "Definir a data predeterminada de caducidade",
-    "Exclude groups from creating link shares:" : "Excluír grupos da creación de ligazóns compartidas:",
+    "Exclude groups from creating link shares:" : "Excluír grupos da creación de ligazóns  para compartir:",
     "Allow resharing" : "Permitir compartir",
     "Allow sharing with groups" : "Permitir compartir con grupos",
     "Restrict users to only share with users in their groups" : "Restrinxir os usuarios a compartir só cos usuarios dos seus grupos",

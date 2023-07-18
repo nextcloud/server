@@ -342,7 +342,7 @@ OC.L10N.register(
     "Email" : "E-Mail-Adresse",
     "Quota" : "Kontingent",
     "Total rows summary" : "Zusammenfassung aller Zeilen",
-    "Avatar" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Avatar" : "Avatar",
     "Group admin for" : "Gruppenadministrator für",
     "User backend" : "Benutzer-Backend",
     "Storage location" : "Speicherort",

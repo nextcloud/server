@@ -48,6 +48,7 @@ OC.L10N.register(
     "Collaborative tags" : "Мітки для організації співпраці",
     "Collaborative tagging functionality which shares tags among users." : "Функція спільного додавання міток, яка дозволяж ділитися мітками між користувачами.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Функція спільного додавання міток, яка дозволяє ділитися мітками між користувачами. Чудово підходить для команд. \n(Якщо ви є провайдером із установкою з кількома клієнтами, радимо вимкнути цю програму, оскільки мітки є спільними.)",
+    "Loading collaborative tags …" : "Завантажую мітки співпрації...",
     "Search or create collaborative tags" : "Пошук або створення спільних міток",
     "Collaborative tags …" : "Спільні мітки...",
     "No tags to select, type to create a new tag" : "Немає міток для вибору, почніть вводити, щоб додати нову мітку",

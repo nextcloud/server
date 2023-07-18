@@ -31,6 +31,7 @@ OC.L10N.register(
     "Encryption password" : "Krypteringslösenord",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Administratören har aktiverat kryptering på servern. Dina filer är krypterade med lösenordet <strong>%s</strong>.",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Administratören har aktiverat kryptering på servern. Dina filer är krypterade med lösenordet \"%s\".",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Logga in i webbgränssnittet, gå till \"Säkerhet\" i dina personliga inställningar och uppdatera ditt krypteringslösenord genom att ange detta lösenord i fältet \"Gammalt inloggningslösenord\" samt ditt nuvarande inloggningslösenord.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan inte avkryptera denna fil, troligen är det en delad fil. Vänligen be ägaren till filen att åter dela filen med dig.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan inte läsa denna filen, troligen är det en delad fil. Vänligen be ägaren att åter dela filen med dig.",
     "Default encryption module" : "Krypteringsfunktion",

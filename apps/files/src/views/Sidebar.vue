@@ -254,6 +254,9 @@ export default {
 					key: 'error', // force key to re-render
 					subtitle: '',
 					title: '',
+					class: {
+						'app-sidebar--full': this.isFullScreen,
+					},
 				}
 			}
 			// no fileInfo yet, showing empty data
@@ -261,6 +264,9 @@ export default {
 				loading: this.loading,
 				subtitle: '',
 				title: '',
+				class: {
+					'app-sidebar--full': this.isFullScreen,
+				},
 			}
 		},
 

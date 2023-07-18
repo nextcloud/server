@@ -29,6 +29,7 @@
     "Encryption password" : "كلمة سر التشفير",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "قام المشرف بتمكين التشفير من جانب الخادوم. و تمّ تشفير ملفاتك باستخدام كلمة السر <strong>%s</strong>.",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "قام المشرف بتمكين التشفير من جانب الخادوم. و تمّ تشفير ملفاتك باستخدام كلمة السر \"%s\".",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "يرجى تسجيل الدخول إلى واجهة الويب، و الانتقال إلى قسم \"الأمان\" Security في إعداداتك الشخصية وتحديث كلمة مرور التشفير خاصّتك عن طريق إدخال كلمة المرور هذه في حقل \"كلمة مرور تسجيل الدخول القديمة\" Old login password،و كلمة مرور تسجيل الدخول الحالية.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "تعذّر فك تشفير هذا الملف؛ ربما يكون ملفّاً مُشتركاً. رجاءً، أطلب من مالك الملف إلغاء مشاركته معك.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "تعذرت قراءة هذا الملف؛ ربما يكون ملفّاً مُشتركاً. رجاءً، أطلب من مالك الملف إلغاء مشاركته معك.",
     "Default encryption module" : "وحدة التشفير الافتراضية",
