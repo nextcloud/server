@@ -19,6 +19,7 @@ return array(
     'OCA\\WorkflowEngine\\Check\\RequestURL' => $baseDir . '/../lib/Check/RequestURL.php',
     'OCA\\WorkflowEngine\\Check\\RequestUserAgent' => $baseDir . '/../lib/Check/RequestUserAgent.php',
     'OCA\\WorkflowEngine\\Check\\TFileCheck' => $baseDir . '/../lib/Check/TFileCheck.php',
+    'OCA\\WorkflowEngine\\Check\\MfaVerified' => $baseDir . '/../lib/Check/MfaVerified.php',
     'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => $baseDir . '/../lib/Check/UserGroupMembership.php',
     'OCA\\WorkflowEngine\\Command\\Index' => $baseDir . '/../lib/Command/Index.php',
     'OCA\\WorkflowEngine\\Controller\\AWorkflowController' => $baseDir . '/../lib/Controller/AWorkflowController.php',
