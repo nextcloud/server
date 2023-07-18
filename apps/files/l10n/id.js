@@ -218,12 +218,6 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
     "No favorites yet" : "Belum memiliki favorit",
     "Files and folders you mark as favorite will show up here" : "Berkas dan folder yang Anda tandai sebagai favorit akan ditampilkan di sini.",
-    "Shares" : "Dibagikan",
-    "Shared with others" : "Dibagikan dengan lainnya",
-    "Shared with you" : "Shared with you",
-    "Shared by link" : "Dibagikan dengan tautan",
-    "Deleted shares" : "Berbagi terhapus",
-    "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
     "Storage invalid" : "Penyimpanan tidak sah",
@@ -234,6 +228,12 @@ OC.L10N.register(
     "%s used" : "%s digunakan",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
-    "Deleted files" : "Berkas terhapus"
+    "Deleted files" : "Berkas terhapus",
+    "Shares" : "Dibagikan",
+    "Shared with others" : "Dibagikan dengan lainnya",
+    "Shared with you" : "Shared with you",
+    "Shared by link" : "Dibagikan dengan tautan",
+    "Deleted shares" : "Berbagi terhapus",
+    "Pending shares" : "Berbagi tertunda"
 },
 "nplurals=1; plural=0;");

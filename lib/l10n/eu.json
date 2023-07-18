@@ -3,6 +3,7 @@
     "This can usually be fixed by giving the web server write access to the config directory." : "Hau normalean konpon daiteke web zerbitzariari konfigurazio direktoriorako idazteko sarbidea emanez.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Bestela, config.php fitxategia irakurtzeko soilik mantendu nahi baduzu, ezarri bertan \"config_is_read_only\" aukerari 'egia' balioa.",
     "See %s" : "Ikusi %s",
+    "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "%1$s aplikazioa ez dago edo zerbitzari honekiko bertsio bateraezina du. Mesedez egiaztatu aplikazioen karpeta.",
     "Sample configuration detected" : "Adibide-ezarpena detektatua",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Adibide-ezarpena kopiatu dela detektatu da. Honek zure instalazioa apur dezake eta ez da onartzen. Irakurri dokumentazioa config.php fitxategia aldatu aurretik.",
     "404" : "404",

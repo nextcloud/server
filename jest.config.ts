@@ -23,6 +23,7 @@ import type { Config } from 'jest'
 
 // TODO: find a way to consolidate this in one place, with webpack.common.js
 const ignorePatterns = [
+	'@buttercup/fetch',
 	'@juliushaertl',
 	'@mdi/svg',
 	'@nextcloud/vue',
@@ -34,6 +35,7 @@ const ignorePatterns = [
 	'strip-ansi',
 	'tributejs',
 	'vue-material-design-icons',
+	'webdav',
 ]
 
 const config: Config = {

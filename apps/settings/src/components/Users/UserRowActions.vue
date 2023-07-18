@@ -1,18 +1,44 @@
+<!--
+	- @copyright 2023 Ferdinand Thiessen <opensource@fthiessen.de>
+	-
+	- @author Christopher Ng <chrng8@gmail.com>
+	- @author Ferdinand Thiessen <opensource@fthiessen.de>
+	-
+	- @license AGPL-3.0-or-later
+	-
+	- This program is free software: you can redistribute it and/or modify
+	- it under the terms of the GNU Affero General Public License as
+	- published by the Free Software Foundation, either version 3 of the
+	- License, or (at your option) any later version.
+	-
+	- This program is distributed in the hope that it will be useful,
+	- but WITHOUT ANY WARRANTY; without even the implied warranty of
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	- GNU Affero General Public License for more details.
+	-
+	- You should have received a copy of the GNU Affero General Public License
+	- along with this program. If not, see <http://www.gnu.org/licenses/>.
+	-
+-->
+
 <template>
 	<NcActions :aria-label="t('settings', 'Toggle user actions menu')"
+		:disabled="disabled"
 		:inline="1">
-		<NcActionButton @click="toggleEdit">
+		<NcActionButton :disabled="disabled"
+			@click="toggleEdit">
 			{{ edit ? t('settings', 'Done') : t('settings', 'Edit') }}
 			<template #icon>
-				<NcIconSvgWrapper :svg="editSvg" aria-hidden="true" />
+				<NcIconSvgWrapper :key="editSvg" :svg="editSvg" aria-hidden="true" />
 			</template>
 		</NcActionButton>
-		<NcActionButton v-for="(action, index) in actions"
+		<NcActionButton v-for="({ action, icon, text }, index) in actions"
 			:key="index"
-			:aria-label="action.text"
-			:icon="action.icon"
-			@click="action.action">
-			{{ action.text }}
+			:disabled="disabled"
+			:aria-label="text"
+			:icon="icon"
+			@click="action">
+			{{ text }}
 		</NcActionButton>
 	</NcActions>
 </template>
@@ -45,6 +71,14 @@ export default defineComponent({
 		 */
 		actions: {
 			type: Array as PropType<readonly UserAction[]>,
+			required: true,
+		},
+
+		/**
+		 * The state whether the row is currently disabled
+		 */
+		disabled: {
+			type: Boolean,
 			required: true,
 		},
 

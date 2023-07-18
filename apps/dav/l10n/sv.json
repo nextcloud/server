@@ -187,8 +187,6 @@
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
-    "Invitation canceled" : "Inbjudan avbruten",
-    "Invitation updated" : "Inbjudan uppdaterad",
-    "Invitation" : "Inbjudan"
+    "%1$s has responded your invitation" : "%1$s har svarat på din inbjudan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

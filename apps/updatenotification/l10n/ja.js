@@ -21,11 +21,10 @@ OC.L10N.register(
     "Download now" : "今すぐダウンロード",
     "Please use the command line updater to update." : "コマンドラインアップデーターを使ってアップデートしてください。",
     "What's new?" : "新着情報？",
+    "View changelog" : "変更履歴を確認する",
     "The update check is not yet finished. Please refresh the page." : "アップデートチェックが完了していません。ページを更新してください。",
     "Your version is up to date." : "最新版です。",
     "A non-default update server is in use to be checked for updates:" : "更新のチェックにデフォルト以外の更新サーバーが利用されています:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "以下からアップデートチャンネルを変更すると、アプリの管理ページにも影響します。例えば、ベータチャンネルに切り替えると、アプリ管理ページにて、ベータアプリの更新が通知されたりします。",
-    "Update channel:" : "アップデートチャンネル:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "いつでも新しいバージョンにアップデートすることができます。 ただし、下位の安定したバージョンにダウングレードすることはできません",
     "Notify members of the following groups about available updates:" : "次のグループのメンバーに利用可能なアップデートを通知する:",
     "Only notifications for app updates are available." : "アプリのアップデートの通知のみが可能です。",
@@ -38,7 +37,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>全て</strong>のアプリが、このNextcloudのバージョンに対応しています。 ",
-    "View changelog" : "変更履歴を確認する",
     "Enterprise" : "法人向け",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "法人向けです。 常に最新のパッチレベルを提供しますが、すぐに次のメジャーリリースにアップデートはしません。このアップデートはNextcloud GmbHが大規模でミッションクリティカルな開発のための追加の強化とテストを行った後に行われます。 このチャンネルは顧客だけが利用でき、Nextcloud Enterpriseパッケージを提供します。",
     "Stable" : "安定版",
@@ -46,6 +44,8 @@ OC.L10N.register(
     "Beta" : "ベータ",
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
-    "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。"
+    "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "以下からアップデートチャンネルを変更すると、アプリの管理ページにも影響します。例えば、ベータチャンネルに切り替えると、アプリ管理ページにて、ベータアプリの更新が通知されたりします。",
+    "Update channel:" : "アップデートチャンネル:"
 },
 "nplurals=1; plural=0;");

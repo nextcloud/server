@@ -48,48 +48,50 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MountPublicLinkControllerTest extends \Test\TestCase {
-	/** @var IContactsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContactsManager|MockObject */
 	protected $contactsManager;
 
-	/** @var  MountPublicLinkController */
+	/** @var MountPublicLinkController */
 	private $controller;
 
-	/** @var  \OCP\IRequest | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var  FederatedShareProvider | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var FederatedShareProvider|MockObject */
 	private $federatedShareProvider;
 
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
 
-	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	private $rootFolder;
 
-	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var  ISession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|MockObject */
 	private $session;
 
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var  IUserSession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IClientService|MockObject */
 	private $clientService;
 
-	/** @var  IShare */
+	/** @var IShare */
 	private $share;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	protected function setUp(): void {
@@ -126,7 +128,8 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			$this->l10n,
 			$this->userSession,
 			$this->clientService,
-			$this->cloudIdManager
+			$this->cloudIdManager,
+			$this->createMock(LoggerInterface::class),
 		);
 	}
 

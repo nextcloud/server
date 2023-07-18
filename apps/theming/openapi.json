@@ -187,13 +187,6 @@
                 "responses": {
                     "200": {
                         "description": "Stylesheet returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "text/css": {
                                 "schema": {
@@ -255,13 +248,6 @@
                 "responses": {
                     "200": {
                         "description": "Image returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -368,7 +354,8 @@
                                                 ],
                                                 "properties": {
                                                     "src": {
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "minLength": 1
                                                     },
                                                     "type": {
                                                         "type": "string"
@@ -421,13 +408,6 @@
                 "responses": {
                     "200": {
                         "description": "Favicon returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "image/x-icon": {
                                 "schema": {
@@ -491,13 +471,6 @@
                 "responses": {
                     "200": {
                         "description": "Touch icon returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "image/png": {
                                 "schema": {
@@ -576,13 +549,6 @@
                 "responses": {
                     "200": {
                         "description": "Themed icon returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "image/svg+xml": {
                                 "schema": {
@@ -644,13 +610,6 @@
                 "responses": {
                     "200": {
                         "description": "Background image returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -872,10 +831,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -962,10 +918,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }

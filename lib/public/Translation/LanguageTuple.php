@@ -45,6 +45,7 @@ class LanguageTuple implements JsonSerializable {
 
 	/**
 	 * @since 26.0.0
+	 * @return array{from: string, fromLabel: string, to: string, toLabel: string}
 	 */
 	public function jsonSerialize(): array {
 		return [

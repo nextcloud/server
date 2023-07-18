@@ -38,6 +38,8 @@
 		<command>OCA\Files\Command\Get</command>
 		<command>OCA\Files\Command\Put</command>
 		<command>OCA\Files\Command\Delete</command>
+		<command>OCA\Files\Command\Copy</command>
+		<command>OCA\Files\Command\Move</command>
 		<command>OCA\Files\Command\Object\Delete</command>
 		<command>OCA\Files\Command\Object\Get</command>
 		<command>OCA\Files\Command\Object\Put</command>

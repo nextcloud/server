@@ -14,10 +14,10 @@
     "Open updater" : "Malfermi la ĝisdatigilon",
     "Download now" : "Elŝuti nun",
     "What's new?" : "Kio nova?",
+    "View changelog" : "Vidi ŝanĝoprotokolon",
     "The update check is not yet finished. Please refresh the page." : "La kontrolo pri ĝisdatigoj ankoraŭ ne finiĝis. Bv. aktualigi la paĝon.",
     "Your version is up to date." : "Via versio estas ĝisdata.",
     "A non-default update server is in use to be checked for updates:" : "Nedefaŭlta servilo por ĝisdatigoj uziĝas por kontroli ĝisdatigojn:",
-    "Update channel:" : "Ĝisdatiga kanalo:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vi povas ĝisdatigi iam ajn al pli nova versio. Sed vi povas neniam malĝisdatigi al pli stabila versio.",
     "Notify members of the following groups about available updates:" : "Sciigi anojn de la jenaj grupoj pri disponeblaj ĝisdatigoj:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "La elektita kanalo pri ĝisdatigoj igas la dediĉitajn sciigojn por la servilo neutilaj.",
@@ -25,13 +25,13 @@
     "A new version is available: <strong>{newVersionString}</strong>" : "Nova versio disponeblas: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Kontrolita je {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Bv. certigi, ke via dosiero „config.php“ ne agordas <samp>appstoreenabled</samp> al malvero („false“).",
-    "View changelog" : "Vidi ŝanĝoprotokolon",
     "Enterprise" : "Firmao",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Por firmaa uzo. Ĝi uzas ĉiam la plej freŝan flikaĵon, sed ĝi ne tuj ĝisdatiĝos al la sekva ĉefversio. Transiro al la sekva ĉefversio okazos, kiam  Nextcloud GmbH faros plifortigaĵojn kaj pliajn testojn rilate al uzo en granda kaj grava kunteksto. Ĝi nur disponeblas por klientoj kaj ĝi estas la Nextcloud-a firmapakaĵo.",
     "Stable" : "Stabila",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La plej freŝa stabila versio. Ĝi taŭgas por ĉiutaga uzo, kaj ĝi ĝisdatiĝos ĉiufoje al la lasta ĉefversio.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Antaŭeldona versio nur por testi novajn trajtojn; ne taŭgas por produktada medio.",
-    "Update for %1$s to version %2$s is available." : "Ĝisdatigo de %1$s al versio %2$s disponeblas."
+    "Update for %1$s to version %2$s is available." : "Ĝisdatigo de %1$s al versio %2$s disponeblas.",
+    "Update channel:" : "Ĝisdatiga kanalo:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

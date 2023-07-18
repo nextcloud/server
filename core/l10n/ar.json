@@ -145,6 +145,7 @@
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["تم التحديث بنجاح، سوف يعاد توجيهك إلى {productName} خلال %n ثواني.","تم التحديث بنجاح، سوف يعاد توجيهك إلى {productName} خلال%n ثواني.","تم التحديث بنجاح، سوف يعاد توجيهك إلى {productName} خلال %n ثواني.","تم التحديث بنجاح، سوف يعاد توجيهك إلى {productName} خلال %n ثواني.","تم التحديث بنجاح، سوف يعاد توجيهك إلى {productName} خلال %n ثواني.","تم التحديث بنجاح، سوف يعاد توجيهك إلى {productName} خلال %n ثواني."],
     "More apps" : "المزيد من التطبيقات",
     "Currently open" : "مفتوح حاليّاً ",
+    "_{count} notification_::_{count} notifications_" : ["{count} إخطارات","{count} إخطار","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات"],
     "Log in" : "تسجيل الدخول",
     "Logging in …" : "تسجيل الدخول …",
     "Server side authentication failed!" : "رفض الخادم المصادقة!",

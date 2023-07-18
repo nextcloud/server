@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Rayn0r <andrew@ilpss8.myfirewall.org>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -42,6 +43,7 @@ use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -58,6 +60,7 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Util;
 
+#[IgnoreOpenAPI]
 class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';

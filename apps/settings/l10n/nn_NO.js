@@ -81,6 +81,7 @@ OC.L10N.register(
     "Add" : "Legg til",
     "Email" : "E-post",
     "Quota" : "Kvote",
+    "Avatar" : "Avatar",
     "Last login" : "Siste innlogging",
     "Edit" : "Rediger",
     "Add group" : "Legg til gruppe",

@@ -20,11 +20,13 @@
     "Download now" : "Baixa-ho ara",
     "Please use the command line updater to update." : "Utilitzeu l'actualitzador de la línia d'ordres per a aplicar l'actualització.",
     "What's new?" : "Quines novetats hi ha?",
+    "View changelog" : "Mostra el registre de canvis",
     "The update check is not yet finished. Please refresh the page." : "La comprovació d'actualitzacions encara no ha finalitzat. Actualitzeu la pàgina.",
     "Your version is up to date." : "Teniu la versió més recent.",
     "A non-default update server is in use to be checked for updates:" : "S'utilitza un servidor d'actualitzacions diferent del servidor per defecte per a comprovar si hi ha actualitzacions:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Podeu canviar el canal d'actualitzacions a continuació, que també afecta la pàgina d'administració d'aplicacions. Per exemple, després de canviar al canal beta, se us oferiran actualitzacions d'aplicacions beta a la pàgina d'administració d'aplicacions.",
-    "Update channel:" : "Canal d'actualitzacions:",
+    "Update channel" : "Canal d'actualitzacions",
+    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Canviar de canal d'actualitzacions també afecta la pàgina d'administració d'aplicacions. Per exemple, després de canviar al canal beta, se us oferiran actualitzacions d'aplicacions beta a la pàgina d'administració d'aplicacions.",
+    "Current update channel:" : "Canal d'actualitzacions actual:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Sempre podeu actualitzar a una versió més recent, però no podeu tornar mai a una versió anterior més estable.",
     "Notify members of the following groups about available updates:" : "Notifica els membres dels grups següents sobre les actualitzacions disponibles:",
     "No groups" : "No hi ha cap grup",
@@ -38,7 +40,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Assegureu-vos que el fitxer config.php no defineixi <samp>appstoreenabled</samp> com a fals.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "No s'ha pogut establir la connexió a la botiga d'aplicacions o no s'ha retornat cap actualització. Cerqueu les actualitzacions manualment o assegureu-vos que el servidor tingui accés a Internet i que es pugui connectar a la botiga d'aplicacions.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Totes</strong> les aplicacions tenen una versió compatible amb aquesta versió del Nextcloud.",
-    "View changelog" : "Mostra el registre de canvis",
     "Enterprise" : "Empresa",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Per a ús empresarial. Proporciona sempre els pedaços més recents, però no s'actualitzarà immediatament a la versió principal següent. Aquesta actualització es produeix quan Nextcloud GmbH ha fet proves i millores addicionals per a implementacions a gran escala i crítiques. Aquest canal només està disponible per als clients i proporciona el paquet Nextcloud Enterprise.",
     "Stable" : "Estable",
@@ -46,6 +47,8 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versió preliminar només per a provar característiques noves, no per a entorns de producció.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Hi ha <strong>%n</strong> aplicació que no té disponible cap versió compatible amb aquesta versió del Nextcloud.","Hi ha <strong>%n</strong> aplicacions que no tenen disponible cap versió compatible amb aquesta versió del Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Hi ha disponible l'actualització a la versió %2$s per a %1$s."
+    "Update for %1$s to version %2$s is available." : "Hi ha disponible l'actualització a la versió %2$s per a %1$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Podeu canviar el canal d'actualitzacions a continuació, que també afecta la pàgina d'administració d'aplicacions. Per exemple, després de canviar al canal beta, se us oferiran actualitzacions d'aplicacions beta a la pàgina d'administració d'aplicacions.",
+    "Update channel:" : "Canal d'actualitzacions:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
