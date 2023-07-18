@@ -441,7 +441,7 @@ class Encryption implements IEncryptionModule {
 			$this->keyManager->deleteAllFileKeys($path);
 
 			foreach ($shareKeys as $uid => $keyFile) {
-				$this->keyManager->setShareKey($this->path, $uid, $keyFile);
+				$this->keyManager->setShareKey($path, $uid, $keyFile);
 			}
 		} else {
 			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',

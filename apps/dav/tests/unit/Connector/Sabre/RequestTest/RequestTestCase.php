@@ -31,6 +31,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
@@ -70,7 +71,7 @@ abstract class RequestTestCase extends TestCase {
 				->disableOriginalConstructor()
 				->getMock(),
 			\OC::$server->getPreviewManager(),
-			\OC::$server->getEventDispatcher(),
+			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->getL10N('dav')
 		);
 	}
