@@ -24,6 +24,7 @@
 import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.js'
 import FileMimeType from './FileMimeType.vue'
 import FileSystemTag from './FileSystemTag.vue'
+import MfaVerifiedValue from './MfaVerifiedValue.vue'
 
 const stringOrRegexOperators = () => {
 	return [
@@ -99,6 +100,16 @@ const FileChecks = [
 			{ operator: '!is', name: t('workflowengine', 'is not tagged with') },
 		],
 		component: FileSystemTag,
+	},
+
+	{
+		class: 'OCA\\WorkflowEngine\\Check\\MfaVerified',
+		name: t('workflowengine', 'multi-factor authentication'),
+		operators: [
+			{ operator: 'is', name: t('workflowengine', 'is verified') },
+			{ operator: '!is', name: t('workflowengine', 'is not verified') },
+		],
+		component: MfaVerifiedValue,
 	},
 ]
 
