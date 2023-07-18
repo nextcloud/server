@@ -56,6 +56,7 @@ class JSDataService implements \JsonSerializable {
 			'slogan' => $this->themingDefaults->getSlogan(),
 			'color' => $this->themingDefaults->getColorPrimary(),
 			'defaultColor' => $this->themingDefaults->getDefaultColorPrimary(),
+			'supportUrl' => $this->themingDefaults->getSupportUrl(),
 			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
 			'inverted' => $this->util->invertTextColor($this->themingDefaults->getColorPrimary()),

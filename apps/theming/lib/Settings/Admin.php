@@ -86,6 +86,7 @@ class Admin implements IDelegatedSettings {
 			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
 			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
 			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
+			'customerSupportUrl' => $this->themingDefaults->getSupportUrl(),
 			'legalNoticeUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyPolicyUrl' => $this->themingDefaults->getPrivacyUrl(),
 			'docUrl' => $this->urlGenerator->linkToDocs('admin-theming'),

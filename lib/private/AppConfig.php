@@ -129,6 +129,7 @@ class AppConfig implements IAppConfig {
 			'/^subscription_key$/',
 		],
 		'theming' => [
+			'/^supportUrl$/',
 			'/^imprintUrl$/',
 			'/^privacyUrl$/',
 			'/^slogan$/',

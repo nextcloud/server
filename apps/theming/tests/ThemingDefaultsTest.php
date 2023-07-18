@@ -218,6 +218,20 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/**
+	 * @param $supportUrl
+	 * @dataProvider legalUrlProvider
+	 */
+	public function testGetSupportURL($supportUrl) {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'supportUrl', '')
+			->willReturn($supportUrl);
+
+		$this->assertEquals($supportUrl, $this->template->getSupportUrl());
+	}
+
+	/**
 	 * @param $imprintUrl
 	 * @dataProvider legalUrlProvider
 	 */
@@ -267,12 +281,13 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetShortFooter() {
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', ''],
 				['theming', 'privacyUrl', '', ''],
 			]);
@@ -283,12 +298,13 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterEmptyUrl() {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), ''],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', ''],
 				['theming', 'privacyUrl', '', ''],
 			]);
@@ -299,12 +315,13 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterEmptySlogan() {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), ''],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', ''],
 				['theming', 'privacyUrl', '', ''],
 			]);
@@ -312,15 +329,38 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a>', $this->template->getShortFooter());
 	}
 
-	public function testGetShortFooterImprint() {
+	public function testGetShortFooterSupport() {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', 'https://example.com/support'],
+				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', ''],
+			]);
+
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnArgument(0);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a>', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterImprint() {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
+		$this->config
+			->expects($this->exactly(6))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', 'https://example.com/imprint'],
 				['theming', 'privacyUrl', '', ''],
 			]);
@@ -336,12 +376,13 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterPrivacy() {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', ''],
 				['theming', 'privacyUrl', '', 'https://example.com/privacy'],
 			]);
@@ -357,12 +398,13 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterAllLegalLinks() {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', 'https://example.com/support'],
 				['theming', 'imprintUrl', '', 'https://example.com/imprint'],
 				['theming', 'privacyUrl', '', 'https://example.com/privacy'],
 			]);
@@ -383,18 +425,40 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/**
+	 * @param $invalidSupportUrl
+	 * @dataProvider invalidLegalUrlProvider
+	 */
+	public function testGetShortFooterInvalidSupport($invalidSupportUrl) {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
+		$this->config
+			->expects($this->exactly(6))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', $invalidSupportUrl],
+				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', ''],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
+	}
+
+	/**
 	 * @param $invalidImprintUrl
 	 * @dataProvider invalidLegalUrlProvider
 	 */
 	public function testGetShortFooterInvalidImprint($invalidImprintUrl) {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', $invalidImprintUrl],
 				['theming', 'privacyUrl', '', ''],
 			]);
@@ -409,12 +473,13 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl) {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'supportUrl', '', ''],
 				['theming', 'imprintUrl', '', ''],
 				['theming', 'privacyUrl', '', $invalidPrivacyUrl],
 			]);

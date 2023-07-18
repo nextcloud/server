@@ -136,6 +136,7 @@ const {
 	slogan,
 	url,
 	userThemingDisabled,
+	customerSupportUrl,
 } = loadState('theming', 'adminThemingParameters')
 
 const textFields = [
@@ -195,6 +196,15 @@ const fileInputFields = [
 ]
 
 const advancedTextFields = [
+	{
+		name: 'supportUrl',
+		value: customerSupportUrl,
+		defaultValue: '',
+		type: 'url',
+		displayName: t('theming', 'Customer support link'),
+		placeholder: 'https://…',
+		maxlength: 500,
+	},
 	{
 		name: 'imprintUrl',
 		value: legalNoticeUrl,
