@@ -4,6 +4,7 @@ OC.L10N.register(
     "Image saved" : "Imagen guardada",
     "Unsaved changes" : "Cambios no guardados",
     "Edit" : "Editar",
+    "Open sidebar" : "Abrir barra lateral",
     "Download" : "Descargar",
     "Delete" : "Borrar",
     "Name" : "Nombre",
@@ -16,8 +17,10 @@ OC.L10N.register(
     "Undo" : "Deshacer",
     "Custom" : "Personalizado",
     "Value" : "Valor",
+    "Line" : "Línea",
     "Text" : "Texto",
     "Size" : "Tamaño",
-    "Position" : "Posición"
+    "Position" : "Posición",
+    "Name is required." : "Se requiere el nombre."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

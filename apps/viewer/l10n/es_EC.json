@@ -2,6 +2,7 @@
     "Image saved" : "Imagen guardada",
     "Unsaved changes" : "Cambios no guardados",
     "Edit" : "Editar",
+    "Open sidebar" : "Abrir barra lateral",
     "Download" : "Descargar",
     "Delete" : "Borrar",
     "Name" : "Nombre",
@@ -14,8 +15,10 @@
     "Undo" : "Deshacer",
     "Custom" : "Personalizado",
     "Value" : "Valor",
+    "Line" : "Línea",
     "Text" : "Texto",
     "Size" : "Tamaño",
-    "Position" : "Posición"
+    "Position" : "Posición",
+    "Name is required." : "Se requiere el nombre."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
