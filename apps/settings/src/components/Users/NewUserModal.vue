@@ -154,11 +154,12 @@
 			<div :class="['modal__item managers', { 'icon-loading-small': loading.manager }]">
 				<label class="modal__label"
 					for="new-user-manager">
+					<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 					{{ t('settings', 'Manager') }}
 				</label>
 				<NcSelect class="modal__select"
 					input-id="new-user-manager"
-					:placeholder="t('settings', 'Set user manager')"
+					:placeholder="managerLabel"
 					:options="possibleManagers"
 					v-model="newUser.manager"
 					:user-select="true"
@@ -213,6 +214,8 @@ export default {
 	data() {
 		return {
 			possibleManagers: [],
+			// TRANSLATORS This string describes a manager in the context of an organization
+			managerLabel: t('settings', 'Set user manager'),
 		}
 	},
 

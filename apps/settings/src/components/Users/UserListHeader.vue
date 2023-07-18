@@ -82,6 +82,7 @@
 		</th>
 		<th class="header__cell header__cell--large"
 			scope="col">
+			<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 			<span>{{ t('settings', 'Manager') }}</span>
 		</th>
 		<th class="header__cell header__cell--actions"
