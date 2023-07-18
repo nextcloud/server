@@ -68,11 +68,6 @@ class Install extends Command {
 		;
 	}
 
-	/**
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
-	 * @throws \Exception
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 		$forceEnable = (bool) $input->getOption('force');
