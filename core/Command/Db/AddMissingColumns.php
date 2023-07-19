@@ -29,15 +29,11 @@ namespace OC\Core\Command\Db;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\DB\Events\AddMissingColumnsEvent;
-use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class AddMissingColumns
@@ -50,7 +46,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class AddMissingColumns extends Command {
 	public function __construct(
 		private Connection $connection,
-		private EventDispatcherInterface $legacyDispatcher,
 		private IEventDispatcher $dispatcher,
 	) {
 		parent::__construct();
@@ -67,9 +62,6 @@ class AddMissingColumns extends Command {
 		$dryRun = $input->getOption('dry-run');
 
 		// Dispatch event so apps can also update columns if needed
-		$event = new GenericEvent($output);
-		$this->legacyDispatcher->dispatch(IDBConnection::ADD_MISSING_COLUMNS_EVENT, $event);
-
 		$event = new AddMissingColumnsEvent();
 		$this->dispatcher->dispatchTyped($event);
 		$missingColumns = $event->getMissingColumns();

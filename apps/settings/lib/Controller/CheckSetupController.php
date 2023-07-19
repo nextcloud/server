@@ -92,8 +92,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 #[IgnoreOpenAPI]
 class CheckSetupController extends Controller {
@@ -110,8 +108,6 @@ class CheckSetupController extends Controller {
 	/** @var LoggerInterface */
 	private $logger;
 	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var EventDispatcherInterface */
 	private $dispatcher;
 	/** @var Connection */
 	private $db;
@@ -144,8 +140,7 @@ class CheckSetupController extends Controller {
 								IL10N $l10n,
 								Checker $checker,
 								LoggerInterface $logger,
-								IEventDispatcher $eventDispatcher,
-								EventDispatcherInterface $dispatcher,
+								IEventDispatcher $dispatcher,
 								Connection $db,
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
@@ -165,7 +160,6 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->eventDispatcher = $eventDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->db = $db;
 		$this->lockingProvider = $lockingProvider;
@@ -553,11 +547,8 @@ Raw output
 		$indexInfo = new MissingIndexInformation();
 
 		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($indexInfo);
-		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_INDEXES_EVENT, $event);
-
 		$event = new AddMissingIndicesEvent();
-		$this->eventDispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatchTyped($event);
 		$missingIndices = $event->getMissingIndices();
 
 		if ($missingIndices !== []) {
@@ -577,12 +568,9 @@ Raw output
 
 	protected function hasMissingPrimaryKeys(): array {
 		$info = new MissingPrimaryKeyInformation();
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($info);
-		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT, $event);
-
+		// Dispatch event so apps can also hint for pending key updates if needed
 		$event = new AddMissingPrimaryKeyEvent();
-		$this->eventDispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatchTyped($event);
 		$missingKeys = $event->getMissingPrimaryKeys();
 
 		if (!empty($missingKeys)) {
@@ -602,12 +590,9 @@ Raw output
 
 	protected function hasMissingColumns(): array {
 		$columnInfo = new MissingColumnInformation();
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($columnInfo);
-		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_COLUMNS_EVENT, $event);
-
+		// Dispatch event so apps can also hint for pending column updates if needed
 		$event = new AddMissingColumnsEvent();
-		$this->eventDispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatchTyped($event);
 		$missingColumns = $event->getMissingColumns();
 
 		if (!empty($missingColumns)) {

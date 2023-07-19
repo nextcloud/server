@@ -33,18 +33,14 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class AddMissingIndices
@@ -57,8 +53,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class AddMissingIndices extends Command {
 	public function __construct(
 		private Connection $connection,
-		private IEventDispatcher $eventDispatcher,
-		private EventDispatcherInterface $dispatcher,
+		private IEventDispatcher $dispatcher,
 	) {
 		parent::__construct();
 	}
@@ -74,11 +69,8 @@ class AddMissingIndices extends Command {
 		$dryRun = $input->getOption('dry-run');
 
 		// Dispatch event so apps can also update indexes if needed
-		$event = new GenericEvent($output);
-		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_INDEXES_EVENT, $event);
-
 		$event = new AddMissingIndicesEvent();
-		$this->eventDispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatchTyped($event);
 
 		$missingIndices = $event->getMissingIndices();
 		if ($missingIndices !== []) {
