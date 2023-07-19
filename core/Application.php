@@ -54,6 +54,7 @@ use OC\Metadata\FileEventListener;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
@@ -253,62 +254,49 @@ class Application extends App {
 			}
 		);
 
-		$oldEventDispatcher->addListener(IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT,
-			function (GenericEvent $event) use ($container) {
-				/** @var MissingPrimaryKeyInformation $subject */
-				$subject = $event->getSubject();
+		$eventDispatcher->addListener(AddMissingPrimaryKeyEvent::class, function (AddMissingPrimaryKeyEvent $event) {
+			$event->addMissingPrimaryKey(
+				'federated_reshares',
+				'federated_res_pk',
+				['share_id'],
+				'share_id_index'
+			);
 
-				$schema = new SchemaWrapper($container->query(Connection::class));
+			$event->addMissingPrimaryKey(
+				'systemtag_object_mapping',
+				'som_pk',
+				['objecttype', 'objectid', 'systemtagid'],
+				'mapping'
+			);
 
-				if ($schema->hasTable('federated_reshares')) {
-					$table = $schema->getTable('federated_reshares');
+			$event->addMissingPrimaryKey(
+				'comments_read_markers',
+				'crm_pk',
+				['user_id', 'object_type', 'object_id'],
+				'comments_marker_index'
+			);
 
-					if (!$table->hasPrimaryKey()) {
-						$subject->addHintForMissingSubject($table->getName());
-					}
-				}
+			$event->addMissingPrimaryKey(
+				'collres_resources',
+				'crr_pk',
+				['collection_id', 'resource_type', 'resource_id'],
+				'collres_unique_res'
+			);
 
-				if ($schema->hasTable('systemtag_object_mapping')) {
-					$table = $schema->getTable('systemtag_object_mapping');
+			$event->addMissingPrimaryKey(
+				'collres_accesscache',
+				'cra_pk',
+				['user_id', 'collection_id', 'resource_type', 'resource_id'],
+				'collres_unique_user'
+			);
 
-					if (!$table->hasPrimaryKey()) {
-						$subject->addHintForMissingSubject($table->getName());
-					}
-				}
-
-				if ($schema->hasTable('comments_read_markers')) {
-					$table = $schema->getTable('comments_read_markers');
-
-					if (!$table->hasPrimaryKey()) {
-						$subject->addHintForMissingSubject($table->getName());
-					}
-				}
-
-				if ($schema->hasTable('collres_resources')) {
-					$table = $schema->getTable('collres_resources');
-
-					if (!$table->hasPrimaryKey()) {
-						$subject->addHintForMissingSubject($table->getName());
-					}
-				}
-
-				if ($schema->hasTable('collres_accesscache')) {
-					$table = $schema->getTable('collres_accesscache');
-
-					if (!$table->hasPrimaryKey()) {
-						$subject->addHintForMissingSubject($table->getName());
-					}
-				}
-
-				if ($schema->hasTable('filecache_extended')) {
-					$table = $schema->getTable('filecache_extended');
-
-					if (!$table->hasPrimaryKey()) {
-						$subject->addHintForMissingSubject($table->getName());
-					}
-				}
-			}
-		);
+			$event->addMissingPrimaryKey(
+				'filecache_extended',
+				'fce_pk',
+				['fileid'],
+				'fce_fileid_idx'
+			);
+		});
 
 		$oldEventDispatcher->addListener(IDBConnection::CHECK_MISSING_COLUMNS_EVENT,
 			function (GenericEvent $event) use ($container) {

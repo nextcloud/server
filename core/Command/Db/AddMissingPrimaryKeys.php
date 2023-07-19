@@ -67,8 +67,6 @@ class AddMissingPrimaryKeys extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 
-		$updated = $this->addCorePrimaryKeys($output, $dryRun);
-
 		// Dispatch event so apps can also update indexes if needed
 		$event = new GenericEvent($output);
 		$this->legacyDispatcher->dispatch(IDBConnection::ADD_MISSING_PRIMARY_KEYS_EVENT, $event);
@@ -76,6 +74,7 @@ class AddMissingPrimaryKeys extends Command {
 		$event = new AddMissingPrimaryKeyEvent();
 		$this->dispatcher->dispatchTyped($event);
 		$missingKeys = $event->getMissingPrimaryKeys();
+		$updated = false;
 
 		if (!empty($missingKeys)) {
 			$schema = new SchemaWrapper($this->connection);
@@ -108,124 +107,5 @@ class AddMissingPrimaryKeys extends Command {
 		}
 
 		return 0;
-	}
-
-	/**
-	 * add missing indices to the share table
-	 *
-	 * @param OutputInterface $output
-	 * @param bool $dryRun If true, will return the sql queries instead of running them.
-	 * @return bool True when the schema changed
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
-	 */
-	private function addCorePrimaryKeys(OutputInterface $output, bool $dryRun): bool {
-		$output->writeln('<info>Check primary keys.</info>');
-
-		$schema = new SchemaWrapper($this->connection);
-		$updated = false;
-
-		if ($schema->hasTable('federated_reshares')) {
-			$table = $schema->getTable('federated_reshares');
-			if (!$table->hasPrimaryKey()) {
-				$output->writeln('<info>Adding primary key to the federated_reshares table, this can take some time...</info>');
-				$table->setPrimaryKey(['share_id'], 'federated_res_pk');
-				if ($table->hasIndex('share_id_index')) {
-					$table->dropIndex('share_id_index');
-				}
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>federated_reshares table updated successfully.</info>');
-			}
-		}
-
-		if ($schema->hasTable('systemtag_object_mapping')) {
-			$table = $schema->getTable('systemtag_object_mapping');
-			if (!$table->hasPrimaryKey()) {
-				$output->writeln('<info>Adding primary key to the systemtag_object_mapping table, this can take some time...</info>');
-				$table->setPrimaryKey(['objecttype', 'objectid', 'systemtagid'], 'som_pk');
-				if ($table->hasIndex('mapping')) {
-					$table->dropIndex('mapping');
-				}
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>systemtag_object_mapping table updated successfully.</info>');
-			}
-		}
-
-		if ($schema->hasTable('comments_read_markers')) {
-			$table = $schema->getTable('comments_read_markers');
-			if (!$table->hasPrimaryKey()) {
-				$output->writeln('<info>Adding primary key to the comments_read_markers table, this can take some time...</info>');
-				$table->setPrimaryKey(['user_id', 'object_type', 'object_id'], 'crm_pk');
-				if ($table->hasIndex('comments_marker_index')) {
-					$table->dropIndex('comments_marker_index');
-				}
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>comments_read_markers table updated successfully.</info>');
-			}
-		}
-
-		if ($schema->hasTable('collres_resources')) {
-			$table = $schema->getTable('collres_resources');
-			if (!$table->hasPrimaryKey()) {
-				$output->writeln('<info>Adding primary key to the collres_resources table, this can take some time...</info>');
-				$table->setPrimaryKey(['collection_id', 'resource_type', 'resource_id'], 'crr_pk');
-				if ($table->hasIndex('collres_unique_res')) {
-					$table->dropIndex('collres_unique_res');
-				}
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>collres_resources table updated successfully.</info>');
-			}
-		}
-
-		if ($schema->hasTable('collres_accesscache')) {
-			$table = $schema->getTable('collres_accesscache');
-			if (!$table->hasPrimaryKey()) {
-				$output->writeln('<info>Adding primary key to the collres_accesscache table, this can take some time...</info>');
-				$table->setPrimaryKey(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'cra_pk');
-				if ($table->hasIndex('collres_unique_user')) {
-					$table->dropIndex('collres_unique_user');
-				}
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>collres_accesscache table updated successfully.</info>');
-			}
-		}
-
-		if ($schema->hasTable('filecache_extended')) {
-			$table = $schema->getTable('filecache_extended');
-			if (!$table->hasPrimaryKey()) {
-				$output->writeln('<info>Adding primary key to the filecache_extended table, this can take some time...</info>');
-				$table->setPrimaryKey(['fileid'], 'fce_pk');
-				if ($table->hasIndex('fce_fileid_idx')) {
-					$table->dropIndex('fce_fileid_idx');
-				}
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>filecache_extended table updated successfully.</info>');
-			}
-		}
-
-		return $updated;
 	}
 }
