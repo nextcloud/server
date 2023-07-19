@@ -377,7 +377,6 @@ OC.L10N.register(
     "Set user as admin for" : "Gör användare till admin för",
     "Select user quota" : "Välj användarens quota",
     "Set the language" : "Ställ in språk",
-    "Select manager" : "Välj chef",
     "{size} used" : "{size} använt",
     "Delete user" : "Ta bort användare",
     "Wipe all devices" : "Rensa alla enheter",
@@ -544,6 +543,7 @@ OC.L10N.register(
     "STARTTLS" : "STARTTLS",
     "Authentication method" : "Autentiseringsmetod",
     "Allow username autocompletion in share dialog" : "Tillåt autokomplettering av användarnamn i delningsdialogen",
-    "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper"
+    "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper",
+    "Select manager" : "Välj chef"
 },
 "nplurals=2; plural=(n != 1);");
