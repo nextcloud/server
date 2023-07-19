@@ -112,7 +112,6 @@ class TwoFactorChallengeController extends Controller {
 	 * @param string $challengeProviderId
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse|RedirectResponse
-	 * @throws \Exception
 	 */
 	#[UseSession]
 	public function showChallenge(string $challengeProviderId, string $redirect_url): StandaloneTemplateResponse|RedirectResponse {
