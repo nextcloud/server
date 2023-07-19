@@ -46,6 +46,9 @@ export default () => {
 		name: t('files_sharing', 'Shares'),
 		caption: t('files_sharing', 'Overview of shared files.'),
 
+		emptyTitle: t('files_sharing', 'No shares'),
+		emptyCaption: t('files_sharing', 'Files and folders you shared or have been shared with you will show up here'),
+
 		icon: ShareVariantSvg,
 		order: 20,
 
@@ -58,6 +61,9 @@ export default () => {
 		id: sharedWithYouViewId,
 		name: t('files_sharing', 'Shared with you'),
 		caption: t('files_sharing', 'List of files that are shared with you.'),
+
+		emptyTitle: t('files_sharing', 'Nothing shared with you yet'),
+		emptyCaption: t('files_sharing', 'Files and folders others shared with you will show up here'),
 
 		icon: AccountSvg,
 		order: 1,
@@ -73,6 +79,9 @@ export default () => {
 		name: t('files_sharing', 'Shared with others'),
 		caption: t('files_sharing', 'List of files that you shared with others.'),
 
+		emptyTitle: t('files_sharing', 'Nothing shared yet'),
+		emptyCaption: t('files_sharing', 'Files and folders you shared will show up here'),
+
 		icon: AccountGroupSvg,
 		order: 2,
 		parent: sharesViewId,
@@ -87,6 +96,9 @@ export default () => {
 		name: t('files_sharing', 'Shared by link'),
 		caption: t('files_sharing', 'List of files that are shared by link.'),
 
+		emptyTitle: t('files_sharing', 'No shared links'),
+		emptyCaption: t('files_sharing', 'Files and folders you shared by link will show up here'),
+
 		icon: LinkSvg,
 		order: 3,
 		parent: sharesViewId,
@@ -99,7 +111,10 @@ export default () => {
 	Navigation.register({
 		id: deletedSharesViewId,
 		name: t('files_sharing', 'Deleted shares'),
-		caption: t('files_sharing', 'List of shares that you removed yourself from.'),
+		caption: t('files_sharing', 'List of shares you left.'),
+
+		emptyTitle: t('files_sharing', 'No deleted shares'),
+		emptyCaption: t('files_sharing', 'Shares you have left will show up here'),
 
 		icon: DeleteSvg,
 		order: 4,
@@ -114,6 +129,9 @@ export default () => {
 		id: pendingSharesViewId,
 		name: t('files_sharing', 'Pending shares'),
 		caption: t('files_sharing', 'List of unapproved shares.'),
+
+		emptyTitle: t('files_sharing', 'No pending shares'),
+		emptyCaption: t('files_sharing', 'Shares you have received but not approved will show up here'),
 
 		icon: AccountClockSvg,
 		order: 5,
