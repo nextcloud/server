@@ -218,21 +218,4 @@ final class Task implements \JsonSerializable {
 			'identifier' => $this->getIdentifier(),
 		];
 	}
-
-	/**
-	 * @param string $type
-	 * @param string $input
-	 * @param string|null $userId
-	 * @param string $appId
-	 * @param string $identifier
-	 * @return Task
-	 * @throws \InvalidArgumentException
-	 * @since 27.1.0
-	 */
-	final public static function factory(string $type, string $input, ?string $userId, string $appId, string $identifier = ''): Task {
-		if (!in_array($type, self::TYPES)) {
-			throw new \InvalidArgumentException('Unknown task type');
-		}
-		return new Task($type, $input, $appId, $userId, $identifier);
-	}
 }
