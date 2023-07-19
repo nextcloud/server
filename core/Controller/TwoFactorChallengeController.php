@@ -220,7 +220,6 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @throws \Exception
 	 */
 	public function setupProvider(string $providerId): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
