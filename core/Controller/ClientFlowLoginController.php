@@ -235,7 +235,7 @@ class ClientFlowLoginController extends Controller {
 	 */
 	#[UseSession]
 	public function generateAppPassword(string $stateToken,
-										string $clientIdentifier = ''): Response|StandaloneTemplateResponse|Http\RedirectResponse {
+										string $clientIdentifier = ''): Response|StandaloneTemplateResponse|RedirectResponse {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();
