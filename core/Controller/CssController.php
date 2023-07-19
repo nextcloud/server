@@ -64,10 +64,9 @@ class CssController extends Controller {
 	 *
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css folder name
-	 * @return Response
-	 * @throws \Exception
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
-	public function getCss(string $fileName, string $appName): Response {
+	public function getCss(string $fileName, string $appName): FileDisplayResponse|NotFoundResponse {
 		try {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
