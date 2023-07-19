@@ -264,14 +264,6 @@ class LoginController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
-	 *
-	 * @param Chain $loginChain
-	 * @param string $user
-	 * @param string $password
-	 * @param string|null $redirect_url
-	 * @param string $timezone
-	 * @param string $timezone_offset
-	 * @return RedirectResponse
 	 */
 	#[UseSession]
 	public function tryLogin(Chain $loginChain,
