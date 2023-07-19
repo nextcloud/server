@@ -91,7 +91,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 */
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
 		try {
-			$task = new Task($type, $input, $this->userId, $appId, $identifier);
+			$task = new Task($type, $input, $appId, $this->userId, $identifier);
 		} catch (InvalidArgumentException) {
 			return new DataResponse(['message' => $this->l->t('Requested task type does not exist')], Http::STATUS_BAD_REQUEST);
 		}
