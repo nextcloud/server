@@ -32,7 +32,6 @@
  */
 namespace OC\Core;
 
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
@@ -45,28 +44,22 @@ use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Notification\CoreNotifier;
-use OC\DB\Connection;
-use OC\DB\MissingColumnInformation;
-use OC\DB\MissingIndexInformation;
-use OC\DB\MissingPrimaryKeyInformation;
-use OC\DB\SchemaWrapper;
 use OC\Metadata\FileEventListener;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingColumnsEvent;
+use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Events\NodeRemovedFromCache;
-use OCP\IDBConnection;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use OCP\IConfig;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Application
@@ -91,170 +84,181 @@ class Application extends App {
 		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
-		$oldEventDispatcher = $server->getEventDispatcher();
+		$eventDispatcher->addListener(AddMissingIndicesEvent::class, function (AddMissingIndicesEvent $event) {
+			$event->addMissingIndex(
+				'share',
+				'share_with_index',
+				['share_with']
+			);
+			$event->addMissingIndex(
+				'share',
+				'parent_index',
+				['parent']
+			);
+			$event->addMissingIndex(
+				'share',
+				'owner_index',
+				['uid_owner']
+			);
+			$event->addMissingIndex(
+				'share',
+				'initiator_index',
+				['uid_initiator']
+			);
 
-		$oldEventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
-			function (GenericEvent $event) use ($container) {
-				/** @var MissingIndexInformation $subject */
-				$subject = $event->getSubject();
+			$event->addMissingIndex(
+				'filecache',
+				'fs_mtime',
+				['mtime']
+			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_size',
+				['size']
+			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_id_storage_size',
+				['fileid', 'storage', 'size']
+			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_storage_path_prefix',
+				['storage', 'path'],
+				['lengths' => [null, 64]]
+			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_parent',
+				['parent']
+			);
 
-				$schema = new SchemaWrapper($container->query(Connection::class));
+			$event->addMissingIndex(
+				'twofactor_providers',
+				'twofactor_providers_uid',
+				['uid']
+			);
 
-				if ($schema->hasTable('share')) {
-					$table = $schema->getTable('share');
+			$event->addMissingUniqueIndex(
+				'login_flow_v2',
+				'poll_token',
+				['poll_token'],
+				[],
+				true
+			);
+			$event->addMissingUniqueIndex(
+				'login_flow_v2',
+				'login_token',
+				['login_token'],
+				[],
+				true
+			);
+			$event->addMissingIndex(
+				'login_flow_v2',
+				'timestamp',
+				['timestamp'],
+				[],
+				true
+			);
 
-					if (!$table->hasIndex('share_with_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'share_with_index');
-					}
-					if (!$table->hasIndex('parent_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'parent_index');
-					}
-					if (!$table->hasIndex('owner_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'owner_index');
-					}
-					if (!$table->hasIndex('initiator_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'initiator_index');
-					}
-				}
+			$event->addMissingIndex(
+				'whats_new',
+				'version',
+				['version'],
+				[],
+				true
+			);
 
-				if ($schema->hasTable('filecache')) {
-					$table = $schema->getTable('filecache');
+			$event->addMissingIndex(
+				'cards',
+				'cards_abiduri',
+				['addressbookid', 'uri'],
+				[],
+				true
+			);
+			$event->addMissingIndex(
+				'cards',
+				'cards_abid',
+				['addressbookid'],
+				[],
+				true
+			);
+			$event->addMissingIndex(
+				'cards',
+				'cards_abiduri',
+				['addressbookid', 'uri'],
+				[],
+				true
+			);
 
-					if (!$table->hasIndex('fs_mtime')) {
-						$subject->addHintForMissingSubject($table->getName(), 'fs_mtime');
-					}
+			$event->addMissingIndex(
+				'cards_properties',
+				'cards_prop_abid',
+				['addressbookid'],
+				[],
+				true
+			);
 
-					if (!$table->hasIndex('fs_size')) {
-						$subject->addHintForMissingSubject($table->getName(), 'fs_size');
-					}
+			$event->addMissingIndex(
+				'calendarobjects_props',
+				'calendarobject_calid_index',
+				['calendarid', 'calendartype']
+			);
 
-					if (!$table->hasIndex('fs_id_storage_size')) {
-						$subject->addHintForMissingSubject($table->getName(), 'fs_id_storage_size');
-					}
+			$event->addMissingIndex(
+				'schedulingobjects',
+				'schedulobj_principuri_index',
+				['principaluri']
+			);
 
-					if (!$table->hasIndex('fs_storage_path_prefix') && !$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-						$subject->addHintForMissingSubject($table->getName(), 'fs_storage_path_prefix');
-					}
+			$event->addMissingIndex(
+				'properties',
+				'properties_path_index',
+				['userid', 'propertypath']
+			);
+			$event->addMissingIndex(
+				'properties',
+				'properties_pathonly_index',
+				['propertypath']
+			);
 
-					if (!$table->hasIndex('fs_parent')) {
-						$subject->addHintForMissingSubject($table->getName(), 'fs_parent');
-					}
-				}
 
-				if ($schema->hasTable('twofactor_providers')) {
-					$table = $schema->getTable('twofactor_providers');
+			$event->addMissingIndex(
+				'jobs',
+				'job_lastcheck_reserved',
+				['last_checked', 'reserved_at']
+			);
 
-					if (!$table->hasIndex('twofactor_providers_uid')) {
-						$subject->addHintForMissingSubject($table->getName(), 'twofactor_providers_uid');
-					}
-				}
+			$event->addMissingIndex(
+				'direct_edit',
+				'direct_edit_timestamp',
+				['timestamp']
+			);
 
-				if ($schema->hasTable('login_flow_v2')) {
-					$table = $schema->getTable('login_flow_v2');
+			$event->addMissingIndex(
+				'preferences',
+				'preferences_app_key',
+				['appid', 'configkey']
+			);
 
-					if (!$table->hasIndex('poll_token')) {
-						$subject->addHintForMissingSubject($table->getName(), 'poll_token');
-					}
-					if (!$table->hasIndex('login_token')) {
-						$subject->addHintForMissingSubject($table->getName(), 'login_token');
-					}
-					if (!$table->hasIndex('timestamp')) {
-						$subject->addHintForMissingSubject($table->getName(), 'timestamp');
-					}
-				}
+			$event->addMissingIndex(
+				'mounts',
+				'mounts_class_index',
+				['mount_provider_class']
+			);
+			$event->addMissingIndex(
+				'mounts',
+				'mounts_user_root_path_index',
+				['user_id', 'root_id', 'mount_point'],
+				['lengths' => [null, null, 128]]
+			);
 
-				if ($schema->hasTable('whats_new')) {
-					$table = $schema->getTable('whats_new');
-
-					if (!$table->hasIndex('version')) {
-						$subject->addHintForMissingSubject($table->getName(), 'version');
-					}
-				}
-
-				if ($schema->hasTable('cards')) {
-					$table = $schema->getTable('cards');
-
-					if (!$table->hasIndex('cards_abid')) {
-						$subject->addHintForMissingSubject($table->getName(), 'cards_abid');
-					}
-
-					if (!$table->hasIndex('cards_abiduri')) {
-						$subject->addHintForMissingSubject($table->getName(), 'cards_abiduri');
-					}
-				}
-
-				if ($schema->hasTable('cards_properties')) {
-					$table = $schema->getTable('cards_properties');
-
-					if (!$table->hasIndex('cards_prop_abid')) {
-						$subject->addHintForMissingSubject($table->getName(), 'cards_prop_abid');
-					}
-				}
-
-				if ($schema->hasTable('calendarobjects_props')) {
-					$table = $schema->getTable('calendarobjects_props');
-
-					if (!$table->hasIndex('calendarobject_calid_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'calendarobject_calid_index');
-					}
-				}
-
-				if ($schema->hasTable('schedulingobjects')) {
-					$table = $schema->getTable('schedulingobjects');
-					if (!$table->hasIndex('schedulobj_principuri_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'schedulobj_principuri_index');
-					}
-				}
-
-				if ($schema->hasTable('properties')) {
-					$table = $schema->getTable('properties');
-					if (!$table->hasIndex('properties_path_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'properties_path_index');
-					}
-					if (!$table->hasIndex('properties_pathonly_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'properties_pathonly_index');
-					}
-				}
-
-				if ($schema->hasTable('jobs')) {
-					$table = $schema->getTable('jobs');
-					if (!$table->hasIndex('job_lastcheck_reserved')) {
-						$subject->addHintForMissingSubject($table->getName(), 'job_lastcheck_reserved');
-					}
-				}
-
-				if ($schema->hasTable('direct_edit')) {
-					$table = $schema->getTable('direct_edit');
-					if (!$table->hasIndex('direct_edit_timestamp')) {
-						$subject->addHintForMissingSubject($table->getName(), 'direct_edit_timestamp');
-					}
-				}
-
-				if ($schema->hasTable('preferences')) {
-					$table = $schema->getTable('preferences');
-					if (!$table->hasIndex('preferences_app_key')) {
-						$subject->addHintForMissingSubject($table->getName(), 'preferences_app_key');
-					}
-				}
-
-				if ($schema->hasTable('mounts')) {
-					$table = $schema->getTable('mounts');
-					if (!$table->hasIndex('mounts_class_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'mounts_class_index');
-					}
-					if (!$table->hasIndex('mounts_user_root_path_index')) {
-						$subject->addHintForMissingSubject($table->getName(), 'mounts_user_root_path_index');
-					}
-				}
-
-				if ($schema->hasTable('systemtag_object_mapping')) {
-					$table = $schema->getTable('systemtag_object_mapping');
-					if (!$table->hasIndex('systag_by_tagid')) {
-						$subject->addHintForMissingSubject($table->getName(), 'systag_by_tagid');
-					}
-				}
-			}
-		);
+			$event->addMissingIndex(
+				'systemtag_object_mapping',
+				'systag_by_tagid',
+				['systemtagid', 'objecttype']
+			);
+		});
 
 		$eventDispatcher->addListener(AddMissingPrimaryKeyEvent::class, function (AddMissingPrimaryKeyEvent $event) {
 			$event->addMissingPrimaryKey(
