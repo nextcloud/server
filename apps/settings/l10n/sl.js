@@ -357,7 +357,6 @@ OC.L10N.register(
     "Set user as admin for" : "Nastavi uporabnika kot skrbnika za",
     "Select user quota" : "Količinska omejitev prostora",
     "Set the language" : "Nastavi jezik",
-    "Select manager" : "Izbor upravljalnika",
     "{size} used" : "V uporabi {size}·",
     "Delete user" : "Izbriši uporabnika",
     "Wipe all devices" : "Varnostno izbriši vse naprave",
@@ -514,6 +513,7 @@ OC.L10N.register(
     "Authentication method" : "Način overitve",
     "Allow username autocompletion in share dialog" : "Dovoli samodejno dopolnjevanje uporabniških imen v oknu omogočanja souporabe",
     "Allow username autocompletion to users within the same groups" : "Dovoli samodejno dopolnjevanje uporabniških imen znotraj iste skupine",
+    "Select manager" : "Izbor upravljalnika",
     "User's table" : "Uporabniška razpredelnica",
     "Select user manager" : "Izbor upravljalnika uporabnikov"
 },
