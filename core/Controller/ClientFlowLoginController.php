@@ -227,9 +227,6 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $stateToken
-	 * @param string $clientIdentifier
-	 * @return Response|StandaloneTemplateResponse|RedirectResponse
 	 * @throws ClientNotFoundException
 	 * @throws Exception
 	 */
