@@ -76,6 +76,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
+use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
@@ -579,6 +580,22 @@ Raw output
 		// Dispatch event so apps can also hint for pending index updates if needed
 		$event = new GenericEvent($info);
 		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT, $event);
+
+		$event = new AddMissingPrimaryKeyEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+		$missingKeys = $event->getMissingPrimaryKeys();
+
+		if (!empty($missingKeys)) {
+			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
+			foreach ($missingKeys as $missingKey) {
+				if ($schema->hasTable($missingKey['tableName'])) {
+					$table = $schema->getTable($missingKey['tableName']);
+					if (!$table->hasPrimaryKey()) {
+						$info->addHintForMissingSubject($missingKey['tableName']);
+					}
+				}
+			}
+		}
 
 		return $info->getListOfMissingPrimaryKeys();
 	}

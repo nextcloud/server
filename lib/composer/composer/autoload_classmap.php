@@ -212,6 +212,7 @@ return array(
     'OCP\\Contacts\\IManager' => $baseDir . '/lib/public/Contacts/IManager.php',
     'OCP\\DB\\Events\\AddMissingColumnsEvent' => $baseDir . '/lib/public/DB/Events/AddMissingColumnsEvent.php',
     'OCP\\DB\\Events\\AddMissingIndicesEvent' => $baseDir . '/lib/public/DB/Events/AddMissingIndicesEvent.php',
+    'OCP\\DB\\Events\\AddMissingPrimaryKeyEvent' => $baseDir . '/lib/public/DB/Events/AddMissingPrimaryKeyEvent.php',
     'OCP\\DB\\Exception' => $baseDir . '/lib/public/DB/Exception.php',
     'OCP\\DB\\IPreparedStatement' => $baseDir . '/lib/public/DB/IPreparedStatement.php',
     'OCP\\DB\\IResult' => $baseDir . '/lib/public/DB/IResult.php',
