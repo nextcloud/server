@@ -85,7 +85,6 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse
-	 * @throws \Exception
 	 */
 	public function selectChallenge($redirect_url): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
