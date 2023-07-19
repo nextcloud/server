@@ -170,6 +170,8 @@
  * http://jquery.org/license
  */
 
+/*! For license information please see NcHeaderMenu.js.LICENSE.txt */
+
 /*! jQuery Migrate v3.4.1 | (c) OpenJS Foundation and other contributors | jquery.org/license */
 
 /*! jQuery UI - v1.13.2 - 2022-07-14

@@ -357,7 +357,6 @@ OC.L10N.register(
     "Set user as admin for" : "Felhasználó beállítása rendszergazdaként itt:",
     "Select user quota" : "Válasszon felhasználói kvótát",
     "Set the language" : "Nyelv beállítása",
-    "Select manager" : "Kezelő kiválasztása",
     "{size} used" : "{size} felhasználva",
     "Delete user" : "Felhasználó törlése",
     "Wipe all devices" : "Összes eszköz törlése",
@@ -521,6 +520,7 @@ OC.L10N.register(
     "Authentication method" : "Hitelesítési mód",
     "Allow username autocompletion in share dialog" : "A felhasználónév automatikus kiegészítésének engedélyezése a megosztás párbeszédpanelen ",
     "Allow username autocompletion to users within the same groups" : "A felhasználónév automatikus kiegészítésének engedélyezése az azonos csoportokba tartozó felhasználók számára ",
+    "Select manager" : "Kezelő kiválasztása",
     "User's table" : "A felhasználó táblázata",
     "Select user manager" : "Felhasználókezelő kiválasztása"
 },

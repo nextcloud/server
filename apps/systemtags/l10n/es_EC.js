@@ -37,6 +37,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "Las <strong>etiquetas del sistema</strong> para un archivo han sido modificadas",
     "Tags" : "Etiquetas",
     "Collaborative tags" : "Etiquetas colaborativas",
+    "Failed to load tags" : "Error al cargar las etiquetas",
     "Tagged files" : "Archivos etiquetados",
     "Select tags to filter by" : "Selecciona las etiquetas del filtro",
     "No tags found" : "No se encontraron etiquetas",

@@ -67,18 +67,20 @@ describe('Sharing views definition', () => {
 		expect(shareOverviewView?.getContents).toBeDefined()
 
 		const dataProvider = [
-			{ id: 'sharingin', name: 'Shared with you', caption: 'List of files that are shared with you.' },
-			{ id: 'sharingout', name: 'Shared with others', caption: 'List of files that you shared with others.' },
-			{ id: 'sharinglinks', name: 'Shared by link', caption: 'List of files that are shared by link.' },
-			{ id: 'deletedshares', name: 'Deleted shares', caption: 'List of shares that you removed yourself from.' },
-			{ id: 'pendingshares', name: 'Pending shares', caption: 'List of unapproved shares.' },
+			{ id: 'sharingin', name: 'Shared with you' },
+			{ id: 'sharingout', name: 'Shared with others' },
+			{ id: 'sharinglinks', name: 'Shared by link' },
+			{ id: 'deletedshares', name: 'Deleted shares' },
+			{ id: 'pendingshares', name: 'Pending shares' },
 		]
 
 		sharesChildViews.forEach((view, index) => {
 			expect(view?.id).toBe(dataProvider[index].id)
 			expect(view?.parent).toBe('shareoverview')
 			expect(view?.name).toBe(dataProvider[index].name)
-			expect(view?.caption).toBe(dataProvider[index].caption)
+			expect(view?.caption).toBeDefined()
+			expect(view?.emptyTitle).toBeDefined()
+			expect(view?.emptyCaption).toBeDefined()
 			expect(view?.icon).toBe('<svg>SvgMock</svg>')
 			expect(view?.order).toBe(index + 1)
 			expect(view?.columns).toStrictEqual([])
