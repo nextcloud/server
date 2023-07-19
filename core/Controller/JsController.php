@@ -64,10 +64,9 @@ class JsController extends Controller {
 	 *
 	 * @param string $fileName js filename with extension
 	 * @param string $appName js folder name
-	 * @return Response
-	 * @throws \Exception
+	 * @return FileDisplayResponse|NotFoundResponse
 	 */
-	public function getJs(string $fileName, string $appName): Response {
+	public function getJs(string $fileName, string $appName): FileDisplayResponse|NotFoundResponse {
 		try {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
