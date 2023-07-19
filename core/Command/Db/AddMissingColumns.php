@@ -66,8 +66,6 @@ class AddMissingColumns extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 
-		$updated = $this->addCoreColumns($output, $dryRun);
-
 		// Dispatch event so apps can also update columns if needed
 		$event = new GenericEvent($output);
 		$this->legacyDispatcher->dispatch(IDBConnection::ADD_MISSING_COLUMNS_EVENT, $event);
@@ -75,6 +73,7 @@ class AddMissingColumns extends Command {
 		$event = new AddMissingColumnsEvent();
 		$this->dispatcher->dispatchTyped($event);
 		$missingColumns = $event->getMissingColumns();
+		$updated = false;
 
 		if (!empty($missingColumns)) {
 			$schema = new SchemaWrapper($this->connection);
@@ -101,39 +100,5 @@ class AddMissingColumns extends Command {
 		}
 
 		return 0;
-	}
-
-	/**
-	 * Add missing column for core tables
-	 *
-	 * @param OutputInterface $output
-	 * @param bool $dryRun If true, will return the sql queries instead of running them.
-	 * @return bool True when the schema changed
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
-	 */
-	private function addCoreColumns(OutputInterface $output, bool $dryRun): bool {
-		$output->writeln('<info>Check columns of the comments table.</info>');
-
-		$schema = new SchemaWrapper($this->connection);
-		$updated = false;
-
-		if ($schema->hasTable('comments')) {
-			$table = $schema->getTable('comments');
-			if (!$table->hasColumn('reference_id')) {
-				$output->writeln('<info>Adding additional reference_id column to the comments table, this can take some time...</info>');
-				$table->addColumn('reference_id', Types::STRING, [
-					'notnull' => false,
-					'length' => 64,
-				]);
-				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-				if ($dryRun && $sqlQueries !== null) {
-					$output->writeln($sqlQueries);
-				}
-				$updated = true;
-				$output->writeln('<info>Comments table updated successfully.</info>');
-			}
-		}
-
-		return $updated;
 	}
 }

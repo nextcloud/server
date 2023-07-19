@@ -54,7 +54,9 @@ use OC\Metadata\FileEventListener;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
@@ -298,22 +300,17 @@ class Application extends App {
 			);
 		});
 
-		$oldEventDispatcher->addListener(IDBConnection::CHECK_MISSING_COLUMNS_EVENT,
-			function (GenericEvent $event) use ($container) {
-				/** @var MissingColumnInformation $subject */
-				$subject = $event->getSubject();
-
-				$schema = new SchemaWrapper($container->query(Connection::class));
-
-				if ($schema->hasTable('comments')) {
-					$table = $schema->getTable('comments');
-
-					if (!$table->hasColumn('reference_id')) {
-						$subject->addHintForMissingColumn($table->getName(), 'reference_id');
-					}
-				}
-			}
-		);
+		$eventDispatcher->addListener(AddMissingColumnsEvent::class, function (AddMissingColumnsEvent $event) {
+			$event->addMissingColumn(
+				'comments',
+				'reference_id',
+				Types::STRING,
+				[
+					'notnull' => false,
+					'length' => 64,
+				]
+			);
+		});
 
 		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
