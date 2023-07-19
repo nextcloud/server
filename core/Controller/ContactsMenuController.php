@@ -54,9 +54,6 @@ class ContactsMenuController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param int $shareType
-	 * @param string $shareWith
-	 * @return JSONResponse|\JsonSerializable
 	 * @throws Exception
 	 */
 	public function findOne(int $shareType, string $shareWith): JSONResponse|\JsonSerializable {
