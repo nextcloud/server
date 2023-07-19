@@ -5,3 +5,5 @@
 /*! For license information please see NcAppNavigationNewItem.js.LICENSE.txt */
 
 /*! For license information please see NcAppNavigationSettings.js.LICENSE.txt */
+
+/*! For license information please see NcIconSvgWrapper.js.LICENSE.txt */

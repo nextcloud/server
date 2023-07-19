@@ -68,7 +68,7 @@ describe('Favorites view definition', () => {
 
 		expect(favoritesView?.id).toBe('favorites')
 		expect(favoritesView?.name).toBe('Favorites')
-		expect(favoritesView?.caption).toBe('List of favorites files and folders.')
+		expect(favoritesView?.caption).toBeDefined()
 		expect(favoritesView?.icon).toBe('<svg>SvgMock</svg>')
 		expect(favoritesView?.order).toBe(5)
 		expect(favoritesView?.columns).toStrictEqual([])

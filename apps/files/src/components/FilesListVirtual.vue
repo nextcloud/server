@@ -45,7 +45,7 @@
 		<template #before>
 			<!-- Accessibility description -->
 			<caption class="hidden-visually">
-				{{ currentView.caption || '' }}
+				{{ currentView.caption || t('files', 'List of files and folders.') }}
 				{{ t('files', 'This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.') }}
 			</caption>
 
