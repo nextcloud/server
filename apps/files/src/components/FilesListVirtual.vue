@@ -46,7 +46,7 @@
 			<!-- Accessibility description -->
 			<caption class="hidden-visually">
 				{{ currentView.caption || t('files', 'List of files and folders.') }}
-				{{ t('files', 'This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.') }}
+				{{ t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.') }}
 			</caption>
 
 			<!-- Thead-->
