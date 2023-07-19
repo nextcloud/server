@@ -29,8 +29,6 @@ namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
