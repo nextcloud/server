@@ -32,67 +32,46 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
-	/** @var string */
 	protected string $app;
 
-	/** @var string */
 	protected string $user;
 
-	/** @var \DateTime */
 	protected \DateTime $dateTime;
 
-	/** @var string */
 	protected string $objectType;
 
-	/** @var string */
 	protected string $objectId;
 
-	/** @var string */
 	protected string $subject;
 
-	/** @var array */
 	protected array $subjectParameters;
 
-	/** @var string */
 	protected string $subjectParsed;
 
-	/** @var string */
 	protected string $subjectRich;
 
-	/** @var array */
 	protected array $subjectRichParameters;
 
-	/** @var string */
 	protected string $message;
 
-	/** @var array */
 	protected array $messageParameters;
 
-	/** @var string */
 	protected string $messageParsed;
 
-	/** @var string */
 	protected string $messageRich;
 
-	/** @var array */
 	protected array $messageRichParameters;
 
-	/** @var string */
 	protected string $link;
 
-	/** @var string */
 	protected string $icon;
 
-	/** @var array */
 	protected array $actions;
 
-	/** @var array */
 	protected array $actionsParsed;
 
-	/** @var bool */
 	protected bool $hasPrimaryAction;
 
-	/** @var bool */
 	protected bool $hasPrimaryParsedAction;
 
 	public function __construct(
