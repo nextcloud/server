@@ -37,6 +37,9 @@ Navigation.register({
 	name: t('files_trashbin', 'Deleted files'),
 	caption: t('files_trashbin', 'List of files that have been deleted.'),
 
+	emptyTitle: t('files_trashbin', 'No deleted files'),
+	emptyCaption: t('files_trashbin', 'Files and folders you have deleted will show up here'),
+
 	icon: DeleteSvg,
 	order: 50,
 	sticky: true,

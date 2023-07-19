@@ -68,6 +68,9 @@ export default () => {
 		name: t('files', 'Favorites'),
 		caption: t('files', 'List of favorites files and folders.'),
 
+		emptyTitle: t('files', 'No favorites yet'),
+		emptyCaption: t('files', 'Files and folders you mark as favorite will show up here'),
+
 		icon: StarSvg,
 		order: 5,
 

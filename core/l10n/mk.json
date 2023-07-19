@@ -329,7 +329,7 @@
     "Grant access" : "Дозволи пристап",
     "Alternative log in using app token" : "Алтернативен начин на најава со користење на токен",
     "Account access" : "Пристап до сметка",
-    "Currently logged in as %1$s (%2$s)." : "Моментално најавени сте како %1$s (%2$s).",
+    "Currently logged in as %1$s (%2$s)." : "Најавени сте како %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Ќе доделите пристап на %1$s во вашата %2$s сметка.",
     "Account connected" : "Сметката е поврзана",
     "Your client should now be connected!" : "Вашиот клиент сега треба да биде поврзан!",
