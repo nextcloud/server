@@ -43,9 +43,6 @@ class WellKnownController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 *
-	 * @param string $service
-	 * @return Response
 	 */
 	public function handle(string $service): Response {
 		$response = $this->requestManager->process(
