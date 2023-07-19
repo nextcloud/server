@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,34 +26,35 @@ declare(strict_types=1);
 namespace OCP\DB\Events;
 
 /**
- * Event to allow apps to register information about missing database indices
+ * Event to allow apps to register information about missing database columns
  *
  * This event will be dispatched for checking on the admin settings and when running
- * occ db:add-missing-indices which will then create those indices
+ * occ db:add-missing-columns which will then create those columns
  *
  * @since 28.0.0
  */
-class AddMissingIndicesEvent extends \OCP\EventDispatcher\Event {
-	/** @var array<array-key, array{tableName: string, indexName: string, columns: string[]}> */
-	private array $missingIndices = [];
+class AddMissingColumnsEvent extends \OCP\EventDispatcher\Event {
+	/** @var array<array-key, array{tableName: string, columnName: string, typeName: string, options: array{}}> */
+	private array $missingColumns = [];
 
 	/**
-	 * @param string[] $columns
+	 * @param mixed[] $options
 	 * @since 28.0.0
 	 */
-	public function addMissingIndex(string $tableName, string $indexName, array $columns): void {
-		$this->missingIndices[] = [
+	public function addMissingColumn(string $tableName, string $columnName, string $typeName, array $options): void {
+		$this->missingColumns[] = [
 			'tableName' => $tableName,
-			'indexName' => $indexName,
-			'columns' => $columns
+			'columnName' => $columnName,
+			'typeName' => $typeName,
+			'options' => $options,
 		];
 	}
 
 	/**
 	 * @since 28.0.0
-	 * @return array<array-key, array{tableName: string, indexName: string, columns: string[]}>
+	 * @return array<array-key, array{tableName: string, columnName: string, typeName: string, options: array{}}>
 	 */
-	public function getMissingIndices(): array {
-		return $this->missingIndices;
+	public function getMissingColumns(): array {
+		return $this->missingColumns;
 	}
 }

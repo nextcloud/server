@@ -74,6 +74,7 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -583,12 +584,28 @@ Raw output
 	}
 
 	protected function hasMissingColumns(): array {
-		$indexInfo = new MissingColumnInformation();
+		$columnInfo = new MissingColumnInformation();
 		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($indexInfo);
+		$event = new GenericEvent($columnInfo);
 		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_COLUMNS_EVENT, $event);
 
-		return $indexInfo->getListOfMissingColumns();
+		$event = new AddMissingColumnsEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+		$missingColumns = $event->getMissingColumns();
+
+		if (!empty($missingColumns)) {
+			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
+			foreach ($missingColumns as $missingColumn) {
+				if ($schema->hasTable($missingColumn['tableName'])) {
+					$table = $schema->getTable($missingColumn['tableName']);
+					if (!$table->hasColumn($missingColumn['columnName'])) {
+						$columnInfo->addHintForMissingColumn($missingColumn['tableName'], $missingColumn['columnName']);
+					}
+				}
+			}
+		}
+
+		return $columnInfo->getListOfMissingColumns();
 	}
 
 	protected function isSqliteUsed() {
