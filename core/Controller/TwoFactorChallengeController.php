@@ -204,7 +204,6 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @throws \Exception
 	 */
 	public function setupProviders(): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
