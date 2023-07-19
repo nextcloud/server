@@ -91,7 +91,23 @@ class AddMissingIndices extends Command {
 					$table = $schema->getTable($missingIndex['tableName']);
 					if (!$table->hasIndex($missingIndex['indexName'])) {
 						$output->writeln('<info>Adding additional ' . $missingIndex['indexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
-						$table->addIndex($missingIndex['columns'], $missingIndex['indexName']);
+
+						if ($missingIndex['dropUnnamedIndex']) {
+							foreach ($table->getIndexes() as $index) {
+								$columns = $index->getColumns();
+								if ($columns === $missingIndex['columns']) {
+									$table->dropIndex($index->getName());
+								}
+							}
+						}
+
+						if ($missingIndex['uniqueIndex']) {
+							$table->addUniqueIndex($missingIndex['columns'], $missingIndex['indexName'], $missingIndex['options']);
+						} else {
+							$table->addIndex($missingIndex['columns'], $missingIndex['indexName'], [], $missingIndex['options']);
+						}
+
+
 						$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
 						if ($dryRun && $sqlQueries !== null) {
 							$output->writeln($sqlQueries);
