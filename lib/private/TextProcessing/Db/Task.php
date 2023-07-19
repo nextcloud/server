@@ -103,7 +103,7 @@ class Task extends Entity {
 	}
 
 	public function toPublicTask(): OCPTask {
-		$task = new OCPTask($this->getType(), $this->getInput(), $this->getuserId(), $this->getAppId(), $this->getIdentifier());
+		$task = new OCPTask($this->getType(), $this->getInput(), $this->getAppId(), $this->getuserId(), $this->getIdentifier());
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
 		$task->setOutput($this->getOutput());
