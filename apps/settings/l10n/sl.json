@@ -355,7 +355,6 @@
     "Set user as admin for" : "Nastavi uporabnika kot skrbnika za",
     "Select user quota" : "Količinska omejitev prostora",
     "Set the language" : "Nastavi jezik",
-    "Select manager" : "Izbor upravljalnika",
     "{size} used" : "V uporabi {size}·",
     "Delete user" : "Izbriši uporabnika",
     "Wipe all devices" : "Varnostno izbriši vse naprave",
@@ -512,6 +511,7 @@
     "Authentication method" : "Način overitve",
     "Allow username autocompletion in share dialog" : "Dovoli samodejno dopolnjevanje uporabniških imen v oknu omogočanja souporabe",
     "Allow username autocompletion to users within the same groups" : "Dovoli samodejno dopolnjevanje uporabniških imen znotraj iste skupine",
+    "Select manager" : "Izbor upravljalnika",
     "User's table" : "Uporabniška razpredelnica",
     "Select user manager" : "Izbor upravljalnika uporabnikov"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
