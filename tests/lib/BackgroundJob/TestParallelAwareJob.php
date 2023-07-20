@@ -9,7 +9,6 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use Test\BackgroundJob\JobTest;
 
 class TestParallelAwareJob extends \OCP\BackgroundJob\Job {
 	private $testCase;
