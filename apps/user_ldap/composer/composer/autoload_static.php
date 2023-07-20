@@ -93,6 +93,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\User_LDAP\\PagedResults\\TLinkId' => __DIR__ . '/..' . '/../lib/PagedResults/TLinkId.php',
         'OCA\\User_LDAP\\Proxy' => __DIR__ . '/..' . '/../lib/Proxy.php',
+        'OCA\\User_LDAP\\Service\\UpdateGroupsService' => __DIR__ . '/..' . '/../lib/Service/UpdateGroupsService.php',
         'OCA\\User_LDAP\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\User_LDAP\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
         'OCA\\User_LDAP\\UserPluginManager' => __DIR__ . '/..' . '/../lib/UserPluginManager.php',

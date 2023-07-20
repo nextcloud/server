@@ -78,6 +78,7 @@ return array(
     'OCA\\User_LDAP\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\User_LDAP\\PagedResults\\TLinkId' => $baseDir . '/../lib/PagedResults/TLinkId.php',
     'OCA\\User_LDAP\\Proxy' => $baseDir . '/../lib/Proxy.php',
+    'OCA\\User_LDAP\\Service\\UpdateGroupsService' => $baseDir . '/../lib/Service/UpdateGroupsService.php',
     'OCA\\User_LDAP\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\User_LDAP\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
     'OCA\\User_LDAP\\UserPluginManager' => $baseDir . '/../lib/UserPluginManager.php',
