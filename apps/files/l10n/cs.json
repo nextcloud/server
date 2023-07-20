@@ -210,7 +210,7 @@
     "Select file or folder to link to" : "Vyberte soubor nebo složku na kterou odkazovat",
     "Loading current folder" : "Načítá se stávající složka",
     "No files in here" : "Žádné soubory",
-    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
+    "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo proveďte synchronizaci se svými zařízeními!",
     "Go to the previous folder" : "Přejít do předchozí složky",
     "Go back" : "Jít zpět",
     "Open the files app settings" : "Otevřít nastavení aplikace soubory",
@@ -243,14 +243,13 @@
     "Create new templates folder" : "Vytvořit novou složku šablon",
     "Unable to initialize the templates directory" : "Nepodařilo se vytvořit složku pro šablony",
     "List of favorites files and folders." : "Seznam oblíbených souborů a složek.",
+    "No favorites yet" : "Zatím nic oblíbeného",
+    "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a složky, které označíte jako oblíbené",
     "Toggle %1$s sublist" : "Přepnout %1$s podseznam",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
-    "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo proveďte synchronizaci se svými zařízeními!",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Upload too large" : "Nahrávaná data jsou příliš objemná",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte nahrát, překračují limit velikosti nahrávání na tomto serveru.",
-    "No favorites yet" : "Zatím nic oblíbeného",
-    "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a složky, které označíte jako oblíbené",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "Storage invalid" : "Neplatné úložiště",
@@ -269,6 +268,7 @@
     "Deleted shares" : "Smazaná sdílení",
     "Pending shares" : "Čekající sdílení",
     "Open folder {name}" : "Otevřít složku {name}",
-    "Search for an account" : "Hledat účet"
+    "Search for an account" : "Hledat účet",
+    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

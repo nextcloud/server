@@ -389,6 +389,7 @@ OC.L10N.register(
     "Remote wipe of devices" : "Fernlöschung von Geräten",
     "Wipe {userid}'s devices" : "Lösche {userid}s Geräte",
     "Wiped {userid}'s devices" : "{userid}'s Geräte gelöscht",
+    "Failed to update user manager" : "Fehler beim Aktualisieren des Benutzermanagers",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Lösche {userid}s Konto vollständig inklusive aller persönlichen Dateien, App-Daten, usw.",
     "Account deletion" : "Löschung des Kontos",
     "Delete {userid}'s account" : "Konto von {userid} löschen",

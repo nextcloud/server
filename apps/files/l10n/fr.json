@@ -201,7 +201,7 @@
     "Select file or folder to link to" : "Sélectionnez le fichier ou le dossier à lier",
     "Loading current folder" : "Chargement du dossier courant",
     "No files in here" : "Aucun fichier",
-    "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé",
+    "Upload some content or sync with your devices!" : "Déposez du contenu ou synchronisez vos appareils !",
     "Go to the previous folder" : "Aller au dossier précédent",
     "Go back" : "Revenir en arrière",
     "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
@@ -232,14 +232,13 @@
     "Templates" : "Modèles",
     "Create new templates folder" : "Créer un nouveau dossier de modèles",
     "Unable to initialize the templates directory" : "Impossible d'initialiser le dossier des modèles",
+    "No favorites yet" : "Aucun favori pour l'instant",
+    "Files and folders you mark as favorite will show up here" : "Les fichiers et dossiers ajoutés à vos favoris apparaîtront ici",
     "Toggle %1$s sublist" : "Basculer %1$s sous-liste",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
-    "Upload some content or sync with your devices!" : "Déposez du contenu ou synchronisez vos appareils !",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Upload too large" : "Données envoyées trop volumineuses",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez d'envoyer dépassent la taille maximale d'envoi permise par ce serveur.",
-    "No favorites yet" : "Aucun favori pour l'instant",
-    "Files and folders you mark as favorite will show up here" : "Les fichiers et dossiers ajoutés à vos favoris apparaîtront ici",
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Storage invalid" : "Support de stockage invalide",
@@ -258,6 +257,7 @@
     "Deleted shares" : "Partages supprimés",
     "Pending shares" : "Partages en attente",
     "Open folder {name}" : "Ouvrir le dossier {name}",
-    "Search for an account" : "Chercher un compte"
+    "Search for an account" : "Chercher un compte",
+    "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
