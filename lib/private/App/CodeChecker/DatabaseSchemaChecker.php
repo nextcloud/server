@@ -42,7 +42,7 @@ class DatabaseSchemaChecker {
 
 		libxml_use_internal_errors(true);
 		$loadEntities = libxml_disable_entity_loader(false);
-		$xml = simplexml_load_file($appPath . '/appinfo/database.xml');
+		$xml = simplexml_load_string(file_get_contents($appPath . '/appinfo/database.xml'));
 		libxml_disable_entity_loader($loadEntities);
 
 

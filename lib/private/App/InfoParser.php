@@ -62,7 +62,7 @@ class InfoParser {
 
 		libxml_use_internal_errors(true);
 		$loadEntities = libxml_disable_entity_loader(false);
-		$xml = simplexml_load_file($file);
+		$xml = simplexml_load_string(file_get_contents($file));
 
 		libxml_disable_entity_loader($loadEntities);
 		if ($xml === false) {
