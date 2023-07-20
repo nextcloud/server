@@ -210,7 +210,7 @@
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
     "Loading current folder" : "Cargando o cartafol actual",
     "No files in here" : "Aquí non hai ficheiros",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
+    "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
     "Go to the previous folder" : "Ir ao cartafol anterior",
     "Go back" : "Volver",
     "Open the files app settings" : "Abrir os axustes da aplicación de ficheiros",
@@ -243,14 +243,13 @@
     "Create new templates folder" : "Crear un novo cartafol de modelos",
     "Unable to initialize the templates directory" : "Non é posíbel iniciar o directorio de modelos",
     "List of favorites files and folders." : "Lista de ficheiros e cartafoles favoritos.",
+    "No favorites yet" : "Aínda non hai favoritos",
+    "Files and folders you mark as favorite will show up here" : "Os ficheiros e cartafoles que marque como favoritos amosaranse aquí",
     "Toggle %1$s sublist" : "Alternar %1$s sublista",
     "Toggle grid view" : "Alternar a vista como grella",
-    "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Upload too large" : "Envío grande de máis",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
-    "No favorites yet" : "Aínda non hai favoritos",
-    "Files and folders you mark as favorite will show up here" : "Os ficheiros e cartafoles que marque como favoritos amosaranse aquí",
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Storage invalid" : "Almacenamento incorrecto",
@@ -269,6 +268,7 @@
     "Deleted shares" : "Comparticións eliminadas",
     "Pending shares" : "Comparticións pendentes",
     "Open folder {name}" : "Abrir o cartafol {name}",
-    "Search for an account" : "Buscar por unha conta"
+    "Search for an account" : "Buscar por unha conta",
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

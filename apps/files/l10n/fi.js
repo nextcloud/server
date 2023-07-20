@@ -204,7 +204,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Valitse tiedosto tai kansio, johon linkitetään",
     "Loading current folder" : "Ladataan nykyistä kansiota",
     "No files in here" : "Täällä ei ole tiedostoja",
-    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu",
+    "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
     "Go to the previous folder" : "Siirry edelliseen kansioon",
     "Go back" : "Mene takaisin",
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
@@ -236,13 +236,12 @@ OC.L10N.register(
     "Create new templates folder" : "Luo uusi mallipohjien kansio",
     "Unable to initialize the templates directory" : "Mallipohjien kansiota ei voitu alustaa",
     "List of favorites files and folders." : "Luettelo suosikkitiedostoista ja -kansioista.",
+    "No favorites yet" : "Ei vielä suosikkeja",
+    "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
-    "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Upload too large" : "Lähetettävä tiedosto on liian suuri",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
-    "No favorites yet" : "Ei vielä suosikkeja",
-    "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Storage invalid" : "Virheellinen tallennustila",
@@ -261,6 +260,7 @@ OC.L10N.register(
     "Deleted shares" : "Poistetut jaot",
     "Pending shares" : "Odottavat jaot",
     "Open folder {name}" : "Avaa kansio {name}",
-    "Search for an account" : "Etsi tiliä"
+    "Search for an account" : "Etsi tiliä",
+    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
 },
 "nplurals=2; plural=(n != 1);");

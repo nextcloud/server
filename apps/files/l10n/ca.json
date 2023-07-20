@@ -210,7 +210,7 @@
     "Select file or folder to link to" : "Seleccioneu el fitxer o la carpeta que voleu enllaçar",
     "Loading current folder" : "S'està carregant la carpeta actual",
     "No files in here" : "No hi ha cap fitxer aquí",
-    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
+    "Upload some content or sync with your devices!" : "Pugeu contingut o sincronitzeu els vostres dispositius!",
     "Go to the previous folder" : "Torna a la carpeta anterior",
     "Go back" : "Torna",
     "Open the files app settings" : "Obriu els paràmetres de l'aplicació Fitxers",
@@ -243,14 +243,13 @@
     "Create new templates folder" : "Crea la carpeta de plantilles",
     "Unable to initialize the templates directory" : "No s'ha pogut inicialitzar la carpeta de plantilles",
     "List of favorites files and folders." : "Llista de fitxers i carpetes preferits.",
+    "No favorites yet" : "Encara no teniu preferits",
+    "Files and folders you mark as favorite will show up here" : "Aquí apareixeran els fitxers i carpetes que marqueu com a preferits",
     "Toggle %1$s sublist" : "Canvia la subllista de %1$s",
     "Toggle grid view" : "Canvia la visualització de quadrícula",
-    "Upload some content or sync with your devices!" : "Pugeu contingut o sincronitzeu els vostres dispositius!",
     "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
     "Upload too large" : "La pujada és massa gran",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que intenteu pujar superen la mida màxima de pujada de fitxers del servidor.",
-    "No favorites yet" : "Encara no teniu preferits",
-    "Files and folders you mark as favorite will show up here" : "Aquí apareixeran els fitxers i carpetes que marqueu com a preferits",
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Fitxer de text nou.txt",
     "Storage invalid" : "L'emmagatzematge no és vàlid",
@@ -269,6 +268,7 @@
     "Deleted shares" : "Suprimit",
     "Pending shares" : "Pendent",
     "Open folder {name}" : "Obre la carpeta {name}",
-    "Search for an account" : "Cerqueu un compte"
+    "Search for an account" : "Cerqueu un compte",
+    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

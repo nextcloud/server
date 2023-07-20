@@ -199,7 +199,7 @@
     "Select file or folder to link to" : "Datei oder Ordner zum Verknüpfen auswählen",
     "Loading current folder" : "Lade aktuellen Ordner",
     "No files in here" : "Keine Dateien vorhanden",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
+    "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit deinen Geräten synchronisieren!",
     "Go to the previous folder" : "Zum vorherigen Ordner wechseln",
     "Go back" : "Zurückgehen",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
@@ -228,14 +228,13 @@
     "Set up templates folder" : "Vorlagenordner einrichten",
     "Templates" : "Vorlagen",
     "Unable to initialize the templates directory" : "Der Vorlagenordner konnte nicht initialisiert werden",
+    "No favorites yet" : "Noch keine Favoriten vorhanden",
+    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Toggle grid view" : "Rasteransicht umschalten",
-    "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit deinen Geräten synchronisieren!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Upload too large" : "Der Upload ist zu groß",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
-    "No favorites yet" : "Noch keine Favoriten vorhanden",
-    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Storage invalid" : "Speicher ungültig",
@@ -254,6 +253,7 @@
     "Deleted shares" : "Gelöschte Freigaben",
     "Pending shares" : "Ausstehende Freigaben",
     "Open folder {name}" : "Ordner {name} öffnen",
-    "Search for an account" : "Nach einem Konto suchen"
+    "Search for an account" : "Nach einem Konto suchen",
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
