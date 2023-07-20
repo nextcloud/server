@@ -551,6 +551,11 @@ class OC {
 	}
 
 	public static function init() {
+		// prevent any XML processing from loading external entities
+		libxml_set_external_entity_loader(static function () {
+			return null;
+		});
+
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 
