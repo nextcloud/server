@@ -48,6 +48,7 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 
 	<commands>
 		<command>OCA\User_LDAP\Command\CheckUser</command>
+		<command>OCA\User_LDAP\Command\CheckGroup</command>
 		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
 		<command>OCA\User_LDAP\Command\DeleteConfig</command>
 		<command>OCA\User_LDAP\Command\ResetGroup</command>

@@ -38,8 +38,10 @@ use OCA\User_LDAP\Db\GroupMembershipMapper;
 use OCA\User_LDAP\Group_Proxy;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -85,6 +87,7 @@ class UpdateGroupsService {
 		$this->logger->debug('service "updateGroups" – Dealing with known Groups.');
 
 		foreach ($groups as $group) {
+			$this->logger->debug('service "updateGroups" – Dealing with {group}.', ['group' => $group]);
 			$groupMemberships = $this->groupMembershipMapper->findGroupMemberships($group);
 			$knownUsers = array_map(
 				fn (GroupMembership $groupMembership): string => $groupMembership->getUserid(),
@@ -147,12 +150,18 @@ class UpdateGroupsService {
 			$this->logger->info('service "updateGroups" – new group "' . $createdGroup . '" found.');
 
 			$users = $this->groupBackend->usersInGroup($createdGroup);
-			foreach ($users as $user) {
-				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
-			}
 			$groupObject = $this->groupManager->get($group);
 			if ($groupObject instanceof IGroup) {
 				$this->dispatcher->dispatchTyped(new GroupCreatedEvent($groupObject));
+			}
+			foreach ($users as $user) {
+				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
+				if ($groupObject instanceof IGroup) {
+					$userObject = $this->userManager->get($user);
+					if ($userObject instanceof IUser) {
+						$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
+					}
+				}
 			}
 		}
 		$this->logger->debug('service "updateGroups" – FINISHED dealing with created Groups.');
