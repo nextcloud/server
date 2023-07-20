@@ -189,6 +189,10 @@ class UpdateGroups extends TimedJob {
 			foreach ($users as $user) {
 				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
 			}
+			$groupObject = $this->groupManager->get($group);
+			if ($groupObject instanceof IGroup) {
+				$this->dispatcher->dispatchTyped(new GroupCreatedEvent($groupObject));
+			}
 		}
 		$this->logger->debug(
 			'bgJ "updateGroups" – FINISHED dealing with created Groups.',
@@ -207,6 +211,9 @@ class UpdateGroups extends TimedJob {
 		);
 
 		$this->groupMembershipMapper->deleteGroups($removedGroups);
+
+		//TODO find a way to dispatch GroupDeletedEvent
+
 		$this->logger->info(
 			'bgJ "updateGroups" – groups {removedGroups} were removed.',
 			[
