@@ -201,7 +201,7 @@
     "Select file or folder to link to" : "Выберите файл или папку для создания ссылки",
     "Loading current folder" : "Загрузка текущей папки",
     "No files in here" : "Здесь нет файлов",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
+    "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
     "Go to the previous folder" : "Перейти к предыдущей папке",
     "Go back" : "Назад",
     "Open the files app settings" : "Открыть параметры приложения «Файлы»",
@@ -231,14 +231,13 @@
     "Templates" : "Шаблоны",
     "Create new templates folder" : "Создать новую папку шаблонов",
     "Unable to initialize the templates directory" : "Не удалось инициализировать каталог шаблонов",
+    "No favorites yet" : "В избранное ещё ничего не добавлено ",
+    "Files and folders you mark as favorite will show up here" : "Здесь будут показаны файлы и каталоги, отмеченные как избранные",
     "Toggle %1$s sublist" : "Переключить %1$s подсписок",
     "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
-    "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
     "No entries found in this folder" : "В этом каталоге ничего не найдено",
     "Upload too large" : "Файл слишком велик",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь передать, превышают лимит максимального размера на этом сервере.",
-    "No favorites yet" : "В избранное ещё ничего не добавлено ",
-    "Files and folders you mark as favorite will show up here" : "Здесь будут показаны файлы и каталоги, отмеченные как избранные",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
     "Storage invalid" : "Хранилище неисправно",
@@ -257,6 +256,7 @@
     "Deleted shares" : "Удалённые общие ресурсы",
     "Pending shares" : "Ожидающие общие ресурсы",
     "Open folder {name}" : "Открыть папку {name}",
-    "Search for an account" : "Поиск по учетной записи"
+    "Search for an account" : "Поиск по учетной записи",
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

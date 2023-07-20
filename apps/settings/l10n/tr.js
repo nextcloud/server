@@ -389,6 +389,7 @@ OC.L10N.register(
     "Remote wipe of devices" : "Uzaktan aygıt temizleme",
     "Wipe {userid}'s devices" : "{userid} aygıtlarını temizle",
     "Wiped {userid}'s devices" : "{userid} kullanıcısının aygıtları silindi",
+    "Failed to update user manager" : "Kullanıcı yöneticisi güncellenemedi",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "{userid} için kişisel dosyalar ve uygulama verileri gibi tüm hesap bilgilerini tamamen siler",
     "Account deletion" : "Hesap silme",
     "Delete {userid}'s account" : "{userid} hesabını sil",
