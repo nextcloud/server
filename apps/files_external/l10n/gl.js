@@ -41,7 +41,7 @@ OC.L10N.register(
     "Password" : "Contrasinal",
     "Credentials saved" : "Credenciais gardadas",
     "Credentials saving failed" : "Non foi posíbel gardar as credenciais",
-    "Credentials required" : "Son necesarias as credenciais",
+    "Credentials required" : "Precísanse as credenciais",
     "Forbidden to manage local mounts" : "Prohibido xestionar montaxes locais",
     "Storage with ID \"%d\" not found" : "Non se atopa o almacenamento co ID «%d» ",
     "Invalid backend or authentication mechanism class" : "Clase de mecanismo de autenticación ou infraestrutura incorrecta",

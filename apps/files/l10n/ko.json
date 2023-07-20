@@ -200,7 +200,7 @@
     "Select file or folder to link to" : "링크할 파일이나 폴더 선택",
     "Loading current folder" : "현재 폴더를 불러오는 중",
     "No files in here" : "여기에 파일 없음",
-    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
+    "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",
     "Go to the previous folder" : "이전 폴더로 이동",
     "Go back" : "뒤로 가기",
     "Open the files app settings" : "파일 앱 설정을 열기",
@@ -230,13 +230,12 @@
     "Templates" : "템플릿",
     "Create new templates folder" : "새로운 템플릿 폴더 만들기",
     "Unable to initialize the templates directory" : "템플릿 디렉터리를 설정할 수 없음",
+    "No favorites yet" : "즐겨찾는 항목 없음",
+    "Files and folders you mark as favorite will show up here" : "즐겨찾기에 추가한 파일과 폴더가 여기에 나타납니다",
     "Toggle grid view" : "모눈 보기 전환",
-    "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Upload too large" : "업로드한 파일이 너무 큼",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
-    "No favorites yet" : "즐겨찾는 항목 없음",
-    "Files and folders you mark as favorite will show up here" : "즐겨찾기에 추가한 파일과 폴더가 여기에 나타납니다",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
     "Storage invalid" : "저장소가 잘못됨",
@@ -254,6 +253,7 @@
     "Deleted shares" : "삭제된 공유",
     "Pending shares" : "진행중인 공유",
     "Open folder {name}" : "{name} 폴더 열기",
-    "Search for an account" : "계정 검색"
+    "Search for an account" : "계정 검색",
+    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

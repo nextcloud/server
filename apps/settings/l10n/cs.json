@@ -387,6 +387,7 @@
     "Remote wipe of devices" : "Vymazat obsah zařízení na dálku",
     "Wipe {userid}'s devices" : "Vymazat obsah ze zařízení uživatele {userid}",
     "Wiped {userid}'s devices" : "Data ze zařízení uživatele {userid} vymazána",
+    "Failed to update user manager" : "Nepodařilo se aktualizovat správu uživatelů",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Úplně vymazat účet {userid}, včetně veškerých osobní souborů, dat aplikací, atd.",
     "Account deletion" : "Smazání účtu",
     "Delete {userid}'s account" : "Smazat účet {userid}",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "and" : "y",
     "Cancel" : "Cancelar",
     "Delete" : "Borrar",
+    "Active" : "Activo",
     "Save" : "Guardar",
     "Browse the App Store" : "Navega por la Tienda de aplicaciones",
     "matches" : "coincide",
