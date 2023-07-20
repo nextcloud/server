@@ -72,9 +72,9 @@ class UpdateGroupsService {
 			return;
 		}
 
-		$this->service->handleKnownGroups(array_intersect($actualGroups, $knownGroups));
-		$this->service->handleCreatedGroups(array_diff($actualGroups, $knownGroups));
-		$this->service->handleRemovedGroups(array_diff($knownGroups, $actualGroups));
+		$this->handleKnownGroups(array_intersect($actualGroups, $knownGroups));
+		$this->handleCreatedGroups(array_diff($actualGroups, $knownGroups));
+		$this->handleRemovedGroups(array_diff($knownGroups, $actualGroups));
 
 		$this->logger->debug('service "updateGroups" – Finished.');
 	}
@@ -150,7 +150,7 @@ class UpdateGroupsService {
 			$this->logger->info('service "updateGroups" – new group "' . $createdGroup . '" found.');
 
 			$users = $this->groupBackend->usersInGroup($createdGroup);
-			$groupObject = $this->groupManager->get($group);
+			$groupObject = $this->groupManager->get($createdGroup);
 			if ($groupObject instanceof IGroup) {
 				$this->dispatcher->dispatchTyped(new GroupCreatedEvent($groupObject));
 			}
