@@ -30,9 +30,10 @@ namespace OCA\User_LDAP\Jobs;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\User_LDAP\Db\GroupMembership;
+use OCP\User_LDAP\Db\GroupMembershipMapper;
 use OCA\User_LDAP\Group_Proxy;
 use OCP\DB\Exception;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -46,31 +47,20 @@ use Psr\Log\LoggerInterface;
 class UpdateGroups extends TimedJob {
 	/** @var ?array<string, array{owncloudusers: string, owncloudname: string}>  */
 	private ?array $groupsFromDB = null;
-	private Group_Proxy $groupBackend;
-	private IEventDispatcher $dispatcher;
-	private IGroupManager $groupManager;
-	private IUserManager $userManager;
-	private LoggerInterface $logger;
-	private IDBConnection $dbc;
 
 	public function __construct(
-		Group_Proxy $groupBackend,
-		IEventDispatcher $dispatcher,
-		IGroupManager $groupManager,
-		IUserManager $userManager,
-		LoggerInterface $logger,
-		IDBConnection $dbc,
+		private Group_Proxy $groupBackend,
+		private IEventDispatcher $dispatcher,
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+		private IDBConnection $dbc,
+		private GroupMembershipMapper $groupMembershipMapper,
 		IConfig $config,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
 		$this->interval = (int)$config->getAppValue('user_ldap', 'bgjRefreshInterval', '3600');
-		$this->groupBackend = $groupBackend;
-		$this->dispatcher = $dispatcher;
-		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->dbc = $dbc;
 	}
 
 	/**
@@ -90,8 +80,7 @@ class UpdateGroups extends TimedJob {
 			['app' => 'user_ldap']
 		);
 
-		/** @var string[] $knownGroups */
-		$knownGroups = array_keys($this->getKnownGroups());
+		$knownGroups = $this->groupMembershipMapper->getKnownGroups();
 		$actualGroups = $this->groupBackend->getGroups();
 
 		if (empty($actualGroups) && empty($knownGroups)) {
@@ -113,30 +102,6 @@ class UpdateGroups extends TimedJob {
 	}
 
 	/**
-	 * @return array<string, array{owncloudusers: string, owncloudname: string}>
-	 * @throws Exception
-	 */
-	private function getKnownGroups(): array {
-		if (is_array($this->groupsFromDB)) {
-			return $this->groupsFromDB;
-		}
-		$qb = $this->dbc->getQueryBuilder();
-		$qb->select(['owncloudname', 'owncloudusers'])
-			->from('ldap_group_members');
-
-		$qResult = $qb->executeQuery();
-		$result = $qResult->fetchAll();
-		$qResult->closeCursor();
-
-		$this->groupsFromDB = [];
-		foreach ($result as $dataset) {
-			$this->groupsFromDB[$dataset['owncloudname']] = $dataset;
-		}
-
-		return $this->groupsFromDB;
-	}
-
-	/**
 	 * @param string[] $groups
 	 * @throws Exception
 	 */
@@ -145,16 +110,15 @@ class UpdateGroups extends TimedJob {
 			'bgJ "updateGroups" – Dealing with known Groups.',
 			['app' => 'user_ldap']
 		);
-		$qb = $this->dbc->getQueryBuilder();
-		$qb->update('ldap_group_members')
-			->set('owncloudusers', $qb->createParameter('members'))
-			->where($qb->expr()->eq('owncloudname', $qb->createParameter('groupId')));
 
-		$groupsFromDB = $this->getKnownGroups();
 		foreach ($groups as $group) {
-			$knownUsers = unserialize($groupsFromDB[$group]['owncloudusers']);
+			$groupMemberships = $this->groupMembershipMapper->findGroupMemberships($group);
+			$knownUsers = array_map(
+				fn (GroupMembership $groupMembership): string => $groupMembership->getUserid(),
+				$groupMemberships
+			);
+			$groupMemberships = array_combine($knownUsers, $groupMemberships);
 			$actualUsers = $this->groupBackend->usersInGroup($group);
-			$hasChanged = false;
 
 			$groupObject = $this->groupManager->get($group);
 			if ($groupObject === null) {
@@ -169,6 +133,7 @@ class UpdateGroups extends TimedJob {
 				continue;
 			}
 			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
+				$this->groupMembershipMapper->delete($groupMemberships[$removedUser]);
 				$userObject = $this->userManager->get($removedUser);
 				if ($userObject instanceof IUser) {
 					$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
@@ -181,9 +146,9 @@ class UpdateGroups extends TimedJob {
 						'group' => $group
 					]
 				);
-				$hasChanged = true;
 			}
 			foreach (array_diff($actualUsers, $knownUsers) as $addedUser) {
+				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $group,'userid' => $addedUser]));
 				$userObject = $this->userManager->get($addedUser);
 				if ($userObject instanceof IUser) {
 					$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
@@ -196,14 +161,6 @@ class UpdateGroups extends TimedJob {
 						'group' => $group
 					]
 				);
-				$hasChanged = true;
-			}
-			if ($hasChanged) {
-				$qb->setParameters([
-					'members' => serialize($actualUsers),
-					'groupId' => $group
-				]);
-				$qb->executeStatement();
 			}
 		}
 		$this->logger->debug(
@@ -222,21 +179,16 @@ class UpdateGroups extends TimedJob {
 			['app' => 'user_ldap']
 		);
 
-		$query = $this->dbc->getQueryBuilder();
-		$query->insert('ldap_group_members')
-			->setValue('owncloudname', $query->createParameter('owncloudname'))
-			->setValue('owncloudusers', $query->createParameter('owncloudusers'));
-
 		foreach ($createdGroups as $createdGroup) {
 			$this->logger->info(
 				'bgJ "updateGroups" – new group "' . $createdGroup . '" found.',
 				['app' => 'user_ldap']
 			);
-			$users = serialize($this->groupBackend->usersInGroup($createdGroup));
 
-			$query->setParameter('owncloudname', $createdGroup)
-				->setParameter('owncloudusers', $users);
-			$query->executeStatement();
+			$users = $this->groupBackend->usersInGroup($createdGroup);
+			foreach ($users as $user) {
+				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
+			}
 		}
 		$this->logger->debug(
 			'bgJ "updateGroups" – FINISHED dealing with created Groups.',
@@ -254,25 +206,13 @@ class UpdateGroups extends TimedJob {
 			['app' => 'user_ldap']
 		);
 
-		$query = $this->dbc->getQueryBuilder();
-		$query->delete('ldap_group_members')
-			->where($query->expr()->in('owncloudname', $query->createParameter('owncloudnames')));
-
-		foreach (array_chunk($removedGroups, 1000) as $removedGroupsChunk) {
-			$this->logger->info(
-				'bgJ "updateGroups" – groups {removedGroups} were removed.',
-				[
-					'app' => 'user_ldap',
-					'removedGroups' => $removedGroupsChunk
-				]
-			);
-			$query->setParameter('owncloudnames', $removedGroupsChunk, IQueryBuilder::PARAM_STR_ARRAY);
-			$query->executeStatement();
-		}
-
-		$this->logger->debug(
-			'bgJ "updateGroups" – FINISHED dealing with removed groups.',
-			['app' => 'user_ldap']
+		$this->groupMembershipMapper->deleteGroups($removedGroups);
+		$this->logger->info(
+			'bgJ "updateGroups" – groups {removedGroups} were removed.',
+			[
+				'app' => 'user_ldap',
+				'removedGroups' => $removedGroups
+			]
 		);
 	}
 }

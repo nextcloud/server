@@ -9,7 +9,7 @@
 A user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
 
 	</description>
-	<version>1.18.0</version>
+	<version>1.19.0</version>
 	<licence>agpl</licence>
 	<author>Dominik Schmidt</author>
 	<author>Arthur Schiwon</author>
