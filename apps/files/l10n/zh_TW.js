@@ -193,6 +193,7 @@ OC.L10N.register(
     "ascending" : "遞增",
     "descending" : "遞減",
     "Sort list by {column} ({direction})" : "按 {column}（{direction}）排序清單",
+    "List of files and folders." : "檔案與資料夾清單。",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Storage informations" : "儲存空間資訊",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",

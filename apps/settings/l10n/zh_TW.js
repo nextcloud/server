@@ -389,6 +389,7 @@ OC.L10N.register(
     "Remote wipe of devices" : "遠端抹除裝置",
     "Wipe {userid}'s devices" : "抹除 {userid} 的裝置",
     "Wiped {userid}'s devices" : "抹除了 {userid} 的裝置",
+    "Failed to update user manager" : "更新使用者管理員失敗",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "完全刪除 {userid} 的帳號，包含他們所有的個人檔案、應用程式資料等等。",
     "Account deletion" : "帳號刪除",
     "Delete {userid}'s account" : "刪除 {userid} 的帳號",
