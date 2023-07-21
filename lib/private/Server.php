@@ -1470,6 +1470,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
 
+		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
+
 		$this->connectDispatcher();
 	}
 
