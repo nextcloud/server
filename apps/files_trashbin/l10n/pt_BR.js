@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "List of files that have been deleted." : "Lista de arquivos que foram excluídos.",
     "No deleted files" : "Nenhum arquivo apagado",
+    "Files and folders you have deleted will show up here" : "Arquivos e pastas que você excluiu aparecerão aqui",
     "Deleted" : "Excluído",
     "You will be able to recover deleted files from here" : "Você pode recuperar arquivos apagados neste local",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",

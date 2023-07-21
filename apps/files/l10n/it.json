@@ -191,6 +191,7 @@
     "ascending" : "crescente",
     "descending" : "decrescente",
     "Sort list by {column} ({direction})" : "Ordina la lista per {column} ({direction})",
+    "List of files and folders." : "Lista di file e cartelle.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Questa lista non è stata mostrata completamente per ragioni di performances. I file verranno mostrati durante la navigazione della lista.",
     "Storage informations" : "Informazioni di archiviazione",
     "{usedQuotaByte} used" : "{usedQuotaByte} usato",

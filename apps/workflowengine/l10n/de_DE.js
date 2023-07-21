@@ -97,7 +97,7 @@ OC.L10N.register(
     "less or equals" : "weniger oder gleich",
     "greater or equals" : "größer oder gleich",
     "greater" : "größer",
-    "Request remote address" : "Entfernte Adresse anfordern",
+    "Request remote address" : "Entfernte Adresse der Anfrage",
     "matches IPv4" : "entspricht IPv4",
     "does not match IPv4" : "entspricht nicht IPv4",
     "matches IPv6" : "entspricht IPv6",
