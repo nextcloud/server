@@ -139,7 +139,7 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getCommentsManager(),
 			$userManager,
 			\OC::$server->getUserSession(),
-			\OC::$server->getEventDispatcher(),
+			$dispatcher,
 			$logger
 		);
 

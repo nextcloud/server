@@ -191,6 +191,7 @@
     "ascending" : "Aufsteigend",
     "descending" : "Absteigend",
     "Sort list by {column} ({direction})" : "Liste sortieren nach {column} ({direction})",
+    "List of files and folders." : "Liste der Dateien und Ordner.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "Storage informations" : "Speicherinformationen",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
@@ -210,7 +211,7 @@
     "Select file or folder to link to" : "Datei oder Ordner zum Verknüpfen auswählen",
     "Loading current folder" : "Lade aktuellen Ordner",
     "No files in here" : "Keine Dateien vorhanden",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
+    "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder mit Ihren Geräten synchronisieren!",
     "Go to the previous folder" : "Zum vorherigen Ordner wechseln",
     "Go back" : "Zurückgehen",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
@@ -243,14 +244,13 @@
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
     "Unable to initialize the templates directory" : "Der Vorlagenordner kann nicht initialisiert werden",
     "List of favorites files and folders." : "Liste der favorisierten Ordner und Dateien.",
+    "No favorites yet" : "Noch keine Favoriten vorhanden",
+    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen",
     "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Toggle grid view" : "Rasteransicht umschalten",
-    "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder mit Ihren Geräten synchronisieren!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Upload too large" : "Der Upload ist zu groß",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
-    "No favorites yet" : "Noch keine Favoriten vorhanden",
-    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Storage invalid" : "Speicher ungültig",
@@ -269,6 +269,7 @@
     "Deleted shares" : "Gelöschte Freigaben",
     "Pending shares" : "Ausstehende Freigaben",
     "Open folder {name}" : "Ordner {name} öffnen",
-    "Search for an account" : "Nach einem Konto suchen"
+    "Search for an account" : "Nach einem Konto suchen",
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -195,17 +195,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.federation-actions,
-	.federation-actions--additional {
-		opacity: 0.4 !important;
-
-		&:hover,
-		&:focus,
-		&:active {
-			opacity: 0.8 !important;
-		}
-	}
-
 	.federation-actions--additional {
 		&::v-deep button {
 			// TODO remove this hack

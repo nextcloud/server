@@ -29,26 +29,24 @@ use OCP\EventDispatcher\Event;
  * Class CommentsEntityEvent
  *
  * @since 9.1.0
+ * @since 28.0.0 Dispatched as a typed event
  */
 class CommentsEntityEvent extends Event {
 	/**
-	 * @deprecated 22.0.0
+	 * @deprecated 22.0.0 - Listen to the typed event instead.
 	 */
 	public const EVENT_ENTITY = 'OCP\Comments\ICommentsManager::registerEntity';
 
-	/** @var string */
-	protected $event;
 	/** @var \Closure[] */
 	protected $collections;
 
 	/**
 	 * DispatcherEvent constructor.
 	 *
-	 * @param string $event
 	 * @since 9.1.0
 	 */
-	public function __construct($event) {
-		$this->event = $event;
+	public function __construct() {
+		parent::__construct();
 		$this->collections = [];
 	}
 
