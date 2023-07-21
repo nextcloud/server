@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 function getContainerHealth {
   docker inspect --format "{{.State.Health.Status}}" $1
