@@ -25,6 +25,8 @@ namespace Test\Updater;
 use OC\Updater\VersionCheck;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
 class VersionCheckTest extends \Test\TestCase {
@@ -32,6 +34,8 @@ class VersionCheckTest extends \Test\TestCase {
 	private $config;
 	/** @var VersionCheck | \PHPUnit\Framework\MockObject\MockObject*/
 	private $updater;
+	/** @var IRegistry | \PHPUnit\Framework\Mo2ckObject\MockObject*/
+	private $registry;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,9 +46,18 @@ class VersionCheckTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->registry = $this->createMock(IRegistry::class);
+		$this->registry
+			->method('delegateHasValidSubscription')
+			->willReturn(false);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
 			->setMethods(['getUrlContent'])
-			->setConstructorArgs([$clientService, $this->config])
+			->setConstructorArgs([
+				$clientService,
+				$this->config,
+				$this->createMock(IUserManager::class),
+				$this->registry,
+			])
 			->getMock();
 	}
 
@@ -53,7 +66,7 @@ class VersionCheckTest extends \Test\TestCase {
 	 * @return string
 	 */
 	private function buildUpdateUrl($baseUrl) {
-		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatxlastupdatedatx'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION;
+		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatxlastupdatedatx'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION.'x0x0';
 	}
 
 	public function testCheckInCache() {
@@ -114,7 +127,7 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
@@ -166,7 +179,7 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
@@ -220,7 +233,7 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
@@ -273,7 +286,7 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
@@ -327,7 +340,7 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
