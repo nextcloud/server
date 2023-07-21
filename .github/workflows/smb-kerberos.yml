@@ -27,48 +27,26 @@ jobs:
           submodules: true
       - name: Pull images
         run: |
-          docker pull icewind1991/samba-krb-test-dc
-          docker pull icewind1991/samba-krb-test-apache
-          docker pull icewind1991/samba-krb-test-client
+          docker pull ghcr.io/icewind1991/samba-krb-test-dc
+          docker pull ghcr.io/icewind1991/samba-krb-test-apache
+          docker pull ghcr.io/icewind1991/samba-krb-test-client
+          docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
+          docker tag ghcr.io/icewind1991/samba-krb-test-apache icewind1991/samba-krb-test-apache
+          docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
       - name: Setup AD-DC
         run: |
-          cp apps/files_external/tests/*.sh .
-          mkdir data
-          sudo chown -R 33 data apps config
-          DC_IP=$(./start-dc.sh)
-          ./start-apache.sh $DC_IP $PWD
+          DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
       - name: Set up Nextcloud
         run: |
-          docker exec --user 33 apache ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
-          docker exec --user 33 apache ./occ config:system:set trusted_domains 1 --value 'httpd.domain.test'
-
-          # setup user_saml
-          docker exec --user 33 apache ./occ app:enable user_saml --force
-          docker exec --user 33 apache ./occ config:app:set user_saml type --value 'environment-variable'
-          docker exec --user 33 apache ./occ saml:config:create
-          docker exec --user 33 apache ./occ saml:config:set 1 --general-uid_mapping=REMOTE_USER
-
-          # setup external storage
-          docker exec --user 33 apache ./occ app:enable files_external --force
-          docker exec --user 33 apache ./occ files_external:create smb smb smb::kerberosapache
-          docker exec --user 33 apache ./occ files_external:config 1 host krb.domain.test
-          docker exec --user 33 apache ./occ files_external:config 1 share netlogon
-          docker exec --user 33 apache ./occ files_external:list
+          apps/files_external/tests/sso-setup/setup-sso-nc.sh
       - name: Test SSO
         run: |
-          mkdir /tmp/shared/cookies
-          chmod 0777 /tmp/shared/cookies
-
-          echo "SAML login"
-          ./client-cmd.sh ${{ env.DC_IP }} curl -c /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login
-          echo "Check we are logged in"
-          CONTENT=$(./client-cmd.sh ${{ env.DC_IP }} curl -b /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/remote.php/webdav/smb/test.txt)
-          CONTENT=$(echo $CONTENT | head -n 1 | tr -d '[:space:]')
-          [[ $CONTENT == "testfile" ]]
+          apps/files_external/tests/sso-setup/test-sso-smb.sh ${{ env.DC_IP }}
       - name: Show logs
         if: failure()
         run: |
-          docker exec --user 33 apache ./occ log:file
           FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
+          echo "$FILEPATH:"
           docker exec --user 33 apache cat $FILEPATH
