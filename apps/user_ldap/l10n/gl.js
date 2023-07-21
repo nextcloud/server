@@ -60,7 +60,7 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "O seu contrasinal caduca mañá.",
     "Your password will expire today." : "O seu contrasinal caducará hoxe.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["O seu contrasinal caducará en %n día.","O seu contrasinal caducará en %n días."],
-    "LDAP/AD integration" : "Integración LDAP/AD",
+    "LDAP/AD integration" : "Integración de LDAP/AD",
     "_%n group found_::_%n groups found_" : ["Atopouse %n grupo","Atopáronse %n grupos"],
     "> 1000 groups found" : "> 1000 grupos atopados",
     "> 1000 users found" : "> 1000 usuarios atopados",

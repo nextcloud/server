@@ -193,6 +193,7 @@ OC.L10N.register(
     "ascending" : "vzestupně",
     "descending" : "sestupně",
     "Sort list by {column} ({direction})" : "Seřadit seznam podle {column} ({direction})",
+    "List of files and folders." : "Seznam souborů a složek.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Storage informations" : "Informace o úložišti",
     "{usedQuotaByte} used" : "{usedQuotaByte} využito",

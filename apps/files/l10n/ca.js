@@ -193,6 +193,7 @@ OC.L10N.register(
     "ascending" : "ascendent",
     "descending" : "descendent",
     "Sort list by {column} ({direction})" : "Ordena la llista per {column} ({direction})",
+    "List of files and folders." : "Llista de fitxers i carpetes.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Storage informations" : "Informació d'emmagatzematge",
     "{usedQuotaByte} used" : "{usedQuotaByte} en ús",
