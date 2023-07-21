@@ -322,6 +322,49 @@ class FileSearchBackend implements ISearchBackend {
 			throw new \InvalidArgumentException('Invalid search query, maximum operator limit of ' . self::OPERATOR_LIMIT . ' exceeded, got ' . $operatorCount . ' operators');
 		}
 
+		// we are looking for a specific search request
+		if (count($query->orderBy) === 1
+			&& $query->orderBy[0]->order === 'descending'
+			&& $query->orderBy[0]->property->dataType === SearchPropertyDefinition::DATATYPE_DATETIME
+			&& $query->orderBy[0]->property->name === '{DAV:}getlastmodified'
+		&& $query->where->type === '{DAV:}and'
+		&& $query->where->arguments[0]->type === '{DAV:}or') {
+			try {
+				$arguments = $query->where->arguments[0]->arguments;
+				if (sizeof($arguments) <> 6) {
+					throw new \Exception();
+				}
+				foreach ($arguments as $arg) {
+					if ($arg->type !== '{DAV:}eq'
+						|| $arg->arguments[0]->name !== '{DAV:}getcontenttype'
+						|| !in_array($arg->arguments[1]->value, [
+							'image/png',
+							'image/jpeg',
+							'image/heic',
+							'image/webp',
+							'video/mp4',
+							'video/quicktime'
+						])) {
+						throw new \Exception();
+					}
+				}
+
+				// this is the right request, we now limit the search to last month only
+				$query->where->arguments[] = new Operator('{DAV:}gt', [
+					new SearchPropertyDefinition(
+						'{DAV:}getlastmodified',
+						true,
+						true, 
+						true,
+						SearchPropertyDefinition::DATATYPE_STRING
+					),
+					new Literal(time() - 30 * 24 * 3600)
+				]);
+			} catch (\Exception $e) {
+				// not the expected request
+			}
+		}
+
 		return new SearchQuery(
 			$this->transformSearchOperation($query->where),
 			(int)$limit->maxResults,
