@@ -1,0 +1,43 @@
+###
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Author: Bernd rederlechner <bernd.rederlechner@t-systems.com>
+#
+# Builds a stable release package based on a release assembly
+# customisation-<version>-<increment>
+#
+# As soon as a package is deployed to production, the tag and the branch
+# MUST STAY FOR 2 years and not deleted.
+#
+# Release packages, tags and customisation branches not delivered to production should
+# be deleted asap a newer release is available.
+#
+
+
+name: MCLOUD custom server release
+
+on:
+  workflow_dispatch:
+    inputs:
+      increment:
+        description: 'Release increment'
+        required: true
+        type: number
+
+jobs:
+  assemble-custom:
+    uses: nextmcloud/.github/.github/workflows/nmc-custom-assembly.yml@master
+    with:
+      trunk: 'master'
+      stable: ${{ vars.CUSTOM_BRANCH || 'stable25' }}
+      result: ${{ format('customisation-{0}-{1}', vars.CUSTOM_BRANCH || 'nmcstable/25.0.6', inputs.increment ) }}
+    secrets: inherit
+  build-custom:
+    uses: nextmcloud/.github/.github/workflows/nmc-custom-server-build.yml@master
+    needs: assemble-custom
+    with:
+      stable: ${{ vars.CUSTOM_BRANCH || 'stable25' }}
+      assembly: ${{ format('customisation-{0}-{1}', vars.CUSTOM_BRANCH || 'stable25', inputs.increment ) }}
+      tag: ${{ format('{0}-{1}', vars.CUSTOM_BRANCH || 'stable25' , inputs.increment) }}
+      prerelease: false
+    secrets: inherit

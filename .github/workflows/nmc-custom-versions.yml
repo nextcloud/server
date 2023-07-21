@@ -1,0 +1,29 @@
+###
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Author: Bernd rederlechner <bernd.rederlechner@t-systems.com
+#
+# Assemble a customisation for recent trunk or a stable branch
+# If trunk, no backports are considered. For stable, only the
+# backports targetted for this baseline are considered.
+#
+# Assembly fails if a PR does not merge automatically.
+#
+
+name: MCLOUD custom versions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-custom:
+    strategy:
+      fail-fast: false
+      matrix:
+        custombase: [ "master", "stable25", stable26 ]
+    uses: nextmcloud/.github/.github/workflows/nmc-custom-assembly.yml@master
+    with:
+      trunk: "master"
+      stable: ${{ matrix.custombase }}
+      result: ${{ format('customisation-{0}-{1}', github.actor, matrix.custombase) }}
+    secrets: inherit
