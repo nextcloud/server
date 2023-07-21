@@ -193,6 +193,7 @@ OC.L10N.register(
     "ascending" : "Aufsteigend",
     "descending" : "Absteigend",
     "Sort list by {column} ({direction})" : "Liste sortieren nach {column} ({direction})",
+    "List of files and folders." : "Liste der Dateien und Ordner.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "Storage informations" : "Speicherinformationen",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",

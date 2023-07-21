@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Ripristina",
     "List of files that have been deleted." : "Lista di file che sono stati eliminati.",
     "No deleted files" : "Nessun file eliminato",
+    "Files and folders you have deleted will show up here" : "I file e le cartelle che hai eliminato saranno mostrati qui",
     "Deleted" : "Eliminati",
     "You will be able to recover deleted files from here" : "Potrai ripristinare i file eliminati da qui",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
