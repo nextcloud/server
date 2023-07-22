@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Clique no botão abaixo para redefinir sua senha. Se você não solicitou isso, ignore este e-mail.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Clique no link abaixo para redefinir sua senha. Se você não solicitou isso, ignore este e-mail.",
     "Reset your password" : "Redefinir sua senha",
+    "Internal error" : "Erro interno",
     "No translation provider available" : "Nenhum provedor de tradução disponível",
     "Could not detect language" : "Não foi possível detectar o idioma",
     "Unable to translate" : "Incapaz de traduzir",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Для сброса пароля нажмите на кнопку. Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Для сброса пароля нажмите на ссылку. Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.",
     "Reset your password" : "Сбросить пароль",
+    "Internal error" : "Внутренняя ошибка",
     "No translation provider available" : "Поставщик услуг перевода недоступен",
     "Could not detect language" : "Не удалось определить язык",
     "Unable to translate" : "Не удается перевести",

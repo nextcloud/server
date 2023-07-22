@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Pokud chcete resetovat své heslo, klikněte na tlačítko níže. Pokud jste o resetování hesla nežádali, tento e-mail ignorujte.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Pokud chcete resetovat své heslo, klikněte na následující odkaz. Pokud jste o reset nežádali, tento e-mail ignorujte.",
     "Reset your password" : "Resetovat vaše heslo",
+    "Internal error" : "Vnitřní chyba",
     "No translation provider available" : "Není k dispozici žádný poskytovatel překladu",
     "Could not detect language" : "Nepodařilo se zjistit jazyk",
     "Unable to translate" : "Nedaří se přeložit",

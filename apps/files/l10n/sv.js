@@ -193,6 +193,7 @@ OC.L10N.register(
     "ascending" : "stigande",
     "descending" : "fallande",
     "Sort list by {column} ({direction})" : "Sortera listan efter {column} ({direction})",
+    "List of files and folders." : "Lista över filer och mappar.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Storage informations" : "Lagringsinformation",
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
