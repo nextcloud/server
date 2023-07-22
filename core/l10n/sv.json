@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicka på knappen för att återställa ditt lösenord.  Om du inte har begärt att återställa ditt lösenord så kan du ignorera detta epost, inget kommer då att ske.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klicka på länken för att återställa ditt lösenord. Om du inte har begärt att lösenordet ska återställas så kan du ignorera detta epost.",
     "Reset your password" : "Återställ ditt lösenord",
+    "Internal error" : "Internt fel",
     "No translation provider available" : "Ingen översättning tillgänglig",
     "Could not detect language" : "Kunde inte identifiera språk",
     "Unable to translate" : "Kan inte översätta",

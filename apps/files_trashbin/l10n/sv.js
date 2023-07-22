@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Återskapa",
     "List of files that have been deleted." : "Lista över filer som har tagits bort.",
     "No deleted files" : "Inga borttagna filer",
+    "Files and folders you have deleted will show up here" : "Filer och mappar som du har tagit bort kommer att visas här",
     "Deleted" : "Borttagen",
     "You will be able to recover deleted files from here" : "Du kommer kunna återskapa borttagna filer härifrån",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "اضغط على الزر بالاسفل لإعادة تعيين كلمة المرور. إذا لم تطلب إعادة تعيين كلمة المرور، يرجى تجاهل هذه الرسالة.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "اضغط على الزر بالاسفل لإعادة تعيين كلمة المرور. إذا لم تطلب إعادة تعيين كلمة المرور، يرجى تجاهل هذه الرسالة.",
     "Reset your password" : "أعد تعيين كلمة المرور",
+    "Internal error" : "خطأ داخلي",
     "No translation provider available" : "لا توجد خدمة للترجمة",
     "Could not detect language" : "لم يُمكن اكتشاف اللغة",
     "Unable to translate" : "لم يُمكن الترجمة",

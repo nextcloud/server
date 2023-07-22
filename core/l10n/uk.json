@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Щоби перевстановити ваш пароль, натисніть кнопку нижче. Якщо ви не робили запиту на перевстановлення пароля, будь ласка, проігноруйте цей лист.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Натисніть на посилання для перевстановлення вашого пароля. Якщо ви не збираєтеся змінювати пароль, то просто проігноруйте цей лист.",
     "Reset your password" : "Перевстановити пароль",
+    "Internal error" : "Внутрішня помилка",
     "No translation provider available" : "Постачальник послуг перекладу недоступний",
     "Could not detect language" : "Не вдалося визначити мову",
     "Unable to translate" : "Не вдалося перекласти",

@@ -207,7 +207,7 @@ OC.L10N.register(
     "Transfer" : "Transferencia",
     "Transfer {path} to {userid}" : "Transferir {path} cara a {userid}",
     "Invalid path selected" : "Seleccionou unha ruta incorrecta.",
-    "Unknown error" : "Erro descoñecido",
+    "Unknown error" : "Produciuse un erro descoñecido",
     "Ownership transfer request sent" : "Enviouse solicitude de transferencia da propiedade",
     "Cannot transfer ownership of a file or folder you do not own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol do que non es o propietario",
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
