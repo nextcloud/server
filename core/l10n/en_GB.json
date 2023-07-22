@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Click the following button to reset your password. If you have not requested the password reset, then ignore this email.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Click the following link to reset your password. If you have not requested the password reset, then ignore this email.",
     "Reset your password" : "Reset your password",
+    "Internal error" : "Internal error",
     "No translation provider available" : "No translation provider available",
     "Could not detect language" : "Could not detect language",
     "Unable to translate" : "Unable to translate",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Cliquez sur le bouton suivant pour réinitialiser votre mot de passe. Si vous n'avez pas demandé cette réinitialisation de mot de passe, vous pouvez ignorer cet e-mail.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Cliquer sur le lien suivant pour réinitialiser votre mot de passe. Si vous n'avez pas demandé cette réinitialisation de mot de passe, alors ignorez ce e-mail.",
     "Reset your password" : "Réinitialiser votre mot de passe",
+    "Internal error" : "Erreur interne",
     "No translation provider available" : "Aucun fournisseur de traduction n'est disponible",
     "Could not detect language" : "Impossible de détecter la langue",
     "Unable to translate" : "Impossible de traduire",

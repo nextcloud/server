@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicke zum Zurücksetzen des Passworts auf die folgende Schaltfläche. Wenn du das Zurücksetzen des Passworts nicht angefordert hast, ignoriere diese E-Mail.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klicke zum Zurücksetzen des Passworts auf den folgenden Link. Wenn du das Zurücksetzen des Passworts nicht angefordert hast, ignoriere diese E-Mail.",
     "Reset your password" : "Setze dein Passwort zurück",
+    "Internal error" : "Interner Fehler",
     "No translation provider available" : "Kein Übersetzungsanbieter verfügbar",
     "Could not detect language" : "Sprache konnte nicht erkannt werden",
     "Unable to translate" : "Kann nicht übersetzt werden",

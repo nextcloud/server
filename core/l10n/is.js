@@ -35,6 +35,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Smelltu á eftirfarandi hnapp til að endurstilla lykilorðið þitt. Ef þú hefur ekki beðið um endurstillingu lykilorðs, skaltu hunsa þennan tölvupóst.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Smelltu á eftirfarandi tengil til að endurstilla lykilorðið þitt. Ef þú hefur ekki beðið um endurstillingu lykilorðs, skaltu hunsa þennan tölvupóst.",
     "Reset your password" : "Endurstilltu lykilorðið þitt",
+    "Internal error" : "Innri villa",
     "Nextcloud Server" : "Nextcloud þjónn",
     "Some of your link shares have been removed" : "Sumir tenglar þínir á sameignir hafa verið fjarlægðir",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Vegna öryggisgalla hafa sumir tenglar þínir á sameignir hafa verið fjarlægðir. Skoðaðu tengilinn til að sjá frekari upplýsingar.",

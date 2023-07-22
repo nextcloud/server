@@ -36,6 +36,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Paina oheista painiketta palauttaaksesi salasanasi. Jos et ole pyytänyt salasanan palautusta, jätä tämä sähköpostiviesti huomioimatta.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Paina oheista linkkiä palauttaaksesi salasanasi. Jos et ole pyytänyt salasanan palautusta, jätä tämä sähköpostiviesti huomioimatta.",
     "Reset your password" : "Palauta salasanasi",
+    "Internal error" : "Sisäinen virhe",
     "No translation provider available" : "Käännöksen palveluntarjoaja ei ole saatavilla",
     "Could not detect language" : "Kielen havaitseminen ei onnistunut",
     "Unable to translate" : "Kääntäminen ei onnistu",
