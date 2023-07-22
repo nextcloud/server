@@ -101,7 +101,8 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
  */
 function emit_script_loading_tags($obj) {
 	foreach ($obj['jsfiles'] as $jsfile) {
-		$type = str_ends_with($jsfile, '.mjs') ? 'module' : '';
+		$fileName = explode('?', $jsfile, 2)[0];
+		$type = str_ends_with($fileName, '.mjs') ? 'module' : '';
 		emit_script_tag($jsfile, '', $type);
 	}
 	if (!empty($obj['inline_ocjs'])) {
