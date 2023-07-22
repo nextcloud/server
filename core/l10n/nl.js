@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klik op de volgende knop om je wachtwoord te resetten. Als je geen wachtwoordreset hebt aangevraagd, negeer dan dit e-mailbericht.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klik op de volgende link om je wachtwoord te resetten. Als je geen wachtwoordherstel hebt aangevraagd, negeer dan dit e-mailbericht.",
     "Reset your password" : "Reset je wachtwoord",
+    "Internal error" : "Interne fout",
     "No translation provider available" : "Geen provider voor vertaling beschikbaar",
     "Could not detect language" : "Kan taal niet detecteren",
     "Unable to translate" : "Niet mogelijk te vertalen",

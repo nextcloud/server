@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Egin klik ondoko botoian zure pasahitza berrezartzeko. Ez baduzu pasahitzaren berrezarpena eskatu, ahaztu mezu elektroniko hau.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Egin klik ondoko estekan zure pasahitza berrezartzeko. Ez baduzu pasahitzaren berrezarpena eskatu, ahaztu mezu elektroniko hau.",
     "Reset your password" : "Berrezarri zure pasahitza",
+    "Internal error" : "Barne errorea",
     "No translation provider available" : "Ez dago itzulpen-hornitzailerik erabilgarri",
     "Could not detect language" : "Ezin izan da hizkuntza hauteman",
     "Unable to translate" : "Ezin izan da itzuli",

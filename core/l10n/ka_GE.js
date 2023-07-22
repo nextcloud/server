@@ -26,6 +26,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "პაროლის აღსადგენად დააჭირეთ შემდეგ ღილაკს. იმ შემთხვავაში თუ არ მოგითხოვიათ პაროლის აღდგენა, არ მიაქციოთ ყურადღება ამ წერილს.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "პაროლის აღსადგენად დააჭირეთ შემდეგ ღილაკს. იმ შემთხვავაში თუ არ მოგითხოვიათ პაროლის აღდგენა, არ მიაქციოთ ყურადღება ამ წერილს.",
     "Reset your password" : "აღადგნიეთ თქვენი პაროლი",
+    "Internal error" : "შიდა შეცდომა",
     "Preparing update" : "განახლების მომზადება",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Turned on maintenance mode" : "სარემონტო რეჟიმი ჩაირთო",

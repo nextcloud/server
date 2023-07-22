@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Κάντε κλικ στο παρακάτω κουμπί για να επαναφέρετε το συνθηματικό σας. Εάν δεν αιτηθήκατε επαναφορά συνθηματικού, αγνοήστε αυτό το μήνυμα αλληλογραφίας.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Κάντε κλικ στο παρακάτω σύνδεσμο για να επαναφέρετε το συνθηματικό σας. Εάν δεν αιτηθήκατε επαναφορά συνθηματικού, αγνοήστε αυτό το μήνυμα αλληλογραφίας.",
     "Reset your password" : "Επαναφορά συνθηματικού",
+    "Internal error" : "Εσωτερικό σφάλμα",
     "No translation provider available" : "Δεν υπάρχει διαθέσιμος πάροχος μεταφράσεων",
     "Could not detect language" : "Δεν ήταν δυνατός ο εντοπισμός της γλώσσας",
     "Unable to translate" : "Αδυναμία μετάφρασης",
