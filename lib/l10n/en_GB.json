@@ -261,6 +261,7 @@
     "Storage connection error. %s" : "Storage connection error. %s",
     "Storage is temporarily not available" : "Storage is temporarily not available",
     "Storage connection timeout. %s" : "Storage connection timeout. %s",
+    "Summarize" : "Summarise",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.",
     "Full name" : "Full name",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "The user limit has been reached and the user was not created. Check your notifications to learn more.",
