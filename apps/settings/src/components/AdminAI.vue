@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<NcSettingsSection :title="t('settings', 'Machine translation')"
+		<NcSettingsSection :name="t('settings', 'Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
@@ -18,7 +18,7 @@
 				</div>
 			</draggable>
 		</NcSettingsSection>
-		<NcSettingsSection :title="t('settings', 'Speech-To-Text')"
+		<NcSettingsSection :name="t('settings', 'Speech-To-Text')"
 			:description="t('settings', 'Speech-To-Text can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in sttProviders">
 				<NcCheckboxRadioSwitch :key="provider.class"
@@ -36,7 +36,7 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 		</NcSettingsSection>
-		<NcSettingsSection :title="t('settings', 'Text processing')"
+		<NcSettingsSection :name="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 			<template v-for="type in Object.keys(settings['ai.textprocessing_provider_preferences'])">
 				<div :key="type">

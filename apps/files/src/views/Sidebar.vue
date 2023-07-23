@@ -244,15 +244,15 @@ export default {
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
 					starred: this.fileInfo.isFavourited,
-					subtitle: this.subtitle,
-					subtitleTooltip: this.fullTime,
+					subname: this.subtitle,
+					subtitle: this.fullTime,
+					name: this.fileInfo.name,
 					title: this.fileInfo.name,
-					titleTooltip: this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
 					key: 'error', // force key to re-render
-					subtitle: '',
+					subname: '',
 					title: '',
 					class: {
 						'app-sidebar--full': this.isFullScreen,
@@ -262,7 +262,7 @@ export default {
 			// no fileInfo yet, showing empty data
 			return {
 				loading: this.loading,
-				subtitle: '',
+				subname: '',
 				title: '',
 				class: {
 					'app-sidebar--full': this.isFullScreen,

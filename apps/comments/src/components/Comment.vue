@@ -91,12 +91,13 @@
 
 			<!-- Message content -->
 			<!-- The html is escaped and sanitized before rendering -->
-			<!-- eslint-disable-next-line vue/no-v-html-->
+			<!-- eslint-disable vue/no-v-html-->
 			<div v-else
 				:class="{'comment__message--expanded': expanded}"
 				class="comment__message"
 				@click="onExpand"
 				v-html="renderedContent" />
+			<!-- eslint-enable vue/no-v-html-->
 		</div>
 	</component>
 </template>

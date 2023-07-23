@@ -27,7 +27,7 @@
 	<Fragment>
 		<td class="row__cell row__cell--avatar">
 			<NcLoadingIcon v-if="isLoadingUser"
-				:title="t('settings', 'Loading user …')"
+				:name="t('settings', 'Loading user …')"
 				:size="32" />
 			<NcAvatar v-else
 				:key="user.id"

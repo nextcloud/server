@@ -1,5 +1,5 @@
 <template>
-	<NcSettingsSection :title="t('settings', 'Two-Factor Authentication')"
+	<NcSettingsSection :name="t('settings', 'Two-Factor Authentication')"
 		:description="t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
 		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">

@@ -35,11 +35,11 @@
 		<NcLoadingIcon v-if="loading && !isRefreshing"
 			class="files-list__loading-icon"
 			:size="38"
-			:title="t('files', 'Loading current folder')" />
+			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
 		<NcEmptyContent v-else-if="!loading && isEmptyDir"
-			:title="currentView?.emptyTitle || t('files', 'No files in here')"
+			:name="currentView?.emptyTitle || t('files', 'No files in here')"
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
 			<template #action>
