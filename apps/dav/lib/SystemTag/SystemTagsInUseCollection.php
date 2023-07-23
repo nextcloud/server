@@ -99,8 +99,8 @@ class SystemTagsInUseCollection extends SimpleCollection {
 			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable']);
 			// read only, so we can submit the isAdmin parameter as false generally
 			$node = new SystemTagNode($tag, $user, false, $this->systemTagManager);
-			$node->setNumberOfFiles($tagData['number_files']);
-			$node->setReferenceFileId($tagData['ref_file_id']);
+			$node->setNumberOfFiles((int)$tagData['number_files']);
+			$node->setReferenceFileId((int)$tagData['ref_file_id']);
 			$children[] = $node;
 		}
 		return $children;
