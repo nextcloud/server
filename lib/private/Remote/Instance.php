@@ -75,10 +75,10 @@ class Instance implements IInstance {
 	}
 
 	/**
-	 * @return string 'http' or 'https'
+	 * @return string|null 'http' or 'https'
 	 * @throws NotFoundException
 	 */
-	public function getProtocol(): string {
+	public function getProtocol(): ?string {
 		$status = $this->getStatus();
 		return $status['protocol'];
 	}
