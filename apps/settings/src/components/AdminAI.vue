@@ -2,8 +2,10 @@
 	<div>
 		<NcSettingsSection :title="t('settings', 'Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
-			<draggable v-model="settings['ai.translation_provider_preferences']">
-				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item"><span class="draggable__number">{{i+1}}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}</div>
+			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
+				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
+					<span class="draggable__number">{{ i+1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
+				</div>
 			</draggable>
 		</NcSettingsSection>
 		<NcSettingsSection :title="t('settings', 'Speech-To-Text')"
@@ -13,7 +15,8 @@
 					:checked.sync="settings['ai.stt_provider']"
 					:value="provider.class"
 					name="stt_provider"
-					type="radio">
+					type="radio"
+					@update:checked="saveChanges">
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>
@@ -29,9 +32,16 @@
 				<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
 				<p>{{ getTaskType(type).description }}</p>
 				<p>&nbsp;</p>
-				<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"  :clearable="false" :options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)">
-					<template #option="{label}">{{ textProcessingProviders.find(p => p.class === label)?.name }}</template>
-					<template #selected-option="{label}">{{ textProcessingProviders.find(p => p.class === label)?.name }}</template>
+				<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
+					:clearable="false"
+					:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
+					@change="saveChanges">
+					<template #option="{label}">
+						{{ textProcessingProviders.find(p => p.class === label)?.name }}
+					</template>
+					<template #selected-option="{label}">
+						{{ textProcessingProviders.find(p => p.class === label)?.name }}
+					</template>
 				</NcSelect>
 				<p>&nbsp;</p>
 			</template>
@@ -74,24 +84,15 @@ export default {
 		}
 	},
 	methods: {
-		saveChanges() {
+		async saveChanges() {
 			this.loading = true
-
-			const data = {
-				enforced: this.enforced,
-				enforcedGroups: this.enforcedGroups,
-				excludedGroups: this.excludedGroups,
+			const data = this.settings
+			try {
+				await axios.put(generateUrl('/settings/api/admin/ai'), data)
+			} catch (err) {
+				console.error('could not save changes', err)
 			}
-			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data)
-				.then(resp => resp.data)
-				.then(state => {
-					this.state = state
-					this.dirty = false
-				})
-				.catch(err => {
-					console.error('could not save changes', err)
-				})
-				.then(() => { this.loading = false })
+			this.loading = false
 		},
 		getTaskType(type) {
 		  if (!Array.isArray(this.textProcessingTaskTypes)) {

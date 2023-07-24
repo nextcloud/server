@@ -1,14 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2023  Marcel Klehr <mklehr@gmx.net>
  *
  * @license AGPL-3.0
  *
@@ -36,69 +28,39 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use function GuzzleHttp\Promise\queue;
 
 class AISettingsController extends Controller {
-
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IL10N $l10n
 	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator,
-	 * @param IMailer $mailer
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		private IConfig $config,
+	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->mailer = $mailer;
 	}
 
 	/**
 	 * Sets the email settings
 	 *
-	 * @PasswordConfirmationRequired
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\ArtificialIntelligence)
 	 *
 	 * @param array $settings
 	 * @return DataResponse
 	 */
-	public function setAISettings($settings) {
-		$params = get_defined_vars();
-		$configs = [];
-		foreach ($params as $key => $value) {
-			$configs[$key] = empty($value) ? null : $value;
+	public function update($settings) {
+		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.translation_provider_preferences'];
+		foreach ($keys as $key) {
+			if (!isset($settings[$key])) {
+				continue;
+			}
+			$this->config->setAppValue('core', $key, json_encode($settings[$key]));
 		}
-
-		// Delete passwords from config in case no auth is specified
-		if ($params['mail_smtpauth'] !== 1) {
-			$configs['mail_smtpname'] = null;
-			$configs['mail_smtppassword'] = null;
-		}
-
-		$this->config->setSystemValues($configs);
-
-		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
 
 		return new DataResponse();
 	}
