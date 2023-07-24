@@ -42,6 +42,12 @@ interface IManager {
 	public function hasProviders(): bool;
 
 	/**
+	 * @return IProvider[]
+	 * @since 27.1.0
+	 */
+	public function getProviders(): array;
+
+	/**
 	 * @return class-string<ITaskType>[]
 	 * @since 27.1.0
 	 */
