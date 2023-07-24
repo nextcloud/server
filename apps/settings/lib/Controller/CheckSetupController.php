@@ -300,7 +300,7 @@ class CheckSetupController extends Controller {
 		}
 
 		// Check if NSS and perform heuristic check
-		if (strpos($versionString, 'NSS/') === 0) {
+		if (str_starts_with($versionString, 'NSS/')) {
 			try {
 				$firstClient = $this->clientService->newClient();
 				$firstClient->get('https://nextcloud.com/');
@@ -391,7 +391,7 @@ class CheckSetupController extends Controller {
 	 */
 	private function isSettimelimitAvailable() {
 		if (function_exists('set_time_limit')
-			&& strpos(ini_get('disable_functions'), 'set_time_limit') === false) {
+			&& !str_contains(ini_get('disable_functions'), 'set_time_limit')) {
 			return true;
 		}
 
@@ -592,7 +592,7 @@ Raw output
 	}
 
 	protected function isSqliteUsed() {
-		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
+		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
 	protected function isReadOnlyConfig(): bool {
