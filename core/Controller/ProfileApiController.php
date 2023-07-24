@@ -54,14 +54,6 @@ class ProfileApiController extends OCSController {
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 * @UserRateThrottle(limit=40, period=600)
-	 * @param string $targetUserId
-	 * @param string $paramId
-	 * @param string $visibility
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
-	 * @throws Exception
 	 */
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();

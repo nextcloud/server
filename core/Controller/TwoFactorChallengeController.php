@@ -168,7 +168,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
-	public function solveChallenge(string $challengeProviderId, string $challenge, string $redirect_url = null): RedirectResponse {
+	public function solveChallenge(string $challengeProviderId, string $challenge, ?string $redirect_url = null): RedirectResponse {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {

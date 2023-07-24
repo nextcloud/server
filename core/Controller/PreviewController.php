@@ -86,16 +86,6 @@ class PreviewController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 *
-	 * @param int $fileId
-	 * @param int $x
-	 * @param int $y
-	 * @param bool $a
-	 * @param bool $forceIcon
-	 * @param string $mode
-	 * @return DataResponse|FileDisplayResponse
-	 * @throws NoUserException
-	 * @throws NotPermittedException
 	 */
 	public function getPreviewByFileId(
 		int $fileId = -1,
@@ -120,17 +110,6 @@ class PreviewController extends Controller {
 		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode);
 	}
 
-	/**
-	 * @param Node $node
-	 * @param int $x
-	 * @param int $y
-	 * @param bool $a
-	 * @param bool $forceIcon
-	 * @param string $mode
-	 * @return Response
-	 * @throws NotFoundException
-	 * @throws InvalidPathException
-	 */
 	private function fetchPreview(
 		Node $node,
 		int $x,
