@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Kattintson a lenti gombra a jelszava visszaállításához. Ha ezt nem Ön kérte, akkor hagyja figyelmen kívül ezt a levelet.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Kattintson a lenti hivatkozásra a jelszava visszaállításához. Ha ezt nem Ön kérte, akkor hagyja figyelmen kívül ezt a levelet.",
     "Reset your password" : "Jelszó visszaállítása",
+    "Internal error" : "Belső hiba",
     "No translation provider available" : "Nem érhető el fordítási szolgáltató",
     "Could not detect language" : "Nem sikerült észlelni a nyelvet",
     "Unable to translate" : "Nem fordítható le",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "次のボタンをクリックして、パスワードをリセットしてください。 パスワードリセットをリクエストしていない場合は、このメールを無視してください。",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "パスワードをリセットするには、次のリンクをクリックしてください。 パスワードリセットをリクエストしていない場合は、このメールを無視してください。",
     "Reset your password" : "パスワードをリセット",
+    "Internal error" : "内部エラー",
     "Could not detect language" : "言語を検出できませんでした",
     "Unable to translate" : "翻訳できませんでした",
     "Nextcloud Server" : "Nextcloud サーバー",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Clique no seguinte botão para repor a sua senha. Se não solicitou a reposição da senha, ignore este e-mail.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Clique na seguinte hiperligação para repor a sua senha. Se não solicitou a reposição da senha, ignore este e-mail.",
     "Reset your password" : "Repor a senha",
+    "Internal error" : "Erro interno",
     "Nextcloud Server" : "Nextcloud Server",
     "Some of your link shares have been removed" : "Alguns dos links das suas partilhas foram removidos",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Devido a bugs de segurança tivemos que remover algumas das suas ligações às partilhas.\nPor favor veja o link para mais informação.",

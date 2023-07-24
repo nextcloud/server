@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "아래 단추를 눌러서 암호를 재설정할 수 있습니다. 암호 초기화를 요청하지 않으셨다면 이 이메일을 무시하십시오.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "아래 링크를 눌러서 암호를 재설정할 수 있습니다. 암호 초기화를 요청하지 않으셨다면 이 이메일을 무시하십시오.",
     "Reset your password" : "내 암호 재설정",
+    "Internal error" : "내부 오류",
     "No translation provider available" : "이용 가능한 번역 제공자 없음",
     "Could not detect language" : "언어를 감지할 수 없음",
     "Unable to translate" : "번역할 수 없음",

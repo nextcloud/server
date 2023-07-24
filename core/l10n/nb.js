@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klikk følgende knapp for å tilbakestille passordet ditt. Ignorer denne e-posten hvis du ikke har forespurt dette.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klikk følgende lenke for å tilbakestille passordet ditt. Ignorer denne e-posten hvis du ikke har forespurt dette.",
     "Reset your password" : "Tilbakestill passordet ditt",
+    "Internal error" : "Intern feil",
     "Nextcloud Server" : "Nextcloud-server",
     "Some of your link shares have been removed" : "Noen av de delte lenkene dine har blitt fjernet",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "På grunn av et sikkerhetsproblem har vi fjernet enkelte av de delte lenkene dine. Vennligst se linken for mer informasjon. ",

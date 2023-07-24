@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Кликните следеће дугме за ресетовање лозинке. Ако нисте тражили ресетовање лозинке, занемарите ову поруку.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Кликните следећу везу за ресетовање лозинке. Ако нисте тражили ресетовање лозинке, занемарите ову поруку.",
     "Reset your password" : "Ресетуј лозинку",
+    "Internal error" : "Интерна грешка",
     "No translation provider available" : "Није доступан ниједан пружалац услиге превода",
     "Could not detect language" : "Не може да се детектује језик",
     "Unable to translate" : "Не може да се преведе",

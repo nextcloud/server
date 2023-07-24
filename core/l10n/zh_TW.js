@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "點選下方的按鈕來重設您的密碼。若您沒有要求重設密碼，請忽略這封信件。",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "點取下方的連結以重設您的密碼。 如果您沒有要求重設密碼的話，請忽略這封信件。",
     "Reset your password" : "重設密碼",
+    "Internal error" : "內部錯誤",
     "No translation provider available" : "沒有可用的翻譯提供者",
     "Could not detect language" : "無法偵測語言",
     "Unable to translate" : "無法翻譯",
