@@ -33,7 +33,6 @@ use OCP\L10N\IFactory;
  * @since 27.1.0
  */
 class SummaryTaskType implements ITaskType {
-
 	private IL10N $l;
 
 	/**
