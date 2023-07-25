@@ -153,7 +153,7 @@ export default {
 				this.handleResponse(
 					'error',
 					t('settings', 'Unable to update primary email address'),
-					e
+					e,
 				)
 			}
 		},
@@ -166,7 +166,7 @@ export default {
 				this.handleResponse(
 					'error',
 					t('settings', 'Unable to delete additional email address'),
-					e
+					e,
 				)
 			}
 		},
@@ -178,7 +178,7 @@ export default {
 				this.handleResponse(
 					'error',
 					t('settings', 'Unable to delete additional email address'),
-					{}
+					{},
 				)
 			}
 		},

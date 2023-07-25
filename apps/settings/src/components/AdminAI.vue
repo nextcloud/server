@@ -88,7 +88,7 @@ export default {
 	methods: {
 		async saveChanges() {
 			this.loading = true
-			const data = {settings: this.settings}
+			const data = { settings: this.settings }
 			try {
 				await axios.put(generateUrl('/settings/api/admin/ai'), data)
 			} catch (err) {
