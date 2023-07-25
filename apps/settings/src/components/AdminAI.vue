@@ -4,7 +4,7 @@
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
-					<span class="draggable__number">{{ i+1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
+					<DragVerticalIcon /> <span class="draggable__number">{{ i+1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
 				</div>
 			</draggable>
 		</NcSettingsSection>
@@ -58,6 +58,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import draggable from 'vuedraggable'
+import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
 import { loadState } from '@nextcloud/initial-state'
 
 import { generateUrl } from '@nextcloud/router'
@@ -69,6 +70,7 @@ export default {
 		NcSettingsSection,
 		NcSelect,
 		draggable,
+		DragVerticalIcon,
 	},
 	data() {
 		return {
@@ -86,7 +88,7 @@ export default {
 	methods: {
 		async saveChanges() {
 			this.loading = true
-			const data = this.settings
+			const data = {settings: this.settings}
 			try {
 				await axios.put(generateUrl('/settings/api/admin/ai'), data)
 			} catch (err) {
@@ -108,10 +110,19 @@ export default {
 	margin-bottom: 5px;
 }
 
+.draggable__item,
+.draggable__item * {
+  cursor: grab;
+}
+
 .draggable__number {
 	border-radius: 20px;
 	border: 2px solid var(--color-primary-default);
 	color: var(--color-primary-default);
   padding: 2px 7px;
+}
+
+.drag-vertical-icon {
+  float: left;
 }
 </style>
