@@ -10,6 +10,7 @@
 namespace Test\Group;
 
 use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -17,10 +18,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class GroupTest extends \Test\TestCase {
 	/** @var EventDispatcherInterface|MockObject */
 	protected $dispatcher;
+	/** @var EventDispatcherInterface|MockObject */
+	protected $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	/**
@@ -305,7 +309,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->eventDispatcher)]);
 
 		$users = $group->searchUsers('2');
 
@@ -327,11 +331,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->eventDispatcher)]);
 		$backend2->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->eventDispatcher)]);
 
 		$users = $group->searchUsers('2');
 
@@ -350,7 +354,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', 'user', 1, 1)
-			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->eventDispatcher)]);
 
 		$users = $group->searchUsers('user', 1, 1);
 
@@ -372,11 +376,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->eventDispatcher)]);
 		$backend2->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user1' => new \OC\User\User('user1', null, $this->dispatcher)]);
+			->willReturn(['user1' => new \OC\User\User('user1', null, $this->eventDispatcher)]);
 
 		$users = $group->searchUsers('user', 2, 1);
 

@@ -566,8 +566,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$provider = null;
 			}
 
-			$legacyDispatcher = $c->get(SymfonyAdapter::class);
-
 			$userSession = new \OC\User\Session(
 				$manager,
 				$session,
@@ -589,10 +587,9 @@ class Server extends ServerContainer implements IServerContainer {
 				\OC_Hook::emit('OC_User', 'post_createUser', ['uid' => $user->getUID(), 'password' => $password]);
 			});
 			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-			$userSession->listen('\OC\User', 'preDelete', function ($user) use ($legacyDispatcher) {
+			$userSession->listen('\OC\User', 'preDelete', function ($user) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'pre_deleteUser', ['run' => true, 'uid' => $user->getUID()]);
-				$legacyDispatcher->dispatch('OCP\IUser::preDelete', new GenericEvent($user));
 			});
 			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'postDelete', function ($user) {
@@ -602,18 +599,10 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'pre_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($user, $password, $recoveryPassword));
 			});
 			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new PasswordUpdatedEvent($user, $password, $recoveryPassword));
 			});
 			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', ['run' => true, 'uid' => $uid, 'password' => $password]);
@@ -658,10 +647,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'changeUser', ['run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserChangedEvent($user, $feature, $value, $oldValue));
 			});
 			return $userSession;
 		});

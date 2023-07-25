@@ -49,7 +49,10 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\GetQuotaEvent;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -58,8 +61,6 @@ use OCP\User\Backend\IProvideAvatarBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function json_decode;
 use function json_encode;
 
@@ -76,8 +77,6 @@ class User implements IUser {
 
 	/** @var UserInterface|null */
 	private $backend;
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
 
 	/** @var IEventDispatcher */
 	private $dispatcher;
@@ -103,10 +102,9 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
-		$this->legacyDispatcher = $dispatcher;
 		$this->emitter = $emitter;
 		if (is_null($config)) {
 			$config = \OC::$server->getConfig();
@@ -116,8 +114,7 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
-		// TODO: inject
-		$this->dispatcher = \OCP\Server::get(IEventDispatcher::class);
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -325,10 +322,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
-		$this->legacyDispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
-			'password' => $password,
-			'recoveryPassword' => $recoveryPassword,
-		]));
+		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}
@@ -338,10 +332,7 @@ class User implements IUser {
 			$result = $backend->setPassword($this->uid, $password);
 
 			if ($result !== false) {
-				$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
-					'password' => $password,
-					'recoveryPassword' => $recoveryPassword,
-				]));
+				$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
 				if ($this->emitter) {
 					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
 				}
@@ -622,11 +613,7 @@ class User implements IUser {
 	}
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
-		$this->legacyDispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
-			'feature' => $feature,
-			'value' => $value,
-			'oldValue' => $oldValue,
-		]));
+		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}

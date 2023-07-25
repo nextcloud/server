@@ -12,6 +12,7 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Cache\Cache;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IUser;
 
@@ -329,7 +330,7 @@ class CacheTest extends \Test\TestCase {
 		$userId = static::getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		static::loginAsUser($userId);
-		$user = new \OC\User\User($userId, null, \OC::$server->getEventDispatcher());
+		$user = new \OC\User\User($userId, null, \OC::$server->get(IEventDispatcher::class));
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';

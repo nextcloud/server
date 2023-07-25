@@ -26,6 +26,7 @@ namespace Test\Group;
 use OC\Group\Database;
 use OC\User\User;
 use OC\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\ICacheFactory;
@@ -43,6 +44,8 @@ class ManagerTest extends TestCase {
 	protected $userManager;
 	/** @var EventDispatcherInterface|MockObject */
 	protected $dispatcher;
+	/** @var IEventDispatcher|MockObject */
+	protected $eventDispatcher;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 	/** @var ICacheFactory|MockObject */
@@ -53,6 +56,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager = $this->createMock(Manager::class);
 		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cache = $this->createMock(ICacheFactory::class);
 	}
@@ -769,7 +773,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('testgroup', '', 1, 0)
-			->willReturn([new User('user2', null, $this->dispatcher)]);
+			->willReturn([new User('user2', null, $this->eventDispatcher)]);
 
 		$this->userManager->expects($this->never())->method('get');
 
