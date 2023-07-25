@@ -340,7 +340,6 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(SystemConfig::class)
 				),
 				$c->get(IEventDispatcher::class),
-				$c->get(SymfonyAdapter::class),
 				$c->get(GeneratorHelper::class),
 				$c->get(ISession::class)->get('user_id'),
 				$c->get(Coordinator::class),
