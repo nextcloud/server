@@ -271,8 +271,6 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function delete() {
-		/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-		$this->legacyDispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
 			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
 			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
@@ -310,8 +308,6 @@ class User implements IUser {
 			$accountManager = \OCP\Server::get(AccountManager::class);
 			$accountManager->deleteUser($this);
 
-			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
-			$this->legacyDispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
 				/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
 				$this->emitter->emit('\OC\User', 'postDelete', [$this]);
