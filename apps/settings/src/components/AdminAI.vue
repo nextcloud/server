@@ -45,7 +45,7 @@
 						</template>
 					</NcSelect>
 					<p>&nbsp;</p>
-			</div>
+				</div>
 			</template>
 			<template v-if="Object.keys(settings['ai.textprocessing_provider_preferences']).length === 0 || !Array.isArray(textProcessingTaskTypes)">
 				<p>{{ t('settings', 'No apps are currently installed that provide Text processing functionality') }}</p>
