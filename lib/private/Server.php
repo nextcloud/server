@@ -465,7 +465,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new HookConnector(
 				$c->get(IRootFolder::class),
 				new View(),
-				$c->get(\OC\EventDispatcher\SymfonyAdapter::class),
 				$c->get(IEventDispatcher::class)
 			);
 		});
