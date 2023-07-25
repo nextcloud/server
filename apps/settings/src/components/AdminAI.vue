@@ -29,21 +29,23 @@
 		<NcSettingsSection :title="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 			<template v-for="type in Object.keys(settings['ai.textprocessing_provider_preferences'])">
-				<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
-				<p>{{ getTaskType(type).description }}</p>
-				<p>&nbsp;</p>
-				<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
-					:clearable="false"
-					:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
-					@change="saveChanges">
-					<template #option="{label}">
-						{{ textProcessingProviders.find(p => p.class === label)?.name }}
-					</template>
-					<template #selected-option="{label}">
-						{{ textProcessingProviders.find(p => p.class === label)?.name }}
-					</template>
-				</NcSelect>
-				<p>&nbsp;</p>
+				<div :key="type">
+					<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
+					<p>{{ getTaskType(type).description }}</p>
+					<p>&nbsp;</p>
+					<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
+						:clearable="false"
+						:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
+						@change="saveChanges">
+						<template #option="{label}">
+							{{ textProcessingProviders.find(p => p.class === label)?.name }}
+						</template>
+						<template #selected-option="{label}">
+							{{ textProcessingProviders.find(p => p.class === label)?.name }}
+						</template>
+					</NcSelect>
+					<p>&nbsp;</p>
+			</div>
 			</template>
 			<template v-if="Object.keys(settings['ai.textprocessing_provider_preferences']).length === 0 || !Array.isArray(textProcessingTaskTypes)">
 				<p>{{ t('settings', 'No apps are currently installed that provide Text processing functionality') }}</p>
