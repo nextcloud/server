@@ -34,7 +34,6 @@
 namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
-use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
@@ -46,36 +45,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * @since 6.0.0
  */
 interface IDBConnection {
-	/**
-	 * @deprecated 22.0.0 this is an internal event, use {@see AddMissingIndicesEvent} instead
-	 */
-	public const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event, use {@see AddMissingIndicesEvent} instead
-	 */
-	public const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const ADD_MISSING_PRIMARY_KEYS_EVENT = self::class . '::ADD_MISSING_PRIMARY_KEYS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const CHECK_MISSING_PRIMARY_KEYS_EVENT = self::class . '::CHECK_MISSING_PRIMARY_KEYS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const ADD_MISSING_COLUMNS_EVENT = self::class . '::ADD_MISSING_COLUMNS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const CHECK_MISSING_COLUMNS_EVENT = self::class . '::CHECK_MISSING_COLUMNS';
-
 	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
