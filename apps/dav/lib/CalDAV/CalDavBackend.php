@@ -2858,6 +2858,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->calendarSharingBackend->getShares($resourceId);
 	}
 
+	public function preloadShares(array $resourceIds): void {
+		$this->calendarSharingBackend->preloadShares($resourceIds);
+	}
+
 	/**
 	 * @param boolean $value
 	 * @param \OCA\DAV\CalDAV\Calendar $calendar
