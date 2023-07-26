@@ -50,6 +50,14 @@
 						{{ updateCount }}
 					</NcAppNavigationCounter>
 				</NcAppNavigationItem>
+				<NcAppNavigationItem v-if="isSubscribed"
+					id="app-category-supported"
+					:to="{ name: 'apps-category', params: { category: 'supported' } }"
+					:name="$options.APPS_SECTION_ENUM.supported">
+					<template #icon>
+						<IconStarShooting :size="20" />
+					</template>
+				</NcAppNavigationItem>
 				<NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
@@ -147,6 +155,7 @@ import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigatio
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import IconStarShooting from 'vue-material-design-icons/StarShooting.vue'
 
 import AppList from '../components/AppList.vue'
 import AppDetails from '../components/AppDetails.vue'
@@ -165,6 +174,7 @@ export default {
 		NcAppContent,
 		AppDetails,
 		AppList,
+		IconStarShooting,
 		NcAppNavigation,
 		NcAppNavigationCounter,
 		NcAppNavigationItem,
@@ -254,6 +264,13 @@ export default {
 		},
 		changelog() {
 			return (release) => release.translations.en.changelog
+		},
+		/**
+		 * Check if the current instance has a support subscription from the Nextcloud GmbH
+		 */
+		isSubscribed() {
+			// For customers of the Nextcloud GmbH the app level will be set to `300` for apps that are supported in their subscription
+			return this.apps.some(app => app.level === 300)
 		},
 	},
 
