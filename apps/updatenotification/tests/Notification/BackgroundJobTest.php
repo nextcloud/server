@@ -31,7 +31,6 @@ use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -50,10 +49,10 @@ class BackgroundJobTest extends TestCase {
 	protected $groupManager;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appManager;
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	protected $client;
-	/** @var Installer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Installer|MockObject */
 	protected $installer;
+	/** @var VersionCheck|MockObject */
+	protected $versionCheck;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,8 +61,8 @@ class BackgroundJobTest extends TestCase {
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->client = $this->createMock(IClientService::class);
 		$this->installer = $this->createMock(Installer::class);
+		$this->versionCheck = $this->createMock(VersionCheck::class);
 	}
 
 	/**
@@ -77,8 +76,8 @@ class BackgroundJobTest extends TestCase {
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
-				$this->client,
-				$this->installer
+				$this->installer,
+				$this->versionCheck,
 			);
 		}
 		{
@@ -88,8 +87,8 @@ class BackgroundJobTest extends TestCase {
 					$this->notificationManager,
 					$this->groupManager,
 					$this->appManager,
-					$this->client,
 					$this->installer,
+					$this->versionCheck,
 				])
 				->setMethods($methods)
 				->getMock();
@@ -154,7 +153,6 @@ class BackgroundJobTest extends TestCase {
 	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays) {
 		$job = $this->getJob([
 			'getChannel',
-			'createVersionCheck',
 			'createNotifications',
 			'clearErrorNotifications',
 			'sendErrorNotifications',
@@ -165,17 +163,12 @@ class BackgroundJobTest extends TestCase {
 			->willReturn($channel);
 
 		if ($versionCheck === null) {
-			$job->expects($this->never())
-				->method('createVersionCheck');
+			$this->versionCheck->expects($this->never())
+				->method('check');
 		} else {
-			$check = $this->createMock(VersionCheck::class);
-			$check->expects($this->once())
+			$this->versionCheck->expects($this->once())
 				->method('check')
 				->willReturn($versionCheck);
-
-			$job->expects($this->once())
-				->method('createVersionCheck')
-				->willReturn($check);
 		}
 
 		if ($version === null) {

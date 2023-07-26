@@ -28,26 +28,27 @@ namespace OC\Updater;
 
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
 class VersionCheck {
+	private IClientService $clientService;
+	private IConfig $config;
+	private IUserManager $userManager;
+	private IRegistry $registry;
 
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config) {
+	public function __construct(
+		IClientService $clientService,
+		IConfig $config,
+		IUserManager $userManager,
+		IRegistry $registry
+	) {
 		$this->clientService = $clientService;
 		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->registry = $registry;
 	}
-
 
 	/**
 	 * Check if a new version is available
@@ -82,6 +83,8 @@ class VersionCheck {
 		$version['php_major'] = PHP_MAJOR_VERSION;
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
+		$version['category'] = $this->computeCategory();
+		$version['isSubscriber'] = (int) $this->registry->delegateHasValidSubscription();
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
@@ -130,5 +133,26 @@ class VersionCheck {
 		$client = $this->clientService->newClient();
 		$response = $client->get($url);
 		return $response->getBody();
+	}
+
+	private function computeCategory(): int {
+		$categoryBoundaries = [
+			100,
+			500,
+			1000,
+			5000,
+			10000,
+			100000,
+			1000000,
+		];
+
+		$nbUsers = $this->userManager->countSeenUsers();
+		foreach ($categoryBoundaries as $categoryId => $boundary) {
+			if ($nbUsers <= $boundary) {
+				return $categoryId;
+			}
+		}
+
+		return count($categoryBoundaries);
 	}
 }

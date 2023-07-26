@@ -30,7 +30,6 @@ use OC\BackgroundJob\TimedJob;
 use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCP\App\IAppManager;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -39,33 +38,24 @@ use OCP\Notification\IManager;
 class BackgroundJob extends TimedJob {
 	protected $connectionNotifications = [3, 7, 14, 30];
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IManager */
-	protected $notificationManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IClientService */
-	protected $client;
-
-	/** @var Installer */
-	protected $installer;
+	protected IConfig $config;
+	protected IManager $notificationManager;
+	protected IGroupManager $groupManager;
+	protected IAppManager $appManager;
+	protected Installer $installer;
+	protected VersionCheck $versionCheck;
 
 	/** @var string[] */
 	protected $users;
 
-	public function __construct(IConfig $config,
-								IManager $notificationManager,
-								IGroupManager $groupManager,
-								IAppManager $appManager,
-								IClientService $client,
-								Installer $installer) {
+	public function __construct(
+		IConfig $config,
+		IManager $notificationManager,
+		IGroupManager $groupManager,
+		IAppManager $appManager,
+		Installer $installer,
+		VersionCheck $versionCheck
+	) {
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 
@@ -73,8 +63,8 @@ class BackgroundJob extends TimedJob {
 		$this->notificationManager = $notificationManager;
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
-		$this->client = $client;
 		$this->installer = $installer;
+		$this->versionCheck = $versionCheck;
 	}
 
 	protected function run($argument) {
@@ -101,12 +91,10 @@ class BackgroundJob extends TimedJob {
 			return;
 		}
 
-		$updater = $this->createVersionCheck();
-
-		$status = $updater->check();
+		$status = $this->versionCheck->check();
 		if ($status === false) {
-			$errors = 1 + (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
-			$this->config->setAppValue('updatenotification', 'update_check_errors', $errors);
+			$errors = 1 + (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
+			$this->config->setAppValue('updatenotification', 'update_check_errors', (string) $errors);
 
 			if (\in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
@@ -253,16 +241,6 @@ class BackgroundJob extends TimedJob {
 			return;
 		}
 		$this->notificationManager->markProcessed($notification);
-	}
-
-	/**
-	 * @return VersionCheck
-	 */
-	protected function createVersionCheck(): VersionCheck {
-		return new VersionCheck(
-			$this->client,
-			$this->config
-		);
 	}
 
 	/**
