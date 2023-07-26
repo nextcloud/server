@@ -39,7 +39,7 @@ class ResetBruteforceAttempts extends Base {
 	protected function configure() {
 		$this
 			->setName('security:bruteforce:reset')
-			->setDescription('resets bruteforce attemps for given IP address')
+			->setDescription('resets bruteforce attempts for given IP address')
 			->addArgument(
 				'ipaddress',
 				InputArgument::REQUIRED,

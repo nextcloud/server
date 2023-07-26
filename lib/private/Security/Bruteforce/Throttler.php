@@ -30,6 +30,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Security\Bruteforce;
 
 use OC\Security\Normalizer\IpAddress;
@@ -66,10 +67,12 @@ class Throttler implements IThrottler {
 	/** @var bool[] */
 	private $hasAttemptsDeleted = [];
 
-	public function __construct(IDBConnection $db,
-								ITimeFactory $timeFactory,
-								LoggerInterface $logger,
-								IConfig $config) {
+	public function __construct(
+		IDBConnection $db,
+		ITimeFactory $timeFactory,
+		LoggerInterface $logger,
+		IConfig $config
+	) {
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;
 		$this->logger = $logger;
@@ -97,7 +100,7 @@ class Throttler implements IThrottler {
 	 */
 	private function getCutoffTimestamp(float $maxAgeHours = 12.0): int {
 		return (new \DateTime())
-			->sub($this->getCutoff((int) ($maxAgeHours * 3600)))
+			->sub($this->getCutoff((int)($maxAgeHours * 3600)))
 			->getTimestamp();
 	}
 
@@ -108,9 +111,11 @@ class Throttler implements IThrottler {
 	 * @param string $ip
 	 * @param array $metadata Optional metadata logged to the database
 	 */
-	public function registerAttempt(string $action,
-									string $ip,
-									array $metadata = []): void {
+	public function registerAttempt(
+		string $action,
+		string $ip,
+		array $metadata = []
+	): void {
 		// No need to log if the bruteforce protection is disabled
 		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.enabled', true)) {
 			return;
@@ -159,7 +164,19 @@ class Throttler implements IThrottler {
 		$keys = array_filter($keys, function ($key) {
 			return str_starts_with($key, 'whitelist_');
 		});
+		$subnets = array_map(function ($key) {
+			return $this->config->getAppValue('bruteForce', $key, null);
+		}, $keys);
 
+		return $this->inSubnets($ip, $subnets);
+	}
+
+	/**
+	 * @param string $ip
+	 * @param string[] $subnets
+	 * @return bool
+	 */
+	public function inSubnets(string $ip, array $subnets): bool {
 		if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 			$type = 4;
 		} elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
@@ -170,43 +187,44 @@ class Throttler implements IThrottler {
 
 		$ip = inet_pton($ip);
 
-		foreach ($keys as $key) {
-			$cidr = $this->config->getAppValue('bruteForce', $key, null);
-
-			$cx = explode('/', $cidr);
-			$addr = $cx[0];
-			$mask = (int)$cx[1];
-
-			// Do not compare ipv4 to ipv6
-			if (($type === 4 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) ||
-				($type === 6 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))) {
-				continue;
-			}
-
-			$addr = inet_pton($addr);
-
-			$valid = true;
-			for ($i = 0; $i < $mask; $i++) {
-				$part = ord($addr[(int)($i / 8)]);
-				$orig = ord($ip[(int)($i / 8)]);
-
-				$bitmask = 1 << (7 - ($i % 8));
-
-				$part = $part & $bitmask;
-				$orig = $orig & $bitmask;
-
-				if ($part !== $orig) {
-					$valid = false;
-					break;
-				}
-			}
-
-			if ($valid === true) {
+		foreach ($subnets as $cidr) {
+			if ($this->inSubnet($ip, $cidr, $type)) {
 				return true;
 			}
 		}
-
 		return false;
+	}
+
+	private function inSubnet(string $ip, string $cidr, int $type): bool {
+		$cx = explode('/', $cidr);
+		$addr = $cx[0];
+
+		// Do not compare ipv4 to ipv6
+		if (($type === 4 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) ||
+			($type === 6 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))) {
+			return false;
+		}
+
+		$addr = inet_pton($addr);
+		if (count($cx) === 1) {
+			return $ip === $addr;
+		}
+		$mask = (int)$cx[1];
+
+		for ($i = 0; $i < $mask; $i++) {
+			$part = ord($addr[(int)($i / 8)]);
+			$orig = ord($ip[(int)($i / 8)]);
+
+			$bitmask = 1 << (7 - ($i % 8));
+
+			$part = $part & $bitmask;
+			$orig = $orig & $bitmask;
+
+			if ($part !== $orig) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -248,7 +266,7 @@ class Throttler implements IThrottler {
 		$row = $result->fetch();
 		$result->closeCursor();
 
-		return (int) $row['attempts'];
+		return (int)$row['attempts'];
 	}
 
 	/**
@@ -274,7 +292,7 @@ class Throttler implements IThrottler {
 		if ($delay > self::MAX_DELAY) {
 			return self::MAX_DELAY_MS;
 		}
-		return (int) \ceil($delay * 1000);
+		return (int)\ceil($delay * 1000);
 	}
 
 	/**
@@ -361,5 +379,18 @@ class Throttler implements IThrottler {
 		}
 		usleep($delay * 1000);
 		return $delay;
+	}
+
+	/**
+	 * @return array{'action': string, ip: string, count: int}[]
+	 */
+	public function summarizeAttempts(): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select(['action', 'ip'])
+			->selectAlias($query->func()->count('id'), 'count')
+			->from('bruteforce_attempts')
+			->groupBy(['action', 'ip'])
+			->orderBy($query->func()->count('id'));
+		return $query->executeQuery()->fetchAll();
 	}
 }
