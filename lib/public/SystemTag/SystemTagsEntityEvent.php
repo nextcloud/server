@@ -33,26 +33,22 @@ use OCP\EventDispatcher\Event;
  * Class SystemTagsEntityEvent
  *
  * @since 9.1.0
+ * @since 28.0.0 Dispatched as a typed event
  */
 class SystemTagsEntityEvent extends Event {
 	/**
-	 * @deprecated 22.0.0
+	 * @deprecated 22.0.0 Listen to the typed event instead
 	 */
 	public const EVENT_ENTITY = 'OCP\SystemTag\ISystemTagManager::registerEntity';
 
-	/** @var string */
-	protected $event;
 	/** @var \Closure[] */
 	protected $collections;
 
 	/**
-	 * SystemTagsEntityEvent constructor.
-	 *
-	 * @param string $event
 	 * @since 9.1.0
 	 */
-	public function __construct(string $event) {
-		$this->event = $event;
+	public function __construct() {
+		parent::__construct();
 		$this->collections = [];
 	}
 
