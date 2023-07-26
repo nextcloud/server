@@ -33,7 +33,6 @@ use OCP\ICacheFactory;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterface {
@@ -42,10 +41,8 @@ interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterf
 class ManagerTest extends TestCase {
 	/** @var Manager|MockObject */
 	protected $userManager;
-	/** @var EventDispatcherInterface|MockObject */
-	protected $dispatcher;
 	/** @var IEventDispatcher|MockObject */
-	protected $eventDispatcher;
+	protected $dispatcher;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 	/** @var ICacheFactory|MockObject */
@@ -55,8 +52,7 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cache = $this->createMock(ICacheFactory::class);
 	}
@@ -773,7 +769,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('testgroup', '', 1, 0)
-			->willReturn([new User('user2', null, $this->eventDispatcher)]);
+			->willReturn([new User('user2', null, $this->dispatcher)]);
 
 		$this->userManager->expects($this->never())->method('get');
 

@@ -192,14 +192,6 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
-use OCP\Group\Events\BeforeGroupCreatedEvent;
-use OCP\Group\Events\BeforeGroupDeletedEvent;
-use OCP\Group\Events\BeforeUserAddedEvent;
-use OCP\Group\Events\BeforeUserRemovedEvent;
-use OCP\Group\Events\GroupCreatedEvent;
-use OCP\Group\Events\GroupDeletedEvent;
-use OCP\Group\Events\UserAddedEvent;
-use OCP\Group\Events\UserRemovedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -253,12 +245,10 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\Translation\ITranslationManager;
-use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
-use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -268,7 +258,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\GlobalStoragesService;
@@ -491,50 +480,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\IGroupManager::class, function (ContainerInterface $c) {
 			$groupManager = new \OC\Group\Manager(
 				$this->get(IUserManager::class),
-				$c->get(SymfonyAdapter::class),
+				$this->get(IEventDispatcher::class),
 				$this->get(LoggerInterface::class),
 				$this->get(ICacheFactory::class)
 			);
-			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
-			});
-			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $group) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-			});
-			$groupManager->listen('\OC\Group', 'preDelete', function (\OC\Group\Group $group) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeGroupDeletedEvent($group));
-			});
-			$groupManager->listen('\OC\Group', 'postDelete', function (\OC\Group\Group $group) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new GroupDeletedEvent($group));
-			});
-			$groupManager->listen('\OC\Group', 'preAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserAddedEvent($group, $user));
-			});
-			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserAddedEvent($group, $user));
-			});
-			$groupManager->listen('\OC\Group', 'preRemoveUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserRemovedEvent($group, $user));
-			});
-			$groupManager->listen('\OC\Group', 'postRemoveUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserRemovedEvent($group, $user));
-			});
 			return $groupManager;
 		});
 		/** @deprecated 19.0.0 */
