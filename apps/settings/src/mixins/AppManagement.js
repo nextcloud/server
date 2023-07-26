@@ -44,7 +44,7 @@ export default {
 			if (this.app.needsDownload) {
 				return t('settings', 'Allow untested app')
 			}
-			return t('settings', 'Authorize this untested app')
+			return t('settings', 'Allow untested app')
 		},
 		enableButtonTooltip() {
 			if (this.app.needsDownload) {
