@@ -38,7 +38,7 @@ namespace OC\Security\Normalizer;
  */
 class IpAddress {
 	/**
-	 * @param string $ip IP to normalized
+	 * @param string $ip IP to normalize
 	 */
 	public function __construct(
 		private string $ip,
@@ -46,24 +46,9 @@ class IpAddress {
 	}
 
 	/**
-	 * Return the given subnet for an IPv4 address and mask bits
+	 * Return the given subnet for an IPv6 address (64 first bits)
 	 */
-	private function getIPv4Subnet(string $ip, int $maskBits = 32): string {
-		$binary = \inet_pton($ip);
-		for ($i = 32; $i > $maskBits; $i -= 8) {
-			$j = \intdiv($i, 8) - 1;
-			$k = \min(8, $i - $maskBits);
-			$mask = (0xff - ((2 ** $k) - 1));
-			$int = \unpack('C', $binary[$j]);
-			$binary[$j] = \pack('C', $int[1] & $mask);
-		}
-		return \inet_ntop($binary).'/'.$maskBits;
-	}
-
-	/**
-	 * Return the given subnet for an IPv6 address and mask bits
-	 */
-	private function getIPv6Subnet(string $ip, int $maskBits = 48): string {
+	private function getIPv6Subnet(string $ip): string {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
 			$ip = substr($ip, 1, strlen($ip) - 2);
 		}
@@ -71,15 +56,11 @@ class IpAddress {
 		if ($pos !== false) {
 			$ip = substr($ip, 0, $pos - 1);
 		}
+
 		$binary = \inet_pton($ip);
-		for ($i = 128; $i > $maskBits; $i -= 8) {
-			$j = \intdiv($i, 8) - 1;
-			$k = \min(8, $i - $maskBits);
-			$mask = (0xff - ((2 ** $k) - 1));
-			$int = \unpack('C', $binary[$j]);
-			$binary[$j] = \pack('C', $int[1] & $mask);
-		}
-		return \inet_ntop($binary).'/'.$maskBits;
+		$mask = inet_pton('FFFF:FFFF:FFFF:FFFF::');
+
+		return inet_ntop($binary & $mask).'/64';
 	}
 
 	/**
@@ -93,24 +74,13 @@ class IpAddress {
 		if (!$binary) {
 			return null;
 		}
-		for ($i = 0; $i <= 9; $i++) {
-			if (unpack('C', $binary[$i])[1] !== 0) {
-				return null;
-			}
+
+		$mask = inet_pton('::FFFF:FFFF');
+		if (($binary & ~$mask) !== inet_pton('::FFFF:0.0.0.0')) {
+			return null;
 		}
 
-		for ($i = 10; $i <= 11; $i++) {
-			if (unpack('C', $binary[$i])[1] !== 255) {
-				return null;
-			}
-		}
-
-		$binary4 = '';
-		for ($i = 12; $i < 16; $i++) {
-			$binary4 .= $binary[$i];
-		}
-
-		return inet_ntop($binary4);
+		return inet_ntop(substr($binary, -4));
 	}
 
 
@@ -118,25 +88,16 @@ class IpAddress {
 	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
 	 */
 	public function getSubnet(): string {
-		if (\preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $this->ip)) {
-			return $this->getIPv4Subnet(
-				$this->ip,
-				32
-			);
+		if (filter_var($this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+			return $this->ip.'/32';
 		}
 
 		$ipv4 = $this->getEmbeddedIpv4($this->ip);
 		if ($ipv4 !== null) {
-			return $this->getIPv4Subnet(
-				$ipv4,
-				32
-			);
+			return $ipv4.'/32';
 		}
 
-		return $this->getIPv6Subnet(
-			$this->ip,
-			64
-		);
+		return $this->getIPv6Subnet($this->ip);
 	}
 
 	/**
