@@ -343,7 +343,7 @@ OC.L10N.register(
     "Data folder" : "Cartafol de datos",
     "Configure the database" : "Configurar a base de datos",
     "Only %s is available." : "Só está dispoñíbel %s.",
-    "Install and activate additional PHP modules to choose other database types." : "Instale e active os módulos de PHP adicionais para seleccionar outros tipos de bases de datos.",
+    "Install and activate additional PHP modules to choose other database types." : "Instale e active os módulos de PHP adicionais para escoller outros tipos de bases de datos.",
     "For more details check out the documentation." : "Para obter máis detalles revise a documentación.",
     "Database user" : "Usuario da base de datos",
     "Database password" : "Contrasinal da base de datos",

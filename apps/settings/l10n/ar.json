@@ -359,6 +359,8 @@
     "Username (required)" : "اسم المستخدم (لازم)",
     "Total rows summary" : "ملخص مجموع الأسطر",
     "Scroll to load more rows" : "مرِّر على القائمة لتحميل المزيد من الصفوف",
+    "_{userCount} user …_::_{userCount} users …_" : ["{userCount} مستخدم …","{userCount} مستخدِم …","{userCount} مستخدِمان …","{userCount} مستخدِم …","{userCount} مستخدِم …","{userCount} users …"],
+    "_{userCount} user_::_{userCount} users_" : ["{userCount} مستخدِم","{userCount} مستخدِم","{userCount} مستخدِم","{userCount} مستخدِم","{userCount} مستخدِم","{userCount} مستخدِم"],
     "Avatar" : "رمز تجسيدي avatar",
     "Group admin for" : "مشرف المجموعة Group admin لـ",
     "User backend" : "الواجهة الخلفية للمستخدم",
