@@ -92,7 +92,7 @@ OC.L10N.register(
     "Line height" : "Altura da liña",
     "Warmth" : "Calor",
     "+ Add watermark" : "+ Engadir marca de auga",
-    "Choose watermark type" : "Escolla o tipo de marca de auga",
+    "Choose watermark type" : "Escoller o tipo de marca de auga",
     "Upload watermark" : "Cargar a marca de auga",
     "Add as text" : "Engadir como texto",
     "Padding" : "Recheo",
