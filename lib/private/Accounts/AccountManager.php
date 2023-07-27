@@ -673,7 +673,6 @@ class AccountManager implements IAccountManager {
 				'name' => self::PROPERTY_BIRTHDAY,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_BIRTHDAY],
-				'verified' => self::NOT_VERIFIED,
 			],
 
 			[

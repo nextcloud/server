@@ -77,6 +77,7 @@ class ProfileConfig extends Entity implements JsonSerializable {
 		IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW_USERS_ONLY,
 		IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW_USERS_ONLY,
 		IAccountManager::PROPERTY_TWITTER => self::VISIBILITY_SHOW,
+		IAccountManager::PROPERTY_BIRTHDAY => self::VISIBILITY_SHOW,
 		IAccountManager::PROPERTY_WEBSITE => self::VISIBILITY_SHOW,
 	];
 

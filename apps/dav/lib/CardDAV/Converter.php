@@ -128,6 +128,10 @@ class Converter {
 				case IAccountManager::PROPERTY_TWITTER:
 					$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $property->getValue(), ['TYPE' => 'TWITTER', 'X-NC-SCOPE' => $scope]));
 					break;
+				// TODO
+				case IAccountManager::PROPERTY_BIRTHDAY:
+					$vCard->add(new Text($vCard, 'BIRTHDAY', $property->getValue(), ['TYPE' => 'BIRTHDAY', 'X-NC-SCOPE' => $scope]));
+					break;
 				case IAccountManager::PROPERTY_ORGANISATION:
 					$vCard->add(new Text($vCard, 'ORG', $property->getValue(), ['X-NC-SCOPE' => $scope]));
 					break;

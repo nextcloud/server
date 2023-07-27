@@ -798,6 +798,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
+			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDAY . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
@@ -1015,6 +1016,7 @@ class UsersController extends AUserData {
 				}
 				$this->accountManager->updateAccount($userAccount);
 				break;
+			case IAccountManager::PROPERTY_BIRTHDAY . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX:
