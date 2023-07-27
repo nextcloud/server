@@ -65,8 +65,6 @@ use OCP\Share\IShareProvider;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ManagerTest
@@ -101,8 +99,6 @@ class ManagerTest extends \Test\TestCase {
 	protected $userManager;
 	/** @var IRootFolder | MockObject */
 	protected $rootFolder;
-	/** @var  EventDispatcherInterface | MockObject */
-	protected $eventDispatcher;
 	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 	/** @var  IMailer|MockObject */
@@ -125,7 +121,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);
@@ -158,7 +153,6 @@ class ManagerTest extends \Test\TestCase {
 			$this->factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -189,7 +183,6 @@ class ManagerTest extends \Test\TestCase {
 				$this->factory,
 				$this->userManager,
 				$this->rootFolder,
-				$this->eventDispatcher,
 				$this->mailer,
 				$this->urlGenerator,
 				$this->defaults,
@@ -2755,7 +2748,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -2801,7 +2793,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -2854,7 +2845,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -4196,7 +4186,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -4231,7 +4220,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -4297,7 +4285,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -4415,7 +4402,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
@@ -4542,7 +4528,6 @@ class ManagerTest extends \Test\TestCase {
 			$factory,
 			$this->userManager,
 			$this->rootFolder,
-			$this->eventDispatcher,
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,

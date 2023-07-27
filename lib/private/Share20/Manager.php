@@ -80,8 +80,6 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -110,8 +108,6 @@ class Manager implements IManager {
 	private $rootFolder;
 	/** @var CappedMemoryCache */
 	private $sharingDisabledForUsersCache;
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
 	/** @var LegacyHooks */
 	private $legacyHooks;
 	/** @var IMailer */
@@ -139,7 +135,6 @@ class Manager implements IManager {
 		IProviderFactory $factory,
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
-		EventDispatcherInterface $legacyDispatcher,
 		IMailer $mailer,
 		IURLGenerator $urlGenerator,
 		\OC_Defaults $defaults,
@@ -158,7 +153,6 @@ class Manager implements IManager {
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
-		$this->legacyDispatcher = $legacyDispatcher;
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated

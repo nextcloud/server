@@ -23,7 +23,6 @@
 
 namespace Test\Share20;
 
-use OC\EventDispatcher\SymfonyAdapter;
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
 use OCP\Constants;
@@ -38,7 +37,6 @@ use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 class LegacyHooksTest extends TestCase {

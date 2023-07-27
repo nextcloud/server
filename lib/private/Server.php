@@ -1237,7 +1237,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$factory,
 				$c->get(IUserManager::class),
 				$c->get(IRootFolder::class),
-				$c->get(SymfonyAdapter::class),
 				$c->get(IMailer::class),
 				$c->get(IURLGenerator::class),
 				$c->get('ThemingDefaults'),
