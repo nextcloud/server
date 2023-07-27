@@ -29,6 +29,8 @@ namespace OC\Share20;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Share;
+use OCP\Share\Events\BeforeShareCreatedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -54,15 +56,11 @@ class LegacyHooks {
 				$this->postUnshareFromSelf($event);
 			}
 		});
-		$this->eventDispatcher->addListener('OCP\Share::preShare', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->preShare($event);
-			}
+		$this->eventDispatcher->addListener(BeforeShareCreatedEvent::class, function (BeforeShareCreatedEvent $event) {
+			$this->preShare($event);
 		});
-		$this->eventDispatcher->addListener('OCP\Share::postShare', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->postShare($event);
-			}
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+			$this->postShare($event);
 		});
 	}
 
@@ -127,9 +125,8 @@ class LegacyHooks {
 		return $hookParams;
 	}
 
-	public function preShare(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function preShare(BeforeShareCreatedEvent $e) {
+		$share = $e->getShare();
 
 		// Pre share hook
 		$run = true;
@@ -151,16 +148,15 @@ class LegacyHooks {
 		\OC_Hook::emit(Share::class, 'pre_shared', $preHookData);
 
 		if ($run === false) {
-			$e->setArgument('error', $error);
+			$e->setError($error);
 			$e->stopPropagation();
 		}
 
 		return $e;
 	}
 
-	public function postShare(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function postShare(ShareCreatedEvent $e) {
+		$share = $e->getShare();
 
 		$postHookData = [
 			'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',

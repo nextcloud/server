@@ -585,6 +585,7 @@ return array(
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',
     'OCP\\Settings\\ISubAdminSettings' => $baseDir . '/lib/public/Settings/ISubAdminSettings.php',
     'OCP\\Share' => $baseDir . '/lib/public/Share.php',
+    'OCP\\Share\\Events\\BeforeShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/BeforeShareCreatedEvent.php',
     'OCP\\Share\\Events\\ShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/ShareCreatedEvent.php',
     'OCP\\Share\\Events\\ShareDeletedEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedEvent.php',
     'OCP\\Share\\Events\\VerifyMountPointEvent' => $baseDir . '/lib/public/Share/Events/VerifyMountPointEvent.php',

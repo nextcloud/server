@@ -51,6 +51,8 @@ use OCP\Mail\IMailer;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Share\Events\BeforeShareCreatedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -2317,14 +2319,13 @@ class ManagerTest extends \Test\TestCase {
 				return $share->setId(42);
 			});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatch')
+		$this->dispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
 			->withConsecutive(
 				// Pre share
-				[$this->equalTo('OCP\Share::preShare'),
-					$this->callback(function (GenericEvent $e) use ($path, $date) {
-						/** @var IShare $share */
-						$share = $e->getSubject();
+				[
+					$this->callback(function (BeforeShareCreatedEvent $e) use ($path, $date) {
+						$share = $e->getShare();
 
 						return $share->getShareType() === IShare::TYPE_LINK &&
 							$share->getNode() === $path &&
@@ -2333,12 +2334,12 @@ class ManagerTest extends \Test\TestCase {
 							$share->getExpirationDate() === $date &&
 							$share->getPassword() === 'hashed' &&
 							$share->getToken() === 'token';
-					})],
+					})
+				],
 				// Post share
-				[$this->equalTo('OCP\Share::postShare'),
-					$this->callback(function (GenericEvent $e) use ($path, $date) {
-						/** @var IShare $share */
-						$share = $e->getSubject();
+				[
+					$this->callback(function (ShareCreatedEvent $e) use ($path, $date) {
+						$share = $e->getShare();
 
 						return $share->getShareType() === IShare::TYPE_LINK &&
 							$share->getNode() === $path &&
@@ -2349,7 +2350,8 @@ class ManagerTest extends \Test\TestCase {
 							$share->getToken() === 'token' &&
 							$share->getId() === '42' &&
 							$share->getTarget() === '/target';
-					})]
+					})
+				]
 			);
 
 		/** @var IShare $share */
@@ -2424,13 +2426,12 @@ class ManagerTest extends \Test\TestCase {
 				return $share->setId(42);
 			});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatch')
+		$this->dispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
 			->withConsecutive(
-				[$this->equalTo('OCP\Share::preShare'),
-					$this->callback(function (GenericEvent $e) use ($path) {
-						/** @var IShare $share */
-						$share = $e->getSubject();
+				[
+					$this->callback(function (BeforeShareCreatedEvent $e) use ($path) {
+						$share = $e->getShare();
 
 						return $share->getShareType() === IShare::TYPE_EMAIL &&
 							$share->getNode() === $path &&
@@ -2439,11 +2440,11 @@ class ManagerTest extends \Test\TestCase {
 							$share->getExpirationDate() === null &&
 							$share->getPassword() === null &&
 							$share->getToken() === 'token';
-					})],
-				[$this->equalTo('OCP\Share::postShare'),
-					$this->callback(function (GenericEvent $e) use ($path) {
-						/** @var IShare $share */
-						$share = $e->getSubject();
+					})
+				],
+				[
+					$this->callback(function (ShareCreatedEvent $e) use ($path) {
+						$share = $e->getShare();
 
 						return $share->getShareType() === IShare::TYPE_EMAIL &&
 							$share->getNode() === $path &&
@@ -2454,7 +2455,8 @@ class ManagerTest extends \Test\TestCase {
 							$share->getToken() === 'token' &&
 							$share->getId() === '42' &&
 							$share->getTarget() === '/target';
-					})],
+					})
+				],
 			);
 
 		/** @var IShare $share */
@@ -2521,13 +2523,12 @@ class ManagerTest extends \Test\TestCase {
 			->with('/target');
 
 		// Pre share
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatch')
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
 			->with(
-				$this->equalTo('OCP\Share::preShare'),
-				$this->isInstanceOf(GenericEvent::class)
-			)->willReturnCallback(function ($name, GenericEvent $e) {
-				$e->setArgument('error', 'I won\'t let you share!');
+				$this->isInstanceOf(BeforeShareCreatedEvent::class)
+			)->willReturnCallback(function (BeforeShareCreatedEvent $e) {
+				$e->setError('I won\'t let you share!');
 				$e->stopPropagation();
 			}
 			);

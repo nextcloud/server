@@ -618,6 +618,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Settings\\ISettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISettings.php',
         'OCP\\Settings\\ISubAdminSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISubAdminSettings.php',
         'OCP\\Share' => __DIR__ . '/../../..' . '/lib/public/Share.php',
+        'OCP\\Share\\Events\\BeforeShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/BeforeShareCreatedEvent.php',
         'OCP\\Share\\Events\\ShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareCreatedEvent.php',
         'OCP\\Share\\Events\\ShareDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareDeletedEvent.php',
         'OCP\\Share\\Events\\VerifyMountPointEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/VerifyMountPointEvent.php',

@@ -31,6 +31,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\IServerContainer;
+use OCP\Share\Events\BeforeShareCreatedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -51,9 +53,8 @@ class LegacyHooksTest extends TestCase {
 
 		$symfonyDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$logger = $this->createMock(LoggerInterface::class);
-		$eventDispatcher = new \OC\EventDispatcher\EventDispatcher($symfonyDispatcher, \OC::$server->get(IServerContainer::class), $logger);
-		$this->eventDispatcher = new SymfonyAdapter($eventDispatcher, $logger);
-		$this->hooks = new LegacyHooks($eventDispatcher);
+		$this->eventDispatcher = new \OC\EventDispatcher\EventDispatcher($symfonyDispatcher, \OC::$server->get(IServerContainer::class), $logger);
+		$this->hooks = new LegacyHooks($this->eventDispatcher);
 		$this->manager = \OC::$server->getShareManager();
 	}
 
@@ -253,8 +254,8 @@ class LegacyHooksTest extends TestCase {
 			->method('preShare')
 			->with($expected);
 
-		$event = new GenericEvent($share);
-		$this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
+		$event = new BeforeShareCreatedEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	public function testPreShareError() {
@@ -305,11 +306,11 @@ class LegacyHooksTest extends TestCase {
 				$data['error'] = 'I error';
 			});
 
-		$event = new GenericEvent($share);
-		$this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
+		$event = new BeforeShareCreatedEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 
 		$this->assertTrue($event->isPropagationStopped());
-		$this->assertSame('I error', $event->getArgument('error'));
+		$this->assertSame('I error', $event->getError());
 	}
 
 	public function testPostShare() {
@@ -355,7 +356,7 @@ class LegacyHooksTest extends TestCase {
 			->method('postShare')
 			->with($expected);
 
-		$event = new GenericEvent($share);
-		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
+		$event = new ShareCreatedEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 }

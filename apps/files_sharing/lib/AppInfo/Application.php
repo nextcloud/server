@@ -143,10 +143,7 @@ class Application extends App implements IBootstrap {
 		});
 
 		// notifications api to accept incoming user shares
-		$dispatcher->addListener('OCP\Share::postShare', function ($event) {
-			if (!$event instanceof OldGenericEvent) {
-				return;
-			}
+		$dispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);

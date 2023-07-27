@@ -67,6 +67,7 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -806,10 +807,10 @@ class Manager implements IManager {
 			$share->setTarget($target);
 
 			// Pre share event
-			$event = new GenericEvent($share);
-			$this->legacyDispatcher->dispatch('OCP\Share::preShare', $event);
-			if ($event->isPropagationStopped() && $event->hasArgument('error')) {
-				throw new \Exception($event->getArgument('error'));
+			$event = new Share\Events\BeforeShareCreatedEvent($share);
+			$this->dispatcher->dispatchTyped($event);
+			if ($event->isPropagationStopped() && $event->getError()) {
+				throw new \Exception($event->getError());
 			}
 
 			$oldShare = $share;
@@ -833,10 +834,7 @@ class Manager implements IManager {
 		}
 
 		// Post share event
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::postShare', $event);
-
-		$this->dispatcher->dispatchTyped(new Share\Events\ShareCreatedEvent($share));
+		$this->dispatcher->dispatchTyped(new ShareCreatedEvent($share));
 
 		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)
 			&& $share->getShareType() === IShare::TYPE_USER) {
