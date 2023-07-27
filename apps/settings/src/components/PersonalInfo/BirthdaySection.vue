@@ -22,16 +22,22 @@
 
 <template>
 	<section>
-		<HeaderBar :input-id="inputId"
+		<HeaderBar :scope="scope"
+			:input-id="inputId"
 			:readable="propertyReadable" />
 
 		<template>
 			<NcDateTimePickerNative :id="inputId"
 				type="date"
-				:label="t('settings', 'Your birthday')"
+				label=""
 				:value="birthdayValue"
 				@input="onInput" />
 		</template>
+
+		<p :id="`${name}-helper-text`"
+			class="property__helper-text-message">
+			{{ t('settings', 'Enter your birthday') }}
+		</p>
 	</section>
 </template>
 
@@ -51,6 +57,7 @@ import { NcDateTimePickerNative } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService'
 import { handleError } from '../../utils/handlers'
+import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 const { birthday } = loadState('settings', 'personalInfoParameters', {})
 
@@ -58,17 +65,30 @@ export default {
 	name: 'BirthdaySection',
 
 	components: {
+		AlertCircle,
 		AccountPropertySection,
 		NcDateTimePickerNative,
 		HeaderBar,
 	},
 
 	data() {
+		let initialValue = null
+		if (birthday.value) {
+			const year = birthday.value.substr(0, 4)
+			const month = birthday.value.substr(4, 2)
+			const day = birthday.value.substr(6, 2)
+			initialValue = `${year}-${month}-${day}`
+		}
+
+		console.log('birthday', birthday, initialValue)
+
 		return {
 			propertyReadable: 'Birthday', // ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.BIRTHDAY,
 			readable: 'Birthday',
 			birthday: { ...birthday, readable: NAME_READABLE_ENUM[birthday.name] },
-			birthdayValue: new Date(),
+			birthdayValue: initialValue ? new Date(initialValue) : new Date(),
+			initialValue: initialValue ? new Date(initialValue) : new Date(),
+			scope: birthday.scope,
 			name: 'birthday',
 		}
 	},
@@ -86,8 +106,8 @@ export default {
 	methods: {
 		onInput(e) {
 			console.log('onInput', e)
-			this.birtdayValue = e
-			this.debouncePropertyChange(this.birthdayValue.toString())
+			this.birthdayValue = e
+			this.debouncePropertyChange(this.birthdayValue)
 		},
 
 		debouncePropertyChange: debounce(async function(value) {
@@ -103,6 +123,14 @@ export default {
 		}, 500),
 
 		async updateProperty(value) {
+			console.log('updateProperty', typeof value, value, new Date(value), this.birthdayValue)
+
+			// Format as vCard style BDAY value
+			const day = value.getDate()
+			const month = value.getMonth() + 1
+			value = `${value.getFullYear()}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`
+
+			// Untouched:
 			try {
 				const responseData = await savePrimaryAccountProperty(
 					this.name,
@@ -145,6 +173,13 @@ section {
 
 	&::v-deep button:disabled {
 		cursor: default;
+	}
+
+	.property__helper-text-message {
+		color: var(--color-text-maxcontrast);
+		padding: 4px 0;
+		display: flex;
+		align-items: center;
 	}
 }
 </style>
