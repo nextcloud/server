@@ -620,6 +620,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share' => __DIR__ . '/../../..' . '/lib/public/Share.php',
         'OCP\\Share\\Events\\BeforeShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/BeforeShareCreatedEvent.php',
         'OCP\\Share\\Events\\BeforeShareDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/BeforeShareDeletedEvent.php',
+        'OCP\\Share\\Events\\ShareAcceptedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareAcceptedEvent.php',
         'OCP\\Share\\Events\\ShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareCreatedEvent.php',
         'OCP\\Share\\Events\\ShareDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareDeletedEvent.php',
         'OCP\\Share\\Events\\ShareDeletedFromSelfEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareDeletedFromSelfEvent.php',

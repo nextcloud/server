@@ -587,6 +587,7 @@ return array(
     'OCP\\Share' => $baseDir . '/lib/public/Share.php',
     'OCP\\Share\\Events\\BeforeShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/BeforeShareCreatedEvent.php',
     'OCP\\Share\\Events\\BeforeShareDeletedEvent' => $baseDir . '/lib/public/Share/Events/BeforeShareDeletedEvent.php',
+    'OCP\\Share\\Events\\ShareAcceptedEvent' => $baseDir . '/lib/public/Share/Events/ShareAcceptedEvent.php',
     'OCP\\Share\\Events\\ShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/ShareCreatedEvent.php',
     'OCP\\Share\\Events\\ShareDeletedEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedEvent.php',
     'OCP\\Share\\Events\\ShareDeletedFromSelfEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedFromSelfEvent.php',

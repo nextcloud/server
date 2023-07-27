@@ -68,6 +68,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
 use OCP\Share\Events\BeforeShareDeletedEvent;
+use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
@@ -1123,8 +1124,9 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Share provider does not support accepting');
 		}
 		$provider->acceptShare($share, $recipientId);
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::postAcceptShare', $event);
+
+		$event = new ShareAcceptedEvent($share);
+		$this->dispatcher->dispatchTyped($event);
 
 		return $share;
 	}
