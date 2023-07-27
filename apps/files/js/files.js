@@ -25,7 +25,7 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats?dir={dir}', {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats?dir={dir}', {
 				dir: currentDir,
 			}), function(response) {
 				state.dir = null;
@@ -39,7 +39,7 @@
 		},
 		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats'), function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats'), function(response) {
 				Files.updateQuota(response);
 			});
 		},
