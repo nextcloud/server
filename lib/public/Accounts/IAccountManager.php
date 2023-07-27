@@ -113,7 +113,6 @@ interface IAccountManager {
 	public const PROPERTY_WEBSITE = 'website';
 	public const PROPERTY_ADDRESS = 'address';
 	public const PROPERTY_TWITTER = 'twitter';
-	public const PROPERTY_BIRTHDAY = 'birthday';
 	public const PROPERTY_FEDIVERSE = 'fediverse';
 
 	/**
