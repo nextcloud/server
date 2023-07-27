@@ -52,7 +52,10 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Events\BeforeShareCreatedEvent;
+use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -249,17 +252,16 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->with($share);
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatch')
+		$this->dispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
 			->withConsecutive(
-				['OCP\Share::preUnshare',
-					$this->callBack(function (GenericEvent $e) use ($share) {
-						return $e->getSubject() === $share;
+				[
+					$this->callBack(function (BeforeShareDeletedEvent $e) use ($share) {
+						return $e->getShare() === $share;
 					})],
-				['OCP\Share::postUnshare',
-					$this->callBack(function (GenericEvent $e) use ($share) {
-						return $e->getSubject() === $share &&
-							$e->getArgument('deletedShares') === [$share];
+				[
+					$this->callBack(function (ShareDeletedEvent $e) use ($share) {
+						return $e->getShare() === $share;
 					})]
 			);
 
@@ -293,17 +295,16 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->with($share);
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatch')
+		$this->dispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
 			->withConsecutive(
-				['OCP\Share::preUnshare',
-					$this->callBack(function (GenericEvent $e) use ($share) {
-						return $e->getSubject() === $share;
+				[
+					$this->callBack(function (BeforeShareDeletedEvent $e) use ($share) {
+						return $e->getShare() === $share;
 					})],
-				['OCP\Share::postUnshare',
-					$this->callBack(function (GenericEvent $e) use ($share) {
-						return $e->getSubject() === $share &&
-							$e->getArgument('deletedShares') === [$share];
+				[
+					$this->callBack(function (ShareDeletedEvent $e) use ($share) {
+						return $e->getShare() === $share;
 					})]
 			);
 
@@ -358,18 +359,39 @@ class ManagerTest extends \Test\TestCase {
 			->method('delete')
 			->withConsecutive([$share3], [$share2], [$share1]);
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatch')
+		$this->dispatcher->expects($this->exactly(6))
+			->method('dispatchTyped')
 			->withConsecutive(
-				['OCP\Share::preUnshare',
-					$this->callBack(function (GenericEvent $e) use ($share1) {
-						return $e->getSubject() === $share1;
-					})],
-				['OCP\Share::postUnshare',
-					$this->callBack(function (GenericEvent $e) use ($share1, $share2, $share3) {
-						return $e->getSubject() === $share1 &&
-							$e->getArgument('deletedShares') === [$share3, $share2, $share1];
-					})]
+				[
+					$this->callBack(function (BeforeShareDeletedEvent $e) use ($share1) {
+						return $e->getShare()->getId() === $share1->getId();
+					})
+				],
+				[
+					$this->callBack(function (BeforeShareDeletedEvent $e) use ($share2) {
+						return $e->getShare()->getId() === $share2->getId();
+					})
+				],
+				[
+					$this->callBack(function (BeforeShareDeletedEvent $e) use ($share3) {
+						return $e->getShare()->getId() === $share3->getId();
+					})
+				],
+				[
+					$this->callBack(function (ShareDeletedEvent $e) use ($share3) {
+						return $e->getShare()->getId() === $share3->getId();
+					})
+				],
+				[
+					$this->callBack(function (ShareDeletedEvent $e) use ($share2) {
+						return $e->getShare()->getId() === $share2->getId();
+					})
+				],
+				[
+					$this->callBack(function (ShareDeletedEvent $e) use ($share1) {
+						return $e->getShare()->getId() === $share1->getId();
+					})
+				],
 			);
 
 		$manager->deleteShare($share1);
@@ -397,12 +419,11 @@ class ManagerTest extends \Test\TestCase {
 			->method('deleteFromSelf')
 			->with($share, $recipientId);
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatch')
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
 			->with(
-				'OCP\Share::postUnshareFromSelf',
-				$this->callBack(function (GenericEvent $e) use ($share) {
-					return $e->getSubject() === $share;
+				$this->callBack(function (ShareDeletedFromSelfEvent $e) use ($share) {
+					return $e->getShare() === $share;
 				})
 			);
 

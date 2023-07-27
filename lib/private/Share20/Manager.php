@@ -67,7 +67,10 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
+use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -1204,11 +1207,13 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 
 		foreach ($provider->getChildren($share) as $child) {
+			$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($child));
+
 			$deletedChildren = $this->deleteChildren($child);
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
 			$provider->delete($child);
-			$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($child));
+			$this->dispatcher->dispatchTyped(new ShareDeletedEvent($child));
 			$deletedShares[] = $child;
 		}
 
@@ -1229,24 +1234,16 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Share does not have a full id');
 		}
 
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::preUnshare', $event);
+		$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($share));
 
 		// Get all children and delete them as well
-		$deletedShares = $this->deleteChildren($share);
+		$this->deleteChildren($share);
 
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
-		$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($share));
-
-		// All the deleted shares caused by this delete
-		$deletedShares[] = $share;
-
-		// Emit post hook
-		$event->setArgument('deletedShares', $deletedShares);
-		$this->legacyDispatcher->dispatch('OCP\Share::postUnshare', $event);
+		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
 	}
 
 
@@ -1264,8 +1261,8 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
+		$event = new ShareDeletedFromSelfEvent($share);
+		$this->dispatcher->dispatchTyped($event);
 	}
 
 	public function restoreShare(IShare $share, string $recipientId): IShare {

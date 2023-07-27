@@ -32,7 +32,10 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\IServerContainer;
 use OCP\Share\Events\BeforeShareCreatedEvent;
+use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -95,8 +98,8 @@ class LegacyHooksTest extends TestCase {
 			->method('pre')
 			->with($hookListnerExpectsPre);
 
-		$event = new GenericEvent($share);
-		$this->eventDispatcher->dispatch('OCP\Share::preUnshare', $event);
+		$event = new BeforeShareDeletedEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	public function testPostUnshare() {
@@ -149,9 +152,8 @@ class LegacyHooksTest extends TestCase {
 			->method('post')
 			->with($hookListnerExpectsPost);
 
-		$event = new GenericEvent($share);
-		$event->setArgument('deletedShares', [$share]);
-		$this->eventDispatcher->dispatch('OCP\Share::postUnshare', $event);
+		$event = new ShareDeletedEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	public function testPostUnshareFromSelf() {
@@ -206,8 +208,8 @@ class LegacyHooksTest extends TestCase {
 			->method('postFromSelf')
 			->with($hookListnerExpectsPostFromSelf);
 
-		$event = new GenericEvent($share);
-		$this->eventDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
+		$event = new ShareDeletedFromSelfEvent($share);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	public function testPreShare() {
