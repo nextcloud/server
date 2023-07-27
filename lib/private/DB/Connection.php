@@ -127,6 +127,8 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->dbDataCollector->setDebugStack($debugStack);
 			$this->_config->setSQLLogger($debugStack);
 		}
+
+		$this->setNestTransactionsWithSavepoints(true);
 	}
 
 	/**
