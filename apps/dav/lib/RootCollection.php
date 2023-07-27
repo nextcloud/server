@@ -37,6 +37,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
+use OCA\DAV\CalDAV\SystemCalendarRoot;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -120,7 +121,16 @@ class RootCollection extends SimpleCollection {
 		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $logger);
 		$roomCalendarRoot->disableListing = $disableListing;
 
+		$sabBirthdayCalendarRoot = new CalendarRoot(new SystemPrincipalBackend(), $caldavBackend, 'principals/system', $logger);
+		$sabBirthdayCalendarRoot->disableListing = $disableListing;
+
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
+		$systemCalendarRoot = new SystemCalendarRoot(
+			$caldavBackend,
+			$l10n,
+			$config,
+			$logger,
+		);
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
 			\OC::$server->getSystemTagManager(),
@@ -170,14 +180,16 @@ class RootCollection extends SimpleCollection {
 				$groupPrincipals,
 				$systemPrincipals,
 				$calendarResourcePrincipals,
-				$calendarRoomPrincipals]),
+				$calendarRoomPrincipals,]),
 			$filesCollection,
 			$userCalendarRoot,
 			new SimpleCollection('system-calendars', [
 				$resourceCalendarRoot,
 				$roomCalendarRoot,
+				$sabBirthdayCalendarRoot,
 			]),
 			$publicCalendarRoot,
+			//$systemCalendarRoot,
 			new SimpleCollection('addressbooks', [
 				$usersAddressBookRoot,
 				$systemAddressBookRoot]),

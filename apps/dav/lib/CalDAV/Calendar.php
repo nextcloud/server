@@ -206,13 +206,20 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 			];
 		}
 
+		$acl[] = [
+			'privilege' => '{DAV:}read',
+			'principal' => 'principals/system/system',
+			'protected' => true,
+		];
+
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
 		$allowedPrincipals = [
 			$this->getOwner(),
 			$this->getOwner(). '/calendar-proxy-read',
 			$this->getOwner(). '/calendar-proxy-write',
 			parent::getOwner(),
-			'principals/system/public'
+			'principals/system/public',
+			'principals/system/system'
 		];
 		/** @var list<array{privilege: string, principal: string, protected: bool}> $acl */
 		$acl = array_filter($acl, function (array $rule) use ($allowedPrincipals): bool {

@@ -64,6 +64,12 @@ class CalendarManager {
 	public function setupCalendarProvider(IManager $cm, $userId) {
 		$calendars = $this->backend->getCalendarsForUser("principals/users/$userId");
 		$this->register($cm, $calendars);
+		$this->setupSystemCalendarProvider($cm);
+	}
+
+	public function setupSystemCalendarProvider(IManager $cm) {
+		$calendars = $this->backend->getCalendarsForUser("principals/system/system");
+		$this->register($cm, $calendars);
 	}
 
 	/**

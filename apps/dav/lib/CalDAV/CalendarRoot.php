@@ -48,7 +48,8 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 
 	public function getName() {
 		if ($this->principalPrefix === 'principals/calendar-resources' ||
-			$this->principalPrefix === 'principals/calendar-rooms') {
+			$this->principalPrefix === 'principals/calendar-rooms' ||
+			$this->principalPrefix === 'principals/calendars') {
 			$parts = explode('/', $this->principalPrefix);
 
 			return $parts[1];

@@ -49,5 +49,9 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-rooms/' . $principalId;
 		}
+		if (strrpos($principalUrl, 'principals/system', -strlen($principalUrl)) !== false) {
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
+			return self::SYSTEM_CALENDAR_ROOT . '/calendars/' . $principalId;
+		}
 	}
 }

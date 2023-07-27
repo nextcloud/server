@@ -98,6 +98,8 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 */
 	public function getChildren() {
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
+		$calendars = array_merge($calendars, $this->caldavBackend->getCalendarsForUser('principals/system/system'));
+
 		$objects = [];
 		foreach ($calendars as $calendar) {
 			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
@@ -174,6 +176,12 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 			}
 		}
+
+		/**
+		if ($this->principalInfo['uri'] === 'principals/system/system') {
+			$systemCalendars = $this->caldavBackend->getCalendarsForUser('principals/system/system');
+		}
+		 * **/
 
 		if ($this->caldavBackend instanceof SubscriptionSupport) {
 			foreach ($this->caldavBackend->getSubscriptionsForUser($this->principalInfo['uri']) as $subscription) {

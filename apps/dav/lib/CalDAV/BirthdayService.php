@@ -308,6 +308,7 @@ class BirthdayService {
 		$principal = 'principals/users/'.$user;
 		$this->ensureCalendarExists($principal);
 		$books = $this->cardDavBackEnd->getAddressBooksForUser($principal);
+		$books[] = $this->cardDavBackEnd->getAddressBooksByUri('principals/system/system', 'system');
 		foreach ($books as $book) {
 			$cards = $this->cardDavBackEnd->getCards($book['id']);
 			foreach ($cards as $card) {
