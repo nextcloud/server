@@ -337,7 +337,17 @@
 
 /*! @license DOMPurify 2.4.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.4.4/LICENSE */
 
+/*! For license information please see NcActionButton.js.LICENSE.txt */
+
+/*! For license information please see NcActionInput.js.LICENSE.txt */
+
+/*! For license information please see NcActionLink.js.LICENSE.txt */
+
 /*! For license information please see NcActionSeparator.js.LICENSE.txt */
+
+/*! For license information please see NcActionText.js.LICENSE.txt */
+
+/*! For license information please see NcActionTextEditable.js.LICENSE.txt */
 
 /*! For license information please see NcActions.js.LICENSE.txt */
 
@@ -349,6 +359,8 @@
 
 /*! For license information please see NcAppNavigationItem.js.LICENSE.txt */
 
+/*! For license information please see NcAppNavigationNew.js.LICENSE.txt */
+
 /*! For license information please see NcAppNavigationSettings.js.LICENSE.txt */
 
 /*! For license information please see NcAppNavigationSpacer.js.LICENSE.txt */
@@ -356,6 +368,8 @@
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
+
+/*! For license information please see NcAvatar.js.LICENSE.txt */
 
 /*! For license information please see NcButton.js.LICENSE.txt */
 
@@ -367,21 +381,41 @@
 
 /*! For license information please see NcCounterBubble.js.LICENSE.txt */
 
+/*! For license information please see NcDashboardWidget.js.LICENSE.txt */
+
+/*! For license information please see NcDashboardWidgetItem.js.LICENSE.txt */
+
+/*! For license information please see NcDatetimePicker.js.LICENSE.txt */
+
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
+
+/*! For license information please see NcHeaderMenu.js.LICENSE.txt */
 
 /*! For license information please see NcLoadingIcon.js.LICENSE.txt */
 
 /*! For license information please see NcModal.js.LICENSE.txt */
 
+/*! For license information please see NcMultiselect.js.LICENSE.txt */
+
 /*! For license information please see NcNoteCard.js.LICENSE.txt */
 
 /*! For license information please see NcPasswordField.js.LICENSE.txt */
+
+/*! For license information please see NcRichContenteditable.js.LICENSE.txt */
+
+/*! For license information please see NcSelect.js.LICENSE.txt */
+
+/*! For license information please see NcSelectTags.js.LICENSE.txt */
 
 /*! For license information please see NcSettingsSection.js.LICENSE.txt */
 
 /*! For license information please see NcTextField.js.LICENSE.txt */
 
+/*! For license information please see NcTimezonePicker.js.LICENSE.txt */
+
 /*! For license information please see index.module.js.LICENSE.txt */
+
+/*! For license information please see richEditor.js.LICENSE.txt */
 
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
