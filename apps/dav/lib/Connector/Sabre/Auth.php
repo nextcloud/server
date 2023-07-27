@@ -37,7 +37,6 @@ use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
-use OC\User\LoginException;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;

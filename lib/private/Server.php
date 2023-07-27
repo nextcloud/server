@@ -340,7 +340,6 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(SystemConfig::class)
 				),
 				$c->get(IEventDispatcher::class),
-				$c->get(SymfonyAdapter::class),
 				$c->get(GeneratorHelper::class),
 				$c->get(ISession::class)->get('user_id'),
 				$c->get(Coordinator::class),
@@ -466,7 +465,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new HookConnector(
 				$c->get(IRootFolder::class),
 				new View(),
-				$c->get(\OC\EventDispatcher\SymfonyAdapter::class),
 				$c->get(IEventDispatcher::class)
 			);
 		});
@@ -940,7 +938,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OC\AppConfig::class),
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
-				$c->get(SymfonyAdapter::class),
 				$c->get(IEventDispatcher::class),
 				$c->get(LoggerInterface::class)
 			);

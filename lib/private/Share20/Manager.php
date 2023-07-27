@@ -157,7 +157,7 @@ class Manager implements IManager {
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($this->legacyDispatcher);
+		$this->legacyHooks = new LegacyHooks($dispatcher);
 		$this->mailer = $mailer;
 		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
@@ -194,7 +194,7 @@ class Manager implements IManager {
 
 		// Let others verify the password
 		try {
-			$this->legacyDispatcher->dispatch(new ValidatePasswordPolicyEvent($password));
+			$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 		} catch (HintException $e) {
 			throw new \Exception($e->getHint());
 		}

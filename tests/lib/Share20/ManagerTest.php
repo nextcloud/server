@@ -545,7 +545,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
-		$this->eventDispatcher->expects($this->once())->method('dispatch')
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(function (Event $event) {
 				$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 				/** @var ValidatePasswordPolicyEvent $event */
@@ -567,7 +567,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
-		$this->eventDispatcher->expects($this->once())->method('dispatch')
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(function (Event $event) {
 				$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 				/** @var ValidatePasswordPolicyEvent $event */
