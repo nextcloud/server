@@ -37,7 +37,6 @@ use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
-use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
@@ -133,7 +132,6 @@ class Application extends App implements IBootstrap {
 	public function registerEventsScripts(IEventDispatcher $dispatcher): void {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
-		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);

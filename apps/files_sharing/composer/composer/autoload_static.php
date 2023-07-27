@@ -70,7 +70,6 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Sharing\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Files_Sharing\\ISharedStorage' => __DIR__ . '/..' . '/../lib/ISharedStorage.php',
-        'OCA\\Files_Sharing\\Listener\\LegacyBeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listener/LegacyBeforeTemplateRenderedListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/ShareInteractionListener.php',
