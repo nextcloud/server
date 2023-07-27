@@ -167,6 +167,7 @@ class PersonalInfo implements ISettings {
 			'role' => $this->getProperty($account, IAccountManager::PROPERTY_ROLE),
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
+			'birthday' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDAY),
 		];
 
 		$accountParameters = [

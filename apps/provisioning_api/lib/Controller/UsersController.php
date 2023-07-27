@@ -622,6 +622,7 @@ class UsersController extends AUserData {
 		}
 
 		$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+		$permittedFields[] = IAccountManager::PROPERTY_BIRTHDAY;
 		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
@@ -786,6 +787,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
 			}
 
+			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDAY;
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
@@ -835,6 +837,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = self::USER_FIELD_PASSWORD;
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = IAccountManager::PROPERTY_BIRTHDAY;
 				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
@@ -968,6 +971,7 @@ class UsersController extends AUserData {
 					throw new OCSException('', 102);
 				}
 				break;
+			case IAccountManager::PROPERTY_BIRTHDAY:
 			case IAccountManager::PROPERTY_PHONE:
 			case IAccountManager::PROPERTY_ADDRESS:
 			case IAccountManager::PROPERTY_WEBSITE:

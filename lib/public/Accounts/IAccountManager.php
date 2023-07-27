@@ -141,6 +141,11 @@ interface IAccountManager {
 	public const PROPERTY_PROFILE_ENABLED = 'profile_enabled';
 
 	/**
+	 * @since 28.0.0
+	 */
+	public const PROPERTY_BIRTHDAY = 'birthday';
+
+	/**
 	 * The list of allowed properties
 	 *
 	 * @since 25.0.0
@@ -159,6 +164,7 @@ interface IAccountManager {
 		self::PROPERTY_HEADLINE,
 		self::PROPERTY_BIOGRAPHY,
 		self::PROPERTY_PROFILE_ENABLED,
+		self::PROPERTY_BIRTHDAY,
 	];
 
 	public const COLLECTION_EMAIL = 'additional_mail';
