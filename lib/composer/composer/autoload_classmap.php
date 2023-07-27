@@ -12,6 +12,7 @@ return array(
     'OCP\\Accounts\\IAccountProperty' => $baseDir . '/lib/public/Accounts/IAccountProperty.php',
     'OCP\\Accounts\\IAccountPropertyCollection' => $baseDir . '/lib/public/Accounts/IAccountPropertyCollection.php',
     'OCP\\Accounts\\PropertyDoesNotExistException' => $baseDir . '/lib/public/Accounts/PropertyDoesNotExistException.php',
+    'OCP\\Accounts\\UserUpdatedEvent' => $baseDir . '/lib/public/Accounts/UserUpdatedEvent.php',
     'OCP\\Activity\\ActivitySettings' => $baseDir . '/lib/public/Activity/ActivitySettings.php',
     'OCP\\Activity\\IConsumer' => $baseDir . '/lib/public/Activity/IConsumer.php',
     'OCP\\Activity\\IEvent' => $baseDir . '/lib/public/Activity/IEvent.php',
