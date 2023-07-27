@@ -82,7 +82,6 @@ use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
-use OC\EventDispatcher\SymfonyAdapter;
 use OC\Federation\CloudFederationFactory;
 use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
@@ -257,7 +256,6 @@ use OCP\User\Events\UserLoggedOutEvent;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\GlobalStoragesService;
@@ -1181,9 +1179,6 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias(\OCP\EventDispatcher\IEventDispatcher::class, \OC\EventDispatcher\EventDispatcher::class);
-		/** @deprecated 19.0.0 */
-		$this->registerDeprecatedAlias('EventDispatcher', \OC\EventDispatcher\SymfonyAdapter::class);
-		$this->registerAlias(EventDispatcherInterface::class, \OC\EventDispatcher\SymfonyAdapter::class);
 
 		$this->registerService('CryptoWrapper', function (ContainerInterface $c) {
 			// FIXME: Instantiated here due to cyclic dependency
@@ -2042,17 +2037,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCapabilitiesManager() {
 		return $this->get(CapabilitiesManager::class);
-	}
-
-	/**
-	 * Get the EventDispatcher
-	 *
-	 * @return EventDispatcherInterface
-	 * @since 8.2.0
-	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher
-	 */
-	public function getEventDispatcher() {
-		return $this->get(\OC\EventDispatcher\SymfonyAdapter::class);
 	}
 
 	/**
