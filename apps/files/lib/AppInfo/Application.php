@@ -57,6 +57,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -110,7 +111,7 @@ class Application extends App implements IBootstrap {
 				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
 				$server->getUserFolder(),
-				$server->getEventDispatcher()
+				$c->get(IEventDispatcher::class),
 			);
 		});
 
