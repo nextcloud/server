@@ -271,6 +271,9 @@ class GroupsController extends AUserData {
 
 		if ($key === 'displayname') {
 			$group = $this->groupManager->get($groupId);
+			if ($group === null) {
+				throw new OCSException('Group does not exist', OCSController::RESPOND_NOT_FOUND);
+			}
 			if ($group->setDisplayName($value)) {
 				return new DataResponse();
 			}
