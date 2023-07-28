@@ -28,13 +28,13 @@ namespace OCA\Files_External\Tests\Controller;
 use OC\User\User;
 use OCA\Files_External\Controller\GlobalStoragesController;
 use OCA\Files_External\Service\BackendService;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GlobalStoragesControllerTest extends StoragesControllerTest {
 	protected function setUp(): void {
@@ -53,7 +53,7 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 	private function createController($allowCreateLocal = true) {
 		$session = $this->createMock(IUserSession::class);
 		$session->method('getUser')
-			->willReturn(new User('test', null, $this->createMock(EventDispatcherInterface::class)));
+			->willReturn(new User('test', null, $this->createMock(IEventDispatcher::class)));
 
 		$config = $this->createMock(IConfig::class);
 		$config->method('getSystemValue')

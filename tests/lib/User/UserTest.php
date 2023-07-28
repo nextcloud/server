@@ -14,15 +14,16 @@ use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Hooks\PublicEmitter;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\Server;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -33,12 +34,12 @@ use Test\TestCase;
  * @package Test\User
  */
 class UserTest extends TestCase {
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = Server::get(IEventDispatcher::class);
 	}
 
 	public function testDisplayName() {
@@ -408,7 +409,7 @@ class UserTest extends TestCase {
 			->with('foo', 'Foo')
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = new User('foo', $backend, $this->createMock(IEventDispatcher::class));
 		$this->assertTrue($user->setDisplayName('Foo'));
 		$this->assertEquals('Foo', $user->getDisplayName());
 	}
@@ -702,7 +703,8 @@ class UserTest extends TestCase {
 		$emitter->expects($this->never())
 			->method('emit');
 
-		$this->dispatcher->expects($this->never())
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->expects($this->never())
 			->method('dispatch');
 
 		$config = $this->createMock(IConfig::class);
@@ -712,7 +714,7 @@ class UserTest extends TestCase {
 		$config->expects($this->any())
 			->method('setUserValue');
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $dispatcher, $emitter, $config);
 		$user->setEMailAddress('foo@bar.com');
 	}
 
