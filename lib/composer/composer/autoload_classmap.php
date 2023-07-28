@@ -350,6 +350,7 @@ return array(
     'OCP\\Files\\Lock\\OwnerLockedException' => $baseDir . '/lib/public/Files/Lock/OwnerLockedException.php',
     'OCP\\Files\\Mount\\IMountManager' => $baseDir . '/lib/public/Files/Mount/IMountManager.php',
     'OCP\\Files\\Mount\\IMountPoint' => $baseDir . '/lib/public/Files/Mount/IMountPoint.php',
+    'OCP\\Files\\Mount\\IMovableMount' => $baseDir . '/lib/public/Files/Mount/IMovableMount.php',
     'OCP\\Files\\Mount\\ISystemMountPoint' => $baseDir . '/lib/public/Files/Mount/ISystemMountPoint.php',
     'OCP\\Files\\Node' => $baseDir . '/lib/public/Files/Node.php',
     'OCP\\Files\\NotEnoughSpaceException' => $baseDir . '/lib/public/Files/NotEnoughSpaceException.php',
