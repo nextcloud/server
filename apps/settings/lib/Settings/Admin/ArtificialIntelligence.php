@@ -29,7 +29,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\Settings\IDelegatedSettings;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\TextProcessing\IManager;
@@ -37,6 +36,7 @@ use OCP\TextProcessing\IProvider;
 use OCP\TextProcessing\ITaskType;
 use OCP\Translation\ITranslationManager;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
@@ -47,7 +47,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		private ITranslationManager $translationManager,
 		private ISpeechToTextManager $sttManager,
 		private IManager $textProcessingManager,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 	) {
 	}
 
