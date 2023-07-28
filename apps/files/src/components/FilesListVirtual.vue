@@ -310,6 +310,11 @@ export default Vue.extend({
 				// Necessary for flex grow to work
 				min-width: 0;
 
+				// Already added to the inner text, see rule below
+				&:focus-visible {
+					outline: none;
+				}
+
 				// Keyboard indicator a11y
 				&:focus .files-list__row-name-text,
 				&:focus-visible .files-list__row-name-text {

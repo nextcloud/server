@@ -78,6 +78,7 @@
 			<a v-show="!isRenaming"
 				ref="basename"
 				:aria-hidden="isRenaming"
+				class="files-list__row-name-link"
 				v-bind="linkTo"
 				@click="execDefaultAction">
 				<!-- File name -->
