@@ -45,7 +45,7 @@ if ($_['mail_smtpmode'] === 'qmail') {
 
 $mail_sendmailmode = [
 	'smtp' => 'smtp (-bs)',
-	'pipe' => 'pipe (-t)'
+	'pipe' => 'pipe (-t -i)'
 ];
 
 ?>
