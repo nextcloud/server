@@ -159,6 +159,7 @@ import { formatFileSize, Permission } from '@nextcloud/files'
 import { Fragment } from 'vue-frag'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
 import CancelablePromise from 'cancelable-promise'
@@ -367,10 +368,16 @@ export default Vue.extend({
 		},
 		previewUrl() {
 			try {
-				const url = new URL(window.location.origin + this.source.attributes.previewUrl)
+				const previewUrl = this.source.attributes.previewUrl
+					|| generateUrl('/core/preview?fileId={fileid}', {
+						fileid: this.source.fileid,
+					})
+				const url = new URL(window.location.origin + previewUrl)
+
 				// Request tiny previews
 				url.searchParams.set('x', '32')
 				url.searchParams.set('y', '32')
+
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
 				return url.href

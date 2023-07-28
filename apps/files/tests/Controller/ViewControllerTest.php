@@ -185,19 +185,6 @@ class ViewControllerTest extends TestCase {
 				'expanded' => false,
 				'unread' => 0,
 			],
-			'recent' => [
-				'id' => 'recent',
-				'appname' => 'files',
-				'script' => 'recentlist.php',
-				'order' => 2,
-				'name' => \OC::$server->getL10N('files')->t('Recent'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
@@ -231,10 +218,6 @@ class ViewControllerTest extends TestCase {
 				'appContents' => [
 					'files' => [
 						'id' => 'files',
-						'content' => null,
-					],
-					'recent' => [
-						'id' => 'recent',
 						'content' => null,
 					],
 					'systemtagsfilter' => [
