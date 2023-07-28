@@ -26,7 +26,7 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Federated Cloud Sharing" : "Nube federada compartida",
     "Sharing" : "Compartindo",
-    "Federated file sharing" : "Compartir ficheiros en federación",
+    "Federated file sharing" : "Compartición federada de ficheiros",
     "Provide federated file sharing across servers" : "Fornece a compartición federada de ficheiros entre servidores",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Axuste a forma como as persoas poden compartir entre servidores. Isto inclúe tamén as comparticións entre usuarios deste servidor se están a usar a compartición federada.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permitirlle aos usuarios deste servidor enviar comparticións a outros servidores (esta opción tamén permite o acceso de WebDAV a comparticións públicas)",
