@@ -22,7 +22,7 @@
 			</template>
 			<template v-if="sttProviders.length === 0">
 				<NcCheckboxRadioSwitch disabled type="radio">
-					{{ t('settings', 'No apps are currently installed that provide Speech-To-Text functionality') }}
+					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
 				</NcCheckboxRadioSwitch>
 			</template>
 		</NcSettingsSection>
