@@ -51,7 +51,7 @@ class Version28000Date20230728104802 extends SimpleMigrationStep {
 			$schema->dropTable('llm_tasks');
 			$changed = true;
 		}
-		if (!$schema->hasTable('textprocessing_tasks'))
+		if (!$schema->hasTable('textprocessing_tasks')) {
 			$table = $schema->createTable('textprocessing_tasks');
 
 			$table->addColumn('id', Types::BIGINT, [
