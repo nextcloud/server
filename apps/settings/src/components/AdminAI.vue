@@ -5,6 +5,8 @@
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
 					<DragVerticalIcon /> <span class="draggable__number">{{ i+1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
+					<NcButton aria-label="Move up" type="tertiary" @click="settings['ai.translation_provider_preferences'].splice(Math.min(i-1,0), 0, ...settings['ai.translation_provider_preferences'].splice(i, 1)); saveChanges()"><template #icon><ArrowUpIcon /></template></NcButton>
+					<NcButton aria-label="Move down" type="tertiary" @click="settings['ai.translation_provider_preferences'].splice(i+1, 0, ...settings['ai.translation_provider_preferences'].splice(i, 1)); saveChanges()"><template #icon><ArrowDownIcon /></template></NcButton>
 				</div>
 			</draggable>
 		</NcSettingsSection>
@@ -59,8 +61,11 @@ import axios from '@nextcloud/axios'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import draggable from 'vuedraggable'
 import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
+import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
+import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import { loadState } from '@nextcloud/initial-state'
 
 import { generateUrl } from '@nextcloud/router'
@@ -73,6 +78,9 @@ export default {
 		NcSelect,
 		draggable,
 		DragVerticalIcon,
+		ArrowDownIcon,
+		ArrowUpIcon,
+		NcButton
 	},
 	data() {
 		return {
@@ -110,6 +118,8 @@ export default {
 <style scoped>
 .draggable__item {
 	margin-bottom: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .draggable__item,
@@ -121,7 +131,8 @@ export default {
 	border-radius: 20px;
 	border: 2px solid var(--color-primary-default);
 	color: var(--color-primary-default);
-  padding: 2px 7px;
+  padding: 0px 7px;
+	margin-right: 3px;
 }
 
 .drag-vertical-icon {
