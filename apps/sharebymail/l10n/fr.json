@@ -26,7 +26,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "Mot de passe pour accéder à « %1$s » partagé avec vous par %2$s",
     "Password to access »%s«" : "Mot de passe pour accéder à « %s »",
     "It is protected with the following password:" : "Il est protégé avec le mot de passe suivant :",
-    "This password will expire at %s" : "Le mot de passe expirera le%s",
+    "This password will expire at %s" : "Le mot de passe expirera le %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s a partagé « %2$s » avec vous et souhaite ajouter :",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s a partagé « %2$s » avec vous et souhaite ajouter ",
     "»%s« added a note to a file shared with you" : "%s a ajouté une note à un fichier partagé avec vous.",

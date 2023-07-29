@@ -168,7 +168,7 @@ OC.L10N.register(
     "Share label" : "Libellé du partage",
     "Hide download" : "Masquer le téléchargement",
     "Password protect" : "Protéger par un mot de passe",
-    "Password expires {passwordExpirationTime}" : "Le mot de passe expire le {passwordExpirationTime}",
+    "Password expires {passwordExpirationTime}" : "Le mot de passe expire {passwordExpirationTime}",
     "Password expired" : "Mot de passe expiré",
     "Video verification" : "Vérification vidéo",
     "Enter a note for the share recipient" : "Saisissez une note pour le destinataire du partage",
