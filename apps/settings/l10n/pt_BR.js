@@ -406,6 +406,7 @@ OC.L10N.register(
     "Show storage path" : "Exibir caminho de armazenamento",
     "Show last login" : "Exibir último login",
     "Send email" : "Enviar e-mail",
+    "Send welcome email to new users" : "Enviar e-mail de boas-vindas para novos usuários",
     "Defaults" : "Padrões",
     "Default quota" : "Cota padrão",
     "Select default quota" : "Selecionar a cota padrão",
