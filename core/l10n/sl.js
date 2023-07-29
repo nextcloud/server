@@ -39,6 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Za ponastavitev gesla kliknite na gumb. Če ponastavitve gesla niste zahtevali, prezrite to sporočilo.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Za ponastavitev gesla kliknite na povezavo. Če ponastavitve gesla niste zahtevali, prezrite to sporočilo.",
     "Reset your password" : "Ponastavi geslo",
+    "Internal error" : "Notranja napaka",
     "No translation provider available" : "Ponudnik prevoda ni na voljo.",
     "Could not detect language" : "Ni mogoče zaznati jezika.",
     "Unable to translate" : "Ni mogoče prevajati",

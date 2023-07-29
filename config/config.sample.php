@@ -999,6 +999,16 @@ $CONFIG = [
 ],
 
 /**
+ * Enables logging a backtrace with each log line. Normally, only Exceptions
+ * are carrying backtrace information which are logged automatically. This
+ * switch turns them on for any log message. Enabling this option will lead
+ * to increased log data size.
+ *
+ * Defaults to ``false``.
+ */
+'log.backtrace' => false,
+
+/**
  * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
  *
  * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM

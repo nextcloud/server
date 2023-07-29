@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "إستعادة",
     "List of files that have been deleted." : "قائمة بجميع الملفات المحذوفة",
     "No deleted files" : "لا توجد ملفات محذوفة",
+    "Files and folders you have deleted will show up here" : "الملفات و المجلدات التي قُمتَ أنت بحذفها ستظهر هنا",
     "Deleted" : "محذوفة",
     "You will be able to recover deleted files from here" : "يُمكنك استعادة الملفات المحذوفة من هنا",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",

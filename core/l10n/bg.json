@@ -37,6 +37,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Кликнете върху следния бутон, за да възстановите паролата си. Ако не сте поискали възстановяване на паролата, игнорирайте този имейл.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Кликнете върху следната връзка, за да възстановите паролата си. Ако не сте поискали възстановяване на паролата, игнорирайте този имейл.",
     "Reset your password" : "Възстановяване на вашата парола",
+    "Internal error" : "Вътрешна грешка",
     "No translation provider available" : "Няма наличен доставчик на преводи",
     "Could not detect language" : "Не можа да се установи езика",
     "Unable to translate" : "Не може да се преведе",

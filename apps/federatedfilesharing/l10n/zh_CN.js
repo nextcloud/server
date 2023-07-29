@@ -39,7 +39,7 @@ OC.L10N.register(
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以和使用了 Nextcloud 服务器或其他兼容 Open Cloud Mesh（OCM）的服务器和服务的任何人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com",
     "Your Federated Cloud ID:" : "您的联合云 ID：",
     "Share it so your friends can share files with you:" : "使用共享，以便您的朋友可以与您共享文件：",
-    "Twitter" : "推特",
+    "Twitter" : "Twitter",
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",

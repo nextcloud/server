@@ -61,58 +61,6 @@ class JobTest extends \Test\TestCase {
 		$this->assertCount(1, $jobList->getAll());
 	}
 
-	public function testDisallowParallelRunsWithNoOtherJobs() {
-		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this, function () {
-		});
-		$job->setAllowParallelRuns(false);
-		$jobList->add($job);
-
-		$jobList->setHasReservedJob(null, false);
-		$jobList->setHasReservedJob(TestJob::class, false);
-		$job->start($jobList);
-		$this->assertTrue($this->run);
-	}
-
-	public function testAllowParallelRunsWithNoOtherJobs() {
-		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this, function () {
-		});
-		$job->setAllowParallelRuns(true);
-		$jobList->add($job);
-
-		$jobList->setHasReservedJob(null, false);
-		$jobList->setHasReservedJob(TestJob::class, false);
-		$job->start($jobList);
-		$this->assertTrue($this->run);
-	}
-
-	public function testAllowParallelRunsWithOtherJobs() {
-		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this, function () {
-		});
-		$job->setAllowParallelRuns(true);
-		$jobList->add($job);
-
-		$jobList->setHasReservedJob(null, true);
-		$jobList->setHasReservedJob(TestJob::class, true);
-		$job->start($jobList);
-		$this->assertTrue($this->run);
-	}
-
-	public function testDisallowParallelRunsWithOtherJobs() {
-		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this, function () {
-		});
-		$job->setAllowParallelRuns(false);
-		$jobList->add($job);
-
-		$jobList->setHasReservedJob(null, true);
-		$jobList->setHasReservedJob(TestJob::class, true);
-		$job->start($jobList);
-		$this->assertFalse($this->run);
-	}
-
 	public function markRun() {
 		$this->run = true;
 	}

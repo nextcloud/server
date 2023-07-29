@@ -75,11 +75,11 @@
     "Quota" : "Kwota",
     "Group admin for" : "Groepadmin vir",
     "Last login" : "Laaste aantekening",
+    "Default quota" : "Verstekkwota",
     "Unnamed device" : "Onbenoemde toestel",
     "Your apps" : "U toeps",
     "Changelog" : "Veranderingslog",
     "Active users" : "Aktiewe gebruikers",
-    "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
     "Email sent" : "E-pos gestuur",
     "Location" : "Ligging",
     "Profile picture" : "Profielprent",
@@ -92,7 +92,6 @@
     "Updates" : "Bywerkings",
     "App bundles" : "Toepbundels",
     "Never" : "Nooit",
-    "Default quota" : "Verstekkwota",
     "Documentation" : "Dokumentasie",
     "Forum" : "Forum",
     "Login" : "Teken aan",
@@ -109,6 +108,7 @@
     "Check out our blog" : "Besoek ons woernaal",
     "Subscribe to our newsletter" : "Teken in op ons nuusbrief",
     "png or jpg, max. 20 MB" : "png of jpg, maks. 20 MB",
+    "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

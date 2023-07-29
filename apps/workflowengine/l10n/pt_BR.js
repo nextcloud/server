@@ -67,6 +67,7 @@ OC.L10N.register(
     "Desktop client" : "Cliente de Desktop",
     "Thunderbird & Outlook addons" : "Extensões para Thunderbird & Outlook",
     "Custom user agent" : "Agente do usuário personalizado",
+    "Select a trigger" : "Selecione um gatilho",
     "At least one event must be selected" : "É necessário selecionar ao menos um evento",
     "Add new flow" : "Adicionar novo fluxo",
     "When" : "Quando",

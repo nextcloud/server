@@ -191,6 +191,7 @@
     "ascending" : "Artan",
     "descending" : "Azalan",
     "Sort list by {column} ({direction})" : "Listeyi {column} sütununa göre sırala ({direction})",
+    "List of files and folders." : "Doys ave klasörleri listesi.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarım nedeniyle listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Storage informations" : "Depolama bilgileri",
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",

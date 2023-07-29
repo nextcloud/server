@@ -25,12 +25,12 @@ declare(strict_types=1);
  */
 namespace OCA\Files\Collaboration\Resources;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Server;
 use OCP\Collaboration\Resources\IManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Listener {
-	public static function register(EventDispatcherInterface $dispatcher): void {
+	public static function register(IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener('OCP\Share::postShare', [self::class, 'shareModification']);
 		$dispatcher->addListener('OCP\Share::postUnshare', [self::class, 'shareModification']);
 		$dispatcher->addListener('OCP\Share::postUnshareFromSelf', [self::class, 'shareModification']);
