@@ -99,7 +99,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 		$stat = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		]);
+		] + $this->getSSECParameters());
 		return (int)$stat->get('ContentLength');
 	}
 
