@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "Ekle",
     "No users" : "Herhangi bir kullanıcı yok",
     "Loading users …" : "Kullanıcılar yükleniyor…",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "Kullanıcı listesi. Başarım nedeniyle listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Default language" : "Varsayılan dil",
     "Common languages" : "Sık kullanılan diller",
     "Other languages" : "Diğer diller",

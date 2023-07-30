@@ -480,9 +480,11 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Дозволити користувачам відкривати спільний доступ лише для користувачів з їхньої групи",
     "Exclude groups from sharing" : "Виключити групи зі спільного доступу",
     "These groups will still be able to receive shares, but not to initiate them." : "Ці групи зможуть отримувати спільні файли, але не зможуть відправляти їх.",
-    "Allow username autocompletion to users based on phone number integration" : "Дозволити користувачам автозаповнення імені користувача на основі інтеграції номера телефону",
+    "Allow username autocompletion in share dialog and allow access to the system address book" : "Дозволити автозаповнення імени користувача в діалоговому вікні спільного доступу, дозволити доступ до системної адресної книги",
+    "Allow username autocompletion to users within the same groups and limit system address books to users in the same groups" : "Дозволити автозаповнення імени користувача в групах користувачів, обмежити доступ до системних адресних книг лише для цих груп",
+    "Allow username autocompletion to users based on phone number integration" : "Дозволити користувачам автозаповнення імени користувача на основі інтеграції номера телефону",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Якщо ввімкнуто автозавершення «та сама група» та «інтеграція номеру телефону», збігу в будь-якому з них достатньо, щоб показати користувачеві.",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Дозволити автозавершення під час введення повного імені або адреси електронної пошти (ігнорування відсутніх збігів телефонної книги та перебування в одній групі)",
+    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Дозволити автозаповнення під час введення повного імені або адреси електронної пошти (ігнорування відсутніх збігів телефонної книги та перебування в одній групі)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Показувати текст застереження на сторінці завантаження загальнодоступного посилання (відображається, лише якщо список файлів приховано)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Цей текст буде показано на сторінці завантаження загальнодоступного посилання, коли список файлів приховано.",
     "Default share permissions" : "Дозволи на публікування по замовчуванню",
@@ -513,7 +515,7 @@ OC.L10N.register(
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
     "Authentication method" : "Спосіб авторизації",
-    "Allow username autocompletion in share dialog" : "Дозволити автозаповнення імені користувача в діалоговому вікні спільного доступу",
+    "Allow username autocompletion in share dialog" : "Дозволити автозаповнення імени користувача в діалоговому вікні спільного доступу",
     "Allow username autocompletion to users within the same groups" : "Дозволити автозавершення імен користувачів для користувачів у тих самих групах"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

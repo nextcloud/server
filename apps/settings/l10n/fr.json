@@ -334,7 +334,6 @@
     "Add" : "Ajouter",
     "No users" : "Pas d'utilisateurs",
     "Loading users …" : "Chargement des utilisateurs...",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "Liste des utilisateurs. Cette liste n'est pas totalement affichée pour des raisons de performances. Les utilisateurs seront affichés au fur et à mesure que vous naviguez dans la liste.",
     "Default language" : "Langue par défaut",
     "Common languages" : "Langues communes",
     "Other languages" : "Autres langues",

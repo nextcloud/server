@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "إضافة",
     "No users" : "لا يوجد مستخدِمون",
     "Loading users …" : "تحميل المستخدِمين جارٍ ...",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "قائمة المستخدمين. لم يتم تقديم هذه القائمة بالكامل لأسباب تتعلق بسرعة الأداء. سيتم عرض المستخدمين أثناء التنقل عبر القائمة.",
     "Default language" : "اللغة الافتراضية",
     "Common languages" : "اللغات الشائعة",
     "Other languages" : "لُغات أخرى",

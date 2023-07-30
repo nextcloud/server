@@ -188,7 +188,7 @@ OC.L10N.register(
     "Search for share recipients" : "Виберіть отримувачів",
     "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",
     "Resharing is not allowed" : "Надання доступу іншим не дозволяється",
-    "Name or email …" : "Ім'я або електронна адреса...",
+    "Name or email …" : "Ім'я або електронна адреса …",
     "Name, email, or Federated Cloud ID …" : "Ім’я, адреса електронної пошти або ідентифікатор хмари…",
     "Searching …" : "Пошук...",
     "No elements found." : "Елементи не знайдено.",

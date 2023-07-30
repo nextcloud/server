@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "Gehitu",
     "No users" : "Erabiltzailerik ez",
     "Loading users …" : "Erabiltzaileak kargatzen ...",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "Erabiltzaileen zerrenda. Zerrenda ez da guztiz errenderizatzen errendimendu arrazoiengatik. Erabiltzaileak zerrenda nabigatzen duzun heinean errenderizatuko dira.",
     "Default language" : "Hizkuntza lehenetsia",
     "Common languages" : "Hizkuntza komunak",
     "Other languages" : "Beste hizkuntza batzuk",

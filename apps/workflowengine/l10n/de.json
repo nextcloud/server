@@ -65,6 +65,7 @@
     "Desktop client" : "Desktop-Client",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook Add-ons",
     "Custom user agent" : "Benutzerdefinierter User-Agent",
+    "Select a trigger" : "Einen Auslöser auswählen",
     "At least one event must be selected" : "Mindestens ein Ereignis muss ausgewählt werden",
     "Add new flow" : "Neuen Ablauf hinzufügen",
     "When" : "Wenn",

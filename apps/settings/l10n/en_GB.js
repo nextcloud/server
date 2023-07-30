@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "Add",
     "No users" : "No users",
     "Loading users …" : "Loading users …",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list.",
     "Default language" : "Default language",
     "Common languages" : "Common languages",
     "Other languages" : "Other languages",

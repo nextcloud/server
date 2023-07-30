@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "Přidat",
     "No users" : "Žádní uživatelé",
     "Loading users …" : "Načítání uživatelů…",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "Seznam uživatelů. Není vykreslen celý z důvodu nároků na výkon. Uživatelé budou dokreslováni, jak se budete posouvat seznamem.",
     "Default language" : "Výchozí jazyk",
     "Common languages" : "Běžné jazyky",
     "Other languages" : "Ostatní jazyky",
