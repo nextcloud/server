@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "Додај",
     "No users" : "Нема корисника",
     "Loading users …" : "Учитавају се корисници...",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "Листа корисника. Услед разлога везаних за перформансе, ова листа се не приказује у потпуности. Корисници ће се приказивати како се будете кретали кроз листу.",
     "Default language" : "Подразумевани језик",
     "Common languages" : "Најкоришћенији језици",
     "Other languages" : "Остали језици",

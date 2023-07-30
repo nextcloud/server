@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "Lägg till",
     "No users" : "Inga användare",
     "Loading users …" : "Laddar användare …",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "Lista över användare. Denna lista är inte helt återgiven av prestationsskäl. Användarna kommer att renderas när du navigerar genom listan.",
     "Default language" : "Standardspråk",
     "Common languages" : "Vanliga språk",
     "Other languages" : "Andra språk",

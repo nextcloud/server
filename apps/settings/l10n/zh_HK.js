@@ -336,7 +336,6 @@ OC.L10N.register(
     "Add" : "新增",
     "No users" : "沒有用戶",
     "Loading users …" : "用戶加載中 ...",
-    "List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list." : "用戶清單。出於性能考量，此清單未完全呈現。用戶將在您瀏覽清單時呈現。",
     "Default language" : "預設語言",
     "Common languages" : "常用語言",
     "Other languages" : "其他語言",
