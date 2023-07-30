@@ -58,7 +58,7 @@
 
 			<template #before>
 				<caption class="hidden-visually">
-					{{ t('settings', 'List of users. This list is not fully rendered for performances reasons. The users will be rendered as you navigate through the list.') }}
+					{{ t('settings', 'List of users. This list is not fully rendered for performance reasons. The users will be rendered as you navigate through the list.') }}
 				</caption>
 				<UserListHeader :has-obfuscated="hasObfuscated" />
 			</template>

@@ -39,7 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicken Sie zum Zurücksetzen des Passworts auf die folgende Schaltfläche. Wenn Sie das Zurücksetzen des Passworts nicht angefordert haben, ignorieren Sie bitte diese E-Mail.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klicken Sie zum Zurücksetzen des Passworts auf den folgenden Link. Wenn Sie das Zurücksetzen des Passworts nicht angefordert haben, ignorieren Sie bitte diese E-Mail.",
     "Reset your password" : "Setzen Sie Ihr Passwort zurück",
-    "Requested task type does not exist" : "Angeforderter Aufgaben-Typ existiert nicht",
+    "Requested task type does not exist" : "Angeforderter Aufgabentyp existiert nicht",
     "Necessary language model provider is not available" : "Erforderlicher Sprachmodellanbieter ist nicht verfügbar",
     "Task not found" : "Aufgabe nicht gefunden",
     "Internal error" : "Interner Fehler",

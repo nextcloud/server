@@ -20,7 +20,6 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Files\Storage\Storage;
 
 class EncryptionTest extends Storage {
@@ -133,7 +132,6 @@ class EncryptionTest extends Storage {
 			->setMethods(['getUidAndFilename', 'isFile', 'isExcluded'])
 			->setConstructorArgs([new View(), new Manager(
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class)
 			), $this->groupManager, $this->config, $this->arrayCache])
@@ -574,7 +572,6 @@ class EncryptionTest extends Storage {
 					new View(),
 					new Manager(
 						$this->config,
-						$this->createMock(EventDispatcherInterface::class),
 						$this->createMock(ICacheFactory::class),
 						$this->createMock(IEventDispatcher::class)
 					),
@@ -657,7 +654,6 @@ class EncryptionTest extends Storage {
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setConstructorArgs([new View(), new Manager(
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class)
 			), $this->groupManager, $this->config, $this->arrayCache])

@@ -34,7 +34,6 @@ use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OC\Security\CSRF\CsrfTokenManager;
 
 /**
@@ -122,7 +121,7 @@ class SessionTest extends \Test\TestCase {
 				'getUser'
 			])
 			->getMock();
-		$user = new User('sepp', null, $this->createMock(EventDispatcherInterface::class));
+		$user = new User('sepp', null, $this->createMock(IEventDispatcher::class));
 		$userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($isLoggedIn ? $user : null);
@@ -177,7 +176,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -244,7 +242,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -278,7 +275,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -492,7 +488,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -582,7 +577,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -647,7 +641,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -700,7 +693,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -739,8 +731,8 @@ class SessionTest extends \Test\TestCase {
 
 	public function testActiveUserAfterSetSession() {
 		$users = [
-			'foo' => new User('foo', null, $this->createMock(EventDispatcherInterface::class)),
-			'bar' => new User('bar', null, $this->createMock(EventDispatcherInterface::class))
+			'foo' => new User('foo', null, $this->createMock(IEventDispatcher::class)),
+			'bar' => new User('bar', null, $this->createMock(IEventDispatcher::class))
 		];
 
 		$manager = $this->getMockBuilder(Manager::class)

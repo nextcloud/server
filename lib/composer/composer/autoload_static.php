@@ -383,6 +383,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Lock\\OwnerLockedException' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/OwnerLockedException.php',
         'OCP\\Files\\Mount\\IMountManager' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountManager.php',
         'OCP\\Files\\Mount\\IMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountPoint.php',
+        'OCP\\Files\\Mount\\IMovableMount' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMovableMount.php',
         'OCP\\Files\\Mount\\ISystemMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/ISystemMountPoint.php',
         'OCP\\Files\\Node' => __DIR__ . '/../../..' . '/lib/public/Files/Node.php',
         'OCP\\Files\\NotEnoughSpaceException' => __DIR__ . '/../../..' . '/lib/public/Files/NotEnoughSpaceException.php',

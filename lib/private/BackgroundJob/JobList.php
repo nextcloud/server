@@ -35,6 +35,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\IParallelAwareJob;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
@@ -218,19 +219,33 @@ class JobList implements IJobList {
 			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
 		}
 
-		$update = $this->connection->getQueryBuilder();
-		$update->update('jobs')
-			->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
-			->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
-			->where($update->expr()->eq('id', $update->createParameter('jobid')))
-			->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
-			->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
-
 		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		if ($row) {
+			$job = $this->buildJob($row);
+
+			if ($job instanceof IParallelAwareJob && !$job->getAllowParallelRuns() && $this->hasReservedJob(get_class($job))) {
+				$this->logger->debug('Skipping ' . get_class($job) . ' job with ID ' . $job->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
+
+				$update = $this->connection->getQueryBuilder();
+				$update->update('jobs')
+					->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime() + 1))
+					->where($update->expr()->eq('id', $update->createParameter('jobid')));
+				$update->setParameter('jobid', $row['id']);
+				$update->executeStatement();
+
+				return $this->getNext($onlyTimeSensitive);
+			}
+
+			$update = $this->connection->getQueryBuilder();
+			$update->update('jobs')
+				->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
+				->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
+				->where($update->expr()->eq('id', $update->createParameter('jobid')))
+				->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
+				->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
 			$update->setParameter('jobid', $row['id']);
 			$update->setParameter('reserved_at', $row['reserved_at']);
 			$update->setParameter('last_checked', $row['last_checked']);
@@ -240,7 +255,6 @@ class JobList implements IJobList {
 				// Background job already executed elsewhere, try again.
 				return $this->getNext($onlyTimeSensitive);
 			}
-			$job = $this->buildJob($row);
 
 			if ($job === null) {
 				// set the last_checked to 12h in the future to not check failing jobs all over again

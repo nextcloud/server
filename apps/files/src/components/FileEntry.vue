@@ -3,7 +3,7 @@
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -53,7 +53,7 @@
 				<span v-if="isFavorite"
 					class="files-list__row-icon-favorite"
 					:aria-label="t('files', 'Favorite')">
-					<StarIcon aria-hidden="true" :size="20" />
+					<FavoriteIcon :aria-hidden="true" />
 				</span>
 			</span>
 
@@ -164,7 +164,6 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
 import type moment from 'moment'
 
@@ -180,6 +179,7 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
+import FavoriteIcon from './FavoriteIcon.vue'
 import logger from '../logger.js'
 
 // The registered actions list
@@ -193,6 +193,7 @@ export default Vue.extend({
 	components: {
 		CustomElementRender,
 		CustomSvgIconRender,
+		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
 		Fragment,
@@ -201,7 +202,6 @@ export default Vue.extend({
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcTextField,
-		StarIcon,
 	},
 
 	props: {

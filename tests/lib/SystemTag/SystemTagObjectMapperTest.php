@@ -13,12 +13,12 @@ namespace Test\SystemTag;
 use OC\SystemTag\SystemTag;
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -44,7 +44,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	private $connection;
 
 	/**
-	 * @var EventDispatcherInterface
+	 * @var IEventDispatcher
 	 */
 	private $dispatcher;
 
@@ -69,11 +69,8 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->pruneTagsTables();
 
-		$this->tagManager = $this->getMockBuilder('OCP\SystemTag\ISystemTagManager')
-			->getMock();
-
-		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->tagMapper = new SystemTagObjectMapper(
 			$this->connection,

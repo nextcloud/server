@@ -44,8 +44,6 @@ use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
@@ -59,8 +57,6 @@ class Generator {
 	private $appData;
 	/** @var GeneratorHelper */
 	private $helper;
-	/** @var EventDispatcherInterface */
-	private $legacyEventDispatcher;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -69,14 +65,12 @@ class Generator {
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		EventDispatcherInterface $legacyEventDispatcher,
 		IEventDispatcher $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
 		$this->helper = $helper;
-		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -104,10 +98,6 @@ class Generator {
 			'mode' => $mode,
 		];
 
-		$this->legacyEventDispatcher->dispatch(
-			IPreview::EVENT,
-			new GenericEvent($file, $specification)
-		);
 		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
 			$file,
 			$width,
