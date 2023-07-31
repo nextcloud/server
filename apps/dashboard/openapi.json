@@ -231,11 +231,15 @@
                         }
                     },
                     {
-                        "name": "widgets",
+                        "name": "widgets[]",
                         "in": "query",
                         "description": "Limit results to specific widgets",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
