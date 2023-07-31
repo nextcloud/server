@@ -57,7 +57,7 @@ class Version10000Date20230725162149 extends SimpleMigrationStep {
 			'length' => 20,
 			'unsigned' => true,
 		]);
-		$table->addColumn('remind_at', Types::DATETIME, [
+		$table->addColumn('due_date', Types::DATETIME, [
 			'notnull' => true,
 		]);
 		$table->addColumn('created_at', Types::DATETIME, [
@@ -68,7 +68,7 @@ class Version10000Date20230725162149 extends SimpleMigrationStep {
 			'default' => false,
 		]);
 		$table->setPrimaryKey(['id']);
-		$table->addUniqueIndex(['user_id', 'file_id', 'remind_at'], 'reminders_uniq_idx');
+		$table->addUniqueIndex(['user_id', 'file_id', 'due_date'], 'reminders_uniq_idx');
 
 		return $schema;
 	}
