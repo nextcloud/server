@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\FilesReminders\Service;
 
 use DateTime;
+use DateTimeZone;
 use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
 use OCA\FilesReminders\Db\Reminder;
@@ -57,6 +58,14 @@ class ReminderService {
 	}
 
 	/**
+	 * @throws DoesNotExistException
+	 */
+	public function getDueForUser(IUser $user, int $fileId): RichReminder {
+		$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
+		return new RichReminder($reminder, $this->root);
+	}
+
+	/**
 	 * @return RichReminder[]
 	 */
 	public function getAll(?IUser $user = null) {
@@ -67,6 +76,15 @@ class ReminderService {
 			fn (Reminder $reminder) => new RichReminder($reminder, $this->root),
 			$reminders,
 		);
+	}
+
+	public function create(IUser $user, int $fileId, DateTime $remindAt): void {
+		$reminder = new Reminder();
+		$reminder->setUserId($user->getUID());
+		$reminder->setFileId($fileId);
+		$reminder->setRemindAt($remindAt);
+		$reminder->setCreatedAt(new DateTime('now', new DateTimeZone('UTC')));
+		$this->reminderMapper->insert($reminder);
 	}
 
 	/**
