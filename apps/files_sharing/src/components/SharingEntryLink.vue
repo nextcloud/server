@@ -726,12 +726,12 @@ export default {
 					// otherwise the user needs to copy/paste the password before finishing the share.
 					component.copyLink()
 				}
-				showSuccess(t('sharing', 'Link share created'))
+				showSuccess(t('files_sharing', 'Link share created'))
 
 			} catch (data) {
 				const message = data?.response?.data?.ocs?.meta?.message
 				if (!message) {
-					showError(t('sharing', 'Error while creating the share'))
+					showError(t('files_sharing', 'Error while creating the share'))
 					console.error(data)
 					return
 				}
