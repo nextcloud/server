@@ -95,7 +95,7 @@
     "less or equals" : "inférieur ou égal",
     "greater or equals" : "supérieur ou égal",
     "greater" : "plus grand que",
-    "Request remote address" : "Demander une adresse distante",
+    "Request remote address" : "Adresse IP de la requête",
     "matches IPv4" : "correspond à une adresse IPv4",
     "does not match IPv4" : "ne correspond pas à une adresse IPv4",
     "matches IPv6" : "correspond à une adresse IPv6",
