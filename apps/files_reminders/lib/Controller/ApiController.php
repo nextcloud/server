@@ -94,7 +94,10 @@ class ApiController extends OCSController {
 		}
 
 		try {
-			$this->reminderService->createOrUpdate($user, $fileId, $dueDate);
+			$created = $this->reminderService->createOrUpdate($user, $fileId, $dueDate);
+			if ($created) {
+				return new JSONResponse([], Http::STATUS_CREATED);
+			}
 			return new JSONResponse([], Http::STATUS_OK);
 		} catch (NodeNotFoundException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
