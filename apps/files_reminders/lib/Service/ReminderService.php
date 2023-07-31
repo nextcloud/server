@@ -90,7 +90,7 @@ class ReminderService {
 			->setUser($user->getUID())
 			->setObject('reminder', (string)$reminder->getId())
 			->setSubject('reminder-due')
-			->setDateTime(DateTime::createFromFormat('U', (string)$reminder->getRemindAt()));
+			->setDateTime($reminder->getRemindAt());
 
 		try {
 			$this->notificationManager->notify($notification);

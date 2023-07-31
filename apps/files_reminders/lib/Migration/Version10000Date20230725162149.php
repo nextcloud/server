@@ -55,9 +55,10 @@ class Version10000Date20230725162149 extends SimpleMigrationStep {
 		$table->addColumn('file_id', Types::BIGINT, [
 			'notnull' => true,
 			'length' => 20,
+			'unsigned' => true,
 		]);
-		$table->addColumn('remind_at', Types::BIGINT, [
-			'notnull' => true,
+		$table->addColumn('remind_at', Types::DATETIME, [
+			'notnull' => false,
 		]);
 		$table->addColumn('notified', Types::BOOLEAN, [
 			'notnull' => false,

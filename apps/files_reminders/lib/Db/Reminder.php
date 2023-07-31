@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Db;
 
+use DateTime;
 use OCP\AppFramework\Db\Entity;
 
 /**
@@ -35,8 +36,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setFileId(int $fileId)
  * @method int getFileId()
  *
- * @method void setRemindAt(int $remindAt)
- * @method int getRemindAt()
+ * @method void setRemindAt(DateTime $remindAt)
+ * @method DateTime getRemindAt()
  *
  * @method void setNotified(bool $notified)
  * @method bool getNotified()
@@ -50,7 +51,7 @@ class Reminder extends Entity {
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('fileId', 'integer');
-		$this->addType('remindAt', 'integer');
+		$this->addType('remindAt', 'datetime');
 		$this->addType('notified', 'boolean');
 	}
 }
