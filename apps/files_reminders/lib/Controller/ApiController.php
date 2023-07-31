@@ -68,7 +68,10 @@ class ApiController extends OCSController {
 			];
 			return new JSONResponse($reminderData, Http::STATUS_OK);
 		} catch (DoesNotExistException $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$reminderData = [
+				'dueDate' => null,
+			];
+			return new JSONResponse($reminderData, Http::STATUS_OK);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
