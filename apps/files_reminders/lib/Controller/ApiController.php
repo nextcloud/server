@@ -34,7 +34,7 @@ use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -55,10 +55,10 @@ class ApiController extends OCSController {
 	/**
 	 * Get a reminder
 	 */
-	public function get(int $fileId): JSONResponse {
+	public function get(int $fileId): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 
 		try {
@@ -66,15 +66,15 @@ class ApiController extends OCSController {
 			$reminderData = [
 				'dueDate' => $reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
 			];
-			return new JSONResponse($reminderData, Http::STATUS_OK);
+			return new DataResponse($reminderData, Http::STATUS_OK);
 		} catch (DoesNotExistException $e) {
 			$reminderData = [
 				'dueDate' => null,
 			];
-			return new JSONResponse($reminderData, Http::STATUS_OK);
+			return new DataResponse($reminderData, Http::STATUS_OK);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -83,50 +83,50 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $dueDate ISO 8601 formatted date time string
 	 */
-	public function set(int $fileId, string $dueDate): JSONResponse {
+	public function set(int $fileId, string $dueDate): DataResponse {
 		try {
 			$dueDate = (new DateTime($dueDate))->setTimezone(new DateTimeZone('UTC'));
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 
 		try {
 			$created = $this->reminderService->createOrUpdate($user, $fileId, $dueDate);
 			if ($created) {
-				return new JSONResponse([], Http::STATUS_CREATED);
+				return new DataResponse([], Http::STATUS_CREATED);
 			}
-			return new JSONResponse([], Http::STATUS_OK);
+			return new DataResponse([], Http::STATUS_OK);
 		} catch (NodeNotFoundException $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	/**
 	 * Remove a reminder
 	 */
-	public function remove(int $fileId): JSONResponse {
+	public function remove(int $fileId): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 
 		try {
 			$this->reminderService->remove($user, $fileId);
-			return new JSONResponse([], Http::STATUS_OK);
+			return new DataResponse([], Http::STATUS_OK);
 		} catch (DoesNotExistException $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }
