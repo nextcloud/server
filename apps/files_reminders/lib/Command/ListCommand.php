@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Command;
 
-use DateTime;
 use DateTimeInterface;
 use OC\Core\Command\Base;
 use OCA\FilesReminders\Model\RichReminder;
@@ -81,7 +80,7 @@ class ListCommand extends Base {
 				fn (RichReminder $reminder) => [
 					$reminder->getUserId(),
 					$reminder->getNode()->getPath(),
-					DateTime::createFromFormat('U', (string)$reminder->getRemindAt())->format(DateTimeInterface::ATOM), // ISO 8601
+					$reminder->getRemindAt()->format(DateTimeInterface::ATOM), // ISO 8601
 					$reminder->getNotified() ? 'true' : 'false',
 				],
 				$reminders,
