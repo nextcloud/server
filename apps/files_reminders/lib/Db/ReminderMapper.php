@@ -56,7 +56,7 @@ class ReminderMapper extends QBMapper {
 	public function find(int $id): Reminder {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
@@ -69,7 +69,7 @@ class ReminderMapper extends QBMapper {
 	public function findDueForUser(IUser $user, int $fileId): Reminder {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
@@ -86,7 +86,7 @@ class ReminderMapper extends QBMapper {
 	public function findAll() {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->orderBy('due_date', 'ASC');
 
@@ -99,7 +99,7 @@ class ReminderMapper extends QBMapper {
 	public function findAllForUser(IUser $user) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
 			->orderBy('due_date', 'ASC');
@@ -113,7 +113,7 @@ class ReminderMapper extends QBMapper {
 	public function findOverdue() {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->lt('due_date', $qb->createFunction('NOW()')))
 			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
@@ -128,7 +128,7 @@ class ReminderMapper extends QBMapper {
 	public function findNotified(?int $limit = null) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('notified', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)))
 			->orderBy('due_date', 'ASC')
