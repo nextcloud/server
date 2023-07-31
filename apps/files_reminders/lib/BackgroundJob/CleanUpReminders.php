@@ -33,7 +33,7 @@ use OCP\BackgroundJob\TimedJob;
 
 class CleanUpReminders extends TimedJob {
 	public function __construct(
-		private ITimeFactory $time,
+		ITimeFactory $time,
 		private ReminderService $reminderService,
 	) {
 		parent::__construct($time);
