@@ -32,7 +32,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\Job;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 class ScheduledNotifications extends Job {
 	public function __construct(
@@ -54,8 +53,6 @@ class ScheduledNotifications extends Job {
 				$this->reminderService->send($reminder);
 			} catch (DoesNotExistException $e) {
 				$this->logger->debug('Could not send notification for reminder with id ' . $reminder->getId());
-			} catch (Throwable $th) {
-				$this->logger->error($th->getMessage(), $th->getTrace());
 			}
 		}
 	}
