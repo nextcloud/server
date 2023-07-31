@@ -60,7 +60,23 @@ class ReminderMapper extends QBMapper {
 		$qb->select('user_id', 'file_id', 'remind_at')
 			->from($this->getTableName())
 			->where($qb->expr()->lt('remind_at', $qb->createFunction('NOW()')))
-			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
+			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
+			->orderBy('remind_at', 'ASC');
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @return Reminder[]
+	 */
+	public function findToDelete(?int $limit = null) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('user_id', 'file_id', 'remind_at')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('notified', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)))
+			->orderBy('remind_at', 'ASC')
+			->setMaxResults($limit);
 
 		return $this->findEntities($qb);
 	}
