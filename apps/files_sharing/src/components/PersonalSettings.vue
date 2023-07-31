@@ -69,7 +69,7 @@ export default {
 					accept: this.accepting,
 				})
 			} catch (error) {
-				showError(t('sharing', 'Error while toggling options'))
+				showError(t('files_sharing', 'Error while toggling options'))
 				console.error(error)
 			}
 		},
