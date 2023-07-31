@@ -78,13 +78,23 @@ class ReminderService {
 		);
 	}
 
-	public function create(IUser $user, int $fileId, DateTime $dueDate): void {
-		$reminder = new Reminder();
-		$reminder->setUserId($user->getUID());
-		$reminder->setFileId($fileId);
-		$reminder->setDueDate($dueDate);
-		$reminder->setCreatedAt(new DateTime('now', new DateTimeZone('UTC')));
-		$this->reminderMapper->insert($reminder);
+	public function createOrUpdate(IUser $user, int $fileId, DateTime $dueDate): void {
+		$now = new DateTime('now', new DateTimeZone('UTC'));
+		try {
+			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
+			$reminder->setDueDate($dueDate);
+			$reminder->setUpdatedAt($now);
+			$this->reminderMapper->update($reminder);
+		} catch (DoesNotExistException $e) {
+			// Create new reminder if no reminder is found
+			$reminder = new Reminder();
+			$reminder->setUserId($user->getUID());
+			$reminder->setFileId($fileId);
+			$reminder->setDueDate($dueDate);
+			$reminder->setUpdatedAt($now);
+			$reminder->setCreatedAt($now);
+			$this->reminderMapper->insert($reminder);
+		}
 	}
 
 	/**

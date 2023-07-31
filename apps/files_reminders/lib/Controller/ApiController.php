@@ -83,7 +83,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $dueDate ISO 8601 formatted date time string
 	 */
-	public function create(int $fileId, string $dueDate): JSONResponse {
+	public function set(int $fileId, string $dueDate): JSONResponse {
 		try {
 			$dueDate = (new DateTime($dueDate))->setTimezone(new DateTimeZone('UTC'));
 		} catch (Exception $e) {
@@ -97,7 +97,7 @@ class ApiController extends OCSController {
 		}
 
 		try {
-			$this->reminderService->create($user, $fileId, $dueDate);
+			$this->reminderService->createOrUpdate($user, $fileId, $dueDate);
 			return new JSONResponse([], Http::STATUS_OK);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);

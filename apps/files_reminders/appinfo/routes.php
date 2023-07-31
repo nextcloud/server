@@ -30,7 +30,7 @@ $requirements = [
 
 return [
 	'ocs' => [
-		['name' => 'Api#get', 'url' => '/api/v{version}/get', 'verb' => 'GET', 'requirements' => $requirements],
-		['name' => 'Api#create', 'url' => '/api/v{version}/create', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'Api#get', 'url' => '/api/v{version}/get/{fileId}', 'verb' => 'GET', 'requirements' => $requirements],
+		['name' => 'Api#set', 'url' => '/api/v{version}/set/{fileId}', 'verb' => 'PUT', 'requirements' => $requirements],
 	],
 ];
