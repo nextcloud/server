@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -58,6 +59,23 @@ class ReminderMapper extends QBMapper {
 		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @throws DoesNotExistException
+	 */
+	public function findDueForUser(IUser $user, int $fileId): Reminder {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
+			->orderBy('created_at', 'DESC')
+			->setMaxResults(1);
 
 		return $this->findEntity($qb);
 	}
