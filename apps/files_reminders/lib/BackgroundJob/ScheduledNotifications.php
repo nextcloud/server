@@ -35,7 +35,7 @@ use Psr\Log\LoggerInterface;
 
 class ScheduledNotifications extends Job {
 	public function __construct(
-		protected ITimeFactory $time,
+		ITimeFactory $time,
 		protected ReminderMapper $reminderMapper,
 		protected ReminderService $reminderService,
 		protected LoggerInterface $logger,
