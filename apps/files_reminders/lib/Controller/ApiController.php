@@ -67,11 +67,7 @@ class ApiController extends OCSController {
 			];
 			return new JSONResponse($reminderData, Http::STATUS_OK);
 		} catch (DoesNotExistException $e) {
-			// Return null when no reminder is found
-			$reminderData = [
-				'dueDate' => null,
-			];
-			return new JSONResponse($reminderData, Http::STATUS_OK);
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -99,6 +95,26 @@ class ApiController extends OCSController {
 		try {
 			$this->reminderService->createOrUpdate($user, $fileId, $dueDate);
 			return new JSONResponse([], Http::STATUS_OK);
+		} catch (Throwable $th) {
+			$this->logger->error($th->getMessage(), ['exception' => $th]);
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Remove a reminder
+	 */
+	public function remove(int $fileId): JSONResponse {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		}
+
+		try {
+			$this->reminderService->remove($user, $fileId);
+			return new JSONResponse([], Http::STATUS_OK);
+		} catch (DoesNotExistException $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);

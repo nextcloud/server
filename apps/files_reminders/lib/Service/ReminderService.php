@@ -99,6 +99,14 @@ class ReminderService {
 
 	/**
 	 * @throws DoesNotExistException
+	 */
+	public function remove(IUser $user, int $fileId): void {
+		$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
+		$this->reminderMapper->delete($reminder);
+	}
+
+	/**
+	 * @throws DoesNotExistException
 	 * @throws UserNotFoundException
 	 */
 	public function send(Reminder $reminder): void {
