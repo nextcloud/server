@@ -75,12 +75,13 @@ class ListCommand extends Base {
 		}
 
 		$io->table(
-			['UserId', 'Path', 'DueDate', 'CreatedAt', 'Notified'],
+			['User Id', 'Path', 'Due Date', 'Updated At', 'Created At', 'Notified'],
 			array_map(
 				fn (RichReminder $reminder) => [
 					$reminder->getUserId(),
 					$reminder->getNode()->getPath(),
 					$reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
+					$reminder->getUpdatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
 					$reminder->getCreatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
 					$reminder->getNotified() ? 'true' : 'false',
 				],

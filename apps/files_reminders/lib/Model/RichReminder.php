@@ -67,6 +67,7 @@ class RichReminder extends Reminder implements JsonSerializable {
 			'userId' => $this->getUserId(),
 			'fileId' => $this->getFileId(),
 			'dueDate' => $this->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
+			'updatedAt' => $this->getUpdatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
 			'createdAt' => $this->getCreatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
 			'notified' => $this->getNotified(),
 		];
