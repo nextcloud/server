@@ -73,9 +73,7 @@ class ReminderMapper extends QBMapper {
 			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
-			->orderBy('updated_at', 'DESC')
-			->setMaxResults(1);
+			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		return $this->findEntity($qb);
 	}
