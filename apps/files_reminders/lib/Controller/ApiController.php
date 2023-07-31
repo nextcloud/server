@@ -39,7 +39,6 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 class ApiController extends OCSController {
 	public function __construct(
@@ -72,9 +71,6 @@ class ApiController extends OCSController {
 				'dueDate' => null,
 			];
 			return new DataResponse($reminderData, Http::STATUS_OK);
-		} catch (Throwable $th) {
-			$this->logger->error($th->getMessage(), ['exception' => $th]);
-			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -104,9 +100,6 @@ class ApiController extends OCSController {
 			return new DataResponse([], Http::STATUS_OK);
 		} catch (NodeNotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (Throwable $th) {
-			$this->logger->error($th->getMessage(), ['exception' => $th]);
-			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -124,9 +117,6 @@ class ApiController extends OCSController {
 			return new DataResponse([], Http::STATUS_OK);
 		} catch (DoesNotExistException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (Throwable $th) {
-			$this->logger->error($th->getMessage(), ['exception' => $th]);
-			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }
