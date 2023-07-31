@@ -368,7 +368,7 @@ class Local extends \OC\Files\Storage\Common {
 			return true;
 		}
 
-		return $this->copy($source, $target) && $this->rmdir($source);
+		return $this->copy($source, $target) && $this->unlink($source);
 	}
 
 	public function copy($source, $target) {
