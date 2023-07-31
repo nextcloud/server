@@ -182,11 +182,7 @@ class Mailer implements IMailer {
 			$failedRecipients = [];
 
 			array_walk($recipients, function ($value, $key) use (&$failedRecipients) {
-				if (is_numeric($key)) {
-					$failedRecipients[] = $value;
-				} else {
-					$failedRecipients[] = $key;
-				}
+				$failedRecipients[] = is_numeric($key) ? $value : $key;
 			});
 
 			return $failedRecipients;
@@ -204,11 +200,7 @@ class Mailer implements IMailer {
 			$failedRecipients = [];
 
 			array_walk($recipients, function ($value, $key) use (&$failedRecipients) {
-				if (is_numeric($key)) {
-					$failedRecipients[] = $value;
-				} else {
-					$failedRecipients[] = $key;
-				}
+				$failedRecipients[] = is_numeric($key) ? $value : $key;
 			});
 
 			return $failedRecipients;
@@ -244,17 +236,12 @@ class Mailer implements IMailer {
 			return $this->instance;
 		}
 
-		$transport = null;
+		$transportMode = $this->config->getSystemValueString('mail_smtpmode', 'smtp');
 
-		switch ($this->config->getSystemValueString('mail_smtpmode', 'smtp')) {
-			case 'sendmail':
-				$transport = $this->getSendMailInstance();
-				break;
-			case 'smtp':
-			default:
-				$transport = $this->getSmtpInstance();
-				break;
-		}
+		$transport = match ($transportMode) {
+			'sendmail' => $this->getSendMailInstance(),
+			default => $this->getSmtpInstance(),
+		};
 
 		return new SymfonyMailer($transport);
 	}
@@ -269,19 +256,23 @@ class Mailer implements IMailer {
 	 * @return EsmtpTransport
 	 */
 	protected function getSmtpInstance(): EsmtpTransport {
+		$mailSmtpHost = $this->config->getSystemValueString('mail_smtphost', '127.0.0.1');
+		$mailSmtpPort = $this->config->getSystemValueInt('mail_smtpport', 25);
 		// either null or true - if nothing is passed, let the symfony mailer figure out the configuration by itself
-		$mailSmtpsecure = ($this->config->getSystemValue('mail_smtpsecure', null) === 'ssl') ? true : null;
+		$mailSmtpSecure = ($this->config->getSystemValue('mail_smtpsecure', null) === 'ssl') ? true : null;
+
 		$transport = new EsmtpTransport(
-			$this->config->getSystemValueString('mail_smtphost', '127.0.0.1'),
-			$this->config->getSystemValueInt('mail_smtpport', 25),
-			$mailSmtpsecure,
+			$mailSmtpHost,
+			$mailSmtpPort,
+			$mailSmtpSecure,
 			null,
 			$this->logger
 		);
+
 		/** @var SocketStream $stream */
 		$stream = $transport->getStream();
 		/** @psalm-suppress InternalMethod */
-		$stream->setTimeout($this->config->getSystemValueInt('mail_smtptimeout', 10));
+		$stream->setTimeout($this->config->getSystemValueInt('mail_smtptimeout', 30));
 
 		if ($this->config->getSystemValueBool('mail_smtpauth', false)) {
 			$transport->setUsername($this->config->getSystemValueString('mail_smtpname', ''));
@@ -316,21 +307,16 @@ class Mailer implements IMailer {
 	 *
 	 * @return SendmailTransport
 	 */
-	protected function getSendMailInstance(): SendmailTransport {
-		switch ($this->config->getSystemValueString('mail_smtpmode', 'smtp')) {
-			case 'qmail':
-				$binaryPath = '/var/qmail/bin/sendmail';
-				break;
-			default:
-				$sendmail = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
-				if ($sendmail === null) {
-					$sendmail = '/usr/sbin/sendmail';
-				}
-				$binaryPath = $sendmail;
-				break;
-		}
 
-		$binaryParam = match ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
+	protected function getSendMailInstance(): SendmailTransport {
+		$smtpMode = $this->config->getSystemValueString('mail_smtpmode', 'smtp');
+		$binaryPath = match ($smtpMode) {
+			'qmail' => '/var/qmail/bin/sendmail',
+			default => \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail') ?? '/usr/sbin/sendmail',
+		};
+
+		$sendmailMode = $this->config->getSystemValueString('mail_sendmailmode', 'smtp');
+		$binaryParam = match ($sendmailMode) {
 			'pipe' => ' -t',
 			default => ' -bs',
 		};
