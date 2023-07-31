@@ -32,5 +32,6 @@ return [
 	'ocs' => [
 		['name' => 'Api#get', 'url' => '/api/v{version}/get/{fileId}', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'Api#set', 'url' => '/api/v{version}/set/{fileId}', 'verb' => 'PUT', 'requirements' => $requirements],
+		['name' => 'Api#remove', 'url' => '/api/v{version}/remove/{fileId}', 'verb' => 'DELETE', 'requirements' => $requirements],
 	],
 ];
