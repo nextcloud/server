@@ -38,7 +38,7 @@ class CleanUpReminders extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		$this->setInterval(60 * 60 * 24);
+		$this->setInterval(24 * 60 * 60); // 1 day
 		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
