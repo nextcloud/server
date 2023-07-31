@@ -80,15 +80,18 @@ class ReminderService {
 	}
 
 	/**
+	 * @return bool true if created, false if updated
+	 *
 	 * @throws NodeNotFoundException
 	 */
-	public function createOrUpdate(IUser $user, int $fileId, DateTime $dueDate): void {
+	public function createOrUpdate(IUser $user, int $fileId, DateTime $dueDate): bool {
 		$now = new DateTime('now', new DateTimeZone('UTC'));
 		try {
 			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
 			$reminder->setDueDate($dueDate);
 			$reminder->setUpdatedAt($now);
 			$this->reminderMapper->update($reminder);
+			return false;
 		} catch (DoesNotExistException $e) {
 			$nodes = $this->root->getUserFolder($user->getUID())->getById($fileId);
 			if (empty($nodes)) {
@@ -102,6 +105,7 @@ class ReminderService {
 			$reminder->setUpdatedAt($now);
 			$reminder->setCreatedAt($now);
 			$this->reminderMapper->insert($reminder);
+			return true;
 		}
 	}
 
