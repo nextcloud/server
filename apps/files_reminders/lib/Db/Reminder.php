@@ -36,8 +36,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setFileId(int $fileId)
  * @method int getFileId()
  *
- * @method void setRemindAt(DateTime $remindAt)
- * @method DateTime getRemindAt()
+ * @method void setDueDate(DateTime $dueDate)
+ * @method DateTime getDueDate()
  *
  * @method void setCreatedAt(DateTime $createdAt)
  * @method DateTime getCreatedAt()
@@ -48,14 +48,14 @@ use OCP\AppFramework\Db\Entity;
 class Reminder extends Entity {
 	protected $userId;
 	protected $fileId;
-	protected $remindAt;
+	protected $dueDate;
 	protected $createdAt;
 	protected $notified = false;
 
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('fileId', 'integer');
-		$this->addType('remindAt', 'datetime');
+		$this->addType('dueDate', 'datetime');
 		$this->addType('createdAt', 'datetime');
 		$this->addType('notified', 'boolean');
 	}

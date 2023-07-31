@@ -78,11 +78,11 @@ class ReminderService {
 		);
 	}
 
-	public function create(IUser $user, int $fileId, DateTime $remindAt): void {
+	public function create(IUser $user, int $fileId, DateTime $dueDate): void {
 		$reminder = new Reminder();
 		$reminder->setUserId($user->getUID());
 		$reminder->setFileId($fileId);
-		$reminder->setRemindAt($remindAt);
+		$reminder->setDueDate($dueDate);
 		$reminder->setCreatedAt(new DateTime('now', new DateTimeZone('UTC')));
 		$this->reminderMapper->insert($reminder);
 	}
@@ -108,7 +108,7 @@ class ReminderService {
 			->setUser($user->getUID())
 			->setObject('reminder', (string)$reminder->getId())
 			->setSubject('reminder-due')
-			->setDateTime($reminder->getRemindAt());
+			->setDateTime($reminder->getDueDate());
 
 		try {
 			$this->notificationManager->notify($notification);
@@ -119,7 +119,7 @@ class ReminderService {
 	}
 
 	public function cleanUp(?int $limit = null): void {
-		$reminders = $this->reminderMapper->findToDelete($limit);
+		$reminders = $this->reminderMapper->findNotified($limit);
 		foreach ($reminders as $reminder) {
 			$this->reminderMapper->delete($reminder);
 		}

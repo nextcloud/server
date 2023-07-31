@@ -37,6 +37,7 @@ class CleanUpReminders extends TimedJob {
 		private ReminderService $reminderService,
 	) {
 		parent::__construct($time);
+
 		$this->setInterval(60 * 60 * 24);
 		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}

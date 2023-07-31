@@ -63,13 +63,13 @@ class ApiController extends OCSController {
 		try {
 			$reminder = $this->reminderService->getDueForUser($user, $fileId);
 			$reminderData = [
-				'remindAt' => $reminder->getRemindAt()->format(DateTimeInterface::ATOM), // ISO 8601
+				'dueDate' => $reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
 			];
 			return new JSONResponse($reminderData, Http::STATUS_OK);
 		} catch (DoesNotExistException $e) {
 			// Return null when no reminder is found
 			$reminderData = [
-				'remindAt' => null,
+				'dueDate' => null,
 			];
 			return new JSONResponse($reminderData, Http::STATUS_OK);
 		} catch (Throwable $th) {
@@ -81,11 +81,11 @@ class ApiController extends OCSController {
 	/**
 	 * Create a reminder
 	 *
-	 * @param string $remindAt ISO 8601 formatted date time string
+	 * @param string $dueDate ISO 8601 formatted date time string
 	 */
-	public function create(int $fileId, string $remindAt): JSONResponse {
+	public function create(int $fileId, string $dueDate): JSONResponse {
 		try {
-			$remindAt = (new DateTime($remindAt))->setTimezone(new DateTimeZone('UTC'));
+			$dueDate = (new DateTime($dueDate))->setTimezone(new DateTimeZone('UTC'));
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -97,7 +97,7 @@ class ApiController extends OCSController {
 		}
 
 		try {
-			$this->reminderService->create($user, $fileId, $remindAt);
+			$this->reminderService->create($user, $fileId, $dueDate);
 			return new JSONResponse([], Http::STATUS_OK);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
