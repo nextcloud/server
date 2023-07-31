@@ -29,6 +29,7 @@ use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -76,42 +77,10 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * Creates a new (empty) configuration and returns the resulting prefix
-	 *
-	 * Example: curl -X POST -H "OCS-APIREQUEST: true"  -u $admin:$password \
-	 *   https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config
-	 *
-	 * results in:
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data>
-	 *     <configID>s40</configID>
-	 *   </data>
-	 * </ocs>
-	 *
-	 * Failing example: if an exception is thrown (e.g. Database connection lost)
-	 * the detailed error will be logged. The output will then look like:
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>failure</status>
-	 *     <statuscode>999</statuscode>
-	 *     <message>An issue occurred when creating the new config.</message>
-	 *   </meta>
-	 *   <data/>
-	 * </ocs>
-	 *
-	 * For JSON output provide the format=json parameter
+	 * Create a new (empty) configuration and return the resulting prefix
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, array{configID: string}, array{}>
 	 * @throws OCSException
 	 */
 	public function create() {
@@ -128,27 +97,15 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * Deletes a LDAP configuration, if present.
-	 *
-	 * Example:
-	 *   curl -X DELETE -H "OCS-APIREQUEST: true" -u $admin:$password \
-	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data/>
-	 * </ocs>
+	 * Delete a LDAP configuration
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @param string $configID
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * @param string $configID ID of the config
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config deleted successfully
 	 */
 	public function delete($configID) {
 		try {
@@ -167,28 +124,17 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * Modifies a configuration
-	 *
-	 * Example:
-	 *   curl -X PUT -d "configData[ldapHost]=ldaps://my.ldap.server&configData[ldapPort]=636" \
-	 *    -H "OCS-APIREQUEST: true" -u $admin:$password \
-	 *    https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config/s60
-	 *
-	 * <?xml version="1.0"?>
-	 * <ocs>
-	 *   <meta>
-	 *     <status>ok</status>
-	 *     <statuscode>200</statuscode>
-	 *     <message>OK</message>
-	 *   </meta>
-	 *   <data/>
-	 * </ocs>
+	 * Modify a configuration
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @param string $configID
-	 * @param array $configData
-	 * @return DataResponse
+	 * @param string $configID ID of the config
+	 * @param array<string, mixed> $configData New config
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 * @throws OCSBadRequestException Modifying config is not possible
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config returned
 	 */
 	public function modify($configID, $configData) {
 		try {
@@ -220,8 +166,9 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * Retrieves a configuration
+	 * Get a configuration
 	 *
+	 * Output can look like this:
 	 * <?xml version="1.0"?>
 	 * <ocs>
 	 *   <meta>
@@ -285,10 +232,13 @@ class ConfigAPIController extends OCSController {
 	 * </ocs>
 	 *
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
-	 * @param string $configID
-	 * @param bool|string $showPassword
-	 * @return DataResponse
+	 * @param string $configID ID of the config
+	 * @param bool $showPassword Whether to show the password
+	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
 	 * @throws OCSException
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config returned
 	 */
 	public function show($configID, $showPassword = false) {
 		try {
@@ -296,7 +246,7 @@ class ConfigAPIController extends OCSController {
 
 			$config = new Configuration($configID);
 			$data = $config->getConfiguration();
-			if (!(int)$showPassword) {
+			if (!$showPassword) {
 				$data['ldapAgentPassword'] = '***';
 			}
 			foreach ($data as $key => $value) {
