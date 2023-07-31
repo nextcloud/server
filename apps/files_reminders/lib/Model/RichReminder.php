@@ -45,8 +45,7 @@ class RichReminder extends Reminder implements JsonSerializable {
 	 * @throws NodeNotFoundException
 	 */
 	public function getNode(): Node {
-		$userFolder = $this->root->getUserFolder($this->getUserId());
-		$nodes = $userFolder->getById($this->getFileId());
+		$nodes = $this->root->getUserFolder($this->getUserId())->getById($this->getFileId());
 		if (empty($nodes)) {
 			throw new NodeNotFoundException();
 		}
@@ -66,6 +65,7 @@ class RichReminder extends Reminder implements JsonSerializable {
 		return [
 			'userId' => $this->getUserId(),
 			'fileId' => $this->getFileId(),
+			'path' => $this->getNode()->getPath(),
 			'dueDate' => $this->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
 			'updatedAt' => $this->getUpdatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
 			'createdAt' => $this->getCreatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
