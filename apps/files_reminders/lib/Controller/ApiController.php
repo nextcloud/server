@@ -30,6 +30,7 @@ use DateTime;
 use DateTimeInterface;
 use DateTimeZone;
 use Exception;
+use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -95,6 +96,8 @@ class ApiController extends OCSController {
 		try {
 			$this->reminderService->createOrUpdate($user, $fileId, $dueDate);
 			return new JSONResponse([], Http::STATUS_OK);
+		} catch (NodeNotFoundException $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);

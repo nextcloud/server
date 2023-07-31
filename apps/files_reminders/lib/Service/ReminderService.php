@@ -31,6 +31,7 @@ use DateTimeZone;
 use OCA\FilesReminders\AppInfo\Application;
 use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Db\ReminderMapper;
+use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Exception\UserNotFoundException;
 use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -78,6 +79,9 @@ class ReminderService {
 		);
 	}
 
+	/**
+	 * @throws NodeNotFoundException
+	 */
 	public function createOrUpdate(IUser $user, int $fileId, DateTime $dueDate): void {
 		$now = new DateTime('now', new DateTimeZone('UTC'));
 		try {
@@ -86,6 +90,10 @@ class ReminderService {
 			$reminder->setUpdatedAt($now);
 			$this->reminderMapper->update($reminder);
 		} catch (DoesNotExistException $e) {
+			$nodes = $this->root->getUserFolder($user->getUID())->getById($fileId);
+			if (empty($nodes)) {
+				throw new NodeNotFoundException();
+			}
 			// Create new reminder if no reminder is found
 			$reminder = new Reminder();
 			$reminder->setUserId($user->getUID());
