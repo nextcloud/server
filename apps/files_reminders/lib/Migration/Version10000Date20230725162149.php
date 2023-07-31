@@ -60,6 +60,9 @@ class Version10000Date20230725162149 extends SimpleMigrationStep {
 		$table->addColumn('due_date', Types::DATETIME, [
 			'notnull' => true,
 		]);
+		$table->addColumn('updated_at', Types::DATETIME, [
+			'notnull' => true,
+		]);
 		$table->addColumn('created_at', Types::DATETIME, [
 			'notnull' => true,
 		]);
