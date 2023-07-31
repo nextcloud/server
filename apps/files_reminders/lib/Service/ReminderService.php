@@ -28,7 +28,6 @@ namespace OCA\FilesReminders\Service;
 
 use DateTime;
 use DateTimeZone;
-use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
 use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Db\ReminderMapper;
@@ -41,6 +40,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class ReminderService {
 	public function __construct(
@@ -113,8 +113,8 @@ class ReminderService {
 		try {
 			$this->notificationManager->notify($notification);
 			$this->reminderMapper->markNotified($reminder);
-		} catch (InvalidArgumentException $e) {
-			$this->logger->error('Failed to send reminder notification', $e->getTrace());
+		} catch (Throwable $th) {
+			$this->logger->error($th->getMessage(), $th->getTrace());
 		}
 	}
 
