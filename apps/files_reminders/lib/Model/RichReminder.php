@@ -24,33 +24,39 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\FilesReminders\Db;
+namespace OCA\FilesReminders\Model;
 
-use OCP\AppFramework\Db\Entity;
+use OCA\FilesReminders\Db\Reminder;
+use OCA\FilesReminders\Exception\NodeNotFoundException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 
-/**
- * @method void setUserId(string $userId)
- * @method string getUserId()
- *
- * @method void setFileId(int $fileId)
- * @method int getFileId()
- *
- * @method void setRemindAt(int $remindAt)
- * @method int getRemindAt()
- *
- * @method void setNotified(bool $notified)
- * @method bool getNotified()
- */
-class Reminder extends Entity {
-	protected $userId;
-	protected $fileId;
-	protected $remindAt;
-	protected $notified = false;
+class RichReminder extends Reminder {
+	public function __construct(
+		private Reminder $reminder,
+		private IRootFolder $root,
+	) {
+		parent::__construct();
+	}
 
-	public function __construct() {
-		$this->addType('userId', 'string');
-		$this->addType('fileId', 'integer');
-		$this->addType('remindAt', 'integer');
-		$this->addType('notified', 'boolean');
+	/**
+	 * @throws NodeNotFoundException
+	 */
+	public function getNode(): Node {
+		$userFolder = $this->root->getUserFolder($this->getUserId());
+		$nodes = $userFolder->getById($this->getFileId());
+		if (empty($nodes)) {
+			throw new NodeNotFoundException();
+		}
+		$node = reset($nodes);
+		return $node;
+	}
+
+	protected function getter(string $name): mixed {
+		return $this->reminder->getter($name);
+	}
+
+	public function __call(string $methodName, array $args) {
+		return $this->reminder->__call($methodName, $args);
 	}
 }
