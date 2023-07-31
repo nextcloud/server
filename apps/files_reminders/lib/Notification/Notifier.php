@@ -29,9 +29,8 @@ namespace OCA\FilesReminders\Notification;
 use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
+use OCA\FilesReminders\Service\ReminderService;
 use OCP\Files\FileInfo;
-use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\IAction;
@@ -42,7 +41,7 @@ class Notifier implements INotifier {
 	public function __construct(
 		protected IFactory $l10nFactory,
 		protected IURLGenerator $urlGenerator,
-		protected IRootFolder $root,
+		protected ReminderService $reminderService,
 	) {}
 
 	public function getID(): string {
@@ -66,8 +65,8 @@ class Notifier implements INotifier {
 
 		switch ($notification->getSubject()) {
 			case 'reminder-due':
-				$fileId = $notification->getSubjectParameters()['fileId'];
-				$node = $this->getNode($fileId);
+				$reminderId = (int)$notification->getObjectId();
+				$node = $this->reminderService->get($reminderId)->getNode();
 
 				$path = rtrim($node->getPath(), '/');
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
@@ -81,12 +80,13 @@ class Notifier implements INotifier {
 					['fileid' => $node->getId()],
 				);
 
-				$subject = $l->t('Reminder for {filename}');
+				// TRANSLATORS The name placeholder is for a file or folder name
+				$subject = $l->t('Reminder for {name}');
 				$notification
 					->setRichSubject(
 						$subject,
 						[
-							'filename' => [
+							'name' => [
 								'type' => 'file',
 								'id' => $node->getId(),
 								'name' => $node->getName(),
@@ -96,7 +96,7 @@ class Notifier implements INotifier {
 						],
 					)
 					->setParsedSubject(str_replace(
-						['{filename}'],
+						['{name}'],
 						[$node->getName()],
 						$subject,
 					))
@@ -126,17 +126,5 @@ class Notifier implements INotifier {
 			->setPrimary(true);
 
 		$notification->addParsedAction($action);
-	}
-
-	/**
-	 * @throws NodeNotFoundException
-	 */
-	protected function getNode(int $fileId): Node {
-		$nodes = $this->root->getById($fileId);
-		if (empty($nodes)) {
-			throw new NodeNotFoundException();
-		}
-		$node = reset($nodes);
-		return $node;
 	}
 }

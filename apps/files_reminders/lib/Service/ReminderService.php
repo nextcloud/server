@@ -32,8 +32,11 @@ use OCA\FilesReminders\AppInfo\Application;
 use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Db\ReminderMapper;
 use OCA\FilesReminders\Exception\UserNotFoundException;
+use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
@@ -44,8 +47,27 @@ class ReminderService {
 		protected IURLGenerator $urlGenerator,
 		protected INotificationManager $notificationManager,
 		protected ReminderMapper $reminderMapper,
+		protected IRootFolder $root,
 		protected LoggerInterface $logger,
 	) {}
+
+	public function get(int $id): RichReminder {
+		$reminder = $this->reminderMapper->find($id);
+		return new RichReminder($reminder, $this->root);
+	}
+
+	/**
+	 * @return RichReminder[]
+	 */
+	public function getAll(?IUser $user = null) {
+		$reminders = ($user !== null)
+			? $this->reminderMapper->findAllForUser($user)
+			: $this->reminderMapper->findAll();
+		return array_map(
+			fn (Reminder $reminder) => new RichReminder($reminder, $this->root),
+			$reminders,
+		);
+	}
 
 	/**
 	 * @throws DoesNotExistException
@@ -67,7 +89,7 @@ class ReminderService {
 			->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('files', 'folder.svg')))
 			->setUser($user->getUID())
 			->setObject('reminder', (string)$reminder->getId())
-			->setSubject('reminder-due', ['fileId' => $reminder->getFileId()])
+			->setSubject('reminder-due')
 			->setDateTime(DateTime::createFromFormat('U', (string)$reminder->getRemindAt()));
 
 		try {
