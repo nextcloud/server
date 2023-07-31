@@ -55,8 +55,8 @@ class ReminderMapper extends QBMapper {
 	public function find(int $id): Reminder {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'remind_at', 'notified')
-		->from($this->getTableName())
+		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
+			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		return $this->findEntity($qb);
@@ -68,7 +68,7 @@ class ReminderMapper extends QBMapper {
 	public function findAll() {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'remind_at', 'notified')
+		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->orderBy('remind_at', 'ASC');
 
@@ -81,8 +81,8 @@ class ReminderMapper extends QBMapper {
 	public function findAllForUser(IUser $user) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'remind_at', 'notified')
-		->from($this->getTableName())
+		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
+			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
 			->orderBy('remind_at', 'ASC');
 
@@ -95,7 +95,7 @@ class ReminderMapper extends QBMapper {
 	public function findToRemind() {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'remind_at', 'notified')
+		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->lt('remind_at', $qb->createFunction('NOW()')))
 			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
@@ -110,7 +110,7 @@ class ReminderMapper extends QBMapper {
 	public function findToDelete(?int $limit = null) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('user_id', 'file_id', 'remind_at', 'notified')
+		$qb->select('user_id', 'file_id', 'remind_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('notified', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)))
 			->orderBy('remind_at', 'ASC')

@@ -39,6 +39,9 @@ use OCP\AppFramework\Db\Entity;
  * @method void setRemindAt(DateTime $remindAt)
  * @method DateTime getRemindAt()
  *
+ * @method void setCreatedAt(DateTime $createdAt)
+ * @method DateTime getCreatedAt()
+ *
  * @method void setNotified(bool $notified)
  * @method bool getNotified()
  */
@@ -46,12 +49,14 @@ class Reminder extends Entity {
 	protected $userId;
 	protected $fileId;
 	protected $remindAt;
+	protected $createdAt;
 	protected $notified = false;
 
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('fileId', 'integer');
 		$this->addType('remindAt', 'datetime');
+		$this->addType('createdAt', 'datetime');
 		$this->addType('notified', 'boolean');
 	}
 }

@@ -58,7 +58,10 @@ class Version10000Date20230725162149 extends SimpleMigrationStep {
 			'unsigned' => true,
 		]);
 		$table->addColumn('remind_at', Types::DATETIME, [
-			'notnull' => false,
+			'notnull' => true,
+		]);
+		$table->addColumn('created_at', Types::DATETIME, [
+			'notnull' => true,
 		]);
 		$table->addColumn('notified', Types::BOOLEAN, [
 			'notnull' => false,
