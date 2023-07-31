@@ -26,12 +26,14 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Model;
 
+use DateTimeInterface;
+use JsonSerializable;
 use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 
-class RichReminder extends Reminder {
+class RichReminder extends Reminder implements JsonSerializable {
 	public function __construct(
 		private Reminder $reminder,
 		private IRootFolder $root,
@@ -58,5 +60,15 @@ class RichReminder extends Reminder {
 
 	public function __call(string $methodName, array $args) {
 		return $this->reminder->__call($methodName, $args);
+	}
+
+	public function jsonSerialize(): array {
+		return [
+			'userId' => $this->getUserId(),
+			'fileId' => $this->getFileId(),
+			'remindAt' => $this->getRemindAt()->format(DateTimeInterface::ATOM), // ISO 8601
+			'createdAt' => $this->getCreatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
+			'notified' => $this->getNotified(),
+		];
 	}
 }
