@@ -22,11 +22,13 @@ OC.L10N.register(
     "Download now" : "Deskargatu orain",
     "Please use the command line updater to update." : "Mesedez, erabili komando-lerroko eguneratzailea eguneratzeko.",
     "What's new?" : "Zer berri?",
+    "View changelog" : "Ikusi aldaketen egunkaria",
     "The update check is not yet finished. Please refresh the page." : "Egunareketen egiaztapena ez da oraindik bukatu. Mesedez freskatu orria.",
     "Your version is up to date." : "Zure bertsioa eguneratuta dago.",
     "A non-default update server is in use to be checked for updates:" : "Lehenetsia ez den eguneratze zerbitzari bat dago martxan, eguneratze berriak bilatzeko:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Behean eguneratze-kanala alda dezakezu eta horrek aplikazioen kudeaketa-orrian ere eragiten du. Adib. beta kanalera aldatu ondoren, beta aplikazioen eguneraketak aplikazioen kudeaketa orrian eskainiko zaizkizu.",
-    "Update channel:" : "Eguneraketa kanala:",
+    "Update channel" : "Eguneratze-kanala",
+    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Eguneratze-kanala aldatzeak aplikazioen kudeaketa orria eragiten du. Adib. beta kanalera aldatzean, beta eguneraketak eskainiko zaizkizu aplikazioen kudeaketa orrian.",
+    "Current update channel:" : "Eguneratze-kanala:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Edozein unetan eguneratu dezakezu bertsio berri batera. Baina ezin da bertsio zahar egonkorrago batera itzuli.",
     "Notify members of the following groups about available updates:" : "Jakinarazi hurrengo taldeen kideei eskuragarri dauden eguneraketei buruz:",
     "No groups" : "Talderik ez",
@@ -40,7 +42,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ziurtatu config.php-k ez duela <samp> app store gaitua </samp>faltsu gisa ezartzen.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta aplikazio biltegiarekin konektatu daitekeela.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong></strong>aplikazio guztiek Nextcloud bertsio honetarako bertsio bateragarria erabilgarri dute.",
-    "View changelog" : "Ikusi aldaketen egunkaria",
     "Enterprise" : "Enpresa",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Enpresa erabilerarako. Ematen du beti azken adabaki maila, baina ez da berehala eguneratzen hurrengo bertsio nagusira. Eguneratze hori gertatzen da Nextcloud GmbH-k eskala handiko eta berebiziko garrantzia duten inplementazioetarako indartze eta probaketa osagarriak egin ondoren. Kanal hau bezeroentzako soilik dago erabilgarri eta Nextcloud Enterprise paketea ematen du.",
     "Stable" : "Egonkorra",
@@ -48,6 +49,8 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
-    "Update for %1$s to version %2$s is available." : "%1$s(r)entzako %2$s bertsiora eguneratzea eskuragarri dago."
+    "Update for %1$s to version %2$s is available." : "%1$s(r)entzako %2$s bertsiora eguneratzea eskuragarri dago.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Behean eguneratze-kanala alda dezakezu eta horrek aplikazioen kudeaketa-orrian ere eragiten du. Adib. beta kanalera aldatu ondoren, beta aplikazioen eguneraketak aplikazioen kudeaketa orrian eskainiko zaizkizu.",
+    "Update channel:" : "Eguneraketa kanala:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
     "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
-    "Invitation canceled" : "S'ha cancel·lat la invitació",
-    "Invitation updated" : "S'ha actualitzat la invitació",
-    "Invitation" : "Invitació"
+    "%1$s has responded your invitation" : "%1$s ha respost a la vostra invitació"
 },
 "nplurals=2; plural=(n != 1);");

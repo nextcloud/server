@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
     "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
-    "Invitation canceled" : "Запрошення скасоване",
-    "Invitation updated" : "Запрошення оновлене",
-    "Invitation" : "Запрошення"
+    "%1$s has responded your invitation" : "%1$s відповів на ваше запрошення"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -174,9 +174,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Your attendance was updated successfully." : "出席は正常に更新されました。",
-    "Invitation canceled" : "招待のキャンセル",
-    "Invitation updated" : "招待の更新",
-    "Invitation" : "招待"
+    "Your attendance was updated successfully." : "出席は正常に更新されました。"
 },
 "nplurals=1; plural=0;");

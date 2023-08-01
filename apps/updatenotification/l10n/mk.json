@@ -20,11 +20,10 @@
     "Download now" : "Преземи",
     "Please use the command line updater to update." : "Користете ја командната линија за ажурирање.",
     "What's new?" : "Што е ново",
+    "View changelog" : "Видете ги проммените",
     "The update check is not yet finished. Please refresh the page." : "Сеуште нема извшено проверка за ажурирање, Ве молиме рефреширајте ја страната.",
     "Your version is up to date." : "Вашата верзија е ажурирана.",
     "A non-default update server is in use to be checked for updates:" : "Нестандарден сервер е поставен за проверка за ажурирање:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Може да го промените каналот за ажурирање подолу, што исто така влијае на страницата за управување со апликации. На пр. откако ќе се префрлите на бета каналот, ќе ви бидат понудени ажурирања на бета апликации на страницата за управување со апликации.",
-    "Update channel:" : "Канал за ажурирање:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Секогаш можете да ажурирате на нова верзија. Но никогаш нема да можете да се вратите на постара верзија.",
     "Notify members of the following groups about available updates:" : "Извести ги членовите на овие групи за достапните ажурирања:",
     "Only notifications for app updates are available." : "Известувања само за достапни ажурирања на апликации.",
@@ -37,7 +36,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Бидете сигурни дека во config.php датотеката параматарот <samp>appstoreenabled</samp> е поставен на false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Неможе да се поврзе со appstore или одговорот е дека нема ажурирање. Пребарајте рачно за ажурирање или бидете сигурни дека серверот има пристап до интернет и може да се поврзе со продавницата.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
-    "View changelog" : "Видете ги проммените",
     "Enterprise" : "Професионален",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Овозможува секогаш најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува откако Nextcloud GmbH ќе направи дополнително тестирање за големи и критични сервери. Овој канал е достапен само за клиентите и го имаат пакетот Nextcloud Enterprise.",
     "Stable" : "Стабилна",
@@ -45,6 +43,8 @@
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
-    "Update for %1$s to version %2$s is available." : "Достапно е ажурирање од %1$s во верзија %2$s."
+    "Update for %1$s to version %2$s is available." : "Достапно е ажурирање од %1$s во верзија %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Може да го промените каналот за ажурирање подолу, што исто така влијае на страницата за управување со апликации. На пр. откако ќе се префрлите на бета каналот, ќе ви бидат понудени ажурирања на бета апликации на страницата за управување со апликации.",
+    "Update channel:" : "Канал за ажурирање:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

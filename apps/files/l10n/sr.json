@@ -191,6 +191,7 @@
     "ascending" : "растуће",
     "descending" : "опадајуће",
     "Sort list by {column} ({direction})" : "Поређај листу по {column} ({direction})",
+    "List of files and folders." : "Листа фајлова и фолдера.",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
     "Storage informations" : "Информације о складишту`",
     "{usedQuotaByte} used" : "{usedQuotaByte} искоришћено",
@@ -210,7 +211,7 @@
     "Select file or folder to link to" : "Изаберите фајл или фолдер на који показује линк",
     "Loading current folder" : "Учитавање текућег фолдера",
     "No files in here" : "Овде нема фајлова",
-    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер",
+    "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
     "Go to the previous folder" : "Иди на претходни фолдер",
     "Go back" : "Иди назад",
     "Open the files app settings" : "Отвори подешавања апликације фајлови",
@@ -243,14 +244,13 @@
     "Create new templates folder" : "Креирај нови фолдер шаблона",
     "Unable to initialize the templates directory" : "Фолдер са шаблонима није могао да се иницијализује",
     "List of favorites files and folders." : "Листа омиљених фајлова и директоријума.",
+    "No favorites yet" : "Још нема омиљених",
+    "Files and folders you mark as favorite will show up here" : "Фајлови и фасцикле које обележите као омиљене појавиће се овде",
     "Toggle %1$s sublist" : "Укљ./искљ. %1$s подлисте",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
-    "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Upload too large" : "Отпремање је превелико",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Фајлови које желите да отпремите превазилазе ограничење отпремања на овом серверу.",
-    "No favorites yet" : "Још нема омиљених",
-    "Files and folders you mark as favorite will show up here" : "Фајлови и фасцикле које обележите као омиљене појавиће се овде",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Storage invalid" : "Неисправно складиште",
@@ -269,6 +269,7 @@
     "Deleted shares" : "Обрисана дељења",
     "Pending shares" : "Дељења на чекању",
     "Open folder {name}" : "Отвори фолдер {name}",
-    "Search for an account" : "Претражите налог"
+    "Search for an account" : "Претражите налог",
+    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

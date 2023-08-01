@@ -1,5 +1,3 @@
-/*! For license information please see NcMultiselect.js.LICENSE.txt */
-
 /*! For license information please see NcSelectTags.js.LICENSE.txt */
 
 /**

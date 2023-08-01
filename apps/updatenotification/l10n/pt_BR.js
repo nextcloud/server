@@ -22,11 +22,13 @@ OC.L10N.register(
     "Download now" : "Baixar agora",
     "Please use the command line updater to update." : "Por favor, use o updater da linha de comando para atualizar.",
     "What's new?" : "O que há de novo?",
+    "View changelog" : "Visualizar registro de alterações",
     "The update check is not yet finished. Please refresh the page." : "A verificação de atualização ainda não acabou. Atualize a página.",
     "Your version is up to date." : "Sua versão está atualizada.",
     "A non-default update server is in use to be checked for updates:" : "Um servidor de atualização não padrão está sendo verificado por atualizações:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Você pode alterar o canal de atualização abaixo, o que também afeta a página de gerenciamento de aplicativos. Por exemplo. depois de mudar para o canal beta, as atualizações de aplicativos beta serão oferecidas a você na página de gerenciamento de aplicativos.",
-    "Update channel:" : "Atualizar para:",
+    "Update channel" : "Atualizar canal",
+    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Alterar o canal de atualização também afeta a página de gerenciamento de aplicativos. Por exemplo. depois de mudar para o canal beta, as atualizações do aplicativo beta serão oferecidas a você na página de gerenciamento de aplicativos.",
+    "Current update channel:" : "Canal de atualização atual:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Sempre é possível atualizar para uma versão mais nova, mas não é possível retroceder para uma versão mais antiga.",
     "Notify members of the following groups about available updates:" : "Notificar membros dos seguintes grupos sobre atualizações disponíveis:",
     "No groups" : "Nenhum grupo",
@@ -40,7 +42,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Certifique-se de que seu config.php não tenha configurado <samp>appstoreenabled</samp> para falso.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Não foi possível conectar à App Store ou nenhuma atualização foi retornada. Pesquise manualmente por atualizações ou certifique-se de que seu servidor tenha acesso à Internet e possa se conectar à App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Todos</strong> os aplicativos têm uma versão compatível para esta versão do Nextcloud disponível.",
-    "View changelog" : "Visualizar registro de alterações",
     "Enterprise" : "Empresarial",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Para uso empresarial. Fornece sempre o nível de patch mais recente, mas não será atualizado para a próxima versão principal imediatamente. Essa atualização acontece assim que a Nextcloud GmbH fizer mais ajustes e testes para implantações de larga escala e missão crítica. Este canal está disponível apenas para clientes do Nextcloud Enterprise.",
     "Stable" : "Estável",
@@ -48,6 +49,8 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Uma versão de pré-lançamento para testar novos recursos, não indicada para produção.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível."],
-    "Update for %1$s to version %2$s is available." : "Atualização de %1$s para versão %2$s está disponível."
+    "Update for %1$s to version %2$s is available." : "Atualização de %1$s para versão %2$s está disponível.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Você pode alterar o canal de atualização abaixo, o que também afeta a página de gerenciamento de aplicativos. Por exemplo. depois de mudar para o canal beta, as atualizações de aplicativos beta serão oferecidas a você na página de gerenciamento de aplicativos.",
+    "Update channel:" : "Atualizar para:"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

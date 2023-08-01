@@ -52,7 +52,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Template;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -69,7 +68,7 @@ class ViewControllerTest extends TestCase {
 	private $l10n;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;

@@ -53,6 +53,7 @@ $.widget('oc.ocdialog', {
 				// Setting tabIndex makes the div focusable
 				tabIndex: -1,
 				role: 'dialog',
+				'aria-modal': true,
 			})
 			.insertBefore(this.element)
 		this.$dialog.append(this.element.detach())

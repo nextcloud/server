@@ -3,7 +3,7 @@
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -45,7 +45,7 @@
 		<template #before>
 			<!-- Accessibility description -->
 			<caption class="hidden-visually">
-				{{ currentView.caption || '' }}
+				{{ currentView.caption || t('files', 'List of files and folders.') }}
 				{{ t('files', 'This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.') }}
 			</caption>
 
@@ -242,6 +242,11 @@ export default Vue.extend({
 			}
 		}
 
+		// Hover state of the row should also change the favorite markers background
+		.files-list__row:hover .favorite-marker-icon svg path {
+			stroke: var(--color-background-dark);
+		}
+
 		// Entry preview or mime icon
 		.files-list__row-icon {
 			position: relative;
@@ -284,16 +289,8 @@ export default Vue.extend({
 
 			&-favorite {
 				position: absolute;
-				top: 4px;
-				right: -8px;
-				color: #a08b00;
-				// Sow a border around the icon for better contrast
-				svg path {
-					stroke: var(--color-main-background);
-					stroke-width: 10px;
-					stroke-linejoin: round;
-					paint-order: stroke
-				}
+				top: 0px;
+				right: -10px;
 			}
 		}
 

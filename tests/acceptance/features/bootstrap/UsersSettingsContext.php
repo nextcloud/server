@@ -82,7 +82,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForUser($user) {
-		return Locator::forThe()->css("div.user-list-grid div.row[data-id=$user]")->
+		return Locator::forThe()->xpath("//tbody[contains(@class, 'user-list__body')]/tr[td[@data-test='$user']]")->
 			describedAs("Row for user $user in Users Settings");
 	}
 

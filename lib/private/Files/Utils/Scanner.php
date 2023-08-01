@@ -251,9 +251,13 @@ class Scanner extends PublicEmitter {
 				$this->postProcessEntry($storage, $path);
 				$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage) {
 				$this->postProcessEntry($storage, $path);
-				$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+				if ($fileId) {
+					$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
+				} else {
+					$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+				}
 			});
 
 			if (!$storage->file_exists($relativePath)) {

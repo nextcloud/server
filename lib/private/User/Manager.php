@@ -55,7 +55,6 @@ use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -88,9 +87,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	/** @var IConfig */
 	private $config;
 
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
 	/** @var ICache */
 	private $cache;
 
@@ -100,11 +96,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	private DisplayNameCache $displayNameCache;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $oldDispatcher,
 								ICacheFactory $cacheFactory,
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
-		$this->dispatcher = $oldDispatcher;
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
@@ -211,7 +205,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->eventDispatcher, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}

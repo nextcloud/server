@@ -26,34 +26,46 @@
  */
 namespace OC\Share20;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Share;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class LegacyHooks {
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/**
-	 * LegacyHooks constructor.
-	 *
-	 * @param EventDispatcherInterface $eventDispatcher
-	 */
-	public function __construct(EventDispatcherInterface $eventDispatcher) {
+	public function __construct(IEventDispatcher $eventDispatcher) {
 		$this->eventDispatcher = $eventDispatcher;
 
-		$this->eventDispatcher->addListener('OCP\Share::preUnshare', [$this, 'preUnshare']);
-		$this->eventDispatcher->addListener('OCP\Share::postUnshare', [$this, 'postUnshare']);
-		$this->eventDispatcher->addListener('OCP\Share::postUnshareFromSelf', [$this, 'postUnshareFromSelf']);
-		$this->eventDispatcher->addListener('OCP\Share::preShare', [$this, 'preShare']);
-		$this->eventDispatcher->addListener('OCP\Share::postShare', [$this, 'postShare']);
+		$this->eventDispatcher->addListener('OCP\Share::preUnshare', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->preUnshare($event);
+			}
+		});
+		$this->eventDispatcher->addListener('OCP\Share::postUnshare', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->postUnshare($event);
+			}
+		});
+		$this->eventDispatcher->addListener('OCP\Share::postUnshareFromSelf', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->postUnshareFromSelf($event);
+			}
+		});
+		$this->eventDispatcher->addListener('OCP\Share::preShare', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->preShare($event);
+			}
+		});
+		$this->eventDispatcher->addListener('OCP\Share::postShare', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->postShare($event);
+			}
+		});
 	}
 
-	/**
-	 * @param GenericEvent $e
-	 */
 	public function preUnshare(GenericEvent $e) {
 		/** @var IShare $share */
 		$share = $e->getSubject();
@@ -62,9 +74,6 @@ class LegacyHooks {
 		\OC_Hook::emit(Share::class, 'pre_unshare', $formatted);
 	}
 
-	/**
-	 * @param GenericEvent $e
-	 */
 	public function postUnshare(GenericEvent $e) {
 		/** @var IShare $share */
 		$share = $e->getSubject();
@@ -83,9 +92,6 @@ class LegacyHooks {
 		\OC_Hook::emit(Share::class, 'post_unshare', $formatted);
 	}
 
-	/**
-	 * @param GenericEvent $e
-	 */
 	public function postUnshareFromSelf(GenericEvent $e) {
 		/** @var IShare $share */
 		$share = $e->getSubject();

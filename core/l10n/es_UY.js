@@ -26,6 +26,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Haz click en el siguiente botón para restablecer tu contraseña. Si no has solicitado restablecer su contraseña, por favor ignora este correo. ",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Haz click en la siguiente liga para restablecer su contraseña. Si no has solicitado restablecer la contraseña, por favor ignora este mensaje. ",
     "Reset your password" : "Restablecer tu contraseña",
+    "Internal error" : "Error interno",
     "Preparing update" : "Preparando actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s ",
     "Turned on maintenance mode" : "Modo mantenimiento activado",

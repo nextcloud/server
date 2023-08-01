@@ -154,7 +154,12 @@ export default {
 			if (this.category === 'updates') {
 				return apps.filter(app => app.update)
 			}
+			if (this.category === 'supported') {
+				// For customers of the Nextcloud GmbH the app level will be set to `300` for apps that are supported in their subscription
+				return apps.filter(app => app.level === 300)
+			}
 			if (this.category === 'featured') {
+				// An app level of `200` will be set for apps featured on the app store
 				return apps.filter(app => app.level === 200)
 			}
 			// filter app store categories
@@ -190,7 +195,7 @@ export default {
 			return !this.useListView && !this.useBundleView
 		},
 		useListView() {
-			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates' || this.category === 'featured')
+			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates' || this.category === 'featured' || this.category === 'supported')
 		},
 		useBundleView() {
 			return (this.category === 'app-bundles')

@@ -22,11 +22,13 @@ OC.L10N.register(
     "Download now" : "立即下載",
     "Please use the command line updater to update." : "請使用命令行更新程序進行更新。",
     "What's new?" : "有什麼新鮮事？",
+    "View changelog" : "檢視版本更新紀錄",
     "The update check is not yet finished. Please refresh the page." : "更新檢查未完成。請重新整理此頁面。",
     "Your version is up to date." : "您的版本是最新版。",
     "A non-default update server is in use to be checked for updates:" : "此非默認更新伺服器用於檢查更新：",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "您可以變更下方的更新頻道，這也會影響應用程式管理頁面。例如，切換到測試版頻道後，在應用程式管理頁更新應用程式時也會提供測試版。",
-    "Update channel:" : "更新頻道：",
+    "Update channel" : "更新頻道",
+    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "變更更新頻道也會影響應用程式管理頁面。例如，切換到測試版頻道後，將會在應用程式管理頁面中向您提供測試版應用程式更新。",
+    "Current update channel:" : "目前的更新頻道：",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "您可以更新到新版本，但無法降級到較穩定的版本。",
     "Notify members of the following groups about available updates:" : "有可用更新時通知這些以下群組的成員：",
     "No groups" : "沒有群組",
@@ -40,7 +42,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "請確定您的 config.php 中並沒有將 <samp>appstoreenabled</samp> 的值設定為 false。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "無法連接到 App Store 或根本沒有返回任何更新。手動搜索更新或確保您的伺服器可以訪問互聯網並且可以連接到 App Store。",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>所有</strong>應用程式都具有適用於此Nextcloud版本的兼容版本。",
-    "View changelog" : "檢視版本更新紀錄",
     "Enterprise" : "企業",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "企業用。一律提供最新的修補程式等級，但不會立刻更新到下一個主要版本。一旦 Nextcloud GmbH 完成對大規模與關鍵任務部署的額外強化與測試，才會進行更新。此頻道僅供客戶使用，並提供 Nextcloud Enterprise 軟體包。",
     "Stable" : "穩定",
@@ -48,6 +49,8 @@ OC.L10N.register(
     "Beta" : "Beta 測試版",
     "A pre-release version only for testing new features, not for production environments." : "預發佈版本僅用於測試新功能，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["有 <strong>%n</strong> 個應用程式沒有與此 Nextcloud 版本相容的版本。"],
-    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。"
+    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "您可以變更下方的更新頻道，這也會影響應用程式管理頁面。例如，切換到測試版頻道後，在應用程式管理頁更新應用程式時也會提供測試版。",
+    "Update channel:" : "更新頻道："
 },
 "nplurals=1; plural=0;");

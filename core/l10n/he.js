@@ -33,6 +33,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "לחיצה על הכפתור הבא תוביל לאיפוס הססמה, אם לא ביקשת לאפס ססמה יש להתעלם מהודעה זו",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "יש ללחוץ על הקישור הבא כדי לאפס ססמה, אם לא ביקשת לאפס ססמה יש להתעלם מהודעה זו",
     "Reset your password" : "איפוס הססמה שלך",
+    "Internal error" : "שגיאה פנימית",
     "Nextcloud Server" : "שרת Nextcloud",
     "Some of your link shares have been removed" : "חלק מקישורי השיתופים שלך הוסרו",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "עקב תקלת אבטחה נאלצנו להסיר חלק מקישורי השיתופים שלך. נא להיכנס לקישור לקבלת פרטים נוספים.",

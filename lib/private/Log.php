@@ -221,6 +221,12 @@ class Log implements ILogger, IDataLogger {
 			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
 		}
 
+		$hasBacktrace = isset($entry['exception']);
+		$logBacktrace = $this->config->getValue('log.backtrace', false);
+		if (!$hasBacktrace && $logBacktrace) {
+			$entry['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
+
 		try {
 			if ($level >= $minLevel) {
 				$this->writeLog($app, $entry, $level);

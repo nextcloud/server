@@ -27,6 +27,7 @@ namespace OCP\Collaboration\Reference;
 
 /**
  * @since 25.0.0
+ * @psalm-type OpenGraphObject = array{id: string, name: string, description: ?string, thumb: ?string, link: string}
  */
 class Reference implements IReference {
 	protected string $reference;
@@ -176,6 +177,7 @@ class Reference implements IReference {
 	/**
 	 * @inheritdoc
 	 * @since 25.0.0
+	 * @return array<string, mixed>
 	 */
 	public function getRichObject(): array {
 		if ($this->richObject === null) {
@@ -187,6 +189,7 @@ class Reference implements IReference {
 	/**
 	 * @inheritdoc
 	 * @since 25.0.0
+	 * @return OpenGraphObject
 	 */
 	public function getOpenGraphObject(): array {
 		return [
@@ -237,6 +240,7 @@ class Reference implements IReference {
 	/**
 	 * @inheritdoc
 	 * @since 25.0.0
+	 * @return array{richObjectType: string, richObject: array<string, mixed>, openGraphObject: OpenGraphObject, accessible: bool}
 	 */
 	public function jsonSerialize() {
 		return [

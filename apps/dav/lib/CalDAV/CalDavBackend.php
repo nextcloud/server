@@ -3139,7 +3139,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$query->select($query->func()->max('id'))
 			->from('calendarchanges');
 
-		$maxId =  $query->executeQuery()->fetchOne();
+		$result = $query->executeQuery();
+		$maxId = (int) $result->fetchOne();
+		$result->closeCursor();
 		if (!$maxId || $maxId < $keep) {
 		    return 0;
 		}

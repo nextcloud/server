@@ -154,11 +154,12 @@
 			<div :class="['modal__item managers', { 'icon-loading-small': loading.manager }]">
 				<label class="modal__label"
 					for="new-user-manager">
+					<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 					{{ t('settings', 'Manager') }}
 				</label>
 				<NcSelect class="modal__select"
 					input-id="new-user-manager"
-					:placeholder="t('settings', 'Set user manager')"
+					:placeholder="managerLabel"
 					:options="possibleManagers"
 					v-model="newUser.manager"
 					:user-select="true"
@@ -182,16 +183,6 @@ import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
-const unlimitedQuota = {
-	id: 'none',
-	label: t('settings', 'Unlimited'),
-}
-
-const defaultQuota = {
-	id: 'default',
-	label: t('settings', 'Default quota'),
-}
-
 export default {
 	name: 'NewUserModal',
 
@@ -214,8 +205,8 @@ export default {
 			required: true,
 		},
 
-		showConfig: {
-			type: Object,
+		quotaOptions: {
+			type: Array,
 			required: true,
 		},
 	},
@@ -223,10 +214,16 @@ export default {
 	data() {
 		return {
 			possibleManagers: [],
+			// TRANSLATORS This string describes a manager in the context of an organization
+			managerLabel: t('settings', 'Set user manager'),
 		}
 	},
 
 	computed: {
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
 		settings() {
 			return this.$store.getters.getServerData
 		},
@@ -263,20 +260,6 @@ export default {
 				group.$isDisabled = group.canAdd === false
 				return group
 			})
-		},
-
-		quotaOptions() {
-			// convert the preset array into objects
-			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({
-				id: cur,
-				label: cur,
-			}), [])
-			// add default presets
-			if (this.settings.allowUnlimitedQuota) {
-				quotaPreset.unshift(unlimitedQuota)
-			}
-			quotaPreset.unshift(defaultQuota)
-			return quotaPreset
 		},
 
 		languages() {

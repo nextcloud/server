@@ -32,6 +32,9 @@
 
 namespace OCP\Files;
 
+use OCP\Constants;
+use OCP\Files\Mount\IMovableMount;
+
 /**
  * This class provides different helper functions related to WebDAV protocol
  *
@@ -73,10 +76,21 @@ class DavUtil {
 			$p .= 'D';
 		}
 		if ($info->isUpdateable()) {
-			$p .= 'NV'; // Renameable, Moveable
+			$p .= 'NV'; // Renameable, Movable
 		}
+
+		// since we always add update permissions for the root of movable mounts
+		// we need to check the shared cache item directly to determine if it's writable
+		$storage = $info->getStorage();
+		if ($info->getInternalPath() === '' && $info->getMountPoint() instanceof IMovableMount) {
+			$rootEntry = $storage->getCache()->get('');
+			$isWritable = $rootEntry->getPermissions() & Constants::PERMISSION_UPDATE;
+		} else {
+			$isWritable = $info->isUpdateable();
+		}
+
 		if ($info->getType() === FileInfo::TYPE_FILE) {
-			if ($info->isUpdateable()) {
+			if ($isWritable) {
 				$p .= 'W';
 			}
 		} else {

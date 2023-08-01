@@ -64,7 +64,8 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "name": {
                         "type": "string"
@@ -72,10 +73,7 @@
                     "resources": {
                         "type": "array",
                         "items": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "object"
-                            }
+                            "$ref": "#/components/schemas/OpenGraphObject"
                         }
                     }
                 }
@@ -225,7 +223,7 @@
                     }
                 }
             },
-            "Reference": {
+            "OpenGraphObject": {
                 "type": "object",
                 "required": [
                     "richObjectType",
@@ -271,6 +269,32 @@
                                 "type": "string"
                             }
                         }
+                    },
+                    "accessible": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Reference": {
+                "type": "object",
+                "required": [
+                    "richObjectType",
+                    "richObject",
+                    "openGraphObject",
+                    "accessible"
+                ],
+                "properties": {
+                    "richObjectType": {
+                        "type": "string"
+                    },
+                    "richObject": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "openGraphObject": {
+                        "$ref": "#/components/schemas/OpenGraphObject"
                     },
                     "accessible": {
                         "type": "boolean"
@@ -345,6 +369,70 @@
                     },
                     "extendedSupport": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "TextProcessingTask": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "type",
+                    "status",
+                    "userId",
+                    "appId",
+                    "input",
+                    "output",
+                    "identifier"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "oneOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
+                    },
+                    "userId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "appId": {
+                        "type": "string"
+                    },
+                    "input": {
+                        "type": "string"
+                    },
+                    "output": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "identifier": {
+                        "type": "string"
                     }
                 }
             },
@@ -485,11 +573,6 @@
                     "200": {
                         "description": "Avatar returned",
                         "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
                             "X-NC-IsCustomAvatar": {
                                 "schema": {
                                     "type": "integer",
@@ -510,10 +593,7 @@
                         "description": "Avatar not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -561,11 +641,6 @@
                     "200": {
                         "description": "Avatar returned",
                         "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
                             "X-NC-IsCustomAvatar": {
                                 "schema": {
                                     "type": "integer",
@@ -586,10 +661,7 @@
                         "description": "Avatar not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -635,13 +707,6 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -653,13 +718,6 @@
                     },
                     "201": {
                         "description": "Avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -724,13 +782,6 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -742,13 +793,6 @@
                     },
                     "201": {
                         "description": "Avatar returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -806,10 +850,7 @@
                         "description": "Login flow not found or completed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -869,7 +910,7 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 1
+                            "default": -1
                         }
                     },
                     {
@@ -895,7 +936,7 @@
                     {
                         "name": "a",
                         "in": "query",
-                        "description": "Not crop the preview",
+                        "description": "Whether to not crop the preview",
                         "schema": {
                             "type": "integer",
                             "default": 0
@@ -923,13 +964,6 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -943,10 +977,7 @@
                         "description": "Getting preview is not possible",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -954,21 +985,15 @@
                         "description": "Getting preview is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
                     "404": {
-                        "description": "File not found",
+                        "description": "Preview not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -978,7 +1003,7 @@
         "/index.php/core/preview.png": {
             "get": {
                 "operationId": "preview-get-preview",
-                "summary": "Get a preview by file ID",
+                "summary": "Get a preview by file path",
                 "tags": [
                     "preview"
                 ],
@@ -1023,7 +1048,7 @@
                     {
                         "name": "a",
                         "in": "query",
-                        "description": "Not crop the preview",
+                        "description": "Whether to not crop the preview",
                         "schema": {
                             "type": "integer",
                             "default": 0
@@ -1051,13 +1076,6 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -1071,10 +1089,7 @@
                         "description": "Getting preview is not possible",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1082,21 +1097,15 @@
                         "description": "Getting preview is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
                     "404": {
-                        "description": "File not found",
+                        "description": "Preview not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1133,15 +1142,8 @@
                 "responses": {
                     "200": {
                         "description": "Preview returned",
-                        "headers": {
-                            "Content-Disposition": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
-                            "image/*": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
@@ -1212,10 +1214,7 @@
                         "description": "Device should not be wiped",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1254,10 +1253,7 @@
                         "description": "Wipe finished successfully",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1265,10 +1261,7 @@
                         "description": "Device should not be wiped",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1471,10 +1464,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1574,10 +1564,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1757,8 +1744,7 @@
                                                     "required": [
                                                         "changelogURL",
                                                         "product",
-                                                        "version",
-                                                        "whatsNew"
+                                                        "version"
                                                     ],
                                                     "properties": {
                                                         "changelogURL": {
@@ -1820,10 +1806,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1888,10 +1871,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1978,7 +1958,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to create app password",
+                        "description": "Creating app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2056,7 +2036,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to rotate app password",
+                        "description": "Rotating app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2115,10 +2095,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2127,7 +2104,7 @@
                         }
                     },
                     "403": {
-                        "description": "Not allowed to delete app password",
+                        "description": "Deleting app password is not allowed",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -2244,10 +2221,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2347,10 +2321,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2448,10 +2419,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2479,10 +2447,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2587,10 +2552,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2618,10 +2580,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2735,10 +2694,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2766,10 +2722,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2883,10 +2836,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2914,10 +2864,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3026,10 +2973,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3144,10 +3088,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3175,10 +3116,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3206,10 +3144,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3374,7 +3309,15 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference"
+                                                                "nullable": true,
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    },
+                                                                    {
+                                                                        "type": "object"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3473,8 +3416,15 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    },
+                                                                    {
+                                                                        "type": "object"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3713,10 +3663,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3963,8 +3910,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
+                                                    "nullable": true
                                                 }
                                             }
                                         }
@@ -4299,6 +4245,427 @@
                 }
             }
         },
+        "/ocs/v2.php/textprocessing/tasktypes": {
+            "get": {
+                "operationId": "text_processing_api-task-types",
+                "summary": "This endpoint returns all available LanguageModel task types",
+                "tags": [
+                    "text_processing_api"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "types"
+                                                    ],
+                                                    "properties": {
+                                                        "types": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "id",
+                                                                "name",
+                                                                "description"
+                                                            ],
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "string"
+                                                                },
+                                                                "name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/textprocessing/schedule": {
+            "post": {
+                "operationId": "text_processing_api-schedule",
+                "summary": "This endpoint allows scheduling a language model task",
+                "tags": [
+                    "text_processing_api"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "input",
+                        "in": "query",
+                        "description": "Input text",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Type of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "appId",
+                        "in": "query",
+                        "description": "ID of the app that will execute the task",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "identifier",
+                        "in": "query",
+                        "description": "An arbitrary identifier for the task",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task scheduled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "task"
+                                                    ],
+                                                    "properties": {
+                                                        "task": {
+                                                            "$ref": "#/components/schemas/TextProcessingTask"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Scheduling task is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "Scheduling task is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/textprocessing/task/{id}": {
+            "get": {
+                "operationId": "text_processing_api-get-task",
+                "summary": "This endpoint allows checking the status and results of a task. Tasks are removed 1 week after receiving their last update.",
+                "tags": [
+                    "text_processing_api"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "task"
+                                                    ],
+                                                    "properties": {
+                                                        "task": {
+                                                            "$ref": "#/components/schemas/TextProcessingTask"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Task not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/status.php": {
             "get": {
                 "operationId": "get-status",
@@ -4318,10 +4685,6 @@
         }
     },
     "tags": [
-        {
-            "name": "lost",
-            "description": "Class LostController\nSuccessfully changing a password will emit the post_passwordReset hook."
-        },
         {
             "name": "avatar",
             "description": "Class AvatarController"

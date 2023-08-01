@@ -39,8 +39,8 @@
 
 		<!-- Empty content placeholder -->
 		<NcEmptyContent v-else-if="!loading && isEmptyDir"
-			:title="t('files', 'No files in here')"
-			:description="t('files', 'No files or folders have been deleted yet')"
+			:title="currentView?.emptyTitle || t('files', 'No files in here')"
+			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
 			<template #action>
 				<NcButton v-if="dir !== '/'"
@@ -51,7 +51,7 @@
 				</NcButton>
 			</template>
 			<template #icon>
-				<TrashCan />
+				<NcIconSvgWrapper :svg="currentView.icon" />
 			</template>
 		</NcEmptyContent>
 
@@ -72,7 +72,6 @@ import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 import Vue from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
@@ -85,6 +84,7 @@ import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import Navigation, { ContentsWithRoot } from '../services/Navigation.ts'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
 export default Vue.extend({
 	name: 'FilesList',
@@ -95,8 +95,8 @@ export default Vue.extend({
 		NcAppContent,
 		NcButton,
 		NcEmptyContent,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
-		TrashCan,
 	},
 
 	mixins: [

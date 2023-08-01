@@ -37,6 +37,9 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OCP\Files\Events\FileCacheUpdated;
+use OCP\Files\Events\NodeAddedToCache;
+use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\File;
 use OC\ForbiddenException;
 use OC\Metadata\MetadataManager;
@@ -58,11 +61,16 @@ class Scan extends Base {
 	protected int $foldersCounter = 0;
 	protected int $filesCounter = 0;
 	protected int $errorsCounter = 0;
+	protected int $newCounter = 0;
+	protected int $updatedCounter = 0;
+	protected int $removedCounter = 0;
 
 	public function __construct(
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
-		private MetadataManager $metadataManager
+		private MetadataManager $metadataManager,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct();
 	}
@@ -149,6 +157,16 @@ class Scan extends Base {
 		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output) {
 			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
 			++$this->errorsCounter;
+		});
+
+		$this->eventDispatcher->addListener(NodeAddedToCache::class, function() {
+			++$this->newCounter;
+		});
+		$this->eventDispatcher->addListener(FileCacheUpdated::class, function() {
+			++$this->updatedCounter;
+		});
+		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function() {
+			++$this->removedCounter;
 		});
 
 		try {
@@ -268,9 +286,14 @@ class Scan extends Base {
 		// Stop the timer
 		$this->execTime += microtime(true);
 
+		$this->logger->info("Completed scan of {$this->filesCounter} files in {$this->foldersCounter} folder. Found {$this->newCounter} new, {$this->updatedCounter} updated and {$this->removedCounter} removed items");
+
 		$headers = [
 			'Folders',
 			'Files',
+			'New',
+			'Updated',
+			'Removed',
 			'Errors',
 			'Elapsed time',
 		];
@@ -278,6 +301,9 @@ class Scan extends Base {
 		$rows = [
 			$this->foldersCounter,
 			$this->filesCounter,
+			$this->newCounter,
+			$this->updatedCounter,
+			$this->removedCounter,
 			$this->errorsCounter,
 			$niceDate,
 		];

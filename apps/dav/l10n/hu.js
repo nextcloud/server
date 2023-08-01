@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
-    "Invitation canceled" : "Meghívás lemondva",
-    "Invitation updated" : "Meghívó frissítve",
-    "Invitation" : "Meghívó"
+    "%1$s has responded your invitation" : "%1$s válaszolt a meghívására"
 },
 "nplurals=2; plural=(n != 1);");

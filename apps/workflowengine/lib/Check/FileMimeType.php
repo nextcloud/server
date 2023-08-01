@@ -107,13 +107,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		$actualValue = $this->getActualValue();
-		$plainMimetypeResult = $this->executeStringCheck($operator, $value, $actualValue);
-		if ($actualValue === 'httpd/unix-directory') {
-			return $plainMimetypeResult;
-		}
-		$detectMimetypeBasedOnFilenameResult = $this->executeStringCheck($operator, $value, $this->mimeTypeDetector->detectPath($this->path));
-		return $plainMimetypeResult || $detectMimetypeBasedOnFilenameResult;
+		return $this->executeStringCheck($operator, $value, $this->getActualValue());
 	}
 
 	/**

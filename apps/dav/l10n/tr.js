@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Invitation canceled" : "Çağrı iptal edildi",
-    "Invitation updated" : "Çağrı güncellendi",
-    "Invitation" : "Çağrı"
+    "%1$s has responded your invitation" : "%1$s çağrınızı yanıtladı"
 },
 "nplurals=2; plural=(n > 1);");

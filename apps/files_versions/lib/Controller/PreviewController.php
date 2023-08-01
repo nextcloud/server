@@ -69,11 +69,17 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @param string $file
-	 * @param int $x
-	 * @param int $y
-	 * @param string $version
-	 * @return DataResponse|FileDisplayResponse
+	 * Get the preview for a file version
+	 *
+	 * @param string $file Path of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param string $version Version of the file to get the preview for
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 404: Preview not found
 	 */
 	public function getPreview(
 		string $file = '',

@@ -142,9 +142,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ota yhteys suoraan järjestäjään.",
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
-    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "Invitation canceled" : "Kutsu peruttu",
-    "Invitation updated" : "Kutsu päivitetty",
-    "Invitation" : "Kutsu"
+    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti."
 },
 "nplurals=2; plural=(n != 1);");

@@ -189,8 +189,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
     "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
-    "Invitation canceled" : "Позивница отказана",
-    "Invitation updated" : "Позивница ажурирана",
-    "Invitation" : "Позивница"
+    "%1$s has responded your invitation" : "%1$s је одговорио на вашу позивницу"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -130,9 +130,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Pro praghere, cuntata deretu a s'organizadore.",
     "Are you accepting the invitation?" : "Cheres atzetare s'invitu?",
     "Tentative" : "Intentu",
-    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
-    "Invitation canceled" : "Invitu annulladu",
-    "Invitation updated" : "Invitu agiornadu",
-    "Invitation" : "Invitu"
+    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta."
 },
 "nplurals=2; plural=(n != 1);");

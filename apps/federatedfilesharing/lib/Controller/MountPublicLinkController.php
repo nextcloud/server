@@ -82,10 +82,12 @@ class MountPublicLinkController extends Controller {
 	 * @PublicPage
 	 * @BruteForceProtection(action=publicLink2FederatedShare)
 	 *
-	 * @param string $shareWith
-	 * @param string $token
-	 * @param string $password
-	 * @return JSONResponse
+	 * @param string $shareWith Username to share with
+	 * @param string $token Token of the share
+	 * @param string $password Password of the share
+	 * @return JSONResponse<Http::STATUS_OK, array{remoteUrl: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * 200: Remote URL returned
+	 * 400: Creating share is not possible
 	 */
 	public function createFederatedShare($shareWith, $token, $password = '') {
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
