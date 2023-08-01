@@ -89,6 +89,7 @@ class CheckGroup extends Command {
 			if ($exists === true) {
 				$output->writeln('The group is still available on LDAP.');
 				if ($input->getOption('update')) {
+					$this->backend->getLDAPAccess($gid)->connection->clearCache();
 					$this->updateGroup($gid, $output, $wasMapped);
 				}
 				return 0;
