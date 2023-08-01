@@ -30,10 +30,14 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Mapping\GroupMapping;
-use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Service\UpdateGroupsService;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,6 +50,7 @@ class CheckGroup extends Command {
 		protected Group_Proxy $backend,
 		protected Helper $helper,
 		protected GroupMapping $mapping,
+		protected IEventDispatcher $dispatcher,
 	) {
 		parent::__construct();
 	}
@@ -75,6 +80,9 @@ class CheckGroup extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$this->dispatcher->addListener(GroupCreatedEvent::class, fn ($event) => $this->onGroupCreatedEvent($event, $output));
+		$this->dispatcher->addListener(UserAddedEvent::class, fn ($event) => $this->onUserAddedEvent($event, $output));
+		$this->dispatcher->addListener(UserRemovedEvent::class, fn ($event) => $this->onUserRemovedEvent($event, $output));
 		try {
 			$this->assertAllowed($input->getOption('force'));
 			$gid = $input->getArgument('ocName');
@@ -103,6 +111,22 @@ class CheckGroup extends Command {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
 			return 1;
 		}
+	}
+
+	public function onGroupCreatedEvent(GroupChangedEvent $event, OutputInterface $output): void {
+		$output->writeln('<info>The group '.$event->getGroup()->getGID().' was added to Nextcloud with '.$event->getGroup()->count().' users</info>');
+	}
+
+	public function onUserAddedEvent(UserAddedEvent $event, OutputInterface $output): void {
+		$user = $event->getUser();
+		$group = $event->getGroup();
+		$output->writeln('<info>The user '.$user->getUID().' was added to group '.$group->getGID().'</info>');
+	}
+
+	public function onUserRemovedEvent(UserRemovedEvent $event, OutputInterface $output): void {
+		$user = $event->getUser();
+		$group = $event->getGroup();
+		$output->writeln('<info>The user '.$user->getUID().' was removed from group '.$group->getGID().'</info>');
 	}
 
 	/**
