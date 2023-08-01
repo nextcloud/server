@@ -54,6 +54,9 @@ class ReminderService {
 		protected LoggerInterface $logger,
 	) {}
 
+	/**
+	 * @throws DoesNotExistException
+	 */
 	public function get(int $id): RichReminder {
 		$reminder = $this->reminderMapper->find($id);
 		return new RichReminder($reminder, $this->root);
