@@ -142,6 +142,8 @@ OC.L10N.register(
     "Connection to server lost" : "اتصال به سرور از دست رفته است",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["%nمشکل بارگذاری صفحه، بارگیری مجدد در  ثانیه","%nمشکل بارگذاری صفحه، بارگیری مجدد در  ثانیه"],
     "Hide details" : "مخفی کردن جزئیات",
+    "New in" : "جدید در",
+    "View changelog" : "مشاهده تغییرات",
     "Very weak password" : "رمز عبور بسیار ضعیف",
     "Weak password" : "رمز عبور ضعیف",
     "So-so password" : "رمز عبور متوسط",
