@@ -5,8 +5,16 @@
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
 					<DragVerticalIcon /> <span class="draggable__number">{{ i + 1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
-					<NcButton aria-label="Move up" type="tertiary" @click="moveUp(i)"><template #icon><ArrowUpIcon /></template></NcButton>
-					<NcButton aria-label="Move down" type="tertiary" @click="moveDown(i)"><template #icon><ArrowDownIcon /></template></NcButton>
+					<NcButton aria-label="Move up" type="tertiary" @click="moveUp(i)">
+						<template #icon>
+							<ArrowUpIcon />
+						</template>
+					</NcButton>
+					<NcButton aria-label="Move down" type="tertiary" @click="moveDown(i)">
+						<template #icon>
+							<ArrowDownIcon />
+						</template>
+					</NcButton>
 				</div>
 			</draggable>
 		</NcSettingsSection>
@@ -22,7 +30,7 @@
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>
-			<template v-if="sttProviders.length === 0">
+			<template v-if="!hasStt">
 				<NcCheckboxRadioSwitch disabled type="radio">
 					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
 				</NcCheckboxRadioSwitch>
@@ -49,7 +57,7 @@
 					<p>&nbsp;</p>
 				</div>
 			</template>
-			<template v-if="Object.keys(settings['ai.textprocessing_provider_preferences']).length === 0 || !Array.isArray(textProcessingTaskTypes)">
+			<template v-if="!hasTextProcessing">
 				<p>{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}</p>
 			</template>
 		</NcSettingsSection>
@@ -94,6 +102,14 @@ export default {
 			textProcessingTaskTypes: loadState('settings', 'ai-text-processing-task-types'),
 			settings: loadState('settings', 'ai-settings'),
 		}
+	},
+	computed: {
+		hasStt() {
+			return this.sttProviders.length > 0
+		},
+		hasTextProcessing() {
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
+		},
 	},
 	methods: {
 	  moveUp(i) {
