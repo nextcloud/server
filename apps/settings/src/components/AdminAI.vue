@@ -4,9 +4,9 @@
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
-					<DragVerticalIcon /> <span class="draggable__number">{{ i+1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
-					<NcButton aria-label="Move up" type="tertiary" @click="settings['ai.translation_provider_preferences'].splice(Math.min(i-1,0), 0, ...settings['ai.translation_provider_preferences'].splice(i, 1)); saveChanges()"><template #icon><ArrowUpIcon /></template></NcButton>
-					<NcButton aria-label="Move down" type="tertiary" @click="settings['ai.translation_provider_preferences'].splice(i+1, 0, ...settings['ai.translation_provider_preferences'].splice(i, 1)); saveChanges()"><template #icon><ArrowDownIcon /></template></NcButton>
+					<DragVerticalIcon /> <span class="draggable__number">{{ i + 1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
+					<NcButton aria-label="Move up" type="tertiary" @click="moveUp(i)"><template #icon><ArrowUpIcon /></template></NcButton>
+					<NcButton aria-label="Move down" type="tertiary" @click="moveDown(i)"><template #icon><ArrowDownIcon /></template></NcButton>
 				</div>
 			</draggable>
 		</NcSettingsSection>
@@ -96,6 +96,22 @@ export default {
 		}
 	},
 	methods: {
+	  moveUp(i) {
+			this.settings['ai.translation_provider_preferences'].splice(
+			  Math.min(i - 1, 0),
+				0,
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+			)
+			this.saveChanges()
+		},
+		moveDown(i) {
+	  	this.settings['ai.translation_provider_preferences'].splice(
+				i + 1,
+				0,
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+			)
+			this.saveChanges()
+		},
 		async saveChanges() {
 			this.loading = true
 			const data = { settings: this.settings }
