@@ -41,6 +41,10 @@ class Version10000Date20230725162149 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
+		if ($schema->hasTable(ReminderMapper::TABLE_NAME)) {
+			return null;
+		}
+
 		$table = $schema->createTable(ReminderMapper::TABLE_NAME);
 		$table->addColumn('id', Types::BIGINT, [
 			'autoincrement' => true,
