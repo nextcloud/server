@@ -30,6 +30,7 @@ use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Service\ReminderService;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\FileInfo;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
@@ -66,8 +67,13 @@ class Notifier implements INotifier {
 		switch ($notification->getSubject()) {
 			case 'reminder-due':
 				$reminderId = (int)$notification->getObjectId();
-				$node = $this->reminderService->get($reminderId)->getNode();
+				try {
+					$reminder = $this->reminderService->get($reminderId);
+				} catch (DoesNotExistException $e) {
+					throw new InvalidArgumentException();
+				}
 
+				$node = $reminder->getNode();
 				$path = rtrim($node->getPath(), '/');
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
 					// Remove /user/files/...
