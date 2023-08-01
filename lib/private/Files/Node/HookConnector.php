@@ -92,6 +92,10 @@ class HookConnector {
 	}
 
 	public function write($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'preWrite', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::preWrite', new GenericEvent($node));
@@ -101,6 +105,10 @@ class HookConnector {
 	}
 
 	public function postWrite($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'postWrite', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::postWrite', new GenericEvent($node));
@@ -110,6 +118,10 @@ class HookConnector {
 	}
 
 	public function create($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'preCreate', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::preCreate', new GenericEvent($node));
@@ -119,6 +131,10 @@ class HookConnector {
 	}
 
 	public function postCreate($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'postCreate', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::postCreate', new GenericEvent($node));
@@ -128,6 +144,10 @@ class HookConnector {
 	}
 
 	public function delete($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->deleteMetaCache[$node->getPath()] = $node->getFileInfo();
 		$this->root->emit('\OC\Files', 'preDelete', [$node]);
@@ -138,6 +158,10 @@ class HookConnector {
 	}
 
 	public function postDelete($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		unset($this->deleteMetaCache[$node->getPath()]);
 		$this->root->emit('\OC\Files', 'postDelete', [$node]);
@@ -148,6 +172,10 @@ class HookConnector {
 	}
 
 	public function touch($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'preTouch', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::preTouch', new GenericEvent($node));
@@ -157,6 +185,10 @@ class HookConnector {
 	}
 
 	public function postTouch($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'postTouch', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::postTouch', new GenericEvent($node));
@@ -166,6 +198,10 @@ class HookConnector {
 	}
 
 	public function rename($arguments) {
+		if (!is_string($arguments['oldpath']) || !is_string($arguments['newpath'])) {
+			return;
+		}
+
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'preRename', [$source, $target]);
@@ -176,6 +212,10 @@ class HookConnector {
 	}
 
 	public function postRename($arguments) {
+		if (!is_string($arguments['oldpath']) || !is_string($arguments['newpath'])) {
+			return;
+		}
+
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'postRename', [$source, $target]);
@@ -186,6 +226,10 @@ class HookConnector {
 	}
 
 	public function copy($arguments) {
+		if (!is_string($arguments['oldpath']) || !is_string($arguments['newpath'])) {
+			return;
+		}
+
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'preCopy', [$source, $target]);
@@ -196,6 +240,10 @@ class HookConnector {
 	}
 
 	public function postCopy($arguments) {
+		if (!is_string($arguments['oldpath']) || !is_string($arguments['newpath'])) {
+			return;
+		}
+
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'postCopy', [$source, $target]);
@@ -206,6 +254,10 @@ class HookConnector {
 	}
 
 	public function read($arguments) {
+		if (!is_string($arguments['path'])) {
+			return;
+		}
+
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'read', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::read', new GenericEvent([$node]));
