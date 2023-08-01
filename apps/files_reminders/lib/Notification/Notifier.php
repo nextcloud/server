@@ -102,11 +102,6 @@ class Notifier implements INotifier {
 							],
 						],
 					)
-					->setParsedSubject(str_replace(
-						['{name}'],
-						[$node->getName()],
-						$subject,
-					))
 					->setLink($link);
 
 				$label = match ($node->getType()) {
