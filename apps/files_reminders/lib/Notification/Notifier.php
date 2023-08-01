@@ -55,7 +55,6 @@ class Notifier implements INotifier {
 
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws NodeNotFoundException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
@@ -73,7 +72,11 @@ class Notifier implements INotifier {
 					throw new InvalidArgumentException();
 				}
 
-				$node = $reminder->getNode();
+				try {
+					$node = $reminder->getNode();
+				} catch (NodeNotFoundException $e) {
+					throw new InvalidArgumentException();
+				}
 				$path = rtrim($node->getPath(), '/');
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
 					// Remove /user/files/...
