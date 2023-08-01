@@ -36,6 +36,7 @@ use OCA\FilesReminders\Exception\UserNotFoundException;
 use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -115,6 +116,13 @@ class ReminderService {
 	public function remove(IUser $user, int $fileId): void {
 		$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
 		$this->reminderMapper->delete($reminder);
+	}
+
+	public function removeAllForNode(Node $node): void {
+		$reminders = $this->reminderMapper->findAllForNode($node);
+		foreach ($reminders as $reminder) {
+			$this->reminderMapper->delete($reminder);
+		}
 	}
 
 	/**
