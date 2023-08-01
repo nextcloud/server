@@ -183,19 +183,24 @@ export default Vue.extend({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
+			const identifiers = [
+				// Sort favorites first if enabled
+				...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
+				// Sort folders first if sorting by name
+				...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
+				// Use sorting mode if NOT basename (to be able to use displayName too)
+				...this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : [],
+				// Use displayName if available, fallback to name
+				v => v.attributes?.displayName || v.basename,
+				// Finally, use basename if all previous sorting methods failed
+				v => v.basename,
+			]
+			const orders = new Array(identifiers.length).fill(this.isAscSorting ? 'asc' : 'desc')
+
 			return orderBy(
 				[...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)],
-				[
-					// Sort favorites first if enabled
-					...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
-					// Sort folders first if sorting by name
-					...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
-					// Use sorting mode
-					v => v[this.sortingMode],
-					// Finally, fallback to name
-					v => v.basename,
-				],
-				this.isAscSorting ? ['asc', 'asc', 'asc'] : ['desc', 'desc', 'desc'],
+				identifiers,
+				orders,
 			)
 		},
 

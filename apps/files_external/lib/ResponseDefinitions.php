@@ -35,6 +35,7 @@ namespace OCA\Files_External;
  *     permissions: int,
  *     id: int,
  *     class: string,
+ *     config: array<array-key, mixed>,
  * }
  */
 class ResponseDefinitions {

@@ -134,7 +134,7 @@ class GlobalStoragesController extends StoragesController {
 		$this->updateStorageStatus($newStorage);
 
 		return new DataResponse(
-			$this->formatStorageForUI($newStorage),
+			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
 		);
 	}
@@ -201,7 +201,7 @@ class GlobalStoragesController extends StoragesController {
 		$this->updateStorageStatus($storage, $testOnly);
 
 		return new DataResponse(
-			$this->formatStorageForUI($storage),
+			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
 	}

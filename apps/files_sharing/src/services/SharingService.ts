@@ -31,14 +31,14 @@ import logger from './logger'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
 
-export type OCSResponse = {
+export type OCSResponse<T> = {
 	ocs: {
 		meta: {
 			status: string
 			statuscode: number
 			message: string
 		},
-		data: []
+		data: T[]
 	}
 }
 
@@ -87,7 +87,7 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 	}
 }
 
-const getShares = function(shared_with_me = false): AxiosPromise<OCSResponse> {
+const getShares = function(shared_with_me = false): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares')
 	return axios.get(url, {
 		headers,
@@ -98,15 +98,15 @@ const getShares = function(shared_with_me = false): AxiosPromise<OCSResponse> {
 	})
 }
 
-const getSharedWithYou = function(): AxiosPromise<OCSResponse> {
+const getSharedWithYou = function(): AxiosPromise<OCSResponse<any>> {
 	return getShares(true)
 }
 
-const getSharedWithOthers = function(): AxiosPromise<OCSResponse> {
+const getSharedWithOthers = function(): AxiosPromise<OCSResponse<any>> {
 	return getShares()
 }
 
-const getRemoteShares = function(): AxiosPromise<OCSResponse> {
+const getRemoteShares = function(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/remote_shares')
 	return axios.get(url, {
 		headers,
@@ -116,7 +116,7 @@ const getRemoteShares = function(): AxiosPromise<OCSResponse> {
 	})
 }
 
-const getPendingShares = function(): AxiosPromise<OCSResponse> {
+const getPendingShares = function(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares/pending')
 	return axios.get(url, {
 		headers,
@@ -126,7 +126,7 @@ const getPendingShares = function(): AxiosPromise<OCSResponse> {
 	})
 }
 
-const getRemotePendingShares = function(): AxiosPromise<OCSResponse> {
+const getRemotePendingShares = function(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/remote_shares/pending')
 	return axios.get(url, {
 		headers,
@@ -136,7 +136,7 @@ const getRemotePendingShares = function(): AxiosPromise<OCSResponse> {
 	})
 }
 
-const getDeletedShares = function(): AxiosPromise<OCSResponse> {
+const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/deletedshares')
 	return axios.get(url, {
 		headers,
@@ -147,7 +147,7 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse> {
 }
 
 export const getContents = async (sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> => {
-	const promises = [] as AxiosPromise<OCSResponse>[]
+	const promises = [] as AxiosPromise<OCSResponse<any>>[]
 
 	if (sharedWithYou) {
 		promises.push(getSharedWithYou(), getRemoteShares())
