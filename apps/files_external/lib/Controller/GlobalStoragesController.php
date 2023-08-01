@@ -34,9 +34,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Global storages controller
@@ -49,7 +49,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param GlobalStoragesService $globalStoragesService storage service
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 * @param IConfig $config
@@ -59,7 +59,7 @@ class GlobalStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config
