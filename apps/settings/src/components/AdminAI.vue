@@ -46,7 +46,7 @@
 					<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
 						:clearable="false"
 						:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
-						@change="saveChanges">
+						@input="saveChanges">
 						<template #option="{label}">
 							{{ textProcessingProviders.find(p => p.class === label)?.name }}
 						</template>
