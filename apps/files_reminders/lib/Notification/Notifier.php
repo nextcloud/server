@@ -96,11 +96,9 @@ class Notifier implements INotifier {
 						$subject,
 						[
 							'name' => [
-								'type' => 'file',
+								'type' => 'highlight',
 								'id' => $node->getId(),
 								'name' => $node->getName(),
-								'path' => $path,
-								'link' => $link,
 							],
 						],
 					)
