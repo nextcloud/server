@@ -33,6 +33,7 @@ use OCA\FilesReminders\Service\ReminderService;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -52,6 +53,13 @@ class ListCommand extends Base {
 				'user',
 				InputArgument::OPTIONAL,
 				'list reminders for user',
+			)
+			->addOption(
+				'output',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'Output format (plain, json or json_pretty, default is plain)',
+				$this->defaultOutputFormat,
 			);
 	}
 
@@ -74,20 +82,37 @@ class ListCommand extends Base {
 			return 0;
 		}
 
-		$io->table(
-			['User Id', 'Path', 'Due Date', 'Updated At', 'Created At', 'Notified'],
-			array_map(
-				fn (RichReminder $reminder) => [
-					$reminder->getUserId(),
-					$reminder->getNode()->getPath(),
-					$reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
-					$reminder->getUpdatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
-					$reminder->getCreatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
-					$reminder->getNotified() ? 'true' : 'false',
-				],
-				$reminders,
-			)
-		);
-		return 0;
+		$outputOption = $input->getOption('output');
+		switch ($outputOption) {
+			case static::OUTPUT_FORMAT_JSON:
+			case static::OUTPUT_FORMAT_JSON_PRETTY:
+				$this->writeArrayInOutputFormat(
+					$input,
+					$io,
+					array_map(
+						fn (RichReminder $reminder) => $reminder->jsonSerialize(),
+						$reminders,
+					),
+					'',
+				);
+				return 0;
+			default:
+				$io->table(
+					['User Id', 'File Id', 'Path', 'Due Date', 'Updated At', 'Created At', 'Notified'],
+					array_map(
+						fn (RichReminder $reminder) => [
+							$reminder->getUserId(),
+							$reminder->getFileId(),
+							$reminder->getNode()->getPath(),
+							$reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
+							$reminder->getUpdatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
+							$reminder->getCreatedAt()->format(DateTimeInterface::ATOM), // ISO 8601
+							$reminder->getNotified() ? 'true' : 'false',
+						],
+						$reminders,
+					),
+				);
+				return 0;
+		}
 	}
 }
