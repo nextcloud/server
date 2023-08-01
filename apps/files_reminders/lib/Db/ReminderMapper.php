@@ -29,6 +29,7 @@ namespace OCA\FilesReminders\Db;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IUser;
 
@@ -100,6 +101,20 @@ class ReminderMapper extends QBMapper {
 		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
+			->orderBy('due_date', 'ASC');
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @return Reminder[]
+	 */
+	public function findAllForNode(Node $node) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)))
 			->orderBy('due_date', 'ASC');
 
 		return $this->findEntities($qb);

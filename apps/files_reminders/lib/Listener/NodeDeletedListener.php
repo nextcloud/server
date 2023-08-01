@@ -24,28 +24,24 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\FilesReminders\AppInfo;
+namespace OCA\FilesReminders\Listener;
 
-use OCA\FilesReminders\Listener\NodeDeletedListener;
-use OCA\FilesReminders\Notification\Notifier;
-use OCP\AppFramework\App;
-use OCP\AppFramework\Bootstrap\IBootContext;
-use OCP\AppFramework\Bootstrap\IBootstrap;
-use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCA\FilesReminders\Service\ReminderService;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 
-class Application extends App implements IBootstrap {
-	public const APP_ID = 'files_reminders';
+class NodeDeletedListener implements IEventListener {
+	public function __construct(
+		private ReminderService $reminderService,
+	) {}
 
-	public function __construct() {
-		parent::__construct(static::APP_ID);
-	}
+	public function handle(Event $event): void {
+		if (!($event instanceof NodeDeletedEvent)) {
+			return;
+		}
 
-	public function boot(IBootContext $context): void {
-	}
-
-	public function register(IRegistrationContext $context): void {
-		$context->registerNotifierService(Notifier::class);
-		$context->registerEventListener(NodeDeletedEvent::class, NodeDeletedListener::class);
+		$node = $event->getNode();
+		$this->reminderService->removeAllForNode($node);
 	}
 }
