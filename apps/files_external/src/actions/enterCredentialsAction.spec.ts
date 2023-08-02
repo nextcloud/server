@@ -110,9 +110,24 @@ describe('Enter credentials action enabled tests', () => {
 		},
 	})
 
-	const notAStorage = new Folder({
+	const missingConfig = new Folder({
 		id: 1,
 		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
+		owner: 'admin',
+		root: '/files/admin',
+		permissions: Permission.ALL,
+		attributes: {
+			scope: 'system',
+			backend: 'SFTP',
+			config: {
+			} as StorageConfig,
+		},
+	})
+
+	const notAStorage = new File({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/test.txt',
+		mime: 'text/plain',
 		owner: 'admin',
 		root: '/files/admin',
 		permissions: Permission.ALL,
@@ -136,6 +151,11 @@ describe('Enter credentials action enabled tests', () => {
 	test('Enabled for missing  global user auth storage', () => {
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([globalAuthUserStorage], view)).toBe(true)
+	})
+
+	test('Disabled for missing config', () => {
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([missingConfig], view)).toBe(false)
 	})
 
 	test('Disabled for normal nodes', () => {

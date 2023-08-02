@@ -313,7 +313,6 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes['has-preview']).toBe(true)
-		expect(file.attributes.previewUrl).toBe('/index.php/core/preview?fileId=530936&x=32&y=32&forceIcon=0')
 		expect(file.attributes.favorite).toBe(0)
 	})
 

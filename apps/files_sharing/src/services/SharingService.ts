@@ -53,7 +53,6 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 		const Node = isFolder ? Folder : File
 
 		const fileid = ocsEntry.file_source
-		const previewUrl = hasPreview ? generateUrl('/core/preview?fileId={fileid}&x=32&y=32&forceIcon=0', { fileid }) : undefined
 
 		// Generate path and strip double slashes
 		const path = ocsEntry?.path || ocsEntry.file_target
@@ -76,7 +75,6 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 			root: rootPath,
 			attributes: {
 				...ocsEntry,
-				previewUrl,
 				'has-preview': hasPreview,
 				favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0,
 			},

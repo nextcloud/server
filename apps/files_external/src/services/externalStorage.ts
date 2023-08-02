@@ -35,7 +35,7 @@ export const rootPath = `/files/${getCurrentUser()?.uid}`
 
 export type StorageConfig = {
 	applicableUsers?: string[]
-    applicableGroups?: string[]
+	applicableGroups?: string[]
 	authMechanism: string
 	backend: string
 	backendOptions: Record<string, string>

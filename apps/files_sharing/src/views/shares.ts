@@ -28,7 +28,7 @@ import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account.svg?raw'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-import AccouontPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 
 import { getContents } from '../services/SharingService'
 
@@ -49,7 +49,7 @@ export default () => {
 		emptyTitle: t('files_sharing', 'No shares'),
 		emptyCaption: t('files_sharing', 'Files and folders you shared or have been shared with you will show up here'),
 
-		icon: AccouontPlusSvg,
+		icon: AccountPlusSvg,
 		order: 20,
 
 		columns: [],
