@@ -121,7 +121,7 @@ export default {
 			this.saveChanges()
 		},
 		moveDown(i) {
-	  	this.settings['ai.translation_provider_preferences'].splice(
+			this.settings['ai.translation_provider_preferences'].splice(
 				i + 1,
 				0,
 				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
