@@ -1187,8 +1187,12 @@ class OC {
 		if (!$appManager->isInstalled('app_ecosystem_v2')) {
 			return false;
 		}
-		$appEcosystemV2Service = Server::get(OCA\AppEcosystemV2\Service\AppEcosystemV2Service::class);
-		return $appEcosystemV2Service->validateExAppRequestToNC($request);
+		try {
+			$appEcosystemV2Service = Server::get(OCA\AppEcosystemV2\Service\AppEcosystemV2Service::class);
+			return $appEcosystemV2Service->validateExAppRequestToNC($request);
+		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			return false;
+		}
 	}
 }
 

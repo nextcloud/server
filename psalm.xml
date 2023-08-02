@@ -81,6 +81,7 @@
 		<file name="build/stubs/zip.php"/>
 		<file name="build/stubs/psr_container.php"/>
 		<file name="3rdparty/sabre/uri/lib/functions.php" />
+		<file name="build/stubs/app_ecosystem_v2.php" />
 	</stubs>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
