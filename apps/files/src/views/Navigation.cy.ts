@@ -1,5 +1,3 @@
-import * as InitialState from '@nextcloud/initial-state'
-import * as L10n from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
 import { createTestingPinia } from '@pinia/testing'
@@ -13,12 +11,13 @@ describe('Navigation renders', () => {
 	const Navigation = new NavigationService() as NavigationService
 
 	before(() => {
-		cy.stub(InitialState, 'loadState')
-			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: -1,
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 1000 * 1000 * 1000,
+			quota: -1,
+		})
 	})
+
+	after(() => cy.unmockInitialState())
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
@@ -157,22 +156,9 @@ describe('Navigation API', () => {
 describe('Quota rendering', () => {
 	const Navigation = new NavigationService()
 
-	beforeEach(() => {
-		// TODO: remove when @nextcloud/l10n 2.0 is released
-		// https://github.com/nextcloud/nextcloud-l10n/pull/542
-		cy.stub(L10n, 'translate', (app, text, vars = {}, number) => {
-			cy.log({ app, text, vars, number })
-			return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
-				return vars[key]
-			})
-		})
-	})
+	afterEach(() => cy.unmockInitialState())
 
 	it('Unknown quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns(undefined)
-
 		cy.mount(NavigationView, {
 			propsData: {
 				Navigation,
@@ -188,12 +174,10 @@ describe('Quota rendering', () => {
 	})
 
 	it('Unlimited quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: -1,
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 1000 * 1000 * 1000,
+			quota: -1,
+		})
 
 		cy.mount(NavigationView, {
 			propsData: {
@@ -212,13 +196,11 @@ describe('Quota rendering', () => {
 	})
 
 	it('Non-reached quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: 5 * 1000 * 1000 * 1000,
-				relative: 20, // percent
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 1000 * 1000 * 1000,
+			quota: 5 * 1000 * 1000 * 1000,
+			relative: 20, // percent
+		})
 
 		cy.mount(NavigationView, {
 			propsData: {
@@ -238,13 +220,11 @@ describe('Quota rendering', () => {
 	})
 
 	it('Reached quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns({
-				used: 5 * 1000 * 1000 * 1000,
-				quota: 1000 * 1000 * 1000,
-				relative: 500, // percent
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 5 * 1000 * 1000 * 1000,
+			quota: 1000 * 1000 * 1000,
+			relative: 500, // percent
+		})
 
 		cy.mount(NavigationView, {
 			propsData: {
