@@ -157,4 +157,36 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	/**
+	 * This endpoint returns a list of tasks related with a specific appId and identifier
+	 *
+	 * @PublicPage
+	 * @UserRateThrottle(limit=20, period=120)
+	 *
+	 * @param string $appId
+	 * @param string|null $identifier
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: array{CoreTextProcessingTask}}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 *  200: Task list returned
+	 */
+	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
+		if ($this->userId === null) {
+			return new DataResponse([
+				'tasks' => [],
+			]);
+		}
+		try {
+			$tasks = $this->languageModelManager->getTasksByApp($this->userId, $appId, $identifier);
+			$json = array_map(static function (Task $task) {
+				return $task->jsonSerialize();
+			}, $tasks);
+
+			return new DataResponse([
+				'tasks' => $json,
+			]);
+		} catch (\RuntimeException $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
 }

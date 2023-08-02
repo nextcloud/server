@@ -149,6 +149,7 @@ $application->registerRoutes($this, [
 		['root' => '/textprocessing', 'name' => 'TextProcessingApi#taskTypes', 'url' => '/tasktypes', 'verb' => 'GET'],
 		['root' => '/textprocessing', 'name' => 'TextProcessingApi#schedule', 'url' => '/schedule', 'verb' => 'POST'],
 		['root' => '/textprocessing', 'name' => 'TextProcessingApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
 	],
 ]);
 
