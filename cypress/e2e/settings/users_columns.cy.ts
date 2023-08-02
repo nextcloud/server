@@ -21,6 +21,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
+import { assertNotExistOrNotVisible } from './usersUtils.js'
 
 const admin = new User('admin', 'admin')
 
@@ -43,7 +44,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should('not.be.visible'))
+		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
 	})
 
 	it('Can show a column', function() {
@@ -68,7 +69,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should('not.be.visible'))
+		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the language column is in the header
 		cy.get(`.user-list__header tr`).within(() => {
@@ -103,7 +104,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should('not.be.visible'))
+		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the last login column is not in the header
 		cy.get(`.user-list__header tr`).within(() => {
