@@ -80,4 +80,12 @@ interface IManager {
 	 * @since 27.1.0
 	 */
 	public function getTask(int $id): Task;
+
+	/**
+	 * @param string $userId
+	 * @param string $appId
+	 * @param string|null $identifier
+	 * @return array
+	 */
+	public function getTasksByApp(string $userId, string $appId, ?string $identifier = null): array;
 }

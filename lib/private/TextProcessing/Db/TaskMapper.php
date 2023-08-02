@@ -60,6 +60,25 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $userId
+	 * @param string $appId
+	 * @param string|null $identifier
+	 * @return array
+	 * @throws Exception
+	 */
+	public function findByApp(string $userId, string $appId, ?string $identifier = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)))
+			->andWhere($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		if ($identifier !== null) {
+			$qb->andWhere($qb->expr()->eq('identifier', $qb->createPositionalParameter($identifier)));
+		}
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * @param int $timeout
 	 * @return int the number of deleted tasks
 	 * @throws Exception

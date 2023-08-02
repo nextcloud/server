@@ -192,7 +192,24 @@ class Manager implements IManager {
 		} catch (MultipleObjectsReturnedException $e) {
 			throw new RuntimeException('Could not uniquely identify task with given id', 0, $e);
 		} catch (Exception $e) {
-			throw new RuntimeException('Failure while trying to find task by id: '.$e->getMessage(), 0, $e);
+			throw new RuntimeException('Failure while trying to find task by id: ' . $e->getMessage(), 0, $e);
+		}
+	}
+
+	/**
+	 * @param string $userId
+	 * @param string $appId
+	 * @param string|null $identifier
+	 * @return array
+	 */
+	public function getTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
+		try {
+			$taskEntities = $this->taskMapper->findByApp($userId, $appId, $identifier);
+			return array_map(static function (DbTask $taskEntity) {
+				return $taskEntity->toPublicTask();
+			}, $taskEntities);
+		} catch (Exception $e) {
+			throw new RuntimeException('Failure while trying to find tasks by appId and identifier: ' . $e->getMessage(), 0, $e);
 		}
 	}
 }
