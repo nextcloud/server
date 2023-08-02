@@ -1,0 +1,52 @@
+name: Update Node dist
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # implemented since 28, once branched off, add you stable branch here
+      - master
+      # - stable28
+
+concurrency:
+  group: update-node-dist-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  update-node-dist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.1
+        id: versions
+        with:
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Setup git
+        run: |
+          git config --local user.email "nextcloud-command@users.noreply.github.com"
+          git config --local user.name "nextcloud-command"
+
+      - name: Install dependencies & build
+        run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Add and commit
+        run: |
+          git add --force dist/
+          git commit --signoff -m 'chore(assets): recompile assets'
+          git push origin ${{ github.head_ref }}
