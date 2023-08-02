@@ -71,6 +71,7 @@
 		</NcNoteCard>
 
 		<input ref="input"
+			:accept="acceptMime"
 			type="file"
 			@change="onChange">
 	</div>
@@ -79,6 +80,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -88,6 +90,10 @@ import Undo from 'vue-material-design-icons/UndoVariant.vue'
 import Upload from 'vue-material-design-icons/Upload.vue'
 
 import FieldMixin from '../../mixins/admin/FieldMixin.js'
+
+const {
+	allowedMimeTypes,
+} = loadState('theming', 'adminThemingParameters', {})
 
 export default {
 	name: 'FileInputField',
@@ -135,6 +141,8 @@ export default {
 	data() {
 		return {
 			showLoading: false,
+			acceptMime: (allowedMimeTypes[this.name]
+				|| ['image/jpeg', 'image/png', 'image/gif', 'image/webp']).join(','),
 		}
 	},
 
