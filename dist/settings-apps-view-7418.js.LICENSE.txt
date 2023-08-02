@@ -1,5 +1,0 @@
-/*! For license information please see NcAppNavigationSpacer.js.LICENSE.txt */
-
-/*! For license information please see NcAppSidebar.js.LICENSE.txt */
-
-/*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
