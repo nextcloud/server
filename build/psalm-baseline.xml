@@ -220,33 +220,6 @@
       <code>null</code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
-    <ImplicitToStringCast occurrences="2">
-      <code>$vevent-&gt;LOCATION</code>
-      <code>$vevent-&gt;SUMMARY</code>
-    </ImplicitToStringCast>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$lang-&gt;getValue()</code>
-    </NullableReturnStatement>
-    <UndefinedMethod occurrences="10">
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>hasTime</code>
-      <code>hasTime</code>
-      <code>isFloating</code>
-      <code>isFloating</code>
-      <code>isFloating</code>
-    </UndefinedMethod>
-    <UndefinedPropertyFetch occurrences="1">
-      <code>$iTipMessage-&gt;message-&gt;VEVENT-&gt;SUMMARY</code>
-    </UndefinedPropertyFetch>
-  </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <InvalidArgument occurrences="2">
       <code>[$aclPlugin, 'propFind']</code>
@@ -1498,8 +1471,7 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;users</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidScalarArgument occurrences="3">
-      <code>$errors</code>
+    <InvalidScalarArgument occurrences="1">
       <code>0</code>
       <code>0</code>
     </InvalidScalarArgument>
