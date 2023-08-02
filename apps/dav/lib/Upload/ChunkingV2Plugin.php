@@ -168,7 +168,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			[$destinationDir, $destinationName] = Uri\split($this->uploadPath);
 			/** @var Directory $destinationParent */
 			$destinationParent = $this->server->tree->getNodeForPath($destinationDir);
-			$free = $storage->free_space($destinationParent->getInternalPath());
+			$free = $destinationParent->getNode()->getFreeSpace();
 			$newSize = $tempTargetFile->getSize() + $additionalSize;
 			if ($free >= 0 && ($tempTargetFile->getSize() > $free || $newSize > $free)) {
 				throw new InsufficientStorage("Insufficient space in $this->uploadPath");
@@ -225,7 +225,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			foreach ($parts as $part) {
 				$size += $part['Size'];
 			}
-			$free = $storage->free_space($destinationParent->getInternalPath());
+			$free = $destinationParent->getNode()->getFreeSpace();
 			if ($free >= 0 && ($size > $free)) {
 				throw new InsufficientStorage("Insufficient space in $this->uploadPath");
 			}
