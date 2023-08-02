@@ -184,7 +184,6 @@ OC.L10N.register(
     "ascending" : "naraščajoče",
     "descending" : "padajoče",
     "Sort list by {column} ({direction})" : "Razvrsti seznam po stolpcu {column} ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali ob brskanju.",
     "Storage informations" : "Podrobnosti shrambe",
     "{usedQuotaByte} used" : "Zasedeno {usedQuotaByte}",
     "{relative}% used" : "Zasedeno {relative} %",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisana mesta souporabe",
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "Open folder {name}" : "Odpri mapo {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali ob brskanju.",
     "Search for an account" : "Poišči račun",
     "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map"
 },

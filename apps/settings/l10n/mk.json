@@ -229,6 +229,7 @@
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php треба да се регистрира на webcron сервис за да ја повикува процедурата секој 5 минути преку HTTP. Се користи за помали истанци (1-5 корисника во зависност на искористувањето).",
     "Cron (Recommended)" : "Cron (Препорачано)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Го користи системскиот Cron сервис и го повикува cron.php секој 5 минути.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "cron.php е потребно да биде извршен од системски корисник \"{user}\".",
     "Unable to update background job mode" : "Не може да се ажурира режимот на работа во позадина",
     "Profile" : "Профил",

@@ -219,6 +219,7 @@ OC.L10N.register(
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "Το cron.php είναι εγγεγραμμένο σε μια υπηρεσία webcron για να καλεί το cron.php κάθε 5 λεπτά μέσω HTTP. Περίπτωση χρήσης: Πολύ μικρή εγκατάσταση (1–5 χρήστες ανάλογα με τη χρήση).",
     "Cron (Recommended)" : "Cron (Συνιστάται)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 5 λεπτά.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "Το cron.php πρέπει να εκτελεστεί από τον χρήστη του συστήματος, \"{user}\".",
     "Profile" : "Προφίλ",
     "Enable or disable profile by default for new users." : "Ενεργοποίηση ή απενεργοποίηση προφίλ από προεπιλογή για νέους χρήστες.",

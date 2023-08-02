@@ -219,6 +219,7 @@ OC.L10N.register(
     "Webcron" : "„Webcron“",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "„cron.php“ yra registruojamas „webcron“ tarnyboje, kad kas 5 minutes per HTTP būtų iškviečiamas failas „cron.php“. Naudojimo atvejis: Labai mažas egzempliorius (priklausomai nuo našumo, 1–5 naudotojai).",
     "Cron (Recommended)" : "„Cron“ (Rekomenduojama)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Naudokite sistemos cron paslaugą, kad kas 5 minutes iškviestumėte cron.php failą.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "Failą „cron.php“ turi vykdyti sistemos naudotojas „{user}“.",
     "Unable to update background job mode" : "Nepavyko atnaujinti foninių užduočių veiksenos",
     "Profile" : "Profilis",

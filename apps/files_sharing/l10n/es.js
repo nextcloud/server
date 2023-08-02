@@ -211,7 +211,6 @@ OC.L10N.register(
     "this share just expired." : "este recurso compartido acaba de caducar.",
     "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "_Accept share_::_Accept shares_" : ["Aceptar recurso compartido","Aceptar recursos compartidos","Aceptar recursos compartidos"],
-    "Open in files" : "Abrir en archivos",
     "_Reject share_::_Reject shares_" : ["Rechazar recurso compartido","Rechazar recursos compartidos","Rechazar recursos compartidos"],
     "_Restore share_::_Restore shares_" : ["Restaurar recurso compartido","Restaurar recursos compartidos","Restaurar recursos compartidos"],
     "Link to a file" : "Enlace al archivo",

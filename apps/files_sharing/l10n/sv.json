@@ -209,7 +209,6 @@
     "this share just expired." : "denna delning har just gått ut.",
     "Shared with you by {owner}" : "Delad med dig av {owner}",
     "_Accept share_::_Accept shares_" : ["Acceptera delning","Acceptera delningar"],
-    "Open in files" : "Öppna i filer",
     "_Reject share_::_Reject shares_" : ["Avvisa delning","Avvisa delningar"],
     "_Restore share_::_Restore shares_" : ["Återställ delning","Återställ delningar"],
     "Link to a file" : "Länka till en fil",
