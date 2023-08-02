@@ -42,9 +42,9 @@
 		</NcEmptyContent>
 
 		<RecycleScroller v-else
+			ref="scroller"
 			class="user-list"
 			:style="style"
-			ref="scroller"
 			:items="filteredUsers"
 			key-field="id"
 			role="table"
@@ -55,7 +55,6 @@
 			:item-size="rowHeight"
 			@hook:mounted="handleMounted"
 			@scroll-end="handleScrollEnd">
-
 			<template #before>
 				<caption class="hidden-visually">
 					{{ t('settings', 'List of users. This list is not fully rendered for performance reasons. The users will be rendered as you navigate through the list.') }}
@@ -79,7 +78,6 @@
 				<UserListFooter :loading="loading.users"
 					:filtered-users="filteredUsers" />
 			</template>
-
 		</RecycleScroller>
 	</Fragment>
 </template>

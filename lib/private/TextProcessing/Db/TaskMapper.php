@@ -41,7 +41,7 @@ class TaskMapper extends QBMapper {
 		IDBConnection $db,
 		private ITimeFactory $timeFactory,
 	) {
-		parent::__construct($db, 'llm_tasks', Task::class);
+		parent::__construct($db, 'textprocessing_tasks', Task::class);
 	}
 
 	/**
