@@ -70,11 +70,15 @@ class IMipService {
 	}
 
 	/**
-	 * @param string $senderName
-	 * @param $default
+	 * @param string|null $senderName
+	 * @param string $default
 	 * @return string
 	 */
-	public function getFrom(string $senderName, $default): string {
+	public function getFrom(?string $senderName, string $default): string {
+		if ($senderName === null) {
+			return $default;
+		}
+
 		return $this->l10n->t('%1$s via %2$s', [$senderName, $default]);
 	}
 
