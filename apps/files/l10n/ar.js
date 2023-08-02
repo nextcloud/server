@@ -194,7 +194,6 @@ OC.L10N.register(
     "descending" : "تنازلياً",
     "Sort list by {column} ({direction})" : "ترتيب القائمة بحسب {column} ({direction})",
     "List of files and folders." : "قائمة الملفات و المجلدات",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "لم يمكن عرض هذه القائمة بالكامل بسبب إشكالية في الأداء. سيتم عرض الملفات عندما تمر عليها في القائمة",
     "Storage informations" : "معلومات التخزين",
     "{usedQuotaByte} used" : "{usedQuotaByte} مستخدمة",
     "{relative}% used" : "{relative}% مستخدمة",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "تم حذف المشاركات",
     "Pending shares" : "انتظار المشاركات",
     "Open folder {name}" : "إفتح المجلد {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "لم يمكن عرض هذه القائمة بالكامل بسبب إشكالية في الأداء. سيتم عرض الملفات عندما تمر عليها في القائمة",
     "Search for an account" : "البحث عن حساب",
     "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ"
 },

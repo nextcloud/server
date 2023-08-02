@@ -193,7 +193,6 @@ OC.L10N.register(
     "ascending" : "за зростанням",
     "descending" : "за спаданням",
     "Sort list by {column} ({direction})" : "Впорядкувати список за {column} ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Через обмеження, пов'язані з потужністю, список не показується повністю. Файли показуватимуться, щойно ви рухатиметеся списком.",
     "Storage informations" : "Інформація про сховище",
     "{usedQuotaByte} used" : "{usedQuotaByte} використано",
     "{relative}% used" : "{relative}% використано",
@@ -270,6 +269,7 @@ OC.L10N.register(
     "Deleted shares" : "Більше недоступні",
     "Pending shares" : "Запити на доступ",
     "Open folder {name}" : "Відкрити каталог {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Через обмеження, пов'язані з потужністю, список не показується повністю. Файли показуватимуться, щойно ви рухатиметеся списком.",
     "Search for an account" : "Пошук облікового запису",
     "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено"
 },

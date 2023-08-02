@@ -198,6 +198,7 @@
     "Copied!" : "Copiadu!",
     "Copy" : "Còpia",
     "Could not copy app password. Please copy it manually." : "No at fatu a copiare sa crae. Copia·dda a manu.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Imprea su servìtziu cron de sistema pro cramare s'archìviu cron.php cada 5 minutos.",
     "Profile" : "Profilu",
     "Enable" : "Ativa",
     "Server-side encryption" : "Tzifradura ladu serbidore",

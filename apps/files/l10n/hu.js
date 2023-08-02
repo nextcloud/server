@@ -184,7 +184,6 @@ OC.L10N.register(
     "ascending" : "növekvő",
     "descending" : "csökkenő",
     "Sort list by {column} ({direction})" : "Lista rendezése {column} alapján ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Storage informations" : "Tárhely-információk",
     "{usedQuotaByte} used" : "{usedQuotaByte} felhasználva",
     "{relative}% used" : "{relative}% felhasználva",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Deleted shares" : "Törölt megosztások",
     "Pending shares" : "Függőben lévő megosztások",
     "Open folder {name}" : "A(z) {name} mappa megnyitása",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Search for an account" : "Fiók keresése",
     "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
 },

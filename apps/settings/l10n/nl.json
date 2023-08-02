@@ -220,6 +220,7 @@
     "AJAX" : "AJAX",
     "Execute one task with each page loaded. Use case: Single user instance." : "Een taak uitvoeren bij het laden van iedere pagina. Use case: voor een enkele gebruiker.",
     "Webcron" : "Webcron",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Gebruik de systeemcron service om cron.php elke 5 minuten aan te roepen.",
     "Profile" : "Profiel",
     "Enable or disable profile by default for new users." : "Profiel standaard in- of uitschakelen voor nieuwe gebruikers.",
     "Enable" : "Inschakelen",

@@ -238,6 +238,7 @@
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php 注册在一个 webcron 服务上，每 5 分钟通过 HTTP 调用 cron.php。使用场景：非常小的实例（1-5 个用户，取决于使用情况）。",
     "Cron (Recommended)" : "Cron（推荐）",
+    "Use system cron service to call the cron.php file every 5 minutes." : "使用系统定时任务服务每5分钟执行一次cron.php文件。",
     "The cron.php needs to be executed by the system user \"{user}\"." : "cron.php 需要由系统用户“{user}”执行。",
     "Unable to update background job mode" : "无法更新后台任务模式",
     "Profile" : "个人资料",

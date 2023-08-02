@@ -211,7 +211,6 @@ OC.L10N.register(
     "this share just expired." : "partekatze hau oraintxe iraungi da.",
     "Shared with you by {owner}" : "{owner} erabiltzaileak zurekin partekatua",
     "_Accept share_::_Accept shares_" : ["Onartu partekatzea","Onartu partekatzeak"],
-    "Open in files" : "Ireki fitxategiak aplikazioan",
     "_Reject share_::_Reject shares_" : ["Ukatu partekatzea","Ukatu partekatzeak"],
     "_Restore share_::_Restore shares_" : ["Berrezarri partekatzea","Berrezarri partekatzeak"],
     "Link to a file" : "Esteka fitxategi batera",

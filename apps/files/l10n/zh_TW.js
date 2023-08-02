@@ -194,7 +194,6 @@ OC.L10N.register(
     "descending" : "遞減",
     "Sort list by {column} ({direction})" : "按 {column}（{direction}）排序清單",
     "List of files and folders." : "檔案與資料夾清單。",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Storage informations" : "儲存空間資訊",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{relative}% used" : "已使用 {relative}%",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "已刪除的分享",
     "Pending shares" : "等待分享",
     "Open folder {name}" : "開啟資料夾 {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋帳號",
     "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
 },

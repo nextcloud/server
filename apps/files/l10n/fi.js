@@ -186,7 +186,6 @@ OC.L10N.register(
     "descending" : "laskevasti",
     "Sort list by {column} ({direction})" : "Järjestä luettelo sarakkeen {column} mukaan ({direction})",
     "List of files and folders." : "Luettelo tiedostoista ja kansioista.",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Storage informations" : "Tallennustilan tietoja",
     "{usedQuotaByte} used" : "{usedQuotaByte} käytetty",
     "{relative}% used" : "{relative} % käytetty",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Deleted shares" : "Poistetut jaot",
     "Pending shares" : "Odottavat jaot",
     "Open folder {name}" : "Avaa kansio {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
 },

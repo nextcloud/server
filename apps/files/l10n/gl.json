@@ -192,7 +192,6 @@
     "descending" : "descendente",
     "Sort list by {column} ({direction})" : "Ordenar a lista por {column} ({direction})",
     "List of files and folders." : "Lista de ficheiros e cartafoles",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres navega pola lista.",
     "Storage informations" : "Información de almacenamento",
     "{usedQuotaByte} used" : "{usedQuotaByte} usado",
     "{relative}% used" : "{relative}% usado",
@@ -215,7 +214,7 @@
     "Go to the previous folder" : "Ir ao cartafol anterior",
     "Go back" : "Volver",
     "Open the files app settings" : "Abrir os axustes da aplicación de ficheiros",
-    "Files settings" : "Axustes de ficheiros",
+    "Files settings" : "Axustes de Ficheiros",
     "File cannot be accessed" : "Non é posíbel acceder ao ficheiro",
     "You might not have have permissions to view it, ask the sender to share it" : "É posíbel que non teña permisos para velo, pídalle ao remitente que o comparta",
     "Sort favorites first" : "Ordene antes os favoritos",
@@ -269,6 +268,7 @@
     "Deleted shares" : "Comparticións eliminadas",
     "Pending shares" : "Comparticións pendentes",
     "Open folder {name}" : "Abrir o cartafol {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres navega pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

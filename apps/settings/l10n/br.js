@@ -186,6 +186,7 @@ OC.L10N.register(
     "Copied!" : "Eilet eo !",
     "Copy" : "Eilañ",
     "Could not copy app password. Please copy it manually." : "N'eo ket posupl eilan ar ger-tremen meziant. Eilit anezhan gant an dorn.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Implijit sevichoù ar sistem cron evit gervel restr cron.php pep 5 munutenn.",
     "Enable" : "Aotreañ",
     "Server-side encryption" : "Sifradur ar servijour-goztez",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Sifradur kostez-srvijour aotre ar sifrañ restroù a vez pellkarget war ar servijour. Bevennet eo an ober, evel ur mont en dro gorekoc'h, n'a implijit se nemet m'az o peus ezhomm neuze.",
