@@ -193,7 +193,6 @@ OC.L10N.register(
     "ascending" : "goranzkoa",
     "descending" : "beheranzkoa",
     "Sort list by {column} ({direction})" : "Ordenatu zerrenda {zutabea} ({norabidea}) arabera",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Storage informations" : "Biltegiaren informazioak",
     "{usedQuotaByte} used" : "{usedQuotaByte} erabilita",
     "{relative}% used" : "%{relative} erabilita",
@@ -270,6 +269,7 @@ OC.L10N.register(
     "Deleted shares" : "Ezabatutako partekatzeak",
     "Pending shares" : "Zain dauden partekatzeak",
     "Open folder {name}" : "Ireki {name} karpeta",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
     "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
 },

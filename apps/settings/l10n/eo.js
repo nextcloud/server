@@ -177,6 +177,7 @@ OC.L10N.register(
     "Copied!" : "Kopiita!",
     "Copy" : "Kopii",
     "Could not copy app password. Please copy it manually." : "Ne eblis kopii la aplikaĵan pasvorton. Bv. kopii ĝin permane.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Uzu la sisteman „cron“-servon por voki cron.php ĉiujn 5 minutojn.",
     "Enable" : "Ŝalti",
     "Server-side encryption" : "Ĉeservila ĉifrado",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Ĉeservila ĉifrado elbigas ĉifri ĉiujn alŝutitajn dosierojn al la servilo. Tio havas kelkajn limigojn kiel pli malbonan rendimenton, do ŝaltu tion nur se necese.",

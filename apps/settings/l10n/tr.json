@@ -238,6 +238,7 @@
     "Webcron" : "İnternet zamanlanmış görevi",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php, HTTP üzerinden her 5 dakikada bir cron.php sayfasını çağıran bir internet zamanlanmış görevi hizmetinde kayıtlıdır. Kullanım şekli: Çok küçük kopya (kullanıma bağlı olarak 1–5 kullanıcı).",
     "Cron (Recommended)" : "Cron (önerilen)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "5 dakikada bir cron.php dosyasının çağrılması için sistem cron hizmeti kullanılsın.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "cron.php dosyası \"{user}\" sistem kullanıcısı tarafından yürütülmelidir.",
     "Unable to update background job mode" : "Arka plan görevi kipi güncellenemedi",
     "Profile" : "Profil",

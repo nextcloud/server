@@ -238,6 +238,7 @@
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php é registrado em um serviço webcron para chamar cron.php a cada 5 minutos por HTTP. Caso de uso: instância muito pequena (1–5 usuários dependendo do uso).",
     "Cron (Recommended)" : "Cron (Recomendado)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Use o serviço cron do sistema para chamar o arquivo cron.php a cada 5 minutos.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "O cron.php precisa ser executado pelo usuário do sistema \"{user}\".",
     "Unable to update background job mode" : "Não foi possível atualizar o modo de trabalho em segundo plano",
     "Profile" : "Perfil",

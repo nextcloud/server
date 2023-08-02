@@ -211,7 +211,6 @@ OC.L10N.register(
     "this share just expired." : "bu paylaşımın geçerlilik süresi dolmuş.",
     "Shared with you by {owner}" : "{owner} tarafından sizinle paylaşılmış",
     "_Accept share_::_Accept shares_" : ["Paylaşımı kabul et","Paylaşımları kabul et"],
-    "Open in files" : "Dosyalar uygulamasında aç",
     "_Reject share_::_Reject shares_" : ["Paylaşımı reddet","Paylaşımları reddet"],
     "_Restore share_::_Restore shares_" : ["Paylaşımı geri yükle","Paylaşımları geri yükle"],
     "Link to a file" : "Bir dosya bağlantısı",

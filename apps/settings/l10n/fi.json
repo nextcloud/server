@@ -209,6 +209,7 @@
     "Last job execution ran {time}. Something seems wrong." : "Viimeisimmän työn suoritus {time}. Jokin vaikuttaa olevan pielessä.",
     "Last job ran {relativeTime}." : "Viimeisin työ ajettiin {relativeTime}.",
     "Cron (Recommended)" : "Cron (suositeltu)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Käytä järjestelmän cron-palvelua cron.php-skriptin suorittamiseen 5 minuutin välein",
     "Profile" : "Profiili",
     "Enable or disable profile by default for new users." : "Käytä tai poista käytöstä profiili oletusarvoisesti uusille käyttäjille.",
     "Enable" : "Käytä",

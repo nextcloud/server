@@ -194,7 +194,6 @@ OC.L10N.register(
     "descending" : "нисходящий",
     "Sort list by {column} ({direction})" : "Сортировать список по {column} ({direction})",
     "List of files and folders." : "Список файлов и каталогов.",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Storage informations" : "Сведения о хранилище",
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
     "{relative}% used" : "Использовано {relative}%",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "Удалённые общие ресурсы",
     "Pending shares" : "Ожидающие общие ресурсы",
     "Open folder {name}" : "Открыть папку {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
 },
