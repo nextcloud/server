@@ -35,11 +35,11 @@
 		<NcLoadingIcon v-if="loading && !isRefreshing"
 			class="files-list__loading-icon"
 			:size="38"
-			:title="t('files', 'Loading current folder')" />
+			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
 		<NcEmptyContent v-else-if="!loading && isEmptyDir"
-			:title="currentView?.emptyTitle || t('files', 'No files in here')"
+			:name="currentView?.emptyTitle || t('files', 'No files in here')"
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
 			<template #action>
@@ -287,14 +287,15 @@ export default Vue.extend({
 				// If we're in the root dir, define the root
 				if (dir === '/') {
 					this.filesStore.setRoot({ service: currentView.id, root: folder })
-				} else
-				// Otherwise, add the folder to the store
-				if (folder.fileid) {
-					this.filesStore.updateNodes([folder])
-					this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
 				} else {
-					// If we're here, the view API messed up
-					logger.error('Invalid root folder returned', { dir, folder, currentView })
+					// Otherwise, add the folder to the store
+					if (folder.fileid) {
+						this.filesStore.updateNodes([folder])
+						this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
+					} else {
+						// If we're here, the view API messed up
+						logger.error('Invalid root folder returned', { dir, folder, currentView })
+					}
 				}
 
 				// Update paths store

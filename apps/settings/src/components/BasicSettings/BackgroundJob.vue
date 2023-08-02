@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('settings', 'Background jobs')"
+	<NcSettingsSection :name="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">

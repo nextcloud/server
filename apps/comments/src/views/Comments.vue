@@ -22,9 +22,9 @@
   -->
 
 <template>
-	<div class="comments"
-		:class="{ 'icon-loading': isFirstLoading }"
-		v-observe-visibility="onVisibilityChange">
+	<div v-observe-visibility="onVisibilityChange"
+		class="comments"
+		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
@@ -37,7 +37,7 @@
 		<template v-if="!isFirstLoading">
 			<NcEmptyContent v-if="!hasComments && done"
 				class="comments__empty"
-				:title="t('comments', 'No comments yet, start the conversation!')">
+				:name="t('comments', 'No comments yet, start the conversation!')">
 				<template #icon>
 					<MessageReplyTextIcon />
 				</template>
@@ -65,7 +65,7 @@
 
 			<!-- Error message -->
 			<template v-else-if="error">
-				<NcEmptyContent class="comments__error" :title="error">
+				<NcEmptyContent class="comments__error" :name="error">
 					<template #icon>
 						<AlertCircleOutlineIcon />
 					</template>
@@ -191,8 +191,8 @@ export default {
 		/**
 		 * Make sure we have all mentions as Array of objects
 		 *
-		 * @param {Array} mentions the mentions list
-		 * @return {Object<string, object>}
+		 * @param {any[]} mentions the mentions list
+		 * @return {Record<string, object>}
 		 */
 		genMentionsData(mentions) {
 			Object.values(mentions)

@@ -22,7 +22,7 @@
 
 <template>
 	<section>
-		<NcSettingsSection :title="t('theming', 'Theming')"
+		<NcSettingsSection :name="t('theming', 'Theming')"
 			:description="t('theming', 'Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users.')"
 			:doc-url="docUrl"
 			data-admin-theming-settings>
@@ -70,7 +70,7 @@
 				</div>
 			</div>
 		</NcSettingsSection>
-		<NcSettingsSection :title="t('theming', 'Advanced options')">
+		<NcSettingsSection :name="t('theming', 'Advanced options')">
 			<div class="admin-theming-advanced">
 				<TextField v-for="field in advancedTextFields"
 					:key="field.name"

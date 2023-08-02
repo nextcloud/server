@@ -23,7 +23,7 @@
 
 <template>
 	<section>
-		<NcSettingsSection :title="t('theming', 'Appearance and accessibility')"
+		<NcSettingsSection :name="t('theming', 'Appearance and accessibility')"
 			:limit-width="false"
 			class="theming">
 			<p v-html="description" />
@@ -51,7 +51,7 @@
 			</div>
 		</NcSettingsSection>
 
-		<NcSettingsSection :title="t('theming', 'Keyboard shortcuts')">
+		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')">
 			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
 			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="shortcutsDisabled"
@@ -62,7 +62,7 @@
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
 
-		<NcSettingsSection :title="t('theming', 'Background')"
+		<NcSettingsSection :name="t('theming', 'Background')"
 			class="background"
 			data-user-theming-background-disabled>
 			<template v-if="isUserThemingDisabled">
