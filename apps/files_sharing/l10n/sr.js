@@ -211,7 +211,6 @@ OC.L10N.register(
     "this share just expired." : "ово дељење је управо истекло.",
     "Shared with you by {owner}" : "{owner} је поделио са Вама",
     "_Accept share_::_Accept shares_" : ["Прихвати дељење","Прихвати дељењa","Прихвати дељењa"],
-    "Open in files" : "Отвори у фајловима",
     "_Reject share_::_Reject shares_" : ["Одбиј дељење","Одбиј дељења","Одбиј дељења"],
     "_Restore share_::_Restore shares_" : ["Обнови дељење","Обнови дељења","Обнови дељења"],
     "Link to a file" : "Веза ка фајлу",

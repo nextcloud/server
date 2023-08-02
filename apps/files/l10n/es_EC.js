@@ -194,7 +194,6 @@ OC.L10N.register(
     "descending" : "descendente",
     "Sort list by {column} ({direction})" : "Ordenar lista por {column} ({direction}).",
     "List of files and folders." : "Lista de archivos y carpetas. ",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navegas por la lista.",
     "Storage informations" : "Información de almacenamiento.",
     "{usedQuotaByte} used" : "{usedQuotaByte} usados.",
     "{relative}% used" : "{relative}% usados.",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "Comparticiones eliminadas",
     "Pending shares" : "Comparticiones pendientes",
     "Open folder {name}" : "Abrir carpeta {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navegas por la lista.",
     "Search for an account" : "Buscar una cuenta",
     "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía."
 },

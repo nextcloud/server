@@ -147,7 +147,7 @@
     "Files cannot be shared with delete permissions" : "Non é posíbel compartir ficheiros con permisos de eliminación",
     "Files cannot be shared with create permissions" : "Non é posíbel compartir ficheiros con permisos de creación",
     "Expiration date is in the past" : "Xa pasou a data de caducidade",
-    "_Cannot set expiration date more than %n day in the future_::_Cannot set expiration date more than %n days in the future_" : ["Non é posíbel estabelecer a data de caducidade máis alo de %n día no futuro","Non é posíbel estabelecer a data de caducidade máis alo de %n días no futuro"],
+    "_Cannot set expiration date more than %n day in the future_::_Cannot set expiration date more than %n days in the future_" : ["Non é posíbel definir a data de caducidade máis alo de %n día no futuro","Non é posíbel definir a data de caducidade máis alo de %n días no futuro"],
     "Sharing is only allowed with group members" : "Só se permite compartir cos membros do grupo",
     "Sharing %s failed, because this item is already shared with user %s" : "Fallou a compartición de %s por mor de que este elemento xa foi compartido co usuario %s",
     "%1$s shared »%2$s« with you" : "%1$s compartiu «%2$s» con Vde.",

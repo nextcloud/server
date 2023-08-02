@@ -211,7 +211,6 @@ OC.L10N.register(
     "this share just expired." : "ven de caducar esta compartición",
     "Shared with you by {owner}" : "Compartido con Vde. por {owner}",
     "_Accept share_::_Accept shares_" : ["Aceptar a compartición","Aceptar as comparticións"],
-    "Open in files" : "Abrir en ficheiros",
     "_Reject share_::_Reject shares_" : ["Rexeitar a compartición","Rexeitar as comparticións"],
     "_Restore share_::_Restore shares_" : ["Restaurar a compartición","Restaurar as comparticións"],
     "Link to a file" : "Ligazón a un ficheiro",

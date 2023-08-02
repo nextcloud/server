@@ -240,6 +240,7 @@ OC.L10N.register(
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "A cron.php egy webcron szolgáltatásnál van regisztrálva, hogy 5 percenkenként meghívja a cron.php-t. Használati eset: Nagyon kis példány (1-5 felhasználó, használattól függően).",
     "Cron (Recommended)" : "Cron (ajánlott)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "A rendszer cron szolgáltatás használata a cron.php fájl 5 percenként meghívásához.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "A cron.php-t „{user}” rendszerfelhasználónak kell végrehajtania.",
     "Unable to update background job mode" : "A háttérfeladat módja nem frissíthető",
     "Profile" : "Profil",

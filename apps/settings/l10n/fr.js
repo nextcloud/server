@@ -240,6 +240,7 @@ OC.L10N.register(
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "cron.php est enregistré dans un service webcron pour appeler cron.php toutes les 5 minutes via HTTP. Cas d'utilisation : Très petite instance (1-5 utilisateurs selon l'utilisation).",
     "Cron (Recommended)" : "Cron (Recommandé)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Utiliser le service cron du système pour appeler le fichier cron.php toutes les 5 minutes.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "Le script cron.php doit être exécuté par l'utilisateur système \"{user}\".",
     "Unable to update background job mode" : "Impossible de mettre à jour le mode d'exécution des tâches de fond",
     "Profile" : "Profil",

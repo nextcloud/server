@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copied!" : "הועתק!",
     "Copy" : "העתקה",
     "Could not copy app password. Please copy it manually." : "לא ניתן להעתיק את הססמה של היישומון. נא להעתיק אותה ידנית.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "להשתמש בשירות ה־cron של המערכת כדי לקרוא לקובץ cron.php כל 5 דקות.",
     "Profile" : "פרופיל",
     "Enable" : "הפעלה",
     "Server-side encryption" : "הצפנת צד שרת",

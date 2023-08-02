@@ -194,7 +194,6 @@ OC.L10N.register(
     "descending" : "Azalan",
     "Sort list by {column} ({direction})" : "Listeyi {column} sütununa göre sırala ({direction})",
     "List of files and folders." : "Doys ave klasörleri listesi.",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarım nedeniyle listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Storage informations" : "Depolama bilgileri",
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{relative}% used" : "%{relative} kullanılmış",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "Silinmiş paylaşımlar",
     "Pending shares" : "Bekleyen paylaşımlar",
     "Open folder {name}" : "{name} klasörünü aç",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarım nedeniyle listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
 },

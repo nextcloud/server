@@ -191,7 +191,6 @@
     "ascending" : "升序",
     "descending" : "降序",
     "Sort list by {column} ({direction})" : "按 {column} ({direction}) 排序列表",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Storage informations" : "存储信息",
     "{usedQuotaByte} used" : "{usedQuotaByte} 已使用",
     "{relative}% used" : "{relative}% 已使用",
@@ -268,6 +267,7 @@
     "Deleted shares" : "已删除的共享",
     "Pending shares" : "待定共享",
     "Open folder {name}" : "打开文件夹 {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Search for an account" : "搜索一个账户",
     "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹"
 },"pluralForm" :"nplurals=1; plural=0;"

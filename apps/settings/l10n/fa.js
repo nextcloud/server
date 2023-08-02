@@ -206,6 +206,7 @@ OC.L10N.register(
     "Webcron" : "وب‌کرون",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "پروندهٔ cron.php ثبت شده در یک خدمت webcron برای فراخوانی هر ۵ دقیقه یک بار روی HTTP. مناسب بار ینمونه‌های بسیار کوچک ( تا ۵ کاربر بسته به استفاده).",
     "Cron (Recommended)" : "کرون (پیشنهادی)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "برای تماس با پرونده cron.php هر 5 دقیقه یکبار از سرویس cron system استفاده کنید.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "پروندهٔ cron.php باید به دست کاربر سامانه‌ای {user} قابل اجرا باشد.",
     "Unable to update background job mode" : "ناتوان در به‌روز رسانی حالت کار پس‌زمینه",
     "Profile" : "نمایه",

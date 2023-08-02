@@ -194,7 +194,6 @@ OC.L10N.register(
     "descending" : "sestupně",
     "Sort list by {column} ({direction})" : "Seřadit seznam podle {column} ({direction})",
     "List of files and folders." : "Seznam souborů a složek.",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Storage informations" : "Informace o úložišti",
     "{usedQuotaByte} used" : "{usedQuotaByte} využito",
     "{relative}% used" : "{relative}% využito",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "Smazaná sdílení",
     "Pending shares" : "Čekající sdílení",
     "Open folder {name}" : "Otevřít složku {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
     "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
 },
