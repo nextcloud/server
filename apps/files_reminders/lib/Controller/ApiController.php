@@ -75,7 +75,7 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * Create a reminder
+	 * Set a reminder
 	 *
 	 * @param string $dueDate ISO 8601 formatted date time string
 	 */
