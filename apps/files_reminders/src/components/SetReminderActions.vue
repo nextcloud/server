@@ -25,7 +25,7 @@
 		:open.sync="open">
 		<NcActionButton @click="$emit('back')">
 			<template #icon>
-				<NcIconSvgWrapper :svg="arrowLeftSvg" />
+				<ArrowLeft :size="20" />
 			</template>
 			{{ t('files_reminders', 'Back') }}
 		</NcActionButton>
@@ -33,7 +33,7 @@
 			:aria-label="clearAriaLabel"
 			@click="clear">
 			<template #icon>
-				<NcIconSvgWrapper :svg="clearSvg" />
+				<CloseCircleOutline :size="20" />
 			</template>
 			{{ t('files_reminders', 'Clear reminder') }} — {{ getDateString(dueDate) }}
 		</NcActionButton>
@@ -43,7 +43,7 @@
 			:aria-label="ariaLabel"
 			@click="action">
 			<template #icon>
-				<NcIconSvgWrapper :svg="icon" />
+				<component :is="icon" />
 			</template>
 			{{ label }} — {{ dateString }}
 		</NcActionButton>
@@ -51,21 +51,20 @@
 </template>
 
 <script lang="ts">
-import Vue, { type PropType } from 'vue'
+import Vue, { type Component, type PropType } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
-import arrowLeftSvg from '@mdi/svg/svg/arrow-left.svg?raw'
-import clearSvg from '@mdi/svg/svg/close-circle-outline.svg?raw'
-import laterTodaySvg from '@mdi/svg/svg/update.svg?raw'
-import tomorrowSvg from '@mdi/svg/svg/chevron-right.svg?raw'
-import thisWeekendSvg from '@mdi/svg/svg/calendar-weekend.svg?raw'
-import nextWeekSvg from '@mdi/svg/svg/chevron-double-right.svg?raw'
+import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
+import CloseCircleOutline from 'vue-material-design-icons/CloseCircleOutline.vue'
+import Update from 'vue-material-design-icons/Update.vue'
+import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
+import CalendarWeekend from 'vue-material-design-icons/CalendarWeekend.vue'
+import ChevronDoubleRight from 'vue-material-design-icons/ChevronDoubleRight.vue'
 
 import { clearReminder, setReminder } from '../services/reminderService.js'
 import {
@@ -80,7 +79,7 @@ import type { FileAttributes } from '../shared/types.js'
 
 interface ReminderOption {
 	dateTimePreset: DateTimePreset
-	icon: string
+	icon: Component
 	label: string
 	ariaLabel: string
 	dateString?: string
@@ -89,28 +88,28 @@ interface ReminderOption {
 
 const laterToday: ReminderOption = {
 	dateTimePreset: DateTimePreset.LaterToday,
-	icon: laterTodaySvg,
+	icon: Update,
 	label: t('files_reminders', 'Later today'),
 	ariaLabel: t('files_reminders', 'Set reminder for later today'),
 }
 
 const tomorrow: ReminderOption = {
 	dateTimePreset: DateTimePreset.Tomorrow,
-	icon: tomorrowSvg,
+	icon: ChevronRight,
 	label: t('files_reminders', 'Tomorrow'),
 	ariaLabel: t('files_reminders', 'Set reminder for tomorrow'),
 }
 
 const thisWeekend: ReminderOption = {
 	dateTimePreset: DateTimePreset.ThisWeekend,
-	icon: thisWeekendSvg,
+	icon: CalendarWeekend,
 	label: t('files_reminders', 'This weekend'),
 	ariaLabel: t('files_reminders', 'Set reminder for this weekend'),
 }
 
 const nextWeek: ReminderOption = {
 	dateTimePreset: DateTimePreset.NextWeek,
-	icon: nextWeekSvg,
+	icon: ChevronDoubleRight,
 	label: t('files_reminders', 'Next week'),
 	ariaLabel: t('files_reminders', 'Set reminder for next week'),
 }
@@ -119,10 +118,11 @@ export default Vue.extend({
 	name: 'SetReminderActions',
 
 	components: {
+		ArrowLeft,
+		CloseCircleOutline,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
-		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -139,8 +139,6 @@ export default Vue.extend({
 
 	data() {
 		return {
-			arrowLeftSvg,
-			clearSvg,
 			open: true,
 		}
 	},
