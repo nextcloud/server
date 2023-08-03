@@ -660,7 +660,7 @@ class Cache implements ICache {
 			$targetPath = $this->normalize($targetPath);
 
 			$sourceData = $sourceCache->get($sourcePath);
-			if ($sourceData === false) {
+			if ($sourceData === false || $sourceData === null) {
 				throw new \Exception('Invalid source storage path: ' . $sourcePath);
 			}
 
