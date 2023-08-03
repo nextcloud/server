@@ -86,13 +86,15 @@ class CheckGroup extends Command {
 		try {
 			$this->assertAllowed($input->getOption('force'));
 			$gid = $input->getArgument('ocName');
+			$wasMapped = $this->groupWasMapped($gid);
 			if ($this->backend->getLDAPAccess($gid)->stringResemblesDN($gid)) {
 				$groupname = $this->backend->dn2GroupName($gid);
 				if ($groupname !== false) {
 					$gid = $groupname;
 				}
 			}
-			$wasMapped = $this->groupWasMapped($gid);
+			/* Search to trigger mapping for new groups */
+			$this->backend->getGroups($gid);
 			$exists = $this->backend->groupExistsOnLDAP($gid, true);
 			if ($exists === true) {
 				$output->writeln('The group is still available on LDAP.');
@@ -113,7 +115,7 @@ class CheckGroup extends Command {
 		}
 	}
 
-	public function onGroupCreatedEvent(GroupChangedEvent $event, OutputInterface $output): void {
+	public function onGroupCreatedEvent(GroupCreatedEvent $event, OutputInterface $output): void {
 		$output->writeln('<info>The group '.$event->getGroup()->getGID().' was added to Nextcloud with '.$event->getGroup()->count().' users</info>');
 	}
 
@@ -131,11 +133,15 @@ class CheckGroup extends Command {
 
 	/**
 	 * checks whether a group is actually mapped
-	 * @param string $ocName the groupname as used in Nextcloud
+	 * @param string $gid the groupname as passed to the command
 	 */
-	protected function groupWasMapped(string $ocName): bool {
-		$dn = $this->mapping->getDNByName($ocName);
-		return $dn !== false;
+	protected function groupWasMapped(string $gid): bool {
+		$dn = $this->mapping->getDNByName($gid);
+		if ($dn !== false) {
+			return true;
+		}
+		$name = $this->mapping->getNameByDN($gid);
+		return $name !== false;
 	}
 
 	/**
