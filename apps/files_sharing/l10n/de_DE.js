@@ -211,6 +211,7 @@ OC.L10N.register(
     "this share just expired." : "Diese Freigabe ist gerade abgelaufen.",
     "Shared with you by {owner}" : "{owner} hat diese mit Ihnen geteilt",
     "_Accept share_::_Accept shares_" : ["Freigabe akzeptieren","Freigaben akzeptieren"],
+    "Open in Files" : "In Dateien öffnen",
     "_Reject share_::_Reject shares_" : ["Freigabe ablehnen","Freigaben ablehnen"],
     "_Restore share_::_Restore shares_" : ["Freigabe wiederherstellen","Freigaben wiederherstellen"],
     "Link to a file" : "Mit einer Datei verknüpfen",
