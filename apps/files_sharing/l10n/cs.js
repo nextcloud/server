@@ -211,6 +211,7 @@ OC.L10N.register(
     "this share just expired." : "platnost tohoto sdílení právě skončila.",
     "Shared with you by {owner}" : "S vámi sdílí {owner}",
     "_Accept share_::_Accept shares_" : ["Přijmout sdílení","Přijmout sdílení","Přijmout sdílení","Přijmout sdílení"],
+    "Open in Files" : "Otevřít v Souborech",
     "_Reject share_::_Reject shares_" : ["Odmítnout sdílení","Odmítnout sdílení","Odmítnout sdílení","Odmítnout sdílení"],
     "_Restore share_::_Restore shares_" : ["Obnovit sdílení","Obnovit sdílení","Obnovit sdílení","Obnovit sdílení"],
     "Link to a file" : "Odkaz na soubor",

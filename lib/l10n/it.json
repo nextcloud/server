@@ -264,7 +264,6 @@
     "Free prompt" : "Prompt libero",
     "Runs an arbitrary prompt through the built-in language model." : "Esegue un prompt arbitrario attraverso il modello di lingua integrato.",
     "Generate headline" : "Genera titolo",
-    "Generates a possible headline for a text" : "Genera un possibile titolo per un testo",
     "Summarize" : "Riassumi",
     "Summarizes text by reducing its length without losing key information." : "Riassume il testo riducendone la lunghezza senza perdere le informazioni chiave.",
     "Extract topics" : "Estrai argomenti",
