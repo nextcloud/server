@@ -35,18 +35,20 @@ class EnableMasterKey extends Command {
 
 		if ($isAlreadyEnabled) {
 			$output->writeln('Master key already enabled');
-		} else {
-			$question = new ConfirmationQuestion(
-				'Warning: Only available for fresh installations with no existing encrypted data! '
-			. 'There is also no way to disable it again. Do you want to continue? (y/n) ', false);
-			if ($this->questionHelper->ask($input, $output, $question)) {
-				$this->config->setAppValue('encryption', 'useMasterKey', '1');
-				$output->writeln('Master key successfully enabled.');
-			} else {
-				$output->writeln('aborted.');
-				return self::FAILURE;
-			}
+			return self::SUCCESS;
 		}
-		return self::SUCCESS;
+
+		$question = new ConfirmationQuestion(
+			'Warning: Only available for fresh installations with no existing encrypted data! '
+			. 'There is also no way to disable it again. Do you want to continue? (y/n) ', false);
+
+		if ($this->questionHelper->ask($input, $output, $question)) {
+			$this->config->setAppValue('encryption', 'useMasterKey', '1');
+			$output->writeln('Master key successfully enabled.');
+			return self::SUCCESS;
+		}
+
+		$output->writeln('aborted.');
+		return self::FAILURE;
 	}
 }

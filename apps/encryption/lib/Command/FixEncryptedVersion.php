@@ -79,6 +79,11 @@ class FixEncryptedVersion extends Command {
 		$all = $input->getOption('all');
 		$pathOption = \trim(($input->getOption('path') ?? ''), '/');
 
+		if (!$user && !$all) {
+			$output->writeln("Either a user id or --all needs to be provided");
+			return self::FAILURE;
+		}
+
 		if ($user) {
 			if ($all) {
 				$output->writeln("Specifying a user id and --all are mutually exclusive");
@@ -91,18 +96,15 @@ class FixEncryptedVersion extends Command {
 			}
 
 			return $this->runForUser($user, $pathOption, $output);
-		} elseif ($all) {
-			$result = 0;
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
-				$output->writeln("Processing files for " . $user->getUID());
-				$result = $this->runForUser($user->getUID(), $pathOption, $output);
-				return $result === 0;
-			});
-			return $result;
-		} else {
-			$output->writeln("Either a user id or --all needs to be provided");
-			return self::FAILURE;
 		}
+
+		$result = 0;
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
+			$output->writeln("Processing files for " . $user->getUID());
+			$result = $this->runForUser($user->getUID(), $pathOption, $output);
+			return $result === 0;
+		});
+		return $result;
 	}
 
 	private function runForUser(string $user, string $pathOption, OutputInterface $output): int {

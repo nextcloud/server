@@ -33,21 +33,23 @@ class DisableMasterKey extends Command {
 
 		if (!$isMasterKeyEnabled) {
 			$output->writeln('Master key already disabled');
-		} else {
-			$question = new ConfirmationQuestion(
-				'Warning: Only perform this operation for a fresh installations with no existing encrypted data! '
-				. 'There is no way to enable the master key again. '
-				. 'We strongly recommend to keep the master key, it provides significant performance improvements '
-				. 'and is easier to handle for both, users and administrators. '
-				. 'Do you really want to switch to per-user keys? (y/n) ', false);
-			if ($this->questionHelper->ask($input, $output, $question)) {
-				$this->config->setAppValue('encryption', 'useMasterKey', '0');
-				$output->writeln('Master key successfully disabled.');
-			} else {
-				$output->writeln('aborted.');
-				return self::FAILURE;
-			}
+			return self::SUCCESS;
 		}
-		return self::SUCCESS;
+
+		$question = new ConfirmationQuestion(
+			'Warning: Only perform this operation for a fresh installations with no existing encrypted data! '
+			. 'There is no way to enable the master key again. '
+			. 'We strongly recommend to keep the master key, it provides significant performance improvements '
+			. 'and is easier to handle for both, users and administrators. '
+			. 'Do you really want to switch to per-user keys? (y/n) ', false);
+
+		if ($this->questionHelper->ask($input, $output, $question)) {
+			$this->config->setAppValue('encryption', 'useMasterKey', '0');
+			$output->writeln('Master key successfully disabled.');
+			return self::SUCCESS;
+		}
+
+		$output->writeln('aborted.');
+		return self::FAILURE;
 	}
 }
