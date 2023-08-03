@@ -27,12 +27,14 @@ declare(strict_types=1);
 namespace OCA\FilesReminders\AppInfo;
 
 use OCA\FilesReminders\Listener\NodeDeletedListener;
+use OCA\FilesReminders\Listener\UserDeletedListener;
 use OCA\FilesReminders\Notification\Notifier;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\User\Events\UserDeletedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_reminders';
@@ -46,6 +48,8 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
+
 		$context->registerEventListener(NodeDeletedEvent::class, NodeDeletedListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 	}
 }

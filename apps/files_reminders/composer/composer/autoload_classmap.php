@@ -17,6 +17,7 @@ return array(
     'OCA\\FilesReminders\\Exception\\NodeNotFoundException' => $baseDir . '/../lib/Exception/NodeNotFoundException.php',
     'OCA\\FilesReminders\\Exception\\UserNotFoundException' => $baseDir . '/../lib/Exception/UserNotFoundException.php',
     'OCA\\FilesReminders\\Listener\\NodeDeletedListener' => $baseDir . '/../lib/Listener/NodeDeletedListener.php',
+    'OCA\\FilesReminders\\Listener\\UserDeletedListener' => $baseDir . '/../lib/Listener/UserDeletedListener.php',
     'OCA\\FilesReminders\\Migration\\Version10000Date20230725162149' => $baseDir . '/../lib/Migration/Version10000Date20230725162149.php',
     'OCA\\FilesReminders\\Model\\RichReminder' => $baseDir . '/../lib/Model/RichReminder.php',
     'OCA\\FilesReminders\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',

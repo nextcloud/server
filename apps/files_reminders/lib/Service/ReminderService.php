@@ -128,6 +128,13 @@ class ReminderService {
 		}
 	}
 
+	public function removeAllForUser(IUser $user): void {
+		$reminders = $this->reminderMapper->findAllForUser($user);
+		foreach ($reminders as $reminder) {
+			$this->reminderMapper->delete($reminder);
+		}
+	}
+
 	/**
 	 * @throws DoesNotExistException
 	 * @throws UserNotFoundException
