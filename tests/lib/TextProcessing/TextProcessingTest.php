@@ -21,6 +21,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Common\Exception\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\TextProcessing\Events\TaskFailedEvent;
 use OCP\TextProcessing\Events\TaskSuccessfulEvent;
@@ -157,12 +158,18 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->jobList->expects($this->any())->method('add')->willReturnCallback(function () {
 		});
 
+		$config = $this->createMock(IConfig::class);
+		$config->method('getAppValue')
+			->with('core', 'ai.textprocessing_provider_preferences', '')
+			->willReturn('');
+
 		$this->manager = new Manager(
 			$this->serverContainer,
 			$this->coordinator,
 			\OC::$server->get(LoggerInterface::class),
 			$this->jobList,
 			$this->taskMapper,
+			$config
 		);
 	}
 
