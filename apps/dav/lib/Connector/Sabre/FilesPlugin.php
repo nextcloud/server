@@ -84,6 +84,7 @@ class FilesPlugin extends ServerPlugin {
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
 	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
+	public const FILE_METADATA_GPS = '{http://nextcloud.org/ns}file-metadata-gps';
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -437,6 +438,27 @@ class FilesPlugin extends ServerPlugin {
 					}
 
 					return $sizeMetadata->getValue();
+				});
+
+				$propFind->handle(self::FILE_METADATA_GPS, function () use ($node) {
+					if (!str_starts_with($node->getFileInfo()->getMimetype(), 'image')) {
+						return json_encode((object)[], JSON_THROW_ON_ERROR);
+					}
+
+					if ($node->hasMetadata('gps')) {
+						$gpsMetadata = $node->getMetadata('gps');
+					} else {
+						// This code path should not be called since we try to preload
+						// the metadata when loading the folder or the search results
+						// in one go
+						$metadataManager = \OC::$server->get(IMetadataManager::class);
+						$gpsMetadata = $metadataManager->fetchMetadataFor('gps', [$node->getId()])[$node->getId()];
+
+						// TODO would be nice to display this in the profiler...
+						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
+					}
+
+					return $gpsMetadata->getValue();
 				});
 			}
 		}
