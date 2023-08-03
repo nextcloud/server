@@ -182,7 +182,6 @@
     "ascending" : "növekvő",
     "descending" : "csökkenő",
     "Sort list by {column} ({direction})" : "Lista rendezése {column} alapján ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Storage informations" : "Tárhely-információk",
     "{usedQuotaByte} used" : "{usedQuotaByte} felhasználva",
     "{relative}% used" : "{relative}% felhasználva",
@@ -201,7 +200,7 @@
     "Select file or folder to link to" : "Válassza ki a hivatkozandó fájlt vagy mappát",
     "Loading current folder" : "Jelenlegi mappa betöltése",
     "No files in here" : "Itt nincsenek fájlok",
-    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
+    "Upload some content or sync with your devices!" : "Töltsön fel néhány tartalmat, vagy szinkronizáljon az eszközeivel.",
     "Go to the previous folder" : "Ugrás az előző mappához",
     "Go back" : "Visszalépés",
     "Open the files app settings" : "Nyissa meg a Fájlok lalkalmazás beállításait",
@@ -232,14 +231,13 @@
     "Templates" : "Sablonok",
     "Create new templates folder" : "Új sablonmappa létrehozása",
     "Unable to initialize the templates directory" : "A sablonkönyvtár előkészítése sikertelen",
+    "No favorites yet" : "Még nincsenek kedvencek",
+    "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találja meg",
     "Toggle %1$s sublist" : "%1$s allista be/ki",
     "Toggle grid view" : "Rácsnézet be/ki",
-    "Upload some content or sync with your devices!" : "Töltsön fel néhány tartalmat, vagy szinkronizáljon az eszközeivel.",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Upload too large" : "A feltöltés túl nagy",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet.",
-    "No favorites yet" : "Még nincsenek kedvencek",
-    "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találja meg",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szövegfájl.txt",
     "Storage invalid" : "A tároló érvénytelen",
@@ -258,6 +256,8 @@
     "Deleted shares" : "Törölt megosztások",
     "Pending shares" : "Függőben lévő megosztások",
     "Open folder {name}" : "A(z) {name} mappa megnyitása",
-    "Search for an account" : "Fiók keresése"
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
+    "Search for an account" : "Fiók keresése",
+    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -32,6 +32,7 @@ use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroup;
 use OCP\IUser;
+use OCP\User\Events\UserDeletedEvent;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Listener {
@@ -47,9 +48,8 @@ class Listener {
 		$symfonyDispatcher->addListener(IGroup::class . '::postAddUser', $listener);
 		$symfonyDispatcher->addListener(IGroup::class . '::postRemoveUser', $listener);
 
-		$symfonyDispatcher->addListener(IUser::class . '::postDelete', function (GenericEvent $event) {
-			/** @var IUser $user */
-			$user = $event->getSubject();
+		$eventDispatcher->addListener(UserDeletedEvent::class, function (UserDeletedEvent $event) {
+			$user = $event->getUser();
 			/** @var IManager $resourceManager */
 			$resourceManager = \OCP\Server::get(IManager::class);
 

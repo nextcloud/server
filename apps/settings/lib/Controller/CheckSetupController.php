@@ -74,7 +74,9 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
+use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
@@ -90,8 +92,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 #[IgnoreOpenAPI]
 class CheckSetupController extends Controller {
@@ -108,8 +108,6 @@ class CheckSetupController extends Controller {
 	/** @var LoggerInterface */
 	private $logger;
 	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var EventDispatcherInterface */
 	private $dispatcher;
 	/** @var Connection */
 	private $db;
@@ -142,8 +140,7 @@ class CheckSetupController extends Controller {
 								IL10N $l10n,
 								Checker $checker,
 								LoggerInterface $logger,
-								IEventDispatcher $eventDispatcher,
-								EventDispatcherInterface $dispatcher,
+								IEventDispatcher $dispatcher,
 								Connection $db,
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
@@ -163,7 +160,6 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->eventDispatcher = $eventDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->db = $db;
 		$this->lockingProvider = $lockingProvider;
@@ -300,7 +296,7 @@ class CheckSetupController extends Controller {
 		}
 
 		// Check if NSS and perform heuristic check
-		if (strpos($versionString, 'NSS/') === 0) {
+		if (str_starts_with($versionString, 'NSS/')) {
 			try {
 				$firstClient = $this->clientService->newClient();
 				$firstClient->get('https://nextcloud.com/');
@@ -391,7 +387,7 @@ class CheckSetupController extends Controller {
 	 */
 	private function isSettimelimitAvailable() {
 		if (function_exists('set_time_limit')
-			&& strpos(ini_get('disable_functions'), 'set_time_limit') === false) {
+			&& !str_contains(ini_get('disable_functions'), 'set_time_limit')) {
 			return true;
 		}
 
@@ -551,11 +547,8 @@ Raw output
 		$indexInfo = new MissingIndexInformation();
 
 		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($indexInfo);
-		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_INDEXES_EVENT, $event);
-
 		$event = new AddMissingIndicesEvent();
-		$this->eventDispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatchTyped($event);
 		$missingIndices = $event->getMissingIndices();
 
 		if ($missingIndices !== []) {
@@ -575,24 +568,50 @@ Raw output
 
 	protected function hasMissingPrimaryKeys(): array {
 		$info = new MissingPrimaryKeyInformation();
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($info);
-		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT, $event);
+		// Dispatch event so apps can also hint for pending key updates if needed
+		$event = new AddMissingPrimaryKeyEvent();
+		$this->dispatcher->dispatchTyped($event);
+		$missingKeys = $event->getMissingPrimaryKeys();
+
+		if (!empty($missingKeys)) {
+			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
+			foreach ($missingKeys as $missingKey) {
+				if ($schema->hasTable($missingKey['tableName'])) {
+					$table = $schema->getTable($missingKey['tableName']);
+					if (!$table->hasPrimaryKey()) {
+						$info->addHintForMissingSubject($missingKey['tableName']);
+					}
+				}
+			}
+		}
 
 		return $info->getListOfMissingPrimaryKeys();
 	}
 
 	protected function hasMissingColumns(): array {
-		$indexInfo = new MissingColumnInformation();
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new GenericEvent($indexInfo);
-		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_COLUMNS_EVENT, $event);
+		$columnInfo = new MissingColumnInformation();
+		// Dispatch event so apps can also hint for pending column updates if needed
+		$event = new AddMissingColumnsEvent();
+		$this->dispatcher->dispatchTyped($event);
+		$missingColumns = $event->getMissingColumns();
 
-		return $indexInfo->getListOfMissingColumns();
+		if (!empty($missingColumns)) {
+			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
+			foreach ($missingColumns as $missingColumn) {
+				if ($schema->hasTable($missingColumn['tableName'])) {
+					$table = $schema->getTable($missingColumn['tableName']);
+					if (!$table->hasColumn($missingColumn['columnName'])) {
+						$columnInfo->addHintForMissingColumn($missingColumn['tableName'], $missingColumn['columnName']);
+					}
+				}
+			}
+		}
+
+		return $columnInfo->getListOfMissingColumns();
 	}
 
 	protected function isSqliteUsed() {
-		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
+		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
 	protected function isReadOnlyConfig(): bool {

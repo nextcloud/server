@@ -62,7 +62,6 @@ use OCP\Notification\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -89,8 +88,6 @@ class CheckSetupControllerTest extends TestCase {
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
 	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
@@ -140,9 +137,7 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
-			->disableOriginalConstructor()->getMock();
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
@@ -171,7 +166,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->eventDispatcher,
 				$this->dispatcher,
 				$this->db,
 				$this->lockingProvider,
@@ -681,7 +675,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->eventDispatcher,
 				$this->dispatcher,
 				$this->db,
 				$this->lockingProvider,
@@ -1409,7 +1402,6 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->eventDispatcher,
 			$this->dispatcher,
 			$this->db,
 			$this->lockingProvider,
@@ -1464,7 +1456,6 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->eventDispatcher,
 			$this->dispatcher,
 			$this->db,
 			$this->lockingProvider,

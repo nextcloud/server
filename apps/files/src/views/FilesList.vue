@@ -35,11 +35,11 @@
 		<NcLoadingIcon v-if="loading && !isRefreshing"
 			class="files-list__loading-icon"
 			:size="38"
-			:title="t('files', 'Loading current folder')" />
+			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
 		<NcEmptyContent v-else-if="!loading && isEmptyDir"
-			:title="currentView?.emptyTitle || t('files', 'No files in here')"
+			:name="currentView?.emptyTitle || t('files', 'No files in here')"
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
 			<template #action>
@@ -183,19 +183,24 @@ export default Vue.extend({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
+			const identifiers = [
+				// Sort favorites first if enabled
+				...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
+				// Sort folders first if sorting by name
+				...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
+				// Use sorting mode if NOT basename (to be able to use displayName too)
+				...this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : [],
+				// Use displayName if available, fallback to name
+				v => v.attributes?.displayName || v.basename,
+				// Finally, use basename if all previous sorting methods failed
+				v => v.basename,
+			]
+			const orders = new Array(identifiers.length).fill(this.isAscSorting ? 'asc' : 'desc')
+
 			return orderBy(
 				[...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)],
-				[
-					// Sort favorites first if enabled
-					...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
-					// Sort folders first if sorting by name
-					...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
-					// Use sorting mode
-					v => v[this.sortingMode],
-					// Finally, fallback to name
-					v => v.basename,
-				],
-				this.isAscSorting ? ['asc', 'asc', 'asc'] : ['desc', 'desc', 'desc'],
+				identifiers,
+				orders,
 			)
 		},
 
@@ -282,14 +287,15 @@ export default Vue.extend({
 				// If we're in the root dir, define the root
 				if (dir === '/') {
 					this.filesStore.setRoot({ service: currentView.id, root: folder })
-				} else
-				// Otherwise, add the folder to the store
-				if (folder.fileid) {
-					this.filesStore.updateNodes([folder])
-					this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
 				} else {
-					// If we're here, the view API messed up
-					logger.error('Invalid root folder returned', { dir, folder, currentView })
+					// Otherwise, add the folder to the store
+					if (folder.fileid) {
+						this.filesStore.updateNodes([folder])
+						this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
+					} else {
+						// If we're here, the view API messed up
+						logger.error('Invalid root folder returned', { dir, folder, currentView })
+					}
 				}
 
 				// Update paths store

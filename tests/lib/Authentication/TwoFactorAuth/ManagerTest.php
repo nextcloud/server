@@ -40,7 +40,6 @@ use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use function reset;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -84,10 +83,7 @@ class ManagerTest extends TestCase {
 	private $timeFactory;
 
 	/** @var IEventDispatcher|MockObject */
-	private $newDispatcher;
-
-	/** @var EventDispatcherInterface|MockObject */
-	private $eventDispatcher;
+	private $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -102,8 +98,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->newDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->manager = new Manager(
 			$this->providerLoader,
@@ -115,8 +110,7 @@ class ManagerTest extends TestCase {
 			$this->logger,
 			$this->tokenProvider,
 			$this->timeFactory,
-			$this->newDispatcher,
-			$this->eventDispatcher
+			$this->dispatcher,
 		);
 
 		$this->fakeProvider = $this->createMock(IProvider::class);
@@ -530,8 +524,7 @@ class ManagerTest extends TestCase {
 				$this->logger,
 				$this->tokenProvider,
 				$this->timeFactory,
-				$this->newDispatcher,
-				$this->eventDispatcher
+				$this->dispatcher,
 			])
 			->setMethods(['loadTwoFactorApp', 'isTwoFactorAuthenticated'])// Do not actually load the apps
 			->getMock();

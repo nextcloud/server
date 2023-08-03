@@ -52,7 +52,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Template;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -69,7 +68,7 @@ class ViewControllerTest extends TestCase {
 	private $l10n;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
@@ -186,19 +185,6 @@ class ViewControllerTest extends TestCase {
 				'expanded' => false,
 				'unread' => 0,
 			],
-			'recent' => [
-				'id' => 'recent',
-				'appname' => 'files',
-				'script' => 'recentlist.php',
-				'order' => 2,
-				'name' => \OC::$server->getL10N('files')->t('Recent'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
@@ -232,10 +218,6 @@ class ViewControllerTest extends TestCase {
 				'appContents' => [
 					'files' => [
 						'id' => 'files',
-						'content' => null,
-					],
-					'recent' => [
-						'id' => 'recent',
 						'content' => null,
 					],
 					'systemtagsfilter' => [

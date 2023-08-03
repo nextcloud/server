@@ -182,7 +182,6 @@
     "ascending" : "rosnąco",
     "descending" : "malejąco",
     "Sort list by {column} ({direction})" : "Sortuj listę według {column} ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
     "Storage informations" : "Informacje o przechowywaniu",
     "{usedQuotaByte} used" : "Wykorzystano {usedQuotaByte}",
     "{relative}% used" : "Wykorzystano {relative}%",
@@ -201,7 +200,7 @@
     "Select file or folder to link to" : "Wybierz plik lub katalog do linku",
     "Loading current folder" : "Ładowanie bieżącego katalogu",
     "No files in here" : "Brak plików",
-    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte",
+    "Upload some content or sync with your devices!" : "Wyślij lub zsynchronizuj pliki z urządzeniami.",
     "Go to the previous folder" : "Przejdź do poprzedniego katalogu",
     "Go back" : "Wstecz",
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
@@ -231,14 +230,13 @@
     "Templates" : "Szablony",
     "Create new templates folder" : "Stwórz nowy folder z szablonami",
     "Unable to initialize the templates directory" : "Nie można zainicjować katalogu szablonów",
+    "No favorites yet" : "Brak ulubionych",
+    "Files and folders you mark as favorite will show up here" : "Pliki i katalogi, które oznaczysz jako ulubione wyświetlą się tutaj",
     "Toggle %1$s sublist" : "Przełącz podlistę %1$s",
     "Toggle grid view" : "Przełącz widok siatki",
-    "Upload some content or sync with your devices!" : "Wyślij lub zsynchronizuj pliki z urządzeniami.",
     "No entries found in this folder" : "Brak wpisów w tym katalogu",
     "Upload too large" : "Wysyłany plik jest za duży",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz wysłać, przekraczają maksymalną dopuszczalną wielkość.",
-    "No favorites yet" : "Brak ulubionych",
-    "Files and folders you mark as favorite will show up here" : "Pliki i katalogi, które oznaczysz jako ulubione wyświetlą się tutaj",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "Storage invalid" : "Nieprawidłowy magazyn",
@@ -257,6 +255,8 @@
     "Deleted shares" : "Usunięte udostępnienia",
     "Pending shares" : "Oczekujące udostępnienia",
     "Open folder {name}" : "Otwórz katalog {name}",
-    "Search for an account" : "Wyszukaj konto"
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
+    "Search for an account" : "Wyszukaj konto",
+    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

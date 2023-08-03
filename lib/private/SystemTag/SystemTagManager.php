@@ -31,6 +31,7 @@ namespace OC\SystemTag;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -39,7 +40,6 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Manager class for system tags
@@ -48,15 +48,6 @@ class SystemTagManager implements ISystemTagManager {
 	public const TAG_TABLE = 'systemtag';
 	public const TAG_GROUP_TABLE = 'systemtag_group';
 
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var EventDispatcherInterface */
-	protected $dispatcher;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/**
 	 * Prepared query for selecting tags directly
 	 *
@@ -64,22 +55,11 @@ class SystemTagManager implements ISystemTagManager {
 	 */
 	private $selectTagQuery;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param IDBConnection $connection database connection
-	 * @param IGroupManager $groupManager
-	 * @param EventDispatcherInterface $dispatcher
-	 */
 	public function __construct(
-		IDBConnection $connection,
-		IGroupManager $groupManager,
-		EventDispatcherInterface $dispatcher
+		protected IDBConnection $connection,
+		protected IGroupManager $groupManager,
+		protected IEventDispatcher $dispatcher,
 	) {
-		$this->connection = $connection;
-		$this->groupManager = $groupManager;
-		$this->dispatcher = $dispatcher;
-
 		$query = $this->connection->getQueryBuilder();
 		$this->selectTagQuery = $query->select('*')
 			->from(self::TAG_TABLE)
@@ -177,8 +157,10 @@ class SystemTagManager implements ISystemTagManager {
 	 * {@inheritdoc}
 	 */
 	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
+		// Length of name column is 64
+		$truncatedTagName = substr($tagName, 0, 64);
 		$result = $this->selectTagQuery
-			->setParameter('name', $tagName)
+			->setParameter('name', $truncatedTagName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->execute();
@@ -187,7 +169,7 @@ class SystemTagManager implements ISystemTagManager {
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
-				'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
+				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
 			);
 		}
 
@@ -247,9 +229,11 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$beforeUpdate = array_shift($tags);
+		// Length of name column is 64
+		$truncatedNewName = substr($newName, 0, 64);
 		$afterUpdate = new SystemTag(
 			$tagId,
-			$newName,
+			$truncatedNewName,
 			$userVisible,
 			$userAssignable
 		);
@@ -260,7 +244,7 @@ class SystemTagManager implements ISystemTagManager {
 			->set('visibility', $query->createParameter('visibility'))
 			->set('editable', $query->createParameter('editable'))
 			->where($query->expr()->eq('id', $query->createParameter('tagid')))
-			->setParameter('name', $newName)
+			->setParameter('name', $truncatedNewName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->setParameter('tagid', $tagId);

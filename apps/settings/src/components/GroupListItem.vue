@@ -23,7 +23,7 @@
 <template>
 	<NcAppNavigationItem :key="id"
 		:exact="true"
-		:title="title"
+		:name="name"
 		:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
 		icon="icon-group"
 		:loading="loadingRenameGroup"
@@ -40,7 +40,7 @@
 				ref="displayNameInput"
 				icon="icon-edit"
 				type="text"
-				:value="title"
+				:value="name"
 				@submit="renameGroup(id)">
 				{{ t('settings', 'Rename group') }}
 			</NcActionInput>
@@ -90,9 +90,9 @@ export default {
 			required: true,
 		},
 		/**
-		 * Title of this group
+		 * Name of this group
 		 */
-		title: {
+		name: {
 			type: String,
 			required: true,
 		},

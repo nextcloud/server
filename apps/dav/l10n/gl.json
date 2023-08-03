@@ -75,7 +75,7 @@
     "Re: %1$s" : "Re: %1$s",
     "%1$s has accepted your invitation" : "%1$s aceptou o seu convite",
     "%1$s has tentatively accepted your invitation" : "%1$s aceptou provisionalmente o seu convite",
-    "%1$s has declined your invitation" : "%1$s rexeitou o seu convite",
+    "%1$s has declined your invitation" : "%1$s declinou o seu convite",
     "%1$s has responded to your invitation" : "%1$s respondeu ao seu convite",
     "Invitation updated: %1$s" : "Convite actualizado: %1$s",
     "%1$s updated the event \"%2$s\"" : "%1$s actualizou o evento «%2$s»",

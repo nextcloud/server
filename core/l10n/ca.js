@@ -39,6 +39,8 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Feu clic en el botó següent per a reinicialitzar la contrasenya. Si no heu sol·licitat un canvi de contrasenya, ignoreu aquest correu electrònic.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Feu clic en l'enllaç següent per a reinicialitzar la contrasenya. Si no heu sol·licitat un canvi de contrasenya, ignoreu aquest correu electrònic.",
     "Reset your password" : "Reinicialitza la contrasenya",
+    "Task not found" : "No s'ha trobat la tasca",
+    "Internal error" : "Error intern",
     "No translation provider available" : "No hi ha cap proveïdor de traduccions disponible",
     "Could not detect language" : "No s'ha pogut detectar la llengua",
     "Unable to translate" : "No s'ha pogut traduir",

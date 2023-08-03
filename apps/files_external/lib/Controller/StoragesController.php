@@ -42,49 +42,14 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Base class for storages controllers
  */
 abstract class StoragesController extends Controller {
-
-	/**
-	 * L10N service
-	 *
-	 * @var IL10N
-	 */
-	protected $l10n;
-
-	/**
-	 * Storages service
-	 *
-	 * @var StoragesService
-	 */
-	protected $service;
-
-	/**
-	 * @var ILogger
-	 */
-	protected $logger;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	protected $groupManager;
-
-	/**
-	 * @var IConfig
-	 */
-	protected $config;
-
 	/**
 	 * Creates a new storages controller.
 	 *
@@ -92,25 +57,19 @@ abstract class StoragesController extends Controller {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param StoragesService $storagesService storage service
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
-		IL10N $l10n,
-		StoragesService $storagesService,
-		ILogger $logger,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		IConfig $config
+		protected IL10N $l10n,
+		protected StoragesService $service,
+		protected LoggerInterface $logger,
+		protected IUserSession $userSession,
+		protected IGroupManager $groupManager,
+		protected IConfig $config
 	) {
 		parent::__construct($AppName, $request);
-		$this->l10n = $l10n;
-		$this->service = $storagesService;
-		$this->logger = $logger;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->config = $config;
 	}
 
 	/**
@@ -159,7 +118,7 @@ abstract class StoragesController extends Controller {
 				$priority
 			);
 		} catch (\InvalidArgumentException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse(
 				[
 					'message' => $this->l10n->t('Invalid backend or authentication mechanism class')
@@ -317,35 +276,12 @@ abstract class StoragesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function index() {
-		$storages = $this->formatStoragesForUI($this->service->getStorages());
+		$storages = array_map(static fn ($storage) => $storage->jsonSerialize(true), $this->service->getStorages());
 
 		return new DataResponse(
 			$storages,
 			Http::STATUS_OK
 		);
-	}
-
-	protected function formatStoragesForUI(array $storages): array {
-		return array_map(function ($storage) {
-			return $this->formatStorageForUI($storage);
-		}, $storages);
-	}
-
-	protected function formatStorageForUI(StorageConfig $storage): StorageConfig {
-		/** @var DefinitionParameter[] $parameters */
-		$parameters = array_merge($storage->getBackend()->getParameters(), $storage->getAuthMechanism()->getParameters());
-
-		$options = $storage->getBackendOptions();
-		foreach ($options as $key => $value) {
-			foreach ($parameters as $parameter) {
-				if ($parameter->getName() === $key && $parameter->getType() === DefinitionParameter::VALUE_PASSWORD) {
-					$storage->setBackendOption($key, DefinitionParameter::UNMODIFIED_PLACEHOLDER);
-					break;
-				}
-			}
-		}
-
-		return $storage;
 	}
 
 	/**
@@ -370,7 +306,7 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
-		$data = $this->formatStorageForUI($storage)->jsonSerialize();
+		$data = $storage->jsonSerialize(true);
 		$isAdmin = $this->groupManager->isAdmin($this->userSession->getUser()->getUID());
 		$data['can_edit'] = $storage->getType() === StorageConfig::MOUNT_TYPE_PERSONAl || $isAdmin;
 

@@ -18,7 +18,7 @@
 <template>
 	<div>
 		<NcListItem class="version"
-			:title="versionLabel"
+			:name="versionLabel"
 			:href="downloadURL"
 			:force-display-actions="true"
 			data-files-versions-version>
@@ -37,7 +37,7 @@
 					<ImageOffOutline :size="20" />
 				</div>
 			</template>
-			<template #subtitle>
+			<template #subname>
 				<div class="version__info">
 					<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
 					<!-- Separate dot to improve alignement -->

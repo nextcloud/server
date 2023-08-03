@@ -34,9 +34,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App implements IBootstrap {
@@ -56,15 +56,17 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @todo move the OCP events and then move the registration to `register`
 	 */
-	private function registerEventListeners(EventDispatcherInterface $dispatcher,
+	private function registerEventListeners(IEventDispatcher $dispatcher,
 											ContainerInterface $appContainer): void {
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($appContainer) {
-			/** @var IUser $user */
-			$user = $event->getSubject();
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function ($event) use ($appContainer) {
+			if ($event instanceof GenericEvent) {
+				/** @var IUser $user */
+				$user = $event->getSubject();
 
-			/** @var UpdateLookupServer $updateLookupServer */
-			$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
-			$updateLookupServer->userUpdated($user);
+				/** @var UpdateLookupServer $updateLookupServer */
+				$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
+				$updateLookupServer->userUpdated($user);
+			}
 		});
 	}
 }

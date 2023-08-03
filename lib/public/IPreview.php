@@ -38,12 +38,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * @since 6.0.0
  */
 interface IPreview {
-	/**
-	 * @since 9.2.0
-	 * @deprecated 22.0.0
-	 */
-	public const EVENT = self::class . ':' . 'PreviewRequested';
-
 	public const MODE_FILL = 'fill';
 	public const MODE_COVER = 'cover';
 

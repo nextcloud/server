@@ -26,13 +26,13 @@ namespace Test\Group;
 use OC\Group\Database;
 use OC\User\User;
 use OC\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterface {
@@ -41,7 +41,7 @@ interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterf
 class ManagerTest extends TestCase {
 	/** @var Manager|MockObject */
 	protected $userManager;
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
@@ -52,7 +52,7 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cache = $this->createMock(ICacheFactory::class);
 	}

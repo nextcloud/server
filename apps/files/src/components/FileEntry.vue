@@ -3,7 +3,7 @@
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -53,7 +53,7 @@
 				<span v-if="isFavorite"
 					class="files-list__row-icon-favorite"
 					:aria-label="t('files', 'Favorite')">
-					<StarIcon aria-hidden="true" :size="20" />
+					<FavoriteIcon :aria-hidden="true" />
 				</span>
 			</span>
 
@@ -78,6 +78,7 @@
 			<a v-show="!isRenaming"
 				ref="basename"
 				:aria-hidden="isRenaming"
+				class="files-list__row-name-link"
 				v-bind="linkTo"
 				@click="execDefaultAction">
 				<!-- File name -->
@@ -91,8 +92,12 @@
 
 		<!-- Actions -->
 		<td v-show="!isRenamingSmallScreen" :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
-			<!-- Inline actions -->
-			<!-- TODO: implement CustomElementRender -->
+			<!-- Render actions -->
+			<CustomElementRender v-for="action in enabledRenderActions"
+				:key="action.id"
+				:current-view="currentView"
+				:render="action.renderInline"
+				:source="source" />
 
 			<!-- Menu actions -->
 			<NcActions v-if="active"
@@ -100,7 +105,7 @@
 				:boundaries-element="boundariesElement"
 				:container="boundariesElement"
 				:disabled="source._loading"
-				:force-title="true"
+				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
@@ -154,6 +159,7 @@ import { formatFileSize, Permission } from '@nextcloud/files'
 import { Fragment } from 'vue-frag'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
 import CancelablePromise from 'cancelable-promise'
@@ -164,7 +170,6 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import StarIcon from 'vue-material-design-icons/Star.vue'
 import Vue from 'vue'
 import type moment from 'moment'
 
@@ -180,6 +185,7 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
+import FavoriteIcon from './FavoriteIcon.vue'
 import logger from '../logger.js'
 
 // The registered actions list
@@ -193,6 +199,7 @@ export default Vue.extend({
 	components: {
 		CustomElementRender,
 		CustomSvgIconRender,
+		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
 		Fragment,
@@ -201,7 +208,6 @@ export default Vue.extend({
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcTextField,
-		StarIcon,
 	},
 
 	props: {
@@ -301,15 +307,16 @@ export default Vue.extend({
 			return formatFileSize(size, true)
 		},
 		sizeOpacity() {
-			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
-				return 1
-			}
-
 			// Whatever theme is active, the contrast will pass WCAG AA
 			// with color main text over main background and an opacity of 0.7
 			const minOpacity = 0.7
 			const maxOpacitySize = 10 * 1024 * 1024
+
+			const size = parseInt(this.source.size, 10) || 0
+			if (!size || size < 0) {
+				return minOpacity
+			}
+
 			return minOpacity + (1 - minOpacity) * Math.pow((this.source.size / maxOpacitySize), 2)
 		},
 
@@ -361,10 +368,16 @@ export default Vue.extend({
 		},
 		previewUrl() {
 			try {
-				const url = new URL(window.location.origin + this.source.attributes.previewUrl)
+				const previewUrl = this.source.attributes.previewUrl
+					|| generateUrl('/core/preview?fileId={fileid}', {
+						fileid: this.source.fileid,
+					})
+				const url = new URL(window.location.origin + previewUrl)
+
 				// Request tiny previews
 				url.searchParams.set('x', '32')
 				url.searchParams.set('y', '32')
+
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
 				return url.href
@@ -396,9 +409,17 @@ export default Vue.extend({
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
 		},
 
+		// Enabled action that are displayed inline with a custom render function
+		enabledRenderActions() {
+			if (!this.active) {
+				return []
+			}
+			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
+		},
+
 		// Default actions
 		enabledDefaultActions() {
-			return this.enabledActions.filter(action => !!action.default)
+			return this.enabledActions.filter(action => !!action?.default)
 		},
 
 		// Actions shown in the menu
@@ -407,7 +428,7 @@ export default Vue.extend({
 				// Showing inline first for the NcActions inline prop
 				...this.enabledInlineActions,
 				// Then the rest
-				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN),
+				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
 			].filter((value, index, self) => {
 				// Then we filter duplicates to prevent inline actions to be shown twice
 				return index === self.findIndex(action => action.id === value.id)

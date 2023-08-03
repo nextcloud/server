@@ -32,16 +32,18 @@ describe('Settings: Show and hide columns', function() {
 	})
 
 	beforeEach(function() {
-		// open the settings pane
-		cy.get('.app-navigation button.settings-button').click()
-		// reset all toggles
-		cy.get('.app-navigation #app-settings__content input[type="checkbox"]').uncheck({ force: true })
-		// enable the last login toggle
-		cy.get('.app-navigation #app-settings__content').within(() => {
+		// open the settings dialog
+		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
+		// reset all visibility toggles
+		cy.get('.modal-container #settings-section_visibility-settings input[type="checkbox"]').uncheck({ force: true })
+
+		cy.get('.modal-container').within(() => {
+			// enable the last login toggle
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').check({ force: true })
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
 		})
-		// close the settings pane
-		cy.get('.app-navigation button.settings-button').click()
+		cy.waitUntil(() => cy.get('.modal-container').should('not.be.visible'))
 	})
 
 	it('Can show a column', function() {
@@ -55,18 +57,18 @@ describe('Settings: Show and hide columns', function() {
 			cy.wrap($row).get('[data-test="language"]').should('not.exist')
 		})
 
-		// open the settings pane
-		cy.get('.app-navigation button.settings-button').click()
+		// open the settings dialog
+		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
 
-		// enable the languages toggle
-		cy.get('.app-navigation #app-settings__content').within(() => {
+		cy.get('.modal-container').within(() => {
+			// enable the language toggle
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').should('not.be.checked')
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').check({ force: true })
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').should('be.checked')
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
 		})
-
-		// close the settings pane
-		cy.get('.app-navigation button.settings-button').click()
+		cy.waitUntil(() => cy.get('.modal-container').should('not.be.visible'))
 
 		// see that the language column is in the header
 		cy.get(`.user-list__header tr`).within(() => {
@@ -90,18 +92,18 @@ describe('Settings: Show and hide columns', function() {
 			cy.wrap($row).get('[data-test="lastLogin"]').should('exist')
 		})
 
-		// open the settings pane
-		cy.get('.app-navigation button.settings-button').click()
+		// open the settings dialog
+		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
 
-		// disable the last login toggle
-		cy.get('.app-navigation #app-settings__content').within(() => {
+		cy.get('.modal-container').within(() => {
+			// disable the last login toggle
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').should('be.checked')
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').uncheck({ force: true })
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').should('not.be.checked')
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
 		})
-
-		// close the settings pane
-		cy.get('.app-navigation button.settings-button').click()
+		cy.waitUntil(() => cy.get('.modal-container').should('not.be.visible'))
 
 		// see that the last login column is not in the header
 		cy.get(`.user-list__header tr`).within(() => {
