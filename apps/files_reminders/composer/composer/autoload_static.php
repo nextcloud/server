@@ -31,6 +31,7 @@ class ComposerStaticInitFilesReminders
         'OCA\\FilesReminders\\Db\\ReminderMapper' => __DIR__ . '/..' . '/../lib/Db/ReminderMapper.php',
         'OCA\\FilesReminders\\Exception\\NodeNotFoundException' => __DIR__ . '/..' . '/../lib/Exception/NodeNotFoundException.php',
         'OCA\\FilesReminders\\Exception\\UserNotFoundException' => __DIR__ . '/..' . '/../lib/Exception/UserNotFoundException.php',
+        'OCA\\FilesReminders\\Listener\\LoadAdditionalScriptsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalScriptsListener.php',
         'OCA\\FilesReminders\\Listener\\NodeDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/NodeDeletedListener.php',
         'OCA\\FilesReminders\\Listener\\UserDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/UserDeletedListener.php',
         'OCA\\FilesReminders\\Migration\\Version10000Date20230725162149' => __DIR__ . '/..' . '/../lib/Migration/Version10000Date20230725162149.php',
