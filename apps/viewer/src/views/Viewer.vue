@@ -111,7 +111,23 @@
 			</NcActionButton>
 		</template>
 
-		<div class="viewer__content" @click.self.exact="close">
+		<div class="viewer__content" :class="contentClass" @click.self.exact="close">
+			<!-- COMPARE FILE -->
+			<component :is="comparisonFile.modal"
+				v-if="comparisonFile && !comparisonFile.failed && showComparison"
+				:key="comparisonFile | uniqueKey"
+				ref="comparison-content"
+				v-bind="comparisonFile"
+				:active="true"
+				:can-swipe="false"
+				:can-zoom="false"
+				:editing="false"
+				:is-full-screen="isFullscreen"
+				:is-sidebar-shown="isSidebarShown"
+				:loaded.sync="comparisonFile.loaded"
+				class="viewer__file viewer__file--active"
+				@error="comparisonFailed" />
+
 			<!-- PREVIOUS -->
 			<component :is="previousFile.modal"
 				v-if="previousFile && !previousFile.failed"
@@ -236,6 +252,7 @@ export default {
 			currentIndex: 0,
 			previousFile: {},
 			currentFile: {},
+			comparisonFile: null,
 			nextFile: {},
 			fileList: [],
 
@@ -279,6 +296,9 @@ export default {
 		},
 		fileInfo() {
 			return this.Viewer.fileInfo
+		},
+		comparisonFileInfo() {
+			return this.Viewer.compareFileInfo
 		},
 		files() {
 			return this.Viewer.files
@@ -345,7 +365,7 @@ export default {
 		 * @return {boolean}
 		 */
 		canDownload() {
-			return canDownload()
+			return canDownload() && !this.comparisonFile
 		},
 
 		/**
@@ -359,6 +379,7 @@ export default {
 				&& canDownload()
 				&& this.currentFile?.permissions?.includes('W')
 				&& this.isImage
+				&& !this.comparisonFile
 		},
 
 		modalClass() {
@@ -369,6 +390,16 @@ export default {
 				'theme--light': this.theme === 'light',
 				'theme--default': this.theme === 'default',
 				'image--fullscreen': this.isImage && this.isFullscreenMode,
+			}
+		},
+
+		showComparison() {
+			return !this.isMobile
+		},
+
+		contentClass() {
+			return {
+				'viewer--split': this.comparisonFile,
 			}
 		},
 	},
@@ -406,6 +437,16 @@ export default {
 			if (fileInfo) {
 				logger.info('Opening viewer for fileInfo ', { fileInfo })
 				this.openFileInfo(fileInfo, OCA.Viewer.overrideHandlerId)
+			} else {
+				// object is undefined, we're closing!
+				this.cleanup()
+			}
+		},
+
+		comparisonFileInfo(fileInfo) {
+			if (fileInfo) {
+				logger.info('Opening viewer for comparisonFileInfo ', { fileInfo })
+				this.compareFile(fileInfo)
 			} else {
 				// object is undefined, we're closing!
 				this.cleanup()
@@ -522,7 +563,7 @@ export default {
 			this.cancelRequestFile()
 
 			// do not open the same file again
-			if (path === this.currentFile.path) {
+			if (path === this.currentFile.path && !this.currentFile.source) {
 				return
 			}
 
@@ -573,7 +614,7 @@ export default {
 			this.cancelRequestFolder()
 
 			// do not open the same file info again
-			if (fileInfo.basename === this.currentFile.basename) {
+			if (fileInfo.basename === this.currentFile.basename && fileInfo.source !== this.currentFile.source) {
 				return
 			}
 
@@ -643,6 +684,7 @@ export default {
 
 			// show file
 			this.currentFile = new File(fileInfo, mime, handler.component)
+			this.comparisonFile = null
 			this.updatePreviousNext()
 
 			// if sidebar was opened before, let's update the file
@@ -660,6 +702,10 @@ export default {
 			this.currentFile = new File(fileInfo, mime, this.components[mime])
 			this.changeSidebar()
 			this.updatePreviousNext()
+		},
+
+		async compareFile(fileInfo) {
+			this.comparisonFile = new File(fileInfo, fileInfo.mime, this.components[fileInfo.mime])
 		},
 
 		/**
@@ -877,6 +923,7 @@ export default {
 		cleanup() {
 			// reset all properties
 			this.currentFile = {}
+			this.comparisonFile = null
 			this.currentModal = null
 			this.fileList = []
 			this.initiated = false
@@ -939,6 +986,10 @@ export default {
 		/**
 		 * Failures handlers
 		 */
+		comparisonFailed() {
+			this.comparisonFile.failed = true
+		},
+
 		previousFailed() {
 			this.previousFile.failed = true
 		},
@@ -1089,6 +1140,12 @@ export default {
 	&__content {
 		overflow: visible !important;
 		cursor: pointer;
+	}
+
+	&--split {
+		.viewer__file--active {
+			width: 50%;
+		}
 	}
 
 	:deep(.modal-wrapper) {
