@@ -61,6 +61,6 @@ class FreePromptTaskType implements ITaskType {
 	 * @since 27.1.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Runs an arbitrary prompt through the built-in language model.');
+		return $this->l->t('Runs an arbitrary prompt through the language model.');
 	}
 }
