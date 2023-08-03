@@ -82,10 +82,21 @@ interface IManager {
 	public function getTask(int $id): Task;
 
 	/**
+	 * @param int $id The id of the task
+	 * @param string|null $userId The user id that scheduled the task
+	 * @return Task
+	 * @throws RuntimeException If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 27.1.0
+	 */
+	public function getUserTask(int $id, ?string $userId): Task;
+
+	/**
 	 * @param string $userId
 	 * @param string $appId
 	 * @param string|null $identifier
 	 * @return array
+	 * @since 27.1.0
 	 */
-	public function getTasksByApp(string $userId, string $appId, ?string $identifier = null): array;
+	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array;
 }

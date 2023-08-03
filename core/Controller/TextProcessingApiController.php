@@ -29,6 +29,10 @@ namespace OC\Core\Controller;
 use InvalidArgumentException;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Common\Exception\NotFoundException;
 use OCP\IL10N;
@@ -47,13 +51,13 @@ use Psr\Log\LoggerInterface;
  */
 class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string           $appName,
-		IRequest         $request,
-		private IManager $languageModelManager,
-		private IL10N    $l,
-		private ?string  $userId,
+		string                     $appName,
+		IRequest                   $request,
+		private IManager           $textProcessingManager,
+		private IL10N              $l,
+		private ?string            $userId,
 		private ContainerInterface $container,
-		private LoggerInterface $logger,
+		private LoggerInterface    $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -61,12 +65,11 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint returns all available LanguageModel task types
 	 *
-	 * @PublicPage
-	 *
 	 * @return DataResponse<Http::STATUS_OK, array{types: array{id: string, name: string, description: string}[]}, array{}>
 	 */
+	#[PublicPage]
 	public function taskTypes(): DataResponse {
-		$typeClasses = $this->languageModelManager->getAvailableTaskTypes();
+		$typeClasses = $this->textProcessingManager->getAvailableTaskTypes();
 		$types = [];
 		/** @var string $typeClass */
 		foreach ($typeClasses as $typeClass) {
@@ -92,10 +95,6 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint allows scheduling a language model task
 	 *
-	 * @PublicPage
-	 * @UserRateThrottle(limit=20, period=120)
-	 * @AnonRateThrottle(limit=5, period=120)
-	 *
 	 * @param string $input Input text
 	 * @param string $type Type of the task
 	 * @param string $appId ID of the app that will execute the task
@@ -107,6 +106,9 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
 	 */
+	#[PublicPage]
+	#[UserRateLimit(limit: 20, period: 120)]
+	#[AnonRateLimit(limit: 5, period: 120)]
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
 		try {
 			$task = new Task($type, $input, $appId, $this->userId, $identifier);
@@ -114,7 +116,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(['message' => $this->l->t('Requested task type does not exist')], Http::STATUS_BAD_REQUEST);
 		}
 		try {
-			$this->languageModelManager->scheduleTask($task);
+			$this->textProcessingManager->scheduleTask($task);
 
 			$json = $task->jsonSerialize();
 
@@ -130,7 +132,6 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * This endpoint allows checking the status and results of a task.
 	 * Tasks are removed 1 week after receiving their last update.
 	 *
-	 * @PublicPage
 	 * @param int $id The id of the task
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
@@ -138,13 +139,10 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
+	#[PublicPage]
 	public function getTask(int $id): DataResponse {
 		try {
-			$task = $this->languageModelManager->getTask($id);
-
-			if ($this->userId !== $task->getUserId()) {
-				return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-			}
+			$task = $this->textProcessingManager->getUserTask($id, $this->userId);
 
 			$json = $task->jsonSerialize();
 
@@ -159,10 +157,8 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint returns a list of tasks related with a specific appId and identifier
-	 *
-	 * @PublicPage
-	 * @UserRateThrottle(limit=20, period=120)
+	 * This endpoint returns a list of tasks of a user that are related
+	 * with a specific appId and optionally with an identifier
 	 *
 	 * @param string $appId
 	 * @param string|null $identifier
@@ -170,14 +166,10 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 *  200: Task list returned
 	 */
+	#[NoAdminRequired]
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
-		if ($this->userId === null) {
-			return new DataResponse([
-				'tasks' => [],
-			]);
-		}
 		try {
-			$tasks = $this->languageModelManager->getTasksByApp($this->userId, $appId, $identifier);
+			$tasks = $this->textProcessingManager->getUserTasksByApp($this->userId, $appId, $identifier);
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);

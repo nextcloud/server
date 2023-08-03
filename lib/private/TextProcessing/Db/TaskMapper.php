@@ -60,13 +60,34 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int $id
+	 * @param string|null $userId
+	 * @return Task
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function findByIdAndUser(int $id, ?string $userId): Task {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
+		if ($userId === null) {
+			$qb->andWhere($qb->expr()->isNull('user_id'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		}
+		return $this->findEntity($qb);
+	}
+
+	/**
 	 * @param string $userId
 	 * @param string $appId
 	 * @param string|null $identifier
 	 * @return array
 	 * @throws Exception
 	 */
-	public function findByApp(string $userId, string $appId, ?string $identifier = null): array {
+	public function findUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName)

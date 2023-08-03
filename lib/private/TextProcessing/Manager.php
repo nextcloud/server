@@ -178,6 +178,8 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Get a task from its id
+	 *
 	 * @param int $id The id of the task
 	 * @return OCPTask
 	 * @throws RuntimeException If the query failed
@@ -197,14 +199,41 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Get a task from its user id and task id
+	 * If userId is null, this can only get a task that was scheduled anonymously
+	 *
+	 * @param int $id The id of the task
+	 * @param string|null $userId The user id that scheduled the task
+	 * @return OCPTask
+	 * @throws RuntimeException If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 */
+	public function getUserTask(int $id, ?string $userId): OCPTask {
+		try {
+			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
+			return $taskEntity->toPublicTask();
+		} catch (DoesNotExistException $e) {
+			throw new NotFoundException('Could not find task with the provided id and user id');
+		} catch (MultipleObjectsReturnedException $e) {
+			throw new RuntimeException('Could not uniquely identify task with given id and user id', 0, $e);
+		} catch (Exception $e) {
+			throw new RuntimeException('Failure while trying to find task by id and user id: ' . $e->getMessage(), 0, $e);
+		}
+	}
+
+	/**
+	 * Get a list of tasks scheduled by a specific user for a specific app
+	 * and optionally with a specific identifier.
+	 * This cannot be used to get anonymously scheduled tasks
+	 *
 	 * @param string $userId
 	 * @param string $appId
 	 * @param string|null $identifier
 	 * @return array
 	 */
-	public function getTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
+	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
 		try {
-			$taskEntities = $this->taskMapper->findByApp($userId, $appId, $identifier);
+			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
 			return array_map(static function (DbTask $taskEntity) {
 				return $taskEntity->toPublicTask();
 			}, $taskEntities);
