@@ -36,7 +36,7 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 			const hour = moment().get('hour')
 			const later = moment()
 				.startOf('day')
-				.add(hour + 2, 'hour')
+				.add(hour + 3, 'hour')
 			return later.toDate()
 		},
 
