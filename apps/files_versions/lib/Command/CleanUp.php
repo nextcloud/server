@@ -75,37 +75,39 @@ class CleanUp extends Command {
 
 		if (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Delete versions of   <info>$user</info>");
-					$this->deleteVersions($user, $path);
-				} else {
+				if (!$this->userManager->userExists($user)) {
 					$output->writeln("<error>Unknown user $user</error>");
 					return self::FAILURE;
 				}
+
+				$output->writeln("Delete versions of   <info>$user</info>");
+				$this->deleteVersions($user, $path);
 			}
-		} else {
-			$output->writeln('Delete all versions');
-			foreach ($this->userManager->getBackends() as $backend) {
-				$name = get_class($backend);
-
-				if ($backend instanceof IUserBackend) {
-					$name = $backend->getBackendName();
-				}
-
-				$output->writeln("Delete versions for users on backend <info>$name</info>");
-
-				$limit = 500;
-				$offset = 0;
-				do {
-					$users = $backend->getUsers('', $limit, $offset);
-					foreach ($users as $user) {
-						$output->writeln("   <info>$user</info>");
-						$this->deleteVersions($user);
-					}
-					$offset += $limit;
-				} while (count($users) >= $limit);
-			}
+			return self::SUCCESS;
 		}
+
+		$output->writeln('Delete all versions');
+		foreach ($this->userManager->getBackends() as $backend) {
+			$name = get_class($backend);
+
+			if ($backend instanceof IUserBackend) {
+				$name = $backend->getBackendName();
+			}
+
+			$output->writeln("Delete versions for users on backend <info>$name</info>");
+
+			$limit = 500;
+			$offset = 0;
+			do {
+				$users = $backend->getUsers('', $limit, $offset);
+				foreach ($users as $user) {
+					$output->writeln("   <info>$user</info>");
+					$this->deleteVersions($user);
+				}
+				$offset += $limit;
+			} while (count($users) >= $limit);
+		}
+
 		return self::SUCCESS;
 	}
 
