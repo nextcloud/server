@@ -218,8 +218,8 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .actions-secondary-vue {
 	display: block !important;
-    float: right !important;
-    padding: 5px 0 0 4px !important;
+	float: right !important;
+	padding: 5px 0 0 4px !important;
 	pointer-events: none !important; // prevent activation of file row
 }
 </style>
