@@ -30,7 +30,7 @@ interface Reminder {
 export const getReminder = async (fileId: number): Promise<Reminder> => {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/get/{fileId}', { fileId })
 	const response = await axios.get(url)
-	const dueDate = response.data.dueDate ? new Date(response.data.dueDate) : null
+	const dueDate = response.data.ocs.data.dueDate ? new Date(response.data.ocs.data.dueDate) : null
 
 	return {
 		dueDate,
@@ -44,12 +44,12 @@ export const setReminder = async (fileId: number, dueDate: Date): Promise<[]> =>
 		dueDate: dueDate.toISOString(), // timezone of string is always UTC
 	})
 
-	return response.data
+	return response.data.ocs.data
 }
 
 export const clearReminder = async (fileId: number): Promise<[]> => {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/remove/{fileId}', { fileId })
 	const response = await axios.delete(url)
 
-	return response.data
+	return response.data.ocs.data
 }
