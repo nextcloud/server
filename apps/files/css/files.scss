@@ -641,8 +641,11 @@ a.action > img {
 	vertical-align: text-bottom;
 }
 
-a.action.action-editlocally img.icon {
-	filter: var(--background-invert-if-dark);
+a.action.action-editlocally,
+a.action.action-setreminder {
+	img.icon {
+		filter: var(--background-invert-if-dark);
+	}
 }
 
 /* Actions for selected files */
