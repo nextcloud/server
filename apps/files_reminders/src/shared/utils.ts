@@ -89,17 +89,24 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 }
 
 export const getDateString = (dueDate: Date): string => {
-	let localeOptions: Intl.DateTimeFormatOptions = {
-		weekday: 'short',
+	let formatOptions: Intl.DateTimeFormatOptions = {
 		hour: 'numeric',
 		minute: '2-digit',
 	}
 
-	const today = moment()
 	const dueDateMoment = moment(dueDate)
+	const today = moment()
+
+	if (!dueDateMoment.isSame(today, 'date')) {
+		formatOptions = {
+			...formatOptions,
+			weekday: 'short',
+		}
+	}
+
 	if (!dueDateMoment.isSame(today, 'week')) {
-		localeOptions = {
-			...localeOptions,
+		formatOptions = {
+			...formatOptions,
 			month: 'short',
 			day: 'numeric',
 		}
@@ -107,7 +114,7 @@ export const getDateString = (dueDate: Date): string => {
 
 	return dueDate.toLocaleString(
 		getCanonicalLocale(),
-		localeOptions,
+		formatOptions,
 	)
 }
 
