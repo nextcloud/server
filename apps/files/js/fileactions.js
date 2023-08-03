@@ -710,6 +710,22 @@
 				}
 			});
 
+			if (Boolean(OC.appswebroots.files_reminders) && Boolean(OC.appswebroots.notifications)) {
+				this.registerAction({
+					name: 'SetReminder',
+					displayName: function(_context) {
+						return t('files', 'Set reminder');
+					},
+					mime: 'all',
+					order: -24,
+					icon: function(_filename, _context) {
+						return OC.imagePath('files_reminders', 'remind.svg')
+					},
+					permissions: OC.PERMISSION_READ,
+					actionHandler: function(_filename, _context) {},
+				});
+			}
+
 			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
 				this.registerAction({
 					name: 'EditLocally',
