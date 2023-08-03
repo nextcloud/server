@@ -30,15 +30,15 @@ use OCP\Calendar\ICalendarQuery;
 class CalendarQuery implements ICalendarQuery {
 	public array $searchProperties = [];
 
-	private ?string $searchPattern;
+	private ?string $searchPattern = null;
 
 	private array $options = [
 		'types' => [],
 	];
 
-	private ?int $offset;
+	private ?int $offset = null;
 
-	private ?int $limit;
+	private ?int $limit = null;
 
 	/** @var string[] */
 	private array $calendarUris = [];

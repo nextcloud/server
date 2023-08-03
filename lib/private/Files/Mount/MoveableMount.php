@@ -22,10 +22,12 @@
  */
 namespace OC\Files\Mount;
 
+use OCP\Files\Mount\IMovableMount;
+
 /**
  * Defines the mount point to be (re)moved by the user
  */
-interface MoveableMount {
+interface MoveableMount extends IMovableMount {
 	/**
 	 * Move the mount point to $target
 	 *

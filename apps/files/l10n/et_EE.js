@@ -159,7 +159,7 @@ OC.L10N.register(
     "Unknown error" : "Tundmatu viga",
     "Loading current folder" : "Jooksva kausta laadimine",
     "No files in here" : "Siin ei ole faile",
-    "No files or folders have been deleted yet" : "Faile ega kaustu pole veel kustutatud",
+    "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
     "Go to the previous folder" : "Mine eelmisesse kausta",
     "Go back" : "Mine tagasi",
     "Files settings" : "Failide seaded",
@@ -179,12 +179,11 @@ OC.L10N.register(
     "Templates" : "Mallid",
     "Create new templates folder" : "Loo uus mallide kaust",
     "Unable to initialize the templates directory" : "Mallide kausta loomine ebaõnnestus",
-    "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
+    "No favorites yet" : "Lemmikuid veel pole",
+    "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
     "Upload too large" : "Üleslaadimine on liiga suur",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületavad serveri poolt üleslaaditavatele failidele määratud maksimaalse suuruse.",
-    "No favorites yet" : "Lemmikuid veel pole",
-    "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Storage invalid" : "Vigane andmehoidla",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Deleted shares" : "Kustutatud jagamised",
     "Pending shares" : "Ootel jagamised",
     "Open folder {name}" : "Ava kaust {name}",
-    "Search for an account" : "Otsi kontot"
+    "Search for an account" : "Otsi kontot",
+    "No files or folders have been deleted yet" : "Faile ega kaustu pole veel kustutatud"
 },
 "nplurals=2; plural=(n != 1);");

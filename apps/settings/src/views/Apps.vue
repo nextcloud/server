@@ -32,28 +32,36 @@
 					:to="{ name: 'apps' }"
 					:exact="true"
 					icon="icon-category-installed"
-					:title="t('settings', 'Your apps')" />
+					:name="t('settings', 'Your apps')" />
 				<NcAppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
-					:title="$options.APPS_SECTION_ENUM.enabled" />
+					:name="$options.APPS_SECTION_ENUM.enabled" />
 				<NcAppNavigationItem id="app-category-disabled"
 					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 					icon="icon-category-disabled"
-					:title="$options.APPS_SECTION_ENUM.disabled" />
+					:name="$options.APPS_SECTION_ENUM.disabled" />
 				<NcAppNavigationItem v-if="updateCount > 0"
 					id="app-category-updates"
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
-					:title="$options.APPS_SECTION_ENUM.updates">
+					:name="$options.APPS_SECTION_ENUM.updates">
 					<template #counter>
 						<NcCounterBubble>{{ updateCount }}</NcCounterBubble>
+					</template>
+				</NcAppNavigationItem>
+				<NcAppNavigationItem v-if="isSubscribed"
+					id="app-category-supported"
+					:to="{ name: 'apps-category', params: { category: 'supported' } }"
+					:name="$options.APPS_SECTION_ENUM.supported">
+					<template #icon>
+						<IconStarShooting :size="20" />
 					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
-					:title="$options.APPS_SECTION_ENUM['app-bundles']" />
+					:name="$options.APPS_SECTION_ENUM['app-bundles']" />
 
 				<NcAppNavigationSpacer />
 
@@ -62,7 +70,7 @@
 					<NcAppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
-						:title="$options.APPS_SECTION_ENUM.featured" />
+						:name="$options.APPS_SECTION_ENUM.featured" />
 
 					<NcAppNavigationItem v-for="cat in categories"
 						:key="'icon-category-' + cat.ident"
@@ -71,11 +79,11 @@
 							name: 'apps-category',
 							params: { category: cat.ident },
 						}"
-						:title="cat.displayName" />
+						:name="cat.displayName" />
 				</template>
 
 				<NcAppNavigationItem id="app-developer-docs"
-					:title="t('settings', 'Developer documentation') + ' ↗'"
+					:name="t('settings', 'Developer documentation') + ' ↗'"
 					@click="openDeveloperDocumentation" />
 			</template>
 		</NcAppNavigation>
@@ -147,6 +155,7 @@ import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import IconStarShooting from 'vue-material-design-icons/StarShooting.vue'
 
 import AppList from '../components/AppList.vue'
 import AppDetails from '../components/AppDetails.vue'
@@ -165,6 +174,7 @@ export default {
 		NcAppContent,
 		AppDetails,
 		AppList,
+		IconStarShooting,
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcAppNavigationSpacer,
@@ -240,20 +250,26 @@ export default {
 				: authorName(this.app.author)
 			const license = t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
 
-			const subtitle = t('settings', 'by {author}\n{license}', { author, license })
+			const subname = t('settings', 'by {author}\n{license}', { author, license })
 
 			return {
-				subtitle,
 				background: this.app.screenshot && this.screenshotLoaded
 					? this.app.screenshot
 					: this.app.preview,
 				compact: !(this.app.screenshot && this.screenshotLoaded),
-				title: this.app.name,
-
+				name: this.app.name,
+				subname,
 			}
 		},
 		changelog() {
 			return (release) => release.translations.en.changelog
+		},
+		/**
+		 * Check if the current instance has a support subscription from the Nextcloud GmbH
+		 */
+		isSubscribed() {
+			// For customers of the Nextcloud GmbH the app level will be set to `300` for apps that are supported in their subscription
+			return this.apps.some(app => app.level === 300)
 		},
 	},
 

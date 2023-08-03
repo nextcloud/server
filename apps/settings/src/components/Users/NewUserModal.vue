@@ -29,8 +29,8 @@
 			:disabled="loading.all"
 			@submit.prevent="createUser">
 			<h2>{{ t('settings', 'New user') }}</h2>
-			<NcTextField class="modal__item"
-				ref="username"
+			<NcTextField ref="username"
+				class="modal__item"
 				data-test="username"
 				:value.sync="newUser.id"
 				:disabled="settings.newUserGenerateUserID"
@@ -50,12 +50,12 @@
 				autocomplete="off"
 				autocorrect="off" />
 			<span v-if="!settings.newUserRequireEmail"
-				class="modal__hint"
-				id="password-email-hint">
+				id="password-email-hint"
+				class="modal__hint">
 				{{ t('settings', 'Either password or email is required') }}
 			</span>
-			<NcPasswordField class="modal__item"
-				ref="password"
+			<NcPasswordField ref="password"
+				class="modal__item"
 				data-test="password"
 				:value.sync="newUser.password"
 				:minlength="minPasswordLength"
@@ -81,8 +81,8 @@
 			<div class="modal__item">
 				<!-- hidden input trick for vanilla html5 form validation -->
 				<NcTextField v-if="!settings.isAdmin"
-					tabindex="-1"
 					id="new-user-groups-input"
+					tabindex="-1"
 					:class="{ 'icon-loading-small': loading.groups }"
 					:value="newUser.groups"
 					:required="!settings.isAdmin" />
@@ -112,11 +112,11 @@
 					for="new-user-sub-admin">
 					{{ t('settings', 'Administered groups') }}
 				</label>
-				<NcSelect class="modal__select"
+				<NcSelect v-model="newUser.subAdminsGroups"
+					class="modal__select"
 					input-id="new-user-sub-admin"
 					:placeholder="t('settings', 'Set user as admin for …')"
 					:options="subAdminsGroups"
-					v-model="newUser.subAdminsGroups"
 					:close-on-select="false"
 					:multiple="true"
 					label="name" />
@@ -126,11 +126,11 @@
 					for="new-user-quota">
 					{{ t('settings', 'Quota') }}
 				</label>
-				<NcSelect class="modal__select"
+				<NcSelect v-model="newUser.quota"
+					class="modal__select"
 					input-id="new-user-quota"
 					:placeholder="t('settings', 'Set user quota')"
 					:options="quotaOptions"
-					v-model="newUser.quota"
 					:clearable="false"
 					:taggable="true"
 					:create-option="validateQuota" />
@@ -141,14 +141,14 @@
 					for="new-user-language">
 					{{ t('settings', 'Language') }}
 				</label>
-				<NcSelect	class="modal__select"
+				<NcSelect	v-model="newUser.language"
+					class="modal__select"
 					input-id="new-user-language"
 					:placeholder="t('settings', 'Set default language')"
 					:clearable="false"
 					:selectable="option => !option.languages"
 					:filter-by="languageFilterBy"
 					:options="languages"
-					v-model="newUser.language"
 					label="name" />
 			</div>
 			<div :class="['modal__item managers', { 'icon-loading-small': loading.manager }]">
@@ -157,11 +157,11 @@
 					<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 					{{ t('settings', 'Manager') }}
 				</label>
-				<NcSelect class="modal__select"
+				<NcSelect v-model="newUser.manager"
+					class="modal__select"
 					input-id="new-user-manager"
 					:placeholder="managerLabel"
 					:options="possibleManagers"
-					v-model="newUser.manager"
 					:user-select="true"
 					label="displayname"
 					@search="searchUserManager" />
@@ -366,7 +366,7 @@ export default {
 			// Show group header of the language
 			if (option.languages) {
 				return option.languages.some(
-					({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+					({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
 				)
 			}
 

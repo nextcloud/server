@@ -75,11 +75,6 @@ abstract class Job implements IJob, IParallelAwareJob {
 		$jobList->setLastRun($this);
 		$logger = $this->logger ?? \OCP\Server::get(LoggerInterface::class);
 
-		if (!$this->getAllowParallelRuns() && $jobList->hasReservedJob(get_class($this))) {
-			$logger->debug('Skipping ' . get_class($this) . ' job with ID ' . $this->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
-			return;
-		}
-
 		try {
 			$jobStartTime = $this->time->getTime();
 			$logger->debug('Run ' . get_class($this) . ' job with ID ' . $this->getId(), ['app' => 'cron']);

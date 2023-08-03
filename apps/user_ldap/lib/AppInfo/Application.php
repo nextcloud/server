@@ -59,7 +59,6 @@ use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -120,7 +119,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(function (
 			INotificationManager $notificationManager,
 			IAppContainer $appContainer,
-			EventDispatcherInterface $legacyDispatcher,
 			IEventDispatcher $dispatcher,
 			IGroupManager $groupManager,
 			User_Proxy $userBackend,
@@ -136,7 +134,7 @@ class Application extends App implements IBootstrap {
 				$groupManager->addBackend($groupBackend);
 
 				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
-				$legacyDispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
+				$dispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
 				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
 				$groupBackendRegisteredEvent = new GroupBackendRegistered($groupBackend, $groupPluginManager);
 				$dispatcher->dispatchTyped($groupBackendRegisteredEvent);
@@ -153,7 +151,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher) {
+	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher) {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {

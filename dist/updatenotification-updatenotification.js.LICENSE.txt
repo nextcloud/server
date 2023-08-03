@@ -1,5 +1,7 @@
 /*! For license information please see NcActionCaption.js.LICENSE.txt */
 
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *

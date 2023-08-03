@@ -45,13 +45,13 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -67,8 +67,6 @@ class ManagerTest extends TestCase {
 	protected $db;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
 	protected $logger;
-	/** @var \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface */
-	protected $legacyDispatcher;
 	/** @var MockObject|IServerContainer */
 	protected $container;
 	/** @var MockObject|IUserSession */
@@ -94,7 +92,6 @@ class ManagerTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
-		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->session = $this->createMock(IUserSession::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
@@ -105,7 +102,6 @@ class ManagerTest extends TestCase {
 			\OC::$server->getDatabaseConnection(),
 			$this->container,
 			$this->l,
-			$this->legacyDispatcher,
 			$this->logger,
 			$this->session,
 			$this->dispatcher,
@@ -532,10 +528,9 @@ class ManagerTest extends TestCase {
 		/** @var MockObject|IEntity $extraEntity */
 		$extraEntity = $this->createMock(IEntity::class);
 
-		$this->legacyDispatcher->expects($this->once())
-			->method('dispatch')
-			->with('OCP\WorkflowEngine::registerEntities', $this->anything())
-			->willReturnCallback(function () use ($extraEntity) {
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (RegisterEntitiesEvent $e) use ($extraEntity) {
 				$this->manager->registerEntity($extraEntity);
 			});
 

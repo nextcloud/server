@@ -18,18 +18,23 @@ jobs:
 
     steps:
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa
+        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reaction-type: "+1"
+          reactions: "+1"
 
-      - name: Checkout the latest code
+      - name: Init branch
+        uses: xt0rted/pull-request-comment-branch@d97294d304604fa98a2600a6e2f916a84b596dc7 # v1
+        id: comment-branch
+
+      - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.COMMAND_BOT_PAT }}
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Setup git
         run: |
@@ -46,10 +51,10 @@ jobs:
           git push
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa
+        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.1
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reaction-type: "-1"
+          reactions: "-1"

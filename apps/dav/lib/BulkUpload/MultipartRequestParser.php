@@ -211,13 +211,17 @@ class MultipartRequestParser {
 			throw new BadRequest("Computed md5 hash is incorrect.");
 		}
 
-		$content = stream_get_line($this->stream, $length);
+		if ($length === 0) {
+			$content = '';
+		} else {
+			$content = stream_get_line($this->stream, $length);
+		}
 
 		if ($content === false) {
 			throw new Exception("Fail to read part's content.");
 		}
 
-		if (feof($this->stream)) {
+		if ($length !== 0 && feof($this->stream)) {
 			throw new Exception("Unexpected EOF while reading stream.");
 		}
 

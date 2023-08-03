@@ -39,7 +39,7 @@ window.OC = window.OC || {}
 window.OC.Settings = window.OC.Settings || {}
 
 store.replaceState(
-	loadState('settings', 'mandatory2FAState')
+	loadState('settings', 'mandatory2FAState'),
 )
 
 const View = Vue.extend(AdminTwoFactor)

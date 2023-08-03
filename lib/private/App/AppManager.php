@@ -59,7 +59,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
 	/**
@@ -79,7 +78,6 @@ class AppManager implements IAppManager {
 	private AppConfig $appConfig;
 	private IGroupManager $groupManager;
 	private ICacheFactory $memCacheFactory;
-	private EventDispatcherInterface $legacyDispatcher;
 	private IEventDispatcher $dispatcher;
 	private LoggerInterface $logger;
 
@@ -110,7 +108,6 @@ class AppManager implements IAppManager {
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $legacyDispatcher,
 								IEventDispatcher $dispatcher,
 								LoggerInterface $logger) {
 		$this->userSession = $userSession;
@@ -118,7 +115,6 @@ class AppManager implements IAppManager {
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
-		$this->legacyDispatcher = $legacyDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
 	}
@@ -543,7 +539,7 @@ class AppManager implements IAppManager {
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
-		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE, $appId
 		));
 		$this->clearAppsCache();
@@ -597,7 +593,7 @@ class AppManager implements IAppManager {
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
-		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
@@ -633,7 +629,7 @@ class AppManager implements IAppManager {
 		}
 
 		$this->dispatcher->dispatchTyped(new AppDisableEvent($appId));
-		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
 		$this->clearAppsCache();

@@ -29,4 +29,5 @@ export const APPS_SECTION_ENUM = Object.freeze({
 	updates: t('settings', 'Updates'),
 	'app-bundles': t('settings', 'App bundles'),
 	featured: t('settings', 'Featured apps'),
+	supported: t('settings', 'Supported apps'), // From subscription
 })

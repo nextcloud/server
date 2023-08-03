@@ -479,31 +479,26 @@
                     "file_source",
                     "file_target",
                     "has_preview",
+                    "hide_download",
                     "id",
+                    "item_mtime",
+                    "item_size",
                     "item_source",
                     "item_type",
                     "label",
                     "mail_send",
                     "mimetype",
                     "note",
-                    "password",
-                    "password_expiration_time",
+                    "parent",
                     "path",
                     "permissions",
-                    "send_password_by_talk",
                     "share_type",
-                    "share_with",
-                    "share_with_avatar",
-                    "share_with_displayname",
-                    "share_with_link",
-                    "status",
                     "stime",
                     "storage",
                     "storage_id",
                     "token",
                     "uid_file_owner",
-                    "uid_owner",
-                    "url"
+                    "uid_owner"
                 ],
                 "properties": {
                     "attributes": {
@@ -540,15 +535,43 @@
                     "has_preview": {
                         "type": "boolean"
                     },
+                    "hide_download": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
                     "id": {
                         "type": "string"
+                    },
+                    "item_mtime": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "item_permissions": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "item_size": {
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "item_source": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "item_type": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "file",
+                            "folder"
+                        ]
                     },
                     "label": {
                         "type": "string"
@@ -563,80 +586,67 @@
                     "note": {
                         "type": "string"
                     },
-                    "password": {
-                        "type": "string",
+                    "parent": {
                         "nullable": true
+                    },
+                    "password": {
+                        "type": "string"
                     },
                     "password_expiration_time": {
                         "type": "string",
                         "nullable": true
                     },
                     "path": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "permissions": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "send_password_by_talk": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": "boolean"
                     },
                     "share_type": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "share_with": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "share_with_avatar": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "share_with_displayname": {
+                        "type": "string"
+                    },
+                    "share_with_displayname_unique": {
                         "type": "string",
                         "nullable": true
                     },
                     "share_with_link": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "status": {
-                        "nullable": true,
-                        "oneOf": [
-                            {
-                                "type": "object",
-                                "required": [
-                                    "status",
-                                    "message",
-                                    "icon",
-                                    "clearAt"
-                                ],
-                                "properties": {
-                                    "status": {
-                                        "type": "string"
-                                    },
-                                    "message": {
-                                        "type": "string",
-                                        "nullable": true
-                                    },
-                                    "icon": {
-                                        "type": "string",
-                                        "nullable": true
-                                    },
-                                    "clearAt": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true
-                                    }
-                                }
-                            },
-                            {
+                        "type": "object",
+                        "properties": {
+                            "clearAt": {
                                 "type": "integer",
-                                "format": "int64"
+                                "format": "int64",
+                                "nullable": true
+                            },
+                            "icon": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "message": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "status": {
+                                "type": "string"
                             }
-                        ]
+                        }
                     },
                     "stime": {
                         "type": "integer",
@@ -660,8 +670,7 @@
                         "type": "string"
                     },
                     "url": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     }
                 }
             },
@@ -676,8 +685,7 @@
                     "mimetype",
                     "size",
                     "type",
-                    "etag",
-                    "children"
+                    "etag"
                 ],
                 "properties": {
                     "id": {
@@ -703,8 +711,16 @@
                         "type": "string"
                     },
                     "size": {
-                        "type": "integer",
-                        "format": "int64"
+                        "oneOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "float"
+                            }
+                        ]
                     },
                     "type": {
                         "type": "string"
@@ -714,7 +730,6 @@
                     },
                     "children": {
                         "type": "array",
-                        "nullable": true,
                         "items": {
                             "type": "object",
                             "additionalProperties": {
@@ -1272,6 +1287,314 @@
         }
     },
     "paths": {
+        "/index.php/s/{token}/preview": {
+            "get": {
+                "operationId": "public_preview-direct-link",
+                "summary": "Get a direct link preview for a shared file",
+                "tags": [
+                    "public_preview"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Token of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Preview returned",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Getting preview is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Getting preview is not allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share or preview not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/apps/files_sharing/publicpreview/{token}": {
+            "get": {
+                "operationId": "public_preview-get-preview",
+                "summary": "Get a preview for a shared file",
+                "tags": [
+                    "public_preview"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "query",
+                        "description": "File in the share",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "Width of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 32
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Height of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 32
+                        }
+                    },
+                    {
+                        "name": "a",
+                        "in": "query",
+                        "description": "Whether to not crop the preview",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Token of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Preview returned",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Getting preview is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Getting preview is not allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share or preview not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/index.php/apps/files_sharing/shareinfo": {
             "post": {
                 "operationId": "share_info-info",
@@ -1323,7 +1646,7 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 1
+                            "default": -1
                         }
                     }
                 ],
@@ -1339,13 +1662,10 @@
                         }
                     },
                     "403": {
-                        "description": "Getting share info not allowed",
+                        "description": "Getting share info is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1353,10 +1673,7 @@
                         "description": "Share not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": true
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1521,7 +1838,7 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 1
+                            "default": -1
                         }
                     },
                     {
@@ -2146,10 +2463,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2236,10 +2550,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2389,10 +2700,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2498,6 +2806,13 @@
                 "responses": {
                     "200": {
                         "description": "Sharees search result returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2800,10 +3115,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2879,10 +3191,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3038,10 +3347,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3060,7 +3366,7 @@
                         }
                     },
                     "403": {
-                        "description": "Unsharing not possible",
+                        "description": "Unsharing is not possible",
                         "content": {
                             "text/plain": {
                                 "schema": {
@@ -3074,10 +3380,6 @@
         }
     },
     "tags": [
-        {
-            "name": "share",
-            "description": "Class ShareController"
-        },
         {
             "name": "external_shares",
             "description": "Class ExternalSharesController"

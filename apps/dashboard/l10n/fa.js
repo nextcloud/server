@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "پیشخوان",
     "Dashboard app" : "برنامه پیشخوان",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "روز خود را آگاهانه شروع کنید\n\nداشبورد Nextcloud نقطه شروع روز شماست و به شما یک نمای کلی از قرارهای ملاقات آینده، ایمیل‌های فوری، پیام‌های چت، بلیط‌های دریافتی، آخرین توییت‌ها و موارد دیگر را در اختیار شما قرار می‌دهد. کاربران می توانند ویجت هایی را که دوست دارند اضافه کنند و پس زمینه را به دلخواه خود تغییر دهند.",
     "\"{title} icon\"" : "«نقشک {title}»",
     "Customize" : "سفارشی سازی",
     "Edit widgets" : "ویرایش ابزارک‌ها",
@@ -20,6 +21,7 @@ OC.L10N.register(
     "Good evening" : "عصر به خیر",
     "Good evening, {name}" : "{name} عصر به خیر",
     "Hello" : "درود",
-    "Hello, {name}" : "درود {name}"
+    "Hello, {name}" : "درود {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "روز خود را آگاهانه شروع کنید\n\nداشبورد Nextcloud نقطه شروع روز شماست که به شما این امکان را می دهد\nمروری بر قرارهای آینده، ایمیل‌های فوری، پیام‌های چت،\nبلیط های ورودی، آخرین توییت ها و خیلی بیشتر! کاربران می توانند ویجت ها را اضافه کنند\nدوست دارند و پس زمینه را به دلخواه تغییر می دهند."
 },
 "nplurals=2; plural=(n > 1);");

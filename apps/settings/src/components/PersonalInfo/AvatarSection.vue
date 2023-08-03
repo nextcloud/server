@@ -22,7 +22,9 @@
 
 <template>
 	<section id="vue-avatar-section">
-		<h3 class="hidden-visually"> {{ t('settings', 'Your profile information') }} </h3>
+		<h3 class="hidden-visually">
+			{{ t('settings', 'Your profile information') }}
+		</h3>
 		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
@@ -30,13 +32,13 @@
 		<div v-if="!showCropper" class="avatar__container">
 			<div class="avatar__preview">
 				<NcAvatar v-if="!loading"
+					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
 					:disabled-menu="true"
 					:disabled-tooltip="true"
 					:show-user-status="false"
-					:size="180"
-					:key="version" />
+					:size="180" />
 				<div v-else class="icon-loading" />
 			</div>
 			<template v-if="avatarChangeSupported">
@@ -62,8 +64,8 @@
 					</NcButton>
 				</div>
 				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
-				<input ref="input"
-					:id="inputId"
+				<input :id="inputId"
+					ref="input"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">

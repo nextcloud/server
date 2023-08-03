@@ -33,6 +33,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Kliknite gumb kako biste resetirali svoju zaporku. Ako niste podnijeli zahtjev za resetiranje zaporke, zanemarite ovu poruku.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Kliknite sljedeću poveznicu kako biste resetirali svoju zaporku. Ako niste podnijeli zahtjev za resetiranje zaporke, zanemarite ovu poruku.",
     "Reset your password" : "Resetirajte svoju zaporku",
+    "Internal error" : "Unutarnja pogreška",
     "Nextcloud Server" : "Nextcloud poslužitelj",
     "Some of your link shares have been removed" : "Uklonjene su neke od vaših dijeljenih poveznica",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Zbog sigurnosne pogreške morali smo ukloniti neke od vaših dijeljenih poveznica. Za više informacija pogledajte poveznicu.",
