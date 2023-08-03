@@ -51,28 +51,28 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 
 		[DateTimePreset.ThisWeekend]: () => {
 			const today = moment()
-			const weekendFirstDay = moment()
+			const saturday = moment()
 				.startOf('isoWeek')
 				.add(5, 'day')
 				.add(9, 'hour')
-			const weekendSecondDay = moment()
+			const sunday = moment()
 				.startOf('isoWeek')
 				.add(6, 'day')
 				.add(9, 'hour')
-			if (today.isSame(weekendFirstDay, 'date')) {
-				return weekendFirstDay
+			if (today.isSame(saturday, 'date')) {
+				return saturday
 					.add(1, 'day')
 					.toDate()
 			}
-			if (today.isSame(weekendSecondDay, 'date')) {
-				return weekendSecondDay
+			if (today.isSame(sunday, 'date')) {
+				return sunday
 					.add(1, 'week')
 					.startOf('isoWeek')
 					.add(5, 'day')
 					.add(9, 'hour')
 					.toDate()
 			}
-			return weekendFirstDay.toDate()
+			return saturday.toDate()
 		},
 
 		[DateTimePreset.NextWeek]: () => {
