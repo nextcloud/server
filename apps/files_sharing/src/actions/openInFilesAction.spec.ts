@@ -50,7 +50,7 @@ describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-in-files')
-		expect(action.displayName([], validViews[0])).toBe('Open in files')
+		expect(action.displayName([], validViews[0])).toBe('Open in Files')
 		expect(action.iconSvgInline([], validViews[0])).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)

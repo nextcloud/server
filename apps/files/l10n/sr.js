@@ -193,7 +193,7 @@ OC.L10N.register(
     "ascending" : "растуће",
     "descending" : "опадајуће",
     "Sort list by {column} ({direction})" : "Поређај листу по {column} ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
+    "List of files and folders." : "Листа фајлова и фолдера.",
     "Storage informations" : "Информације о складишту`",
     "{usedQuotaByte} used" : "{usedQuotaByte} искоришћено",
     "{relative}% used" : "{relative}% искоришћено",
@@ -270,6 +270,7 @@ OC.L10N.register(
     "Deleted shares" : "Обрисана дељења",
     "Pending shares" : "Дељења на чекању",
     "Open folder {name}" : "Отвори фолдер {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
     "Search for an account" : "Претражите налог",
     "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер"
 },

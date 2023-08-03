@@ -88,7 +88,7 @@ export default {
 		allLanguages() {
 			return Object.freeze(
 				[...this.commonLanguages, ...this.otherLanguages]
-					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {})
+					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {}),
 			)
 		},
 	},

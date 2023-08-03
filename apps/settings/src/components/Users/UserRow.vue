@@ -27,7 +27,7 @@
 	<Fragment>
 		<td class="row__cell row__cell--avatar">
 			<NcLoadingIcon v-if="isLoadingUser"
-				:title="t('settings', 'Loading user …')"
+				:name="t('settings', 'Loading user …')"
 				:size="32" />
 			<NcAvatar v-else
 				:key="user.id"
@@ -44,8 +44,8 @@
 					{{ t('settings', 'Edit display name') }}
 				</label>
 				<NcTextField :id="'displayName' + uniqueId"
-					data-test="displayNameField"
 					ref="displayNameField"
+					data-test="displayNameField"
 					:show-trailing-button="true"
 					class="user-row-text-field"
 					:class="{ 'icon-loading-small': idState.loading.displayName }"
@@ -202,8 +202,8 @@
 			</template>
 			<template v-else-if="!isObfuscated">
 				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
-				<NcProgressBar class="row__progress"
-					:id="'quota-progress' + uniqueId"
+				<NcProgressBar :id="'quota-progress' + uniqueId"
+					class="row__progress"
 					:class="{
 						'row__progress--warn': usedQuota > 80,
 					}"

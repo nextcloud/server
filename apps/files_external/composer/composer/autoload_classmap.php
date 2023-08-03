@@ -96,6 +96,7 @@ return array(
     'OCA\\Files_External\\Lib\\Storage\\Swift' => $baseDir . '/../lib/Lib/Storage/Swift.php',
     'OCA\\Files_External\\Lib\\VisibilityTrait' => $baseDir . '/../lib/Lib/VisibilityTrait.php',
     'OCA\\Files_External\\Listener\\GroupDeletedListener' => $baseDir . '/../lib/Listener/GroupDeletedListener.php',
+    'OCA\\Files_External\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_External\\Listener\\StorePasswordListener' => $baseDir . '/../lib/Listener/StorePasswordListener.php',
     'OCA\\Files_External\\Listener\\UserDeletedListener' => $baseDir . '/../lib/Listener/UserDeletedListener.php',
     'OCA\\Files_External\\Migration\\DummyUserSession' => $baseDir . '/../lib/Migration/DummyUserSession.php',

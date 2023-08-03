@@ -8,6 +8,8 @@
  * Date: 2022-11-20T05:30:46.114Z
  */
 
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
 /**
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *

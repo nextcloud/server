@@ -1,13 +1,11 @@
-<?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,14 +22,18 @@
  *
  */
 
-$config = \OC::$server->getConfig();
-$userSession = \OC::$server->getUserSession();
+import Vue from 'vue'
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+import ArtificialIntelligence from './components/AdminAI.vue'
 
-$tmpl = new OCP\Template('files', 'recentlist', '');
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(OC.requestToken)
 
-// gridview not available for ie
-$tmpl->assign('showgridview', $showgridview);
+Vue.prototype.t = t
 
-$tmpl->printPage();
+// Not used here but required for legacy templates
+window.OC = window.OC || {}
+window.OC.Settings = window.OC.Settings || {}
+
+const View = Vue.extend(ArtificialIntelligence)
+new View().$mount('#ai-settings')

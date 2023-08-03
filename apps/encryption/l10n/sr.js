@@ -31,6 +31,7 @@ OC.L10N.register(
     "Encryption password" : "Лозинка за шифровање",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Администратор је укључио шифровање на страни сервера. Ваши фајлови су шифровани употребом лозинке <strong>%s</strong>.",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Администратор је укључио шифровање на страни сервера. Ваши фајлови су шифровани употребом лозинке „%s”.",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Молимо вас да се пријавите на веб интерфејс, одете на одељак „Безбедност” ваших личник подешавања и ажурирате своју лозинку за шифровање уносећи ову лозинку у поље „Стара лозинка за пријаву” и своју текућу лозинку за пријаву.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Овај фајл не може да се дешифрује, то је вероватно дељени фајл. Молимо вас да замолите власника да га поново подели са вама.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Овај фајл не може да се прочита, то је вероватно дељени фајл. Молимо вас да замолите власника да га поново подели са вама.",
     "Default encryption module" : "Подразумевани модул за шифровање",

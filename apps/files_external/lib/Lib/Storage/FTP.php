@@ -29,6 +29,7 @@ use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class FTP extends Common {
 	use CopyDirectory;
@@ -116,7 +117,7 @@ class FTP extends Common {
 			if ($this->is_dir($path)) {
 				$list = $this->getConnection()->mlsd($this->buildPath($path));
 				if (!$list) {
-					\OC::$server->getLogger()->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
+					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
 					return time();
 				}
 				$currentDir = current(array_filter($list, function ($item) {
@@ -130,7 +131,7 @@ class FTP extends Common {
 					}
 					return $time->getTimestamp();
 				} else {
-					\OC::$server->getLogger()->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
+					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
 					return time();
 				}
 			} else {
