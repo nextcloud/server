@@ -1157,8 +1157,7 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;users</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidScalarArgument occurrences="3">
-      <code>$errors</code>
+    <InvalidScalarArgument occurrences="1">
       <code>0</code>
       <code>0</code>
     </InvalidScalarArgument>
