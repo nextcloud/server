@@ -34,24 +34,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanUp extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/**
-	 * @param IRootFolder $rootFolder
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('versions:cleanup')
 			->setDescription('Delete versions')
@@ -76,7 +66,7 @@ class CleanUp extends Command {
 		if ($path) {
 			if (!preg_match('#^/([^/]+)/files(/.*)?$#', $path, $pathMatches)) {
 				$output->writeln("<error>Invalid path given</error>");
-				return 1;
+				return self::FAILURE;
 			}
 
 			$users = [ $pathMatches[1] ];
@@ -90,7 +80,7 @@ class CleanUp extends Command {
 					$this->deleteVersions($user, $path);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		} else {
@@ -116,15 +106,12 @@ class CleanUp extends Command {
 				} while (count($users) >= $limit);
 			}
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
 
 	/**
 	 * delete versions for the given user
-	 *
-	 * @param string      $user
-	 * @param string|null $path
 	 */
 	protected function deleteVersions(string $user, string $path = null): void {
 		\OC_Util::tearDownFS();
