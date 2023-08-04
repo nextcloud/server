@@ -394,7 +394,7 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "É obrigada a autenticación de dous factores, mais non foi configurada na súa conta. Use un dos seus códigos de recuperación para acceder ou póñase en contacto co administrador para obter axuda.",
     "Use backup code" : "Usar código de recuperación",
     "Cancel login" : "Cancelar o acceso",
-    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Foi activada a seguranza obrigatoria para a súa conta. Escolla o provedor que quere estabelecer:",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Impúxose a seguranza mellorada para a súa conta. Escolla o provedor que quere estabelecer:",
     "Error while validating your second factor" : "Produciuse un erro ao validar o seu segundo factor",
     "Access through untrusted domain" : "Acceso a través dun dominio non fiábel",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Contacte coa administración do sistema. Se Vde. é un administrador, edite o axuste de «trusted_domains» en config/config.php coma no exemplo en config.sample.php. ",
