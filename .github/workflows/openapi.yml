@@ -1,4 +1,4 @@
-name: Psalm static code analysis
+name: OpenAPI
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
       - stable*
 
 jobs:
-  static-code-analysis:
+  openapi:
     runs-on: ubuntu-latest
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
@@ -16,14 +16,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          submodules: true
 
       - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
-          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          php-version: '8.2'
+          extensions: xml
           coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,71 +29,5 @@ jobs:
       - name: Composer install
         run: composer i
 
-      - name: Psalm
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
-
-      - name: Show potential changes in Psalm baseline
-        if: always()
-        run: git diff -- . ':!lib/composer'
-
-      - name: Upload Analysis results to GitHub
-        if: always()
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: results.sarif
-
-  static-code-analysis-security:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-
-      - name: Set up php
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: '8.0'
-          extensions: ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
-          coverage: none
-
-      - name: Composer install
-        run: composer i
-
-      - name: Psalm taint analysis
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
-
-      - name: Upload Security Analysis results to GitHub
-        if: always()
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: results.sarif
-
-  static-code-analysis-ocp:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-
-      - name: Set up php
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
-          coverage: none
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Composer install
-        run: composer i
-
-      - name: Psalm
-        run: composer run psalm:ci -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
-
-      - name: Show potential changes in Psalm baseline
-        if: always()
-        run: git diff -- . ':!lib/composer'
+      - name: OpenAPI checker
+        run: build/openapi-checker.sh
