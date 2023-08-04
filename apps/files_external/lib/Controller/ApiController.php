@@ -34,6 +34,7 @@ use OCA\Files_External\ResponseDefinitions;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -127,6 +128,7 @@ class ApiController extends OCSController {
 	 * Ask for credentials using a browser's native basic auth prompt
 	 * Then returns it if provided
 	 */
+	#[IgnoreOpenAPI]
 	public function askNativeAuth(): DataResponse {
 		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
 			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);
@@ -137,7 +139,7 @@ class ApiController extends OCSController {
 		$user = $_SERVER['PHP_AUTH_USER'];
 		$password = $_SERVER['PHP_AUTH_PW'];
 
-		// Reset auth 
+		// Reset auth
 		unset($_SERVER['PHP_AUTH_USER']);
 		unset($_SERVER['PHP_AUTH_PW']);
 
