@@ -34,6 +34,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\FileInfo;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
@@ -55,6 +56,7 @@ class Notifier implements INotifier {
 
 	/**
 	 * @throws InvalidArgumentException
+	 * @throws AlreadyProcessedException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
@@ -69,7 +71,7 @@ class Notifier implements INotifier {
 				try {
 					$reminder = $this->reminderService->get($reminderId);
 				} catch (DoesNotExistException $e) {
-					throw new InvalidArgumentException();
+					throw new AlreadyProcessedException();
 				}
 
 				try {
