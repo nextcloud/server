@@ -66,16 +66,16 @@ import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 import CalendarWeekend from 'vue-material-design-icons/CalendarWeekend.vue'
 import ChevronDoubleRight from 'vue-material-design-icons/ChevronDoubleRight.vue'
 
-import { clearReminder, setReminder } from '../services/reminderService.js'
+import { clearReminder, setReminder } from '../services/reminderService.ts'
 import {
 	DateTimePreset,
 	getDateString,
 	getDateTime,
 	getVerboseDateString,
-} from '../shared/utils.js'
-import { logger } from '../shared/logger.js'
+} from '../shared/utils.ts'
+import { logger } from '../shared/logger.ts'
 
-import type { FileAttributes } from '../shared/types.js'
+import type { FileAttributes } from '../shared/types.ts'
 
 interface ReminderOption {
 	dateTimePreset: DateTimePreset
