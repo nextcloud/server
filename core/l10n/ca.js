@@ -39,6 +39,8 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Feu clic en el botó següent per a reinicialitzar la contrasenya. Si no heu sol·licitat un canvi de contrasenya, ignoreu aquest correu electrònic.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Feu clic en l'enllaç següent per a reinicialitzar la contrasenya. Si no heu sol·licitat un canvi de contrasenya, ignoreu aquest correu electrònic.",
     "Reset your password" : "Reinicialitza la contrasenya",
+    "Requested task type does not exist" : "El tipus de tasca sol·licitat no existeix",
+    "Necessary language model provider is not available" : "El proveïdor de models de llengua necessari no està disponible",
     "Task not found" : "No s'ha trobat la tasca",
     "Internal error" : "Error intern",
     "No translation provider available" : "No hi ha cap proveïdor de traduccions disponible",

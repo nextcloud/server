@@ -264,6 +264,7 @@
     "Free prompt" : "Freie Eingabeaufforderung",
     "Runs an arbitrary prompt through the built-in language model." : "Führt eine beliebige Eingabeaufforderung über das integrierte Sprachmodell aus.",
     "Generate headline" : "Kopfzeile erzeugen",
+    "Generates a possible headline for a text." : "Erzeugt eine mögliche Überschrift für einen Text.",
     "Summarize" : "Zusammenfassen",
     "Summarizes text by reducing its length without losing key information." : "Fasst Text zusammen, indem die Länge reduziert wird, ohne dass wichtige Informationen verloren gehen.",
     "Extract topics" : "Themen extrahieren",
