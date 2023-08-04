@@ -119,7 +119,7 @@ export const getDateString = (dueDate: Date): string => {
 }
 
 export const getVerboseDateString = (dueDate: Date): string => {
-	const localeOptions: Intl.DateTimeFormatOptions = {
+	const formatOptions: Intl.DateTimeFormatOptions = {
 		weekday: 'long',
 		hour: 'numeric',
 		minute: '2-digit',
@@ -129,6 +129,6 @@ export const getVerboseDateString = (dueDate: Date): string => {
 
 	return dueDate.toLocaleString(
 		getCanonicalLocale(),
-		localeOptions,
+		formatOptions,
 	)
 }
