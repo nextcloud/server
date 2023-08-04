@@ -157,6 +157,36 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * This endpoint allows to delete a scheduled task for a user
+	 *
+	 * @param int $id The id of the task
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Task returned
+	 * 404: Task not found
+	 */
+	#[NoAdminRequired]
+	public function deleteTask(int $id): DataResponse {
+		try {
+			$task = $this->textProcessingManager->getUserTask($id, $this->userId);
+
+			$this->textProcessingManager->deleteTask($task);
+
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (NotFoundException $e) {
+			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+		} catch (\RuntimeException $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
+	/**
 	 * This endpoint returns a list of tasks of a user that are related
 	 * with a specific appId and optionally with an identifier
 	 *
