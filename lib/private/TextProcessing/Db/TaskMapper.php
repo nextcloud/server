@@ -91,8 +91,8 @@ class TaskMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName)
-			->where($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)))
-			->andWhere($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)))
+			->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
 		if ($identifier !== null) {
 			$qb->andWhere($qb->expr()->eq('identifier', $qb->createPositionalParameter($identifier)));
 		}
