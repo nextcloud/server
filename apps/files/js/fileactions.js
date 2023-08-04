@@ -719,7 +719,7 @@
 					mime: 'all',
 					order: -24,
 					icon: function(_filename, _context) {
-						return OC.imagePath('files_reminders', 'remind.svg')
+						return OC.imagePath('files_reminders', 'alarm.svg')
 					},
 					permissions: OC.PERMISSION_READ,
 					actionHandler: function(_filename, _context) {},
