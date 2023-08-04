@@ -28,6 +28,7 @@ namespace OC\TextProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
 use OCP\IConfig;
+use OCP\TextProcessing\Task;
 use OCP\TextProcessing\Task as OCPTask;
 use OC\TextProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -173,6 +174,17 @@ class Manager implements IManager {
 		$this->taskMapper->insert($taskEntity);
 		$task->setId($taskEntity->getId());
 		$this->jobList->add(TaskBackgroundJob::class, [
+			'taskId' => $task->getId()
+		]);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function deleteTask(Task $task): void {
+		$taskEntity = DbTask::fromPublicTask($task);
+		$this->taskMapper->delete($taskEntity);
+		$this->jobList->remove(TaskBackgroundJob::class, [
 			'taskId' => $task->getId()
 		]);
 	}

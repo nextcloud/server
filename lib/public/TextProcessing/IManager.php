@@ -73,6 +73,14 @@ interface IManager {
 	public function scheduleTask(Task $task) : void;
 
 	/**
+	 * Delete a task that has been scheduled before
+	 *
+	 * @param Task $task The task to delete
+	 * @since 27.1.0
+	 */
+	public function deleteTask(Task $task): void;
+
+	/**
 	 * @param int $id The id of the task
 	 * @return Task
 	 * @throws RuntimeException If the query failed
