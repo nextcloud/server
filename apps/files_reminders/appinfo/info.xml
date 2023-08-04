@@ -8,7 +8,7 @@
 
 Set file reminders.
 	]]></description>
-	<version>0.1.0-dev</version>
+	<version>1.0.0</version>
 	<licence>agpl</licence>
 	<author>Christopher Ng</author>
 	<namespace>FilesReminders</namespace>
