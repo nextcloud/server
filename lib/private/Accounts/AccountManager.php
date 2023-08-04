@@ -41,6 +41,7 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
@@ -51,6 +52,7 @@ use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -62,8 +64,6 @@ use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_flip;
 use function iterator_to_array;
 use function json_decode;
@@ -109,7 +109,7 @@ class AccountManager implements IAccountManager {
 	public function __construct(
 		private IDBConnection $connection,
 		private IConfig $config,
-		private EventDispatcherInterface $eventDispatcher,
+		private IEventDispatcher $dispatcher,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
 		private IVerificationToken $verificationToken,
@@ -255,10 +255,10 @@ class AccountManager implements IAccountManager {
 		}
 
 		if ($updated) {
-			$this->eventDispatcher->dispatch(
-				'OC\AccountManager::userUpdated',
-				new GenericEvent($user, $data)
-			);
+			$this->dispatcher->dispatchTyped(new UserUpdatedEvent(
+				$user,
+				$data,
+			));
 		}
 
 		return $data;

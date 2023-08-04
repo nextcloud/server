@@ -46,7 +46,6 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IProviderFactory;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class CapabilitiesTest
@@ -90,7 +89,6 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IProviderFactory::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IRootFolder::class),
-			$this->createMock(EventDispatcherInterface::class),
 			$this->createMock(IMailer::class),
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(\OC_Defaults::class),
