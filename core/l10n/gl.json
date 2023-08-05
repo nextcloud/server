@@ -139,7 +139,7 @@
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Estes son os resultados da súa busca<script>alert(1)</script></strong>",
     "new" : "novo",
     "_download %n file_::_download %n files_" : ["descargar %n ficheiro","descargar %n ficheiros"],
-    "The update is in progress, leaving this page might interrupt the process in some environments." : "A actualización está en proceso, saír desta páxina podería interromper o proceso nalgúns contornos.",
+    "The update is in progress, leaving this page might interrupt the process in some environments." : "A actualización está en curso, saír desta páxina podería interromper o proceso nalgúns contornos.",
     "Update to {version}" : "Actualizar a {version}",
     "An error occurred." : "Produciuse un erro",
     "Please reload the page." : "Volva cargar a páxina.",
