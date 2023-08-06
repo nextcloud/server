@@ -1,0 +1,79 @@
+name: PHPUnit nodb
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phpunit-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  phpunit-nodb:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    strategy:
+      matrix:
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+        with:
+          submodules: true
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg imagemagick libmagickcore-6.q16-3-extra
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@9c77701ae57b0c47f6732beebfbdec76e4e5c90a #debian bookworm fix
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: apcu, ctype, curl, dom, fileinfo, gd, imagick, intl, json, ldap, mbstring, openssl, pcntl, pdo_sqlite, posix, redis, sqlite, xml, zip
+          tools: phpunit:9
+          coverage: none
+          ini-file: development
+          ini-values:
+            apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=autotest --database-pass=rootpassword --admin-user admin --admin-pass admin
+          php -f index.php
+
+      - name: Enable additional apps
+        run: ./occ app:enable admin_audit encryption federatedfilesharing federation files_sharing files_trashbin files_versions provisioning_api user_ldap
+
+      - name: PHPUnit
+        working-directory: tests
+        run: phpunit --configuration phpunit-autotest.xml --exclude-group DB,SLOWDB,PRIMARY-azure,PRIMARY-s3,PRIMARY-swift
+
+  summary-nodb:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: phpunit-nodb
+
+    if: always()
+
+    name: phpunit-nodb-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.phpunit-nodb.result != 'success' }}; then exit 1; fi
