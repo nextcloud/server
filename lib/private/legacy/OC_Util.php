@@ -1111,10 +1111,6 @@ class OC_Util {
 	 * @return bool|string
 	 */
 	public static function normalizeUnicode($value) {
-		if (Normalizer::isNormalized($value)) {
-			return $value;
-		}
-
 		$normalizedValue = Normalizer::normalize($value);
 		if ($normalizedValue === null || $normalizedValue === false) {
 			\OC::$server->getLogger()->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
