@@ -19,12 +19,12 @@
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
+use OCA\Files_Trashbin\Trash\ITrashItem;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserBackend;
-use OCA\Files_Trashbin\Trashbin;
-use OCA\Files_Trashbin\Helper;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use Symfony\Component\Console\Exception\InvalidOptionException;
@@ -35,6 +35,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RestoreAllFiles extends Base {
 
+	private const SCOPE_ALL = 0;
+	private const SCOPE_USER = 1;
+	private const SCOPE_GROUPFOLDERS = 2;
+
 	/** @var IUserManager */
 	protected $userManager;
 
@@ -44,6 +48,9 @@ class RestoreAllFiles extends Base {
 	/** @var \OCP\IDBConnection */
 	protected $dbConnection;
 
+	/** @var ITrashManager */
+	protected $trashManager;
+
 	/** @var IL10N */
 	protected $l10n;
 
@@ -51,12 +58,15 @@ class RestoreAllFiles extends Base {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $dbConnection
+	 * @param ITrashManager $trashManager
+	 * @param IFactory $l10nFactory
 	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection, IFactory $l10nFactory) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection, ITrashManager $trashManager, IFactory $l10nFactory) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
 		$this->dbConnection = $dbConnection;
+		$this->trashManager = $trashManager;
 		$this->l10n = $l10nFactory->get('files_trashbin');
 	}
 
@@ -64,7 +74,7 @@ class RestoreAllFiles extends Base {
 		parent::configure();
 		$this
 			->setName('trashbin:restore')
-			->setDescription('Restore all deleted files')
+			->setDescription('Restore all deleted files according to the given filters')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
@@ -75,6 +85,31 @@ class RestoreAllFiles extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'run action on all users'
+			)
+			->addOption(
+				'scope',
+				's',
+				InputOption::VALUE_OPTIONAL,
+				'Restore files from the given scope. Possible values are "user", "groupfolders" or "all"',
+				'user'
+			)
+			->addOption(
+				'restore-from',
+				'f',
+				InputOption::VALUE_OPTIONAL,
+				'Only restore files deleted after the given timestamp'
+			)
+			->addOption(
+				'restore-to',
+				't',
+				InputOption::VALUE_OPTIONAL,
+				'Only restore files deleted before the given timestamp'
+			)
+			->addOption(
+				'dry-run',
+				'd',
+				InputOption::VALUE_NONE,
+				'Only show which files would be restored but do not perform any action'
 			);
 	}
 
@@ -83,11 +118,15 @@ class RestoreAllFiles extends Base {
 		$users = $input->getArgument('user_id');
 		if ((!empty($users)) and ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
-		} elseif (!empty($users)) {
+		}
+
+		[$scope, $restoreFrom, $restoreTo, $dryRun] = $this->parseArgs($input);
+
+		if (!empty($users)) {
 			foreach ($users as $user) {
 				if ($this->userManager->userExists($user)) {
 					$output->writeln("Restoring deleted files for user <info>$user</info>");
-					$this->restoreDeletedFiles($user, $output);
+					$this->restoreDeletedFiles($user, $scope, $restoreFrom, $restoreTo, $dryRun, $output);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
 					return 1;
@@ -107,7 +146,7 @@ class RestoreAllFiles extends Base {
 					$users = $backend->getUsers('', $limit, $offset);
 					foreach ($users as $user) {
 						$output->writeln("<info>$user</info>");
-						$this->restoreDeletedFiles($user, $output);
+						$this->restoreDeletedFiles($user, $scope, $restoreFrom, $restoreTo, $dryRun, $output);
 					}
 					$offset += $limit;
 				} while (count($users) >= $limit);
@@ -122,44 +161,149 @@ class RestoreAllFiles extends Base {
 	 * Restore deleted files for the given user
 	 *
 	 * @param string $uid
+	 * @param int $scope
+	 * @param int|null $restoreFrom
+	 * @param int|null $restoreTo
+	 * @param bool $dryRun
 	 * @param OutputInterface $output
 	 */
-	protected function restoreDeletedFiles(string $uid, OutputInterface $output): void {
+	protected function restoreDeletedFiles(string $uid, int $scope, ?int $restoreFrom, ?int $restoreTo, bool $dryRun, OutputInterface $output): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 		\OC_User::setUserId($uid);
 
-		// Sort by most recently deleted first
-		// (Restoring in order of most recently deleted preserves nested file paths.
-		// See https://github.com/nextcloud/server/issues/31200#issuecomment-1130358549)
-		$filesInTrash = Helper::getTrashFiles('/', $uid, 'mtime', true);
+		$user = $this->userManager->get($uid);
+		$userTrashItems = $this->filterTrashItems(
+			$this->trashManager->listTrashRoot($user),
+			$scope,
+			$restoreFrom,
+			$restoreTo,
+			$output);
 
-		$trashCount = count($filesInTrash);
+		$trashCount = count($userTrashItems);
 		if ($trashCount == 0) {
 			$output->writeln("User has no deleted files in the trashbin");
 			return;
 		}
-		$output->writeln("Preparing to restore <info>$trashCount</info> files...");
+		$prepMsg = $dryRun ? 'Would restore' : 'Preparing to restore';
+		$output->writeln("$prepMsg <info>$trashCount</info> files...");
 		$count = 0;
-		foreach ($filesInTrash as $trashFile) {
-			$filename = $trashFile->getName();
-			$timestamp = $trashFile->getMtime();
-			$humanTime = $this->l10n->l('datetime', $timestamp);
-			$output->write("File <info>$filename</info> originally deleted at <info>$humanTime</info> ");
-			$file = Trashbin::getTrashFilename($filename, $timestamp);
-			$location = Trashbin::getLocation($uid, $filename, (string) $timestamp);
-			if ($location === '.') {
-				$location = '';
+		foreach($userTrashItems as $trashItem) {
+			$filename = $trashItem->getName();
+			$humanTime = $this->l10n->l('datetime', $trashItem->getDeletedTime());
+			// We use getTitle() here instead of getOriginalLocation() because
+			// for groupfolders this contains the groupfolder name itself as prefix
+			// which makes it more human readable
+			$location = $trashItem->getTitle();
+
+			if ($dryRun) {
+				$output->writeln("Would restore <info>$filename</info> originally deleted at <info>$humanTime</info> to <info>/$location</info>");
+				continue;
 			}
-			$output->write("restoring to <info>/$location</info>:");
-			if (Trashbin::restore($file, $filename, $timestamp)) {
-				$count = $count + 1;
-				$output->writeln(" <info>success</info>");
-			} else {
+
+			$output->write("File <info>$filename</info> originally deleted at <info>$humanTime</info> restoring to <info>/$location</info>:");
+
+			try {
+				$trashItem->getTrashBackend()->restoreItem($trashItem);
+			} catch (\Throwable $e) {
 				$output->writeln(" <error>failed</error>");
+				$output->writeln("<error>" . $e->getMessage() . "</error>");
+				$output->writeln("<error>" . $e->getTraceAsString() . "</error>", OutputInterface::VERBOSITY_VERY_VERBOSE);
+				continue;
 			}
+
+			$count = $count + 1;
+			$output->writeln(" <info>success</info>");
+		}
+		
+		if (!$dryRun) {
+			$output->writeln("Successfully restored <info>$count</info> out of <info>$trashCount</info> files.");
+		}
+	}
+
+	protected function parseArgs(InputInterface $input): array {
+		$restoreFrom = $this->parseTimestamp($input->getOption('restore-from'));
+		$restoreTo = $this->parseTimestamp($input->getOption('restore-to'));
+
+		if ($restoreFrom !== null and $restoreTo !== null and $restoreFrom > $restoreTo) {
+			throw new InvalidOptionException('restore-from must be before restore-to');
 		}
 
-		$output->writeln("Successfully restored <info>$count</info> out of <info>$trashCount</info> files.");
+		return [
+			$this->parseScope($input->getOption('scope')),
+			$restoreFrom,
+			$restoreTo,
+			$input->getOption('dry-run')
+		];
+	}
+
+	/**
+	 * @param string $scope
+	 * @return int
+	 */
+	protected function parseScope(string $scope): int {
+		switch ($scope) {
+			case 'user':
+				return self::SCOPE_USER;
+			case 'groupfolders':
+				return self::SCOPE_GROUPFOLDERS;
+			case 'all':
+				return self::SCOPE_ALL;
+			default:
+				throw new InvalidOptionException("Invalid scope '$scope'");
+		}
+	}
+
+	/**
+	 * @param string|null $timestamp
+	 * @return int|null
+	 */
+	protected function parseTimestamp(?string $timestamp): ?int {
+		if ($timestamp === null) {
+			return null;
+		}
+		$timestamp = strtotime($timestamp);
+		if ($timestamp === false) {
+			throw new InvalidOptionException("Invalid timestamp '$timestamp'");
+		}
+		return $timestamp;
+	}
+
+	/**
+	 * @param ITrashItem[] $trashItem
+	 * @param int $scope
+	 * @param int|null $restoreFrom
+	 * @param int|null $restoreTo
+	 * @param OutputInterface $output
+	 * @return ITrashItem[]
+	 */
+	protected function filterTrashItems(array $trashItems, int $scope, ?int $restoreFrom, ?int $restoreTo, OutputInterface $output): array {
+		$filteredTrashItems = [];
+		foreach ($trashItems as $trashItem) {
+			// Check scope with exact class names
+			if ($scope === self::SCOPE_USER && get_class($trashItem) !== \OCA\Files_Trashbin\Trash\TrashItem::class) {
+				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a user trash item", OutputInterface::VERBOSITY_VERBOSE);
+				continue;
+			}
+			if ($scope === self::SCOPE_GROUPFOLDERS && get_class($trashItem) !== \OCA\GroupFolders\Trash\GroupTrashItem::class) {
+				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a groupfolders trash item", OutputInterface::VERBOSITY_VERBOSE);
+				continue;
+			}
+
+			// Check left timestamp boundary
+			if ($restoreFrom !== null && $trashItem->getDeletedTime() <= $restoreFrom) {
+				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted before the restore-from timestamp", OutputInterface::VERBOSITY_VERBOSE);
+				continue;
+			}
+
+			// Check right timestamp boundary
+			if ($restoreTo !== null && $trashItem->getDeletedTime() >= $restoreTo) {
+				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted after the restore-to timestamp", OutputInterface::VERBOSITY_VERBOSE);
+				continue;
+			}
+			
+			$filteredTrashItems[] = $trashItem;
+		}
+		return $filteredTrashItems;
 	}
 }
