@@ -65,7 +65,7 @@ OC.L10N.register(
     "Updating database schema" : "Actualizando o esquema da base de datos",
     "Updated database" : "Base de datos actualizada",
     "Update app \"%s\" from App Store" : "Actualizar a aplicación «%s» dende a tenda de aplicacións",
-    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Comprobar se é posíbel actualizar o esquema da base de datos para %s (isto pode levar bastante tempo, dependendo do tamaño da base de datos)",
+    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Comprobar se é posíbel actualizar o esquema da base de datos para %s (isto pode levarlle bastante, dependendo do tamaño da base de datos)",
     "Updated \"%1$s\" to %2$s" : "Actualizado «%1$s» a %2$s",
     "Set log level to debug" : "Estabelecer o nivel do rexistro na depuración",
     "Reset log level" : "Restabelecer o nivel do rexistro",
