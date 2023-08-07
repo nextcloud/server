@@ -1847,7 +1847,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		// only return public items for shared calendars for now
 		if (isset($calendarInfo['{http://owncloud.org/ns}owner-principal']) === false || $calendarInfo['principaluri'] !== $calendarInfo['{http://owncloud.org/ns}owner-principal']) {
-			$innerQuery->andWhere($innerQuery->expr()->eq('c.classification',
+			$outerQuery->andWhere($outerQuery->expr()->eq('c.classification',
 				$outerQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
 		}
 
