@@ -259,7 +259,7 @@ class TextProcessingTest extends \Test\TestCase {
 
 	public function testNonexistentTask() {
 		$this->expectException(NotFoundException::class);
-		$this->manager->getTask(98765432456);
+		$this->manager->getTask(2147483646);
 	}
 
 	public function testTaskFailure() {
