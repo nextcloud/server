@@ -38,7 +38,6 @@ use OCA\User_LDAP\Db\GroupMembershipMapper;
 use OCA\User_LDAP\Group_Proxy;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
@@ -151,9 +150,6 @@ class UpdateGroupsService {
 
 			$users = $this->groupBackend->usersInGroup($createdGroup);
 			$groupObject = $this->groupManager->get($createdGroup);
-			if ($groupObject instanceof IGroup) {
-				$this->dispatcher->dispatchTyped(new GroupCreatedEvent($groupObject));
-			}
 			foreach ($users as $user) {
 				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
 				if ($groupObject instanceof IGroup) {
@@ -187,8 +183,6 @@ class UpdateGroupsService {
 				}
 			}
 		}
-
-		//TODO find a way to dispatch GroupDeletedEvent
 
 		$this->logger->info(
 			'service "updateGroups" – groups {removedGroups} were removed.',
