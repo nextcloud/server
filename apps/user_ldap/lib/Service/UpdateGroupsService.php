@@ -175,6 +175,18 @@ class UpdateGroupsService {
 		$this->logger->debug('service "updateGroups" – dealing with removed groups.');
 
 		$this->groupMembershipMapper->deleteGroups($removedGroups);
+		foreach ($removedGroups as $group) {
+			$groupObject = $this->groupManager->get($group);
+			if ($groupObject instanceof IGroup) {
+				$groupMemberships = $this->groupMembershipMapper->findGroupMemberships($group);
+				foreach ($groupMemberships as $groupMembership) {
+					$userObject = $this->userManager->get($groupMembership->getUserid());
+					if ($userObject instanceof IUser) {
+						$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
+					}
+				}
+			}
+		}
 
 		//TODO find a way to dispatch GroupDeletedEvent
 
