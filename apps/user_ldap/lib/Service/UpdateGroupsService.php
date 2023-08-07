@@ -90,7 +90,7 @@ class UpdateGroupsService {
 			$this->logger->debug('service "updateGroups" – Dealing with {group}.', ['group' => $group]);
 			$groupMemberships = $this->groupMembershipMapper->findGroupMemberships($group);
 			$knownUsers = array_map(
-				fn (GroupMembership $groupMembership): string => $groupMembership->getUserid(),
+				static fn (GroupMembership $groupMembership): string => $groupMembership->getUserid(),
 				$groupMemberships
 			);
 			$groupMemberships = array_combine($knownUsers, $groupMemberships);
