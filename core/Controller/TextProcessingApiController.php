@@ -192,7 +192,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId
 	 * @param string|null $identifier
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: array{CoreTextProcessingTask}}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 *  200: Task list returned
 	 */
@@ -200,6 +200,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textProcessingManager->getUserTasksByApp($this->userId, $appId, $identifier);
+			/** @var CoreTextProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);
