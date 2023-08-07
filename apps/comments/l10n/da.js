@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Ingen kommentarer endnu, start samtalen!",
     "No more messages" : "Ikke flere beskeder",
     "Retry" : "Prøv igen",
+    "Failed to mark comments as read" : "Kunne ikke markere kommentarer som læst",
     "Unable to load the comments list" : "Kan ikke indlæse kommentarlisten",
     "_%n unread comment_::_%n unread comments_" : ["%n ulæst kommentar","%n ulæste kommentarer"],
     "_1 new comment_::_{unread} new comments_" : ["1 ny kommentar","{unread} nye kommentarer"],

@@ -206,6 +206,7 @@ OC.L10N.register(
     "Copied!" : "Kopieret",
     "Copy" : "Kopier",
     "Could not copy app password. Please copy it manually." : "Kunne ikke kopiere app-adgangskoden. Kopier det venligst manuelt.",
+    "Last job ran {relativeTime}." : "Sidste job kørte {relativeTime}.",
     "Background job did not run yet!" : "Baggrundsjobbet har ikke kørt endnu!",
     "AJAX" : "AJAX",
     "Execute one task with each page loaded. Use case: Single user instance." : "Udfør én opgave med hver side indlæst. Use case: Enkeltbrugerinstans.",
