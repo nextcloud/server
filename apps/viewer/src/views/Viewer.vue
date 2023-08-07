@@ -28,7 +28,7 @@
 		:data-handler="handlerId">
 		<component :is="currentFile.modal"
 			v-if="!currentFile.failed"
-			:key="currentFile.fileid"
+			:key="currentFile | uniqueKey"
 			ref="content"
 			:active="true"
 			:can-swipe="false"
@@ -115,7 +115,7 @@
 			<!-- PREVIOUS -->
 			<component :is="previousFile.modal"
 				v-if="previousFile && !previousFile.failed"
-				:key="previousFile.fileid"
+				:key="previousFile | uniqueKey"
 				ref="previous-content"
 				v-bind="previousFile"
 				:file-list="fileList"
@@ -128,7 +128,7 @@
 			<!-- CURRENT -->
 			<component :is="currentFile.modal"
 				v-if="!currentFile.failed"
-				:key="currentFile.fileid"
+				:key="currentFile | uniqueKey"
 				ref="content"
 				v-bind="currentFile"
 				:active="true"
@@ -147,7 +147,7 @@
 			<!-- NEXT -->
 			<component :is="nextFile.modal"
 				v-if="nextFile && !nextFile.failed"
-				:key="nextFile.fileid"
+				:key="nextFile | uniqueKey"
 				ref="next-content"
 				v-bind="nextFile"
 				:file-list="fileList"
@@ -210,6 +210,12 @@ export default {
 		NcActionLink,
 		NcModal,
 		Pencil,
+	},
+
+	filters: {
+		uniqueKey(file) {
+			return file.fileid || file.source
+		},
 	},
 
 	mixins: [isFullscreen, isMobile],
