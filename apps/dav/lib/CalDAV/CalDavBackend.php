@@ -1837,6 +1837,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($innerQuery->expr()->eq('op.calendartype',
 				$outerQuery->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
 
+		$outerQuery->select('c.id', 'c.calendardata', 'c.componenttype', 'c.uid', 'c.uri')
+			->from('calendarobjects', 'c')
+			->where($outerQuery->expr()->isNull('deleted_at'));
+
 		// only return public items for shared calendars for now
 		if (isset($calendarInfo['{http://owncloud.org/ns}owner-principal']) === false || $calendarInfo['principaluri'] !== $calendarInfo['{http://owncloud.org/ns}owner-principal']) {
 			$outerQuery->andWhere($outerQuery->expr()->eq('c.classification',
@@ -1857,10 +1861,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$outerQuery->createNamedParameter('%' .
 					$this->db->escapeLikeParameter($pattern) . '%')));
 		}
-
-		$outerQuery->select('c.id', 'c.calendardata', 'c.componenttype', 'c.uid', 'c.uri')
-			->from('calendarobjects', 'c')
-			->where($outerQuery->expr()->isNull('deleted_at'));
 
 		if (isset($options['timerange'])) {
 			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
