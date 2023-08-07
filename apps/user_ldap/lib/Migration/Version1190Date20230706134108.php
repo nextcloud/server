@@ -48,10 +48,9 @@ class Version1190Date20230706134108 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('ldap_group_membership')) {
 			$table = $schema->createTable('ldap_group_membership');
-			$table->addColumn('id', 'integer', [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
 			]);
 			$table->addColumn('groupid', Types::STRING, [
 				'notnull' => true,
