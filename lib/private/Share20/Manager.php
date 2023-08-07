@@ -67,6 +67,11 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
+use OCP\Share\Events\BeforeShareDeletedEvent;
+use OCP\Share\Events\ShareAcceptedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -75,8 +80,6 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -105,8 +108,6 @@ class Manager implements IManager {
 	private $rootFolder;
 	/** @var CappedMemoryCache */
 	private $sharingDisabledForUsersCache;
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
 	/** @var LegacyHooks */
 	private $legacyHooks;
 	/** @var IMailer */
@@ -134,7 +135,6 @@ class Manager implements IManager {
 		IProviderFactory $factory,
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
-		EventDispatcherInterface $legacyDispatcher,
 		IMailer $mailer,
 		IURLGenerator $urlGenerator,
 		\OC_Defaults $defaults,
@@ -153,7 +153,6 @@ class Manager implements IManager {
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
-		$this->legacyDispatcher = $legacyDispatcher;
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated
@@ -806,10 +805,10 @@ class Manager implements IManager {
 			$share->setTarget($target);
 
 			// Pre share event
-			$event = new GenericEvent($share);
-			$this->legacyDispatcher->dispatch('OCP\Share::preShare', $event);
-			if ($event->isPropagationStopped() && $event->hasArgument('error')) {
-				throw new \Exception($event->getArgument('error'));
+			$event = new Share\Events\BeforeShareCreatedEvent($share);
+			$this->dispatcher->dispatchTyped($event);
+			if ($event->isPropagationStopped() && $event->getError()) {
+				throw new \Exception($event->getError());
 			}
 
 			$oldShare = $share;
@@ -833,10 +832,7 @@ class Manager implements IManager {
 		}
 
 		// Post share event
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::postShare', $event);
-
-		$this->dispatcher->dispatchTyped(new Share\Events\ShareCreatedEvent($share));
+		$this->dispatcher->dispatchTyped(new ShareCreatedEvent($share));
 
 		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)
 			&& $share->getShareType() === IShare::TYPE_USER) {
@@ -1122,8 +1118,9 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Share provider does not support accepting');
 		}
 		$provider->acceptShare($share, $recipientId);
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::postAcceptShare', $event);
+
+		$event = new ShareAcceptedEvent($share);
+		$this->dispatcher->dispatchTyped($event);
 
 		return $share;
 	}
@@ -1206,11 +1203,13 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 
 		foreach ($provider->getChildren($share) as $child) {
+			$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($child));
+
 			$deletedChildren = $this->deleteChildren($child);
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
 			$provider->delete($child);
-			$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($child));
+			$this->dispatcher->dispatchTyped(new ShareDeletedEvent($child));
 			$deletedShares[] = $child;
 		}
 
@@ -1231,24 +1230,16 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Share does not have a full id');
 		}
 
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::preUnshare', $event);
+		$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($share));
 
 		// Get all children and delete them as well
-		$deletedShares = $this->deleteChildren($share);
+		$this->deleteChildren($share);
 
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
-		$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($share));
-
-		// All the deleted shares caused by this delete
-		$deletedShares[] = $share;
-
-		// Emit post hook
-		$event->setArgument('deletedShares', $deletedShares);
-		$this->legacyDispatcher->dispatch('OCP\Share::postUnshare', $event);
+		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
 	}
 
 
@@ -1266,8 +1257,8 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
+		$event = new ShareDeletedFromSelfEvent($share);
+		$this->dispatcher->dispatchTyped($event);
 	}
 
 	public function restoreShare(IShare $share, string $recipientId): IShare {

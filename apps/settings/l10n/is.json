@@ -173,6 +173,7 @@
     "Copied!" : "Afritað!",
     "Copy" : "Afrita",
     "Could not copy app password. Please copy it manually." : "Tókst ekki að afrita lykilorð forritsins. Afritaðu það handvirkt.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Nota cron-þjónustu kerfisins til að kalla á cron.php skrána á 5 mínútna fresti.",
     "Profile" : "Notandasnið",
     "Enable" : "Virkja",
     "Server-side encryption" : "Dulritun á þjóni",

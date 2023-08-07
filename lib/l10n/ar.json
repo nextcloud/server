@@ -264,7 +264,7 @@
     "Free prompt" : "مَحَثْ prompt مجاني",
     "Runs an arbitrary prompt through the built-in language model." : "يقوم بتشغيل مَحَثْ prompt عشوائي من خلال نموذج اللغة المُضمَّن built-in language model.",
     "Generate headline" : "توليد العنوان",
-    "Generates a possible headline for a text" : "توليد عنوان محتمل للنص",
+    "Generates a possible headline for a text." : "يقوم بتوليد عنوان مناسب للنص.",
     "Summarize" : "تلخيص",
     "Summarizes text by reducing its length without losing key information." : "يُلَخِّص النص بتقليل طوله دون فقدان المعنى.",
     "Extract topics" : "إستخلاص الموضوعات",

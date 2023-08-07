@@ -802,7 +802,7 @@ class OC_App {
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
-		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_UPDATE, $appId
 		));
 

@@ -29,6 +29,7 @@
  */
 namespace OCA\Files_External\AppInfo;
 
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
@@ -62,6 +63,7 @@ use OCA\Files_External\Lib\Backend\Swift;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Listener\GroupDeletedListener;
+use OCA\Files_External\Listener\LoadAdditionalListener;
 use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\App;
@@ -78,6 +80,7 @@ require_once __DIR__ . '/../../3rdparty/autoload.php';
  * @package OCA\Files_External\AppInfo
  */
 class Application extends App implements IBackendProvider, IAuthMechanismProvider, IBootstrap {
+	public const APP_ID = 'files_external';
 
 	/**
 	 * Application constructor.
@@ -85,27 +88,18 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function __construct(array $urlParams = []) {
-		parent::__construct('files_external', $urlParams);
+		parent::__construct(self::APP_ID, $urlParams);
 	}
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
+		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter) {
 			$mountProviderCollection->registerProvider($configAdapter);
-		});
-		\OCA\Files\App::getNavigationManager()->add(function () {
-			$l = \OC::$server->getL10N('files_external');
-			return [
-				'id' => 'extstoragemounts',
-				'appname' => 'files_external',
-				'script' => 'list.php',
-				'order' => 30,
-				'name' => $l->t('External storage'),
-			];
 		});
 		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
 			$backendService->registerBackendProvider($this);

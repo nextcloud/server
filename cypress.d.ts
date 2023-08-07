@@ -29,6 +29,21 @@ declare global {
 	namespace Cypress {
 		interface Chainable {
 			mount: typeof mount;
+			/**
+			 * Mock an initial state for component testing
+			 *
+			 * @param app App name of the initial state
+			 * @param key Key of the initial state
+			 * @param value The mocked value of the initial state
+			 */
+			mockInitialState: (app: string, key: string, value: any) => void
+			/**
+			 * Unmock all initial states or one defined by app and key
+			 *
+			 * @param app app name of the inital state
+			 * @param key the key of the the initial state
+			 */
+			unmockInitialState: (app?: string, key?: string) => void
 		}
 	}
 }

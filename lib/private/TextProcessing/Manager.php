@@ -27,6 +27,7 @@ namespace OC\TextProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
+use OCP\IConfig;
 use OCP\TextProcessing\Task as OCPTask;
 use OC\TextProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -52,6 +53,7 @@ class Manager implements IManager {
 		private LoggerInterface $logger,
 		private IJobList $jobList,
 		private TaskMapper $taskMapper,
+		private IConfig $config,
 	) {
 	}
 
@@ -111,7 +113,21 @@ class Manager implements IManager {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No text processing provider is installed that can handle this task');
 		}
-		foreach ($this->getProviders() as $provider) {
+		$providers = $this->getProviders();
+		$json = $this->config->getAppValue('core', 'ai.textprocessing_provider_preferences', '');
+		if ($json !== '') {
+			$preferences = json_decode($json, true);
+			if (isset($preferences[$task->getType()])) {
+				// If a preference for this task type is set, move the preferred provider to the start
+				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $preferences[$task->getType()]));
+				if ($provider !== false) {
+					$providers = array_filter($providers, fn ($p) => $p !== $provider);
+					array_unshift($providers, $provider);
+				}
+			}
+		}
+
+		foreach ($providers as $provider) {
 			if (!$task->canUseProvider($provider)) {
 				continue;
 			}

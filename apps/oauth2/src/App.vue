@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<NcSettingsSection :title="t('oauth2', 'OAuth 2.0 clients')"
+	<NcSettingsSection :name="t('oauth2', 'OAuth 2.0 clients')"
 		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName })"
 		:doc-url="oauthDocLink">
 		<table v-if="clients.length > 0" class="grid">

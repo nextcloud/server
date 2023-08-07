@@ -23,9 +23,9 @@
 	<th class="files-list__column files-list__row-actions-batch" colspan="2">
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
-			:force-title="true"
+			:force-name="true"
 			:inline="inlineActions"
-			:menu-title="inlineActions <= 1 ? t('files', 'Actions') : null"
+			:menu-name="inlineActions <= 1 ? t('files', 'Actions') : null"
 			:open.sync="openedMenu">
 			<NcActionButton v-for="action in enabledActions"
 				:key="action.id"

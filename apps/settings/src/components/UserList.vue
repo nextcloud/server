@@ -31,10 +31,10 @@
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
-			:title="isInitialLoad && loading.users ? null : t('settings', 'No users')">
+			:name="isInitialLoad && loading.users ? null : t('settings', 'No users')">
 			<template #icon>
 				<NcLoadingIcon v-if="isInitialLoad && loading.users"
-					:title="t('settings', 'Loading users …')"
+					:name="t('settings', 'Loading users …')"
 					:size="64" />
 				<NcIconSvgWrapper v-else
 					:svg="usersSvg" />
@@ -42,9 +42,9 @@
 		</NcEmptyContent>
 
 		<RecycleScroller v-else
+			ref="scroller"
 			class="user-list"
 			:style="style"
-			ref="scroller"
 			:items="filteredUsers"
 			key-field="id"
 			role="table"
@@ -55,7 +55,6 @@
 			:item-size="rowHeight"
 			@hook:mounted="handleMounted"
 			@scroll-end="handleScrollEnd">
-
 			<template #before>
 				<caption class="hidden-visually">
 					{{ t('settings', 'List of users. This list is not fully rendered for performance reasons. The users will be rendered as you navigate through the list.') }}
@@ -79,7 +78,6 @@
 				<UserListFooter :loading="loading.users"
 					:filtered-users="filteredUsers" />
 			</template>
-
 		</RecycleScroller>
 	</Fragment>
 </template>

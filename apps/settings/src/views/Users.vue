@@ -37,7 +37,7 @@
 						:edit-placeholder="t('settings', 'Enter group name')"
 						:editable="true"
 						:loading="loadingAddGroup"
-						:title="t('settings', 'Add group')"
+						:name="t('settings', 'Add group')"
 						@click="showAddGroupForm"
 						@new-item="createGroup">
 						<template #icon>
@@ -46,7 +46,7 @@
 					</NcAppNavigationNewItem>
 					<NcAppNavigationItem id="everyone"
 						:exact="true"
-						:title="t('settings', 'Active users')"
+						:name="t('settings', 'Active users')"
 						:to="{ name: 'users' }"
 						icon="icon-contacts-dark">
 						<template #counter>
@@ -58,7 +58,7 @@
 					<NcAppNavigationItem v-if="settings.isAdmin"
 						id="admin"
 						:exact="true"
-						:title="t('settings', 'Admins')"
+						:name="t('settings', 'Admins')"
 						:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
 						icon="icon-user-admin">
 						<template v-if="adminGroupMenu.count > 0" #counter>
@@ -72,7 +72,7 @@
 					<NcAppNavigationItem v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
 						id="disabled"
 						:exact="true"
-						:title="t('settings', 'Disabled users')"
+						:name="t('settings', 'Disabled users')"
 						:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
 						icon="icon-disabled-users">
 						<template v-if="disabledGroupMenu.usercount > 0" #counter>
@@ -82,18 +82,18 @@
 						</template>
 					</NcAppNavigationItem>
 
-					<NcAppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
+					<NcAppNavigationCaption v-if="groupList.length > 0" :name="t('settings', 'Groups')" />
 					<GroupListItem v-for="group in groupList"
 						:id="group.id"
 						:key="group.id"
 						:active="selectedGroupDecoded === group.id"
-						:title="group.title"
+						:name="group.title"
 						:count="group.count" />
 				</template>
 
 				<template #footer>
 					<ul class="app-navigation-entry__settings">
-						<NcAppNavigationItem :title="t('settings', 'User management settings')"
+						<NcAppNavigationItem :name="t('settings', 'User management settings')"
 							@click="isDialogOpen = true">
 							<template #icon>
 								<Cog :size="20" />

@@ -33,12 +33,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Put extends Command {
-	private ObjectUtil $objectUtils;
-	private IMimeTypeDetector $mimeTypeDetector;
-
-	public function __construct(ObjectUtil $objectUtils, IMimeTypeDetector $mimeTypeDetector) {
-		$this->objectUtils = $objectUtils;
-		$this->mimeTypeDetector = $mimeTypeDetector;
+	public function __construct(
+		private ObjectUtil $objectUtils,
+		private IMimeTypeDetector $mimeTypeDetector,
+	) {
 		parent::__construct();
 	}
 
@@ -75,10 +73,10 @@ class Put extends Command {
 		$source = $inputName === '-' ? STDIN : fopen($inputName, 'r');
 		if (!$source) {
 			$output->writeln("<error>Failed to open $inputName</error>");
-			return 1;
+			return self::FAILURE;
 		}
 		$objectStore->writeObject($object, $source, $this->mimeTypeDetector->detectPath($inputName));
-		return 0;
+		return self::SUCCESS;
 	}
 
 }

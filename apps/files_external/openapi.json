@@ -30,7 +30,8 @@
                     "scope",
                     "permissions",
                     "id",
-                    "class"
+                    "class",
+                    "config"
                 ],
                 "properties": {
                     "name": {
@@ -65,6 +66,9 @@
                     },
                     "class": {
                         "type": "string"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/StorageConfig"
                     }
                 }
             },
@@ -89,6 +93,77 @@
                     },
                     "itemsperpage": {
                         "type": "string"
+                    }
+                }
+            },
+            "StorageConfig": {
+                "type": "object",
+                "required": [
+                    "authMechanism",
+                    "backend",
+                    "backendOptions",
+                    "mountPoint",
+                    "type",
+                    "userProvided"
+                ],
+                "properties": {
+                    "applicableGroups": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "applicableUsers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "authMechanism": {
+                        "type": "string"
+                    },
+                    "backend": {
+                        "type": "string"
+                    },
+                    "backendOptions": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "mountOptions": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "mountPoint": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "statusMessage": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "personal",
+                            "system"
+                        ]
+                    },
+                    "userProvided": {
+                        "type": "boolean"
                     }
                 }
             }

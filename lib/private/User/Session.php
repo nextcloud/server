@@ -51,6 +51,7 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
@@ -63,9 +64,9 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Session
@@ -561,7 +562,8 @@ class Session implements IUserSession, Emitter {
 			}
 
 			// trigger any other initialization
-			\OC::$server->getEventDispatcher()->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+			\OC::$server->get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+			\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
 		}
 	}
 

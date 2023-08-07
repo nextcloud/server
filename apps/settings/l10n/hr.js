@@ -204,6 +204,7 @@ OC.L10N.register(
     "Copied!" : "Kopirano!",
     "Copy" : "Kopiraj",
     "Could not copy app password. Please copy it manually." : "Kopiranje zaporke aplikacije nije uspjelo. Kopirajte je ručno.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Koristite se sistemskim servisom cron za pozivanje datoteke cron.php svakih 5 minuta.",
     "Profile" : "Profil",
     "Enable" : "Omogući",
     "Server-side encryption" : "Šifriranje na poslužitelju",

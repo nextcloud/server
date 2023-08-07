@@ -1,5 +1,5 @@
 <template>
-	<NcSettingsSection :title="$t('dav', 'Availability')"
+	<NcSettingsSection :name="$t('dav', 'Availability')"
 		:description="$t('dav', 'If you configure your working hours, other users will see when you are out of office when they book a meeting.')">
 		<div class="time-zone">
 			<strong>

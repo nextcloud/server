@@ -81,7 +81,7 @@ OC.L10N.register(
     "Change color" : "Cambiar a cor",
     "No background" : "Sen fondo",
     "Select a background from your files" : "Seleccione un fondo dende os seus ficheiros",
-    "Theme selection is enforced" : "Aplicarase a selección do tema",
+    "Theme selection is enforced" : "Imponse a selección de temas",
     "Select a custom color" : "Seleccione unha cor personalizada",
     "Reset to default" : "Restabelecer os valores predeterminados",
     "Upload" : "Enviar",

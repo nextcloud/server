@@ -1,5 +1,5 @@
 <template>
-	<NcSettingsSection :title="t('settings', 'Two-Factor Authentication')"
+	<NcSettingsSection :name="t('settings', 'Two-Factor Authentication')"
 		:description="t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
 		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">
@@ -22,8 +22,8 @@
 				<label for="enforcedGroups">
 					<span>{{ t('settings', 'Enforced groups') }}</span>
 				</label>
-				<NcSelect input-id="enforcedGroups"
-					v-model="enforcedGroups"
+				<NcSelect v-model="enforcedGroups"
+					input-id="enforcedGroups"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"
@@ -38,8 +38,8 @@
 				<label for="excludedGroups">
 					<span>{{ t('settings', 'Excluded groups') }}</span>
 				</label>
-				<NcSelect input-id="excludedGroups"
-					v-model="excludedGroups"
+				<NcSelect v-model="excludedGroups"
+					input-id="excludedGroups"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"

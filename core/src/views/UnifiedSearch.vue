@@ -596,16 +596,16 @@ export default {
 				if (data.ocs.data.entries.length < this.defaultLimit) {
 					this.$set(this.reached, type, true)
 				}
-			} else
+			} else {
+				// If no cursor, we might have all the results already,
+				// let's fake pagination and show the next xxx entries
+				if (this.limits[type] && this.limits[type] >= 0) {
+					this.limits[type] += this.defaultLimit
 
-			// If no cursor, we might have all the results already,
-			// let's fake pagination and show the next xxx entries
-			if (this.limits[type] && this.limits[type] >= 0) {
-				this.limits[type] += this.defaultLimit
-
-				// Check if we reached end of pagination
-				if (this.limits[type] >= this.results[type].length) {
-					this.$set(this.reached, type, true)
+					// Check if we reached end of pagination
+					if (this.limits[type] >= this.results[type].length) {
+						this.$set(this.reached, type, true)
+					}
 				}
 			}
 
