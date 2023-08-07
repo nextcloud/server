@@ -100,11 +100,19 @@ class CheckGroup extends Command {
 				$output->writeln('The group is still available on LDAP.');
 				if ($input->getOption('update')) {
 					$this->backend->getLDAPAccess($gid)->connection->clearCache();
-					$this->updateGroup($gid, $output, $wasMapped);
+					if ($wasMapped) {
+						$this->service->handleKnownGroups([$gid]);
+					} else {
+						$this->service->handleCreatedGroups([$gid]);
+					}
 				}
 				return 0;
 			} elseif ($wasMapped) {
-				$output->writeln('The group does not exists on LDAP anymore.');
+				$output->writeln('The group does not exist on LDAP anymore.');
+				if ($input->getOption('update')) {
+					$this->backend->getLDAPAccess($gid)->connection->clearCache();
+					$this->service->handleRemovedGroups([$gid]);
+				}
 				return 0;
 			} else {
 				throw new \Exception('The given group is not a recognized LDAP group.');
