@@ -44,7 +44,7 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 			const day = moment()
 				.add(1, 'day')
 				.startOf('day')
-				.add(9, 'hour')
+				.add(8, 'hour')
 				.toDate()
 			return day
 		},
@@ -54,11 +54,11 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 			const saturday = moment()
 				.startOf('isoWeek')
 				.add(5, 'day')
-				.add(9, 'hour')
+				.add(8, 'hour')
 			const sunday = moment()
 				.startOf('isoWeek')
 				.add(6, 'day')
-				.add(9, 'hour')
+				.add(8, 'hour')
 			if (today.isSame(saturday, 'date')) {
 				return saturday
 					.add(1, 'day')
@@ -69,7 +69,7 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 					.add(1, 'week')
 					.startOf('isoWeek')
 					.add(5, 'day')
-					.add(9, 'hour')
+					.add(8, 'hour')
 					.toDate()
 			}
 			return saturday.toDate()
@@ -79,7 +79,7 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 			const day = moment()
 				.startOf('isoWeek')
 				.add(1, 'week')
-				.add(9, 'hour')
+				.add(8, 'hour')
 				.toDate()
 			return day
 		},
