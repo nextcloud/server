@@ -19,13 +19,13 @@
 	<div>
 		<NcListItem class="version"
 			:name="versionLabel"
-			:href="downloadURL"
 			:force-display-actions="true"
-			data-files-versions-version>
+			data-files-versions-version
+			@click="click">
 			<template #icon>
 				<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
 				<img v-else-if="isCurrent || version.hasPreview"
-					:src="previewURL"
+					:src="version.previewUrl"
 					alt=""
 					decoding="async"
 					fetchpriority="low"
@@ -46,13 +46,21 @@
 				</div>
 			</template>
 			<template #actions>
-				<NcActionButton	v-if="enableLabeling"
+				<NcActionButton v-if="enableLabeling"
 					:close-after-click="true"
 					@click="openVersionLabelModal">
 					<template #icon>
 						<Pencil :size="22" />
 					</template>
 					{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
+				</NcActionButton>
+				<NcActionButton v-if="!isCurrent && canView && canCompare"
+					:close-after-click="true"
+					@click="compareVersion">
+					<template #icon>
+						<FileCompare :size="22" />
+					</template>
+					{{ t('files_versions', 'Compare to current version') }}
 				</NcActionButton>
 				<NcActionButton v-if="!isCurrent"
 					:close-after-click="true"
@@ -116,6 +124,7 @@
 <script>
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
@@ -130,7 +139,7 @@ import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import moment from '@nextcloud/moment'
 import { translate } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
-import { generateUrl, getRootUrl } from '@nextcloud/router'
+import { getRootUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
@@ -144,6 +153,7 @@ export default {
 		NcTextField,
 		BackupRestore,
 		Download,
+		FileCompare,
 		Pencil,
 		Check,
 		Delete,
@@ -190,6 +200,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		canView: {
+			type: Boolean,
+			default: false,
+		},
+		canCompare: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -232,20 +250,6 @@ export default {
 			}
 		},
 
-		/**
-		 * @return {string}
-		 */
-		previewURL() {
-			if (this.isCurrent) {
-				return generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
-					fileId: this.fileInfo.id,
-					fileEtag: this.fileInfo.etag,
-				})
-			} else {
-				return this.version.preview
-			}
-		},
-
 		/** @return {string} */
 		formattedDate() {
 			return moment(this.version.mtime).format('LLL')
@@ -259,7 +263,7 @@ export default {
 		/** @return {boolean} */
 		enableDeletion() {
 			return this.capabilities.files.version_deletion === true && this.fileInfo.mountType !== 'group'
-		}
+		},
 	},
 	methods: {
 		openVersionLabelModal() {
@@ -281,6 +285,21 @@ export default {
 
 		deleteVersion() {
 			this.$emit('delete', this.version)
+		},
+
+		click() {
+			if (!this.canView) {
+				window.location = this.downloadURL
+				return
+			}
+			this.$emit('click', { version: this.version })
+		},
+
+		compareVersion() {
+			if (!this.canView) {
+				throw new Error('Cannot compare version of this file')
+			}
+			this.$emit('compare', { version: this.version })
 		},
 	},
 }
