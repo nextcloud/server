@@ -49,7 +49,7 @@
 				'<a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/Nextclouders/">',
 				'<a target="_blank" rel="noreferrer noopener" href="https://twitter.com/nextclouders">',
 				'<a target="_blank" rel="noreferrer noopener" href="https://mastodon.xyz/@nextcloud">',
-				'<a target="_blank" rel="noreferrer noopener" href="https://nextcloud.com/news/">',
+				'<a target="_blank" rel="noreferrer noopener" href="https://nextcloud.com/blog/">',
 				'<a target="_blank" rel="noreferrer noopener" href="https://newsletter.nextcloud.com/?p=subscribe&amp;id=1">',
 				'</a>',
 				$l->t('Like our Facebook page'),
