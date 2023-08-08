@@ -19,6 +19,7 @@ OC.L10N.register(
     "Value" : "ارزش",
     "Text" : "متن",
     "Size" : "اندازه",
-    "Extension" : "گسترش"
+    "Extension" : "گسترش",
+    "Name is required." : "نام الزامی است"
 },
 "nplurals=2; plural=(n > 1);");
