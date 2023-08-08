@@ -38,20 +38,17 @@
 			{{ t('files_reminders', 'Clear reminder') }} — {{ getDateString(dueDate) }}
 		</NcActionButton>
 		<NcActionSeparator />
-		<NcActionButton v-for="({ icon, label, ariaLabel, dateString, action }) in options"
+		<NcActionButton v-for="({ label, ariaLabel, dateString, action }) in options"
 			:key="label"
 			:aria-label="ariaLabel"
 			@click="action">
-			<template #icon>
-				<component :is="icon" />
-			</template>
 			{{ label }} — {{ dateString }}
 		</NcActionButton>
 	</NcActions>
 </template>
 
 <script lang="ts">
-import Vue, { type Component, type PropType } from 'vue'
+import Vue, { type PropType } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
@@ -61,10 +58,6 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import CloseCircleOutline from 'vue-material-design-icons/CloseCircleOutline.vue'
-import Update from 'vue-material-design-icons/Update.vue'
-import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
-import CalendarWeekend from 'vue-material-design-icons/CalendarWeekend.vue'
-import ChevronDoubleRight from 'vue-material-design-icons/ChevronDoubleRight.vue'
 
 import { clearReminder, setReminder } from '../services/reminderService.ts'
 import {
@@ -79,7 +72,6 @@ import type { FileAttributes } from '../shared/types.ts'
 
 interface ReminderOption {
 	dateTimePreset: DateTimePreset
-	icon: Component
 	label: string
 	ariaLabel: string
 	dateString?: string
@@ -88,28 +80,24 @@ interface ReminderOption {
 
 const laterToday: ReminderOption = {
 	dateTimePreset: DateTimePreset.LaterToday,
-	icon: Update,
 	label: t('files_reminders', 'Later today'),
 	ariaLabel: t('files_reminders', 'Set reminder for later today'),
 }
 
 const tomorrow: ReminderOption = {
 	dateTimePreset: DateTimePreset.Tomorrow,
-	icon: ChevronRight,
 	label: t('files_reminders', 'Tomorrow'),
 	ariaLabel: t('files_reminders', 'Set reminder for tomorrow'),
 }
 
 const thisWeekend: ReminderOption = {
 	dateTimePreset: DateTimePreset.ThisWeekend,
-	icon: CalendarWeekend,
 	label: t('files_reminders', 'This weekend'),
 	ariaLabel: t('files_reminders', 'Set reminder for this weekend'),
 }
 
 const nextWeek: ReminderOption = {
 	dateTimePreset: DateTimePreset.NextWeek,
-	icon: ChevronDoubleRight,
 	label: t('files_reminders', 'Next week'),
 	ariaLabel: t('files_reminders', 'Set reminder for next week'),
 }
