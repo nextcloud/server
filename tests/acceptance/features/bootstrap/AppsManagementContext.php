@@ -86,7 +86,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function enableAllBundleButton($bundle) {
-		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input[@value='Download and enable all']")->
+		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input[@value='Enable all']")->
 				descendantOf(self::appsList())->
 				describedAs("Button to enable bundles");
 	}
