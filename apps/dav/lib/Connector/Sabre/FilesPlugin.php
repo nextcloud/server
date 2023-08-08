@@ -46,6 +46,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\ServerPlugin;
@@ -84,6 +85,16 @@ class FilesPlugin extends ServerPlugin {
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
 	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
+	public const FILE_METADATA_GPS = '{http://nextcloud.org/ns}file-metadata-gps';
+
+	public const ALL_METADATA_PROPS = [
+		self::FILE_METADATA_SIZE => 'size',
+		self::FILE_METADATA_GPS => 'gps',
+	];
+	public const METADATA_MIMETYPES = [
+		'size' => 'image',
+		'gps' => 'image',
+	];
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -418,26 +429,28 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
-				$propFind->handle(self::FILE_METADATA_SIZE, function () use ($node) {
-					if (!str_starts_with($node->getFileInfo()->getMimetype(), 'image')) {
-						return json_encode((object)[], JSON_THROW_ON_ERROR);
-					}
+				foreach (self::ALL_METADATA_PROPS as $prop => $meta) {
+					$propFind->handle($prop, function () use ($node, $meta) {
+						if ($node->getFileInfo()->getMimePart() !== self::METADATA_MIMETYPES[$meta]) {
+							return [];
+						}
 
-					if ($node->hasMetadata('size')) {
-						$sizeMetadata = $node->getMetadata('size');
-					} else {
-						// This code path should not be called since we try to preload
-						// the metadata when loading the folder or the search results
-						// in one go
-						$metadataManager = \OC::$server->get(IMetadataManager::class);
-						$sizeMetadata = $metadataManager->fetchMetadataFor('size', [$node->getId()])[$node->getId()];
+						if ($node->hasMetadata($meta)) {
+							$metadata = $node->getMetadata($meta);
+						} else {
+							// This code path should not be called since we try to preload
+							// the metadata when loading the folder or the search results
+							// in one go
+							$metadataManager = \OC::$server->get(IMetadataManager::class);
+							$metadata = $metadataManager->fetchMetadataFor($meta, [$node->getId()])[$node->getId()];
 
-						// TODO would be nice to display this in the profiler...
-						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
-					}
+							// TODO would be nice to display this in the profiler...
+							\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
+						}
 
-					return $sizeMetadata->getValue();
-				});
+						return $metadata->getValue();
+					});
+				}
 			}
 		}
 
@@ -452,27 +465,31 @@ class FilesPlugin extends ServerPlugin {
 
 			$requestProperties = $propFind->getRequestedProperties();
 
-			// TODO detect dynamically which metadata groups are requested and
-			// preload all of them and not just size
-			if ($this->config->getSystemValueBool('enable_file_metadata', true)
-				&& in_array(self::FILE_METADATA_SIZE, $requestProperties, true)) {
-				// Preloading of the metadata
-				$fileIds = [];
-				foreach ($node->getChildren() as $child) {
-					/** @var \OCP\Files\Node|Node $child */
-					if (str_starts_with($child->getFileInfo()->getMimeType(), 'image/')) {
-						/** @var File $child */
-						$fileIds[] = $child->getFileInfo()->getId();
+			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
+				$requestedMetaData = [];
+				foreach ($requestProperties as $requestProperty) {
+					if (isset(self::ALL_METADATA_PROPS[$requestProperty])) {
+						$requestedMetaData[] = self::ALL_METADATA_PROPS[$requestProperty];
 					}
 				}
+				$children = $node->getChildren();
+				// Preloading of the metadata
+
 				/** @var IMetaDataManager $metadataManager */
 				$metadataManager = \OC::$server->get(IMetadataManager::class);
-				$preloadedMetadata = $metadataManager->fetchMetadataFor('size', $fileIds);
-				foreach ($node->getChildren() as $child) {
-					/** @var \OCP\Files\Node|Node $child */
-					if (str_starts_with($child->getFileInfo()->getMimeType(), 'image')) {
-						/** @var File $child */
-						$child->setMetadata('size', $preloadedMetadata[$child->getFileInfo()->getId()]);
+
+				foreach ($requestedMetaData as $requestedMeta) {
+					$relevantMimeType = self::METADATA_MIMETYPES[$requestedMeta];
+					$childrenForMeta = array_filter($children, function (INode $child) use ($relevantMimeType) {
+						return $child instanceof File && $child->getFileInfo()->getMimePart() === $relevantMimeType;
+					});
+					$fileIds = array_map(function (File $child) {
+						return $child->getFileInfo()->getId();
+					}, $childrenForMeta);
+					$preloadedMetadata = $metadataManager->fetchMetadataFor($requestedMeta, $fileIds);
+
+					foreach ($childrenForMeta as $child) {
+						$child->setMetadata($requestedMeta, $preloadedMetadata[$child->getFileInfo()->getId()]);
 					}
 				}
 			}
