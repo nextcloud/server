@@ -210,7 +210,7 @@ export default {
 				if (this.allBundlesEnabled(id)) {
 					return t('settings', 'Disable all')
 				}
-				return t('settings', 'Enable all')
+				return t('settings', 'Download and enable all')
 			}
 		},
 	},
