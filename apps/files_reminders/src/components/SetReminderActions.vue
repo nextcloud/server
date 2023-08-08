@@ -36,7 +36,7 @@
 			<template #icon>
 				<CloseCircleOutline :size="20" />
 			</template>
-			{{ t('files_reminders', 'Clear reminder') }} — {{ getDateString(dueDate) }}
+			{{ t('files_reminders', 'Clear reminder') }} – {{ getDateString(dueDate) }}
 		</NcActionButton>
 
 		<NcActionSeparator />
@@ -45,7 +45,7 @@
 			:key="label"
 			:aria-label="ariaLabel"
 			@click="action">
-			{{ label }} — {{ dateString }}
+			{{ label }} – {{ dateString }}
 		</NcActionButton>
 
 		<NcActionSeparator />
@@ -180,14 +180,14 @@ export default Vue.extend({
 		},
 
 		clearAriaLabel(): string {
-			return `${t('files_reminders', 'Clear reminder')} — ${getVerboseDateString(this.dueDate as Date)}`
+			return `${t('files_reminders', 'Clear reminder')} – ${getVerboseDateString(this.dueDate as Date)}`
 		},
 
 		customAriaLabel(): null | string {
 			if (this.customDueDate === '') {
 				return null
 			}
-			return `${t('files_reminders', 'Set reminder at custom date & time')} — ${getVerboseDateString(this.customDueDate)}`
+			return `${t('files_reminders', 'Set reminder at custom date & time')} – ${getVerboseDateString(this.customDueDate)}`
 		},
 
 		options(): ReminderOption[] {
@@ -195,7 +195,7 @@ export default Vue.extend({
 				const dateTime = getDateTime(option.dateTimePreset)
 				return {
 					...option,
-					ariaLabel: `${option.ariaLabel} — ${getVerboseDateString(dateTime)}`,
+					ariaLabel: `${option.ariaLabel} – ${getVerboseDateString(dateTime)}`,
 					dateString: getDateString(dateTime),
 					action: () => this.set(dateTime),
 				}
