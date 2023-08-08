@@ -29,6 +29,7 @@
 			</template>
 			{{ t('files_reminders', 'Back') }}
 		</NcActionButton>
+
 		<NcActionButton v-if="Boolean(dueDate)"
 			:aria-label="clearAriaLabel"
 			@click="clear">
@@ -37,12 +38,33 @@
 			</template>
 			{{ t('files_reminders', 'Clear reminder') }} — {{ getDateString(dueDate) }}
 		</NcActionButton>
+
 		<NcActionSeparator />
+
 		<NcActionButton v-for="({ label, ariaLabel, dateString, action }) in options"
 			:key="label"
 			:aria-label="ariaLabel"
 			@click="action">
 			{{ label }} — {{ dateString }}
+		</NcActionButton>
+
+		<NcActionSeparator />
+
+		<NcActionInput type="datetime-local"
+			is-native-picker
+			:min="now"
+			v-model="customDueDate">
+			<template #icon>
+				<CalendarClock :size="20" />
+			</template>
+		</NcActionInput>
+
+		<NcActionButton :aria-label="customAriaLabel"
+			@click="setCustom">
+			<template #icon>
+				<Check :size="20" />
+			</template>
+			{{ t('files_reminders', 'Set custom reminder') }}
 		</NcActionButton>
 	</NcActions>
 </template>
@@ -53,10 +75,13 @@ import { translate as t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
+import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 import CloseCircleOutline from 'vue-material-design-icons/CloseCircleOutline.vue'
 
 import { clearReminder, setReminder } from '../services/reminderService.ts'
@@ -64,6 +89,7 @@ import {
 	DateTimePreset,
 	getDateString,
 	getDateTime,
+	getInitialCustomDueDate,
 	getVerboseDateString,
 } from '../shared/utils.ts'
 import { logger } from '../shared/logger.ts'
@@ -107,8 +133,11 @@ export default Vue.extend({
 
 	components: {
 		ArrowLeft,
+		CalendarClock,
+		Check,
 		CloseCircleOutline,
 		NcActionButton,
+		NcActionInput,
 		NcActions,
 		NcActionSeparator,
 	},
@@ -128,6 +157,8 @@ export default Vue.extend({
 	data() {
 		return {
 			open: true,
+			now: new Date(),
+			customDueDate: getInitialCustomDueDate() as '' | Date,
 		}
 	},
 
@@ -150,6 +181,13 @@ export default Vue.extend({
 
 		clearAriaLabel(): string {
 			return `${t('files_reminders', 'Clear reminder')} — ${getVerboseDateString(this.dueDate as Date)}`
+		},
+
+		customAriaLabel(): null | string {
+			if (this.customDueDate === '') {
+				return null
+			}
+			return `${t('files_reminders', 'Set reminder at custom date & time')} — ${getVerboseDateString(this.customDueDate)}`
 		},
 
 		options(): ReminderOption[] {
@@ -179,6 +217,23 @@ export default Vue.extend({
 		async set(dueDate: Date): Promise<void> {
 			try {
 				await setReminder(this.fileId, dueDate)
+				showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: this.fileName }))
+				this.open = false
+			} catch (error) {
+				logger.error('Failed to set reminder', { error })
+				showError(t('files_reminders', 'Failed to set reminder'))
+			}
+		},
+
+		async setCustom(): Promise<void> {
+			// Handle input cleared
+			if (this.customDueDate === '') {
+				showError(t('files_reminders', 'Please choose a valid date & time'))
+				return
+			}
+
+			try {
+				await setReminder(this.fileId, this.customDueDate)
 				showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: this.fileName }))
 				this.open = false
 			} catch (error) {

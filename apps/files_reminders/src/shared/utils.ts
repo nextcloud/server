@@ -88,6 +88,14 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 	return matchPreset[dateTime]()
 }
 
+export const getInitialCustomDueDate = (): Date => {
+	const hour = moment().get('hour')
+	const dueDate = moment()
+		.startOf('day')
+		.add(hour + 2, 'hour')
+	return dueDate.toDate()
+}
+
 export const getDateString = (dueDate: Date): string => {
 	let formatOptions: Intl.DateTimeFormatOptions = {
 		hour: 'numeric',
