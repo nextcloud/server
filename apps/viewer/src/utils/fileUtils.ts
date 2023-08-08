@@ -82,6 +82,7 @@ export type FileInfo = object
 /**
  * Generate a fileinfo object based on the full dav properties
  * It will flatten everything and put all keys to camelCase
+ * @param obj
  */
 const genFileInfo = function(obj: FileStat): FileInfo {
 	const fileInfo = {}

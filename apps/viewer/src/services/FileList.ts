@@ -26,6 +26,8 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 /**
  * Retrieve the files list
+ * @param path
+ * @param options
  */
 export default async function(path: string, options = {}): Promise<FileInfo[]> {
 	// getDirectoryContents doesn't accept / for root

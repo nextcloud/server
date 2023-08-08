@@ -25,6 +25,18 @@ import Videos from '../models/videos.js'
 import Audios from '../models/audios.js'
 
 /**
+ * Handler type definition
+ *
+ * @typedef {object} Handler
+ * @property {string} id unique identifier for the handler
+ * @property {string[]} mimes list of mime types that are supported for opening
+ * @property {object} component Vue component to render the file
+ * @property {string} group group identifier to combine for navigating to the next/previous files
+ * @property {?string} theme viewer modal theme (one of 'dark', 'light', 'default')
+ * @property {boolean} canCompare Indicate support for comparing two files
+ */
+
+/**
  * File info type definition
  *
  * @typedef {object} Fileinfo
@@ -41,12 +53,15 @@ export default class Viewer {
 
 	_state
 	_mimetypes
+	_mimetypesCompare
 
 	constructor() {
 		this._mimetypes = []
+		this._mimetypesCompare = []
 		this._state = {}
 		this._state.file = ''
 		this._state.fileInfo = null
+		this._state.compareFileInfo = null
 		this._state.files = []
 		this._state.enableSidebar = true
 		this._state.el = null
@@ -71,6 +86,7 @@ export default class Viewer {
 	 *
 	 * @readonly
 	 * @memberof Viewer
+	 * @return {Handler[]}
 	 */
 	get availableHandlers() {
 		return this._state.handlers
@@ -80,11 +96,14 @@ export default class Viewer {
 	 * Register a new handler
 	 *
 	 * @memberof Viewer
-	 * @param {object} handler a new unregistered handler
+	 * @param {Handler} handler a new unregistered handler
 	 */
 	registerHandler(handler) {
 		this._state.handlers.push(handler)
 		this._mimetypes.push.apply(this._mimetypes, handler.mimes)
+		if (handler?.canCompare === true) {
+			this._mimetypesCompare.push.apply(this._mimetypesCompare, handler.mimes)
+		}
 	}
 
 	/**
@@ -105,6 +124,16 @@ export default class Viewer {
 	 */
 	get fileInfo() {
 		return this._state.fileInfo
+	}
+
+	/**
+	 * Get the current comparison view opened file fileInfo
+	 *
+	 * @memberof Viewer
+	 * @return {?Fileinfo} the currently opened file fileInfo
+	 */
+	get compareFileInfo() {
+		return this._state.compareFileInfo
 	}
 
 	/**
@@ -145,6 +174,16 @@ export default class Viewer {
 	 */
 	get mimetypes() {
 		return this._mimetypes
+	}
+
+	/**
+	 * Get the supported mimetypes that can be opened side by side for comparison
+	 *
+	 * @memberof Viewer
+	 * @return {Array} list of mimetype strings that the viewer can open side by side for comparison
+	 */
+	get mimetypesCompare() {
+		return this._mimetypesCompare
 	}
 
 	/**
@@ -289,6 +328,20 @@ export default class Viewer {
 	openWith(handlerId, options = {}) {
 		this._state.overrideHandlerId = handlerId
 		this.open(options)
+	}
+
+	/**
+	 * Open the viewer with two files side by side
+	 *
+	 * @memberof Viewer
+	 * @param {Fileinfo} fileInfo current file
+	 * @param {Fileinfo} compareFileInfo older file to compare
+	 */
+	compare(fileInfo, compareFileInfo) {
+		this.open({
+			fileInfo,
+		})
+		this._state.compareFileInfo = compareFileInfo
 	}
 
 	/**
