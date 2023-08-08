@@ -31,7 +31,7 @@ export enum DateTimePreset {
 }
 
 export const getDateTime = (dateTime: DateTimePreset): Date => {
-	const matchPreset = {
+	const matchPreset: Record<DateTimePreset, () => Date> = {
 		[DateTimePreset.LaterToday]: () => {
 			const hour = moment().get('hour')
 			const later = moment()
