@@ -262,7 +262,6 @@
     "Storage is temporarily not available" : "儲存空間暫時無法使用",
     "Storage connection timeout. %s" : "儲存空間連線逾時。%s",
     "Free prompt" : "免費提示詞",
-    "Runs an arbitrary prompt through the built-in language model." : "透過內建語言模型執行任意提示詞。",
     "Generate headline" : "產生標題",
     "Generates a possible headline for a text." : "為文字產生可能的標題。",
     "Summarize" : "總結",
