@@ -140,44 +140,6 @@
 	background-color: var(--color-primary-element-light) !important;
 }
 
-/* icons for sidebar */
-.nav-icon-files {
-	@include icon-color('folder', 'files', variables.$color-black);
-}
-.nav-icon-recent {
-	@include icon-color('recent', 'files', variables.$color-black);
-}
-.nav-icon-favorites {
-	@include icon-color('starred', 'actions', variables.$color-black, 2, true);
-}
-.nav-icon-sharinginOld,
-.nav-icon-sharingoutOld,
-.nav-icon-pendingsharesOld,
-.nav-icon-shareoverviewOld {
-	@include icon-color('share', 'files', variables.$color-black);
-}
-.nav-icon-sharinglinksOld {
-	@include icon-color('public', 'files', variables.$color-black);
-}
-.nav-icon-extstoragemounts {
-	@include icon-color('external', 'files', variables.$color-black);
-}
-.nav-icon-trashbin {
-	@include icon-color('delete', 'files', variables.$color-black);
-}
-.nav-icon-trashbin-starred {
-	@include icon-color('delete', 'files', #ff0000);
-}
-.nav-icon-deletedsharesOld {
-	@include icon-color('unshare', 'files', variables.$color-black);
-}
-.nav-icon-favorites-starred {
-	@include icon-color('starred', 'actions', variables.$color-yellow, 2, true);
-}
-
-#app-navigation .nav-files a.nav-icon-files {
-	width: auto;
-}
 /* button needs overrides due to navigation styles */
 #app-navigation .nav-files a.new {
 	width: 40px;

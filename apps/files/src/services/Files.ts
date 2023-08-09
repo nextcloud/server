@@ -19,25 +19,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { File, Folder, davParsePermissions } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getClient, rootPath } from './WebdavClient'
-import { getCurrentUser } from '@nextcloud/auth'
-import { getDavNameSpaces, getDavProperties, getDefaultPropfind } from './DavProperties'
 import type { ContentsWithRoot } from './Navigation'
 import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
-const client = getClient()
+import { File, Folder, davParsePermissions } from '@nextcloud/files'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 
-const reportPayload = `<?xml version="1.0"?>
-<oc:filter-files ${getDavNameSpaces()}>
-	<d:prop>
-		${getDavProperties()}
-	</d:prop>
-	<oc:filter-rules>
-		<oc:favorite>1</oc:favorite>
-	</oc:filter-rules>
-</oc:filter-files>`
+import { getClient, rootPath } from './WebdavClient'
+import { getDefaultPropfind } from './DavProperties'
+import { hashCode } from '../utils/hashUtils'
+import logger from '../logger'
+
+const client = getClient()
 
 interface ResponseProps extends DAVResultResponseProps {
 	permissions: string,
@@ -50,9 +44,14 @@ const resultToNode = function(node: FileStat): File | Folder {
 	const permissions = davParsePermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
 
+	const source = generateRemoteUrl('dav' + rootPath + node.filename)
+	const id = props?.fileid < 0
+		? hashCode(source)
+		: props?.fileid as number || 0
+
 	const nodeData = {
-		id: props?.fileid as number || 0,
-		source: generateRemoteUrl('dav' + rootPath + node.filename),
+		id,
+		source,
 		mtime: new Date(node.lastmod),
 		mime: node.mime as string,
 		size: props?.size as number || 0,
@@ -63,6 +62,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 			...node,
 			...props,
 			hasPreview: props?.['has-preview'],
+			failed: props?.fileid < 0,
 		},
 	}
 
@@ -76,31 +76,27 @@ const resultToNode = function(node: FileStat): File | Folder {
 export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	const propfindPayload = getDefaultPropfind()
 
-	// Get root folder
-	let rootResponse
-	if (path === '/') {
-		rootResponse = await client.stat(path, {
-			details: true,
-			data: getDefaultPropfind(),
-		}) as ResponseDataDetailed<FileStat>
-	}
-
 	const contentsResponse = await client.getDirectoryContents(path, {
 		details: true,
-		// Only filter favorites if we're at the root
-		data: path === '/' ? reportPayload : propfindPayload,
-		headers: {
-			// Patched in WebdavClient.ts
-			method: path === '/' ? 'REPORT' : 'PROPFIND',
-		},
+		data: propfindPayload,
 		includeSelf: true,
 	}) as ResponseDataDetailed<FileStat[]>
 
-	const root = rootResponse?.data || contentsResponse.data[0]
-	const contents = contentsResponse.data.filter(node => node.filename !== path)
+	const root = contentsResponse.data[0]
+	const contents = contentsResponse.data.slice(1)
+	if (root.filename !== path) {
+		throw new Error('Root node does not match requested path')
+	}
 
 	return {
 		folder: resultToNode(root) as Folder,
-		contents: contents.map(resultToNode),
+		contents: contents.map(result => {
+			try {
+				return resultToNode(result)
+			} catch (error) {
+				logger.error(`Invalid node detected '${result.basename}'`, { error })
+				return null
+			}
+		}).filter(Boolean) as File[],
 	}
 }

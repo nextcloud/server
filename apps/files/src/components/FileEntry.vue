@@ -22,6 +22,8 @@
 
 <template>
 	<Fragment>
+		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+
 		<td class="files-list__row-checkbox">
 			<NcCheckboxRadioSwitch v-if="active"
 				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
@@ -342,6 +344,13 @@ export default Vue.extend({
 		},
 
 		linkTo() {
+			if (this.source.attributes.failed) {
+				return {
+					title: this.t('files', 'This node is unavailable'),
+					is: 'span',
+				}
+			}
+
 			if (this.enabledDefaultActions.length > 0) {
 				const action = this.enabledDefaultActions[0]
 				const displayName = action.displayName([this.source], this.currentView)
@@ -404,6 +413,10 @@ export default Vue.extend({
 
 		// Sorted actions that are enabled for this node
 		enabledActions() {
+			if (this.source.attributes.failed) {
+				return []
+			}
+
 			return actions
 				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))

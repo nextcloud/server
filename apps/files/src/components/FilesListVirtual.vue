@@ -197,6 +197,7 @@ export default Vue.extend({
 			align-items: center;
 			width: 100%;
 			border-bottom: 1px solid var(--color-border);
+			user-select: none;
 		}
 
 		td, th {
@@ -221,8 +222,21 @@ export default Vue.extend({
 			}
 		}
 
+		.files-list__row--failed {
+			position: absolute;
+			display: block;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: .1;
+			z-index: -1;
+			background: var(--color-error);
+		}
+
 		.files-list__row-checkbox {
 			justify-content: center;
+
 			.checkbox-radio-switch {
 				display: flex;
 				justify-content: center;

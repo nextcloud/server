@@ -133,7 +133,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([Listener::class, 'register']);
 		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
 		$this->registerTemplates();
-		$context->injectFn(Closure::fromCallable([$this, 'registerNavigation']));
 		$this->registerHooks();
 	}
 
@@ -150,18 +149,6 @@ class Application extends App implements IBootstrap {
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
-	}
-
-	private function registerNavigation(IL10N $l10n): void {
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
-			return [
-				'id' => 'files',
-				'appname' => 'files',
-				'script' => 'list.php',
-				'order' => 0,
-				'name' => $l10n->t('All files')
-			];
-		});
 	}
 
 	private function registerHooks(): void {

@@ -20,6 +20,7 @@ import NavigationView from './views/Navigation.vue'
 import processLegacyFilesViews from './legacy/navigationMapper.js'
 import registerFavoritesView from './views/favorites'
 import registerRecentView from './views/recent'
+import registerFilesView from './views/files'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 import router from './router/router.js'
 import RouterService from './services/RouterService'
@@ -80,6 +81,7 @@ FilesList.$mount('#app-content-vue')
 // Init legacy and new files views
 processLegacyFilesViews()
 registerFavoritesView()
+registerFilesView()
 registerRecentView()
 
 // Register preview service worker
