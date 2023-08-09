@@ -2951,7 +2951,7 @@ kbd {
   z-index: 110;
   /* Needed for IE11; otherwise the button appears to the right of the
    * link. */
-  left: 0;
+  right: 0;
 }
 #app-navigation:not(.vue) .collapsible .collapse:focus-visible {
   opacity: 1;
@@ -2976,22 +2976,17 @@ kbd {
   outline: none !important;
   box-shadow: none;
   content: " ";
-  opacity: 0;
-  -webkit-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
+  opacity: 1;
   z-index: 105;
   border-radius: 50%;
   transition: opacity 100ms ease-in-out;
+  right: 0;
 }
 #app-navigation:not(.vue) .collapsible > a:first-child {
   padding-left: 44px;
 }
 #app-navigation:not(.vue) .collapsible:hover:before, #app-navigation:not(.vue) .collapsible:focus:before {
   opacity: 1;
-}
-#app-navigation:not(.vue) .collapsible:hover > a, #app-navigation:not(.vue) .collapsible:focus > a {
-  background-image: none;
 }
 #app-navigation:not(.vue) .collapsible:hover > .app-navigation-entry-bullet, #app-navigation:not(.vue) .collapsible:focus > .app-navigation-entry-bullet {
   background: transparent !important;
