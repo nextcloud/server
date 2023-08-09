@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>files_reminders</id>
+	<name>File reminders</name>
+	<summary>Set file reminders</summary>
+	<description><![CDATA[**📣 File reminders**
+
+Set file reminders.
+	]]></description>
+	<version>0.1.0-dev</version>
+	<licence>agpl</licence>
+	<author>Christopher Ng</author>
+	<namespace>FilesReminders</namespace>
+
+	<category>files</category>
+
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+
+	<dependencies>
+		<nextcloud min-version="27" max-version="28" />
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\FilesReminders\BackgroundJob\CleanUpReminders</job>
+		<job>OCA\FilesReminders\BackgroundJob\ScheduledNotifications</job>
+	</background-jobs>
+
+	<commands>
+		<command>OCA\FilesReminders\Command\ListCommand</command>
+	</commands>
+ </info>
