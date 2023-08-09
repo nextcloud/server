@@ -191,8 +191,11 @@ export default Vue.extend({
 		},
 
 		options(): ReminderOption[] {
-			const computeOption = (option: ReminderOption) => {
+			const computeOption = (option: ReminderOption): null | ReminderOption => {
 				const dateTime = getDateTime(option.dateTimePreset)
+				if (!dateTime) {
+					return null
+				}
 				return {
 					...option,
 					ariaLabel: `${option.ariaLabel} – ${getVerboseDateString(dateTime)}`,
@@ -201,12 +204,15 @@ export default Vue.extend({
 				}
 			}
 
-			return [
+			const options = [
 				laterToday,
 				tomorrow,
 				thisWeekend,
 				nextWeek,
-			].map(computeOption)
+			]
+			return options
+				.map(computeOption)
+				.filter(Boolean) as ReminderOption[]
 		},
 	},
 
