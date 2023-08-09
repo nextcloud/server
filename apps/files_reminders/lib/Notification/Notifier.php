@@ -28,10 +28,8 @@ namespace OCA\FilesReminders\Notification;
 
 use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
-use OCA\FilesReminders\Exception\NodeNotFoundException;
-use OCA\FilesReminders\Service\ReminderService;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
@@ -43,7 +41,7 @@ class Notifier implements INotifier {
 	public function __construct(
 		protected IFactory $l10nFactory,
 		protected IURLGenerator $urlGenerator,
-		protected ReminderService $reminderService,
+		protected IRootFolder $root,
 	) {}
 
 	public function getID(): string {
@@ -67,18 +65,15 @@ class Notifier implements INotifier {
 
 		switch ($notification->getSubject()) {
 			case 'reminder-due':
-				$reminderId = (int)$notification->getObjectId();
-				try {
-					$reminder = $this->reminderService->get($reminderId);
-				} catch (DoesNotExistException $e) {
-					throw new AlreadyProcessedException();
-				}
+				$params = $notification->getSubjectParameters();
+				$fileId = $params['fileId'];
 
-				try {
-					$node = $reminder->getNode();
-				} catch (NodeNotFoundException $e) {
+				$nodes = $this->root->getUserFolder($notification->getUser())->getById($fileId);
+				if (empty($nodes)) {
 					throw new InvalidArgumentException();
 				}
+				$node = reset($nodes);
+
 				$path = rtrim($node->getPath(), '/');
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
 					// Remove /user/files/...
