@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
-use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -46,9 +45,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @psalm-import-type CoreTextProcessingTask from ResponseDefinitions
- */
 class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
 		string                     $appName,
@@ -65,7 +61,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint returns all available LanguageModel task types
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{types: array{id: string, name: string, description: string}[]}, array{}>
+	 * @return DataResponse
 	 */
 	#[PublicPage]
 	public function taskTypes(): DataResponse {
@@ -100,7 +96,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
+	 * @return DataResponse
 	 *
 	 * 200: Task scheduled successfully
 	 * 400: Scheduling task is not possible
@@ -134,7 +130,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $id The id of the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse
 	 *
 	 * 200: Task returned
 	 * 404: Task not found
@@ -161,7 +157,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $id The id of the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse
 	 *
 	 * 200: Task returned
 	 * 404: Task not found
@@ -192,7 +188,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId
 	 * @param string|null $identifier
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse
 	 *
 	 *  200: Task list returned
 	 */
@@ -200,7 +196,6 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textProcessingManager->getUserTasksByApp($this->userId, $appId, $identifier);
-			/** @var CoreTextProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);
