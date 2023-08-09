@@ -49,6 +49,7 @@ use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Lib\Auth\PublicKey\RSAPrivateKey;
 use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth;
 use OCA\Files_External\Lib\Auth\SMB\KerberosAuth;
+use OCA\Files_External\Lib\Auth\SMB\KerberosSsoSession;
 use OCA\Files_External\Lib\Backend\AmazonS3;
 use OCA\Files_External\Lib\Backend\DAV;
 use OCA\Files_External\Lib\Backend\FTP;
@@ -61,6 +62,7 @@ use OCA\Files_External\Lib\Backend\SMB_OC;
 use OCA\Files_External\Lib\Backend\Swift;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCA\Files_External\Lib\TicketSaveMiddleware;
 use OCA\Files_External\Listener\GroupDeletedListener;
 use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
@@ -91,6 +93,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
+		$context->registerMiddleware(TicketSaveMiddleware::class, true);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -182,6 +185,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->get(AccessKey::class),
 			$container->get(KerberosAuth::class),
 			$container->get(KerberosApacheAuth::class),
+			$container->get(KerberosSsoSession::class),
 		];
 	}
 }

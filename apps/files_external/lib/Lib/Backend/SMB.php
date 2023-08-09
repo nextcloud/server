@@ -30,9 +30,11 @@ namespace OCA\Files_External\Lib\Backend;
 use Icewind\SMB\BasicAuth;
 use Icewind\SMB\KerberosApacheAuth;
 use Icewind\SMB\KerberosAuth;
+use Icewind\SMB\KerberosTicket;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth as KerberosApacheAuthMechanism;
+use OCA\Files_External\Lib\Auth\SMB\KerberosSsoSession;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
@@ -89,16 +91,25 @@ class SMB extends Backend {
 				case 'smb::kerberos':
 					$smbAuth = new KerberosAuth();
 					break;
+				case 'smb::kerberos_sso_session':
+					if (!$auth instanceof KerberosSsoSession) {
+						throw new \InvalidArgumentException('invalid authentication backend');
+					}
+					$smbAuth = new KerberosAuth();
+					$smbAuth->setTicket($auth->getTicket());
+					break;
 				case 'smb::kerberosapache':
 					if (!$auth instanceof KerberosApacheAuthMechanism) {
 						throw new \InvalidArgumentException('invalid authentication backend');
 					}
-					$credentialsStore = $auth->getCredentialsStore();
-					$kerbAuth = new KerberosApacheAuth();
+					$ticket = KerberosTicket::fromEnv();
 					// check if a kerberos ticket is available, else fallback to session credentials
-					if ($kerbAuth->checkTicket()) {
+					if ($ticket && $ticket->isValid()) {
+						$kerbAuth = new KerberosAuth();
+						$kerbAuth->setTicket($ticket);
 						$smbAuth = $kerbAuth;
 					} else {
+						$credentialsStore = $auth->getCredentialsStore();
 						try {
 							$credentials = $credentialsStore->getLoginCredentials();
 							$user = $credentials->getLoginName();
