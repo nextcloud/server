@@ -30,14 +30,17 @@ export enum DateTimePreset {
 	NextWeek,
 }
 
-export const getDateTime = (dateTime: DateTimePreset): Date => {
-	const matchPreset: Record<DateTimePreset, () => Date> = {
+export const getDateTime = (dateTime: DateTimePreset): null | Date => {
+	const matchPreset: Record<DateTimePreset, () => null | Date> = {
 		[DateTimePreset.LaterToday]: () => {
-			const hour = moment().get('hour')
-			const later = moment()
+			const now = moment()
+			const evening = moment()
 				.startOf('day')
-				.add(hour + 3, 'hour')
-			return later.toDate()
+				.add(18, 'hour')
+			if (now.isSameOrAfter(evening)) {
+				return null
+			}
+			return evening.toDate()
 		},
 
 		[DateTimePreset.Tomorrow]: () => {
@@ -45,8 +48,7 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 				.add(1, 'day')
 				.startOf('day')
 				.add(8, 'hour')
-				.toDate()
-			return day
+			return day.toDate()
 		},
 
 		[DateTimePreset.ThisWeekend]: () => {
@@ -80,8 +82,7 @@ export const getDateTime = (dateTime: DateTimePreset): Date => {
 				.startOf('isoWeek')
 				.add(1, 'week')
 				.add(8, 'hour')
-				.toDate()
-			return day
+			return day.toDate()
 		},
 	}
 
