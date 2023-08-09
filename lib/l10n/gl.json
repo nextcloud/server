@@ -262,6 +262,7 @@
     "Storage is temporarily not available" : "O almacenamento non está dispoñíbel temporalmente",
     "Storage connection timeout. %s" : "Esgotouse o tempo de conexión co almacenamento. %s",
     "Free prompt" : "Indicación libre",
+    "Runs an arbitrary prompt through the language model." : "Procesa unha indicación arbitraria a través do modelo de linguaxe.",
     "Generate headline" : "Xerar título",
     "Generates a possible headline for a text." : "Xera un posíbel título para un texto.",
     "Summarize" : "Resumir",
