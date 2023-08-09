@@ -34,6 +34,7 @@
  */
 namespace OC;
 
+use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanUpAbandonedApps;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -210,6 +211,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddTokenCleanupJob::class),
 			\OCP\Server::get(CleanUpAbandonedApps::class),
 			\OCP\Server::get(AddMissingSecretJob::class),
+			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 		];
 	}
 
