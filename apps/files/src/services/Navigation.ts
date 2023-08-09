@@ -96,22 +96,9 @@ export interface Navigation {
 	 * haven't customized their sorting column
 	 */
 	defaultSortKey?: string
-
-	/**
-	 * This view is sticky a legacy view.
-	 * Here until all the views are migrated to Vue.
-	 * @deprecated It will be removed in a near future
-	 */
-	legacy?: boolean
-
-	/**
-	 * An icon class.
-	 * @deprecated It will be removed in a near future
-	 */
-	iconClass?: string
 }
 
-export default class {
+export class NavigationService {
 
 	private _views: Navigation[] = []
 	private _currentView: Navigation | null = null
@@ -129,14 +116,6 @@ export default class {
 				logger.error(e.message, { view })
 			}
 			throw e
-		}
-
-		if (view.legacy) {
-			logger.warn('Legacy view detected, please migrate to Vue')
-		}
-
-		if (view.iconClass) {
-			view.legacy = true
 		}
 
 		this._views.push(view)
@@ -192,18 +171,12 @@ const isValidNavigation = function(view: Navigation): boolean {
 		throw new Error('Navigation caption is required for top-level views and must be a string')
 	}
 
-	/**
-	 * Legacy handle their content and icon differently
-	 * TODO: remove when support for legacy views is removed
-	 */
-	if (!view.legacy) {
-		if (!view.getContents || typeof view.getContents !== 'function') {
-			throw new Error('Navigation getContents is required and must be a function')
-		}
+	if (!view.getContents || typeof view.getContents !== 'function') {
+		throw new Error('Navigation getContents is required and must be a function')
+	}
 
-		if (!view.icon || typeof view.icon !== 'string' || !isSvg(view.icon)) {
-			throw new Error('Navigation icon is required and must be a valid svg string')
-		}
+	if (!view.icon || typeof view.icon !== 'string' || !isSvg(view.icon)) {
+		throw new Error('Navigation icon is required and must be a valid svg string')
 	}
 
 	if (!('order' in view) || typeof view.order !== 'number') {

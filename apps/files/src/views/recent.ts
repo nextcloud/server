@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../services/Navigation'
-import type { Navigation } from '../services/Navigation'
+import type { NavigationService, Navigation } from '../services/Navigation'
 
 import { translate as t } from '@nextcloud/l10n'
 import HistorySvg from '@mdi/svg/svg/history.svg?raw'

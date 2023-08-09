@@ -20,28 +20,18 @@
   -
   -->
 <template>
-	<RecycleScroller ref="recycleScroller"
-		class="files-list"
-		key-field="source"
-		:items="nodes"
-		:item-size="55"
-		:table-mode="true"
-		item-class="files-list__row"
-		item-tag="tr"
-		list-class="files-list__body"
-		list-tag="tbody"
-		role="table">
-		<template #default="{ item, active, index }">
-			<!-- File row -->
-			<FileEntry :active="active"
-				:index="index"
-				:is-mtime-available="isMtimeAvailable"
-				:is-size-available="isSizeAvailable"
-				:files-list-width="filesListWidth"
-				:nodes="nodes"
-				:source="item" />
-		</template>
-
+	<VirtualList :data-component="FileEntry"
+		:data-key="'source'"
+		:data-sources="nodes"
+		:item-height="56"
+		:extra-props="{
+			isMtimeAvailable,
+			isSizeAvailable,
+			nodes,
+			filesListWidth,
+		}"
+		:scroll-to-index="scrollToIndex">
+		<!-- Accessibility description and headers -->
 		<template #before>
 			<!-- Accessibility description -->
 			<caption class="hidden-visually">
@@ -49,42 +39,54 @@
 				{{ t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.') }}
 			</caption>
 
-			<!-- Thead-->
-			<FilesListHeader :files-list-width="filesListWidth"
+			<!-- Headers -->
+			<FilesListHeader v-for="header in sortedHeaders"
+				:key="header.id"
+				:current-folder="currentFolder"
+				:current-view="currentView"
+				:header="header" />
+		</template>
+
+		<!-- Thead-->
+		<template #header>
+			<FilesListTableHeader :files-list-width="filesListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
 		</template>
 
-		<template #after>
-			<!-- Tfoot-->
-			<FilesListFooter :files-list-width="filesListWidth"
+		<!-- Tfoot-->
+		<template #footer>
+			<FilesListTableFooter :files-list-width="filesListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
 				:summary="summary" />
 		</template>
-	</RecycleScroller>
+	</VirtualList>
 </template>
 
 <script lang="ts">
-import { RecycleScroller } from 'vue-virtual-scroller'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import { getFileListHeaders } from '@nextcloud/files'
 import Vue from 'vue'
+import VirtualList from './VirtualList.vue'
 
 import FileEntry from './FileEntry.vue'
-import FilesListFooter from './FilesListFooter.vue'
 import FilesListHeader from './FilesListHeader.vue'
+import FilesListTableFooter from './FilesListTableFooter.vue'
+import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import { showError } from '@nextcloud/dialogs'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
 
 	components: {
-		RecycleScroller,
-		FileEntry,
 		FilesListHeader,
-		FilesListFooter,
+		FilesListTableHeader,
+		FilesListTableFooter,
+		VirtualList,
 	},
 
 	mixins: [
@@ -93,6 +95,10 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
+			type: Object,
+			required: true,
+		},
+		currentFolder: {
 			type: Object,
 			required: true,
 		},
@@ -105,12 +111,28 @@ export default Vue.extend({
 	data() {
 		return {
 			FileEntry,
+			headers: getFileListHeaders(),
 		}
 	},
 
 	computed: {
 		files() {
 			return this.nodes.filter(node => node.type === 'file')
+		},
+
+		fileId() {
+			return parseInt(this.$route.params.fileid || this.$route.query.fileid) || null
+		},
+
+		scrollToIndex() {
+			if (!this.fileId) {
+				return
+			}
+			const index = this.nodes.findIndex(node => node.fileid === this.fileId)
+			if (index === -1) {
+				showError(this.t('files', 'File not found'))
+			}
+			return Math.max(0, index)
 		},
 
 		summaryFile() {
@@ -138,13 +160,14 @@ export default Vue.extend({
 			}
 			return this.nodes.some(node => node.attributes.size !== undefined)
 		},
-	},
 
-	mounted() {
-		// Make the root recycle scroller a table for proper semantics
-		const slots = this.$el.querySelectorAll('.vue-recycle-scroller__slot')
-		slots[0].setAttribute('role', 'thead')
-		slots[1].setAttribute('role', 'tfoot')
+		sortedHeaders() {
+			if (!this.currentFolder || !this.currentView) {
+				return []
+			}
+
+			return [...this.headers].sort((a, b) => a.order - b.order)
+		},
 	},
 
 	methods: {
@@ -173,7 +196,7 @@ export default Vue.extend({
 
 	&::v-deep {
 		// Table head, body and footer
-		tbody, .vue-recycle-scroller__slot {
+		tbody {
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -181,23 +204,35 @@ export default Vue.extend({
 			position: relative;
 		}
 
+		// Before table and thead
+		.files-list__before {
+			display: flex;
+			flex-direction: column;
+		}
+
 		// Table header
-		.vue-recycle-scroller__slot[role='thead'] {
+		.files-list__thead {
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
 			top: 0;
-			height: var(--row-height);
+		}
+
+		.files-list__thead,
+		.files-list__tfoot {
+			display: flex;
+			width: 100%;
 			background-color: var(--color-main-background);
+
 		}
 
 		tr {
-			position: absolute;
+			position: relative;
 			display: flex;
 			align-items: center;
 			width: 100%;
-			border-bottom: 1px solid var(--color-border);
 			user-select: none;
+			border-bottom: 1px solid var(--color-border);
 		}
 
 		td, th {

@@ -396,13 +396,6 @@ export default {
 						${state ? '</d:set>' : '</d:remove>'}
 						</d:propertyupdate>`,
 				})
-
-				// TODO: Obliterate as soon as possible and use events with new files app
-				// Terrible fallback for legacy files: toggle filelist as well
-				if (OCA.Files && OCA.Files.App && OCA.Files.App.fileList && OCA.Files.App.fileList.fileActions) {
-					OCA.Files.App.fileList.fileActions.triggerAction('Favorite', OCA.Files.App.fileList.getModelForFile(this.fileInfo.name), OCA.Files.App.fileList)
-				}
-
 			} catch (error) {
 				OC.Notification.showTemporary(t('files', 'Unable to change the favourite state of the file'))
 				console.error('Unable to change favourite state', error)

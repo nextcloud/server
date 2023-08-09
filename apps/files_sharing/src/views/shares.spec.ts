@@ -25,7 +25,7 @@ import axios from '@nextcloud/axios'
 
 import { type Navigation } from '../../../files/src/services/Navigation'
 import { type OCSResponse } from '../services/SharingService'
-import NavigationService from '../../../files/src/services/Navigation'
+import { NavigationService } from '../../../files/src/services/Navigation'
 import registerSharingViews from './shares'
 
 import '../main'

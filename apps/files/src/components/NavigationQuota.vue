@@ -134,7 +134,7 @@ export default {
 // User storage stats display
 .app-navigation-entry__settings-quota {
 	// Align title with progress and icon
-	&--not-unlimited::v-deep .app-navigation-entry__title {
+	&--not-unlimited::v-deep .app-navigation-entry__name {
 		margin-top: -4px;
 	}
 

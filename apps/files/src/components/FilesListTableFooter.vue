@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<tr>
+	<tr class="files-list__row-footer">
 		<th class="files-list__row-checkbox">
 			<span class="hidden-visually">{{ t('files', 'Total rows summary') }}</span>
 		</th>
@@ -65,7 +65,7 @@ import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 
 export default Vue.extend({
-	name: 'FilesListFooter',
+	name: 'FilesListTableFooter',
 
 	components: {
 	},

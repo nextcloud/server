@@ -19,10 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
-import Router from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
 import queryString from 'query-string'
+import Router from 'vue-router'
+import Vue from 'vue'
 
 Vue.use(Router)
 
@@ -31,7 +31,7 @@ const router = new Router({
 
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
-	base: generateUrl('/apps/files', ''),
+	base: generateUrl('/apps/files'),
 	linkActiveClass: 'active',
 
 	routes: [

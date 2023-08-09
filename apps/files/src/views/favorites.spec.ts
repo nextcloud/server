@@ -27,7 +27,7 @@ import * as eventBus from '@nextcloud/event-bus'
 
 import { action } from '../actions/favoriteAction'
 import * as favoritesService from '../services/Favorites'
-import NavigationService from '../services/Navigation'
+import { NavigationService } from '../services/Navigation'
 import registerFavoritesView from './favorites'
 
 jest.mock('webdav/dist/node/request.js', () => ({
