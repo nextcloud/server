@@ -57,6 +57,9 @@ module.exports = {
 	files_external: {
 		main: path.join(__dirname, 'apps/files_external/src', 'main.ts'),
 	},
+	files_reminders: {
+		main: path.join(__dirname, 'apps/files_reminders/src', 'main.ts'),
+	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),

@@ -155,7 +155,9 @@ class ReminderService {
 			->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('files', 'folder.svg')))
 			->setUser($user->getUID())
 			->setObject('reminder', (string)$reminder->getId())
-			->setSubject('reminder-due')
+			->setSubject('reminder-due', [
+				'fileId' => $reminder->getFileId(),
+			])
 			->setDateTime($reminder->getDueDate());
 
 		try {
@@ -167,7 +169,10 @@ class ReminderService {
 	}
 
 	public function cleanUp(?int $limit = null): void {
-		$reminders = $this->reminderMapper->findNotified($limit);
+		$buffer = (new DateTime())
+			->setTimezone(new DateTimeZone('UTC'))
+			->modify('-1 day');
+		$reminders = $this->reminderMapper->findNotified($buffer, $limit);
 		foreach ($reminders as $reminder) {
 			$this->reminderMapper->delete($reminder);
 		}

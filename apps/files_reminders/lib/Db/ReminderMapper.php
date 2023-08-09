@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Db;
 
+use DateTime;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -138,12 +139,13 @@ class ReminderMapper extends QBMapper {
 	/**
 	 * @return Reminder[]
 	 */
-	public function findNotified(?int $limit = null) {
+	public function findNotified(DateTime $buffer, ?int $limit = null) {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('notified', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)))
+			->andWhere($qb->expr()->lt('due_date', $qb->createNamedParameter($buffer, IQueryBuilder::PARAM_DATE)))
 			->orderBy('due_date', 'ASC')
 			->setMaxResults($limit);
 
