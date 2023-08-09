@@ -25,6 +25,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
+      - name: Checkout user_saml
+        uses: actions/checkout@v3
+        with:
+          repository: nextcloud/user_saml
+          path: apps/user_saml
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
