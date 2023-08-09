@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+AUTH=${1:-"smb::kerberosapache"}
+
 docker exec --user 33 apache ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
 docker exec --user 33 apache ./occ config:system:set trusted_domains 1 --value 'httpd.domain.test'
 
@@ -15,7 +17,7 @@ docker exec -e OC_PASS=test --user 33 apache ./occ user:add 'testuser@DOMAIN.TES
 
 # setup external storage
 docker exec --user 33 apache ./occ app:enable files_external --force
-docker exec --user 33 apache ./occ files_external:create smb smb smb::kerberosapache
+docker exec --user 33 apache ./occ files_external:create smb smb "$AUTH"
 docker exec --user 33 apache ./occ files_external:config 1 host krb.domain.test
 docker exec --user 33 apache ./occ files_external:config 1 share netlogon
 docker exec --user 33 apache ./occ files_external:list
