@@ -126,6 +126,8 @@ OC.L10N.register(
     "(all selected)" : "(Tất cả các lựa chọn)",
     "({count} selected)" : "({count} được chọn)",
     "Error loading file exists template" : "Lỗi khi tải tập tin mẫu đã tồn tại",
+    "Show list view" : "Hiển thị chế độ xem danh sách",
+    "Show grid view" : "Hiển thị chế độ xem lưới",
     "Pending" : "Đang chờ được phê duyệt",
     "Home" : "Trang chủ",
     "Copy to {folder}" : "Sao chép tới thư mục {folder}",
