@@ -19,19 +19,86 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import type { User } from "@nextcloud/cypress"
+
+const startCopyMove = (file: string) => {
+	cy.get(`.files-fileList tr[data-file="${file}"`)
+		.find('.fileactions [data-action="menu"]')
+		.click()
+	cy.get('.fileActionsMenu .action-movecopy').click()
+}
+
 describe('Login with a new user and open the files app', function() {
-	before(function() {
+	let currentUser: User
+	beforeEach(function() {
 		cy.createRandomUser().then((user) => {
+			currentUser = user
 			cy.login(user)
 		})
 	})
 
-	after(function() {
-		cy.logout()
+	afterEach(function() {
+		cy.deleteUser(currentUser)
+	})
+
+	Cypress.on('uncaught:exception', (err) => {
+		// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
+		if (err.message.includes('ResizeObserver loop limit exceeded')) {
+		  return false
+		}
 	})
 
 	it('See the default file welcome.txt in the files list', function() {
 		cy.visit('/apps/files')
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+	})
+
+	it('Copy a file in its same folder', () => {
+		cy.visit('/apps/files')
+		// When I start the move or copy operation for "welcome.txt"
+		startCopyMove('welcome.txt')
+		// And I copy to the last selected folder in the file picker
+		cy.get('.dialog__actions button').contains('Copy').click()
+		// Then I see that the file list contains a file named "welcome.txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+		// And I see that the file list contains a file named "welcome (copy).txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome (copy).txt')
+	})
+
+	it('copy a file twice in its same folder', () => {
+		cy.visit('/apps/files')
+		// When I start the move or copy operation for "welcome.txt"
+		startCopyMove('welcome.txt')
+		// And I copy to the last selected folder in the file picker
+		cy.get('.dialog__actions button').contains('Copy').click()
+		// When I start the move or copy operation for "welcome.txt"
+		startCopyMove('welcome.txt')
+		// And I copy to the last selected folder in the file picker
+		cy.get('.dialog__actions button').contains('Copy').click()
+		// Then I see that the file list contains a file named "welcome.txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+		// And I see that the file list contains a file named "welcome (copy).txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome (copy).txt')
+		// And I see that the file list contains a file named "welcome (copy 2).txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome (copy 2).txt')
+	})
+
+	it('copy a copy of a file in its same folder', () => {
+		cy.visit('/apps/files')
+		// When I start the move or copy operation for "welcome.txt"
+		startCopyMove('welcome.txt')
+		// And I copy to the last selected folder in the file picker
+		cy.get('.dialog__actions button').contains('Copy').click()
+		// When I start the move or copy operation for "welcome (copy).txt"
+		startCopyMove('welcome (copy).txt')
+		// And I copy to the last selected folder in the file picker
+		cy.get('.dialog__actions button').contains('Copy').click()
+		// Then I see that the file list contains a file named "welcome.txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+		// And I see that the file list contains a file named "welcome (copy).txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome (copy).txt')
+		// And I see that the file list contains a file named "welcome (copy 2).txt"
+		cy.get('.files-fileList tr').should('contain', 'welcome (copy 2).txt')
 	})
 })

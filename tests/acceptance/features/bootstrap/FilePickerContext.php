@@ -30,7 +30,7 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function dialog() {
-		return Locator::forThe()->css(".oc-dialog")->
+		return Locator::forThe()->css(".modal-container")->
 				describedAs("File picker dialog");
 	}
 
@@ -38,7 +38,7 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function fileListContainer() {
-		return Locator::forThe()->css("#oc-dialog-filepicker-content")->
+		return Locator::forThe()->css(".file-picker__files")->
 				descendantOf(self::dialog())->
 				describedAs("File list container in the file picker dialog");
 	}
@@ -49,7 +49,7 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	public static function rowForFile($fileName) {
 		// File names in the file picker are split in two span elements, so
 		// their texts need to be concatenated to get the full file name.
-		return Locator::forThe()->xpath("//*[@id = 'picker-filestable']//*[contains(concat(' ', normalize-space(@class), ' '), ' filename-parts ') and concat(span[1], span[2]) = '$fileName']/ancestor::tr")->
+		return Locator::forThe()->xpath("//*[concat(span[1], span[2]) = '$fileName']/ancestor::tr")->
 				descendantOf(self::fileListContainer())->
 				describedAs("Row for file $fileName in the file picker dialog");
 	}
@@ -58,7 +58,7 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function buttonRow() {
-		return Locator::forThe()->css(".oc-dialog-buttonrow")->
+		return Locator::forThe()->css(".dialog__actions")->
 				descendantOf(self::dialog())->
 				describedAs("Button row in the file picker dialog");
 	}
@@ -69,7 +69,7 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	private static function buttonFor($buttonText) {
 		// "Copy" and "Move" buttons text is set to "Copy to XXX" and "Move to
 		// XXX" when a folder is selected.
-		return Locator::forThe()->xpath("//button[starts-with(normalize-space(), '$buttonText')]")->
+		return Locator::forThe()->xpath("//button[contains(normalize-space(), '$buttonText')]")->
 				descendantOf(self::buttonRow())->
 				describedAs($buttonText . " button in the file picker dialog");
 	}
