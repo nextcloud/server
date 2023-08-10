@@ -20,25 +20,33 @@
  */
 
 import { getCurrentUser } from '@nextcloud/auth'
+import { joinPaths } from '@nextcloud/paths'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import moment from '@nextcloud/moment'
+
+import { encodeFilePath } from '../../../files/src/utils/fileUtils.js'
+
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
-import { joinPaths } from '@nextcloud/paths'
-import { generateUrl } from '@nextcloud/router'
-import moment from '@nextcloud/moment'
+import path from 'path'
 
 /**
  * @typedef {object} Version
  * @property {string} fileId - The id of the file associated to the version.
  * @property {string} label - 'Current version' or ''
- * @property {string} fileName - File name relative to the version DAV endpoint
- * @property {string} mimeType - Empty for the current version, else the actual mime type of the version
+ * @property {string} filename - File name relative to the version DAV endpoint
+ * @property {string} basename - A base name generated from the mtime
+ * @property {string} mime - Empty for the current version, else the actual mime type of the version
+ * @property {string} etag - Empty for the current version, else the actual mime type of the version
  * @property {string} size - Human readable size
  * @property {string} type - 'file'
  * @property {number} mtime - Version creation date as a timestamp
+ * @property {string} permissions - Only readable: 'R'
  * @property {boolean} hasPreview - Whether the version has a preview
- * @property {string} preview - Preview URL of the version
+ * @property {string} previewUrl - Preview URL of the version
  * @property {string} url - Download URL of the version
+ * @property {string} source - The WebDAV endpoint of the ressource
  * @property {string|null} fileVersion - The version id, null for the current version
  */
 
@@ -75,7 +83,7 @@ export async function restoreVersion(version) {
 		logger.debug('Restoring version', { url: version.url })
 		await client.moveFile(
 			`/versions/${getCurrentUser()?.uid}/versions/${version.fileId}/${version.fileVersion}`,
-			`/versions/${getCurrentUser()?.uid}/restore/target`
+			`/versions/${getCurrentUser()?.uid}/restore/target`,
 		)
 	} catch (exception) {
 		logger.error('Could not restore version', { exception })
@@ -91,20 +99,39 @@ export async function restoreVersion(version) {
  * @return {Version}
  */
 function formatVersion(version, fileInfo) {
+	const mtime = moment(version.lastmod).unix() * 1000
+	let previewUrl = ''
+	let filename = ''
+
+	if (mtime === fileInfo.mtime) { // Version is the current one
+		filename = path.join('files', getCurrentUser()?.uid ?? '', fileInfo.path, fileInfo.name)
+		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
+			fileId: fileInfo.id,
+			fileEtag: fileInfo.etag,
+		})
+	} else {
+		filename = version.filename
+		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
+			file: joinPaths(fileInfo.path, fileInfo.name),
+			fileVersion: version.basename,
+		})
+	}
+
 	return {
 		fileId: fileInfo.id,
 		label: version.props['version-label'],
-		fileName: version.filename,
-		mimeType: version.mime,
+		filename,
+		basename: moment(mtime).format('LLL'),
+		mime: version.mime,
+		etag: `${version.props.getetag}`,
 		size: version.size,
 		type: version.type,
-		mtime: moment(version.lastmod).unix() * 1000,
+		mtime,
+		permissions: 'R',
 		hasPreview: version.props['has-preview'] === 1,
-		preview: generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
-			fileVersion: version.basename,
-		}),
-		url: joinPaths('/remote.php/dav', version.filename),
+		previewUrl,
+		url: joinPaths('/remote.php/dav', filename),
+		source: generateRemoteUrl('dav') + encodeFilePath(filename),
 		fileVersion: version.basename,
 	}
 }
@@ -115,7 +142,7 @@ function formatVersion(version, fileInfo) {
  */
 export async function setVersionLabel(version, newLabel) {
 	return await client.customRequest(
-		version.fileName,
+		version.filename,
 		{
 			method: 'PROPPATCH',
 			data: `<?xml version="1.0"?>
@@ -129,7 +156,7 @@ export async function setVersionLabel(version, newLabel) {
 						</d:prop>
 					</d:set>
 					</d:propertyupdate>`,
-		}
+		},
 	)
 }
 
@@ -137,5 +164,5 @@ export async function setVersionLabel(version, newLabel) {
  * @param {Version} version
  */
 export async function deleteVersion(version) {
-	await client.deleteFile(version.fileName)
+	await client.deleteFile(version.filename)
 }

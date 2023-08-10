@@ -209,7 +209,7 @@
     "this share just expired." : "aquest element compartit acaba de caducar.",
     "Shared with you by {owner}" : "{owner} l'ha compartit amb vós",
     "_Accept share_::_Accept shares_" : ["Accepta l'element compartit","Accepta els elements compartits"],
-    "Open in files" : "Obre a Fitxers",
+    "Open in Files" : "Obre a Fitxers",
     "_Reject share_::_Reject shares_" : ["Rebutja l'element compartit","Rebutja els elements compartits"],
     "_Restore share_::_Restore shares_" : ["Restaura l'element compartit","Restaura els elements compartits"],
     "Link to a file" : "Enllaç a un fitxer",

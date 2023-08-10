@@ -238,6 +238,7 @@
     "Webcron" : "Webcron",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage)." : "Использовать службу webcron для запуска зарегистрированного файла «cron.php» каждые 5 минут с использованием протокола HTTPS. Вариант использования: сервер для  количества пользователей от одного до пяти.",
     "Cron (Recommended)" : "Cron (рекомендуется)",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Использовать системный cron для вызова файла cron.php каждые 5 минут.",
     "The cron.php needs to be executed by the system user \"{user}\"." : "Файл «cron.php» должен исполняться с использованием учётной записи «{user}».",
     "Unable to update background job mode" : "Не удалось изменить режим запуска фоновых задач",
     "Profile" : "Профиль",

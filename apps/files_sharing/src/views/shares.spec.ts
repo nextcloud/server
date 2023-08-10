@@ -112,7 +112,7 @@ describe('Sharing views contents', () => {
 						},
 						data: [],
 					},
-				} as OCSResponse,
+				} as OCSResponse<any>,
 			}
 		})
 

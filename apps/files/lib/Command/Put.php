@@ -34,12 +34,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Put extends Command {
-	private FileUtils $fileUtils;
-	private IRootFolder $rootFolder;
-
-	public function __construct(FileUtils $fileUtils, IRootFolder $rootFolder) {
-		$this->fileUtils = $fileUtils;
-		$this->rootFolder = $rootFolder;
+	public function __construct(
+		private FileUtils $fileUtils,
+		private IRootFolder $rootFolder,
+	) {
 		parent::__construct();
 	}
 
@@ -58,29 +56,28 @@ class Put extends Command {
 
 		if ($node instanceof Folder) {
 			$output->writeln("<error>$fileOutput is a folder</error>");
-			return 1;
+			return self::FAILURE;
 		}
 		if (!$node and is_numeric($fileOutput)) {
 			$output->writeln("<error>$fileOutput not found</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$source = ($inputName === null || $inputName === '-') ? STDIN : fopen($inputName, 'r');
 		if (!$source) {
 			$output->writeln("<error>Failed to open $inputName</error>");
-			return 1;
+			return self::FAILURE;
 		}
 		if ($node instanceof File) {
 			$target = $node->fopen('w');
 			if (!$target) {
 				$output->writeln("<error>Failed to open $fileOutput</error>");
-				return 1;
+				return self::FAILURE;
 			}
 			stream_copy_to_stream($source, $target);
 		} else {
 			$this->rootFolder->newFile($fileOutput, $source);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
-
 }

@@ -47,8 +47,8 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\StorageNotAvailableException;
-use OCP\IUser;
 use phpseclib\Crypt\AES;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to configure mount.json globally and for users
@@ -138,7 +138,7 @@ class MountConfig {
 					throw $e;
 				}
 			} catch (\Exception $exception) {
-				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
+				\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
 				throw $exception;
 			}
 		}

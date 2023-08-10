@@ -211,7 +211,6 @@ OC.L10N.register(
     "this share just expired." : "esta compartición acaba de expirar.",
     "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "_Accept share_::_Accept shares_" : ["Aceptar compartición","Aceptar comparticiones","Aceptar comparticiones"],
-    "Open in files" : "Abrir en archivos",
     "_Reject share_::_Reject shares_" : ["Rechazar compartición","Rechazar comparticiones","Rechazar comparticiones"],
     "_Restore share_::_Restore shares_" : ["Restaurar compartición","Restaurar comparticiones","Restaurar comparticiones"],
     "Link to a file" : "Enlazar a un archivo",

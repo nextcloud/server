@@ -17,7 +17,7 @@
   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <template>
-	<NcSettingsSection :title="t('settings', 'Password')">
+	<NcSettingsSection :name="t('settings', 'Password')">
 		<form id="passwordform" method="POST" @submit.prevent="changePassword">
 			<NcPasswordField id="old-pass"
 				:label="t('settings', 'Current password')"

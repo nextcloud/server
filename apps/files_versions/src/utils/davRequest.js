@@ -29,6 +29,7 @@ export default `<?xml version="1.0"?>
 		<d:getcontentlength />
 		<d:getcontenttype />
 		<d:getlastmodified />
+		<d:getetag />
 		<nc:version-label />
 		<nc:has-preview />
 	</d:prop>

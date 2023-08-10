@@ -177,6 +177,7 @@
     "Name cannot be empty" : "Nimi ei voi olla tyhjä",
     "Another entry with the same name already exists" : "Toinen tietue samalla nimellä on jo olemassa",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Kohteen \"{oldName}\" uudeksi nimeksi asetettiin \"{newName}\"",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Kohdetta \"{oldName}\" ei voitu nimetä uudelleen, koska sitä ei ole enää olemassa",
     "Could not rename \"{oldName}\"" : "Ei voitu nimetä uudelleen \"{oldName}\"",
     "Select all" : "Valitse kaikki",
     "Unselect all" : "Poista valinnat",
@@ -184,7 +185,7 @@
     "descending" : "laskevasti",
     "Sort list by {column} ({direction})" : "Järjestä luettelo sarakkeen {column} mukaan ({direction})",
     "List of files and folders." : "Luettelo tiedostoista ja kansioista.",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
+    "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Storage informations" : "Tallennustilan tietoja",
     "{usedQuotaByte} used" : "{usedQuotaByte} käytetty",
     "{relative}% used" : "{relative} % käytetty",
@@ -238,6 +239,8 @@
     "List of favorites files and folders." : "Luettelo suosikkitiedostoista ja -kansioista.",
     "No favorites yet" : "Ei vielä suosikkeja",
     "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä",
+    "List of recently modified files and folders." : "Luettelo äskettäin muokatuista tiedostoista ja kansioista.",
+    "No recently modified files" : "Ei äskettäin muokattuja tiedostoja",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Upload too large" : "Lähetettävä tiedosto on liian suuri",
@@ -260,6 +263,7 @@
     "Deleted shares" : "Poistetut jaot",
     "Pending shares" : "Odottavat jaot",
     "Open folder {name}" : "Avaa kansio {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

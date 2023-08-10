@@ -26,12 +26,13 @@ namespace OCA\Files\Service;
 
 use OCA\Files\Activity\FavoriteProvider;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\Folder;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Service class to manage tags on files.
@@ -46,7 +47,7 @@ class TagService {
 	private $tagger;
 	/** @var Folder|null */
 	private $homeFolder;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	public function __construct(
@@ -54,7 +55,7 @@ class TagService {
 		IManager $activityManager,
 		?ITags $tagger,
 		?Folder $homeFolder,
-		EventDispatcherInterface $dispatcher
+		IEventDispatcher $dispatcher,
 	) {
 		$this->userSession = $userSession;
 		$this->activityManager = $activityManager;
@@ -120,12 +121,12 @@ class TagService {
 			return;
 		}
 
-		$eventName = $addToFavorite ? 'addFavorite' : 'removeFavorite';
-		$this->dispatcher->dispatch(self::class . '::' . $eventName, new GenericEvent(null, [
-			'userId' => $user->getUID(),
-			'fileId' => $fileId,
-			'path' => $path,
-		]));
+		if ($addToFavorite) {
+			$event = new NodeAddedToFavorite($user, $fileId, $path);
+		} else {
+			$event = new NodeRemovedFromFavorite($user, $fileId, $path);
+		}
+		$this->dispatcher->dispatchTyped($event);
 
 		$event = $this->activityManager->generateEvent();
 		try {

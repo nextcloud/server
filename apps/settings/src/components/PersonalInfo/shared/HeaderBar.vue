@@ -100,7 +100,7 @@ export default {
 		isHeading: {
 			type: Boolean,
 			default: false,
-		}
+		},
 	},
 
 	data() {

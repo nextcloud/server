@@ -65,7 +65,7 @@
 					{{ t('weather_status', 'Set custom address') }}
 				</NcActionInput>
 				<template v-if="favorites.length > 0">
-					<NcActionCaption :title="t('weather_status', 'Favorites')" />
+					<NcActionCaption :name="t('weather_status', 'Favorites')" />
 					<NcActionButton v-for="favorite in favorites"
 						:key="favorite"
 						:aria-hidden="true"

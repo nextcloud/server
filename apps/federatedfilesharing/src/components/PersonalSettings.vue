@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-	<NcSettingsSection :title="t('federatedfilesharing', 'Federated Cloud')"
+	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud')"
 		:description="t('federatedfilesharing', 'You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')"
 		:doc-url="docUrlFederated">
 		<p class="cloud-id-text">

@@ -78,21 +78,26 @@
 			<a v-show="!isRenaming"
 				ref="basename"
 				:aria-hidden="isRenaming"
+				class="files-list__row-name-link"
 				v-bind="linkTo"
 				@click="execDefaultAction">
 				<!-- File name -->
 				<span class="files-list__row-name-text">
 					<!-- Keep the displayName stuck to the extension to avoid whitespace rendering issues-->
 					<span class="files-list__row-name-" v-text="displayName" />
-					<span class="files-list__row-name-ext" v-text="source.extension" />
+					<span class="files-list__row-name-ext" v-text="extension" />
 				</span>
 			</a>
 		</td>
 
 		<!-- Actions -->
 		<td v-show="!isRenamingSmallScreen" :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
-			<!-- Inline actions -->
-			<!-- TODO: implement CustomElementRender -->
+			<!-- Render actions -->
+			<CustomElementRender v-for="action in enabledRenderActions"
+				:key="action.id"
+				:current-view="currentView"
+				:render="action.renderInline"
+				:source="source" />
 
 			<!-- Menu actions -->
 			<NcActions v-if="active"
@@ -100,7 +105,7 @@
 				:boundaries-element="boundariesElement"
 				:container="boundariesElement"
 				:disabled="source._loading"
-				:force-title="true"
+				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
@@ -152,8 +157,10 @@ import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { formatFileSize, Permission } from '@nextcloud/files'
 import { Fragment } from 'vue-frag'
+import { extname } from 'path'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
 import CancelablePromise from 'cancelable-promise'
@@ -284,8 +291,15 @@ export default Vue.extend({
 		fileid() {
 			return this.source?.fileid?.toString?.()
 		},
+
+		extension() {
+			if (this.source.attributes?.displayName) {
+				return extname(this.source.attributes.displayName)
+			}
+			return this.source.extension || ''
+		},
 		displayName() {
-			const ext = (this.source.extension || '')
+			const ext = this.extension
 			const name = (this.source.attributes.displayName
 				|| this.source.basename)
 
@@ -301,15 +315,16 @@ export default Vue.extend({
 			return formatFileSize(size, true)
 		},
 		sizeOpacity() {
-			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
-				return 1
-			}
-
 			// Whatever theme is active, the contrast will pass WCAG AA
 			// with color main text over main background and an opacity of 0.7
 			const minOpacity = 0.7
 			const maxOpacitySize = 10 * 1024 * 1024
+
+			const size = parseInt(this.source.size, 10) || 0
+			if (!size || size < 0) {
+				return minOpacity
+			}
+
 			return minOpacity + (1 - minOpacity) * Math.pow((this.source.size / maxOpacitySize), 2)
 		},
 
@@ -361,10 +376,16 @@ export default Vue.extend({
 		},
 		previewUrl() {
 			try {
-				const url = new URL(window.location.origin + this.source.attributes.previewUrl)
+				const previewUrl = this.source.attributes.previewUrl
+					|| generateUrl('/core/preview?fileId={fileid}', {
+						fileid: this.source.fileid,
+					})
+				const url = new URL(window.location.origin + previewUrl)
+
 				// Request tiny previews
 				url.searchParams.set('x', '32')
 				url.searchParams.set('y', '32')
+
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
 				return url.href
@@ -396,9 +417,17 @@ export default Vue.extend({
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
 		},
 
+		// Enabled action that are displayed inline with a custom render function
+		enabledRenderActions() {
+			if (!this.active) {
+				return []
+			}
+			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
+		},
+
 		// Default actions
 		enabledDefaultActions() {
-			return this.enabledActions.filter(action => !!action.default)
+			return this.enabledActions.filter(action => !!action?.default)
 		},
 
 		// Actions shown in the menu
@@ -407,7 +436,7 @@ export default Vue.extend({
 				// Showing inline first for the NcActions inline prop
 				...this.enabledInlineActions,
 				// Then the rest
-				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN),
+				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
 			].filter((value, index, self) => {
 				// Then we filter duplicates to prevent inline actions to be shown twice
 				return index === self.findIndex(action => action.id === value.id)

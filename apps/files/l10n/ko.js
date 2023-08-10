@@ -183,7 +183,6 @@ OC.L10N.register(
     "ascending" : "오름차순",
     "descending" : "내림차순",
     "Sort list by {column} ({direction})" : "{column} ({direction})으로 목록 정렬",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Storage informations" : "저장소 정보",
     "{usedQuotaByte} used" : "{usedQuotaByte} 사용",
     "{relative}% used" : "{relative}% 사용",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Deleted shares" : "삭제된 공유",
     "Pending shares" : "진행중인 공유",
     "Open folder {name}" : "{name} 폴더 열기",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
     "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
 },
