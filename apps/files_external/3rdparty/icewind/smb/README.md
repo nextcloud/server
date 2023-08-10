@@ -65,19 +65,20 @@ $server = $serverFactory->createServer('localhost', $auth);
 
 By re-using a client ticket you can create a single sign-on setup where the user authenticates against
 the web service using kerberos. And the web server can forward that ticket to the smb server, allowing it
-to act on the behalf of the user without requiring the user to enter his passord.
+to act on the behalf of the user without requiring the user to enter his password.
 
 The setup for such a system is fairly involved and requires roughly the following this
 
 - The web server is authenticated against kerberos with a machine account
 - Delegation is enabled for the web server's machine account
-- Apache is setup to perform kerberos authentication and save the ticket in it's environment
+- The web server is setup to perform kerberos authentication and save the ticket in it's environment
 - Php has the krb5 extension installed
 - The client authenticates using a ticket with forwarding enabled
 
 ```php
 $serverFactory = new ServerFactory();
-$auth = new KerberosApacheAuth();
+$auth = new KerberosAuth();
+$auth->setTicket(KerberosTicket::fromEnv());
 $server = $serverFactory->createServer('localhost', $auth);
 ```
 
