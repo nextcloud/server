@@ -26,7 +26,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.3']
 
     steps:
       - name: Checkout server

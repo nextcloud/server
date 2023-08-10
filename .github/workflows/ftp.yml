@@ -25,7 +25,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.3']
         ftpd: ['proftpd', 'vsftpd', 'pure-ftpd']
 
     name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}

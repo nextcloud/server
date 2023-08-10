@@ -23,7 +23,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.1']
+        php-versions: ['8.3']
 
     name: php${{ matrix.php-versions }}-minio
 
@@ -76,7 +76,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.1']
+        php-versions: ['8.3']
 
     name: php${{ matrix.php-versions }}-localstack
 
