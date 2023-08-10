@@ -1559,7 +1559,7 @@ class Manager implements IManager {
 			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
-				if (($user !== null) && !$user->isEnabled()) {
+				if ($user?->isEnabled() === false) {
 					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
 				}
 			}
