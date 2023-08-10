@@ -1,7 +1,7 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Các bình luận",
+    "Comments" : "Bình luận",
     "You commented" : "Bạn đã bình luận",
     "{author} commented" : "{author} đã bình luận",
     "You commented on %1$s" : "Bạn đã bình luận về %1$s",
@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Không có bình luận nào, bắt đầu cuộc hội thoại!",
     "No more messages" : "Không có thêm tin nhắn",
     "Retry" : "Thử lại",
+    "Failed to mark comments as read" : "Không thể đánh dấu bình luận là đã đọc",
     "Unable to load the comments list" : "Không thể tải danh sách bình luận",
     "_%n unread comment_::_%n unread comments_" : ["%n bình luận chưa đọc"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} bình luận mới"],
