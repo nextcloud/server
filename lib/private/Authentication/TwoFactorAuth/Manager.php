@@ -112,9 +112,6 @@ class Manager {
 
 	/**
 	 * Determine whether the user must provide a second factor challenge
-	 *
-	 * @param IUser $user
-	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
 		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
@@ -138,18 +135,13 @@ class Manager {
 
 	/**
 	 * Get a 2FA provider by its ID
-	 *
-	 * @param IUser $user
-	 * @param string $challengeProviderId
-	 * @return IProvider|null
 	 */
-	public function getProvider(IUser $user, string $challengeProviderId) {
+	public function getProvider(IUser $user, string $challengeProviderId): ?IProvider {
 		$providers = $this->getProviderSet($user)->getProviders();
 		return $providers[$challengeProviderId] ?? null;
 	}
 
 	/**
-	 * @param IUser $user
 	 * @return IActivatableAtLogin[]
 	 * @throws Exception
 	 */
