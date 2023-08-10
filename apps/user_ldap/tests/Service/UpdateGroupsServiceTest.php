@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,19 +25,17 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\user_ldap\tests\Jobs;
+namespace OCA\user_ldap\tests\Service;
 
+use OCA\User_LDAP\Db\GroupMembership;
+use OCA\User_LDAP\Db\GroupMembershipMapper;
 use OCA\User_LDAP\Group_Proxy;
-use OCA\User_LDAP\Jobs\UpdateGroups;
+use OCA\User_LDAP\Service\UpdateGroupsService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\IResult;
-use OCP\DB\QueryBuilder\IExpressionBuilder;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -44,10 +43,8 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use function serialize;
 
-class UpdateGroupsTest extends TestCase {
-
+class UpdateGroupsServiceTest extends TestCase {
 	/** @var Group_Proxy|MockObject  */
 	protected $groupBackend;
 	/** @var IEventDispatcher|MockObject  */
@@ -58,14 +55,14 @@ class UpdateGroupsTest extends TestCase {
 	protected $userManager;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var IDBConnection|MockObject  */
-	protected $dbc;
+	/** @var GroupMembershipMapper|MockObject  */
+	protected $groupMembershipMapper;
 	/** @var IConfig|MockObject */
 	protected $config;
 	/** @var ITimeFactory|MockObject */
 	protected $timeFactory;
 
-	protected UpdateGroups $updateGroupsJob;
+	protected UpdateGroupsService $updateGroupsService;
 
 	public function setUp(): void {
 		$this->groupBackend = $this->createMock(Group_Proxy::class);
@@ -73,17 +70,17 @@ class UpdateGroupsTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->dbc = $this->createMock(IDBConnection::class);
+		$this->groupMembershipMapper = $this->createMock(GroupMembershipMapper::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
-		$this->updateGroupsJob = new UpdateGroups(
+		$this->updateGroupsService = new UpdateGroupsService(
 			$this->groupBackend,
 			$this->dispatcher,
 			$this->groupManager,
 			$this->userManager,
 			$this->logger,
-			$this->dbc,
+			$this->groupMembershipMapper,
 			$this->config,
 			$this->timeFactory
 		);
@@ -91,12 +88,12 @@ class UpdateGroupsTest extends TestCase {
 
 	public function testHandleKnownGroups(): void {
 		$knownGroups = [
-			'emptyGroup' => serialize([]),
-			'stableGroup' => serialize(['userA', 'userC', 'userE']),
-			'groupWithAdditions' => serialize(['userA', 'userC', 'userE']),
-			'groupWithRemovals' => serialize(['userA', 'userC', 'userDeleted', 'userE']),
-			'groupWithAdditionsAndRemovals' => serialize(['userA', 'userC', 'userE']),
-			'vanishedGroup' => serialize(['userB', 'userDeleted'])
+			'emptyGroup' => [],
+			'stableGroup' => ['userA', 'userC', 'userE'],
+			'groupWithAdditions' => ['userA', 'userC', 'userE'],
+			'groupWithRemovals' => ['userA', 'userC', 'userDeleted', 'userE'],
+			'groupWithAdditionsAndRemovals' => ['userA', 'userC', 'userE'],
+			'vanishedGroup' => ['userB', 'userDeleted'],
 		];
 		$knownGroupsDB = [];
 		foreach ($knownGroups as $gid => $members) {
@@ -115,45 +112,20 @@ class UpdateGroupsTest extends TestCase {
 		];
 		$groups = array_intersect(array_keys($knownGroups), array_keys($actualGroups));
 
-		/** @var IQueryBuilder|MockObject $updateQb */
-		$updateQb = $this->createMock(IQueryBuilder::class);
-		$updateQb->expects($this->once())
-			->method('update')
-			->willReturn($updateQb);
-		$updateQb->expects($this->once())
-			->method('set')
-			->willReturn($updateQb);
-		$updateQb->expects($this->once())
-			->method('where')
-			->willReturn($updateQb);
-		// three groups need to be updated
-		$updateQb->expects($this->exactly(3))
-			->method('setParameters');
-		$updateQb->expects($this->exactly(3))
-			->method('executeStatement');
-		$updateQb->expects($this->any())
-			->method('expr')
-			->willReturn($this->createMock(IExpressionBuilder::class));
-
-		$stmt = $this->createMock(IResult::class);
-		$stmt->expects($this->once())
-			->method('fetchAll')
-			->willReturn($knownGroupsDB);
-
-		$selectQb = $this->createMock(IQueryBuilder::class);
-		$selectQb->expects($this->once())
-			->method('select')
-			->willReturn($selectQb);
-		$selectQb->expects($this->once())
-			->method('from')
-			->willReturn($selectQb);
-		$selectQb->expects($this->once())
-			->method('executeQuery')
-			->willReturn($stmt);
-
-		$this->dbc->expects($this->any())
-			->method('getQueryBuilder')
-			->willReturnOnConsecutiveCalls($updateQb, $selectQb);
+		$this->groupMembershipMapper->expects($this->never())
+			->method('getKnownGroups');
+		$this->groupMembershipMapper->expects($this->exactly(5))
+			->method('findGroupMemberships')
+			->willReturnCallback(
+				fn ($group) => array_map(
+					fn ($userid) => GroupMembership::fromParams(['groupid' => $group,'userid' => $userid]),
+					$knownGroups[$group]
+				)
+			);
+		$this->groupMembershipMapper->expects($this->exactly(3))
+			->method('delete');
+		$this->groupMembershipMapper->expects($this->exactly(2))
+			->method('insert');
 
 		$this->groupBackend->expects($this->any())
 			->method('usersInGroup')
@@ -192,7 +164,7 @@ class UpdateGroupsTest extends TestCase {
 				}
 			});
 
-		$this->invokePrivate($this->updateGroupsJob, 'handleKnownGroups', [$groups]);
+		$this->updateGroupsService->handleKnownGroups($groups);
 
 		$this->assertSame(2, $removedEvents);
 		$this->assertSame(2, $addedEvents);
