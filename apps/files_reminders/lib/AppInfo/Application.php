@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\AppInfo;
 
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\FilesReminders\Listener\LoadAdditionalScriptsListener;
 use OCA\FilesReminders\Listener\NodeDeletedListener;
 use OCA\FilesReminders\Listener\UserDeletedListener;
 use OCA\FilesReminders\Notification\Notifier;
@@ -51,5 +53,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(NodeDeletedEvent::class, NodeDeletedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+
+		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScriptsListener::class);
 	}
 }
