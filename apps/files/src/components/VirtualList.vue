@@ -13,7 +13,7 @@
 		<!-- Body -->
 		<tbody :style="tbodyStyle" class="files-list__tbody">
 			<tr v-for="(item, i) in renderedItems"
-				:key="item[dataKey]"
+				:key="i"
 				:class="{'list__row--active': isActive(i)}"
 				class="list__row">
 				<component :is="dataComponent"
@@ -91,10 +91,12 @@ export default Vue.extend({
 		},
 
 		tbodyStyle() {
-			const hiddenAfterItems = this.dataSources.length - this.startIndex - this.shownItems
+			const isOverScrolled = this.startIndex + this.shownItems > this.dataSources.length
+			const lastIndex = this.dataSources.length - this.startIndex - this.shownItems
+			const hiddenAfterItems = Math.min(this.dataSources.length - this.startIndex, lastIndex)
 			return {
 				paddingTop: `${this.startIndex * this.itemHeight}px`,
-				paddingBottom: `${hiddenAfterItems * this.itemHeight}px`,
+				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
 			}
 		},
 	},

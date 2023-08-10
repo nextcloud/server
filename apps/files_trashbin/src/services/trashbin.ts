@@ -21,7 +21,7 @@
  */
 /* eslint-disable */
 import { getCurrentUser } from '@nextcloud/auth'
-import { File, Folder, parseWebdavPermissions } from '@nextcloud/files'
+import { File, Folder, davParsePermissions } from '@nextcloud/files'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
@@ -43,7 +43,7 @@ const data = `<?xml version="1.0"?>
 
 
 const resultToNode = function(node: FileStat): File | Folder {
-	const permissions = parseWebdavPermissions(node.props?.permissions)
+	const permissions = davParsePermissions(node.props?.permissions)
 	const owner = getCurrentUser()?.uid as string
 	const previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32', node.props)
 
