@@ -46,7 +46,7 @@ jobs:
           if [[ "${{ matrix.ftpd }}" == 'vsftpd' ]]; then docker run --name ftp -d --net host -e FTP_USER=test -e FTP_PASS=test -e PASV_ADDRESS=127.0.0.1 -v /tmp/ftp:/home/vsftpd/test fauria/vsftpd; fi
           if [[ "${{ matrix.ftpd }}" == 'pure-ftpd' ]]; then docker run --name ftp -d --net host -e "PUBLICHOST=localhost" -e FTP_USER_NAME=test -e FTP_USER_PASS=test -e FTP_USER_HOME=/home/test -v /tmp/ftp:/home/test -v /tmp/ftp:/etc/pure-ftpd/passwd stilliard/pure-ftpd; fi
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        uses: shivammathur/setup-php@72ae4ccbe57f82bbe08411e84e2130bd4ba1c10f # v2.25.5
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:9
