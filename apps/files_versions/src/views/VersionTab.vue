@@ -103,7 +103,7 @@ export default {
 				...this.fileInfo,
 				mime: this.fileInfo.mimetype,
 				basename: this.fileInfo.name,
-				filename: this.fileInfo.path + this.fileInfo.name,
+				filename: this.fileInfo.path + '/' + this.fileInfo.name,
 				permissions: davPermissions,
 				fileid: this.fileInfo.id,
 			}
