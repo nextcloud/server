@@ -46,13 +46,15 @@ class Limiter {
 		string $userIdentifier,
 		int $period,
 		int $limit,
-	): void {
+	): int {
 		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier);
 		if ($existingAttempts >= $limit) {
 			throw new RateLimitExceededException();
 		}
 
 		$this->backend->registerAttempt($methodIdentifier, $userIdentifier, $period);
+
+		return $existingAttempts;
 	}
 
 	/**
@@ -66,11 +68,11 @@ class Limiter {
 		int $anonLimit,
 		int $anonPeriod,
 		string $ip,
-	): void {
+	): int {
 		$ipSubnet = (new IpAddress($ip))->getSubnet();
 
 		$anonHashIdentifier = hash('sha512', 'anon::' . $identifier . $ipSubnet);
-		$this->register($identifier, $anonHashIdentifier, $anonPeriod, $anonLimit);
+		return $this->register($identifier, $anonHashIdentifier, $anonPeriod, $anonLimit);
 	}
 
 	/**
@@ -84,8 +86,8 @@ class Limiter {
 		int $userLimit,
 		int $userPeriod,
 		IUser $user,
-	): void {
+	): int {
 		$userHashIdentifier = hash('sha512', 'user::' . $identifier . $user->getUID());
-		$this->register($identifier, $userHashIdentifier, $userPeriod, $userLimit);
+		return $this->register($identifier, $userHashIdentifier, $userPeriod, $userLimit);
 	}
 }
