@@ -50,6 +50,7 @@ import $ from 'jquery'
 import OC from './index.js'
 import OCA from '../OCA/index.js'
 import { isA11yActivation } from '../Util/a11y.js'
+import { filepicker } from '@nextcloud/dialogs/legacy.js'
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -226,6 +227,7 @@ const Dialogs = {
 			Dialogs.dialogsCounter++
 		})
 	},
+
 	/**
 	 * show a file picker to pick a file from
 	 *
@@ -246,7 +248,31 @@ const Dialogs = {
 	 * @param {Object} [options] additonal options that need to be set
 	 * @param {Function} [options.filter] filter function for advanced filtering
 	 */
-	filepicker: function(title, callback, multiselect, mimetypeFilter, modal, type, path, options) {
+	filepicker,
+
+	/**
+	 * Show the legacy file picker to pick a file from
+	 *
+	 * In order to pick several types of mime types they need to be passed as an
+	 * array of strings.
+	 *
+	 * When no mime type filter is given only files can be selected. In order to
+	 * be able to select both files and folders "['*', 'httpd/unix-directory']"
+	 * should be used instead.
+	 *
+	 * @deprecated since 27.1.0
+	 *
+	 * @param {string} title dialog title
+	 * @param {function} callback which will be triggered when user presses Choose
+	 * @param {boolean} [multiselect] whether it should be possible to select multiple files
+	 * @param {string[]} [mimetypeFilter] mimetype to filter by - directories will always be included
+	 * @param {boolean} [modal] make the dialog modal
+	 * @param {string} [type] Type of file picker : Choose, copy, move, copy and move
+	 * @param {string} [path] path to the folder that the the file can be picket from
+	 * @param {Object} [options] additonal options that need to be set
+	 * @param {Function} [options.filter] filter function for advanced filtering
+	 */
+	legacyFilepicker: function(title, callback, multiselect, mimetypeFilter, modal, type, path, options) {
 		var self = this
 
 		this.filepicker.sortField = 'name'
