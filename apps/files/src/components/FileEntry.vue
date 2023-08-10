@@ -476,21 +476,6 @@ export default Vue.extend({
 	},
 
 	watch: {
-		active(active, before) {
-			if (active === false && before === true) {
-				this.resetState()
-
-				// When the row is not active anymore
-				// remove the display from the row to prevent
-				// keyboard interaction with it.
-				this.$el.parentNode.style.display = 'none'
-				return
-			}
-
-			// Restore default tabindex
-			this.$el.parentNode.style.display = ''
-		},
-
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.

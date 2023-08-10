@@ -65,7 +65,7 @@ import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 
 export default Vue.extend({
-	name: 'FilesListFooter',
+	name: 'FilesListTableFooter',
 
 	components: {
 	},

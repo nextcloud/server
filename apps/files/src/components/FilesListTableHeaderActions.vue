@@ -61,7 +61,7 @@ import logger from '../logger.js'
 const actions = getFileActions()
 
 export default Vue.extend({
-	name: 'FilesListHeaderActions',
+	name: 'FilesListTableHeaderActions',
 
 	components: {
 		CustomSvgIconRender,

@@ -47,7 +47,7 @@ interface ResponseProps extends DAVResultResponseProps {
 
 const resultToNode = function(node: FileStat): File | Folder {
 	const props = node.props as ResponseProps
-	const permissions = parseWebdavPermissions(props?.permissions)
+	const permissions = davParsePermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
 
 	const nodeData = {

@@ -42,7 +42,7 @@ import Vue from 'vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 
 export default Vue.extend({
-	name: 'FilesListHeaderButton',
+	name: 'FilesListTableHeaderButton',
 
 	components: {
 		MenuDown,

@@ -58,6 +58,7 @@
 		<!-- File list -->
 		<FilesListVirtual v-else
 			ref="filesListVirtual"
+			:current-folder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContents" />
 	</NcAppContent>

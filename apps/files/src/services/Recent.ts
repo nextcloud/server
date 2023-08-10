@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { File, Folder, Permission, parseWebdavPermissions } from '@nextcloud/files'
+import { File, Folder, Permission, davParsePermissions } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getClient, rootPath } from './WebdavClient'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -94,7 +94,7 @@ interface ResponseProps extends DAVResultResponseProps {
 
 const resultToNode = function(node: FileStat): File | Folder {
 	const props = node.props as ResponseProps
-	const permissions = parseWebdavPermissions(props?.permissions)
+	const permissions = davParsePermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
 
 	const nodeData = {
