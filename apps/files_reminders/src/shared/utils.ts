@@ -37,7 +37,10 @@ export const getDateTime = (dateTime: DateTimePreset): null | Date => {
 			const evening = moment()
 				.startOf('day')
 				.add(18, 'hour')
-			if (now.isSameOrAfter(evening)) {
+			const cutoff = evening
+				.clone()
+				.subtract(1, 'hour')
+			if (now.isSameOrAfter(cutoff)) {
 				return null
 			}
 			return evening.toDate()
@@ -53,36 +56,32 @@ export const getDateTime = (dateTime: DateTimePreset): null | Date => {
 
 		[DateTimePreset.ThisWeekend]: () => {
 			const today = moment()
+			if (
+				[
+					5, // Friday
+					6, // Saturday
+					7, // Sunday
+				].includes(today.isoWeekday())
+			) {
+				return null
+			}
 			const saturday = moment()
 				.startOf('isoWeek')
 				.add(5, 'day')
 				.add(8, 'hour')
-			const sunday = moment()
-				.startOf('isoWeek')
-				.add(6, 'day')
-				.add(8, 'hour')
-			if (today.isSame(saturday, 'date')) {
-				return saturday
-					.add(1, 'day')
-					.toDate()
-			}
-			if (today.isSame(sunday, 'date')) {
-				return sunday
-					.add(1, 'week')
-					.startOf('isoWeek')
-					.add(5, 'day')
-					.add(8, 'hour')
-					.toDate()
-			}
 			return saturday.toDate()
 		},
 
 		[DateTimePreset.NextWeek]: () => {
-			const day = moment()
+			const today = moment()
+			if (today.isoWeekday() === 7) { // Sunday
+				return null
+			}
+			const workday = moment()
 				.startOf('isoWeek')
 				.add(1, 'week')
 				.add(8, 'hour')
-			return day.toDate()
+			return workday.toDate()
 		},
 	}
 
