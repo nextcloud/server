@@ -251,6 +251,7 @@ OC.L10N.register(
     "Display name" : "نام جهت نمایش",
     "Email" : "ایمیل",
     "Quota" : "سهم",
+    "Total rows summary" : "خلاصه کل ردیف ها",
     "Avatar" : "آواتار",
     "Group admin for" : "مدیر گروه برای",
     "User backend" : "پشتیبان کاربر",

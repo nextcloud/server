@@ -107,6 +107,7 @@ OC.L10N.register(
     "Modified" : "تغییر یافته",
     "\"{name}\" is an invalid file name." : "\"{name}\" نامی نامعتبر برای فایل است.",
     "File name cannot be empty." : "نام پرونده نمی تواند خالی باشد.",
+    "\"/\" is not allowed inside a file name." : "\"/\" در داخل نام فایل مجاز نیست.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" یک نوع پرونده مجاز نیست",
     "{newName} already exists" : "{newName} قبلاً موجود است",
     "Choose" : "انتخاب کردن",
