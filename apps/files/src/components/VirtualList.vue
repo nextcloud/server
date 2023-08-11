@@ -12,17 +12,13 @@
 
 		<!-- Body -->
 		<tbody :style="tbodyStyle" class="files-list__tbody">
-			<tr v-for="(item, i) in renderedItems"
+			<component :is="dataComponent"
+				v-for="(item, i) in renderedItems"
 				:key="i"
-				:class="{'list__row--active': (i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)}"
-				class="list__row">
-				<component :is="dataComponent"
-					:active="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
-					:source="item"
-					:index="i"
-					:item-height="itemHeight"
-					v-bind="extraProps" />
-			</tr>
+				:active="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
+				:source="item"
+				:index="i"
+				v-bind="extraProps" />
 		</tbody>
 
 		<!-- Footer -->
@@ -108,9 +104,6 @@ export default Vue.extend({
 		scrollToIndex() {
 			this.index = this.scrollToIndex
 			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
-		},
-		index() {
-			logger.debug('VirtualList index updated to ' + this.index)
 		},
 	},
 

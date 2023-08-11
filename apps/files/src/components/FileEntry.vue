@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Fragment>
+	<tr :class="{'list__row--active': active}" class="list__row">
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<td class="files-list__row-checkbox">
@@ -151,7 +151,7 @@
 				:render="column.render"
 				:source="source" />
 		</td>
-	</Fragment>
+	</tr>
 </template>
 
 <script lang='ts'>
@@ -496,6 +496,7 @@ export default Vue.extend({
 		source() {
 			this.resetState()
 			this.debounceIfNotCached()
+			logger.debug('FileEntry source changed', { source: this.source })
 		},
 
 		/**
