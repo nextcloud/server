@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "移動",
     "Copy" : "複製",
     "Choose target folder" : "選擇目標資料夾",
+    "Set reminder" : "設定提醒",
     "Edit locally" : "本機編輯",
     "Open" : "開啟",
     "Delete file" : "刪除檔案",
