@@ -157,24 +157,24 @@
 <script lang='ts'>
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
+import { extname } from 'path'
 import { formatFileSize, Permission } from '@nextcloud/files'
 import { Fragment } from 'vue-frag'
-import { extname } from 'path'
+import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
 import CancelablePromise from 'cancelable-promise'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import moment from '@nextcloud/moment'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import Vue from 'vue'
-import type moment from 'moment'
 
 import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
 import { getFileActions, DefaultType } from '../services/FileAction.ts'
@@ -183,9 +183,9 @@ import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useKeyboardStore } from '../store/keyboard.ts'
+import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { useRenamingStore } from '../store/renaming.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
@@ -489,21 +489,6 @@ export default Vue.extend({
 	},
 
 	watch: {
-		active(active, before) {
-			if (active === false && before === true) {
-				this.resetState()
-
-				// When the row is not active anymore
-				// remove the display from the row to prevent
-				// keyboard interaction with it.
-				this.$el.parentNode.style.display = 'none'
-				return
-			}
-
-			// Restore default tabindex
-			this.$el.parentNode.style.display = ''
-		},
-
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.

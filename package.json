@@ -111,6 +111,7 @@
     "vue-multiselect": "^2.1.6",
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^3.6.5",
+    "vue-virtual-scroll-list": "github:skjnldsv/vue-virtual-scroll-list#master",
     "vue-virtual-scroller": "^1.1.2",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
