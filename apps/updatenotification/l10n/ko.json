@@ -32,7 +32,7 @@
     "Beta" : "베타",
     "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다.",
     "Update for %1$s to version %2$s is available." : "%1$s을(를) 버전 %2$s(으)로 업데이트할 수 있습니다.",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "아래에서 업데이트 채널을 번경할 수 있으며, 이는 앱 관리 페이지에도 적용됩니다. 예를 들어 베타 채널로 변경할 경우, 앱 관리 페이지에서 각 앱에 대한 배타 업데이트가 제공됩니다.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "아래에서 업데이트 채널을 번경할 수 있으며, 이는 앱 관리 페이지에도 적용됩니다. 예를 들어 베타 채널로 변경할 경우, 앱 관리 페이지에서 각 앱에 대한 베타 업데이트가 제공됩니다.",
     "Update channel:" : "업데이트 채널:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

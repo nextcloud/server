@@ -203,6 +203,7 @@
     "Cannot create \"data\" directory." : "Ei voi luoda \"data\"-hakemistoa",
     "Your data directory is not writable." : "Datahakemistosi ei ole kirjoitettavissa.",
     "Setting locale to %s failed." : "Maa-asetuston %s asettaminen epäonnistui.",
+    "Please install one of these locales on your system and restart your web server." : "Asenna ainakin yksi näistä maa-asetuksista järjestelmään ja käynnistä http-palvelin uudelleen.",
     "PHP module %s not installed." : "PHP-moduulia %s ei ole asennettu.",
     "Please ask your server administrator to install the module." : "Pyydä palvelimen ylläpitäjää asentamaan moduulin.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-asetusta \"%s\" ei ole asetettu arvoon \"%s\".",
@@ -226,6 +227,7 @@
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Sovelluksen %1$s tiedostoja ei korvattu oikein Varmista, että sen versio on yhteensopiva palvelimen kanssa.",
     "Full name" : "Koko nimi",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Käyttäjää ei luotu, koska käyttäjäraja on tullut täyteen. Tarkista ilmoitukset saadaksesi lisätietoja.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vähintään libxml2 2.7.0 vaaditaan. %s on asennettu.",
     "To fix this issue update your libxml2 version and restart your web server." : "Päivitä libxml2:n versio ja käynnistä http-palvelin uudelleen."
