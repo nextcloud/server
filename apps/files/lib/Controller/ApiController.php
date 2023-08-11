@@ -388,6 +388,7 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @PublicPage
 	 *
 	 * Get the service-worker Javascript for previews
 	 *

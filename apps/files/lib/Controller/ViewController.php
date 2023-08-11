@@ -178,15 +178,6 @@ class ViewController extends Controller {
 	 * @throws NotFoundException
 	 */
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
-
-		if ($fileid !== null && $dir === '') {
-			try {
-				return $this->redirectToFile($fileid);
-			} catch (NotFoundException $e) {
-				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
-			}
-		}
-
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
 		\OCP\Util::addScript('files', 'merged-index', 'files');
@@ -242,6 +233,8 @@ class ViewController extends Controller {
 		);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
+		// Allow preview service worker
+		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
 		$this->provideInitialState($dir, $openfile);
