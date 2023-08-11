@@ -169,8 +169,9 @@ class InvitationResponseController extends Controller {
 		$query->select('*')
 			->from('calendar_invitations')
 			->where($query->expr()->eq('token', $query->createNamedParameter($token)));
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$stmt->closeCursor();
 
 		if (!$row) {
 			return null;
