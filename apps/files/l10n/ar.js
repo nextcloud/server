@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "نقل",
     "Copy" : "نسخ",
     "Choose target folder" : "اختر مكان المجلد",
+    "Set reminder" : "ضبط التذكير",
     "Edit locally" : "تعديل محليًا",
     "Open" : "افتح",
     "Delete file" : "احذف الملف",

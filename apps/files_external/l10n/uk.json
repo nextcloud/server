@@ -15,7 +15,7 @@
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати цю зовнішню пам’ять? Це зробить сховище недоступним у Nextcloud і призведе до видалення цих файлів і папок на будь-якому клієнті синхронізації, який наразі підключено, але не вилучіть жодних файлів і папок на самому зовнішньому сховищі.",
     "Delete storage?" : "Вилучити сховище?",
     "Saved" : "Збережено",
-    "Saving …" : "Збереження ..",
+    "Saving …" : "Збереження …",
     "Save" : "Зберегти",
     "Forbidden to manage local mounts" : "Заборонено керувати місцевими кріпленнями",
     "Storage with ID \"%d\" not found" : "Сховище з ідентифікатором \"%d\" не знайдено",

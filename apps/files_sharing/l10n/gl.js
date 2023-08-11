@@ -208,7 +208,7 @@ OC.L10N.register(
     "Unable to fetch inherited shares" : "Non é posíbel recuperar as comparticións herdadas",
     "Unable to load the shares list" : "Non é posíbel cargar a lista de comparticións",
     "Expires {relativetime}" : "Caducidades {relativetime}",
-    "this share just expired." : "ven de caducar esta compartición",
+    "this share just expired." : "vén de caducar esta compartición",
     "Shared with you by {owner}" : "Compartido con Vde. por {owner}",
     "_Accept share_::_Accept shares_" : ["Aceptar a compartición","Aceptar as comparticións"],
     "Open in Files" : "Abrir en Ficheiros",
