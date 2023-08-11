@@ -21,11 +21,15 @@
   -->
 
 <template>
-	<tr :class="{'list__row--active': active}" class="list__row" @contextmenu="onRightClick">
+	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive}"
+		class="list__row"
+		@contextmenu="onRightClick">
+		<!-- Failed indicator -->
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
+		<!-- Checkbox -->
 		<td class="files-list__row-checkbox">
-			<NcCheckboxRadioSwitch v-if="active"
+			<NcCheckboxRadioSwitch v-if="visible"
 				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
 				:checked="selectedFiles"
 				:value="fileid"
@@ -98,7 +102,7 @@
 				:source="source" />
 
 			<!-- Menu actions -->
-			<NcActions v-if="active"
+			<NcActions v-if="visible"
 				ref="actionsMenu"
 				:boundaries-element="getBoundariesElement()"
 				:container="getBoundariesElement()"
@@ -142,7 +146,7 @@
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			@click="openDetailsIfAvailable">
-			<CustomElementRender v-if="active"
+			<CustomElementRender v-if="visible"
 				:current-view="currentView"
 				:render="column.render"
 				:source="source" />
@@ -208,7 +212,7 @@ export default Vue.extend({
 	},
 
 	props: {
-		active: {
+		visible: {
 			type: Boolean,
 			default: false,
 		},
@@ -279,9 +283,12 @@ export default Vue.extend({
 			return this.currentView?.columns || []
 		},
 
-		dir() {
+		currentDir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+		},
+		currentFileId() {
+			return this.$route.params.fileid || this.$route.query.fileid || null
 		},
 		fileid() {
 			return this.source?.fileid?.toString?.()
@@ -418,7 +425,7 @@ export default Vue.extend({
 
 		// Enabled action that are displayed inline with a custom render function
 		enabledRenderActions() {
-			if (!this.active) {
+			if (!this.visible) {
 				return []
 			}
 			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
@@ -472,6 +479,10 @@ export default Vue.extend({
 				this.renamingStore.newName = newName
 			},
 		},
+
+		isActive() {
+			return this.fileid === this.currentFileId
+		},
 	},
 
 	watch: {
@@ -482,7 +493,6 @@ export default Vue.extend({
 		source() {
 			this.resetState()
 			this.debounceIfNotCached()
-			logger.debug('FileEntry source changed', { source: this.source })
 		},
 
 		/**
@@ -491,6 +501,16 @@ export default Vue.extend({
 		 */
 		isRenaming() {
 			this.startRenaming()
+		},
+
+		/**
+		 * Open the sidebar if the file is active
+		 */
+		isActive(active) {
+			const Sidebar = window?.OCA?.Files?.Sidebar
+			if (active && Sidebar && Sidebar.file !== this.source.path) {
+				Sidebar.open(this.source.path)
+			}
 		},
 	},
 
@@ -545,8 +565,8 @@ export default Vue.extend({
 			// Store the promise to be able to cancel it
 			this.previewPromise = new CancelablePromise((resolve, reject, onCancel) => {
 				const img = new Image()
-				// If active, load the preview with higher priority
-				img.fetchpriority = this.active ? 'high' : 'auto'
+				// If visible, load the preview with higher priority
+				img.fetchpriority = this.visible ? 'high' : 'auto'
 				img.onload = () => {
 					this.backgroundImage = `url(${this.previewUrl})`
 					this.backgroundFailed = false
@@ -595,7 +615,7 @@ export default Vue.extend({
 				this.loading = action.id
 				Vue.set(this.source, '_loading', true)
 
-				const success = await action.exec(this.source, this.currentView, this.dir)
+				const success = await action.exec(this.source, this.currentView, this.currentDir)
 
 				// If the action returns null, we stay silent
 				if (success === null) {
@@ -621,7 +641,7 @@ export default Vue.extend({
 				event.preventDefault()
 				event.stopPropagation()
 				// Execute the first default action if any
-				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.dir)
+				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.currentDir)
 			}
 		},
 
@@ -798,7 +818,7 @@ export default Vue.extend({
 					showError(this.t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
 					return
 				} else if (error?.response?.status === 412) {
-					showError(this.t('files', 'The name "{newName}"" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.dir }))
+					showError(this.t('files', 'The name "{newName}"" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
 					return
 				}
 
@@ -830,7 +850,7 @@ export default Vue.extend({
 tr {
 	&:hover,
 	&:focus,
-	&:active {
+	&:visible {
 		background-color: var(--color-background-dark);
 	}
 }

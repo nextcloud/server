@@ -15,14 +15,14 @@
 			<component :is="dataComponent"
 				v-for="(item, i) in renderedItems"
 				:key="i"
-				:active="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
+				:visible="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
 				:source="item"
 				:index="i"
 				v-bind="extraProps" />
 		</tbody>
 
 		<!-- Footer -->
-		<tfoot ref="tfoot" class="files-list__tfoot">
+		<tfoot v-show="isReady" ref="tfoot" class="files-list__tfoot">
 			<slot name="footer" />
 		</tfoot>
 	</table>
@@ -72,7 +72,6 @@ export default Vue.extend({
 			bufferItems,
 			index: this.scrollToIndex,
 			beforeHeight: 0,
-			footerHeight: 0,
 			headerHeight: 0,
 			tableHeight: 0,
 			resizeObserver: null as ResizeObserver | null,
@@ -80,6 +79,11 @@ export default Vue.extend({
 	},
 
 	computed: {
+		// Wait for measurements to be done before rendering
+		isReady() {
+			return this.tableHeight > 0
+		},
+
 		startIndex() {
 			return Math.max(0, this.index - bufferItems)
 		},
@@ -87,6 +91,9 @@ export default Vue.extend({
 			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + bufferItems * 2
 		},
 		renderedItems(): (File | Folder)[] {
+			if (!this.isReady) {
+				return []
+			}
 			return this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems)
 		},
 
@@ -115,7 +122,6 @@ export default Vue.extend({
 
 		this.resizeObserver = new ResizeObserver(debounce(() => {
 			this.beforeHeight = before?.clientHeight ?? 0
-			this.footerHeight = tfoot?.clientHeight ?? 0
 			this.headerHeight = thead?.clientHeight ?? 0
 			this.tableHeight = root?.clientHeight ?? 0
 			logger.debug('VirtualList resizeObserver updated')

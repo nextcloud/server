@@ -170,6 +170,16 @@ export default Vue.extend({
 		},
 	},
 
+	mounted() {
+		// Open the sidebar on the file if it's in the url and
+		// we're just loaded the app for the first time.
+		const Sidebar = window?.OCA?.Files?.Sidebar
+		const node = this.nodes.find(node => node.fileid === this.fileId)
+		if (Sidebar && node) {
+			Sidebar.open(node.path)
+		}
+	},
+
 	methods: {
 		getFileId(node) {
 			return node.fileid
@@ -292,9 +302,14 @@ export default Vue.extend({
 			}
 		}
 
-		// Hover state of the row should also change the favorite markers background
-		.files-list__row:hover .favorite-marker-icon svg path {
-			stroke: var(--color-background-dark);
+		.files-list__row{
+			&:hover, &:focus, &:active, &--active {
+				background-color: var(--color-background-dark);
+				// Hover state of the row should also change the favorite markers background
+				.favorite-marker-icon svg path {
+					stroke: var(--color-background-dark);
+				}
+			}
 		}
 
 		// Entry preview or mime icon
