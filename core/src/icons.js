@@ -339,3 +339,14 @@ css += '}'
 
 // WRITE CSS
 fs.writeFileSync(path.join(__dirname, '../../dist', 'icons.css'), sass.compileString(css).css)
+
+let iconsDocs = ''
+const basePathLength = path.join(__dirname, '../..').length
+Object.keys(icons).forEach(icon => {
+	const path = icons[icon]
+
+	iconsDocs += 'icon-' + icon + '#' + path.substr(basePathLength) + '\n'
+})
+
+// WRITE documentation file
+fs.writeFileSync(path.join(__dirname, '../../dist', 'icons.txt'), iconsDocs)
