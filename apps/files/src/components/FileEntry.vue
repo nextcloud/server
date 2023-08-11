@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<tr :class="{'list__row--active': active}" class="list__row">
+	<tr :class="{'list__row--active': active}" class="list__row" @contextmenu="onRightClick">
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<td class="files-list__row-checkbox">
@@ -100,8 +100,8 @@
 			<!-- Menu actions -->
 			<NcActions v-if="active"
 				ref="actionsMenu"
-				:boundaries-element="boundariesElement"
-				:container="boundariesElement"
+				:boundaries-element="getBoundariesElement()"
+				:container="getBoundariesElement()"
 				:disabled="source._loading"
 				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
@@ -259,7 +259,6 @@ export default Vue.extend({
 		return {
 			backgroundFailed: false,
 			backgroundImage: '',
-			boundariesElement: document.querySelector('.app-content > .files-list'),
 			loading: '',
 		}
 	},
@@ -508,9 +507,6 @@ export default Vue.extend({
 
 		// Fetch the preview on init
 		this.debounceIfNotCached()
-
-		// Right click watcher on tr
-		this.$el.parentNode?.addEventListener?.('contextmenu', this.onRightClick)
 	},
 
 	beforeDestroy() {
@@ -812,6 +808,15 @@ export default Vue.extend({
 				this.loading = false
 				Vue.set(this.source, '_loading', false)
 			}
+		},
+
+		/**
+		 * Making this a function in case the files-list
+		 * reference changes in the future. That way we're
+		 * sure there is one at the time we call it.
+		 */
+		getBoundariesElement() {
+			return document.querySelector('.app-content > .files-list')
 		},
 
 		t: translate,
