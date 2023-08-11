@@ -336,7 +336,7 @@ object-assign
 */
 
 /*!
-* focus-trap 7.4.0
+* focus-trap 7.5.2
 * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
 */
 
@@ -346,7 +346,7 @@ object-assign
 */
 
 /*!
-* tabbable 6.1.1
+* tabbable 6.2.0
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
 
@@ -382,6 +382,8 @@ object-assign
 
 /*! For license information please see NcAppSettingsDialog.js.LICENSE.txt */
 
+/*! For license information please see NcAppSettingsSection.js.LICENSE.txt */
+
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
@@ -405,6 +407,8 @@ object-assign
 /*! For license information please see NcDatetimePicker.js.LICENSE.txt */
 
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
+
+/*! For license information please see NcHeaderMenu.js.LICENSE.txt */
 
 /*! For license information please see NcInputField.js.LICENSE.txt */
 
@@ -433,6 +437,8 @@ object-assign
 /*! For license information please see NcTimezonePicker.js.LICENSE.txt */
 
 /*! For license information please see index.module.js.LICENSE.txt */
+
+/*! For license information please see richEditor.js.LICENSE.txt */
 
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
