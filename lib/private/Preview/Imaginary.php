@@ -148,14 +148,14 @@ class Imaginary extends ProviderV2 {
 					'connect_timeout' => 3,
 				]);
 		} catch (\Exception $e) {
-			$this->logger->error('Imaginary preview generation failed: ' . $e->getMessage(), [
+			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);
 			return null;
 		}
 
 		if ($response->getStatusCode() !== 200) {
-			$this->logger->error('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
+			$this->logger->info('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
 			return null;
 		}
 

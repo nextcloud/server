@@ -28,6 +28,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\INamedBackend;
@@ -284,6 +285,23 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 */
 	public function groupExists($gid) {
 		return $this->handleRequest($gid, 'groupExists', [$gid]);
+	}
+
+	/**
+	 * Check if a group exists
+	 *
+	 * @throws ServerNotAvailableException
+	 */
+	public function groupExistsOnLDAP(string $gid, bool $ignoreCache = false): bool {
+		return $this->handleRequest($gid, 'groupExistsOnLDAP', [$gid, $ignoreCache]);
+	}
+
+	/**
+	 * returns the groupname for the given LDAP DN, if available
+	 */
+	public function dn2GroupName(string $dn): string|false {
+		$id = 'DN,' . $dn;
+		return $this->handleRequest($id, 'dn2GroupName', [$dn]);
 	}
 
 	/**

@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\SystemTags\AppInfo;
 
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\SystemTags\Search\TagSearchProvider;
 use OCA\SystemTags\Activity\Listener;
 use OCP\AppFramework\App;
@@ -52,7 +53,7 @@ class Application extends App implements IBootstrap {
 			 * @todo move the OCP events and then move the registration to `register`
 			 */
 			$dispatcher->addListener(
-				'OCA\Files::loadAdditionalScripts',
+				LoadAdditionalScriptsEvent::class,
 				function () {
 					\OCP\Util::addScript('core', 'systemtags');
 					\OCP\Util::addScript(self::APP_ID, 'systemtags');

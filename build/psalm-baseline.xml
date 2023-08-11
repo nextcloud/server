@@ -827,14 +827,6 @@
       <code>$objectName</code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/dav/lib/SystemTag/SystemTagsRelationsCollection.php">
-    <InvalidArgument>
-      <code>SystemTagsEntityEvent::EVENT_ENTITY</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="apps/dav/lib/Traits/PrincipalProxyTrait.php">
     <MoreSpecificImplementedParamType>
       <code>$members</code>
@@ -1034,12 +1026,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->root->get('appdata_'.$instanceId)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
     <NullArgument>
       <code>null</code>
       <code>null</code>
@@ -1125,11 +1111,6 @@
       <code><![CDATA[(int)$e->getCode()]]></code>
       <code>(int)$status</code>
     </RedundantCast>
-  </file>
-  <file src="apps/files_external/lib/Controller/UserGlobalStoragesController.php">
-    <UndefinedMethod>
-      <code>getUniqueStorages</code>
-    </UndefinedMethod>
   </file>
   <file src="apps/files_external/lib/Lib/Backend/Backend.php">
     <LessSpecificReturnStatement>
@@ -1603,14 +1584,6 @@
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
   </file>
-  <file src="apps/user_ldap/lib/AppInfo/Application.php">
-    <InvalidArgument>
-      <code>'OCA\\User_LDAP\\User\\User::postLDAPBackendAdded'</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="apps/user_ldap/lib/Connection.php">
     <NoValue>
       <code>$subj</code>
@@ -1991,20 +1964,10 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/App/AppManager.php">
-    <InvalidArgument>
-      <code>ManagerEvent::EVENT_APP_DISABLE</code>
-      <code>ManagerEvent::EVENT_APP_ENABLE</code>
-      <code>ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS</code>
-    </InvalidArgument>
     <LessSpecificImplementedReturnType>
       <code>array</code>
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
     <TooManyArguments>
@@ -2107,16 +2070,6 @@
     <InvalidReturnType>
       <code>log</code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php">
-    <InvalidArgument>
-      <code>TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS</code>
-      <code>TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/AppFramework/Middleware/OCSMiddleware.php">
     <InternalMethod>
@@ -2256,16 +2209,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[list<array{provider_id: string, uid: string, enabled: bool}>]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/Authentication/TwoFactorAuth/Manager.php">
-    <InvalidArgument>
-      <code>IProvider::EVENT_FAILED</code>
-      <code>IProvider::EVENT_SUCCESS</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/ProviderSet.php">
     <InvalidArgument>
@@ -2779,36 +2722,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Node/HookConnector.php">
-    <InvalidArgument>
-      <code>'\OCP\Files::postCopy'</code>
-      <code>'\OCP\Files::postCreate'</code>
-      <code>'\OCP\Files::postDelete'</code>
-      <code>'\OCP\Files::postRename'</code>
-      <code>'\OCP\Files::postTouch'</code>
-      <code>'\OCP\Files::postWrite'</code>
-      <code>'\OCP\Files::preCopy'</code>
-      <code>'\OCP\Files::preCreate'</code>
-      <code>'\OCP\Files::preDelete'</code>
-      <code>'\OCP\Files::preRename'</code>
-      <code>'\OCP\Files::preTouch'</code>
-      <code>'\OCP\Files::preWrite'</code>
-      <code>'\OCP\Files::read'</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
     <UndefinedInterfaceMethod>
       <code>emit</code>
       <code>emit</code>
@@ -2982,15 +2895,6 @@
     <ImplicitToStringCast>
       <code>$file</code>
     </ImplicitToStringCast>
-    <InvalidOperand>
-      <code>$result</code>
-    </InvalidOperand>
-    <InvalidReturnStatement>
-      <code>$result</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>rename</code>
-    </InvalidReturnType>
     <TypeDoesNotContainNull>
       <code>$space === false || is_null($space)</code>
       <code>is_null($space)</code>
@@ -3130,12 +3034,6 @@
   </file>
   <file src="lib/private/Group/Group.php">
     <InvalidArgument>
-      <code>IGroup::class . '::postAddUser'</code>
-      <code>IGroup::class . '::postDelete'</code>
-      <code>IGroup::class . '::postRemoveUser'</code>
-      <code>IGroup::class . '::preAddUser'</code>
-      <code>IGroup::class . '::preDelete'</code>
-      <code>IGroup::class . '::preRemoveUser'</code>
       <code>bool</code>
     </InvalidArgument>
     <InvalidOperand>
@@ -3155,14 +3053,6 @@
       <code><![CDATA[$this->emitter]]></code>
       <code><![CDATA[$this->emitter]]></code>
     </RedundantCondition>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
     <UndefinedMethod>
       <code>addToGroup</code>
       <code>countUsersInGroup</code>
@@ -3367,7 +3257,6 @@
     <InvalidArgument>
       <code>$maxPreviewImage</code>
       <code>$semId</code>
-      <code>IPreview::EVENT</code>
     </InvalidArgument>
     <InvalidReturnStatement>
       <code>$sem</code>
@@ -3381,9 +3270,6 @@
     <MismatchingDocblockParamType>
       <code>ISimpleFile</code>
     </MismatchingDocblockParamType>
-    <TooManyArguments>
-      <code>dispatch</code>
-    </TooManyArguments>
     <UndefinedInterfaceMethod>
       <code>height</code>
       <code>height</code>
@@ -3526,9 +3412,6 @@
       <code>\OCP\Calendar\Room\IManager</code>
       <code>\OCP\Files\Folder|null</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidArgument>
-      <code>new GenericEvent($user)</code>
-    </InvalidArgument>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->get(IFile::class)]]></code>
       <code><![CDATA[$this->get(IGroupManager::class)]]></code>
@@ -3713,28 +3596,6 @@
       <code>getSupportedApps</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/SystemTag/SystemTagManager.php">
-    <InvalidArgument>
-      <code>ManagerEvent::EVENT_CREATE</code>
-      <code>ManagerEvent::EVENT_DELETE</code>
-      <code>ManagerEvent::EVENT_UPDATE</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
-  <file src="lib/private/SystemTag/SystemTagObjectMapper.php">
-    <InvalidArgument>
-      <code>MapperEvent::EVENT_ASSIGN</code>
-      <code>MapperEvent::EVENT_UNASSIGN</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="lib/private/TagManager.php">
     <InvalidNullableReturnType>
       <code>\OCP\ITags</code>
@@ -3835,20 +3696,6 @@
     </TooManyArguments>
   </file>
   <file src="lib/private/User/User.php">
-    <InvalidArgument>
-      <code>IUser::class . '::changeUser'</code>
-      <code>IUser::class . '::postDelete'</code>
-      <code>IUser::class . '::postSetPassword'</code>
-      <code>IUser::class . '::preDelete'</code>
-      <code>IUser::class . '::preSetPassword'</code>
-    </InvalidArgument>
-    <TooManyArguments>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-    </TooManyArguments>
     <UndefinedInterfaceMethod>
       <code>emit</code>
       <code>emit</code>
@@ -3955,12 +3802,6 @@
     <MoreSpecificReturnType>
       <code>array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}</code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/public/Authentication/TwoFactorAuth/IProvider.php">
-    <AmbiguousConstantInheritance>
-      <code>EVENT_FAILED</code>
-      <code>EVENT_SUCCESS</code>
-    </AmbiguousConstantInheritance>
   </file>
   <file src="lib/public/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>

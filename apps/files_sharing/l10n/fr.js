@@ -65,7 +65,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} a partagé {file} avec {user}",
     "{actor} removed {user} from {file}" : "{actor} a supprimé {user} de {file}",
     "{actor} shared {file} with you" : "{actor} a partagé {file} avec vous",
-    "{actor} removed you from the share named {file}" : "{actor} vous a supprimé du partage du nom de {file}",
+    "{actor} removed you from the share named {file}" : "{actor} vous a retiré du partage nommé {file}",
     "Share for file {file} with {user} expired" : "Partage du fichier {file} avec l'utilisateur {user} expiré",
     "Share for file {file} expired" : "Partage du fichier {file} expiré",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un fichier ou un dossier partagé par e-mail ou par lien public a été <strong>téléchargé</strong>",

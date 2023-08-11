@@ -69,6 +69,7 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
@@ -224,13 +225,10 @@ class Application extends App implements IBootstrap {
 			}
 		});
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function ($event) use ($container) {
-			if ($event instanceof GenericEvent) {
-				$user = $event->getSubject();
-				/** @var SyncService $syncService */
-				$syncService = $container->query(SyncService::class);
-				$syncService->updateUser($user);
-			}
+		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container) {
+			/** @var SyncService $syncService */
+			$syncService = \OCP\Server::get(SyncService::class);
+			$syncService->updateUser($event->getUser());
 		});
 
 

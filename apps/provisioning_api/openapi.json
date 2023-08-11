@@ -1781,19 +1781,27 @@
                         }
                     },
                     {
-                        "name": "groups",
+                        "name": "groups[]",
                         "in": "query",
                         "description": "Groups of the user",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
-                        "name": "subadmin",
+                        "name": "subadmin[]",
                         "in": "query",
                         "description": "Groups where the user is subadmin",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
@@ -3563,7 +3571,7 @@
                     {
                         "name": "app",
                         "in": "path",
-                        "description": "ID if the app",
+                        "description": "ID of the app",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -4260,12 +4268,15 @@
                 ],
                 "parameters": [
                     {
-                        "name": "configKeys",
+                        "name": "configKeys[]",
                         "in": "query",
                         "description": "Keys to delete",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {

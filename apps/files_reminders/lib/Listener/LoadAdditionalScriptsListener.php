@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright 2023 Christopher Ng <chrng8@gmail.com>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Christopher Ng <chrng8@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,35 +23,30 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Files_Sharing\Listener;
 
-use OC\EventDispatcher\SymfonyAdapter;
-use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
+namespace OCA\FilesReminders\Listener;
+
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\FilesReminders\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Util;
 
-class LegacyBeforeTemplateRenderedListener implements IEventListener {
-
-	/** @var SymfonyAdapter */
-	private $dispatcher;
-
-	public function __construct(SymfonyAdapter $dispatcher) {
-		$this->dispatcher = $dispatcher;
-	}
+class LoadAdditionalScriptsListener implements IEventListener {
+	public function __construct(
+		private IAppManager $appManager,
+	) {}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof BeforeTemplateRenderedEvent)) {
+		if (!($event instanceof LoadAdditionalScriptsEvent)) {
 			return;
 		}
 
-		$eventName = 'OCA\Files_Sharing::loadAdditionalScripts';
-
-		if ($event->getScope() !== null) {
-			$eventName .= '::' . $event->getScope();
+		if (!$this->appManager->isEnabledForUser('notifications')) {
+			return;
 		}
 
-		$legacyEvent = new GenericEvent(null, ['share' => $event->getShare()]);
-		$this->dispatcher->dispatch($eventName, $legacyEvent);
+		Util::addScript(Application::APP_ID, 'main');
 	}
 }

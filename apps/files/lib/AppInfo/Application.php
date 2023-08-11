@@ -42,7 +42,6 @@ use OCA\Files\Controller\ApiController;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
-use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
 use OCA\Files\Notification\Notifier;
@@ -57,6 +56,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -110,7 +110,7 @@ class Application extends App implements IBootstrap {
 				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
 				$server->getUserFolder(),
-				$server->getEventDispatcher()
+				$c->get(IEventDispatcher::class),
 			);
 		});
 
@@ -120,7 +120,6 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
 
-		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 

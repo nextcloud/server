@@ -1105,31 +1105,43 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @throws ServerNotAvailableException
 	 */
 	public function groupExists($gid) {
-		$groupExists = $this->access->connection->getFromCache('groupExists' . $gid);
-		if (!is_null($groupExists)) {
-			return (bool)$groupExists;
+		return $this->groupExistsOnLDAP($gid, false);
+	}
+
+	/**
+	 * Check if a group exists
+	 *
+	 * @throws ServerNotAvailableException
+	 */
+	public function groupExistsOnLDAP(string $gid, bool $ignoreCache = false): bool {
+		$cacheKey = 'groupExists' . $gid;
+		if (!$ignoreCache) {
+			$groupExists = $this->access->connection->getFromCache($cacheKey);
+			if (!is_null($groupExists)) {
+				return (bool)$groupExists;
+			}
 		}
 
 		//getting dn, if false the group does not exist. If dn, it may be mapped
 		//only, requires more checking.
 		$dn = $this->access->groupname2dn($gid);
 		if (!$dn) {
-			$this->access->connection->writeToCache('groupExists' . $gid, false);
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
 		if (!$this->access->isDNPartOfBase($dn, $this->access->connection->ldapBaseGroups)) {
-			$this->access->connection->writeToCache('groupExists' . $gid, false);
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
 		//if group really still exists, we will be able to read its objectClass
 		if (!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapGroupFilter))) {
-			$this->access->connection->writeToCache('groupExists' . $gid, false);
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
-		$this->access->connection->writeToCache('groupExists' . $gid, true);
+		$this->access->connection->writeToCache($cacheKey, true);
 		return true;
 	}
 
@@ -1335,5 +1347,12 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		$this->access->connection->writeToCache($cacheKey, $displayName);
 		return $displayName;
+	}
+
+	/**
+	 * returns the groupname for the given LDAP DN, if available
+	 */
+	public function dn2GroupName(string $dn): string|false {
+		return $this->access->dn2groupname($dn);
 	}
 }
