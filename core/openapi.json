@@ -939,6 +939,15 @@
                             "type": "string",
                             "default": "fill"
                         }
+                    },
+                    {
+                        "name": "mimeFallback",
+                        "in": "query",
+                        "description": "Whether to fallback to the mime icon if no preview is available",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
                     }
                 ],
                 "responses": {
@@ -974,6 +983,16 @@
                         "content": {
                             "application/json": {
                                 "schema": {}
+                            }
+                        }
+                    },
+                    "303": {
+                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -1051,6 +1070,15 @@
                             "type": "string",
                             "default": "fill"
                         }
+                    },
+                    {
+                        "name": "mimeFallback",
+                        "in": "query",
+                        "description": "Whether to fallback to the mime icon if no preview is available",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -1086,6 +1114,16 @@
                         "content": {
                             "application/json": {
                                 "schema": {}
+                            }
+                        }
+                    },
+                    "303": {
+                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }

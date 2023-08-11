@@ -45,10 +45,6 @@
 					class="files-list__row-icon-preview"
 					:style="{ backgroundImage }" />
 
-				<span v-else-if="mimeIconUrl"
-					class="files-list__row-icon-preview files-list__row-icon-preview--mime"
-					:style="{ backgroundImage: mimeIconUrl }" />
-
 				<FileIcon v-else />
 
 				<!-- Favorite icon -->
@@ -155,17 +151,16 @@
 </template>
 
 <script lang='ts'>
+import { CancelablePromise } from 'cancelable-promise'
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
 import { formatFileSize, Permission } from '@nextcloud/files'
-import { Fragment } from 'vue-frag'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
-import CancelablePromise from 'cancelable-promise'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import moment from '@nextcloud/moment'
@@ -205,7 +200,6 @@ export default Vue.extend({
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
-		Fragment,
 		NcActionButton,
 		NcActions,
 		NcCheckboxRadioSwitch,
@@ -394,6 +388,7 @@ export default Vue.extend({
 				// Request tiny previews
 				url.searchParams.set('x', '32')
 				url.searchParams.set('y', '32')
+				url.searchParams.set('mimeFallback', 'true')
 
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
@@ -401,14 +396,6 @@ export default Vue.extend({
 			} catch (e) {
 				return null
 			}
-		},
-		mimeIconUrl() {
-			const mimeType = this.source.mime || 'application/octet-stream'
-			const mimeIconUrl = window.OC?.MimeType?.getIconUrl?.(mimeType)
-			if (mimeIconUrl) {
-				return `url(${mimeIconUrl})`
-			}
-			return ''
 		},
 
 		// Sorted actions that are enabled for this node

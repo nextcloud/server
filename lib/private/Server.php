@@ -127,6 +127,7 @@ use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
+use OC\Preview\MimeIconProvider;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
@@ -262,6 +263,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\BackendService;
 use OCP\Profiler\IProfiler;
 use OC\Profiler\Profiler;
+use OCP\Preview\IMimeIconProvider;
 
 /**
  * Class Server
@@ -337,6 +339,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('PreviewManager', IPreview::class);
+		$this->registerAlias(IMimeIconProvider::class, MimeIconProvider::class);
 
 		$this->registerService(\OC\Preview\Watcher::class, function (ContainerInterface $c) {
 			return new \OC\Preview\Watcher(
