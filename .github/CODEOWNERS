@@ -36,6 +36,10 @@
 /apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen @st3iny
 /core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen @st3iny
 
+# OpenAPI
+openapi.json            @provokateurin
+ResponseDefinitions.php @provokateurin
+
 # Personal interest
 */Activity/*                        @nickvergessen
 */Notifications/*                   @nickvergessen
