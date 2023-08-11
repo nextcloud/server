@@ -1138,6 +1138,9 @@ class OC {
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
+		if (self::tryAppEcosystemV2Login($request)) {
+			return true;
+		}
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
@@ -1173,6 +1176,22 @@ class OC {
 					break;
 				}
 			}
+		}
+	}
+
+	protected static function tryAppEcosystemV2Login(OCP\IRequest $request): bool {
+		$appManager = Server::get(OCP\App\IAppManager::class);
+		if (!$request->getHeader('AE-SIGNATURE')) {
+			return false;
+		}
+		if (!$appManager->isInstalled('app_ecosystem_v2')) {
+			return false;
+		}
+		try {
+			$appEcosystemV2Service = Server::get(OCA\AppEcosystemV2\Service\AppEcosystemV2Service::class);
+			return $appEcosystemV2Service->validateExAppRequestToNC($request);
+		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			return false;
 		}
 	}
 }
