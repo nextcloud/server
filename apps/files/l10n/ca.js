@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Mou",
     "Copy" : "Copia",
     "Choose target folder" : "Trieu la carpeta de destinació",
+    "Set reminder" : "Defineix un recordatori",
     "Edit locally" : "Edita localment",
     "Open" : "Obre",
     "Delete file" : "Suprimeix el fitxer",
