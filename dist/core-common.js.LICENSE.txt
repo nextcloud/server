@@ -394,6 +394,8 @@ object-assign
 
 /*! For license information please see NcAppSettingsDialog.js.LICENSE.txt */
 
+/*! For license information please see NcAppSettingsSection.js.LICENSE.txt */
+
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
@@ -422,6 +424,10 @@ object-assign
 
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
 
+/*! For license information please see NcHeaderMenu.js.LICENSE.txt */
+
+/*! For license information please see NcIconSvgWrapper.js.LICENSE.txt */
+
 /*! For license information please see NcInputField.js.LICENSE.txt */
 
 /*! For license information please see NcLoadingIcon.js.LICENSE.txt */
@@ -449,6 +455,8 @@ object-assign
 /*! For license information please see NcTimezonePicker.js.LICENSE.txt */
 
 /*! For license information please see index.module.js.LICENSE.txt */
+
+/*! For license information please see richEditor.js.LICENSE.txt */
 
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
