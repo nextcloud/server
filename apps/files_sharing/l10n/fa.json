@@ -176,6 +176,7 @@
     "Expires {relativetime}" : "{زمان نسبی } منقضی می شود",
     "this share just expired." : "این اشتراک تازه منقضی شد",
     "Shared with you by {owner}" : "به اشتراک گذاشته شده با شما توسط { دارنده}",
+    "Open in Files" : "در فایل باز کنید",
     "Link to a file" : "پیوند به یک پرونده",
     "Error creating the share" : "خطایی در ایجاد اشتراک",
     "Error updating the share" : "خطایی در به روزرسانی اشتراک",

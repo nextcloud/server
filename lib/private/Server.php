@@ -1461,6 +1461,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ISpeechToTextManager::class, SpeechToTextManager::class);
 
+		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
+
 		$this->connectDispatcher();
 	}
 

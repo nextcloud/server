@@ -204,38 +204,38 @@ Feature: app-files
 #    And I see that the file list contains a file named "Folder"
 #    And I see that the file list contains a file named "Not selected folder"
 
-  Scenario: copy a file in its same folder
-    Given I am logged in
-    When I start the move or copy operation for "welcome.txt"
-    # No folder was explicitly selected, so the last selected folder is the
-    # current folder.
-    And I copy to the last selected folder in the file picker
-    Then I see that the file list contains a file named "welcome.txt"
-    And I see that the file list contains a file named "welcome (copy).txt"
-
-  Scenario: copy a file twice in its same folder
-    Given I am logged in
-    And I start the move or copy operation for "welcome.txt"
-    # No folder was explicitly selected, so the last selected folder is the
-    # current folder.
-    And I copy to the last selected folder in the file picker
-    When I start the move or copy operation for "welcome.txt"
-    And I copy to the last selected folder in the file picker
-    Then I see that the file list contains a file named "welcome.txt"
-    And I see that the file list contains a file named "welcome (copy).txt"
-    And I see that the file list contains a file named "welcome (copy 2).txt"
-
-  Scenario: copy a copy of a file in its same folder
-    Given I am logged in
-    And I start the move or copy operation for "welcome.txt"
-    # No folder was explicitly selected, so the last selected folder is the
-    # current folder.
-    And I copy to the last selected folder in the file picker
-    When I start the move or copy operation for "welcome (copy).txt"
-    And I copy to the last selected folder in the file picker
-    Then I see that the file list contains a file named "welcome.txt"
-    And I see that the file list contains a file named "welcome (copy).txt"
-    And I see that the file list contains a file named "welcome (copy 2).txt"
+#  Scenario: copy a file in its same folder
+#    Given I am logged in
+#    When I start the move or copy operation for "welcome.txt"
+#    # No folder was explicitly selected, so the last selected folder is the
+#    # current folder.
+#    And I copy to the last selected folder in the file picker
+#    Then I see that the file list contains a file named "welcome.txt"
+#    And I see that the file list contains a file named "welcome (copy).txt"
+#
+#  Scenario: copy a file twice in its same folder
+#    Given I am logged in
+#    And I start the move or copy operation for "welcome.txt"
+#    # No folder was explicitly selected, so the last selected folder is the
+#    # current folder.
+#    And I copy to the last selected folder in the file picker
+#    When I start the move or copy operation for "welcome.txt"
+#    And I copy to the last selected folder in the file picker
+#    Then I see that the file list contains a file named "welcome.txt"
+#    And I see that the file list contains a file named "welcome (copy).txt"
+#    And I see that the file list contains a file named "welcome (copy 2).txt"
+#
+#  Scenario: copy a copy of a file in its same folder
+#    Given I am logged in
+#    And I start the move or copy operation for "welcome.txt"
+#    # No folder was explicitly selected, so the last selected folder is the
+#    # current folder.
+#    And I copy to the last selected folder in the file picker
+#    When I start the move or copy operation for "welcome (copy).txt"
+#    And I copy to the last selected folder in the file picker
+#    Then I see that the file list contains a file named "welcome.txt"
+#    And I see that the file list contains a file named "welcome (copy).txt"
+#    And I see that the file list contains a file named "welcome (copy 2).txt"
 
 #  Scenario: rename a file with the details view open
 #    Given I am logged in

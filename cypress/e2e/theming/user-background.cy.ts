@@ -210,10 +210,17 @@ describe('User select a custom background', function() {
 	it('Select a custom background', function() {
 		cy.intercept('*/apps/theming/background/custom').as('setBackground')
 
+		cy.on('uncaught:exception', (err) => {
+			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
+			if (err.message.includes('ResizeObserver loop limit exceeded')) {
+			  return false
+			}
+		})
+
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
-		cy.get(`#picker-filestable tr[data-entryname="${image}"]`).click()
-		cy.get('#oc-dialog-filepicker-content ~ .oc-dialog-buttonrow button.primary').click()
+		cy.get('.file-picker__files tr').contains(image).click()
+		cy.get('.dialog__actions .button-vue--vue-primary').click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
@@ -242,10 +249,17 @@ describe('User changes settings and reload the page', function() {
 	it('Select a custom background', function() {
 		cy.intercept('*/apps/theming/background/custom').as('setBackground')
 
+		cy.on('uncaught:exception', (err) => {
+			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
+			if (err.message.includes('ResizeObserver loop limit exceeded')) {
+			  return false
+			}
+		})
+
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
-		cy.get(`#picker-filestable tr[data-entryname="${image}"]`).click()
-		cy.get('#oc-dialog-filepicker-content ~ .oc-dialog-buttonrow button.primary').click()
+		cy.get('.file-picker__files tr').contains(image).click()
+		cy.get('.dialog__actions .button-vue--vue-primary').click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
