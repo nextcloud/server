@@ -254,7 +254,6 @@ OC.L10N.register(
     "Featured apps" : "Các ứng dụng đề xuất",
     "Hide" : "Ẩn",
     "Download and enable" : "Tải xuống và kích hoạt",
-    "Enable untested app" : "Bật ứng dụng chưa được kiểm tra",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ứng dụng này không được đánh dấu là tương thích với phiên bản Nextcloud của bạn. Nếu bạn tiếp tục, bạn vẫn có thể cài đặt ứng dụng. Lưu ý rằng ứng dụng có thể không hoạt động như mong đợi.",
     "Never" : "Không bao giờ",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Ứng dụng đã được kích hoạt nhưng cần được cập nhật. Bạn sẽ được chuyển hướng đến trang cập nhật sau 5 giây.",
@@ -286,6 +285,7 @@ OC.L10N.register(
     "No users in here" : "Không có người dùng nào tại đây",
     "Default quota:" : "Hạn ngạch mặc định:",
     "Show Languages" : "Hiển thị ngôn ngữ",
+    "Enable untested app" : "Bật ứng dụng chưa được kiểm tra",
     "Authentication method" : "Phương thức xác thực"
 },
 "nplurals=1; plural=0;");
