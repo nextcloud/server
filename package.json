@@ -118,7 +118,7 @@
     "webdav": "^5.2.2"
   },
   "devDependencies": {
-    "@babel/node": "^7.20.7",
+    "@babel/node": "^7.22.10",
     "@babel/preset-typescript": "^7.22.5",
     "@cypress/vue2": "^2.0.1",
     "@cypress/webpack-preprocessor": "^5.17.1",
