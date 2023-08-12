@@ -58,7 +58,7 @@
 			ref="filesListVirtual"
 			:current-folder="currentFolder"
 			:current-view="currentView"
-			:nodes="dirContents" />
+			:nodes="dirContentsSorted" />
 	</NcAppContent>
 </template>
 
@@ -163,7 +163,7 @@ export default Vue.extend({
 		/**
 		 * The current directory contents.
 		 */
-		dirContents(): Node[] {
+		dirContentsSorted(): Node[] {
 			if (!this.currentView) {
 				return []
 			}
@@ -173,8 +173,7 @@ export default Vue.extend({
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)]
-					.sort(customColumn.sort)
+				const results = [...this.dirContents].sort(customColumn.sort)
 				return this.isAscSorting ? results : results.reverse()
 			}
 
@@ -193,10 +192,14 @@ export default Vue.extend({
 			const orders = new Array(identifiers.length).fill(this.isAscSorting ? 'asc' : 'desc')
 
 			return orderBy(
-				[...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)],
+				[...this.dirContents],
 				identifiers,
 				orders,
 			)
+		},
+
+		dirContents(): Node[] {
+			return (this.currentFolder?._children || []).map(this.getNode).filter(file => file)
 		},
 
 		/**
