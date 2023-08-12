@@ -377,7 +377,7 @@ export default Vue.extend({
 			return this.selectionStore.selected
 		},
 		isSelected() {
-			return this.selectedFiles.includes(this.source?.fileid?.toString?.())
+			return this.selectedFiles.includes(this.fileid)
 		},
 
 		cropPreviews() {
@@ -481,7 +481,7 @@ export default Vue.extend({
 		},
 
 		isActive() {
-			return this.fileid === this.currentFileId
+			return this.fileid === this.currentFileId?.toString?.()
 		},
 	},
 
@@ -501,16 +501,6 @@ export default Vue.extend({
 		 */
 		isRenaming() {
 			this.startRenaming()
-		},
-
-		/**
-		 * Open the sidebar if the file is active
-		 */
-		isActive(active) {
-			const Sidebar = window?.OCA?.Files?.Sidebar
-			if (active && Sidebar && Sidebar.file !== this.source.path) {
-				Sidebar.open(this.source.path)
-			}
 		},
 	},
 

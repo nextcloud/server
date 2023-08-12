@@ -38,7 +38,7 @@ const router = new Router({
 		{
 			path: '/',
 			// Pretending we're using the default view
-			alias: '/files',
+			redirect: { name: 'filelist' },
 		},
 		{
 			path: '/:view/:fileid?',

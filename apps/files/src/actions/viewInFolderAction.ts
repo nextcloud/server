@@ -61,7 +61,7 @@ export const action = new FileAction({
 		window.OCP.Files.Router.goToRoute(
 			null,
 			{ view: 'files', fileid: node.fileid },
-			{ dir: node.dirname, fileid: node.fileid },
+			{ dir: node.dirname },
 		)
 		return null
 	},

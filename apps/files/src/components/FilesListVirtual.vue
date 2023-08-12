@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { translate, translatePlural } from '@nextcloud/l10n'
-import { getFileListHeaders } from '@nextcloud/files'
+import { getFileListHeaders, type Node } from '@nextcloud/files'
 import Vue from 'vue'
 import VirtualList from './VirtualList.vue'
 
@@ -112,6 +112,7 @@ export default Vue.extend({
 		return {
 			FileEntry,
 			headers: getFileListHeaders(),
+			scrollToIndex: 0,
 		}
 	},
 
@@ -122,17 +123,6 @@ export default Vue.extend({
 
 		fileId() {
 			return parseInt(this.$route.params.fileid || this.$route.query.fileid) || null
-		},
-
-		scrollToIndex() {
-			if (!this.fileId) {
-				return
-			}
-			const index = this.nodes.findIndex(node => node.fileid === this.fileId)
-			if (index === -1) {
-				showError(this.t('files', 'File not found'))
-			}
-			return Math.max(0, index)
 		},
 
 		summaryFile() {
@@ -171,12 +161,24 @@ export default Vue.extend({
 	},
 
 	mounted() {
-		// Open the sidebar on the file if it's in the url and
-		// we're just loaded the app for the first time.
-		const Sidebar = window?.OCA?.Files?.Sidebar
-		const node = this.nodes.find(node => node.fileid === this.fileId)
-		if (Sidebar && node) {
-			Sidebar.open(node.path)
+		// Scroll to the file if it's in the url
+		if (this.fileId) {
+			const index = this.nodes.findIndex(node => node.fileid === this.fileId)
+			if (index === -1) {
+				showError(this.t('files', 'File not found'))
+			}
+			this.scrollToIndex = Math.max(0, index)
+		}
+
+		// Open the file sidebar if we have the room for it
+		if (document.documentElement.clientWidth > 1024) {
+			// Open the sidebar on the file if it's in the url and
+			// we're just loaded the app for the first time.
+			const Sidebar = window?.OCA?.Files?.Sidebar
+			const node = this.nodes.find(node => node.fileid === this.fileId) as Node
+			if (Sidebar && node) {
+				Sidebar.open(node.path)
+			}
 		}
 	},
 
