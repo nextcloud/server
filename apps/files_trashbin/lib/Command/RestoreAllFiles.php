@@ -124,13 +124,8 @@ class RestoreAllFiles extends Base {
 
 		if (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Restoring deleted files for user <info>$user</info>");
-					$this->restoreDeletedFiles($user, $scope, $restoreFrom, $restoreTo, $dryRun, $output);
-				} else {
-					$output->writeln("<error>Unknown user $user</error>");
-					return 1;
-				}
+				$output->writeln("Restoring deleted files for user <info>$user</info>");
+				$this->restoreDeletedFiles($user, $scope, $restoreFrom, $restoreTo, $dryRun, $output);
 			}
 		} elseif ($input->getOption('all-users')) {
 			$output->writeln('Restoring deleted files for all users');
@@ -173,6 +168,12 @@ class RestoreAllFiles extends Base {
 		\OC_User::setUserId($uid);
 
 		$user = $this->userManager->get($uid);
+
+		if ($user === null) {
+			$output->writeln("<error>Unknown user $uid</error>");
+			return;
+		}
+
 		$userTrashItems = $this->filterTrashItems(
 			$this->trashManager->listTrashRoot($user),
 			$scope,
@@ -215,7 +216,7 @@ class RestoreAllFiles extends Base {
 			$count = $count + 1;
 			$output->writeln(" <info>success</info>");
 		}
-		
+
 		if (!$dryRun) {
 			$output->writeln("Successfully restored <info>$count</info> out of <info>$trashCount</info> files.");
 		}
@@ -270,7 +271,7 @@ class RestoreAllFiles extends Base {
 	}
 
 	/**
-	 * @param ITrashItem[] $trashItem
+	 * @param ITrashItem[] $trashItems
 	 * @param int $scope
 	 * @param int|null $restoreFrom
 	 * @param int|null $restoreTo
@@ -280,12 +281,16 @@ class RestoreAllFiles extends Base {
 	protected function filterTrashItems(array $trashItems, int $scope, ?int $restoreFrom, ?int $restoreTo, OutputInterface $output): array {
 		$filteredTrashItems = [];
 		foreach ($trashItems as $trashItem) {
-			// Check scope with exact class names
-			if ($scope === self::SCOPE_USER && get_class($trashItem) !== \OCA\Files_Trashbin\Trash\TrashItem::class) {
+			$trashItemClass = get_class($trashItem);
+
+			// Check scope with exact class name for locally deleted files
+			if ($scope === self::SCOPE_USER && $trashItemClass !== \OCA\Files_Trashbin\Trash\TrashItem::class) {
 				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a user trash item", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
-			if ($scope === self::SCOPE_GROUPFOLDERS && get_class($trashItem) !== \OCA\GroupFolders\Trash\GroupTrashItem::class) {
+
+			// Check scope for groupfolders by string because the groupfolders app might not be installed
+			if ($scope === self::SCOPE_GROUPFOLDERS && $trashItemClass !== 'OCA\GroupFolders\Trash\GroupTrashItem') {
 				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a groupfolders trash item", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
@@ -301,7 +306,7 @@ class RestoreAllFiles extends Base {
 				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted after the restore-to timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
-			
+
 			$filteredTrashItems[] = $trashItem;
 		}
 		return $filteredTrashItems;
