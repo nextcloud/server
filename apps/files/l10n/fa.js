@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "انتقال",
     "Copy" : "رونوشت",
     "Choose target folder" : "پوشهٔ هدف را انتخاب کنید",
+    "Set reminder" : "Set reminder",
     "Edit locally" : "ویرایش محلی",
     "Open" : "باز کردن",
     "Delete file" : "حذف پرونده",
