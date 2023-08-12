@@ -161,10 +161,12 @@ export default {
 
 	watch: {
 		currentView(view, oldView) {
-			this.Navigation.setActive(view)
-			logger.debug('Navigation changed', { id: view.id, view })
+			if (view.id !== oldView?.id) {
+				this.Navigation.setActive(view)
+				logger.debug('Navigation changed', { id: view.id, view })
 
-			this.showView(view, oldView)
+				this.showView(view, oldView)
+			}
 		},
 	},
 
