@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Taşı",
     "Copy" : "Kopyala",
     "Choose target folder" : "Hedef klasörü seçin",
+    "Set reminder" : "Anımsatıcı ayarla",
     "Edit locally" : "Yerel olarak düzenle",
     "Open" : "Aç",
     "Delete file" : "Dosyayı sil",

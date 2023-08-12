@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Type to select user or group." : "輸入以選取使用者或群組。",
+    "Type to select user or group." : "輸入以選取用戶或群組。",
     "(Group)" : "（群組）",
     "Compatibility with Mac NFD encoding (slow)" : "與 Mac 的 NFD 編碼格式相容（較慢）",
     "Enable encryption" : "啟用加密",

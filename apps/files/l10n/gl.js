@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Escoller o cartafol de destino",
+    "Set reminder" : "Definir un lembrete",
     "Edit locally" : "Editar localmente",
     "Open" : "Abrir",
     "Delete file" : "Eliminar ficheiro",

@@ -48,7 +48,7 @@
     "Some of your link shares have been removed" : "部分分享連結己被移除",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "由於安全性問題，我們必須移除您一部分的連結分享。查看更多資訊請點選連結。",
     "The user limit of this instance is reached." : "的達此實例的用戶上限。",
-    "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "在支援應用程式中輸入您的訂閱金鑰以增加使用者限制。這也確實為您提供了 Nextcloud Enterprise 提供的所有額外好處，並且強烈推薦用於公司的營運。",
+    "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "在支援應用程式中輸入您的訂閱金鑰以增加用戶限制。這也確實為您提供了 Nextcloud Enterprise 提供的所有額外好處，並且強烈推薦用於公司的營運。",
     "Learn more ↗" : "了解更多",
     "Preparing update" : "正在準備更新",
     "[%d / %d]: %s" : "[%d / %d]：%s",
