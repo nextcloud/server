@@ -41,7 +41,7 @@ OC.L10N.register(
     "{actor} removed system tag {systemtag} from {file}" : "{actor} вилучив системну мітку {systemtag} із {file}",
     "%s (restricted)" : "%s(обмежено)",
     "%s (invisible)" : "%s (невидимий)",
-    "<strong>System tags</strong> for a file have been modified" : "<strong>системні мітки</strong>для файлу було змінено",
+    "<strong>System tags</strong> for a file have been modified" : "<strong>Системні мітки</strong> для файлу було змінено",
     "Tags" : "Мітки",
     "All tagged %s …" : "Усі позначено мітками %s …",
     "tagged %s" : "позначено міткою %s",
