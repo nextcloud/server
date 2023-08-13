@@ -469,6 +469,7 @@
     "Show to logged in users only" : "أعرُض على المستخدمين الداخلين",
     "Hide" : "إخفاء",
     "Download and enable" : "تنزيل وتمكين",
+    "Allow untested app" : "إسمَح للتطبيقات غير المُجازة untested app",
     "The app will be downloaded from the App Store" : "سيتم تنزيل التطبيق من متجر التطبيقات ",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "لم يتم التعرّف على هذا التطبيق باعتباره متوافقاً مع إصدار نكست كلاود خاصّتك. إذا تابعت، فسيظل بإمكانك تنصيب التطبيق. ولكن يجب ملاحظة أن التطبيق قد لا يعمل بالشكل المتوقع.",
     "Never" : "أبدا",

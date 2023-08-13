@@ -469,6 +469,7 @@
     "Show to logged in users only" : "Nur angemeldeten Benutzern anzeigen",
     "Hide" : "Ausblenden",
     "Download and enable" : "Herunterladen und aktivieren",
+    "Allow untested app" : "Ungetestete App zulassen",
     "The app will be downloaded from the App Store" : "Die App wird aus dem App-Store heruntergeladen",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Diese App ist als nicht-kompatibel mit Ihrer Nextcloud-Version markiert. Wenn Sie fortfahren, so können Sie die App installieren. Bitte beachten Sie, dass die App nicht wie erwartet funktionieren könnte.",
     "Never" : "Niemals",

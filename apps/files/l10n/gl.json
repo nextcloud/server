@@ -158,7 +158,7 @@
     "Accept" : "Aceptar",
     "Reject" : "Rexeitar",
     "Incoming ownership transfer from {user}" : "Transferencia da propiedade entrante de {user}",
-    "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Quere aceptar {path}?\n\nNota: ao proceso de transferencia após aceptar pode levarlle ata 1 hora.",
+    "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Quere aceptar {path}?\n\nNota: Ao proceso de transferencia após aceptar pode levarlle ata 1 hora.",
     "Ownership transfer failed" : "Produciuse un fallo na transferencia da propiedade",
     "Your ownership transfer of {path} to {user} failed." : "Produciuse un fallo na súa transferencia da propiedade de {path} cara a {user}.",
     "The ownership transfer of {path} from {user} failed." : "Produciuse un fallo na transferencia da propiedade de {path} cara a {user}.",
