@@ -79,7 +79,7 @@ OC.L10N.register(
     "Custom background" : "Користувацьке тло",
     "Default background" : "Типове тло",
     "Change color" : "Змінити колір",
-    "No background" : "Без фону",
+    "No background" : "Без тла",
     "Select a background from your files" : "Виберіть зображення тла з ваших файлів",
     "Theme selection is enforced" : "Вибір теми виконується примусово",
     "Select a custom color" : "Виберіть власний колір",
@@ -100,7 +100,7 @@ OC.L10N.register(
     "Insert from {productName}" : "Вставка з {productName}",
     "Open documentation" : "Відкрити документацію",
     "https://…" : "https://…",
-    "Upload new login background" : "Завантажити новий фон для сторінки входу",
+    "Upload new login background" : "Завантажити нове зображення тла для сторінки входу",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "На додаток до встановлення оформлення вашої хмари користувачі також можуть змінювати тло та кольорову гаму. Тут ви можете встановити оформлення однаковим для всіх користувачів.",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Встановіть розширення Imagemagick PHP з підтримкою SVG-зображень, щоб автоматично генерувати іконки сайту на основі завантаженого логотипу та кольору."
 },
