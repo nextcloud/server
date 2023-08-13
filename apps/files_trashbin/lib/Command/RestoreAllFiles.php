@@ -39,6 +39,12 @@ class RestoreAllFiles extends Base {
 	private const SCOPE_USER = 1;
 	private const SCOPE_GROUPFOLDERS = 2;
 
+	private static $SCOPE_MAP = [
+		'user' => self::SCOPE_USER,
+		'groupfolders' => self::SCOPE_GROUPFOLDERS,
+		'all' => self::SCOPE_ALL
+	];
+
 	/** @var IUserManager */
 	protected $userManager;
 
@@ -243,16 +249,11 @@ class RestoreAllFiles extends Base {
 	 * @return int
 	 */
 	protected function parseScope(string $scope): int {
-		switch ($scope) {
-			case 'user':
-				return self::SCOPE_USER;
-			case 'groupfolders':
-				return self::SCOPE_GROUPFOLDERS;
-			case 'all':
-				return self::SCOPE_ALL;
-			default:
-				throw new InvalidOptionException("Invalid scope '$scope'");
+		if (isset(self::$SCOPE_MAP[$scope])) {
+			return self::$SCOPE_MAP[$scope];
 		}
+
+		throw new InvalidOptionException("Invalid scope '$scope'");
 	}
 
 	/**
