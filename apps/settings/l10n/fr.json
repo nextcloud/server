@@ -488,7 +488,7 @@
     "Save" : "Enregistrer",
     "Test and verify email settings" : "Tester les paramètres de messagerie",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Il est important pour la sécurité et la performance de votre instance que celle-ci soit correctement configurée. Afin de vous aider, votre instance Nextcloud effectue des vérifications automatiques. Pour de plus amples informations, veuillez consulter la documentation liée.",
-    "All checks passed." : "Tous les contrôles ont été réussis.",
+    "All checks passed." : "Tous les contrôles ont été effectués avec succès.",
     "There are some errors regarding your setup." : "Il y a quelques erreurs concernant votre configuration.",
     "There are some warnings regarding your setup." : "Il y a quelques avertissements concernant votre configuration.",
     "Checking for system and security issues." : "Vérification des problèmes de système et de sécurité.",

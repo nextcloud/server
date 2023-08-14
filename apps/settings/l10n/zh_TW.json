@@ -469,6 +469,7 @@
     "Show to logged in users only" : "僅對已登入的使用者顯示",
     "Hide" : "隱藏",
     "Download and enable" : "下載並啟用",
+    "Allow untested app" : "允許未經測試的義用程式",
     "The app will be downloaded from the App Store" : "將會從應用程式商店下載這個應用程式",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "此應用程式未被標記為與您的 Nextcloud 版本相容。如果繼續，您仍可安裝應用程式。但請注意應用程式可能無法正常運作。",
     "Never" : "從不",
