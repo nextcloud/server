@@ -55,6 +55,7 @@ return array(
     'OCP\\AppFramework\\Http\\DownloadResponse' => $baseDir . '/lib/public/AppFramework/Http/DownloadResponse.php',
     'OCP\\AppFramework\\Http\\EmptyContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/EmptyContentSecurityPolicy.php',
     'OCP\\AppFramework\\Http\\EmptyFeaturePolicy' => $baseDir . '/lib/public/AppFramework/Http/EmptyFeaturePolicy.php',
+    'OCP\\AppFramework\\Http\\Events\\BeforeLoginTemplateRenderedEvent' => $baseDir . '/lib/public/AppFramework/Http/Events/BeforeLoginTemplateRenderedEvent.php',
     'OCP\\AppFramework\\Http\\Events\\BeforeTemplateRenderedEvent' => $baseDir . '/lib/public/AppFramework/Http/Events/BeforeTemplateRenderedEvent.php',
     'OCP\\AppFramework\\Http\\FeaturePolicy' => $baseDir . '/lib/public/AppFramework/Http/FeaturePolicy.php',
     'OCP\\AppFramework\\Http\\FileDisplayResponse' => $baseDir . '/lib/public/AppFramework/Http/FileDisplayResponse.php',

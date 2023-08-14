@@ -27,6 +27,8 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Middleware;
 
+use OC\Core\Controller\LoginController;
+use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -54,23 +56,27 @@ class AdditionalScriptsMiddleware extends Middleware {
 
 	public function afterController($controller, $methodName, Response $response): Response {
 		if ($response instanceof TemplateResponse) {
-			if (!$controller instanceof PublicShareController) {
-				/*
-				 * The old event was not dispatched on the public share controller as there was
-				 * OCA\Files_Sharing::loadAdditionalScripts for that. This is kept for compatibility reasons
-				 * only for the old event as this is now also included in BeforeTemplateRenderedEvent
-				 */
-				$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS, new GenericEvent());
-			}
-
-			if (!($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn()) {
-				$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN, new GenericEvent());
-				$isLoggedIn = true;
+			if ($controller instanceof LoginController) {
+				$this->dispatcher->dispatchTyped(new BeforeLoginTemplateRenderedEvent($response));
 			} else {
-				$isLoggedIn = false;
-			}
+				if (!$controller instanceof PublicShareController) {
+					/*
+					 * The old event was not dispatched on the public share controller as there was
+					 * OCA\Files_Sharing::loadAdditionalScripts for that. This is kept for compatibility reasons
+					 * only for the old event as this is now also included in BeforeTemplateRenderedEvent
+					 */
+					$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS, new GenericEvent());
+				}
 
-			$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn, $response));
+				if (!($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn()) {
+					$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN, new GenericEvent());
+					$isLoggedIn = true;
+				} else {
+					$isLoggedIn = false;
+				}
+
+				$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn, $response));
+			}
 		}
 
 		return $response;
