@@ -25,12 +25,18 @@ declare(strict_types=1);
  */
 namespace OC\Core\Listener;
 
+use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IConfig;
+use OCP\Util;
 
 class BeforeTemplateRenderedListener implements IEventListener {
+	public function __construct(private IConfig $config) {
+	}
+
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeTemplateRenderedEvent)) {
 			return;
@@ -38,7 +44,29 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 		if ($event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_USER) {
 			// Making sure to inject just after core
-			\OCP\Util::addScript('core', 'unsupported-browser-redirect');
+			Util::addScript('core', 'unsupported-browser-redirect');
+		}
+
+		\OC_Util::addStyle('server', null, true);
+
+		if ($event instanceof BeforeTemplateRenderedEvent) {
+
+			// include common nextcloud webpack bundle
+			Util::addScript('core', 'common');
+			Util::addScript('core', 'main');
+			Util::addTranslations('core');
+
+			if ($event->getResponse()->getRenderAs() !== TemplateResponse::RENDER_AS_ERROR) {
+				Util::addScript('core', 'files_fileinfo');
+				Util::addScript('core', 'files_client');
+				Util::addScript('core', 'merged-template-prepend');
+
+
+				// If installed and background job is set to ajax, add dedicated script
+				if ($this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+					Util::addScript('core', 'backgroundjobs');
+				}
+			}
 		}
 	}
 }
