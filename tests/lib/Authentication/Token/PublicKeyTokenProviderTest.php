@@ -38,6 +38,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Security\IHasher;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -47,6 +48,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $tokenProvider;
 	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
+	/** @var IHasher|\PHPUnit\Framework\MockObject\MockObject */
+	private $hasher;
 	/** @var ICrypto */
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */

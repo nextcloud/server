@@ -158,6 +158,7 @@ class ViewControllerTest extends TestCase {
 			->willReturnMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
+				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
 				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],

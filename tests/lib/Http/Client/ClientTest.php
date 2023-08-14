@@ -36,6 +36,7 @@ class ClientTest extends \Test\TestCase {
 	private $config;
 	/** @var IRemoteHostValidator|MockObject */
 	private IRemoteHostValidator $remoteHostValidator;
+	private LoggerInterface $logger;
 	/** @var array */
 	private $defaultRequestOptions;
 
