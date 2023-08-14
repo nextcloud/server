@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Flytta",
     "Copy" : "Kopiera",
     "Choose target folder" : "Välj målmapp",
+    "Set reminder" : "Ställ in påminnelse",
     "Edit locally" : "Redigera lokalt",
     "Open" : "Öppna",
     "Delete file" : "Ta bort fil",

@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "Будь ласка, зверніться до адміністратора, щоб перезавантажити сервер.",
     "The required %s config variable is not configured in the config.php file." : "Необхідна змінна конфігурації %s не налаштована у файлі config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Будь ласка, попросіть свого адміністратора сервера перевірити конфігурацію Nextcloud.",
-    "PostgreSQL >= 9 required." : "Необхідно PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Оновіть версію бази даних.",
     "Your data directory is readable by other users." : "Ваш каталог даних доступний для читання іншим користувачам.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Змініть права доступу на 0770, щоб інші користувачі не могли отримати список файлів цього каталогу.",
     "Your data directory must be an absolute path." : "Ваш каталог даних має бути абсолютним шляхом.",
@@ -274,6 +272,8 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Досягнуто обмеження на кількість користувачів, користувача не було створено. Перевірте сповіщення для докладної інформації.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Тільки такі символи допускаються в імені користувача: \"a-z\", \"A-Z\", \"0-9\", і \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Необхідно libxml2 версії принаймні 2.7.0. На разі встановлена %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Що виправити це оновіть версію libxml2 та перезапустіть веб-сервер."
+    "To fix this issue update your libxml2 version and restart your web server." : "Що виправити це оновіть версію libxml2 та перезапустіть веб-сервер.",
+    "PostgreSQL >= 9 required." : "Необхідно PostgreSQL >= 9.",
+    "Please upgrade your database version." : "Оновіть версію бази даних."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

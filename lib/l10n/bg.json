@@ -241,8 +241,6 @@
     "Please ask your server administrator to restart the web server." : "Моля, поискай от своя администратор да рестартира уеб сървъра.",
     "The required %s config variable is not configured in the config.php file." : "Необходимата %s конфигурационна променлива не е конфигурирана във файла config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Моля, помолете администратора на вашия сървър да провери конфигурацията на Nextcloud.",
-    "PostgreSQL >= 9 required." : "Нужно е PostgreSQL >= 9",
-    "Please upgrade your database version." : "Моля, надстройте версията на вашата база данни.",
     "Your data directory is readable by other users." : "Вашата директория с данни може да се чете от други потребители.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
     "Your data directory must be an absolute path." : "Вашата директория с данни трябва да е абсолютен път.",
@@ -265,6 +263,8 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Потребителските имена може да съдържат следните знаци: \"a-z\", \"A-Z\", \"0-9\" и \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Нужно е поне libxml2 2.7.0. В момента са инсталирани %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "За да отстраните този проблем, актуализирайте версията на libxml2 и рестартирайте вашия уеб сървър."
+    "To fix this issue update your libxml2 version and restart your web server." : "За да отстраните този проблем, актуализирайте версията на libxml2 и рестартирайте вашия уеб сървър.",
+    "PostgreSQL >= 9 required." : "Нужно е PostgreSQL >= 9",
+    "Please upgrade your database version." : "Моля, надстройте версията на вашата база данни."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
