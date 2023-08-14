@@ -465,7 +465,7 @@ class FilesPlugin extends ServerPlugin {
 
 			$requestProperties = $propFind->getRequestedProperties();
 
-			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
+			if ($this->config->getSystemValueBool('enable_file_metadata', true) && $propFind->getDepth() === 1) {
 				$requestedMetaData = [];
 				foreach ($requestProperties as $requestProperty) {
 					if (isset(self::ALL_METADATA_PROPS[$requestProperty])) {
