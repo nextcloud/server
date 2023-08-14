@@ -39,7 +39,6 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Util;
 
 require_once __DIR__.'/template/functions.php';
 

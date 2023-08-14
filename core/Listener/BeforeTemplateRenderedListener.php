@@ -38,7 +38,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof BeforeTemplateRenderedEvent)) {
+		if (!($event instanceof BeforeTemplateRenderedEvent || $event instanceof BeforeLoginTemplateRenderedEvent)) {
 			return;
 		}
 
@@ -50,7 +50,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		\OC_Util::addStyle('server', null, true);
 
 		if ($event instanceof BeforeTemplateRenderedEvent) {
-
 			// include common nextcloud webpack bundle
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
