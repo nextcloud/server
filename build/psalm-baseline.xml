@@ -1242,12 +1242,6 @@
       <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
     </RedundantCondition>
   </file>
-  <file src="apps/files_trashbin/lib/Command/RestoreAllFiles.php">
-    <RedundantCondition>
-      <code><![CDATA[$scope === self::SCOPE_GROUPFOLDERS && $trashItemClass !== 'OCA\GroupFolders\Trash\GroupTrashItem']]></code>
-      <code><![CDATA[$trashItemClass !== 'OCA\GroupFolders\Trash\GroupTrashItem']]></code>
-    </RedundantCondition>
-  </file>
   <file src="apps/files_trashbin/lib/Listeners/LoadAdditionalScripts.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
