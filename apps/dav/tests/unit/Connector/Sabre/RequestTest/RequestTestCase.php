@@ -31,7 +31,9 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IRequestId;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
@@ -56,8 +58,6 @@ abstract class RequestTestCase extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-
-		unset($_SERVER['HTTP_OC_CHUNKED']);
 
 		$this->serverFactory = new ServerFactory(
 			\OC::$server->getConfig(),
@@ -105,20 +105,25 @@ abstract class RequestTestCase extends TestCase {
 
 		// since sabre catches all exceptions we need to save them and throw them from outside the sabre server
 
-		$originalServer = $_SERVER;
-
+		$serverParams = [];
 		if (is_array($headers)) {
 			foreach ($headers as $header => $value) {
-				$_SERVER['HTTP_' . strtoupper(str_replace('-', '_', $header))] = $value;
+				$serverParams['HTTP_' . strtoupper(str_replace('-', '_', $header))] = $value;
 			}
 		}
+		$ncRequest = new \OC\AppFramework\Http\Request([
+			'server' => $serverParams
+		], $this->createMock(IRequestId::class), $this->createMock(IConfig::class), null);
+
+		$this->overwriteService(IRequest::class, $ncRequest);
 
 		$result = $this->makeRequest($server, $request);
+
+		$this->restoreService(IRequest::class);
 
 		foreach ($exceptionPlugin->getExceptions() as $exception) {
 			throw $exception;
 		}
-		$_SERVER = $originalServer;
 		return $result;
 	}
 
