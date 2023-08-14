@@ -399,22 +399,24 @@ class Trashbin {
 	 * @param int $timestamp when the file was deleted
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
-			$user = OC_User::getUser();
-			$rootView = new View('/');
+		if (!\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions') || empty($ownerPath)) {
+			return null;
+		}
 
-			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
+		$user = OC_User::getUser();
+		$rootView = new View('/');
+
+		if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
+			if ($owner !== $user) {
+				self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . static::getTrashFilename(basename($ownerPath), $timestamp), $rootView);
+			}
+			self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . static::getTrashFilename($filename, $timestamp));
+		} elseif ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
+			foreach ($versions as $v) {
 				if ($owner !== $user) {
-					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . static::getTrashFilename(basename($ownerPath), $timestamp), $rootView);
+					self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . static::getTrashFilename($v['name'] . '.v' . $v['version'], $timestamp));
 				}
-				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . static::getTrashFilename($filename, $timestamp));
-			} elseif ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
-				foreach ($versions as $v) {
-					if ($owner !== $user) {
-						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . static::getTrashFilename($v['name'] . '.v' . $v['version'], $timestamp));
-					}
-					self::move($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v['version'], $timestamp));
-				}
+				self::move($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v['version'], $timestamp));
 			}
 		}
 	}
