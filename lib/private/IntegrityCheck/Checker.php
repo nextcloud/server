@@ -525,6 +525,7 @@ class Checker {
 				'EXCEPTION' => [
 					'class' => \get_class($e),
 					'message' => $e->getMessage(),
+					'trace' => $e->getTraceAsString(),
 				],
 			];
 		}
