@@ -59,10 +59,7 @@ class Node implements INode {
 
 	protected ?FileInfo $fileInfo;
 
-	/**
-	 * @var Node|null
-	 */
-	protected $parent;
+	protected ?INode $parent;
 
 	private bool $infoHasSubMountsIncluded;
 
@@ -300,13 +297,13 @@ class Node implements INode {
 				return $this->root;
 			}
 
+			// gather the metadata we already know about our parent
 			$parentData = [
 				'path' => $newPath,
+				'fileid' => $this->getFileInfo()->getParentId(),
 			];
-			if ($this->fileInfo instanceof \OC\Files\FileInfo && isset($this->fileInfo['parent'])) {
-				$parentData['fileid'] = $this->fileInfo['parent'];
-			}
 
+			// and create lazy folder with it instead of always querying
 			$this->parent = new LazyFolder(function () use ($newPath) {
 				return $this->root->get($newPath);
 			}, $parentData);
@@ -485,5 +482,9 @@ class Node implements INode {
 
 	public function getUploadTime(): int {
 		return $this->getFileInfo()->getUploadTime();
+	}
+
+	public function getParentId(): int {
+		return $this->fileInfo->getParentId();
 	}
 }

@@ -186,4 +186,8 @@ class TrashItem implements ITrashItem {
 	public function getUploadTime(): int {
 		return $this->fileInfo->getUploadTime();
 	}
+
+	public function getParentId(): int {
+		return $this->fileInfo->getParentId();
+	}
 }

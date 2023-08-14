@@ -551,4 +551,11 @@ class LazyFolder implements Folder {
 	public function getRelativePath($path) {
 		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
+
+	public function getParentId(): int {
+		if (isset($this->data['parent'])) {
+			return $this->data['parent'];
+		}
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
 }
