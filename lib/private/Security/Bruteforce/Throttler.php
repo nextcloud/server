@@ -280,7 +280,9 @@ class Throttler implements IThrottler {
 	 */
 	public function sleepDelay(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
-		usleep($delay * 1000);
+		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.testing')) {
+			usleep($delay * 1000);
+		}
 		return $delay;
 	}
 
@@ -304,7 +306,9 @@ class Throttler implements IThrottler {
 				'delay' => $delay,
 			]);
 		}
-		usleep($delay * 1000);
+		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.testing')) {
+			usleep($delay * 1000);
+		}
 		return $delay;
 	}
 }
