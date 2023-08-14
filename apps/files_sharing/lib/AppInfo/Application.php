@@ -123,11 +123,6 @@ class Application extends App implements IBootstrap {
 
 		Share::registerBackend('file', File::class);
 		Share::registerBackend('folder', Folder::class, 'file');
-
-		/**
-		 * Always add main sharing script
-		 */
-		Util::addScript(self::APP_ID, 'main');
 	}
 
 
@@ -146,6 +141,12 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function () {
 			\OCP\Util::addScript('files_sharing', 'collaboration');
+		});
+		$dispatcher->addListener(\OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent::class, function () {
+			/**
+			 * Always add main sharing script
+			 */
+			Util::addScript(self::APP_ID, 'main');
 		});
 
 		// notifications api to accept incoming user shares
