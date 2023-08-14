@@ -66,7 +66,7 @@ use Psr\Log\LoggerInterface;
 
 class Trashbin {
 	// unit: percentage; 50% of available disk space/quota
-	public const DEFAULTMAXSIZE = 50;
+	public const DEFAULT_MAX_SIZE = 50;
 
 	/**
 	 * Ensure we don't need to scan the file during the move to trash
@@ -801,7 +801,7 @@ class Trashbin {
 			}
 			$free = $quota - $userFolder->getSize(false); // remaining free space for user
 			if ($free > 0) {
-				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
+				$availableSpace = ($free * self::DEFAULT_MAX_SIZE / 100) - $trashbinSize; // how much space can be used for versions
 			} else {
 				$availableSpace = $free - $trashbinSize;
 			}
