@@ -46,6 +46,7 @@ jobs:
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu
           tools: phpunit:9
           coverage: none
+          ini-file: development
           ini-values:
             apc.enabled=on,
             apc.enable_cli=on
