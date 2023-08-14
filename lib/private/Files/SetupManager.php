@@ -34,9 +34,11 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
+use OC\Share\Share;
 use OC_App;
 use OC_Hook;
 use OC_Util;
+use OCA\Files_Sharing\ISharedStorage;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -60,6 +62,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 class SetupManager {
@@ -139,8 +142,17 @@ class SetupManager {
 			return $storage;
 		});
 
-		Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if (!$mount->getOption('enable_sharing', true)) {
+		Filesystem::addStorageWrapper('sharing_mask', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
+			$reSharingEnabled = Share::isResharingAllowed();
+			$sharingEnabledForMount = $mount->getOption('enable_sharing', true);
+			/** @var IUserSession $userSession */
+			$userSession = \OC::$server->get(IUserSession::class);
+			$user = $userSession->getUser();
+			/** @var IManager $shareManager */
+			$shareManager = \OC::$server->get(IManager::class);
+			$sharingEnabledForUser = $user ? !$shareManager->sharingDisabledForUser($user->getUID()) : true;
+			$isShared = $storage->instanceOfStorage(ISharedStorage::class);
+			if (!$sharingEnabledForMount || !$sharingEnabledForUser || (!$reSharingEnabled && $isShared)) {
 				return new PermissionsMask([
 					'storage' => $storage,
 					'mask' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
