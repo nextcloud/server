@@ -19,7 +19,6 @@
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
-use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
@@ -39,7 +38,7 @@ class RestoreAllFiles extends Base {
 	private const SCOPE_USER = 1;
 	private const SCOPE_GROUPFOLDERS = 2;
 
-	private static $SCOPE_MAP = [
+	private static array $SCOPE_MAP = [
 		'user' => self::SCOPE_USER,
 		'groupfolders' => self::SCOPE_GROUPFOLDERS,
 		'all' => self::SCOPE_ALL
@@ -54,8 +53,7 @@ class RestoreAllFiles extends Base {
 	/** @var \OCP\IDBConnection */
 	protected $dbConnection;
 
-	/** @var ITrashManager */
-	protected $trashManager;
+	protected ITrashManager $trashManager;
 
 	/** @var IL10N */
 	protected $l10n;
@@ -100,14 +98,14 @@ class RestoreAllFiles extends Base {
 				'user'
 			)
 			->addOption(
-				'restore-from',
-				'f',
+				'since',
+				null,
 				InputOption::VALUE_OPTIONAL,
 				'Only restore files deleted after the given timestamp'
 			)
 			->addOption(
-				'restore-to',
-				't',
+				'until',
+				null,
 				InputOption::VALUE_OPTIONAL,
 				'Only restore files deleted before the given timestamp'
 			)
@@ -122,16 +120,16 @@ class RestoreAllFiles extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var string[] $users */
 		$users = $input->getArgument('user_id');
-		if ((!empty($users)) and ($input->getOption('all-users'))) {
+		if ((!empty($users)) && ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		}
 
-		[$scope, $restoreFrom, $restoreTo, $dryRun] = $this->parseArgs($input);
+		[$scope, $since, $until, $dryRun] = $this->parseArgs($input);
 
 		if (!empty($users)) {
 			foreach ($users as $user) {
 				$output->writeln("Restoring deleted files for user <info>$user</info>");
-				$this->restoreDeletedFiles($user, $scope, $restoreFrom, $restoreTo, $dryRun, $output);
+				$this->restoreDeletedFiles($user, $scope, $since, $until, $dryRun, $output);
 			}
 		} elseif ($input->getOption('all-users')) {
 			$output->writeln('Restoring deleted files for all users');
@@ -147,7 +145,7 @@ class RestoreAllFiles extends Base {
 					$users = $backend->getUsers('', $limit, $offset);
 					foreach ($users as $user) {
 						$output->writeln("<info>$user</info>");
-						$this->restoreDeletedFiles($user, $scope, $restoreFrom, $restoreTo, $dryRun, $output);
+						$this->restoreDeletedFiles($user, $scope, $since, $until, $dryRun, $output);
 					}
 					$offset += $limit;
 				} while (count($users) >= $limit);
@@ -159,16 +157,9 @@ class RestoreAllFiles extends Base {
 	}
 
 	/**
-	 * Restore deleted files for the given user
-	 *
-	 * @param string $uid
-	 * @param int $scope
-	 * @param int|null $restoreFrom
-	 * @param int|null $restoreTo
-	 * @param bool $dryRun
-	 * @param OutputInterface $output
+	 * Restore deleted files for the given user according to the given filters
 	 */
-	protected function restoreDeletedFiles(string $uid, int $scope, ?int $restoreFrom, ?int $restoreTo, bool $dryRun, OutputInterface $output): void {
+	protected function restoreDeletedFiles(string $uid, int $scope, ?int $since, ?int $until, bool $dryRun, OutputInterface $output): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 		\OC_User::setUserId($uid);
@@ -183,13 +174,13 @@ class RestoreAllFiles extends Base {
 		$userTrashItems = $this->filterTrashItems(
 			$this->trashManager->listTrashRoot($user),
 			$scope,
-			$restoreFrom,
-			$restoreTo,
+			$since,
+			$until,
 			$output);
 
 		$trashCount = count($userTrashItems);
 		if ($trashCount == 0) {
-			$output->writeln("User has no deleted files in the trashbin");
+			$output->writeln("User has no deleted files in the trashbin matching the given filters");
 			return;
 		}
 		$prepMsg = $dryRun ? 'Would restore' : 'Preparing to restore';
@@ -213,13 +204,12 @@ class RestoreAllFiles extends Base {
 			try {
 				$trashItem->getTrashBackend()->restoreItem($trashItem);
 			} catch (\Throwable $e) {
-				$output->writeln(" <error>failed</error>");
-				$output->writeln("<error>" . $e->getMessage() . "</error>");
-				$output->writeln("<error>" . $e->getTraceAsString() . "</error>", OutputInterface::VERBOSITY_VERY_VERBOSE);
+				$output->writeln(" <error>Failed: " . $e->getMessage() . "</error>");
+				$output->writeln(" <error>" . $e->getTraceAsString() . "</error>", OutputInterface::VERBOSITY_VERY_VERBOSE);
 				continue;
 			}
 
-			$count = $count + 1;
+			$count++;
 			$output->writeln(" <info>success</info>");
 		}
 
@@ -229,25 +219,21 @@ class RestoreAllFiles extends Base {
 	}
 
 	protected function parseArgs(InputInterface $input): array {
-		$restoreFrom = $this->parseTimestamp($input->getOption('restore-from'));
-		$restoreTo = $this->parseTimestamp($input->getOption('restore-to'));
+		$since = $this->parseTimestamp($input->getOption('since'));
+		$until = $this->parseTimestamp($input->getOption('until'));
 
-		if ($restoreFrom !== null and $restoreTo !== null and $restoreFrom > $restoreTo) {
-			throw new InvalidOptionException('restore-from must be before restore-to');
+		if ($since !== null && $until !== null && $since > $until) {
+			throw new InvalidOptionException('since must be before until');
 		}
 
 		return [
 			$this->parseScope($input->getOption('scope')),
-			$restoreFrom,
-			$restoreTo,
+			$since,
+			$until,
 			$input->getOption('dry-run')
 		];
 	}
 
-	/**
-	 * @param string $scope
-	 * @return int
-	 */
 	protected function parseScope(string $scope): int {
 		if (isset(self::$SCOPE_MAP[$scope])) {
 			return self::$SCOPE_MAP[$scope];
@@ -256,10 +242,6 @@ class RestoreAllFiles extends Base {
 		throw new InvalidOptionException("Invalid scope '$scope'");
 	}
 
-	/**
-	 * @param string|null $timestamp
-	 * @return int|null
-	 */
 	protected function parseTimestamp(?string $timestamp): ?int {
 		if ($timestamp === null) {
 			return null;
@@ -271,15 +253,7 @@ class RestoreAllFiles extends Base {
 		return $timestamp;
 	}
 
-	/**
-	 * @param ITrashItem[] $trashItems
-	 * @param int $scope
-	 * @param int|null $restoreFrom
-	 * @param int|null $restoreTo
-	 * @param OutputInterface $output
-	 * @return ITrashItem[]
-	 */
-	protected function filterTrashItems(array $trashItems, int $scope, ?int $restoreFrom, ?int $restoreTo, OutputInterface $output): array {
+	protected function filterTrashItems(array $trashItems, int $scope, ?int $since, ?int $until, OutputInterface $output): array {
 		$filteredTrashItems = [];
 		foreach ($trashItems as $trashItem) {
 			$trashItemClass = get_class($trashItem);
@@ -290,20 +264,24 @@ class RestoreAllFiles extends Base {
 				continue;
 			}
 
-			// Check scope for groupfolders by string because the groupfolders app might not be installed
+			/**
+			 * Check scope for groupfolders by string because the groupfolders app might not be installed.
+			 * That's why PSALM doesn't know the class GroupTrashItem.
+			 * @psalm-suppress RedundantCondition
+			 */
 			if ($scope === self::SCOPE_GROUPFOLDERS && $trashItemClass !== 'OCA\GroupFolders\Trash\GroupTrashItem') {
 				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a groupfolders trash item", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
 			// Check left timestamp boundary
-			if ($restoreFrom !== null && $trashItem->getDeletedTime() <= $restoreFrom) {
+			if ($since !== null && $trashItem->getDeletedTime() <= $since) {
 				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted before the restore-from timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
 			// Check right timestamp boundary
-			if ($restoreTo !== null && $trashItem->getDeletedTime() >= $restoreTo) {
+			if ($until !== null && $trashItem->getDeletedTime() >= $until) {
 				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted after the restore-to timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
