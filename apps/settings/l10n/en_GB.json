@@ -469,6 +469,7 @@
     "Show to logged in users only" : "Show to logged in users only",
     "Hide" : "Hide",
     "Download and enable" : "Download and enable",
+    "Allow untested app" : "Allow untested app",
     "The app will be downloaded from the App Store" : "The app will be downloaded from the App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.",
     "Never" : "Never",

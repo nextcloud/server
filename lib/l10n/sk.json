@@ -238,8 +238,6 @@
     "Please ask your server administrator to restart the web server." : "Prosím, požiadajte administrátora vášho servera o reštartovanie webového servera.",
     "The required %s config variable is not configured in the config.php file." : "Požadovaná konfiguračná premenná %s nie je nakonfigurovaná v súbore config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Požiadajte správcu servera, aby skontroloval konfiguráciu Nextcloud.",
-    "PostgreSQL >= 9 required." : "Vyžadované PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Prosím, aktualizujte verziu svojej databázy.",
     "Your data directory is readable by other users." : "Váš priečinok s dátami je prístupný na čítanie ostatným užívateľom.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Prosím, zmeňte oprávnenia na 0770, aby tento priečinok nemohli ostatní používatelia otvoriť.",
     "Your data directory must be an absolute path." : "Priečinok s dátami musí byť zadaný ako absolútna cesta.",
@@ -262,6 +260,8 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Bol dosiahnutý limit používateľov a používateľ nebol vytvorený. Pozrite sa do upozornení pre viac informácií.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V mene používateľa je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vyžadovaná verzia libxml2 je 2.7.0 a vyššia. Momentálne je nainštalovaná verzia %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Pre vyriešenie tohto problému aktualizujte prosím verziu libxml2 a reštartujte webový server."
+    "To fix this issue update your libxml2 version and restart your web server." : "Pre vyriešenie tohto problému aktualizujte prosím verziu libxml2 a reštartujte webový server.",
+    "PostgreSQL >= 9 required." : "Vyžadované PostgreSQL >= 9.",
+    "Please upgrade your database version." : "Prosím, aktualizujte verziu svojej databázy."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
