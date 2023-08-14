@@ -217,6 +217,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	private IConfig $config;
 	private bool $legacyEndpoint;
 	private string $dbObjectPropertiesTable = 'calendarobjects_props';
+	private array $cachedObjects = [];
 
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
@@ -1104,6 +1105,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array|null
 	 */
 	public function getCalendarObject($calendarId, $objectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+		$key = $calendarId . '::' . $objectUri . '::' . $calendarType;
+		if (isset($this->cachedObjects[$key])) {
+			return $this->cachedObjects[$key];
+		}
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
 			->from('calendarobjects')
@@ -1118,6 +1123,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 
+		$object = $this->rowToCalendarObject($row);
+		$this->cachedObjects[$key] = $object;
+		return $object;
+	}
+
+	private function rowToCalendarObject(array $row): array {
 		return [
 			'id' => $row['id'],
 			'uri' => $row['uri'],
@@ -1204,6 +1215,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return string
 	 */
 	public function createCalendarObject($calendarId, $objectUri, $calendarData, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+		$this->cachedObjects = [];
 		$extraData = $this->getDenormalizedData($calendarData);
 
 		// Try to detect duplicates
@@ -1296,6 +1308,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return string
 	 */
 	public function updateCalendarObject($calendarId, $objectUri, $calendarData, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+		$this->cachedObjects = [];
 		$extraData = $this->getDenormalizedData($calendarData);
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
@@ -1346,6 +1359,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @throws Exception
 	 */
 	public function moveCalendarObject(int $sourceCalendarId, int $targetCalendarId, int $objectId, string $oldPrincipalUri, string $newPrincipalUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): bool {
+		$this->cachedObjects = [];
 		$object = $this->getCalendarObjectById($oldPrincipalUri, $objectId);
 		if (empty($object)) {
 			return false;
@@ -1391,6 +1405,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $classification
 	 */
 	public function setClassification($calendarObjectId, $classification) {
+		$this->cachedObjects = [];
 		if (!in_array($classification, [
 			self::CLASSIFICATION_PUBLIC, self::CLASSIFICATION_PRIVATE, self::CLASSIFICATION_CONFIDENTIAL
 		])) {
@@ -1415,6 +1430,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function deleteCalendarObject($calendarId, $objectUri, $calendarType = self::CALENDAR_TYPE_CALENDAR, bool $forceDeletePermanently = false) {
+		$this->cachedObjects = [];
 		$data = $this->getCalendarObject($calendarId, $objectUri, $calendarType);
 
 		if ($data === null) {
@@ -1494,6 +1510,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @throws Forbidden
 	 */
 	public function restoreCalendarObject(array $objectData): void {
+		$this->cachedObjects = [];
 		$id = (int) $objectData['id'];
 		$restoreUri = str_replace("-deleted.ics", ".ics", $objectData['uri']);
 		$targetObject = $this->getCalendarObject(
@@ -1619,12 +1636,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}
 			}
 		}
-		$columns = ['uri'];
-		if ($requirePostFilter) {
-			$columns = ['uri', 'calendardata'];
-		}
 		$query = $this->db->getQueryBuilder();
-		$query->select($columns)
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)))
@@ -1645,6 +1658,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$result = [];
 		while ($row = $stmt->fetch()) {
+			// if we leave it as a blob we can't read it both from the post filter and the rowToCalendarObject
+			if (isset($row['calendardata'])) {
+				$row['calendardata'] = $this->readBlob($row['calendardata']);
+			}
+
 			if ($requirePostFilter) {
 				// validateFilterForObject will parse the calendar data
 				// catch parsing errors
@@ -1669,6 +1687,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}
 			}
 			$result[] = $row['uri'];
+			$key = $calendarId . '::' . $row['uri'] . '::' . $calendarType;
+			$this->cachedObjects[$key] = $this->rowToCalendarObject($row);
 		}
 
 		return $result;
@@ -2619,6 +2639,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function deleteSchedulingObject($principalUri, $objectUri) {
+		$this->cachedObjects = [];
 		$query = $this->db->getQueryBuilder();
 		$query->delete('schedulingobjects')
 				->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
@@ -2635,6 +2656,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function createSchedulingObject($principalUri, $objectUri, $objectData) {
+		$this->cachedObjects = [];
 		$query = $this->db->getQueryBuilder();
 		$query->insert('schedulingobjects')
 			->values([
@@ -2658,6 +2680,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	protected function addChange($calendarId, $objectUri, $operation, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+		$this->cachedObjects = [];
 		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
 
 		$query = $this->db->getQueryBuilder();
@@ -2824,7 +2847,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->calendarSharingBackend->getShares($resourceId);
 	}
 
-	public function preloadShares(array $resourceIds) {
+	public function preloadShares(array $resourceIds): void {
 		$this->calendarSharingBackend->preloadShares($resourceIds);
 	}
 
@@ -2897,6 +2920,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $calendarType
 	 */
 	public function updateProperties($calendarId, $objectUri, $calendarData, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+		$this->cachedObjects = [];
 		$objectId = $this->getCalendarObjectId($calendarId, $objectUri, $calendarType);
 
 		try {
@@ -3055,6 +3079,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $objectId
 	 */
 	protected function purgeProperties($calendarId, $objectId) {
+		$this->cachedObjects = [];
 		$query = $this->db->getQueryBuilder();
 		$query->delete($this->dbObjectPropertiesTable)
 			->where($query->expr()->eq('objectid', $query->createNamedParameter($objectId)))

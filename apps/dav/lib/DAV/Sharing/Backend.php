@@ -201,13 +201,13 @@ class Backend {
 			];
 		}
 
-		$this->shareCache->set($resourceId, $shares);
+		$this->shareCache->set((string) $resourceId, $shares);
 		return $shares;
 	}
 
-	public function preloadShares(array $resourceIds) {
+	public function preloadShares(array $resourceIds): void {
 		$resourceIds = array_filter($resourceIds, function(int $resourceId) {
-			return !isset($this->shareCache[$resourceId]);
+			return !isset($this->shareCache[(string) $resourceId]);
 		});
 		if (count($resourceIds) === 0) {
 			return;
@@ -235,7 +235,7 @@ class Backend {
 		}
 
 		foreach ($resourceIds as $resourceId) {
-			$this->shareCache->set($resourceId, $sharesByResource[$resourceId]);
+			$this->shareCache->set((string) $resourceId, $sharesByResource[$resourceId]);
 		}
 	}
 
