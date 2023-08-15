@@ -642,6 +642,11 @@ class AppManagerTest extends TestCase {
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);
 
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user1', 'core', 'defaultapp')
+			->willReturn('');
+
 		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
 	}
 }

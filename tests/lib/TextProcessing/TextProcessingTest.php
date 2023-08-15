@@ -19,6 +19,7 @@ use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\TextProcessing\TaskBackgroundJob;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -90,6 +91,14 @@ class FreePromptProvider implements IProvider {
 class TextProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;
+	private array $providers;
+	private IServerContainer $serverContainer;
+	private IEventDispatcher $eventDispatcher;
+	private RegistrationContext $registrationContext;
+	private \DateTimeImmutable $currentTime;
+	private TaskMapper $taskMapper;
+	private array $tasksDb;
+	private IJobList $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
