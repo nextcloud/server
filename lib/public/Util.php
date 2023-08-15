@@ -211,7 +211,12 @@ class Util {
 		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
 
 		// Override core-common and core-main order
-		array_unshift($sortedScripts, 'core/js/common', 'core/js/main');
+		if (in_array('core/js/main', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/main');
+		}
+		if (in_array('core/js/common', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/common');
+		}
 
 		return array_unique($sortedScripts);
 	}
