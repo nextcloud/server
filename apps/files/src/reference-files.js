@@ -20,12 +20,16 @@
  */
 
 import Vue from 'vue'
+import { getRequestToken } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 
 import { registerWidget, registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Components/NcRichText.js'
 
 import FileWidget from './views/ReferenceFileWidget.vue'
 import FileReferencePickerElement from './views/FileReferencePickerElement.vue'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 Vue.mixin({
 	methods: {
