@@ -136,6 +136,7 @@ class RestoreAllFiles extends Base {
 		} else {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		}
+
 		return self::SUCCESS;
 	}
 

@@ -65,25 +65,28 @@ class ExpireTrash extends Command {
 		$users = $input->getArgument('user_id');
 		if (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Remove deleted files of   <info>$user</info>");
-					$userObject = $this->userManager->get($user);
-					$this->expireTrashForUser($userObject);
-				} else {
+				if (! $this->userManager->userExists($user)) {
 					$output->writeln("<error>Unknown user $user</error>");
 					return self::FAILURE;
 				}
+
+				$output->writeln("Remove deleted files of   <info>$user</info>");
+				$userObject = $this->userManager->get($user);
+				$this->expireTrashForUser($userObject);
 			}
-		} else {
-			$p = new ProgressBar($output);
-			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
-				$p->advance();
-				$this->expireTrashForUser($user);
-			});
-			$p->finish();
-			$output->writeln('');
+
+			return self::SUCCESS;
 		}
+
+		$p = new ProgressBar($output);
+		$p->start();
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
+			$p->advance();
+			$this->expireTrashForUser($user);
+		});
+		$p->finish();
+		$output->writeln('');
+
 		return self::SUCCESS;
 	}
 

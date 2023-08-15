@@ -65,40 +65,48 @@ class CleanUp extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
 		$verbose = $input->getOption('verbose');
+
+		if ((empty($users)) and (!$input->getOption('all-users'))) {
+			throw new InvalidOptionException('Either specify a user_id or --all-users');
+		}
+
 		if ((!empty($users)) and ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
-		} elseif (!empty($users)) {
+		}
+
+		if (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Remove deleted files of   <info>$user</info>");
-					$this->removeDeletedFiles($user, $output, $verbose);
-				} else {
+				if (!$this->userManager->userExists($user)) {
 					$output->writeln("<error>Unknown user $user</error>");
 					return self::FAILURE;
 				}
+
+				$output->writeln("Remove deleted files of   <info>$user</info>");
+				$this->removeDeletedFiles($user, $output, $verbose);
 			}
-		} elseif ($input->getOption('all-users')) {
-			$output->writeln('Remove deleted files for all users');
-			foreach ($this->userManager->getBackends() as $backend) {
-				$name = get_class($backend);
-				if ($backend instanceof IUserBackend) {
-					$name = $backend->getBackendName();
-				}
-				$output->writeln("Remove deleted files for users on backend <info>$name</info>");
-				$limit = 500;
-				$offset = 0;
-				do {
-					$users = $backend->getUsers('', $limit, $offset);
-					foreach ($users as $user) {
-						$output->writeln("   <info>$user</info>");
-						$this->removeDeletedFiles($user, $output, $verbose);
-					}
-					$offset += $limit;
-				} while (count($users) >= $limit);
-			}
-		} else {
-			throw new InvalidOptionException('Either specify a user_id or --all-users');
+
+			return self::SUCCESS;
 		}
+
+		$output->writeln('Remove deleted files for all users');
+		foreach ($this->userManager->getBackends() as $backend) {
+			$name = get_class($backend);
+			if ($backend instanceof IUserBackend) {
+				$name = $backend->getBackendName();
+			}
+			$output->writeln("Remove deleted files for users on backend <info>$name</info>");
+			$limit = 500;
+			$offset = 0;
+			do {
+				$users = $backend->getUsers('', $limit, $offset);
+				foreach ($users as $user) {
+					$output->writeln("   <info>$user</info>");
+					$this->removeDeletedFiles($user, $output, $verbose);
+				}
+				$offset += $limit;
+			} while (count($users) >= $limit);
+		}
+
 		return self::SUCCESS;
 	}
 
@@ -109,26 +117,29 @@ class CleanUp extends Command {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 		$path = '/' . $uid . '/files_trashbin';
-		if ($this->rootFolder->nodeExists($path)) {
-			$node = $this->rootFolder->get($path);
 
-			if ($verbose) {
-				$output->writeln("Deleting <info>" . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
-			}
-			$node->delete();
-			if ($this->rootFolder->nodeExists($path)) {
-				$output->writeln("<error>Trash folder sill exists after attempting to delete it</error>");
-				return;
-			}
-			$query = $this->dbConnection->getQueryBuilder();
-			$query->delete('files_trash')
-				->where($query->expr()->eq('user', $query->createParameter('uid')))
-				->setParameter('uid', $uid);
-			$query->execute();
-		} else {
+		if (!$this->rootFolder->nodeExists($path)) {
 			if ($verbose) {
 				$output->writeln("No trash found for <info>$uid</info>");
 			}
+
+			return;
 		}
+
+		$node = $this->rootFolder->get($path);
+
+		if ($verbose) {
+			$output->writeln("Deleting <info>" . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+		}
+		$node->delete();
+		if ($this->rootFolder->nodeExists($path)) {
+			$output->writeln("<error>Trash folder sill exists after attempting to delete it</error>");
+			return;
+		}
+		$query = $this->dbConnection->getQueryBuilder();
+		$query->delete('files_trash')
+			->where($query->expr()->eq('user', $query->createParameter('uid')))
+			->setParameter('uid', $uid);
+		$query->execute();
 	}
 }

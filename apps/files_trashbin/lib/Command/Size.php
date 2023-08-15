@@ -61,23 +61,26 @@ class Size extends Base {
 		$user = $input->getOption('user');
 		$size = $input->getArgument('size');
 
-		if ($size) {
-			$parsedSize = \OC_Helper::computerFileSize($size);
-			if ($parsedSize === false) {
-				$output->writeln("<error>Failed to parse input size</error>");
-				return self::FAILURE;
-			}
-			if ($user) {
-				$this->config->setUserValue($user, 'files_trashbin', 'trashbin_size', (string)$parsedSize);
-				$this->commandBus->push(new Expire($user));
-			} else {
-				$this->config->setAppValue('files_trashbin', 'trashbin_size', (string)$parsedSize);
-				$output->writeln("<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>");
-				$output->writeln("<info>a users trashbin can exceed the configured size until they move a new file to the trashbin.</info>");
-			}
-		} else {
+		if (!$size) {
 			$this->printTrashbinSize($input, $output, $user);
+			return self::SUCCESS;
 		}
+
+		$parsedSize = \OC_Helper::computerFileSize($size);
+		if ($parsedSize === false) {
+			$output->writeln("<error>Failed to parse input size</error>");
+			return self::FAILURE;
+		}
+
+		if ($user) {
+			$this->config->setUserValue($user, 'files_trashbin', 'trashbin_size', (string)$parsedSize);
+			$this->commandBus->push(new Expire($user));
+			return self::SUCCESS;
+		}
+
+		$this->config->setAppValue('files_trashbin', 'trashbin_size', (string)$parsedSize);
+		$output->writeln("<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>");
+		$output->writeln("<info>a users trashbin can exceed the configured size until they move a new file to the trashbin.</info>");
 
 		return self::SUCCESS;
 	}
@@ -101,40 +104,45 @@ class Size extends Base {
 
 			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
 				$output->writeln($userHumanSize);
-			} else {
-				$userValue = ($userSize < 0) ? 'default' : $userSize;
-				$globalValue = ($globalSize < 0) ? 'default' : $globalSize;
-				$this->writeArrayInOutputFormat($input, $output, [
-					'user_size' => $userValue,
-					'global_size' => $globalValue,
-					'effective_size' => ($userSize < 0) ? $globalValue : $userValue,
-				]);
+				return;
 			}
-		} else {
-			$users = [];
-			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users) {
-				$users[] = $user->getUID();
-			});
-			$userValues = $this->config->getUserValueForUsers('files_trashbin', 'trashbin_size', $users);
 
-			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
-				$output->writeln("Default size: $globalHumanSize");
-				$output->writeln("");
-				if (count($userValues)) {
-					$output->writeln("Per-user sizes:");
-					$this->writeArrayInOutputFormat($input, $output, array_map(function ($size) {
-						return \OC_Helper::humanFileSize($size);
-					}, $userValues));
-				} else {
-					$output->writeln("No per-user sizes configured");
-				}
-			} else {
-				$globalValue = ($globalSize < 0) ? 'default' : $globalSize;
-				$this->writeArrayInOutputFormat($input, $output, [
-					'global_size' => $globalValue,
-					'user_sizes' => $userValues,
-				]);
-			}
+			$userValue = ($userSize < 0) ? 'default' : $userSize;
+			$globalValue = ($globalSize < 0) ? 'default' : $globalSize;
+			$this->writeArrayInOutputFormat($input, $output, [
+				'user_size' => $userValue,
+				'global_size' => $globalValue,
+				'effective_size' => ($userSize < 0) ? $globalValue : $userValue,
+			]);
+			return;
 		}
+
+		$users = [];
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$users) {
+			$users[] = $user->getUID();
+		});
+		$userValues = $this->config->getUserValueForUsers('files_trashbin', 'trashbin_size', $users);
+
+		if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
+			$output->writeln("Default size: $globalHumanSize");
+			$output->writeln("");
+
+			if (!count($userValues)) {
+				$output->writeln("No per-user sizes configured");
+				return;
+			}
+
+			$output->writeln("Per-user sizes:");
+			$this->writeArrayInOutputFormat($input, $output, array_map(function ($size) {
+				return \OC_Helper::humanFileSize($size);
+			}, $userValues));
+			return;
+		}
+
+		$globalValue = ($globalSize < 0) ? 'default' : $globalSize;
+		$this->writeArrayInOutputFormat($input, $output, [
+			'global_size' => $globalValue,
+			'user_sizes' => $userValues,
+		]);
 	}
 }
