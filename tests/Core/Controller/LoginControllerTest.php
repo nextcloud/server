@@ -15,6 +15,9 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
+use OC\Security\CSRF\CsrfToken;
+use OC\Security\CSRF\CsrfTokenManager;
+use OC\Security\CSRF\CsrfValidator;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -80,6 +83,9 @@ class LoginControllerTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	private $appManager;
 
+	private CsrfTokenManager $csrfTokenManager;
+	private CsrfValidator $csrfValidator;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -102,6 +108,8 @@ class LoginControllerTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
+		$this->csrfValidator = new CsrfValidator($this->csrfTokenManager);
 
 
 		$this->request->method('getRemoteAddress')
@@ -130,6 +138,7 @@ class LoginControllerTest extends TestCase {
 			$this->notificationManager,
 			$this->l,
 			$this->appManager,
+			$this->csrfValidator,
 		);
 	}
 
@@ -483,9 +492,16 @@ class LoginControllerTest extends TestCase {
 		$loginChain = $this->createMock(LoginChain::class);
 		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
 		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
-		$this->request
-			->expects($this->once())
-			->method('passesCSRFCheck')
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('requesttoken', '')
+			->willReturn('foobar');
+		$this->csrfTokenManager->expects($this->once())
+			->method('isTokenValid')
+			->with(new CsrfToken('foobar'))
 			->willReturn(true);
 		$loginData = new LoginData(
 			$this->request,
@@ -520,9 +536,16 @@ class LoginControllerTest extends TestCase {
 		$loginChain = $this->createMock(LoginChain::class);
 		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
 		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
-		$this->request
-			->expects($this->once())
-			->method('passesCSRFCheck')
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('requesttoken', '')
+			->willReturn('foobar');
+		$this->csrfTokenManager->expects($this->once())
+			->method('isTokenValid')
+			->with(new CsrfToken('foobar'))
 			->willReturn(true);
 		$loginData = new LoginData(
 			$this->request,
@@ -554,9 +577,16 @@ class LoginControllerTest extends TestCase {
 		$loginChain = $this->createMock(LoginChain::class);
 		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
 		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
-		$this->request
-			->expects($this->once())
-			->method('passesCSRFCheck')
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('requesttoken', '')
+			->willReturn('foobar');
+		$this->csrfTokenManager->expects($this->once())
+			->method('isTokenValid')
+			->with(new CsrfToken('foobar'))
 			->willReturn(false);
 		$this->userSession
 			->method('isLoggedIn')
@@ -586,9 +616,16 @@ class LoginControllerTest extends TestCase {
 		$loginChain = $this->createMock(LoginChain::class);
 		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
 		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
-		$this->request
-			->expects($this->once())
-			->method('passesCSRFCheck')
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('requesttoken', '')
+			->willReturn('foobar');
+		$this->csrfTokenManager->expects($this->once())
+			->method('isTokenValid')
+			->with(new CsrfToken('foobar'))
 			->willReturn(false);
 		$this->userSession
 			->method('isLoggedIn')
@@ -620,9 +657,16 @@ class LoginControllerTest extends TestCase {
 		$loginChain = $this->createMock(LoginChain::class);
 		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
 		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
-		$this->request
-			->expects($this->once())
-			->method('passesCSRFCheck')
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('requesttoken', '')
+			->willReturn('foobar');
+		$this->csrfTokenManager->expects($this->once())
+			->method('isTokenValid')
+			->with(new CsrfToken('foobar'))
 			->willReturn(true);
 		$loginData = new LoginData(
 			$this->request,
@@ -653,9 +697,16 @@ class LoginControllerTest extends TestCase {
 		$loginChain = $this->createMock(LoginChain::class);
 		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
 		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
-		$this->request
-			->expects($this->once())
-			->method('passesCSRFCheck')
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('requesttoken', '')
+			->willReturn('foobar');
+		$this->csrfTokenManager->expects($this->once())
+			->method('isTokenValid')
+			->with(new CsrfToken('foobar'))
 			->willReturn(true);
 		$loginPageUrl = '/login?redirect_url=/apps/files';
 		$loginData = new LoginData(

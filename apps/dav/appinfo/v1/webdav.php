@@ -22,6 +22,7 @@ use OCP\IUserSession;
 use OCP\SabrePluginEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Log\LoggerInterface;
 
 // no php execution timeout for webdav
@@ -55,6 +56,7 @@ $authBackend = new Auth(
 	Server::get(IRequest::class),
 	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
 	Server::get(IThrottler::class),
+	Server::get(ICsrfValidator::class),
 	'principals/'
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
