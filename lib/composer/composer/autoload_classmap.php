@@ -1224,6 +1224,7 @@ return array(
     'OC\\Files\\AppData\\AppData' => $baseDir . '/lib/private/Files/AppData/AppData.php',
     'OC\\Files\\AppData\\Factory' => $baseDir . '/lib/private/Files/AppData/Factory.php',
     'OC\\Files\\Cache\\Cache' => $baseDir . '/lib/private/Files/Cache/Cache.php',
+    'OC\\Files\\Cache\\CacheDependencies' => $baseDir . '/lib/private/Files/Cache/CacheDependencies.php',
     'OC\\Files\\Cache\\CacheEntry' => $baseDir . '/lib/private/Files/Cache/CacheEntry.php',
     'OC\\Files\\Cache\\CacheQueryBuilder' => $baseDir . '/lib/private/Files/Cache/CacheQueryBuilder.php',
     'OC\\Files\\Cache\\FailedCache' => $baseDir . '/lib/private/Files/Cache/FailedCache.php',

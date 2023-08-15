@@ -43,6 +43,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
@@ -338,12 +339,20 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->filemtime($path) > $time;
 	}
 
+	protected function getCacheDependencies(): CacheDependencies {
+		static $dependencies = null;
+		if (!$dependencies) {
+			$dependencies = \OC::$server->get(CacheDependencies::class);
+		}
+		return $dependencies;
+	}
+
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
 		if (!isset($storage->cache)) {
-			$storage->cache = new Cache($storage);
+			$storage->cache = new Cache($storage, $this->getCacheDependencies());
 		}
 		return $storage->cache;
 	}
@@ -398,13 +407,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function getStorageCache($storage = null) {
-		if (!$storage) {
-			$storage = $this;
-		}
-		if (!isset($this->storageCache)) {
-			$this->storageCache = new \OC\Files\Cache\Storage($storage);
-		}
-		return $this->storageCache;
+		return $this->getCache($storage)->getStorageCache();
 	}
 
 	/**
