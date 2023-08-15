@@ -34,6 +34,7 @@ use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -54,6 +55,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get a reminder
 	 */
+	#[NoAdminRequired]
 	public function get(int $fileId): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -79,6 +81,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param string $dueDate ISO 8601 formatted date time string
 	 */
+	#[NoAdminRequired]
 	public function set(int $fileId, string $dueDate): DataResponse {
 		try {
 			$dueDate = (new DateTime($dueDate))->setTimezone(new DateTimeZone('UTC'));
@@ -106,6 +109,7 @@ class ApiController extends OCSController {
 	/**
 	 * Remove a reminder
 	 */
+	#[NoAdminRequired]
 	public function remove(int $fileId): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
