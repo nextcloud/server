@@ -37,30 +37,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExpireTrash extends Command {
-
-	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @param IUserManager|null $userManager
-	 * @param Expiration|null $expiration
-	 */
-	public function __construct(IUserManager $userManager = null,
-		Expiration $expiration = null) {
+	public function __construct(
+		private ?IUserManager $userManager = null,
+		private ?Expiration $expiration = null,
+	) {
 		parent::__construct();
-
-		$this->userManager = $userManager;
-		$this->expiration = $expiration;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('trashbin:expire')
 			->setDescription('Expires the users trashbin')
@@ -75,7 +59,7 @@ class ExpireTrash extends Command {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			$output->writeln("Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$users = $input->getArgument('user_id');
@@ -87,7 +71,7 @@ class ExpireTrash extends Command {
 					$this->expireTrashForUser($userObject);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		} else {
@@ -100,10 +84,10 @@ class ExpireTrash extends Command {
 			$p->finish();
 			$output->writeln('');
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
-	public function expireTrashForUser(IUser $user) {
+	public function expireTrashForUser(IUser $user): void {
 		$uid = $user->getUID();
 		if (!$this->setupFS($uid)) {
 			return;
@@ -114,10 +98,8 @@ class ExpireTrash extends Command {
 
 	/**
 	 * Act on behalf on trash item owner
-	 * @param string $user
-	 * @return boolean
 	 */
-	protected function setupFS($user) {
+	protected function setupFS(string $user): bool {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 

@@ -36,23 +36,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
-	private $config;
-	private $userManager;
-	private $commandBus;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IBus $commandBus
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IBus $commandBus
 	) {
 		parent::__construct();
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->commandBus = $commandBus;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 		$this
 			->setName('trashbin:size')
@@ -73,7 +65,7 @@ class Size extends Base {
 			$parsedSize = \OC_Helper::computerFileSize($size);
 			if ($parsedSize === false) {
 				$output->writeln("<error>Failed to parse input size</error>");
-				return -1;
+				return self::FAILURE;
 			}
 			if ($user) {
 				$this->config->setUserValue($user, 'files_trashbin', 'trashbin_size', (string)$parsedSize);
@@ -87,10 +79,10 @@ class Size extends Base {
 			$this->printTrashbinSize($input, $output, $user);
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 
-	private function printTrashbinSize(InputInterface $input, OutputInterface $output, ?string $user) {
+	private function printTrashbinSize(InputInterface $input, OutputInterface $output, ?string $user): void {
 		$globalSize = (int)$this->config->getAppValue('files_trashbin', 'trashbin_size', '-1');
 		if ($globalSize < 0) {
 			$globalHumanSize = "default (50% of available space)";

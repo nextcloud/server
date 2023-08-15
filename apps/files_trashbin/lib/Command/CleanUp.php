@@ -37,29 +37,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanUp extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	/**
-	 * @param IRootFolder $rootFolder
-	 * @param IUserManager $userManager
-	 * @param IDBConnection $dbConnection
-	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection) {
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
+		protected IDBConnection $dbConnection,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
-		$this->dbConnection = $dbConnection;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('trashbin:cleanup')
 			->setDescription('Remove deleted files')
@@ -88,7 +74,7 @@ class CleanUp extends Command {
 					$this->removeDeletedFiles($user, $output, $verbose);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		} elseif ($input->getOption('all-users')) {
@@ -113,7 +99,7 @@ class CleanUp extends Command {
 		} else {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
