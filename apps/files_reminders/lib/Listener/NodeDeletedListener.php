@@ -26,8 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Listener;
 
-use OC\Files\Node\NonExistingFile;
-use OC\Files\Node\NonExistingFolder;
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -44,10 +42,6 @@ class NodeDeletedListener implements IEventListener {
 		}
 
 		$node = $event->getNode();
-		if ($node instanceof NonExistingFile || $node instanceof NonExistingFolder) {
-			return;
-		}
-
 		$this->reminderService->removeAllForNode($node);
 	}
 }

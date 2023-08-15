@@ -31,6 +31,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUser;
 
@@ -111,11 +112,17 @@ class ReminderMapper extends QBMapper {
 	 * @return Reminder[]
 	 */
 	public function findAllForNode(Node $node) {
+		try {
+			$nodeId = $node->getId();
+		} catch (NotFoundException $e) {
+			return [];
+		}
+
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($nodeId, IQueryBuilder::PARAM_INT)))
 			->orderBy('due_date', 'ASC');
 
 		return $this->findEntities($qb);
