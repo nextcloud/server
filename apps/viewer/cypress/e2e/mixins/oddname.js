@@ -139,7 +139,7 @@ export default function(file, type, sidebar = false) {
 				// we hide the sidebar button if opened
 				cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 				// check the sidebar is opened for the correct file
-				cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', placedName)
+				cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', placedName)
 				// check we do not have a preview
 				cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
 				cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')

@@ -78,7 +78,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		// we hide the sidebar button if opened
 		cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 		// check the sidebar is opened for the correct file
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image1.jpg')
 		// check we do not have a preview
 		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
 		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
@@ -87,7 +87,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 
 	it('Sidebar is in compact mode', function() {
 		// check the sidebar is opened for the correct file
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image1.jpg')
 		// check we do not have a preview
 		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
 		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
@@ -98,22 +98,22 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('aside.app-sidebar').should('be.visible')
 
 		// check the sidebar is opened for the correct file
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image1.jpg')
 
 		// open the next file (image2.png) using the arrow
 		cy.get('body > .viewer .button-vue.next').click()
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image2.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image2.jpg')
 	})
 
 	it('Change to previous image with sidebar open', function() {
 		cy.get('aside.app-sidebar').should('be.visible')
 
 		// check the sidebar is opened for the correct file
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image2.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image2.jpg')
 
 		// open the previous file (image1.png) using the arrow
 		cy.get('body > .viewer .button-vue.prev').click()
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image1.jpg')
 	})
 
 	it('Close the sidebar', function() {
