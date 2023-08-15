@@ -164,7 +164,8 @@ class SetupManager {
 			return $storage;
 		});
 
-		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
+		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
+		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) use ($quotaIncludeExternal) {
 			// set up quota for home storages, even for other users
 			// which can happen when using sharing
 
@@ -176,7 +177,7 @@ class SetupManager {
 					$user = $storage->getUser();
 					return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
 						return OC_Util::getUserQuota($user);
-					}, 'root' => 'files']);
+					}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 				}
 			}
 

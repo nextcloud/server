@@ -325,6 +325,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 * @return array
 	 */
 	public function getQuotaInfo() {
+		if ($this->quotaInfo) {
+			return $this->quotaInfo;
+		}
 		$relativePath = $this->fileView->getRelativePath($this->info->getPath());
 		if ($relativePath === null) {
 			$this->getLogger()->warning("error while getting quota as the relative path cannot be found");

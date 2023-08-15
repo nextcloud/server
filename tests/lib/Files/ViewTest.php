@@ -22,6 +22,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IShare;
@@ -1590,7 +1591,7 @@ class ViewTest extends \Test\TestCase {
 				->getMock();
 			$storage->method('getId')->willReturn('non-null-id');
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
-				return new \OC\Files\Cache\Storage($storage);
+				return new \OC\Files\Cache\Storage($storage, true, \OC::$server->get(IDBConnection::class));
 			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
