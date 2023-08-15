@@ -92,7 +92,7 @@
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.1",
-    "typescript": "^5.1.5",
+    "typescript": "^5.1.6",
     "wait-on": "^7.0.1"
   }
 }
