@@ -179,6 +179,10 @@ class Trashbin {
 		}
 	}
 
+	/**
+	 * @param string $user
+	 * @throws \Exception
+	 */
 	private static function setUpTrash($user): void {
 		$view = new View('/' . $user);
 		if (!$view->is_dir('files_trashbin')) {
@@ -201,7 +205,7 @@ class Trashbin {
 	 * @param string $sourcePath
 	 * @param string $owner
 	 * @param string $targetPath
-	 * @param $user
+	 * @param string $user
 	 * @param int $timestamp
 	 * @throws Exception
 	 * @throws CopyRecursiveException
@@ -1228,7 +1232,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @return string
 	 */
 	public static function preview_icon($path): string {
