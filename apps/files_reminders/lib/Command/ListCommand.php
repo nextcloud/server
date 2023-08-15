@@ -77,10 +77,6 @@ class ListCommand extends Base {
 		}
 
 		$reminders = $this->reminderService->getAll($user ?? null);
-		if (empty($reminders)) {
-			$io->text('No reminders');
-			return 0;
-		}
 
 		$outputOption = $input->getOption('output');
 		switch ($outputOption) {
@@ -97,6 +93,11 @@ class ListCommand extends Base {
 				);
 				return 0;
 			default:
+				if (empty($reminders)) {
+					$io->text('No reminders');
+					return 0;
+				}
+
 				$io->table(
 					['User Id', 'File Id', 'Path', 'Due Date', 'Updated At', 'Created At', 'Notified'],
 					array_map(
