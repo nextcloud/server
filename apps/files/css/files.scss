@@ -872,7 +872,7 @@ table.dragshadow td.size {
 
 	/* Center triangle */
 	&::after {
-		left: 61px !important;
+		left: 74px !important;
 	}
 }
 
@@ -955,6 +955,10 @@ table.dragshadow td.size {
 
 .app-files .actions .button.new {
 	position: relative;
+	width: unset;
+	gap: 5px;
+	background-color: var(--color-primary-element-light);
+	color: var(--color-primary-element-light-text);
 }
 
 .breadcrumb {
