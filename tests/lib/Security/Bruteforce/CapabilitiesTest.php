@@ -52,18 +52,24 @@ class CapabilitiesTest extends TestCase {
 		);
 	}
 
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$this->throttler->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('10.10.10.10')
 			->willReturn(42);
+
+		$this->throttler->expects($this->atLeastOnce())
+			->method('isIPWhitelisted')
+			->with('10.10.10.10')
+			->willReturn(true);
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('10.10.10.10');
 
 		$expected = [
 			'bruteforce' => [
-				'delay' => 42
+				'delay' => 42,
+				'allow-listed' => true,
 			]
 		];
 		$result = $this->capabilities->getCapabilities();
@@ -71,7 +77,7 @@ class CapabilitiesTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetCapabilitiesOnCli() {
+	public function testGetCapabilitiesOnCli(): void {
 		$this->throttler->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('')
@@ -82,7 +88,8 @@ class CapabilitiesTest extends TestCase {
 
 		$expected = [
 			'bruteforce' => [
-				'delay' => 0
+				'delay' => 0,
+				'allow-listed' => false,
 			]
 		];
 		$result = $this->capabilities->getCapabilities();

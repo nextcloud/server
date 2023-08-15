@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -32,33 +34,21 @@ use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IRequest;
 
 class Capabilities implements IPublicCapability, IInitialStateExcludedCapability {
-	/** @var IRequest */
-	private $request;
-
-	/** @var Throttler */
-	private $throttler;
-
-	/**
-	 * Capabilities constructor.
-	 *
-	 * @param IRequest $request
-	 * @param Throttler $throttler
-	 */
-	public function __construct(IRequest $request,
-								Throttler $throttler) {
-		$this->request = $request;
-		$this->throttler = $throttler;
+	public function __construct(
+		private IRequest $request,
+		private Throttler $throttler,
+	) {
 	}
 
+	/**
+	 * @return array{bruteforce: array{delay: int, allow-listed: bool}}
+	 */
 	public function getCapabilities(): array {
-		if (version_compare(\OC::$server->getConfig()->getSystemValueString('version', '0.0.0.0'), '12.0.0.0', '<')) {
-			return [];
-		}
-
 		return [
 			'bruteforce' => [
-				'delay' => $this->throttler->getDelay($this->request->getRemoteAddress())
-			]
+				'delay' => $this->throttler->getDelay($this->request->getRemoteAddress()),
+				'allow-listed' => $this->throttler->isIPWhitelisted($this->request->getRemoteAddress()),
+			],
 		];
 	}
 }
