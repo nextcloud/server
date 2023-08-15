@@ -1614,6 +1614,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Share20\\PublicShareTemplateFactory' => __DIR__ . '/../../..' . '/lib/private/Share20/PublicShareTemplateFactory.php',
         'OC\\Share20\\Share' => __DIR__ . '/../../..' . '/lib/private/Share20/Share.php',
         'OC\\Share20\\ShareAttributes' => __DIR__ . '/../../..' . '/lib/private/Share20/ShareAttributes.php',
+        'OC\\Share20\\ShareDisableChecker' => __DIR__ . '/../../..' . '/lib/private/Share20/ShareDisableChecker.php',
         'OC\\Share20\\ShareHelper' => __DIR__ . '/../../..' . '/lib/private/Share20/ShareHelper.php',
         'OC\\Share20\\UserRemovedListener' => __DIR__ . '/../../..' . '/lib/private/Share20/UserRemovedListener.php',
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',

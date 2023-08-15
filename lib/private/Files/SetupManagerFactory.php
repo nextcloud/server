@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Share20\ShareDisableChecker;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
@@ -36,40 +37,21 @@ use OCP\Lockdown\ILockdownManager;
 use Psr\Log\LoggerInterface;
 
 class SetupManagerFactory {
-	private IEventLogger $eventLogger;
-	private IMountProviderCollection $mountProviderCollection;
-	private IUserManager $userManager;
-	private IEventDispatcher $eventDispatcher;
-	private IUserMountCache $userMountCache;
-	private ILockdownManager $lockdownManager;
-	private IUserSession $userSession;
 	private ?SetupManager $setupManager;
-	private ICacheFactory $cacheFactory;
-	private LoggerInterface $logger;
-	private IConfig $config;
 
 	public function __construct(
-		IEventLogger $eventLogger,
-		IMountProviderCollection $mountProviderCollection,
-		IUserManager $userManager,
-		IEventDispatcher $eventDispatcher,
-		IUserMountCache $userMountCache,
-		ILockdownManager $lockdownManager,
-		IUserSession $userSession,
-		ICacheFactory $cacheFactory,
-		LoggerInterface $logger,
-		IConfig $config
+		private IEventLogger $eventLogger,
+		private IMountProviderCollection $mountProviderCollection,
+		private IUserManager $userManager,
+		private IEventDispatcher $eventDispatcher,
+		private IUserMountCache $userMountCache,
+		private ILockdownManager $lockdownManager,
+		private IUserSession $userSession,
+		private ICacheFactory $cacheFactory,
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private ShareDisableChecker $shareDisableChecker,
 	) {
-		$this->eventLogger = $eventLogger;
-		$this->mountProviderCollection = $mountProviderCollection;
-		$this->userManager = $userManager;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->userMountCache = $userMountCache;
-		$this->lockdownManager = $lockdownManager;
-		$this->userSession = $userSession;
-		$this->cacheFactory = $cacheFactory;
-		$this->logger = $logger;
-		$this->config = $config;
 		$this->setupManager = null;
 	}
 
@@ -86,7 +68,8 @@ class SetupManagerFactory {
 				$this->userSession,
 				$this->cacheFactory,
 				$this->logger,
-				$this->config
+				$this->config,
+				$this->shareDisableChecker,
 			);
 		}
 		return $this->setupManager;
