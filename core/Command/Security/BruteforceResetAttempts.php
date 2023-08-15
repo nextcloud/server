@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Johannes Riedel (johannes@johannes-riedel.de)
  *
@@ -24,23 +26,23 @@
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
-use OC\Security\Bruteforce\Throttler;
+use OCP\Security\Bruteforce\IThrottler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ResetBruteforceAttempts extends Base {
-	protected Throttler $throttler;
+class BruteforceResetAttempts extends Base {
+	protected IThrottler $throttler;
 
-	public function __construct(Throttler $throttler) {
+	public function __construct(IThrottler $throttler) {
 		$this->throttler = $throttler;
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('security:bruteforce:reset')
-			->setDescription('resets bruteforce attemps for given IP address')
+			->setDescription('resets bruteforce attempts for given IP address')
 			->addArgument(
 				'ipaddress',
 				InputArgument::REQUIRED,
