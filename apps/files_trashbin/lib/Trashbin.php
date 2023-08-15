@@ -616,6 +616,8 @@ class Trashbin {
 				}
 			}
 		}
+
+		return null;
 	}
 
 	/**
