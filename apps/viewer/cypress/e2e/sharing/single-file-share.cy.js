@@ -51,7 +51,7 @@ describe('See shared folder with link share', function() {
 		cy.get('#imgframe > #viewer').should('be.visible')
 
 		cy.scrollTo('bottom', { ensureScrollable: false })
-		cy.get('a#downloadFile').should('be.visible')
+		cy.get(`#header a[href*="/s/${imageToken}/download"]`).should('be.visible')
 	})
 
 	it('Opens the shared video in the viewer', function() {
@@ -61,6 +61,6 @@ describe('See shared folder with link share', function() {
 		cy.get('#imgframe > #viewer').should('be.visible')
 
 		cy.scrollTo('bottom', { ensureScrollable: false })
-		cy.get('a#downloadFile').should('be.visible')
+		cy.get(`#header a[href*="/s/${videoToken}/download"]`).should('be.visible')
 	})
 })
