@@ -27,6 +27,7 @@ use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
 use OC\Share20\Manager;
 use OC\Share20\Share;
+use OC\Share20\ShareDisableChecker;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -111,6 +112,8 @@ class ManagerTest extends \Test\TestCase {
 	protected $userSession;
 	/** @var KnownUserService|MockObject  */
 	protected $knownUserService;
+	/** @var ShareDisableChecker|MockObject  */
+	protected $shareDisabledChecker;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -127,6 +130,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
+
+		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -158,7 +163,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker
 		);
 
 		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
@@ -188,7 +194,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->defaults,
 				$this->dispatcher,
 				$this->userSession,
-				$this->knownUserService
+				$this->knownUserService,
+				$this->shareDisabledChecker,
 			]);
 	}
 
@@ -2753,7 +2760,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2798,7 +2806,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2850,7 +2859,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -4191,7 +4201,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
@@ -4225,7 +4236,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4290,7 +4302,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4407,7 +4420,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4533,7 +4547,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker
 		);
 
 		$factory->setProvider($this->defaultProvider);
