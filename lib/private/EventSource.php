@@ -10,6 +10,7 @@ namespace OC;
 
 use OCP\IEventSource;
 use OCP\IRequest;
+use OCP\Security\CSRF\ICsrfValidator;
 
 class EventSource implements IEventSource {
 	private bool $fallback = false;
@@ -18,6 +19,7 @@ class EventSource implements IEventSource {
 
 	public function __construct(
 		private IRequest $request,
+		private ICsrfValidator $csrfValidator,
 	) {
 	}
 
@@ -54,7 +56,7 @@ class EventSource implements IEventSource {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
-		if (!$this->request->passesCSRFCheck()) {
+		if (!$this->csrfValidator->validate($this->request)) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			$this->close();
 			exit();

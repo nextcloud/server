@@ -7,6 +7,8 @@
  */
 
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+use OCP\IRequest;
+use OCP\Security\CSRF\ICsrfValidator;
 
 class OC_JSON {
 	/**
@@ -45,12 +47,16 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function callCheck() {
-		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		$request = OC::$server->get(IRequest::class);
+
+		if (!$request->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
 
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
+		$csrfValidator = OC::$server->get(ICsrfValidator::class);
+
+		if (!$csrfValidator->validate($request)) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' ]]);
 			exit();

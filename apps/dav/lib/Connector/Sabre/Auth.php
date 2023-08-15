@@ -17,6 +17,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
@@ -39,6 +40,7 @@ class Auth extends AbstractBasic {
 		IRequest $request,
 		Manager $twoFactorManager,
 		IThrottler $throttler,
+		private ICsrfValidator $csrfValidator,
 		string $principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;
@@ -164,7 +166,7 @@ class Auth extends AbstractBasic {
 	private function auth(RequestInterface $request, ResponseInterface $response): array {
 		$forcedLogout = false;
 
-		if (!$this->request->passesCSRFCheck() &&
+		if (!$this->csrfValidator->validate($this->request) &&
 			$this->requiresCSRFCheck()) {
 			// In case of a fail with POST we need to recheck the credentials
 			if ($this->request->getMethod() === 'POST') {

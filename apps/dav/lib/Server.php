@@ -55,6 +55,8 @@ use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\SabrePluginEvent;
+use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
@@ -95,7 +97,8 @@ class Server {
 			\OC::$server->getUserSession(),
 			\OC::$server->getRequest(),
 			\OC::$server->getTwoFactorAuthManager(),
-			\OC::$server->getBruteForceThrottler()
+			\OC::$server->get(IThrottler::class),
+			\OC::$server->get(ICsrfValidator::class)
 		);
 
 		// Set URL explicitly due to reverse-proxy situations

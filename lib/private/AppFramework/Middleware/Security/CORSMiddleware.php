@@ -21,6 +21,7 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\CSRF\ICsrfValidator;
 use ReflectionMethod;
 
 /**
@@ -42,7 +43,8 @@ class CORSMiddleware extends Middleware {
 	public function __construct(IRequest $request,
 		ControllerMethodReflector $reflector,
 		Session $session,
-		IThrottler $throttler) {
+		IThrottler $throttler,
+		private ICsrfValidator $csrfValidator) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -70,7 +72,7 @@ class CORSMiddleware extends Middleware {
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
 			// Allow to use the current session if a CSRF token is provided
-			if ($this->request->passesCSRFCheck()) {
+			if ($this->csrfValidator->validate($this->request)) {
 				return;
 			}
 			// Skip CORS check for requests with AppAPI auth.

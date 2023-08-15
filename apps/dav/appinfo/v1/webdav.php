@@ -5,6 +5,8 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Log\LoggerInterface;
 
 // no php execution timeout for webdav
@@ -38,6 +40,7 @@ $authBackend = new \OCA\DAV\Connector\Sabre\Auth(
 	\OC::$server->getRequest(),
 	\OC::$server->getTwoFactorAuthManager(),
 	\OC::$server->getBruteForceThrottler(),
+	\OC::$server->get(ICsrfValidator::class),
 	'principals/'
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);

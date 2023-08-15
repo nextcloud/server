@@ -46,6 +46,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -207,7 +208,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(IUserSession::class),
-					$c->get(IThrottler::class)
+					$c->get(IThrottler::class),
+					$c->get(ICsrfValidator::class),
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -231,7 +233,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
-				$server->get(IUserSession::class)
+				$server->get(IUserSession::class),
+				$c->get(ICsrfValidator::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
