@@ -29,7 +29,9 @@ namespace OC\Files\Node;
 use OC\Files\Utils\PathHelper;
 use OCP\Files\Folder;
 use OCP\Constants;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotPermittedException;
 
 /**
  * Class LazyFolder
@@ -41,21 +43,31 @@ use OCP\Files\Mount\IMountPoint;
  */
 class LazyFolder implements Folder {
 	/** @var \Closure(): Folder */
-	private $folderClosure;
-
-	/** @var LazyFolder | null */
-	protected $folder = null;
-
+	private \Closure $folderClosure;
+	protected ?Folder $folder = null;
+	protected IRootFolder $rootFolder;
 	protected array $data;
 
 	/**
-	 * LazyFolder constructor.
-	 *
+	 * @param IRootFolder $rootFolder
 	 * @param \Closure(): Folder $folderClosure
+	 * @param array $data
 	 */
-	public function __construct(\Closure $folderClosure, array $data = []) {
+	public function __construct(IRootFolder $rootFolder, \Closure $folderClosure, array $data = []) {
+		$this->rootFolder = $rootFolder;
 		$this->folderClosure = $folderClosure;
 		$this->data = $data;
+	}
+
+	protected function getRootFolder(): IRootFolder {
+		return $this->rootFolder;
+	}
+
+	protected function getRealFolder(): Folder {
+		if ($this->folder === null) {
+			$this->folder = call_user_func($this->folderClosure);
+		}
+		return $this->folder;
 	}
 
 	/**
@@ -67,11 +79,7 @@ class LazyFolder implements Folder {
 	 * @return mixed
 	 */
 	public function __call($method, $args) {
-		if ($this->folder === null) {
-			$this->folder = call_user_func($this->folderClosure);
-		}
-
-		return call_user_func_array([$this->folder, $method], $args);
+		return call_user_func_array([$this->getRealFolder(), $method], $args);
 	}
 
 	/**
@@ -148,7 +156,7 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function get($path) {
-		return $this->__call(__FUNCTION__, func_get_args());
+		return $this->getRootFolder()->get($this->getFullPath($path));
 	}
 
 	/**
@@ -408,7 +416,21 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getFullPath($path) {
+		if (isset($this->data['path'])) {
+			$path = PathHelper::normalizePath($path);
+			if (!$this->isValidPath($path)) {
+				throw new NotPermittedException('Invalid path "' . $path . '"');
+			}
+			return $this->data['path'] . $path;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	public function isValidPath($path) {
+		if (!str_starts_with($path, '/')) {
+			$path = '/' . $path;
+		}
+		return !(str_contains($path, '/../') || strrchr($path, '/') === '/..');
 	}
 
 	/**

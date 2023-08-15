@@ -304,7 +304,7 @@ class Node implements INode {
 			];
 
 			// and create lazy folder with it instead of always querying
-			$this->parent = new LazyFolder(function () use ($newPath) {
+			$this->parent = new LazyFolder($this->root, function () use ($newPath) {
 				return $this->root->get($newPath);
 			}, $parentData);
 		}
