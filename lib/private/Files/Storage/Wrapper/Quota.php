@@ -45,6 +45,7 @@ class Quota extends Wrapper {
 	protected int|float|null $quota;
 	protected string $sizeRoot;
 	private SystemConfig $config;
+	private bool $quotaIncludeExternalStorage;
 
 	/**
 	 * @param array $parameters
@@ -54,7 +55,7 @@ class Quota extends Wrapper {
 		$this->quota = $parameters['quota'] ?? null;
 		$this->quotaCallback = $parameters['quotaCallback'] ?? null;
 		$this->sizeRoot = $parameters['root'] ?? '';
-		$this->config = \OC::$server->get(SystemConfig::class);
+		$this->quotaIncludeExternalStorage = $parameters['include_external_storage'] ?? false;
 	}
 
 	/**
@@ -82,7 +83,7 @@ class Quota extends Wrapper {
 	 * @return int|float
 	 */
 	protected function getSize($path, $storage = null) {
-		if ($this->config->getValue('quota_include_external_storage', false)) {
+		if ($this->quotaIncludeExternalStorage) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
 			if ($rootInfo) {
 				return $rootInfo->getSize(true);
