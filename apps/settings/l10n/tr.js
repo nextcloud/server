@@ -471,6 +471,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Yalnızca oturum açmış kullanıcılara görüntülensin",
     "Hide" : "Gizlensin",
     "Download and enable" : "İndir ve etkinleştir",
+    "Allow untested app" : "Denenmemiş uygulamalar kullanılabilsin",
     "The app will be downloaded from the App Store" : "Uygulama uygulama mağazasından indirilecek",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Bu uygulamanın kullandığınız Nextcloud sürümü ile uyumluluğu denetlenmemiş. İşlemi sürdürerek uygulamayı kurabilirsiniz. Ancak uygulama beklendiği gibi çalışmayabilir.",
     "Never" : "Asla",
