@@ -183,7 +183,6 @@ class Trashbin {
 		}
 	}
 
-
 	/**
 	 * copy file to owners trash
 	 *
@@ -226,7 +225,6 @@ class Trashbin {
 			}
 		}
 	}
-
 
 	/**
 	 * move file to the trash bin
