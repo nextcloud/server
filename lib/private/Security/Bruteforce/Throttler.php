@@ -110,7 +110,7 @@ class Throttler implements IThrottler {
 	 * @param string $ip
 	 * @return bool
 	 */
-	private function isIPWhitelisted(string $ip): bool {
+	public function isIPWhitelisted(string $ip): bool {
 		if (isset($this->ipIsWhitelisted[$ip])) {
 			return $this->ipIsWhitelisted[$ip];
 		}
