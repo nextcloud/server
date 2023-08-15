@@ -549,39 +549,39 @@ class Trashbin {
 	 * @return false|null
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp): ?bool {
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
-			$user = OC_User::getUser();
-			$rootView = new View('/');
+		if (! \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+			return null;
+		}
 
-			$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
+		$user = OC_User::getUser();
+		$rootView = new View('/');
 
-			[$owner, $ownerPath] = self::getUidAndFilename($target);
+		$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
 
-			// file has been deleted in between
-			if (empty($ownerPath)) {
-				return false;
-			}
+		[$owner, $ownerPath] = self::getUidAndFilename($target);
 
-			if ($timestamp) {
-				$versionedFile = $filename;
-			} else {
-				$versionedFile = $file;
-			}
+		// file has been deleted in between
+		if (empty($ownerPath)) {
+			return false;
+		}
 
-			if ($view->is_dir('/files_trashbin/versions/' . $file)) {
-				$rootView->rename(Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
-			} elseif ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
-				foreach ($versions as $v) {
-					if ($timestamp) {
-						$rootView->rename($user . '/files_trashbin/versions/' . static::getTrashFilename($versionedFile . '.v' . $v, $timestamp), $owner . '/files_versions/' . $ownerPath . '.v' . $v);
-					} else {
-						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
-					}
+		if ($timestamp) {
+			$versionedFile = $filename;
+		} else {
+			$versionedFile = $file;
+		}
+
+		if ($view->is_dir('/files_trashbin/versions/' . $file)) {
+			$rootView->rename(Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
+		} elseif ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
+			foreach ($versions as $v) {
+				if ($timestamp) {
+					$rootView->rename($user . '/files_trashbin/versions/' . static::getTrashFilename($versionedFile . '.v' . $v, $timestamp), $owner . '/files_versions/' . $ownerPath . '.v' . $v);
+				} else {
+					$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
 				}
 			}
 		}
-
-		return null;
 	}
 
 	/**
@@ -709,22 +709,26 @@ class Trashbin {
 	 */
 	private static function deleteVersions(View $view, $file, $filename, $timestamp, string $user): int|float {
 		$size = 0;
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
-			if ($view->is_dir('files_trashbin/versions/' . $file)) {
-				$size += self::calculateSize(new View('/' . $user . '/files_trashbin/versions/' . $file));
-				$view->unlink('files_trashbin/versions/' . $file);
-			} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
-				foreach ($versions as $v) {
-					if ($timestamp) {
-						$size += $view->filesize('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
-						$view->unlink('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
-					} else {
-						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v);
-						$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v);
-					}
+
+		if (! \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+			return $size;
+		}
+
+		if ($view->is_dir('files_trashbin/versions/' . $file)) {
+			$size += self::calculateSize(new View('/' . $user . '/files_trashbin/versions/' . $file));
+			$view->unlink('files_trashbin/versions/' . $file);
+		} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
+			foreach ($versions as $v) {
+				if ($timestamp) {
+					$size += $view->filesize('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
+					$view->unlink('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
+				} else {
+					$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v);
+					$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v);
 				}
 			}
 		}
+
 		return $size;
 	}
 
