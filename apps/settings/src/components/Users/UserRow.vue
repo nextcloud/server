@@ -394,12 +394,15 @@ export default {
 			editedDisplayName: this.user.displayname,
 			editedPassword: '',
 			editedMail: this.user.email ?? '',
-			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set user manager'),
 		}
 	},
 
 	computed: {
+		managerLabel() {
+			// TRANSLATORS This string describes a manager in the context of an organization
+			return t('settings', 'Set user manager')
+		},
+
 		isObfuscated() {
 			return isObfuscated(this.user)
 		},
