@@ -3,6 +3,7 @@
 namespace OC\Files\Cache;
 
 use OC\SystemConfig;
+use OC\User\DisplayNameCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeLoader;
 use OCP\FilesMetadata\IFilesMetadataManager;
@@ -18,6 +19,7 @@ class CacheDependencies {
 		private SystemConfig $systemConfig,
 		private LoggerInterface $logger,
 		private IFilesMetadataManager $metadataManager,
+		private DisplayNameCache $displayNameCache,
 	) {
 	}
 
@@ -43,6 +45,10 @@ class CacheDependencies {
 
 	public function getLogger(): LoggerInterface {
 		return $this->logger;
+	}
+
+	public function getDisplayNameCache(): DisplayNameCache {
+		return $this->displayNameCache;
 	}
 
 	public function getMetadataManager(): IFilesMetadataManager {
