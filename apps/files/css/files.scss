@@ -956,9 +956,11 @@ table.dragshadow td.size {
 .app-files .actions .button.new {
 	position: relative;
 	width: unset;
-	gap: 5px;
+	gap: 14px;
 	background-color: var(--color-primary-element-light);
 	color: var(--color-primary-element-light-text);
+	border: unset;
+	padding: 0px 20px;
 }
 
 .breadcrumb {
