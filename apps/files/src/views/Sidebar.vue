@@ -88,20 +88,22 @@
 	</NcAppSidebar>
 </template>
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { encodePath } from '@nextcloud/paths'
+import { File, Folder } from '@nextcloud/files'
+import { getCurrentUser } from '@nextcloud/auth'
+import { Type as ShareTypes } from '@nextcloud/sharing'
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
-import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
-import { Type as ShareTypes } from '@nextcloud/sharing'
 
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 import FileInfo from '../services/FileInfo.js'
-import SidebarTab from '../components/SidebarTab.vue'
 import LegacyView from '../components/LegacyView.vue'
+import SidebarTab from '../components/SidebarTab.vue'
 import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 
 export default {
@@ -253,7 +255,7 @@ export default {
 				return {
 					key: 'error', // force key to re-render
 					subname: '',
-					title: '',
+					name: '',
 					class: {
 						'app-sidebar--full': this.isFullScreen,
 					},
@@ -263,7 +265,7 @@ export default {
 			return {
 				loading: this.loading,
 				subname: '',
-				title: '',
+				name: '',
 				class: {
 					'app-sidebar--full': this.isFullScreen,
 				},
@@ -396,6 +398,19 @@ export default {
 						${state ? '</d:set>' : '</d:remove>'}
 						</d:propertyupdate>`,
 				})
+
+				/**
+				 * TODO: adjust this when the Sidebar is finally using File/Folder classes
+				 * @see https://github.com/nextcloud/server/blob/8a75cb6e72acd42712ab9fea22296aa1af863ef5/apps/files/src/views/favorites.ts#L83-L115
+				 */
+				const isDir = this.fileInfo.type === 'dir'
+				const Node = isDir ? Folder : File
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+					fileid: this.fileInfo.id,
+					source: this.davPath,
+					root: `/files/${getCurrentUser().uid}`,
+					mime: isDir ? undefined : this.fileInfo.mimetype,
+				}))
 			} catch (error) {
 				OC.Notification.showTemporary(t('files', 'Unable to change the favourite state of the file'))
 				console.error('Unable to change favourite state', error)
