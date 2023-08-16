@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Přesunout",
     "Copy" : "Kopírovat",
     "Choose target folder" : "Zvolte cílovou složku",
+    "Set reminder" : "Nastavit připomínku",
     "Edit locally" : "Upravit lokálně",
     "Open" : "Otevřít",
     "Delete file" : "Smazat soubor",
