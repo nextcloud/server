@@ -1264,10 +1264,10 @@ OC.Uploader.prototype = _.extend({
 					}
 					//console.log('#', ' idx: ',bufferIndex, ' Total: ', bufferTotal, ' remainSeconds: ', remainingSeconds, ' during: ', diffUpdate);
 
-					if (smoothRemainingSeconds === null) {
-						smoothRemainingSeconds = bufferTotal / bufferSize;
-					} else{
+					if (smoothRemainingSeconds) {
 						smoothRemainingSeconds = smoothing * (bufferTotal / bufferSize) + ((1-smoothing) * smoothRemainingSeconds);
+					} else {
+						smoothRemainingSeconds = bufferTotal / bufferSize;
 					}
 
 					if (bufferIndex % 4 === 0) {
@@ -1281,10 +1281,10 @@ OC.Uploader.prototype = _.extend({
 					}
 
 					// smooth bitrate
-					if (smoothBitrate === null) {
-						smoothBitrate = data.bitrate;
-					} else{
+					if (smoothBitrate) {
 						smoothBitrate = smoothing * data.bitrate + ((1-smoothing) * smoothBitrate);
+					} else {
+						smoothBitrate = data.bitrate;
 					}
  
 					self._setProgressBarText(h, h, t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
