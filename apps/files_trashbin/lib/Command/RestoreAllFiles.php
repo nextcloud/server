@@ -276,13 +276,13 @@ class RestoreAllFiles extends Base {
 
 			// Check left timestamp boundary
 			if ($since !== null && $trashItem->getDeletedTime() <= $since) {
-				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted before the restore-from timestamp", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted before the 'since' timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
 			// Check right timestamp boundary
 			if ($until !== null && $trashItem->getDeletedTime() >= $until) {
-				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted after the restore-to timestamp", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted after the 'until' timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
