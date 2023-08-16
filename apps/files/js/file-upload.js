@@ -618,8 +618,10 @@ OC.Uploader.prototype = _.extend({
 		});
 		if (!self._uploading) {
 			self.totalToUpload = 0;
+			self.totalUploadCount = 0;
 		}
 		self.totalToUpload += _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
+		self.totalUploadCount += uploads.length;
 		var semaphore = new OCA.Files.Semaphore(5);
 		var promises = _.map(uploads, function(upload) {
 			return semaphore.acquire().then(function(){
@@ -726,8 +728,9 @@ OC.Uploader.prototype = _.extend({
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
-		OC.Notification.show(t('files', 'Upload cancelled.'), {timeout : 7, type: 'error'});
+		OC.Notification.show(t('files', 'Upload cancelled.'), { timeout : 7000, type: 'error' });
 	}, 500),
+
 	/**
 	 * callback for the conflicts dialog
 	 */
@@ -1270,14 +1273,25 @@ OC.Uploader.prototype = _.extend({
 						smoothRemainingSeconds = bufferTotal / bufferSize;
 					}
 
-					if (bufferIndex % 4 === 0) {
+					// the number of currently running uploads
+					const runningUploads = Object.keys(self._uploads).length;
+
+					// Only show remaining time if enough buffer information is available and debounce to 1/4
+					if (bufferFilled && bufferIndex % 4 === 0) {
 						h = moment.duration(smoothRemainingSeconds, "seconds").humanize({m: 50, h: 50});
+						if (self.totalUploadCount > 1) {
+							h = t('files', '{remainingTime} ({currentNumber}/{total})', { remainingTime: h, currentNumber: self.totalUploadCount - runningUploads + 1, total: self.totalUploadCount });
+						}
 					}
 
-					// wait for the buffer to be at least half filled, approximately takes 3s
-					if (!(smoothRemainingSeconds >= 0 && smoothRemainingSeconds < 14400) || (bufferFilled == false && bufferIndex < bufferSize/2)) {
-						// show "Uploading ..." for durations longer than 4 hours
-						h = t('files', 'Uploading …');
+					// wait for the buffer to be filled and also show "Uploading ..." for durations longer than 4 hours
+					if (!bufferFilled || !(smoothRemainingSeconds >= 0 && smoothRemainingSeconds < 14400)) {
+						// Do not show file index when there is just one
+						if (self.totalUploadCount > 1) {
+							h = t('files', 'Uploading … ({currentNumber}/{total})', { currentNumber: self.totalUploadCount - runningUploads + 1, total: self.totalUploadCount });
+						} else {
+							h = t('files', 'Uploading …');
+						}
 					}
 
 					// smooth bitrate
