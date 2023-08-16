@@ -71,7 +71,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
-	protected LoggerInterface $logger;
+	/** @var LoggerInterface */
+	protected $logger;
 
 	public function __construct() {
 		parent::__construct('admin_audit');
