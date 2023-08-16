@@ -57,15 +57,17 @@ class DeleteOrphanShares extends Base {
 
 		$orphans = [];
 		foreach ($shares as $share) {
-			if (!$this->orphanHelper->isShareValid($share['owner'], $share['fileid'])) {
-				$orphans[] = $share['id'];
-				$exists = $this->orphanHelper->fileExists($share['fileid']);
-				$output->writeln("<info>{$share['target']}</info> owned by <info>{$share['owner']}</info>");
-				if ($exists) {
-					$output->writeln("  file still exists but the share owner lost access to it, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
-				} else {
-					$output->writeln("  file no longer exists");
-				}
+			if ($this->orphanHelper->isShareValid($share['owner'], $share['fileid'])) {
+				continue;
+			}
+
+			$orphans[] = $share['id'];
+			$exists = $this->orphanHelper->fileExists($share['fileid']);
+			$output->writeln("<info>{$share['target']}</info> owned by <info>{$share['owner']}</info>");
+			if ($exists) {
+				$output->writeln("  file still exists but the share owner lost access to it, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
+			} else {
+				$output->writeln("  file no longer exists");
 			}
 		}
 

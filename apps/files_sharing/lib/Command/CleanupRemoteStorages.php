@@ -67,30 +67,34 @@ class CleanupRemoteStorages extends Command {
 		$output->writeln(count($remoteShareIds) . ' remote share(s) exist');
 
 		foreach ($remoteShareIds as $id => $remoteShareId) {
-			if (isset($remoteStorages[$remoteShareId])) {
-				if ($input->getOption('dry-run') || $output->isVerbose()) {
-					$output->writeln("<info>$remoteShareId belongs to remote share $id</info>");
-				}
-
-				unset($remoteStorages[$remoteShareId]);
-			} else {
+			if (!isset($remoteStorages[$remoteShareId])) {
 				$output->writeln("<comment>$remoteShareId for share $id has no matching storage, yet</comment>");
+				continue;
 			}
+
+			if ($input->getOption('dry-run') || $output->isVerbose()) {
+				$output->writeln("<info>$remoteShareId belongs to remote share $id</info>");
+			}
+
+			unset($remoteStorages[$remoteShareId]);
 		}
 
 		if (empty($remoteStorages)) {
 			$output->writeln('<info>no storages deleted</info>');
-		} else {
-			$dryRun = $input->getOption('dry-run');
-			foreach ($remoteStorages as $id => $numericId) {
-				if ($dryRun) {
-					$output->writeln("<error>$id [$numericId] can be deleted</error>");
-					$this->countFiles($numericId, $output);
-				} else {
-					$this->deleteStorage($id, $numericId, $output);
-				}
-			}
+			return self::SUCCESS;
 		}
+
+		$dryRun = $input->getOption('dry-run');
+		foreach ($remoteStorages as $id => $numericId) {
+			if (!$dryRun) {
+				$this->deleteStorage($id, $numericId, $output);
+				continue;
+			}
+
+			$output->writeln("<error>$id [$numericId] can be deleted</error>");
+			$this->countFiles($numericId, $output);
+		}
+
 		return self::SUCCESS;
 	}
 
