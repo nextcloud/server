@@ -66,6 +66,16 @@ interface IThrottler {
 	 */
 	public function registerAttempt(string $action, string $ip, array $metadata = []): void;
 
+
+	/**
+	 * Check if the IP is allowed to bypass the brute force protection
+	 *
+	 * @param string $ip
+	 * @return bool
+	 * @since 28.0.0
+	 */
+	public function isBypassListed(string $ip): bool;
+
 	/**
 	 * Get the throttling delay (in milliseconds)
 	 *

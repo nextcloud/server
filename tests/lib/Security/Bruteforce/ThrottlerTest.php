@@ -185,7 +185,7 @@ class ThrottlerTest extends TestCase {
 
 		$this->assertSame(
 			($enabled === false) ? true : $isWhiteListed,
-			self::invokePrivate($this->throttler, 'isIPWhitelisted', [$ip])
+			self::invokePrivate($this->throttler, 'isBypassListed', [$ip])
 		);
 	}
 
