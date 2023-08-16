@@ -25,21 +25,16 @@ declare(strict_types=1);
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
-use OC\Security\Bruteforce\Throttler;
 use OCP\Security\Bruteforce\IThrottler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class BruteforceAttempts extends Base {
-	/** @var Throttler */
-	protected IThrottler $throttler;
-
 	public function __construct(
-		IThrottler $throttler,
+		protected IThrottler $throttler,
 	) {
 		parent::__construct();
-		$this->throttler = $throttler;
 	}
 
 	protected function configure(): void {
@@ -69,7 +64,7 @@ class BruteforceAttempts extends Base {
 		}
 
 		$data = [
-			'allow-listed' => $this->throttler->isIPWhitelisted($ip),
+			'bypass-listed' => $this->throttler->isBypassListed($ip),
 			'attempts' => $this->throttler->getAttempts(
 				$ip,
 				(string) $input->getArgument('action'),

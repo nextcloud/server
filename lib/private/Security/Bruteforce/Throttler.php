@@ -80,7 +80,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isIPWhitelisted((string)$ipAddress)) {
+		if ($this->isBypassListed((string)$ipAddress)) {
 			return;
 		}
 
@@ -110,7 +110,7 @@ class Throttler implements IThrottler {
 	 * @param string $ip
 	 * @return bool
 	 */
-	public function isIPWhitelisted(string $ip): bool {
+	public function isBypassListed(string $ip): bool {
 		if (isset($this->ipIsWhitelisted[$ip])) {
 			return $this->ipIsWhitelisted[$ip];
 		}
@@ -200,7 +200,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isIPWhitelisted((string)$ipAddress)) {
+		if ($this->isBypassListed((string)$ipAddress)) {
 			return 0;
 		}
 
@@ -245,7 +245,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isIPWhitelisted((string)$ipAddress)) {
+		if ($this->isBypassListed((string)$ipAddress)) {
 			return;
 		}
 
@@ -268,7 +268,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isIPWhitelisted((string)$ipAddress)) {
+		if ($this->isBypassListed((string)$ipAddress)) {
 			return;
 		}
 

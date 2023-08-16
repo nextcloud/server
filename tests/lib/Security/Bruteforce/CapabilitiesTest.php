@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace Test\Security\Bruteforce;
 
 use OC\Security\Bruteforce\Capabilities;
-use OC\Security\Bruteforce\Throttler;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Test\TestCase;
 
 class CapabilitiesTest extends TestCase {
@@ -36,7 +36,7 @@ class CapabilitiesTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	protected function setUp(): void {
@@ -44,7 +44,7 @@ class CapabilitiesTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->capabilities = new Capabilities(
 			$this->request,
@@ -59,7 +59,7 @@ class CapabilitiesTest extends TestCase {
 			->willReturn(42);
 
 		$this->throttler->expects($this->atLeastOnce())
-			->method('isIPWhitelisted')
+			->method('isBypassListed')
 			->with('10.10.10.10')
 			->willReturn(true);
 

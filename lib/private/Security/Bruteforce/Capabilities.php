@@ -32,11 +32,12 @@ namespace OC\Security\Bruteforce;
 use OCP\Capabilities\IPublicCapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 
 class Capabilities implements IPublicCapability, IInitialStateExcludedCapability {
 	public function __construct(
 		private IRequest $request,
-		private Throttler $throttler,
+		private IThrottler $throttler,
 	) {
 	}
 
@@ -47,7 +48,7 @@ class Capabilities implements IPublicCapability, IInitialStateExcludedCapability
 		return [
 			'bruteforce' => [
 				'delay' => $this->throttler->getDelay($this->request->getRemoteAddress()),
-				'allow-listed' => $this->throttler->isIPWhitelisted($this->request->getRemoteAddress()),
+				'allow-listed' => $this->throttler->isBypassListed($this->request->getRemoteAddress()),
 			],
 		];
 	}
