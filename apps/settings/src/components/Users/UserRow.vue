@@ -568,13 +568,13 @@ export default {
 			})
 		},
 
-		updateUserManager(manager) {
+		async updateUserManager(manager) {
 			if (manager === null) {
 				this.idState.currentManager = ''
 			}
 			this.idState.loading.manager = true
 			try {
-				this.$store.dispatch('setUserData', {
+				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'manager',
 					value: this.idState.currentManager ? this.idState.currentManager.id : '',
