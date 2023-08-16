@@ -106,6 +106,7 @@ OC.L10N.register(
     "Personal" : "Προσωπικά",
     "Administration" : "Διαχείριση",
     "Additional settings" : "Επιπρόσθετες ρυθμίσεις",
+    "Artificial Intelligence" : "Τεχνητή νοημοσύνη",
     "Administration privileges" : "Προνόμια διαχειριστή",
     "Groupware" : "Ομαδικό",
     "Overview" : "Επισκόπηση",
