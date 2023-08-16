@@ -44,8 +44,6 @@
  */
 namespace OCA\Files_Trashbin;
 
-use OC\ServerNotAvailableException;
-use OC\User\NoUserException;
 use OC_User;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
@@ -56,21 +54,16 @@ use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Exceptions\CopyRecursiveException;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\App\IAppManager;
-use OCP\DB\Exception;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\HintException;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Trashbin {
@@ -82,7 +75,6 @@ class Trashbin {
 	 * by triggering the scan in the pre-hook
 	 *
 	 * @param array $params
-	 * @throws NoUserException
 	 */
 	public static function ensureFileScannedHook($params): void {
 		try {
@@ -98,7 +90,6 @@ class Trashbin {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
 	 */
 	public static function getUidAndFilename($filename): array {
 		$uid = Filesystem::getOwner($filename);
@@ -131,7 +122,6 @@ class Trashbin {
 	 *
 	 * @param string $user
 	 * @return array (filename => array (timestamp => original location))
-	 * @throws Exception
 	 */
 	public static function getLocations($user): array {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -158,7 +148,6 @@ class Trashbin {
 	 * @param string $filename
 	 * @param string $timestamp
 	 * @return bool|string original location
-	 * @throws Exception
 	 */
 	public static function getLocation($user, $filename, $timestamp): bool|string {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -181,7 +170,6 @@ class Trashbin {
 
 	/**
 	 * @param string $user
-	 * @throws \Exception
 	 */
 	private static function setUpTrash($user): void {
 		$view = new View('/' . $user);
@@ -207,9 +195,7 @@ class Trashbin {
 	 * @param string $targetPath
 	 * @param string $user
 	 * @param int $timestamp
-	 * @throws Exception
 	 * @throws CopyRecursiveException
-	 * @throws QueryException
 	 * @throws InvalidPathException
 	 */
 	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp): void {
@@ -252,13 +238,8 @@ class Trashbin {
 	 * @param string $file_path path to the deleted file/directory relative to the files root directory
 	 * @param bool $ownerOnly delete for owner only (if file gets moved out of a shared folder)
 	 * @return bool
-	 * @throws Exception
 	 * @throws CopyRecursiveException
 	 * @throws InvalidPathException
-	 * @throws LockedException
-	 * @throws NoUserException
-	 * @throws QueryException
-	 * @throws ContainerExceptionInterface
 	 */
 	public static function move2trash($file_path, $ownerOnly = false): bool {
 		// get the user for which the filesystem is setup
@@ -422,8 +403,6 @@ class Trashbin {
 	 * @param string $ownerPath path relative to the owner's home storage
 	 * @param int $timestamp when the file was deleted
 	 * @throws CopyRecursiveException
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp): void {
 		if (!\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions') || empty($ownerPath)) {
@@ -500,13 +479,7 @@ class Trashbin {
 	 * @param string $filename name of the file/folder
 	 * @param int $timestamp time when the file/folder was deleted
 	 * @return bool true on success, false otherwise
-	 * @throws Exception
-	 * @throws ContainerExceptionInterface
-	 * @throws LockedException
-	 * @throws NoUserException
-	 * @throws NotFoundExceptionInterface
 	 * @throws NotPermittedException
-	 * @throws QueryException
 	 */
 	public static function restore($file, $filename, $timestamp): bool {
 		$user = OC_User::getUser();
@@ -580,11 +553,6 @@ class Trashbin {
 	 * @param string $location location if file
 	 * @param int $timestamp deletion time
 	 * @return false|null
-	 * @throws Exception
-	 * @throws ContainerExceptionInterface
-	 * @throws LockedException
-	 * @throws NoUserException
-	 * @throws NotFoundExceptionInterface
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp): ?bool {
 		if (! \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
@@ -680,8 +648,6 @@ class Trashbin {
 	 * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
 	 *
 	 * @param string $path
-	 * @throws HintException
-	 * @throws ServerNotAvailableException
 	 */
 	protected static function emitTrashbinPreDelete($path): void {
 		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', ['path' => $path]);
@@ -691,8 +657,6 @@ class Trashbin {
 	 * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
 	 *
 	 * @param string $path
-	 * @throws HintException
-	 * @throws ServerNotAvailableException
 	 */
 	protected static function emitTrashbinPostDelete($path): void {
 		\OC_Hook::emit('\OCP\Trashbin', 'delete', ['path' => $path]);
@@ -705,14 +669,9 @@ class Trashbin {
 	 * @param string $user
 	 * @param null $timestamp of deletion time
 	 * @return int|float size of deleted files
-	 * @throws Exception
-	 * @throws ContainerExceptionInterface
-	 * @throws HintException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotFoundExceptionInterface
 	 * @throws NotPermittedException
-	 * @throws ServerNotAvailableException
 	 */
 	public static function delete($filename, $user, $timestamp = null): float|int {
 		$userRoot = \OC::$server->getUserFolder($user)->getParent();
@@ -760,9 +719,6 @@ class Trashbin {
 	 * @param ?int $timestamp
 	 * @param string $user
 	 * @return int|float
-	 * @throws Exception
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
 	 */
 	private static function deleteVersions(View $view, $file, $filename, $timestamp, string $user): int|float {
 		$size = 0;
@@ -795,7 +751,6 @@ class Trashbin {
 	 * @param string $filename path to the file
 	 * @param int $timestamp of deletion time
 	 * @return bool true if file exists, otherwise false
-	 * @throws \Exception
 	 */
 	public static function file_exists($filename, $timestamp = null) {
 		$user = OC_User::getUser();
@@ -814,7 +769,6 @@ class Trashbin {
 	 *
 	 * @param string $uid id of deleted user
 	 * @return bool result of db delete operation
-	 * @throws Exception
 	 */
 	public static function deleteUser($uid): bool {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -883,11 +837,8 @@ class Trashbin {
 	 * resize trash bin if necessary after a new file was added to Nextcloud
 	 *
 	 * @param string $user user id
-	 * @throws ContainerExceptionInterface
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotFoundExceptionInterface
-	 * @throws QueryException
 	 */
 	public static function resizeTrash($user): void {
 		$size = self::getTrashbinSize($user);
@@ -903,15 +854,9 @@ class Trashbin {
 	 * clean up the trash bin
 	 *
 	 * @param string $user
-	 * @throws Exception
-	 * @throws ContainerExceptionInterface
-	 * @throws HintException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotFoundExceptionInterface
 	 * @throws NotPermittedException
-	 * @throws QueryException
-	 * @throws ServerNotAvailableException
 	 */
 	public static function expire($user): void {
 		$trashBinSize = self::getTrashbinSize($user);
@@ -930,9 +875,6 @@ class Trashbin {
 
 	/**
 	 * @param string $user
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
-	 * @throws QueryException
 	 */
 	private static function scheduleExpire($user): void {
 		// let the admin disable auto expire
@@ -952,15 +894,9 @@ class Trashbin {
 	 * @param string $user
 	 * @param int|float $availableSpace available disc space
 	 * @return int|float size of deleted files
-	 * @throws Exception
-	 * @throws ContainerExceptionInterface
-	 * @throws HintException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotFoundExceptionInterface
 	 * @throws NotPermittedException
-	 * @throws QueryException
-	 * @throws ServerNotAvailableException
 	 */
 	protected static function deleteFiles(array $files, string $user, int|float $availableSpace): int|float {
 		/** @var Application $application */
@@ -989,13 +925,8 @@ class Trashbin {
 	 * @param array $files list of files sorted by mtime
 	 * @param string $user
 	 * @return array{int|float, int} size of deleted files and number of deleted files
-	 * @throws Exception
-	 * @throws HintException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
-	 * @throws ServerNotAvailableException
-	 * @throws ContainerExceptionInterface
 	 */
 	public static function deleteExpiredFiles($files, $user): array {
 		/** @var Expiration $expiration */
@@ -1074,8 +1005,6 @@ class Trashbin {
 	 * @param int $timestamp timestamp when the file was deleted
 	 * @param string $user
 	 * @return array
-	 * @throws Exception
-	 * @throws QueryException
 	 */
 	private static function getVersionsFromTrash($filename, $timestamp, string $user): array {
 		$view = new View('/' . $user . '/files_trashbin/versions');
@@ -1204,7 +1133,6 @@ class Trashbin {
 	 *
 	 * @param string $user user who owns the trash bin
 	 * @return int|float trash bin size
-	 * @throws \Exception
 	 */
 	private static function getTrashbinSize(string $user): int|float {
 		$view = new View('/' . $user);
@@ -1217,7 +1145,6 @@ class Trashbin {
 	 *
 	 * @param string $user
 	 * @return bool
-	 * @throws \Exception
 	 */
 	public static function isEmpty($user): bool {
 		$view = new View('/' . $user . '/files_trashbin');
