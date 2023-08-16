@@ -114,15 +114,15 @@ class CacheEntry implements ICacheEntry {
 	}
 
 	public function getMetadataEtag(): ?string {
-		return $this->data['metadata_etag'];
+		return $this->data['metadata_etag'] ?? null;
 	}
 
 	public function getCreationTime(): ?int {
-		return $this->data['creation_time'];
+		return $this->data['creation_time'] ?? null;
 	}
 
 	public function getUploadTime(): ?int {
-		return $this->data['upload_time'];
+		return $this->data['upload_time'] ?? null;
 	}
 
 	public function getData() {
