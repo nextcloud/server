@@ -3846,7 +3846,8 @@
 				return;
 			}
 			var $newButton = $(OCA.Files.Templates['template_addbutton']({
-				addText: t('files', 'New file/folder menu'),
+				addText: t('files', 'New'),
+				addLongText: t('files', 'New file/folder menu'),
 				iconClass: 'icon-add',
 			}));
 
