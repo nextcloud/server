@@ -95,8 +95,7 @@ export default {
 			return Math.round(this.width * this.zoomRatio)
 		},
 		alt() {
-			const fileName = this.basename
-			return t('viewer', '"{fileName}"', { fileName })
+			return this.basename
 		},
 	},
 
