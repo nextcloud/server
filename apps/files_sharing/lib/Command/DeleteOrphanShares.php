@@ -33,11 +33,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteOrphanShares extends Base {
-	private OrphanHelper $orphanHelper;
-
-	public function __construct(OrphanHelper $orphanHelper) {
+	public function __construct(
+		private OrphanHelper $orphanHelper,
+	) {
 		parent::__construct();
-		$this->orphanHelper = $orphanHelper;
 	}
 
 	protected function configure(): void {
@@ -74,7 +73,7 @@ class DeleteOrphanShares extends Base {
 
 		if ($count === 0) {
 			$output->writeln("No orphan shares detected");
-			return 0;
+			return self::SUCCESS;
 		}
 
 		if ($force) {
@@ -91,6 +90,6 @@ class DeleteOrphanShares extends Base {
 			$this->orphanHelper->deleteShares($orphans);
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

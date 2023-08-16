@@ -36,28 +36,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExiprationNotification extends Command {
-	/** @var NotificationManager */
-	private $notificationManager;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var ITimeFactory */
-	private $time;
-	/** @var ShareManager */
-	private $shareManager;
-
-	public function __construct(ITimeFactory $time,
-								NotificationManager $notificationManager,
-								IDBConnection $connection,
-								ShareManager $shareManager) {
+	public function __construct(
+		private ITimeFactory $time,
+		private NotificationManager $notificationManager,
+		private IDBConnection $connection,
+		private ShareManager $shareManager,
+	) {
 		parent::__construct();
-
-		$this->notificationManager = $notificationManager;
-		$this->connection = $connection;
-		$this->time = $time;
-		$this->shareManager = $shareManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('sharing:expiration-notification')
 			->setDescription('Notify share initiators when a share will expire the next day.');
@@ -67,7 +55,7 @@ class ExiprationNotification extends Command {
 		//Current time
 		$minTime = $this->time->getDateTime();
 		$minTime->add(new \DateInterval('P1D'));
-		$minTime->setTime(0,0,0);
+		$minTime->setTime(0, 0, 0);
 
 		$maxTime = clone $minTime;
 		$maxTime->setTime(23, 59, 59);
@@ -94,6 +82,6 @@ class ExiprationNotification extends Command {
 			$notification->setUser($share->getSharedBy());
 			$this->notificationManager->notify($notification);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }
