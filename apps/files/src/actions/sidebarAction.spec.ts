@@ -19,11 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { action } from './sidebarAction'
+import type { Navigation } from '../services/Navigation'
+
 import { expect } from '@jest/globals'
 import { File, Permission } from '@nextcloud/files'
+
+import { action } from './sidebarAction'
 import { FileAction } from '../services/FileAction'
-import type { Navigation } from '../services/Navigation'
 import logger from '../logger'
 
 const view = {
@@ -127,6 +129,8 @@ describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
 		const openMock = jest.fn()
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
+		const goToRouteMock = jest.fn()
+		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
 			id: 1,
@@ -139,6 +143,12 @@ describe('Open sidebar action exec tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(goToRouteMock).toBeCalledWith(
+			null,
+			{ view: view.id, fileid: 1 },
+			{ dir: '/' },
+			true,
+		)
 	})
 
 	test('Open sidebar fails', async () => {
