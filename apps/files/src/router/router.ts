@@ -21,10 +21,18 @@
  */
 import { generateUrl } from '@nextcloud/router'
 import queryString from 'query-string'
-import Router from 'vue-router'
+import Router, { RawLocation, Route } from 'vue-router'
 import Vue from 'vue'
+import { ErrorHandler } from 'vue-router/types/router'
 
 Vue.use(Router)
+
+// Prevent router from throwing errors when we're already on the page we're trying to go to
+const originalPush = Router.prototype.push as (to, onComplete?, onAbort?) => Promise<Route>
+Router.prototype.push = function push(to: RawLocation, onComplete?: ((route: Route) => void) | undefined, onAbort?: ErrorHandler | undefined): Promise<Route> {
+	if (onComplete || onAbort) return originalPush.call(this, to, onComplete, onAbort)
+	return originalPush.call(this, to).catch(err => err)
+}
 
 const router = new Router({
 	mode: 'history',

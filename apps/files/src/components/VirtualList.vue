@@ -1,17 +1,17 @@
 <template>
-	<table class="files-list">
+	<table class="files-list" data-cy-files-list>
 		<!-- Header -->
 		<div ref="before" class="files-list__before">
 			<slot name="before" />
 		</div>
 
 		<!-- Header -->
-		<thead ref="thead" class="files-list__thead">
+		<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
 			<slot name="header" />
 		</thead>
 
 		<!-- Body -->
-		<tbody :style="tbodyStyle" class="files-list__tbody">
+		<tbody :style="tbodyStyle" class="files-list__tbody" data-cy-files-list-tbody>
 			<component :is="dataComponent"
 				v-for="(item, i) in renderedItems"
 				:key="i"
@@ -22,7 +22,10 @@
 		</tbody>
 
 		<!-- Footer -->
-		<tfoot v-show="isReady" ref="tfoot" class="files-list__tfoot">
+		<tfoot v-show="isReady"
+			ref="tfoot"
+			class="files-list__tfoot"
+			data-cy-files-list-tfoot>
 			<slot name="footer" />
 		</tfoot>
 	</table>

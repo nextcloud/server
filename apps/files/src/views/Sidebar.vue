@@ -374,7 +374,13 @@ export default {
 		 */
 		setActiveTab(id) {
 			OCA.Files.Sidebar.setActiveTab(id)
-			this.tabs.forEach(tab => tab.setIsActive(id === tab.id))
+			this.tabs.forEach(tab => {
+				try {
+					tab.setIsActive(id === tab.id)
+				} catch (error) {
+					logger.error('Error while setting tab active state', { error, id: tab.id, tab })
+				}
+			})
 		},
 
 		/**

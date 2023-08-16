@@ -22,6 +22,9 @@
 
 <template>
 	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive}"
+		data-cy-files-list-row
+		:data-cy-files-list-row-fileid="fileid"
+		:data-cy-files-list-row-name="source.basename"
 		class="list__row"
 		@contextmenu="onRightClick">
 		<!-- Failed indicator -->
@@ -38,7 +41,7 @@
 		</td>
 
 		<!-- Link to file -->
-		<td class="files-list__row-name">
+		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
 			<span class="files-list__row-icon" @click="execDefaultAction">
 				<FolderIcon v-if="source.type === 'folder'" />
@@ -81,6 +84,7 @@
 				ref="basename"
 				:aria-hidden="isRenaming"
 				class="files-list__row-name-link"
+				data-cy-files-list-row-name-link
 				v-bind="linkTo"
 				@click="execDefaultAction">
 				<!-- File name -->
@@ -93,7 +97,10 @@
 		</td>
 
 		<!-- Actions -->
-		<td v-show="!isRenamingSmallScreen" :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
+		<td v-show="!isRenamingSmallScreen"
+			:class="`files-list__row-actions-${uniqueId}`"
+			class="files-list__row-actions"
+			data-cy-files-list-row-actions>
 			<!-- Render actions -->
 			<CustomElementRender v-for="action in enabledRenderActions"
 				:key="action.id"
@@ -115,6 +122,7 @@
 					:key="action.id"
 					:class="'files-list__row-action-' + action.id"
 					:close-after-click="true"
+					:data-cy-files-list-row-action="action.id"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loading === action.id" :size="18" />
@@ -129,6 +137,7 @@
 		<td v-if="isSizeAvailable"
 			:style="{ opacity: sizeOpacity }"
 			class="files-list__row-size"
+			data-cy-files-list-row-size
 			@click="openDetailsIfAvailable">
 			<span>{{ size }}</span>
 		</td>
@@ -136,6 +145,7 @@
 		<!-- Mtime -->
 		<td v-if="isMtimeAvailable"
 			class="files-list__row-mtime"
+			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
 			<span>{{ mtime }}</span>
 		</td>
@@ -145,6 +155,7 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom"
+			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
 			<CustomElementRender v-if="visible"
 				:current-view="currentView"
