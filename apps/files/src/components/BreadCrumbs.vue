@@ -11,6 +11,11 @@
 				<Home :size="20" />
 			</template>
 		</NcBreadcrumb>
+
+		<!-- Forward the actions slot -->
+		<template #actions>
+			<slot name="actions" />
+		</template>
 	</NcBreadcrumbs>
 </template>
 
