@@ -76,6 +76,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluzând %n ascuns","incluzând %nascunse","incluzând %nascuns"],
     "You do not have permission to upload or create files here" : "Nu ai permisiunea de a încărca fișiere aici",
     "_Uploading %n file_::_Uploading %n files_" : ["Se încarcă %n fișier.","Se încarcă %n fișiere.","Se încarcă %n fișiere."],
+    "New" : "Nou",
     "Select file range" : "Selectează un interval",
     "{used} of {quota} used" : "{used} din {quota} folosiți",
     "{used} used" : "{used} folosiți",
@@ -217,6 +218,7 @@ OC.L10N.register(
     "Shared with you" : "Partajat cu tine",
     "Shared by link" : "Partajat prin link",
     "Deleted shares" : "Partajări șterse",
-    "Pending shares" : "Partajări in asteptare"
+    "Pending shares" : "Partajări in asteptare",
+    "Choose" : "Alege"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

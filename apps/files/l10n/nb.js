@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["Inkludert %n skjult","Inkludert %n skjulte"],
     "You do not have permission to upload or create files here" : "Du har ikke tilgang til å laste opp eller opprette filer her",
     "_Uploading %n file_::_Uploading %n files_" : ["Laster opp %n fil","Laster opp %n filer"],
+    "New" : "Ny",
     "New file/folder menu" : "Ny fil/mappe-meny",
     "Select file range" : "Velg filutvalg",
     "{used}%" : "{used}%",
@@ -232,6 +233,7 @@ OC.L10N.register(
     "Shared with you" : "Delt med deg",
     "Shared by link" : "Delt med lenke",
     "Deleted shares" : "Slettede delinger",
-    "Pending shares" : "Ventende delinger"
+    "Pending shares" : "Ventende delinger",
+    "Choose" : "Velg"
 },
 "nplurals=2; plural=(n != 1);");

@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["از جمله %nپنهان","از جمله %nپنهان"],
     "You do not have permission to upload or create files here" : "شما اجازه آپلود یا ایجاد فایل در اینجا را ندارید",
     "_Uploading %n file_::_Uploading %n files_" : ["در حال بارگذاری %n فایل","در حال بارگذاری %n فایل"],
+    "New" : "جدید",
     "New file/folder menu" : "منوی فایل/پوشه جدید",
     "Select file range" : "محدوده فایل را انتخاب کنید",
     "{used}%" : "{used}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "باز کردن پوشه {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "این لیست به دلایل اجرایی به طور کامل ارائه نشده است. در حین حرکت در لیست، فایل ها ارائه می شوند.",
     "Search for an account" : "جستجو برای یک حساب کاربری",
+    "Choose" : "انتخاب کنید",
     "No files or folders have been deleted yet" : "هنوز هیچ فایل یا پوشه ای حذف نشده است"
 },
 "nplurals=2; plural=(n > 1);");

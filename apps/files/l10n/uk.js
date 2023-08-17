@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["включаючи %n прихований","включаючи %n прихованих","включаючи %n прихованих","включно %n прихованих"],
     "You do not have permission to upload or create files here" : "У вас відсутні повноваження для завантаження або створення файлів тут",
     "_Uploading %n file_::_Uploading %n files_" : ["Вивантаження %n файлу","Вивантаження %n файлів","Вивантаження %n файлів","Завантаження %n файлів"],
+    "New" : "Створити",
     "New file/folder menu" : "Меню з новим файлом/каталогом",
     "Select file range" : "Вибрати кілька файлів",
     "{used}%" : "{used}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "Відкрити каталог {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Через обмеження, пов'язані з потужністю, список не показується повністю. Файли показуватимуться, щойно ви рухатиметеся списком.",
     "Search for an account" : "Пошук облікового запису",
+    "Choose" : "Вибрати",
     "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

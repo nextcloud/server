@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["Bao gồm %n ẩn"],
     "You do not have permission to upload or create files here" : "Bạn không đủ quyền để Tải lên hoặc Tạo tập tin ở đây",
     "_Uploading %n file_::_Uploading %n files_" : ["Đang tải lên %n tập tin"],
+    "New" : "Tạo mới",
     "New file/folder menu" : "Menu tệp tin/thư mục mới",
     "Select file range" : "‎Chọn phạm vi tệp‎",
     "{used} of {quota} used" : "‎{used} trong { quota } ‎‎được‎‎ sử dụng‎",
@@ -234,6 +235,7 @@ OC.L10N.register(
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Deleted shares" : "‎Chia sẻ đã xóa‎",
-    "Pending shares" : "Chia sẻ đang chờ xử lý‎"
+    "Pending shares" : "Chia sẻ đang chờ xử lý‎",
+    "Choose" : "Chọn"
 },
 "nplurals=1; plural=0;");

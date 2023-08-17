@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["vrátane %n skytého","vrátane %n skrytých","vrátane %n skrytých","vrátane %n skrytých"],
     "You do not have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvárať súbory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrávam %n súbor","Nahrávam %n súbory","Nahrávam %n súborov","Nahrávam %n súborov"],
+    "New" : "Nový",
     "New file/folder menu" : "Ponuka nového súboru/priečinka",
     "Select file range" : "Vybrať rozsah súborov",
     "{used}%" : "{used}%",
@@ -227,6 +228,7 @@ OC.L10N.register(
     "Shared with you" : "Vám sprístupnené",
     "Shared by link" : "Sprístupnené prostredníctvom odkazu",
     "Deleted shares" : "Vymazané zdieľania",
-    "Pending shares" : "Čakajúce prístupy"
+    "Pending shares" : "Čakajúce prístupy",
+    "Choose" : "Vybrať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

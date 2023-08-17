@@ -65,7 +65,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} надав(-ла) доступ {user} до файлу {file}",
     "{actor} removed {user} from {file}" : "{actor} вилучив(-ла) {user} з {file}",
     "{actor} shared {file} with you" : "{actor} надав(-ла) вам доступ до спільного ресурсу {file}",
-    "{actor} removed you from the share named {file}" : "{actor} скасував вам доступ до спільного ресурсу {file}",
+    "{actor} removed you from the share named {file}" : "{actor} скасував(-ла) вам доступ до спільного ресурсу {file}",
     "Share for file {file} with {user} expired" : "Термін дії доступу {user} до спільного ресурсу {file} вичерпано",
     "Share for file {file} expired" : "Термін дії спільного доступу до {file} вичерпано",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Файл або каталог, яким поділилився через ел.пошту або публічне посилання було <strong>звантажено</strong>",
