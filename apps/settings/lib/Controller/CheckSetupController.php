@@ -370,7 +370,8 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	private function isCorrectMemcachedPHPModuleInstalled() {
-		if ($this->config->getSystemValue('memcache.distributed', null) !== '\OC\Memcache\Memcached') {
+		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
+		if ($memcacheDistributedClass === null || ltrim($memcacheDistributedClass, '\\') !== \OC\Memcache\Memcached::class) {
 			return true;
 		}
 
