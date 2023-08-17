@@ -5,6 +5,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -25,8 +26,7 @@
 
 import Vue from 'vue'
 
-// eslint-disable-next-line no-unused-vars
-import OC from './OC/index.js' // TODO: Not needed but L10n breaks if removed
+import './main.js'
 import LoginView from './views/Login.vue'
 import Nextcloud from './mixins/Nextcloud.js'
 

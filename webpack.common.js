@@ -5,6 +5,7 @@ const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-m
 const webpack = require('webpack')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const { merge } = require('webpack-merge')
 
 const modules = require('./webpack.modules.js')
 const { readFileSync } = require('fs')
@@ -28,7 +29,7 @@ const formatOutputFromModules = (modules) => {
 	return Object.assign({}, ...Object.values(moduleEntries))
 }
 
-const modulesToBuild = () => {
+const modulesToBuild = (modules) => {
 	const MODULE = process?.env?.MODULE
 	if (MODULE) {
 		if (!modules[MODULE]) {
@@ -42,8 +43,19 @@ const modulesToBuild = () => {
 	return formatOutputFromModules(modules)
 }
 
-module.exports = {
-	entry: modulesToBuild(),
+const baseEntries = {
+	entry: modulesToBuild(modules),
+}
+
+const standaloneEntries = {
+	entry: modulesToBuild({
+		core: {
+			login_standalone: path.join(__dirname, 'core/src', 'login.js'),
+		},
+	}),
+}
+
+const baseConfig = {
 	output: {
 		// Step away from the src folder and extract to the js folder
 		path: path.join(__dirname, 'dist'),
@@ -58,9 +70,6 @@ module.exports = {
 			const rootDir = process?.cwd()
 			const rel = path.relative(rootDir, info.absoluteResourcePath)
 			return `webpack:///nextcloud/${rel}`
-		},
-		clean: {
-			keep: /icons\.css/, // Keep static icons css
 		},
 	},
 
@@ -140,23 +149,6 @@ module.exports = {
 				type: 'asset/source',
 			},
 		],
-	},
-
-	optimization: {
-		splitChunks: {
-			automaticNameDelimiter: '-',
-			minChunks: 3, // minimum number of chunks that must share the module
-			cacheGroups: {
-				vendors: {
-					// split every dependency into one bundle
-					test: /[\\/]node_modules[\\/]/,
-					// necessary to keep this name to properly inject it
-					// see OC_Template.php
-					name: 'core-common',
-					chunks: 'all',
-				},
-			},
-		},
 	},
 
 	plugins: [
@@ -247,3 +239,37 @@ module.exports = {
 		},
 	},
 }
+
+const optimizationConfig = {
+	optimization: {
+		splitChunks: {
+			automaticNameDelimiter: '-',
+			minChunks: 3, // minimum number of chunks that must share the module
+			cacheGroups: {
+				vendors: {
+					// split every dependency into one bundle
+					test: /[\\/]node_modules[\\/]/,
+					// necessary to keep this name to properly inject it
+					// see OC_Template.php
+					name: 'core-common',
+					chunks: 'all',
+				},
+			},
+		},
+	},
+}
+
+module.exports = [
+	merge(baseConfig, baseEntries, optimizationConfig, {
+		output: {
+			clean: false,
+		},
+	}),
+	merge(baseConfig, standaloneEntries, {
+		output: {
+			clean: {
+				keep: /icons\.css/, // Keep static icons css
+			},
+		},
+	}),
+]

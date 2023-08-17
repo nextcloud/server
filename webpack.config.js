@@ -9,7 +9,7 @@ try {
 	console.error('Could not determine build mode', e)
 }
 
-module.exports = merge(config, {
+module.exports = config.map(config => merge(config, {
 	mode: isDev ? 'development' : 'production',
 	devtool: isDev ? 'cheap-source-map' : 'source-map',
-})
+}))
