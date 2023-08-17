@@ -35,6 +35,7 @@ import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
 import { setUp as setUpUserMenu } from './components/UserMenu.js'
 import PasswordConfirmation from './OC/password-confirmation.js'
+import { interceptRequests } from './utils/xhr-request.js'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
@@ -78,6 +79,8 @@ moment.locale(locale)
  * Initializes core
  */
 export const initCore = () => {
+	interceptRequests()
+
 	$(window).on('unload.main', () => { OC._unloadCalled = true })
 	$(window).on('beforeunload.main', () => {
 		// super-trick thanks to http://stackoverflow.com/a/4651049
