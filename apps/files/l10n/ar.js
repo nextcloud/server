@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي"],
     "You do not have permission to upload or create files here" : "لا يوجد تخويل برفع أو إنشاء ملفات هنا",
     "_Uploading %n file_::_Uploading %n files_" : ["لا يوجد ملفات %n لتحميلها","تحميل 1 ملف %n","تحميل 2 ملف %n","يتم تحميل عدد قليل من ملفات %n","يتم تحميل عدد كبير من ملفات %n","يتم تحميل ملفات %n"],
+    "New" : "جديد",
     "New file/folder menu" : "قائمة ملف/مجلد جديد",
     "Select file range" : "حدد نطاق الملف",
     "{used}%" : "{مُستخدَم}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "إفتح المجلد {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "لم يمكن عرض هذه القائمة بالكامل بسبب إشكالية في الأداء. سيتم عرض الملفات عندما تمر عليها في القائمة",
     "Search for an account" : "البحث عن حساب",
+    "Choose" : "إختَر",
     "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["včetně %n skrytého","včetně %n skrytých","včetně %n skrytých","včetně %n skrytých"],
     "You do not have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrává se %n soubor","Nahrávají se %n soubory","Nahrává se %n souborů","Nahrávají se %n soubory"],
+    "New" : "Nové",
     "New file/folder menu" : "Nabídka souboru/složky",
     "Select file range" : "Vybrat rozsah souborů",
     "{used}%" : "{used}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "Otevřít složku {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
+    "Choose" : "Vybrat",
     "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

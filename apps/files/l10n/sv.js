@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["inkluderar %n dold","inkluderar %n dolda"],
     "You do not have permission to upload or create files here" : "Du har inte behörighet att ladda upp eller skapa filer här",
     "_Uploading %n file_::_Uploading %n files_" : ["Laddar upp %n fil","Laddar upp %n filer"],
+    "New" : "Ny",
     "New file/folder menu" : "Ny fil/mapp -meny",
     "Select file range" : "Välj filintervall",
     "{used}%" : "{used}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "Öppna mappen {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
+    "Choose" : "Välj",
     "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
 },
 "nplurals=2; plural=(n != 1);");

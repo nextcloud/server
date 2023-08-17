@@ -76,6 +76,7 @@
     "_including %n hidden_::_including %n hidden_" : ["включая %n скрытый","включая %n скрытых","включая %n скрытых","включая %n скрытых"],
     "You do not have permission to upload or create files here" : "У вас нет разрешения на загрузку или создание файлов здесь",
     "_Uploading %n file_::_Uploading %n files_" : ["Передача %n файла","Передача %n файлов","Передача %n файлов","Передача %n файлов"],
+    "New" : "Новый",
     "New file/folder menu" : "Меню создания файла или папки",
     "Select file range" : "Выбор диапазона файлов",
     "{used}%" : "{used}%",
@@ -270,6 +271,7 @@
     "Open folder {name}" : "Открыть папку {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
+    "Choose" : "Выберите",
     "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

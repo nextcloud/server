@@ -76,6 +76,7 @@
     "_including %n hidden_::_including %n hidden_" : ["ezkutuko %n barne","ezkutuko %n barne"],
     "You do not have permission to upload or create files here" : "Ez duzu hemen fitxategiak kargatzeko edo sortzeko baimenik",
     "_Uploading %n file_::_Uploading %n files_" : ["Fitxategi %n kargatzen","%n fitxategi kargatzen"],
+    "New" : "Berria",
     "New file/folder menu" : "Fitxategi/karpeta berri menua",
     "Select file range" : "Hautatu fitxategi-barrutia",
     "{used}%" : "%{used}",
@@ -275,6 +276,7 @@
     "Open folder {name}" : "Ireki {name} karpeta",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
+    "Choose" : "Aukeratu",
     "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
