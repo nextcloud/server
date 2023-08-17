@@ -69,15 +69,17 @@
 <script lang="ts">
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { getFileListHeaders, type Node } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
 import Vue from 'vue'
 import VirtualList from './VirtualList.vue'
 
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import FileEntry from './FileEntry.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import { showError } from '@nextcloud/dialogs'
+import logger from '../logger.js'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
@@ -174,10 +176,10 @@ export default Vue.extend({
 		if (document.documentElement.clientWidth > 1024) {
 			// Open the sidebar on the file if it's in the url and
 			// we're just loaded the app for the first time.
-			const Sidebar = window?.OCA?.Files?.Sidebar
-			const node = this.nodes.find(node => node.fileid === this.fileId) as Node
-			if (Sidebar && node) {
-				Sidebar.open(node.path)
+			const node = this.nodes.find(n => n.fileid === this.fileId) as Node
+			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
+				logger.debug('Opening sidebar on file ' + node.path, { node })
+				sidebarAction.exec(node, this.currentView, this.currentFolder)
 			}
 		}
 	},

@@ -153,15 +153,34 @@ class ViewController extends Controller {
 	 *
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
-	 * @throws NotFoundException
 	 */
-	public function showFile(string $fileid = null, int $openfile = 1): Response {
+	public function showFile(string $fileid = null): Response {
+		if (!$fileid) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
+		}
+
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile($fileid, $openfile !== 0);
+			return $this->redirectToFile((int) $fileid);
 		} catch (NotFoundException $e) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 		}
+	}
+
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @UseSession
+	 * 
+	 * @param string $dir
+	 * @param string $view
+	 * @param string $fileid
+	 * @param bool $fileNotFound
+	 * @return TemplateResponse|RedirectResponse
+	 */
+	public function indexView($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+		return $this->index($dir, $view, $fileid, $fileNotFound);
 	}
 
 	/**
@@ -173,11 +192,30 @@ class ViewController extends Controller {
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
-	 * @param string $openfile - the openfile URL parameter if it was present in the initial request
 	 * @return TemplateResponse|RedirectResponse
-	 * @throws NotFoundException
 	 */
-	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
+	public function indexViewFileid($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+		return $this->index($dir, $view, $fileid, $fileNotFound);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @UseSession
+	 *
+	 * @param string $dir
+	 * @param string $view
+	 * @param string $fileid
+	 * @param bool $fileNotFound
+	 * @return TemplateResponse|RedirectResponse
+	 */
+	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+		if ($fileid !== null && $view !== 'trashbin') {
+			try {
+				return $this->redirectToFileIfInTrashbin((int) $fileid);
+			} catch (NotFoundException $e) {}
+		}
+
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
 		\OCP\Util::addScript('files', 'merged-index', 'files');
@@ -191,8 +229,6 @@ class ViewController extends Controller {
 		} catch (\RuntimeException $e) {
 			$favElements['folders'] = [];
 		}
-
-		$contentItems = [];
 
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
@@ -237,19 +273,19 @@ class ViewController extends Controller {
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
-		$this->provideInitialState($dir, $openfile);
+		$this->provideInitialState($dir, $fileid);
 
 		return $response;
 	}
 
 	/**
-	 * Add openFileInfo in initialState if $openfile is set.
+	 * Add openFileInfo in initialState.
 	 * @param string $dir - the ?dir= URL param
-	 * @param string $openfile - the ?openfile= URL param
+	 * @param string $fileid - the fileid URL param
 	 * @return void
 	 */
-	private function provideInitialState(string $dir, ?string $openfile): void {
-		if ($openfile === null) {
+	private function provideInitialState(string $dir, ?string $fileid): void {
+		if ($fileid === null) {
 			return;
 		}
 
@@ -261,7 +297,7 @@ class ViewController extends Controller {
 
 		$uid = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $userFolder->getById((int) $openfile);
+		$nodes = $userFolder->getById((int) $fileid);
 		$node = array_shift($nodes);
 
 		if ($node === null) {
@@ -293,44 +329,70 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * Redirects to the file list and highlight the given file id
+	 * Redirects to the trashbin file list and highlight the given file id
 	 *
-	 * @param string $fileId file id to show
-	 * @param bool $setOpenfile - whether or not to set the openfile URL parameter
+	 * @param int $fileId file id to show
 	 * @return RedirectResponse redirect response or not found response
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
-	private function redirectToFile($fileId, bool $setOpenfile = false) {
+	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$files = $baseFolder->getById($fileId);
+		$nodes = $baseFolder->getById($fileId);
 		$params = [];
 
-		if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
+		if (empty($nodes) && $this->appManager->isEnabledForUser('files_trashbin')) {
+			/** @var Folder */
 			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$files = $baseFolder->getById($fileId);
+			$nodes = $baseFolder->getById($fileId);
 			$params['view'] = 'trashbin';
-		}
 
-		if (!empty($files)) {
-			$file = current($files);
-			if ($file instanceof Folder) {
+			if (!empty($nodes)) {
+				$node = current($nodes);
+				$params['fileid'] = $fileId;
+				if ($node instanceof Folder) {
+					// set the full path to enter the folder
+					$params['dir'] = $baseFolder->getRelativePath($node->getPath());
+				} else {
+					// set parent path as dir
+					$params['dir'] = $baseFolder->getRelativePath($node->getParent()->getPath());
+				}
+				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
+			}
+		}
+		throw new NotFoundException();
+	}
+
+	/**
+	 * Redirects to the file list and highlight the given file id
+	 *
+	 * @param int $fileId file id to show
+	 * @return RedirectResponse redirect response or not found response
+	 * @throws NotFoundException
+	 */
+	private function redirectToFile(int $fileId) {
+		$uid = $this->userSession->getUser()->getUID();
+		$baseFolder = $this->rootFolder->getUserFolder($uid);
+		$nodes = $baseFolder->getById($fileId);
+		$params = [];
+
+		try {
+			$this->redirectToFileIfInTrashbin($fileId);
+		} catch (NotFoundException $e) {}
+
+		if (!empty($nodes)) {
+			$node = current($nodes);
+			$params['fileid'] = $fileId;
+			if ($node instanceof Folder) {
 				// set the full path to enter the folder
-				$params['dir'] = $baseFolder->getRelativePath($file->getPath());
+				$params['dir'] = $baseFolder->getRelativePath($node->getPath());
 			} else {
 				// set parent path as dir
-				$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
-				// and scroll to the entry
-				$params['scrollto'] = $file->getName();
-
-				if ($setOpenfile) {
-					// forward the openfile URL parameter.
-					$params['openfile'] = $fileId;
-				}
+				$params['dir'] = $baseFolder->getRelativePath($node->getParent()->getPath());
 			}
-
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
 		}
-		throw new \OCP\Files\NotFoundException();
+	
+		throw new NotFoundException();
 	}
 }

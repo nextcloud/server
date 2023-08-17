@@ -451,39 +451,41 @@ export default {
 		 * @throws {Error} loading failure
 		 */
 		async open(path) {
+			if (!path || path.trim() === '') {
+				throw new Error(`Invalid path '${path}'`)
+			}
+
 			// update current opened file
 			this.Sidebar.file = path
 
-			if (path && path.trim() !== '') {
-				// reset data, keep old fileInfo to not reload all tabs and just hide them
-				this.error = null
-				this.loading = true
+			// reset data, keep old fileInfo to not reload all tabs and just hide them
+			this.error = null
+			this.loading = true
 
-				try {
-					this.fileInfo = await FileInfo(this.davPath)
-					// adding this as fallback because other apps expect it
-					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+			try {
+				this.fileInfo = await FileInfo(this.davPath)
+				// adding this as fallback because other apps expect it
+				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
 
-					// DEPRECATED legacy views
-					// TODO: remove
-					this.views.forEach(view => {
-						view.setFileInfo(this.fileInfo)
-					})
+				// DEPRECATED legacy views
+				// TODO: remove
+				this.views.forEach(view => {
+					view.setFileInfo(this.fileInfo)
+				})
 
-					this.$nextTick(() => {
-						if (this.$refs.tabs) {
-							this.$refs.tabs.updateTabs()
-						}
-						this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
-					})
-				} catch (error) {
-					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data', error)
+				this.$nextTick(() => {
+					if (this.$refs.tabs) {
+						this.$refs.tabs.updateTabs()
+					}
+					this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
+				})
+			} catch (error) {
+				this.error = t('files', 'Error while loading the file data')
+				console.error('Error while loading the file data', error)
 
-					throw new Error(error)
-				} finally {
-					this.loading = false
-				}
+				throw new Error(error)
+			} finally {
+				this.loading = false
 			}
 		},
 

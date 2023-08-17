@@ -42,6 +42,10 @@ export const action = new FileAction({
 			return false
 		}
 
+		if (!nodes[0]) {
+			return false
+		}
+
 		// Only work if the sidebar is available
 		if (!window?.OCA?.Files?.Sidebar) {
 			return false
@@ -53,7 +57,7 @@ export const action = new FileAction({
 	async exec(node: Node, view: Navigation) {
 		try {
 			// TODO: migrate Sidebar to use a Node instead
-			window?.OCA?.Files?.Sidebar?.open?.(node.path)
+			await window.OCA.Files.Sidebar.open(node.path)
 
 			// Silently update current fileid
 			window.OCP.Files.Router.goToRoute(
