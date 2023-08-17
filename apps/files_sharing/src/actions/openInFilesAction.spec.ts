@@ -19,14 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { action } from './openInFilesAction'
+import type { Navigation } from '../../../files/src/services/Navigation'
+
 import { expect } from '@jest/globals'
 import { File, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
-import * as eventBus from '@nextcloud/event-bus'
-import axios from '@nextcloud/axios'
-import type { Navigation } from '../../../files/src/services/Navigation'
+
 import '../main'
+import { action } from './openInFilesAction'
+import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
 import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
 
 const view = {
@@ -92,6 +92,6 @@ describe('Open in files action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo' })
 	})
 })

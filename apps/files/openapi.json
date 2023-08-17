@@ -340,6 +340,7 @@
                     "api"
                 ],
                 "security": [
+                    {},
                     {
                         "bearer_auth": []
                     },

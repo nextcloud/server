@@ -32,6 +32,6 @@ describe('Login with a new user and open the files app', function() {
 
 	it('See the default file welcome.txt in the files list', function() {
 		cy.visit('/apps/files')
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+		cy.get('[data-cy-files-list] [data-cy-files-list-row-name="welcome.txt"]').should('be.visible')
 	})
 })

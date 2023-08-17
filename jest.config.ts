@@ -29,6 +29,7 @@ const ignorePatterns = [
 	'@nextcloud/vue',
 	'ansi-regex',
 	'char-regex',
+	'hot-patcher',
 	'is-svg',
 	'splitpanes',
 	'string-length',

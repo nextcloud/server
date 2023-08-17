@@ -20,9 +20,7 @@
   -
   -->
 <template>
-	<NcAppContent v-show="!currentView?.legacy"
-		:class="{'app-content--hidden': currentView?.legacy}"
-		data-cy-files-content>
+	<NcAppContent data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent" />
@@ -58,19 +56,25 @@
 		<!-- File list -->
 		<FilesListVirtual v-else
 			ref="filesListVirtual"
+			:current-folder="currentFolder"
 			:current-view="currentView"
-			:nodes="dirContents" />
+			:nodes="dirContentsSorted" />
 	</NcAppContent>
 </template>
 
 <script lang="ts">
-import { Folder, File, Node } from '@nextcloud/files'
+import type { Route } from 'vue-router'
+import type { Navigation, ContentsWithRoot } from '../services/Navigation.ts'
+import type { UserConfig } from '../types.ts'
+
+import { Folder, Node } from '@nextcloud/files'
 import { join } from 'path'
 import { orderBy } from 'natural-orderby'
 import { translate } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
@@ -83,8 +87,6 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
-import Navigation, { ContentsWithRoot } from '../services/Navigation.ts'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
 export default Vue.extend({
 	name: 'FilesList',
@@ -126,32 +128,27 @@ export default Vue.extend({
 	},
 
 	computed: {
-		userConfig() {
+		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
 		},
 
-		/** @return {Navigation} */
-		currentView() {
-			return this.$navigation.active
-				|| this.$navigation.views.find(view => view.id === 'files')
+		currentView(): Navigation {
+			return (this.$navigation.active
+				|| this.$navigation.views.find(view => view.id === 'files')) as Navigation
 		},
 
 		/**
 		 * The current directory query.
-		 *
-		 * @return {string}
 		 */
-		dir() {
+		dir(): string {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
 		},
 
 		/**
 		 * The current folder.
-		 *
-		 * @return {Folder|undefined}
 		 */
-		currentFolder() {
+		currentFolder(): Folder|undefined {
 			if (!this.currentView?.id) {
 				return
 			}
@@ -165,10 +162,8 @@ export default Vue.extend({
 
 		/**
 		 * The current directory contents.
-		 *
-		 * @return {Node[]}
 		 */
-		dirContents() {
+		dirContentsSorted(): Node[] {
 			if (!this.currentView) {
 				return []
 			}
@@ -178,8 +173,7 @@ export default Vue.extend({
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)]
-					.sort(customColumn.sort)
+				const results = [...this.dirContents].sort(customColumn.sort)
 				return this.isAscSorting ? results : results.reverse()
 			}
 
@@ -198,16 +192,20 @@ export default Vue.extend({
 			const orders = new Array(identifiers.length).fill(this.isAscSorting ? 'asc' : 'desc')
 
 			return orderBy(
-				[...(this.currentFolder?._children || []).map(this.getNode).filter(file => file)],
+				[...this.dirContents],
 				identifiers,
 				orders,
 			)
 		},
 
+		dirContents(): Node[] {
+			return (this.currentFolder?._children || []).map(this.getNode).filter(file => file)
+		},
+
 		/**
 		 * The current directory is empty.
 		 */
-		isEmptyDir() {
+		isEmptyDir(): boolean {
 			return this.dirContents.length === 0
 		},
 
@@ -216,7 +214,7 @@ export default Vue.extend({
 		 * But we already have a cached version of it
 		 * that is not empty.
 		 */
-		isRefreshing() {
+		isRefreshing(): boolean {
 			return this.currentFolder !== undefined
 				&& !this.isEmptyDir
 				&& this.loading
@@ -225,7 +223,7 @@ export default Vue.extend({
 		/**
 		 * Route to the previous directory.
 		 */
-		toPreviousDir() {
+		toPreviousDir(): Route {
 			const dir = this.dir.split('/').slice(0, -1).join('/') || '/'
 			return { ...this.$route, query: { dir } }
 		},
@@ -257,10 +255,6 @@ export default Vue.extend({
 
 	methods: {
 		async fetchContent() {
-			if (this.currentView?.legacy) {
-				return
-			}
-
 			this.loading = true
 			const dir = this.dir
 			const currentView = this.currentView
@@ -272,8 +266,7 @@ export default Vue.extend({
 			}
 
 			// Fetch the current dir contents
-			/** @type {Promise<ContentsWithRoot>} */
-			this.promise = currentView.getContents(dir)
+			this.promise = currentView.getContents(dir) as Promise<ContentsWithRoot>
 			try {
 				const { folder, contents } = await this.promise
 				logger.debug('Fetched contents', { dir, folder, contents })
@@ -333,12 +326,6 @@ export default Vue.extend({
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
-
-	// TODO: remove after all legacy views are migrated
-	// Hides the legacy app-content if shown view is not legacy
-	&:not(&--hidden)::v-deep + #app-content {
-		display: none;
-	}
 }
 
 $margin: 4px;

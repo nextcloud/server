@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { Navigation } from '../services/Navigation'
-import type NavigationService from '../services/Navigation'
+import type { Navigation, NavigationService } from '../services/Navigation'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'

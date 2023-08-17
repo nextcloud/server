@@ -124,7 +124,11 @@
  * Copyright (c) 2016 Jorik Tangelder;
  * Licensed under the MIT license */
 
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
