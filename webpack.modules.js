@@ -109,7 +109,6 @@ module.exports = {
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'init.js'),
 	},
 	user_status: {
-		dashboard: path.join(__dirname, 'apps/user_status/src', 'dashboard.js'),
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
 	},
 	weather_status: {

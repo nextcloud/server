@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021, Julien Veyssier <eneiluj@posteo.net>
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -56,24 +57,30 @@ final class WidgetItem implements JsonSerializable {
 	 */
 	private $sinceId = '';
 
+	/**
+	 * Overlay icon to show in the bottom right corner of {@see $iconUrl}
+	 *
+	 * @since 27.1.0
+	 */
+	private string $overlayIconUrl = '';
 
 	/**
 	 * WidgetItem constructor
 	 *
 	 * @since 22.0.0
-	 *
-	 * @param string $type
 	 */
 	public function __construct(string $title = '',
 								string $subtitle = '',
 								string $link = '',
 								string $iconUrl = '',
-								string $sinceId = '') {
+								string $sinceId = '',
+								string $overlayIconUrl = '') {
 		$this->title = $title;
 		$this->subtitle = $subtitle;
 		$this->iconUrl = $iconUrl;
 		$this->link = $link;
 		$this->sinceId = $sinceId;
+		$this->overlayIconUrl = $overlayIconUrl;
 	}
 
 	/**
@@ -133,6 +140,17 @@ final class WidgetItem implements JsonSerializable {
 	}
 
 	/**
+	 * Get the overlay icon url
+	 *
+	 * @since 27.1.0
+	 *
+	 * @return string
+	 */
+	public function getOverlayIconUrl(): string {
+		return $this->overlayIconUrl;
+	}
+
+	/**
 	 * @since 22.0.0
 	 *
 	 * @return array
@@ -143,6 +161,7 @@ final class WidgetItem implements JsonSerializable {
 			'title' => $this->getTitle(),
 			'link' => $this->getLink(),
 			'iconUrl' => $this->getIconUrl(),
+			'overlayIconUrl' => $this->getOverlayIconUrl(),
 			'sinceId' => $this->getSinceId(),
 		];
 	}
