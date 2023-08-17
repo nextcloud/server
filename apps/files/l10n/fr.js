@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["dont %n masqué","dont %n masqués","dont %n masqués"],
     "You do not have permission to upload or create files here" : "Vous n'avez pas la permission de téléverser ou de créer des fichiers ici",
     "_Uploading %n file_::_Uploading %n files_" : ["Téléversement de %n fichier","Envoi de %n fichiers","Envoi de %n fichiers"],
+    "New" : "Nouveau",
     "New file/folder menu" : "Menu nouveau fichier/dossier",
     "Select file range" : "Activer la sélection d'une plage de fichiers",
     "{used}%" : "{used}%",
@@ -273,6 +274,7 @@ OC.L10N.register(
     "Open folder {name}" : "Ouvrir le dossier {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Cette liste n'est pas affichée en totalité pour des raisons de performances. Les fichiers seront affichés au fur et à mesure que vous parcourrez la liste.",
     "Search for an account" : "Chercher un compte",
+    "Choose" : "Sélectionner",
     "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

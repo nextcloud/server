@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["Sisältäen %n piilotetun","Sisältäen %n piilotettua"],
     "You do not have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai luomiseen tähän sijaintiin",
     "_Uploading %n file_::_Uploading %n files_" : ["Lähetetään %n tiedosto","Lähetetään %n tiedostoa"],
+    "New" : "Uusi",
     "New file/folder menu" : "Uusi tiedosto/kansio -valikko",
     "Select file range" : "Valitse tiedostojoukko",
     "{used}%" : "{used} %",
@@ -269,6 +270,7 @@ OC.L10N.register(
     "Open folder {name}" : "Avaa kansio {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
+    "Choose" : "Valitse",
     "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
 },
 "nplurals=2; plural=(n != 1);");

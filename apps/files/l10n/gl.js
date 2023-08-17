@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluíndo %n agachado","incluíndo %n agochados"],
     "You do not have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["Enviando %n ficheiro","Enviando %n ficheiros"],
+    "New" : "Novo",
     "New file/folder menu" : "Novo menú ficheiro/cartafol",
     "Select file range" : "Seleccionar o intervalo de ficheiros ",
     "{used}%" : "{used}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "Abrir o cartafol {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres navega pola lista.",
     "Search for an account" : "Buscar por unha conta",
+    "Choose" : "Escoller",
     "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
 },
 "nplurals=2; plural=(n != 1);");

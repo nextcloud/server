@@ -77,6 +77,7 @@
     "_including %n hidden_::_including %n hidden_" : ["incloent-hi %n element ocult","incloent-hi %n elements ocults"],
     "You do not have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["S'està pujant %n fitxer","S'estan pujant %n fitxers"],
+    "New" : "Nou",
     "New file/folder menu" : "Menú de fitxer o carpeta nova",
     "Select file range" : "Selecciona un interval de fitxers",
     "{used}%" : "{used}%",
@@ -276,6 +277,7 @@
     "Open folder {name}" : "Obre la carpeta {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Search for an account" : "Cerqueu un compte",
+    "Choose" : "Escolliu",
     "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

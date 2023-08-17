@@ -69,6 +69,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} וכן {files}",
     "_including %n hidden_::_including %n hidden_" : ["לרבות %n מוסתר","לרבות %n מוסתרים","לרבות %n מוסתרים","לרבות %n מוסתרים"],
     "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים","מעלה %n קבצים","מעלה %n קבצים"],
+    "New" : "חדש",
     "Select file range" : "בחירת טווח קבצים",
     "{used} of {quota} used" : "{used} מתוך {quota} בשימוש",
     "{used} used" : "{used} בשימוש",
@@ -192,6 +193,7 @@ OC.L10N.register(
     "Shared with you" : "משותף אתך",
     "Shared by link" : "משותף על ידי קישור",
     "Deleted shares" : "שיתופים שנמחקו",
-    "Pending shares" : "שיתופים ממתינים"
+    "Pending shares" : "שיתופים ממתינים",
+    "Choose" : "בחר"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["vključujoč %n skrito","vključujoč %n skriti","vključujoč %n skrite","vključujoč %n skritih"],
     "You do not have permission to upload or create files here" : "Ni ustreznih dovoljenja za pošiljanje ali ustvarjanje novih datotek",
     "_Uploading %n file_::_Uploading %n files_" : ["Posodabljanje %n datoteke","Posodabljanje %n datotek","Posodabljanje %n datotek","Poteka posodabljanje %n datotek"],
+    "New" : "Novo",
     "New file/folder menu" : "Nov meni datoteke/mape",
     "Select file range" : "Izbor obsega datotek",
     "{used}%" : "{used} %",
@@ -260,6 +261,7 @@ OC.L10N.register(
     "Open folder {name}" : "Odpri mapo {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali ob brskanju.",
     "Search for an account" : "Poišči račun",
+    "Choose" : "Izbor",
     "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

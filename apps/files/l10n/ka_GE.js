@@ -57,6 +57,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} და {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n დამალულის ჩათვლით","%n დამალულის ჩათვლით"],
     "_Uploading %n file_::_Uploading %n files_" : ["ვტვირთავთ %n ფაილს","ვტვირთავთ %n ფაილს"],
+    "New" : "ახალი",
     "{used} of {quota} used" : "გამოყენებულია {used} სულ  {quota}-დან",
     "{used} used" : "გამოყენებულია {used}",
     "\"{name}\" is an invalid file name." : "\"{name}\" არასწორი ფაილის სახელია.",
@@ -142,6 +143,7 @@ OC.L10N.register(
     "Shares" : "გაზიარებები",
     "Shared with others" : "გაზიარდა სხვებთან",
     "Shared with you" : "გაზიარდა თქვენთან",
-    "Shared by link" : "გაზიარდა ბმულით"
+    "Shared by link" : "გაზიარდა ბმულით",
+    "Choose" : "აირჩიეთ"
 },
 "nplurals=2; plural=(n!=1);");
