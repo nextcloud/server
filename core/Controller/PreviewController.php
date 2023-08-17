@@ -81,7 +81,7 @@ class PreviewController extends Controller {
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill',
-		bool $mimeFallback): Http\Response {
+		bool $mimeFallback = false): Http\Response {
 		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}

@@ -1075,9 +1075,9 @@
                         "name": "mimeFallback",
                         "in": "query",
                         "description": "Whether to fallback to the mime icon if no preview is available",
-                        "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 0
                         }
                     }
                 ],
