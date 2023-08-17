@@ -25,10 +25,12 @@
 		:exact="true"
 		:name="name"
 		:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
-		icon="icon-group"
 		:loading="loadingRenameGroup"
 		:menu-open="openGroupMenu"
 		@update:menuOpen="handleGroupMenuOpen">
+		<template #icon>
+			<AccountGroup :size="20" />
+		</template>
 		<template #counter>
 			<NcCounterBubble v-if="count"
 				:type="active ? 'highlighted' : undefined">
@@ -54,18 +56,21 @@
 </template>
 
 <script>
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+
+import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 
 export default {
 	name: 'GroupListItem',
 	components: {
-		NcActionInput,
+		AccountGroup,
 		NcActionButton,
-		NcCounterBubble,
+		NcActionInput,
 		NcAppNavigationItem,
+		NcCounterBubble,
 	},
 	props: {
 		/**
