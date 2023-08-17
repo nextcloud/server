@@ -74,18 +74,23 @@ button:not(
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
-	&:not(:disabled):not(.primary) {
-		&:hover,
-		&:focus,
-		&.active {
-		/* active class used for multiselect */
-			border-color: var(--color-primary-element);
-			outline: none;
-		}
-		&:active {
-			outline: none;
-			background-color: var(--color-main-background);
-			color: var(--color-text-light);
+	&:not(
+		:disabled,
+		.primary
+	) {
+		&:not(.app-navigation-entry-button) {
+			&:hover,
+			&:focus,
+			&.active {
+				/* active class used for multiselect */
+				border-color: var(--color-primary-element);
+				outline: none;
+			}
+			&:active {
+				outline: none;
+				background-color: var(--color-main-background);
+				color: var(--color-text-light);
+			}
 		}
 		&:focus-visible {
 			box-shadow: 0 0 0 2px var(--color-primary-element);
