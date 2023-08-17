@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Görsel kaydedilirken sorun çıktı",
     "Unsaved changes" : "Kaydedilmemiş değişiklikler",
     "Drop changes" : "Değişiklikleri yok say",
-    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Tarayıcınız görüntüleri desteklemiyor.",
     "Edit" : "Düzenle",
     "Exit full screen" : "Tam ekrandan çık",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Kaydedilmiş görsel boyutu (genişlik x yükseklik)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Seçilmiş kırpma alanı uygulanan yeniden boyutlandırma alanından küçük. Bu durum görsel kalitesinin düşmesine neden olabilir.",
     "Actual size (100%)" : "Gerçek boyut (%100)",
-    "Fit size" : "Boyutu sığdır"
+    "Fit size" : "Boyutu sığdır",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=2; plural=(n > 1);");

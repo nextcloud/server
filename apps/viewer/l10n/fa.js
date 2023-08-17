@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Error saving image",
     "Unsaved changes" : "Unsaved changes",
     "Drop changes" : "Drop changes",
-    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Your browser does not support videos.",
     "Edit" : "ویرایش",
     "Exit full screen" : "Exit full screen",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Saved image size (width x height)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Note that the selected crop area is lower than the applied resize which might cause quality decrease",
     "Actual size (100%)" : "Actual size (100%)",
-    "Fit size" : "Fit size"
+    "Fit size" : "Fit size",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=2; plural=(n > 1);");

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "S'ha produït un error en desar la imatge",
     "Unsaved changes" : "Hi ha canvis sense desar",
     "Drop changes" : "Suprimeix els canvis",
-    "\"{fileName}\"" : "«{fileName}»",
     "Your browser does not support videos." : "El vostre navegador no és compatible amb els vídeos.",
     "Edit" : "Edita",
     "Exit full screen" : "Surt de la pantalla completa",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Mida de la imatge desada (amplada x alçada)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Tingueu en compte que l'àrea de retall seleccionada és inferior al canvi de mida aplicat, fet que pot provocar una disminució de la qualitat",
     "Actual size (100%)" : "Mida real (100%)",
-    "Fit size" : "Mida ajustada"
+    "Fit size" : "Mida ajustada",
+    "\"{fileName}\"" : "«{fileName}»"
 },
 "nplurals=2; plural=(n != 1);");

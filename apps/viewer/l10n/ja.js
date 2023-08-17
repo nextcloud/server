@@ -42,6 +42,7 @@ OC.L10N.register(
     "Custom" : "カスタム",
     "Landscape" : "ランドスケープ",
     "Portrait" : "ポートレート",
+    "Blur" : "ぼかし",
     "Value" : "値",
     "Image" : "画像",
     "Rotate" : "回転",

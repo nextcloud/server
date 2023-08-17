@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Hiba a kép mentése során",
     "Unsaved changes" : "Mentetlen változtatások",
     "Drop changes" : "Változtatások elvetése",
-    "\"{fileName}\"" : "„{fileName}”",
     "Your browser does not support videos." : "A böngészője nem támogatja a videókat.",
     "Edit" : "Szerkesztés",
     "Exit full screen" : "Kilépés a teljes képernyőből",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Mentett kép mérete (szélesség×magasság)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Vegye figyelembe, hogy a kijelölt levágási terület kisebb mint az alkalmazott átméretezés, amely minőségcsökkenést okozhat",
     "Actual size (100%)" : "Tényleges méret (100%)",
-    "Fit size" : "Illeszkedő méret"
+    "Fit size" : "Illeszkedő méret",
+    "\"{fileName}\"" : "„{fileName}”"
 },
 "nplurals=2; plural=(n != 1);");

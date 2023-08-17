@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "儲存影像時發生錯誤",
     "Unsaved changes" : "未儲存變更",
     "Drop changes" : "放棄變更",
-    "\"{fileName}\"" : "「{fileName}」",
     "Your browser does not support videos." : "您的瀏覽器不支援視訊。",
     "Edit" : "編輯",
     "Exit full screen" : "離開全螢幕",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "儲存的圖片大小（寬度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "請注意，選定的裁剪區域低於套用的調整大小，這可能會導致品質下降",
     "Actual size (100%)" : "實際大小 (100%)",
-    "Fit size" : "合適大小"
+    "Fit size" : "合適大小",
+    "\"{fileName}\"" : "「{fileName}」"
 },
 "nplurals=1; plural=0;");

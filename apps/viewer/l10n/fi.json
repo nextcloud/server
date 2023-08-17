@@ -7,7 +7,6 @@
     "Error saving image" : "Virhe kuvaa tallentaessa",
     "Unsaved changes" : "Tallentamattomia muutoksia",
     "Drop changes" : "Hylkää muutokset",
-    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Selaimesi ei tue videoita.",
     "Edit" : "Muokkaa",
     "Exit full screen" : "Poistu koko näytön tilasta",
@@ -101,6 +100,7 @@
     "Quality" : "Laatu",
     "Saved image size (width x height)" : "Tallennetun kuvan koko (leveys x korkeus)",
     "Actual size (100%)" : "Todellinen koko (100 %)",
-    "Fit size" : "Sovita koko"
+    "Fit size" : "Sovita koko",
+    "\"{fileName}\"" : "\"{fileName}\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

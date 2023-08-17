@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Napaka shranjevanja slike",
     "Unsaved changes" : "Neshranjene spremembe",
     "Drop changes" : "Opusti spremembe",
-    "\"{fileName}\"" : "»{fileName}«",
     "Your browser does not support videos." : "Spletni brskalnik ne podpira predvajanja video posnetkov.",
     "Edit" : "Uredi",
     "Exit full screen" : "Končaj celozaslonski način",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Velikost shranjene slike (širina x višina)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Izbrano polje obreza je manjše od uveljavljene spremembe velikosti, kar lahko vpliva na zmanjšanje kakovosti slike.",
     "Actual size (100%)" : "Prava velikost (100%)",
-    "Fit size" : "Prilagodi velikosti"
+    "Fit size" : "Prilagodi velikosti",
+    "\"{fileName}\"" : "»{fileName}«"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

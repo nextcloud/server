@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Fehler beim Speichern des Bildes",
     "Unsaved changes" : "Ungespeicherte Änderungen",
     "Drop changes" : "Änderungen verwerfen",
-    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Ihr Browser unterstützt keine Videos.",
     "Edit" : "Bearbeiten",
     "Exit full screen" : "Vollbild verlassen",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Gespeicherte Bildgröße (Breite x Höhe)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Beachten Sie, dass der ausgewählte Zuschneidebereich kleiner ist als die angewendete Größenänderung, was zu Qualitätseinbußen führen kann",
     "Actual size (100%)" : "Tatsächliche Größe (100%)",
-    "Fit size" : "Größe anpassen"
+    "Fit size" : "Größe anpassen",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");

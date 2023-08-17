@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "خطأ في حفظ الصور",
     "Unsaved changes" : "تغييرات لم يتم حفظها",
     "Drop changes" : "إسقاط التغييرات",
-    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "متصفحك لا يدعم الفيديوهات.",
     "Edit" : "تعديل",
     "Exit full screen" : "خروج من ملء الشاشة",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "حجم الصورة المحفوظة (العرض × الارتفاع)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "لاحظ أن مساحة الاقتصاص crop المحددة أقل من الحجم المطبق مما قد يتسبب في انخفاض الجودة",
     "Actual size (100%)" : "الحجم الفعلي (100%)",
-    "Fit size" : "الحجم الملائم fit size"
+    "Fit size" : "الحجم الملائم fit size",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

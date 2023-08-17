@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Det gick inte att spara bilden",
     "Unsaved changes" : "Ej sparade ändringar",
     "Drop changes" : "Släng ändringar",
-    "\"{fileName}\"" : "\"{fileName}\"",
     "Your browser does not support videos." : "Din webbläsare har inte stöd för video.",
     "Edit" : "Ändra",
     "Exit full screen" : "Avsluta fullskärm",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Sparad bildstorlek (bredd x höjd)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Observera att det valda beskärningsområdet är lägre än den tillämpade storleksändringen, vilket kan orsaka kvalitetsförsämring",
     "Actual size (100%)" : "Faktisk storlek (100 %)",
-    "Fit size" : "Passande storlek"
+    "Fit size" : "Passande storlek",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");

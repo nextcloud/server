@@ -8,7 +8,6 @@
     "Error saving image" : "Produciuse un erro ao gardar a imaxe",
     "Unsaved changes" : "Cambios sen gardar",
     "Drop changes" : "Desbotar os cambios",
-    "\"{fileName}\"" : "«{fileName}»",
     "Your browser does not support videos." : "O seu navegador non admite vídeos",
     "Edit" : "Editar",
     "Exit full screen" : "Saír da pantalla completa",
@@ -107,6 +106,7 @@
     "Saved image size (width x height)" : "Tamaño da imaxe gardada (largo x alto)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Teña en conta que a área de recorte seleccionada é inferior ao cambio de tamaño aplicado, o que pode provocar unha diminución da calidade",
     "Actual size (100%)" : "Tamaño real (100%)",
-    "Fit size" : "Axuste de tamaño"
+    "Fit size" : "Axuste de tamaño",
+    "\"{fileName}\"" : "«{fileName}»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
