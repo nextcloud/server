@@ -53,7 +53,9 @@
                     "icon_class",
                     "icon_url",
                     "widget_url",
-                    "item_icons_round"
+                    "item_icons_round",
+                    "item_api_versions",
+                    "reload_interval"
                 ],
                 "properties": {
                     "id": {
@@ -78,6 +80,17 @@
                     },
                     "item_icons_round": {
                         "type": "boolean"
+                    },
+                    "item_api_versions": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "reload_interval": {
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "buttons": {
                         "type": "array",
@@ -110,6 +123,7 @@
                     "title",
                     "link",
                     "iconUrl",
+                    "overlayIconUrl",
                     "sinceId"
                 ],
                 "properties": {
@@ -125,7 +139,32 @@
                     "iconUrl": {
                         "type": "string"
                     },
+                    "overlayIconUrl": {
+                        "type": "string"
+                    },
                     "sinceId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "WidgetItems": {
+                "type": "object",
+                "required": [
+                    "items",
+                    "emptyContentMessage",
+                    "halfEmptyContentMessage"
+                ],
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WidgetItem"
+                        }
+                    },
+                    "emptyContentMessage": {
+                        "type": "string"
+                    },
+                    "halfEmptyContentMessage": {
                         "type": "string"
                     }
                 }
@@ -280,6 +319,99 @@
                                                         "items": {
                                                             "$ref": "#/components/schemas/WidgetItem"
                                                         }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/dashboard/api/v2/widget-items": {
+            "get": {
+                "operationId": "dashboard_api-get-widget-items-v2",
+                "summary": "Get the items for the widgets",
+                "tags": [
+                    "dashboard_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "sinceIds",
+                        "in": "query",
+                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number of result items per widget",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 7
+                        }
+                    },
+                    {
+                        "name": "widgets[]",
+                        "in": "query",
+                        "description": "Limit results to specific widgets",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "true"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "$ref": "#/components/schemas/WidgetItems"
                                                     }
                                                 }
                                             }

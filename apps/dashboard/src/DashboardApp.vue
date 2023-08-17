@@ -14,21 +14,44 @@
 			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 			handle=".panel--header"
 			@end="saveLayout">
-			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
-				<div class="panel--header">
-					<h2>
-						<div aria-labelledby="panel--header--icon--description"
-							aria-hidden="true"
-							:class="panels[panelId].iconClass"
-							role="img" />
-						{{ panels[panelId].title }}
-					</h2>
-					<span id="panel--header--icon--description" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
+			<template v-for="panelId in layout">
+				<div v-if="isApiWidgetV2(panels[panelId].id)"
+					:key="`${panels[panelId].id}-v2`"
+					class="panel">
+					<div class="panel--header">
+						<h2>
+							<div aria-labelledby="panel--header--icon--description"
+								aria-hidden="true"
+								:class="apiWidgets[panels[panelId].id].icon_class"
+								role="img" />
+							{{ apiWidgets[panels[panelId].id].title }}
+						</h2>
+						<span id="panel--header--icon--description" class="hidden-visually">
+							{{ t('dashboard', '"{title} icon"', { title: apiWidgets[panels[panelId].id].title }) }}
+						</span>
+					</div>
+					<div class="panel--content">
+						<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
+							:data="apiWidgetItems[panels[panelId].id]"
+							:loading="loadingItems" />
+					</div>
 				</div>
-				<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
-					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+				<div v-else :key="panels[panelId].id" class="panel">
+					<div class="panel--header">
+						<h2>
+							<div aria-labelledby="panel--header--icon--description"
+								aria-hidden="true"
+								:class="panels[panelId].iconClass"
+								role="img" />
+							{{ panels[panelId].title }}
+						</h2>
+						<span id="panel--header--icon--description" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
+					</div>
+					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
+						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+					</div>
 				</div>
-			</div>
+			</template>
 		</Draggable>
 
 		<div class="footer">
@@ -94,7 +117,7 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
@@ -105,6 +128,7 @@ import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
 import isMobile from './mixins/isMobile.js'
+import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
@@ -123,6 +147,7 @@ const statusInfo = {
 export default {
 	name: 'DashboardApp',
 	components: {
+		ApiDashboardWidget,
 		NcButton,
 		Draggable,
 		NcModal,
@@ -150,6 +175,9 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
+			apiWidgets: [],
+			apiWidgetItems: {},
+			loadingItems: true,
 		}
 	},
 	computed: {
@@ -239,6 +267,23 @@ export default {
 		},
 	},
 
+	async created() {
+		await this.fetchApiWidgets()
+
+		const apiWidgetIdsToFetch = Object
+			.values(this.apiWidgets)
+			.filter(widget => this.isApiWidgetV2(widget.id))
+			.map(widget => widget.id)
+		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
+
+		for (const widget of Object.values(this.apiWidgets)) {
+			if (widget.reload_interval > 0) {
+				setInterval(async () => {
+					await this.fetchApiWidgetItems([widget.id], true)
+				}, widget.reload_interval * 1000)
+			}
+		}
+	},
 	mounted() {
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
@@ -278,6 +323,11 @@ export default {
 		},
 		rerenderPanels() {
 			for (const app in this.callbacks) {
+				// TODO: Properly rerender v2 widgets
+				if (this.isApiWidgetV2(this.panels[app].id)) {
+					continue
+				}
+
 				const element = this.$refs[app]
 				if (this.layout.indexOf(app) === -1) {
 					continue
@@ -373,6 +423,33 @@ export default {
 			} else {
 				document.body.classList.remove('dashboard--scrolled')
 			}
+		},
+		async fetchApiWidgets() {
+			const response = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
+			this.apiWidgets = response.data.ocs.data
+		},
+		async fetchApiWidgetItems(widgetIds, merge = false) {
+			try {
+				const url = generateOcsUrl('/apps/dashboard/api/v2/widget-items')
+				const params = new URLSearchParams(widgetIds.map(id => ['widgets[]', id]))
+				const response = await axios.get(`${url}?${params.toString()}`)
+				const widgetItems = response.data.ocs.data
+				if (merge) {
+					this.apiWidgetItems = Object.assign({}, this.apiWidgetItems, widgetItems)
+				} else {
+					this.apiWidgetItems = widgetItems
+				}
+			} finally {
+				this.loadingItems = false
+			}
+		},
+		isApiWidgetV2(id) {
+			for (const widget of Object.values(this.apiWidgets)) {
+				if (widget.id === id && widget.item_api_versions.includes(2)) {
+					return true
+				}
+			}
+			return false
 		},
 	},
 }
@@ -470,6 +547,7 @@ export default {
 				margin-right: 16px;
 				background-position: center;
 				float: left;
+				margin-top: -6px;
 			}
 		}
 	}
