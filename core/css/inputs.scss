@@ -64,7 +64,6 @@ button:not(
 ),
 .button,
 .pager li a {
-	margin: 3px 3px 3px 0;
 	padding: 7px 14px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
@@ -74,6 +73,9 @@ button:not(
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
+	&:not(.app-navigation-entry-button) {
+		margin: 3px 3px 3px 0;
+	}
 	&:not(
 		:disabled,
 		.primary
