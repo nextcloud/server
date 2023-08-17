@@ -32,6 +32,12 @@
 	flex: 1 1;
 	.button:not(:last-child) {
 		margin-right: 3px;
+		width: unset;
+		gap: 14px;
+		background-color: var(--color-primary-element-light);
+		color: var(--color-primary-element-light-text);
+		border: unset;
+		padding: 0px 20px;
 	}
 }
 
@@ -858,7 +864,7 @@ table.dragshadow td.size {
 
 	/* Center triangle */
 	&::after {
-		left: 74px !important;
+		left: 84px !important;
 	}
 }
 
