@@ -75,6 +75,7 @@
     "_including %n hidden_::_including %n hidden_" : ["inclusief %n verborgen","inclusief %n verborgen"],
     "You do not have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden aan te maken",
     "_Uploading %n file_::_Uploading %n files_" : ["%n bestand aan het uploaden","%n bestanden aan het uploaden"],
+    "New" : "Nieuw",
     "Select file range" : "Kies een reeks bestanden",
     "{used}%" : "{used}%",
     "{used} of {quota} used" : "{used} van {quota} gebruikt",
@@ -224,6 +225,7 @@
     "Shared with you" : "Gedeeld met jou",
     "Shared by link" : "Gedeeld via link",
     "Deleted shares" : "Verwijderde shares",
-    "Pending shares" : "Deellinks in behandeling"
+    "Pending shares" : "Deellinks in behandeling",
+    "Choose" : "Kies"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -77,6 +77,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["sealhulgas %n peidetud","sealhulgas %n peidetud"],
     "You do not have permission to upload or create files here" : "Sul pole luba siia faile lisada ja üles laadida",
     "_Uploading %n file_::_Uploading %n files_" : ["Laadin üles %n faili","Laadin üles %n faili"],
+    "New" : "Uus",
     "Select file range" : "Vali failivahemik",
     "{used}%" : "{used}%",
     "{used} of {quota} used" : "{used} / {quota} kasutusel",
@@ -203,6 +204,7 @@ OC.L10N.register(
     "Pending shares" : "Ootel jagamised",
     "Open folder {name}" : "Ava kaust {name}",
     "Search for an account" : "Otsi kontot",
+    "Choose" : "Vali",
     "No files or folders have been deleted yet" : "Faile ega kaustu pole veel kustutatud"
 },
 "nplurals=2; plural=(n != 1);");

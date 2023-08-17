@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n gizli ile birlikte","%n gizli ile birlikte"],
     "You do not have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "_Uploading %n file_::_Uploading %n files_" : ["%n dosya yükleniyor","%n dosya yükleniyor"],
+    "New" : "Yeni",
     "New file/folder menu" : "Yeni dosya/klasör menüsü",
     "Select file range" : "Dosya aralığını seçin",
     "{used}%" : "%{used}",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "{name} klasörünü aç",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
+    "Choose" : "Seçin",
     "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
 },
 "nplurals=2; plural=(n > 1);");

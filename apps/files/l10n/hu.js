@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["köztük %n rejtett","köztük %n rejtett"],
     "You do not have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "_Uploading %n file_::_Uploading %n files_" : ["%n fájl feltöltése","%n fájl feltöltése"],
+    "New" : "Új",
     "New file/folder menu" : "Új fájl/mappa menü",
     "Select file range" : "Válasszon fájltartományt",
     "{used}%" : "{used}%",
@@ -260,6 +261,7 @@ OC.L10N.register(
     "Open folder {name}" : "A(z) {name} mappa megnyitása",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Search for an account" : "Fiók keresése",
+    "Choose" : "Válasszon",
     "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
 },
 "nplurals=2; plural=(n != 1);");

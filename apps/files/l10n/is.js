@@ -69,6 +69,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} og {files}",
     "_including %n hidden_::_including %n hidden_" : ["þar á meðal %n falin","þar á meðal %n faldar"],
     "_Uploading %n file_::_Uploading %n files_" : ["Sendi inn %n skrá","Sendi inn %n skrár"],
+    "New" : "Nýtt",
     "Select file range" : "Veldu skráasvið",
     "{used} of {quota} used" : "{used} af {quota} notað",
     "{used} used" : "{used} notað",
@@ -185,6 +186,7 @@ OC.L10N.register(
     "Shared with you" : "Deilt með þér",
     "Shared by link" : "Deilt með tengli",
     "Deleted shares" : "Eyddar sameignir",
-    "Pending shares" : "Sameignir í bið"
+    "Pending shares" : "Sameignir í bið",
+    "Choose" : "Velja"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

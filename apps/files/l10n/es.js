@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n oculto","incluyendo %n ocultos","incluyendo %n ocultos"],
     "You do not have permission to upload or create files here" : "No tienes permiso para subir o crear archivos aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Subiendo %n archivos","Subiendo %n archivos"],
+    "New" : "Nuevo",
     "New file/folder menu" : "Menú de carpeta/archivo nuevo",
     "Select file range" : "Seleccionar el rango de archivos",
     "{used}%" : "{used}%",
@@ -277,6 +278,7 @@ OC.L10N.register(
     "Open folder {name}" : "Abrir carpeta {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se renderiza completa por razones de rendimiento. Los archivos serán renderizados mientras ud. navegue por la lista.",
     "Search for an account" : "Buscar una cuenta",
+    "Choose" : "Selecciona",
     "No files or folders have been deleted yet" : "No se han borrado archivos o carpetas todavía"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

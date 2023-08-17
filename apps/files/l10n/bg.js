@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["включително %n скрит","включително %n скрити"],
     "You do not have permission to upload or create files here" : "Нямате право да качвате или създавате файлове тук",
     "_Uploading %n file_::_Uploading %n files_" : ["Качване на %n файл","Качване на %n файла"],
+    "New" : "Нов",
     "New file/folder menu" : "Ново меню за файл/папка",
     "Select file range" : "Избери от файловете",
     "{used}%" : "{used}%",
@@ -257,6 +258,7 @@ OC.L10N.register(
     "Open folder {name}" : "Отваряне на папка {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Този списък не е напълно рендиран поради причини, свързани с производителността. Файловете ще бъдат рендирани, докато навигирате из списъка.",
     "Search for an account" : "Търсене на профил",
+    "Choose" : "Изберете",
     "No files or folders have been deleted yet" : "Все още няма изтрити файлове или папки"
 },
 "nplurals=2; plural=(n != 1);");

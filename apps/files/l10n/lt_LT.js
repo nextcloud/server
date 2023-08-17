@@ -77,6 +77,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["įskaitant %n paslėptą","įskaitant %n paslėptus","įskaitant %n paslėptų","įskaitant %n paslėptą"],
     "You do not have permission to upload or create files here" : "Neturite teisės įkalti ar kurti failus šioje vietoje",
     "_Uploading %n file_::_Uploading %n files_" : ["Įkeliamas %n failas","Įkeliami %n failai","Įkeliama %n failų","Įkeliamas %n failas"],
+    "New" : "Nauja",
     "Select file range" : "Žymėti failų rėžį",
     "{used}%" : "{used}%",
     "{used} of {quota} used" : "panaudota {used} iš {quota}",
@@ -217,6 +218,7 @@ OC.L10N.register(
     "Shared with you" : "Bendrinama su jumis",
     "Shared by link" : "Bendrinama pagal nuorodą",
     "Deleted shares" : "Ištrinti viešiniai",
-    "Pending shares" : "Laukiantys viešiniai"
+    "Pending shares" : "Laukiantys viešiniai",
+    "Choose" : "Pasirinkite"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

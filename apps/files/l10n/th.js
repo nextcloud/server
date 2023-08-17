@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["รวมถึง %n ไฟล์ที่ซ่อนอยู่"],
     "You do not have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
     "_Uploading %n file_::_Uploading %n files_" : ["กำลังอัปโหลด %n ไฟล์"],
+    "New" : "ใหม่",
     "New file/folder menu" : "เมนูไฟล์/โฟลเดอร์ใหม่",
     "Select file range" : "เลือกช่วงไฟล์",
     "{used}%" : "{used}%",
@@ -229,6 +230,7 @@ OC.L10N.register(
     "Shared with you" : "แชร์กับคุณ",
     "Shared by link" : "แชร์โดยลิงก์",
     "Deleted shares" : "การแชร์ที่ถูกลบ",
-    "Pending shares" : "การแชร์ที่กำลังดำเนินการ"
+    "Pending shares" : "การแชร์ที่กำลังดำเนินการ",
+    "Choose" : "เลือก"
 },
 "nplurals=1; plural=0;");

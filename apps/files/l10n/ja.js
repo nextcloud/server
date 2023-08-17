@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "移動",
     "Copy" : "コピー",
     "Choose target folder" : "ターゲットフォルダーを選択",
+    "Set reminder" : "リマインダーを設定",
     "Edit locally" : "ローカルで編集",
     "Open" : "開く",
     "Delete file" : "ファイルを削除",
@@ -78,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n 個の隠しファイルが含まれています"],
     "You do not have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "_Uploading %n file_::_Uploading %n files_" : ["%n 個のファイルをアップロード中"],
+    "New" : "新規作成",
     "New file/folder menu" : "新規ファイル/フォルダメニュー",
     "Select file range" : "ファイルを範囲選択",
     "{used}%" : "{used}%",
@@ -236,6 +238,7 @@ OC.L10N.register(
     "Shared with you" : "他ユーザーがあなたと共有中",
     "Shared by link" : "URLリンクで共有中",
     "Deleted shares" : "削除された共有",
-    "Pending shares" : "保留中の共有"
+    "Pending shares" : "保留中の共有",
+    "Choose" : "選択"
 },
 "nplurals=1; plural=0;");

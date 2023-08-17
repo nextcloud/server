@@ -79,6 +79,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["including %n hidden","including %n hidden"],
     "You do not have permission to upload or create files here" : "You do not have permission to upload or create files here",
     "_Uploading %n file_::_Uploading %n files_" : ["Uploading %n file","Uploading %n files"],
+    "New" : "New",
     "New file/folder menu" : "New file/folder menu",
     "Select file range" : "Select file range",
     "{used}%" : "{used}%",
@@ -278,6 +279,7 @@ OC.L10N.register(
     "Open folder {name}" : "Open folder {name}",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
+    "Choose" : "Choose",
     "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
 },
 "nplurals=2; plural=(n != 1);");

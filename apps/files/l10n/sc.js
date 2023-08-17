@@ -70,6 +70,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["inclùdidu %n cuadu","inclùdidos %n cuados"],
     "_Uploading %n file_::_Uploading %n files_" : ["Carrighende %n archìviu","Carrighende %n archìvios"],
+    "New" : "Nou",
     "Select file range" : "Seletziona classe de archìviu",
     "{used} of {quota} used" : "{used} de {quota} impreadu",
     "{used} used" : "{used} impreadu",
@@ -211,6 +212,7 @@ OC.L10N.register(
     "Shared with you" : "Cumpartzidu cun tegus",
     "Shared by link" : "Cumpartzidu cun ligòngiu",
     "Deleted shares" : "Cumpartziduras cantzelladas",
-    "Pending shares" : "Cumpartziduras in suspesu"
+    "Pending shares" : "Cumpartziduras in suspesu",
+    "Choose" : "Sèbera"
 },
 "nplurals=2; plural=(n != 1);");
