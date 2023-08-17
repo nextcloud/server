@@ -169,9 +169,10 @@ class Util {
 	 * @param string $application
 	 * @param string|null $file
 	 * @param string $afterAppId
+	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core'): void {
+	public static function addScript(string $application, string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -194,7 +195,11 @@ class Util {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
-		self::$scripts[$application][] = $path;
+		if ($prepend) {
+			array_unshift(self::$scripts[$application], $path);
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
