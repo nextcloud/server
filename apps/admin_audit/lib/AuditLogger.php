@@ -48,7 +48,7 @@ class AuditLogger implements IAuditLogger {
 		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
 	}
 
-	public function emergency($message, array $context = array()): void {
+	public function emergency($message, array $context = []): void {
 		$this->parentLogger->emergency($message, $context);
 	}
 
