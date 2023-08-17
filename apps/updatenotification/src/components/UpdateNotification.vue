@@ -509,7 +509,7 @@ export default {
 			display: inline-block;
 			padding: 10px;
 			border-radius: 10px;
-			border: 2px solid var(--color-border-dark);	
+			border: 2px solid var(--color-border-dark);
 			.icon-update-menu {
 				cursor: inherit;
 				.icon-triangle-s {
