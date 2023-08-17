@@ -59,6 +59,7 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -148,6 +149,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->db = $this->getMockBuilder(Connection::class)
 			->disableOriginalConstructor()->getMock();
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
@@ -180,6 +182,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->throttler,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -665,6 +668,8 @@ class CheckSetupControllerTest extends TestCase {
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
 				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' => 'Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
+				'isBruteforceThrottled' => false,
+				'bruteforceRemoteAddress' => '',
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -690,6 +695,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->throttler,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -1455,6 +1461,7 @@ Array
 			$this->secureRandom,
 			$this->iniGetWrapper,
 			$this->connection,
+			$this->throttler,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,
@@ -1510,6 +1517,7 @@ Array
 			$this->secureRandom,
 			$this->iniGetWrapper,
 			$this->connection,
+			$this->throttler,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,
