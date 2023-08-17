@@ -90,6 +90,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckUserCertificates.php',
         'OCA\\Settings\\SetupChecks\\LdapInvalidUuids' => __DIR__ . '/..' . '/../lib/SetupChecks/LdapInvalidUuids.php',
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
+        'OCA\\Settings\\SetupChecks\\NeedsSystemAddressBookSync' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutputBuffering.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
