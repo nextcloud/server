@@ -126,6 +126,17 @@ namespace OCA\Core;
  *     subline: string,
  *     shareWithDisplayNameUnique: string,
  * }
+ *
+ * @psalm-type CoreTextProcessingTask = array{
+ *     id: ?int,
+ *     type: string,
+ *     status: 0|1|2|3|4,
+ *     userId: ?string,
+ *     appId: string,
+ *     input: string,
+ *     output: ?string,
+ *     identifier: string,
+ * }
  */
 class ResponseDefinitions {
 }

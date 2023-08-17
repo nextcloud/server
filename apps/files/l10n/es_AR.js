@@ -58,6 +58,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} y {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n escondido","incluyendo %n ocultos","incluyendo %n ocultos"],
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos","Cargando %n archivos"],
+    "New" : "Nuevo",
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nombre de archivo inválido. ",
     "File name cannot be empty." : "El nombre de archivo no puede estar vacío.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" es un tipo de archivo no permitido",
@@ -139,6 +140,7 @@ OC.L10N.register(
     "Shares" : "Shares",
     "Shared with others" : "Compartido con otros",
     "Shared with you" : "Compartido con usted",
-    "Shared by link" : "Compartido por link"
+    "Shared by link" : "Compartido por link",
+    "Choose" : "Elige"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

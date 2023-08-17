@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "Lütfen site sunucusunu yeniden başlatması için BT yöneticinizle görüşün.",
     "The required %s config variable is not configured in the config.php file." : "Gereken %s yapılandırma değişkeni config.php dosyasında ayarlanmamış.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Lütfen Nextcloud yapılandırmasını denetlemesi için BT yöneticinizle görüşün.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 gerekli.",
-    "Please upgrade your database version." : "Lütfen veri tabanı sürümünüzü yükseltin.",
     "Your data directory is readable by other users." : "Veri klasörünüz diğer kullanıcılar tarafından okunabilir.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Lütfen izinleri 0770 olarak ayarlayarak diğer kullanıcıların klasörü görebilmesini sağlayın.",
     "Your data directory must be an absolute path." : "Veri klasörünüz mutlak bir yol olmalıdır.",
@@ -261,11 +259,21 @@
     "Storage connection error. %s" : "Depolama bağlantısı sorunu. %s",
     "Storage is temporarily not available" : "Depolama geçici olarak kullanılamıyor",
     "Storage connection timeout. %s" : "Depolama bağlantısı zaman aşımı. %s",
+    "Free prompt" : "Ücretsiz bilgi istemi",
+    "Runs an arbitrary prompt through the language model." : "Dil modeli ile isteğe bağlı bir bilgi istemi çalıştırır.",
+    "Generate headline" : "Başlık oluşturulsun",
+    "Generates a possible headline for a text." : "Bir metin için olası bir başlık oluşturur.",
+    "Summarize" : "Özetlensin",
+    "Summarizes text by reducing its length without losing key information." : "Temel içeriği kaybetmeden uzunluğunu kısaltarak metni özetler.",
+    "Extract topics" : "Başlıklar ayıklansın",
+    "Extracts topics from a text and outputs them separated by commas." : "Bir metindeki konuları ayıklar ve bunları virgül ile ayırarak sıralar.",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "%1$s uygulamasının dosyaları doğru şekilde değiştirilmedi. Sunucu ile uyumlu dosyaların yüklü olduğundan emin olun.",
     "Full name" : "Tam ad",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Kullanıcı sayısı sınırına ulaşıldığından kullanıcı eklenemedi. Ayrıntılı bilgi almak için bildirimlerinize bakın.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 sürümü en az 2.7.0 olmalıdır. Şu anda %s kurulu.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Bu sorunu çözmek için libxml2 sürümünüzü güncelleyin ve site sunucusunu yeniden başlatın."
+    "To fix this issue update your libxml2 version and restart your web server." : "Bu sorunu çözmek için libxml2 sürümünüzü güncelleyin ve site sunucusunu yeniden başlatın.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 gerekli.",
+    "Please upgrade your database version." : "Lütfen veri tabanı sürümünüzü yükseltin."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

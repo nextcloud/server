@@ -847,12 +847,15 @@
                 ],
                 "parameters": [
                     {
-                        "name": "favorites",
+                        "name": "favorites[]",
                         "in": "query",
                         "description": "Favorite addresses",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {

@@ -46,6 +46,8 @@ class LocalTimeProviderTest extends TestCase {
 	private $actionFactory;
 	/** @var IL10N|MockObject */
 	private $l;
+	/** @var IL10NFactory|MockObject */
+	private $l10nFactory;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var IUserManager|MockObject */

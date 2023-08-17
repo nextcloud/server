@@ -35,6 +35,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Paspauskite mygtuką slaptažodžio atkūrimui. Jei slaptažodžio atkūrimas nėra reikalingas, ignoruokite šį laišką.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Paspauskite nuorodą slaptažodžio atkūrimui. Jei slaptažodžio atkūrimas nėra reikalingas, ignoruokite šį laišką.",
     "Reset your password" : "Atkurkite savo slaptažodį",
+    "Internal error" : "Vidinė klaida",
     "Nextcloud Server" : "Nextcloud serveris",
     "The user limit of this instance is reached." : "Yra pasiekta šio egzemplioriaus naudotojų riba.",
     "Learn more ↗" : "Sužinokite daugiau ↗",

@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "Be din serveradministratör att starta om webbservern.",
     "The required %s config variable is not configured in the config.php file." : "Den nödvändiga konfigurationsvariabeln %s är inte konfigurerad i filen config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Be din serveradministratör att kontrollera Nextcloud-konfigurationen.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 krävs.",
-    "Please upgrade your database version." : "Uppgradera din databasversion.",
     "Your data directory is readable by other users." : "Din datakatalog kan läsas av andra användare.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ändra behörigheterna till 0770 så att katalogen inte kan listas av andra användare.",
     "Your data directory must be an absolute path." : "Din datakatalog måste vara en absolut sökväg.",
@@ -261,11 +259,19 @@
     "Storage connection error. %s" : "Lagringsutrymme lyckas inte ansluta. %s",
     "Storage is temporarily not available" : "Lagringsutrymme är för tillfället inte tillgängligt",
     "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
+    "Generate headline" : "Skapa rubrik",
+    "Generates a possible headline for a text." : "Genererar en möjlig rubrik för en text.",
+    "Summarize" : "Sammanfatta",
+    "Summarizes text by reducing its length without losing key information." : "Sammanfattar text genom att minska dess längd utan att förlora viktig information.",
+    "Extract topics" : "Extrahera ämnen",
+    "Extracts topics from a text and outputs them separated by commas." : "Extraherar ämnen från en text och matar ut dem separerade med kommatecken.",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Filerna i appen %1$s ersattes inte korrekt. Kontrollera att det är en version som är kompatibel med servern.",
     "Full name" : "Fullständigt namn",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Användargränsen har nåtts och användaren skapades inte. Kontrollera dina aviseringar om du vill veta mer.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Endast följande tecken är tillåtna i användarnamnet: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 är det minsta som krävs. För närvarande är %s installerat.",
-    "To fix this issue update your libxml2 version and restart your web server." : "För att åtgärda detta problem uppdatera libxml2 versionen och starta om din webbserver."
+    "To fix this issue update your libxml2 version and restart your web server." : "För att åtgärda detta problem uppdatera libxml2 versionen och starta om din webbserver.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 krävs.",
+    "Please upgrade your database version." : "Uppgradera din databasversion."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

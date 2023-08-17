@@ -141,7 +141,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	}
 
 	public function hasReservedJob(?string $className = null): bool {
-		return $this->reserved[$className ?? ''];
+		return isset($this->reserved[$className ?? '']) && $this->reserved[$className ?? ''];
 	}
 
 	public function setHasReservedJob(?string $className, bool $hasReserved): void {

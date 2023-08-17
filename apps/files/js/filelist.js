@@ -707,8 +707,10 @@
 			tr.addClass('highlighted');
 			this._currentFileModel = model;
 
+			const secondaryActionsOpen = Boolean(tr.find('.actions-secondary-vue').length)
+
 			// open sidebar and set file
-			if (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== '')) {
+			if (!secondaryActionsOpen && (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== ''))) {
 				OCA.Files.Sidebar.open(path.replace('//', '/'))
 			}
 		},
@@ -3844,7 +3846,8 @@
 				return;
 			}
 			var $newButton = $(OCA.Files.Templates['template_addbutton']({
-				addText: t('files', 'New file/folder menu'),
+				addText: t('files', 'New'),
+				addLongText: t('files', 'New file/folder menu'),
 				iconClass: 'icon-add',
 			}));
 

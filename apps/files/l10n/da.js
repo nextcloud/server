@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n skujlte inkluderet","%n skujlte inkluderet"],
     "You do not have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "_Uploading %n file_::_Uploading %n files_" : ["Uploader %n fil","Uploader %n filer"],
+    "New" : "Ny",
     "New file/folder menu" : "Ny fil/mappe menu",
     "Select file range" : "Vælg filområde",
     "{used}%" : "{used}%",
@@ -107,6 +108,8 @@ OC.L10N.register(
     "Create new folder" : "Opret ny mappe",
     "Upload file" : "Upload fil",
     "Recent" : "Seneste",
+    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}",
     "Not favorited" : "Ingen foretrukne",
     "Remove from favorites" : "Fjern fra favoritter",
     "Add to favorites" : "Tilføj til favoritter",
@@ -166,6 +169,8 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "Ejerskabsoverførslen af {path} fra {user} er fuldført.",
     "in %s" : "i %s",
     "File Management" : "Filhåndtering",
+    "Reload current directory" : "Genindlæs den aktuelle mappe",
+    "Go to the \"{dir}\" directory" : "Gå til mappen \"{dir}\"",
     "Name cannot be empty" : "Navn må ikke være tomt",
     "Select all" : "Vælg alle",
     "Storage informations" : "Lagerinformationer",
@@ -235,6 +240,7 @@ OC.L10N.register(
     "Shared with you" : "Delt med dig",
     "Shared by link" : "Delt via link",
     "Deleted shares" : "Slettede delinger",
-    "Pending shares" : "Afventende delinger"
+    "Pending shares" : "Afventende delinger",
+    "Choose" : "Vælg"
 },
 "nplurals=2; plural=(n != 1);");

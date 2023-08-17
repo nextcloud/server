@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Leheneratu",
     "List of files that have been deleted." : "Ezabatu diren fitxategien zerrenda.",
     "No deleted files" : "Ez dago ezabatutako fitxategirik",
+    "Files and folders you have deleted will show up here" : "Ezabatu dituzun fitxategi eta karpetak hemen agertuko dira",
     "Deleted" : "Ezabatuta",
     "You will be able to recover deleted files from here" : "Hemendik ezabatutako fitxategiak berreskuratu ahalko dituzu",
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",

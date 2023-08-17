@@ -76,6 +76,7 @@
     "_including %n hidden_::_including %n hidden_" : ["включително %n скрит","включително %n скрити"],
     "You do not have permission to upload or create files here" : "Нямате право да качвате или създавате файлове тук",
     "_Uploading %n file_::_Uploading %n files_" : ["Качване на %n файл","Качване на %n файла"],
+    "New" : "Нов",
     "New file/folder menu" : "Ново меню за файл/папка",
     "Select file range" : "Избери от файловете",
     "{used}%" : "{used}%",
@@ -180,7 +181,6 @@
     "ascending" : "възходящо",
     "descending" : "низходящо",
     "Sort list by {column} ({direction})" : "Сортиране на списъка по  {column} ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Този списък не е напълно рендиран поради причини, свързани с производителността. Файловете ще бъдат рендирани, докато навигирате из списъка.",
     "Storage informations" : "Хранилище на  информация",
     "{usedQuotaByte} used" : "{usedQuotaByte} използвано",
     "{relative}% used" : "{relative}% използвано",
@@ -254,7 +254,9 @@
     "Deleted shares" : "Изтрити",
     "Pending shares" : "Чакащи споделяния",
     "Open folder {name}" : "Отваряне на папка {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Този списък не е напълно рендиран поради причини, свързани с производителността. Файловете ще бъдат рендирани, докато навигирате из списъка.",
     "Search for an account" : "Търсене на профил",
+    "Choose" : "Изберете",
     "No files or folders have been deleted yet" : "Все още няма изтрити файлове или папки"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

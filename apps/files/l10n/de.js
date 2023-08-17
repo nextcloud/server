@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n versteckte eingeschlossen","%n versteckte eingeschlossen"],
     "You do not have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["%n Datei wird hochgeladen","%n Dateien werden hochgeladen"],
+    "New" : "Neu",
     "New file/folder menu" : "Menü für neue Datei/Ordner",
     "Select file range" : "Dateibereich auswählen",
     "{used}%" : "{used}%",
@@ -182,7 +183,6 @@ OC.L10N.register(
     "ascending" : "Aufsteigend",
     "descending" : "Absteigend",
     "Sort list by {column} ({direction})" : "Liste sortieren nach {column} ({direction})",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn du durch die Liste navigierst.",
     "Storage informations" : "Speicherinformationen",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{relative}% used" : "{relative}% verwendet",
@@ -255,7 +255,9 @@ OC.L10N.register(
     "Deleted shares" : "Gelöschte Freigaben",
     "Pending shares" : "Ausstehende Freigaben",
     "Open folder {name}" : "Ordner {name} öffnen",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn du durch die Liste navigierst.",
     "Search for an account" : "Nach einem Konto suchen",
+    "Choose" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },
 "nplurals=2; plural=(n != 1);");

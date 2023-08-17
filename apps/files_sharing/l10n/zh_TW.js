@@ -211,7 +211,7 @@ OC.L10N.register(
     "this share just expired." : "此分享剛過期。",
     "Shared with you by {owner}" : "{owner} 已經和您分享",
     "_Accept share_::_Accept shares_" : ["接受分享"],
-    "Open in files" : "在檔案中開啟",
+    "Open in Files" : "在「檔案」應用程式中開啟",
     "_Reject share_::_Reject shares_" : ["拒絕分享"],
     "_Restore share_::_Restore shares_" : ["還原分享"],
     "Link to a file" : "檔案連結",

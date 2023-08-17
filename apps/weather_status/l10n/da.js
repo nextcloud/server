@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error" : "Fejl",
     "Weather status" : "Status for vejret",
     "Weather status in your dashboard" : "Status for vejret på dit dashboard",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Vejrstatus integreret i Dashboard-appen.\nBrugerens position kan bestemmes automatisk eller manuelt. En 6 timers prognose vises derefter.\nDenne status kan også integreres andre steder som f.eks. i Kalender-appen.",
     "Detect location" : "Find min lokalitet",
     "Set custom address" : "Brugerdefineret adresse",
     "Favorites" : "Favoritter",

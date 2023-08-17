@@ -206,7 +206,7 @@ class SecurityMiddleware extends Middleware {
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
-		if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
@@ -215,12 +215,7 @@ class SecurityMiddleware extends Middleware {
 			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
 			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
-			if (!$this->request->passesCSRFCheck() && !(
-				$controller instanceof OCSController && (
-					$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
-					str_starts_with($this->request->getHeader('Authorization'), 'Bearer ')
-				)
-			)) {
+			if (!$controller instanceof OCSController || !$this->isValidOCSRequest()) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}
@@ -240,6 +235,19 @@ class SecurityMiddleware extends Middleware {
 		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
 			throw new AppNotEnabledException();
 		}
+	}
+
+	private function isInvalidCSRFRequired(ReflectionMethod $reflectionMethod): bool {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+			return false;
+		}
+
+		return !$this->request->passesCSRFCheck();
+	}
+
+	private function isValidOCSRequest(): bool {
+		return $this->request->getHeader('OCS-APIREQUEST') === 'true'
+			|| str_starts_with($this->request->getHeader('Authorization'), 'Bearer ');
 	}
 
 	/**

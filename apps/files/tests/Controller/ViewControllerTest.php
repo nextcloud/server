@@ -52,7 +52,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Template;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -69,7 +68,7 @@ class ViewControllerTest extends TestCase {
 	private $l10n;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
@@ -159,6 +158,7 @@ class ViewControllerTest extends TestCase {
 			->willReturnMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
+				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
 				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
@@ -179,19 +179,6 @@ class ViewControllerTest extends TestCase {
 				'script' => 'list.php',
 				'order' => 0,
 				'name' => \OC::$server->getL10N('files')->t('All files'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
-			'recent' => [
-				'id' => 'recent',
-				'appname' => 'files',
-				'script' => 'recentlist.php',
-				'order' => 2,
-				'name' => \OC::$server->getL10N('files')->t('Recent'),
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
@@ -232,10 +219,6 @@ class ViewControllerTest extends TestCase {
 				'appContents' => [
 					'files' => [
 						'id' => 'files',
-						'content' => null,
-					],
-					'recent' => [
-						'id' => 'recent',
 						'content' => null,
 					],
 					'systemtagsfilter' => [

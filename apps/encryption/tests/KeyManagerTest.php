@@ -41,7 +41,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -73,7 +73,7 @@ class KeyManagerTest extends TestCase {
 	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logMock;
 
 	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
@@ -101,7 +101,7 @@ class KeyManagerTest extends TestCase {
 		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logMock = $this->createMock(ILogger::class);
+		$this->logMock = $this->createMock(LoggerInterface::class);
 		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -600,6 +600,9 @@ class KeyManagerTest extends TestCase {
 			)->setMethods(['getPublicMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
 
+		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$instance->expects($this->once())->method('getPublicMasterKey')
 			->willReturn($masterKey);
 
@@ -644,6 +647,9 @@ class KeyManagerTest extends TestCase {
 				]
 			)->setMethods(['getPublicMasterKey', 'getPrivateMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
+
+		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
 
 		$instance->expects($this->once())->method('getPublicMasterKey')
 			->willReturn('');

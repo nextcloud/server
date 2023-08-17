@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Врати",
     "List of files that have been deleted." : "Листа фајлова који су обрисани.",
     "No deleted files" : "Нема обрисаних фајлова",
+    "Files and folders you have deleted will show up here" : "Фајлови и фолдери које обришете ће се појавити овде",
     "Deleted" : "Обрисано",
     "You will be able to recover deleted files from here" : "Одавде ћете моћи да повратите обрисане фајлове",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",

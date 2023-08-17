@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "Consulte al administrador de su servidor para reiniciar el servidor web.",
     "The required %s config variable is not configured in the config.php file." : "La variable de configuración %s requerida no está configurada en el archivo config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Por favor, pida al administrador de su servidor que compruebe la configuración de Nextcloud.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 requerido.",
-    "Please upgrade your database version." : "Por favor, actualiza la versión de tu base de datos.",
     "Your data directory is readable by other users." : "Tu carpeta de datos puede ser leído por otros usuarios.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor, cambia los permisos a 0770 para que el directorio no se pueda mostrar a otros usuarios.",
     "Your data directory must be an absolute path." : "Tu carpeta de datos debe ser una ruta absoluta.",
@@ -261,11 +259,20 @@
     "Storage connection error. %s" : "Error de conexión de almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamiento no esta disponible temporalmente",
     "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
+    "Free prompt" : "Prompt libre",
+    "Generate headline" : "Generar titular",
+    "Generates a possible headline for a text." : "Genera un posible titular para un texto.",
+    "Summarize" : "Resumir",
+    "Summarizes text by reducing its length without losing key information." : "Resume el texto reduciendo su longitud sin perder información clave.",
+    "Extract topics" : "Extraer tópicos",
+    "Extracts topics from a text and outputs them separated by commas." : "Extrae los tópicos de un texto y genera una salida separada por comas. ",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Los archivos de la app %1$s no se han reemplazado correctamente. Asegúrate de que es una versión compatible con el servidor.",
     "Full name" : "Nombre completo",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "El límite de usuarios fue alcanzado y el usuario no fue creado. Compruebe sus notificaciones para aprender más.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 es requerido en esta o en versiones superiores. Ahora mismo tienes instalada %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este error, actualiza la versión de tu libxml2 y reinicia el servidor web."
+    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este error, actualiza la versión de tu libxml2 y reinicia el servidor web.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 requerido.",
+    "Please upgrade your database version." : "Por favor, actualiza la versión de tu base de datos."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

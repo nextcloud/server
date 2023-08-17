@@ -41,6 +41,12 @@ interface ISpeechToTextManager {
 	public function hasProviders(): bool;
 
 	/**
+	 * @return ISpeechToTextProvider[]
+	 * @since 27.1.0
+	 */
+	public function getProviders(): array;
+
+	/**
 	 * Will schedule a transcription process in the background. The result will become available
 	 * with the \OCP\SpeechToText\Events\TranscriptionFinishedEvent
 	 * You should add context information to the context array to re-identify the transcription result as

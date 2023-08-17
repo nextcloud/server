@@ -145,6 +145,12 @@ $application->registerRoutes($this, [
 
 		['root' => '/translation', 'name' => 'TranslationApi#languages', 'url' => '/languages', 'verb' => 'GET'],
 		['root' => '/translation', 'name' => 'TranslationApi#translate', 'url' => '/translate', 'verb' => 'POST'],
+
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#taskTypes', 'url' => '/tasktypes', 'verb' => 'GET'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#schedule', 'url' => '/schedule', 'verb' => 'POST'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#deleteTask', 'url' => '/task/{id}', 'verb' => 'DELETE'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
 	],
 ]);
 

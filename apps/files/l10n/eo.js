@@ -66,6 +66,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} kaj {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluzive %n kaŝita","inkluzive %n kaŝita(j)"],
     "_Uploading %n file_::_Uploading %n files_" : ["Alŝutatas %n dosiero","Alŝutatas %n dosieroj"],
+    "New" : "Nova",
     "Select file range" : "Elekti dosierintervalon",
     "{used}%" : "{used}%",
     "{used} of {quota} used" : "{used} uzataj el {quota}",
@@ -168,6 +169,7 @@ OC.L10N.register(
     "Shared with others" : "Kunhavata kun aliaj",
     "Shared with you" : "Kunhavata kun vi",
     "Shared by link" : "Kunhavata per ligilo",
-    "Deleted shares" : "Forigitaj kunhavigoj"
+    "Deleted shares" : "Forigitaj kunhavigoj",
+    "Choose" : "Elekti"
 },
 "nplurals=2; plural=(n != 1);");

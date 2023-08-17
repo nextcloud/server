@@ -32,6 +32,12 @@
 	flex: 1 1;
 	.button:not(:last-child) {
 		margin-right: 3px;
+		width: unset;
+		gap: 14px;
+		background-color: var(--color-primary-element-light);
+		color: var(--color-primary-element-light-text);
+		border: unset;
+		padding: 0px 20px;
 	}
 }
 
@@ -593,7 +599,7 @@ table td.selection {
 		background-color: var(--color-main-background);
 		mask: var(--icon-star-rounded-white) no-repeat;
 		mask-size: 22px 22px;
-		
+
 		width: 22px;
 		height: 22px;
 		display: flex;
@@ -655,8 +661,11 @@ a.action > img {
 	vertical-align: text-bottom;
 }
 
-a.action.action-editlocally img.icon {
-	filter: var(--background-invert-if-dark);
+a.action.action-editlocally,
+a.action.action-setreminder {
+	img.icon {
+		filter: var(--background-invert-if-dark);
+	}
 }
 
 /* Actions for selected files */
@@ -869,7 +878,7 @@ table.dragshadow td.size {
 
 	/* Center triangle */
 	&::after {
-		left: 61px !important;
+		left: 84px !important;
 	}
 }
 
@@ -952,6 +961,12 @@ table.dragshadow td.size {
 
 .app-files .actions .button.new {
 	position: relative;
+	width: unset;
+	gap: 14px;
+	background-color: var(--color-primary-element-light);
+	color: var(--color-primary-element-light-text);
+	border: unset;
+	padding: 0px 20px;
 }
 
 .breadcrumb {

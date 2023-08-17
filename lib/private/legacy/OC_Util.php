@@ -68,7 +68,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -715,48 +714,9 @@ class OC_Util {
 			}
 		}
 
-		$errors = array_merge($errors, self::checkDatabaseVersion());
-
 		// Cache the result of this function
 		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
 
-		return $errors;
-	}
-
-	/**
-	 * Check the database version
-	 *
-	 * @return array errors array
-	 */
-	public static function checkDatabaseVersion() {
-		$l = \OC::$server->getL10N('lib');
-		$errors = [];
-		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
-		if ($dbType === 'pgsql') {
-			// check PostgreSQL version
-			// TODO latest postgresql 8 released was 8 years ago, maybe remove the
-			// check completely?
-			try {
-				/** @var IDBConnection $connection */
-				$connection = \OC::$server->get(IDBConnection::class);
-				$result = $connection->executeQuery('SHOW SERVER_VERSION');
-				$data = $result->fetch();
-				$result->closeCursor();
-				if (isset($data['server_version'])) {
-					$version = $data['server_version'];
-					if (version_compare($version, '9.0.0', '<')) {
-						$errors[] = [
-							'error' => $l->t('PostgreSQL >= 9 required.'),
-							'hint' => $l->t('Please upgrade your database version.')
-						];
-					}
-				}
-			} catch (\Doctrine\DBAL\Exception $e) {
-				$logger = \OC::$server->getLogger();
-				$logger->warning('Error occurred while checking PostgreSQL version, assuming >= 9');
-				$logger->logException($e);
-			}
-		}
 		return $errors;
 	}
 

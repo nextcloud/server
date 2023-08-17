@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "請聯絡您的系統管理員重新啟動網頁伺服器",
     "The required %s config variable is not configured in the config.php file." : "所需的配置變量 %s 未在 config.php 檔案中配置。",
     "Please ask your server administrator to check the Nextcloud configuration." : "請聯絡您的伺服器管理員檢查 Nextcloud 配置。",
-    "PostgreSQL >= 9 required." : "需要 PostgreSQL 版本 >= 9",
-    "Please upgrade your database version." : "請升級您數據庫的版本。",
     "Your data directory is readable by other users." : "您的資料目錄可以被其他用戶讀取。",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "請將該目錄權限設定為 0770 ，以免其他用戶讀取目錄列表",
     "Your data directory must be an absolute path." : "您的資料目錄必須為絕對路徑。",
@@ -261,11 +259,21 @@
     "Storage connection error. %s" : "儲存空間連線錯誤。%s",
     "Storage is temporarily not available" : "儲存空間暫時無法使用",
     "Storage connection timeout. %s" : "儲存空間連線逾時。%s",
+    "Free prompt" : "免費提示",
+    "Runs an arbitrary prompt through the language model." : "通過語言模型運行任意提示。",
+    "Generate headline" : "産生標題",
+    "Generates a possible headline for a text." : "為文字生成可能的標題。",
+    "Summarize" : "總結",
+    "Summarizes text by reducing its length without losing key information." : "通過減少文字長度來總結而不丟失關鍵資訊。",
+    "Extract topics" : "解壓縮主題",
+    "Extracts topics from a text and outputs them separated by commas." : "從文字中提取主題並輸出，並用逗號分隔。",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "無法正確取代應用程式 %1$s 的檔案。請確保它們的版本與伺服器的版本兼容。",
     "Full name" : "全名",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "用戶數量已達上限，無法創建新用戶。請查看您的通知以獲取更多資料。",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "用戶名稱當中只能包含下列字元：\"a-z\"， \"A-Z\"， \"0-9\"， 和 \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 版本最低需求為 2.7.0。目前安裝版本為 %s。",
-    "To fix this issue update your libxml2 version and restart your web server." : "修正方式為更新您的 libxml2 為 2.7.0 以上版本，再重啟網頁伺服器。"
+    "To fix this issue update your libxml2 version and restart your web server." : "修正方式為更新您的 libxml2 為 2.7.0 以上版本，再重啟網頁伺服器。",
+    "PostgreSQL >= 9 required." : "需要 PostgreSQL 版本 >= 9",
+    "Please upgrade your database version." : "請升級您數據庫的版本。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

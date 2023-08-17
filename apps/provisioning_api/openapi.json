@@ -325,45 +325,30 @@
                 "type": "object",
                 "required": [
                     "additional_mail",
-                    "additional_mailScope",
                     "address",
-                    "addressScope",
-                    "avatarScope",
                     "backend",
                     "backendCapabilities",
                     "biography",
-                    "biographyScope",
-                    "displayname",
                     "display-name",
-                    "displaynameScope",
+                    "displayname",
                     "email",
-                    "emailScope",
-                    "enabled",
                     "fediverse",
-                    "fediverseScope",
                     "groups",
                     "headline",
-                    "headlineScope",
                     "id",
                     "language",
                     "lastLogin",
                     "locale",
+                    "manager",
                     "notify_email",
                     "organisation",
-                    "organisationScope",
                     "phone",
-                    "phoneScope",
                     "profile_enabled",
-                    "profile_enabledScope",
                     "quota",
                     "role",
-                    "roleScope",
-                    "storageLocation",
                     "subadmin",
                     "twitter",
-                    "twitterScope",
-                    "website",
-                    "websiteScope"
+                    "website"
                 ],
                 "properties": {
                     "additional_mail": {
@@ -374,7 +359,6 @@
                     },
                     "additional_mailScope": {
                         "type": "array",
-                        "nullable": true,
                         "items": {
                             "type": "string"
                         }
@@ -383,12 +367,10 @@
                         "type": "string"
                     },
                     "addressScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "avatarScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "backend": {
                         "type": "string"
@@ -412,38 +394,32 @@
                         "type": "string"
                     },
                     "biographyScope": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "displayname": {
                         "type": "string"
                     },
                     "display-name": {
                         "type": "string"
                     },
+                    "displayname": {
+                        "type": "string"
+                    },
                     "displaynameScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "email": {
                         "type": "string",
                         "nullable": true
                     },
                     "emailScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "enabled": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": "boolean"
                     },
                     "fediverse": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "fediverseScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "groups": {
                         "type": "array",
@@ -455,8 +431,7 @@
                         "type": "string"
                     },
                     "headlineScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "id": {
                         "type": "string"
@@ -471,6 +446,9 @@
                     "locale": {
                         "type": "string"
                     },
+                    "manager": {
+                        "type": "string"
+                    },
                     "notify_email": {
                         "type": "string",
                         "nullable": true
@@ -479,78 +457,31 @@
                         "type": "string"
                     },
                     "organisationScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "phone": {
                         "type": "string"
                     },
                     "phoneScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "profile_enabled": {
                         "type": "string"
                     },
                     "profile_enabledScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "quota": {
-                        "type": "object",
-                        "required": [
-                            "free",
-                            "quota",
-                            "relative",
-                            "total",
-                            "used"
-                        ],
-                        "properties": {
-                            "free": {
-                                "type": "integer",
-                                "format": "int64",
-                                "nullable": true
-                            },
-                            "quota": {
-                                "oneOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    {
-                                        "type": "boolean"
-                                    }
-                                ]
-                            },
-                            "relative": {
-                                "type": "number",
-                                "format": "float",
-                                "nullable": true
-                            },
-                            "total": {
-                                "type": "integer",
-                                "format": "int64",
-                                "nullable": true
-                            },
-                            "used": {
-                                "type": "integer",
-                                "format": "int64"
-                            }
-                        }
+                        "$ref": "#/components/schemas/UserDetailsQuota"
                     },
                     "role": {
                         "type": "string"
                     },
                     "roleScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "storageLocation": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "subadmin": {
                         "type": "array",
@@ -562,15 +493,45 @@
                         "type": "string"
                     },
                     "twitterScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "website": {
                         "type": "string"
                     },
                     "websiteScope": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
+                    }
+                }
+            },
+            "UserDetailsQuota": {
+                "type": "object",
+                "properties": {
+                    "free": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "quota": {
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "relative": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "used": {
+                        "type": "number",
+                        "format": "float"
                     }
                 }
             }
@@ -783,10 +744,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -852,10 +810,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1030,10 +985,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1600,10 +1552,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1670,10 +1619,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1835,19 +1781,27 @@
                         }
                     },
                     {
-                        "name": "groups",
+                        "name": "groups[]",
                         "in": "query",
                         "description": "Groups of the user",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
-                        "name": "subadmin",
+                        "name": "subadmin[]",
                         "in": "query",
                         "description": "Groups where the user is subadmin",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
@@ -2152,10 +2106,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2307,10 +2258,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2375,10 +2323,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2668,10 +2613,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2738,10 +2680,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2808,10 +2747,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -2878,10 +2814,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3035,10 +2968,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3112,10 +3042,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3263,10 +3190,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3341,10 +3265,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3411,10 +3332,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3576,7 +3494,7 @@
                         }
                     },
                     "403": {
-                        "description": "App not allowed",
+                        "description": "App is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3653,7 +3571,7 @@
                     {
                         "name": "app",
                         "in": "path",
-                        "description": "ID if the app",
+                        "description": "ID of the app",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -3718,7 +3636,7 @@
                         }
                     },
                     "403": {
-                        "description": "App not allowed",
+                        "description": "App is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3838,10 +3756,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3850,7 +3765,7 @@
                         }
                     },
                     "403": {
-                        "description": "App or key not allowed",
+                        "description": "App or key is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3962,10 +3877,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -3974,7 +3886,7 @@
                         }
                     },
                     "403": {
-                        "description": "App or key not allowed",
+                        "description": "App or key is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4096,10 +4008,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4127,10 +4036,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4204,10 +4110,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4235,10 +4138,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4314,10 +4214,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4345,10 +4242,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4374,12 +4268,15 @@
                 ],
                 "parameters": [
                     {
-                        "name": "configKeys",
+                        "name": "configKeys[]",
                         "in": "query",
                         "description": "Keys to delete",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
@@ -4422,10 +4319,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -4453,10 +4347,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }

@@ -656,7 +656,7 @@ EOS;
 		try {
 			$actual = $this->backend->getDenormalizedData($calData);
 			$this->assertEquals($expected, $actual[$key]);
-		} catch (\ValueError $e) {
+		} catch (\Throwable $e) {
 			if (($e->getMessage() === 'Epoch doesn\'t fit in a PHP integer') && (PHP_INT_SIZE < 8)) {
 				$this->markTestSkipped('This fail on 32bits because of PHP limitations in DateTime');
 			}

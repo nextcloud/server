@@ -34,6 +34,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -53,6 +54,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
+		private IConfig $config,
 	) {
 	}
 
@@ -111,7 +113,18 @@ class SpeechToTextManager implements ISpeechToTextManager {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}
 
-		foreach ($this->getProviders() as $provider) {
+		$providers = $this->getProviders();
+
+		$json = $this->config->getAppValue('core', 'ai.stt_provider', '');
+		if ($json !== '') {
+			$className = json_decode($json, true);
+			$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+			if ($provider !== false) {
+				$providers = [$provider];
+			}
+		}
+
+		foreach ($providers as $provider) {
 			try {
 				return $provider->transcribeFile($file);
 			} catch (\Throwable $e) {

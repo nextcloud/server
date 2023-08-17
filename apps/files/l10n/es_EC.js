@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n oculto","incluyendo %n ocultos","incluyendo %n ocultos"],
     "You do not have permission to upload or create files here" : "No tienes permiso para cargar o crear archivos aquí.",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos","Cargando %n archivos"],
+    "New" : "Nuevo",
     "New file/folder menu" : "Menú de archivo/carpeta nuevo.",
     "Select file range" : "Selecciona un rango de archivos.",
     "{used}%" : "{used}%",
@@ -194,7 +195,6 @@ OC.L10N.register(
     "descending" : "descendente",
     "Sort list by {column} ({direction})" : "Ordenar lista por {column} ({direction}).",
     "List of files and folders." : "Lista de archivos y carpetas. ",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navegas por la lista.",
     "Storage informations" : "Información de almacenamiento.",
     "{usedQuotaByte} used" : "{usedQuotaByte} usados.",
     "{relative}% used" : "{relative}% usados.",
@@ -271,7 +271,9 @@ OC.L10N.register(
     "Deleted shares" : "Comparticiones eliminadas",
     "Pending shares" : "Comparticiones pendientes",
     "Open folder {name}" : "Abrir carpeta {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navegas por la lista.",
     "Search for an account" : "Buscar una cuenta",
+    "Choose" : "Seleccionar",
     "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

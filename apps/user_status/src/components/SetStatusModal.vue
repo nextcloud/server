@@ -21,7 +21,7 @@
 
 <template>
 	<NcModal size="normal"
-		:title="$t('user_status', 'Set status')"
+		:name="$t('user_status', 'Set status')"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->

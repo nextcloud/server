@@ -11,6 +11,7 @@
 /apps/federation/appinfo/info.xml             @datenangebot
 /apps/files/appinfo/info.xml                  @skjnldsv @Pytal @ArtificialOwl @come-nc @artonge @icewind1991 @szaimen @susnux @Fenn-CS
 /apps/files_external/appinfo/info.xml         @icewind1991 @artonge
+/apps/files_reminders/appinfo/info.xml        @Pytal
 /apps/files_sharing/appinfo/info.xml          @skjnldsv @come-nc
 /apps/files_trashbin/appinfo/info.xml         @Pytal @icewind1991
 /apps/files_versions/appinfo/info.xml         @artonge @icewind1991
@@ -34,6 +35,10 @@
 **/TwoFactorAuth                    @ChristophWurst @miaulalala @nickvergessen @st3iny
 /apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen @st3iny
 /core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen @st3iny
+
+# OpenAPI
+openapi.json            @provokateurin
+ResponseDefinitions.php @provokateurin
 
 # Personal interest
 */Activity/*                        @nickvergessen

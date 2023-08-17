@@ -335,7 +335,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function rename($source, $target) {
+	public function rename($source, $target): bool {
 		$srcParent = dirname($source);
 		$dstParent = dirname($target);
 
@@ -361,21 +361,14 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		if ($this->is_dir($source)) {
-			// we can't move folders across devices, use copy instead
-			$stat1 = stat(dirname($this->getSourcePath($source)));
-			$stat2 = stat(dirname($this->getSourcePath($target)));
-			if ($stat1['dev'] !== $stat2['dev']) {
-				$result = $this->copy($source, $target);
-				if ($result) {
-					$result &= $this->rmdir($source);
-				}
-				return $result;
-			}
-
 			$this->checkTreeForForbiddenItems($this->getSourcePath($source));
 		}
 
-		return rename($this->getSourcePath($source), $this->getSourcePath($target));
+		if (@rename($this->getSourcePath($source), $this->getSourcePath($target))) {
+			return true;
+		}
+
+		return $this->copy($source, $target) && $this->unlink($source);
 	}
 
 	public function copy($source, $target) {

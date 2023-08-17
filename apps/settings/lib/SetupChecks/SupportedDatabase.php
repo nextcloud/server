@@ -68,7 +68,7 @@ class SupportedDatabase {
 				$row = $result->fetch();
 				$version = strtolower($row['Value']);
 
-				if (strpos($version, 'mariadb') !== false) {
+				if (str_contains($version, 'mariadb')) {
 					if (version_compare($version, '10.2', '<')) {
 						$this->description = $this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $row['Value']);
 						return;

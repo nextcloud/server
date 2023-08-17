@@ -29,12 +29,12 @@ namespace OCA\Encryption\Tests\Crypto;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\IUserSession;
 use Test\TestCase;
 
 class CryptTest extends TestCase {
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
@@ -52,7 +52,7 @@ class CryptTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger->expects($this->any())

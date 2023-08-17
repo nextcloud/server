@@ -1,6 +1,7 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Không thể ghi vào thư mục \"config\"!",
     "See %s" : "Xem %s",
+    "The page could not be found on the server." : "Không thể tìm thấy trang trên máy chủ.",
     "Email verification" : "Xác thực email",
     "Click the following button to confirm your email." : "Nhấn nút sau để xác nhận email của bạn.",
     "Click the following link to confirm your email." : "Nhấn liên kết sau để xác nhận email của bạn.",

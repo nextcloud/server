@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Відновити",
     "List of files that have been deleted." : "Список файлів, які було видалено.",
     "No deleted files" : "Кошик порожній",
+    "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",
     "Deleted" : "Вилучено",
     "You will be able to recover deleted files from here" : "Тут ви можете відновити файли, які було вилучено",
     "No entries found in this folder" : "Не знайдено записів у цьому каталозі",

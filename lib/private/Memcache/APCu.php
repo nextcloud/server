@@ -155,10 +155,7 @@ class APCu extends Cache implements IMemcache {
 			return false;
 		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
 			return false;
-		} elseif (
-			version_compare(phpversion('apc') ?: '0.0.0', '4.0.6') === -1 &&
-			version_compare(phpversion('apcu') ?: '0.0.0', '5.1.0') === -1
-		) {
+		} elseif (version_compare(phpversion('apcu') ?: '0.0.0', '5.1.0') === -1) {
 			return false;
 		} else {
 			return true;

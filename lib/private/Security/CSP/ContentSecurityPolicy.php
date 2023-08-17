@@ -64,6 +64,14 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->evalScriptAllowed = $evalScriptAllowed;
 	}
 
+	public function isEvalWasmAllowed(): ?bool {
+		return $this->evalWasmAllowed;
+	}
+
+	public function setEvalWasmAllowed(bool $evalWasmAllowed): void {
+		$this->evalWasmAllowed = $evalWasmAllowed;
+	}
+
 	/**
 	 * @return array
 	 */

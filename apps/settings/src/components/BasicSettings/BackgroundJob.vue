@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('settings', 'Background jobs')"
+	<NcSettingsSection :name="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
@@ -65,21 +65,15 @@
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).') }}</em>
 
-		<NcCheckboxRadioSwitch v-if="cliBasedCronPossible"
-			type="radio"
+		<NcCheckboxRadioSwitch type="radio"
+			:disabled="!cliBasedCronPossible"
 			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
-		<em v-if="cliBasedCronPossible">{{ cronLabel }}</em>
-		<em v-else>
-			{{ t('settings', 'To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.', {
-				linkstart: '<a href="https://www.php.net/manual/en/book.posix.php">',
-				linkend: '</a>',
-			}) }}
-		</em>
+		<em v-html="cronLabel" />
 	</NcSettingsSection>
 </template>
 
@@ -125,9 +119,14 @@ export default {
 	},
 	computed: {
 		cronLabel() {
-			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances.')
+			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
 			if (this.cliBasedCronPossible) {
-				desc += ' ' + t('settings', 'The cron.php needs to be executed by the system user "{user}".', { user: this.cliBasedCronUser })
+				desc += '<br>' + t('settings', 'The cron.php needs to be executed by the system user "{user}".', { user: this.cliBasedCronUser })
+			} else {
+				desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
+					linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
+					linkend: '</a>',
+				}, undefined, { escape: false, sanitize: false })
 			}
 			return desc
 		},

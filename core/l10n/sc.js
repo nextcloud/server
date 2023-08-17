@@ -33,6 +33,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Incarca in su butone in fatu pro ripristinare sa crae. Si no as pedidu su riprìstinu de sa crae, non cunsìderes custu messàgiu.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Incarca in su ligòngiu in fatu pro ripristinare sa crae. Si no as pedidu su riprìstinu de sa crae, non cunsìderes custu messàgiu.",
     "Reset your password" : "Riprìstina sa crae",
+    "Internal error" : "Errore internu",
     "Nextcloud Server" : "Serbidore de Nextcloud",
     "Some of your link shares have been removed" : "Carchi ligòngiu de cumpartzidura tuo nch'est istadu bogadu",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Pro un'errore de seguresa nch'amus dèpidu bogare carchi ligòngiu de cumpartzidura. Càstia su ligòngiu pro àteras informatziones.",

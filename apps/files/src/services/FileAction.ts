@@ -74,7 +74,7 @@ interface FileActionData {
 	 * If defined, the returned html element will be
 	 * appended before the actions menu.
 	 */
-	renderInline?: (file: Node, view: Navigation) => HTMLElement,
+	renderInline?: (file: Node, view: Navigation) => Promise<HTMLElement | null>,
 }
 
 export class FileAction {

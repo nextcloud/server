@@ -37,7 +37,6 @@ use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
-use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
@@ -51,7 +50,6 @@ use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
-use OCP\Files\Event\BeforeDirectGetEvent;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
 use OCA\Files_Sharing\ViewOnly;
@@ -61,7 +59,6 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
@@ -72,13 +69,10 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUserSession;
-use OCP\L10N\IFactory;
 use OCP\Share\Events\ShareCreatedEvent;
-use OCP\Share\IManager;
 use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
@@ -135,10 +129,9 @@ class Application extends App implements IBootstrap {
 		$mountProviderCollection->registerProvider($externalMountProvider);
 	}
 
-	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher): void {
+	public function registerEventsScripts(IEventDispatcher $dispatcher): void {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
-		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
@@ -148,12 +141,15 @@ class Application extends App implements IBootstrap {
 		});
 
 		// notifications api to accept incoming user shares
-		$oldDispatcher->addListener('OCP\Share::postShare', function (OldGenericEvent $event) {
+		$dispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);
 		});
-		$oldDispatcher->addListener(IGroup::class . '::postAddUser', function (OldGenericEvent $event) {
+		$dispatcher->addListener(IGroup::class . '::postAddUser', function ($event) {
+			if (!$event instanceof OldGenericEvent) {
+				return;
+			}
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->userAddedToGroup($event);

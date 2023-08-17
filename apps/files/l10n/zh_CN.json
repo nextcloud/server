@@ -76,6 +76,7 @@
     "_including %n hidden_::_including %n hidden_" : ["包括 %n 个隐藏文件"],
     "You do not have permission to upload or create files here" : "您没有在此上传或创建文件的权限",
     "_Uploading %n file_::_Uploading %n files_" : ["正在上传 %n 个文件"],
+    "New" : "新建",
     "New file/folder menu" : "新建文件/文件夹菜单",
     "Select file range" : "选择文件范围",
     "{used}%" : "{used}%",
@@ -191,7 +192,6 @@
     "ascending" : "升序",
     "descending" : "降序",
     "Sort list by {column} ({direction})" : "按 {column} ({direction}) 排序列表",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Storage informations" : "存储信息",
     "{usedQuotaByte} used" : "{usedQuotaByte} 已使用",
     "{relative}% used" : "{relative}% 已使用",
@@ -268,7 +268,9 @@
     "Deleted shares" : "已删除的共享",
     "Pending shares" : "待定共享",
     "Open folder {name}" : "打开文件夹 {name}",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Search for an account" : "搜索一个账户",
+    "Choose" : "选择",
     "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

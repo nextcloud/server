@@ -171,7 +171,7 @@ class DefaultTheme implements ITheme {
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
 			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 42),
 
-			'--font-face' => "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', Arial, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
 
 			// TODO: support "(prefers-reduced-motion)"

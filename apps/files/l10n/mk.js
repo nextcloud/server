@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["вклучувајќи %n скриена","вклучувајќи %n скриени"],
     "You do not have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки овде",
     "_Uploading %n file_::_Uploading %n files_" : ["Прикачување %n датотека","Прикачување на %n датотеки"],
+    "New" : "Ново",
     "New file/folder menu" : "Мени Нова датотека/папка",
     "Select file range" : "Избери опсег на датотеки",
     "{used}%" : "{used}%",
@@ -235,6 +236,7 @@ OC.L10N.register(
     "Shared with you" : "Споделено со тебе",
     "Shared by link" : "Споделено со линк",
     "Deleted shares" : "Избришани споделувања",
-    "Pending shares" : "Споделувања на чекање"
+    "Pending shares" : "Споделувања на чекање",
+    "Choose" : "Избери"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

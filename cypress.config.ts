@@ -6,8 +6,10 @@ import {
 	waitOnNextcloud,
 } from './cypress/dockerNode'
 import { defineConfig } from 'cypress'
+import webpackPreprocessor from '@cypress/webpack-preprocessor'
+import type { Configuration } from 'webpack'
 
-import browserify from '@cypress/browserify-preprocessor'
+import webpackConfig from './webpack.config.js'
 
 export default defineConfig({
 	projectId: '37xpdh',
@@ -45,8 +47,7 @@ export default defineConfig({
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
-			// Fix browserslist extend https://github.com/cypress-io/cypress/issues/2983#issuecomment-570616682
-			on('file:preprocessor', browserify({ typescript: require.resolve('typescript') }))
+			on('file:preprocessor', webpackPreprocessor({ webpackOptions: webpackConfig as Configuration }))
 
 			// Disable spell checking to prevent rendering differences
 			on('before:browser:launch', (browser, launchOptions) => {
@@ -113,7 +114,7 @@ export default defineConfig({
 					},
 				])
 
-				const config = require('@nextcloud/webpack-vue-config')
+				const config = webpackConfig
 				config.module.rules.push({
 					test: /\.svg$/,
 					type: 'asset/source',

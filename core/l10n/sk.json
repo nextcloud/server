@@ -34,6 +34,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Pre obnovenie hesla kliknite na nasledujúce tlačidlo. Pokiaľ ste nevyžiadali obnovenie hesla, tento email ignorujte.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Pre obnovenie hesla kliknite na nasledujúci odkaz. Pokiaľ ste nevyžiadali obnovenie hesla, tento email ignorujte.",
     "Reset your password" : "Vytvoriť nové heslo",
+    "Internal error" : "Interná chyba",
     "Nextcloud Server" : "Nextcloud Server",
     "Some of your link shares have been removed" : "Niektoré odkazy sprístupnenia boli odstránené.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Kvôli bezpečnostnej chyba sme museli odstrániť niektoré z vašich odkazov pre sprístupnenie. Pre viac informácií nasledujte tento link.",

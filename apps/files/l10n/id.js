@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["Termasuk %n tersembunyi"],
     "You do not have permission to upload or create files here" : "Anda tidak memiliki izin untuk mengunggah atau membuat berkas di sini",
     "_Uploading %n file_::_Uploading %n files_" : ["Mengunggah %n berkas"],
+    "New" : "Baru",
     "New file/folder menu" : "Menu berkas/folder baru",
     "Select file range" : "Pilih rentang berkas",
     "{used}%" : "{used}%",
@@ -234,6 +235,7 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Dibagikan dengan tautan",
     "Deleted shares" : "Berbagi terhapus",
-    "Pending shares" : "Berbagi tertunda"
+    "Pending shares" : "Berbagi tertunda",
+    "Choose" : "Pilih"
 },
 "nplurals=1; plural=0;");

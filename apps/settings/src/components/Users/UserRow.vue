@@ -27,7 +27,7 @@
 	<Fragment>
 		<td class="row__cell row__cell--avatar">
 			<NcLoadingIcon v-if="isLoadingUser"
-				:title="t('settings', 'Loading user …')"
+				:name="t('settings', 'Loading user …')"
 				:size="32" />
 			<NcAvatar v-else
 				:key="user.id"
@@ -44,8 +44,8 @@
 					{{ t('settings', 'Edit display name') }}
 				</label>
 				<NcTextField :id="'displayName' + uniqueId"
-					data-test="displayNameField"
 					ref="displayNameField"
+					data-test="displayNameField"
 					:show-trailing-button="true"
 					class="user-row-text-field"
 					:class="{ 'icon-loading-small': idState.loading.displayName }"
@@ -133,7 +133,7 @@
 				</label>
 				<NcSelect :input-id="'groups' + uniqueId"
 					:close-on-select="false"
-					:disabled="idState.loading.groups || isLoadingField"
+					:disabled="isLoadingField"
 					:loading="idState.loading.groups"
 					:multiple="true"
 					:options="availableGroups"
@@ -163,7 +163,7 @@
 				</label>
 				<NcSelect :id="'subadmins' + uniqueId"
 					:close-on-select="false"
-					:disabled="idState.loading.subadmins || isLoadingField"
+					:disabled="isLoadingField"
 					:loading="idState.loading.subadmins"
 					label="name"
 					:multiple="true"
@@ -190,7 +190,7 @@
 				<NcSelect v-model="editedUserQuota"
 					:close-on-select="true"
 					:create-option="validateQuota"
-					:disabled="idState.loading.quota || isLoadingField"
+					:disabled="isLoadingField"
 					:loading="idState.loading.quota"
 					:clearable="false"
 					:input-id="'quota' + uniqueId"
@@ -202,8 +202,8 @@
 			</template>
 			<template v-else-if="!isObfuscated">
 				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
-				<NcProgressBar class="row__progress"
-					:id="'quota-progress' + uniqueId"
+				<NcProgressBar :id="'quota-progress' + uniqueId"
+					class="row__progress"
 					:class="{
 						'row__progress--warn': usedQuota > 80,
 					}"
@@ -221,7 +221,7 @@
 				</label>
 				<NcSelect :id="'language' + uniqueId"
 					:allow-empty="false"
-					:disabled="idState.loading.languages || isLoadingField"
+					:disabled="isLoadingField"
 					:loading="idState.loading.languages"
 					:clearable="false"
 					:options="availableLanguages"
@@ -264,7 +264,7 @@
 				<NcSelect v-model="idState.currentManager"
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
-					:disabled="idState.loading.manager || isLoadingField"
+					:disabled="isLoadingField"
 					:loading="idState.loading.manager"
 					label="displayname"
 					:options="idState.possibleManagers"
@@ -394,12 +394,15 @@ export default {
 			editedDisplayName: this.user.displayname,
 			editedPassword: '',
 			editedMail: this.user.email ?? '',
-			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set user manager'),
 		}
 	},
 
 	computed: {
+		managerLabel() {
+			// TRANSLATORS This string describes a manager in the context of an organization
+			return t('settings', 'Set user manager')
+		},
+
 		isObfuscated() {
 			return isObfuscated(this.user)
 		},
@@ -568,13 +571,13 @@ export default {
 			})
 		},
 
-		updateUserManager(manager) {
+		async updateUserManager(manager) {
 			if (manager === null) {
 				this.idState.currentManager = ''
 			}
 			this.idState.loading.manager = true
 			try {
-				this.$store.dispatch('setUserData', {
+				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'manager',
 					value: this.idState.currentManager ? this.idState.currentManager.id : '',

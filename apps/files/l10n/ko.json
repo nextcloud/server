@@ -76,6 +76,7 @@
     "_including %n hidden_::_including %n hidden_" : ["%n개의 숨겨진 파일 포함"],
     "You do not have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다.",
     "_Uploading %n file_::_Uploading %n files_" : ["파일 %n개 업로드 중"],
+    "New" : "새로 만들기",
     "New file/folder menu" : "새 파일/폴더 메뉴",
     "Select file range" : "파일 범위 선택",
     "{used} of {quota} used" : "{quota} 중 {used} 사용함",
@@ -181,7 +182,6 @@
     "ascending" : "오름차순",
     "descending" : "내림차순",
     "Sort list by {column} ({direction})" : "{column} ({direction})으로 목록 정렬",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Storage informations" : "저장소 정보",
     "{usedQuotaByte} used" : "{usedQuotaByte} 사용",
     "{relative}% used" : "{relative}% 사용",
@@ -253,7 +253,9 @@
     "Deleted shares" : "삭제된 공유",
     "Pending shares" : "진행중인 공유",
     "Open folder {name}" : "{name} 폴더 열기",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
+    "Choose" : "선택",
     "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

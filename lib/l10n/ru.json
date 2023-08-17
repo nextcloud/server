@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "Пожалуйста, попросите вашего администратора перезапустить веб-сервер.",
     "The required %s config variable is not configured in the config.php file." : "Необходимая переменная %s не настроена в файле config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Пожалуйста, попросите администратора вашего сервера проверить конфигурацию Nextcloud.",
-    "PostgreSQL >= 9 required." : "Требуется PostgreSQL версии 9 или более новый.",
-    "Please upgrade your database version." : "Обновите базу данных.",
     "Your data directory is readable by other users." : "Каталог данных доступен для чтения другим пользователям.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Измените права доступа на 0770, чтобы другие пользователи не могли получить список файлов этого каталога.",
     "Your data directory must be an absolute path." : "Каталог данных должен быть указан в виде абсолютного пути.",
@@ -261,11 +259,15 @@
     "Storage connection error. %s" : "Ошибка подключения к хранилищу. %s",
     "Storage is temporarily not available" : "Хранилище временно недоступно",
     "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s",
+    "Extract topics" : "Извлечь темы",
+    "Extracts topics from a text and outputs them separated by commas." : "Извлекает темы из текста и выводит их через запятую.",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Файлы приложения %1$s не были заменены корректно. Удостоверьтесь, что устанавливаемая версия этого приложения совместима с версией сервера.",
     "Full name" : "Полное имя",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Пользователь не был создан, достигнуто ограничение количества пользователей. Для получения дополнительных сведений проверьте уведомления.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В составе имени пользователя допускаются следующие символы: «a–z», «A–Z», «0–9» и «_.@-'»",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Требуется как минимум libxml2 версии 2.7.0. На данный момент установлена %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Для исправления этой ошибки обновите версию libxml2 и перезапустите ваш веб-сервер."
+    "To fix this issue update your libxml2 version and restart your web server." : "Для исправления этой ошибки обновите версию libxml2 и перезапустите ваш веб-сервер.",
+    "PostgreSQL >= 9 required." : "Требуется PostgreSQL версии 9 или более новый.",
+    "Please upgrade your database version." : "Обновите базу данных."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

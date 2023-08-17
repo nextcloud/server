@@ -78,6 +78,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["περιλαμβάνεται %n κρυφό","περιλαμβάνονται %n κρυφά"],
     "You do not have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "_Uploading %n file_::_Uploading %n files_" : ["Μεταφόρτωση %n αρχείου","Μεταφόρτωση %n αρχείων"],
+    "New" : "Νέα",
     "New file/folder menu" : "Μενού νέου αρχείου/φακέλου",
     "Select file range" : "Επιλέξτε εύρος αρχείων",
     "{used}%" : "{used}%",
@@ -248,6 +249,7 @@ OC.L10N.register(
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Open folder {name}" : "Άνοιγμα φακέλου {name}",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
+    "Choose" : "Επιλογή",
     "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
 },
 "nplurals=2; plural=(n != 1);");
