@@ -169,9 +169,10 @@ class Util {
 	 * @param string $application
 	 * @param string|null $file
 	 * @param string $afterAppId
+	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core'): void {
+	public static function addScript(string $application, string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -194,7 +195,11 @@ class Util {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
-		self::$scripts[$application][] = $path;
+		if ($prepend) {
+			array_unshift(self::$scripts[$application], $path);
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
@@ -212,7 +217,12 @@ class Util {
 		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
 
 		// Override core-common and core-main order
-		array_unshift($sortedScripts, 'core/js/common', 'core/js/main');
+		if (in_array('core/js/main', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/main');
+		}
+		if (in_array('core/js/common', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/common');
+		}
 
 		return array_unique($sortedScripts);
 	}
