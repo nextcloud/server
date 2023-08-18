@@ -183,6 +183,7 @@ import axios from '@nextcloud/axios'
 import '@nextcloud/dialogs/dist/index.css'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { registerFileAction, FileAction, Permission } from '@nextcloud/files'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
@@ -270,7 +271,7 @@ export default {
 			isSidebarShown: false,
 			isFullscreenMode: false,
 			canSwipe: true,
-			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
+			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files), // FIXME this probably needs some adjustment
 			theme: null,
 			root: getRootPath(),
 			handlerId: '',
@@ -523,6 +524,8 @@ export default {
 			if (OCA?.Files?.Sidebar) {
 				this.Sidebar = OCA.Files.Sidebar.state
 			}
+
+			this.registerFileAction()
 
 			logger.info(`${this.handlers.length} viewer handlers registered`, { handlers: this.handlers })
 		})
@@ -822,8 +825,8 @@ export default {
 						return
 					}
 
-					// register file action and groups
-					this.registerAction({ mime, group: handler.group })
+					// register groups
+					this.registerGroups({ mime, group: handler.group })
 
 					// register mime's component
 					this.components[mime] = handler.component
@@ -859,8 +862,8 @@ export default {
 						return
 					}
 
-					// register file action and groups if the request alias had a group
-					this.registerAction({ mime, group: this.mimeGroups[alias] })
+					// register groups if the request alias had a group
+					this.registerGroups({ mime, group: this.mimeGroups[alias] })
 
 					// register mime's component
 					this.components[mime] = this.components[alias]
@@ -871,20 +874,7 @@ export default {
 			}
 		},
 
-		registerAction({ mime, group }) {
-			if (!this.isStandalone) {
-				// unregistered handler, let's go!
-				OCA.Files.fileActions.registerAction({
-					name: 'view',
-					displayName: t('viewer', 'View'),
-					mime,
-					permissions: OC.PERMISSION_READ,
-					actionHandler: filesActionHandler,
-				})
-				OCA.Files.fileActions.setDefault(mime, 'view')
-			}
-
-			// register groups
+		registerGroups({ mime, group }) {
 			if (group) {
 				this.mimeGroups[mime] = group
 				// init if undefined
@@ -892,6 +882,25 @@ export default {
 					this.mimeGroups[group] = []
 				}
 				this.mimeGroups[group].push(mime)
+			}
+		},
+
+		registerFileAction() {
+			if (!this.isStandalone) {
+				registerFileAction(new FileAction({
+					id: 'view',
+					displayName() {
+						return t('viewer', 'View')
+					},
+					iconSvgInline: () => '',
+					default: true,
+					enabled: (nodes) => {
+						return nodes.filter((node) => node.permissions & Permission.READ
+							&& this.Viewer.mimetypes.indexOf(node.mime) !== -1,
+						).length > 0
+					},
+					exec: filesActionHandler,
+				}))
 			}
 		},
 

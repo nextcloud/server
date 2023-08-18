@@ -20,36 +20,35 @@
  *
  */
 
-import { encodePath } from '@nextcloud/paths'
-
 /**
- * @param {string} name the file name
- * @param {object} context the file context
+ * @param {Node} node The file to open
+ * @param {any} view any The files view
+ * @param {string} dir the directory path
  */
-export default function(name, context) {
+export default function(node, view, dir) {
 	// replace potential leading double slashes
-	const path = `${context.dir}/${name}`.replace(/^\/\//, '/')
-	const oldQuery = location.search.replace(/^\?/, '')
-	const onClose = () => OC.Util.History.pushState(oldQuery)
-	if (!context.fileInfoModel && context.fileList) {
-		context.fileInfoModel = context.fileList.getModelForFile(name)
-	}
-	if (context.fileInfoModel) {
-		pushToHistory({ fileid: context.fileInfoModel.get('id') })
-	}
+	const path = `${node.dirname}/${node.basename}`.replace(/^\/\//, '/')
+	const oldRoute = [
+		window.OCP.Files.Router.name,
+		window.OCP.Files.Router.params,
+		window.OCP.Files.Router.query,
+		true,
+	]
+	const onClose = () => window.OCP.Files.Router.goToRoute(...oldRoute)
+	pushToHistory(node, view, dir)
 	OCA.Viewer.open({ path, onPrev: pushToHistory, onNext: pushToHistory, onClose })
 }
 
 /**
- * @param {object} root destructuring object
- * @param {number} root.fileid the opened file ID
+ * @param {Node} node The file to open
+ * @param {any} view any The files view
+ * @param {string} dir the directory path
  */
-function pushToHistory({ fileid }) {
-	const params = OC.Util.History.parseUrlQuery()
-	const dir = params.dir
-	delete params.dir
-	delete params.fileid
-	params.openfile = fileid
-	const query = 'dir=' + encodePath(dir) + '&' + OC.buildQueryString(params)
-	OC.Util.History.pushState(query)
+function pushToHistory(node, view, dir) {
+	window.OCP.Files.Router.goToRoute(
+		null,
+		{ view: view.id, fileid: node.fileid },
+		{ dir, openfile: true },
+		true,
+	)
 }
