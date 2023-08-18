@@ -114,6 +114,7 @@ OC.L10N.register(
     "Personal" : "Personlig",
     "Administration" : "Administrasjon",
     "Additional settings" : "Flere innstillinger",
+    "Artificial Intelligence" : "Kunstig intelligens",
     "Administration privileges" : "Administratorrettigheter",
     "Groupware" : "Gruppevare",
     "Overview" : "Oversikt",
