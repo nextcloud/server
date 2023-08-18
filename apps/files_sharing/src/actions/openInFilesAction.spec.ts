@@ -20,11 +20,11 @@
  *
  */
 import { expect } from '@jest/globals'
-import { File, Permission, View } from '@nextcloud/files'
+import { File, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 
 import '../main'
 import { action } from './openInFilesAction'
-import { DefaultType, FileAction, deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
+import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
 
 const view = {
 	id: 'files',

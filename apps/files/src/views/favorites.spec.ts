@@ -19,10 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { basename } from 'path'
 import { expect } from '@jest/globals'
-import * as initialState from '@nextcloud/initial-state'
-import { Folder, getNavigation, basename } from 'path'
+import { Folder, Navigation, getNavigation } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
+import * as initialState from '@nextcloud/initial-state'
 
 import { action } from '../actions/favoriteAction'
 import * as favoritesService from '../services/Favorites'
@@ -36,14 +37,21 @@ global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 
+declare global {
+	interface Window {
+		_nc_navigation?: Navigation
+	}
+}
+
 describe('Favorites view definition', () => {
 	let Navigation
 	beforeEach(() => {
 		Navigation = getNavigation()
+		expect(window._nc_navigation).toBeDefined()
 	})
 
-	afterAll(() => {
-		delete window.OCP
+	afterEach(() => {
+		delete window._nc_navigation
 	})
 
 	test('Default empty favorite view', () => {
@@ -114,8 +122,8 @@ describe('Dynamic update of favourite folders', () => {
 		Navigation = getNavigation()
 	})
 
-	afterAll(() => {
-		delete window.OCP
+	afterEach(() => {
+		delete window._nc_navigation
 	})
 
 	test('Add a favorite folder creates a new entry in the navigation', async () => {

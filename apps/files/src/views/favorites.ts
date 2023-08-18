@@ -19,15 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { basename } from 'path'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
+import { Node, FileType, View, getNavigation } from '@nextcloud/files'
+import { subscribe } from '@nextcloud/event-bus'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import { basename } from 'path'
 import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
-import { loadState } from '@nextcloud/initial-state'
-import { Node, FileType, View, getNavigation, subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 
 export const generateFolderView = function(folder: string, index = 0): View {

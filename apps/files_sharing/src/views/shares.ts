@@ -20,15 +20,15 @@
  *
  */
 import { translate as t } from '@nextcloud/l10n'
+import { View, getNavigation } from '@nextcloud/files'
 import AccountClockSvg from '@mdi/svg/svg/account-clock.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account.svg?raw'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 
 import { getContents } from '../services/SharingService'
-import { View, getNavigation } from '@nextcloud/files'
 
 export const sharesViewId = 'shareoverview'
 export const sharedWithYouViewId = 'sharingin'

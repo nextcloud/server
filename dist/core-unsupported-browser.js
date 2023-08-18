@@ -1,3 +1,11708 @@
-/*! For license information please see core-unsupported-browser.js.LICENSE.txt */
-!function(){var e,u,r,t,n,d={77727:function(e){e.exports=[">0.25%","not ie 11","not op_mini all","not dead","Firefox ESR"]},27979:function(e,u,r){"use strict";var t=r(79753),n=r(20144),d=r(31e3),a=r.n(d),s=r(16262);const i=[{regex:/IE (\d+)\.(\d+)/,family:"ie",maxVersion:[7,1/0,1/0]},{regex:/Trident\/4\.0/,family:"ie",version:[8,0,0]},{regex:/Trident\/5\.0/,family:"ie",version:[9,0,0]},{regex:/Trident\/6\.0/,family:"ie",version:[10,0,0]},{regex:/Trident\/[78]\.0/,family:"ie",version:[11,0,0]},{regex:/Edge?\/(\d+)(\.(\d+)|)(\.(\d+)|)/,family:"edge"},{regex:/Firefox\/(\d+)\.(\d+)(\.(\d+)|)/,family:"firefox"},{regex:/Chrom(ium|e)\/(\d+)\.(\d+)(\.(\d+)|)/,family:"chrome"},{regex:/Chrom(ium|e)\/(\d+)\.(\d+)(\.(\d+)|)([\d.]+$|.*Safari\/(?![\d.]+ Edge\/[\d.]+$))/,family:"chrome",maxVersion:[70,1/0,1/0]},{regex:/Maci.+ Version\/(\d+)\.(\d+)([.,](\d+)|)( \(\w+\)|)( Mobile\/\w+|) Safari\//,family:"safari"},{regex:/Opera\/9\.80.+Version\/(\d+)\.(\d+)(\.(\d+)|)/,family:"opera",maxVersion:[12,15,0]},{regex:/Chrome.+OPR\/(\d+)\.(\d+)\.(\d+)/,family:"opera",minVersion:[15,0,0]},{regex:/(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(\d+)[_.](\d+)([_.](\d+)|)/,family:"ios_saf"},{regex:/[^e] (CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(\d+)[_.](\d+)([_.](\d+)|)/,family:"ios_saf",version:[7,0,3]},{regex:/Opera Mini/,family:"op_mini"},{regex:/Android Donut/,family:"android",version:[1,2,0]},{regex:/Android Eclair/,family:"android",version:[2,1,0]},{regex:/Android Froyo/,family:"android",version:[2,2,0]},{regex:/Android Gingerbread/,family:"android",version:[2,3,0]},{regex:/Android Honeycomb/,family:"android",version:[3,0,0]},{regex:/Android:?[ /-](\d+)(\.(\d+)|)(\.(\d+)|)/,family:"android"},{regex:/Android:?[ /-](\d+)(\.(\d+)|)(\.(\d+)|);(?! ARM; Trident)/,family:"android",version:[4,0,0]},{regex:/PlayBook.+RIM Tablet OS (\d+)\.(\d+)\.(\d+)/,family:"bb"},{regex:/(Black[bB]erry|BB10).+Version\/(\d+)\.(\d+)\.(\d+)/,family:"bb"},{regex:/Opera\/.+Opera Mobi.+Version\/(\d+)\.(\d+)/,family:"op_mob",maxVersion:[12,16,0]},{regex:/Mobile Safari.+OPR\/(\d+)\.(\d+)\.(\d+)/,family:"op_mob",minVersion:[14,0,0]},{regex:/Android.+Firefox\/(\d+)\.(\d+)(\.(\d+)|)/,family:"and_ff"},{regex:/Android.+Chrom(ium|e)\/(\d+)\.(\d+)(\.(\d+)|)/,family:"and_chr"},{regex:/IEMobile[ /](\d+)\.(\d+)/,family:"ie_mob"},{regex:/Android.+(UC? ?Browser|UCWEB|U3)[ /]?(\d+)\.(\d+)\.(\d+)/,family:"and_uc"},{regex:/SamsungBrowser\/(\d+)\.(\d+)/,family:"samsung"},{regex:/Android.+MQQBrowser\/(\d+)(\.(\d+)|)(\.(\d+)|)/,family:"and_qq"},{regex:/baidubrowser[/\s](\d+)(\.(\d+)|)(\.(\d+)|)/,family:"baidu"},{regex:/K[Aa][Ii]OS\/(\d+)\.(\d+)(\.(\d+)|)/,family:"kaios"}];function o(e){return"number"==typeof e?e:1===e.length?e[0]:[e[0],e[e.length-1]]}var f;function c(e){const u=Array.isArray(e)?e:e.toString().split(".");if("all"===u[0])return[1/0,0,0];let r=null,t=null;const n=[0,0,0];for(let e=0;e<3;e++)if(r=u[e],void 0!==r){if(t="number"==typeof r?r:parseInt(r,10),isNaN(t))return null;n[e]=t}return n}function l(e,u,r){const[t,n,d]=e,[a,s,i]=u,{ignoreMinor:o,ignorePatch:f,allowHigherVersions:c}=r;if(a===1/0)return!0;const l=!o,v=l&&!f;return c?!(v&&d<i||l&&n<s)&&t>=a:!(v&&d!==i||l&&n!==s)&&t===a}function v(e,u,r=0){const t=e.length;for(let n=r;n<t;n++)if(e[n]!==u[n])return!1;return!0}function p(e){if(null===e||"object"!=typeof e)return e;const u=Array.isArray(e)?[]:{};let r;for(r in e)u[r]=p(e[r]);return u}function b(e){return[].concat(...e)}function h(...e){const u=b(e).filter(Boolean);return 1===u.length?u[0]:{type:"Alternative",expressions:u}}function m(e){return{type:"Char",kind:"simple",value:String(e),codePoint:NaN}}function y(e,u){return{type:"ClassRange",from:e,to:u}}function g(...e){return{type:"CharacterClass",expressions:b(e).filter(Boolean)}}function C(e){return{type:"Group",capturing:!0,expression:e,number:null}}function B(...e){const u=function(...e){const u=b(e).filter(Boolean);if(1===u.length)return u[0];const r={type:"Disjunction",left:null,right:u.pop()};return u.reduceRight(((e,u,r)=>0===r?(e.left=u,e):(e.left={type:"Disjunction",left:null,right:u},e.left)),r),r}(...e);return"Disjunction"===u.type?C(u):u}function _(){return{type:"Char",kind:"meta",value:"\\d",codePoint:NaN}}function x(e={type:"Quantifier",kind:"+",greedy:!0}){const u=function(e,u){return{type:"Repetition",expression:{type:"Char",kind:"meta",value:"\\d",codePoint:NaN},quantifier:u}}(0,e);return u}function w(e){return h(Array.from(String(e),m))}function A(e){if("Group"===e.type&&"Repetition"===e.expression.type){const{expression:u,quantifier:r}=e.expression;return"Char"===u.type&&"\\d"===u.value&&"+"===r.kind&&r.greedy}return!1}function S(e,u){return!(!e||"Char"!==e.type)&&(void 0===u||u instanceof RegExp&&u.test(e.value)||String(u)===e.value)}function j(e){if("CharacterClass"===e.type&&1===e.expressions.length){const[u]=e.expressions;return"ClassRange"===u.type&&S(u.from,/\d/)&&S(u.to,/\d/)}return!1}function k(e){return"RegExp"!==e.type&&"ClassRange"!==e.type&&"Quantifier"!==e.type}function E(e){return"string"==typeof e?s.parse(e.replace(/^([^/])/,"/$1").replace(/([^/])$/,"$1/")):e instanceof RegExp?s.parse(e):e}!function(e){e[e.Major=0]="Major",e[e.Minor=1]="Minor",e[e.Patch=2]="Patch"}(f||(f={}));const P=["RegExp","Disjunction","Alternative","Assertion","Char","CharacterClass","ClassRange","Backreference","Group","Repetition","Quantifier"];function O(e){const{every:u}=e;return u?"function"==typeof u?{"*":u,...e}:P.reduce(((r,t)=>{const n=e[t],d=n?"pre"in n?n.pre:n:null,a=n&&"post"in n?n.post:null;return r[t]={pre(e){return!1===u.pre(e)||!d||d(e)},post(e){return!1===u.post(e)||!a||a(e)}},r}),{}):e}function T(e){return Array.from(e.toString(),Number)}function N(e,u){const r=e+Number(!u);return 0===r?{type:"Char",kind:"meta",value:"\\d",codePoint:NaN}:9===r?m("9"):r>9?null:g(y(m(r),m("9")))}function R(e,u,r){if(u<e)return null;const t=m(e),n=m(u),d="number"==typeof r&&r>0?Array.from({length:r},(()=>m(0))):[];return(d.length?e=>h(d,e):e=>e)(e===u?t:0===e&&9===u?{type:"Char",kind:"meta",value:"\\d",codePoint:NaN}:u-e==1?g(t,n):g(y(t,n)))}function L(e,u,r=0){const t=T(e),n=t.length;if(e<10&&u<10||e===u)return[R(e,u,r-n)];const d=T(u);if(n!==d.length){const t=function(e,u){const r=[];let t=e,n=1;do{n*=10,t<n&&(r.push([t,Math.min(n-1,u)]),t=n)}while(n<=u);return r}(e,u),n=b(t.map((([e,u])=>L(e,u,r))));return n}const a=function(e,u){const r=e.length;if(r!==u.length||e[0]!==u[0])return null;let t=e[0].toString(),n=0,d=0,a="",s="";for(let i=1;i<r;i++)n=e[i],d=u[i],n===d?t+=n:(a+=n,s+=d);return[t,parseInt(a,10),parseInt(s,10)]}(t,d);if(Array.isArray(a)){const[e,u,r]=a,t=L(u,r,n-e.length);return[h(Array.from(e,m),B(t))]}const s=Array.from({length:n-1}),i=R(t[0]+1,d[0]-1);return[...s.map(((e,u)=>{const r=n-u-1,d=Number(u>0);return h(t.map(((e,u)=>u<r?m(e):R(u>r?0:e+d,9))))})),...i?[h(i,Array.from({length:n-1},(()=>({type:"Char",kind:"meta",value:"\\d",codePoint:NaN}))))]:[],...s.map(((e,u)=>{const r=n-u-1,t=Number(u>0);return h(d.map(((e,u)=>u<r?m(e):R(0,u>r?9:e-t))))}))].reduce(((e,u)=>{const r=e[e.length-1];if(r&&"Alternative"===u.type&&"Alternative"===r.type&&u.expressions.length===r.expressions.length){const t=r.expressions.reduceRight(((e,r,t)=>{if(!e)return e;const n=(d=r,a=u.expressions[t],S(d)&&S(a)&&d.value===a.value?a:S(d,/\d/)&&j(a)&&Number(a.expressions[0].from.value)-Number(d.value)==1?{...a,expressions:[{...a.expressions[0],from:d}]}:j(d)&&S(a,/\d/)&&Number(a.value)-Number(d.expressions[0].to.value)==1?{...d,expressions:[{...d.expressions[0],to:a}]}:null);var d,a;return n?(e.unshift(n),e):null}),[]);t&&(u.expressions=t,e.pop())}return e.push(u),e}),[])}function D(e,u=1/0){return e===1/0?x():B(u===1/0?function(e){if(0===e)return[x()];const u=T(e),r=u.length,t=x(function(e,u){return{type:"Quantifier",kind:"Range",from:e,to:void 0,greedy:!0}}(r+1)),n=r-1;if(e/Math.pow(10,n)===u[0])return[h(N(u[0],!0),Array.from({length:n},_)),t];const d=u.reduce(((e,t,n)=>{const d=r-n-1,a=0===n;let s=m("");const i=u.reduce(((e,u,r)=>{if(r<d)e.push(m(u));else if(s)if(r>d)e.push({type:"Char",kind:"meta",value:"\\d",codePoint:NaN});else{if(s=N(u,a),!s)return[];e.push(s)}return e}),[]);return i.length&&e.push(i),e}),[]).map((e=>h(e)));return d.push(t),d}(e):L(e,u))}function F(e,u){const r=E(e),t=Math.min(function(e){const u=E(e);let r=0;return s.traverse(u,{Group(e){A(e.node)&&r++}}),r}(r),u||1/0),n=[];let d=0,a=!1;return s.traverse(r,O({every:{pre({node:e,parent:u}){return e===r||!!k(e)&&(u===r&&(a=!1),d<t)},post({node:e,parent:u}){e!==r&&u===r&&k(e)&&(a||d>0&&d<t)&&n.push(e)}},Group(e){return!(A(e.node)&&d<t&&(a=!0,d++,1))}})),1!==n.length||A(n[0])?n:F(n[0],t)}function I(e,u,r){const{allowHigherVersions:t}=r,n=E(e),d=t&&u.length?[u[0]]:u,a=d.reduce(((e,u)=>Math.max(e,function(e,u){const{ignoreMinor:r,ignorePatch:t,allowZeroSubversions:n}=u;let d=r?1:t?2:3;if(n)for(let u=d-1;u>0&&0===e[u]&&1!==d;u--)d--;return d}(u,r))),1),i=F(n,a),o=B(...d.map((e=>function(e,u){const{ignoreMinor:r,ignorePatch:t,allowHigherVersions:n}=u,d=e[0]===1/0?0:r?1:t?2:3;if(n){const u=[];let r=!0,t=0,n=0;const a=e=>(u,r)=>r>=d?x():(n=Array.isArray(u)?u[0]:u,r<e?w(n):r>e?x():D(n+t));for(let n=d-1;n>=0;n--)r&&!e[n]||(r=!1,u.push(e.map(a(n))),t=1);return u}return[e.map(((e,u)=>u>=d?x():Array.isArray(e)?D(e[0],e[1]):w(e)))]}(e,r).map((e=>function(e,u,r){let t=E(e);const n="number"==typeof r&&r<u.length?u.slice(0,r):u.slice();return s.traverse(t,O({every(){return Boolean(n.length)},Group(e){return!A(e.node)||!n.length||(t===e.node?t=n.shift():e.replace(n.shift()),!1)}})),t}(h(p(i)),e,a))))));return s.traverse(n,O({every(e){return!!i.length&&(e.node===i[0]&&(1===i.length?e.replace(o):e.remove(),i.shift()),!0)}})),n}const M={ignoreMinor:!1,ignorePatch:!0,allowZeroSubversions:!1,allowHigherVersions:!1};function U(e={}){const u={...M,...e};return function(e,u){return e.map((({regex:e,version:r,maxVersion:t,matchedVersions:n,...d})=>{let a=E(e);return r||(a=I(a,function(e){if(e.length<2)return e;const u=e.length+1,r=[];let t=null,n=e[0],d=[n[f.Major]],a=[n[f.Minor]],s=[n[f.Patch]],i=null;for(let c=1;c<u;c++){t=e[c-1],n=e[c]||[];for(let e=f.Major;e<=f.Patch;e++){if((e===i||null===i)&&t[e]+1===n[e]&&v(t,n,e+1)){i=e,e===f.Major?d.push(n[f.Major]):d=n[f.Major],e===f.Minor?a.push(n[f.Minor]):a=n[f.Minor],e===f.Patch?s.push(n[f.Patch]):s=n[f.Patch];break}if(i===e||t[e]!==n[e]){r.push([o(d),o(a),o(s)]),d=[n[f.Major]],a=[n[f.Minor]],s=[n[f.Patch]],i=null;break}}}return r}(n),{...u,allowHigherVersions:!t&&u.allowHigherVersions})),{regex:null,sourceRegex:e,regexAst:a,version:r,maxVersion:t,matchedVersions:n,...d}}))}(function(e,u,r=i){const t=[];let n="",d=!1;return r.forEach((r=>{const a=e.get(r.family);if(!a)return;let{version:s,minVersion:i,maxVersion:o}=r;s&&(i=s,o=s);let f=function(e,u,r,t){const n={...t,allowHigherVersions:!0},d=u=>l(u,e,n),a=e=>l(u,e,n),s=e&&u?e=>d(e)&&a(e):e?d:u?a:()=>!0;return r.filter(s)}(i,o,a,u);f.length&&(n===r.family&&d&&(s=void 0,i=void 0,o=void 0,f=a,t.pop()),t.push({...r,version:s,minVersion:i,maxVersion:o,requestVersions:a,matchedVersions:f})),d=!s&&!i&&!o,n=r.family})),t}(function(e){const u=new Map;return e.forEach((({family:e,version:r})=>{const t=u.get(e);if(t){const e=r.join(".");t.every((u=>u.join(".")!==e))&&t.push(r)}else u.set(e,[r])})),u.forEach((e=>{e.sort(((e,u)=>{for(const r in e)if(e[r]!==u[r])return e[r]-u[r];return 0}))})),u}(function(e={}){const{browsers:u,...r}=e;return d(u,r).reduce(((e,u)=>{const[r,t,n]=u.split(/ |-/),d=c(t);return(d?n?function(e,u){let r=0;const t=[];for(let t=2;t>=0;t--)if(e[t]!==u[t]){r=t;break}for(let n=e[r],d=u[r];n<=d;n++)t.push(e.map(((e,u)=>u===r?n:e)));return t}(d,c(n)):[d]:[]).reduce(((e,u)=>(u&&e.push({family:r,version:u}),e)),e)}),[])}(u)),u),u)}var G,H=r(77727),V=r.n(H),q=(function(e={}){!function(e){const u=e.map((({regexAst:e})=>C(e.body)));var r;"string"==typeof(r=function(e){const u=s.optimize(E((r=e,"string"==typeof r?r:r instanceof RegExp?r.toString():s.generate(r)))).getAST();var r;return s.traverse(u,{Group(e){const{parent:u,node:r}=e,{expression:t}=r;r.capturing=!0,("RegExp"===u.type||"Disjunction"!==t.type&&"Repetition"!==u.type||"Disjunction"===t.type&&"Disjunction"===u.type)&&e.replace(e.node.expression)}}),u}({type:"RegExp",body:B(u),flags:""}))?new RegExp(r):new RegExp(s.generate(r.body),r.flags)}(U(e))}({allowHigherVersions:!0,browsers:V()}),a()(V())),$=(0,r(62556).getBuilder)("core").clearOnLogout().persist().build(),Q=r(77958),W=r(17499),K=null===(G=(0,Q.ts)())?(0,W.IY)().setApp("core").build():(0,W.IY)().setApp("core").setUid(G.uid).build(),Z=(r(23085).lW,"unsupported-browser-ignore"),z=((0,t.generateUrl)("/unsupported"),$.getItem(Z),r(31352)),Y=r(10861),X=r.n(Y),J=r(93455),ee=r.n(J),ue=r(97859),re=r(23085).lW;function te(e){return te="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},te(e)}function ne(){ne=function(){return e};var e={},u=Object.prototype,r=u.hasOwnProperty,t=Object.defineProperty||function(e,u,r){e[u]=r.value},n="function"==typeof Symbol?Symbol:{},d=n.iterator||"@@iterator",a=n.asyncIterator||"@@asyncIterator",s=n.toStringTag||"@@toStringTag";function i(e,u,r){return Object.defineProperty(e,u,{value:r,enumerable:!0,configurable:!0,writable:!0}),e[u]}try{i({},"")}catch(e){i=function(e,u,r){return e[u]=r}}function o(e,u,r,n){var d=u&&u.prototype instanceof l?u:l,a=Object.create(d.prototype),s=new A(n||[]);return t(a,"_invoke",{value:B(e,r,s)}),a}function f(e,u,r){try{return{type:"normal",arg:e.call(u,r)}}catch(e){return{type:"throw",arg:e}}}e.wrap=o;var c={};function l(){}function v(){}function p(){}var b={};i(b,d,(function(){return this}));var h=Object.getPrototypeOf,m=h&&h(h(S([])));m&&m!==u&&r.call(m,d)&&(b=m);var y=p.prototype=l.prototype=Object.create(b);function g(e){["next","throw","return"].forEach((function(u){i(e,u,(function(e){return this._invoke(u,e)}))}))}function C(e,u){function n(t,d,a,s){var i=f(e[t],e,d);if("throw"!==i.type){var o=i.arg,c=o.value;return c&&"object"==te(c)&&r.call(c,"__await")?u.resolve(c.__await).then((function(e){n("next",e,a,s)}),(function(e){n("throw",e,a,s)})):u.resolve(c).then((function(e){o.value=e,a(o)}),(function(e){return n("throw",e,a,s)}))}s(i.arg)}var d;t(this,"_invoke",{value:function(e,r){function t(){return new u((function(u,t){n(e,r,u,t)}))}return d=d?d.then(t,t):t()}})}function B(e,u,r){var t="suspendedStart";return function(n,d){if("executing"===t)throw new Error("Generator is already running");if("completed"===t){if("throw"===n)throw d;return{value:void 0,done:!0}}for(r.method=n,r.arg=d;;){var a=r.delegate;if(a){var s=_(a,r);if(s){if(s===c)continue;return s}}if("next"===r.method)r.sent=r._sent=r.arg;else if("throw"===r.method){if("suspendedStart"===t)throw t="completed",r.arg;r.dispatchException(r.arg)}else"return"===r.method&&r.abrupt("return",r.arg);t="executing";var i=f(e,u,r);if("normal"===i.type){if(t=r.done?"completed":"suspendedYield",i.arg===c)continue;return{value:i.arg,done:r.done}}"throw"===i.type&&(t="completed",r.method="throw",r.arg=i.arg)}}}function _(e,u){var r=u.method,t=e.iterator[r];if(void 0===t)return u.delegate=null,"throw"===r&&e.iterator.return&&(u.method="return",u.arg=void 0,_(e,u),"throw"===u.method)||"return"!==r&&(u.method="throw",u.arg=new TypeError("The iterator does not provide a '"+r+"' method")),c;var n=f(t,e.iterator,u.arg);if("throw"===n.type)return u.method="throw",u.arg=n.arg,u.delegate=null,c;var d=n.arg;return d?d.done?(u[e.resultName]=d.value,u.next=e.nextLoc,"return"!==u.method&&(u.method="next",u.arg=void 0),u.delegate=null,c):d:(u.method="throw",u.arg=new TypeError("iterator result is not an object"),u.delegate=null,c)}function x(e){var u={tryLoc:e[0]};1 in e&&(u.catchLoc=e[1]),2 in e&&(u.finallyLoc=e[2],u.afterLoc=e[3]),this.tryEntries.push(u)}function w(e){var u=e.completion||{};u.type="normal",delete u.arg,e.completion=u}function A(e){this.tryEntries=[{tryLoc:"root"}],e.forEach(x,this),this.reset(!0)}function S(e){if(e){var u=e[d];if(u)return u.call(e);if("function"==typeof e.next)return e;if(!isNaN(e.length)){var t=-1,n=function u(){for(;++t<e.length;)if(r.call(e,t))return u.value=e[t],u.done=!1,u;return u.value=void 0,u.done=!0,u};return n.next=n}}return{next:j}}function j(){return{value:void 0,done:!0}}return v.prototype=p,t(y,"constructor",{value:p,configurable:!0}),t(p,"constructor",{value:v,configurable:!0}),v.displayName=i(p,s,"GeneratorFunction"),e.isGeneratorFunction=function(e){var u="function"==typeof e&&e.constructor;return!!u&&(u===v||"GeneratorFunction"===(u.displayName||u.name))},e.mark=function(e){return Object.setPrototypeOf?Object.setPrototypeOf(e,p):(e.__proto__=p,i(e,s,"GeneratorFunction")),e.prototype=Object.create(y),e},e.awrap=function(e){return{__await:e}},g(C.prototype),i(C.prototype,a,(function(){return this})),e.AsyncIterator=C,e.async=function(u,r,t,n,d){void 0===d&&(d=Promise);var a=new C(o(u,r,t,n),d);return e.isGeneratorFunction(r)?a:a.next().then((function(e){return e.done?e.value:a.next()}))},g(y),i(y,s,"Generator"),i(y,d,(function(){return this})),i(y,"toString",(function(){return"[object Generator]"})),e.keys=function(e){var u=Object(e),r=[];for(var t in u)r.push(t);return r.reverse(),function e(){for(;r.length;){var t=r.pop();if(t in u)return e.value=t,e.done=!1,e}return e.done=!0,e}},e.values=S,A.prototype={constructor:A,reset:function(e){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(w),!e)for(var u in this)"t"===u.charAt(0)&&r.call(this,u)&&!isNaN(+u.slice(1))&&(this[u]=void 0)},stop:function(){this.done=!0;var e=this.tryEntries[0].completion;if("throw"===e.type)throw e.arg;return this.rval},dispatchException:function(e){if(this.done)throw e;var u=this;function t(r,t){return a.type="throw",a.arg=e,u.next=r,t&&(u.method="next",u.arg=void 0),!!t}for(var n=this.tryEntries.length-1;n>=0;--n){var d=this.tryEntries[n],a=d.completion;if("root"===d.tryLoc)return t("end");if(d.tryLoc<=this.prev){var s=r.call(d,"catchLoc"),i=r.call(d,"finallyLoc");if(s&&i){if(this.prev<d.catchLoc)return t(d.catchLoc,!0);if(this.prev<d.finallyLoc)return t(d.finallyLoc)}else if(s){if(this.prev<d.catchLoc)return t(d.catchLoc,!0)}else{if(!i)throw new Error("try statement without catch or finally");if(this.prev<d.finallyLoc)return t(d.finallyLoc)}}}},abrupt:function(e,u){for(var t=this.tryEntries.length-1;t>=0;--t){var n=this.tryEntries[t];if(n.tryLoc<=this.prev&&r.call(n,"finallyLoc")&&this.prev<n.finallyLoc){var d=n;break}}d&&("break"===e||"continue"===e)&&d.tryLoc<=u&&u<=d.finallyLoc&&(d=null);var a=d?d.completion:{};return a.type=e,a.arg=u,d?(this.method="next",this.next=d.finallyLoc,c):this.complete(a)},complete:function(e,u){if("throw"===e.type)throw e.arg;return"break"===e.type||"continue"===e.type?this.next=e.arg:"return"===e.type?(this.rval=this.arg=e.arg,this.method="return",this.next="end"):"normal"===e.type&&u&&(this.next=u),c},finish:function(e){for(var u=this.tryEntries.length-1;u>=0;--u){var r=this.tryEntries[u];if(r.finallyLoc===e)return this.complete(r.completion,r.afterLoc),w(r),c}},catch:function(e){for(var u=this.tryEntries.length-1;u>=0;--u){var r=this.tryEntries[u];if(r.tryLoc===e){var t=r.completion;if("throw"===t.type){var n=t.arg;w(r)}return n}}throw new Error("illegal catch attempt")},delegateYield:function(e,u,r){return this.delegate={iterator:S(e),resultName:u,nextLoc:r},"next"===this.method&&(this.arg=void 0),c}},e}function de(e,u,r,t,n,d,a){try{var s=e[d](a),i=s.value}catch(e){return void r(e)}s.done?u(i):Promise.resolve(i).then(t,n)}function ae(e,u){(null==u||u>e.length)&&(u=e.length);for(var r=0,t=new Array(u);r<u;r++)t[r]=e[r];return t}K.debug("Supported browsers",{supportedBrowsers:q});var se={name:"UnsupportedBrowser",components:{Web:ue.default,NcButton:X(),NcEmptyContent:ee()},data:function(){return{agents:{}}},computed:{isMobile:function(){return/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)},filteredSupportedBrowsers:function(){var e=this;return q.filter((function(u){return!!u&&(e.isMobile?e.isMobileBrowser(u):!e.isMobileBrowser(u))}))},formattedBrowsersList:function(){var e=this,u={};return this.filteredSupportedBrowsers.forEach((function(e){var r,t,n=(r=e.split(" "),t=2,function(e){if(Array.isArray(e))return e}(r)||function(e,u){var r=null==e?null:"undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(null!=r){var t,n,d,a,s=[],i=!0,o=!1;try{if(d=(r=r.call(e)).next,0===u){if(Object(r)!==r)return;i=!1}else for(;!(i=(t=d.call(r)).done)&&(s.push(t.value),s.length!==u);i=!0);}catch(e){o=!0,n=e}finally{try{if(!i&&null!=r.return&&(a=r.return(),Object(a)!==a))return}finally{if(o)throw n}}return s}}(r,t)||function(e,u){if(e){if("string"==typeof e)return ae(e,u);var r=Object.prototype.toString.call(e).slice(8,-1);return"Object"===r&&e.constructor&&(r=e.constructor.name),"Map"===r||"Set"===r?Array.from(e):"Arguments"===r||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)?ae(e,u):void 0}}(r,t)||function(){throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()),d=n[0],a=n[1];(!u[d]||u[d]<parseFloat(a,10))&&(u[d]=parseFloat(a,10))})),Object.keys(u).map((function(r){var t,n;if(null===(t=e.agents[r])||void 0===t||!t.browser)return null;var d=u[r],a=null===(n=e.agents[r])||void 0===n?void 0:n.browser;return e.t("core","{name} version {version} and above",{name:a,version:d})})).filter((function(e){return null!==e}))}},beforeMount:function(){var e,u=this;return(e=ne().mark((function e(){var t,n;return ne().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return e.next=2,r.e(614).then(r.t.bind(r,90614,19));case 2:t=e.sent,n=t.agents,u.agents=n;case 5:case"end":return e.stop()}}),e)})),function(){var u=this,r=arguments;return new Promise((function(t,n){var d=e.apply(u,r);function a(e){de(d,t,n,a,s,"next",e)}function s(e){de(d,t,n,a,s,"throw",e)}a(void 0)}))})()},methods:{t:z.Iu,n:z.uN,forceBrowsing:function(){$.setItem(Z,!0);var e=new URLSearchParams(window.location.search);if(e.has("redirect_url")){var u=re.from(e.get("redirect_url"),"base64").toString()||"/";if(u.startsWith("/"))return void(window.location=(0,t.generateUrl)(u))}window.location=(0,t.generateUrl)("/")},isMobileBrowser:function(e){return(e=e.toLowerCase()).includes("and_")||e.includes("android")||e.includes("ios_")||e.includes("mobile")||e.includes("_mob")||e.includes("samsung")}}},ie=se,oe=r(93379),fe=r.n(oe),ce=r(7795),le=r.n(ce),ve=r(90569),pe=r.n(ve),be=r(3565),he=r.n(be),me=r(19216),ye=r.n(me),ge=r(44589),Ce=r.n(ge),Be=r(19608),_e={};_e.styleTagTransform=Ce(),_e.setAttributes=he(),_e.insert=pe().bind(null,"head"),_e.domAPI=le(),_e.insertStyleElement=ye(),fe()(Be.Z,_e),Be.Z&&Be.Z.locals&&Be.Z.locals;var xe=(0,r(51900).Z)(ie,(function(){var e=this,u=e._self._c;return u("div",{staticClass:"content-unsupported-browser guest-box"},[u("NcEmptyContent",{scopedSlots:e._u([{key:"icon",fn:function(){return[u("Web")]},proxy:!0},{key:"action",fn:function(){return[u("div",[u("h2",[e._v("\n\t\t\t\t\t"+e._s(e.t("core","Your browser is not supported. Please upgrade to a newer version or a supported one."))+"\n\t\t\t\t")]),e._v(" "),u("NcButton",{staticClass:"content-unsupported-browser__continue",attrs:{type:"primary"},on:{click:e.forceBrowsing}},[e._v("\n\t\t\t\t\t"+e._s(e.t("core","Continue with this unsupported browser"))+"\n\t\t\t\t")])],1),e._v(" "),u("ul",{staticClass:"content-unsupported-browser__list"},[u("h3",[e._v(e._s(e.t("core","Supported versions")))]),e._v(" "),e._l(e.formattedBrowsersList,(function(r){return u("li",{key:r},[e._v("\n\t\t\t\t\t"+e._s(r)+"\n\t\t\t\t")])}))],2)]},proxy:!0}])},[e._v("\n\t\t"+e._s(e.t("core","This browser is not supported"))+"\n\t\t")])],1)}),[],!1,null,"3c1e6192",null).exports;"true"===$.getItem(Z)&&(window.location=(0,t.generateUrl)("/")),new n.default({el:"#unsupported-browser",name:"UnsupportedBrowserRoot",render:function(e){return e(xe)}})},84660:function(e,u,r){var t=r(9667);function n(){}e.exports={loadQueries:function(){throw new t("Sharable configs are not supported in client-side build of Browserslist")},getStat:function(e){return e.stats},loadConfig:function(e){if(e.config)throw new t("Browserslist config are not supported in client-side build")},loadCountry:function(){throw new t("Country statistics are not supported in client-side build of Browserslist")},loadFeature:function(){throw new t("Supports queries are not available in client-side build of Browserslist")},currentNode:function(e,u){return e(["maintained node versions"],u)[0]},parseConfig:n,readConfig:n,findConfig:n,clearCaches:n,oldDataWarning:n,env:{}}},9667:function(e){function u(e){this.name="BrowserslistError",this.message=e,this.browserslist=!0,Error.captureStackTrace&&Error.captureStackTrace(this,u)}u.prototype=Error.prototype,e.exports=u},31e3:function(e,u,r){var t=r(76052),n=r(95459).agents,d=r(78864),a=r(72950),s=r(76250),i=r(9667),o=r(65723),f=r(84660),c="37";function l(e,u){return 0===(e+".").indexOf(u+".")}function v(e){return e.filter((function(e){return"string"==typeof e}))}function p(e){var u=e;return 3===e.split(".").length&&(u=e.split(".").slice(0,-1).join(".")),u}function b(e){return function(u){return e+" "+u}}function h(e){return parseInt(e.split(".")[0])}function m(e,u){if(0===e.length)return[];var r=y(e.map(h)),t=r[r.length-u];if(!t)return e;for(var n=[],d=e.length-1;d>=0&&!(t>h(e[d]));d--)n.unshift(e[d]);return n}function y(e){for(var u=[],r=0;r<e.length;r++)-1===u.indexOf(e[r])&&u.push(e[r]);return u}function g(e,u,r){for(var t in r)e[u+" "+t]=r[t]}function C(e,u){return u=parseFloat(u),">"===e?function(e){return parseFloat(e)>u}:">="===e?function(e){return parseFloat(e)>=u}:"<"===e?function(e){return parseFloat(e)<u}:function(e){return parseFloat(e)<=u}}function B(e){return parseInt(e)}function _(e,u){return e<u?-1:e>u?1:0}function x(e,u){return _(parseInt(e[0]),parseInt(u[0]))||_(parseInt(e[1]||"0"),parseInt(u[1]||"0"))||_(parseInt(e[2]||"0"),parseInt(u[2]||"0"))}function w(e,u){return void 0===(u=u.split(".").map(B))[1]&&(u[1]="x"),"<="===e?function(e){return A(e=e.split(".").map(B),u)<=0}:function(e){return A(e=e.split(".").map(B),u)>=0}}function A(e,u){return e[0]!==u[0]?e[0]<u[0]?-1:1:"x"===u[1]?0:e[1]!==u[1]?e[1]<u[1]?-1:1:0}function S(e,u){var r=function(e,u){return-1!==e.versions.indexOf(u)?u:!!M.versionAliases[e.name][u]&&M.versionAliases[e.name][u]}(e,u);return r||1===e.versions.length&&e.versions[0]}function j(e,u){return e/=1e3,Object.keys(n).reduce((function(r,t){var n=E(t,u);if(!n)return r;var d=Object.keys(n.releaseDate).filter((function(u){var r=n.releaseDate[u];return null!==r&&r>=e}));return r.concat(d.map(b(n.name)))}),[])}function k(e){return{name:e.name,versions:e.versions,released:e.released,releaseDate:e.releaseDate}}function E(e,u){if(e=e.toLowerCase(),e=M.aliases[e]||e,u.mobileToDesktop&&M.desktopNames[e]){var r=M.data[M.desktopNames[e]];if("android"===e)return n=k(M.data[e]),d=r,n.released=P(n.released,d.released),n.versions=P(n.versions,d.versions),n.released.forEach((function(e){void 0===n.releaseDate[e]&&(n.releaseDate[e]=d.releaseDate[e])})),n;var t=k(r);return t.name=e,t}var n,d;return M.data[e]}function P(e,u){var r=u.indexOf(c);return e.filter((function(e){return/^(?:[2-4]\.|[34]$)/.test(e)})).concat(u.slice(r))}function O(e,u){var r=E(e,u);if(!r)throw new i("Unknown browser "+e);return r}function T(e,u,r,t){var n=1;switch(u){case"android":if(t.mobileToDesktop)return e;var d=M.data.chrome.released;n=d.length-d.indexOf(c);break;case"op_mob":n=h(M.data.op_mob.released.slice(-1)[0])-14+1;break;default:return e}return r<=n?e.slice(-1):e.slice(n-1-r)}function N(e){return"string"==typeof e&&(e.indexOf("y")>=0||e.indexOf("a")>=0)}function R(e,u){return o(V,e).reduce((function(e,r,t){if(r.not&&0===t)throw new i("Write any browsers query (for instance, `defaults`) before `"+r.query+"`");var n=V[r.type].select.call(M,u,r).map((function(e){var r=e.split(" ");return"0"===r[1]?r[0]+" "+E(r[0],u).versions[0]:e}));if("and"===r.compose)return r.not?e.filter((function(e){return-1===n.indexOf(e)})):e.filter((function(e){return-1!==n.indexOf(e)}));if(r.not){var d={};return n.forEach((function(e){d[e]=!0})),e.filter((function(e){return!d[e]}))}return e.concat(n)}),[])}function L(e){return void 0===e&&(e={}),void 0===e.path&&(e.path=a.resolve?a.resolve("."):"."),e}function D(e,u){null==e&&(e=M.loadConfig(u)||M.defaults);return e}function F(e){if("string"!=typeof e&&!Array.isArray(e))throw new i("Browser queries must be an array or string. Got "+typeof e+".")}var I={};function M(e,u){F(e=D(e,u=L(u)));var r={ignoreUnknownVersions:u.ignoreUnknownVersions,dangerousExtend:u.dangerousExtend,mobileToDesktop:u.mobileToDesktop,path:u.path,env:u.env};f.oldDataWarning(M.data);var t=f.getStat(u,M.data);if(t)for(var n in r.customUsage={},t)g(r.customUsage,n,t[n]);var d=JSON.stringify([e,r]);if(I[d])return I[d];var a=y(R(e,r)).sort((function(e,u){if(e=e.split(" "),u=u.split(" "),e[0]===u[0]){var r=e[1].split("-")[0];return x(u[1].split("-")[0].split("."),r.split("."))}return _(e[0],u[0])}));return f.env.BROWSERSLIST_DISABLE_CACHE||(I[d]=a),a}function U(e,u){var r=M.nodeVersions.filter((function(e){return l(e,u.version)}));if(0===r.length){if(e.ignoreUnknownVersions)return[];throw new i("Unknown version "+u.version+" of Node.js")}return["node "+r[r.length-1]]}function G(e,u){var r=parseInt(u.year),t=parseInt(u.month||"01")-1,n=parseInt(u.day||"01");return j(Date.UTC(r,t,n,0,0,0),e)}function H(e,u){var r=parseFloat(u.coverage),t=M.usage.global;if(u.place)if(u.place.match(/^my\s+stats$/i)){if(!e.customUsage)throw new i("Custom usage statistics was not provided");t=e.customUsage}else{var n;n=2===u.place.length?u.place.toUpperCase():u.place.toLowerCase(),f.loadCountry(M.usage,n,M.data),t=M.usage[n]}for(var d,a=Object.keys(t).sort((function(e,u){return t[u]-t[e]})),s=0,o=[],c=0;c<a.length&&(d=a[c],0!==t[d])&&(s+=t[d],o.push(d),!(s>=r));c++);return o}M.parse=function(e,u){return F(e=D(e,u=L(u))),o(V,e)},M.cache={},M.data={},M.usage={global:{},custom:null},M.defaults=["> 0.5%","last 2 versions","Firefox ESR","not dead"],M.aliases={fx:"firefox",ff:"firefox",ios:"ios_saf",explorer:"ie",blackberry:"bb",explorermobile:"ie_mob",operamini:"op_mini",operamobile:"op_mob",chromeandroid:"and_chr",firefoxandroid:"and_ff",ucandroid:"and_uc",qqandroid:"and_qq"},M.desktopNames={and_chr:"chrome",and_ff:"firefox",ie_mob:"ie",android:"chrome"},M.versionAliases={},M.clearCaches=f.clearCaches,M.parseConfig=f.parseConfig,M.readConfig=f.readConfig,M.findConfig=f.findConfig,M.loadConfig=f.loadConfig,M.coverage=function(e,u){var r;if(void 0===u)r=M.usage.global;else if("my stats"===u){var t={};t.path=a.resolve?a.resolve("."):".";var n=f.getStat(t);if(!n)throw new i("Custom usage statistics was not provided");for(var d in r={},n)g(r,d,n[d])}else if("string"==typeof u)u=u.length>2?u.toLowerCase():u.toUpperCase(),f.loadCountry(M.usage,u,M.data),r=M.usage[u];else for(var s in"dataByBrowser"in u&&(u=u.dataByBrowser),r={},u)for(var o in u[s])r[s+" "+o]=u[s][o];return e.reduce((function(e,u){var t=r[u];return void 0===t&&(t=r[u.replace(/ \S+$/," 0")]),e+(t||0)}),0)};var V={last_major_versions:{matches:["versions"],regexp:/^last\s+(\d+)\s+major\s+versions?$/i,select:function(e,u){return Object.keys(n).reduce((function(r,t){var n=E(t,e);if(!n)return r;var d=m(n.released,u.versions);return d=T(d=d.map(b(n.name)),n.name,u.versions,e),r.concat(d)}),[])}},last_versions:{matches:["versions"],regexp:/^last\s+(\d+)\s+versions?$/i,select:function(e,u){return Object.keys(n).reduce((function(r,t){var n=E(t,e);if(!n)return r;var d=n.released.slice(-u.versions);return d=T(d=d.map(b(n.name)),n.name,u.versions,e),r.concat(d)}),[])}},last_electron_major_versions:{matches:["versions"],regexp:/^last\s+(\d+)\s+electron\s+major\s+versions?$/i,select:function(e,u){return m(Object.keys(s),u.versions).map((function(e){return"chrome "+s[e]}))}},last_node_major_versions:{matches:["versions"],regexp:/^last\s+(\d+)\s+node\s+major\s+versions?$/i,select:function(e,u){return m(M.nodeVersions,u.versions).map((function(e){return"node "+e}))}},last_browser_major_versions:{matches:["versions","browser"],regexp:/^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,select:function(e,u){var r=O(u.browser,e),t=m(r.released,u.versions).map(b(r.name));return T(t,r.name,u.versions,e)}},last_electron_versions:{matches:["versions"],regexp:/^last\s+(\d+)\s+electron\s+versions?$/i,select:function(e,u){return Object.keys(s).slice(-u.versions).map((function(e){return"chrome "+s[e]}))}},last_node_versions:{matches:["versions"],regexp:/^last\s+(\d+)\s+node\s+versions?$/i,select:function(e,u){return M.nodeVersions.slice(-u.versions).map((function(e){return"node "+e}))}},last_browser_versions:{matches:["versions","browser"],regexp:/^last\s+(\d+)\s+(\w+)\s+versions?$/i,select:function(e,u){var r=O(u.browser,e),t=r.released.slice(-u.versions).map(b(r.name));return T(t,r.name,u.versions,e)}},unreleased_versions:{matches:[],regexp:/^unreleased\s+versions$/i,select:function(e){return Object.keys(n).reduce((function(u,r){var t=E(r,e);if(!t)return u;var n=t.versions.filter((function(e){return-1===t.released.indexOf(e)}));return n=n.map(b(t.name)),u.concat(n)}),[])}},unreleased_electron_versions:{matches:[],regexp:/^unreleased\s+electron\s+versions?$/i,select:function(){return[]}},unreleased_browser_versions:{matches:["browser"],regexp:/^unreleased\s+(\w+)\s+versions?$/i,select:function(e,u){var r=O(u.browser,e);return r.versions.filter((function(e){return-1===r.released.indexOf(e)})).map(b(r.name))}},last_years:{matches:["years"],regexp:/^last\s+(\d*.?\d+)\s+years?$/i,select:function(e,u){return j(Date.now()-31558432982.4*u.years,e)}},since_y:{matches:["year"],regexp:/^since (\d+)$/i,select:G},since_y_m:{matches:["year","month"],regexp:/^since (\d+)-(\d+)$/i,select:G},since_y_m_d:{matches:["year","month","day"],regexp:/^since (\d+)-(\d+)-(\d+)$/i,select:G},popularity:{matches:["sign","popularity"],regexp:/^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%$/,select:function(e,u){var r=parseFloat(u.popularity),t=M.usage.global;return Object.keys(t).reduce((function(e,n){return">"===u.sign?t[n]>r&&e.push(n):"<"===u.sign?t[n]<r&&e.push(n):"<="===u.sign?t[n]<=r&&e.push(n):t[n]>=r&&e.push(n),e}),[])}},popularity_in_my_stats:{matches:["sign","popularity"],regexp:/^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/,select:function(e,u){var r=parseFloat(u.popularity);if(!e.customUsage)throw new i("Custom usage statistics was not provided");var t=e.customUsage;return Object.keys(t).reduce((function(e,n){var d=t[n];return null==d||(">"===u.sign?d>r&&e.push(n):"<"===u.sign?d<r&&e.push(n):"<="===u.sign?d<=r&&e.push(n):d>=r&&e.push(n)),e}),[])}},popularity_in_config_stats:{matches:["sign","popularity","config"],regexp:/^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,select:function(e,u){var r=parseFloat(u.popularity),t=f.loadStat(e,u.config,M.data);if(t)for(var n in e.customUsage={},t)g(e.customUsage,n,t[n]);if(!e.customUsage)throw new i("Custom usage statistics was not provided");var d=e.customUsage;return Object.keys(d).reduce((function(e,t){var n=d[t];return null==n||(">"===u.sign?n>r&&e.push(t):"<"===u.sign?n<r&&e.push(t):"<="===u.sign?n<=r&&e.push(t):n>=r&&e.push(t)),e}),[])}},popularity_in_place:{matches:["sign","popularity","place"],regexp:/^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/,select:function(e,u){var r=parseFloat(u.popularity),t=u.place;t=2===t.length?t.toUpperCase():t.toLowerCase(),f.loadCountry(M.usage,t,M.data);var n=M.usage[t];return Object.keys(n).reduce((function(e,t){var d=n[t];return null==d||(">"===u.sign?d>r&&e.push(t):"<"===u.sign?d<r&&e.push(t):"<="===u.sign?d<=r&&e.push(t):d>=r&&e.push(t)),e}),[])}},cover:{matches:["coverage"],regexp:/^cover\s+(\d+|\d+\.\d+|\.\d+)%$/i,select:H},cover_in:{matches:["coverage","place"],regexp:/^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/i,select:H},supports:{matches:["feature"],regexp:/^supports\s+([\w-]+)$/,select:function(e,u){f.loadFeature(M.cache,u.feature);var r=M.cache[u.feature],t=[];for(var n in r){var d=E(n,e),a=e.mobileToDesktop&&n in M.desktopNames&&N(r[n][d.released.slice(-1)[0]]);d.versions.forEach((function(e){var u=r[n][e];void 0===u&&a&&(u=r[M.desktopNames[n]][e]),N(u)&&t.push(n+" "+e)}))}return t}},electron_range:{matches:["from","to"],regexp:/^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,select:function(e,u){var r=p(u.from),t=p(u.to),n=parseFloat(u.from),d=parseFloat(u.to);if(!s[r])throw new i("Unknown version "+n+" of electron");if(!s[t])throw new i("Unknown version "+d+" of electron");return Object.keys(s).filter((function(e){var u=parseFloat(e);return u>=n&&u<=d})).map((function(e){return"chrome "+s[e]}))}},node_range:{matches:["from","to"],regexp:/^node\s+([\d.]+)\s*-\s*([\d.]+)$/i,select:function(e,u){return M.nodeVersions.filter(w(">=",u.from)).filter(w("<=",u.to)).map((function(e){return"node "+e}))}},browser_range:{matches:["browser","from","to"],regexp:/^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,select:function(e,u){var r=O(u.browser,e),t=parseFloat(S(r,u.from)||u.from),n=parseFloat(S(r,u.to)||u.to);return r.released.filter((function(e){var u=parseFloat(e);return u>=t&&u<=n})).map(b(r.name))}},electron_ray:{matches:["sign","version"],regexp:/^electron\s*(>=?|<=?)\s*([\d.]+)$/i,select:function(e,u){var r=p(u.version);return Object.keys(s).filter(C(u.sign,r)).map((function(e){return"chrome "+s[e]}))}},node_ray:{matches:["sign","version"],regexp:/^node\s*(>=?|<=?)\s*([\d.]+)$/i,select:function(e,u){return M.nodeVersions.filter((r=u.sign,t=u.version,(t=t.split(".").map(B))[1]=t[1]||0,t[2]=t[2]||0,">"===r?function(e){return x(e=e.split(".").map(B),t)>0}:">="===r?function(e){return x(e=e.split(".").map(B),t)>=0}:"<"===r?function(e){return e=e.split(".").map(B),x(t,e)>0}:function(e){return e=e.split(".").map(B),x(t,e)>=0})).map((function(e){return"node "+e}));var r,t}},browser_ray:{matches:["browser","sign","version"],regexp:/^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,select:function(e,u){var r=u.version,t=O(u.browser,e),n=M.versionAliases[t.name][r];return n&&(r=n),t.released.filter(C(u.sign,r)).map((function(e){return t.name+" "+e}))}},firefox_esr:{matches:[],regexp:/^(firefox|ff|fx)\s+esr$/i,select:function(){return["firefox 102","firefox 115"]}},opera_mini_all:{matches:[],regexp:/(operamini|op_mini)\s+all/i,select:function(){return["op_mini all"]}},electron_version:{matches:["version"],regexp:/^electron\s+([\d.]+)$/i,select:function(e,u){var r=p(u.version),t=s[r];if(!t)throw new i("Unknown version "+u.version+" of electron");return["chrome "+t]}},node_major_version:{matches:["version"],regexp:/^node\s+(\d+)$/i,select:U},node_minor_version:{matches:["version"],regexp:/^node\s+(\d+\.\d+)$/i,select:U},node_patch_version:{matches:["version"],regexp:/^node\s+(\d+\.\d+\.\d+)$/i,select:U},current_node:{matches:[],regexp:/^current\s+node$/i,select:function(e){return[f.currentNode(R,e)]}},maintained_node:{matches:[],regexp:/^maintained\s+node\s+versions$/i,select:function(e){var u=Date.now();return R(Object.keys(d).filter((function(e){return u<Date.parse(d[e].end)&&u>Date.parse(d[e].start)&&(r=e.slice(1),M.nodeVersions.some((function(e){return l(e,r)})));var r})).map((function(e){return"node "+e.slice(1)})),e)}},phantomjs_1_9:{matches:[],regexp:/^phantomjs\s+1.9$/i,select:function(){return["safari 5"]}},phantomjs_2_1:{matches:[],regexp:/^phantomjs\s+2.1$/i,select:function(){return["safari 6"]}},browser_version:{matches:["browser","version"],regexp:/^(\w+)\s+(tp|[\d.]+)$/i,select:function(e,u){var r=u.version;/^tp$/i.test(r)&&(r="TP");var t=O(u.browser,e),n=S(t,r);if(n)r=n;else{if(!(n=S(t,n=-1===r.indexOf(".")?r+".0":r.replace(/\.0$/,"")))){if(e.ignoreUnknownVersions)return[];throw new i("Unknown version "+r+" of "+u.browser)}r=n}return[t.name+" "+r]}},browserslist_config:{matches:[],regexp:/^browserslist config$/i,select:function(e){return M(void 0,e)}},extends:{matches:["config"],regexp:/^extends (.+)$/i,select:function(e,u){return R(f.loadQueries(e,u.config),e)}},defaults:{matches:[],regexp:/^defaults$/i,select:function(e){return R(M.defaults,e)}},dead:{matches:[],regexp:/^dead$/i,select:function(e){return R(["Baidu >= 0","ie <= 11","ie_mob <= 11","bb <= 10","op_mob <= 12.1","samsung 4"],e)}},unknown:{matches:[],regexp:/^(\w+)$/i,select:function(e,u){throw E(u.query,e)?new i("Specify versions in Browserslist query for browser "+u.query):(r=u.query,new i("Unknown browser query `"+r+"`. Maybe you are using old Browserslist or made typo in query."));var r}}};!function(){for(var e in n){var u=n[e];M.data[e]={name:e,versions:v(n[e].versions),released:v(n[e].versions.slice(0,-3)),releaseDate:n[e].release_date},g(M.usage.global,e,u.usage_global),M.versionAliases[e]={};for(var r=0;r<u.versions.length;r++){var d=u.versions[r];if(d&&-1!==d.indexOf("-"))for(var a=d.split("-"),s=0;s<a.length;s++)M.versionAliases[e][a[s]]=d}}M.nodeVersions=t.map((function(e){return e.version}))}(),e.exports=M},65723:function(e){var u=/^\s+and\s+(.*)/i,r=/^(?:,\s*|\s+or\s+)(.*)/i;function t(e){return Array.isArray(e)?e.reduce((function(e,u){return e.concat(t(u))}),[]):[e]}function n(e,u){var r={query:u};for(var t in 0===u.indexOf("not ")&&(r.not=!0,u=u.slice(4)),e){var n=e[t],d=u.match(n.regexp);if(d){r.type=t;for(var a=0;a<n.matches.length;a++)r[n.matches[a]]=d[a+1];return r}}return r.type="unknown",r}function d(e,t,d){var a;return function(e,u){for(var r=1,t=e.length;r<=t;r++)if(u(e.substr(-r,r),r,t))return e.slice(0,-r);return""}(t,(function(t,s,i){return u.test(t)?((a=n(e,t.match(u)[1])).compose="and",d.unshift(a),!0):r.test(t)?((a=n(e,t.match(r)[1])).compose="or",d.unshift(a),!0):s===i&&((a=n(e,t.trim())).compose="or",d.unshift(a),!0)}))}e.exports=function(e,u){return Array.isArray(u)||(u=[u]),t(u.map((function(u){var r=[];do{u=d(e,u,r)}while(u);return r})))}},66954:function(e){e.exports={A:{A:{K:0,F:0,G:.0326854,H:.0435805,A:0,B:.392224,JC:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","JC","K","F","G","H","A","B","","",""],E:"IE",F:{JC:962323200,K:998870400,F:1161129600,G:1237420800,H:1300060800,A:1346716800,B:1381968e3}},B:{A:{0:3.56904,C:0,L:0,M:0,I:.004259,N:0,D:.004259,O:.012777,P:0,Q:.004259,R:.004259,S:.004259,T:.008518,U:.004259,V:.004259,W:.004259,X:0,Y:.004259,Z:.004259,a:0,b:.012777,c:0,d:0,e:0,f:0,g:0,h:0,i:.008518,j:0,n:.008518,o:.008518,p:.004259,q:0,r:0,s:.004259,t:.008518,u:.012777,v:.076662,w:.021295,x:.029813,y:.579224,z:.745325,E:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","C","L","M","I","N","D","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","n","o","p","q","r","s","t","u","v","w","x","y","z","0","E","","",""],E:"Edge",F:{0:1685664e3,C:1438128e3,L:1447286400,M:1470096e3,I:1491868800,N:1508198400,D:1525046400,O:1542067200,P:1579046400,Q:1581033600,R:1586736e3,S:1590019200,T:1594857600,U:1598486400,V:1602201600,W:1605830400,X:161136e4,Y:1614816e3,Z:1618358400,a:1622073600,b:1626912e3,c:1630627200,d:1632441600,e:1634774400,f:1637539200,g:1641427200,h:1643932800,i:1646265600,j:1649635200,n:1651190400,o:1653955200,p:1655942400,q:1659657600,r:1661990400,s:1664755200,t:1666915200,u:1670198400,v:1673481600,w:1675900800,x:1678665600,y:1680825600,z:1683158400,E:1689897600},D:{C:"ms",L:"ms",M:"ms",I:"ms",N:"ms",D:"ms",O:"ms"}},C:{A:{0:1.2564,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,KC:0,zB:0,J:0,K:0,F:0,G:0,H:0,A:0,B:.008518,C:0,L:0,M:0,I:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0,LB:0,MB:0,NB:0,OB:.012777,PB:.004259,QB:0,RB:0,SB:0,TB:0,UB:0,VB:0,WB:0,XB:.051108,YB:0,ZB:0,aB:0,bB:.004259,cB:0,dB:0,"0B":.004259,eB:0,"1B":0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:.004259,mB:0,nB:0,oB:0,pB:.008518,m:0,qB:0,rB:0,sB:0,tB:0,uB:.051108,P:0,Q:0,R:0,"2B":0,S:0,T:.017036,U:0,V:0,W:.008518,X:.004259,Y:0,Z:0,a:.012777,b:0,c:0,d:.004259,e:0,f:0,g:0,h:0,i:0,j:0,n:0,o:.110734,p:.012777,q:0,r:.008518,s:.004259,t:.008518,u:.012777,v:.012777,w:.012777,x:.025554,y:.055367,z:.660145,E:.012777,"3B":0,"4B":0,LC:0,MC:0},B:"moz",C:["KC","zB","LC","MC","J","1","K","F","G","H","A","B","C","L","M","I","N","D","O","2","k","l","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","0B","eB","1B","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","m","qB","rB","sB","tB","uB","P","Q","R","2B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","n","o","p","q","r","s","t","u","v","w","x","y","z","0","E","3B","4B",""],E:"Firefox",F:{0:1686009600,1:1308614400,2:1357603200,3:1368489600,4:1372118400,5:1375747200,6:1379376e3,7:1386633600,8:1391472e3,9:1395100800,KC:1161648e3,zB:1213660800,LC:124632e4,MC:1264032e3,J:1300752e3,K:1313452800,F:1317081600,G:1317081600,H:1320710400,A:1324339200,B:1327968e3,C:1331596800,L:1335225600,M:1338854400,I:1342483200,N:1346112e3,D:1349740800,O:1353628800,k:1361232e3,l:1364860800,AB:1398729600,BB:1402358400,CB:1405987200,DB:1409616e3,EB:1413244800,FB:1417392e3,GB:1421107200,HB:1424736e3,IB:1428278400,JB:1431475200,KB:1435881600,LB:1439251200,MB:144288e4,NB:1446508800,OB:1450137600,PB:1453852800,QB:1457395200,RB:1461628800,SB:1465257600,TB:1470096e3,UB:1474329600,VB:1479168e3,WB:1485216e3,XB:1488844800,YB:149256e4,ZB:1497312e3,aB:1502150400,bB:1506556800,cB:1510617600,dB:1516665600,"0B":1520985600,eB:1525824e3,"1B":1529971200,fB:1536105600,gB:1540252800,hB:1544486400,iB:154872e4,jB:1552953600,kB:1558396800,lB:1562630400,mB:1567468800,nB:1571788800,oB:1575331200,pB:1578355200,m:1581379200,qB:1583798400,rB:1586304e3,sB:1588636800,tB:1591056e3,uB:1593475200,P:1595894400,Q:1598313600,R:1600732800,"2B":1603152e3,S:1605571200,T:1607990400,U:1611619200,V:1614038400,W:1616457600,X:1618790400,Y:1622505600,Z:1626134400,a:1628553600,b:1630972800,c:1633392e3,d:1635811200,e:1638835200,f:1641859200,g:1644364800,h:1646697600,i:1649116800,j:1651536e3,n:1653955200,o:1656374400,p:1658793600,q:1661212800,r:1663632e3,s:1666051200,t:1668470400,u:1670889600,v:1673913600,w:1676332800,x:1678752e3,y:1681171200,z:1683590400,E:1688428800,"3B":null,"4B":null}},D:{A:{0:14.553,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,J:0,K:0,F:0,G:0,H:0,A:0,B:0,C:0,L:0,M:0,I:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:.008518,GB:0,HB:0,IB:0,JB:.017036,KB:0,LB:.012777,MB:0,NB:0,OB:0,PB:0,QB:0,RB:0,SB:.008518,TB:.017036,UB:.038331,VB:.008518,WB:0,XB:.004259,YB:.008518,ZB:0,aB:.004259,bB:.051108,cB:0,dB:0,"0B":0,eB:.017036,"1B":.012777,fB:0,gB:.004259,hB:0,iB:.012777,jB:.029813,kB:.008518,lB:.025554,mB:.051108,nB:.04259,oB:.017036,pB:.025554,m:.012777,qB:.059626,rB:.059626,sB:.093698,tB:.025554,uB:.038331,P:.200173,Q:.051108,R:.051108,S:.110734,T:.029813,U:.089439,V:.072403,W:.089439,X:.046849,Y:.038331,Z:.055367,a:.089439,b:.038331,c:.17036,d:.034072,e:.021295,f:.025554,g:.025554,h:.063885,i:.055367,j:.046849,n:.04259,o:.051108,p:.268317,q:.063885,r:.076662,s:.051108,t:.059626,u:.149065,v:1.96766,w:.123511,x:.455713,y:.630332,z:3.9268,E:.021295,"3B":.021295,"4B":0,NC:0},B:"webkit",C:["","","","","","J","1","K","F","G","H","A","B","C","L","M","I","N","D","O","2","k","l","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","0B","eB","1B","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","m","qB","rB","sB","tB","uB","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","n","o","p","q","r","s","t","u","v","w","x","y","z","0","E","3B","4B","NC"],E:"Chrome",F:{0:1685404800,1:1274745600,2:1332892800,3:1343692800,4:1348531200,5:1352246400,6:1357862400,7:1361404800,8:1364428800,9:1369094400,J:1264377600,K:1283385600,F:1287619200,G:1291248e3,H:1296777600,A:1299542400,B:1303862400,C:1307404800,L:1312243200,M:1316131200,I:1316131200,N:1319500800,D:1323734400,O:1328659200,k:133704e4,l:1340668800,AB:1374105600,BB:1376956800,CB:1384214400,DB:1389657600,EB:1392940800,FB:1397001600,GB:1400544e3,HB:1405468800,IB:1409011200,JB:141264e4,KB:1416268800,LB:1421798400,MB:1425513600,NB:1429401600,OB:143208e4,PB:1437523200,QB:1441152e3,RB:1444780800,SB:1449014400,TB:1453248e3,UB:1456963200,VB:1460592e3,WB:1464134400,XB:1469059200,YB:1472601600,ZB:1476230400,aB:1480550400,bB:1485302400,cB:1489017600,dB:149256e4,"0B":1496707200,eB:1500940800,"1B":1504569600,fB:1508198400,gB:1512518400,hB:1516752e3,iB:1520294400,jB:1523923200,kB:1527552e3,lB:1532390400,mB:1536019200,nB:1539648e3,oB:1543968e3,pB:154872e4,m:1552348800,qB:1555977600,rB:1559606400,sB:1564444800,tB:1568073600,uB:1571702400,P:1575936e3,Q:1580860800,R:1586304e3,S:1589846400,T:1594684800,U:1598313600,V:1601942400,W:1605571200,X:1611014400,Y:1614556800,Z:1618272e3,a:1621987200,b:1626739200,c:1630368e3,d:1632268800,e:1634601600,f:1637020800,g:1641340800,h:1643673600,i:1646092800,j:1648512e3,n:1650931200,o:1653350400,p:1655769600,q:1659398400,r:1661817600,s:1664236800,t:1666656e3,u:166968e4,v:1673308800,w:1675728e3,x:1678147200,y:1680566400,z:1682985600,E:1689724800,"3B":null,"4B":null,NC:null}},E:{A:{1:0,J:0,K:0,F:0,G:0,H:0,A:0,B:0,C:0,L:.025554,M:.12777,I:.029813,D:.008518,OC:0,"5B":0,PC:.008518,QC:0,RC:0,SC:.102216,"6B":0,vB:.008518,wB:.038331,"7B":.166101,TC:.332202,UC:.055367,"8B":.046849,"9B":.106475,xB:.191655,AC:.779397,yB:.080921,BC:.25554,CC:.289612,DC:.706994,EC:.498303,FC:2.00599,GC:.021295,VC:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","OC","5B","J","1","PC","K","QC","F","RC","G","H","SC","A","6B","B","vB","C","wB","L","7B","M","TC","I","UC","8B","9B","xB","AC","yB","BC","CC","DC","EC","FC","GC","D","VC"],E:"Safari",F:{1:1275868800,OC:1205798400,"5B":1226534400,J:1244419200,PC:131112e4,K:1343174400,QC:13824e5,F:13824e5,RC:1410998400,G:1413417600,H:1443657600,SC:1458518400,A:1474329600,"6B":1490572800,B:1505779200,vB:1522281600,C:1537142400,wB:1553472e3,L:1568851200,"7B":1585008e3,M:1600214400,TC:1619395200,I:1632096e3,UC:1635292800,"8B":1639353600,"9B":1647216e3,xB:1652745600,AC:1658275200,yB:1662940800,BC:1666569600,CC:1670889600,DC:1674432e3,EC:1679875200,FC:1684368e3,GC:null,D:null,VC:null}},F:{A:{2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:.008518,H:0,B:.038331,C:0,I:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0,LB:.004259,MB:0,NB:0,OB:0,PB:0,QB:0,RB:.017036,SB:0,TB:0,UB:0,VB:0,WB:0,XB:0,YB:0,ZB:0,aB:0,bB:0,cB:0,dB:0,eB:0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0,mB:0,nB:0,oB:0,pB:0,m:0,qB:0,rB:0,sB:0,tB:0,uB:0,P:0,Q:0,R:0,"2B":0,S:0,T:0,U:.004259,V:0,W:0,X:0,Y:0,Z:0,a:0,b:0,c:0,d:0,e:.059626,f:.012777,g:.021295,h:.664404,i:1.29048,j:.012777,WC:0,XC:0,YC:0,ZC:0,vB:0,HC:0,aC:0,wB:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","H","WC","XC","YC","ZC","B","vB","HC","aC","C","wB","I","N","D","O","2","k","l","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","eB","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","m","qB","rB","sB","tB","uB","P","Q","R","2B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","","",""],E:"Opera",F:{2:1390867200,3:1401753600,4:1405987200,5:1409616e3,6:1413331200,7:1417132800,8:1422316800,9:1425945600,H:1150761600,WC:1223424e3,XC:1251763200,YC:1267488e3,ZC:1277942400,B:1292457600,vB:1302566400,HC:1309219200,aC:1323129600,C:1323129600,wB:1352073600,I:1372723200,N:1377561600,D:1381104e3,O:1386288e3,k:1393891200,l:1399334400,AB:1430179200,BB:1433808e3,CB:1438646400,DB:1442448e3,EB:1445904e3,FB:1449100800,GB:1454371200,HB:1457308800,IB:146232e4,JB:1465344e3,KB:1470096e3,LB:1474329600,MB:1477267200,NB:1481587200,OB:1486425600,PB:1490054400,QB:1494374400,RB:1498003200,SB:1502236800,TB:1506470400,UB:1510099200,VB:1515024e3,WB:1517961600,XB:1521676800,YB:1525910400,ZB:1530144e3,aB:1534982400,bB:1537833600,cB:1543363200,dB:1548201600,eB:1554768e3,fB:1561593600,gB:1566259200,hB:1570406400,iB:1573689600,jB:1578441600,kB:1583971200,lB:1587513600,mB:1592956800,nB:1595894400,oB:1600128e3,pB:1603238400,m:161352e4,qB:1612224e3,rB:1616544e3,sB:1619568e3,tB:1623715200,uB:1627948800,P:1631577600,Q:1633392e3,R:1635984e3,"2B":1638403200,S:1642550400,T:1644969600,U:1647993600,V:1650412800,W:1652745600,X:1654646400,Y:1657152e3,Z:1660780800,a:1663113600,b:1668816e3,c:1668643200,d:1671062400,e:1675209600,f:1677024e3,g:1679529600,h:1681948800,i:1684195200,j:1687219200},D:{H:"o",B:"o",C:"o",WC:"o",XC:"o",YC:"o",ZC:"o",vB:"o",HC:"o",aC:"o",wB:"o"}},G:{A:{G:0,D:.0227641,"5B":0,bC:0,IC:.00303522,cC:.00303522,dC:.00455283,eC:.0121409,fC:.00455283,gC:.00910566,hC:.0440107,iC:.00455283,jC:.062222,kC:.0303522,lC:.0197289,mC:.0166937,nC:.321733,oC:.00910566,pC:.00910566,qC:.0227641,rC:.0773981,sC:.20336,tC:.374849,uC:.119891,"8B":.141138,"9B":.160867,xB:.239782,AC:.582762,yB:.648019,BC:1.23837,CC:.661678,DC:1.56617,EC:1.0259,FC:6.55152,GC:.0637396},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","5B","bC","IC","cC","dC","eC","G","fC","gC","hC","iC","jC","kC","lC","mC","nC","oC","pC","qC","rC","sC","tC","uC","8B","9B","xB","AC","yB","BC","CC","DC","EC","FC","GC","D",""],E:"Safari on iOS",F:{"5B":1270252800,bC:1283904e3,IC:1299628800,cC:1331078400,dC:1359331200,eC:1394409600,G:1410912e3,fC:1413763200,gC:1442361600,hC:1458518400,iC:1473724800,jC:1490572800,kC:1505779200,lC:1522281600,mC:1537142400,nC:1553472e3,oC:1568851200,pC:1572220800,qC:1580169600,rC:1585008e3,sC:1600214400,tC:1619395200,uC:1632096e3,"8B":1639353600,"9B":1647216e3,xB:1652659200,AC:1658275200,yB:1662940800,BC:1666569600,CC:1670889600,DC:1674432e3,EC:1679875200,FC:1684368e3,GC:null,D:null}},H:{A:{vC:.956597},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","vC","","",""],E:"Opera Mini",F:{vC:1426464e3}},I:{A:{zB:0,J:.0252848,E:0,wC:0,xC:.00842828,yC:0,zC:.0168566,IC:.092711,"0C":0,"1C":.252848},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","wC","xC","yC","zB","J","zC","IC","0C","1C","E","","",""],E:"Android Browser",F:{wC:1256515200,xC:1274313600,yC:1291593600,zB:1298332800,J:1318896e3,zC:1341792e3,IC:1374624e3,"0C":1386547200,"1C":1401667200,E:1690243200}},J:{A:{F:0,A:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","F","A","","",""],E:"Blackberry Browser",F:{F:1325376e3,A:1359504e3}},K:{A:{A:0,B:0,C:0,m:0,vB:0,HC:0,wB:0},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","vB","HC","C","wB","m","","",""],E:"Opera Mobile",F:{A:1287100800,B:1300752e3,vB:1314835200,HC:1318291200,C:1330300800,wB:1349740800,m:1673827200},D:{m:"webkit"}},L:{A:{E:38.2012},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","","",""],E:"Chrome for Android",F:{E:1690243200}},M:{A:{E:.281309},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","","",""],E:"Firefox for Android",F:{E:1688428800}},N:{A:{A:0,B:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","","",""],E:"IE Mobile",F:{A:1340150400,B:1353456e3}},O:{A:{xB:1.04486},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","xB","","",""],E:"UC Browser for Android",F:{xB:1687132800},D:{xB:"webkit"}},P:{A:{J:.156242,k:.229156,l:1.74991,"2C":0,"3C":0,"4C":.0520808,"5C":0,"6C":0,"6B":0,"7C":.0208323,"8C":0,"9C":.0208323,AD:.0208323,BD:.0104162,yB:.0416646,CD:.0416646,DD:.0416646,ED:.0833293},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","J","2C","3C","4C","5C","6C","6B","7C","8C","9C","AD","BD","yB","CD","DD","ED","k","l","","",""],E:"Samsung Internet",F:{J:1461024e3,"2C":1481846400,"3C":1509408e3,"4C":1528329600,"5C":1546128e3,"6C":1554163200,"6B":1567900800,"7C":1582588800,"8C":1593475200,"9C":1605657600,AD:1618531200,BD:1629072e3,yB:1640736e3,CD:1651708800,DD:1659657600,ED:1667260800,k:1677369600,l:1684454400}},Q:{A:{"7B":.155007},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","7B","","",""],E:"QQ Browser",F:{"7B":1663718400}},R:{A:{FD:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","FD","","",""],E:"Baidu Browser",F:{FD:1663027200}},S:{A:{GD:.103338,HD:0},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","GD","HD","","",""],E:"KaiOS Browser",F:{GD:1527811200,HD:1631664e3}}}},6974:function(e){e.exports={0:"114",1:"5",2:"19",3:"22",4:"23",5:"24",6:"25",7:"26",8:"27",9:"28",A:"10",B:"11",C:"12",D:"17",E:"115",F:"7",G:"8",H:"9",I:"15",J:"4",K:"6",L:"13",M:"14",N:"16",O:"18",P:"79",Q:"80",R:"81",S:"83",T:"84",U:"85",V:"86",W:"87",X:"88",Y:"89",Z:"90",a:"91",b:"92",c:"93",d:"94",e:"95",f:"96",g:"97",h:"98",i:"99",j:"100",k:"20",l:"21",m:"73",n:"101",o:"102",p:"103",q:"104",r:"105",s:"106",t:"107",u:"108",v:"109",w:"110",x:"111",y:"112",z:"113",AB:"29",BB:"30",CB:"31",DB:"32",EB:"33",FB:"34",GB:"35",HB:"36",IB:"37",JB:"38",KB:"39",LB:"40",MB:"41",NB:"42",OB:"43",PB:"44",QB:"45",RB:"46",SB:"47",TB:"48",UB:"49",VB:"50",WB:"51",XB:"52",YB:"53",ZB:"54",aB:"55",bB:"56",cB:"57",dB:"58",eB:"60",fB:"62",gB:"63",hB:"64",iB:"65",jB:"66",kB:"67",lB:"68",mB:"69",nB:"70",oB:"71",pB:"72",qB:"74",rB:"75",sB:"76",tB:"77",uB:"78",vB:"11.1",wB:"12.1",xB:"15.5",yB:"16.0",zB:"3","0B":"59","1B":"61","2B":"82","3B":"116","4B":"117","5B":"3.2","6B":"10.1","7B":"13.1","8B":"15.2-15.3","9B":"15.4",AC:"15.6",BC:"16.1",CC:"16.2",DC:"16.3",EC:"16.4",FC:"16.5",GC:"16.6",HC:"11.5",IC:"4.2-4.3",JC:"5.5",KC:"2",LC:"3.5",MC:"3.6",NC:"118",OC:"3.1",PC:"5.1",QC:"6.1",RC:"7.1",SC:"9.1",TC:"14.1",UC:"15.1",VC:"TP",WC:"9.5-9.6",XC:"10.0-10.1",YC:"10.5",ZC:"10.6",aC:"11.6",bC:"4.0-4.1",cC:"5.0-5.1",dC:"6.0-6.1",eC:"7.0-7.1",fC:"8.1-8.4",gC:"9.0-9.2",hC:"9.3",iC:"10.0-10.2",jC:"10.3",kC:"11.0-11.2",lC:"11.3-11.4",mC:"12.0-12.1",nC:"12.2-12.5",oC:"13.0-13.1",pC:"13.2",qC:"13.3",rC:"13.4-13.7",sC:"14.0-14.4",tC:"14.5-14.8",uC:"15.0-15.1",vC:"all",wC:"2.1",xC:"2.2",yC:"2.3",zC:"4.1","0C":"4.4","1C":"4.4.3-4.4.4","2C":"5.0-5.4","3C":"6.2-6.4","4C":"7.2-7.4","5C":"8.2","6C":"9.2","7C":"11.1-11.2","8C":"12.0","9C":"13.0",AD:"14.0",BD:"15.0",CD:"17.0",DD:"18.0",ED:"19.0",FD:"13.18",GD:"2.5",HD:"3.0-3.1"}},12757:function(e){e.exports={A:"ie",B:"edge",C:"firefox",D:"chrome",E:"safari",F:"opera",G:"ios_saf",H:"op_mini",I:"android",J:"bb",K:"op_mob",L:"and_chr",M:"and_ff",N:"ie_mob",O:"and_uc",P:"samsung",Q:"and_qq",R:"baidu",S:"kaios"}},95459:function(e,u,r){"use strict";const t=r(8833).browsers,n=r(28788).browserVersions,d=r(66954);function a(e){return Object.keys(e).reduce(((u,r)=>(u[n[r]]=e[r],u)),{})}e.exports.agents=Object.keys(d).reduce(((e,u)=>{let r=d[u];return e[t[u]]=Object.keys(r).reduce(((e,u)=>("A"===u?e.usage_global=a(r[u]):"C"===u?e.versions=r[u].reduce(((e,u)=>(""===u?e.push(null):e.push(n[u]),e)),[]):"D"===u?e.prefix_exceptions=a(r[u]):"E"===u?e.browser=r[u]:"F"===u?e.release_date=Object.keys(r[u]).reduce(((e,t)=>(e[n[t]]=r[u][t],e)),{}):e.prefix=r[u],e)),{}),e}),{})},28788:function(e,u,r){e.exports.browserVersions=r(6974)},8833:function(e,u,r){e.exports.browsers=r(12757)},19608:function(e,u,r){"use strict";var t=r(87537),n=r.n(t),d=r(23645),a=r.n(d)()(n());a.push([e.id,".content-unsupported-browser[data-v-3c1e6192]{display:flex;justify-content:center;width:400px;max-width:calc(90vw - 60px);margin:auto;padding:30px}.content-unsupported-browser .empty-content[data-v-3c1e6192]{margin:0}.content-unsupported-browser .empty-content[data-v-3c1e6192] .empty-content__icon{opacity:1}.content-unsupported-browser__continue[data-v-3c1e6192]{display:block;margin:30px auto}.content-unsupported-browser__list[data-v-3c1e6192]{margin-top:60px;margin-bottom:30px}.content-unsupported-browser__list li[data-v-3c1e6192]{text-align:left}","",{version:3,sources:["webpack://./core/src/views/UnsupportedBrowser.vue"],names:[],mappings:"AAGA,8CACC,YAAA,CACA,sBAAA,CACA,WAAA,CACA,2BAAA,CACA,WAAA,CACA,YARS,CAUT,6DACC,QAAA,CACA,kFACC,SAAA,CAIF,wDACC,aAAA,CACA,gBAAA,CAGD,oDACC,eAAA,CACA,kBAxBQ,CAyBR,uDACC,eAAA",sourcesContent:["\n$spacing: 30px;\n\n.content-unsupported-browser {\n\tdisplay: flex;\n\tjustify-content: center;\n\twidth: 400px;\n\tmax-width: calc(90vw - 2 * $spacing);\n\tmargin: auto;\n\tpadding: $spacing;\n\n\t.empty-content {\n\t\tmargin: 0;\n\t\t&::v-deep .empty-content__icon {\n\t\t\topacity: 1;\n\t\t}\n\t}\n\n\t&__continue {\n\t\tdisplay: block;\n\t\tmargin: $spacing auto;\n\t}\n\n\t&__list {\n\t\tmargin-top: 2 * $spacing;\n\t\tmargin-bottom: $spacing;\n\t\tli {\n\t\t\ttext-align: left;\n\t\t}\n\t}\n}\n\n"],sourceRoot:""}]),u.Z=a},76250:function(e){e.exports={"0.20":"39",.21:"41",.22:"41",.23:"41",.24:"41",.25:"42",.26:"42",.27:"43",.28:"43",.29:"43","0.30":"44",.31:"45",.32:"45",.33:"45",.34:"45",.35:"45",.36:"47",.37:"49","1.0":"49",1.1:"50",1.2:"51",1.3:"52",1.4:"53",1.5:"54",1.6:"56",1.7:"58",1.8:"59","2.0":"61",2.1:"61","3.0":"66",3.1:"66","4.0":"69",4.1:"69",4.2:"69","5.0":"73","6.0":"76",6.1:"76","7.0":"78",7.1:"78",7.2:"78",7.3:"78","8.0":"80",8.1:"80",8.2:"80",8.3:"80",8.4:"80",8.5:"80","9.0":"83",9.1:"83",9.2:"83",9.3:"83",9.4:"83","10.0":"85",10.1:"85",10.2:"85",10.3:"85",10.4:"85","11.0":"87",11.1:"87",11.2:"87",11.3:"87",11.4:"87",11.5:"87","12.0":"89",12.1:"89",12.2:"89","13.0":"91",13.1:"91",13.2:"91",13.3:"91",13.4:"91",13.5:"91",13.6:"91","14.0":"93",14.1:"93",14.2:"93","15.0":"94",15.1:"94",15.2:"94",15.3:"94",15.4:"94",15.5:"94","16.0":"96",16.1:"96",16.2:"96","17.0":"98",17.1:"98",17.2:"98",17.3:"98",17.4:"98","18.0":"100",18.1:"100",18.2:"100",18.3:"100","19.0":"102",19.1:"102","20.0":"104",20.1:"104",20.2:"104",20.3:"104","21.0":"106",21.1:"106",21.2:"106",21.3:"106",21.4:"106","22.0":"108",22.1:"108",22.2:"108",22.3:"108","23.0":"110",23.1:"110",23.2:"110",23.3:"110","24.0":"112",24.1:"112",24.2:"112",24.3:"112",24.4:"112",24.5:"112",24.6:"112","25.0":"114",25.1:"114",25.2:"114",25.3:"114","26.0":"116"}},78355:function(e,u,r){"use strict";var t=r(1264),n=r(60045);e.exports={transform:function(e){var u=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],r=u.length>0?u:Object.keys(t),d=void 0,a={};return r.forEach((function(u){if(!t.hasOwnProperty(u))throw new Error("Unknown compat-transform: "+u+". Available transforms are: "+Object.keys(t).join(", "));var r=t[u];d=n.transform(e,r),e=d.getAST(),"function"==typeof r.getExtra&&(a[u]=r.getExtra())})),d.setExtra(a),d}}},77460:function(e){"use strict";var u=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}(),r=function(){function e(u,r){var t=r.flags,n=r.groups,d=r.source;!function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,e),this._re=u,this._groups=n,this.flags=t,this.source=d||u.source,this.dotAll=t.includes("s"),this.global=u.global,this.ignoreCase=u.ignoreCase,this.multiline=u.multiline,this.sticky=u.sticky,this.unicode=u.unicode}return u(e,[{key:"test",value:function(e){return this._re.test(e)}},{key:"compile",value:function(e){return this._re.compile(e)}},{key:"toString",value:function(){return this._toStringResult||(this._toStringResult="/"+this.source+"/"+this.flags),this._toStringResult}},{key:"exec",value:function(e){var u=this._re.exec(e);if(!this._groups||!u)return u;for(var r in u.groups={},this._groups){var t=this._groups[r];u.groups[r]=u[t]}return u}}]),e}();e.exports={RegExpTree:r}},98708:function(e){"use strict";e.exports={_hasUFlag:!1,shouldRun:function(e){return!!e.flags.includes("s")&&(e.flags=e.flags.replace("s",""),this._hasUFlag=e.flags.includes("u"),!0)},Char:function(e){var u=e.node;if("meta"===u.kind&&"."===u.value){var r="\\uFFFF",t="￿";this._hasUFlag&&(r="\\u{10FFFF}",t="􏿿"),e.replace({type:"CharacterClass",expressions:[{type:"ClassRange",from:{type:"Char",value:"\\0",kind:"decimal",symbol:"\0"},to:{type:"Char",value:r,kind:"unicode",symbol:t}}]})}}}},305:function(e){"use strict";e.exports={_groupNames:{},init:function(){this._groupNames={}},getExtra:function(){return this._groupNames},Group:function(e){var u=e.node;u.name&&(this._groupNames[u.name]=u.number,delete u.name,delete u.nameRaw)},Backreference:function(e){var u=e.node;"name"===u.kind&&(u.kind="number",u.reference=u.number,delete u.referenceRaw)}}},96437:function(e){"use strict";e.exports={RegExp:function(e){var u=e.node;u.flags.includes("x")&&(u.flags=u.flags.replace("x",""))}}},1264:function(e,u,r){"use strict";e.exports={dotAll:r(98708),namedCapturingGroups:r(305),xFlag:r(96437)}},89702:function(e){"use strict";function u(e){return e?r[e.type](e):""}var r={RegExp:function(e){return"/"+u(e.body)+"/"+e.flags},Alternative:function(e){return(e.expressions||[]).map(u).join("")},Disjunction:function(e){return u(e.left)+"|"+u(e.right)},Group:function(e){var r=u(e.expression);return e.capturing?e.name?"(?<"+(e.nameRaw||e.name)+">"+r+")":"("+r+")":"(?:"+r+")"},Backreference:function(e){switch(e.kind){case"number":return"\\"+e.reference;case"name":return"\\k<"+(e.referenceRaw||e.reference)+">";default:throw new TypeError("Unknown Backreference kind: "+e.kind)}},Assertion:function(e){switch(e.kind){case"^":case"$":case"\\b":case"\\B":return e.kind;case"Lookahead":var r=u(e.assertion);return e.negative?"(?!"+r+")":"(?="+r+")";case"Lookbehind":var t=u(e.assertion);return e.negative?"(?<!"+t+")":"(?<="+t+")";default:throw new TypeError("Unknown Assertion kind: "+e.kind)}},CharacterClass:function(e){var r=e.expressions.map(u).join("");return e.negative?"[^"+r+"]":"["+r+"]"},ClassRange:function(e){return u(e.from)+"-"+u(e.to)},Repetition:function(e){return""+u(e.expression)+u(e.quantifier)},Quantifier:function(e){var u=void 0,r=e.greedy?"":"?";switch(e.kind){case"+":case"?":case"*":u=e.kind;break;case"Range":u=e.from===e.to?"{"+e.from+"}":e.to?"{"+e.from+","+e.to+"}":"{"+e.from+",}";break;default:throw new TypeError("Unknown Quantifier kind: "+e.kind)}return""+u+r},Char:function(e){var u=e.value;switch(e.kind){case"simple":return e.escaped?"\\"+u:u;case"hex":case"unicode":case"oct":case"decimal":case"control":case"meta":return u;default:throw new TypeError("Unknown Char kind: "+e.kind)}},UnicodeProperty:function(e){return"\\"+(e.negative?"P":"p")+"{"+(e.shorthand||e.binary?"":e.name+"=")+e.value+"}"}};e.exports={generate:u}},41693:function(e){"use strict";var u=function(e,u){if(Array.isArray(e))return e;if(Symbol.iterator in Object(e))return function(e,u){var r=[],t=!0,n=!1,d=void 0;try{for(var a,s=e[Symbol.iterator]();!(t=(a=s.next()).done)&&(r.push(a.value),!u||r.length!==u);t=!0);}catch(e){n=!0,d=e}finally{try{!t&&s.return&&s.return()}finally{if(n)throw d}}return r}(e,u);throw new TypeError("Invalid attempt to destructure non-iterable instance")};function r(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}var t=null;function n(e,u){if(!u)return!1;if(e.length!==u.length)return!1;for(var t=0;t<e.length;t++){var n=e[t],d=u[t];if(n.size!==d.size)return!1;if([].concat(r(n)).sort().join(",")!==[].concat(r(d)).sort().join(","))return!1}return!0}function d(e,u,r,t){var n=!0,d=!1,s=void 0;try{for(var i,o=t[Symbol.iterator]();!(n=(i=o.next()).done);n=!0)if(!a(e,u,r,i.value))return!1}catch(e){d=!0,s=e}finally{try{!n&&o.return&&o.return()}finally{if(d)throw s}}return!0}function a(e,u,r,n){if(!t[e]||!t[u])return!1;var d=r[e][n],a=r[u][n];return!d&&!a||t[e].has(d)&&t[u].has(a)}e.exports={minimize:function(e){var a=e.getTransitionTable(),s=Object.keys(a),i=e.getAlphabet(),o=e.getAcceptingStateNumbers();t={};var f=new Set;s.forEach((function(e){e=Number(e),o.has(e)?t[e]=o:(f.add(e),t[e]=f)}));var c=[[f,o].filter((function(e){return e.size>0}))],l=void 0,v=void 0;l=c[c.length-1],v=c[c.length-2];for(var p=function(){var e,u={},n=!0,s=!1,o=void 0;try{for(var f,p=l[Symbol.iterator]();!(n=(f=p.next()).done);n=!0){var b=f.value,h={},m=(e=b,Array.isArray(e)?e:Array.from(e)),y=m[0],g=m.slice(1);h[y]=new Set([y]);var C=!0,B=!1,_=void 0;try{e:for(var x,w=g[Symbol.iterator]();!(C=(x=w.next()).done);C=!0){var A=x.value,S=!0,j=!1,k=void 0;try{for(var E,P=Object.keys(h)[Symbol.iterator]();!(S=(E=P.next()).done);S=!0){var O=E.value;if(d(A,O,a,i)){h[O].add(A),h[A]=h[O];continue e}}}catch(e){j=!0,k=e}finally{try{!S&&P.return&&P.return()}finally{if(j)throw k}}h[A]=new Set([A])}}catch(e){B=!0,_=e}finally{try{!C&&w.return&&w.return()}finally{if(B)throw _}}Object.assign(u,h)}}catch(e){s=!0,o=e}finally{try{!n&&p.return&&p.return()}finally{if(s)throw o}}t=u;var T=new Set(Object.keys(u).map((function(e){return u[e]})));c.push([].concat(r(T))),l=c[c.length-1],v=c[c.length-2]};!n(l,v);)p();var b=new Map,h=1;l.forEach((function(e){return b.set(e,h++)}));var m={},y=new Set,g=function(e,u){var r=!0,t=!1,n=void 0;try{for(var d,a=e[Symbol.iterator]();!(r=(d=a.next()).done);r=!0){var s=d.value;o.has(s)&&y.add(u)}}catch(e){t=!0,n=e}finally{try{!r&&a.return&&a.return()}finally{if(t)throw n}}},C=!0,B=!1,_=void 0;try{for(var x,w=b.entries()[Symbol.iterator]();!(C=(x=w.next()).done);C=!0){var A=x.value,S=u(A,2),j=S[0],k=S[1];m[k]={};var E=!0,P=!1,O=void 0;try{for(var T,N=i[Symbol.iterator]();!(E=(T=N.next()).done);E=!0){var R=T.value;g(j,k);var L=void 0,D=!0,F=!1,I=void 0;try{for(var M,U=j[Symbol.iterator]();!(D=(M=U.next()).done);D=!0){var G=M.value;if(L=a[G][R])break}}catch(e){F=!0,I=e}finally{try{!D&&U.return&&U.return()}finally{if(F)throw I}}L&&(m[k][R]=b.get(t[L]))}}catch(e){P=!0,O=e}finally{try{!E&&N.return&&N.return()}finally{if(P)throw O}}}}catch(e){B=!0,_=e}finally{try{!C&&w.return&&w.return()}finally{if(B)throw _}}return e.setTransitionTable(m),e.setAcceptingStateNumbers(y),e}}},13158:function(e,u,r){"use strict";var t=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}();function n(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}var d=r(41693),a=r(3341).EPSILON_CLOSURE,s=function(){function e(u){!function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,e),this._nfa=u}return t(e,[{key:"minimize",value:function(){this.getTransitionTable(),this._originalAcceptingStateNumbers=this._acceptingStateNumbers,this._originalTransitionTable=this._transitionTable,d.minimize(this)}},{key:"getAlphabet",value:function(){return this._nfa.getAlphabet()}},{key:"getAcceptingStateNumbers",value:function(){return this._acceptingStateNumbers||this.getTransitionTable(),this._acceptingStateNumbers}},{key:"getOriginaAcceptingStateNumbers",value:function(){return this._originalAcceptingStateNumbers||this.getTransitionTable(),this._originalAcceptingStateNumbers}},{key:"setTransitionTable",value:function(e){this._transitionTable=e}},{key:"setAcceptingStateNumbers",value:function(e){this._acceptingStateNumbers=e}},{key:"getTransitionTable",value:function(){var e=this;if(this._transitionTable)return this._transitionTable;var u=this._nfa.getTransitionTable(),r=Object.keys(u);this._acceptingStateNumbers=new Set;for(var t=[u[r[0]][a]],d=this.getAlphabet(),s=this._nfa.getAcceptingStateNumbers(),i={},o=function(u){var r=!0,t=!1,n=void 0;try{for(var d,a=s[Symbol.iterator]();!(r=(d=a.next()).done);r=!0){var i=d.value;if(-1!==u.indexOf(i)){e._acceptingStateNumbers.add(u.join(","));break}}}catch(e){t=!0,n=e}finally{try{!r&&a.return&&a.return()}finally{if(t)throw n}}};t.length>0;){var f=t.shift(),c=f.join(",");i[c]={};var l=!0,v=!1,p=void 0;try{for(var b,h=d[Symbol.iterator]();!(l=(b=h.next()).done);l=!0){var m=b.value,y=[];o(f);var g=!0,C=!1,B=void 0;try{for(var _,x=f[Symbol.iterator]();!(g=(_=x.next()).done);g=!0){var w=u[_.value][m];if(w){var A=!0,S=!1,j=void 0;try{for(var k,E=w[Symbol.iterator]();!(A=(k=E.next()).done);A=!0){var P=k.value;u[P]&&y.push.apply(y,n(u[P][a]))}}catch(e){S=!0,j=e}finally{try{!A&&E.return&&E.return()}finally{if(S)throw j}}}}}catch(e){C=!0,B=e}finally{try{!g&&x.return&&x.return()}finally{if(C)throw B}}var O=new Set(y),T=[].concat(n(O));if(T.length>0){var N=T.join(",");i[c][m]=N,i.hasOwnProperty(N)||t.unshift(T)}}}catch(e){v=!0,p=e}finally{try{!l&&h.return&&h.return()}finally{if(v)throw p}}}return this._transitionTable=this._remapStateNumbers(i)}},{key:"_remapStateNumbers",value:function(e){var u={};this._originalTransitionTable=e;var r={};for(var t in Object.keys(e).forEach((function(e,r){u[e]=r+1})),e){var n=e[t],d={};for(var a in n)d[a]=u[n[a]];r[u[t]]=d}this._originalAcceptingStateNumbers=this._acceptingStateNumbers,this._acceptingStateNumbers=new Set;var s=!0,i=!1,o=void 0;try{for(var f,c=this._originalAcceptingStateNumbers[Symbol.iterator]();!(s=(f=c.next()).done);s=!0){var l=f.value;this._acceptingStateNumbers.add(u[l])}}catch(e){i=!0,o=e}finally{try{!s&&c.return&&c.return()}finally{if(i)throw o}}return r}},{key:"getOriginalTransitionTable",value:function(){return this._originalTransitionTable||this.getTransitionTable(),this._originalTransitionTable}},{key:"matches",value:function(e){for(var u=1,r=0,t=this.getTransitionTable();e[r];)if(!(u=t[u][e[r++]]))return!1;return!!this.getAcceptingStateNumbers().has(u)}}]),e}();e.exports=s},22722:function(e,u,r){"use strict";var t=r(95050),n=r(13158),d=r(39761),a=r(2970);e.exports={NFA:t,DFA:n,builders:a,toNFA:function(e){return d.build(e)},toDFA:function(e){return new n(this.toNFA(e))},test:function(e,u){return this.toDFA(e).matches(u)}}},2970:function(e,u,r){"use strict";var t=r(95050),n=r(81115),d=r(3341).EPSILON;function a(e){var u=new n,r=new n({accepting:!0});return new t(u.addTransition(e,r),r)}function s(e,u){return e.out.accepting=!1,u.out.accepting=!0,e.out.addTransition(d,u.in),new t(e.in,u.out)}function i(e,u){var r=new n,a=new n;return r.addTransition(d,e.in),r.addTransition(d,u.in),a.accepting=!0,e.out.accepting=!1,u.out.accepting=!1,e.out.addTransition(d,a),u.out.addTransition(d,a),new t(r,a)}e.exports={alt:function(e){for(var u=arguments.length,r=Array(u>1?u-1:0),t=1;t<u;t++)r[t-1]=arguments[t];var n=!0,d=!1,a=void 0;try{for(var i,o=r[Symbol.iterator]();!(n=(i=o.next()).done);n=!0)e=s(e,i.value)}catch(e){d=!0,a=e}finally{try{!n&&o.return&&o.return()}finally{if(d)throw a}}return e},char:a,e:function(){return a(d)},or:function(e){for(var u=arguments.length,r=Array(u>1?u-1:0),t=1;t<u;t++)r[t-1]=arguments[t];var n=!0,d=!1,a=void 0;try{for(var s,o=r[Symbol.iterator]();!(n=(s=o.next()).done);n=!0)e=i(e,s.value)}catch(e){d=!0,a=e}finally{try{!n&&o.return&&o.return()}finally{if(d)throw a}}return e},rep:function(e){return e.in.addTransition(d,e.out),e.out.addTransition(d,e.in),e},repExplicit:function(e){var u=new n,r=new n({accepting:!0});return u.addTransition(d,e.in),u.addTransition(d,r),e.out.accepting=!1,e.out.addTransition(d,r),r.addTransition(d,e.in),new t(u,r)},plusRep:function(e){return e.out.addTransition(d,e.in),e},questionRep:function(e){return e.in.addTransition(d,e.out),e}}},39761:function(e,u,r){"use strict";var t=r(37112),n=r(2970),d=n.alt,a=n.char,s=n.or,i=n.rep,o=n.plusRep,f=n.questionRep;function c(e){if(e&&!l[e.type])throw new Error(e.type+" is not supported in NFA/DFA interpreter.");return e?l[e.type](e):""}var l={RegExp:function(e){if(""!==e.flags)throw new Error("NFA/DFA: Flags are not supported yet.");return c(e.body)},Alternative:function(e){var u=(e.expressions||[]).map(c);return d.apply(void 0,function(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}(u))},Disjunction:function(e){return s(c(e.left),c(e.right))},Repetition:function(e){switch(e.quantifier.kind){case"*":return i(c(e.expression));case"+":return o(c(e.expression));case"?":return f(c(e.expression));default:throw new Error("Unknown repeatition: "+e.quantifier.kind+".")}},Char:function(e){if("simple"!==e.kind)throw new Error("NFA/DFA: Only simple chars are supported yet.");return a(e.value)},Group:function(e){return c(e.expression)}};e.exports={build:function(e){var u=e;return e instanceof RegExp&&(e=""+e),"string"==typeof e&&(u=t.parse(e,{captureLocations:!0})),c(u)}}},81115:function(e,u,r){"use strict";var t=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}(),n=r(74128),d=r(3341).EPSILON,a=function(e){function u(){return function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,u),function(e,u){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!u||"object"!=typeof u&&"function"!=typeof u?e:u}(this,(u.__proto__||Object.getPrototypeOf(u)).apply(this,arguments))}return function(e,u){if("function"!=typeof u&&null!==u)throw new TypeError("Super expression must either be null or a function, not "+typeof u);e.prototype=Object.create(u&&u.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),u&&(Object.setPrototypeOf?Object.setPrototypeOf(e,u):e.__proto__=u)}(u,e),t(u,[{key:"matches",value:function(e){var u=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new Set;if(u.has(this))return!1;if(u.add(this),0===e.length){if(this.accepting)return!0;var r=!0,t=!1,n=void 0;try{for(var a,s=this.getTransitionsOnSymbol(d)[Symbol.iterator]();!(r=(a=s.next()).done);r=!0)if(a.value.matches("",u))return!0}catch(e){t=!0,n=e}finally{try{!r&&s.return&&s.return()}finally{if(t)throw n}}return!1}var i=e[0],o=e.slice(1),f=this.getTransitionsOnSymbol(i),c=!0,l=!1,v=void 0;try{for(var p,b=f[Symbol.iterator]();!(c=(p=b.next()).done);c=!0)if(p.value.matches(o))return!0}catch(e){l=!0,v=e}finally{try{!c&&b.return&&b.return()}finally{if(l)throw v}}var h=!0,m=!1,y=void 0;try{for(var g,C=this.getTransitionsOnSymbol(d)[Symbol.iterator]();!(h=(g=C.next()).done);h=!0)if(g.value.matches(e,u))return!0}catch(e){m=!0,y=e}finally{try{!h&&C.return&&C.return()}finally{if(m)throw y}}return!1}},{key:"getEpsilonClosure",value:function(){var e=this;return this._epsilonClosure||function(){var u=e.getTransitionsOnSymbol(d),r=e._epsilonClosure=new Set;r.add(e);var t=!0,n=!1,a=void 0;try{for(var s,i=u[Symbol.iterator]();!(t=(s=i.next()).done);t=!0){var o=s.value;r.has(o)||(r.add(o),o.getEpsilonClosure().forEach((function(e){return r.add(e)})))}}catch(e){n=!0,a=e}finally{try{!t&&i.return&&i.return()}finally{if(n)throw a}}}(),this._epsilonClosure}}]),u}(n);e.exports=a},95050:function(e,u,r){"use strict";var t=function(e,u){if(Array.isArray(e))return e;if(Symbol.iterator in Object(e))return function(e,u){var r=[],t=!0,n=!1,d=void 0;try{for(var a,s=e[Symbol.iterator]();!(t=(a=s.next()).done)&&(r.push(a.value),!u||r.length!==u);t=!0);}catch(e){n=!0,d=e}finally{try{!t&&s.return&&s.return()}finally{if(n)throw d}}return r}(e,u);throw new TypeError("Invalid attempt to destructure non-iterable instance")},n=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}(),d=r(3341),a=d.EPSILON,s=d.EPSILON_CLOSURE,i=function(){function e(u,r){!function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,e),this.in=u,this.out=r}return n(e,[{key:"matches",value:function(e){return this.in.matches(e)}},{key:"getAlphabet",value:function(){if(!this._alphabet){this._alphabet=new Set;var e=this.getTransitionTable();for(var u in e){var r=e[u];for(var t in r)t!==s&&this._alphabet.add(t)}}return this._alphabet}},{key:"getAcceptingStates",value:function(){return this._acceptingStates||this.getTransitionTable(),this._acceptingStates}},{key:"getAcceptingStateNumbers",value:function(){if(!this._acceptingStateNumbers){this._acceptingStateNumbers=new Set;var e=!0,u=!1,r=void 0;try{for(var t,n=this.getAcceptingStates()[Symbol.iterator]();!(e=(t=n.next()).done);e=!0){var d=t.value;this._acceptingStateNumbers.add(d.number)}}catch(e){u=!0,r=e}finally{try{!e&&n.return&&n.return()}finally{if(u)throw r}}}return this._acceptingStateNumbers}},{key:"getTransitionTable",value:function(){var e=this;if(!this._transitionTable){this._transitionTable={},this._acceptingStates=new Set;var u=new Set,r=new Set;!function n(d){if(!u.has(d)){u.add(d),d.number=u.size,e._transitionTable[d.number]={},d.accepting&&e._acceptingStates.add(d);var a=d.getTransitions(),s=!0,i=!1,o=void 0;try{for(var f,c=a[Symbol.iterator]();!(s=(f=c.next()).done);s=!0){var l=f.value,v=t(l,2),p=v[0],b=v[1],h=[];r.add(p);var m=!0,y=!1,g=void 0;try{for(var C,B=b[Symbol.iterator]();!(m=(C=B.next()).done);m=!0){var _=C.value;n(_),h.push(_.number)}}catch(e){y=!0,g=e}finally{try{!m&&B.return&&B.return()}finally{if(y)throw g}}e._transitionTable[d.number][p]=h}}catch(e){i=!0,o=e}finally{try{!s&&c.return&&c.return()}finally{if(i)throw o}}}}(this.in),u.forEach((function(u){delete e._transitionTable[u.number][a],e._transitionTable[u.number][s]=[].concat(function(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}(u.getEpsilonClosure())).map((function(e){return e.number}))}))}return this._transitionTable}}]),e}();e.exports=i},3341:function(e){"use strict";e.exports={EPSILON:"ε",EPSILON_CLOSURE:"ε*"}},74128:function(e){"use strict";var u=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}(),r=function(){function e(){var u=(arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}).accepting,r=void 0!==u&&u;!function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,e),this._transitions=new Map,this.accepting=r}return u(e,[{key:"getTransitions",value:function(){return this._transitions}},{key:"addTransition",value:function(e,u){return this.getTransitionsOnSymbol(e).add(u),this}},{key:"getTransitionsOnSymbol",value:function(e){var u=this._transitions.get(e);return u||(u=new Set,this._transitions.set(e,u)),u}}]),e}();e.exports=r},47393:function(e,u,r){"use strict";var t=r(60689),n=r(37112),d=r(60045),a=r(55319);e.exports={optimize:function(e){var u=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=u.whitelist,s=void 0===r?[]:r,i=u.blacklist,o=void 0===i?[]:i,f=(s.length>0?s:Array.from(a.keys())).filter((function(e){return!o.includes(e)})),c=e;e instanceof RegExp&&(e=""+e),"string"==typeof e&&(c=n.parse(e));var l=new d.TransformResult(c),v=void 0;do{v=l.toString(),c=t(l.getAST()),f.forEach((function(e){if(!a.has(e))throw new Error("Unknown optimization-transform: "+e+". Available transforms are: "+Array.from(a.keys()).join(", "));var u=a.get(e),r=d.transform(c,u);r.toString()!==l.toString()&&(r.toString().length<=l.toString().length?l=r:c=t(l.getAST()))}))}while(l.toString()!==v);return l}}},98327:function(e){"use strict";var u="A".codePointAt(0),r="Z".codePointAt(0);e.exports={_AZClassRanges:null,_hasUFlag:!1,init:function(e){this._AZClassRanges=new Set,this._hasUFlag=e.flags.includes("u")},shouldRun:function(e){return e.flags.includes("i")},Char:function(e){var t=e.node,n=e.parent;if(!isNaN(t.codePoint)&&(this._hasUFlag||!(t.codePoint>=4096))){if("ClassRange"===n.type){if(!(this._AZClassRanges.has(n)||(d=n,a=d.from,s=d.to,a.codePoint>=u&&a.codePoint<=r&&s.codePoint>=u&&s.codePoint<=r)))return;this._AZClassRanges.add(n)}var d,a,s,i=t.symbol.toLowerCase();i!==t.symbol&&(t.value=function(e,u){var r=e.codePointAt(0);if("decimal"===u.kind)return"\\"+r;if("oct"===u.kind)return"\\0"+r.toString(8);if("hex"===u.kind)return"\\x"+r.toString(16);if("unicode"===u.kind){if(u.isSurrogatePair){var t=function(e){var u=(e-65536)%1024+56320;return{lead:(Math.floor((e-65536)/1024)+55296).toString(16),trail:u.toString(16)}}(r),n=t.lead,d=t.trail;return"\\u"+"0".repeat(4-n.length)+n+"\\u"+"0".repeat(4-d.length)+d}if(u.value.includes("{"))return"\\u{"+r.toString(16)+"}";var a=r.toString(16);return"\\u"+"0".repeat(4-a.length)+a}return e}(i,t),t.symbol=i,t.codePoint=i.codePointAt(0))}}}},52445:function(e){"use strict";function u(e,u){var d=r(e),a=r(u);if(d===a){if("ClassRange"===e.type&&"ClassRange"!==u.type)return-1;if("ClassRange"===u.type&&"ClassRange"!==e.type)return 1;if("ClassRange"===e.type&&"ClassRange"===u.type)return r(e.to)-r(u.to);if(t(e)&&t(u)||n(e)&&n(u))return e.value<u.value?-1:1}return d-a}function r(e){return"Char"===e.type?"-"===e.value||"control"===e.kind?1/0:"meta"===e.kind&&isNaN(e.codePoint)?-1:e.codePoint:e.from.codePoint}function t(e){var u=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return"Char"===e.type&&"meta"===e.kind&&(u?e.value===u:/^\\[dws]$/i.test(e.value))}function n(e){return"Char"===e.type&&"control"===e.kind}function d(e,u,r){for(var t=0;t<u.length;t++)if(a(e,u[t],r))return!0;return!1}function a(e,u,r){return"ClassRange"===e.type?a(e.from,u,r)&&a(e.to,u,r):!("\\S"!==u||!t(e,"\\w")&&!t(e,"\\d"))||!("\\D"!==u||!t(e,"\\W")&&!t(e,"\\s"))||!("\\w"!==u||!t(e,"\\d"))||!("\\W"!==u||!t(e,"\\s"))||"Char"===e.type&&!isNaN(e.codePoint)&&("\\s"===u?s(e):"\\S"===u?!s(e):"\\d"===u?i(e):"\\D"===u?!i(e):"\\w"===u?o(e,r):"\\W"===u&&!o(e,r))}function s(e){return 9===e.codePoint||10===e.codePoint||11===e.codePoint||12===e.codePoint||13===e.codePoint||32===e.codePoint||160===e.codePoint||5760===e.codePoint||e.codePoint>=8192&&e.codePoint<=8202||8232===e.codePoint||8233===e.codePoint||8239===e.codePoint||8287===e.codePoint||12288===e.codePoint||65279===e.codePoint}function i(e){return e.codePoint>=48&&e.codePoint<=57}function o(e,u){return i(e)||e.codePoint>=65&&e.codePoint<=90||e.codePoint>=97&&e.codePoint<=122||"_"===e.value||u&&(383===e.codePoint||8490===e.codePoint)}function f(e,u){if(u&&"ClassRange"===u.type){if(l(e,u))return!0;if(p(e)&&u.to.codePoint===e.codePoint-1)return u.to=e,!0;if("ClassRange"===e.type&&e.from.codePoint<=u.to.codePoint+1&&e.to.codePoint>=u.from.codePoint-1)return e.from.codePoint<u.from.codePoint&&(u.from=e.from),e.to.codePoint>u.to.codePoint&&(u.to=e.to),!0}return!1}function c(e,u){return!(!u||"ClassRange"!==u.type||!p(e)||u.from.codePoint!==e.codePoint+1||(u.from=e,0))}function l(e,u){return("Char"!==e.type||!isNaN(e.codePoint))&&("ClassRange"===e.type?l(e.from,u)&&l(e.to,u):e.codePoint>=u.from.codePoint&&e.codePoint<=u.to.codePoint)}function v(e,u,r){if(!p(e))return 0;for(var t=0;u>0;){var n=r[u],d=r[u-1];if(!p(d)||d.codePoint!==n.codePoint-1)break;t++,u--}return t>1?(r[u]={type:"ClassRange",from:r[u],to:e},t):0}function p(e){return e&&"Char"===e.type&&!isNaN(e.codePoint)&&(o(e,!1)||"unicode"===e.kind||"hex"===e.kind||"oct"===e.kind||"decimal"===e.kind)}e.exports={_hasIUFlags:!1,init:function(e){this._hasIUFlags=e.flags.includes("i")&&e.flags.includes("u")},CharacterClass:function(e){var r=e.node.expressions,n=[];r.forEach((function(e){t(e)&&n.push(e.value)})),r.sort(u);for(var a=0;a<r.length;a++){var s=r[a];if(d(s,n,this._hasIUFlags)||f(s,r[a-1])||c(s,r[a+1]))r.splice(a,1),a--;else{var i=v(s,a,r);r.splice(a-i+1,i),a-=i}}}}},54122:function(e){"use strict";e.exports={ClassRange:function(e){var u=e.node;u.from.codePoint===u.to.codePoint?e.replace(u.from):u.from.codePoint===u.to.codePoint-1&&(e.getParent().insertChildAt(u.to,e.index+1),e.replace(u.from))}}},71216:function(e){"use strict";e.exports={CharacterClass:function(e){for(var u=e.node,r={},t=0;t<u.expressions.length;t++){var n=e.getChild(t),d=n.jsonEncode();r.hasOwnProperty(d)&&(n.remove(),t--),r[d]=!0}}}},94126:function(e){"use strict";function u(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}e.exports={_hasIFlag:!1,_hasUFlag:!1,init:function(e){this._hasIFlag=e.flags.includes("i"),this._hasUFlag=e.flags.includes("u")},CharacterClass:function(e){!function(e){e.node.expressions.forEach((function(u,r){(function(e){return"ClassRange"===e.type&&"0"===e.from.value&&"9"===e.to.value})(u)&&e.getChild(r).replace({type:"Char",value:"\\d",kind:"meta"})}))}(e),function(e,u,r){var t=e.node,a=null,s=null,i=null,o=null,f=null,c=null;t.expressions.forEach((function(t,l){n(t,"\\d")?a=e.getChild(l):function(e){return"ClassRange"===e.type&&"a"===e.from.value&&"z"===e.to.value}(t)?s=e.getChild(l):function(e){return"ClassRange"===e.type&&"A"===e.from.value&&"Z"===e.to.value}(t)?i=e.getChild(l):function(e){return"Char"===e.type&&"_"===e.value&&"simple"===e.kind}(t)?o=e.getChild(l):u&&r&&d(t,383)?f=e.getChild(l):u&&r&&d(t,8490)&&(c=e.getChild(l))})),a&&(s&&i||u&&(s||i))&&o&&(!r||!u||f&&c)&&(a.replace({type:"Char",value:"\\w",kind:"meta"}),s&&s.remove(),i&&i.remove(),o.remove(),f&&f.remove(),c&&c.remove())}(e,this._hasIFlag,this._hasUFlag),function(e){var u=e.node;if(!(u.expressions.length<r.length)&&r.every((function(e){return u.expressions.some((function(u){return e(u)}))}))){var t=u.expressions.find((function(e){return n(e,"\\n")}));t.value="\\s",t.symbol=void 0,t.codePoint=NaN,u.expressions.map((function(u,t){return r.some((function(e){return e(u)}))?e.getChild(t):void 0})).filter(Boolean).forEach((function(e){return e.remove()}))}}(e)}};var r=[function(e){return t(e," ")}].concat(u(["\\f","\\n","\\r","\\t","\\v"].map((function(e){return function(u){return n(u,e)}}))),u([160,5760,8232,8233,8239,8287,12288,65279].map((function(e){return function(u){return d(u,e)}}))),[function(e){return"ClassRange"===e.type&&d(e.from,8192)&&d(e.to,8202)}]);function t(e,u){var r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"simple";return"Char"===e.type&&e.value===u&&e.kind===r}function n(e,u){return t(e,u,"meta")}function d(e,u){return"Char"===e.type&&"unicode"===e.kind&&e.codePoint===u}},1949:function(e){"use strict";function u(e){return/[*[()+?$./{}|]/.test(e)}e.exports={CharacterClass:function(e){var r=e.node;if(1===r.expressions.length&&function(e){var u=e.parent,r=e.index;if("Alternative"!==u.type)return!0;var t=u.expressions[r-1];return null==t||("Backreference"!==t.type||"number"!==t.kind)&&("Char"!==t.type||"decimal"!==t.kind)}(e)&&function(e){return"Char"===e.type&&"\\b"!==e.value}(r.expressions[0])){var t=r.expressions[0],n=t.value,d=t.kind,a=t.escaped;if(r.negative){if(!function(e){return/^\\[dwsDWS]$/.test(e)}(n))return;n=function(e){return/[dws]/.test(e)?e.toUpperCase():e.toLowerCase()}(n)}e.replace({type:"Char",value:n,kind:d,escaped:a||u(n)})}}}},57335:function(e){"use strict";var u="A".codePointAt(0),r="Z".codePointAt(0),t="a".codePointAt(0),n="z".codePointAt(0),d="0".codePointAt(0),a="9".codePointAt(0);e.exports={Char:function(e){var s,i,o,f=e.node,c=e.parent;if(!isNaN(f.codePoint)&&"simple"!==f.kind&&("ClassRange"!==c.type||(i=(s=c).from,o=s.to,i.codePoint>=d&&i.codePoint<=a&&o.codePoint>=d&&o.codePoint<=a||i.codePoint>=u&&i.codePoint<=r&&o.codePoint>=u&&o.codePoint<=r||i.codePoint>=t&&i.codePoint<=n&&o.codePoint>=t&&o.codePoint<=n))&&(l=f.codePoint)>=32&&l<=126){var l,v=String.fromCodePoint(f.codePoint),p={type:"Char",kind:"simple",value:v,symbol:v,codePoint:f.codePoint};(function(e,u){return"ClassRange"===u||"CharacterClass"===u?/[\]\\^-]/.test(e):/[*[()+?^$./\\|{}]/.test(e)})(v,c.type)&&(p.escaped=!0),e.replace(p)}}}},29141:function(e){"use strict";function u(e,u,r){for(var t=e,n=(r?t>=0:t<u.expressions.length)&&u.expressions[t];n&&"Char"===n.type&&"simple"===n.kind&&!n.escaped&&/\d/.test(n.value);)r?t--:t++,n=(r?t>=0:t<u.expressions.length)&&u.expressions[t];return Math.abs(e-t)}function r(e,u){return e&&"Char"===e.type&&"simple"===e.kind&&!e.escaped&&e.value===u}e.exports={_hasXFlag:!1,init:function(e){this._hasXFlag=e.flags.includes("x")},Char:function(e){var t=e.node;t.escaped&&function(e,t){var n=e.node.value,d=e.index,a=e.parent;return"CharacterClass"!==a.type&&"ClassRange"!==a.type?!function(e,t,n,d){return"{"===e?function(e,t){if(null==e)return!1;var n=u(e+1,t),d=e+n+1,a=d<t.expressions.length&&t.expressions[d];if(n){if(r(a,"}"))return!0;if(r(a,","))return r(a=(d=d+(n=u(d+1,t))+1)<t.expressions.length&&t.expressions[d],"}")}return!1}(t,n):"}"===e?function(e,t){if(null==e)return!1;var n=u(e-1,t,!0),d=e-n-1,a=d>=0&&t.expressions[d];return!(!n||!r(a,"{"))||!!r(a,",")&&(a=(d=d-(n=u(d-1,t,!0))-1)<t.expressions.length&&t.expressions[d],n&&r(a,"{"))}(t,n):!(!d||!/[ #]/.test(e))||/[*[()+?^$./\\|]/.test(e)}(n,d,a,t):!function(e,u,r){return"^"===e?0===u&&!r.negative:"-"===e||/[\]\\]/.test(e)}(n,d,a)}(e,this._hasXFlag)&&delete t.escaped}}},93843:function(e){"use strict";e.exports={shouldRun:function(e){return e.flags.includes("u")},Char:function(e){var u=e.node;"unicode"===u.kind&&u.isSurrogatePair&&!isNaN(u.codePoint)&&(u.value="\\u{"+u.codePoint.toString(16)+"}",delete u.isSurrogatePair)}}},61143:function(e,u,r){"use strict";function t(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}var n=r(27762),d=r(26554).increaseQuantifierByOne;function a(e,u,r){for(var d=e.node,a=Math.ceil(r/2),s=0;s<a;){var i=r-2*s-1,o=void 0,f=void 0;if(0===s?(o=u,f=e.getChild(i)):(o=n.getForNode({type:"Alternative",expressions:[].concat(t(d.expressions.slice(r-s,r)),[u.node])}),f=n.getForNode({type:"Alternative",expressions:[].concat(t(d.expressions.slice(i,r-s)))})),o.hasEqualSource(f)){for(var c=0;c<2*s+1;c++)e.getChild(i).remove();return u.replace({type:"Repetition",expression:0===s&&"Repetition"!==o.node.type?o.node:{type:"Group",capturing:!1,expression:o.node},quantifier:{type:"Quantifier",kind:"Range",from:2,to:2,greedy:!0}}),i}s++}return r}function s(e,u,r){for(var a=e.node,s=0;s<r;){var i=e.getChild(s);if("Repetition"===i.node.type&&i.node.quantifier.greedy){var o=i.getChild(),f=void 0;if("Group"!==o.node.type||o.node.capturing||(o=o.getChild()),s+1===r?"Group"!==(f=u).node.type||f.node.capturing||(f=f.getChild()):f=n.getForNode({type:"Alternative",expressions:[].concat(t(a.expressions.slice(s+1,r+1)))}),o.hasEqualSource(f)){for(var c=s;c<r;c++)e.getChild(s+1).remove();return d(i.node.quantifier),s}}s++}return r}function i(e,u,r){var a=e.node;if("Repetition"===u.node.type&&u.node.quantifier.greedy){var s=u.getChild(),i=void 0;"Group"!==s.node.type||s.node.capturing||(s=s.getChild());var o=void 0;if("Alternative"===s.node.type?(o=s.node.expressions.length,i=n.getForNode({type:"Alternative",expressions:[].concat(t(a.expressions.slice(r-o,r)))})):(o=1,"Group"!==(i=e.getChild(r-1)).node.type||i.node.capturing||(i=i.getChild())),i.hasEqualSource(s)){for(var f=r-o;f<r;f++)e.getChild(r-o).remove();return d(u.node.quantifier),r-o}}return r}e.exports={Alternative:function(e){for(var u=e.node,r=1;r<u.expressions.length;){var t=e.getChild(r);if((r=Math.max(1,a(e,t,r)))>=u.expressions.length)break;if(t=e.getChild(r),(r=Math.max(1,s(e,t,r)))>=u.expressions.length)break;t=e.getChild(r),r=Math.max(1,i(e,t,r)),r++}}}},49895:function(e,u,r){"use strict";var t=r(27762),n=r(26554),d=n.disjunctionToList,a=n.listToDisjunction;e.exports={Disjunction:function(e){var u=e.node,r={},n=d(u).filter((function(e){var u=e?t.getForNode(e).jsonEncode():"null";return!r.hasOwnProperty(u)&&(r[u]=e,!0)}));e.replace(a(n))}}},40623:function(e){"use strict";e.exports={Disjunction:function(e){var t=e.node,n=e.parent;if(u[n.type]){var d=new Map;if(r(t,d)&&d.size){var a={type:"CharacterClass",expressions:Array.from(d.keys()).sort().map((function(e){return d.get(e)}))};u[n.type](e.getParent(),a)}}}};var u={RegExp:function(e,u){e.node.body=u},Group:function(e,u){var r=e.node;r.capturing?r.expression=u:e.replace(u)}};function r(e,u){if(!e)return!1;var t=e.type;if("Disjunction"===t){var n=e.left,d=e.right;return r(n,u)&&r(d,u)}if("Char"===t){if("meta"===e.kind&&"."===e.symbol)return!1;var a=e.value;return u.set(a,e),!0}return"CharacterClass"===t&&!e.negative&&e.expressions.every((function(e){return r(e,u)}))}},55319:function(e,u,r){"use strict";e.exports=new Map([["charSurrogatePairToSingleUnicode",r(93843)],["charCodeToSimpleChar",r(57335)],["charCaseInsensitiveLowerCaseTransform",r(98327)],["charClassRemoveDuplicates",r(71216)],["quantifiersMerge",r(58124)],["quantifierRangeToSymbol",r(81280)],["charClassClassrangesToChars",r(54122)],["charClassToMeta",r(94126)],["charClassToSingleChar",r(1949)],["charEscapeUnescape",r(29141)],["charClassClassrangesMerge",r(52445)],["disjunctionRemoveDuplicates",r(49895)],["groupSingleCharsToCharClass",r(40623)],["removeEmptyGroup",r(22223)],["ungroup",r(14952)],["combineRepeatingPatterns",r(61143)]])},81280:function(e){"use strict";e.exports={Quantifier:function(e){"Range"===e.node.kind&&(function(e){var u=e.node;0!==u.from||u.to||(u.kind="*",delete u.from)}(e),function(e){var u=e.node;1!==u.from||u.to||(u.kind="+",delete u.from)}(e),function(e){var u=e.node;1===u.from&&1===u.to&&e.parentPath.replace(e.parentPath.node.expression)}(e))}}},58124:function(e,u,r){"use strict";var t=r(26554).increaseQuantifierByOne;function n(e){return e.greedy&&("+"===e.kind||"*"===e.kind||"Range"===e.kind&&!e.to)}function d(e){var u=void 0,r=void 0;return"*"===e.kind?u=0:"+"===e.kind?u=1:"?"===e.kind?(u=0,r=1):(u=e.from,e.to&&(r=e.to)),{from:u,to:r}}e.exports={Repetition:function(e){var u=e.node;if("Alternative"===e.parent.type&&e.index){var r=e.getPreviousSibling();if(r)if("Repetition"===r.node.type){if(!r.getChild().hasEqualSource(e.getChild()))return;var a=d(r.node.quantifier),s=a.from,i=a.to,o=d(u.quantifier),f=o.from,c=o.to;if(r.node.quantifier.greedy!==u.quantifier.greedy&&!n(r.node.quantifier)&&!n(u.quantifier))return;u.quantifier.kind="Range",u.quantifier.from=s+f,i&&c?u.quantifier.to=i+c:delete u.quantifier.to,(n(r.node.quantifier)||n(u.quantifier))&&(u.quantifier.greedy=!0),r.remove()}else{if(!r.hasEqualSource(e.getChild()))return;t(u.quantifier),r.remove()}}}}},22223:function(e){"use strict";e.exports={Group:function(e){var u=e.node,r=e.parent,t=e.getChild();u.capturing||t||("Repetition"===r.type?e.getParent().replace(u):"RegExp"!==r.type&&e.remove())}}},14952:function(e){"use strict";function u(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}e.exports={Group:function(e){var r=e.node,t=e.parent,n=e.getChild();if(!r.capturing&&n&&function(e){var u=e.parent,r=e.index;if("Alternative"!==u.type)return!0;var t=u.expressions[r-1];return null==t||("Backreference"!==t.type||"number"!==t.kind)&&("Char"!==t.type||"decimal"!==t.kind)}(e)&&!("Disjunction"===n.node.type&&"RegExp"!==t.type||"Repetition"===t.type&&"Char"!==n.node.type&&"CharacterClass"!==n.node.type))if("Alternative"===n.node.type){var d=e.getParent();"Alternative"===d.node.type&&d.replace({type:"Alternative",expressions:[].concat(u(t.expressions.slice(0,e.index)),u(n.node.expressions),u(t.expressions.slice(e.index+1)))})}else e.replace(n.node)}}},42669:function(e,u,r){"use strict";function t(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}var n=void 0,d={},a=void 0,s=void 0;function i(e,u){return d.options.captureLocations?e&&u?{startOffset:e.startOffset,endOffset:u.endOffset,startLine:e.startLine,endLine:u.endLine,startColumn:e.startColumn,endColumn:u.endColumn}:e||u:null}var o=[[-1,1,function(e,u){s=i(u,u),a=e}],[0,4,function(e,u,r,t,n,d,o,f){s=i(n,f),a=N({type:"RegExp",body:u,flags:S(t)},R(n,f||o))}],[1,1,function(e,u){s=i(u,u),a=e}],[1,0,function(){s=null,a=""}],[2,1,function(e,u){s=i(u,u),a=e}],[2,2,function(e,u,r,t){s=i(r,t),a=e+u}],[3,1,function(e,u){s=i(u,u),a=e}],[4,1,function(e,u){s=i(u,u),a=e}],[4,3,function(e,u,r,t,n,d){s=i(t,d);var o=null;n&&(o=R(t||n,d||n)),a=N({type:"Disjunction",left:e,right:r},o)}],[5,1,function(e,u){s=i(u,u),a=0!==e.length?1===e.length?N(e[0],s):N({type:"Alternative",expressions:e},s):null}],[6,0,function(){s=null,a=[]}],[6,2,function(e,u,r,t){s=i(r,t),a=e.concat(u)}],[7,1,function(e,u){s=i(u,u),a=N(Object.assign({type:"Assertion"},e),s)}],[7,2,function(e,u,r,t){s=i(r,t),a=e,u&&(a=N({type:"Repetition",expression:e,quantifier:u},s))}],[8,1,function(e,u){s=i(u,u),a={kind:"^"}}],[8,1,function(e,u){s=i(u,u),a={kind:"$"}}],[8,1,function(e,u){s=i(u,u),a={kind:"\\b"}}],[8,1,function(e,u){s=i(u,u),a={kind:"\\B"}}],[8,3,function(e,u,r,t,n,d){s=i(t,d),a={kind:"Lookahead",assertion:u}}],[8,3,function(e,u,r,t,n,d){s=i(t,d),a={kind:"Lookahead",negative:!0,assertion:u}}],[8,3,function(e,u,r,t,n,d){s=i(t,d),a={kind:"Lookbehind",assertion:u}}],[8,3,function(e,u,r,t,n,d){s=i(t,d),a={kind:"Lookbehind",negative:!0,assertion:u}}],[9,1,function(e,u){s=i(u,u),a=e}],[9,1,function(e,u){s=i(u,u),a=e}],[9,1,function(e,u){s=i(u,u),a=e}],[10,1,function(e,u){s=i(u,u),a=w(e,"simple",s)}],[10,1,function(e,u){s=i(u,u),(a=w(e.slice(1),"simple",s)).escaped=!0}],[10,1,function(e,u){s=i(u,u),(a=w(e,"unicode",s)).isSurrogatePair=!0}],[10,1,function(e,u){s=i(u,u),a=w(e,"unicode",s)}],[10,1,function(e,u){s=i(u,u),a=function(e,u){var r="P"===e[1],t=e.indexOf("="),n=e.slice(3,-1!==t?t:-1),d=void 0,a=-1===t&&x.isGeneralCategoryValue(n),s=-1===t&&x.isBinaryPropertyName(n);if(a)d=n,n="General_Category";else if(s)d=n;else{if(!x.isValidName(n))throw new SyntaxError("Invalid unicode property name: "+n+".");if(d=e.slice(t+1,-1),!x.isValidValue(n,d))throw new SyntaxError("Invalid "+n+" unicode property value: "+d+".")}return N({type:"UnicodeProperty",name:n,value:d,negative:r,shorthand:a,binary:s,canonicalName:x.getCanonicalName(n)||n,canonicalValue:x.getCanonicalValue(d)||d},u)}(e,s)}],[10,1,function(e,u){s=i(u,u),a=w(e,"control",s)}],[10,1,function(e,u){s=i(u,u),a=w(e,"hex",s)}],[10,1,function(e,u){s=i(u,u),a=w(e,"oct",s)}],[10,1,function(e,u){var r,t,n;s=i(u,u),r=e,t=s,n=Number(r.slice(1)),a=n>0&&n<=y?N({type:"Backreference",kind:"number",number:n,reference:n},t):w(r,"decimal",t)}],[10,1,function(e,u){s=i(u,u),a=w(e,"meta",s)}],[10,1,function(e,u){s=i(u,u),a=w(e,"meta",s)}],[10,1,function(e,u){s=i(u,u),a=function(e,u){var r=e.slice(3,-1),t=T(r);if(g.hasOwnProperty(t))return N({type:"Backreference",kind:"name",number:g[t],reference:t,referenceRaw:r},u);var n=null,d=null,a=null,s=null;u&&(n=u.startOffset,d=u.startLine,a=u.endLine,s=u.startColumn);var i=/^[\w$<>]/,o=void 0,f=[w(e.slice(1,2),"simple",n?{startLine:d,endLine:a,startColumn:s,startOffset:n,endOffset:n+=2,endColumn:s+=2}:null)];for(f[0].escaped=!0,e=e.slice(2);e.length>0;){var c=null;(c=e.match(j))||(c=e.match(k))?(n&&(o={startLine:d,endLine:a,startColumn:s,startOffset:n,endOffset:n+=c[0].length,endColumn:s+=c[0].length}),f.push(w(c[0],"unicode",o)),e=e.slice(c[0].length)):(c=e.match(i))&&(n&&(o={startLine:d,endLine:a,startColumn:s,startOffset:n,endOffset:++n,endColumn:++s}),f.push(w(c[0],"simple",o)),e=e.slice(1))}return f}(e,u)}],[11,1,function(e,u){s=i(u,u),a=e}],[11,0],[12,1,function(e,u){s=i(u,u),a=e}],[12,2,function(e,u,r,t){s=i(r,t),e.greedy=!1,a=e}],[13,1,function(e,u){s=i(u,u),a=N({type:"Quantifier",kind:e,greedy:!0},s)}],[13,1,function(e,u){s=i(u,u),a=N({type:"Quantifier",kind:e,greedy:!0},s)}],[13,1,function(e,u){s=i(u,u),a=N({type:"Quantifier",kind:e,greedy:!0},s)}],[13,1,function(e,u){s=i(u,u);var r=B(e);a=N({type:"Quantifier",kind:"Range",from:r[0],to:r[0],greedy:!0},s)}],[13,1,function(e,u){s=i(u,u),a=N({type:"Quantifier",kind:"Range",from:B(e)[0],greedy:!0},s)}],[13,1,function(e,u){s=i(u,u);var r=B(e);a=N({type:"Quantifier",kind:"Range",from:r[0],to:r[1],greedy:!0},s)}],[14,1,function(e,u){s=i(u,u),a=e}],[14,1,function(e,u){s=i(u,u),a=e}],[15,3,function(e,u,r,t,n,o){s=i(t,o);var f=String(e),c=T(f);if(!d.options.allowGroupNameDuplicates&&g.hasOwnProperty(c))throw new SyntaxError('Duplicate of the named group "'+c+'".');g[c]=e.groupNumber,a=N({type:"Group",capturing:!0,name:c,nameRaw:f,number:e.groupNumber,expression:u},s)}],[15,3,function(e,u,r,t,n,d){s=i(t,d),a=N({type:"Group",capturing:!0,number:e.groupNumber,expression:u},s)}],[16,3,function(e,u,r,t,n,d){s=i(t,d),a=N({type:"Group",capturing:!1,expression:u},s)}],[17,3,function(e,u,r,t,n,d){s=i(t,d),a=N({type:"CharacterClass",negative:!0,expressions:u},s)}],[17,3,function(e,u,r,t,n,d){s=i(t,d),a=N({type:"CharacterClass",expressions:u},s)}],[18,0,function(){s=null,a=[]}],[18,1,function(e,u){s=i(u,u),a=e}],[19,1,function(e,u){s=i(u,u),a=[e]}],[19,2,function(e,u,r,t){s=i(r,t),a=[e].concat(u)}],[19,4,function(e,u,r,t,n,d,o,f){s=i(n,f),_(e,r),a=[N({type:"ClassRange",from:e,to:r},R(n,o))],t&&(a=a.concat(t))}],[20,1,function(e,u){s=i(u,u),a=e}],[20,2,function(e,u,r,t){s=i(r,t),a=[e].concat(u)}],[20,4,function(e,u,r,t,n,d,o,f){s=i(n,f),_(e,r),a=[N({type:"ClassRange",from:e,to:r},R(n,o))],t&&(a=a.concat(t))}],[21,1,function(e,u){s=i(u,u),a=w(e,"simple",s)}],[21,1,function(e,u){s=i(u,u),a=e}],[22,1,function(e,u){s=i(u,u),a=e}],[22,1,function(e,u){s=i(u,u),a=w(e,"meta",s)}]],f={SLASH:"23",CHAR:"24",BAR:"25",BOS:"26",EOS:"27",ESC_b:"28",ESC_B:"29",POS_LA_ASSERT:"30",R_PAREN:"31",NEG_LA_ASSERT:"32",POS_LB_ASSERT:"33",NEG_LB_ASSERT:"34",ESC_CHAR:"35",U_CODE_SURROGATE:"36",U_CODE:"37",U_PROP_VALUE_EXP:"38",CTRL_CH:"39",HEX_CODE:"40",OCT_CODE:"41",DEC_CODE:"42",META_CHAR:"43",ANY:"44",NAMED_GROUP_REF:"45",Q_MARK:"46",STAR:"47",PLUS:"48",RANGE_EXACT:"49",RANGE_OPEN:"50",RANGE_CLOSED:"51",NAMED_CAPTURE_GROUP:"52",L_PAREN:"53",NON_CAPTURE_GROUP:"54",NEG_CLASS:"55",R_BRACKET:"56",L_BRACKET:"57",DASH:"58",$:"59"},c=[{0:1,23:"s2"},{59:"acc"},{3:3,4:4,5:5,6:6,23:"r10",24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{23:"s7"},{23:"r6",25:"s12"},{23:"r7",25:"r7",31:"r7"},{7:14,8:15,9:16,10:25,14:27,15:42,16:43,17:26,23:"r9",24:"s28",25:"r9",26:"s17",27:"s18",28:"s19",29:"s20",30:"s21",31:"r9",32:"s22",33:"s23",34:"s24",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",52:"s44",53:"s45",54:"s46",55:"s40",57:"s41"},{1:8,2:9,24:"s10",59:"r3"},{59:"r1"},{24:"s11",59:"r2"},{24:"r4",59:"r4"},{24:"r5",59:"r5"},{5:13,6:6,23:"r10",24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{23:"r8",25:"r8",31:"r8"},{23:"r11",24:"r11",25:"r11",26:"r11",27:"r11",28:"r11",29:"r11",30:"r11",31:"r11",32:"r11",33:"r11",34:"r11",35:"r11",36:"r11",37:"r11",38:"r11",39:"r11",40:"r11",41:"r11",42:"r11",43:"r11",44:"r11",45:"r11",52:"r11",53:"r11",54:"r11",55:"r11",57:"r11"},{23:"r12",24:"r12",25:"r12",26:"r12",27:"r12",28:"r12",29:"r12",30:"r12",31:"r12",32:"r12",33:"r12",34:"r12",35:"r12",36:"r12",37:"r12",38:"r12",39:"r12",40:"r12",41:"r12",42:"r12",43:"r12",44:"r12",45:"r12",52:"r12",53:"r12",54:"r12",55:"r12",57:"r12"},{11:47,12:48,13:49,23:"r38",24:"r38",25:"r38",26:"r38",27:"r38",28:"r38",29:"r38",30:"r38",31:"r38",32:"r38",33:"r38",34:"r38",35:"r38",36:"r38",37:"r38",38:"r38",39:"r38",40:"r38",41:"r38",42:"r38",43:"r38",44:"r38",45:"r38",46:"s52",47:"s50",48:"s51",49:"s53",50:"s54",51:"s55",52:"r38",53:"r38",54:"r38",55:"r38",57:"r38"},{23:"r14",24:"r14",25:"r14",26:"r14",27:"r14",28:"r14",29:"r14",30:"r14",31:"r14",32:"r14",33:"r14",34:"r14",35:"r14",36:"r14",37:"r14",38:"r14",39:"r14",40:"r14",41:"r14",42:"r14",43:"r14",44:"r14",45:"r14",52:"r14",53:"r14",54:"r14",55:"r14",57:"r14"},{23:"r15",24:"r15",25:"r15",26:"r15",27:"r15",28:"r15",29:"r15",30:"r15",31:"r15",32:"r15",33:"r15",34:"r15",35:"r15",36:"r15",37:"r15",38:"r15",39:"r15",40:"r15",41:"r15",42:"r15",43:"r15",44:"r15",45:"r15",52:"r15",53:"r15",54:"r15",55:"r15",57:"r15"},{23:"r16",24:"r16",25:"r16",26:"r16",27:"r16",28:"r16",29:"r16",30:"r16",31:"r16",32:"r16",33:"r16",34:"r16",35:"r16",36:"r16",37:"r16",38:"r16",39:"r16",40:"r16",41:"r16",42:"r16",43:"r16",44:"r16",45:"r16",52:"r16",53:"r16",54:"r16",55:"r16",57:"r16"},{23:"r17",24:"r17",25:"r17",26:"r17",27:"r17",28:"r17",29:"r17",30:"r17",31:"r17",32:"r17",33:"r17",34:"r17",35:"r17",36:"r17",37:"r17",38:"r17",39:"r17",40:"r17",41:"r17",42:"r17",43:"r17",44:"r17",45:"r17",52:"r17",53:"r17",54:"r17",55:"r17",57:"r17"},{4:57,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{4:59,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{4:61,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{4:63,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{23:"r22",24:"r22",25:"r22",26:"r22",27:"r22",28:"r22",29:"r22",30:"r22",31:"r22",32:"r22",33:"r22",34:"r22",35:"r22",36:"r22",37:"r22",38:"r22",39:"r22",40:"r22",41:"r22",42:"r22",43:"r22",44:"r22",45:"r22",46:"r22",47:"r22",48:"r22",49:"r22",50:"r22",51:"r22",52:"r22",53:"r22",54:"r22",55:"r22",57:"r22"},{23:"r23",24:"r23",25:"r23",26:"r23",27:"r23",28:"r23",29:"r23",30:"r23",31:"r23",32:"r23",33:"r23",34:"r23",35:"r23",36:"r23",37:"r23",38:"r23",39:"r23",40:"r23",41:"r23",42:"r23",43:"r23",44:"r23",45:"r23",46:"r23",47:"r23",48:"r23",49:"r23",50:"r23",51:"r23",52:"r23",53:"r23",54:"r23",55:"r23",57:"r23"},{23:"r24",24:"r24",25:"r24",26:"r24",27:"r24",28:"r24",29:"r24",30:"r24",31:"r24",32:"r24",33:"r24",34:"r24",35:"r24",36:"r24",37:"r24",38:"r24",39:"r24",40:"r24",41:"r24",42:"r24",43:"r24",44:"r24",45:"r24",46:"r24",47:"r24",48:"r24",49:"r24",50:"r24",51:"r24",52:"r24",53:"r24",54:"r24",55:"r24",57:"r24"},{23:"r25",24:"r25",25:"r25",26:"r25",27:"r25",28:"r25",29:"r25",30:"r25",31:"r25",32:"r25",33:"r25",34:"r25",35:"r25",36:"r25",37:"r25",38:"r25",39:"r25",40:"r25",41:"r25",42:"r25",43:"r25",44:"r25",45:"r25",46:"r25",47:"r25",48:"r25",49:"r25",50:"r25",51:"r25",52:"r25",53:"r25",54:"r25",55:"r25",56:"r25",57:"r25",58:"r25"},{23:"r26",24:"r26",25:"r26",26:"r26",27:"r26",28:"r26",29:"r26",30:"r26",31:"r26",32:"r26",33:"r26",34:"r26",35:"r26",36:"r26",37:"r26",38:"r26",39:"r26",40:"r26",41:"r26",42:"r26",43:"r26",44:"r26",45:"r26",46:"r26",47:"r26",48:"r26",49:"r26",50:"r26",51:"r26",52:"r26",53:"r26",54:"r26",55:"r26",56:"r26",57:"r26",58:"r26"},{23:"r27",24:"r27",25:"r27",26:"r27",27:"r27",28:"r27",29:"r27",30:"r27",31:"r27",32:"r27",33:"r27",34:"r27",35:"r27",36:"r27",37:"r27",38:"r27",39:"r27",40:"r27",41:"r27",42:"r27",43:"r27",44:"r27",45:"r27",46:"r27",47:"r27",48:"r27",49:"r27",50:"r27",51:"r27",52:"r27",53:"r27",54:"r27",55:"r27",56:"r27",57:"r27",58:"r27"},{23:"r28",24:"r28",25:"r28",26:"r28",27:"r28",28:"r28",29:"r28",30:"r28",31:"r28",32:"r28",33:"r28",34:"r28",35:"r28",36:"r28",37:"r28",38:"r28",39:"r28",40:"r28",41:"r28",42:"r28",43:"r28",44:"r28",45:"r28",46:"r28",47:"r28",48:"r28",49:"r28",50:"r28",51:"r28",52:"r28",53:"r28",54:"r28",55:"r28",56:"r28",57:"r28",58:"r28"},{23:"r29",24:"r29",25:"r29",26:"r29",27:"r29",28:"r29",29:"r29",30:"r29",31:"r29",32:"r29",33:"r29",34:"r29",35:"r29",36:"r29",37:"r29",38:"r29",39:"r29",40:"r29",41:"r29",42:"r29",43:"r29",44:"r29",45:"r29",46:"r29",47:"r29",48:"r29",49:"r29",50:"r29",51:"r29",52:"r29",53:"r29",54:"r29",55:"r29",56:"r29",57:"r29",58:"r29"},{23:"r30",24:"r30",25:"r30",26:"r30",27:"r30",28:"r30",29:"r30",30:"r30",31:"r30",32:"r30",33:"r30",34:"r30",35:"r30",36:"r30",37:"r30",38:"r30",39:"r30",40:"r30",41:"r30",42:"r30",43:"r30",44:"r30",45:"r30",46:"r30",47:"r30",48:"r30",49:"r30",50:"r30",51:"r30",52:"r30",53:"r30",54:"r30",55:"r30",56:"r30",57:"r30",58:"r30"},{23:"r31",24:"r31",25:"r31",26:"r31",27:"r31",28:"r31",29:"r31",30:"r31",31:"r31",32:"r31",33:"r31",34:"r31",35:"r31",36:"r31",37:"r31",38:"r31",39:"r31",40:"r31",41:"r31",42:"r31",43:"r31",44:"r31",45:"r31",46:"r31",47:"r31",48:"r31",49:"r31",50:"r31",51:"r31",52:"r31",53:"r31",54:"r31",55:"r31",56:"r31",57:"r31",58:"r31"},{23:"r32",24:"r32",25:"r32",26:"r32",27:"r32",28:"r32",29:"r32",30:"r32",31:"r32",32:"r32",33:"r32",34:"r32",35:"r32",36:"r32",37:"r32",38:"r32",39:"r32",40:"r32",41:"r32",42:"r32",43:"r32",44:"r32",45:"r32",46:"r32",47:"r32",48:"r32",49:"r32",50:"r32",51:"r32",52:"r32",53:"r32",54:"r32",55:"r32",56:"r32",57:"r32",58:"r32"},{23:"r33",24:"r33",25:"r33",26:"r33",27:"r33",28:"r33",29:"r33",30:"r33",31:"r33",32:"r33",33:"r33",34:"r33",35:"r33",36:"r33",37:"r33",38:"r33",39:"r33",40:"r33",41:"r33",42:"r33",43:"r33",44:"r33",45:"r33",46:"r33",47:"r33",48:"r33",49:"r33",50:"r33",51:"r33",52:"r33",53:"r33",54:"r33",55:"r33",56:"r33",57:"r33",58:"r33"},{23:"r34",24:"r34",25:"r34",26:"r34",27:"r34",28:"r34",29:"r34",30:"r34",31:"r34",32:"r34",33:"r34",34:"r34",35:"r34",36:"r34",37:"r34",38:"r34",39:"r34",40:"r34",41:"r34",42:"r34",43:"r34",44:"r34",45:"r34",46:"r34",47:"r34",48:"r34",49:"r34",50:"r34",51:"r34",52:"r34",53:"r34",54:"r34",55:"r34",56:"r34",57:"r34",58:"r34"},{23:"r35",24:"r35",25:"r35",26:"r35",27:"r35",28:"r35",29:"r35",30:"r35",31:"r35",32:"r35",33:"r35",34:"r35",35:"r35",36:"r35",37:"r35",38:"r35",39:"r35",40:"r35",41:"r35",42:"r35",43:"r35",44:"r35",45:"r35",46:"r35",47:"r35",48:"r35",49:"r35",50:"r35",51:"r35",52:"r35",53:"r35",54:"r35",55:"r35",56:"r35",57:"r35",58:"r35"},{23:"r36",24:"r36",25:"r36",26:"r36",27:"r36",28:"r36",29:"r36",30:"r36",31:"r36",32:"r36",33:"r36",34:"r36",35:"r36",36:"r36",37:"r36",38:"r36",39:"r36",40:"r36",41:"r36",42:"r36",43:"r36",44:"r36",45:"r36",46:"r36",47:"r36",48:"r36",49:"r36",50:"r36",51:"r36",52:"r36",53:"r36",54:"r36",55:"r36",56:"r36",57:"r36",58:"r36"},{10:70,18:65,19:66,21:67,22:69,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r54",58:"s68"},{10:70,18:83,19:66,21:67,22:69,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r54",58:"s68"},{23:"r47",24:"r47",25:"r47",26:"r47",27:"r47",28:"r47",29:"r47",30:"r47",31:"r47",32:"r47",33:"r47",34:"r47",35:"r47",36:"r47",37:"r47",38:"r47",39:"r47",40:"r47",41:"r47",42:"r47",43:"r47",44:"r47",45:"r47",46:"r47",47:"r47",48:"r47",49:"r47",50:"r47",51:"r47",52:"r47",53:"r47",54:"r47",55:"r47",57:"r47"},{23:"r48",24:"r48",25:"r48",26:"r48",27:"r48",28:"r48",29:"r48",30:"r48",31:"r48",32:"r48",33:"r48",34:"r48",35:"r48",36:"r48",37:"r48",38:"r48",39:"r48",40:"r48",41:"r48",42:"r48",43:"r48",44:"r48",45:"r48",46:"r48",47:"r48",48:"r48",49:"r48",50:"r48",51:"r48",52:"r48",53:"r48",54:"r48",55:"r48",57:"r48"},{4:85,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{4:87,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{4:89,5:5,6:6,24:"r10",25:"r10",26:"r10",27:"r10",28:"r10",29:"r10",30:"r10",31:"r10",32:"r10",33:"r10",34:"r10",35:"r10",36:"r10",37:"r10",38:"r10",39:"r10",40:"r10",41:"r10",42:"r10",43:"r10",44:"r10",45:"r10",52:"r10",53:"r10",54:"r10",55:"r10",57:"r10"},{23:"r13",24:"r13",25:"r13",26:"r13",27:"r13",28:"r13",29:"r13",30:"r13",31:"r13",32:"r13",33:"r13",34:"r13",35:"r13",36:"r13",37:"r13",38:"r13",39:"r13",40:"r13",41:"r13",42:"r13",43:"r13",44:"r13",45:"r13",52:"r13",53:"r13",54:"r13",55:"r13",57:"r13"},{23:"r37",24:"r37",25:"r37",26:"r37",27:"r37",28:"r37",29:"r37",30:"r37",31:"r37",32:"r37",33:"r37",34:"r37",35:"r37",36:"r37",37:"r37",38:"r37",39:"r37",40:"r37",41:"r37",42:"r37",43:"r37",44:"r37",45:"r37",52:"r37",53:"r37",54:"r37",55:"r37",57:"r37"},{23:"r39",24:"r39",25:"r39",26:"r39",27:"r39",28:"r39",29:"r39",30:"r39",31:"r39",32:"r39",33:"r39",34:"r39",35:"r39",36:"r39",37:"r39",38:"r39",39:"r39",40:"r39",41:"r39",42:"r39",43:"r39",44:"r39",45:"r39",46:"s56",52:"r39",53:"r39",54:"r39",55:"r39",57:"r39"},{23:"r41",24:"r41",25:"r41",26:"r41",27:"r41",28:"r41",29:"r41",30:"r41",31:"r41",32:"r41",33:"r41",34:"r41",35:"r41",36:"r41",37:"r41",38:"r41",39:"r41",40:"r41",41:"r41",42:"r41",43:"r41",44:"r41",45:"r41",46:"r41",52:"r41",53:"r41",54:"r41",55:"r41",57:"r41"},{23:"r42",24:"r42",25:"r42",26:"r42",27:"r42",28:"r42",29:"r42",30:"r42",31:"r42",32:"r42",33:"r42",34:"r42",35:"r42",36:"r42",37:"r42",38:"r42",39:"r42",40:"r42",41:"r42",42:"r42",43:"r42",44:"r42",45:"r42",46:"r42",52:"r42",53:"r42",54:"r42",55:"r42",57:"r42"},{23:"r43",24:"r43",25:"r43",26:"r43",27:"r43",28:"r43",29:"r43",30:"r43",31:"r43",32:"r43",33:"r43",34:"r43",35:"r43",36:"r43",37:"r43",38:"r43",39:"r43",40:"r43",41:"r43",42:"r43",43:"r43",44:"r43",45:"r43",46:"r43",52:"r43",53:"r43",54:"r43",55:"r43",57:"r43"},{23:"r44",24:"r44",25:"r44",26:"r44",27:"r44",28:"r44",29:"r44",30:"r44",31:"r44",32:"r44",33:"r44",34:"r44",35:"r44",36:"r44",37:"r44",38:"r44",39:"r44",40:"r44",41:"r44",42:"r44",43:"r44",44:"r44",45:"r44",46:"r44",52:"r44",53:"r44",54:"r44",55:"r44",57:"r44"},{23:"r45",24:"r45",25:"r45",26:"r45",27:"r45",28:"r45",29:"r45",30:"r45",31:"r45",32:"r45",33:"r45",34:"r45",35:"r45",36:"r45",37:"r45",38:"r45",39:"r45",40:"r45",41:"r45",42:"r45",43:"r45",44:"r45",45:"r45",46:"r45",52:"r45",53:"r45",54:"r45",55:"r45",57:"r45"},{23:"r46",24:"r46",25:"r46",26:"r46",27:"r46",28:"r46",29:"r46",30:"r46",31:"r46",32:"r46",33:"r46",34:"r46",35:"r46",36:"r46",37:"r46",38:"r46",39:"r46",40:"r46",41:"r46",42:"r46",43:"r46",44:"r46",45:"r46",46:"r46",52:"r46",53:"r46",54:"r46",55:"r46",57:"r46"},{23:"r40",24:"r40",25:"r40",26:"r40",27:"r40",28:"r40",29:"r40",30:"r40",31:"r40",32:"r40",33:"r40",34:"r40",35:"r40",36:"r40",37:"r40",38:"r40",39:"r40",40:"r40",41:"r40",42:"r40",43:"r40",44:"r40",45:"r40",52:"r40",53:"r40",54:"r40",55:"r40",57:"r40"},{25:"s12",31:"s58"},{23:"r18",24:"r18",25:"r18",26:"r18",27:"r18",28:"r18",29:"r18",30:"r18",31:"r18",32:"r18",33:"r18",34:"r18",35:"r18",36:"r18",37:"r18",38:"r18",39:"r18",40:"r18",41:"r18",42:"r18",43:"r18",44:"r18",45:"r18",52:"r18",53:"r18",54:"r18",55:"r18",57:"r18"},{25:"s12",31:"s60"},{23:"r19",24:"r19",25:"r19",26:"r19",27:"r19",28:"r19",29:"r19",30:"r19",31:"r19",32:"r19",33:"r19",34:"r19",35:"r19",36:"r19",37:"r19",38:"r19",39:"r19",40:"r19",41:"r19",42:"r19",43:"r19",44:"r19",45:"r19",52:"r19",53:"r19",54:"r19",55:"r19",57:"r19"},{25:"s12",31:"s62"},{23:"r20",24:"r20",25:"r20",26:"r20",27:"r20",28:"r20",29:"r20",30:"r20",31:"r20",32:"r20",33:"r20",34:"r20",35:"r20",36:"r20",37:"r20",38:"r20",39:"r20",40:"r20",41:"r20",42:"r20",43:"r20",44:"r20",45:"r20",52:"r20",53:"r20",54:"r20",55:"r20",57:"r20"},{25:"s12",31:"s64"},{23:"r21",24:"r21",25:"r21",26:"r21",27:"r21",28:"r21",29:"r21",30:"r21",31:"r21",32:"r21",33:"r21",34:"r21",35:"r21",36:"r21",37:"r21",38:"r21",39:"r21",40:"r21",41:"r21",42:"r21",43:"r21",44:"r21",45:"r21",52:"r21",53:"r21",54:"r21",55:"r21",57:"r21"},{56:"s72"},{56:"r55"},{10:70,20:73,21:75,22:76,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r56",58:"s74"},{24:"r62",28:"r62",35:"r62",36:"r62",37:"r62",38:"r62",39:"r62",40:"r62",41:"r62",42:"r62",43:"r62",44:"r62",45:"r62",56:"r62",58:"r62"},{24:"r63",28:"r63",35:"r63",36:"r63",37:"r63",38:"r63",39:"r63",40:"r63",41:"r63",42:"r63",43:"r63",44:"r63",45:"r63",56:"r63",58:"r63"},{24:"r64",28:"r64",35:"r64",36:"r64",37:"r64",38:"r64",39:"r64",40:"r64",41:"r64",42:"r64",43:"r64",44:"r64",45:"r64",56:"r64",58:"r64"},{24:"r65",28:"r65",35:"r65",36:"r65",37:"r65",38:"r65",39:"r65",40:"r65",41:"r65",42:"r65",43:"r65",44:"r65",45:"r65",56:"r65",58:"r65"},{23:"r52",24:"r52",25:"r52",26:"r52",27:"r52",28:"r52",29:"r52",30:"r52",31:"r52",32:"r52",33:"r52",34:"r52",35:"r52",36:"r52",37:"r52",38:"r52",39:"r52",40:"r52",41:"r52",42:"r52",43:"r52",44:"r52",45:"r52",46:"r52",47:"r52",48:"r52",49:"r52",50:"r52",51:"r52",52:"r52",53:"r52",54:"r52",55:"r52",57:"r52"},{56:"r57"},{10:70,21:77,22:69,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r62",58:"s68"},{56:"r59"},{10:70,20:79,21:75,22:76,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r63",58:"s80"},{10:70,18:78,19:66,21:67,22:69,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r54",58:"s68"},{56:"r58"},{56:"r60"},{10:70,21:81,22:69,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r62",58:"s68"},{10:70,18:82,19:66,21:67,22:69,24:"s28",28:"s71",35:"s29",36:"s30",37:"s31",38:"s32",39:"s33",40:"s34",41:"s35",42:"s36",43:"s37",44:"s38",45:"s39",56:"r54",58:"s68"},{56:"r61"},{56:"s84"},{23:"r53",24:"r53",25:"r53",26:"r53",27:"r53",28:"r53",29:"r53",30:"r53",31:"r53",32:"r53",33:"r53",34:"r53",35:"r53",36:"r53",37:"r53",38:"r53",39:"r53",40:"r53",41:"r53",42:"r53",43:"r53",44:"r53",45:"r53",46:"r53",47:"r53",48:"r53",49:"r53",50:"r53",51:"r53",52:"r53",53:"r53",54:"r53",55:"r53",57:"r53"},{25:"s12",31:"s86"},{23:"r49",24:"r49",25:"r49",26:"r49",27:"r49",28:"r49",29:"r49",30:"r49",31:"r49",32:"r49",33:"r49",34:"r49",35:"r49",36:"r49",37:"r49",38:"r49",39:"r49",40:"r49",41:"r49",42:"r49",43:"r49",44:"r49",45:"r49",46:"r49",47:"r49",48:"r49",49:"r49",50:"r49",51:"r49",52:"r49",53:"r49",54:"r49",55:"r49",57:"r49"},{25:"s12",31:"s88"},{23:"r50",24:"r50",25:"r50",26:"r50",27:"r50",28:"r50",29:"r50",30:"r50",31:"r50",32:"r50",33:"r50",34:"r50",35:"r50",36:"r50",37:"r50",38:"r50",39:"r50",40:"r50",41:"r50",42:"r50",43:"r50",44:"r50",45:"r50",46:"r50",47:"r50",48:"r50",49:"r50",50:"r50",51:"r50",52:"r50",53:"r50",54:"r50",55:"r50",57:"r50"},{25:"s12",31:"s90"},{23:"r51",24:"r51",25:"r51",26:"r51",27:"r51",28:"r51",29:"r51",30:"r51",31:"r51",32:"r51",33:"r51",34:"r51",35:"r51",36:"r51",37:"r51",38:"r51",39:"r51",40:"r51",41:"r51",42:"r51",43:"r51",44:"r51",45:"r51",46:"r51",47:"r51",48:"r51",49:"r51",50:"r51",51:"r51",52:"r51",53:"r51",54:"r51",55:"r51",57:"r51"}],l=[],v=void 0,p=[[/^#[^\n]+/,function(){}],[/^\s+/,function(){}],[/^-/,function(){return"DASH"}],[/^\//,function(){return"CHAR"}],[/^#/,function(){return"CHAR"}],[/^\|/,function(){return"CHAR"}],[/^\./,function(){return"CHAR"}],[/^\{/,function(){return"CHAR"}],[/^\{\d+\}/,function(){return"RANGE_EXACT"}],[/^\{\d+,\}/,function(){return"RANGE_OPEN"}],[/^\{\d+,\d+\}/,function(){return"RANGE_CLOSED"}],[/^\\k<(([\u0041-\u005a\u0061-\u007a\u00aa\u00b5\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e-\u066f\u0671-\u06d3\u06d5\u06e5-\u06e6\u06ee-\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4-\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc-\u09dd\u09df-\u09e1\u09f0-\u09f1\u09fc\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0-\u0ae1\u0af9\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3d\u0b5c-\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c60-\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0-\u0ce1\u0cf1-\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32-\u0e33\u0e40-\u0e46\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2-\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065-\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae-\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5-\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a-\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd-\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5-\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\ude80-\ude9c\udea0-\uded0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf75\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00\ude10-\ude13\ude15-\ude17\ude19-\ude35\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee4\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd23\udf00-\udf1c\udf27\udf30-\udf45\udfe0-\udff6]|\ud804[\udc03-\udc37\udc83-\udcaf\udcd0-\udce8\udd03-\udd26\udd44\udd50-\udd72\udd76\udd83-\uddb2\uddc1-\uddc4\uddda\udddc\ude00-\ude11\ude13-\ude2b\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udede\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3d\udf50\udf5d-\udf61]|\ud805[\udc00-\udc34\udc47-\udc4a\udc5f\udc80-\udcaf\udcc4-\udcc5\udcc7\udd80-\uddae\uddd8-\udddb\ude00-\ude2f\ude44\ude80-\udeaa\udeb8\udf00-\udf1a]|\ud806[\udc00-\udc2b\udca0-\udcdf\udcff\udda0-\udda7\uddaa-\uddd0\udde1\udde3\ude00\ude0b-\ude32\ude3a\ude50\ude5c-\ude89\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc2e\udc40\udc72-\udc8f\udd00-\udd06\udd08-\udd09\udd0b-\udd30\udd46\udd60-\udd65\udd67-\udd68\udd6a-\udd89\udd98\udee0-\udef2]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\uded0-\udeed\udf00-\udf2f\udf40-\udf43\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf50\udf93-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb]|\ud838[\udd00-\udd2c\udd37-\udd3d\udd4e\udec0-\udeeb]|\ud83a[\udc00-\udcc4\udd00-\udd43\udd4b]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\}))(([\u0030-\u0039\u0041-\u005a\u005f\u0061-\u007a\u00aa\u00b5\u00b7\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0300-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u0483-\u0487\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u0591-\u05bd\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05c7\u05d0-\u05ea\u05ef-\u05f2\u0610-\u061a\u0620-\u0669\u066e-\u06d3\u06d5-\u06dc\u06df-\u06e8\u06ea-\u06fc\u06ff\u0710-\u074a\u074d-\u07b1\u07c0-\u07f5\u07fa\u07fd\u0800-\u082d\u0840-\u085b\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u08d3-\u08e1\u08e3-\u0963\u0966-\u096f\u0971-\u0983\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bc-\u09c4\u09c7-\u09c8\u09cb-\u09ce\u09d7\u09dc-\u09dd\u09df-\u09e3\u09e6-\u09f1\u09fc\u09fe\u0a01-\u0a03\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a3c\u0a3e-\u0a42\u0a47-\u0a48\u0a4b-\u0a4d\u0a51\u0a59-\u0a5c\u0a5e\u0a66-\u0a75\u0a81-\u0a83\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abc-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ad0\u0ae0-\u0ae3\u0ae6-\u0aef\u0af9-\u0aff\u0b01-\u0b03\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3c-\u0b44\u0b47-\u0b48\u0b4b-\u0b4d\u0b56-\u0b57\u0b5c-\u0b5d\u0b5f-\u0b63\u0b66-\u0b6f\u0b71\u0b82-\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd0\u0bd7\u0be6-\u0bef\u0c00-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55-\u0c56\u0c58-\u0c5a\u0c60-\u0c63\u0c66-\u0c6f\u0c80-\u0c83\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbc-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5-\u0cd6\u0cde\u0ce0-\u0ce3\u0ce6-\u0cef\u0cf1-\u0cf2\u0d00-\u0d03\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d44\u0d46-\u0d48\u0d4a-\u0d4e\u0d54-\u0d57\u0d5f-\u0d63\u0d66-\u0d6f\u0d7a-\u0d7f\u0d82-\u0d83\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2-\u0df3\u0e01-\u0e3a\u0e40-\u0e4e\u0e50-\u0e59\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0ebd\u0ec0-\u0ec4\u0ec6\u0ec8-\u0ecd\u0ed0-\u0ed9\u0edc-\u0edf\u0f00\u0f18-\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e-\u0f47\u0f49-\u0f6c\u0f71-\u0f84\u0f86-\u0f97\u0f99-\u0fbc\u0fc6\u1000-\u1049\u1050-\u109d\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u135d-\u135f\u1369-\u1371\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176c\u176e-\u1770\u1772-\u1773\u1780-\u17d3\u17d7\u17dc-\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u1820-\u1878\u1880-\u18aa\u18b0-\u18f5\u1900-\u191e\u1920-\u192b\u1930-\u193b\u1946-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u19d0-\u19da\u1a00-\u1a1b\u1a20-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1aa7\u1ab0-\u1abd\u1b00-\u1b4b\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1bf3\u1c00-\u1c37\u1c40-\u1c49\u1c4d-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1cd0-\u1cd2\u1cd4-\u1cfa\u1d00-\u1df9\u1dfb-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u203f-\u2040\u2054\u2071\u207f\u2090-\u209c\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d7f-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2de0-\u2dff\u3005-\u3007\u3021-\u302f\u3031-\u3035\u3038-\u303c\u3041-\u3096\u3099-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua62b\ua640-\ua66f\ua674-\ua67d\ua67f-\ua6f1\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua827\ua840-\ua873\ua880-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f7\ua8fb\ua8fd-\ua92d\ua930-\ua953\ua960-\ua97c\ua980-\ua9c0\ua9cf-\ua9d9\ua9e0-\ua9fe\uaa00-\uaa36\uaa40-\uaa4d\uaa50-\uaa59\uaa60-\uaa76\uaa7a-\uaac2\uaadb-\uaadd\uaae0-\uaaef\uaaf2-\uaaf6\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabea\uabec-\uabed\uabf0-\uabf9\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe00-\ufe0f\ufe20-\ufe2f\ufe33-\ufe34\ufe4d-\ufe4f\ufe70-\ufe74\ufe76-\ufefc\uff10-\uff19\uff21-\uff3a\uff3f\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\uddfd\ude80-\ude9c\udea0-\uded0\udee0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf7a\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udca0-\udca9\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00-\ude03\ude05-\ude06\ude0c-\ude13\ude15-\ude17\ude19-\ude35\ude38-\ude3a\ude3f\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee6\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd27\udd30-\udd39\udf00-\udf1c\udf27\udf30-\udf50\udfe0-\udff6]|\ud804[\udc00-\udc46\udc66-\udc6f\udc7f-\udcba\udcd0-\udce8\udcf0-\udcf9\udd00-\udd34\udd36-\udd3f\udd44-\udd46\udd50-\udd73\udd76\udd80-\uddc4\uddc9-\uddcc\uddd0-\uddda\udddc\ude00-\ude11\ude13-\ude37\ude3e\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udeea\udef0-\udef9\udf00-\udf03\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3b-\udf44\udf47-\udf48\udf4b-\udf4d\udf50\udf57\udf5d-\udf63\udf66-\udf6c\udf70-\udf74]|\ud805[\udc00-\udc4a\udc50-\udc59\udc5e-\udc5f\udc80-\udcc5\udcc7\udcd0-\udcd9\udd80-\uddb5\uddb8-\uddc0\uddd8-\udddd\ude00-\ude40\ude44\ude50-\ude59\ude80-\udeb8\udec0-\udec9\udf00-\udf1a\udf1d-\udf2b\udf30-\udf39]|\ud806[\udc00-\udc3a\udca0-\udce9\udcff\udda0-\udda7\uddaa-\uddd7\uddda-\udde1\udde3-\udde4\ude00-\ude3e\ude47\ude50-\ude99\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc36\udc38-\udc40\udc50-\udc59\udc72-\udc8f\udc92-\udca7\udca9-\udcb6\udd00-\udd06\udd08-\udd09\udd0b-\udd36\udd3a\udd3c-\udd3d\udd3f-\udd47\udd50-\udd59\udd60-\udd65\udd67-\udd68\udd6a-\udd8e\udd90-\udd91\udd93-\udd98\udda0-\udda9\udee0-\udef6]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\ude60-\ude69\uded0-\udeed\udef0-\udef4\udf00-\udf36\udf40-\udf43\udf50-\udf59\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf4f-\udf87\udf8f-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99\udc9d-\udc9e]|\ud834[\udd65-\udd69\udd6d-\udd72\udd7b-\udd82\udd85-\udd8b\uddaa-\uddad\ude42-\ude44]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb\udfce-\udfff]|\ud836[\ude00-\ude36\ude3b-\ude6c\ude75\ude84\ude9b-\ude9f\udea1-\udeaf]|\ud838[\udc00-\udc06\udc08-\udc18\udc1b-\udc21\udc23-\udc24\udc26-\udc2a\udd00-\udd2c\udd30-\udd3d\udd40-\udd49\udd4e\udec0-\udef9]|\ud83a[\udc00-\udcc4\udcd0-\udcd6\udd00-\udd4b\udd50-\udd59]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d]|\udb40[\udd00-\uddef])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\})|[\u200c\u200d])*>/,function(){return P(n.slice(3,-1),this.getCurrentState()),"NAMED_GROUP_REF"}],[/^\\b/,function(){return"ESC_b"}],[/^\\B/,function(){return"ESC_B"}],[/^\\c[a-zA-Z]/,function(){return"CTRL_CH"}],[/^\\0\d{1,2}/,function(){return"OCT_CODE"}],[/^\\0/,function(){return"DEC_CODE"}],[/^\\\d{1,3}/,function(){return"DEC_CODE"}],[/^\\u[dD][89abAB][0-9a-fA-F]{2}\\u[dD][c-fC-F][0-9a-fA-F]{2}/,function(){return"U_CODE_SURROGATE"}],[/^\\u\{[0-9a-fA-F]{1,}\}/,function(){return"U_CODE"}],[/^\\u[0-9a-fA-F]{4}/,function(){return"U_CODE"}],[/^\\[pP]\{\w+(?:=\w+)?\}/,function(){return"U_PROP_VALUE_EXP"}],[/^\\x[0-9a-fA-F]{2}/,function(){return"HEX_CODE"}],[/^\\[tnrdDsSwWvf]/,function(){return"META_CHAR"}],[/^\\\//,function(){return"ESC_CHAR"}],[/^\\[ #]/,function(){return"ESC_CHAR"}],[/^\\[\^\$\.\*\+\?\(\)\\\[\]\{\}\|\/]/,function(){return"ESC_CHAR"}],[/^\\[^*?+\[()\\|]/,function(){var e=this.getCurrentState();if("u_class"===e&&"\\-"===n)return"ESC_CHAR";if("u"===e||"xu"===e||"u_class"===e)throw new SyntaxError("invalid Unicode escape "+n);return"ESC_CHAR"}],[/^\(/,function(){return"CHAR"}],[/^\)/,function(){return"CHAR"}],[/^\(\?=/,function(){return"POS_LA_ASSERT"}],[/^\(\?!/,function(){return"NEG_LA_ASSERT"}],[/^\(\?<=/,function(){return"POS_LB_ASSERT"}],[/^\(\?<!/,function(){return"NEG_LB_ASSERT"}],[/^\(\?:/,function(){return"NON_CAPTURE_GROUP"}],[/^\(\?<(([\u0041-\u005a\u0061-\u007a\u00aa\u00b5\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e-\u066f\u0671-\u06d3\u06d5\u06e5-\u06e6\u06ee-\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4-\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc-\u09dd\u09df-\u09e1\u09f0-\u09f1\u09fc\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0-\u0ae1\u0af9\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3d\u0b5c-\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c60-\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0-\u0ce1\u0cf1-\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32-\u0e33\u0e40-\u0e46\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2-\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065-\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae-\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5-\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a-\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd-\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5-\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\ude80-\ude9c\udea0-\uded0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf75\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00\ude10-\ude13\ude15-\ude17\ude19-\ude35\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee4\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd23\udf00-\udf1c\udf27\udf30-\udf45\udfe0-\udff6]|\ud804[\udc03-\udc37\udc83-\udcaf\udcd0-\udce8\udd03-\udd26\udd44\udd50-\udd72\udd76\udd83-\uddb2\uddc1-\uddc4\uddda\udddc\ude00-\ude11\ude13-\ude2b\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udede\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3d\udf50\udf5d-\udf61]|\ud805[\udc00-\udc34\udc47-\udc4a\udc5f\udc80-\udcaf\udcc4-\udcc5\udcc7\udd80-\uddae\uddd8-\udddb\ude00-\ude2f\ude44\ude80-\udeaa\udeb8\udf00-\udf1a]|\ud806[\udc00-\udc2b\udca0-\udcdf\udcff\udda0-\udda7\uddaa-\uddd0\udde1\udde3\ude00\ude0b-\ude32\ude3a\ude50\ude5c-\ude89\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc2e\udc40\udc72-\udc8f\udd00-\udd06\udd08-\udd09\udd0b-\udd30\udd46\udd60-\udd65\udd67-\udd68\udd6a-\udd89\udd98\udee0-\udef2]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\uded0-\udeed\udf00-\udf2f\udf40-\udf43\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf50\udf93-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb]|\ud838[\udd00-\udd2c\udd37-\udd3d\udd4e\udec0-\udeeb]|\ud83a[\udc00-\udcc4\udd00-\udd43\udd4b]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\}))(([\u0030-\u0039\u0041-\u005a\u005f\u0061-\u007a\u00aa\u00b5\u00b7\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0300-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u0483-\u0487\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u0591-\u05bd\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05c7\u05d0-\u05ea\u05ef-\u05f2\u0610-\u061a\u0620-\u0669\u066e-\u06d3\u06d5-\u06dc\u06df-\u06e8\u06ea-\u06fc\u06ff\u0710-\u074a\u074d-\u07b1\u07c0-\u07f5\u07fa\u07fd\u0800-\u082d\u0840-\u085b\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u08d3-\u08e1\u08e3-\u0963\u0966-\u096f\u0971-\u0983\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bc-\u09c4\u09c7-\u09c8\u09cb-\u09ce\u09d7\u09dc-\u09dd\u09df-\u09e3\u09e6-\u09f1\u09fc\u09fe\u0a01-\u0a03\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a3c\u0a3e-\u0a42\u0a47-\u0a48\u0a4b-\u0a4d\u0a51\u0a59-\u0a5c\u0a5e\u0a66-\u0a75\u0a81-\u0a83\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abc-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ad0\u0ae0-\u0ae3\u0ae6-\u0aef\u0af9-\u0aff\u0b01-\u0b03\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3c-\u0b44\u0b47-\u0b48\u0b4b-\u0b4d\u0b56-\u0b57\u0b5c-\u0b5d\u0b5f-\u0b63\u0b66-\u0b6f\u0b71\u0b82-\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd0\u0bd7\u0be6-\u0bef\u0c00-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55-\u0c56\u0c58-\u0c5a\u0c60-\u0c63\u0c66-\u0c6f\u0c80-\u0c83\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbc-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5-\u0cd6\u0cde\u0ce0-\u0ce3\u0ce6-\u0cef\u0cf1-\u0cf2\u0d00-\u0d03\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d44\u0d46-\u0d48\u0d4a-\u0d4e\u0d54-\u0d57\u0d5f-\u0d63\u0d66-\u0d6f\u0d7a-\u0d7f\u0d82-\u0d83\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2-\u0df3\u0e01-\u0e3a\u0e40-\u0e4e\u0e50-\u0e59\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0ebd\u0ec0-\u0ec4\u0ec6\u0ec8-\u0ecd\u0ed0-\u0ed9\u0edc-\u0edf\u0f00\u0f18-\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e-\u0f47\u0f49-\u0f6c\u0f71-\u0f84\u0f86-\u0f97\u0f99-\u0fbc\u0fc6\u1000-\u1049\u1050-\u109d\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u135d-\u135f\u1369-\u1371\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176c\u176e-\u1770\u1772-\u1773\u1780-\u17d3\u17d7\u17dc-\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u1820-\u1878\u1880-\u18aa\u18b0-\u18f5\u1900-\u191e\u1920-\u192b\u1930-\u193b\u1946-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u19d0-\u19da\u1a00-\u1a1b\u1a20-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1aa7\u1ab0-\u1abd\u1b00-\u1b4b\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1bf3\u1c00-\u1c37\u1c40-\u1c49\u1c4d-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1cd0-\u1cd2\u1cd4-\u1cfa\u1d00-\u1df9\u1dfb-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u203f-\u2040\u2054\u2071\u207f\u2090-\u209c\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d7f-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2de0-\u2dff\u3005-\u3007\u3021-\u302f\u3031-\u3035\u3038-\u303c\u3041-\u3096\u3099-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua62b\ua640-\ua66f\ua674-\ua67d\ua67f-\ua6f1\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua827\ua840-\ua873\ua880-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f7\ua8fb\ua8fd-\ua92d\ua930-\ua953\ua960-\ua97c\ua980-\ua9c0\ua9cf-\ua9d9\ua9e0-\ua9fe\uaa00-\uaa36\uaa40-\uaa4d\uaa50-\uaa59\uaa60-\uaa76\uaa7a-\uaac2\uaadb-\uaadd\uaae0-\uaaef\uaaf2-\uaaf6\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabea\uabec-\uabed\uabf0-\uabf9\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe00-\ufe0f\ufe20-\ufe2f\ufe33-\ufe34\ufe4d-\ufe4f\ufe70-\ufe74\ufe76-\ufefc\uff10-\uff19\uff21-\uff3a\uff3f\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\uddfd\ude80-\ude9c\udea0-\uded0\udee0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf7a\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udca0-\udca9\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00-\ude03\ude05-\ude06\ude0c-\ude13\ude15-\ude17\ude19-\ude35\ude38-\ude3a\ude3f\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee6\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd27\udd30-\udd39\udf00-\udf1c\udf27\udf30-\udf50\udfe0-\udff6]|\ud804[\udc00-\udc46\udc66-\udc6f\udc7f-\udcba\udcd0-\udce8\udcf0-\udcf9\udd00-\udd34\udd36-\udd3f\udd44-\udd46\udd50-\udd73\udd76\udd80-\uddc4\uddc9-\uddcc\uddd0-\uddda\udddc\ude00-\ude11\ude13-\ude37\ude3e\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udeea\udef0-\udef9\udf00-\udf03\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3b-\udf44\udf47-\udf48\udf4b-\udf4d\udf50\udf57\udf5d-\udf63\udf66-\udf6c\udf70-\udf74]|\ud805[\udc00-\udc4a\udc50-\udc59\udc5e-\udc5f\udc80-\udcc5\udcc7\udcd0-\udcd9\udd80-\uddb5\uddb8-\uddc0\uddd8-\udddd\ude00-\ude40\ude44\ude50-\ude59\ude80-\udeb8\udec0-\udec9\udf00-\udf1a\udf1d-\udf2b\udf30-\udf39]|\ud806[\udc00-\udc3a\udca0-\udce9\udcff\udda0-\udda7\uddaa-\uddd7\uddda-\udde1\udde3-\udde4\ude00-\ude3e\ude47\ude50-\ude99\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc36\udc38-\udc40\udc50-\udc59\udc72-\udc8f\udc92-\udca7\udca9-\udcb6\udd00-\udd06\udd08-\udd09\udd0b-\udd36\udd3a\udd3c-\udd3d\udd3f-\udd47\udd50-\udd59\udd60-\udd65\udd67-\udd68\udd6a-\udd8e\udd90-\udd91\udd93-\udd98\udda0-\udda9\udee0-\udef6]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\ude60-\ude69\uded0-\udeed\udef0-\udef4\udf00-\udf36\udf40-\udf43\udf50-\udf59\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf4f-\udf87\udf8f-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99\udc9d-\udc9e]|\ud834[\udd65-\udd69\udd6d-\udd72\udd7b-\udd82\udd85-\udd8b\uddaa-\uddad\ude42-\ude44]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb\udfce-\udfff]|\ud836[\ude00-\ude36\ude3b-\ude6c\ude75\ude84\ude9b-\ude9f\udea1-\udeaf]|\ud838[\udc00-\udc06\udc08-\udc18\udc1b-\udc21\udc23-\udc24\udc26-\udc2a\udd00-\udd2c\udd30-\udd3d\udd40-\udd49\udd4e\udec0-\udef9]|\ud83a[\udc00-\udcc4\udcd0-\udcd6\udd00-\udd4b\udd50-\udd59]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d]|\udb40[\udd00-\uddef])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\})|[\u200c\u200d])*>/,function(){return P(n=n.slice(3,-1),this.getCurrentState()),"NAMED_CAPTURE_GROUP"}],[/^\(/,function(){return"L_PAREN"}],[/^\)/,function(){return"R_PAREN"}],[/^[*?+[^$]/,function(){return"CHAR"}],[/^\\\]/,function(){return"ESC_CHAR"}],[/^\]/,function(){return this.popState(),"R_BRACKET"}],[/^\^/,function(){return"BOS"}],[/^\$/,function(){return"EOS"}],[/^\*/,function(){return"STAR"}],[/^\?/,function(){return"Q_MARK"}],[/^\+/,function(){return"PLUS"}],[/^\|/,function(){return"BAR"}],[/^\./,function(){return"ANY"}],[/^\//,function(){return"SLASH"}],[/^[^*?+\[()\\|]/,function(){return"CHAR"}],[/^\[\^/,function(){var e=this.getCurrentState();return this.pushState("u"===e||"xu"===e?"u_class":"class"),"NEG_CLASS"}],[/^\[/,function(){var e=this.getCurrentState();return this.pushState("u"===e||"xu"===e?"u_class":"class"),"L_BRACKET"}]],b={INITIAL:[8,9,10,11,12,13,14,15,16,17,20,22,23,24,26,27,30,31,32,33,34,35,36,37,41,42,43,44,45,46,47,48,49,50,51],u:[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27,30,31,32,33,34,35,36,37,41,42,43,44,45,46,47,48,49,50,51],xu:[0,1,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,30,31,32,33,34,35,36,37,41,42,43,44,45,46,47,48,49,50,51],x:[0,1,8,9,10,11,12,13,14,15,16,17,20,22,23,24,26,27,30,31,32,33,34,35,36,37,41,42,43,44,45,46,47,48,49,50,51],u_class:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],class:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]},h={type:"$",value:""};v={initString:function(e){return this._string=e,this._cursor=0,this._states=["INITIAL"],this._tokensQueue=[],this._currentLine=1,this._currentColumn=0,this._currentLineBeginOffset=0,this._tokenStartOffset=0,this._tokenEndOffset=0,this._tokenStartLine=1,this._tokenEndLine=1,this._tokenStartColumn=0,this._tokenEndColumn=0,this},getStates:function(){return this._states},getCurrentState:function(){return this._states[this._states.length-1]},pushState:function(e){this._states.push(e)},begin:function(e){this.pushState(e)},popState:function(){return this._states.length>1?this._states.pop():this._states[0]},getNextToken:function(){if(this._tokensQueue.length>0)return this.onToken(this._toToken(this._tokensQueue.shift()));if(!this.hasMoreTokens())return this.onToken(h);for(var e=this._string.slice(this._cursor),u=b[this.getCurrentState()],r=0;r<u.length;r++){var d=u[r],a=p[d],s=this._match(e,a[0]);if(""===e&&""===s&&this._cursor++,null!==s){(n=s).length;var i=a[1].call(this);if(!i)return this.getNextToken();if(Array.isArray(i)){var o,f=i.slice(1);i=i[0],f.length>0&&(o=this._tokensQueue).unshift.apply(o,t(f))}return this.onToken(this._toToken(i,n))}}if(this.isEOF())return this._cursor++,h;this.throwUnexpectedToken(e[0],this._currentLine,this._currentColumn)},throwUnexpectedToken:function(e,u,r){var t=this._string.split("\n")[u-1],n="";throw t&&(n="\n\n"+t+"\n"+" ".repeat(r)+"^\n"),new SyntaxError(n+'Unexpected token: "'+e+'" at '+u+":"+r+".")},getCursor:function(){return this._cursor},getCurrentLine:function(){return this._currentLine},getCurrentColumn:function(){return this._currentColumn},_captureLocation:function(e){var u=/\n/g;this._tokenStartOffset=this._cursor,this._tokenStartLine=this._currentLine,this._tokenStartColumn=this._tokenStartOffset-this._currentLineBeginOffset;for(var r=void 0;null!==(r=u.exec(e));)this._currentLine++,this._currentLineBeginOffset=this._tokenStartOffset+r.index+1;this._tokenEndOffset=this._cursor+e.length,this._tokenEndLine=this._currentLine,this._tokenEndColumn=this._currentColumn=this._tokenEndOffset-this._currentLineBeginOffset},_toToken:function(e){return{type:e,value:arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",startOffset:this._tokenStartOffset,endOffset:this._tokenEndOffset,startLine:this._tokenStartLine,endLine:this._tokenEndLine,startColumn:this._tokenStartColumn,endColumn:this._tokenEndColumn}},isEOF:function(){return this._cursor===this._string.length},hasMoreTokens:function(){return this._cursor<=this._string.length},_match:function(e,u){var r=e.match(u);return r?(this._captureLocation(r[0]),this._cursor+=r[0].length,r[0]):null},onToken:function(e){return e}},d.lexer=v,d.tokenizer=v,d.options={captureLocations:!0};var m={setOptions:function(e){return d.options=e,this},getOptions:function(){return d.options},parse:function(e,u){if(!v)throw new Error("Tokenizer instance wasn't specified.");v.initString(e);var r=d.options;u&&(d.options=Object.assign({},d.options,u)),m.onParseBegin(e,v,d.options),l.length=0,l.push(0);var i=v.getNextToken(),p=null;do{i||(d.options=r,D());var b=l[l.length-1],h=f[i.type];c[b].hasOwnProperty(h)||(d.options=r,L(i));var y=c[b][h];if("s"===y[0]){var g=null;d.options.captureLocations&&(g={startOffset:i.startOffset,endOffset:i.endOffset,startLine:i.startLine,endLine:i.endLine,startColumn:i.startColumn,endColumn:i.endColumn}),p=this.onShift(i),l.push({symbol:f[p.type],semanticValue:p.value,loc:g},Number(y.slice(1))),i=v.getNextToken()}else if("r"===y[0]){var C=y.slice(1),B=o[C],_="function"==typeof B[2],x=_?[]:null,w=_&&d.options.captureLocations?[]:null;if(0!==B[1])for(var A=B[1];A-- >0;){l.pop();var S=l.pop();_&&(x.unshift(S.semanticValue),w&&w.unshift(S.loc))}var j={symbol:B[0]};if(_){n=p?p.value:null,p&&p.value.length;var k=null!==w?x.concat(w):x;B[2].apply(B,t(k)),j.semanticValue=a,w&&(j.loc=s)}var E=l[l.length-1],P=B[0];l.push(j,c[E][P])}else if("acc"===y){l.pop();var O=l.pop();return(1!==l.length||0!==l[0]||v.hasMoreTokens())&&(d.options=r,L(i)),O.hasOwnProperty("semanticValue")?(d.options=r,m.onParseEnd(O.semanticValue),O.semanticValue):(m.onParseEnd(),d.options=r,!0)}}while(v.hasMoreTokens()||l.length>1)},setTokenizer:function(e){return v=e,m},getTokenizer:function(){return v},onParseBegin:function(e,u,r){},onParseEnd:function(e){},onShift:function(e){return e}},y=0,g={},C="";function B(e){var u=e.match(/\d+/g).map(Number);if(Number.isFinite(u[1])&&u[1]<u[0])throw new SyntaxError("Numbers out of order in "+e+" quantifier");return u}function _(e,u){if("control"===e.kind||"control"===u.kind||!isNaN(e.codePoint)&&!isNaN(u.codePoint)&&e.codePoint>u.codePoint)throw new SyntaxError("Range "+e.value+"-"+u.value+" out of order in character class")}m.onParseBegin=function(e,u){C=e,y=0,g={};var r=e.lastIndexOf("/"),t=e.slice(r);t.includes("x")&&t.includes("u")?u.pushState("xu"):(t.includes("x")&&u.pushState("x"),t.includes("u")&&u.pushState("u"))},m.onShift=function(e){return"L_PAREN"!==e.type&&"NAMED_CAPTURE_GROUP"!==e.type||(e.value=new String(e.value),e.value.groupNumber=++y),e};var x=r(24876);function w(e,u,r){var t=void 0,n=void 0;switch(u){case"decimal":n=Number(e.slice(1)),t=String.fromCodePoint(n);break;case"oct":n=parseInt(e.slice(1),8),t=String.fromCodePoint(n);break;case"hex":case"unicode":if(e.lastIndexOf("\\u")>0){var d=function(e,u){if(Array.isArray(e))return e;if(Symbol.iterator in Object(e))return function(e,u){var r=[],t=!0,n=!1,d=void 0;try{for(var a,s=e[Symbol.iterator]();!(t=(a=s.next()).done)&&(r.push(a.value),!u||r.length!==u);t=!0);}catch(e){n=!0,d=e}finally{try{!t&&s.return&&s.return()}finally{if(n)throw d}}return r}(e,u);throw new TypeError("Invalid attempt to destructure non-iterable instance")}(e.split("\\u").slice(1),2),a=d[0],s=d[1];n=1024*((a=parseInt(a,16))-55296)+((s=parseInt(s,16))-56320)+65536,t=String.fromCodePoint(n)}else{var i=e.slice(2).replace("{","");if((n=parseInt(i,16))>1114111)throw new SyntaxError("Bad character escape sequence: "+e);t=String.fromCodePoint(n)}break;case"meta":switch(e){case"\\t":n=(t="\t").codePointAt(0);break;case"\\n":n=(t="\n").codePointAt(0);break;case"\\r":n=(t="\r").codePointAt(0);break;case"\\v":n=(t="\v").codePointAt(0);break;case"\\f":n=(t="\f").codePointAt(0);break;case"\\b":n=(t="\b").codePointAt(0);case"\\0":t="\0",n=0;case".":t=".",n=NaN;break;default:n=NaN}break;case"simple":n=(t=e).codePointAt(0)}return N({type:"Char",value:e,kind:u,symbol:t,codePoint:n},r)}var A="gimsuxy";function S(e){var u=new Set,r=!0,t=!1,n=void 0;try{for(var d,a=e[Symbol.iterator]();!(r=(d=a.next()).done);r=!0){var s=d.value;if(u.has(s)||!A.includes(s))throw new SyntaxError("Invalid flags: "+e);u.add(s)}}catch(e){t=!0,n=e}finally{try{!r&&a.return&&a.return()}finally{if(t)throw n}}return e.split("").sort().join("")}var j=/^\\u[0-9a-fA-F]{4}/,k=/^\\u\{[0-9a-fA-F]{1,}\}/,E=/\\u\{[0-9a-fA-F]{1,}\}/;function P(e,u){if(E.test(e)&&"u"!==u&&"xu"!==u&&"u_class"!==u)throw new SyntaxError('invalid group Unicode name "'+e+'", use `u` flag.');return e}var O=/\\u(?:([dD][89aAbB][0-9a-fA-F]{2})\\u([dD][c-fC-F][0-9a-fA-F]{2})|([dD][89aAbB][0-9a-fA-F]{2})|([dD][c-fC-F][0-9a-fA-F]{2})|([0-9a-ce-fA-CE-F][0-9a-fA-F]{3}|[dD][0-7][0-9a-fA-F]{2})|\{(0*(?:[0-9a-fA-F]{1,5}|10[0-9a-fA-F]{4}))\})/;function T(e){return e.replace(new RegExp(O,"g"),(function(e,u,r,t,n,d,a){return u?String.fromCodePoint(parseInt(u,16),parseInt(r,16)):t?String.fromCodePoint(parseInt(t,16)):n?String.fromCodePoint(parseInt(n,16)):d?String.fromCodePoint(parseInt(d,16)):a?String.fromCodePoint(parseInt(a,16)):e}))}function N(e,u){return d.options.captureLocations&&(e.loc={source:C.slice(u.startOffset,u.endOffset),start:{line:u.startLine,column:u.startColumn,offset:u.startOffset},end:{line:u.endLine,column:u.endColumn,offset:u.endOffset}}),e}function R(e,u){return d.options.captureLocations?{startOffset:e.startOffset,endOffset:u.endOffset,startLine:e.startLine,endLine:u.endLine,startColumn:e.startColumn,endColumn:u.endColumn}:null}function L(e){"$"===e.type&&D(),v.throwUnexpectedToken(e.value,e.startLine,e.startColumn)}function D(){!function(e){throw new SyntaxError("Unexpected end of input.")}()}e.exports=m},37112:function(e,u,r){"use strict";var t=r(42669),n=t.parse.bind(t);t.parse=function(e,u){return n(""+e,u)},t.setOptions({captureLocations:!1}),e.exports=t},24876:function(e){"use strict";var u={General_Category:"gc",Script:"sc",Script_Extensions:"scx"},r=o(u),t={ASCII:"ASCII",ASCII_Hex_Digit:"AHex",Alphabetic:"Alpha",Any:"Any",Assigned:"Assigned",Bidi_Control:"Bidi_C",Bidi_Mirrored:"Bidi_M",Case_Ignorable:"CI",Cased:"Cased",Changes_When_Casefolded:"CWCF",Changes_When_Casemapped:"CWCM",Changes_When_Lowercased:"CWL",Changes_When_NFKC_Casefolded:"CWKCF",Changes_When_Titlecased:"CWT",Changes_When_Uppercased:"CWU",Dash:"Dash",Default_Ignorable_Code_Point:"DI",Deprecated:"Dep",Diacritic:"Dia",Emoji:"Emoji",Emoji_Component:"Emoji_Component",Emoji_Modifier:"Emoji_Modifier",Emoji_Modifier_Base:"Emoji_Modifier_Base",Emoji_Presentation:"Emoji_Presentation",Extended_Pictographic:"Extended_Pictographic",Extender:"Ext",Grapheme_Base:"Gr_Base",Grapheme_Extend:"Gr_Ext",Hex_Digit:"Hex",IDS_Binary_Operator:"IDSB",IDS_Trinary_Operator:"IDST",ID_Continue:"IDC",ID_Start:"IDS",Ideographic:"Ideo",Join_Control:"Join_C",Logical_Order_Exception:"LOE",Lowercase:"Lower",Math:"Math",Noncharacter_Code_Point:"NChar",Pattern_Syntax:"Pat_Syn",Pattern_White_Space:"Pat_WS",Quotation_Mark:"QMark",Radical:"Radical",Regional_Indicator:"RI",Sentence_Terminal:"STerm",Soft_Dotted:"SD",Terminal_Punctuation:"Term",Unified_Ideograph:"UIdeo",Uppercase:"Upper",Variation_Selector:"VS",White_Space:"space",XID_Continue:"XIDC",XID_Start:"XIDS"},n=o(t),d={Cased_Letter:"LC",Close_Punctuation:"Pe",Connector_Punctuation:"Pc",Control:["Cc","cntrl"],Currency_Symbol:"Sc",Dash_Punctuation:"Pd",Decimal_Number:["Nd","digit"],Enclosing_Mark:"Me",Final_Punctuation:"Pf",Format:"Cf",Initial_Punctuation:"Pi",Letter:"L",Letter_Number:"Nl",Line_Separator:"Zl",Lowercase_Letter:"Ll",Mark:["M","Combining_Mark"],Math_Symbol:"Sm",Modifier_Letter:"Lm",Modifier_Symbol:"Sk",Nonspacing_Mark:"Mn",Number:"N",Open_Punctuation:"Ps",Other:"C",Other_Letter:"Lo",Other_Number:"No",Other_Punctuation:"Po",Other_Symbol:"So",Paragraph_Separator:"Zp",Private_Use:"Co",Punctuation:["P","punct"],Separator:"Z",Space_Separator:"Zs",Spacing_Mark:"Mc",Surrogate:"Cs",Symbol:"S",Titlecase_Letter:"Lt",Unassigned:"Cn",Uppercase_Letter:"Lu"},a=o(d),s={Adlam:"Adlm",Ahom:"Ahom",Anatolian_Hieroglyphs:"Hluw",Arabic:"Arab",Armenian:"Armn",Avestan:"Avst",Balinese:"Bali",Bamum:"Bamu",Bassa_Vah:"Bass",Batak:"Batk",Bengali:"Beng",Bhaiksuki:"Bhks",Bopomofo:"Bopo",Brahmi:"Brah",Braille:"Brai",Buginese:"Bugi",Buhid:"Buhd",Canadian_Aboriginal:"Cans",Carian:"Cari",Caucasian_Albanian:"Aghb",Chakma:"Cakm",Cham:"Cham",Cherokee:"Cher",Common:"Zyyy",Coptic:["Copt","Qaac"],Cuneiform:"Xsux",Cypriot:"Cprt",Cyrillic:"Cyrl",Deseret:"Dsrt",Devanagari:"Deva",Dogra:"Dogr",Duployan:"Dupl",Egyptian_Hieroglyphs:"Egyp",Elbasan:"Elba",Ethiopic:"Ethi",Georgian:"Geor",Glagolitic:"Glag",Gothic:"Goth",Grantha:"Gran",Greek:"Grek",Gujarati:"Gujr",Gunjala_Gondi:"Gong",Gurmukhi:"Guru",Han:"Hani",Hangul:"Hang",Hanifi_Rohingya:"Rohg",Hanunoo:"Hano",Hatran:"Hatr",Hebrew:"Hebr",Hiragana:"Hira",Imperial_Aramaic:"Armi",Inherited:["Zinh","Qaai"],Inscriptional_Pahlavi:"Phli",Inscriptional_Parthian:"Prti",Javanese:"Java",Kaithi:"Kthi",Kannada:"Knda",Katakana:"Kana",Kayah_Li:"Kali",Kharoshthi:"Khar",Khmer:"Khmr",Khojki:"Khoj",Khudawadi:"Sind",Lao:"Laoo",Latin:"Latn",Lepcha:"Lepc",Limbu:"Limb",Linear_A:"Lina",Linear_B:"Linb",Lisu:"Lisu",Lycian:"Lyci",Lydian:"Lydi",Mahajani:"Mahj",Makasar:"Maka",Malayalam:"Mlym",Mandaic:"Mand",Manichaean:"Mani",Marchen:"Marc",Medefaidrin:"Medf",Masaram_Gondi:"Gonm",Meetei_Mayek:"Mtei",Mende_Kikakui:"Mend",Meroitic_Cursive:"Merc",Meroitic_Hieroglyphs:"Mero",Miao:"Plrd",Modi:"Modi",Mongolian:"Mong",Mro:"Mroo",Multani:"Mult",Myanmar:"Mymr",Nabataean:"Nbat",New_Tai_Lue:"Talu",Newa:"Newa",Nko:"Nkoo",Nushu:"Nshu",Ogham:"Ogam",Ol_Chiki:"Olck",Old_Hungarian:"Hung",Old_Italic:"Ital",Old_North_Arabian:"Narb",Old_Permic:"Perm",Old_Persian:"Xpeo",Old_Sogdian:"Sogo",Old_South_Arabian:"Sarb",Old_Turkic:"Orkh",Oriya:"Orya",Osage:"Osge",Osmanya:"Osma",Pahawh_Hmong:"Hmng",Palmyrene:"Palm",Pau_Cin_Hau:"Pauc",Phags_Pa:"Phag",Phoenician:"Phnx",Psalter_Pahlavi:"Phlp",Rejang:"Rjng",Runic:"Runr",Samaritan:"Samr",Saurashtra:"Saur",Sharada:"Shrd",Shavian:"Shaw",Siddham:"Sidd",SignWriting:"Sgnw",Sinhala:"Sinh",Sogdian:"Sogd",Sora_Sompeng:"Sora",Soyombo:"Soyo",Sundanese:"Sund",Syloti_Nagri:"Sylo",Syriac:"Syrc",Tagalog:"Tglg",Tagbanwa:"Tagb",Tai_Le:"Tale",Tai_Tham:"Lana",Tai_Viet:"Tavt",Takri:"Takr",Tamil:"Taml",Tangut:"Tang",Telugu:"Telu",Thaana:"Thaa",Thai:"Thai",Tibetan:"Tibt",Tifinagh:"Tfng",Tirhuta:"Tirh",Ugaritic:"Ugar",Vai:"Vaii",Warang_Citi:"Wara",Yi:"Yiii",Zanabazar_Square:"Zanb"},i=o(s);function o(e){var u={};for(var r in e)if(e.hasOwnProperty(r)){var t=e[r];if(Array.isArray(t))for(var n=0;n<t.length;n++)u[t[n]]=r;else u[t]=r}return u}function f(e){return d.hasOwnProperty(e)||a.hasOwnProperty(e)}function c(e){return s.hasOwnProperty(e)||i.hasOwnProperty(e)}e.exports={isAlias:function(e){return r.hasOwnProperty(e)||n.hasOwnProperty(e)},isValidName:function(e){return u.hasOwnProperty(e)||r.hasOwnProperty(e)||t.hasOwnProperty(e)||n.hasOwnProperty(e)},isValidValue:function(e,u){return function(e){return"General_Category"===e||"gc"==e}(e)?f(u):!!function(e){return"Script"===e||"Script_Extensions"===e||"sc"===e||"scx"===e}(e)&&c(u)},isGeneralCategoryValue:f,isScriptCategoryValue:c,isBinaryPropertyName:function(e){return t.hasOwnProperty(e)||n.hasOwnProperty(e)},getCanonicalName:function(e){return r.hasOwnProperty(e)?r[e]:n.hasOwnProperty(e)?n[e]:null},getCanonicalValue:function(e){return a.hasOwnProperty(e)?a[e]:i.hasOwnProperty(e)?i[e]:n.hasOwnProperty(e)?n[e]:null},NON_BINARY_PROP_NAMES_TO_ALIASES:u,NON_BINARY_ALIASES_TO_PROP_NAMES:r,BINARY_PROP_NAMES_TO_ALIASES:t,BINARY_ALIASES_TO_PROP_NAMES:n,GENERAL_CATEGORY_VALUE_TO_ALIASES:d,GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES:a,SCRIPT_VALUE_TO_ALIASES:s,SCRIPT_VALUE_ALIASES_TO_VALUE:i}},51474:function(e,u,r){"use strict";var t=r(78355),n=r(89702),d=r(47393),a=r(37112),s=r(60045),i=r(8785),o=r(22722),f=r(77460).RegExpTree,c={parser:a,fa:o,TransformResult:s.TransformResult,parse:function(e,u){return a.parse(""+e,u)},traverse:function(e,u,r){return i.traverse(e,u,r)},transform:function(e,u){return s.transform(e,u)},generate:function(e){return n.generate(e)},toRegExp:function(e){var u=this.compatTranspile(e);return new RegExp(u.getSource(),u.getFlags())},optimize:function(e,u){var r=(arguments.length>2&&void 0!==arguments[2]?arguments[2]:{}).blacklist;return d.optimize(e,{whitelist:u,blacklist:r})},compatTranspile:function(e,u){return t.transform(e,u)},exec:function(e,u){if("string"==typeof e){var r=this.compatTranspile(e),t=r.getExtra();e=t.namedCapturingGroups?new f(r.toRegExp(),{flags:r.getFlags(),source:r.getSource(),groups:t.namedCapturingGroups}):r.toRegExp()}return e.exec(u)}};e.exports=c},60045:function(e,u,r){"use strict";var t=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}(),n=r(89702),d=r(37112),a=r(8785),s=function(){function e(u){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;!function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,e),this._ast=u,this._source=null,this._string=null,this._regexp=null,this._extra=r}return t(e,[{key:"getAST",value:function(){return this._ast}},{key:"setExtra",value:function(e){this._extra=e}},{key:"getExtra",value:function(){return this._extra}},{key:"toRegExp",value:function(){return this._regexp||(this._regexp=new RegExp(this.getSource(),this._ast.flags)),this._regexp}},{key:"getSource",value:function(){return this._source||(this._source=n.generate(this._ast.body)),this._source}},{key:"getFlags",value:function(){return this._ast.flags}},{key:"toString",value:function(){return this._string||(this._string=n.generate(this._ast)),this._string}}]),e}();e.exports={TransformResult:s,transform:function(e,u){var r=e;return e instanceof RegExp&&(e=""+e),"string"==typeof e&&(r=d.parse(e,{captureLocations:!0})),a.traverse(r,u),new s(r)}}},26554:function(e){"use strict";e.exports={disjunctionToList:function e(u){if("Disjunction"!==u.type)throw new TypeError('Expected "Disjunction" node, got "'+u.type+'"');var r=[];return u.left&&"Disjunction"===u.left.type?r.push.apply(r,function(e){if(Array.isArray(e)){for(var u=0,r=Array(e.length);u<e.length;u++)r[u]=e[u];return r}return Array.from(e)}(e(u.left)).concat([u.right])):r.push(u.left,u.right),r},listToDisjunction:function(e){return e.reduce((function(e,u){return{type:"Disjunction",left:e,right:u}}))},increaseQuantifierByOne:function(e){"*"===e.kind?e.kind="+":"+"===e.kind?(e.kind="Range",e.from=2,delete e.to):"?"===e.kind?(e.kind="Range",e.from=1,e.to=2):"Range"===e.kind&&(e.from+=1,e.to&&(e.to+=1))}}},8785:function(e,u,r){"use strict";var t=r(27762);e.exports={traverse:function(e,u){var r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{asNodes:!1};function n(e,u,r,n){var d=t.getForNode(u);return t.getForNode(e,d,r,n)}Array.isArray(u)||(u=[u]),u=u.filter((function(u){return"function"!=typeof u.shouldRun||u.shouldRun(e)})),t.initRegistry(),u.forEach((function(u){"function"==typeof u.init&&u.init(e)})),function(e){var u=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=u.pre,n=u.post,d=u.skipProperty;!function e(u,a,s,i){if(u&&"string"==typeof u.type){var o=void 0;if(r&&(o=r(u,a,s,i)),!1!==o)for(var f in a&&a[s]&&(u=isNaN(i)?a[s]:a[s][i]),u)if(u.hasOwnProperty(f)){if(d?d(f,u):"$"===f[0])continue;var c=u[f];if(Array.isArray(c)){var l=0;for(t.traversingIndexStack.push(l);l<c.length;)e(c[l],u,f,l),l=t.updateTraversingIndex(1);t.traversingIndexStack.pop()}else e(c,u,f)}n&&n(u,a,s,i)}}(e,null)}(e,{pre:function(e,t,d,a){var s=void 0;r.asNodes||(s=n(e,t,d,a));var i=!0,o=!1,f=void 0;try{for(var c,l=u[Symbol.iterator]();!(i=(c=l.next()).done);i=!0){var v=c.value;if("function"==typeof v["*"])if(s){if(!s.isRemoved()&&!1===v["*"](s))return!1}else v["*"](e,t,d,a);var p=void 0;if("function"==typeof v[e.type]?p=v[e.type]:"object"==typeof v[e.type]&&"function"==typeof v[e.type].pre&&(p=v[e.type].pre),p)if(s){if(!s.isRemoved()&&!1===p.call(v,s))return!1}else p.call(v,e,t,d,a)}}catch(e){o=!0,f=e}finally{try{!i&&l.return&&l.return()}finally{if(o)throw f}}},post:function(e,t,d,a){if(e){var s=void 0;r.asNodes||(s=n(e,t,d,a));var i=!0,o=!1,f=void 0;try{for(var c,l=u[Symbol.iterator]();!(i=(c=l.next()).done);i=!0){var v=c.value,p=void 0;if("object"==typeof v[e.type]&&"function"==typeof v[e.type].post&&(p=v[e.type].post),p)if(s){if(!s.isRemoved()&&!1===p.call(v,s))return!1}else p.call(v,e,t,d,a)}}catch(e){o=!0,f=e}finally{try{!i&&l.return&&l.return()}finally{if(o)throw f}}}},skipProperty:function(e){return"loc"===e}})}}},27762:function(e){"use strict";var u=function(){function e(e,u){for(var r=0;r<u.length;r++){var t=u[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(u,r,t){return r&&e(u.prototype,r),t&&e(u,t),u}}(),r="expressions",t="expression",n=function(){function e(u){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null;!function(e,u){if(!(e instanceof u))throw new TypeError("Cannot call a class as a function")}(this,e),this.node=u,this.parentPath=r,this.parent=r?r.node:null,this.property=t,this.index=n}return u(e,[{key:"_enforceProp",value:function(e){if(!this.node.hasOwnProperty(e))throw new Error("Node of type "+this.node.type+" doesn't have \""+e+'" collection.')}},{key:"setChild",value:function(u){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,d=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,a=void 0;return null!=n?(d||(d=r),this._enforceProp(d),this.node[d][n]=u,a=e.getForNode(u,this,d,n)):(d||(d=t),this._enforceProp(d),this.node[d]=u,a=e.getForNode(u,this,d,null)),a}},{key:"appendChild",value:function(e){var u=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;u||(u=r),this._enforceProp(u);var t=this.node[u].length;return this.setChild(e,t,u)}},{key:"insertChildAt",value:function(u,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:r;this._enforceProp(n),this.node[n].splice(t,0,u),t<=e.getTraversingIndex()&&e.updateTraversingIndex(1),this._rebuildIndex(this.node,n)}},{key:"remove",value:function(){if(!this.isRemoved()&&(e.registry.delete(this.node),this.node=null,this.parent)){if(null!==this.index)return this.parent[this.property].splice(this.index,1),this.index<=e.getTraversingIndex()&&e.updateTraversingIndex(-1),this._rebuildIndex(this.parent,this.property),this.index=null,void(this.property=null);delete this.parent[this.property],this.property=null}}},{key:"_rebuildIndex",value:function(u,r){for(var t=e.getForNode(u),n=0;n<u[r].length;n++)e.getForNode(u[r][n],t,r,n).index=n}},{key:"isRemoved",value:function(){return null===this.node}},{key:"replace",value:function(u){return e.registry.delete(this.node),this.node=u,this.parent?(null!==this.index?this.parent[this.property][this.index]=u:this.parent[this.property]=u,e.getForNode(u,this.parentPath,this.property,this.index)):null}},{key:"update",value:function(e){Object.assign(this.node,e)}},{key:"getParent",value:function(){return this.parentPath}},{key:"getChild",value:function(){var u=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0;return this.node.expressions?e.getForNode(this.node.expressions[u],this,r,u):this.node.expression&&0==u?e.getForNode(this.node.expression,this,t):null}},{key:"hasEqualSource",value:function(e){return JSON.stringify(this.node,d)===JSON.stringify(e.node,d)}},{key:"jsonEncode",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},u=e.format,r=e.useLoc;return JSON.stringify(this.node,r?null:d,u)}},{key:"getPreviousSibling",value:function(){return this.parent&&null!=this.index?e.getForNode(this.parent[this.property][this.index-1],e.getForNode(this.parent),this.property,this.index-1):null}},{key:"getNextSibling",value:function(){return this.parent&&null!=this.index?e.getForNode(this.parent[this.property][this.index+1],e.getForNode(this.parent),this.property,this.index+1):null}}],[{key:"getForNode",value:function(u){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:-1;if(!u)return null;e.registry.has(u)||e.registry.set(u,new e(u,r,t,-1==n?null:n));var d=e.registry.get(u);return null!==r&&(d.parentPath=r,d.parent=d.parentPath.node),null!==t&&(d.property=t),n>=0&&(d.index=n),d}},{key:"initRegistry",value:function(){e.registry||(e.registry=new Map),e.registry.clear()}},{key:"updateTraversingIndex",value:function(u){return e.traversingIndexStack[e.traversingIndexStack.length-1]+=u}},{key:"getTraversingIndex",value:function(){return e.traversingIndexStack[e.traversingIndexStack.length-1]}}]),e}();function d(e,u){if("loc"!==e)return u}n.initRegistry(),n.traversingIndexStack=[],e.exports=n},60689:function(e){"use strict";e.exports=function e(u){if(null===u||"object"!=typeof u)return u;var r=void 0;for(var t in r=Array.isArray(u)?[]:{},u)r[t]=e(u[t]);return r}},16262:function(e,u,r){"use strict";e.exports=r(51474)},72950:function(){},76052:function(e){"use strict";e.exports=JSON.parse('[{"name":"nodejs","version":"0.2.0","date":"2011-08-26","lts":false,"security":false,"v8":"2.3.8.0"},{"name":"nodejs","version":"0.3.0","date":"2011-08-26","lts":false,"security":false,"v8":"2.5.1.0"},{"name":"nodejs","version":"0.4.0","date":"2011-08-26","lts":false,"security":false,"v8":"3.1.2.0"},{"name":"nodejs","version":"0.5.0","date":"2011-08-26","lts":false,"security":false,"v8":"3.1.8.25"},{"name":"nodejs","version":"0.6.0","date":"2011-11-04","lts":false,"security":false,"v8":"3.6.6.6"},{"name":"nodejs","version":"0.7.0","date":"2012-01-17","lts":false,"security":false,"v8":"3.8.6.0"},{"name":"nodejs","version":"0.8.0","date":"2012-06-22","lts":false,"security":false,"v8":"3.11.10.10"},{"name":"nodejs","version":"0.9.0","date":"2012-07-20","lts":false,"security":false,"v8":"3.11.10.15"},{"name":"nodejs","version":"0.10.0","date":"2013-03-11","lts":false,"security":false,"v8":"3.14.5.8"},{"name":"nodejs","version":"0.11.0","date":"2013-03-28","lts":false,"security":false,"v8":"3.17.13.0"},{"name":"nodejs","version":"0.12.0","date":"2015-02-06","lts":false,"security":false,"v8":"3.28.73.0"},{"name":"nodejs","version":"4.0.0","date":"2015-09-08","lts":false,"security":false,"v8":"4.5.103.30"},{"name":"nodejs","version":"4.1.0","date":"2015-09-17","lts":false,"security":false,"v8":"4.5.103.33"},{"name":"nodejs","version":"4.2.0","date":"2015-10-12","lts":"Argon","security":false,"v8":"4.5.103.35"},{"name":"nodejs","version":"4.3.0","date":"2016-02-09","lts":"Argon","security":false,"v8":"4.5.103.35"},{"name":"nodejs","version":"4.4.0","date":"2016-03-08","lts":"Argon","security":false,"v8":"4.5.103.35"},{"name":"nodejs","version":"4.5.0","date":"2016-08-16","lts":"Argon","security":false,"v8":"4.5.103.37"},{"name":"nodejs","version":"4.6.0","date":"2016-09-27","lts":"Argon","security":true,"v8":"4.5.103.37"},{"name":"nodejs","version":"4.7.0","date":"2016-12-06","lts":"Argon","security":false,"v8":"4.5.103.43"},{"name":"nodejs","version":"4.8.0","date":"2017-02-21","lts":"Argon","security":false,"v8":"4.5.103.45"},{"name":"nodejs","version":"4.9.0","date":"2018-03-28","lts":"Argon","security":true,"v8":"4.5.103.53"},{"name":"nodejs","version":"5.0.0","date":"2015-10-29","lts":false,"security":false,"v8":"4.6.85.28"},{"name":"nodejs","version":"5.1.0","date":"2015-11-17","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.2.0","date":"2015-12-09","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.3.0","date":"2015-12-15","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.4.0","date":"2016-01-06","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.5.0","date":"2016-01-21","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.6.0","date":"2016-02-09","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.7.0","date":"2016-02-23","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.8.0","date":"2016-03-09","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.9.0","date":"2016-03-16","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.10.0","date":"2016-04-01","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.11.0","date":"2016-04-21","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.12.0","date":"2016-06-23","lts":false,"security":false,"v8":"4.6.85.32"},{"name":"nodejs","version":"6.0.0","date":"2016-04-26","lts":false,"security":false,"v8":"5.0.71.35"},{"name":"nodejs","version":"6.1.0","date":"2016-05-05","lts":false,"security":false,"v8":"5.0.71.35"},{"name":"nodejs","version":"6.2.0","date":"2016-05-17","lts":false,"security":false,"v8":"5.0.71.47"},{"name":"nodejs","version":"6.3.0","date":"2016-07-06","lts":false,"security":false,"v8":"5.0.71.52"},{"name":"nodejs","version":"6.4.0","date":"2016-08-12","lts":false,"security":false,"v8":"5.0.71.60"},{"name":"nodejs","version":"6.5.0","date":"2016-08-26","lts":false,"security":false,"v8":"5.1.281.81"},{"name":"nodejs","version":"6.6.0","date":"2016-09-14","lts":false,"security":false,"v8":"5.1.281.83"},{"name":"nodejs","version":"6.7.0","date":"2016-09-27","lts":false,"security":true,"v8":"5.1.281.83"},{"name":"nodejs","version":"6.8.0","date":"2016-10-12","lts":false,"security":false,"v8":"5.1.281.84"},{"name":"nodejs","version":"6.9.0","date":"2016-10-18","lts":"Boron","security":false,"v8":"5.1.281.84"},{"name":"nodejs","version":"6.10.0","date":"2017-02-21","lts":"Boron","security":false,"v8":"5.1.281.93"},{"name":"nodejs","version":"6.11.0","date":"2017-06-06","lts":"Boron","security":false,"v8":"5.1.281.102"},{"name":"nodejs","version":"6.12.0","date":"2017-11-06","lts":"Boron","security":false,"v8":"5.1.281.108"},{"name":"nodejs","version":"6.13.0","date":"2018-02-10","lts":"Boron","security":false,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.14.0","date":"2018-03-28","lts":"Boron","security":true,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.15.0","date":"2018-11-27","lts":"Boron","security":true,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.16.0","date":"2018-12-26","lts":"Boron","security":false,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.17.0","date":"2019-02-28","lts":"Boron","security":true,"v8":"5.1.281.111"},{"name":"nodejs","version":"7.0.0","date":"2016-10-25","lts":false,"security":false,"v8":"5.4.500.36"},{"name":"nodejs","version":"7.1.0","date":"2016-11-08","lts":false,"security":false,"v8":"5.4.500.36"},{"name":"nodejs","version":"7.2.0","date":"2016-11-22","lts":false,"security":false,"v8":"5.4.500.43"},{"name":"nodejs","version":"7.3.0","date":"2016-12-20","lts":false,"security":false,"v8":"5.4.500.45"},{"name":"nodejs","version":"7.4.0","date":"2017-01-04","lts":false,"security":false,"v8":"5.4.500.45"},{"name":"nodejs","version":"7.5.0","date":"2017-01-31","lts":false,"security":false,"v8":"5.4.500.48"},{"name":"nodejs","version":"7.6.0","date":"2017-02-21","lts":false,"security":false,"v8":"5.5.372.40"},{"name":"nodejs","version":"7.7.0","date":"2017-02-28","lts":false,"security":false,"v8":"5.5.372.41"},{"name":"nodejs","version":"7.8.0","date":"2017-03-29","lts":false,"security":false,"v8":"5.5.372.43"},{"name":"nodejs","version":"7.9.0","date":"2017-04-11","lts":false,"security":false,"v8":"5.5.372.43"},{"name":"nodejs","version":"7.10.0","date":"2017-05-02","lts":false,"security":false,"v8":"5.5.372.43"},{"name":"nodejs","version":"8.0.0","date":"2017-05-30","lts":false,"security":false,"v8":"5.8.283.41"},{"name":"nodejs","version":"8.1.0","date":"2017-06-08","lts":false,"security":false,"v8":"5.8.283.41"},{"name":"nodejs","version":"8.2.0","date":"2017-07-19","lts":false,"security":false,"v8":"5.8.283.41"},{"name":"nodejs","version":"8.3.0","date":"2017-08-08","lts":false,"security":false,"v8":"6.0.286.52"},{"name":"nodejs","version":"8.4.0","date":"2017-08-15","lts":false,"security":false,"v8":"6.0.286.52"},{"name":"nodejs","version":"8.5.0","date":"2017-09-12","lts":false,"security":false,"v8":"6.0.287.53"},{"name":"nodejs","version":"8.6.0","date":"2017-09-26","lts":false,"security":false,"v8":"6.0.287.53"},{"name":"nodejs","version":"8.7.0","date":"2017-10-11","lts":false,"security":false,"v8":"6.1.534.42"},{"name":"nodejs","version":"8.8.0","date":"2017-10-24","lts":false,"security":false,"v8":"6.1.534.42"},{"name":"nodejs","version":"8.9.0","date":"2017-10-31","lts":"Carbon","security":false,"v8":"6.1.534.46"},{"name":"nodejs","version":"8.10.0","date":"2018-03-06","lts":"Carbon","security":false,"v8":"6.2.414.50"},{"name":"nodejs","version":"8.11.0","date":"2018-03-28","lts":"Carbon","security":true,"v8":"6.2.414.50"},{"name":"nodejs","version":"8.12.0","date":"2018-09-10","lts":"Carbon","security":false,"v8":"6.2.414.66"},{"name":"nodejs","version":"8.13.0","date":"2018-11-20","lts":"Carbon","security":false,"v8":"6.2.414.72"},{"name":"nodejs","version":"8.14.0","date":"2018-11-27","lts":"Carbon","security":true,"v8":"6.2.414.72"},{"name":"nodejs","version":"8.15.0","date":"2018-12-26","lts":"Carbon","security":false,"v8":"6.2.414.75"},{"name":"nodejs","version":"8.16.0","date":"2019-04-16","lts":"Carbon","security":false,"v8":"6.2.414.77"},{"name":"nodejs","version":"8.17.0","date":"2019-12-17","lts":"Carbon","security":true,"v8":"6.2.414.78"},{"name":"nodejs","version":"9.0.0","date":"2017-10-31","lts":false,"security":false,"v8":"6.2.414.32"},{"name":"nodejs","version":"9.1.0","date":"2017-11-07","lts":false,"security":false,"v8":"6.2.414.32"},{"name":"nodejs","version":"9.2.0","date":"2017-11-14","lts":false,"security":false,"v8":"6.2.414.44"},{"name":"nodejs","version":"9.3.0","date":"2017-12-12","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.4.0","date":"2018-01-10","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.5.0","date":"2018-01-31","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.6.0","date":"2018-02-21","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.7.0","date":"2018-03-01","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.8.0","date":"2018-03-07","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.9.0","date":"2018-03-21","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.10.0","date":"2018-03-28","lts":false,"security":true,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.11.0","date":"2018-04-04","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"10.0.0","date":"2018-04-24","lts":false,"security":false,"v8":"6.6.346.24"},{"name":"nodejs","version":"10.1.0","date":"2018-05-08","lts":false,"security":false,"v8":"6.6.346.27"},{"name":"nodejs","version":"10.2.0","date":"2018-05-23","lts":false,"security":false,"v8":"6.6.346.32"},{"name":"nodejs","version":"10.3.0","date":"2018-05-29","lts":false,"security":false,"v8":"6.6.346.32"},{"name":"nodejs","version":"10.4.0","date":"2018-06-06","lts":false,"security":false,"v8":"6.7.288.43"},{"name":"nodejs","version":"10.5.0","date":"2018-06-20","lts":false,"security":false,"v8":"6.7.288.46"},{"name":"nodejs","version":"10.6.0","date":"2018-07-04","lts":false,"security":false,"v8":"6.7.288.46"},{"name":"nodejs","version":"10.7.0","date":"2018-07-18","lts":false,"security":false,"v8":"6.7.288.49"},{"name":"nodejs","version":"10.8.0","date":"2018-08-01","lts":false,"security":false,"v8":"6.7.288.49"},{"name":"nodejs","version":"10.9.0","date":"2018-08-15","lts":false,"security":false,"v8":"6.8.275.24"},{"name":"nodejs","version":"10.10.0","date":"2018-09-06","lts":false,"security":false,"v8":"6.8.275.30"},{"name":"nodejs","version":"10.11.0","date":"2018-09-19","lts":false,"security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.12.0","date":"2018-10-10","lts":false,"security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.13.0","date":"2018-10-30","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.14.0","date":"2018-11-27","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.15.0","date":"2018-12-26","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.16.0","date":"2019-05-28","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.17.0","date":"2019-10-22","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.18.0","date":"2019-12-17","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.19.0","date":"2020-02-05","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.20.0","date":"2020-03-26","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.21.0","date":"2020-06-02","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.22.0","date":"2020-07-21","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.23.0","date":"2020-10-27","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.24.0","date":"2021-02-23","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"11.0.0","date":"2018-10-23","lts":false,"security":false,"v8":"7.0.276.28"},{"name":"nodejs","version":"11.1.0","date":"2018-10-30","lts":false,"security":false,"v8":"7.0.276.32"},{"name":"nodejs","version":"11.2.0","date":"2018-11-15","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.3.0","date":"2018-11-27","lts":false,"security":true,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.4.0","date":"2018-12-07","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.5.0","date":"2018-12-18","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.6.0","date":"2018-12-26","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.7.0","date":"2019-01-17","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.8.0","date":"2019-01-24","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.9.0","date":"2019-01-30","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.10.0","date":"2019-02-14","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.11.0","date":"2019-03-05","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.12.0","date":"2019-03-14","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.13.0","date":"2019-03-28","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.14.0","date":"2019-04-10","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.15.0","date":"2019-04-30","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"12.0.0","date":"2019-04-23","lts":false,"security":false,"v8":"7.4.288.21"},{"name":"nodejs","version":"12.1.0","date":"2019-04-29","lts":false,"security":false,"v8":"7.4.288.21"},{"name":"nodejs","version":"12.2.0","date":"2019-05-07","lts":false,"security":false,"v8":"7.4.288.21"},{"name":"nodejs","version":"12.3.0","date":"2019-05-21","lts":false,"security":false,"v8":"7.4.288.27"},{"name":"nodejs","version":"12.4.0","date":"2019-06-04","lts":false,"security":false,"v8":"7.4.288.27"},{"name":"nodejs","version":"12.5.0","date":"2019-06-26","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.6.0","date":"2019-07-03","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.7.0","date":"2019-07-23","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.8.0","date":"2019-08-06","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.9.0","date":"2019-08-20","lts":false,"security":false,"v8":"7.6.303.29"},{"name":"nodejs","version":"12.10.0","date":"2019-09-04","lts":false,"security":false,"v8":"7.6.303.29"},{"name":"nodejs","version":"12.11.0","date":"2019-09-25","lts":false,"security":false,"v8":"7.7.299.11"},{"name":"nodejs","version":"12.12.0","date":"2019-10-11","lts":false,"security":false,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.13.0","date":"2019-10-21","lts":"Erbium","security":false,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.14.0","date":"2019-12-17","lts":"Erbium","security":true,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.15.0","date":"2020-02-05","lts":"Erbium","security":true,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.16.0","date":"2020-02-11","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.17.0","date":"2020-05-26","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.18.0","date":"2020-06-02","lts":"Erbium","security":true,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.19.0","date":"2020-10-06","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.20.0","date":"2020-11-24","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.21.0","date":"2021-02-23","lts":"Erbium","security":true,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.22.0","date":"2021-03-30","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"13.0.0","date":"2019-10-22","lts":false,"security":false,"v8":"7.8.279.17"},{"name":"nodejs","version":"13.1.0","date":"2019-11-05","lts":false,"security":false,"v8":"7.8.279.17"},{"name":"nodejs","version":"13.2.0","date":"2019-11-21","lts":false,"security":false,"v8":"7.9.317.23"},{"name":"nodejs","version":"13.3.0","date":"2019-12-03","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.4.0","date":"2019-12-17","lts":false,"security":true,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.5.0","date":"2019-12-18","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.6.0","date":"2020-01-07","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.7.0","date":"2020-01-21","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.8.0","date":"2020-02-05","lts":false,"security":true,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.9.0","date":"2020-02-18","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.10.0","date":"2020-03-04","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.11.0","date":"2020-03-12","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.12.0","date":"2020-03-26","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.13.0","date":"2020-04-14","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.14.0","date":"2020-04-29","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"14.0.0","date":"2020-04-21","lts":false,"security":false,"v8":"8.1.307.30"},{"name":"nodejs","version":"14.1.0","date":"2020-04-29","lts":false,"security":false,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.2.0","date":"2020-05-05","lts":false,"security":false,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.3.0","date":"2020-05-19","lts":false,"security":false,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.4.0","date":"2020-06-02","lts":false,"security":true,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.5.0","date":"2020-06-30","lts":false,"security":false,"v8":"8.3.110.9"},{"name":"nodejs","version":"14.6.0","date":"2020-07-20","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.7.0","date":"2020-07-29","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.8.0","date":"2020-08-11","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.9.0","date":"2020-08-27","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.10.0","date":"2020-09-08","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.11.0","date":"2020-09-15","lts":false,"security":true,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.12.0","date":"2020-09-22","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.13.0","date":"2020-09-29","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.14.0","date":"2020-10-15","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.15.0","date":"2020-10-27","lts":"Fermium","security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.16.0","date":"2021-02-23","lts":"Fermium","security":true,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.17.0","date":"2021-05-11","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.18.0","date":"2021-09-28","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.19.0","date":"2022-02-01","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.20.0","date":"2022-07-07","lts":"Fermium","security":true,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.21.0","date":"2022-11-01","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"15.0.0","date":"2020-10-20","lts":false,"security":false,"v8":"8.6.395.16"},{"name":"nodejs","version":"15.1.0","date":"2020-11-04","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.2.0","date":"2020-11-10","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.3.0","date":"2020-11-24","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.4.0","date":"2020-12-09","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.5.0","date":"2020-12-22","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.6.0","date":"2021-01-14","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.7.0","date":"2021-01-25","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.8.0","date":"2021-02-02","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.9.0","date":"2021-02-18","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.10.0","date":"2021-02-23","lts":false,"security":true,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.11.0","date":"2021-03-03","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.12.0","date":"2021-03-17","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.13.0","date":"2021-03-31","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.14.0","date":"2021-04-06","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"16.0.0","date":"2021-04-20","lts":false,"security":false,"v8":"9.0.257.17"},{"name":"nodejs","version":"16.1.0","date":"2021-05-04","lts":false,"security":false,"v8":"9.0.257.24"},{"name":"nodejs","version":"16.2.0","date":"2021-05-19","lts":false,"security":false,"v8":"9.0.257.25"},{"name":"nodejs","version":"16.3.0","date":"2021-06-03","lts":false,"security":false,"v8":"9.0.257.25"},{"name":"nodejs","version":"16.4.0","date":"2021-06-23","lts":false,"security":false,"v8":"9.1.269.36"},{"name":"nodejs","version":"16.5.0","date":"2021-07-14","lts":false,"security":false,"v8":"9.1.269.38"},{"name":"nodejs","version":"16.6.0","date":"2021-07-29","lts":false,"security":true,"v8":"9.2.230.21"},{"name":"nodejs","version":"16.7.0","date":"2021-08-18","lts":false,"security":false,"v8":"9.2.230.21"},{"name":"nodejs","version":"16.8.0","date":"2021-08-25","lts":false,"security":false,"v8":"9.2.230.21"},{"name":"nodejs","version":"16.9.0","date":"2021-09-07","lts":false,"security":false,"v8":"9.3.345.16"},{"name":"nodejs","version":"16.10.0","date":"2021-09-22","lts":false,"security":false,"v8":"9.3.345.19"},{"name":"nodejs","version":"16.11.0","date":"2021-10-08","lts":false,"security":false,"v8":"9.4.146.19"},{"name":"nodejs","version":"16.12.0","date":"2021-10-20","lts":false,"security":false,"v8":"9.4.146.19"},{"name":"nodejs","version":"16.13.0","date":"2021-10-26","lts":"Gallium","security":false,"v8":"9.4.146.19"},{"name":"nodejs","version":"16.14.0","date":"2022-02-08","lts":"Gallium","security":false,"v8":"9.4.146.24"},{"name":"nodejs","version":"16.15.0","date":"2022-04-26","lts":"Gallium","security":false,"v8":"9.4.146.24"},{"name":"nodejs","version":"16.16.0","date":"2022-07-07","lts":"Gallium","security":true,"v8":"9.4.146.24"},{"name":"nodejs","version":"16.17.0","date":"2022-08-16","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"16.18.0","date":"2022-10-12","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"16.19.0","date":"2022-12-13","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"16.20.0","date":"2023-03-28","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"17.0.0","date":"2021-10-19","lts":false,"security":false,"v8":"9.5.172.21"},{"name":"nodejs","version":"17.1.0","date":"2021-11-09","lts":false,"security":false,"v8":"9.5.172.25"},{"name":"nodejs","version":"17.2.0","date":"2021-11-30","lts":false,"security":false,"v8":"9.6.180.14"},{"name":"nodejs","version":"17.3.0","date":"2021-12-17","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.4.0","date":"2022-01-18","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.5.0","date":"2022-02-10","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.6.0","date":"2022-02-22","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.7.0","date":"2022-03-09","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.8.0","date":"2022-03-22","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.9.0","date":"2022-04-07","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"18.0.0","date":"2022-04-18","lts":false,"security":false,"v8":"10.1.124.8"},{"name":"nodejs","version":"18.1.0","date":"2022-05-03","lts":false,"security":false,"v8":"10.1.124.8"},{"name":"nodejs","version":"18.2.0","date":"2022-05-17","lts":false,"security":false,"v8":"10.1.124.8"},{"name":"nodejs","version":"18.3.0","date":"2022-06-02","lts":false,"security":false,"v8":"10.2.154.4"},{"name":"nodejs","version":"18.4.0","date":"2022-06-16","lts":false,"security":false,"v8":"10.2.154.4"},{"name":"nodejs","version":"18.5.0","date":"2022-07-06","lts":false,"security":true,"v8":"10.2.154.4"},{"name":"nodejs","version":"18.6.0","date":"2022-07-13","lts":false,"security":false,"v8":"10.2.154.13"},{"name":"nodejs","version":"18.7.0","date":"2022-07-26","lts":false,"security":false,"v8":"10.2.154.13"},{"name":"nodejs","version":"18.8.0","date":"2022-08-24","lts":false,"security":false,"v8":"10.2.154.13"},{"name":"nodejs","version":"18.9.0","date":"2022-09-07","lts":false,"security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.10.0","date":"2022-09-28","lts":false,"security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.11.0","date":"2022-10-13","lts":false,"security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.12.0","date":"2022-10-25","lts":"Hydrogen","security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.13.0","date":"2023-01-05","lts":"Hydrogen","security":false,"v8":"10.2.154.23"},{"name":"nodejs","version":"18.14.0","date":"2023-02-01","lts":"Hydrogen","security":false,"v8":"10.2.154.23"},{"name":"nodejs","version":"18.15.0","date":"2023-03-05","lts":"Hydrogen","security":false,"v8":"10.2.154.26"},{"name":"nodejs","version":"18.16.0","date":"2023-04-12","lts":"Hydrogen","security":false,"v8":"10.2.154.26"},{"name":"nodejs","version":"19.0.0","date":"2022-10-17","lts":false,"security":false,"v8":"10.7.193.13"},{"name":"nodejs","version":"19.1.0","date":"2022-11-14","lts":false,"security":false,"v8":"10.7.193.20"},{"name":"nodejs","version":"19.2.0","date":"2022-11-29","lts":false,"security":false,"v8":"10.8.168.20"},{"name":"nodejs","version":"19.3.0","date":"2022-12-14","lts":false,"security":false,"v8":"10.8.168.21"},{"name":"nodejs","version":"19.4.0","date":"2023-01-05","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.5.0","date":"2023-01-24","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.6.0","date":"2023-02-01","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.7.0","date":"2023-02-21","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.8.0","date":"2023-03-14","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.9.0","date":"2023-04-10","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"20.0.0","date":"2023-04-17","lts":false,"security":false,"v8":"11.3.244.4"},{"name":"nodejs","version":"20.1.0","date":"2023-05-03","lts":false,"security":false,"v8":"11.3.244.8"},{"name":"nodejs","version":"20.2.0","date":"2023-05-16","lts":false,"security":false,"v8":"11.3.244.8"},{"name":"nodejs","version":"20.3.0","date":"2023-06-08","lts":false,"security":false,"v8":"11.3.244.8"},{"name":"nodejs","version":"20.4.0","date":"2023-07-04","lts":false,"security":false,"v8":"11.3.244.8"}]')},78864:function(e){"use strict";e.exports=JSON.parse('{"v0.8":{"start":"2012-06-25","end":"2014-07-31"},"v0.10":{"start":"2013-03-11","end":"2016-10-31"},"v0.12":{"start":"2015-02-06","end":"2016-12-31"},"v4":{"start":"2015-09-08","lts":"2015-10-12","maintenance":"2017-04-01","end":"2018-04-30","codename":"Argon"},"v5":{"start":"2015-10-29","maintenance":"2016-04-30","end":"2016-06-30"},"v6":{"start":"2016-04-26","lts":"2016-10-18","maintenance":"2018-04-30","end":"2019-04-30","codename":"Boron"},"v7":{"start":"2016-10-25","maintenance":"2017-04-30","end":"2017-06-30"},"v8":{"start":"2017-05-30","lts":"2017-10-31","maintenance":"2019-01-01","end":"2019-12-31","codename":"Carbon"},"v9":{"start":"2017-10-01","maintenance":"2018-04-01","end":"2018-06-30"},"v10":{"start":"2018-04-24","lts":"2018-10-30","maintenance":"2020-05-19","end":"2021-04-30","codename":"Dubnium"},"v11":{"start":"2018-10-23","maintenance":"2019-04-22","end":"2019-06-01"},"v12":{"start":"2019-04-23","lts":"2019-10-21","maintenance":"2020-11-30","end":"2022-04-30","codename":"Erbium"},"v13":{"start":"2019-10-22","maintenance":"2020-04-01","end":"2020-06-01"},"v14":{"start":"2020-04-21","lts":"2020-10-27","maintenance":"2021-10-19","end":"2023-04-30","codename":"Fermium"},"v15":{"start":"2020-10-20","maintenance":"2021-04-01","end":"2021-06-01"},"v16":{"start":"2021-04-20","lts":"2021-10-26","maintenance":"2022-10-18","end":"2023-09-11","codename":"Gallium"},"v17":{"start":"2021-10-19","maintenance":"2022-04-01","end":"2022-06-01"},"v18":{"start":"2022-04-19","lts":"2022-10-25","maintenance":"2023-10-18","end":"2025-04-30","codename":"Hydrogen"},"v19":{"start":"2022-10-18","maintenance":"2023-04-01","end":"2023-06-01"},"v20":{"start":"2023-04-18","lts":"2023-10-24","maintenance":"2024-10-22","end":"2026-04-30","codename":""}}')}},a={};function s(e){var u=a[e];if(void 0!==u)return u.exports;var r=a[e]={id:e,loaded:!1,exports:{}};return d[e].call(r.exports,r,r.exports,s),r.loaded=!0,r.exports}s.m=d,e=[],s.O=function(u,r,t,n){if(!r){var d=1/0;for(f=0;f<e.length;f++){r=e[f][0],t=e[f][1],n=e[f][2];for(var a=!0,i=0;i<r.length;i++)(!1&n||d>=n)&&Object.keys(s.O).every((function(e){return s.O[e](r[i])}))?r.splice(i--,1):(a=!1,n<d&&(d=n));if(a){e.splice(f--,1);var o=t();void 0!==o&&(u=o)}}return u}n=n||0;for(var f=e.length;f>0&&e[f-1][2]>n;f--)e[f]=e[f-1];e[f]=[r,t,n]},s.n=function(e){var u=e&&e.__esModule?function(){return e.default}:function(){return e};return s.d(u,{a:u}),u},r=Object.getPrototypeOf?function(e){return Object.getPrototypeOf(e)}:function(e){return e.__proto__},s.t=function(e,t){if(1&t&&(e=this(e)),8&t)return e;if("object"==typeof e&&e){if(4&t&&e.__esModule)return e;if(16&t&&"function"==typeof e.then)return e}var n=Object.create(null);s.r(n);var d={};u=u||[null,r({}),r([]),r(r)];for(var a=2&t&&e;"object"==typeof a&&!~u.indexOf(a);a=r(a))Object.getOwnPropertyNames(a).forEach((function(u){d[u]=function(){return e[u]}}));return d.default=function(){return e},s.d(n,d),n},s.d=function(e,u){for(var r in u)s.o(u,r)&&!s.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:u[r]})},s.f={},s.e=function(e){return Promise.all(Object.keys(s.f).reduce((function(u,r){return s.f[r](e,u),u}),[]))},s.u=function(e){return e+"-"+e+".js?v=51251a24fb1ef7e64ed8"},s.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),s.o=function(e,u){return Object.prototype.hasOwnProperty.call(e,u)},t={},n="nextcloud:",s.l=function(e,u,r,d){if(t[e])t[e].push(u);else{var a,i;if(void 0!==r)for(var o=document.getElementsByTagName("script"),f=0;f<o.length;f++){var c=o[f];if(c.getAttribute("src")==e||c.getAttribute("data-webpack")==n+r){a=c;break}}a||(i=!0,(a=document.createElement("script")).charset="utf-8",a.timeout=120,s.nc&&a.setAttribute("nonce",s.nc),a.setAttribute("data-webpack",n+r),a.src=e),t[e]=[u];var l=function(u,r){a.onerror=a.onload=null,clearTimeout(v);var n=t[e];if(delete t[e],a.parentNode&&a.parentNode.removeChild(a),n&&n.forEach((function(e){return e(r)})),u)return u(r)},v=setTimeout(l.bind(null,void 0,{type:"timeout",target:a}),12e4);a.onerror=l.bind(null,a.onerror),a.onload=l.bind(null,a.onload),i&&document.head.appendChild(a)}},s.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},s.nmd=function(e){return e.paths=[],e.children||(e.children=[]),e},s.j=9315,function(){var e;s.g.importScripts&&(e=s.g.location+"");var u=s.g.document;if(!e&&u&&(u.currentScript&&(e=u.currentScript.src),!e)){var r=u.getElementsByTagName("script");if(r.length)for(var t=r.length-1;t>-1&&!e;)e=r[t--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),s.p=e}(),function(){s.b=document.baseURI||self.location.href;var e={9315:0};s.f.j=function(u,r){var t=s.o(e,u)?e[u]:void 0;if(0!==t)if(t)r.push(t[2]);else{var n=new Promise((function(r,n){t=e[u]=[r,n]}));r.push(t[2]=n);var d=s.p+s.u(u),a=new Error;s.l(d,(function(r){if(s.o(e,u)&&(0!==(t=e[u])&&(e[u]=void 0),t)){var n=r&&("load"===r.type?"missing":r.type),d=r&&r.target&&r.target.src;a.message="Loading chunk "+u+" failed.\n("+n+": "+d+")",a.name="ChunkLoadError",a.type=n,a.request=d,t[1](a)}}),"chunk-"+u,u)}},s.O.j=function(u){return 0===e[u]};var u=function(u,r){var t,n,d=r[0],a=r[1],i=r[2],o=0;if(d.some((function(u){return 0!==e[u]}))){for(t in a)s.o(a,t)&&(s.m[t]=a[t]);if(i)var f=i(s)}for(u&&u(r);o<d.length;o++)n=d[o],s.o(e,n)&&e[n]&&e[n][0](),e[n]=0;return s.O(f)},r=self.webpackChunknextcloud=self.webpackChunknextcloud||[];r.forEach(u.bind(null,0)),r.push=u.bind(null,r.push.bind(r))}(),s.nc=void 0;var i=s.O(void 0,[7874],(function(){return s(27979)}));i=s.O(i)}();
-//# sourceMappingURL=core-unsupported-browser.js.map?v=7b6a2a2034b85fcdd28a
+/******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/@nextcloud/browserslist-config/browserlist.config.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@nextcloud/browserslist-config/browserlist.config.js ***!
+  \***************************************************************************/
+/***/ (function(module) {
+
+module.exports = [
+  '>0.25%',
+  'not ie 11',
+  'not op_mini all',
+  'not dead',
+  'Firefox ESR',
+];
+
+
+/***/ }),
+
+/***/ "./core/src/logger.js":
+/*!****************************!*\
+  !*** ./core/src/logger.js ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.es.mjs");
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+var getLogger = function getLogger(user) {
+  if (user === null) {
+    return (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_1__.getLoggerBuilder)().setApp('core').build();
+  }
+  return (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_1__.getLoggerBuilder)().setApp('core').setUid(user.uid).build();
+};
+/* harmony default export */ __webpack_exports__["default"] = (getLogger((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()));
+
+/***/ }),
+
+/***/ "./core/src/services/BrowserStorageService.js":
+/*!****************************************************!*\
+  !*** ./core/src/services/BrowserStorageService.js ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_browser_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/browser-storage */ "./node_modules/@nextcloud/browser-storage/dist/index.js");
+/**
+ * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+/* harmony default export */ __webpack_exports__["default"] = ((0,_nextcloud_browser_storage__WEBPACK_IMPORTED_MODULE_0__.getBuilder)('core').clearOnLogout().persist().build());
+
+/***/ }),
+
+/***/ "./core/src/services/BrowsersListService.js":
+/*!**************************************************!*\
+  !*** ./core/src/services/BrowsersListService.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   supportedBrowsers: function() { return /* binding */ supportedBrowsers; },
+/* harmony export */   supportedBrowsersRegExp: function() { return /* binding */ supportedBrowsersRegExp; }
+/* harmony export */ });
+/* harmony import */ var browserslist_useragent_regexp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! browserslist-useragent-regexp */ "./node_modules/browserslist-useragent-regexp/dist/index.js");
+/* harmony import */ var browserslist__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! browserslist */ "./node_modules/browserslist/index.js");
+/* harmony import */ var browserslist__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(browserslist__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/browserslist-config */ "./node_modules/@nextcloud/browserslist-config/browserlist.config.js");
+/* harmony import */ var _nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+// eslint-disable-next-line n/no-extraneous-import
+
+
+
+// Generate a regex that matches user agents to detect incompatible browsers
+var supportedBrowsersRegExp = (0,browserslist_useragent_regexp__WEBPACK_IMPORTED_MODULE_0__.getUserAgentRegex)({
+  allowHigherVersions: true,
+  browsers: (_nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2___default())
+});
+var supportedBrowsers = browserslist__WEBPACK_IMPORTED_MODULE_1___default()((_nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2___default()));
+
+/***/ }),
+
+/***/ "./core/src/unsupported-browser.js":
+/*!*****************************************!*\
+  !*** ./core/src/unsupported-browser.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _utils_RedirectUnsupportedBrowsers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/RedirectUnsupportedBrowsers.js */ "./core/src/utils/RedirectUnsupportedBrowsers.js");
+/* harmony import */ var _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/BrowserStorageService.js */ "./core/src/services/BrowserStorageService.js");
+/* harmony import */ var _views_UnsupportedBrowser_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/UnsupportedBrowser.vue */ "./core/src/views/UnsupportedBrowser.vue");
+/**
+ * @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+
+
+// If the ignore token is set, redirect
+if (_services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_2__["default"].getItem(_utils_RedirectUnsupportedBrowsers_js__WEBPACK_IMPORTED_MODULE_1__.browserStorageKey) === 'true') {
+  window.location = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/');
+}
+/* harmony default export */ __webpack_exports__["default"] = (new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
+  el: '#unsupported-browser',
+  // eslint-disable-next-line vue/match-component-file-name
+  name: 'UnsupportedBrowserRoot',
+  render: function render(h) {
+    return h(_views_UnsupportedBrowser_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  }
+}));
+
+/***/ }),
+
+/***/ "./core/src/utils/RedirectUnsupportedBrowsers.js":
+/*!*******************************************************!*\
+  !*** ./core/src/utils/RedirectUnsupportedBrowsers.js ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   browserStorageKey: function() { return /* binding */ browserStorageKey; },
+/* harmony export */   testSupportedBrowser: function() { return /* binding */ testSupportedBrowser; }
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/BrowsersListService.js */ "./core/src/services/BrowsersListService.js");
+/* harmony import */ var _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/BrowserStorageService.js */ "./core/src/services/BrowserStorageService.js");
+/* harmony import */ var _logger_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logger.js */ "./core/src/logger.js");
+/* provided dependency */ var Buffer = __webpack_require__(/*! ./node_modules/node-polyfill-webpack-plugin/node_modules/buffer/index.js */ "./node_modules/node-polyfill-webpack-plugin/node_modules/buffer/index.js")["Buffer"];
+/**
+ * @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+var browserStorageKey = 'unsupported-browser-ignore';
+var redirectPath = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/unsupported');
+var isBrowserOverridden = _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_2__["default"].getItem(browserStorageKey) === 'true';
+
+/**
+ * Test the current browser user agent against our official browserslist config
+ * and redirect if unsupported
+ */
+var testSupportedBrowser = function testSupportedBrowser() {
+  if (_services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_1__.supportedBrowsersRegExp.test(navigator.userAgent)) {
+    _logger_js__WEBPACK_IMPORTED_MODULE_3__["default"].debug('this browser is officially supported ! 🚀');
+    return;
+  }
+
+  // If incompatible BUT ignored, let's keep going
+  if (isBrowserOverridden) {
+    _logger_js__WEBPACK_IMPORTED_MODULE_3__["default"].debug('this browser is NOT supported but has been manually overridden ! ⚠️');
+    return;
+  }
+
+  // If incompatible, NOT overridden AND NOT already on the warning page,
+  // redirect to the unsupported warning page
+  if (window.location.pathname.indexOf(redirectPath) === -1) {
+    var redirectUrl = window.location.href.replace(window.location.origin, '');
+    var base64Param = Buffer.from(redirectUrl).toString('base64');
+    history.pushState(null, null, "".concat(redirectPath, "?redirect_url=").concat(base64Param));
+    window.location.reload();
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcEmptyContent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcEmptyContent.js */ "./node_modules/@nextcloud/vue/dist/Components/NcEmptyContent.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcEmptyContent_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcEmptyContent_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_material_design_icons_Web_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-material-design-icons/Web.vue */ "./node_modules/vue-material-design-icons/Web.vue");
+/* harmony import */ var _utils_RedirectUnsupportedBrowsers_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/RedirectUnsupportedBrowsers.js */ "./core/src/utils/RedirectUnsupportedBrowsers.js");
+/* harmony import */ var _services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/BrowsersListService.js */ "./core/src/services/BrowsersListService.js");
+/* harmony import */ var _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/BrowserStorageService.js */ "./core/src/services/BrowserStorageService.js");
+/* harmony import */ var _logger_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../logger.js */ "./core/src/logger.js");
+/* provided dependency */ var Buffer = __webpack_require__(/*! ./node_modules/node-polyfill-webpack-plugin/node_modules/buffer/index.js */ "./node_modules/node-polyfill-webpack-plugin/node_modules/buffer/index.js")["Buffer"];
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, catch: function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+_logger_js__WEBPACK_IMPORTED_MODULE_8__["default"].debug('Supported browsers', {
+  supportedBrowsers: _services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_6__.supportedBrowsers
+});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'UnsupportedBrowser',
+  components: {
+    Web: vue_material_design_icons_Web_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    NcButton: (_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2___default()),
+    NcEmptyContent: (_nextcloud_vue_dist_Components_NcEmptyContent_js__WEBPACK_IMPORTED_MODULE_3___default())
+  },
+  data: function data() {
+    return {
+      agents: {}
+    };
+  },
+  computed: {
+    isMobile: function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    },
+    /**
+     * Filter out or include mobile/desktop browsers depending
+     * on the current user platform/device
+     */
+    filteredSupportedBrowsers: function filteredSupportedBrowsers() {
+      var _this = this;
+      return _services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_6__.supportedBrowsers.filter(function (browser) {
+        if (!browser) {
+          return false;
+        }
+        if (_this.isMobile) {
+          return _this.isMobileBrowser(browser);
+        }
+        return !_this.isMobileBrowser(browser);
+      });
+    },
+    formattedBrowsersList: function formattedBrowsersList() {
+      var _this2 = this;
+      var list = {};
+
+      // supportedBrowsers is generated by webpack at compilation time
+      this.filteredSupportedBrowsers.forEach(function (browser) {
+        var _browser$split = browser.split(' '),
+          _browser$split2 = _slicedToArray(_browser$split, 2),
+          id = _browser$split2[0],
+          version = _browser$split2[1];
+        if (!list[id] || list[id] < parseFloat(version, 10)) {
+          list[id] = parseFloat(version, 10);
+        }
+      });
+      return Object.keys(list).map(function (id) {
+        var _this2$agents$id, _this2$agents$id2;
+        if (!((_this2$agents$id = _this2.agents[id]) !== null && _this2$agents$id !== void 0 && _this2$agents$id.browser)) {
+          return null;
+        }
+        var version = list[id];
+        var name = (_this2$agents$id2 = _this2.agents[id]) === null || _this2$agents$id2 === void 0 ? void 0 : _this2$agents$id2.browser;
+        return _this2.t('core', '{name} version {version} and above', {
+          name: name,
+          version: version
+        });
+      }).filter(function (entry) {
+        return entry !== null;
+      });
+    }
+  },
+  beforeMount: function beforeMount() {
+    var _this3 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var _yield$import, agents;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return __webpack_require__.e(/*! import() */ "node_modules_caniuse-lite_dist_unpacker_index_js").then(__webpack_require__.t.bind(__webpack_require__, /*! caniuse-lite */ "./node_modules/caniuse-lite/dist/unpacker/index.js", 19));
+          case 2:
+            _yield$import = _context.sent;
+            agents = _yield$import.agents;
+            _this3.agents = agents;
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }))();
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate,
+    n: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translatePlural,
+    // Set the flag allowing this browser and redirect to home
+    forceBrowsing: function forceBrowsing() {
+      _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_7__["default"].setItem(_utils_RedirectUnsupportedBrowsers_js__WEBPACK_IMPORTED_MODULE_5__.browserStorageKey, true);
+
+      // Redirect if there is the data
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('redirect_url')) {
+        var redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/';
+        if (redirectPath.startsWith('/')) {
+          window.location = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)(redirectPath);
+          return;
+        }
+      }
+      window.location = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/');
+    },
+    /**
+     * Detect if the browserslist browser is a mobile one
+     * https://github.com/browserslist/browserslist#query-composition
+     *
+     * @param {string} browser a valid browserlist browser. e.g `and_chr 90`
+     */
+    isMobileBrowser: function isMobileBrowser(browser) {
+      browser = browser.toLowerCase();
+      return browser.includes('and_') || browser.includes('android') || browser.includes('ios_') || browser.includes('mobile') || browser.includes('_mob') || browser.includes('samsung');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: function() { return /* binding */ render; },
+/* harmony export */   staticRenderFns: function() { return /* binding */ staticRenderFns; }
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "content-unsupported-browser guest-box"
+  }, [_c("NcEmptyContent", {
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function fn() {
+        return [_c("Web")];
+      },
+      proxy: true
+    }, {
+      key: "action",
+      fn: function fn() {
+        return [_c("div", [_c("h2", [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Your browser is not supported. Please upgrade to a newer version or a supported one.")) + "\n\t\t\t\t")]), _vm._v(" "), _c("NcButton", {
+          staticClass: "content-unsupported-browser__continue",
+          attrs: {
+            type: "primary"
+          },
+          on: {
+            click: _vm.forceBrowsing
+          }
+        }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Continue with this unsupported browser")) + "\n\t\t\t\t")])], 1), _vm._v(" "), _c("ul", {
+          staticClass: "content-unsupported-browser__list"
+        }, [_c("h3", [_vm._v(_vm._s(_vm.t("core", "Supported versions")))]), _vm._v(" "), _vm._l(_vm.formattedBrowsersList, function (browser) {
+          return _c("li", {
+            key: browser
+          }, [_vm._v("\n\t\t\t\t\t" + _vm._s(browser) + "\n\t\t\t\t")]);
+        })], 2)];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("core", "This browser is not supported")) + "\n\t\t")])], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/browserslist/browser.js":
+/*!**********************************************!*\
+  !*** ./node_modules/browserslist/browser.js ***!
+  \**********************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+var BrowserslistError = __webpack_require__(/*! ./error */ "./node_modules/browserslist/error.js")
+
+function noop() {}
+
+module.exports = {
+  loadQueries: function loadQueries() {
+    throw new BrowserslistError(
+      'Sharable configs are not supported in client-side build of Browserslist'
+    )
+  },
+
+  getStat: function getStat(opts) {
+    return opts.stats
+  },
+
+  loadConfig: function loadConfig(opts) {
+    if (opts.config) {
+      throw new BrowserslistError(
+        'Browserslist config are not supported in client-side build'
+      )
+    }
+  },
+
+  loadCountry: function loadCountry() {
+    throw new BrowserslistError(
+      'Country statistics are not supported ' +
+        'in client-side build of Browserslist'
+    )
+  },
+
+  loadFeature: function loadFeature() {
+    throw new BrowserslistError(
+      'Supports queries are not available in client-side build of Browserslist'
+    )
+  },
+
+  currentNode: function currentNode(resolve, context) {
+    return resolve(['maintained node versions'], context)[0]
+  },
+
+  parseConfig: noop,
+
+  readConfig: noop,
+
+  findConfig: noop,
+
+  clearCaches: noop,
+
+  oldDataWarning: noop,
+
+  env: {}
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/browserslist/error.js":
+/*!********************************************!*\
+  !*** ./node_modules/browserslist/error.js ***!
+  \********************************************/
+/***/ (function(module) {
+
+function BrowserslistError(message) {
+  this.name = 'BrowserslistError'
+  this.message = message
+  this.browserslist = true
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, BrowserslistError)
+  }
+}
+
+BrowserslistError.prototype = Error.prototype
+
+module.exports = BrowserslistError
+
+
+/***/ }),
+
+/***/ "./node_modules/browserslist/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/browserslist/index.js ***!
+  \********************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+var jsReleases = __webpack_require__(/*! node-releases/data/processed/envs.json */ "./node_modules/node-releases/data/processed/envs.json")
+var agents = (__webpack_require__(/*! caniuse-lite/dist/unpacker/agents */ "./node_modules/caniuse-lite/dist/unpacker/agents.js").agents)
+var jsEOL = __webpack_require__(/*! node-releases/data/release-schedule/release-schedule.json */ "./node_modules/node-releases/data/release-schedule/release-schedule.json")
+var path = __webpack_require__(/*! path */ "?3465")
+var e2c = __webpack_require__(/*! electron-to-chromium/versions */ "./node_modules/electron-to-chromium/versions.js")
+
+var BrowserslistError = __webpack_require__(/*! ./error */ "./node_modules/browserslist/error.js")
+var parse = __webpack_require__(/*! ./parse */ "./node_modules/browserslist/parse.js")
+var env = __webpack_require__(/*! ./node */ "./node_modules/browserslist/browser.js") // Will load browser.js in webpack
+
+var YEAR = 365.259641 * 24 * 60 * 60 * 1000
+var ANDROID_EVERGREEN_FIRST = '37'
+var OP_MOB_BLINK_FIRST = 14
+
+// Helpers
+
+function isVersionsMatch(versionA, versionB) {
+  return (versionA + '.').indexOf(versionB + '.') === 0
+}
+
+function isEolReleased(name) {
+  var version = name.slice(1)
+  return browserslist.nodeVersions.some(function (i) {
+    return isVersionsMatch(i, version)
+  })
+}
+
+function normalize(versions) {
+  return versions.filter(function (version) {
+    return typeof version === 'string'
+  })
+}
+
+function normalizeElectron(version) {
+  var versionToUse = version
+  if (version.split('.').length === 3) {
+    versionToUse = version.split('.').slice(0, -1).join('.')
+  }
+  return versionToUse
+}
+
+function nameMapper(name) {
+  return function mapName(version) {
+    return name + ' ' + version
+  }
+}
+
+function getMajor(version) {
+  return parseInt(version.split('.')[0])
+}
+
+function getMajorVersions(released, number) {
+  if (released.length === 0) return []
+  var majorVersions = uniq(released.map(getMajor))
+  var minimum = majorVersions[majorVersions.length - number]
+  if (!minimum) {
+    return released
+  }
+  var selected = []
+  for (var i = released.length - 1; i >= 0; i--) {
+    if (minimum > getMajor(released[i])) break
+    selected.unshift(released[i])
+  }
+  return selected
+}
+
+function uniq(array) {
+  var filtered = []
+  for (var i = 0; i < array.length; i++) {
+    if (filtered.indexOf(array[i]) === -1) filtered.push(array[i])
+  }
+  return filtered
+}
+
+function fillUsage(result, name, data) {
+  for (var i in data) {
+    result[name + ' ' + i] = data[i]
+  }
+}
+
+function generateFilter(sign, version) {
+  version = parseFloat(version)
+  if (sign === '>') {
+    return function (v) {
+      return parseFloat(v) > version
+    }
+  } else if (sign === '>=') {
+    return function (v) {
+      return parseFloat(v) >= version
+    }
+  } else if (sign === '<') {
+    return function (v) {
+      return parseFloat(v) < version
+    }
+  } else {
+    return function (v) {
+      return parseFloat(v) <= version
+    }
+  }
+}
+
+function generateSemverFilter(sign, version) {
+  version = version.split('.').map(parseSimpleInt)
+  version[1] = version[1] || 0
+  version[2] = version[2] || 0
+  if (sign === '>') {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(v, version) > 0
+    }
+  } else if (sign === '>=') {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(v, version) >= 0
+    }
+  } else if (sign === '<') {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(version, v) > 0
+    }
+  } else {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(version, v) >= 0
+    }
+  }
+}
+
+function parseSimpleInt(x) {
+  return parseInt(x)
+}
+
+function compare(a, b) {
+  if (a < b) return -1
+  if (a > b) return +1
+  return 0
+}
+
+function compareSemver(a, b) {
+  return (
+    compare(parseInt(a[0]), parseInt(b[0])) ||
+    compare(parseInt(a[1] || '0'), parseInt(b[1] || '0')) ||
+    compare(parseInt(a[2] || '0'), parseInt(b[2] || '0'))
+  )
+}
+
+// this follows the npm-like semver behavior
+function semverFilterLoose(operator, range) {
+  range = range.split('.').map(parseSimpleInt)
+  if (typeof range[1] === 'undefined') {
+    range[1] = 'x'
+  }
+  // ignore any patch version because we only return minor versions
+  // range[2] = 'x'
+  switch (operator) {
+    case '<=':
+      return function (version) {
+        version = version.split('.').map(parseSimpleInt)
+        return compareSemverLoose(version, range) <= 0
+      }
+    case '>=':
+    default:
+      return function (version) {
+        version = version.split('.').map(parseSimpleInt)
+        return compareSemverLoose(version, range) >= 0
+      }
+  }
+}
+
+// this follows the npm-like semver behavior
+function compareSemverLoose(version, range) {
+  if (version[0] !== range[0]) {
+    return version[0] < range[0] ? -1 : +1
+  }
+  if (range[1] === 'x') {
+    return 0
+  }
+  if (version[1] !== range[1]) {
+    return version[1] < range[1] ? -1 : +1
+  }
+  return 0
+}
+
+function resolveVersion(data, version) {
+  if (data.versions.indexOf(version) !== -1) {
+    return version
+  } else if (browserslist.versionAliases[data.name][version]) {
+    return browserslist.versionAliases[data.name][version]
+  } else {
+    return false
+  }
+}
+
+function normalizeVersion(data, version) {
+  var resolved = resolveVersion(data, version)
+  if (resolved) {
+    return resolved
+  } else if (data.versions.length === 1) {
+    return data.versions[0]
+  } else {
+    return false
+  }
+}
+
+function filterByYear(since, context) {
+  since = since / 1000
+  return Object.keys(agents).reduce(function (selected, name) {
+    var data = byName(name, context)
+    if (!data) return selected
+    var versions = Object.keys(data.releaseDate).filter(function (v) {
+      var date = data.releaseDate[v]
+      return date !== null && date >= since
+    })
+    return selected.concat(versions.map(nameMapper(data.name)))
+  }, [])
+}
+
+function cloneData(data) {
+  return {
+    name: data.name,
+    versions: data.versions,
+    released: data.released,
+    releaseDate: data.releaseDate
+  }
+}
+
+function byName(name, context) {
+  name = name.toLowerCase()
+  name = browserslist.aliases[name] || name
+  if (context.mobileToDesktop && browserslist.desktopNames[name]) {
+    var desktop = browserslist.data[browserslist.desktopNames[name]]
+    if (name === 'android') {
+      return normalizeAndroidData(cloneData(browserslist.data[name]), desktop)
+    } else {
+      var cloned = cloneData(desktop)
+      cloned.name = name
+      return cloned
+    }
+  }
+  return browserslist.data[name]
+}
+
+function normalizeAndroidVersions(androidVersions, chromeVersions) {
+  var iFirstEvergreen = chromeVersions.indexOf(ANDROID_EVERGREEN_FIRST)
+  return androidVersions
+    .filter(function (version) {
+      return /^(?:[2-4]\.|[34]$)/.test(version)
+    })
+    .concat(chromeVersions.slice(iFirstEvergreen))
+}
+
+function normalizeAndroidData(android, chrome) {
+  android.released = normalizeAndroidVersions(android.released, chrome.released)
+  android.versions = normalizeAndroidVersions(android.versions, chrome.versions)
+  android.released.forEach(function (v) {
+    if (android.releaseDate[v] === undefined) {
+      android.releaseDate[v] = chrome.releaseDate[v]
+    }
+  })
+  return android
+}
+
+function checkName(name, context) {
+  var data = byName(name, context)
+  if (!data) throw new BrowserslistError('Unknown browser ' + name)
+  return data
+}
+
+function unknownQuery(query) {
+  return new BrowserslistError(
+    'Unknown browser query `' +
+      query +
+      '`. ' +
+      'Maybe you are using old Browserslist or made typo in query.'
+  )
+}
+
+// Adjusts last X versions queries for some mobile browsers,
+// where caniuse data jumps from a legacy version to the latest
+function filterJumps(list, name, nVersions, context) {
+  var jump = 1
+  switch (name) {
+    case 'android':
+      if (context.mobileToDesktop) return list
+      var released = browserslist.data.chrome.released
+      jump = released.length - released.indexOf(ANDROID_EVERGREEN_FIRST)
+      break
+    case 'op_mob':
+      var latest = browserslist.data.op_mob.released.slice(-1)[0]
+      jump = getMajor(latest) - OP_MOB_BLINK_FIRST + 1
+      break
+    default:
+      return list
+  }
+  if (nVersions <= jump) {
+    return list.slice(-1)
+  }
+  return list.slice(jump - 1 - nVersions)
+}
+
+function isSupported(flags) {
+  return (
+    typeof flags === 'string' &&
+    (flags.indexOf('y') >= 0 || flags.indexOf('a') >= 0)
+  )
+}
+
+function resolve(queries, context) {
+  return parse(QUERIES, queries).reduce(function (result, node, index) {
+    if (node.not && index === 0) {
+      throw new BrowserslistError(
+        'Write any browsers query (for instance, `defaults`) ' +
+          'before `' +
+          node.query +
+          '`'
+      )
+    }
+    var type = QUERIES[node.type]
+    var array = type.select.call(browserslist, context, node).map(function (j) {
+      var parts = j.split(' ')
+      if (parts[1] === '0') {
+        return parts[0] + ' ' + byName(parts[0], context).versions[0]
+      } else {
+        return j
+      }
+    })
+
+    if (node.compose === 'and') {
+      if (node.not) {
+        return result.filter(function (j) {
+          return array.indexOf(j) === -1
+        })
+      } else {
+        return result.filter(function (j) {
+          return array.indexOf(j) !== -1
+        })
+      }
+    } else {
+      if (node.not) {
+        var filter = {}
+        array.forEach(function (j) {
+          filter[j] = true
+        })
+        return result.filter(function (j) {
+          return !filter[j]
+        })
+      }
+      return result.concat(array)
+    }
+  }, [])
+}
+
+function prepareOpts(opts) {
+  if (typeof opts === 'undefined') opts = {}
+
+  if (typeof opts.path === 'undefined') {
+    opts.path = path.resolve ? path.resolve('.') : '.'
+  }
+
+  return opts
+}
+
+function prepareQueries(queries, opts) {
+  if (typeof queries === 'undefined' || queries === null) {
+    var config = browserslist.loadConfig(opts)
+    if (config) {
+      queries = config
+    } else {
+      queries = browserslist.defaults
+    }
+  }
+
+  return queries
+}
+
+function checkQueries(queries) {
+  if (!(typeof queries === 'string' || Array.isArray(queries))) {
+    throw new BrowserslistError(
+      'Browser queries must be an array or string. Got ' + typeof queries + '.'
+    )
+  }
+}
+
+var cache = {}
+
+function browserslist(queries, opts) {
+  opts = prepareOpts(opts)
+  queries = prepareQueries(queries, opts)
+  checkQueries(queries)
+
+  var context = {
+    ignoreUnknownVersions: opts.ignoreUnknownVersions,
+    dangerousExtend: opts.dangerousExtend,
+    mobileToDesktop: opts.mobileToDesktop,
+    path: opts.path,
+    env: opts.env
+  }
+
+  env.oldDataWarning(browserslist.data)
+  var stats = env.getStat(opts, browserslist.data)
+  if (stats) {
+    context.customUsage = {}
+    for (var browser in stats) {
+      fillUsage(context.customUsage, browser, stats[browser])
+    }
+  }
+
+  var cacheKey = JSON.stringify([queries, context])
+  if (cache[cacheKey]) return cache[cacheKey]
+
+  var result = uniq(resolve(queries, context)).sort(function (name1, name2) {
+    name1 = name1.split(' ')
+    name2 = name2.split(' ')
+    if (name1[0] === name2[0]) {
+      // assumptions on caniuse data
+      // 1) version ranges never overlaps
+      // 2) if version is not a range, it never contains `-`
+      var version1 = name1[1].split('-')[0]
+      var version2 = name2[1].split('-')[0]
+      return compareSemver(version2.split('.'), version1.split('.'))
+    } else {
+      return compare(name1[0], name2[0])
+    }
+  })
+  if (!env.env.BROWSERSLIST_DISABLE_CACHE) {
+    cache[cacheKey] = result
+  }
+  return result
+}
+
+browserslist.parse = function (queries, opts) {
+  opts = prepareOpts(opts)
+  queries = prepareQueries(queries, opts)
+  checkQueries(queries)
+  return parse(QUERIES, queries)
+}
+
+// Will be filled by Can I Use data below
+browserslist.cache = {}
+browserslist.data = {}
+browserslist.usage = {
+  global: {},
+  custom: null
+}
+
+// Default browsers query
+browserslist.defaults = ['> 0.5%', 'last 2 versions', 'Firefox ESR', 'not dead']
+
+// Browser names aliases
+browserslist.aliases = {
+  fx: 'firefox',
+  ff: 'firefox',
+  ios: 'ios_saf',
+  explorer: 'ie',
+  blackberry: 'bb',
+  explorermobile: 'ie_mob',
+  operamini: 'op_mini',
+  operamobile: 'op_mob',
+  chromeandroid: 'and_chr',
+  firefoxandroid: 'and_ff',
+  ucandroid: 'and_uc',
+  qqandroid: 'and_qq'
+}
+
+// Can I Use only provides a few versions for some browsers (e.g. and_chr).
+// Fallback to a similar browser for unknown versions
+// Note op_mob is not included as its chromium versions are not in sync with Opera desktop
+browserslist.desktopNames = {
+  and_chr: 'chrome',
+  and_ff: 'firefox',
+  ie_mob: 'ie',
+  android: 'chrome' // has extra processing logic
+}
+
+// Aliases to work with joined versions like `ios_saf 7.0-7.1`
+browserslist.versionAliases = {}
+
+browserslist.clearCaches = env.clearCaches
+browserslist.parseConfig = env.parseConfig
+browserslist.readConfig = env.readConfig
+browserslist.findConfig = env.findConfig
+browserslist.loadConfig = env.loadConfig
+
+browserslist.coverage = function (browsers, stats) {
+  var data
+  if (typeof stats === 'undefined') {
+    data = browserslist.usage.global
+  } else if (stats === 'my stats') {
+    var opts = {}
+    opts.path = path.resolve ? path.resolve('.') : '.'
+    var customStats = env.getStat(opts)
+    if (!customStats) {
+      throw new BrowserslistError('Custom usage statistics was not provided')
+    }
+    data = {}
+    for (var browser in customStats) {
+      fillUsage(data, browser, customStats[browser])
+    }
+  } else if (typeof stats === 'string') {
+    if (stats.length > 2) {
+      stats = stats.toLowerCase()
+    } else {
+      stats = stats.toUpperCase()
+    }
+    env.loadCountry(browserslist.usage, stats, browserslist.data)
+    data = browserslist.usage[stats]
+  } else {
+    if ('dataByBrowser' in stats) {
+      stats = stats.dataByBrowser
+    }
+    data = {}
+    for (var name in stats) {
+      for (var version in stats[name]) {
+        data[name + ' ' + version] = stats[name][version]
+      }
+    }
+  }
+
+  return browsers.reduce(function (all, i) {
+    var usage = data[i]
+    if (usage === undefined) {
+      usage = data[i.replace(/ \S+$/, ' 0')]
+    }
+    return all + (usage || 0)
+  }, 0)
+}
+
+function nodeQuery(context, node) {
+  var matched = browserslist.nodeVersions.filter(function (i) {
+    return isVersionsMatch(i, node.version)
+  })
+  if (matched.length === 0) {
+    if (context.ignoreUnknownVersions) {
+      return []
+    } else {
+      throw new BrowserslistError(
+        'Unknown version ' + node.version + ' of Node.js'
+      )
+    }
+  }
+  return ['node ' + matched[matched.length - 1]]
+}
+
+function sinceQuery(context, node) {
+  var year = parseInt(node.year)
+  var month = parseInt(node.month || '01') - 1
+  var day = parseInt(node.day || '01')
+  return filterByYear(Date.UTC(year, month, day, 0, 0, 0), context)
+}
+
+function coverQuery(context, node) {
+  var coverage = parseFloat(node.coverage)
+  var usage = browserslist.usage.global
+  if (node.place) {
+    if (node.place.match(/^my\s+stats$/i)) {
+      if (!context.customUsage) {
+        throw new BrowserslistError('Custom usage statistics was not provided')
+      }
+      usage = context.customUsage
+    } else {
+      var place
+      if (node.place.length === 2) {
+        place = node.place.toUpperCase()
+      } else {
+        place = node.place.toLowerCase()
+      }
+      env.loadCountry(browserslist.usage, place, browserslist.data)
+      usage = browserslist.usage[place]
+    }
+  }
+  var versions = Object.keys(usage).sort(function (a, b) {
+    return usage[b] - usage[a]
+  })
+  var coveraged = 0
+  var result = []
+  var version
+  for (var i = 0; i < versions.length; i++) {
+    version = versions[i]
+    if (usage[version] === 0) break
+    coveraged += usage[version]
+    result.push(version)
+    if (coveraged >= coverage) break
+  }
+  return result
+}
+
+var QUERIES = {
+  last_major_versions: {
+    matches: ['versions'],
+    regexp: /^last\s+(\d+)\s+major\s+versions?$/i,
+    select: function (context, node) {
+      return Object.keys(agents).reduce(function (selected, name) {
+        var data = byName(name, context)
+        if (!data) return selected
+        var list = getMajorVersions(data.released, node.versions)
+        list = list.map(nameMapper(data.name))
+        list = filterJumps(list, data.name, node.versions, context)
+        return selected.concat(list)
+      }, [])
+    }
+  },
+  last_versions: {
+    matches: ['versions'],
+    regexp: /^last\s+(\d+)\s+versions?$/i,
+    select: function (context, node) {
+      return Object.keys(agents).reduce(function (selected, name) {
+        var data = byName(name, context)
+        if (!data) return selected
+        var list = data.released.slice(-node.versions)
+        list = list.map(nameMapper(data.name))
+        list = filterJumps(list, data.name, node.versions, context)
+        return selected.concat(list)
+      }, [])
+    }
+  },
+  last_electron_major_versions: {
+    matches: ['versions'],
+    regexp: /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
+    select: function (context, node) {
+      var validVersions = getMajorVersions(Object.keys(e2c), node.versions)
+      return validVersions.map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
+    }
+  },
+  last_node_major_versions: {
+    matches: ['versions'],
+    regexp: /^last\s+(\d+)\s+node\s+major\s+versions?$/i,
+    select: function (context, node) {
+      return getMajorVersions(browserslist.nodeVersions, node.versions).map(
+        function (version) {
+          return 'node ' + version
+        }
+      )
+    }
+  },
+  last_browser_major_versions: {
+    matches: ['versions', 'browser'],
+    regexp: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
+    select: function (context, node) {
+      var data = checkName(node.browser, context)
+      var validVersions = getMajorVersions(data.released, node.versions)
+      var list = validVersions.map(nameMapper(data.name))
+      list = filterJumps(list, data.name, node.versions, context)
+      return list
+    }
+  },
+  last_electron_versions: {
+    matches: ['versions'],
+    regexp: /^last\s+(\d+)\s+electron\s+versions?$/i,
+    select: function (context, node) {
+      return Object.keys(e2c)
+        .slice(-node.versions)
+        .map(function (i) {
+          return 'chrome ' + e2c[i]
+        })
+    }
+  },
+  last_node_versions: {
+    matches: ['versions'],
+    regexp: /^last\s+(\d+)\s+node\s+versions?$/i,
+    select: function (context, node) {
+      return browserslist.nodeVersions
+        .slice(-node.versions)
+        .map(function (version) {
+          return 'node ' + version
+        })
+    }
+  },
+  last_browser_versions: {
+    matches: ['versions', 'browser'],
+    regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
+    select: function (context, node) {
+      var data = checkName(node.browser, context)
+      var list = data.released.slice(-node.versions).map(nameMapper(data.name))
+      list = filterJumps(list, data.name, node.versions, context)
+      return list
+    }
+  },
+  unreleased_versions: {
+    matches: [],
+    regexp: /^unreleased\s+versions$/i,
+    select: function (context) {
+      return Object.keys(agents).reduce(function (selected, name) {
+        var data = byName(name, context)
+        if (!data) return selected
+        var list = data.versions.filter(function (v) {
+          return data.released.indexOf(v) === -1
+        })
+        list = list.map(nameMapper(data.name))
+        return selected.concat(list)
+      }, [])
+    }
+  },
+  unreleased_electron_versions: {
+    matches: [],
+    regexp: /^unreleased\s+electron\s+versions?$/i,
+    select: function () {
+      return []
+    }
+  },
+  unreleased_browser_versions: {
+    matches: ['browser'],
+    regexp: /^unreleased\s+(\w+)\s+versions?$/i,
+    select: function (context, node) {
+      var data = checkName(node.browser, context)
+      return data.versions
+        .filter(function (v) {
+          return data.released.indexOf(v) === -1
+        })
+        .map(nameMapper(data.name))
+    }
+  },
+  last_years: {
+    matches: ['years'],
+    regexp: /^last\s+(\d*.?\d+)\s+years?$/i,
+    select: function (context, node) {
+      return filterByYear(Date.now() - YEAR * node.years, context)
+    }
+  },
+  since_y: {
+    matches: ['year'],
+    regexp: /^since (\d+)$/i,
+    select: sinceQuery
+  },
+  since_y_m: {
+    matches: ['year', 'month'],
+    regexp: /^since (\d+)-(\d+)$/i,
+    select: sinceQuery
+  },
+  since_y_m_d: {
+    matches: ['year', 'month', 'day'],
+    regexp: /^since (\d+)-(\d+)-(\d+)$/i,
+    select: sinceQuery
+  },
+  popularity: {
+    matches: ['sign', 'popularity'],
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%$/,
+    select: function (context, node) {
+      var popularity = parseFloat(node.popularity)
+      var usage = browserslist.usage.global
+      return Object.keys(usage).reduce(function (result, version) {
+        if (node.sign === '>') {
+          if (usage[version] > popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<') {
+          if (usage[version] < popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<=') {
+          if (usage[version] <= popularity) {
+            result.push(version)
+          }
+        } else if (usage[version] >= popularity) {
+          result.push(version)
+        }
+        return result
+      }, [])
+    }
+  },
+  popularity_in_my_stats: {
+    matches: ['sign', 'popularity'],
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/,
+    select: function (context, node) {
+      var popularity = parseFloat(node.popularity)
+      if (!context.customUsage) {
+        throw new BrowserslistError('Custom usage statistics was not provided')
+      }
+      var usage = context.customUsage
+      return Object.keys(usage).reduce(function (result, version) {
+        var percentage = usage[version]
+        if (percentage == null) {
+          return result
+        }
+
+        if (node.sign === '>') {
+          if (percentage > popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<') {
+          if (percentage < popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<=') {
+          if (percentage <= popularity) {
+            result.push(version)
+          }
+        } else if (percentage >= popularity) {
+          result.push(version)
+        }
+        return result
+      }, [])
+    }
+  },
+  popularity_in_config_stats: {
+    matches: ['sign', 'popularity', 'config'],
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,
+    select: function (context, node) {
+      var popularity = parseFloat(node.popularity)
+      var stats = env.loadStat(context, node.config, browserslist.data)
+      if (stats) {
+        context.customUsage = {}
+        for (var browser in stats) {
+          fillUsage(context.customUsage, browser, stats[browser])
+        }
+      }
+      if (!context.customUsage) {
+        throw new BrowserslistError('Custom usage statistics was not provided')
+      }
+      var usage = context.customUsage
+      return Object.keys(usage).reduce(function (result, version) {
+        var percentage = usage[version]
+        if (percentage == null) {
+          return result
+        }
+
+        if (node.sign === '>') {
+          if (percentage > popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<') {
+          if (percentage < popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<=') {
+          if (percentage <= popularity) {
+            result.push(version)
+          }
+        } else if (percentage >= popularity) {
+          result.push(version)
+        }
+        return result
+      }, [])
+    }
+  },
+  popularity_in_place: {
+    matches: ['sign', 'popularity', 'place'],
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/,
+    select: function (context, node) {
+      var popularity = parseFloat(node.popularity)
+      var place = node.place
+      if (place.length === 2) {
+        place = place.toUpperCase()
+      } else {
+        place = place.toLowerCase()
+      }
+      env.loadCountry(browserslist.usage, place, browserslist.data)
+      var usage = browserslist.usage[place]
+      return Object.keys(usage).reduce(function (result, version) {
+        var percentage = usage[version]
+        if (percentage == null) {
+          return result
+        }
+
+        if (node.sign === '>') {
+          if (percentage > popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<') {
+          if (percentage < popularity) {
+            result.push(version)
+          }
+        } else if (node.sign === '<=') {
+          if (percentage <= popularity) {
+            result.push(version)
+          }
+        } else if (percentage >= popularity) {
+          result.push(version)
+        }
+        return result
+      }, [])
+    }
+  },
+  cover: {
+    matches: ['coverage'],
+    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%$/i,
+    select: coverQuery
+  },
+  cover_in: {
+    matches: ['coverage', 'place'],
+    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/i,
+    select: coverQuery
+  },
+  supports: {
+    matches: ['feature'],
+    regexp: /^supports\s+([\w-]+)$/,
+    select: function (context, node) {
+      env.loadFeature(browserslist.cache, node.feature)
+      var features = browserslist.cache[node.feature]
+      var result = []
+      for (var name in features) {
+        var data = byName(name, context)
+        // Only check desktop when latest released mobile has support
+        var checkDesktop =
+          context.mobileToDesktop &&
+          name in browserslist.desktopNames &&
+          isSupported(features[name][data.released.slice(-1)[0]])
+        data.versions.forEach(function (version) {
+          var flags = features[name][version]
+          if (flags === undefined && checkDesktop) {
+            flags = features[browserslist.desktopNames[name]][version]
+          }
+          if (isSupported(flags)) {
+            result.push(name + ' ' + version)
+          }
+        })
+      }
+      return result
+    }
+  },
+  electron_range: {
+    matches: ['from', 'to'],
+    regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    select: function (context, node) {
+      var fromToUse = normalizeElectron(node.from)
+      var toToUse = normalizeElectron(node.to)
+      var from = parseFloat(node.from)
+      var to = parseFloat(node.to)
+      if (!e2c[fromToUse]) {
+        throw new BrowserslistError('Unknown version ' + from + ' of electron')
+      }
+      if (!e2c[toToUse]) {
+        throw new BrowserslistError('Unknown version ' + to + ' of electron')
+      }
+      return Object.keys(e2c)
+        .filter(function (i) {
+          var parsed = parseFloat(i)
+          return parsed >= from && parsed <= to
+        })
+        .map(function (i) {
+          return 'chrome ' + e2c[i]
+        })
+    }
+  },
+  node_range: {
+    matches: ['from', 'to'],
+    regexp: /^node\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    select: function (context, node) {
+      return browserslist.nodeVersions
+        .filter(semverFilterLoose('>=', node.from))
+        .filter(semverFilterLoose('<=', node.to))
+        .map(function (v) {
+          return 'node ' + v
+        })
+    }
+  },
+  browser_range: {
+    matches: ['browser', 'from', 'to'],
+    regexp: /^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    select: function (context, node) {
+      var data = checkName(node.browser, context)
+      var from = parseFloat(normalizeVersion(data, node.from) || node.from)
+      var to = parseFloat(normalizeVersion(data, node.to) || node.to)
+      function filter(v) {
+        var parsed = parseFloat(v)
+        return parsed >= from && parsed <= to
+      }
+      return data.released.filter(filter).map(nameMapper(data.name))
+    }
+  },
+  electron_ray: {
+    matches: ['sign', 'version'],
+    regexp: /^electron\s*(>=?|<=?)\s*([\d.]+)$/i,
+    select: function (context, node) {
+      var versionToUse = normalizeElectron(node.version)
+      return Object.keys(e2c)
+        .filter(generateFilter(node.sign, versionToUse))
+        .map(function (i) {
+          return 'chrome ' + e2c[i]
+        })
+    }
+  },
+  node_ray: {
+    matches: ['sign', 'version'],
+    regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/i,
+    select: function (context, node) {
+      return browserslist.nodeVersions
+        .filter(generateSemverFilter(node.sign, node.version))
+        .map(function (v) {
+          return 'node ' + v
+        })
+    }
+  },
+  browser_ray: {
+    matches: ['browser', 'sign', 'version'],
+    regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,
+    select: function (context, node) {
+      var version = node.version
+      var data = checkName(node.browser, context)
+      var alias = browserslist.versionAliases[data.name][version]
+      if (alias) version = alias
+      return data.released
+        .filter(generateFilter(node.sign, version))
+        .map(function (v) {
+          return data.name + ' ' + v
+        })
+    }
+  },
+  firefox_esr: {
+    matches: [],
+    regexp: /^(firefox|ff|fx)\s+esr$/i,
+    select: function () {
+      return ['firefox 102', 'firefox 115']
+    }
+  },
+  opera_mini_all: {
+    matches: [],
+    regexp: /(operamini|op_mini)\s+all/i,
+    select: function () {
+      return ['op_mini all']
+    }
+  },
+  electron_version: {
+    matches: ['version'],
+    regexp: /^electron\s+([\d.]+)$/i,
+    select: function (context, node) {
+      var versionToUse = normalizeElectron(node.version)
+      var chrome = e2c[versionToUse]
+      if (!chrome) {
+        throw new BrowserslistError(
+          'Unknown version ' + node.version + ' of electron'
+        )
+      }
+      return ['chrome ' + chrome]
+    }
+  },
+  node_major_version: {
+    matches: ['version'],
+    regexp: /^node\s+(\d+)$/i,
+    select: nodeQuery
+  },
+  node_minor_version: {
+    matches: ['version'],
+    regexp: /^node\s+(\d+\.\d+)$/i,
+    select: nodeQuery
+  },
+  node_patch_version: {
+    matches: ['version'],
+    regexp: /^node\s+(\d+\.\d+\.\d+)$/i,
+    select: nodeQuery
+  },
+  current_node: {
+    matches: [],
+    regexp: /^current\s+node$/i,
+    select: function (context) {
+      return [env.currentNode(resolve, context)]
+    }
+  },
+  maintained_node: {
+    matches: [],
+    regexp: /^maintained\s+node\s+versions$/i,
+    select: function (context) {
+      var now = Date.now()
+      var queries = Object.keys(jsEOL)
+        .filter(function (key) {
+          return (
+            now < Date.parse(jsEOL[key].end) &&
+            now > Date.parse(jsEOL[key].start) &&
+            isEolReleased(key)
+          )
+        })
+        .map(function (key) {
+          return 'node ' + key.slice(1)
+        })
+      return resolve(queries, context)
+    }
+  },
+  phantomjs_1_9: {
+    matches: [],
+    regexp: /^phantomjs\s+1.9$/i,
+    select: function () {
+      return ['safari 5']
+    }
+  },
+  phantomjs_2_1: {
+    matches: [],
+    regexp: /^phantomjs\s+2.1$/i,
+    select: function () {
+      return ['safari 6']
+    }
+  },
+  browser_version: {
+    matches: ['browser', 'version'],
+    regexp: /^(\w+)\s+(tp|[\d.]+)$/i,
+    select: function (context, node) {
+      var version = node.version
+      if (/^tp$/i.test(version)) version = 'TP'
+      var data = checkName(node.browser, context)
+      var alias = normalizeVersion(data, version)
+      if (alias) {
+        version = alias
+      } else {
+        if (version.indexOf('.') === -1) {
+          alias = version + '.0'
+        } else {
+          alias = version.replace(/\.0$/, '')
+        }
+        alias = normalizeVersion(data, alias)
+        if (alias) {
+          version = alias
+        } else if (context.ignoreUnknownVersions) {
+          return []
+        } else {
+          throw new BrowserslistError(
+            'Unknown version ' + version + ' of ' + node.browser
+          )
+        }
+      }
+      return [data.name + ' ' + version]
+    }
+  },
+  browserslist_config: {
+    matches: [],
+    regexp: /^browserslist config$/i,
+    select: function (context) {
+      return browserslist(undefined, context)
+    }
+  },
+  extends: {
+    matches: ['config'],
+    regexp: /^extends (.+)$/i,
+    select: function (context, node) {
+      return resolve(env.loadQueries(context, node.config), context)
+    }
+  },
+  defaults: {
+    matches: [],
+    regexp: /^defaults$/i,
+    select: function (context) {
+      return resolve(browserslist.defaults, context)
+    }
+  },
+  dead: {
+    matches: [],
+    regexp: /^dead$/i,
+    select: function (context) {
+      var dead = [
+        'Baidu >= 0',
+        'ie <= 11',
+        'ie_mob <= 11',
+        'bb <= 10',
+        'op_mob <= 12.1',
+        'samsung 4'
+      ]
+      return resolve(dead, context)
+    }
+  },
+  unknown: {
+    matches: [],
+    regexp: /^(\w+)$/i,
+    select: function (context, node) {
+      if (byName(node.query, context)) {
+        throw new BrowserslistError(
+          'Specify versions in Browserslist query for browser ' + node.query
+        )
+      } else {
+        throw unknownQuery(node.query)
+      }
+    }
+  }
+}
+
+// Get and convert Can I Use data
+
+;(function () {
+  for (var name in agents) {
+    var browser = agents[name]
+    browserslist.data[name] = {
+      name: name,
+      versions: normalize(agents[name].versions),
+      released: normalize(agents[name].versions.slice(0, -3)),
+      releaseDate: agents[name].release_date
+    }
+    fillUsage(browserslist.usage.global, name, browser.usage_global)
+
+    browserslist.versionAliases[name] = {}
+    for (var i = 0; i < browser.versions.length; i++) {
+      var full = browser.versions[i]
+      if (!full) continue
+
+      if (full.indexOf('-') !== -1) {
+        var interval = full.split('-')
+        for (var j = 0; j < interval.length; j++) {
+          browserslist.versionAliases[name][interval[j]] = full
+        }
+      }
+    }
+  }
+
+  browserslist.nodeVersions = jsReleases.map(function (release) {
+    return release.version
+  })
+})()
+
+module.exports = browserslist
+
+
+/***/ }),
+
+/***/ "./node_modules/browserslist/parse.js":
+/*!********************************************!*\
+  !*** ./node_modules/browserslist/parse.js ***!
+  \********************************************/
+/***/ (function(module) {
+
+var AND_REGEXP = /^\s+and\s+(.*)/i
+var OR_REGEXP = /^(?:,\s*|\s+or\s+)(.*)/i
+
+function flatten(array) {
+  if (!Array.isArray(array)) return [array]
+  return array.reduce(function (a, b) {
+    return a.concat(flatten(b))
+  }, [])
+}
+
+function find(string, predicate) {
+  for (var n = 1, max = string.length; n <= max; n++) {
+    var parsed = string.substr(-n, n)
+    if (predicate(parsed, n, max)) {
+      return string.slice(0, -n)
+    }
+  }
+  return ''
+}
+
+function matchQuery(all, query) {
+  var node = { query: query }
+  if (query.indexOf('not ') === 0) {
+    node.not = true
+    query = query.slice(4)
+  }
+
+  for (var name in all) {
+    var type = all[name]
+    var match = query.match(type.regexp)
+    if (match) {
+      node.type = name
+      for (var i = 0; i < type.matches.length; i++) {
+        node[type.matches[i]] = match[i + 1]
+      }
+      return node
+    }
+  }
+
+  node.type = 'unknown'
+  return node
+}
+
+function matchBlock(all, string, qs) {
+  var node
+  return find(string, function (parsed, n, max) {
+    if (AND_REGEXP.test(parsed)) {
+      node = matchQuery(all, parsed.match(AND_REGEXP)[1])
+      node.compose = 'and'
+      qs.unshift(node)
+      return true
+    } else if (OR_REGEXP.test(parsed)) {
+      node = matchQuery(all, parsed.match(OR_REGEXP)[1])
+      node.compose = 'or'
+      qs.unshift(node)
+      return true
+    } else if (n === max) {
+      node = matchQuery(all, parsed.trim())
+      node.compose = 'or'
+      qs.unshift(node)
+      return true
+    }
+    return false
+  })
+}
+
+module.exports = function parse(all, queries) {
+  if (!Array.isArray(queries)) queries = [queries]
+  return flatten(
+    queries.map(function (block) {
+      var qs = []
+      do {
+        block = matchBlock(all, block, qs)
+      } while (block)
+      return qs
+    })
+  )
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/caniuse-lite/data/agents.js":
+/*!**************************************************!*\
+  !*** ./node_modules/caniuse-lite/data/agents.js ***!
+  \**************************************************/
+/***/ (function(module) {
+
+module.exports={A:{A:{K:0,F:0,G:0.0326854,H:0.0435805,A:0,B:0.392224,JC:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","JC","K","F","G","H","A","B","","",""],E:"IE",F:{JC:962323200,K:998870400,F:1161129600,G:1237420800,H:1300060800,A:1346716800,B:1381968000}},B:{A:{"0":3.56904,C:0,L:0,M:0,I:0.004259,N:0,D:0.004259,O:0.012777,P:0,Q:0.004259,R:0.004259,S:0.004259,T:0.008518,U:0.004259,V:0.004259,W:0.004259,X:0,Y:0.004259,Z:0.004259,a:0,b:0.012777,c:0,d:0,e:0,f:0,g:0,h:0,i:0.008518,j:0,n:0.008518,o:0.008518,p:0.004259,q:0,r:0,s:0.004259,t:0.008518,u:0.012777,v:0.076662,w:0.021295,x:0.029813,y:0.579224,z:0.745325,E:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","C","L","M","I","N","D","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","n","o","p","q","r","s","t","u","v","w","x","y","z","0","E","","",""],E:"Edge",F:{"0":1685664000,C:1438128000,L:1447286400,M:1470096000,I:1491868800,N:1508198400,D:1525046400,O:1542067200,P:1579046400,Q:1581033600,R:1586736000,S:1590019200,T:1594857600,U:1598486400,V:1602201600,W:1605830400,X:1611360000,Y:1614816000,Z:1618358400,a:1622073600,b:1626912000,c:1630627200,d:1632441600,e:1634774400,f:1637539200,g:1641427200,h:1643932800,i:1646265600,j:1649635200,n:1651190400,o:1653955200,p:1655942400,q:1659657600,r:1661990400,s:1664755200,t:1666915200,u:1670198400,v:1673481600,w:1675900800,x:1678665600,y:1680825600,z:1683158400,E:1689897600},D:{C:"ms",L:"ms",M:"ms",I:"ms",N:"ms",D:"ms",O:"ms"}},C:{A:{"0":1.2564,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,KC:0,zB:0,J:0,K:0,F:0,G:0,H:0,A:0,B:0.008518,C:0,L:0,M:0,I:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0,LB:0,MB:0,NB:0,OB:0.012777,PB:0.004259,QB:0,RB:0,SB:0,TB:0,UB:0,VB:0,WB:0,XB:0.051108,YB:0,ZB:0,aB:0,bB:0.004259,cB:0,dB:0,"0B":0.004259,eB:0,"1B":0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0.004259,mB:0,nB:0,oB:0,pB:0.008518,m:0,qB:0,rB:0,sB:0,tB:0,uB:0.051108,P:0,Q:0,R:0,"2B":0,S:0,T:0.017036,U:0,V:0,W:0.008518,X:0.004259,Y:0,Z:0,a:0.012777,b:0,c:0,d:0.004259,e:0,f:0,g:0,h:0,i:0,j:0,n:0,o:0.110734,p:0.012777,q:0,r:0.008518,s:0.004259,t:0.008518,u:0.012777,v:0.012777,w:0.012777,x:0.025554,y:0.055367,z:0.660145,E:0.012777,"3B":0,"4B":0,LC:0,MC:0},B:"moz",C:["KC","zB","LC","MC","J","1","K","F","G","H","A","B","C","L","M","I","N","D","O","2","k","l","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","0B","eB","1B","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","m","qB","rB","sB","tB","uB","P","Q","R","2B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","n","o","p","q","r","s","t","u","v","w","x","y","z","0","E","3B","4B",""],E:"Firefox",F:{"0":1686009600,"1":1308614400,"2":1357603200,"3":1368489600,"4":1372118400,"5":1375747200,"6":1379376000,"7":1386633600,"8":1391472000,"9":1395100800,KC:1161648000,zB:1213660800,LC:1246320000,MC:1264032000,J:1300752000,K:1313452800,F:1317081600,G:1317081600,H:1320710400,A:1324339200,B:1327968000,C:1331596800,L:1335225600,M:1338854400,I:1342483200,N:1346112000,D:1349740800,O:1353628800,k:1361232000,l:1364860800,AB:1398729600,BB:1402358400,CB:1405987200,DB:1409616000,EB:1413244800,FB:1417392000,GB:1421107200,HB:1424736000,IB:1428278400,JB:1431475200,KB:1435881600,LB:1439251200,MB:1442880000,NB:1446508800,OB:1450137600,PB:1453852800,QB:1457395200,RB:1461628800,SB:1465257600,TB:1470096000,UB:1474329600,VB:1479168000,WB:1485216000,XB:1488844800,YB:1492560000,ZB:1497312000,aB:1502150400,bB:1506556800,cB:1510617600,dB:1516665600,"0B":1520985600,eB:1525824000,"1B":1529971200,fB:1536105600,gB:1540252800,hB:1544486400,iB:1548720000,jB:1552953600,kB:1558396800,lB:1562630400,mB:1567468800,nB:1571788800,oB:1575331200,pB:1578355200,m:1581379200,qB:1583798400,rB:1586304000,sB:1588636800,tB:1591056000,uB:1593475200,P:1595894400,Q:1598313600,R:1600732800,"2B":1603152000,S:1605571200,T:1607990400,U:1611619200,V:1614038400,W:1616457600,X:1618790400,Y:1622505600,Z:1626134400,a:1628553600,b:1630972800,c:1633392000,d:1635811200,e:1638835200,f:1641859200,g:1644364800,h:1646697600,i:1649116800,j:1651536000,n:1653955200,o:1656374400,p:1658793600,q:1661212800,r:1663632000,s:1666051200,t:1668470400,u:1670889600,v:1673913600,w:1676332800,x:1678752000,y:1681171200,z:1683590400,E:1688428800,"3B":null,"4B":null}},D:{A:{"0":14.553,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,J:0,K:0,F:0,G:0,H:0,A:0,B:0,C:0,L:0,M:0,I:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0.008518,GB:0,HB:0,IB:0,JB:0.017036,KB:0,LB:0.012777,MB:0,NB:0,OB:0,PB:0,QB:0,RB:0,SB:0.008518,TB:0.017036,UB:0.038331,VB:0.008518,WB:0,XB:0.004259,YB:0.008518,ZB:0,aB:0.004259,bB:0.051108,cB:0,dB:0,"0B":0,eB:0.017036,"1B":0.012777,fB:0,gB:0.004259,hB:0,iB:0.012777,jB:0.029813,kB:0.008518,lB:0.025554,mB:0.051108,nB:0.04259,oB:0.017036,pB:0.025554,m:0.012777,qB:0.059626,rB:0.059626,sB:0.093698,tB:0.025554,uB:0.038331,P:0.200173,Q:0.051108,R:0.051108,S:0.110734,T:0.029813,U:0.089439,V:0.072403,W:0.089439,X:0.046849,Y:0.038331,Z:0.055367,a:0.089439,b:0.038331,c:0.17036,d:0.034072,e:0.021295,f:0.025554,g:0.025554,h:0.063885,i:0.055367,j:0.046849,n:0.04259,o:0.051108,p:0.268317,q:0.063885,r:0.076662,s:0.051108,t:0.059626,u:0.149065,v:1.96766,w:0.123511,x:0.455713,y:0.630332,z:3.9268,E:0.021295,"3B":0.021295,"4B":0,NC:0},B:"webkit",C:["","","","","","J","1","K","F","G","H","A","B","C","L","M","I","N","D","O","2","k","l","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","0B","eB","1B","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","m","qB","rB","sB","tB","uB","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","n","o","p","q","r","s","t","u","v","w","x","y","z","0","E","3B","4B","NC"],E:"Chrome",F:{"0":1685404800,"1":1274745600,"2":1332892800,"3":1343692800,"4":1348531200,"5":1352246400,"6":1357862400,"7":1361404800,"8":1364428800,"9":1369094400,J:1264377600,K:1283385600,F:1287619200,G:1291248000,H:1296777600,A:1299542400,B:1303862400,C:1307404800,L:1312243200,M:1316131200,I:1316131200,N:1319500800,D:1323734400,O:1328659200,k:1337040000,l:1340668800,AB:1374105600,BB:1376956800,CB:1384214400,DB:1389657600,EB:1392940800,FB:1397001600,GB:1400544000,HB:1405468800,IB:1409011200,JB:1412640000,KB:1416268800,LB:1421798400,MB:1425513600,NB:1429401600,OB:1432080000,PB:1437523200,QB:1441152000,RB:1444780800,SB:1449014400,TB:1453248000,UB:1456963200,VB:1460592000,WB:1464134400,XB:1469059200,YB:1472601600,ZB:1476230400,aB:1480550400,bB:1485302400,cB:1489017600,dB:1492560000,"0B":1496707200,eB:1500940800,"1B":1504569600,fB:1508198400,gB:1512518400,hB:1516752000,iB:1520294400,jB:1523923200,kB:1527552000,lB:1532390400,mB:1536019200,nB:1539648000,oB:1543968000,pB:1548720000,m:1552348800,qB:1555977600,rB:1559606400,sB:1564444800,tB:1568073600,uB:1571702400,P:1575936000,Q:1580860800,R:1586304000,S:1589846400,T:1594684800,U:1598313600,V:1601942400,W:1605571200,X:1611014400,Y:1614556800,Z:1618272000,a:1621987200,b:1626739200,c:1630368000,d:1632268800,e:1634601600,f:1637020800,g:1641340800,h:1643673600,i:1646092800,j:1648512000,n:1650931200,o:1653350400,p:1655769600,q:1659398400,r:1661817600,s:1664236800,t:1666656000,u:1669680000,v:1673308800,w:1675728000,x:1678147200,y:1680566400,z:1682985600,E:1689724800,"3B":null,"4B":null,NC:null}},E:{A:{"1":0,J:0,K:0,F:0,G:0,H:0,A:0,B:0,C:0,L:0.025554,M:0.12777,I:0.029813,D:0.008518,OC:0,"5B":0,PC:0.008518,QC:0,RC:0,SC:0.102216,"6B":0,vB:0.008518,wB:0.038331,"7B":0.166101,TC:0.332202,UC:0.055367,"8B":0.046849,"9B":0.106475,xB:0.191655,AC:0.779397,yB:0.080921,BC:0.25554,CC:0.289612,DC:0.706994,EC:0.498303,FC:2.00599,GC:0.021295,VC:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","OC","5B","J","1","PC","K","QC","F","RC","G","H","SC","A","6B","B","vB","C","wB","L","7B","M","TC","I","UC","8B","9B","xB","AC","yB","BC","CC","DC","EC","FC","GC","D","VC"],E:"Safari",F:{"1":1275868800,OC:1205798400,"5B":1226534400,J:1244419200,PC:1311120000,K:1343174400,QC:1382400000,F:1382400000,RC:1410998400,G:1413417600,H:1443657600,SC:1458518400,A:1474329600,"6B":1490572800,B:1505779200,vB:1522281600,C:1537142400,wB:1553472000,L:1568851200,"7B":1585008000,M:1600214400,TC:1619395200,I:1632096000,UC:1635292800,"8B":1639353600,"9B":1647216000,xB:1652745600,AC:1658275200,yB:1662940800,BC:1666569600,CC:1670889600,DC:1674432000,EC:1679875200,FC:1684368000,GC:null,D:null,VC:null}},F:{A:{"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0.008518,H:0,B:0.038331,C:0,I:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0,LB:0.004259,MB:0,NB:0,OB:0,PB:0,QB:0,RB:0.017036,SB:0,TB:0,UB:0,VB:0,WB:0,XB:0,YB:0,ZB:0,aB:0,bB:0,cB:0,dB:0,eB:0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0,mB:0,nB:0,oB:0,pB:0,m:0,qB:0,rB:0,sB:0,tB:0,uB:0,P:0,Q:0,R:0,"2B":0,S:0,T:0,U:0.004259,V:0,W:0,X:0,Y:0,Z:0,a:0,b:0,c:0,d:0,e:0.059626,f:0.012777,g:0.021295,h:0.664404,i:1.29048,j:0.012777,WC:0,XC:0,YC:0,ZC:0,vB:0,HC:0,aC:0,wB:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","H","WC","XC","YC","ZC","B","vB","HC","aC","C","wB","I","N","D","O","2","k","l","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","eB","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","m","qB","rB","sB","tB","uB","P","Q","R","2B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","","",""],E:"Opera",F:{"2":1390867200,"3":1401753600,"4":1405987200,"5":1409616000,"6":1413331200,"7":1417132800,"8":1422316800,"9":1425945600,H:1150761600,WC:1223424000,XC:1251763200,YC:1267488000,ZC:1277942400,B:1292457600,vB:1302566400,HC:1309219200,aC:1323129600,C:1323129600,wB:1352073600,I:1372723200,N:1377561600,D:1381104000,O:1386288000,k:1393891200,l:1399334400,AB:1430179200,BB:1433808000,CB:1438646400,DB:1442448000,EB:1445904000,FB:1449100800,GB:1454371200,HB:1457308800,IB:1462320000,JB:1465344000,KB:1470096000,LB:1474329600,MB:1477267200,NB:1481587200,OB:1486425600,PB:1490054400,QB:1494374400,RB:1498003200,SB:1502236800,TB:1506470400,UB:1510099200,VB:1515024000,WB:1517961600,XB:1521676800,YB:1525910400,ZB:1530144000,aB:1534982400,bB:1537833600,cB:1543363200,dB:1548201600,eB:1554768000,fB:1561593600,gB:1566259200,hB:1570406400,iB:1573689600,jB:1578441600,kB:1583971200,lB:1587513600,mB:1592956800,nB:1595894400,oB:1600128000,pB:1603238400,m:1613520000,qB:1612224000,rB:1616544000,sB:1619568000,tB:1623715200,uB:1627948800,P:1631577600,Q:1633392000,R:1635984000,"2B":1638403200,S:1642550400,T:1644969600,U:1647993600,V:1650412800,W:1652745600,X:1654646400,Y:1657152000,Z:1660780800,a:1663113600,b:1668816000,c:1668643200,d:1671062400,e:1675209600,f:1677024000,g:1679529600,h:1681948800,i:1684195200,j:1687219200},D:{H:"o",B:"o",C:"o",WC:"o",XC:"o",YC:"o",ZC:"o",vB:"o",HC:"o",aC:"o",wB:"o"}},G:{A:{G:0,D:0.0227641,"5B":0,bC:0,IC:0.00303522,cC:0.00303522,dC:0.00455283,eC:0.0121409,fC:0.00455283,gC:0.00910566,hC:0.0440107,iC:0.00455283,jC:0.062222,kC:0.0303522,lC:0.0197289,mC:0.0166937,nC:0.321733,oC:0.00910566,pC:0.00910566,qC:0.0227641,rC:0.0773981,sC:0.20336,tC:0.374849,uC:0.119891,"8B":0.141138,"9B":0.160867,xB:0.239782,AC:0.582762,yB:0.648019,BC:1.23837,CC:0.661678,DC:1.56617,EC:1.0259,FC:6.55152,GC:0.0637396},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","5B","bC","IC","cC","dC","eC","G","fC","gC","hC","iC","jC","kC","lC","mC","nC","oC","pC","qC","rC","sC","tC","uC","8B","9B","xB","AC","yB","BC","CC","DC","EC","FC","GC","D",""],E:"Safari on iOS",F:{"5B":1270252800,bC:1283904000,IC:1299628800,cC:1331078400,dC:1359331200,eC:1394409600,G:1410912000,fC:1413763200,gC:1442361600,hC:1458518400,iC:1473724800,jC:1490572800,kC:1505779200,lC:1522281600,mC:1537142400,nC:1553472000,oC:1568851200,pC:1572220800,qC:1580169600,rC:1585008000,sC:1600214400,tC:1619395200,uC:1632096000,"8B":1639353600,"9B":1647216000,xB:1652659200,AC:1658275200,yB:1662940800,BC:1666569600,CC:1670889600,DC:1674432000,EC:1679875200,FC:1684368000,GC:null,D:null}},H:{A:{vC:0.956597},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","vC","","",""],E:"Opera Mini",F:{vC:1426464000}},I:{A:{zB:0,J:0.0252848,E:0,wC:0,xC:0.00842828,yC:0,zC:0.0168566,IC:0.092711,"0C":0,"1C":0.252848},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","wC","xC","yC","zB","J","zC","IC","0C","1C","E","","",""],E:"Android Browser",F:{wC:1256515200,xC:1274313600,yC:1291593600,zB:1298332800,J:1318896000,zC:1341792000,IC:1374624000,"0C":1386547200,"1C":1401667200,E:1690243200}},J:{A:{F:0,A:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","F","A","","",""],E:"Blackberry Browser",F:{F:1325376000,A:1359504000}},K:{A:{A:0,B:0,C:0,m:0,vB:0,HC:0,wB:0},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","vB","HC","C","wB","m","","",""],E:"Opera Mobile",F:{A:1287100800,B:1300752000,vB:1314835200,HC:1318291200,C:1330300800,wB:1349740800,m:1673827200},D:{m:"webkit"}},L:{A:{E:38.2012},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","","",""],E:"Chrome for Android",F:{E:1690243200}},M:{A:{E:0.281309},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","","",""],E:"Firefox for Android",F:{E:1688428800}},N:{A:{A:0,B:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","","",""],E:"IE Mobile",F:{A:1340150400,B:1353456000}},O:{A:{xB:1.04486},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","xB","","",""],E:"UC Browser for Android",F:{xB:1687132800},D:{xB:"webkit"}},P:{A:{J:0.156242,k:0.229156,l:1.74991,"2C":0,"3C":0,"4C":0.0520808,"5C":0,"6C":0,"6B":0,"7C":0.0208323,"8C":0,"9C":0.0208323,AD:0.0208323,BD:0.0104162,yB:0.0416646,CD:0.0416646,DD:0.0416646,ED:0.0833293},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","J","2C","3C","4C","5C","6C","6B","7C","8C","9C","AD","BD","yB","CD","DD","ED","k","l","","",""],E:"Samsung Internet",F:{J:1461024000,"2C":1481846400,"3C":1509408000,"4C":1528329600,"5C":1546128000,"6C":1554163200,"6B":1567900800,"7C":1582588800,"8C":1593475200,"9C":1605657600,AD:1618531200,BD:1629072000,yB:1640736000,CD:1651708800,DD:1659657600,ED:1667260800,k:1677369600,l:1684454400}},Q:{A:{"7B":0.155007},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","7B","","",""],E:"QQ Browser",F:{"7B":1663718400}},R:{A:{FD:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","FD","","",""],E:"Baidu Browser",F:{FD:1663027200}},S:{A:{GD:0.103338,HD:0},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","GD","HD","","",""],E:"KaiOS Browser",F:{GD:1527811200,HD:1631664000}}};
+
+
+/***/ }),
+
+/***/ "./node_modules/caniuse-lite/data/browserVersions.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/caniuse-lite/data/browserVersions.js ***!
+  \***********************************************************/
+/***/ (function(module) {
+
+module.exports={"0":"114","1":"5","2":"19","3":"22","4":"23","5":"24","6":"25","7":"26","8":"27","9":"28",A:"10",B:"11",C:"12",D:"17",E:"115",F:"7",G:"8",H:"9",I:"15",J:"4",K:"6",L:"13",M:"14",N:"16",O:"18",P:"79",Q:"80",R:"81",S:"83",T:"84",U:"85",V:"86",W:"87",X:"88",Y:"89",Z:"90",a:"91",b:"92",c:"93",d:"94",e:"95",f:"96",g:"97",h:"98",i:"99",j:"100",k:"20",l:"21",m:"73",n:"101",o:"102",p:"103",q:"104",r:"105",s:"106",t:"107",u:"108",v:"109",w:"110",x:"111",y:"112",z:"113",AB:"29",BB:"30",CB:"31",DB:"32",EB:"33",FB:"34",GB:"35",HB:"36",IB:"37",JB:"38",KB:"39",LB:"40",MB:"41",NB:"42",OB:"43",PB:"44",QB:"45",RB:"46",SB:"47",TB:"48",UB:"49",VB:"50",WB:"51",XB:"52",YB:"53",ZB:"54",aB:"55",bB:"56",cB:"57",dB:"58",eB:"60",fB:"62",gB:"63",hB:"64",iB:"65",jB:"66",kB:"67",lB:"68",mB:"69",nB:"70",oB:"71",pB:"72",qB:"74",rB:"75",sB:"76",tB:"77",uB:"78",vB:"11.1",wB:"12.1",xB:"15.5",yB:"16.0",zB:"3","0B":"59","1B":"61","2B":"82","3B":"116","4B":"117","5B":"3.2","6B":"10.1","7B":"13.1","8B":"15.2-15.3","9B":"15.4",AC:"15.6",BC:"16.1",CC:"16.2",DC:"16.3",EC:"16.4",FC:"16.5",GC:"16.6",HC:"11.5",IC:"4.2-4.3",JC:"5.5",KC:"2",LC:"3.5",MC:"3.6",NC:"118",OC:"3.1",PC:"5.1",QC:"6.1",RC:"7.1",SC:"9.1",TC:"14.1",UC:"15.1",VC:"TP",WC:"9.5-9.6",XC:"10.0-10.1",YC:"10.5",ZC:"10.6",aC:"11.6",bC:"4.0-4.1",cC:"5.0-5.1",dC:"6.0-6.1",eC:"7.0-7.1",fC:"8.1-8.4",gC:"9.0-9.2",hC:"9.3",iC:"10.0-10.2",jC:"10.3",kC:"11.0-11.2",lC:"11.3-11.4",mC:"12.0-12.1",nC:"12.2-12.5",oC:"13.0-13.1",pC:"13.2",qC:"13.3",rC:"13.4-13.7",sC:"14.0-14.4",tC:"14.5-14.8",uC:"15.0-15.1",vC:"all",wC:"2.1",xC:"2.2",yC:"2.3",zC:"4.1","0C":"4.4","1C":"4.4.3-4.4.4","2C":"5.0-5.4","3C":"6.2-6.4","4C":"7.2-7.4","5C":"8.2","6C":"9.2","7C":"11.1-11.2","8C":"12.0","9C":"13.0",AD:"14.0",BD:"15.0",CD:"17.0",DD:"18.0",ED:"19.0",FD:"13.18",GD:"2.5",HD:"3.0-3.1"};
+
+
+/***/ }),
+
+/***/ "./node_modules/caniuse-lite/data/browsers.js":
+/*!****************************************************!*\
+  !*** ./node_modules/caniuse-lite/data/browsers.js ***!
+  \****************************************************/
+/***/ (function(module) {
+
+module.exports={A:"ie",B:"edge",C:"firefox",D:"chrome",E:"safari",F:"opera",G:"ios_saf",H:"op_mini",I:"android",J:"bb",K:"op_mob",L:"and_chr",M:"and_ff",N:"ie_mob",O:"and_uc",P:"samsung",Q:"and_qq",R:"baidu",S:"kaios"};
+
+
+/***/ }),
+
+/***/ "./node_modules/caniuse-lite/dist/unpacker/agents.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/caniuse-lite/dist/unpacker/agents.js ***!
+  \***********************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+
+const browsers = (__webpack_require__(/*! ./browsers */ "./node_modules/caniuse-lite/dist/unpacker/browsers.js").browsers)
+const versions = (__webpack_require__(/*! ./browserVersions */ "./node_modules/caniuse-lite/dist/unpacker/browserVersions.js").browserVersions)
+const agentsData = __webpack_require__(/*! ../../data/agents */ "./node_modules/caniuse-lite/data/agents.js")
+
+function unpackBrowserVersions(versionsData) {
+  return Object.keys(versionsData).reduce((usage, version) => {
+    usage[versions[version]] = versionsData[version]
+    return usage
+  }, {})
+}
+
+module.exports.agents = Object.keys(agentsData).reduce((map, key) => {
+  let versionsData = agentsData[key]
+  map[browsers[key]] = Object.keys(versionsData).reduce((data, entry) => {
+    if (entry === 'A') {
+      data.usage_global = unpackBrowserVersions(versionsData[entry])
+    } else if (entry === 'C') {
+      data.versions = versionsData[entry].reduce((list, version) => {
+        if (version === '') {
+          list.push(null)
+        } else {
+          list.push(versions[version])
+        }
+        return list
+      }, [])
+    } else if (entry === 'D') {
+      data.prefix_exceptions = unpackBrowserVersions(versionsData[entry])
+    } else if (entry === 'E') {
+      data.browser = versionsData[entry]
+    } else if (entry === 'F') {
+      data.release_date = Object.keys(versionsData[entry]).reduce(
+        (map2, key2) => {
+          map2[versions[key2]] = versionsData[entry][key2]
+          return map2
+        },
+        {}
+      )
+    } else {
+      // entry is B
+      data.prefix = versionsData[entry]
+    }
+    return data
+  }, {})
+  return map
+}, {})
+
+
+/***/ }),
+
+/***/ "./node_modules/caniuse-lite/dist/unpacker/browserVersions.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/caniuse-lite/dist/unpacker/browserVersions.js ***!
+  \********************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+module.exports.browserVersions = __webpack_require__(/*! ../../data/browserVersions */ "./node_modules/caniuse-lite/data/browserVersions.js")
+
+
+/***/ }),
+
+/***/ "./node_modules/caniuse-lite/dist/unpacker/browsers.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/caniuse-lite/dist/unpacker/browsers.js ***!
+  \*************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+module.exports.browsers = __webpack_require__(/*! ../../data/browsers */ "./node_modules/caniuse-lite/data/browsers.js")
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".content-unsupported-browser[data-v-4d32209e] {\n  display: flex;\n  justify-content: center;\n  width: 400px;\n  max-width: calc(90vw - 60px);\n  margin: auto;\n  padding: 30px;\n}\n.content-unsupported-browser .empty-content[data-v-4d32209e] {\n  margin: 0;\n}\n.content-unsupported-browser .empty-content[data-v-4d32209e] .empty-content__icon {\n  opacity: 1;\n}\n.content-unsupported-browser__continue[data-v-4d32209e] {\n  display: block;\n  margin: 30px auto;\n}\n.content-unsupported-browser__list[data-v-4d32209e] {\n  margin-top: 60px;\n  margin-bottom: 30px;\n}\n.content-unsupported-browser__list li[data-v-4d32209e] {\n  text-align: left;\n}", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/electron-to-chromium/versions.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/electron-to-chromium/versions.js ***!
+  \*******************************************************/
+/***/ (function(module) {
+
+module.exports = {
+	"0.20": "39",
+	"0.21": "41",
+	"0.22": "41",
+	"0.23": "41",
+	"0.24": "41",
+	"0.25": "42",
+	"0.26": "42",
+	"0.27": "43",
+	"0.28": "43",
+	"0.29": "43",
+	"0.30": "44",
+	"0.31": "45",
+	"0.32": "45",
+	"0.33": "45",
+	"0.34": "45",
+	"0.35": "45",
+	"0.36": "47",
+	"0.37": "49",
+	"1.0": "49",
+	"1.1": "50",
+	"1.2": "51",
+	"1.3": "52",
+	"1.4": "53",
+	"1.5": "54",
+	"1.6": "56",
+	"1.7": "58",
+	"1.8": "59",
+	"2.0": "61",
+	"2.1": "61",
+	"3.0": "66",
+	"3.1": "66",
+	"4.0": "69",
+	"4.1": "69",
+	"4.2": "69",
+	"5.0": "73",
+	"6.0": "76",
+	"6.1": "76",
+	"7.0": "78",
+	"7.1": "78",
+	"7.2": "78",
+	"7.3": "78",
+	"8.0": "80",
+	"8.1": "80",
+	"8.2": "80",
+	"8.3": "80",
+	"8.4": "80",
+	"8.5": "80",
+	"9.0": "83",
+	"9.1": "83",
+	"9.2": "83",
+	"9.3": "83",
+	"9.4": "83",
+	"10.0": "85",
+	"10.1": "85",
+	"10.2": "85",
+	"10.3": "85",
+	"10.4": "85",
+	"11.0": "87",
+	"11.1": "87",
+	"11.2": "87",
+	"11.3": "87",
+	"11.4": "87",
+	"11.5": "87",
+	"12.0": "89",
+	"12.1": "89",
+	"12.2": "89",
+	"13.0": "91",
+	"13.1": "91",
+	"13.2": "91",
+	"13.3": "91",
+	"13.4": "91",
+	"13.5": "91",
+	"13.6": "91",
+	"14.0": "93",
+	"14.1": "93",
+	"14.2": "93",
+	"15.0": "94",
+	"15.1": "94",
+	"15.2": "94",
+	"15.3": "94",
+	"15.4": "94",
+	"15.5": "94",
+	"16.0": "96",
+	"16.1": "96",
+	"16.2": "96",
+	"17.0": "98",
+	"17.1": "98",
+	"17.2": "98",
+	"17.3": "98",
+	"17.4": "98",
+	"18.0": "100",
+	"18.1": "100",
+	"18.2": "100",
+	"18.3": "100",
+	"19.0": "102",
+	"19.1": "102",
+	"20.0": "104",
+	"20.1": "104",
+	"20.2": "104",
+	"20.3": "104",
+	"21.0": "106",
+	"21.1": "106",
+	"21.2": "106",
+	"21.3": "106",
+	"21.4": "106",
+	"22.0": "108",
+	"22.1": "108",
+	"22.2": "108",
+	"22.3": "108",
+	"23.0": "110",
+	"23.1": "110",
+	"23.2": "110",
+	"23.3": "110",
+	"24.0": "112",
+	"24.1": "112",
+	"24.2": "112",
+	"24.3": "112",
+	"24.4": "112",
+	"24.5": "112",
+	"24.6": "112",
+	"25.0": "114",
+	"25.1": "114",
+	"25.2": "114",
+	"25.3": "114",
+	"26.0": "116"
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/compat-transpiler/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/compat-transpiler/index.js ***!
+  \******************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var compatTransforms = __webpack_require__(/*! ./transforms */ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/index.js");
+var _transform = __webpack_require__(/*! ../transform */ "./node_modules/regexp-tree/dist/transform/index.js");
+
+module.exports = {
+  /**
+   * Translates a regexp in new syntax to equivalent regexp in old syntax.
+   *
+   * @param string|RegExp|AST - regexp
+   * @param Array transformsWhitelist - names of the transforms to apply
+   */
+  transform: function transform(regexp) {
+    var transformsWhitelist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    var transformToApply = transformsWhitelist.length > 0 ? transformsWhitelist : Object.keys(compatTransforms);
+
+    var result = void 0;
+
+    // Collect extra data per transform.
+    var extra = {};
+
+    transformToApply.forEach(function (transformName) {
+
+      if (!compatTransforms.hasOwnProperty(transformName)) {
+        throw new Error('Unknown compat-transform: ' + transformName + '. ' + 'Available transforms are: ' + Object.keys(compatTransforms).join(', '));
+      }
+
+      var handler = compatTransforms[transformName];
+
+      result = _transform.transform(regexp, handler);
+      regexp = result.getAST();
+
+      // Collect `extra` transform result.
+      if (typeof handler.getExtra === 'function') {
+        extra[transformName] = handler.getExtra();
+      }
+    });
+
+    // Set the final extras for all transforms.
+    result.setExtra(extra);
+
+    return result;
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/compat-transpiler/runtime/index.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/compat-transpiler/runtime/index.js ***!
+  \**************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * The `RegExpTree` class provides runtime support for `compat-transpiler`
+ * module from `regexp-tree`.
+ *
+ * E.g. it tracks names of the capturing groups, in order to access the
+ * names on the matched result.
+ *
+ * It's a thin-wrapper on top of original regexp.
+ */
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RegExpTree = function () {
+  /**
+   * Initializes a `RegExpTree` instance.
+   *
+   * @param RegExp - a regular expression
+   *
+   * @param Object state:
+   *
+   *   An extra state which may store any related to transformation
+   *   data, for example, names of the groups.
+   *
+   *   - flags - original flags
+   *   - groups - names of the groups, and their indices
+   *   - source - original source
+   */
+  function RegExpTree(re, _ref) {
+    var flags = _ref.flags,
+        groups = _ref.groups,
+        source = _ref.source;
+
+    _classCallCheck(this, RegExpTree);
+
+    this._re = re;
+    this._groups = groups;
+
+    // Original props.
+    this.flags = flags;
+    this.source = source || re.source;
+    this.dotAll = flags.includes('s');
+
+    // Inherited directly from `re`.
+    this.global = re.global;
+    this.ignoreCase = re.ignoreCase;
+    this.multiline = re.multiline;
+    this.sticky = re.sticky;
+    this.unicode = re.unicode;
+  }
+
+  /**
+   * Facade wrapper for RegExp `test` method.
+   */
+
+
+  _createClass(RegExpTree, [{
+    key: 'test',
+    value: function test(string) {
+      return this._re.test(string);
+    }
+
+    /**
+     * Facade wrapper for RegExp `compile` method.
+     */
+
+  }, {
+    key: 'compile',
+    value: function compile(string) {
+      return this._re.compile(string);
+    }
+
+    /**
+     * Facade wrapper for RegExp `toString` method.
+     */
+
+  }, {
+    key: 'toString',
+    value: function toString() {
+      if (!this._toStringResult) {
+        this._toStringResult = '/' + this.source + '/' + this.flags;
+      }
+      return this._toStringResult;
+    }
+
+    /**
+     * Facade wrapper for RegExp `exec` method.
+     */
+
+  }, {
+    key: 'exec',
+    value: function exec(string) {
+      var result = this._re.exec(string);
+
+      if (!this._groups || !result) {
+        return result;
+      }
+
+      result.groups = {};
+
+      for (var group in this._groups) {
+        var groupNumber = this._groups[group];
+        result.groups[group] = result[groupNumber];
+      }
+
+      return result;
+    }
+  }]);
+
+  return RegExpTree;
+}();
+
+module.exports = {
+  RegExpTree: RegExpTree
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-dotall-s-transform.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-dotall-s-transform.js ***!
+  \*************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to translate `/./s` to `/[\0-\uFFFF]/`.
+ */
+
+module.exports = {
+
+  // Whether `u` flag present. In which case we transform to
+  // \u{10FFFF} instead of \uFFFF.
+  _hasUFlag: false,
+
+  // Only run this plugin if we have `s` flag.
+  shouldRun: function shouldRun(ast) {
+    var shouldRun = ast.flags.includes('s');
+
+    if (!shouldRun) {
+      return false;
+    }
+
+    // Strip the `s` flag.
+    ast.flags = ast.flags.replace('s', '');
+
+    // Whether we have also `u`.
+    this._hasUFlag = ast.flags.includes('u');
+
+    return true;
+  },
+  Char: function Char(path) {
+    var node = path.node;
+
+
+    if (node.kind !== 'meta' || node.value !== '.') {
+      return;
+    }
+
+    var toValue = '\\uFFFF';
+    var toSymbol = '\uFFFF';
+
+    if (this._hasUFlag) {
+      toValue = '\\u{10FFFF}';
+      toSymbol = '\uDBFF\uDFFF';
+    }
+
+    path.replace({
+      type: 'CharacterClass',
+      expressions: [{
+        type: 'ClassRange',
+        from: {
+          type: 'Char',
+          value: '\\0',
+          kind: 'decimal',
+          symbol: '\0'
+        },
+        to: {
+          type: 'Char',
+          value: toValue,
+          kind: 'unicode',
+          symbol: toSymbol
+        }
+      }]
+    });
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-named-capturing-groups-transform.js":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-named-capturing-groups-transform.js ***!
+  \***************************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to translate `/(?<name>a)\k<name>/` to `/(a)\1/`.
+ */
+
+module.exports = {
+  // To track the names of the groups, and return them
+  // in the transform result state.
+  //
+  // A map from name to number: {foo: 2, bar: 4}
+  _groupNames: {},
+
+  /**
+   * Initialises the trasnform.
+   */
+  init: function init() {
+    this._groupNames = {};
+  },
+
+
+  /**
+   * Returns extra state, which eventually is returned to
+   */
+  getExtra: function getExtra() {
+    return this._groupNames;
+  },
+  Group: function Group(path) {
+    var node = path.node;
+
+
+    if (!node.name) {
+      return;
+    }
+
+    // Record group name.
+    this._groupNames[node.name] = node.number;
+
+    delete node.name;
+    delete node.nameRaw;
+  },
+  Backreference: function Backreference(path) {
+    var node = path.node;
+
+
+    if (node.kind !== 'name') {
+      return;
+    }
+
+    node.kind = 'number';
+    node.reference = node.number;
+    delete node.referenceRaw;
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-x-flag-transform.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-x-flag-transform.js ***!
+  \***********************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to remove `x` flag `/foo/x` to `/foo/`.
+ *
+ * Note: other features of `x` flags (whitespace, comments) are
+ * already removed at parsing stage.
+ */
+
+module.exports = {
+  RegExp: function RegExp(_ref) {
+    var node = _ref.node;
+
+    if (node.flags.includes('x')) {
+      node.flags = node.flags.replace('x', '');
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/index.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/compat-transpiler/transforms/index.js ***!
+  \*****************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+module.exports = {
+  // "dotAll" `s` flag
+  dotAll: __webpack_require__(/*! ./compat-dotall-s-transform */ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-dotall-s-transform.js"),
+
+  // Named capturing groups.
+  namedCapturingGroups: __webpack_require__(/*! ./compat-named-capturing-groups-transform */ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-named-capturing-groups-transform.js"),
+
+  // `x` flag
+  xFlag: __webpack_require__(/*! ./compat-x-flag-transform */ "./node_modules/regexp-tree/dist/compat-transpiler/transforms/compat-x-flag-transform.js")
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/generator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/generator/index.js ***!
+  \**********************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * Helper `gen` function calls node type handler.
+ */
+
+function gen(node) {
+  return node ? generator[node.type](node) : '';
+}
+
+/**
+ * AST handler.
+ */
+var generator = {
+  RegExp: function RegExp(node) {
+    return '/' + gen(node.body) + '/' + node.flags;
+  },
+  Alternative: function Alternative(node) {
+    return (node.expressions || []).map(gen).join('');
+  },
+  Disjunction: function Disjunction(node) {
+    return gen(node.left) + '|' + gen(node.right);
+  },
+  Group: function Group(node) {
+    var expression = gen(node.expression);
+
+    if (node.capturing) {
+      // A named group.
+      if (node.name) {
+        return '(?<' + (node.nameRaw || node.name) + '>' + expression + ')';
+      }
+
+      return '(' + expression + ')';
+    }
+
+    return '(?:' + expression + ')';
+  },
+  Backreference: function Backreference(node) {
+    switch (node.kind) {
+      case 'number':
+        return '\\' + node.reference;
+      case 'name':
+        return '\\k<' + (node.referenceRaw || node.reference) + '>';
+      default:
+        throw new TypeError('Unknown Backreference kind: ' + node.kind);
+    }
+  },
+  Assertion: function Assertion(node) {
+    switch (node.kind) {
+      case '^':
+      case '$':
+      case '\\b':
+      case '\\B':
+        return node.kind;
+
+      case 'Lookahead':
+        {
+          var assertion = gen(node.assertion);
+
+          if (node.negative) {
+            return '(?!' + assertion + ')';
+          }
+
+          return '(?=' + assertion + ')';
+        }
+
+      case 'Lookbehind':
+        {
+          var _assertion = gen(node.assertion);
+
+          if (node.negative) {
+            return '(?<!' + _assertion + ')';
+          }
+
+          return '(?<=' + _assertion + ')';
+        }
+
+      default:
+        throw new TypeError('Unknown Assertion kind: ' + node.kind);
+    }
+  },
+  CharacterClass: function CharacterClass(node) {
+    var expressions = node.expressions.map(gen).join('');
+
+    if (node.negative) {
+      return '[^' + expressions + ']';
+    }
+
+    return '[' + expressions + ']';
+  },
+  ClassRange: function ClassRange(node) {
+    return gen(node.from) + '-' + gen(node.to);
+  },
+  Repetition: function Repetition(node) {
+    return '' + gen(node.expression) + gen(node.quantifier);
+  },
+  Quantifier: function Quantifier(node) {
+    var quantifier = void 0;
+    var greedy = node.greedy ? '' : '?';
+
+    switch (node.kind) {
+      case '+':
+      case '?':
+      case '*':
+        quantifier = node.kind;
+        break;
+      case 'Range':
+        // Exact: {1}
+        if (node.from === node.to) {
+          quantifier = '{' + node.from + '}';
+        }
+        // Open: {1,}
+        else if (!node.to) {
+            quantifier = '{' + node.from + ',}';
+          }
+          // Closed: {1,3}
+          else {
+              quantifier = '{' + node.from + ',' + node.to + '}';
+            }
+        break;
+      default:
+        throw new TypeError('Unknown Quantifier kind: ' + node.kind);
+    }
+
+    return '' + quantifier + greedy;
+  },
+  Char: function Char(node) {
+    var value = node.value;
+
+    switch (node.kind) {
+      case 'simple':
+        {
+          if (node.escaped) {
+            return '\\' + value;
+          }
+          return value;
+        }
+
+      case 'hex':
+      case 'unicode':
+      case 'oct':
+      case 'decimal':
+      case 'control':
+      case 'meta':
+        return value;
+
+      default:
+        throw new TypeError('Unknown Char kind: ' + node.kind);
+    }
+  },
+  UnicodeProperty: function UnicodeProperty(node) {
+    var escapeChar = node.negative ? 'P' : 'p';
+    var namePart = void 0;
+
+    if (!node.shorthand && !node.binary) {
+      namePart = node.name + '=';
+    } else {
+      namePart = '';
+    }
+
+    return '\\' + escapeChar + '{' + namePart + node.value + '}';
+  }
+};
+
+module.exports = {
+  /**
+   * Generates a regexp string from an AST.
+   *
+   * @param Object ast - an AST node
+   */
+  generate: gen
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/dfa/dfa-minimizer.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/dfa/dfa-minimizer.js ***!
+  \*****************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+// DFA minization.
+
+/**
+ * Map from state to current set it goes.
+ */
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var currentTransitionMap = null;
+
+/**
+ * Takes a DFA, and returns a minimized version of it
+ * compressing some states to groups (using standard, 0-, 1-,
+ * 2-, ... N-equivalence algorithm).
+ */
+function minimize(dfa) {
+  var table = dfa.getTransitionTable();
+  var allStates = Object.keys(table);
+  var alphabet = dfa.getAlphabet();
+  var accepting = dfa.getAcceptingStateNumbers();
+
+  currentTransitionMap = {};
+
+  var nonAccepting = new Set();
+
+  allStates.forEach(function (state) {
+    state = Number(state);
+    var isAccepting = accepting.has(state);
+
+    if (isAccepting) {
+      currentTransitionMap[state] = accepting;
+    } else {
+      nonAccepting.add(state);
+      currentTransitionMap[state] = nonAccepting;
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // Step 1: build equivalent sets.
+
+  // All [1..N] equivalent sets.
+  var all = [
+  // 0-equivalent sets.
+  [nonAccepting, accepting].filter(function (set) {
+    return set.size > 0;
+  })];
+
+  var current = void 0;
+  var previous = void 0;
+
+  // Top of the stack is the current list of sets to analyze.
+  current = all[all.length - 1];
+
+  // Previous set (to check whether we need to stop).
+  previous = all[all.length - 2];
+
+  // Until we'll not have the same N and N-1 equivalent rows.
+
+  var _loop = function _loop() {
+    var newTransitionMap = {};
+
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = current[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var _set = _step3.value;
+
+        // Handled states for this set.
+        var handledStates = {};
+
+        var _set2 = _toArray(_set),
+            first = _set2[0],
+            rest = _set2.slice(1);
+
+        handledStates[first] = new Set([first]);
+
+        // Have to compare each from the rest states with
+        // the already handled states, and see if they are equivalent.
+        var _iteratorNormalCompletion4 = true;
+        var _didIteratorError4 = false;
+        var _iteratorError4 = undefined;
+
+        try {
+          restSets: for (var _iterator4 = rest[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+            var state = _step4.value;
+            var _iteratorNormalCompletion5 = true;
+            var _didIteratorError5 = false;
+            var _iteratorError5 = undefined;
+
+            try {
+              for (var _iterator5 = Object.keys(handledStates)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                var handledState = _step5.value;
+
+                // This and some previously handled state are equivalent --
+                // just append this state to the same set.
+                if (areEquivalent(state, handledState, table, alphabet)) {
+                  handledStates[handledState].add(state);
+                  handledStates[state] = handledStates[handledState];
+                  continue restSets;
+                }
+              }
+              // Else, this state is not equivalent to any of the
+              // handled states -- allocate a new set for it.
+            } catch (err) {
+              _didIteratorError5 = true;
+              _iteratorError5 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                  _iterator5.return();
+                }
+              } finally {
+                if (_didIteratorError5) {
+                  throw _iteratorError5;
+                }
+              }
+            }
+
+            handledStates[state] = new Set([state]);
+          }
+        } catch (err) {
+          _didIteratorError4 = true;
+          _iteratorError4 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+              _iterator4.return();
+            }
+          } finally {
+            if (_didIteratorError4) {
+              throw _iteratorError4;
+            }
+          }
+        }
+
+        // Add these handled states to all states map.
+
+
+        Object.assign(newTransitionMap, handledStates);
+      }
+
+      // Update current transition map for the handled row.
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+
+    currentTransitionMap = newTransitionMap;
+
+    var newSets = new Set(Object.keys(newTransitionMap).map(function (state) {
+      return newTransitionMap[state];
+    }));
+
+    all.push([].concat(_toConsumableArray(newSets)));
+
+    // Top of the stack is the current.
+    current = all[all.length - 1];
+
+    // Previous set.
+    previous = all[all.length - 2];
+  };
+
+  while (!sameRow(current, previous)) {
+    _loop();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Step 2: build minimized table from the equivalent sets.
+
+  // Remap state numbers from sets to index-based.
+  var remaped = new Map();
+  var idx = 1;
+  current.forEach(function (set) {
+    return remaped.set(set, idx++);
+  });
+
+  // Build the minimized table from the calculated equivalent sets.
+  var minimizedTable = {};
+
+  var minimizedAcceptingStates = new Set();
+
+  var updateAcceptingStates = function updateAcceptingStates(set, idx) {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = set[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var state = _step.value;
+
+        if (accepting.has(state)) {
+          minimizedAcceptingStates.add(idx);
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  };
+
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = remaped.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var _ref = _step2.value;
+
+      var _ref2 = _slicedToArray(_ref, 2);
+
+      var set = _ref2[0];
+      var _idx = _ref2[1];
+
+      minimizedTable[_idx] = {};
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = alphabet[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var symbol = _step6.value;
+
+          updateAcceptingStates(set, _idx);
+
+          // Determine original transition for this symbol from the set.
+          var originalTransition = void 0;
+          var _iteratorNormalCompletion7 = true;
+          var _didIteratorError7 = false;
+          var _iteratorError7 = undefined;
+
+          try {
+            for (var _iterator7 = set[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+              var originalState = _step7.value;
+
+              originalTransition = table[originalState][symbol];
+              if (originalTransition) {
+                break;
+              }
+            }
+          } catch (err) {
+            _didIteratorError7 = true;
+            _iteratorError7 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                _iterator7.return();
+              }
+            } finally {
+              if (_didIteratorError7) {
+                throw _iteratorError7;
+              }
+            }
+          }
+
+          if (originalTransition) {
+            minimizedTable[_idx][symbol] = remaped.get(currentTransitionMap[originalTransition]);
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+    }
+
+    // Update the table, and accepting states on the original DFA.
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  dfa.setTransitionTable(minimizedTable);
+  dfa.setAcceptingStateNumbers(minimizedAcceptingStates);
+
+  return dfa;
+}
+
+function sameRow(r1, r2) {
+  if (!r2) {
+    return false;
+  }
+
+  if (r1.length !== r2.length) {
+    return false;
+  }
+
+  for (var i = 0; i < r1.length; i++) {
+    var s1 = r1[i];
+    var s2 = r2[i];
+
+    if (s1.size !== s2.size) {
+      return false;
+    }
+
+    if ([].concat(_toConsumableArray(s1)).sort().join(',') !== [].concat(_toConsumableArray(s2)).sort().join(',')) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Checks whether two states are N-equivalent, i.e. whether they go
+ * to the same set on a symbol.
+ */
+function areEquivalent(s1, s2, table, alphabet) {
+  var _iteratorNormalCompletion8 = true;
+  var _didIteratorError8 = false;
+  var _iteratorError8 = undefined;
+
+  try {
+    for (var _iterator8 = alphabet[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+      var symbol = _step8.value;
+
+      if (!goToSameSet(s1, s2, table, symbol)) {
+        return false;
+      }
+    }
+  } catch (err) {
+    _didIteratorError8 = true;
+    _iteratorError8 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion8 && _iterator8.return) {
+        _iterator8.return();
+      }
+    } finally {
+      if (_didIteratorError8) {
+        throw _iteratorError8;
+      }
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Checks whether states go to the same set.
+ */
+function goToSameSet(s1, s2, table, symbol) {
+  if (!currentTransitionMap[s1] || !currentTransitionMap[s2]) {
+    return false;
+  }
+
+  var originalTransitionS1 = table[s1][symbol];
+  var originalTransitionS2 = table[s2][symbol];
+
+  // If no actual transition on this symbol, treat it as positive.
+  if (!originalTransitionS1 && !originalTransitionS2) {
+    return true;
+  }
+
+  // Otherwise, check if they are in the same sets.
+  return currentTransitionMap[s1].has(originalTransitionS1) && currentTransitionMap[s2].has(originalTransitionS2);
+}
+
+module.exports = {
+  minimize: minimize
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/dfa/dfa.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/dfa/dfa.js ***!
+  \*******************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DFAMinimizer = __webpack_require__(/*! ./dfa-minimizer */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/dfa/dfa-minimizer.js");
+
+var _require = __webpack_require__(/*! ../special-symbols */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/special-symbols.js"),
+    EPSILON_CLOSURE = _require.EPSILON_CLOSURE;
+
+/**
+ * DFA is build by converting from NFA (subset construction).
+ */
+
+
+var DFA = function () {
+  function DFA(nfa) {
+    _classCallCheck(this, DFA);
+
+    this._nfa = nfa;
+  }
+
+  /**
+   * Minimizes DFA.
+   */
+
+
+  _createClass(DFA, [{
+    key: 'minimize',
+    value: function minimize() {
+      this.getTransitionTable();
+
+      this._originalAcceptingStateNumbers = this._acceptingStateNumbers;
+      this._originalTransitionTable = this._transitionTable;
+
+      DFAMinimizer.minimize(this);
+    }
+
+    /**
+     * Returns alphabet for this DFA.
+     */
+
+  }, {
+    key: 'getAlphabet',
+    value: function getAlphabet() {
+      return this._nfa.getAlphabet();
+    }
+
+    /**
+     * Returns accepting states.
+     */
+
+  }, {
+    key: 'getAcceptingStateNumbers',
+    value: function getAcceptingStateNumbers() {
+      if (!this._acceptingStateNumbers) {
+        // Accepting states are determined during table construction.
+        this.getTransitionTable();
+      }
+
+      return this._acceptingStateNumbers;
+    }
+
+    /**
+     * Returns original accepting states.
+     */
+
+  }, {
+    key: 'getOriginaAcceptingStateNumbers',
+    value: function getOriginaAcceptingStateNumbers() {
+      if (!this._originalAcceptingStateNumbers) {
+        // Accepting states are determined during table construction.
+        this.getTransitionTable();
+      }
+
+      return this._originalAcceptingStateNumbers;
+    }
+
+    /**
+     * Sets transition table.
+     */
+
+  }, {
+    key: 'setTransitionTable',
+    value: function setTransitionTable(table) {
+      this._transitionTable = table;
+    }
+
+    /**
+     * Sets accepting states.
+     */
+
+  }, {
+    key: 'setAcceptingStateNumbers',
+    value: function setAcceptingStateNumbers(stateNumbers) {
+      this._acceptingStateNumbers = stateNumbers;
+    }
+
+    /**
+     * DFA transition table is built from NFA table.
+     */
+
+  }, {
+    key: 'getTransitionTable',
+    value: function getTransitionTable() {
+      var _this = this;
+
+      if (this._transitionTable) {
+        return this._transitionTable;
+      }
+
+      // Calculate from NFA transition table.
+      var nfaTable = this._nfa.getTransitionTable();
+      var nfaStates = Object.keys(nfaTable);
+
+      this._acceptingStateNumbers = new Set();
+
+      // Start state of DFA is E(S[nfa])
+      var startState = nfaTable[nfaStates[0]][EPSILON_CLOSURE];
+
+      // Init the worklist (states which should be in the DFA).
+      var worklist = [startState];
+
+      var alphabet = this.getAlphabet();
+      var nfaAcceptingStates = this._nfa.getAcceptingStateNumbers();
+
+      var dfaTable = {};
+
+      // Determine whether the combined DFA state is accepting.
+      var updateAcceptingStates = function updateAcceptingStates(states) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = nfaAcceptingStates[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var nfaAcceptingState = _step.value;
+
+            // If any of the states from NFA is accepting, DFA's
+            // state is accepting as well.
+            if (states.indexOf(nfaAcceptingState) !== -1) {
+              _this._acceptingStateNumbers.add(states.join(','));
+              break;
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      };
+
+      while (worklist.length > 0) {
+        var states = worklist.shift();
+        var dfaStateLabel = states.join(',');
+        dfaTable[dfaStateLabel] = {};
+
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = alphabet[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var symbol = _step2.value;
+
+            var onSymbol = [];
+
+            // Determine whether the combined state is accepting.
+            updateAcceptingStates(states);
+
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+              for (var _iterator3 = states[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var state = _step3.value;
+
+                var nfaStatesOnSymbol = nfaTable[state][symbol];
+                if (!nfaStatesOnSymbol) {
+                  continue;
+                }
+
+                var _iteratorNormalCompletion4 = true;
+                var _didIteratorError4 = false;
+                var _iteratorError4 = undefined;
+
+                try {
+                  for (var _iterator4 = nfaStatesOnSymbol[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    var nfaStateOnSymbol = _step4.value;
+
+                    if (!nfaTable[nfaStateOnSymbol]) {
+                      continue;
+                    }
+                    onSymbol.push.apply(onSymbol, _toConsumableArray(nfaTable[nfaStateOnSymbol][EPSILON_CLOSURE]));
+                  }
+                } catch (err) {
+                  _didIteratorError4 = true;
+                  _iteratorError4 = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                      _iterator4.return();
+                    }
+                  } finally {
+                    if (_didIteratorError4) {
+                      throw _iteratorError4;
+                    }
+                  }
+                }
+              }
+            } catch (err) {
+              _didIteratorError3 = true;
+              _iteratorError3 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                  _iterator3.return();
+                }
+              } finally {
+                if (_didIteratorError3) {
+                  throw _iteratorError3;
+                }
+              }
+            }
+
+            var dfaStatesOnSymbolSet = new Set(onSymbol);
+            var dfaStatesOnSymbol = [].concat(_toConsumableArray(dfaStatesOnSymbolSet));
+
+            if (dfaStatesOnSymbol.length > 0) {
+              var dfaOnSymbolStr = dfaStatesOnSymbol.join(',');
+
+              dfaTable[dfaStateLabel][symbol] = dfaOnSymbolStr;
+
+              if (!dfaTable.hasOwnProperty(dfaOnSymbolStr)) {
+                worklist.unshift(dfaStatesOnSymbol);
+              }
+            }
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      }
+
+      return this._transitionTable = this._remapStateNumbers(dfaTable);
+    }
+
+    /**
+     * Remaps state numbers in the resulting table:
+     * combined states '1,2,3' -> 1, '3,4' -> 2, etc.
+     */
+
+  }, {
+    key: '_remapStateNumbers',
+    value: function _remapStateNumbers(calculatedDFATable) {
+      var newStatesMap = {};
+
+      this._originalTransitionTable = calculatedDFATable;
+      var transitionTable = {};
+
+      Object.keys(calculatedDFATable).forEach(function (originalNumber, newNumber) {
+        newStatesMap[originalNumber] = newNumber + 1;
+      });
+
+      for (var originalNumber in calculatedDFATable) {
+        var originalRow = calculatedDFATable[originalNumber];
+        var row = {};
+
+        for (var symbol in originalRow) {
+          row[symbol] = newStatesMap[originalRow[symbol]];
+        }
+
+        transitionTable[newStatesMap[originalNumber]] = row;
+      }
+
+      // Remap accepting states.
+      this._originalAcceptingStateNumbers = this._acceptingStateNumbers;
+      this._acceptingStateNumbers = new Set();
+
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = this._originalAcceptingStateNumbers[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var _originalNumber = _step5.value;
+
+          this._acceptingStateNumbers.add(newStatesMap[_originalNumber]);
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
+        }
+      }
+
+      return transitionTable;
+    }
+
+    /**
+     * Returns original DFA table, where state numbers
+     * are combined numbers from NFA.
+     */
+
+  }, {
+    key: 'getOriginalTransitionTable',
+    value: function getOriginalTransitionTable() {
+      if (!this._originalTransitionTable) {
+        // Original table is determined during table construction.
+        this.getTransitionTable();
+      }
+      return this._originalTransitionTable;
+    }
+
+    /**
+     * Checks whether this DFA accepts a string.
+     */
+
+  }, {
+    key: 'matches',
+    value: function matches(string) {
+      var state = 1;
+      var i = 0;
+      var table = this.getTransitionTable();
+
+      while (string[i]) {
+        state = table[state][string[i++]];
+        if (!state) {
+          return false;
+        }
+      }
+
+      if (!this.getAcceptingStateNumbers().has(state)) {
+        return false;
+      }
+
+      return true;
+    }
+  }]);
+
+  return DFA;
+}();
+
+module.exports = DFA;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/index.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/index.js ***!
+  \*****************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var NFA = __webpack_require__(/*! ./nfa/nfa */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa.js");
+var DFA = __webpack_require__(/*! ./dfa/dfa */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/dfa/dfa.js");
+
+var nfaFromRegExp = __webpack_require__(/*! ./nfa/nfa-from-regexp */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa-from-regexp.js");
+var builders = __webpack_require__(/*! ./nfa/builders */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/builders.js");
+
+module.exports = {
+
+  /**
+   * Export NFA and DFA classes.
+   */
+  NFA: NFA,
+  DFA: DFA,
+
+  /**
+   * Expose builders.
+   */
+  builders: builders,
+
+  /**
+   * Builds an NFA for the passed regexp.
+   *
+   * @param string | AST | RegExp:
+   *
+   *   a regular expression in different representations: a string,
+   *   a RegExp object, or an AST.
+   */
+  toNFA: function toNFA(regexp) {
+    return nfaFromRegExp.build(regexp);
+  },
+
+
+  /**
+   * Builds DFA for the passed regexp.
+   *
+   * @param string | AST | RegExp:
+   *
+   *   a regular expression in different representations: a string,
+   *   a RegExp object, or an AST.
+   */
+  toDFA: function toDFA(regexp) {
+    return new DFA(this.toNFA(regexp));
+  },
+
+
+  /**
+   * Returns true if regexp accepts the string.
+   */
+  test: function test(regexp, string) {
+    return this.toDFA(regexp).matches(string);
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/builders.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/builders.js ***!
+  \************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var NFA = __webpack_require__(/*! ./nfa */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa.js");
+var NFAState = __webpack_require__(/*! ./nfa-state */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa-state.js");
+
+var _require = __webpack_require__(/*! ../special-symbols */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/special-symbols.js"),
+    EPSILON = _require.EPSILON;
+
+// -----------------------------------------------------------------------------
+// Char NFA fragment: `c`
+
+/**
+ * Char factory.
+ *
+ * Creates an NFA fragment for a single char.
+ *
+ * [in] --c--> [out]
+ */
+
+
+function char(c) {
+  var inState = new NFAState();
+  var outState = new NFAState({
+    accepting: true
+  });
+
+  return new NFA(inState.addTransition(c, outState), outState);
+}
+
+// -----------------------------------------------------------------------------
+// Epsilon NFA fragment
+
+/**
+ * Epsilon factory.
+ *
+ * Creates an NFA fragment for ε (recognizes an empty string).
+ *
+ * [in] --ε--> [out]
+ */
+function e() {
+  return char(EPSILON);
+}
+
+// -----------------------------------------------------------------------------
+// Alteration NFA fragment: `abc`
+
+/**
+ * Creates a connection between two NFA fragments on epsilon transition.
+ *
+ * [in-a] --a--> [out-a] --ε--> [in-b] --b--> [out-b]
+ */
+function altPair(first, second) {
+  first.out.accepting = false;
+  second.out.accepting = true;
+
+  first.out.addTransition(EPSILON, second.in);
+
+  return new NFA(first.in, second.out);
+}
+
+/**
+ * Alteration factory.
+ *
+ * Creates a alteration NFA for (at least) two NFA-fragments.
+ */
+function alt(first) {
+  for (var _len = arguments.length, fragments = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    fragments[_key - 1] = arguments[_key];
+  }
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = fragments[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var fragment = _step.value;
+
+      first = altPair(first, fragment);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return first;
+}
+
+// -----------------------------------------------------------------------------
+// Disjunction NFA fragment: `a|b`
+
+/**
+ * Creates a disjunction choice between two fragments.
+ */
+function orPair(first, second) {
+  var inState = new NFAState();
+  var outState = new NFAState();
+
+  inState.addTransition(EPSILON, first.in);
+  inState.addTransition(EPSILON, second.in);
+
+  outState.accepting = true;
+  first.out.accepting = false;
+  second.out.accepting = false;
+
+  first.out.addTransition(EPSILON, outState);
+  second.out.addTransition(EPSILON, outState);
+
+  return new NFA(inState, outState);
+}
+
+/**
+ * Disjunction factory.
+ *
+ * Creates a disjunction NFA for (at least) two NFA-fragments.
+ */
+function or(first) {
+  for (var _len2 = arguments.length, fragments = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    fragments[_key2 - 1] = arguments[_key2];
+  }
+
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = fragments[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var fragment = _step2.value;
+
+      first = orPair(first, fragment);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  return first;
+}
+
+// -----------------------------------------------------------------------------
+// Kleene-closure
+
+/**
+ * Kleene star/closure.
+ *
+ * a*
+ */
+function repExplicit(fragment) {
+  var inState = new NFAState();
+  var outState = new NFAState({
+    accepting: true
+  });
+
+  // 0 or more.
+  inState.addTransition(EPSILON, fragment.in);
+  inState.addTransition(EPSILON, outState);
+
+  fragment.out.accepting = false;
+  fragment.out.addTransition(EPSILON, outState);
+  outState.addTransition(EPSILON, fragment.in);
+
+  return new NFA(inState, outState);
+}
+
+/**
+ * Optimized Kleene-star: just adds ε-transitions from
+ * input to the output, and back.
+ */
+function rep(fragment) {
+  fragment.in.addTransition(EPSILON, fragment.out);
+  fragment.out.addTransition(EPSILON, fragment.in);
+  return fragment;
+}
+
+/**
+ * Optimized Plus: just adds ε-transitions from
+ * the output to the input.
+ */
+function plusRep(fragment) {
+  fragment.out.addTransition(EPSILON, fragment.in);
+  return fragment;
+}
+
+/**
+ * Optimized ? repetition: just adds ε-transitions from
+ * the input to the output.
+ */
+function questionRep(fragment) {
+  fragment.in.addTransition(EPSILON, fragment.out);
+  return fragment;
+}
+
+module.exports = {
+  alt: alt,
+  char: char,
+  e: e,
+  or: or,
+  rep: rep,
+  repExplicit: repExplicit,
+  plusRep: plusRep,
+  questionRep: questionRep
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa-from-regexp.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa-from-regexp.js ***!
+  \*******************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var parser = __webpack_require__(/*! ../../../parser */ "./node_modules/regexp-tree/dist/parser/index.js");
+
+var _require = __webpack_require__(/*! ./builders */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/builders.js"),
+    alt = _require.alt,
+    char = _require.char,
+    or = _require.or,
+    rep = _require.rep,
+    plusRep = _require.plusRep,
+    questionRep = _require.questionRep;
+
+/**
+ * Helper `gen` function calls node type handler.
+ */
+
+
+function gen(node) {
+  if (node && !generator[node.type]) {
+    throw new Error(node.type + ' is not supported in NFA/DFA interpreter.');
+  }
+
+  return node ? generator[node.type](node) : '';
+}
+
+/**
+ * AST handler.
+ */
+var generator = {
+  RegExp: function RegExp(node) {
+    if (node.flags !== '') {
+      throw new Error('NFA/DFA: Flags are not supported yet.');
+    }
+
+    return gen(node.body);
+  },
+  Alternative: function Alternative(node) {
+    var fragments = (node.expressions || []).map(gen);
+    return alt.apply(undefined, _toConsumableArray(fragments));
+  },
+  Disjunction: function Disjunction(node) {
+    return or(gen(node.left), gen(node.right));
+  },
+  Repetition: function Repetition(node) {
+    switch (node.quantifier.kind) {
+      case '*':
+        return rep(gen(node.expression));
+      case '+':
+        return plusRep(gen(node.expression));
+      case '?':
+        return questionRep(gen(node.expression));
+      default:
+        throw new Error('Unknown repeatition: ' + node.quantifier.kind + '.');
+    }
+  },
+  Char: function Char(node) {
+    if (node.kind !== 'simple') {
+      throw new Error('NFA/DFA: Only simple chars are supported yet.');
+    }
+
+    return char(node.value);
+  },
+  Group: function Group(node) {
+    return gen(node.expression);
+  }
+};
+
+module.exports = {
+  /**
+   * Builds an NFA from the passed regexp.
+   */
+  build: function build(regexp) {
+    var ast = regexp;
+
+    if (regexp instanceof RegExp) {
+      regexp = '' + regexp;
+    }
+
+    if (typeof regexp === 'string') {
+      ast = parser.parse(regexp, {
+        captureLocations: true
+      });
+    }
+
+    return gen(ast);
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa-state.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa-state.js ***!
+  \*************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var State = __webpack_require__(/*! ../state */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/state.js");
+
+var _require = __webpack_require__(/*! ../special-symbols */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/special-symbols.js"),
+    EPSILON = _require.EPSILON;
+
+/**
+ * NFA state.
+ *
+ * Allows nondeterministic transitions to several states on the
+ * same symbol, and also epsilon-transitions.
+ */
+
+
+var NFAState = function (_State) {
+  _inherits(NFAState, _State);
+
+  function NFAState() {
+    _classCallCheck(this, NFAState);
+
+    return _possibleConstructorReturn(this, (NFAState.__proto__ || Object.getPrototypeOf(NFAState)).apply(this, arguments));
+  }
+
+  _createClass(NFAState, [{
+    key: 'matches',
+
+
+    /**
+     * Whether this state matches a string.
+     *
+     * We maintain set of visited epsilon-states to avoid infinite loops
+     * when an epsilon-transition goes eventually to itself.
+     *
+     * NOTE: this function is rather "educational", since we use DFA for strings
+     * matching. DFA is built on top of NFA, and uses fast transition table.
+     */
+    value: function matches(string) {
+      var visited = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Set();
+
+      // An epsilon-state has been visited, stop to avoid infinite loop.
+      if (visited.has(this)) {
+        return false;
+      }
+
+      visited.add(this);
+
+      // No symbols left..
+      if (string.length === 0) {
+        // .. and we're in the accepting state.
+        if (this.accepting) {
+          return true;
+        }
+
+        // Check if we can reach any accepting state from
+        // on the epsilon transitions.
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.getTransitionsOnSymbol(EPSILON)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var nextState = _step.value;
+
+            if (nextState.matches('', visited)) {
+              return true;
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        return false;
+      }
+
+      // Else, we get some symbols.
+      var symbol = string[0];
+      var rest = string.slice(1);
+
+      var symbolTransitions = this.getTransitionsOnSymbol(symbol);
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = symbolTransitions[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var _nextState = _step2.value;
+
+          if (_nextState.matches(rest)) {
+            return true;
+          }
+        }
+
+        // If we couldn't match on symbol, check still epsilon-transitions
+        // without consuming the symbol (i.e. continue from `string`, not `rest`).
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = this.getTransitionsOnSymbol(EPSILON)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var _nextState2 = _step3.value;
+
+          if (_nextState2.matches(string, visited)) {
+            return true;
+          }
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      return false;
+    }
+
+    /**
+     * Returns an ε-closure for this state:
+     * self + all states following ε-transitions.
+     */
+
+  }, {
+    key: 'getEpsilonClosure',
+    value: function getEpsilonClosure() {
+      var _this2 = this;
+
+      if (!this._epsilonClosure) {
+        (function () {
+          var epsilonTransitions = _this2.getTransitionsOnSymbol(EPSILON);
+          var closure = _this2._epsilonClosure = new Set();
+          closure.add(_this2);
+          var _iteratorNormalCompletion4 = true;
+          var _didIteratorError4 = false;
+          var _iteratorError4 = undefined;
+
+          try {
+            for (var _iterator4 = epsilonTransitions[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+              var nextState = _step4.value;
+
+              if (!closure.has(nextState)) {
+                closure.add(nextState);
+                var nextClosure = nextState.getEpsilonClosure();
+                nextClosure.forEach(function (state) {
+                  return closure.add(state);
+                });
+              }
+            }
+          } catch (err) {
+            _didIteratorError4 = true;
+            _iteratorError4 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                _iterator4.return();
+              }
+            } finally {
+              if (_didIteratorError4) {
+                throw _iteratorError4;
+              }
+            }
+          }
+        })();
+      }
+
+      return this._epsilonClosure;
+    }
+  }]);
+
+  return NFAState;
+}(State);
+
+module.exports = NFAState;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/nfa/nfa.js ***!
+  \*******************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _require = __webpack_require__(/*! ../special-symbols */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/special-symbols.js"),
+    EPSILON = _require.EPSILON,
+    EPSILON_CLOSURE = _require.EPSILON_CLOSURE;
+
+/**
+ * NFA fragment.
+ *
+ * NFA sub-fragments can be combined to a larger NFAs building
+ * the resulting machine. Combining the fragments is done by patching
+ * edges of the in- and out-states.
+ *
+ * 2-states implementation, `in`, and `out`. Eventually all transitions
+ * go to the same `out`, which can further be connected via ε-transition
+ * with other fragment.
+ */
+
+
+var NFA = function () {
+  function NFA(inState, outState) {
+    _classCallCheck(this, NFA);
+
+    this.in = inState;
+    this.out = outState;
+  }
+
+  /**
+   * Tries to recognize a string based on this NFA fragment.
+   */
+
+
+  _createClass(NFA, [{
+    key: 'matches',
+    value: function matches(string) {
+      return this.in.matches(string);
+    }
+
+    /**
+     * Returns an alphabet for this NFA.
+     */
+
+  }, {
+    key: 'getAlphabet',
+    value: function getAlphabet() {
+      if (!this._alphabet) {
+        this._alphabet = new Set();
+        var table = this.getTransitionTable();
+        for (var state in table) {
+          var transitions = table[state];
+          for (var symbol in transitions) {
+            if (symbol !== EPSILON_CLOSURE) {
+              this._alphabet.add(symbol);
+            }
+          }
+        }
+      }
+      return this._alphabet;
+    }
+
+    /**
+     * Returns set of accepting states.
+     */
+
+  }, {
+    key: 'getAcceptingStates',
+    value: function getAcceptingStates() {
+      if (!this._acceptingStates) {
+        // States are determined during table construction.
+        this.getTransitionTable();
+      }
+      return this._acceptingStates;
+    }
+
+    /**
+     * Returns accepting state numbers.
+     */
+
+  }, {
+    key: 'getAcceptingStateNumbers',
+    value: function getAcceptingStateNumbers() {
+      if (!this._acceptingStateNumbers) {
+        this._acceptingStateNumbers = new Set();
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.getAcceptingStates()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var acceptingState = _step.value;
+
+            this._acceptingStateNumbers.add(acceptingState.number);
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      }
+      return this._acceptingStateNumbers;
+    }
+
+    /**
+     * Builds and returns transition table.
+     */
+
+  }, {
+    key: 'getTransitionTable',
+    value: function getTransitionTable() {
+      var _this = this;
+
+      if (!this._transitionTable) {
+        this._transitionTable = {};
+        this._acceptingStates = new Set();
+
+        var visited = new Set();
+        var symbols = new Set();
+
+        var visitState = function visitState(state) {
+          if (visited.has(state)) {
+            return;
+          }
+
+          visited.add(state);
+          state.number = visited.size;
+          _this._transitionTable[state.number] = {};
+
+          if (state.accepting) {
+            _this._acceptingStates.add(state);
+          }
+
+          var transitions = state.getTransitions();
+
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = transitions[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var _ref = _step2.value;
+
+              var _ref2 = _slicedToArray(_ref, 2);
+
+              var symbol = _ref2[0];
+              var symbolTransitions = _ref2[1];
+
+              var combinedState = [];
+              symbols.add(symbol);
+              var _iteratorNormalCompletion3 = true;
+              var _didIteratorError3 = false;
+              var _iteratorError3 = undefined;
+
+              try {
+                for (var _iterator3 = symbolTransitions[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                  var nextState = _step3.value;
+
+                  visitState(nextState);
+                  combinedState.push(nextState.number);
+                }
+              } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                    _iterator3.return();
+                  }
+                } finally {
+                  if (_didIteratorError3) {
+                    throw _iteratorError3;
+                  }
+                }
+              }
+
+              _this._transitionTable[state.number][symbol] = combinedState;
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+        };
+
+        // Traverse the graph starting from the `in`.
+        visitState(this.in);
+
+        // Append epsilon-closure column.
+        visited.forEach(function (state) {
+          delete _this._transitionTable[state.number][EPSILON];
+          _this._transitionTable[state.number][EPSILON_CLOSURE] = [].concat(_toConsumableArray(state.getEpsilonClosure())).map(function (s) {
+            return s.number;
+          });
+        });
+      }
+
+      return this._transitionTable;
+    }
+  }]);
+
+  return NFA;
+}();
+
+module.exports = NFA;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/special-symbols.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/special-symbols.js ***!
+  \***************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * Epsilon, the empty string.
+ */
+
+var EPSILON = 'ε';
+
+/**
+ * Epsilon-closure.
+ */
+var EPSILON_CLOSURE = EPSILON + '*';
+
+module.exports = {
+  EPSILON: EPSILON,
+  EPSILON_CLOSURE: EPSILON_CLOSURE
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/state.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/interpreter/finite-automaton/state.js ***!
+  \*****************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A generic FA State class (base for NFA and DFA).
+ *
+ * Maintains the transition map, and the flag whether
+ * the state is accepting.
+ */
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var State = function () {
+  function State() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref$accepting = _ref.accepting,
+        accepting = _ref$accepting === undefined ? false : _ref$accepting;
+
+    _classCallCheck(this, State);
+
+    /**
+     * Outgoing transitions to other states.
+     */
+    this._transitions = new Map();
+
+    /**
+     * Whether the state is accepting.
+     */
+    this.accepting = accepting;
+  }
+
+  /**
+   * Returns transitions for this state.
+   */
+
+
+  _createClass(State, [{
+    key: 'getTransitions',
+    value: function getTransitions() {
+      return this._transitions;
+    }
+
+    /**
+     * Creates a transition on symbol.
+     */
+
+  }, {
+    key: 'addTransition',
+    value: function addTransition(symbol, toState) {
+      this.getTransitionsOnSymbol(symbol).add(toState);
+      return this;
+    }
+
+    /**
+     * Returns transitions set on symbol.
+     */
+
+  }, {
+    key: 'getTransitionsOnSymbol',
+    value: function getTransitionsOnSymbol(symbol) {
+      var transitions = this._transitions.get(symbol);
+
+      if (!transitions) {
+        transitions = new Set();
+        this._transitions.set(symbol, transitions);
+      }
+
+      return transitions;
+    }
+  }]);
+
+  return State;
+}();
+
+module.exports = State;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/index.js ***!
+  \**********************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var clone = __webpack_require__(/*! ../utils/clone */ "./node_modules/regexp-tree/dist/utils/clone.js");
+var parser = __webpack_require__(/*! ../parser */ "./node_modules/regexp-tree/dist/parser/index.js");
+var transform = __webpack_require__(/*! ../transform */ "./node_modules/regexp-tree/dist/transform/index.js");
+var optimizationTransforms = __webpack_require__(/*! ./transforms */ "./node_modules/regexp-tree/dist/optimizer/transforms/index.js");
+
+module.exports = {
+  /**
+   * Optimizer transforms a regular expression into an optimized version,
+   * replacing some sub-expressions with their idiomatic patterns.
+   *
+   * @param string | RegExp | AST - a regexp to optimize.
+   *
+   * @return TransformResult - an optimized regexp.
+   *
+   * Example:
+   *
+   *   /[a-zA-Z_0-9][a-zA-Z_0-9]*\e{1,}/
+   *
+   * Optimized to:
+   *
+   *   /\w+e+/
+   */
+  optimize: function optimize(regexp) {
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        _ref$whitelist = _ref.whitelist,
+        whitelist = _ref$whitelist === undefined ? [] : _ref$whitelist,
+        _ref$blacklist = _ref.blacklist,
+        blacklist = _ref$blacklist === undefined ? [] : _ref$blacklist;
+
+    var transformsRaw = whitelist.length > 0 ? whitelist : Array.from(optimizationTransforms.keys());
+
+    var transformToApply = transformsRaw.filter(function (transform) {
+      return !blacklist.includes(transform);
+    });
+
+    var ast = regexp;
+    if (regexp instanceof RegExp) {
+      regexp = '' + regexp;
+    }
+
+    if (typeof regexp === 'string') {
+      ast = parser.parse(regexp);
+    }
+
+    var result = new transform.TransformResult(ast);
+    var prevResultString = void 0;
+
+    do {
+      // Get a copy of the current state here so
+      // we can compare it with the state at the
+      // end of the loop.
+      prevResultString = result.toString();
+      ast = clone(result.getAST());
+
+      transformToApply.forEach(function (transformName) {
+        if (!optimizationTransforms.has(transformName)) {
+          throw new Error('Unknown optimization-transform: ' + transformName + '. ' + 'Available transforms are: ' + Array.from(optimizationTransforms.keys()).join(', '));
+        }
+
+        var transformer = optimizationTransforms.get(transformName);
+
+        // Don't override result just yet since we
+        // might want to rollback the transform
+        var newResult = transform.transform(ast, transformer);
+
+        if (newResult.toString() !== result.toString()) {
+          if (newResult.toString().length <= result.toString().length) {
+            result = newResult;
+          } else {
+            // Result has changed but is not shorter:
+            // restore ast to its previous state.
+
+            ast = clone(result.getAST());
+          }
+        }
+      });
+
+      // Keep running the optimizer until it stops
+      // making any change to the regexp.
+    } while (result.toString() !== prevResultString);
+
+    return result;
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-case-insensitive-lowercase-transform.js":
+/*!*********************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-case-insensitive-lowercase-transform.js ***!
+  \*********************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var UPPER_A_CP = 'A'.codePointAt(0);
+var UPPER_Z_CP = 'Z'.codePointAt(0);
+/**
+ * Transforms case-insensitive regexp to lowercase
+ *
+ * /AaBbÏ/i -> /aabbï/i
+ */
+module.exports = {
+  _AZClassRanges: null,
+  _hasUFlag: false,
+  init: function init(ast) {
+    this._AZClassRanges = new Set();
+    this._hasUFlag = ast.flags.includes('u');
+  },
+  shouldRun: function shouldRun(ast) {
+    return ast.flags.includes('i');
+  },
+  Char: function Char(path) {
+    var node = path.node,
+        parent = path.parent;
+
+    if (isNaN(node.codePoint)) {
+      return;
+    }
+
+    // Engine support for case-insensitive matching without the u flag
+    // for characters above \u1000 does not seem reliable.
+    if (!this._hasUFlag && node.codePoint >= 0x1000) {
+      return;
+    }
+
+    if (parent.type === 'ClassRange') {
+      // The only class ranges we handle must be inside A-Z.
+      // After the `from` char is processed, the isAZClassRange test
+      // will be false, so we use a Set to keep track of parents and
+      // process the `to` char.
+      if (!this._AZClassRanges.has(parent) && !isAZClassRange(parent)) {
+        return;
+      }
+      this._AZClassRanges.add(parent);
+    }
+
+    var lower = node.symbol.toLowerCase();
+    if (lower !== node.symbol) {
+      node.value = displaySymbolAsValue(lower, node);
+      node.symbol = lower;
+      node.codePoint = lower.codePointAt(0);
+    }
+  }
+};
+
+function isAZClassRange(classRange) {
+  var from = classRange.from,
+      to = classRange.to;
+  // A-Z
+
+  return from.codePoint >= UPPER_A_CP && from.codePoint <= UPPER_Z_CP && to.codePoint >= UPPER_A_CP && to.codePoint <= UPPER_Z_CP;
+}
+
+function displaySymbolAsValue(symbol, node) {
+  var codePoint = symbol.codePointAt(0);
+  if (node.kind === 'decimal') {
+    return '\\' + codePoint;
+  }
+  if (node.kind === 'oct') {
+    return '\\0' + codePoint.toString(8);
+  }
+  if (node.kind === 'hex') {
+    return '\\x' + codePoint.toString(16);
+  }
+  if (node.kind === 'unicode') {
+    if (node.isSurrogatePair) {
+      var _getSurrogatePairFrom = getSurrogatePairFromCodePoint(codePoint),
+          lead = _getSurrogatePairFrom.lead,
+          trail = _getSurrogatePairFrom.trail;
+
+      return '\\u' + '0'.repeat(4 - lead.length) + lead + '\\u' + '0'.repeat(4 - trail.length) + trail;
+    } else if (node.value.includes('{')) {
+      return '\\u{' + codePoint.toString(16) + '}';
+    } else {
+      var code = codePoint.toString(16);
+      return '\\u' + '0'.repeat(4 - code.length) + code;
+    }
+  }
+  // simple
+  return symbol;
+}
+
+/**
+ * Converts a code point to a surrogate pair.
+ * Conversion algorithm is taken from The Unicode Standard 3.0 Section 3.7
+ * (https://www.unicode.org/versions/Unicode3.0.0/ch03.pdf)
+ * @param {number} codePoint - Between 0x10000 and 0x10ffff
+ * @returns {{lead: string, trail: string}}
+ */
+function getSurrogatePairFromCodePoint(codePoint) {
+  var lead = Math.floor((codePoint - 0x10000) / 0x400) + 0xd800;
+  var trail = (codePoint - 0x10000) % 0x400 + 0xdc00;
+  return {
+    lead: lead.toString(16),
+    trail: trail.toString(16)
+  };
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-classranges-merge-transform.js":
+/*!******************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-class-classranges-merge-transform.js ***!
+  \******************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to merge class ranges.
+ *
+ * [a-ec] -> [a-e]
+ * [a-ec-e] -> [a-e]
+ * [\w\da-f] -> [\w]
+ * [abcdef] -> [a-f]
+ */
+
+module.exports = {
+  _hasIUFlags: false,
+  init: function init(ast) {
+    this._hasIUFlags = ast.flags.includes('i') && ast.flags.includes('u');
+  },
+  CharacterClass: function CharacterClass(path) {
+    var node = path.node;
+
+    var expressions = node.expressions;
+
+    var metas = [];
+    // Extract metas
+    expressions.forEach(function (expression) {
+      if (isMeta(expression)) {
+        metas.push(expression.value);
+      }
+    });
+
+    expressions.sort(sortCharClass);
+
+    for (var i = 0; i < expressions.length; i++) {
+      var expression = expressions[i];
+      if (fitsInMetas(expression, metas, this._hasIUFlags) || combinesWithPrecedingClassRange(expression, expressions[i - 1]) || combinesWithFollowingClassRange(expression, expressions[i + 1])) {
+        expressions.splice(i, 1);
+        i--;
+      } else {
+        var nbMergedChars = charCombinesWithPrecedingChars(expression, i, expressions);
+        expressions.splice(i - nbMergedChars + 1, nbMergedChars);
+        i -= nbMergedChars;
+      }
+    }
+  }
+};
+
+/**
+ * Sorts expressions in char class in the following order:
+ * - meta chars, ordered alphabetically by value
+ * - chars (except `control` kind) and class ranges, ordered alphabetically (`from` char is used for class ranges)
+ * - if ambiguous, class range comes before char
+ * - if ambiguous between two class ranges, orders alphabetically by `to` char
+ * - control chars, ordered alphabetically by value
+ * @param {Object} a - Left Char or ClassRange node
+ * @param {Object} b - Right Char or ClassRange node
+ * @returns {number}
+ */
+function sortCharClass(a, b) {
+  var aValue = getSortValue(a);
+  var bValue = getSortValue(b);
+
+  if (aValue === bValue) {
+    // We want ClassRange before Char
+    // [bb-d] -> [b-db]
+    if (a.type === 'ClassRange' && b.type !== 'ClassRange') {
+      return -1;
+    }
+    if (b.type === 'ClassRange' && a.type !== 'ClassRange') {
+      return 1;
+    }
+    if (a.type === 'ClassRange' && b.type === 'ClassRange') {
+      return getSortValue(a.to) - getSortValue(b.to);
+    }
+    if (isMeta(a) && isMeta(b) || isControl(a) && isControl(b)) {
+      return a.value < b.value ? -1 : 1;
+    }
+  }
+  return aValue - bValue;
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @returns {number}
+ */
+function getSortValue(expression) {
+  if (expression.type === 'Char') {
+    if (expression.value === '-') {
+      return Infinity;
+    }
+    if (expression.kind === 'control') {
+      return Infinity;
+    }
+    if (expression.kind === 'meta' && isNaN(expression.codePoint)) {
+      return -1;
+    }
+    return expression.codePoint;
+  }
+  // ClassRange
+  return expression.from.codePoint;
+}
+
+/**
+ * Checks if a node is a meta char from the set \d\w\s\D\W\S
+ * @param {Object} expression - Char or ClassRange node
+ * @param {?string} value
+ * @returns {boolean}
+ */
+function isMeta(expression) {
+  var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+  return expression.type === 'Char' && expression.kind === 'meta' && (value ? expression.value === value : /^\\[dws]$/i.test(expression.value));
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @returns {boolean}
+ */
+function isControl(expression) {
+  return expression.type === 'Char' && expression.kind === 'control';
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @param {string[]} metas - Array of meta chars, e.g. ["\\w", "\\s"]
+ * @param {boolean} hasIUFlags
+ * @returns {boolean}
+ */
+function fitsInMetas(expression, metas, hasIUFlags) {
+  for (var i = 0; i < metas.length; i++) {
+    if (fitsInMeta(expression, metas[i], hasIUFlags)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @param {string} meta - e.g. "\\w"
+ * @param {boolean} hasIUFlags
+ * @returns {boolean}
+ */
+function fitsInMeta(expression, meta, hasIUFlags) {
+  if (expression.type === 'ClassRange') {
+    return fitsInMeta(expression.from, meta, hasIUFlags) && fitsInMeta(expression.to, meta, hasIUFlags);
+  }
+
+  // Special cases:
+  // \S contains \w and \d
+  if (meta === '\\S' && (isMeta(expression, '\\w') || isMeta(expression, '\\d'))) {
+    return true;
+  }
+  // \D contains \W and \s
+  if (meta === '\\D' && (isMeta(expression, '\\W') || isMeta(expression, '\\s'))) {
+    return true;
+  }
+  // \w contains \d
+  if (meta === '\\w' && isMeta(expression, '\\d')) {
+    return true;
+  }
+  // \W contains \s
+  if (meta === '\\W' && isMeta(expression, '\\s')) {
+    return true;
+  }
+
+  if (expression.type !== 'Char' || isNaN(expression.codePoint)) {
+    return false;
+  }
+
+  if (meta === '\\s') {
+    return fitsInMetaS(expression);
+  }
+  if (meta === '\\S') {
+    return !fitsInMetaS(expression);
+  }
+  if (meta === '\\d') {
+    return fitsInMetaD(expression);
+  }
+  if (meta === '\\D') {
+    return !fitsInMetaD(expression);
+  }
+  if (meta === '\\w') {
+    return fitsInMetaW(expression, hasIUFlags);
+  }
+  if (meta === '\\W') {
+    return !fitsInMetaW(expression, hasIUFlags);
+  }
+  return false;
+}
+
+/**
+ * @param {Object} expression - Char node with codePoint
+ * @returns {boolean}
+ */
+function fitsInMetaS(expression) {
+  return expression.codePoint === 0x0009 || // \t
+  expression.codePoint === 0x000a || // \n
+  expression.codePoint === 0x000b || // \v
+  expression.codePoint === 0x000c || // \f
+  expression.codePoint === 0x000d || // \r
+  expression.codePoint === 0x0020 || // space
+  expression.codePoint === 0x00a0 || // nbsp
+  expression.codePoint === 0x1680 || // part of Zs
+  expression.codePoint >= 0x2000 && expression.codePoint <= 0x200a || // part of Zs
+  expression.codePoint === 0x2028 || // line separator
+  expression.codePoint === 0x2029 || // paragraph separator
+  expression.codePoint === 0x202f || // part of Zs
+  expression.codePoint === 0x205f || // part of Zs
+  expression.codePoint === 0x3000 || // part of Zs
+  expression.codePoint === 0xfeff; // zwnbsp
+}
+
+/**
+ * @param {Object} expression - Char node with codePoint
+ * @returns {boolean}
+ */
+function fitsInMetaD(expression) {
+  return expression.codePoint >= 0x30 && expression.codePoint <= 0x39; // 0-9
+}
+
+/**
+ * @param {Object} expression - Char node with codePoint
+ * @param {boolean} hasIUFlags
+ * @returns {boolean}
+ */
+function fitsInMetaW(expression, hasIUFlags) {
+  return fitsInMetaD(expression) || expression.codePoint >= 0x41 && expression.codePoint <= 0x5a || // A-Z
+  expression.codePoint >= 0x61 && expression.codePoint <= 0x7a || // a-z
+  expression.value === '_' || hasIUFlags && (expression.codePoint === 0x017f || expression.codePoint === 0x212a);
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @param {Object} classRange - Char or ClassRange node
+ * @returns {boolean}
+ */
+function combinesWithPrecedingClassRange(expression, classRange) {
+  if (classRange && classRange.type === 'ClassRange') {
+    if (fitsInClassRange(expression, classRange)) {
+      // [a-gc] -> [a-g]
+      // [a-gc-e] -> [a-g]
+      return true;
+    } else if (
+    // We only want \w chars or char codes to keep readability
+    isMetaWCharOrCode(expression) && classRange.to.codePoint === expression.codePoint - 1) {
+      // [a-de] -> [a-e]
+      classRange.to = expression;
+      return true;
+    } else if (expression.type === 'ClassRange' && expression.from.codePoint <= classRange.to.codePoint + 1 && expression.to.codePoint >= classRange.from.codePoint - 1) {
+      // [a-db-f] -> [a-f]
+      // [b-fa-d] -> [a-f]
+      // [a-cd-f] -> [a-f]
+      if (expression.from.codePoint < classRange.from.codePoint) {
+        classRange.from = expression.from;
+      }
+      if (expression.to.codePoint > classRange.to.codePoint) {
+        classRange.to = expression.to;
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @param {Object} classRange - Char or ClassRange node
+ * @returns {boolean}
+ */
+function combinesWithFollowingClassRange(expression, classRange) {
+  if (classRange && classRange.type === 'ClassRange') {
+    // Considering the elements were ordered alphabetically,
+    // there is only one case to handle
+    // [ab-e] -> [a-e]
+    if (
+    // We only want \w chars or char codes to keep readability
+    isMetaWCharOrCode(expression) && classRange.from.codePoint === expression.codePoint + 1) {
+      classRange.from = expression;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @param {Object} classRange - ClassRange node
+ * @returns {boolean}
+ */
+function fitsInClassRange(expression, classRange) {
+  if (expression.type === 'Char' && isNaN(expression.codePoint)) {
+    return false;
+  }
+  if (expression.type === 'ClassRange') {
+    return fitsInClassRange(expression.from, classRange) && fitsInClassRange(expression.to, classRange);
+  }
+  return expression.codePoint >= classRange.from.codePoint && expression.codePoint <= classRange.to.codePoint;
+}
+
+/**
+ * @param {Object} expression - Char or ClassRange node
+ * @param {Number} index
+ * @param {Object[]} expressions - expressions in CharClass
+ * @returns {number} - Number of characters combined with expression
+ */
+function charCombinesWithPrecedingChars(expression, index, expressions) {
+  // We only want \w chars or char codes to keep readability
+  if (!isMetaWCharOrCode(expression)) {
+    return 0;
+  }
+  var nbMergedChars = 0;
+  while (index > 0) {
+    var currentExpression = expressions[index];
+    var precedingExpresion = expressions[index - 1];
+    if (isMetaWCharOrCode(precedingExpresion) && precedingExpresion.codePoint === currentExpression.codePoint - 1) {
+      nbMergedChars++;
+      index--;
+    } else {
+      break;
+    }
+  }
+
+  if (nbMergedChars > 1) {
+    expressions[index] = {
+      type: 'ClassRange',
+      from: expressions[index],
+      to: expression
+    };
+    return nbMergedChars;
+  }
+  return 0;
+}
+
+function isMetaWCharOrCode(expression) {
+  return expression && expression.type === 'Char' && !isNaN(expression.codePoint) && (fitsInMetaW(expression, false) || expression.kind === 'unicode' || expression.kind === 'hex' || expression.kind === 'oct' || expression.kind === 'decimal');
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-classranges-to-chars-transform.js":
+/*!*********************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-class-classranges-to-chars-transform.js ***!
+  \*********************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to simplify character classes
+ * spanning only one or two chars.
+ *
+ * [a-a] -> [a]
+ * [a-b] -> [ab]
+ */
+
+module.exports = {
+  ClassRange: function ClassRange(path) {
+    var node = path.node;
+
+
+    if (node.from.codePoint === node.to.codePoint) {
+
+      path.replace(node.from);
+    } else if (node.from.codePoint === node.to.codePoint - 1) {
+
+      path.getParent().insertChildAt(node.to, path.index + 1);
+      path.replace(node.from);
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-remove-duplicates-transform.js":
+/*!******************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-class-remove-duplicates-transform.js ***!
+  \******************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to remove duplicates from character classes.
+ */
+
+module.exports = {
+  CharacterClass: function CharacterClass(path) {
+    var node = path.node;
+
+    var sources = {};
+
+    for (var i = 0; i < node.expressions.length; i++) {
+      var childPath = path.getChild(i);
+      var source = childPath.jsonEncode();
+
+      if (sources.hasOwnProperty(source)) {
+        childPath.remove();
+
+        // Since we remove the current node.
+        // TODO: make it simpler for users with a method.
+        i--;
+      }
+
+      sources[source] = true;
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-to-meta-transform.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-class-to-meta-transform.js ***!
+  \********************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to replace standard character classes with
+ * their meta symbols equivalents.
+ */
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = {
+  _hasIFlag: false,
+  _hasUFlag: false,
+  init: function init(ast) {
+    this._hasIFlag = ast.flags.includes('i');
+    this._hasUFlag = ast.flags.includes('u');
+  },
+  CharacterClass: function CharacterClass(path) {
+    // [0-9] -> \d
+    rewriteNumberRanges(path);
+
+    // [a-zA-Z_0-9] -> \w
+    rewriteWordRanges(path, this._hasIFlag, this._hasUFlag);
+
+    // [ \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff] -> \s
+    rewriteWhitespaceRanges(path);
+  }
+};
+
+/**
+ * Rewrites number ranges: [0-9] -> \d
+ */
+function rewriteNumberRanges(path) {
+  var node = path.node;
+
+
+  node.expressions.forEach(function (expression, i) {
+    if (isFullNumberRange(expression)) {
+      path.getChild(i).replace({
+        type: 'Char',
+        value: '\\d',
+        kind: 'meta'
+      });
+    }
+  });
+}
+
+/**
+ * Rewrites word ranges: [a-zA-Z_0-9] -> \w
+ * Thus, the ranges may go in any order, and other symbols/ranges
+ * are kept untouched, e.g. [a-z_\dA-Z$] -> [\w$]
+ */
+function rewriteWordRanges(path, hasIFlag, hasUFlag) {
+  var node = path.node;
+
+
+  var numberPath = null;
+  var lowerCasePath = null;
+  var upperCasePath = null;
+  var underscorePath = null;
+  var u017fPath = null;
+  var u212aPath = null;
+
+  node.expressions.forEach(function (expression, i) {
+    // \d
+    if (isMetaChar(expression, '\\d')) {
+      numberPath = path.getChild(i);
+    }
+
+    // a-z
+    else if (isLowerCaseRange(expression)) {
+        lowerCasePath = path.getChild(i);
+      }
+
+      // A-Z
+      else if (isUpperCaseRange(expression)) {
+          upperCasePath = path.getChild(i);
+        }
+
+        // _
+        else if (isUnderscore(expression)) {
+            underscorePath = path.getChild(i);
+          } else if (hasIFlag && hasUFlag && isCodePoint(expression, 0x017f)) {
+            u017fPath = path.getChild(i);
+          } else if (hasIFlag && hasUFlag && isCodePoint(expression, 0x212a)) {
+            u212aPath = path.getChild(i);
+          }
+  });
+
+  // If we found the whole pattern, replace it.
+  if (numberPath && (lowerCasePath && upperCasePath || hasIFlag && (lowerCasePath || upperCasePath)) && underscorePath && (!hasUFlag || !hasIFlag || u017fPath && u212aPath)) {
+    // Put \w in place of \d.
+    numberPath.replace({
+      type: 'Char',
+      value: '\\w',
+      kind: 'meta'
+    });
+
+    // Other paths are removed.
+    if (lowerCasePath) {
+      lowerCasePath.remove();
+    }
+    if (upperCasePath) {
+      upperCasePath.remove();
+    }
+    underscorePath.remove();
+    if (u017fPath) {
+      u017fPath.remove();
+    }
+    if (u212aPath) {
+      u212aPath.remove();
+    }
+  }
+}
+
+/**
+ * Rewrites whitespace ranges: [ \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff] -> \s.
+ */
+var whitespaceRangeTests = [function (node) {
+  return isChar(node, ' ');
+}].concat(_toConsumableArray(['\\f', '\\n', '\\r', '\\t', '\\v'].map(function (char) {
+  return function (node) {
+    return isMetaChar(node, char);
+  };
+})), _toConsumableArray([0x00a0, 0x1680, 0x2028, 0x2029, 0x202f, 0x205f, 0x3000, 0xfeff].map(function (codePoint) {
+  return function (node) {
+    return isCodePoint(node, codePoint);
+  };
+})), [function (node) {
+  return node.type === 'ClassRange' && isCodePoint(node.from, 0x2000) && isCodePoint(node.to, 0x200a);
+}]);
+
+function rewriteWhitespaceRanges(path) {
+  var node = path.node;
+
+
+  if (node.expressions.length < whitespaceRangeTests.length || !whitespaceRangeTests.every(function (test) {
+    return node.expressions.some(function (expression) {
+      return test(expression);
+    });
+  })) {
+    return;
+  }
+
+  // If we found the whole pattern, replace it.
+
+  // Put \s in place of \n.
+  var nNode = node.expressions.find(function (expression) {
+    return isMetaChar(expression, '\\n');
+  });
+  nNode.value = '\\s';
+  nNode.symbol = undefined;
+  nNode.codePoint = NaN;
+
+  // Other paths are removed.
+  node.expressions.map(function (expression, i) {
+    return whitespaceRangeTests.some(function (test) {
+      return test(expression);
+    }) ? path.getChild(i) : undefined;
+  }).filter(Boolean).forEach(function (path) {
+    return path.remove();
+  });
+}
+
+function isFullNumberRange(node) {
+  return node.type === 'ClassRange' && node.from.value === '0' && node.to.value === '9';
+}
+
+function isChar(node, value) {
+  var kind = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'simple';
+
+  return node.type === 'Char' && node.value === value && node.kind === kind;
+}
+
+function isMetaChar(node, value) {
+  return isChar(node, value, 'meta');
+}
+
+function isLowerCaseRange(node) {
+  return node.type === 'ClassRange' && node.from.value === 'a' && node.to.value === 'z';
+}
+
+function isUpperCaseRange(node) {
+  return node.type === 'ClassRange' && node.from.value === 'A' && node.to.value === 'Z';
+}
+
+function isUnderscore(node) {
+  return node.type === 'Char' && node.value === '_' && node.kind === 'simple';
+}
+
+function isCodePoint(node, codePoint) {
+  return node.type === 'Char' && node.kind === 'unicode' && node.codePoint === codePoint;
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-to-single-char-transform.js":
+/*!***************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-class-to-single-char-transform.js ***!
+  \***************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to replace single char character classes with
+ * just that character.
+ *
+ * [\d] -> \d, [^\w] -> \W
+ */
+
+module.exports = {
+  CharacterClass: function CharacterClass(path) {
+    var node = path.node;
+
+
+    if (node.expressions.length !== 1 || !hasAppropriateSiblings(path) || !isAppropriateChar(node.expressions[0])) {
+      return;
+    }
+
+    var _node$expressions$ = node.expressions[0],
+        value = _node$expressions$.value,
+        kind = _node$expressions$.kind,
+        escaped = _node$expressions$.escaped;
+
+
+    if (node.negative) {
+      // For negative can extract only meta chars like [^\w] -> \W
+      // cannot do for [^a] -> a (wrong).
+      if (!isMeta(value)) {
+        return;
+      }
+
+      value = getInverseMeta(value);
+    }
+
+    path.replace({
+      type: 'Char',
+      value: value,
+      kind: kind,
+      escaped: escaped || shouldEscape(value)
+    });
+  }
+};
+
+function isAppropriateChar(node) {
+  return node.type === 'Char' &&
+  // We don't extract [\b] (backspace) since \b has different
+  // semantics (word boundary).
+  node.value !== '\\b';
+}
+
+function isMeta(value) {
+  return (/^\\[dwsDWS]$/.test(value)
+  );
+}
+
+function getInverseMeta(value) {
+  return (/[dws]/.test(value) ? value.toUpperCase() : value.toLowerCase()
+  );
+}
+
+function hasAppropriateSiblings(path) {
+  var parent = path.parent,
+      index = path.index;
+
+
+  if (parent.type !== 'Alternative') {
+    return true;
+  }
+
+  var previousNode = parent.expressions[index - 1];
+  if (previousNode == null) {
+    return true;
+  }
+
+  // Don't optimized \1[0] to \10
+  if (previousNode.type === 'Backreference' && previousNode.kind === 'number') {
+    return false;
+  }
+
+  // Don't optimized \2[0] to \20
+  if (previousNode.type === 'Char' && previousNode.kind === 'decimal') {
+    return false;
+  }
+
+  return true;
+}
+
+// Note: \{ and \} are always preserved to avoid `a[{]2[}]` turning
+// into `a{2}`.
+function shouldEscape(value) {
+  return (/[*[()+?$./{}|]/.test(value)
+  );
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-code-to-simple-char-transform.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-code-to-simple-char-transform.js ***!
+  \**************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var UPPER_A_CP = 'A'.codePointAt(0);
+var UPPER_Z_CP = 'Z'.codePointAt(0);
+var LOWER_A_CP = 'a'.codePointAt(0);
+var LOWER_Z_CP = 'z'.codePointAt(0);
+var DIGIT_0_CP = '0'.codePointAt(0);
+var DIGIT_9_CP = '9'.codePointAt(0);
+
+/**
+ * A regexp-tree plugin to transform coded chars into simple chars.
+ *
+ * \u0061 -> a
+ */
+module.exports = {
+  Char: function Char(path) {
+    var node = path.node,
+        parent = path.parent;
+
+    if (isNaN(node.codePoint) || node.kind === 'simple') {
+      return;
+    }
+
+    if (parent.type === 'ClassRange') {
+      if (!isSimpleRange(parent)) {
+        return;
+      }
+    }
+
+    if (!isPrintableASCIIChar(node.codePoint)) {
+      return;
+    }
+
+    var symbol = String.fromCodePoint(node.codePoint);
+    var newChar = {
+      type: 'Char',
+      kind: 'simple',
+      value: symbol,
+      symbol: symbol,
+      codePoint: node.codePoint
+    };
+    if (needsEscape(symbol, parent.type)) {
+      newChar.escaped = true;
+    }
+    path.replace(newChar);
+  }
+};
+
+/**
+ * Checks if a range is included either in 0-9, a-z or A-Z
+ * @param classRange
+ * @returns {boolean}
+ */
+function isSimpleRange(classRange) {
+  var from = classRange.from,
+      to = classRange.to;
+
+  return from.codePoint >= DIGIT_0_CP && from.codePoint <= DIGIT_9_CP && to.codePoint >= DIGIT_0_CP && to.codePoint <= DIGIT_9_CP || from.codePoint >= UPPER_A_CP && from.codePoint <= UPPER_Z_CP && to.codePoint >= UPPER_A_CP && to.codePoint <= UPPER_Z_CP || from.codePoint >= LOWER_A_CP && from.codePoint <= LOWER_Z_CP && to.codePoint >= LOWER_A_CP && to.codePoint <= LOWER_Z_CP;
+}
+
+/**
+ * Checks if a code point in the range of printable ASCII chars
+ * (DEL char excluded)
+ * @param codePoint
+ * @returns {boolean}
+ */
+function isPrintableASCIIChar(codePoint) {
+  return codePoint >= 0x20 && codePoint <= 0x7e;
+}
+
+function needsEscape(symbol, parentType) {
+  if (parentType === 'ClassRange' || parentType === 'CharacterClass') {
+    return (/[\]\\^-]/.test(symbol)
+    );
+  }
+
+  return (/[*[()+?^$./\\|{}]/.test(symbol)
+  );
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-escape-unescape-transform.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-escape-unescape-transform.js ***!
+  \**********************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to remove unnecessary escape.
+ *
+ * \e -> e
+ *
+ * [\(] -> [(]
+ */
+
+module.exports = {
+  _hasXFlag: false,
+  init: function init(ast) {
+    this._hasXFlag = ast.flags.includes('x');
+  },
+  Char: function Char(path) {
+    var node = path.node;
+
+
+    if (!node.escaped) {
+      return;
+    }
+
+    if (shouldUnescape(path, this._hasXFlag)) {
+      delete node.escaped;
+    }
+  }
+};
+
+function shouldUnescape(path, hasXFlag) {
+  var value = path.node.value,
+      index = path.index,
+      parent = path.parent;
+
+  // In char class (, etc are allowed.
+
+  if (parent.type !== 'CharacterClass' && parent.type !== 'ClassRange') {
+    return !preservesEscape(value, index, parent, hasXFlag);
+  }
+
+  return !preservesInCharClass(value, index, parent);
+}
+
+/**
+ * \], \\, \^, \-
+ */
+function preservesInCharClass(value, index, parent) {
+  if (value === '^') {
+    // Avoid [\^a] turning into [^a]
+    return index === 0 && !parent.negative;
+  }
+  if (value === '-') {
+    // Avoid [a\-z] turning into [a-z]
+    return true;
+  }
+  return (/[\]\\]/.test(value)
+  );
+}
+
+function preservesEscape(value, index, parent, hasXFlag) {
+  if (value === '{') {
+    return preservesOpeningCurlyBraceEscape(index, parent);
+  }
+
+  if (value === '}') {
+    return preservesClosingCurlyBraceEscape(index, parent);
+  }
+
+  if (hasXFlag && /[ #]/.test(value)) {
+    return true;
+  }
+
+  return (/[*[()+?^$./\\|]/.test(value)
+  );
+}
+
+function consumeNumbers(startIndex, parent, rtl) {
+  var i = startIndex;
+  var siblingNode = (rtl ? i >= 0 : i < parent.expressions.length) && parent.expressions[i];
+
+  while (siblingNode && siblingNode.type === 'Char' && siblingNode.kind === 'simple' && !siblingNode.escaped && /\d/.test(siblingNode.value)) {
+    rtl ? i-- : i++;
+    siblingNode = (rtl ? i >= 0 : i < parent.expressions.length) && parent.expressions[i];
+  }
+
+  return Math.abs(startIndex - i);
+}
+
+function isSimpleChar(node, value) {
+  return node && node.type === 'Char' && node.kind === 'simple' && !node.escaped && node.value === value;
+}
+
+function preservesOpeningCurlyBraceEscape(index, parent) {
+  // (?:\{) -> (?:{)
+  if (index == null) {
+    return false;
+  }
+
+  var nbFollowingNumbers = consumeNumbers(index + 1, parent);
+  var i = index + nbFollowingNumbers + 1;
+  var nextSiblingNode = i < parent.expressions.length && parent.expressions[i];
+
+  if (nbFollowingNumbers) {
+    // Avoid \{3} turning into {3}
+    if (isSimpleChar(nextSiblingNode, '}')) {
+      return true;
+    }
+
+    if (isSimpleChar(nextSiblingNode, ',')) {
+      nbFollowingNumbers = consumeNumbers(i + 1, parent);
+      i = i + nbFollowingNumbers + 1;
+      nextSiblingNode = i < parent.expressions.length && parent.expressions[i];
+
+      // Avoid \{3,} turning into {3,}
+      return isSimpleChar(nextSiblingNode, '}');
+    }
+  }
+  return false;
+}
+
+function preservesClosingCurlyBraceEscape(index, parent) {
+  // (?:\{) -> (?:{)
+  if (index == null) {
+    return false;
+  }
+
+  var nbPrecedingNumbers = consumeNumbers(index - 1, parent, true);
+  var i = index - nbPrecedingNumbers - 1;
+  var previousSiblingNode = i >= 0 && parent.expressions[i];
+
+  // Avoid {3\} turning into {3}
+  if (nbPrecedingNumbers && isSimpleChar(previousSiblingNode, '{')) {
+    return true;
+  }
+
+  if (isSimpleChar(previousSiblingNode, ',')) {
+    nbPrecedingNumbers = consumeNumbers(i - 1, parent, true);
+    i = i - nbPrecedingNumbers - 1;
+    previousSiblingNode = i < parent.expressions.length && parent.expressions[i];
+
+    // Avoid {3,\} turning into {3,}
+    return nbPrecedingNumbers && isSimpleChar(previousSiblingNode, '{');
+  }
+  return false;
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/char-surrogate-pair-to-single-unicode-transform.js":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/char-surrogate-pair-to-single-unicode-transform.js ***!
+  \***************************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to transform surrogate pairs into single unicode code point
+ *
+ * \ud83d\ude80 -> \u{1f680}
+ */
+
+module.exports = {
+  shouldRun: function shouldRun(ast) {
+    return ast.flags.includes('u');
+  },
+  Char: function Char(path) {
+    var node = path.node;
+
+    if (node.kind !== 'unicode' || !node.isSurrogatePair || isNaN(node.codePoint)) {
+      return;
+    }
+    node.value = '\\u{' + node.codePoint.toString(16) + '}';
+    delete node.isSurrogatePair;
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/combine-repeating-patterns-transform.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/combine-repeating-patterns-transform.js ***!
+  \****************************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var NodePath = __webpack_require__(/*! ../../traverse/node-path */ "./node_modules/regexp-tree/dist/traverse/node-path.js");
+
+var _require = __webpack_require__(/*! ../../transform/utils */ "./node_modules/regexp-tree/dist/transform/utils.js"),
+    increaseQuantifierByOne = _require.increaseQuantifierByOne;
+
+/**
+ * A regexp-tree plugin to combine repeating patterns.
+ *
+ * /^abcabcabc/ -> /^abc{3}/
+ * /^(?:abc){2}abc/ -> /^(?:abc){3}/
+ * /^abc(?:abc){2}/ -> /^(?:abc){3}/
+ */
+
+module.exports = {
+  Alternative: function Alternative(path) {
+    var node = path.node;
+
+    // We can skip the first child
+
+    var index = 1;
+    while (index < node.expressions.length) {
+      var child = path.getChild(index);
+      index = Math.max(1, combineRepeatingPatternLeft(path, child, index));
+
+      if (index >= node.expressions.length) {
+        break;
+      }
+
+      child = path.getChild(index);
+      index = Math.max(1, combineWithPreviousRepetition(path, child, index));
+
+      if (index >= node.expressions.length) {
+        break;
+      }
+
+      child = path.getChild(index);
+      index = Math.max(1, combineRepetitionWithPrevious(path, child, index));
+
+      index++;
+    }
+  }
+};
+
+// abcabc -> (?:abc){2}
+function combineRepeatingPatternLeft(alternative, child, index) {
+  var node = alternative.node;
+
+
+  var nbPossibleLengths = Math.ceil(index / 2);
+  var i = 0;
+
+  while (i < nbPossibleLengths) {
+    var startIndex = index - 2 * i - 1;
+    var right = void 0,
+        left = void 0;
+
+    if (i === 0) {
+      right = child;
+      left = alternative.getChild(startIndex);
+    } else {
+      right = NodePath.getForNode({
+        type: 'Alternative',
+        expressions: [].concat(_toConsumableArray(node.expressions.slice(index - i, index)), [child.node])
+      });
+
+      left = NodePath.getForNode({
+        type: 'Alternative',
+        expressions: [].concat(_toConsumableArray(node.expressions.slice(startIndex, index - i)))
+      });
+    }
+
+    if (right.hasEqualSource(left)) {
+      for (var j = 0; j < 2 * i + 1; j++) {
+        alternative.getChild(startIndex).remove();
+      }
+
+      child.replace({
+        type: 'Repetition',
+        expression: i === 0 && right.node.type !== 'Repetition' ? right.node : {
+          type: 'Group',
+          capturing: false,
+          expression: right.node
+        },
+        quantifier: {
+          type: 'Quantifier',
+          kind: 'Range',
+          from: 2,
+          to: 2,
+          greedy: true
+        }
+      });
+      return startIndex;
+    }
+
+    i++;
+  }
+
+  return index;
+}
+
+// (?:abc){2}abc -> (?:abc){3}
+function combineWithPreviousRepetition(alternative, child, index) {
+  var node = alternative.node;
+
+
+  var i = 0;
+  while (i < index) {
+    var previousChild = alternative.getChild(i);
+
+    if (previousChild.node.type === 'Repetition' && previousChild.node.quantifier.greedy) {
+      var left = previousChild.getChild();
+      var right = void 0;
+
+      if (left.node.type === 'Group' && !left.node.capturing) {
+        left = left.getChild();
+      }
+
+      if (i + 1 === index) {
+        right = child;
+        if (right.node.type === 'Group' && !right.node.capturing) {
+          right = right.getChild();
+        }
+      } else {
+        right = NodePath.getForNode({
+          type: 'Alternative',
+          expressions: [].concat(_toConsumableArray(node.expressions.slice(i + 1, index + 1)))
+        });
+      }
+
+      if (left.hasEqualSource(right)) {
+        for (var j = i; j < index; j++) {
+          alternative.getChild(i + 1).remove();
+        }
+
+        increaseQuantifierByOne(previousChild.node.quantifier);
+
+        return i;
+      }
+    }
+
+    i++;
+  }
+  return index;
+}
+
+// abc(?:abc){2} -> (?:abc){3}
+function combineRepetitionWithPrevious(alternative, child, index) {
+  var node = alternative.node;
+
+
+  if (child.node.type === 'Repetition' && child.node.quantifier.greedy) {
+    var right = child.getChild();
+    var left = void 0;
+
+    if (right.node.type === 'Group' && !right.node.capturing) {
+      right = right.getChild();
+    }
+
+    var rightLength = void 0;
+    if (right.node.type === 'Alternative') {
+      rightLength = right.node.expressions.length;
+      left = NodePath.getForNode({
+        type: 'Alternative',
+        expressions: [].concat(_toConsumableArray(node.expressions.slice(index - rightLength, index)))
+      });
+    } else {
+      rightLength = 1;
+      left = alternative.getChild(index - 1);
+      if (left.node.type === 'Group' && !left.node.capturing) {
+        left = left.getChild();
+      }
+    }
+
+    if (left.hasEqualSource(right)) {
+      for (var j = index - rightLength; j < index; j++) {
+        alternative.getChild(index - rightLength).remove();
+      }
+
+      increaseQuantifierByOne(child.node.quantifier);
+
+      return index - rightLength;
+    }
+  }
+  return index;
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/disjunction-remove-duplicates-transform.js":
+/*!*******************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/disjunction-remove-duplicates-transform.js ***!
+  \*******************************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var NodePath = __webpack_require__(/*! ../../traverse/node-path */ "./node_modules/regexp-tree/dist/traverse/node-path.js");
+
+var _require = __webpack_require__(/*! ../../transform/utils */ "./node_modules/regexp-tree/dist/transform/utils.js"),
+    disjunctionToList = _require.disjunctionToList,
+    listToDisjunction = _require.listToDisjunction;
+
+/**
+ * Removes duplicates from a disjunction sequence:
+ *
+ * /(ab|bc|ab)+(xy|xy)+/ -> /(ab|bc)+(xy)+/
+ */
+
+
+module.exports = {
+  Disjunction: function Disjunction(path) {
+    var node = path.node;
+
+    // Make unique nodes.
+
+    var uniqueNodesMap = {};
+
+    var parts = disjunctionToList(node).filter(function (part) {
+      var encoded = part ? NodePath.getForNode(part).jsonEncode() : 'null';
+
+      // Already recorded this part, filter out.
+      if (uniqueNodesMap.hasOwnProperty(encoded)) {
+        return false;
+      }
+
+      uniqueNodesMap[encoded] = part;
+      return true;
+    });
+
+    // Replace with the optimized disjunction.
+    path.replace(listToDisjunction(parts));
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/group-single-chars-to-char-class.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/group-single-chars-to-char-class.js ***!
+  \************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to replace single char group disjunction to char group
+ *
+ * a|b|c -> [abc]
+ * [12]|3|4 -> [1234]
+ * (a|b|c) -> ([abc])
+ * (?:a|b|c) -> [abc]
+ */
+
+module.exports = {
+  Disjunction: function Disjunction(path) {
+    var node = path.node,
+        parent = path.parent;
+
+
+    if (!handlers[parent.type]) {
+      return;
+    }
+
+    var charset = new Map();
+
+    if (!shouldProcess(node, charset) || !charset.size) {
+      return;
+    }
+
+    var characterClass = {
+      type: 'CharacterClass',
+      expressions: Array.from(charset.keys()).sort().map(function (key) {
+        return charset.get(key);
+      })
+    };
+
+    handlers[parent.type](path.getParent(), characterClass);
+  }
+};
+
+var handlers = {
+  RegExp: function RegExp(path, characterClass) {
+    var node = path.node;
+
+
+    node.body = characterClass;
+  },
+  Group: function Group(path, characterClass) {
+    var node = path.node;
+
+
+    if (node.capturing) {
+      node.expression = characterClass;
+    } else {
+      path.replace(characterClass);
+    }
+  }
+};
+
+function shouldProcess(expression, charset) {
+  if (!expression) {
+    // Abort on empty disjunction part
+    return false;
+  }
+
+  var type = expression.type;
+
+
+  if (type === 'Disjunction') {
+    var left = expression.left,
+        right = expression.right;
+
+
+    return shouldProcess(left, charset) && shouldProcess(right, charset);
+  } else if (type === 'Char') {
+    if (expression.kind === 'meta' && expression.symbol === '.') {
+      return false;
+    }
+
+    var value = expression.value;
+
+
+    charset.set(value, expression);
+
+    return true;
+  } else if (type === 'CharacterClass' && !expression.negative) {
+    return expression.expressions.every(function (expression) {
+      return shouldProcess(expression, charset);
+    });
+  }
+
+  return false;
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/index.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/index.js ***!
+  \*********************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+module.exports = new Map([
+// \ud83d\ude80 -> \u{1f680}
+['charSurrogatePairToSingleUnicode', __webpack_require__(/*! ./char-surrogate-pair-to-single-unicode-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-surrogate-pair-to-single-unicode-transform.js")],
+
+// \u0061 -> a
+['charCodeToSimpleChar', __webpack_require__(/*! ./char-code-to-simple-char-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-code-to-simple-char-transform.js")],
+
+// /Aa/i -> /aa/i
+['charCaseInsensitiveLowerCaseTransform', __webpack_require__(/*! ./char-case-insensitive-lowercase-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-case-insensitive-lowercase-transform.js")],
+
+// [\d\d] -> [\d]
+['charClassRemoveDuplicates', __webpack_require__(/*! ./char-class-remove-duplicates-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-remove-duplicates-transform.js")],
+
+// a{1,2}a{2,3} -> a{3,5}
+['quantifiersMerge', __webpack_require__(/*! ./quantifiers-merge-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/quantifiers-merge-transform.js")],
+
+// a{1,} -> a+, a{3,3} -> a{3}, a{1} -> a
+['quantifierRangeToSymbol', __webpack_require__(/*! ./quantifier-range-to-symbol-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/quantifier-range-to-symbol-transform.js")],
+
+// [a-a] -> [a], [a-b] -> [ab]
+['charClassClassrangesToChars', __webpack_require__(/*! ./char-class-classranges-to-chars-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-classranges-to-chars-transform.js")],
+
+// [0-9] -> [\d]
+['charClassToMeta', __webpack_require__(/*! ./char-class-to-meta-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-to-meta-transform.js")],
+
+// [\d] -> \d, [^\w] -> \W
+['charClassToSingleChar', __webpack_require__(/*! ./char-class-to-single-char-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-to-single-char-transform.js")],
+
+// \e -> e
+['charEscapeUnescape', __webpack_require__(/*! ./char-escape-unescape-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-escape-unescape-transform.js")],
+
+// [a-de-f] -> [a-f]
+['charClassClassrangesMerge', __webpack_require__(/*! ./char-class-classranges-merge-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/char-class-classranges-merge-transform.js")],
+
+// (ab|ab) -> (ab)
+['disjunctionRemoveDuplicates', __webpack_require__(/*! ./disjunction-remove-duplicates-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/disjunction-remove-duplicates-transform.js")],
+
+// (a|b|c) -> [abc]
+['groupSingleCharsToCharClass', __webpack_require__(/*! ./group-single-chars-to-char-class */ "./node_modules/regexp-tree/dist/optimizer/transforms/group-single-chars-to-char-class.js")],
+
+// (?:)a -> a
+['removeEmptyGroup', __webpack_require__(/*! ./remove-empty-group-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/remove-empty-group-transform.js")],
+
+// (?:a) -> a
+['ungroup', __webpack_require__(/*! ./ungroup-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/ungroup-transform.js")],
+
+// abcabcabc -> (?:abc){3}
+['combineRepeatingPatterns', __webpack_require__(/*! ./combine-repeating-patterns-transform */ "./node_modules/regexp-tree/dist/optimizer/transforms/combine-repeating-patterns-transform.js")]]);
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/quantifier-range-to-symbol-transform.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/quantifier-range-to-symbol-transform.js ***!
+  \****************************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to replace different range-based quantifiers
+ * with their symbol equivalents.
+ *
+ * a{0,} -> a*
+ * a{1,} -> a+
+ * a{1} -> a
+ *
+ * NOTE: the following is automatically handled in the generator:
+ *
+ * a{3,3} -> a{3}
+ */
+
+module.exports = {
+  Quantifier: function Quantifier(path) {
+    var node = path.node;
+
+
+    if (node.kind !== 'Range') {
+      return;
+    }
+
+    // a{0,} -> a*
+    rewriteOpenZero(path);
+
+    // a{1,} -> a+
+    rewriteOpenOne(path);
+
+    // a{1} -> a
+    rewriteExactOne(path);
+  }
+};
+
+function rewriteOpenZero(path) {
+  var node = path.node;
+
+
+  if (node.from !== 0 || node.to) {
+    return;
+  }
+
+  node.kind = '*';
+  delete node.from;
+}
+
+function rewriteOpenOne(path) {
+  var node = path.node;
+
+
+  if (node.from !== 1 || node.to) {
+    return;
+  }
+
+  node.kind = '+';
+  delete node.from;
+}
+
+function rewriteExactOne(path) {
+  var node = path.node;
+
+
+  if (node.from !== 1 || node.to !== 1) {
+    return;
+  }
+
+  path.parentPath.replace(path.parentPath.node.expression);
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/quantifiers-merge-transform.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/quantifiers-merge-transform.js ***!
+  \*******************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var _require = __webpack_require__(/*! ../../transform/utils */ "./node_modules/regexp-tree/dist/transform/utils.js"),
+    increaseQuantifierByOne = _require.increaseQuantifierByOne;
+
+/**
+ * A regexp-tree plugin to merge quantifiers
+ *
+ * a+a+ -> a{2,}
+ * a{2}a{3} -> a{5}
+ * a{1,2}a{2,3} -> a{3,5}
+ */
+
+
+module.exports = {
+  Repetition: function Repetition(path) {
+    var node = path.node,
+        parent = path.parent;
+
+
+    if (parent.type !== 'Alternative' || !path.index) {
+      return;
+    }
+
+    var previousSibling = path.getPreviousSibling();
+
+    if (!previousSibling) {
+      return;
+    }
+
+    if (previousSibling.node.type === 'Repetition') {
+      if (!previousSibling.getChild().hasEqualSource(path.getChild())) {
+        return;
+      }
+
+      var _extractFromTo = extractFromTo(previousSibling.node.quantifier),
+          previousSiblingFrom = _extractFromTo.from,
+          previousSiblingTo = _extractFromTo.to;
+
+      var _extractFromTo2 = extractFromTo(node.quantifier),
+          nodeFrom = _extractFromTo2.from,
+          nodeTo = _extractFromTo2.to;
+
+      // It's does not seem reliable to merge quantifiers with different greediness
+      // when none of both is a greedy open range
+
+
+      if (previousSibling.node.quantifier.greedy !== node.quantifier.greedy && !isGreedyOpenRange(previousSibling.node.quantifier) && !isGreedyOpenRange(node.quantifier)) {
+        return;
+      }
+
+      // a*a* -> a*
+      // a*a+ -> a+
+      // a+a+ -> a{2,}
+      // a{2}a{4} -> a{6}
+      // a{1,2}a{2,3} -> a{3,5}
+      // a{1,}a{2,} -> a{3,}
+      // a+a{2,} -> a{3,}
+
+      // a??a{2,} -> a{2,}
+      // a*?a{2,} -> a{2,}
+      // a+?a{2,} -> a{3,}
+
+      node.quantifier.kind = 'Range';
+      node.quantifier.from = previousSiblingFrom + nodeFrom;
+      if (previousSiblingTo && nodeTo) {
+        node.quantifier.to = previousSiblingTo + nodeTo;
+      } else {
+        delete node.quantifier.to;
+      }
+      if (isGreedyOpenRange(previousSibling.node.quantifier) || isGreedyOpenRange(node.quantifier)) {
+        node.quantifier.greedy = true;
+      }
+
+      previousSibling.remove();
+    } else {
+      if (!previousSibling.hasEqualSource(path.getChild())) {
+        return;
+      }
+
+      increaseQuantifierByOne(node.quantifier);
+      previousSibling.remove();
+    }
+  }
+};
+
+function isGreedyOpenRange(quantifier) {
+  return quantifier.greedy && (quantifier.kind === '+' || quantifier.kind === '*' || quantifier.kind === 'Range' && !quantifier.to);
+}
+
+function extractFromTo(quantifier) {
+  var from = void 0,
+      to = void 0;
+  if (quantifier.kind === '*') {
+    from = 0;
+  } else if (quantifier.kind === '+') {
+    from = 1;
+  } else if (quantifier.kind === '?') {
+    from = 0;
+    to = 1;
+  } else {
+    from = quantifier.from;
+    if (quantifier.to) {
+      to = quantifier.to;
+    }
+  }
+  return { from: from, to: to };
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/remove-empty-group-transform.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/remove-empty-group-transform.js ***!
+  \********************************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to remove non-capturing empty groups.
+ *
+ * /(?:)a/ -> /a/
+ * /a|(?:)/ -> /a|/
+ */
+
+module.exports = {
+  Group: function Group(path) {
+    var node = path.node,
+        parent = path.parent;
+
+    var childPath = path.getChild();
+
+    if (node.capturing || childPath) {
+      return;
+    }
+
+    if (parent.type === 'Repetition') {
+
+      path.getParent().replace(node);
+    } else if (parent.type !== 'RegExp') {
+
+      path.remove();
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/optimizer/transforms/ungroup-transform.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/optimizer/transforms/ungroup-transform.js ***!
+  \*********************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * A regexp-tree plugin to remove unnecessary groups.
+ *
+ * /(?:a)/ -> /a/
+ */
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = {
+  Group: function Group(path) {
+    var node = path.node,
+        parent = path.parent;
+
+    var childPath = path.getChild();
+
+    if (node.capturing || !childPath) {
+      return;
+    }
+
+    // Don't optimize \1(?:0) to \10
+    if (!hasAppropriateSiblings(path)) {
+      return;
+    }
+
+    // Don't optimize /a(?:b|c)/ to /ab|c/
+    // but /(?:b|c)/ to /b|c/ is ok
+    if (childPath.node.type === 'Disjunction' && parent.type !== 'RegExp') {
+      return;
+    }
+
+    // Don't optimize /(?:ab)+/ to /ab+/
+    // but /(?:a)+/ to /a+/ is ok
+    // and /(?:[a-d])+/ to /[a-d]+/ is ok too
+    if (parent.type === 'Repetition' && childPath.node.type !== 'Char' && childPath.node.type !== 'CharacterClass') {
+      return;
+    }
+
+    if (childPath.node.type === 'Alternative') {
+      var parentPath = path.getParent();
+      if (parentPath.node.type === 'Alternative') {
+        // /abc(?:def)ghi/ When (?:def) is ungrouped its content must be merged with parent alternative
+
+        parentPath.replace({
+          type: 'Alternative',
+          expressions: [].concat(_toConsumableArray(parent.expressions.slice(0, path.index)), _toConsumableArray(childPath.node.expressions), _toConsumableArray(parent.expressions.slice(path.index + 1)))
+        });
+      }
+    } else {
+      path.replace(childPath.node);
+    }
+  }
+};
+
+function hasAppropriateSiblings(path) {
+  var parent = path.parent,
+      index = path.index;
+
+
+  if (parent.type !== 'Alternative') {
+    return true;
+  }
+
+  var previousNode = parent.expressions[index - 1];
+  if (previousNode == null) {
+    return true;
+  }
+
+  // Don't optimized \1(?:0) to \10
+  if (previousNode.type === 'Backreference' && previousNode.kind === 'number') {
+    return false;
+  }
+
+  // Don't optimized \2(?:0) to \20
+  if (previousNode.type === 'Char' && previousNode.kind === 'decimal') {
+    return false;
+  }
+
+  return true;
+}
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/parser/generated/regexp-tree.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/parser/generated/regexp-tree.js ***!
+  \***********************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * LR parser generated by the Syntax tool.
+ *
+ * https://www.npmjs.com/package/syntax-cli
+ *
+ *   npm install -g syntax-cli
+ *
+ *   syntax-cli --help
+ *
+ * To regenerate run:
+ *
+ *   syntax-cli \
+ *     --grammar ~/path-to-grammar-file \
+ *     --mode <parsing-mode> \
+ *     --output ~/path-to-output-parser-file.js
+ */
+
+
+
+/**
+ * Matched token text.
+ */
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var yytext = void 0;
+
+/**
+ * Length of the matched token text.
+ */
+var yyleng = void 0;
+
+/**
+ * Storage object.
+ */
+var yy = {};
+
+/**
+ * Result of semantic action.
+ */
+var __ = void 0;
+
+/**
+ * Result location object.
+ */
+var __loc = void 0;
+
+function yyloc(start, end) {
+  if (!yy.options.captureLocations) {
+    return null;
+  }
+
+  // Epsilon doesn't produce location.
+  if (!start || !end) {
+    return start || end;
+  }
+
+  return {
+    startOffset: start.startOffset,
+    endOffset: end.endOffset,
+    startLine: start.startLine,
+    endLine: end.endLine,
+    startColumn: start.startColumn,
+    endColumn: end.endColumn
+  };
+}
+
+var EOF = '$';
+
+/**
+ * List of productions (generated by Syntax tool).
+ */
+var productions = [[-1, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [0, 4, function (_1, _2, _3, _4, _1loc, _2loc, _3loc, _4loc) {
+  __loc = yyloc(_1loc, _4loc);
+  __ = Node({
+    type: 'RegExp',
+    body: _2,
+    flags: checkFlags(_4)
+  }, loc(_1loc, _4loc || _3loc));
+}], [1, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [1, 0, function () {
+  __loc = null;__ = '';
+}], [2, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [2, 2, function (_1, _2, _1loc, _2loc) {
+  __loc = yyloc(_1loc, _2loc);__ = _1 + _2;
+}], [3, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [4, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [4, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  // Location for empty disjunction: /|/
+  var _loc = null;
+
+  if (_2loc) {
+    _loc = loc(_1loc || _2loc, _3loc || _2loc);
+  };
+
+  __ = Node({
+    type: 'Disjunction',
+    left: _1,
+    right: _3
+  }, _loc);
+}], [5, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  if (_1.length === 0) {
+    __ = null;
+    return;
+  }
+
+  if (_1.length === 1) {
+    __ = Node(_1[0], __loc);
+  } else {
+    __ = Node({
+      type: 'Alternative',
+      expressions: _1
+    }, __loc);
+  }
+}], [6, 0, function () {
+  __loc = null;__ = [];
+}], [6, 2, function (_1, _2, _1loc, _2loc) {
+  __loc = yyloc(_1loc, _2loc);__ = _1.concat(_2);
+}], [7, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Node(Object.assign({ type: 'Assertion' }, _1), __loc);
+}], [7, 2, function (_1, _2, _1loc, _2loc) {
+  __loc = yyloc(_1loc, _2loc);
+  __ = _1;
+
+  if (_2) {
+    __ = Node({
+      type: 'Repetition',
+      expression: _1,
+      quantifier: _2
+    }, __loc);
+  }
+}], [8, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = { kind: '^' };
+}], [8, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = { kind: '$' };
+}], [8, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = { kind: '\\b' };
+}], [8, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = { kind: '\\B' };
+}], [8, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = {
+    kind: 'Lookahead',
+    assertion: _2
+  };
+}], [8, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = {
+    kind: 'Lookahead',
+    negative: true,
+    assertion: _2
+  };
+}], [8, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = {
+    kind: 'Lookbehind',
+    assertion: _2
+  };
+}], [8, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = {
+    kind: 'Lookbehind',
+    negative: true,
+    assertion: _2
+  };
+}], [9, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [9, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [9, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'simple', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1.slice(1), 'simple', __loc);__.escaped = true;
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'unicode', __loc);__.isSurrogatePair = true;
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'unicode', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = UnicodeProperty(_1, __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'control', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'hex', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'oct', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = GroupRefOrDecChar(_1, __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'meta', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'meta', __loc);
+}], [10, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = NamedGroupRefOrChars(_1, _1loc);
+}], [11, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [11, 0], [12, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [12, 2, function (_1, _2, _1loc, _2loc) {
+  __loc = yyloc(_1loc, _2loc);
+  _1.greedy = false;
+  __ = _1;
+}], [13, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  __ = Node({
+    type: 'Quantifier',
+    kind: _1,
+    greedy: true
+  }, __loc);
+}], [13, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  __ = Node({
+    type: 'Quantifier',
+    kind: _1,
+    greedy: true
+  }, __loc);
+}], [13, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  __ = Node({
+    type: 'Quantifier',
+    kind: _1,
+    greedy: true
+  }, __loc);
+}], [13, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  var range = getRange(_1);
+  __ = Node({
+    type: 'Quantifier',
+    kind: 'Range',
+    from: range[0],
+    to: range[0],
+    greedy: true
+  }, __loc);
+}], [13, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  __ = Node({
+    type: 'Quantifier',
+    kind: 'Range',
+    from: getRange(_1)[0],
+    greedy: true
+  }, __loc);
+}], [13, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);
+  var range = getRange(_1);
+  __ = Node({
+    type: 'Quantifier',
+    kind: 'Range',
+    from: range[0],
+    to: range[1],
+    greedy: true
+  }, __loc);
+}], [14, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [14, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [15, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  var nameRaw = String(_1);
+  var name = decodeUnicodeGroupName(nameRaw);
+  if (!yy.options.allowGroupNameDuplicates && namedGroups.hasOwnProperty(name)) {
+    throw new SyntaxError('Duplicate of the named group "' + name + '".');
+  }
+
+  namedGroups[name] = _1.groupNumber;
+
+  __ = Node({
+    type: 'Group',
+    capturing: true,
+    name: name,
+    nameRaw: nameRaw,
+    number: _1.groupNumber,
+    expression: _2
+  }, __loc);
+}], [15, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = Node({
+    type: 'Group',
+    capturing: true,
+    number: _1.groupNumber,
+    expression: _2
+  }, __loc);
+}], [16, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = Node({
+    type: 'Group',
+    capturing: false,
+    expression: _2
+  }, __loc);
+}], [17, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = Node({
+    type: 'CharacterClass',
+    negative: true,
+    expressions: _2
+  }, __loc);
+}], [17, 3, function (_1, _2, _3, _1loc, _2loc, _3loc) {
+  __loc = yyloc(_1loc, _3loc);
+  __ = Node({
+    type: 'CharacterClass',
+    expressions: _2
+  }, __loc);
+}], [18, 0, function () {
+  __loc = null;__ = [];
+}], [18, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [19, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = [_1];
+}], [19, 2, function (_1, _2, _1loc, _2loc) {
+  __loc = yyloc(_1loc, _2loc);__ = [_1].concat(_2);
+}], [19, 4, function (_1, _2, _3, _4, _1loc, _2loc, _3loc, _4loc) {
+  __loc = yyloc(_1loc, _4loc);
+  checkClassRange(_1, _3);
+
+  __ = [Node({
+    type: 'ClassRange',
+    from: _1,
+    to: _3
+  }, loc(_1loc, _3loc))];
+
+  if (_4) {
+    __ = __.concat(_4);
+  }
+}], [20, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [20, 2, function (_1, _2, _1loc, _2loc) {
+  __loc = yyloc(_1loc, _2loc);__ = [_1].concat(_2);
+}], [20, 4, function (_1, _2, _3, _4, _1loc, _2loc, _3loc, _4loc) {
+  __loc = yyloc(_1loc, _4loc);
+  checkClassRange(_1, _3);
+
+  __ = [Node({
+    type: 'ClassRange',
+    from: _1,
+    to: _3
+  }, loc(_1loc, _3loc))];
+
+  if (_4) {
+    __ = __.concat(_4);
+  }
+}], [21, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'simple', __loc);
+}], [21, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [22, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = _1;
+}], [22, 1, function (_1, _1loc) {
+  __loc = yyloc(_1loc, _1loc);__ = Char(_1, 'meta', __loc);
+}]];
+
+/**
+ * Encoded tokens map.
+ */
+var tokens = { "SLASH": "23", "CHAR": "24", "BAR": "25", "BOS": "26", "EOS": "27", "ESC_b": "28", "ESC_B": "29", "POS_LA_ASSERT": "30", "R_PAREN": "31", "NEG_LA_ASSERT": "32", "POS_LB_ASSERT": "33", "NEG_LB_ASSERT": "34", "ESC_CHAR": "35", "U_CODE_SURROGATE": "36", "U_CODE": "37", "U_PROP_VALUE_EXP": "38", "CTRL_CH": "39", "HEX_CODE": "40", "OCT_CODE": "41", "DEC_CODE": "42", "META_CHAR": "43", "ANY": "44", "NAMED_GROUP_REF": "45", "Q_MARK": "46", "STAR": "47", "PLUS": "48", "RANGE_EXACT": "49", "RANGE_OPEN": "50", "RANGE_CLOSED": "51", "NAMED_CAPTURE_GROUP": "52", "L_PAREN": "53", "NON_CAPTURE_GROUP": "54", "NEG_CLASS": "55", "R_BRACKET": "56", "L_BRACKET": "57", "DASH": "58", "$": "59" };
+
+/**
+ * Parsing table (generated by Syntax tool).
+ */
+var table = [{ "0": 1, "23": "s2" }, { "59": "acc" }, { "3": 3, "4": 4, "5": 5, "6": 6, "23": "r10", "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "23": "s7" }, { "23": "r6", "25": "s12" }, { "23": "r7", "25": "r7", "31": "r7" }, { "7": 14, "8": 15, "9": 16, "10": 25, "14": 27, "15": 42, "16": 43, "17": 26, "23": "r9", "24": "s28", "25": "r9", "26": "s17", "27": "s18", "28": "s19", "29": "s20", "30": "s21", "31": "r9", "32": "s22", "33": "s23", "34": "s24", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "52": "s44", "53": "s45", "54": "s46", "55": "s40", "57": "s41" }, { "1": 8, "2": 9, "24": "s10", "59": "r3" }, { "59": "r1" }, { "24": "s11", "59": "r2" }, { "24": "r4", "59": "r4" }, { "24": "r5", "59": "r5" }, { "5": 13, "6": 6, "23": "r10", "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "23": "r8", "25": "r8", "31": "r8" }, { "23": "r11", "24": "r11", "25": "r11", "26": "r11", "27": "r11", "28": "r11", "29": "r11", "30": "r11", "31": "r11", "32": "r11", "33": "r11", "34": "r11", "35": "r11", "36": "r11", "37": "r11", "38": "r11", "39": "r11", "40": "r11", "41": "r11", "42": "r11", "43": "r11", "44": "r11", "45": "r11", "52": "r11", "53": "r11", "54": "r11", "55": "r11", "57": "r11" }, { "23": "r12", "24": "r12", "25": "r12", "26": "r12", "27": "r12", "28": "r12", "29": "r12", "30": "r12", "31": "r12", "32": "r12", "33": "r12", "34": "r12", "35": "r12", "36": "r12", "37": "r12", "38": "r12", "39": "r12", "40": "r12", "41": "r12", "42": "r12", "43": "r12", "44": "r12", "45": "r12", "52": "r12", "53": "r12", "54": "r12", "55": "r12", "57": "r12" }, { "11": 47, "12": 48, "13": 49, "23": "r38", "24": "r38", "25": "r38", "26": "r38", "27": "r38", "28": "r38", "29": "r38", "30": "r38", "31": "r38", "32": "r38", "33": "r38", "34": "r38", "35": "r38", "36": "r38", "37": "r38", "38": "r38", "39": "r38", "40": "r38", "41": "r38", "42": "r38", "43": "r38", "44": "r38", "45": "r38", "46": "s52", "47": "s50", "48": "s51", "49": "s53", "50": "s54", "51": "s55", "52": "r38", "53": "r38", "54": "r38", "55": "r38", "57": "r38" }, { "23": "r14", "24": "r14", "25": "r14", "26": "r14", "27": "r14", "28": "r14", "29": "r14", "30": "r14", "31": "r14", "32": "r14", "33": "r14", "34": "r14", "35": "r14", "36": "r14", "37": "r14", "38": "r14", "39": "r14", "40": "r14", "41": "r14", "42": "r14", "43": "r14", "44": "r14", "45": "r14", "52": "r14", "53": "r14", "54": "r14", "55": "r14", "57": "r14" }, { "23": "r15", "24": "r15", "25": "r15", "26": "r15", "27": "r15", "28": "r15", "29": "r15", "30": "r15", "31": "r15", "32": "r15", "33": "r15", "34": "r15", "35": "r15", "36": "r15", "37": "r15", "38": "r15", "39": "r15", "40": "r15", "41": "r15", "42": "r15", "43": "r15", "44": "r15", "45": "r15", "52": "r15", "53": "r15", "54": "r15", "55": "r15", "57": "r15" }, { "23": "r16", "24": "r16", "25": "r16", "26": "r16", "27": "r16", "28": "r16", "29": "r16", "30": "r16", "31": "r16", "32": "r16", "33": "r16", "34": "r16", "35": "r16", "36": "r16", "37": "r16", "38": "r16", "39": "r16", "40": "r16", "41": "r16", "42": "r16", "43": "r16", "44": "r16", "45": "r16", "52": "r16", "53": "r16", "54": "r16", "55": "r16", "57": "r16" }, { "23": "r17", "24": "r17", "25": "r17", "26": "r17", "27": "r17", "28": "r17", "29": "r17", "30": "r17", "31": "r17", "32": "r17", "33": "r17", "34": "r17", "35": "r17", "36": "r17", "37": "r17", "38": "r17", "39": "r17", "40": "r17", "41": "r17", "42": "r17", "43": "r17", "44": "r17", "45": "r17", "52": "r17", "53": "r17", "54": "r17", "55": "r17", "57": "r17" }, { "4": 57, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "4": 59, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "4": 61, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "4": 63, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "23": "r22", "24": "r22", "25": "r22", "26": "r22", "27": "r22", "28": "r22", "29": "r22", "30": "r22", "31": "r22", "32": "r22", "33": "r22", "34": "r22", "35": "r22", "36": "r22", "37": "r22", "38": "r22", "39": "r22", "40": "r22", "41": "r22", "42": "r22", "43": "r22", "44": "r22", "45": "r22", "46": "r22", "47": "r22", "48": "r22", "49": "r22", "50": "r22", "51": "r22", "52": "r22", "53": "r22", "54": "r22", "55": "r22", "57": "r22" }, { "23": "r23", "24": "r23", "25": "r23", "26": "r23", "27": "r23", "28": "r23", "29": "r23", "30": "r23", "31": "r23", "32": "r23", "33": "r23", "34": "r23", "35": "r23", "36": "r23", "37": "r23", "38": "r23", "39": "r23", "40": "r23", "41": "r23", "42": "r23", "43": "r23", "44": "r23", "45": "r23", "46": "r23", "47": "r23", "48": "r23", "49": "r23", "50": "r23", "51": "r23", "52": "r23", "53": "r23", "54": "r23", "55": "r23", "57": "r23" }, { "23": "r24", "24": "r24", "25": "r24", "26": "r24", "27": "r24", "28": "r24", "29": "r24", "30": "r24", "31": "r24", "32": "r24", "33": "r24", "34": "r24", "35": "r24", "36": "r24", "37": "r24", "38": "r24", "39": "r24", "40": "r24", "41": "r24", "42": "r24", "43": "r24", "44": "r24", "45": "r24", "46": "r24", "47": "r24", "48": "r24", "49": "r24", "50": "r24", "51": "r24", "52": "r24", "53": "r24", "54": "r24", "55": "r24", "57": "r24" }, { "23": "r25", "24": "r25", "25": "r25", "26": "r25", "27": "r25", "28": "r25", "29": "r25", "30": "r25", "31": "r25", "32": "r25", "33": "r25", "34": "r25", "35": "r25", "36": "r25", "37": "r25", "38": "r25", "39": "r25", "40": "r25", "41": "r25", "42": "r25", "43": "r25", "44": "r25", "45": "r25", "46": "r25", "47": "r25", "48": "r25", "49": "r25", "50": "r25", "51": "r25", "52": "r25", "53": "r25", "54": "r25", "55": "r25", "56": "r25", "57": "r25", "58": "r25" }, { "23": "r26", "24": "r26", "25": "r26", "26": "r26", "27": "r26", "28": "r26", "29": "r26", "30": "r26", "31": "r26", "32": "r26", "33": "r26", "34": "r26", "35": "r26", "36": "r26", "37": "r26", "38": "r26", "39": "r26", "40": "r26", "41": "r26", "42": "r26", "43": "r26", "44": "r26", "45": "r26", "46": "r26", "47": "r26", "48": "r26", "49": "r26", "50": "r26", "51": "r26", "52": "r26", "53": "r26", "54": "r26", "55": "r26", "56": "r26", "57": "r26", "58": "r26" }, { "23": "r27", "24": "r27", "25": "r27", "26": "r27", "27": "r27", "28": "r27", "29": "r27", "30": "r27", "31": "r27", "32": "r27", "33": "r27", "34": "r27", "35": "r27", "36": "r27", "37": "r27", "38": "r27", "39": "r27", "40": "r27", "41": "r27", "42": "r27", "43": "r27", "44": "r27", "45": "r27", "46": "r27", "47": "r27", "48": "r27", "49": "r27", "50": "r27", "51": "r27", "52": "r27", "53": "r27", "54": "r27", "55": "r27", "56": "r27", "57": "r27", "58": "r27" }, { "23": "r28", "24": "r28", "25": "r28", "26": "r28", "27": "r28", "28": "r28", "29": "r28", "30": "r28", "31": "r28", "32": "r28", "33": "r28", "34": "r28", "35": "r28", "36": "r28", "37": "r28", "38": "r28", "39": "r28", "40": "r28", "41": "r28", "42": "r28", "43": "r28", "44": "r28", "45": "r28", "46": "r28", "47": "r28", "48": "r28", "49": "r28", "50": "r28", "51": "r28", "52": "r28", "53": "r28", "54": "r28", "55": "r28", "56": "r28", "57": "r28", "58": "r28" }, { "23": "r29", "24": "r29", "25": "r29", "26": "r29", "27": "r29", "28": "r29", "29": "r29", "30": "r29", "31": "r29", "32": "r29", "33": "r29", "34": "r29", "35": "r29", "36": "r29", "37": "r29", "38": "r29", "39": "r29", "40": "r29", "41": "r29", "42": "r29", "43": "r29", "44": "r29", "45": "r29", "46": "r29", "47": "r29", "48": "r29", "49": "r29", "50": "r29", "51": "r29", "52": "r29", "53": "r29", "54": "r29", "55": "r29", "56": "r29", "57": "r29", "58": "r29" }, { "23": "r30", "24": "r30", "25": "r30", "26": "r30", "27": "r30", "28": "r30", "29": "r30", "30": "r30", "31": "r30", "32": "r30", "33": "r30", "34": "r30", "35": "r30", "36": "r30", "37": "r30", "38": "r30", "39": "r30", "40": "r30", "41": "r30", "42": "r30", "43": "r30", "44": "r30", "45": "r30", "46": "r30", "47": "r30", "48": "r30", "49": "r30", "50": "r30", "51": "r30", "52": "r30", "53": "r30", "54": "r30", "55": "r30", "56": "r30", "57": "r30", "58": "r30" }, { "23": "r31", "24": "r31", "25": "r31", "26": "r31", "27": "r31", "28": "r31", "29": "r31", "30": "r31", "31": "r31", "32": "r31", "33": "r31", "34": "r31", "35": "r31", "36": "r31", "37": "r31", "38": "r31", "39": "r31", "40": "r31", "41": "r31", "42": "r31", "43": "r31", "44": "r31", "45": "r31", "46": "r31", "47": "r31", "48": "r31", "49": "r31", "50": "r31", "51": "r31", "52": "r31", "53": "r31", "54": "r31", "55": "r31", "56": "r31", "57": "r31", "58": "r31" }, { "23": "r32", "24": "r32", "25": "r32", "26": "r32", "27": "r32", "28": "r32", "29": "r32", "30": "r32", "31": "r32", "32": "r32", "33": "r32", "34": "r32", "35": "r32", "36": "r32", "37": "r32", "38": "r32", "39": "r32", "40": "r32", "41": "r32", "42": "r32", "43": "r32", "44": "r32", "45": "r32", "46": "r32", "47": "r32", "48": "r32", "49": "r32", "50": "r32", "51": "r32", "52": "r32", "53": "r32", "54": "r32", "55": "r32", "56": "r32", "57": "r32", "58": "r32" }, { "23": "r33", "24": "r33", "25": "r33", "26": "r33", "27": "r33", "28": "r33", "29": "r33", "30": "r33", "31": "r33", "32": "r33", "33": "r33", "34": "r33", "35": "r33", "36": "r33", "37": "r33", "38": "r33", "39": "r33", "40": "r33", "41": "r33", "42": "r33", "43": "r33", "44": "r33", "45": "r33", "46": "r33", "47": "r33", "48": "r33", "49": "r33", "50": "r33", "51": "r33", "52": "r33", "53": "r33", "54": "r33", "55": "r33", "56": "r33", "57": "r33", "58": "r33" }, { "23": "r34", "24": "r34", "25": "r34", "26": "r34", "27": "r34", "28": "r34", "29": "r34", "30": "r34", "31": "r34", "32": "r34", "33": "r34", "34": "r34", "35": "r34", "36": "r34", "37": "r34", "38": "r34", "39": "r34", "40": "r34", "41": "r34", "42": "r34", "43": "r34", "44": "r34", "45": "r34", "46": "r34", "47": "r34", "48": "r34", "49": "r34", "50": "r34", "51": "r34", "52": "r34", "53": "r34", "54": "r34", "55": "r34", "56": "r34", "57": "r34", "58": "r34" }, { "23": "r35", "24": "r35", "25": "r35", "26": "r35", "27": "r35", "28": "r35", "29": "r35", "30": "r35", "31": "r35", "32": "r35", "33": "r35", "34": "r35", "35": "r35", "36": "r35", "37": "r35", "38": "r35", "39": "r35", "40": "r35", "41": "r35", "42": "r35", "43": "r35", "44": "r35", "45": "r35", "46": "r35", "47": "r35", "48": "r35", "49": "r35", "50": "r35", "51": "r35", "52": "r35", "53": "r35", "54": "r35", "55": "r35", "56": "r35", "57": "r35", "58": "r35" }, { "23": "r36", "24": "r36", "25": "r36", "26": "r36", "27": "r36", "28": "r36", "29": "r36", "30": "r36", "31": "r36", "32": "r36", "33": "r36", "34": "r36", "35": "r36", "36": "r36", "37": "r36", "38": "r36", "39": "r36", "40": "r36", "41": "r36", "42": "r36", "43": "r36", "44": "r36", "45": "r36", "46": "r36", "47": "r36", "48": "r36", "49": "r36", "50": "r36", "51": "r36", "52": "r36", "53": "r36", "54": "r36", "55": "r36", "56": "r36", "57": "r36", "58": "r36" }, { "10": 70, "18": 65, "19": 66, "21": 67, "22": 69, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r54", "58": "s68" }, { "10": 70, "18": 83, "19": 66, "21": 67, "22": 69, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r54", "58": "s68" }, { "23": "r47", "24": "r47", "25": "r47", "26": "r47", "27": "r47", "28": "r47", "29": "r47", "30": "r47", "31": "r47", "32": "r47", "33": "r47", "34": "r47", "35": "r47", "36": "r47", "37": "r47", "38": "r47", "39": "r47", "40": "r47", "41": "r47", "42": "r47", "43": "r47", "44": "r47", "45": "r47", "46": "r47", "47": "r47", "48": "r47", "49": "r47", "50": "r47", "51": "r47", "52": "r47", "53": "r47", "54": "r47", "55": "r47", "57": "r47" }, { "23": "r48", "24": "r48", "25": "r48", "26": "r48", "27": "r48", "28": "r48", "29": "r48", "30": "r48", "31": "r48", "32": "r48", "33": "r48", "34": "r48", "35": "r48", "36": "r48", "37": "r48", "38": "r48", "39": "r48", "40": "r48", "41": "r48", "42": "r48", "43": "r48", "44": "r48", "45": "r48", "46": "r48", "47": "r48", "48": "r48", "49": "r48", "50": "r48", "51": "r48", "52": "r48", "53": "r48", "54": "r48", "55": "r48", "57": "r48" }, { "4": 85, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "4": 87, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "4": 89, "5": 5, "6": 6, "24": "r10", "25": "r10", "26": "r10", "27": "r10", "28": "r10", "29": "r10", "30": "r10", "31": "r10", "32": "r10", "33": "r10", "34": "r10", "35": "r10", "36": "r10", "37": "r10", "38": "r10", "39": "r10", "40": "r10", "41": "r10", "42": "r10", "43": "r10", "44": "r10", "45": "r10", "52": "r10", "53": "r10", "54": "r10", "55": "r10", "57": "r10" }, { "23": "r13", "24": "r13", "25": "r13", "26": "r13", "27": "r13", "28": "r13", "29": "r13", "30": "r13", "31": "r13", "32": "r13", "33": "r13", "34": "r13", "35": "r13", "36": "r13", "37": "r13", "38": "r13", "39": "r13", "40": "r13", "41": "r13", "42": "r13", "43": "r13", "44": "r13", "45": "r13", "52": "r13", "53": "r13", "54": "r13", "55": "r13", "57": "r13" }, { "23": "r37", "24": "r37", "25": "r37", "26": "r37", "27": "r37", "28": "r37", "29": "r37", "30": "r37", "31": "r37", "32": "r37", "33": "r37", "34": "r37", "35": "r37", "36": "r37", "37": "r37", "38": "r37", "39": "r37", "40": "r37", "41": "r37", "42": "r37", "43": "r37", "44": "r37", "45": "r37", "52": "r37", "53": "r37", "54": "r37", "55": "r37", "57": "r37" }, { "23": "r39", "24": "r39", "25": "r39", "26": "r39", "27": "r39", "28": "r39", "29": "r39", "30": "r39", "31": "r39", "32": "r39", "33": "r39", "34": "r39", "35": "r39", "36": "r39", "37": "r39", "38": "r39", "39": "r39", "40": "r39", "41": "r39", "42": "r39", "43": "r39", "44": "r39", "45": "r39", "46": "s56", "52": "r39", "53": "r39", "54": "r39", "55": "r39", "57": "r39" }, { "23": "r41", "24": "r41", "25": "r41", "26": "r41", "27": "r41", "28": "r41", "29": "r41", "30": "r41", "31": "r41", "32": "r41", "33": "r41", "34": "r41", "35": "r41", "36": "r41", "37": "r41", "38": "r41", "39": "r41", "40": "r41", "41": "r41", "42": "r41", "43": "r41", "44": "r41", "45": "r41", "46": "r41", "52": "r41", "53": "r41", "54": "r41", "55": "r41", "57": "r41" }, { "23": "r42", "24": "r42", "25": "r42", "26": "r42", "27": "r42", "28": "r42", "29": "r42", "30": "r42", "31": "r42", "32": "r42", "33": "r42", "34": "r42", "35": "r42", "36": "r42", "37": "r42", "38": "r42", "39": "r42", "40": "r42", "41": "r42", "42": "r42", "43": "r42", "44": "r42", "45": "r42", "46": "r42", "52": "r42", "53": "r42", "54": "r42", "55": "r42", "57": "r42" }, { "23": "r43", "24": "r43", "25": "r43", "26": "r43", "27": "r43", "28": "r43", "29": "r43", "30": "r43", "31": "r43", "32": "r43", "33": "r43", "34": "r43", "35": "r43", "36": "r43", "37": "r43", "38": "r43", "39": "r43", "40": "r43", "41": "r43", "42": "r43", "43": "r43", "44": "r43", "45": "r43", "46": "r43", "52": "r43", "53": "r43", "54": "r43", "55": "r43", "57": "r43" }, { "23": "r44", "24": "r44", "25": "r44", "26": "r44", "27": "r44", "28": "r44", "29": "r44", "30": "r44", "31": "r44", "32": "r44", "33": "r44", "34": "r44", "35": "r44", "36": "r44", "37": "r44", "38": "r44", "39": "r44", "40": "r44", "41": "r44", "42": "r44", "43": "r44", "44": "r44", "45": "r44", "46": "r44", "52": "r44", "53": "r44", "54": "r44", "55": "r44", "57": "r44" }, { "23": "r45", "24": "r45", "25": "r45", "26": "r45", "27": "r45", "28": "r45", "29": "r45", "30": "r45", "31": "r45", "32": "r45", "33": "r45", "34": "r45", "35": "r45", "36": "r45", "37": "r45", "38": "r45", "39": "r45", "40": "r45", "41": "r45", "42": "r45", "43": "r45", "44": "r45", "45": "r45", "46": "r45", "52": "r45", "53": "r45", "54": "r45", "55": "r45", "57": "r45" }, { "23": "r46", "24": "r46", "25": "r46", "26": "r46", "27": "r46", "28": "r46", "29": "r46", "30": "r46", "31": "r46", "32": "r46", "33": "r46", "34": "r46", "35": "r46", "36": "r46", "37": "r46", "38": "r46", "39": "r46", "40": "r46", "41": "r46", "42": "r46", "43": "r46", "44": "r46", "45": "r46", "46": "r46", "52": "r46", "53": "r46", "54": "r46", "55": "r46", "57": "r46" }, { "23": "r40", "24": "r40", "25": "r40", "26": "r40", "27": "r40", "28": "r40", "29": "r40", "30": "r40", "31": "r40", "32": "r40", "33": "r40", "34": "r40", "35": "r40", "36": "r40", "37": "r40", "38": "r40", "39": "r40", "40": "r40", "41": "r40", "42": "r40", "43": "r40", "44": "r40", "45": "r40", "52": "r40", "53": "r40", "54": "r40", "55": "r40", "57": "r40" }, { "25": "s12", "31": "s58" }, { "23": "r18", "24": "r18", "25": "r18", "26": "r18", "27": "r18", "28": "r18", "29": "r18", "30": "r18", "31": "r18", "32": "r18", "33": "r18", "34": "r18", "35": "r18", "36": "r18", "37": "r18", "38": "r18", "39": "r18", "40": "r18", "41": "r18", "42": "r18", "43": "r18", "44": "r18", "45": "r18", "52": "r18", "53": "r18", "54": "r18", "55": "r18", "57": "r18" }, { "25": "s12", "31": "s60" }, { "23": "r19", "24": "r19", "25": "r19", "26": "r19", "27": "r19", "28": "r19", "29": "r19", "30": "r19", "31": "r19", "32": "r19", "33": "r19", "34": "r19", "35": "r19", "36": "r19", "37": "r19", "38": "r19", "39": "r19", "40": "r19", "41": "r19", "42": "r19", "43": "r19", "44": "r19", "45": "r19", "52": "r19", "53": "r19", "54": "r19", "55": "r19", "57": "r19" }, { "25": "s12", "31": "s62" }, { "23": "r20", "24": "r20", "25": "r20", "26": "r20", "27": "r20", "28": "r20", "29": "r20", "30": "r20", "31": "r20", "32": "r20", "33": "r20", "34": "r20", "35": "r20", "36": "r20", "37": "r20", "38": "r20", "39": "r20", "40": "r20", "41": "r20", "42": "r20", "43": "r20", "44": "r20", "45": "r20", "52": "r20", "53": "r20", "54": "r20", "55": "r20", "57": "r20" }, { "25": "s12", "31": "s64" }, { "23": "r21", "24": "r21", "25": "r21", "26": "r21", "27": "r21", "28": "r21", "29": "r21", "30": "r21", "31": "r21", "32": "r21", "33": "r21", "34": "r21", "35": "r21", "36": "r21", "37": "r21", "38": "r21", "39": "r21", "40": "r21", "41": "r21", "42": "r21", "43": "r21", "44": "r21", "45": "r21", "52": "r21", "53": "r21", "54": "r21", "55": "r21", "57": "r21" }, { "56": "s72" }, { "56": "r55" }, { "10": 70, "20": 73, "21": 75, "22": 76, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r56", "58": "s74" }, { "24": "r62", "28": "r62", "35": "r62", "36": "r62", "37": "r62", "38": "r62", "39": "r62", "40": "r62", "41": "r62", "42": "r62", "43": "r62", "44": "r62", "45": "r62", "56": "r62", "58": "r62" }, { "24": "r63", "28": "r63", "35": "r63", "36": "r63", "37": "r63", "38": "r63", "39": "r63", "40": "r63", "41": "r63", "42": "r63", "43": "r63", "44": "r63", "45": "r63", "56": "r63", "58": "r63" }, { "24": "r64", "28": "r64", "35": "r64", "36": "r64", "37": "r64", "38": "r64", "39": "r64", "40": "r64", "41": "r64", "42": "r64", "43": "r64", "44": "r64", "45": "r64", "56": "r64", "58": "r64" }, { "24": "r65", "28": "r65", "35": "r65", "36": "r65", "37": "r65", "38": "r65", "39": "r65", "40": "r65", "41": "r65", "42": "r65", "43": "r65", "44": "r65", "45": "r65", "56": "r65", "58": "r65" }, { "23": "r52", "24": "r52", "25": "r52", "26": "r52", "27": "r52", "28": "r52", "29": "r52", "30": "r52", "31": "r52", "32": "r52", "33": "r52", "34": "r52", "35": "r52", "36": "r52", "37": "r52", "38": "r52", "39": "r52", "40": "r52", "41": "r52", "42": "r52", "43": "r52", "44": "r52", "45": "r52", "46": "r52", "47": "r52", "48": "r52", "49": "r52", "50": "r52", "51": "r52", "52": "r52", "53": "r52", "54": "r52", "55": "r52", "57": "r52" }, { "56": "r57" }, { "10": 70, "21": 77, "22": 69, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r62", "58": "s68" }, { "56": "r59" }, { "10": 70, "20": 79, "21": 75, "22": 76, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r63", "58": "s80" }, { "10": 70, "18": 78, "19": 66, "21": 67, "22": 69, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r54", "58": "s68" }, { "56": "r58" }, { "56": "r60" }, { "10": 70, "21": 81, "22": 69, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r62", "58": "s68" }, { "10": 70, "18": 82, "19": 66, "21": 67, "22": 69, "24": "s28", "28": "s71", "35": "s29", "36": "s30", "37": "s31", "38": "s32", "39": "s33", "40": "s34", "41": "s35", "42": "s36", "43": "s37", "44": "s38", "45": "s39", "56": "r54", "58": "s68" }, { "56": "r61" }, { "56": "s84" }, { "23": "r53", "24": "r53", "25": "r53", "26": "r53", "27": "r53", "28": "r53", "29": "r53", "30": "r53", "31": "r53", "32": "r53", "33": "r53", "34": "r53", "35": "r53", "36": "r53", "37": "r53", "38": "r53", "39": "r53", "40": "r53", "41": "r53", "42": "r53", "43": "r53", "44": "r53", "45": "r53", "46": "r53", "47": "r53", "48": "r53", "49": "r53", "50": "r53", "51": "r53", "52": "r53", "53": "r53", "54": "r53", "55": "r53", "57": "r53" }, { "25": "s12", "31": "s86" }, { "23": "r49", "24": "r49", "25": "r49", "26": "r49", "27": "r49", "28": "r49", "29": "r49", "30": "r49", "31": "r49", "32": "r49", "33": "r49", "34": "r49", "35": "r49", "36": "r49", "37": "r49", "38": "r49", "39": "r49", "40": "r49", "41": "r49", "42": "r49", "43": "r49", "44": "r49", "45": "r49", "46": "r49", "47": "r49", "48": "r49", "49": "r49", "50": "r49", "51": "r49", "52": "r49", "53": "r49", "54": "r49", "55": "r49", "57": "r49" }, { "25": "s12", "31": "s88" }, { "23": "r50", "24": "r50", "25": "r50", "26": "r50", "27": "r50", "28": "r50", "29": "r50", "30": "r50", "31": "r50", "32": "r50", "33": "r50", "34": "r50", "35": "r50", "36": "r50", "37": "r50", "38": "r50", "39": "r50", "40": "r50", "41": "r50", "42": "r50", "43": "r50", "44": "r50", "45": "r50", "46": "r50", "47": "r50", "48": "r50", "49": "r50", "50": "r50", "51": "r50", "52": "r50", "53": "r50", "54": "r50", "55": "r50", "57": "r50" }, { "25": "s12", "31": "s90" }, { "23": "r51", "24": "r51", "25": "r51", "26": "r51", "27": "r51", "28": "r51", "29": "r51", "30": "r51", "31": "r51", "32": "r51", "33": "r51", "34": "r51", "35": "r51", "36": "r51", "37": "r51", "38": "r51", "39": "r51", "40": "r51", "41": "r51", "42": "r51", "43": "r51", "44": "r51", "45": "r51", "46": "r51", "47": "r51", "48": "r51", "49": "r51", "50": "r51", "51": "r51", "52": "r51", "53": "r51", "54": "r51", "55": "r51", "57": "r51" }];
+
+/**
+ * Parsing stack.
+ */
+var stack = [];
+
+/**
+ * Tokenizer instance.
+ */
+var tokenizer = void 0;
+/**
+ * Generic tokenizer used by the parser in the Syntax tool.
+ *
+ * https://www.npmjs.com/package/syntax-cli
+ *
+ * See `--custom-tokinzer` to skip this generation, and use a custom one.
+ */
+
+var lexRules = [[/^#[^\n]+/, function () {/* skip comments */}], [/^\s+/, function () {/* skip whitespace */}], [/^-/, function () {
+  return 'DASH';
+}], [/^\//, function () {
+  return 'CHAR';
+}], [/^#/, function () {
+  return 'CHAR';
+}], [/^\|/, function () {
+  return 'CHAR';
+}], [/^\./, function () {
+  return 'CHAR';
+}], [/^\{/, function () {
+  return 'CHAR';
+}], [/^\{\d+\}/, function () {
+  return 'RANGE_EXACT';
+}], [/^\{\d+,\}/, function () {
+  return 'RANGE_OPEN';
+}], [/^\{\d+,\d+\}/, function () {
+  return 'RANGE_CLOSED';
+}], [/^\\k<(([\u0041-\u005a\u0061-\u007a\u00aa\u00b5\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e-\u066f\u0671-\u06d3\u06d5\u06e5-\u06e6\u06ee-\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4-\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc-\u09dd\u09df-\u09e1\u09f0-\u09f1\u09fc\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0-\u0ae1\u0af9\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3d\u0b5c-\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c60-\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0-\u0ce1\u0cf1-\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32-\u0e33\u0e40-\u0e46\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2-\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065-\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae-\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5-\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a-\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd-\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5-\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\ude80-\ude9c\udea0-\uded0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf75\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00\ude10-\ude13\ude15-\ude17\ude19-\ude35\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee4\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd23\udf00-\udf1c\udf27\udf30-\udf45\udfe0-\udff6]|\ud804[\udc03-\udc37\udc83-\udcaf\udcd0-\udce8\udd03-\udd26\udd44\udd50-\udd72\udd76\udd83-\uddb2\uddc1-\uddc4\uddda\udddc\ude00-\ude11\ude13-\ude2b\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udede\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3d\udf50\udf5d-\udf61]|\ud805[\udc00-\udc34\udc47-\udc4a\udc5f\udc80-\udcaf\udcc4-\udcc5\udcc7\udd80-\uddae\uddd8-\udddb\ude00-\ude2f\ude44\ude80-\udeaa\udeb8\udf00-\udf1a]|\ud806[\udc00-\udc2b\udca0-\udcdf\udcff\udda0-\udda7\uddaa-\uddd0\udde1\udde3\ude00\ude0b-\ude32\ude3a\ude50\ude5c-\ude89\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc2e\udc40\udc72-\udc8f\udd00-\udd06\udd08-\udd09\udd0b-\udd30\udd46\udd60-\udd65\udd67-\udd68\udd6a-\udd89\udd98\udee0-\udef2]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\uded0-\udeed\udf00-\udf2f\udf40-\udf43\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf50\udf93-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb]|\ud838[\udd00-\udd2c\udd37-\udd3d\udd4e\udec0-\udeeb]|\ud83a[\udc00-\udcc4\udd00-\udd43\udd4b]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\}))(([\u0030-\u0039\u0041-\u005a\u005f\u0061-\u007a\u00aa\u00b5\u00b7\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0300-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u0483-\u0487\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u0591-\u05bd\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05c7\u05d0-\u05ea\u05ef-\u05f2\u0610-\u061a\u0620-\u0669\u066e-\u06d3\u06d5-\u06dc\u06df-\u06e8\u06ea-\u06fc\u06ff\u0710-\u074a\u074d-\u07b1\u07c0-\u07f5\u07fa\u07fd\u0800-\u082d\u0840-\u085b\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u08d3-\u08e1\u08e3-\u0963\u0966-\u096f\u0971-\u0983\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bc-\u09c4\u09c7-\u09c8\u09cb-\u09ce\u09d7\u09dc-\u09dd\u09df-\u09e3\u09e6-\u09f1\u09fc\u09fe\u0a01-\u0a03\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a3c\u0a3e-\u0a42\u0a47-\u0a48\u0a4b-\u0a4d\u0a51\u0a59-\u0a5c\u0a5e\u0a66-\u0a75\u0a81-\u0a83\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abc-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ad0\u0ae0-\u0ae3\u0ae6-\u0aef\u0af9-\u0aff\u0b01-\u0b03\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3c-\u0b44\u0b47-\u0b48\u0b4b-\u0b4d\u0b56-\u0b57\u0b5c-\u0b5d\u0b5f-\u0b63\u0b66-\u0b6f\u0b71\u0b82-\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd0\u0bd7\u0be6-\u0bef\u0c00-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55-\u0c56\u0c58-\u0c5a\u0c60-\u0c63\u0c66-\u0c6f\u0c80-\u0c83\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbc-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5-\u0cd6\u0cde\u0ce0-\u0ce3\u0ce6-\u0cef\u0cf1-\u0cf2\u0d00-\u0d03\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d44\u0d46-\u0d48\u0d4a-\u0d4e\u0d54-\u0d57\u0d5f-\u0d63\u0d66-\u0d6f\u0d7a-\u0d7f\u0d82-\u0d83\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2-\u0df3\u0e01-\u0e3a\u0e40-\u0e4e\u0e50-\u0e59\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0ebd\u0ec0-\u0ec4\u0ec6\u0ec8-\u0ecd\u0ed0-\u0ed9\u0edc-\u0edf\u0f00\u0f18-\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e-\u0f47\u0f49-\u0f6c\u0f71-\u0f84\u0f86-\u0f97\u0f99-\u0fbc\u0fc6\u1000-\u1049\u1050-\u109d\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u135d-\u135f\u1369-\u1371\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176c\u176e-\u1770\u1772-\u1773\u1780-\u17d3\u17d7\u17dc-\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u1820-\u1878\u1880-\u18aa\u18b0-\u18f5\u1900-\u191e\u1920-\u192b\u1930-\u193b\u1946-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u19d0-\u19da\u1a00-\u1a1b\u1a20-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1aa7\u1ab0-\u1abd\u1b00-\u1b4b\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1bf3\u1c00-\u1c37\u1c40-\u1c49\u1c4d-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1cd0-\u1cd2\u1cd4-\u1cfa\u1d00-\u1df9\u1dfb-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u203f-\u2040\u2054\u2071\u207f\u2090-\u209c\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d7f-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2de0-\u2dff\u3005-\u3007\u3021-\u302f\u3031-\u3035\u3038-\u303c\u3041-\u3096\u3099-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua62b\ua640-\ua66f\ua674-\ua67d\ua67f-\ua6f1\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua827\ua840-\ua873\ua880-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f7\ua8fb\ua8fd-\ua92d\ua930-\ua953\ua960-\ua97c\ua980-\ua9c0\ua9cf-\ua9d9\ua9e0-\ua9fe\uaa00-\uaa36\uaa40-\uaa4d\uaa50-\uaa59\uaa60-\uaa76\uaa7a-\uaac2\uaadb-\uaadd\uaae0-\uaaef\uaaf2-\uaaf6\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabea\uabec-\uabed\uabf0-\uabf9\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe00-\ufe0f\ufe20-\ufe2f\ufe33-\ufe34\ufe4d-\ufe4f\ufe70-\ufe74\ufe76-\ufefc\uff10-\uff19\uff21-\uff3a\uff3f\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\uddfd\ude80-\ude9c\udea0-\uded0\udee0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf7a\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udca0-\udca9\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00-\ude03\ude05-\ude06\ude0c-\ude13\ude15-\ude17\ude19-\ude35\ude38-\ude3a\ude3f\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee6\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd27\udd30-\udd39\udf00-\udf1c\udf27\udf30-\udf50\udfe0-\udff6]|\ud804[\udc00-\udc46\udc66-\udc6f\udc7f-\udcba\udcd0-\udce8\udcf0-\udcf9\udd00-\udd34\udd36-\udd3f\udd44-\udd46\udd50-\udd73\udd76\udd80-\uddc4\uddc9-\uddcc\uddd0-\uddda\udddc\ude00-\ude11\ude13-\ude37\ude3e\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udeea\udef0-\udef9\udf00-\udf03\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3b-\udf44\udf47-\udf48\udf4b-\udf4d\udf50\udf57\udf5d-\udf63\udf66-\udf6c\udf70-\udf74]|\ud805[\udc00-\udc4a\udc50-\udc59\udc5e-\udc5f\udc80-\udcc5\udcc7\udcd0-\udcd9\udd80-\uddb5\uddb8-\uddc0\uddd8-\udddd\ude00-\ude40\ude44\ude50-\ude59\ude80-\udeb8\udec0-\udec9\udf00-\udf1a\udf1d-\udf2b\udf30-\udf39]|\ud806[\udc00-\udc3a\udca0-\udce9\udcff\udda0-\udda7\uddaa-\uddd7\uddda-\udde1\udde3-\udde4\ude00-\ude3e\ude47\ude50-\ude99\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc36\udc38-\udc40\udc50-\udc59\udc72-\udc8f\udc92-\udca7\udca9-\udcb6\udd00-\udd06\udd08-\udd09\udd0b-\udd36\udd3a\udd3c-\udd3d\udd3f-\udd47\udd50-\udd59\udd60-\udd65\udd67-\udd68\udd6a-\udd8e\udd90-\udd91\udd93-\udd98\udda0-\udda9\udee0-\udef6]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\ude60-\ude69\uded0-\udeed\udef0-\udef4\udf00-\udf36\udf40-\udf43\udf50-\udf59\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf4f-\udf87\udf8f-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99\udc9d-\udc9e]|\ud834[\udd65-\udd69\udd6d-\udd72\udd7b-\udd82\udd85-\udd8b\uddaa-\uddad\ude42-\ude44]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb\udfce-\udfff]|\ud836[\ude00-\ude36\ude3b-\ude6c\ude75\ude84\ude9b-\ude9f\udea1-\udeaf]|\ud838[\udc00-\udc06\udc08-\udc18\udc1b-\udc21\udc23-\udc24\udc26-\udc2a\udd00-\udd2c\udd30-\udd3d\udd40-\udd49\udd4e\udec0-\udef9]|\ud83a[\udc00-\udcc4\udcd0-\udcd6\udd00-\udd4b\udd50-\udd59]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d]|\udb40[\udd00-\uddef])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\})|[\u200c\u200d])*>/, function () {
+  var groupName = yytext.slice(3, -1);
+  validateUnicodeGroupName(groupName, this.getCurrentState());
+  return 'NAMED_GROUP_REF';
+}], [/^\\b/, function () {
+  return 'ESC_b';
+}], [/^\\B/, function () {
+  return 'ESC_B';
+}], [/^\\c[a-zA-Z]/, function () {
+  return 'CTRL_CH';
+}], [/^\\0\d{1,2}/, function () {
+  return 'OCT_CODE';
+}], [/^\\0/, function () {
+  return 'DEC_CODE';
+}], [/^\\\d{1,3}/, function () {
+  return 'DEC_CODE';
+}], [/^\\u[dD][89abAB][0-9a-fA-F]{2}\\u[dD][c-fC-F][0-9a-fA-F]{2}/, function () {
+  return 'U_CODE_SURROGATE';
+}], [/^\\u\{[0-9a-fA-F]{1,}\}/, function () {
+  return 'U_CODE';
+}], [/^\\u[0-9a-fA-F]{4}/, function () {
+  return 'U_CODE';
+}], [/^\\[pP]\{\w+(?:=\w+)?\}/, function () {
+  return 'U_PROP_VALUE_EXP';
+}], [/^\\x[0-9a-fA-F]{2}/, function () {
+  return 'HEX_CODE';
+}], [/^\\[tnrdDsSwWvf]/, function () {
+  return 'META_CHAR';
+}], [/^\\\//, function () {
+  return 'ESC_CHAR';
+}], [/^\\[ #]/, function () {
+  return 'ESC_CHAR';
+}], [/^\\[\^\$\.\*\+\?\(\)\\\[\]\{\}\|\/]/, function () {
+  return 'ESC_CHAR';
+}], [/^\\[^*?+\[()\\|]/, function () {
+  var s = this.getCurrentState();
+  if (s === 'u_class' && yytext === "\\-") {
+    return 'ESC_CHAR';
+  } else if (s === 'u' || s === 'xu' || s === 'u_class') {
+    throw new SyntaxError('invalid Unicode escape ' + yytext);
+  }
+  return 'ESC_CHAR';
+}], [/^\(/, function () {
+  return 'CHAR';
+}], [/^\)/, function () {
+  return 'CHAR';
+}], [/^\(\?=/, function () {
+  return 'POS_LA_ASSERT';
+}], [/^\(\?!/, function () {
+  return 'NEG_LA_ASSERT';
+}], [/^\(\?<=/, function () {
+  return 'POS_LB_ASSERT';
+}], [/^\(\?<!/, function () {
+  return 'NEG_LB_ASSERT';
+}], [/^\(\?:/, function () {
+  return 'NON_CAPTURE_GROUP';
+}], [/^\(\?<(([\u0041-\u005a\u0061-\u007a\u00aa\u00b5\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e-\u066f\u0671-\u06d3\u06d5\u06e5-\u06e6\u06ee-\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4-\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc-\u09dd\u09df-\u09e1\u09f0-\u09f1\u09fc\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0-\u0ae1\u0af9\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3d\u0b5c-\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c60-\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0-\u0ce1\u0cf1-\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32-\u0e33\u0e40-\u0e46\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2-\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065-\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae-\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5-\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a-\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd-\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5-\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\ude80-\ude9c\udea0-\uded0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf75\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00\ude10-\ude13\ude15-\ude17\ude19-\ude35\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee4\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd23\udf00-\udf1c\udf27\udf30-\udf45\udfe0-\udff6]|\ud804[\udc03-\udc37\udc83-\udcaf\udcd0-\udce8\udd03-\udd26\udd44\udd50-\udd72\udd76\udd83-\uddb2\uddc1-\uddc4\uddda\udddc\ude00-\ude11\ude13-\ude2b\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udede\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3d\udf50\udf5d-\udf61]|\ud805[\udc00-\udc34\udc47-\udc4a\udc5f\udc80-\udcaf\udcc4-\udcc5\udcc7\udd80-\uddae\uddd8-\udddb\ude00-\ude2f\ude44\ude80-\udeaa\udeb8\udf00-\udf1a]|\ud806[\udc00-\udc2b\udca0-\udcdf\udcff\udda0-\udda7\uddaa-\uddd0\udde1\udde3\ude00\ude0b-\ude32\ude3a\ude50\ude5c-\ude89\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc2e\udc40\udc72-\udc8f\udd00-\udd06\udd08-\udd09\udd0b-\udd30\udd46\udd60-\udd65\udd67-\udd68\udd6a-\udd89\udd98\udee0-\udef2]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\uded0-\udeed\udf00-\udf2f\udf40-\udf43\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf50\udf93-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb]|\ud838[\udd00-\udd2c\udd37-\udd3d\udd4e\udec0-\udeeb]|\ud83a[\udc00-\udcc4\udd00-\udd43\udd4b]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\}))(([\u0030-\u0039\u0041-\u005a\u005f\u0061-\u007a\u00aa\u00b5\u00b7\u00ba\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0300-\u0374\u0376-\u0377\u037a-\u037d\u037f\u0386-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u0483-\u0487\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u0591-\u05bd\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05c7\u05d0-\u05ea\u05ef-\u05f2\u0610-\u061a\u0620-\u0669\u066e-\u06d3\u06d5-\u06dc\u06df-\u06e8\u06ea-\u06fc\u06ff\u0710-\u074a\u074d-\u07b1\u07c0-\u07f5\u07fa\u07fd\u0800-\u082d\u0840-\u085b\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u08d3-\u08e1\u08e3-\u0963\u0966-\u096f\u0971-\u0983\u0985-\u098c\u098f-\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bc-\u09c4\u09c7-\u09c8\u09cb-\u09ce\u09d7\u09dc-\u09dd\u09df-\u09e3\u09e6-\u09f1\u09fc\u09fe\u0a01-\u0a03\u0a05-\u0a0a\u0a0f-\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32-\u0a33\u0a35-\u0a36\u0a38-\u0a39\u0a3c\u0a3e-\u0a42\u0a47-\u0a48\u0a4b-\u0a4d\u0a51\u0a59-\u0a5c\u0a5e\u0a66-\u0a75\u0a81-\u0a83\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2-\u0ab3\u0ab5-\u0ab9\u0abc-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ad0\u0ae0-\u0ae3\u0ae6-\u0aef\u0af9-\u0aff\u0b01-\u0b03\u0b05-\u0b0c\u0b0f-\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32-\u0b33\u0b35-\u0b39\u0b3c-\u0b44\u0b47-\u0b48\u0b4b-\u0b4d\u0b56-\u0b57\u0b5c-\u0b5d\u0b5f-\u0b63\u0b66-\u0b6f\u0b71\u0b82-\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99-\u0b9a\u0b9c\u0b9e-\u0b9f\u0ba3-\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd0\u0bd7\u0be6-\u0bef\u0c00-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55-\u0c56\u0c58-\u0c5a\u0c60-\u0c63\u0c66-\u0c6f\u0c80-\u0c83\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbc-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5-\u0cd6\u0cde\u0ce0-\u0ce3\u0ce6-\u0cef\u0cf1-\u0cf2\u0d00-\u0d03\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d44\u0d46-\u0d48\u0d4a-\u0d4e\u0d54-\u0d57\u0d5f-\u0d63\u0d66-\u0d6f\u0d7a-\u0d7f\u0d82-\u0d83\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2-\u0df3\u0e01-\u0e3a\u0e40-\u0e4e\u0e50-\u0e59\u0e81-\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0ebd\u0ec0-\u0ec4\u0ec6\u0ec8-\u0ecd\u0ed0-\u0ed9\u0edc-\u0edf\u0f00\u0f18-\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e-\u0f47\u0f49-\u0f6c\u0f71-\u0f84\u0f86-\u0f97\u0f99-\u0fbc\u0fc6\u1000-\u1049\u1050-\u109d\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u135d-\u135f\u1369-\u1371\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176c\u176e-\u1770\u1772-\u1773\u1780-\u17d3\u17d7\u17dc-\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u1820-\u1878\u1880-\u18aa\u18b0-\u18f5\u1900-\u191e\u1920-\u192b\u1930-\u193b\u1946-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u19d0-\u19da\u1a00-\u1a1b\u1a20-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1aa7\u1ab0-\u1abd\u1b00-\u1b4b\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1bf3\u1c00-\u1c37\u1c40-\u1c49\u1c4d-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1cd0-\u1cd2\u1cd4-\u1cfa\u1d00-\u1df9\u1dfb-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u203f-\u2040\u2054\u2071\u207f\u2090-\u209c\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d7f-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2de0-\u2dff\u3005-\u3007\u3021-\u302f\u3031-\u3035\u3038-\u303c\u3041-\u3096\u3099-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua62b\ua640-\ua66f\ua674-\ua67d\ua67f-\ua6f1\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua827\ua840-\ua873\ua880-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f7\ua8fb\ua8fd-\ua92d\ua930-\ua953\ua960-\ua97c\ua980-\ua9c0\ua9cf-\ua9d9\ua9e0-\ua9fe\uaa00-\uaa36\uaa40-\uaa4d\uaa50-\uaa59\uaa60-\uaa76\uaa7a-\uaac2\uaadb-\uaadd\uaae0-\uaaef\uaaf2-\uaaf6\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabea\uabec-\uabed\uabf0-\uabf9\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe00-\ufe0f\ufe20-\ufe2f\ufe33-\ufe34\ufe4d-\ufe4f\ufe70-\ufe74\ufe76-\ufefc\uff10-\uff19\uff21-\uff3a\uff3f\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]|\ud800[\udc00-\udc0b\udc0d-\udc26\udc28-\udc3a\udc3c-\udc3d\udc3f-\udc4d\udc50-\udc5d\udc80-\udcfa\udd40-\udd74\uddfd\ude80-\ude9c\udea0-\uded0\udee0\udf00-\udf1f\udf2d-\udf4a\udf50-\udf7a\udf80-\udf9d\udfa0-\udfc3\udfc8-\udfcf\udfd1-\udfd5]|\ud801[\udc00-\udc9d\udca0-\udca9\udcb0-\udcd3\udcd8-\udcfb\udd00-\udd27\udd30-\udd63\ude00-\udf36\udf40-\udf55\udf60-\udf67]|\ud802[\udc00-\udc05\udc08\udc0a-\udc35\udc37-\udc38\udc3c\udc3f-\udc55\udc60-\udc76\udc80-\udc9e\udce0-\udcf2\udcf4-\udcf5\udd00-\udd15\udd20-\udd39\udd80-\uddb7\uddbe-\uddbf\ude00-\ude03\ude05-\ude06\ude0c-\ude13\ude15-\ude17\ude19-\ude35\ude38-\ude3a\ude3f\ude60-\ude7c\ude80-\ude9c\udec0-\udec7\udec9-\udee6\udf00-\udf35\udf40-\udf55\udf60-\udf72\udf80-\udf91]|\ud803[\udc00-\udc48\udc80-\udcb2\udcc0-\udcf2\udd00-\udd27\udd30-\udd39\udf00-\udf1c\udf27\udf30-\udf50\udfe0-\udff6]|\ud804[\udc00-\udc46\udc66-\udc6f\udc7f-\udcba\udcd0-\udce8\udcf0-\udcf9\udd00-\udd34\udd36-\udd3f\udd44-\udd46\udd50-\udd73\udd76\udd80-\uddc4\uddc9-\uddcc\uddd0-\uddda\udddc\ude00-\ude11\ude13-\ude37\ude3e\ude80-\ude86\ude88\ude8a-\ude8d\ude8f-\ude9d\ude9f-\udea8\udeb0-\udeea\udef0-\udef9\udf00-\udf03\udf05-\udf0c\udf0f-\udf10\udf13-\udf28\udf2a-\udf30\udf32-\udf33\udf35-\udf39\udf3b-\udf44\udf47-\udf48\udf4b-\udf4d\udf50\udf57\udf5d-\udf63\udf66-\udf6c\udf70-\udf74]|\ud805[\udc00-\udc4a\udc50-\udc59\udc5e-\udc5f\udc80-\udcc5\udcc7\udcd0-\udcd9\udd80-\uddb5\uddb8-\uddc0\uddd8-\udddd\ude00-\ude40\ude44\ude50-\ude59\ude80-\udeb8\udec0-\udec9\udf00-\udf1a\udf1d-\udf2b\udf30-\udf39]|\ud806[\udc00-\udc3a\udca0-\udce9\udcff\udda0-\udda7\uddaa-\uddd7\uddda-\udde1\udde3-\udde4\ude00-\ude3e\ude47\ude50-\ude99\ude9d\udec0-\udef8]|\ud807[\udc00-\udc08\udc0a-\udc36\udc38-\udc40\udc50-\udc59\udc72-\udc8f\udc92-\udca7\udca9-\udcb6\udd00-\udd06\udd08-\udd09\udd0b-\udd36\udd3a\udd3c-\udd3d\udd3f-\udd47\udd50-\udd59\udd60-\udd65\udd67-\udd68\udd6a-\udd8e\udd90-\udd91\udd93-\udd98\udda0-\udda9\udee0-\udef6]|\ud808[\udc00-\udf99]|\ud809[\udc00-\udc6e\udc80-\udd43]|\ud80c[\udc00-\udfff]|\ud80d[\udc00-\udc2e]|\ud811[\udc00-\ude46]|\ud81a[\udc00-\ude38\ude40-\ude5e\ude60-\ude69\uded0-\udeed\udef0-\udef4\udf00-\udf36\udf40-\udf43\udf50-\udf59\udf63-\udf77\udf7d-\udf8f]|\ud81b[\ude40-\ude7f\udf00-\udf4a\udf4f-\udf87\udf8f-\udf9f\udfe0-\udfe1\udfe3]|\ud81c[\udc00-\udfff]|\ud81d[\udc00-\udfff]|\ud81e[\udc00-\udfff]|\ud81f[\udc00-\udfff]|\ud820[\udc00-\udfff]|\ud821[\udc00-\udff7]|\ud822[\udc00-\udef2]|\ud82c[\udc00-\udd1e\udd50-\udd52\udd64-\udd67\udd70-\udefb]|\ud82f[\udc00-\udc6a\udc70-\udc7c\udc80-\udc88\udc90-\udc99\udc9d-\udc9e]|\ud834[\udd65-\udd69\udd6d-\udd72\udd7b-\udd82\udd85-\udd8b\uddaa-\uddad\ude42-\ude44]|\ud835[\udc00-\udc54\udc56-\udc9c\udc9e-\udc9f\udca2\udca5-\udca6\udca9-\udcac\udcae-\udcb9\udcbb\udcbd-\udcc3\udcc5-\udd05\udd07-\udd0a\udd0d-\udd14\udd16-\udd1c\udd1e-\udd39\udd3b-\udd3e\udd40-\udd44\udd46\udd4a-\udd50\udd52-\udea5\udea8-\udec0\udec2-\udeda\udedc-\udefa\udefc-\udf14\udf16-\udf34\udf36-\udf4e\udf50-\udf6e\udf70-\udf88\udf8a-\udfa8\udfaa-\udfc2\udfc4-\udfcb\udfce-\udfff]|\ud836[\ude00-\ude36\ude3b-\ude6c\ude75\ude84\ude9b-\ude9f\udea1-\udeaf]|\ud838[\udc00-\udc06\udc08-\udc18\udc1b-\udc21\udc23-\udc24\udc26-\udc2a\udd00-\udd2c\udd30-\udd3d\udd40-\udd49\udd4e\udec0-\udef9]|\ud83a[\udc00-\udcc4\udcd0-\udcd6\udd00-\udd4b\udd50-\udd59]|\ud83b[\ude00-\ude03\ude05-\ude1f\ude21-\ude22\ude24\ude27\ude29-\ude32\ude34-\ude37\ude39\ude3b\ude42\ude47\ude49\ude4b\ude4d-\ude4f\ude51-\ude52\ude54\ude57\ude59\ude5b\ude5d\ude5f\ude61-\ude62\ude64\ude67-\ude6a\ude6c-\ude72\ude74-\ude77\ude79-\ude7c\ude7e\ude80-\ude89\ude8b-\ude9b\udea1-\udea3\udea5-\udea9\udeab-\udebb]|\ud840[\udc00-\udfff]|\ud841[\udc00-\udfff]|\ud842[\udc00-\udfff]|\ud843[\udc00-\udfff]|\ud844[\udc00-\udfff]|\ud845[\udc00-\udfff]|\ud846[\udc00-\udfff]|\ud847[\udc00-\udfff]|\ud848[\udc00-\udfff]|\ud849[\udc00-\udfff]|\ud84a[\udc00-\udfff]|\ud84b[\udc00-\udfff]|\ud84c[\udc00-\udfff]|\ud84d[\udc00-\udfff]|\ud84e[\udc00-\udfff]|\ud84f[\udc00-\udfff]|\ud850[\udc00-\udfff]|\ud851[\udc00-\udfff]|\ud852[\udc00-\udfff]|\ud853[\udc00-\udfff]|\ud854[\udc00-\udfff]|\ud855[\udc00-\udfff]|\ud856[\udc00-\udfff]|\ud857[\udc00-\udfff]|\ud858[\udc00-\udfff]|\ud859[\udc00-\udfff]|\ud85a[\udc00-\udfff]|\ud85b[\udc00-\udfff]|\ud85c[\udc00-\udfff]|\ud85d[\udc00-\udfff]|\ud85e[\udc00-\udfff]|\ud85f[\udc00-\udfff]|\ud860[\udc00-\udfff]|\ud861[\udc00-\udfff]|\ud862[\udc00-\udfff]|\ud863[\udc00-\udfff]|\ud864[\udc00-\udfff]|\ud865[\udc00-\udfff]|\ud866[\udc00-\udfff]|\ud867[\udc00-\udfff]|\ud868[\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|\ud86a[\udc00-\udfff]|\ud86b[\udc00-\udfff]|\ud86c[\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d\udc20-\udfff]|\ud86f[\udc00-\udfff]|\ud870[\udc00-\udfff]|\ud871[\udc00-\udfff]|\ud872[\udc00-\udfff]|\ud873[\udc00-\udea1\udeb0-\udfff]|\ud874[\udc00-\udfff]|\ud875[\udc00-\udfff]|\ud876[\udc00-\udfff]|\ud877[\udc00-\udfff]|\ud878[\udc00-\udfff]|\ud879[\udc00-\udfff]|\ud87a[\udc00-\udfe0]|\ud87e[\udc00-\ude1d]|\udb40[\udd00-\uddef])|[$_]|(\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]{1,}\})|[\u200c\u200d])*>/, function () {
+  yytext = yytext.slice(3, -1);
+  validateUnicodeGroupName(yytext, this.getCurrentState());
+  return 'NAMED_CAPTURE_GROUP';
+}], [/^\(/, function () {
+  return 'L_PAREN';
+}], [/^\)/, function () {
+  return 'R_PAREN';
+}], [/^[*?+[^$]/, function () {
+  return 'CHAR';
+}], [/^\\\]/, function () {
+  return 'ESC_CHAR';
+}], [/^\]/, function () {
+  this.popState();return 'R_BRACKET';
+}], [/^\^/, function () {
+  return 'BOS';
+}], [/^\$/, function () {
+  return 'EOS';
+}], [/^\*/, function () {
+  return 'STAR';
+}], [/^\?/, function () {
+  return 'Q_MARK';
+}], [/^\+/, function () {
+  return 'PLUS';
+}], [/^\|/, function () {
+  return 'BAR';
+}], [/^\./, function () {
+  return 'ANY';
+}], [/^\//, function () {
+  return 'SLASH';
+}], [/^[^*?+\[()\\|]/, function () {
+  return 'CHAR';
+}], [/^\[\^/, function () {
+  var s = this.getCurrentState();this.pushState(s === 'u' || s === 'xu' ? 'u_class' : 'class');return 'NEG_CLASS';
+}], [/^\[/, function () {
+  var s = this.getCurrentState();this.pushState(s === 'u' || s === 'xu' ? 'u_class' : 'class');return 'L_BRACKET';
+}]];
+var lexRulesByConditions = { "INITIAL": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 22, 23, 24, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], "u": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], "xu": [0, 1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], "x": [0, 1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 22, 23, 24, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], "u_class": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], "class": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51] };
+
+var EOF_TOKEN = {
+  type: EOF,
+  value: ''
+};
+
+tokenizer = {
+  initString: function initString(string) {
+    this._string = string;
+    this._cursor = 0;
+
+    this._states = ['INITIAL'];
+    this._tokensQueue = [];
+
+    this._currentLine = 1;
+    this._currentColumn = 0;
+    this._currentLineBeginOffset = 0;
+
+    /**
+     * Matched token location data.
+     */
+    this._tokenStartOffset = 0;
+    this._tokenEndOffset = 0;
+    this._tokenStartLine = 1;
+    this._tokenEndLine = 1;
+    this._tokenStartColumn = 0;
+    this._tokenEndColumn = 0;
+
+    return this;
+  },
+
+
+  /**
+   * Returns tokenizer states.
+   */
+  getStates: function getStates() {
+    return this._states;
+  },
+  getCurrentState: function getCurrentState() {
+    return this._states[this._states.length - 1];
+  },
+  pushState: function pushState(state) {
+    this._states.push(state);
+  },
+  begin: function begin(state) {
+    this.pushState(state);
+  },
+  popState: function popState() {
+    if (this._states.length > 1) {
+      return this._states.pop();
+    }
+    return this._states[0];
+  },
+  getNextToken: function getNextToken() {
+    // Something was queued, return it.
+    if (this._tokensQueue.length > 0) {
+      return this.onToken(this._toToken(this._tokensQueue.shift()));
+    }
+
+    if (!this.hasMoreTokens()) {
+      return this.onToken(EOF_TOKEN);
+    }
+
+    var string = this._string.slice(this._cursor);
+    var lexRulesForState = lexRulesByConditions[this.getCurrentState()];
+
+    for (var i = 0; i < lexRulesForState.length; i++) {
+      var lexRuleIndex = lexRulesForState[i];
+      var lexRule = lexRules[lexRuleIndex];
+
+      var matched = this._match(string, lexRule[0]);
+
+      // Manual handling of EOF token (the end of string). Return it
+      // as `EOF` symbol.
+      if (string === '' && matched === '') {
+        this._cursor++;
+      }
+
+      if (matched !== null) {
+        yytext = matched;
+        yyleng = yytext.length;
+        var token = lexRule[1].call(this);
+
+        if (!token) {
+          return this.getNextToken();
+        }
+
+        // If multiple tokens are returned, save them to return
+        // on next `getNextToken` call.
+
+        if (Array.isArray(token)) {
+          var tokensToQueue = token.slice(1);
+          token = token[0];
+          if (tokensToQueue.length > 0) {
+            var _tokensQueue;
+
+            (_tokensQueue = this._tokensQueue).unshift.apply(_tokensQueue, _toConsumableArray(tokensToQueue));
+          }
+        }
+
+        return this.onToken(this._toToken(token, yytext));
+      }
+    }
+
+    if (this.isEOF()) {
+      this._cursor++;
+      return EOF_TOKEN;
+    }
+
+    this.throwUnexpectedToken(string[0], this._currentLine, this._currentColumn);
+  },
+
+
+  /**
+   * Throws default "Unexpected token" exception, showing the actual
+   * line from the source, pointing with the ^ marker to the bad token.
+   * In addition, shows `line:column` location.
+   */
+  throwUnexpectedToken: function throwUnexpectedToken(symbol, line, column) {
+    var lineSource = this._string.split('\n')[line - 1];
+    var lineData = '';
+
+    if (lineSource) {
+      var pad = ' '.repeat(column);
+      lineData = '\n\n' + lineSource + '\n' + pad + '^\n';
+    }
+
+    throw new SyntaxError(lineData + 'Unexpected token: "' + symbol + '" ' + ('at ' + line + ':' + column + '.'));
+  },
+  getCursor: function getCursor() {
+    return this._cursor;
+  },
+  getCurrentLine: function getCurrentLine() {
+    return this._currentLine;
+  },
+  getCurrentColumn: function getCurrentColumn() {
+    return this._currentColumn;
+  },
+  _captureLocation: function _captureLocation(matched) {
+    var nlRe = /\n/g;
+
+    // Absolute offsets.
+    this._tokenStartOffset = this._cursor;
+
+    // Line-based locations, start.
+    this._tokenStartLine = this._currentLine;
+    this._tokenStartColumn = this._tokenStartOffset - this._currentLineBeginOffset;
+
+    // Extract `\n` in the matched token.
+    var nlMatch = void 0;
+    while ((nlMatch = nlRe.exec(matched)) !== null) {
+      this._currentLine++;
+      this._currentLineBeginOffset = this._tokenStartOffset + nlMatch.index + 1;
+    }
+
+    this._tokenEndOffset = this._cursor + matched.length;
+
+    // Line-based locations, end.
+    this._tokenEndLine = this._currentLine;
+    this._tokenEndColumn = this._currentColumn = this._tokenEndOffset - this._currentLineBeginOffset;
+  },
+  _toToken: function _toToken(tokenType) {
+    var yytext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+    return {
+      // Basic data.
+      type: tokenType,
+      value: yytext,
+
+      // Location data.
+      startOffset: this._tokenStartOffset,
+      endOffset: this._tokenEndOffset,
+      startLine: this._tokenStartLine,
+      endLine: this._tokenEndLine,
+      startColumn: this._tokenStartColumn,
+      endColumn: this._tokenEndColumn
+    };
+  },
+  isEOF: function isEOF() {
+    return this._cursor === this._string.length;
+  },
+  hasMoreTokens: function hasMoreTokens() {
+    return this._cursor <= this._string.length;
+  },
+  _match: function _match(string, regexp) {
+    var matched = string.match(regexp);
+    if (matched) {
+      // Handle `\n` in the matched token to track line numbers.
+      this._captureLocation(matched[0]);
+      this._cursor += matched[0].length;
+      return matched[0];
+    }
+    return null;
+  },
+
+
+  /**
+   * Allows analyzing, and transforming token. Default implementation
+   * just passes the token through.
+   */
+  onToken: function onToken(token) {
+    return token;
+  }
+};
+
+/**
+ * Expose tokenizer so it can be accessed in semantic actions.
+ */
+yy.lexer = tokenizer;
+yy.tokenizer = tokenizer;
+
+/**
+ * Global parsing options. Some options can be shadowed per
+ * each `parse` call, if the optations are passed.
+ *
+ * Initalized to the `captureLocations` which is passed
+ * from the generator. Other options can be added at runtime.
+ */
+yy.options = {
+  captureLocations: true
+};
+
+/**
+ * Parsing module.
+ */
+var yyparse = {
+  /**
+   * Sets global parsing options.
+   */
+  setOptions: function setOptions(options) {
+    yy.options = options;
+    return this;
+  },
+
+
+  /**
+   * Returns parsing options.
+   */
+  getOptions: function getOptions() {
+    return yy.options;
+  },
+
+
+  /**
+   * Parses a string.
+   */
+  parse: function parse(string, parseOptions) {
+    if (!tokenizer) {
+      throw new Error('Tokenizer instance wasn\'t specified.');
+    }
+
+    tokenizer.initString(string);
+
+    /**
+     * If parse options are passed, override global parse options for
+     * this call, and later restore global options.
+     */
+    var globalOptions = yy.options;
+    if (parseOptions) {
+      yy.options = Object.assign({}, yy.options, parseOptions);
+    }
+
+    /**
+     * Allow callers to do setup work based on the
+     * parsing string, and passed options.
+     */
+    yyparse.onParseBegin(string, tokenizer, yy.options);
+
+    stack.length = 0;
+    stack.push(0);
+
+    var token = tokenizer.getNextToken();
+    var shiftedToken = null;
+
+    do {
+      if (!token) {
+        // Restore options.
+        yy.options = globalOptions;
+        unexpectedEndOfInput();
+      }
+
+      var state = stack[stack.length - 1];
+      var column = tokens[token.type];
+
+      if (!table[state].hasOwnProperty(column)) {
+        yy.options = globalOptions;
+        unexpectedToken(token);
+      }
+
+      var entry = table[state][column];
+
+      // Shift action.
+      if (entry[0] === 's') {
+        var _loc2 = null;
+
+        if (yy.options.captureLocations) {
+          _loc2 = {
+            startOffset: token.startOffset,
+            endOffset: token.endOffset,
+            startLine: token.startLine,
+            endLine: token.endLine,
+            startColumn: token.startColumn,
+            endColumn: token.endColumn
+          };
+        }
+
+        shiftedToken = this.onShift(token);
+
+        stack.push({ symbol: tokens[shiftedToken.type], semanticValue: shiftedToken.value, loc: _loc2 }, Number(entry.slice(1)));
+
+        token = tokenizer.getNextToken();
+      }
+
+      // Reduce action.
+      else if (entry[0] === 'r') {
+          var productionNumber = entry.slice(1);
+          var production = productions[productionNumber];
+          var hasSemanticAction = typeof production[2] === 'function';
+          var semanticValueArgs = hasSemanticAction ? [] : null;
+
+          var locationArgs = hasSemanticAction && yy.options.captureLocations ? [] : null;
+
+          if (production[1] !== 0) {
+            var rhsLength = production[1];
+            while (rhsLength-- > 0) {
+              stack.pop();
+              var stackEntry = stack.pop();
+
+              if (hasSemanticAction) {
+                semanticValueArgs.unshift(stackEntry.semanticValue);
+
+                if (locationArgs) {
+                  locationArgs.unshift(stackEntry.loc);
+                }
+              }
+            }
+          }
+
+          var reduceStackEntry = { symbol: production[0] };
+
+          if (hasSemanticAction) {
+            yytext = shiftedToken ? shiftedToken.value : null;
+            yyleng = shiftedToken ? shiftedToken.value.length : null;
+
+            var semanticActionArgs = locationArgs !== null ? semanticValueArgs.concat(locationArgs) : semanticValueArgs;
+
+            production[2].apply(production, _toConsumableArray(semanticActionArgs));
+
+            reduceStackEntry.semanticValue = __;
+
+            if (locationArgs) {
+              reduceStackEntry.loc = __loc;
+            }
+          }
+
+          var nextState = stack[stack.length - 1];
+          var symbolToReduceWith = production[0];
+
+          stack.push(reduceStackEntry, table[nextState][symbolToReduceWith]);
+        }
+
+        // Accept.
+        else if (entry === 'acc') {
+            stack.pop();
+            var parsed = stack.pop();
+
+            if (stack.length !== 1 || stack[0] !== 0 || tokenizer.hasMoreTokens()) {
+              // Restore options.
+              yy.options = globalOptions;
+              unexpectedToken(token);
+            }
+
+            if (parsed.hasOwnProperty('semanticValue')) {
+              yy.options = globalOptions;
+              yyparse.onParseEnd(parsed.semanticValue);
+              return parsed.semanticValue;
+            }
+
+            yyparse.onParseEnd();
+
+            // Restore options.
+            yy.options = globalOptions;
+            return true;
+          }
+    } while (tokenizer.hasMoreTokens() || stack.length > 1);
+  },
+  setTokenizer: function setTokenizer(customTokenizer) {
+    tokenizer = customTokenizer;
+    return yyparse;
+  },
+  getTokenizer: function getTokenizer() {
+    return tokenizer;
+  },
+  onParseBegin: function onParseBegin(string, tokenizer, options) {},
+  onParseEnd: function onParseEnd(parsed) {},
+
+
+  /**
+   * Allows analyzing, and transforming shifted token. Default implementation
+   * just passes the token through.
+   */
+  onShift: function onShift(token) {
+    return token;
+  }
+};
+
+/**
+ * Tracks capturing groups.
+ */
+var capturingGroupsCount = 0;
+
+/**
+ * Tracks named groups.
+ */
+var namedGroups = {};
+
+/**
+ * Parsing string.
+ */
+var parsingString = '';
+
+yyparse.onParseBegin = function (string, lexer) {
+  parsingString = string;
+  capturingGroupsCount = 0;
+  namedGroups = {};
+
+  var lastSlash = string.lastIndexOf('/');
+  var flags = string.slice(lastSlash);
+
+  if (flags.includes('x') && flags.includes('u')) {
+    lexer.pushState('xu');
+  } else {
+    if (flags.includes('x')) {
+      lexer.pushState('x');
+    }
+    if (flags.includes('u')) {
+      lexer.pushState('u');
+    }
+  }
+};
+
+/**
+ * On shifting `(` remember its number to used on reduce.
+ */
+yyparse.onShift = function (token) {
+  if (token.type === 'L_PAREN' || token.type === 'NAMED_CAPTURE_GROUP') {
+    token.value = new String(token.value);
+    token.value.groupNumber = ++capturingGroupsCount;
+  }
+  return token;
+};
+
+/**
+ * Extracts ranges from the range string.
+ */
+function getRange(text) {
+  var range = text.match(/\d+/g).map(Number);
+
+  if (Number.isFinite(range[1]) && range[1] < range[0]) {
+    throw new SyntaxError('Numbers out of order in ' + text + ' quantifier');
+  }
+
+  return range;
+}
+
+/**
+ * Checks class range
+ */
+function checkClassRange(from, to) {
+  if (from.kind === 'control' || to.kind === 'control' || !isNaN(from.codePoint) && !isNaN(to.codePoint) && from.codePoint > to.codePoint) {
+    throw new SyntaxError('Range ' + from.value + '-' + to.value + ' out of order in character class');
+  }
+}
+
+// ---------------------- Unicode property -------------------------------------------
+
+var unicodeProperties = __webpack_require__(/*! ../unicode/parser-unicode-properties.js */ "./node_modules/regexp-tree/dist/parser/unicode/parser-unicode-properties.js");
+
+/**
+ * Unicode property.
+ */
+function UnicodeProperty(matched, loc) {
+  var negative = matched[1] === 'P';
+  var separatorIdx = matched.indexOf('=');
+
+  var name = matched.slice(3, separatorIdx !== -1 ? separatorIdx : -1);
+  var value = void 0;
+
+  // General_Category allows using only value as a shorthand.
+  var isShorthand = separatorIdx === -1 && unicodeProperties.isGeneralCategoryValue(name);
+
+  // Binary propery name.
+  var isBinaryProperty = separatorIdx === -1 && unicodeProperties.isBinaryPropertyName(name);
+
+  if (isShorthand) {
+    value = name;
+    name = 'General_Category';
+  } else if (isBinaryProperty) {
+    value = name;
+  } else {
+    if (!unicodeProperties.isValidName(name)) {
+      throw new SyntaxError('Invalid unicode property name: ' + name + '.');
+    }
+
+    value = matched.slice(separatorIdx + 1, -1);
+
+    if (!unicodeProperties.isValidValue(name, value)) {
+      throw new SyntaxError('Invalid ' + name + ' unicode property value: ' + value + '.');
+    }
+  }
+
+  return Node({
+    type: 'UnicodeProperty',
+    name: name,
+    value: value,
+    negative: negative,
+    shorthand: isShorthand,
+    binary: isBinaryProperty,
+    canonicalName: unicodeProperties.getCanonicalName(name) || name,
+    canonicalValue: unicodeProperties.getCanonicalValue(value) || value
+  }, loc);
+}
+
+// ----------------------------------------------------------------------------------
+
+
+/**
+ * Creates a character node.
+ */
+function Char(value, kind, loc) {
+  var symbol = void 0;
+  var codePoint = void 0;
+
+  switch (kind) {
+    case 'decimal':
+      {
+        codePoint = Number(value.slice(1));
+        symbol = String.fromCodePoint(codePoint);
+        break;
+      }
+    case 'oct':
+      {
+        codePoint = parseInt(value.slice(1), 8);
+        symbol = String.fromCodePoint(codePoint);
+        break;
+      }
+    case 'hex':
+    case 'unicode':
+      {
+        if (value.lastIndexOf('\\u') > 0) {
+          var _value$split$slice = value.split('\\u').slice(1),
+              _value$split$slice2 = _slicedToArray(_value$split$slice, 2),
+              lead = _value$split$slice2[0],
+              trail = _value$split$slice2[1];
+
+          lead = parseInt(lead, 16);
+          trail = parseInt(trail, 16);
+          codePoint = (lead - 0xd800) * 0x400 + (trail - 0xdc00) + 0x10000;
+
+          symbol = String.fromCodePoint(codePoint);
+        } else {
+          var hex = value.slice(2).replace('{', '');
+          codePoint = parseInt(hex, 16);
+          if (codePoint > 0x10ffff) {
+            throw new SyntaxError('Bad character escape sequence: ' + value);
+          }
+
+          symbol = String.fromCodePoint(codePoint);
+        }
+        break;
+      }
+    case 'meta':
+      {
+        switch (value) {
+          case '\\t':
+            symbol = '\t';
+            codePoint = symbol.codePointAt(0);
+            break;
+          case '\\n':
+            symbol = '\n';
+            codePoint = symbol.codePointAt(0);
+            break;
+          case '\\r':
+            symbol = '\r';
+            codePoint = symbol.codePointAt(0);
+            break;
+          case '\\v':
+            symbol = '\v';
+            codePoint = symbol.codePointAt(0);
+            break;
+          case '\\f':
+            symbol = '\f';
+            codePoint = symbol.codePointAt(0);
+            break;
+          case '\\b':
+            symbol = '\b';
+            codePoint = symbol.codePointAt(0);
+          case '\\0':
+            symbol = '\0';
+            codePoint = 0;
+          case '.':
+            symbol = '.';
+            codePoint = NaN;
+            break;
+          default:
+            codePoint = NaN;
+        }
+        break;
+      }
+    case 'simple':
+      {
+        symbol = value;
+        codePoint = symbol.codePointAt(0);
+        break;
+      }
+  }
+
+  return Node({
+    type: 'Char',
+    value: value,
+    kind: kind,
+    symbol: symbol,
+    codePoint: codePoint
+  }, loc);
+}
+
+/**
+ * Valid flags per current ECMAScript spec and
+ * stage 3+ proposals.
+ */
+var validFlags = 'gimsuxy';
+
+/**
+ * Checks the flags are valid, and that
+ * we don't duplicate flags.
+ */
+function checkFlags(flags) {
+  var seen = new Set();
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = flags[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var flag = _step.value;
+
+      if (seen.has(flag) || !validFlags.includes(flag)) {
+        throw new SyntaxError('Invalid flags: ' + flags);
+      }
+      seen.add(flag);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return flags.split('').sort().join('');
+}
+
+/**
+ * Parses patterns like \1, \2, etc. either as a backreference
+ * to a group, or a deciaml char code.
+ */
+function GroupRefOrDecChar(text, textLoc) {
+  var reference = Number(text.slice(1));
+
+  if (reference > 0 && reference <= capturingGroupsCount) {
+    return Node({
+      type: 'Backreference',
+      kind: 'number',
+      number: reference,
+      reference: reference
+    }, textLoc);
+  }
+
+  return Char(text, 'decimal', textLoc);
+}
+
+/**
+ * Unicode names.
+ */
+var uReStart = /^\\u[0-9a-fA-F]{4}/; // only matches start of string
+var ucpReStart = /^\\u\{[0-9a-fA-F]{1,}\}/; // only matches start of string
+var ucpReAnywhere = /\\u\{[0-9a-fA-F]{1,}\}/; // matches anywhere in string
+
+/**
+ * Validates Unicode group name.
+ */
+function validateUnicodeGroupName(name, state) {
+  var isUnicodeName = ucpReAnywhere.test(name);
+  var isUnicodeState = state === 'u' || state === 'xu' || state === 'u_class';
+
+  if (isUnicodeName && !isUnicodeState) {
+    throw new SyntaxError('invalid group Unicode name "' + name + '", use `u` flag.');
+  }
+
+  return name;
+}
+
+// Matches the following production: https://tc39.es/ecma262/#prod-RegExpUnicodeEscapeSequence
+//
+//  RegExpUnicodeEscapeSequence ::
+//    `u` LeadSurrogate `\u` TrailSurrogate   # as 'leadSurrogate', 'trailSurrogate'
+//    `u` LeadSurrogate                       # as 'leadSurrogateOnly'
+//    `u` TrailSurrogate                      # as 'trailSurrogateOnly'
+//    `u` NonSurrogate                        # as 'nonSurrogate'
+//    `u` `{` CodePoint `}`                   # as 'codePoint'
+//
+//  LeadSurrogate ::
+//    Hex4Digits but only if the SV of Hex4Digits is in the inclusive range 0xD800 to 0xDBFF        # [dD][89aAbB][0-9a-fA-F]{2}
+//
+//  TrailSurrogate ::
+//    Hex4Digits but only if the SV of Hex4Digits is in the inclusive range 0xDC00 to 0xDFFF        # [dD][c-fC-F][0-9a-fA-F]{2}
+//
+//  NonSurrogate ::
+//    Hex4Digits but only if the SV of Hex4Digits is not in the inclusive range 0xD800 to 0xDFFF    # [0-9a-ce-fA-CE-F][0-9a-fA-F]{3}|[dD][0-7][0-9a-fA-F]{2}
+//
+//  CodePoint ::
+//    HexDigits but only if MV of HexDigits ≤ 0x10FFFF                                              # 0*(?:[0-9a-fA-F]{1,5}|10[0-9a-fA-F]{4})
+//
+var uidRe = /\\u(?:([dD][89aAbB][0-9a-fA-F]{2})\\u([dD][c-fC-F][0-9a-fA-F]{2})|([dD][89aAbB][0-9a-fA-F]{2})|([dD][c-fC-F][0-9a-fA-F]{2})|([0-9a-ce-fA-CE-F][0-9a-fA-F]{3}|[dD][0-7][0-9a-fA-F]{2})|\{(0*(?:[0-9a-fA-F]{1,5}|10[0-9a-fA-F]{4}))\})/;
+
+function decodeUnicodeGroupName(name) {
+  return name.replace(new RegExp(uidRe, 'g'), function (_, leadSurrogate, trailSurrogate, leadSurrogateOnly, trailSurrogateOnly, nonSurrogate, codePoint) {
+    if (leadSurrogate) {
+      return String.fromCodePoint(parseInt(leadSurrogate, 16), parseInt(trailSurrogate, 16));
+    }
+    if (leadSurrogateOnly) {
+      return String.fromCodePoint(parseInt(leadSurrogateOnly, 16));
+    }
+    if (trailSurrogateOnly) {
+      // TODO: Per the spec: https://tc39.es/ecma262/#prod-RegExpUnicodeEscapeSequence
+      // > Each `\u` TrailSurrogate for which the choice of associated `u` LeadSurrogate is ambiguous shall be associated with the nearest possible `u` LeadSurrogate that would otherwise have no corresponding `\u` TrailSurrogate.
+      return String.fromCodePoint(parseInt(trailSurrogateOnly, 16));
+    }
+    if (nonSurrogate) {
+      return String.fromCodePoint(parseInt(nonSurrogate, 16));
+    }
+    if (codePoint) {
+      return String.fromCodePoint(parseInt(codePoint, 16));
+    }
+    return _;
+  });
+}
+
+/**
+ * Extracts from `\k<foo>` pattern either a backreference
+ * to a named capturing group (if it presents), or parses it
+ * as a list of char: `\k`, `<`, `f`, etc.
+ */
+function NamedGroupRefOrChars(text, textLoc) {
+  var referenceRaw = text.slice(3, -1);
+  var reference = decodeUnicodeGroupName(referenceRaw);
+
+  if (namedGroups.hasOwnProperty(reference)) {
+    return Node({
+      type: 'Backreference',
+      kind: 'name',
+      number: namedGroups[reference],
+      reference: reference,
+      referenceRaw: referenceRaw
+    }, textLoc);
+  }
+
+  // Else `\k<foo>` should be parsed as a list of `Char`s.
+  // This is really a 0.01% edge case, but we should handle it.
+
+  var startOffset = null;
+  var startLine = null;
+  var endLine = null;
+  var startColumn = null;
+
+  if (textLoc) {
+    startOffset = textLoc.startOffset;
+    startLine = textLoc.startLine;
+    endLine = textLoc.endLine;
+    startColumn = textLoc.startColumn;
+  }
+
+  var charRe = /^[\w$<>]/;
+  var loc = void 0;
+
+  var chars = [
+  // Init to first \k, taking 2 symbols.
+  Char(text.slice(1, 2), 'simple', startOffset ? {
+    startLine: startLine,
+    endLine: endLine,
+    startColumn: startColumn,
+    startOffset: startOffset,
+    endOffset: startOffset += 2,
+    endColumn: startColumn += 2
+  } : null)];
+
+  // For \k
+  chars[0].escaped = true;
+
+  // Other symbols.
+  text = text.slice(2);
+
+  while (text.length > 0) {
+    var matched = null;
+
+    // Unicode, \u003B or \u{003B}
+    if ((matched = text.match(uReStart)) || (matched = text.match(ucpReStart))) {
+      if (startOffset) {
+        loc = {
+          startLine: startLine,
+          endLine: endLine,
+          startColumn: startColumn,
+          startOffset: startOffset,
+          endOffset: startOffset += matched[0].length,
+          endColumn: startColumn += matched[0].length
+        };
+      }
+      chars.push(Char(matched[0], 'unicode', loc));
+      text = text.slice(matched[0].length);
+    }
+
+    // Simple char.
+    else if (matched = text.match(charRe)) {
+        if (startOffset) {
+          loc = {
+            startLine: startLine,
+            endLine: endLine,
+            startColumn: startColumn,
+            startOffset: startOffset,
+            endOffset: ++startOffset,
+            endColumn: ++startColumn
+          };
+        }
+        chars.push(Char(matched[0], 'simple', loc));
+        text = text.slice(1);
+      }
+  }
+
+  return chars;
+}
+
+/**
+ * Creates an AST node with a location.
+ */
+function Node(node, loc) {
+  if (yy.options.captureLocations) {
+    node.loc = {
+      source: parsingString.slice(loc.startOffset, loc.endOffset),
+      start: {
+        line: loc.startLine,
+        column: loc.startColumn,
+        offset: loc.startOffset
+      },
+      end: {
+        line: loc.endLine,
+        column: loc.endColumn,
+        offset: loc.endOffset
+      }
+    };
+  }
+  return node;
+}
+
+/**
+ * Creates location node.
+ */
+function loc(start, end) {
+  if (!yy.options.captureLocations) {
+    return null;
+  }
+
+  return {
+    startOffset: start.startOffset,
+    endOffset: end.endOffset,
+    startLine: start.startLine,
+    endLine: end.endLine,
+    startColumn: start.startColumn,
+    endColumn: end.endColumn
+  };
+}
+
+function unexpectedToken(token) {
+  if (token.type === EOF) {
+    unexpectedEndOfInput();
+  }
+
+  tokenizer.throwUnexpectedToken(token.value, token.startLine, token.startColumn);
+}
+
+function unexpectedEndOfInput() {
+  parseError('Unexpected end of input.');
+}
+
+function parseError(message) {
+  throw new SyntaxError(message);
+}
+
+module.exports = yyparse;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/parser/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/parser/index.js ***!
+  \*******************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var regexpTreeParser = __webpack_require__(/*! ./generated/regexp-tree */ "./node_modules/regexp-tree/dist/parser/generated/regexp-tree.js");
+
+/**
+ * Original parse function.
+ */
+var generatedParseFn = regexpTreeParser.parse.bind(regexpTreeParser);
+
+/**
+ * Parses a regular expression.
+ *
+ * Override original `regexpTreeParser.parse` to convert a value to a string,
+ * since in regexp-tree we may pass strings, and RegExp instance.
+ */
+regexpTreeParser.parse = function (regexp, options) {
+  return generatedParseFn('' + regexp, options);
+};
+
+// By default do not capture locations; callers may override.
+regexpTreeParser.setOptions({ captureLocations: false });
+
+module.exports = regexpTreeParser;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/parser/unicode/parser-unicode-properties.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/parser/unicode/parser-unicode-properties.js ***!
+  \***********************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+
+
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+var NON_BINARY_PROP_NAMES_TO_ALIASES = {
+  General_Category: 'gc',
+  Script: 'sc',
+  Script_Extensions: 'scx'
+};
+
+var NON_BINARY_ALIASES_TO_PROP_NAMES = inverseMap(NON_BINARY_PROP_NAMES_TO_ALIASES);
+
+var BINARY_PROP_NAMES_TO_ALIASES = {
+  ASCII: 'ASCII',
+  ASCII_Hex_Digit: 'AHex',
+  Alphabetic: 'Alpha',
+  Any: 'Any',
+  Assigned: 'Assigned',
+  Bidi_Control: 'Bidi_C',
+  Bidi_Mirrored: 'Bidi_M',
+  Case_Ignorable: 'CI',
+  Cased: 'Cased',
+  Changes_When_Casefolded: 'CWCF',
+  Changes_When_Casemapped: 'CWCM',
+  Changes_When_Lowercased: 'CWL',
+  Changes_When_NFKC_Casefolded: 'CWKCF',
+  Changes_When_Titlecased: 'CWT',
+  Changes_When_Uppercased: 'CWU',
+  Dash: 'Dash',
+  Default_Ignorable_Code_Point: 'DI',
+  Deprecated: 'Dep',
+  Diacritic: 'Dia',
+  Emoji: 'Emoji',
+  Emoji_Component: 'Emoji_Component',
+  Emoji_Modifier: 'Emoji_Modifier',
+  Emoji_Modifier_Base: 'Emoji_Modifier_Base',
+  Emoji_Presentation: 'Emoji_Presentation',
+  Extended_Pictographic: 'Extended_Pictographic',
+  Extender: 'Ext',
+  Grapheme_Base: 'Gr_Base',
+  Grapheme_Extend: 'Gr_Ext',
+  Hex_Digit: 'Hex',
+  IDS_Binary_Operator: 'IDSB',
+  IDS_Trinary_Operator: 'IDST',
+  ID_Continue: 'IDC',
+  ID_Start: 'IDS',
+  Ideographic: 'Ideo',
+  Join_Control: 'Join_C',
+  Logical_Order_Exception: 'LOE',
+  Lowercase: 'Lower',
+  Math: 'Math',
+  Noncharacter_Code_Point: 'NChar',
+  Pattern_Syntax: 'Pat_Syn',
+  Pattern_White_Space: 'Pat_WS',
+  Quotation_Mark: 'QMark',
+  Radical: 'Radical',
+  Regional_Indicator: 'RI',
+  Sentence_Terminal: 'STerm',
+  Soft_Dotted: 'SD',
+  Terminal_Punctuation: 'Term',
+  Unified_Ideograph: 'UIdeo',
+  Uppercase: 'Upper',
+  Variation_Selector: 'VS',
+  White_Space: 'space',
+  XID_Continue: 'XIDC',
+  XID_Start: 'XIDS'
+};
+
+var BINARY_ALIASES_TO_PROP_NAMES = inverseMap(BINARY_PROP_NAMES_TO_ALIASES);
+
+var GENERAL_CATEGORY_VALUE_TO_ALIASES = {
+  Cased_Letter: 'LC',
+  Close_Punctuation: 'Pe',
+  Connector_Punctuation: 'Pc',
+  Control: ['Cc', 'cntrl'],
+  Currency_Symbol: 'Sc',
+  Dash_Punctuation: 'Pd',
+  Decimal_Number: ['Nd', 'digit'],
+  Enclosing_Mark: 'Me',
+  Final_Punctuation: 'Pf',
+  Format: 'Cf',
+  Initial_Punctuation: 'Pi',
+  Letter: 'L',
+  Letter_Number: 'Nl',
+  Line_Separator: 'Zl',
+  Lowercase_Letter: 'Ll',
+  Mark: ['M', 'Combining_Mark'],
+  Math_Symbol: 'Sm',
+  Modifier_Letter: 'Lm',
+  Modifier_Symbol: 'Sk',
+  Nonspacing_Mark: 'Mn',
+  Number: 'N',
+  Open_Punctuation: 'Ps',
+  Other: 'C',
+  Other_Letter: 'Lo',
+  Other_Number: 'No',
+  Other_Punctuation: 'Po',
+  Other_Symbol: 'So',
+  Paragraph_Separator: 'Zp',
+  Private_Use: 'Co',
+  Punctuation: ['P', 'punct'],
+  Separator: 'Z',
+  Space_Separator: 'Zs',
+  Spacing_Mark: 'Mc',
+  Surrogate: 'Cs',
+  Symbol: 'S',
+  Titlecase_Letter: 'Lt',
+  Unassigned: 'Cn',
+  Uppercase_Letter: 'Lu'
+};
+
+var GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES = inverseMap(GENERAL_CATEGORY_VALUE_TO_ALIASES);
+
+var SCRIPT_VALUE_TO_ALIASES = {
+  Adlam: 'Adlm',
+  Ahom: 'Ahom',
+  Anatolian_Hieroglyphs: 'Hluw',
+  Arabic: 'Arab',
+  Armenian: 'Armn',
+  Avestan: 'Avst',
+  Balinese: 'Bali',
+  Bamum: 'Bamu',
+  Bassa_Vah: 'Bass',
+  Batak: 'Batk',
+  Bengali: 'Beng',
+  Bhaiksuki: 'Bhks',
+  Bopomofo: 'Bopo',
+  Brahmi: 'Brah',
+  Braille: 'Brai',
+  Buginese: 'Bugi',
+  Buhid: 'Buhd',
+  Canadian_Aboriginal: 'Cans',
+  Carian: 'Cari',
+  Caucasian_Albanian: 'Aghb',
+  Chakma: 'Cakm',
+  Cham: 'Cham',
+  Cherokee: 'Cher',
+  Common: 'Zyyy',
+  Coptic: ['Copt', 'Qaac'],
+  Cuneiform: 'Xsux',
+  Cypriot: 'Cprt',
+  Cyrillic: 'Cyrl',
+  Deseret: 'Dsrt',
+  Devanagari: 'Deva',
+  Dogra: 'Dogr',
+  Duployan: 'Dupl',
+  Egyptian_Hieroglyphs: 'Egyp',
+  Elbasan: 'Elba',
+  Ethiopic: 'Ethi',
+  Georgian: 'Geor',
+  Glagolitic: 'Glag',
+  Gothic: 'Goth',
+  Grantha: 'Gran',
+  Greek: 'Grek',
+  Gujarati: 'Gujr',
+  Gunjala_Gondi: 'Gong',
+  Gurmukhi: 'Guru',
+  Han: 'Hani',
+  Hangul: 'Hang',
+  Hanifi_Rohingya: 'Rohg',
+  Hanunoo: 'Hano',
+  Hatran: 'Hatr',
+  Hebrew: 'Hebr',
+  Hiragana: 'Hira',
+  Imperial_Aramaic: 'Armi',
+  Inherited: ['Zinh', 'Qaai'],
+  Inscriptional_Pahlavi: 'Phli',
+  Inscriptional_Parthian: 'Prti',
+  Javanese: 'Java',
+  Kaithi: 'Kthi',
+  Kannada: 'Knda',
+  Katakana: 'Kana',
+  Kayah_Li: 'Kali',
+  Kharoshthi: 'Khar',
+  Khmer: 'Khmr',
+  Khojki: 'Khoj',
+  Khudawadi: 'Sind',
+  Lao: 'Laoo',
+  Latin: 'Latn',
+  Lepcha: 'Lepc',
+  Limbu: 'Limb',
+  Linear_A: 'Lina',
+  Linear_B: 'Linb',
+  Lisu: 'Lisu',
+  Lycian: 'Lyci',
+  Lydian: 'Lydi',
+  Mahajani: 'Mahj',
+  Makasar: 'Maka',
+  Malayalam: 'Mlym',
+  Mandaic: 'Mand',
+  Manichaean: 'Mani',
+  Marchen: 'Marc',
+  Medefaidrin: 'Medf',
+  Masaram_Gondi: 'Gonm',
+  Meetei_Mayek: 'Mtei',
+  Mende_Kikakui: 'Mend',
+  Meroitic_Cursive: 'Merc',
+  Meroitic_Hieroglyphs: 'Mero',
+  Miao: 'Plrd',
+  Modi: 'Modi',
+  Mongolian: 'Mong',
+  Mro: 'Mroo',
+  Multani: 'Mult',
+  Myanmar: 'Mymr',
+  Nabataean: 'Nbat',
+  New_Tai_Lue: 'Talu',
+  Newa: 'Newa',
+  Nko: 'Nkoo',
+  Nushu: 'Nshu',
+  Ogham: 'Ogam',
+  Ol_Chiki: 'Olck',
+  Old_Hungarian: 'Hung',
+  Old_Italic: 'Ital',
+  Old_North_Arabian: 'Narb',
+  Old_Permic: 'Perm',
+  Old_Persian: 'Xpeo',
+  Old_Sogdian: 'Sogo',
+  Old_South_Arabian: 'Sarb',
+  Old_Turkic: 'Orkh',
+  Oriya: 'Orya',
+  Osage: 'Osge',
+  Osmanya: 'Osma',
+  Pahawh_Hmong: 'Hmng',
+  Palmyrene: 'Palm',
+  Pau_Cin_Hau: 'Pauc',
+  Phags_Pa: 'Phag',
+  Phoenician: 'Phnx',
+  Psalter_Pahlavi: 'Phlp',
+  Rejang: 'Rjng',
+  Runic: 'Runr',
+  Samaritan: 'Samr',
+  Saurashtra: 'Saur',
+  Sharada: 'Shrd',
+  Shavian: 'Shaw',
+  Siddham: 'Sidd',
+  SignWriting: 'Sgnw',
+  Sinhala: 'Sinh',
+  Sogdian: 'Sogd',
+  Sora_Sompeng: 'Sora',
+  Soyombo: 'Soyo',
+  Sundanese: 'Sund',
+  Syloti_Nagri: 'Sylo',
+  Syriac: 'Syrc',
+  Tagalog: 'Tglg',
+  Tagbanwa: 'Tagb',
+  Tai_Le: 'Tale',
+  Tai_Tham: 'Lana',
+  Tai_Viet: 'Tavt',
+  Takri: 'Takr',
+  Tamil: 'Taml',
+  Tangut: 'Tang',
+  Telugu: 'Telu',
+  Thaana: 'Thaa',
+  Thai: 'Thai',
+  Tibetan: 'Tibt',
+  Tifinagh: 'Tfng',
+  Tirhuta: 'Tirh',
+  Ugaritic: 'Ugar',
+  Vai: 'Vaii',
+  Warang_Citi: 'Wara',
+  Yi: 'Yiii',
+  Zanabazar_Square: 'Zanb'
+};
+
+var SCRIPT_VALUE_ALIASES_TO_VALUE = inverseMap(SCRIPT_VALUE_TO_ALIASES);
+
+function inverseMap(data) {
+  var inverse = {};
+
+  for (var name in data) {
+    if (!data.hasOwnProperty(name)) {
+      continue;
+    }
+    var value = data[name];
+    if (Array.isArray(value)) {
+      for (var i = 0; i < value.length; i++) {
+        inverse[value[i]] = name;
+      }
+    } else {
+      inverse[value] = name;
+    }
+  }
+
+  return inverse;
+}
+
+function isValidName(name) {
+  return NON_BINARY_PROP_NAMES_TO_ALIASES.hasOwnProperty(name) || NON_BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name) || BINARY_PROP_NAMES_TO_ALIASES.hasOwnProperty(name) || BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name);
+}
+
+function isValidValue(name, value) {
+  if (isGeneralCategoryName(name)) {
+    return isGeneralCategoryValue(value);
+  }
+
+  if (isScriptCategoryName(name)) {
+    return isScriptCategoryValue(value);
+  }
+
+  return false;
+}
+
+function isAlias(name) {
+  return NON_BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name) || BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name);
+}
+
+function isGeneralCategoryName(name) {
+  return name === 'General_Category' || name == 'gc';
+}
+
+function isScriptCategoryName(name) {
+  return name === 'Script' || name === 'Script_Extensions' || name === 'sc' || name === 'scx';
+}
+
+function isGeneralCategoryValue(value) {
+  return GENERAL_CATEGORY_VALUE_TO_ALIASES.hasOwnProperty(value) || GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES.hasOwnProperty(value);
+}
+
+function isScriptCategoryValue(value) {
+  return SCRIPT_VALUE_TO_ALIASES.hasOwnProperty(value) || SCRIPT_VALUE_ALIASES_TO_VALUE.hasOwnProperty(value);
+}
+
+function isBinaryPropertyName(name) {
+  return BINARY_PROP_NAMES_TO_ALIASES.hasOwnProperty(name) || BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name);
+}
+
+function getCanonicalName(name) {
+  if (NON_BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name)) {
+    return NON_BINARY_ALIASES_TO_PROP_NAMES[name];
+  }
+
+  if (BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(name)) {
+    return BINARY_ALIASES_TO_PROP_NAMES[name];
+  }
+
+  return null;
+}
+
+function getCanonicalValue(value) {
+  if (GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES.hasOwnProperty(value)) {
+    return GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES[value];
+  }
+
+  if (SCRIPT_VALUE_ALIASES_TO_VALUE.hasOwnProperty(value)) {
+    return SCRIPT_VALUE_ALIASES_TO_VALUE[value];
+  }
+
+  if (BINARY_ALIASES_TO_PROP_NAMES.hasOwnProperty(value)) {
+    return BINARY_ALIASES_TO_PROP_NAMES[value];
+  }
+
+  return null;
+}
+
+module.exports = {
+  isAlias: isAlias,
+  isValidName: isValidName,
+  isValidValue: isValidValue,
+  isGeneralCategoryValue: isGeneralCategoryValue,
+  isScriptCategoryValue: isScriptCategoryValue,
+  isBinaryPropertyName: isBinaryPropertyName,
+  getCanonicalName: getCanonicalName,
+  getCanonicalValue: getCanonicalValue,
+
+  NON_BINARY_PROP_NAMES_TO_ALIASES: NON_BINARY_PROP_NAMES_TO_ALIASES,
+  NON_BINARY_ALIASES_TO_PROP_NAMES: NON_BINARY_ALIASES_TO_PROP_NAMES,
+
+  BINARY_PROP_NAMES_TO_ALIASES: BINARY_PROP_NAMES_TO_ALIASES,
+  BINARY_ALIASES_TO_PROP_NAMES: BINARY_ALIASES_TO_PROP_NAMES,
+
+  GENERAL_CATEGORY_VALUE_TO_ALIASES: GENERAL_CATEGORY_VALUE_TO_ALIASES,
+  GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES: GENERAL_CATEGORY_VALUE_ALIASES_TO_VALUES,
+
+  SCRIPT_VALUE_TO_ALIASES: SCRIPT_VALUE_TO_ALIASES,
+  SCRIPT_VALUE_ALIASES_TO_VALUE: SCRIPT_VALUE_ALIASES_TO_VALUE
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/regexp-tree.js":
+/*!******************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/regexp-tree.js ***!
+  \******************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var compatTranspiler = __webpack_require__(/*! ./compat-transpiler */ "./node_modules/regexp-tree/dist/compat-transpiler/index.js");
+var generator = __webpack_require__(/*! ./generator */ "./node_modules/regexp-tree/dist/generator/index.js");
+var optimizer = __webpack_require__(/*! ./optimizer */ "./node_modules/regexp-tree/dist/optimizer/index.js");
+var parser = __webpack_require__(/*! ./parser */ "./node_modules/regexp-tree/dist/parser/index.js");
+var _transform = __webpack_require__(/*! ./transform */ "./node_modules/regexp-tree/dist/transform/index.js");
+var _traverse = __webpack_require__(/*! ./traverse */ "./node_modules/regexp-tree/dist/traverse/index.js");
+var fa = __webpack_require__(/*! ./interpreter/finite-automaton */ "./node_modules/regexp-tree/dist/interpreter/finite-automaton/index.js");
+
+var _require = __webpack_require__(/*! ./compat-transpiler/runtime */ "./node_modules/regexp-tree/dist/compat-transpiler/runtime/index.js"),
+    RegExpTree = _require.RegExpTree;
+
+/**
+ * An API object for RegExp processing (parsing/transform/generation).
+ */
+
+
+var regexpTree = {
+  /**
+   * Parser module exposed.
+   */
+  parser: parser,
+
+  /**
+   * Expose finite-automaton module.
+   */
+  fa: fa,
+
+  /**
+   * `TransformResult` exposed.
+   */
+  TransformResult: _transform.TransformResult,
+
+  /**
+   * Parses a regexp string, producing an AST.
+   *
+   * @param string regexp
+   *
+   *   a regular expression in different formats: string, AST, RegExp.
+   *
+   * @param Object options
+   *
+   *   parsing options for this parse call. Default are:
+   *
+   *     - captureLocations: boolean
+   *     - any other custom options
+   *
+   * @return Object AST
+   */
+  parse: function parse(regexp, options) {
+    return parser.parse('' + regexp, options);
+  },
+
+
+  /**
+   * Traverses a RegExp AST.
+   *
+   * @param Object ast
+   * @param Object | Array<Object> handlers
+   *
+   * Each `handler` is an object containing handler function for needed
+   * node types. Example:
+   *
+   *   regexpTree.traverse(ast, {
+   *     onChar(node) {
+   *       ...
+   *     },
+   *   });
+   *
+   * The value for a node type may also be an object with functions pre and post.
+   * This enables more context-aware analyses, e.g. measuring star height.
+   */
+  traverse: function traverse(ast, handlers, options) {
+    return _traverse.traverse(ast, handlers, options);
+  },
+
+
+  /**
+   * Transforms a regular expression.
+   *
+   * A regexp can be passed in different formats (string, regexp or AST),
+   * applying a set of transformations. It is a convenient wrapper
+   * on top of "parse-traverse-generate" tool chain.
+   *
+   * @param string | AST | RegExp regexp - a regular expression;
+   * @param Object | Array<Object> handlers - a list of handlers.
+   *
+   * @return TransformResult - a transformation result.
+   */
+  transform: function transform(regexp, handlers) {
+    return _transform.transform(regexp, handlers);
+  },
+
+
+  /**
+   * Generates a RegExp string from an AST.
+   *
+   * @param Object ast
+   *
+   * Invariant:
+   *
+   *   regexpTree.generate(regexpTree.parse('/[a-z]+/i')); // '/[a-z]+/i'
+   */
+  generate: function generate(ast) {
+    return generator.generate(ast);
+  },
+
+
+  /**
+   * Creates a RegExp object from a regexp string.
+   *
+   * @param string regexp
+   */
+  toRegExp: function toRegExp(regexp) {
+    var compat = this.compatTranspile(regexp);
+    return new RegExp(compat.getSource(), compat.getFlags());
+  },
+
+
+  /**
+   * Optimizes a regular expression by replacing some
+   * sub-expressions with their idiomatic patterns.
+   *
+   * @param string regexp
+   *
+   * @return TransformResult object
+   */
+  optimize: function optimize(regexp, whitelist) {
+    var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        blacklist = _ref.blacklist;
+
+    return optimizer.optimize(regexp, { whitelist: whitelist, blacklist: blacklist });
+  },
+
+
+  /**
+   * Translates a regular expression in new syntax or in new format
+   * into equivalent expressions in old syntax.
+   *
+   * @param string regexp
+   *
+   * @return TransformResult object
+   */
+  compatTranspile: function compatTranspile(regexp, whitelist) {
+    return compatTranspiler.transform(regexp, whitelist);
+  },
+
+
+  /**
+   * Executes a regular expression on a string.
+   *
+   * @param RegExp|string re - a regular expression.
+   * @param string string - a testing string.
+   */
+  exec: function exec(re, string) {
+    if (typeof re === 'string') {
+      var compat = this.compatTranspile(re);
+      var extra = compat.getExtra();
+
+      if (extra.namedCapturingGroups) {
+        re = new RegExpTree(compat.toRegExp(), {
+          flags: compat.getFlags(),
+          source: compat.getSource(),
+          groups: extra.namedCapturingGroups
+        });
+      } else {
+        re = compat.toRegExp();
+      }
+    }
+
+    return re.exec(string);
+  }
+};
+
+module.exports = regexpTree;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/transform/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/transform/index.js ***!
+  \**********************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var generator = __webpack_require__(/*! ../generator */ "./node_modules/regexp-tree/dist/generator/index.js");
+var parser = __webpack_require__(/*! ../parser */ "./node_modules/regexp-tree/dist/parser/index.js");
+var traverse = __webpack_require__(/*! ../traverse */ "./node_modules/regexp-tree/dist/traverse/index.js");
+
+/**
+ * Transform result.
+ */
+
+var TransformResult = function () {
+  /**
+   * Initializes a transform result for an AST.
+   *
+   * @param Object ast - an AST node
+   * @param mixed extra - any extra data a transform may return
+   */
+  function TransformResult(ast) {
+    var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    _classCallCheck(this, TransformResult);
+
+    this._ast = ast;
+    this._source = null;
+    this._string = null;
+    this._regexp = null;
+    this._extra = extra;
+  }
+
+  _createClass(TransformResult, [{
+    key: 'getAST',
+    value: function getAST() {
+      return this._ast;
+    }
+  }, {
+    key: 'setExtra',
+    value: function setExtra(extra) {
+      this._extra = extra;
+    }
+  }, {
+    key: 'getExtra',
+    value: function getExtra() {
+      return this._extra;
+    }
+  }, {
+    key: 'toRegExp',
+    value: function toRegExp() {
+      if (!this._regexp) {
+        this._regexp = new RegExp(this.getSource(), this._ast.flags);
+      }
+      return this._regexp;
+    }
+  }, {
+    key: 'getSource',
+    value: function getSource() {
+      if (!this._source) {
+        this._source = generator.generate(this._ast.body);
+      }
+      return this._source;
+    }
+  }, {
+    key: 'getFlags',
+    value: function getFlags() {
+      return this._ast.flags;
+    }
+  }, {
+    key: 'toString',
+    value: function toString() {
+      if (!this._string) {
+        this._string = generator.generate(this._ast);
+      }
+      return this._string;
+    }
+  }]);
+
+  return TransformResult;
+}();
+
+module.exports = {
+  /**
+   * Expose `TransformResult`.
+   */
+  TransformResult: TransformResult,
+
+  /**
+   * Transforms a regular expression applying a set of
+   * transformation handlers.
+   *
+   * @param string | AST | RegExp:
+   *
+   *   a regular expression in different representations: a string,
+   *   a RegExp object, or an AST.
+   *
+   * @param Object | Array<Object>:
+   *
+   *   a handler (or a list of handlers) from `traverse` API.
+   *
+   * @return TransformResult instance.
+   *
+   * Example:
+   *
+   *   transform(/[a-z]/i, {
+   *     onChar(path) {
+   *       const {node} = path;
+   *
+   *       if (...) {
+   *         path.remove();
+   *       }
+   *     }
+   *   });
+   */
+  transform: function transform(regexp, handlers) {
+    var ast = regexp;
+
+    if (regexp instanceof RegExp) {
+      regexp = '' + regexp;
+    }
+
+    if (typeof regexp === 'string') {
+      ast = parser.parse(regexp, {
+        captureLocations: true
+      });
+    }
+
+    traverse.traverse(ast, handlers);
+
+    return new TransformResult(ast);
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/transform/utils.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/transform/utils.js ***!
+  \**********************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * Flattens a nested disjunction node to a list.
+ *
+ * /a|b|c|d/
+ *
+ * {{{a, b}, c}, d} -> [a, b, c, d]
+ */
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function disjunctionToList(node) {
+  if (node.type !== 'Disjunction') {
+    throw new TypeError('Expected "Disjunction" node, got "' + node.type + '"');
+  }
+
+  var list = [];
+
+  if (node.left && node.left.type === 'Disjunction') {
+    list.push.apply(list, _toConsumableArray(disjunctionToList(node.left)).concat([node.right]));
+  } else {
+    list.push(node.left, node.right);
+  }
+
+  return list;
+}
+
+/**
+ * Builds a nested disjunction node from a list.
+ *
+ * /a|b|c|d/
+ *
+ * [a, b, c, d] -> {{{a, b}, c}, d}
+ */
+function listToDisjunction(list) {
+  return list.reduce(function (left, right) {
+    return {
+      type: 'Disjunction',
+      left: left,
+      right: right
+    };
+  });
+}
+
+/**
+ * Increases a quantifier by one.
+ * Does not change greediness.
+ * * -> +
+ * + -> {2,}
+ * ? -> {1,2}
+ * {2} -> {3}
+ * {2,} -> {3,}
+ * {2,3} -> {3,4}
+ */
+function increaseQuantifierByOne(quantifier) {
+  if (quantifier.kind === '*') {
+
+    quantifier.kind = '+';
+  } else if (quantifier.kind === '+') {
+
+    quantifier.kind = 'Range';
+    quantifier.from = 2;
+    delete quantifier.to;
+  } else if (quantifier.kind === '?') {
+
+    quantifier.kind = 'Range';
+    quantifier.from = 1;
+    quantifier.to = 2;
+  } else if (quantifier.kind === 'Range') {
+
+    quantifier.from += 1;
+    if (quantifier.to) {
+      quantifier.to += 1;
+    }
+  }
+}
+
+module.exports = {
+  disjunctionToList: disjunctionToList,
+  listToDisjunction: listToDisjunction,
+  increaseQuantifierByOne: increaseQuantifierByOne
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/traverse/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/traverse/index.js ***!
+  \*********************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var NodePath = __webpack_require__(/*! ./node-path */ "./node_modules/regexp-tree/dist/traverse/node-path.js");
+
+/**
+ * Does an actual AST traversal, using visitor pattern,
+ * and calling set of callbacks.
+ *
+ * Based on https://github.com/olov/ast-traverse
+ *
+ * Expects AST in Mozilla Parser API: nodes which are supposed to be
+ * handled should have `type` property.
+ *
+ * @param Object root - a root node to start traversal from.
+ *
+ * @param Object options - an object with set of callbacks:
+ *
+ *   - `pre(node, parent, prop, index)` - a hook called on node enter
+ *   - `post`(node, parent, prop, index) - a hook called on node exit
+ *   - `skipProperty(prop)` - a predicated whether a property should be skipped
+ */
+function astTraverse(root) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var pre = options.pre;
+  var post = options.post;
+  var skipProperty = options.skipProperty;
+
+  function visit(node, parent, prop, idx) {
+    if (!node || typeof node.type !== 'string') {
+      return;
+    }
+
+    var res = undefined;
+    if (pre) {
+      res = pre(node, parent, prop, idx);
+    }
+
+    if (res !== false) {
+
+      // A node can be replaced during traversal, so we have to
+      // recalculate it from the parent, to avoid traversing "dead" nodes.
+      if (parent && parent[prop]) {
+        if (!isNaN(idx)) {
+          node = parent[prop][idx];
+        } else {
+          node = parent[prop];
+        }
+      }
+
+      for (var _prop in node) {
+        if (node.hasOwnProperty(_prop)) {
+          if (skipProperty ? skipProperty(_prop, node) : _prop[0] === '$') {
+            continue;
+          }
+
+          var child = node[_prop];
+
+          // Collection node.
+          //
+          // NOTE: a node (or several nodes) can be removed or inserted
+          // during traversal.
+          //
+          // Current traversing index is stored on top of the
+          // `NodePath.traversingIndexStack`. The stack is used to support
+          // recursive nature of the traversal.
+          //
+          // In this case `NodePath.traversingIndex` (which we use here) is
+          // updated in the NodePath remove/insert methods.
+          //
+          if (Array.isArray(child)) {
+            var index = 0;
+            NodePath.traversingIndexStack.push(index);
+            while (index < child.length) {
+              visit(child[index], node, _prop, index);
+              index = NodePath.updateTraversingIndex(+1);
+            }
+            NodePath.traversingIndexStack.pop();
+          }
+
+          // Simple node.
+          else {
+              visit(child, node, _prop);
+            }
+        }
+      }
+    }
+
+    if (post) {
+      post(node, parent, prop, idx);
+    }
+  }
+
+  visit(root, null);
+}
+
+module.exports = {
+  /**
+   * Traverses an AST.
+   *
+   * @param Object ast - an AST node
+   *
+   * @param Object | Array<Object> handlers:
+   *
+   *   an object (or an array of objects)
+   *
+   *   Each such object contains a handler function per node.
+   *   In case of an array of handlers, they are applied in order.
+   *   A handler may return a transformed node (or a different type).
+   *
+   *   The per-node function may instead be an object with functions pre and post.
+   *   pre is called before visiting the node, post after.
+   *   If a handler is a function, it is treated as the pre function, with an empty post.
+   *
+   * @param Object options:
+   *
+   *   a config object, specifying traversal options:
+   *
+   *   `asNodes`: boolean - whether handlers should receives raw AST nodes
+   *   (false by default), instead of a `NodePath` wrapper. Note, by default
+   *   `NodePath` wrapper provides a set of convenient method to manipulate
+   *   a traversing AST, and also has access to all parents list. A raw
+   *   nodes traversal should be used in rare cases, when no `NodePath`
+   *   features are needed.
+   *
+   * Special hooks:
+   *
+   *   - `shouldRun(ast)` - a predicate determining whether the handler
+   *                        should be applied.
+   *
+   * NOTE: Multiple handlers are used as an optimization of applying all of
+   * them in one AST traversal pass.
+   */
+  traverse: function traverse(ast, handlers) {
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { asNodes: false };
+
+
+    if (!Array.isArray(handlers)) {
+      handlers = [handlers];
+    }
+
+    // Filter out handlers by result of `shouldRun`, if the method is present.
+    handlers = handlers.filter(function (handler) {
+      if (typeof handler.shouldRun !== 'function') {
+        return true;
+      }
+      return handler.shouldRun(ast);
+    });
+
+    NodePath.initRegistry();
+
+    // Allow handlers to initializer themselves.
+    handlers.forEach(function (handler) {
+      if (typeof handler.init === 'function') {
+        handler.init(ast);
+      }
+    });
+
+    function getPathFor(node, parent, prop, index) {
+      var parentPath = NodePath.getForNode(parent);
+      var nodePath = NodePath.getForNode(node, parentPath, prop, index);
+
+      return nodePath;
+    }
+
+    // Handle actual nodes.
+    astTraverse(ast, {
+      /**
+       * Handler on node enter.
+       */
+      pre: function pre(node, parent, prop, index) {
+        var nodePath = void 0;
+        if (!options.asNodes) {
+          nodePath = getPathFor(node, parent, prop, index);
+        }
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = handlers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var handler = _step.value;
+
+            // "Catch-all" `*` handler.
+            if (typeof handler['*'] === 'function') {
+              if (nodePath) {
+                // A path/node can be removed by some previous handler.
+                if (!nodePath.isRemoved()) {
+                  var handlerResult = handler['*'](nodePath);
+                  // Explicitly stop traversal.
+                  if (handlerResult === false) {
+                    return false;
+                  }
+                }
+              } else {
+                handler['*'](node, parent, prop, index);
+              }
+            }
+
+            // Per-node handler.
+            var handlerFuncPre = void 0;
+            if (typeof handler[node.type] === 'function') {
+              handlerFuncPre = handler[node.type];
+            } else if (typeof handler[node.type] === 'object' && typeof handler[node.type].pre === 'function') {
+              handlerFuncPre = handler[node.type].pre;
+            }
+
+            if (handlerFuncPre) {
+              if (nodePath) {
+                // A path/node can be removed by some previous handler.
+                if (!nodePath.isRemoved()) {
+                  var _handlerResult = handlerFuncPre.call(handler, nodePath);
+                  // Explicitly stop traversal.
+                  if (_handlerResult === false) {
+                    return false;
+                  }
+                }
+              } else {
+                handlerFuncPre.call(handler, node, parent, prop, index);
+              }
+            }
+          } // Loop over handlers
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      },
+      // pre func
+
+      /**
+       * Handler on node exit.
+       */
+      post: function post(node, parent, prop, index) {
+        if (!node) {
+          return;
+        }
+
+        var nodePath = void 0;
+        if (!options.asNodes) {
+          nodePath = getPathFor(node, parent, prop, index);
+        }
+
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = handlers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var handler = _step2.value;
+
+            // Per-node handler.
+            var handlerFuncPost = void 0;
+            if (typeof handler[node.type] === 'object' && typeof handler[node.type].post === 'function') {
+              handlerFuncPost = handler[node.type].post;
+            }
+
+            if (handlerFuncPost) {
+              if (nodePath) {
+                // A path/node can be removed by some previous handler.
+                if (!nodePath.isRemoved()) {
+                  var handlerResult = handlerFuncPost.call(handler, nodePath);
+                  // Explicitly stop traversal.
+                  if (handlerResult === false) {
+                    return false;
+                  }
+                }
+              } else {
+                handlerFuncPost.call(handler, node, parent, prop, index);
+              }
+            }
+          } // Loop over handlers
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      },
+      // post func
+
+      /**
+       * Skip locations by default.
+       */
+      skipProperty: function skipProperty(prop) {
+        return prop === 'loc';
+      }
+    });
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/traverse/node-path.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/traverse/node-path.js ***!
+  \*************************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DEFAULT_COLLECTION_PROP = 'expressions';
+var DEFAULT_SINGLE_PROP = 'expression';
+
+/**
+ * NodePath class encapsulates a traversing node,
+ * its parent node, property name in the parent node, and
+ * an index (in case if a node is part of a collection).
+ * It also provides set of methods for AST manipulation.
+ */
+
+var NodePath = function () {
+  /**
+   * NodePath constructor.
+   *
+   * @param Object node - an AST node
+   * @param NodePath parentPath - a nullable parent path
+   * @param string property - property name of the node in the parent
+   * @param number index - index of the node in a collection.
+   */
+  function NodePath(node) {
+    var parentPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var property = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    _classCallCheck(this, NodePath);
+
+    this.node = node;
+    this.parentPath = parentPath;
+    this.parent = parentPath ? parentPath.node : null;
+    this.property = property;
+    this.index = index;
+  }
+
+  _createClass(NodePath, [{
+    key: '_enforceProp',
+    value: function _enforceProp(property) {
+      if (!this.node.hasOwnProperty(property)) {
+        throw new Error('Node of type ' + this.node.type + ' doesn\'t have "' + property + '" collection.');
+      }
+    }
+
+    /**
+     * Sets a node into a children collection or the single child.
+     * By default child nodes are supposed to be under `expressions` property.
+     * An explicit property can be passed.
+     *
+     * @param Object node - a node to set into a collection or as single child
+     * @param number index - index at which to set
+     * @param string property - name of the collection or single property
+     */
+
+  }, {
+    key: 'setChild',
+    value: function setChild(node) {
+      var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var property = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+
+      var childPath = void 0;
+      if (index != null) {
+        if (!property) {
+          property = DEFAULT_COLLECTION_PROP;
+        }
+        this._enforceProp(property);
+        this.node[property][index] = node;
+        childPath = NodePath.getForNode(node, this, property, index);
+      } else {
+        if (!property) {
+          property = DEFAULT_SINGLE_PROP;
+        }
+        this._enforceProp(property);
+        this.node[property] = node;
+        childPath = NodePath.getForNode(node, this, property, null);
+      }
+      return childPath;
+    }
+
+    /**
+     * Appends a node to a children collection.
+     * By default child nodes are supposed to be under `expressions` property.
+     * An explicit property can be passed.
+     *
+     * @param Object node - a node to set into a collection or as single child
+     * @param string property - name of the collection or single property
+     */
+
+  }, {
+    key: 'appendChild',
+    value: function appendChild(node) {
+      var property = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+
+      if (!property) {
+        property = DEFAULT_COLLECTION_PROP;
+      }
+      this._enforceProp(property);
+      var end = this.node[property].length;
+      return this.setChild(node, end, property);
+    }
+
+    /**
+     * Inserts a node into a collection.
+     * By default child nodes are supposed to be under `expressions` property.
+     * An explicit property can be passed.
+     *
+     * @param Object node - a node to insert into a collection
+     * @param number index - index at which to insert
+     * @param string property - name of the collection property
+     */
+
+  }, {
+    key: 'insertChildAt',
+    value: function insertChildAt(node, index) {
+      var property = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : DEFAULT_COLLECTION_PROP;
+
+      this._enforceProp(property);
+
+      this.node[property].splice(index, 0, node);
+
+      // If we inserted a node before the traversing index,
+      // we should increase the later.
+      if (index <= NodePath.getTraversingIndex()) {
+        NodePath.updateTraversingIndex(+1);
+      }
+
+      this._rebuildIndex(this.node, property);
+    }
+
+    /**
+     * Removes a node.
+     */
+
+  }, {
+    key: 'remove',
+    value: function remove() {
+      if (this.isRemoved()) {
+        return;
+      }
+      NodePath.registry.delete(this.node);
+
+      this.node = null;
+
+      if (!this.parent) {
+        return;
+      }
+
+      // A node is in a collection.
+      if (this.index !== null) {
+        this.parent[this.property].splice(this.index, 1);
+
+        // If we remove a node before the traversing index,
+        // we should increase the later.
+        if (this.index <= NodePath.getTraversingIndex()) {
+          NodePath.updateTraversingIndex(-1);
+        }
+
+        // Rebuild index.
+        this._rebuildIndex(this.parent, this.property);
+
+        this.index = null;
+        this.property = null;
+
+        return;
+      }
+
+      // A simple node.
+      delete this.parent[this.property];
+      this.property = null;
+    }
+
+    /**
+     * Rebuilds child nodes index (used on remove/insert).
+     */
+
+  }, {
+    key: '_rebuildIndex',
+    value: function _rebuildIndex(parent, property) {
+      var parentPath = NodePath.getForNode(parent);
+
+      for (var i = 0; i < parent[property].length; i++) {
+        var path = NodePath.getForNode(parent[property][i], parentPath, property, i);
+        path.index = i;
+      }
+    }
+
+    /**
+     * Whether the path was removed.
+     */
+
+  }, {
+    key: 'isRemoved',
+    value: function isRemoved() {
+      return this.node === null;
+    }
+
+    /**
+     * Replaces a node with the passed one.
+     */
+
+  }, {
+    key: 'replace',
+    value: function replace(newNode) {
+      NodePath.registry.delete(this.node);
+
+      this.node = newNode;
+
+      if (!this.parent) {
+        return null;
+      }
+
+      // A node is in a collection.
+      if (this.index !== null) {
+        this.parent[this.property][this.index] = newNode;
+      }
+
+      // A simple node.
+      else {
+          this.parent[this.property] = newNode;
+        }
+
+      // Rebuild the node path for the new node.
+      return NodePath.getForNode(newNode, this.parentPath, this.property, this.index);
+    }
+
+    /**
+     * Updates a node inline.
+     */
+
+  }, {
+    key: 'update',
+    value: function update(nodeProps) {
+      Object.assign(this.node, nodeProps);
+    }
+
+    /**
+     * Returns parent.
+     */
+
+  }, {
+    key: 'getParent',
+    value: function getParent() {
+      return this.parentPath;
+    }
+
+    /**
+     * Returns nth child.
+     */
+
+  }, {
+    key: 'getChild',
+    value: function getChild() {
+      var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      if (this.node.expressions) {
+        return NodePath.getForNode(this.node.expressions[n], this, DEFAULT_COLLECTION_PROP, n);
+      } else if (this.node.expression && n == 0) {
+        return NodePath.getForNode(this.node.expression, this, DEFAULT_SINGLE_PROP);
+      }
+      return null;
+    }
+
+    /**
+     * Whether a path node is syntactically equal to the passed one.
+     *
+     * NOTE: we don't rely on `source` property from the `loc` data
+     * (which would be the fastest comparison), since it might be unsync
+     * after several modifications. We use here simple `JSON.stringify`
+     * excluding the `loc` data.
+     *
+     * @param NodePath other - path to compare to.
+     * @return boolean
+     */
+
+  }, {
+    key: 'hasEqualSource',
+    value: function hasEqualSource(path) {
+      return JSON.stringify(this.node, jsonSkipLoc) === JSON.stringify(path.node, jsonSkipLoc);
+    }
+
+    /**
+     * JSON-encodes a node skipping location.
+     */
+
+  }, {
+    key: 'jsonEncode',
+    value: function jsonEncode() {
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          format = _ref.format,
+          useLoc = _ref.useLoc;
+
+      return JSON.stringify(this.node, useLoc ? null : jsonSkipLoc, format);
+    }
+
+    /**
+     * Returns previous sibling.
+     */
+
+  }, {
+    key: 'getPreviousSibling',
+    value: function getPreviousSibling() {
+      if (!this.parent || this.index == null) {
+        return null;
+      }
+      return NodePath.getForNode(this.parent[this.property][this.index - 1], NodePath.getForNode(this.parent), this.property, this.index - 1);
+    }
+
+    /**
+     * Returns next sibling.
+     */
+
+  }, {
+    key: 'getNextSibling',
+    value: function getNextSibling() {
+      if (!this.parent || this.index == null) {
+        return null;
+      }
+      return NodePath.getForNode(this.parent[this.property][this.index + 1], NodePath.getForNode(this.parent), this.property, this.index + 1);
+    }
+
+    /**
+     * Returns a NodePath instance for a node.
+     *
+     * The same NodePath can be reused in several places, e.g.
+     * a parent node passed for all its children.
+     */
+
+  }], [{
+    key: 'getForNode',
+    value: function getForNode(node) {
+      var parentPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var prop = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : -1;
+
+      if (!node) {
+        return null;
+      }
+
+      if (!NodePath.registry.has(node)) {
+        NodePath.registry.set(node, new NodePath(node, parentPath, prop, index == -1 ? null : index));
+      }
+
+      var path = NodePath.registry.get(node);
+
+      if (parentPath !== null) {
+        path.parentPath = parentPath;
+        path.parent = path.parentPath.node;
+      }
+
+      if (prop !== null) {
+        path.property = prop;
+      }
+
+      if (index >= 0) {
+        path.index = index;
+      }
+
+      return path;
+    }
+
+    /**
+     * Initializes the NodePath registry. The registry is a map from
+     * a node to its NodePath instance.
+     */
+
+  }, {
+    key: 'initRegistry',
+    value: function initRegistry() {
+      if (!NodePath.registry) {
+        NodePath.registry = new Map();
+      }
+      NodePath.registry.clear();
+    }
+
+    /**
+     * Updates index of a currently traversing collection.
+     */
+
+  }, {
+    key: 'updateTraversingIndex',
+    value: function updateTraversingIndex(dx) {
+      return NodePath.traversingIndexStack[NodePath.traversingIndexStack.length - 1] += dx;
+    }
+
+    /**
+     * Returns current traversing index.
+     */
+
+  }, {
+    key: 'getTraversingIndex',
+    value: function getTraversingIndex() {
+      return NodePath.traversingIndexStack[NodePath.traversingIndexStack.length - 1];
+    }
+  }]);
+
+  return NodePath;
+}();
+
+NodePath.initRegistry();
+
+/**
+ * Index of a currently traversing collection is stored on top of the
+ * `NodePath.traversingIndexStack`. Remove/insert methods can adjust
+ * this index.
+ */
+NodePath.traversingIndexStack = [];
+
+// Helper function used to skip `loc` in JSON operations.
+function jsonSkipLoc(prop, value) {
+  if (prop === 'loc') {
+    return undefined;
+  }
+  return value;
+}
+
+module.exports = NodePath;
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/dist/utils/clone.js":
+/*!******************************************************!*\
+  !*** ./node_modules/regexp-tree/dist/utils/clone.js ***!
+  \******************************************************/
+/***/ (function(module) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+/**
+ * Performs a deep copy of an simple object.
+ * Only handles scalar values, arrays and objects.
+ *
+ * @param obj Object
+ */
+
+module.exports = function clone(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  var res = void 0;
+  if (Array.isArray(obj)) {
+    res = [];
+  } else {
+    res = {};
+  }
+  for (var i in obj) {
+    res[i] = clone(obj[i]);
+  }
+  return res;
+};
+
+/***/ }),
+
+/***/ "./node_modules/regexp-tree/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/regexp-tree/index.js ***!
+  \*******************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+
+
+module.exports = __webpack_require__(/*! ./dist/regexp-tree */ "./node_modules/regexp-tree/dist/regexp-tree.js");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./core/src/views/UnsupportedBrowser.vue":
+/*!***********************************************!*\
+  !*** ./core/src/views/UnsupportedBrowser.vue ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UnsupportedBrowser_vue_vue_type_template_id_4d32209e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true& */ "./core/src/views/UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true&");
+/* harmony import */ var _UnsupportedBrowser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UnsupportedBrowser.vue?vue&type=script&lang=js& */ "./core/src/views/UnsupportedBrowser.vue?vue&type=script&lang=js&");
+/* harmony import */ var _UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true& */ "./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _UnsupportedBrowser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UnsupportedBrowser_vue_vue_type_template_id_4d32209e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _UnsupportedBrowser_vue_vue_type_template_id_4d32209e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "4d32209e",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/views/UnsupportedBrowser.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/views/UnsupportedBrowser.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./core/src/views/UnsupportedBrowser.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UnsupportedBrowser.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=script&lang=js&");
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/views/UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true&":
+/*!******************************************************************************************!*\
+  !*** ./core/src/views/UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true& ***!
+  \******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: function() { return /* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_template_id_4d32209e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render; },
+/* harmony export */   staticRenderFns: function() { return /* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_template_id_4d32209e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns; }
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_template_id_4d32209e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=template&id=4d32209e&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true& ***!
+  \*********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UnsupportedBrowser_vue_vue_type_style_index_0_id_4d32209e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/UnsupportedBrowser.vue?vue&type=style&index=0&id=4d32209e&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "?3465":
+/*!**********************!*\
+  !*** path (ignored) ***!
+  \**********************/
+/***/ (function() {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "./node_modules/browserslist-useragent-regexp/dist/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/browserslist-useragent-regexp/dist/index.js ***!
+  \******************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AlternativeNode: function() { return /* binding */ AlternativeNode; },
+/* harmony export */   AstRegExpNode: function() { return /* binding */ AstRegExpNode; },
+/* harmony export */   CapturingGroupNode: function() { return /* binding */ CapturingGroupNode; },
+/* harmony export */   CharacterClassNode: function() { return /* binding */ CharacterClassNode; },
+/* harmony export */   ClassRangeNode: function() { return /* binding */ ClassRangeNode; },
+/* harmony export */   DigitPatternNode: function() { return /* binding */ DigitPatternNode; },
+/* harmony export */   DisjunctionCapturingGroupNode: function() { return /* binding */ DisjunctionCapturingGroupNode; },
+/* harmony export */   DisjunctionNode: function() { return /* binding */ DisjunctionNode; },
+/* harmony export */   MetaCharNode: function() { return /* binding */ MetaCharNode; },
+/* harmony export */   NumberCharsNode: function() { return /* binding */ NumberCharsNode; },
+/* harmony export */   NumberPatternNode: function() { return /* binding */ NumberPatternNode; },
+/* harmony export */   RangeQuantifierNode: function() { return /* binding */ RangeQuantifierNode; },
+/* harmony export */   RepetitionNode: function() { return /* binding */ RepetitionNode; },
+/* harmony export */   SemverPart: function() { return /* binding */ SemverPart; },
+/* harmony export */   SimpleCharNode: function() { return /* binding */ SimpleCharNode; },
+/* harmony export */   SimpleQuantifierNode: function() { return /* binding */ SimpleQuantifierNode; },
+/* harmony export */   applyVersionsToRegex: function() { return /* binding */ applyVersionsToRegex; },
+/* harmony export */   applyVersionsToRegexes: function() { return /* binding */ applyVersionsToRegexes; },
+/* harmony export */   clone: function() { return /* binding */ clone; },
+/* harmony export */   compareArrays: function() { return /* binding */ compareArrays; },
+/* harmony export */   compareSemvers: function() { return /* binding */ compareSemvers; },
+/* harmony export */   compileRegex: function() { return /* binding */ compileRegex; },
+/* harmony export */   compileRegexes: function() { return /* binding */ compileRegexes; },
+/* harmony export */   concat: function() { return /* binding */ concat; },
+/* harmony export */   defaultOptions: function() { return /* binding */ defaultOptions; },
+/* harmony export */   findMatchedVersions: function() { return /* binding */ findMatchedVersions; },
+/* harmony export */   getBrowsersList: function() { return /* binding */ getBrowsersList; },
+/* harmony export */   getNumberPatternsCount: function() { return /* binding */ getNumberPatternsCount; },
+/* harmony export */   getNumberPatternsPart: function() { return /* binding */ getNumberPatternsPart; },
+/* harmony export */   getPreUserAgentRegexes: function() { return /* binding */ getPreUserAgentRegexes; },
+/* harmony export */   getRegexesForBrowsers: function() { return /* binding */ getRegexesForBrowsers; },
+/* harmony export */   getRequiredSemverPartsCount: function() { return /* binding */ getRequiredSemverPartsCount; },
+/* harmony export */   getUserAgentRegex: function() { return /* binding */ getUserAgentRegex; },
+/* harmony export */   getUserAgentRegexes: function() { return /* binding */ getUserAgentRegexes; },
+/* harmony export */   isCharNode: function() { return /* binding */ isCharNode; },
+/* harmony export */   isDigitRangeNode: function() { return /* binding */ isDigitRangeNode; },
+/* harmony export */   isExpressionNode: function() { return /* binding */ isExpressionNode; },
+/* harmony export */   isNumberPatternNode: function() { return /* binding */ isNumberPatternNode; },
+/* harmony export */   mergeBrowserVersions: function() { return /* binding */ mergeBrowserVersions; },
+/* harmony export */   mergeDigits: function() { return /* binding */ mergeDigits; },
+/* harmony export */   numberToDigits: function() { return /* binding */ numberToDigits; },
+/* harmony export */   numbersToRanges: function() { return /* binding */ numbersToRanges; },
+/* harmony export */   optimizeRegex: function() { return /* binding */ optimizeRegex; },
+/* harmony export */   optimizeSegmentNumberPatterns: function() { return /* binding */ optimizeSegmentNumberPatterns; },
+/* harmony export */   parseBrowsersList: function() { return /* binding */ parseBrowsersList; },
+/* harmony export */   parseRegex: function() { return /* binding */ parseRegex; },
+/* harmony export */   rangeSemver: function() { return /* binding */ rangeSemver; },
+/* harmony export */   rangeToRegex: function() { return /* binding */ rangeToRegex; },
+/* harmony export */   rangedSemverToRegex: function() { return /* binding */ rangedSemverToRegex; },
+/* harmony export */   rayRangeDigitPattern: function() { return /* binding */ rayRangeDigitPattern; },
+/* harmony export */   rayToNumberPatterns: function() { return /* binding */ rayToNumberPatterns; },
+/* harmony export */   replaceNumberPatterns: function() { return /* binding */ replaceNumberPatterns; },
+/* harmony export */   segmentRangeNumberPattern: function() { return /* binding */ segmentRangeNumberPattern; },
+/* harmony export */   segmentToNumberPatterns: function() { return /* binding */ segmentToNumberPatterns; },
+/* harmony export */   semverify: function() { return /* binding */ semverify; },
+/* harmony export */   splitCommonDiff: function() { return /* binding */ splitCommonDiff; },
+/* harmony export */   splitToDecadeRanges: function() { return /* binding */ splitToDecadeRanges; },
+/* harmony export */   toRegex: function() { return /* binding */ toRegex; },
+/* harmony export */   toString: function() { return /* binding */ toString; },
+/* harmony export */   versionsListToRanges: function() { return /* binding */ versionsListToRanges; },
+/* harmony export */   visitors: function() { return /* binding */ visitors; }
+/* harmony export */ });
+/* harmony import */ var browserslist__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! browserslist */ "./node_modules/browserslist/index.js");
+/* harmony import */ var regexp_tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regexp-tree */ "./node_modules/regexp-tree/index.js");
+/* harmony import */ var ua_regexes_lite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ua-regexes-lite */ "./node_modules/ua-regexes-lite/index.js");
+
+
+
+
+/**
+ * Array of numbers to array of first and last elements.
+ * @param numbers - Array of numbers.
+ * @returns Number or two numbers.
+ */ function numbersToRanges(numbers) {
+    if (typeof numbers === "number") {
+        return numbers;
+    }
+    if (numbers.length === 1) {
+        return numbers[0];
+    }
+    return [
+        numbers[0],
+        numbers[numbers.length - 1]
+    ];
+}
+
+var SemverPart;
+(function(SemverPart) {
+    SemverPart[SemverPart["Major"] = 0] = "Major";
+    SemverPart[SemverPart["Minor"] = 1] = "Minor";
+    SemverPart[SemverPart["Patch"] = 2] = "Patch";
+})(SemverPart || (SemverPart = {}));
+
+/**
+ * Get semver from string or array.
+ * @param version - Target to convert.
+ * @returns Array with semver parts.
+ */ function semverify(version) {
+    const versionParts = Array.isArray(version) ? version : version.toString().split(".");
+    if (versionParts[0] === "all") {
+        return [
+            Infinity,
+            0,
+            0
+        ];
+    }
+    let versionPart = null;
+    let semverPart = null;
+    const semver = [
+        0,
+        0,
+        0
+    ];
+    for(let i = 0; i < 3; i++){
+        versionPart = versionParts[i];
+        if (typeof versionPart === "undefined") {
+            continue;
+        }
+        semverPart = typeof versionPart === "number" ? versionPart : parseInt(versionPart, 10);
+        if (isNaN(semverPart)) {
+            return null;
+        }
+        semver[i] = semverPart;
+    }
+    return semver;
+}
+/**
+ * Get semver range.
+ * @param from
+ * @param to
+ * @returns Semver range.
+ */ function rangeSemver(from, to) {
+    let partIndex = 0;
+    const range = [];
+    for(let i = 2; i >= 0; i--){
+        if (from[i] !== to[i]) {
+            partIndex = i;
+            break;
+        }
+    }
+    for(let i1 = from[partIndex], max = to[partIndex]; i1 <= max; i1++){
+        range.push(from.map((v, j)=>j === partIndex ? i1 : v));
+    }
+    return range;
+}
+/**
+ * Compare semvers.
+ * @param a - Semver to compare.
+ * @param b - Semver to compare with.
+ * @param options - Compare options.
+ * @returns Equals or not.
+ */ function compareSemvers(a, b, options) {
+    const [major, minor, patch] = a;
+    const [majorBase, minorBase, patchBase] = b;
+    const { ignoreMinor , ignorePatch , allowHigherVersions  } = options;
+    if (majorBase === Infinity) {
+        return true;
+    }
+    const compareMinor = !ignoreMinor;
+    const comparePatch = compareMinor && !ignorePatch;
+    if (allowHigherVersions) {
+        if (comparePatch && patch < patchBase || compareMinor && minor < minorBase) {
+            return false;
+        }
+        return major >= majorBase;
+    }
+    if (comparePatch && patch !== patchBase || compareMinor && minor !== minorBase) {
+        return false;
+    }
+    return major === majorBase;
+}
+/**
+ * Get required semver parts count.
+ * @param version - Semver parts or ranges.
+ * @param options - Semver compare options.
+ * @returns Required semver parts count.
+ */ function getRequiredSemverPartsCount(version, options) {
+    const { ignoreMinor , ignorePatch , allowZeroSubversions  } = options;
+    let shouldRepeatCount = ignoreMinor ? 1 : ignorePatch ? 2 : 3;
+    if (allowZeroSubversions) {
+        for(let i = shouldRepeatCount - 1; i > 0; i--){
+            if (version[i] !== 0 || shouldRepeatCount === 1) {
+                break;
+            }
+            shouldRepeatCount--;
+        }
+    }
+    return shouldRepeatCount;
+}
+
+/**
+ * Browsers strings to info objects.
+ * @param browsersList - Browsers strings with family and version.
+ * @returns Browser info objects.
+ */ function parseBrowsersList(browsersList) {
+    return browsersList.reduce((browsers, browser)=>{
+        const [family, versionString, versionStringTo] = browser.split(/ |-/);
+        const version = semverify(versionString);
+        const versions = !version ? [] : versionStringTo ? rangeSemver(version, semverify(versionStringTo)) : [
+            version
+        ];
+        return versions.reduce((browsers, semver)=>{
+            if (semver) {
+                browsers.push({
+                    family,
+                    version: semver
+                });
+            }
+            return browsers;
+        }, browsers);
+    }, []);
+}
+/**
+ * Request browsers list.
+ * @param options - Options to get browsers list.
+ * @returns Browser info objects.
+ */ function getBrowsersList(options = {}) {
+    const { browsers , ...browserslistOptions } = options;
+    const browsersList = browserslist__WEBPACK_IMPORTED_MODULE_0__(browsers, browserslistOptions);
+    const parsedBrowsers = parseBrowsersList(browsersList);
+    return parsedBrowsers;
+}
+
+/**
+ * Compare two arrays.
+ * @param a - Array to compare.
+ * @param b - Array to compare.
+ * @param from - Index to start compare from.
+ * @returns Equals or not.
+ */ function compareArrays(a, b, from = 0) {
+    const len = a.length;
+    for(let i = from; i < len; i++){
+        if (a[i] !== b[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+/**
+ * Clone simple object.
+ * @param value
+ * @returns Object clone.
+ */ function clone(value) {
+    if (value === null || typeof value !== "object") {
+        return value;
+    }
+    /* eslint-disable */ const copy = Array.isArray(value) ? [] : {};
+    let i;
+    for(i in value){
+        copy[i] = clone(value[i]);
+    }
+    /* eslint-enable */ return copy;
+}
+/**
+ * Concat arrays.
+ * @param items
+ * @returns Concatinated arrays.
+ */ function concat(items) {
+    return [].concat(...items);
+}
+
+/**
+ * Merge browser info object to map with versions.
+ * @param browsers - Browser info object to merge.
+ * @returns Merged browsers map.
+ */ function mergeBrowserVersions(browsers) {
+    const merge = new Map();
+    browsers.forEach(({ family , version  })=>{
+        const versions = merge.get(family);
+        if (versions) {
+            const strVersion = version.join(".");
+            if (versions.every((_)=>_.join(".") !== strVersion)) {
+                versions.push(version);
+            }
+            return;
+        }
+        merge.set(family, [
+            version
+        ]);
+    });
+    merge.forEach((versions)=>{
+        versions.sort((a, b)=>{
+            for(const i in a){
+                if (a[i] !== b[i]) {
+                    return a[i] - b[i];
+                }
+            }
+            return 0;
+        });
+    });
+    return merge;
+}
+/**
+ * Versions to ranged versions.
+ * @param versions - Semver versions list.
+ * @returns Ranged versions list.
+ */ function versionsListToRanges(versions) {
+    if (versions.length < 2) {
+        return versions;
+    }
+    const max = versions.length + 1;
+    const ranges = [];
+    let prev = null;
+    let current = versions[0];
+    let major = [
+        current[SemverPart.Major]
+    ];
+    let minor = [
+        current[SemverPart.Minor]
+    ];
+    let patch = [
+        current[SemverPart.Patch]
+    ];
+    let part = null;
+    for(let i = 1; i < max; i++){
+        prev = versions[i - 1];
+        current = versions[i] || [];
+        for(let p = SemverPart.Major; p <= SemverPart.Patch; p++){
+            if ((p === part || part === null) && prev[p] + 1 === current[p] && compareArrays(prev, current, p + 1)) {
+                part = p;
+                if (p === SemverPart.Major) {
+                    major.push(current[SemverPart.Major]);
+                } else {
+                    major = current[SemverPart.Major];
+                }
+                if (p === SemverPart.Minor) {
+                    minor.push(current[SemverPart.Minor]);
+                } else {
+                    minor = current[SemverPart.Minor];
+                }
+                if (p === SemverPart.Patch) {
+                    patch.push(current[SemverPart.Patch]);
+                } else {
+                    patch = current[SemverPart.Patch];
+                }
+                break;
+            }
+            if (part === p || prev[p] !== current[p]) {
+                ranges.push([
+                    numbersToRanges(major),
+                    numbersToRanges(minor),
+                    numbersToRanges(patch)
+                ]);
+                major = [
+                    current[SemverPart.Major]
+                ];
+                minor = [
+                    current[SemverPart.Minor]
+                ];
+                patch = [
+                    current[SemverPart.Patch]
+                ];
+                part = null;
+                break;
+            }
+        }
+    }
+    return ranges;
+}
+
+function AstRegExpNode(body) {
+    return {
+        type: "RegExp",
+        body,
+        flags: ""
+    };
+}
+function AlternativeNode(...expressions) {
+    const exps = concat(expressions).filter(Boolean);
+    if (exps.length === 1) {
+        return exps[0];
+    }
+    return {
+        type: "Alternative",
+        expressions: exps
+    };
+}
+function SimpleCharNode(value) {
+    return {
+        type: "Char",
+        kind: "simple",
+        value: String(value),
+        codePoint: NaN
+    };
+}
+function MetaCharNode(value) {
+    return {
+        type: "Char",
+        kind: "meta",
+        value,
+        codePoint: NaN
+    };
+}
+function ClassRangeNode(from, to) {
+    return {
+        type: "ClassRange",
+        from,
+        to
+    };
+}
+function CharacterClassNode(...expressions) {
+    return {
+        type: "CharacterClass",
+        expressions: concat(expressions).filter(Boolean)
+    };
+}
+function SimpleQuantifierNode(kind) {
+    return {
+        type: "Quantifier",
+        kind,
+        greedy: true
+    };
+}
+function RangeQuantifierNode(from, to) {
+    return {
+        type: "Quantifier",
+        kind: "Range",
+        from,
+        to,
+        greedy: true
+    };
+}
+function CapturingGroupNode(expression) {
+    return {
+        type: "Group",
+        capturing: true,
+        expression,
+        number: null
+    };
+}
+function RepetitionNode(expression, quantifier) {
+    return {
+        type: "Repetition",
+        expression,
+        quantifier
+    };
+}
+function DisjunctionNode(...expressions) {
+    const exprs = concat(expressions).filter(Boolean);
+    if (exprs.length === 1) {
+        return exprs[0];
+    }
+    const disjunction = {
+        type: "Disjunction",
+        left: null,
+        right: exprs.pop()
+    };
+    exprs.reduceRight((disjunction, expr, i)=>{
+        if (i === 0) {
+            disjunction.left = expr;
+            return disjunction;
+        }
+        disjunction.left = {
+            type: "Disjunction",
+            left: null,
+            right: expr
+        };
+        return disjunction.left;
+    }, disjunction);
+    return disjunction;
+}
+function DisjunctionCapturingGroupNode(...expressions) {
+    const expr = DisjunctionNode(...expressions);
+    if (expr.type === "Disjunction") {
+        return CapturingGroupNode(expr);
+    }
+    return expr;
+}
+function DigitPatternNode() {
+    return MetaCharNode("\\d");
+}
+function NumberPatternNode(quantifier = SimpleQuantifierNode("+")) {
+    const numberPattern = RepetitionNode(DigitPatternNode(), quantifier);
+    return numberPattern;
+}
+function NumberCharsNode(value) {
+    return AlternativeNode(Array.from(String(value), SimpleCharNode));
+}
+
+/**
+ * Check node whether is number pattern.
+ * @param node - AST node to check.
+ * @returns Is number pattern or not.
+ */ function isNumberPatternNode(node) {
+    if (node.type === "Group" && node.expression.type === "Repetition") {
+        const { expression , quantifier  } = node.expression;
+        return expression.type === "Char" && expression.value === "\\d" && quantifier.kind === "+" && quantifier.greedy;
+    }
+    return false;
+}
+/**
+ * Check node whether is char node.
+ * @param node - AST node to check.
+ * @param value - Value to compare.
+ * @returns Is char node or not.
+ */ function isCharNode(node, value) {
+    if (node && node.type === "Char") {
+        return typeof value === "undefined" || value instanceof RegExp && value.test(node.value) || String(value) === node.value;
+    }
+    return false;
+}
+/**
+ * Check node whether is digit range.
+ * @param node - AST node to check.
+ * @returns Is digit range or not.
+ */ function isDigitRangeNode(node) {
+    if (node.type === "CharacterClass" && node.expressions.length === 1) {
+        const [expression] = node.expressions;
+        return expression.type === "ClassRange" && isCharNode(expression.from, /\d/) && isCharNode(expression.to, /\d/);
+    }
+    return false;
+}
+/**
+ * Check node whether is expression.
+ * @param node - AST node to check.
+ * @returns Is expression node or not.
+ */ function isExpressionNode(node) {
+    return node.type !== "RegExp" && node.type !== "ClassRange" && node.type !== "Quantifier";
+}
+function parseRegex(regex) {
+    return typeof regex === "string" ? regexp_tree__WEBPACK_IMPORTED_MODULE_1__.parse(regex.replace(/^([^/])/, "/$1").replace(/([^/])$/, "$1/")) : regex instanceof RegExp ? regexp_tree__WEBPACK_IMPORTED_MODULE_1__.parse(regex) : regex;
+}
+/**
+ * Get regex from string or AST.
+ * @param src - String or AST.
+ * @returns RegExp.
+ */ function toRegex(src) {
+    return typeof src === "string" ? new RegExp(src) : new RegExp(regexp_tree__WEBPACK_IMPORTED_MODULE_1__.generate(src.body), src.flags);
+}
+/**
+ * Get string from regex or AST.
+ * @param src - RegExp or AST.
+ * @returns String.
+ */ function toString(src) {
+    return typeof src === "string" ? src : src instanceof RegExp ? src.toString() : regexp_tree__WEBPACK_IMPORTED_MODULE_1__.generate(src);
+}
+
+const classes = [
+    "RegExp",
+    "Disjunction",
+    "Alternative",
+    "Assertion",
+    "Char",
+    "CharacterClass",
+    "ClassRange",
+    "Backreference",
+    "Group",
+    "Repetition",
+    "Quantifier"
+];
+/**
+ * Create traversal visitors.
+ * @param visitors
+ * @returns Traversal handlers.
+ */ function visitors(visitors) {
+    const { every  } = visitors;
+    if (!every) {
+        return visitors;
+    }
+    if (typeof every === "function") {
+        return {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "*": every,
+            ...visitors
+        };
+    }
+    return classes.reduce((newVisitors, className)=>{
+        const visitor = visitors[className];
+        const visitorPre = visitor ? "pre" in visitor ? visitor.pre : visitor : null;
+        const visitorPost = visitor ? "post" in visitor ? visitor.post : null : null;
+        newVisitors[className] = {
+            pre (nodePath) {
+                if (every.pre(nodePath) !== false && visitorPre) {
+                    return visitorPre(nodePath);
+                }
+                return true;
+            },
+            post (nodePath) {
+                if (every.post(nodePath) !== false && visitorPost) {
+                    return visitorPost(nodePath);
+                }
+                return true;
+            }
+        };
+        return newVisitors;
+    }, {});
+}
+
+function optimizeRegex(regex) {
+    // Optimization requires filled codePoints
+    const regexAst = regexp_tree__WEBPACK_IMPORTED_MODULE_1__.optimize(parseRegex(toString(regex))).getAST();
+    regexp_tree__WEBPACK_IMPORTED_MODULE_1__.traverse(regexAst, {
+        Group (nodePath) {
+            const { parent , node  } = nodePath;
+            const { expression  } = node;
+            node.capturing = true;
+            if (parent.type === "RegExp" || expression.type !== "Disjunction" && parent.type !== "Repetition" || expression.type === "Disjunction" && parent.type === "Disjunction") {
+                nodePath.replace(nodePath.node.expression);
+            }
+        }
+    });
+    return regexAst;
+}
+/**
+ * Merge digits patterns if possible.
+ * @param a
+ * @param b
+ * @returns Merged node.
+ */ function mergeDigits(a, b) {
+    if (isCharNode(a) && isCharNode(b) && a.value === b.value) {
+        return b;
+    }
+    if (isCharNode(a, /\d/) && isDigitRangeNode(b) && Number(b.expressions[0].from.value) - Number(a.value) === 1) {
+        return {
+            ...b,
+            expressions: [
+                {
+                    ...b.expressions[0],
+                    from: a
+                }
+            ]
+        };
+    }
+    if (isDigitRangeNode(a) && isCharNode(b, /\d/) && Number(b.value) - Number(a.expressions[0].to.value) === 1) {
+        return {
+            ...a,
+            expressions: [
+                {
+                    ...a.expressions[0],
+                    to: b
+                }
+            ]
+        };
+    }
+    return null;
+}
+/**
+ * Optimize segment number patterns.
+ * @param patterns
+ * @returns Optimized segment number patterns.
+ */ function optimizeSegmentNumberPatterns(patterns) {
+    return patterns.reduce((patterns, node)=>{
+        const prevNode = patterns[patterns.length - 1];
+        if (prevNode && node.type === "Alternative" && prevNode.type === "Alternative" && node.expressions.length === prevNode.expressions.length) {
+            const merged = prevNode.expressions.reduceRight((exps, exp, i)=>{
+                if (!exps) {
+                    return exps;
+                }
+                const merged = mergeDigits(exp, node.expressions[i]);
+                if (merged) {
+                    exps.unshift(merged);
+                } else {
+                    return null;
+                }
+                return exps;
+            }, []);
+            if (merged) {
+                node.expressions = merged;
+                patterns.pop();
+            }
+        }
+        patterns.push(node);
+        return patterns;
+    }, []);
+}
+
+/**
+ * Transform number to digits array.
+ * @param num - Target number.
+ * @returns Digits array.
+ */ function numberToDigits(num) {
+    return Array.from(num.toString(), Number);
+}
+
+/**
+ * Get digit pattern.
+ * @param digit - Ray start.
+ * @param includes - Include start digit or use next.
+ * @returns Digit pattern.
+ */ function rayRangeDigitPattern(digit, includes) {
+    const rangeStart = digit + Number(!includes);
+    if (rangeStart === 0) {
+        return DigitPatternNode();
+    }
+    if (rangeStart === 9) {
+        return SimpleCharNode("9");
+    }
+    if (rangeStart > 9) {
+        return null;
+    }
+    return CharacterClassNode(ClassRangeNode(SimpleCharNode(rangeStart), SimpleCharNode("9")));
+}
+/**
+ * Create numeric ray pattern.
+ * @param from - Start from this number.
+ * @returns Numeric ray pattern parts.
+ */ function rayToNumberPatterns(from) {
+    if (from === 0) {
+        return [
+            NumberPatternNode()
+        ];
+    }
+    const digits = numberToDigits(from);
+    const digitsCount = digits.length;
+    const other = NumberPatternNode(RangeQuantifierNode(digitsCount + 1));
+    const zeros = digitsCount - 1;
+    if (from / Math.pow(10, zeros) === digits[0]) {
+        return [
+            AlternativeNode(rayRangeDigitPattern(digits[0], true), Array.from({
+                length: zeros
+            }, DigitPatternNode)),
+            other
+        ];
+    }
+    const raysNumberPatterns = digits.reduce((topNodes, _, i)=>{
+        const ri = digitsCount - i - 1;
+        const d = i === 0;
+        let prev = SimpleCharNode("");
+        const nodes = digits.reduce((nodes, digit, j)=>{
+            if (j < ri) {
+                nodes.push(SimpleCharNode(digit));
+            } else if (prev) {
+                if (j > ri) {
+                    nodes.push(DigitPatternNode());
+                } else {
+                    prev = rayRangeDigitPattern(digit, d);
+                    if (prev) {
+                        nodes.push(prev);
+                    } else {
+                        return [];
+                    }
+                }
+            }
+            return nodes;
+        }, []);
+        if (nodes.length) {
+            topNodes.push(nodes);
+        }
+        return topNodes;
+    }, []);
+    const numberPatterns = raysNumberPatterns.map((_)=>AlternativeNode(_));
+    numberPatterns.push(other);
+    return numberPatterns;
+}
+
+/**
+ * Get digit pattern.
+ * @param from - Segment start.
+ * @param to - Segment end.
+ * @param zeros - Zeros to add as prefix.
+ * @returns Digit pattern.
+ */ function segmentRangeNumberPattern(from, to, zeros) {
+    if (to < from) {
+        return null;
+    }
+    const fromNode = SimpleCharNode(from);
+    const toNode = SimpleCharNode(to);
+    const zerosPrefix = typeof zeros === "number" && zeros > 0 ? Array.from({
+        length: zeros
+    }, ()=>SimpleCharNode(0)) : [];
+    const addPrefix = zerosPrefix.length ? (node)=>AlternativeNode(zerosPrefix, node) : (node)=>node;
+    if (from === to) {
+        return addPrefix(fromNode);
+    }
+    if (from === 0 && to === 9) {
+        return addPrefix(DigitPatternNode());
+    }
+    if (to - from === 1) {
+        return addPrefix(CharacterClassNode(fromNode, toNode));
+    }
+    return addPrefix(CharacterClassNode(ClassRangeNode(fromNode, toNode)));
+}
+/**
+ * Split segment range to decade ranges.
+ * @param from - Segment start.
+ * @param to - Segment end.
+ * @returns Ranges.
+ */ function splitToDecadeRanges(from, to) {
+    const ranges = [];
+    let num = from;
+    let decade = 1;
+    do {
+        decade *= 10;
+        if (num < decade) {
+            ranges.push([
+                num,
+                Math.min(decade - 1, to)
+            ]);
+            num = decade;
+        }
+    }while (decade <= to);
+    return ranges;
+}
+/**
+ * Get common and diffs of two numbers (arrays of digits).
+ * @param a - Digits.
+ * @param b - Other digits.
+ * @returns Common part and diffs.
+ */ function splitCommonDiff(a, b) {
+    const len = a.length;
+    if (len !== b.length || a[0] !== b[0]) {
+        return null;
+    }
+    let common = a[0].toString();
+    let currA = 0;
+    let currB = 0;
+    let diffA = "";
+    let diffB = "";
+    for(let i = 1; i < len; i++){
+        currA = a[i];
+        currB = b[i];
+        if (currA === currB) {
+            common += currA;
+        } else {
+            diffA += currA;
+            diffB += currB;
+        }
+    }
+    return [
+        common,
+        parseInt(diffA, 10),
+        parseInt(diffB, 10)
+    ];
+}
+/**
+ * Get segment patterns.
+ * @param from - Segment start.
+ * @param to - Segment end.
+ * @param digitsInNumber - How many digits should be en number. Will be filled by zeros.
+ * @returns Segment patterns.
+ */ function segmentToNumberPatterns(from, to, digitsInNumber = 0) {
+    const fromDigits = numberToDigits(from);
+    const digitsCount = fromDigits.length;
+    if (from < 10 && to < 10 || from === to) {
+        const zeros = digitsInNumber - digitsCount;
+        return [
+            segmentRangeNumberPattern(from, to, zeros)
+        ];
+    }
+    const toDigits = numberToDigits(to);
+    if (digitsCount !== toDigits.length) {
+        const decadeRanges = splitToDecadeRanges(from, to);
+        const parts = concat(decadeRanges.map(([from, to])=>segmentToNumberPatterns(from, to, digitsInNumber)));
+        return parts;
+    }
+    const commonStart = splitCommonDiff(fromDigits, toDigits);
+    if (Array.isArray(commonStart)) {
+        const [common, from1, to1] = commonStart;
+        const digitsInNumber1 = digitsCount - common.length;
+        const diffParts = segmentToNumberPatterns(from1, to1, digitsInNumber1);
+        return [
+            AlternativeNode(Array.from(common, SimpleCharNode), DisjunctionCapturingGroupNode(diffParts))
+        ];
+    }
+    const range = Array.from({
+        length: digitsCount - 1
+    });
+    const middleSegment = segmentRangeNumberPattern(fromDigits[0] + 1, toDigits[0] - 1);
+    const parts1 = [
+        ...range.map((_, i)=>{
+            const ri = digitsCount - i - 1;
+            const d = Number(i > 0);
+            return AlternativeNode(fromDigits.map((digit, j)=>{
+                if (j < ri) {
+                    return SimpleCharNode(digit);
+                }
+                if (j > ri) {
+                    return segmentRangeNumberPattern(0, 9);
+                }
+                return segmentRangeNumberPattern(digit + d, 9);
+            }));
+        }),
+        // but output more readable
+        ...middleSegment ? [
+            AlternativeNode(middleSegment, Array.from({
+                length: digitsCount - 1
+            }, ()=>DigitPatternNode()))
+        ] : [],
+        ...range.map((_, i)=>{
+            const ri = digitsCount - i - 1;
+            const d = Number(i > 0);
+            return AlternativeNode(toDigits.map((digit, j)=>{
+                if (j < ri) {
+                    return SimpleCharNode(digit);
+                }
+                if (j > ri) {
+                    return segmentRangeNumberPattern(0, 9);
+                }
+                return segmentRangeNumberPattern(0, digit - d);
+            }));
+        })
+    ];
+    return optimizeSegmentNumberPatterns(parts1);
+}
+
+/**
+ * Get regex for given numeric range.
+ * @param from - Range start.
+ * @param to - Range end.
+ * @returns Range pattern.
+ */ function rangeToRegex(from, to = Infinity) {
+    if (from === Infinity) {
+        return NumberPatternNode();
+    }
+    const numberPatterns = to === Infinity ? rayToNumberPatterns(from) : segmentToNumberPatterns(from, to);
+    const regex = DisjunctionCapturingGroupNode(numberPatterns);
+    return regex;
+}
+
+/**
+ * Find matched versions.
+ * @param minVersion - Semver version.
+ * @param maxVersion - Semver version.
+ * @param bases - Base semver versions.
+ * @param options - Semver compare options.
+ * @returns Matched versions.
+ */ function findMatchedVersions(minVersion, maxVersion, bases, options) {
+    const compareOptions = {
+        ...options,
+        allowHigherVersions: true
+    };
+    const minComparator = (ver)=>compareSemvers(ver, minVersion, compareOptions);
+    const maxComparator = (ver)=>compareSemvers(maxVersion, ver, compareOptions);
+    const comparator = minVersion && maxVersion ? (ver)=>minComparator(ver) && maxComparator(ver) : minVersion ? minComparator : maxVersion ? maxComparator : ()=>true;
+    return bases.filter(comparator);
+}
+
+/**
+ * Get useragent regexes for given browsers.
+ * @param browsers - Browsers.
+ * @param options - Semver compare options.
+ * @param targetRegexes - Override default regexes.
+ * @returns User agent regexes.
+ */ function getRegexesForBrowsers(browsers, options, targetRegexes = ua_regexes_lite__WEBPACK_IMPORTED_MODULE_2__.regexes) {
+    const result = [];
+    let prevFamily = "";
+    let prevRegexIsGlobal = false;
+    targetRegexes.forEach((regex)=>{
+        const requestVersions = browsers.get(regex.family);
+        if (!requestVersions) {
+            return;
+        }
+        let { version , minVersion , maxVersion  } = regex;
+        if (version) {
+            minVersion = version;
+            maxVersion = version;
+        }
+        let matchedVersions = findMatchedVersions(minVersion, maxVersion, requestVersions, options);
+        if (matchedVersions.length) {
+            // regex contains global patch
+            if (prevFamily === regex.family && prevRegexIsGlobal) {
+                version = undefined;
+                minVersion = undefined;
+                maxVersion = undefined;
+                matchedVersions = requestVersions;
+                result.pop();
+            }
+            result.push({
+                ...regex,
+                version,
+                minVersion,
+                maxVersion,
+                requestVersions,
+                matchedVersions
+            });
+        }
+        prevRegexIsGlobal = !version && !minVersion && !maxVersion;
+        prevFamily = regex.family;
+    });
+    return result;
+}
+
+/**
+ * Compile regexes.
+ * @param regexes - Objects with info about compiled regexes.
+ * @returns Objects with info about compiled regexes.
+ */ function compileRegexes(regexes) {
+    return regexes.map(({ regexAst , ...regex })=>{
+        const optimizedRegexAst = optimizeRegex(regexAst);
+        return {
+            ...regex,
+            regexAst: optimizedRegexAst,
+            regex: toRegex(optimizedRegexAst)
+        };
+    });
+}
+/**
+ * Compile regex.
+ * @param regexes - Objects with info about compiled regexes.
+ * @returns Compiled common regex.
+ */ function compileRegex(regexes) {
+    const partsRegexes = regexes.map(({ regexAst  })=>CapturingGroupNode(regexAst.body));
+    const regexAst = optimizeRegex(AstRegExpNode(DisjunctionCapturingGroupNode(partsRegexes)));
+    return toRegex(regexAst);
+}
+
+/**
+ * Get number patterns count from the regex.
+ * @param regex - Target regex.
+ * @returns Number patterns count.
+ */ function getNumberPatternsCount(regex) {
+    const regexAst = parseRegex(regex);
+    let count = 0;
+    regexp_tree__WEBPACK_IMPORTED_MODULE_1__.traverse(regexAst, {
+        Group (nodePath) {
+            if (isNumberPatternNode(nodePath.node)) {
+                count++;
+            }
+        }
+    });
+    return count;
+}
+function replaceNumberPatterns(regex, numbers, numberPatternsCount) {
+    let regexAst = parseRegex(regex);
+    const numbersToReplace = typeof numberPatternsCount === "number" && numberPatternsCount < numbers.length ? numbers.slice(0, numberPatternsCount) : numbers.slice();
+    regexp_tree__WEBPACK_IMPORTED_MODULE_1__.traverse(regexAst, visitors({
+        every () {
+            return Boolean(numbersToReplace.length);
+        },
+        Group (nodePath) {
+            if (isNumberPatternNode(nodePath.node) && numbersToReplace.length) {
+                if (regexAst === nodePath.node) {
+                    regexAst = numbersToReplace.shift();
+                } else {
+                    nodePath.replace(numbersToReplace.shift());
+                }
+                return false;
+            }
+            return true;
+        }
+    }));
+    return regexAst;
+}
+/**
+ * Get from regex part with number patterns.
+ * @param regex - Target regex.
+ * @param numberPatternsCount - Number patterns to extract.
+ * @returns Regex part with number patterns.
+ */ function getNumberPatternsPart(regex, numberPatternsCount) {
+    const regexAst = parseRegex(regex);
+    const maxNumbersCount = Math.min(getNumberPatternsCount(regexAst), numberPatternsCount || Infinity);
+    const expressions = [];
+    let numbersCounter = 0;
+    let containsNumberPattern = false;
+    regexp_tree__WEBPACK_IMPORTED_MODULE_1__.traverse(regexAst, visitors({
+        every: {
+            pre ({ node , parent  }) {
+                if (node === regexAst) {
+                    return true;
+                }
+                if (!isExpressionNode(node)) {
+                    return false;
+                }
+                if (parent === regexAst) {
+                    containsNumberPattern = false;
+                }
+                return numbersCounter < maxNumbersCount;
+            },
+            post ({ node , parent  }) {
+                if (node !== regexAst && parent === regexAst && isExpressionNode(node) && (containsNumberPattern || numbersCounter > 0 && numbersCounter < maxNumbersCount)) {
+                    expressions.push(node);
+                }
+            }
+        },
+        Group (nodePath) {
+            if (isNumberPatternNode(nodePath.node) && numbersCounter < maxNumbersCount) {
+                containsNumberPattern = true;
+                numbersCounter++;
+                return false;
+            }
+            return true;
+        }
+    }));
+    if (expressions.length === 1 && !isNumberPatternNode(expressions[0])) {
+        return getNumberPatternsPart(expressions[0], maxNumbersCount);
+    }
+    return expressions;
+}
+/**
+ * Ranged semver to regex patterns.
+ * @param rangedVersion - Ranged semver.
+ * @param options - Semver compare options.
+ * @returns Array of regex pattern.
+ */ function rangedSemverToRegex(rangedVersion, options) {
+    const { ignoreMinor , ignorePatch , allowHigherVersions  } = options;
+    const ignoreIndex = rangedVersion[0] === Infinity ? 0 : ignoreMinor ? 1 : ignorePatch ? 2 : 3;
+    if (allowHigherVersions) {
+        const numberPatterns = [];
+        let prevWasZero = true;
+        let d = 0;
+        let start = 0;
+        const createMapper = (i)=>(range, j)=>{
+                if (j >= ignoreIndex) {
+                    return NumberPatternNode();
+                }
+                start = Array.isArray(range) ? range[0] : range;
+                if (j < i) {
+                    return NumberCharsNode(start);
+                }
+                if (j > i) {
+                    return NumberPatternNode();
+                }
+                return rangeToRegex(start + d);
+            };
+        for(let i = ignoreIndex - 1; i >= 0; i--){
+            if (prevWasZero && !rangedVersion[i]) {
+                continue;
+            }
+            prevWasZero = false;
+            numberPatterns.push(rangedVersion.map(createMapper(i)));
+            d = 1;
+        }
+        return numberPatterns;
+    }
+    const numberPatterns1 = rangedVersion.map((range, i)=>{
+        if (i >= ignoreIndex) {
+            return NumberPatternNode();
+        }
+        if (Array.isArray(range)) {
+            return rangeToRegex(range[0], range[1]);
+        }
+        return NumberCharsNode(range);
+    });
+    return [
+        numberPatterns1
+    ];
+}
+
+function applyVersionsToRegex(regex, versions, options) {
+    const { allowHigherVersions  } = options;
+    const regexAst = parseRegex(regex);
+    const finalVersions = allowHigherVersions && versions.length ? [
+        versions[0]
+    ] : versions;
+    const maxRequiredPartsCount = finalVersions.reduce((maxRequiredPartsCount, version)=>Math.max(maxRequiredPartsCount, getRequiredSemverPartsCount(version, options)), 1);
+    const numberPatternsPart = getNumberPatternsPart(regexAst, maxRequiredPartsCount);
+    const versionsPart = DisjunctionCapturingGroupNode(...finalVersions.map((version)=>rangedSemverToRegex(version, options).map((parts)=>replaceNumberPatterns(AlternativeNode(clone(numberPatternsPart)), parts, maxRequiredPartsCount))));
+    regexp_tree__WEBPACK_IMPORTED_MODULE_1__.traverse(regexAst, visitors({
+        every (nodePath) {
+            if (!numberPatternsPart.length) {
+                return false;
+            }
+            if (nodePath.node === numberPatternsPart[0]) {
+                if (numberPatternsPart.length === 1) {
+                    nodePath.replace(versionsPart);
+                } else {
+                    nodePath.remove();
+                }
+                numberPatternsPart.shift();
+            }
+            return true;
+        }
+    }));
+    return regexAst;
+}
+/**
+ * Apply browser versions to info objects.
+ * @param browserRegexes - Objects with requested browser version and regex.
+ * @param options - Semver compare options.
+ * @returns Objects with requested browser version and regex special for this version.
+ */ function applyVersionsToRegexes(browserRegexes, options) {
+    return browserRegexes.map(({ regex: sourceRegex , version , maxVersion , matchedVersions , ...other })=>{
+        let regexAst = parseRegex(sourceRegex);
+        if (!version) {
+            regexAst = applyVersionsToRegex(regexAst, versionsListToRanges(matchedVersions), {
+                ...options,
+                allowHigherVersions: !maxVersion && options.allowHigherVersions
+            });
+        }
+        return {
+            regex: null,
+            sourceRegex,
+            regexAst,
+            version,
+            maxVersion,
+            matchedVersions,
+            ...other
+        };
+    });
+}
+
+const defaultOptions = {
+    ignoreMinor: false,
+    ignorePatch: true,
+    allowZeroSubversions: false,
+    allowHigherVersions: false
+};
+/**
+ * Get source regexes objects from browserslist query.
+ * @param options - Browserslist and semver compare options.
+ * @returns Source regexes objects.
+ */ function getPreUserAgentRegexes(options = {}) {
+    const finalOptions = {
+        ...defaultOptions,
+        ...options
+    };
+    const browsersList = getBrowsersList(finalOptions);
+    const mergedBrowsers = mergeBrowserVersions(browsersList);
+    const sourceRegexes = getRegexesForBrowsers(mergedBrowsers, finalOptions);
+    const versionedRegexes = applyVersionsToRegexes(sourceRegexes, finalOptions);
+    return versionedRegexes;
+}
+/**
+ * Compile browserslist query to regexes.
+ * @param options - Browserslist and semver compare options.
+ * @returns Objects with info about compiled regexes.
+ */ function getUserAgentRegexes(options = {}) {
+    return compileRegexes(getPreUserAgentRegexes(options));
+}
+/**
+ * Compile browserslist query to regex.
+ * @param options - Browserslist and semver compare options.
+ * @returns Compiled regex.
+ */ function getUserAgentRegex(options = {}) {
+    return compileRegex(getPreUserAgentRegexes(options));
+}
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/ua-regexes-lite/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ua-regexes-lite/index.js ***!
+  \***********************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   regexes: function() { return /* binding */ regexes; }
+/* harmony export */ });
+/**
+ * @typedef {import('./index.d').UserAgentRegex} UserAgentRegex
+ */
+
+/** @type {UserAgentRegex[]} */
+const regexes = [
+  {
+    regex: /IE (\d+)\.(\d+)/,
+    family: 'ie',
+    maxVersion: [
+      7,
+      Infinity,
+      Infinity
+    ]
+  },
+  /**
+   * IE can be in Compatability Mode (IE 7.0)
+   * so we need to check Trident version
+   */
+  {
+    regex: /Trident\/4\.0/,
+    family: 'ie',
+    version: [
+      8,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /Trident\/5\.0/,
+    family: 'ie',
+    version: [
+      9,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /Trident\/6\.0/,
+    family: 'ie',
+    version: [
+      10,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /Trident\/[78]\.0/,
+    family: 'ie',
+    version: [
+      11,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /Edge?\/(\d+)(\.(\d+)|)(\.(\d+)|)/,
+    family: 'edge'
+  },
+  {
+    regex: /Firefox\/(\d+)\.(\d+)(\.(\d+)|)/,
+    family: 'firefox'
+  },
+  {
+    regex: /Chrom(ium|e)\/(\d+)\.(\d+)(\.(\d+)|)/,
+    family: 'chrome'
+  },
+  /**
+   * Ignore Edge with EdgeHTML engine.
+   */
+  {
+    regex: /Chrom(ium|e)\/(\d+)\.(\d+)(\.(\d+)|)([\d.]+$|.*Safari\/(?![\d.]+ Edge\/[\d.]+$))/,
+    family: 'chrome',
+    maxVersion: [
+      70,
+      Infinity,
+      Infinity
+    ]
+  },
+  /**
+   * Safari on iPad have desktop-like useragent
+   * Some versions contains letter subversions
+   */
+  {
+    regex: /Maci.+ Version\/(\d+)\.(\d+)([.,](\d+)|)( \(\w+\)|)( Mobile\/\w+|) Safari\//,
+    family: 'safari'
+  },
+  /**
+   * Presto Opera
+   */
+  {
+    regex: /Opera\/9\.80.+Version\/(\d+)\.(\d+)(\.(\d+)|)/,
+    family: 'opera',
+    maxVersion: [
+      12,
+      15,
+      0
+    ]
+  },
+  /**
+   * Chromium based Opera
+   */
+  {
+    regex: /Chrome.+OPR\/(\d+)\.(\d+)\.(\d+)/,
+    family: 'opera',
+    minVersion: [
+      15,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(\d+)[_.](\d+)([_.](\d+)|)/,
+    family: 'ios_saf'
+  },
+  /**
+   * Ignore IE Mobile 11
+   */
+  {
+    regex: /[^e] (CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(\d+)[_.](\d+)([_.](\d+)|)/,
+    family: 'ios_saf',
+    version: [
+      7,
+      0,
+      3
+    ]
+  },
+  {
+    regex: /Opera Mini/,
+    family: 'op_mini'
+  },
+  {
+    regex: /Android Donut/,
+    family: 'android',
+    version: [
+      1,
+      2,
+      0
+    ]
+  },
+  {
+    regex: /Android Eclair/,
+    family: 'android',
+    version: [
+      2,
+      1,
+      0
+    ]
+  },
+  {
+    regex: /Android Froyo/,
+    family: 'android',
+    version: [
+      2,
+      2,
+      0
+    ]
+  },
+  {
+    regex: /Android Gingerbread/,
+    family: 'android',
+    version: [
+      2,
+      3,
+      0
+    ]
+  },
+  {
+    regex: /Android Honeycomb/,
+    family: 'android',
+    version: [
+      3,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /Android:?[ /-](\d+)(\.(\d+)|)(\.(\d+)|)/,
+    family: 'android'
+  },
+  /**
+   * Ignore IE Mobile 11
+   */
+  {
+    regex: /Android:?[ /-](\d+)(\.(\d+)|)(\.(\d+)|);(?! ARM; Trident)/,
+    family: 'android',
+    version: [
+      4,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /PlayBook.+RIM Tablet OS (\d+)\.(\d+)\.(\d+)/,
+    family: 'bb'
+  },
+  {
+    regex: /(Black[bB]erry|BB10).+Version\/(\d+)\.(\d+)\.(\d+)/,
+    family: 'bb'
+  },
+  /**
+   * Presto Opera Mobile
+   */
+  {
+    regex: /Opera\/.+Opera Mobi.+Version\/(\d+)\.(\d+)/,
+    family: 'op_mob',
+    maxVersion: [
+      12,
+      16,
+      0
+    ]
+  },
+  /**
+   * Chromium based Opera Mobile
+   */
+  {
+    regex: /Mobile Safari.+OPR\/(\d+)\.(\d+)\.(\d+)/,
+    family: 'op_mob',
+    minVersion: [
+      14,
+      0,
+      0
+    ]
+  },
+  {
+    regex: /Android.+Firefox\/(\d+)\.(\d+)(\.(\d+)|)/,
+    family: 'and_ff'
+  },
+  {
+    regex: /Android.+Chrom(ium|e)\/(\d+)\.(\d+)(\.(\d+)|)/,
+    family: 'and_chr'
+  },
+  {
+    regex: /IEMobile[ /](\d+)\.(\d+)/,
+    family: 'ie_mob'
+  },
+  {
+    regex: /Android.+(UC? ?Browser|UCWEB|U3)[ /]?(\d+)\.(\d+)\.(\d+)/,
+    family: 'and_uc'
+  },
+  {
+    regex: /SamsungBrowser\/(\d+)\.(\d+)/,
+    family: 'samsung'
+  },
+  {
+    regex: /Android.+MQQBrowser\/(\d+)(\.(\d+)|)(\.(\d+)|)/,
+    family: 'and_qq'
+  },
+  {
+    regex: /baidubrowser[/\s](\d+)(\.(\d+)|)(\.(\d+)|)/,
+    family: 'baidu'
+  },
+  {
+    regex: /K[Aa][Ii]OS\/(\d+)\.(\d+)(\.(\d+)|)/,
+    family: 'kaios'
+  }
+]
+
+
+/***/ }),
+
+/***/ "./node_modules/node-releases/data/processed/envs.json":
+/*!*************************************************************!*\
+  !*** ./node_modules/node-releases/data/processed/envs.json ***!
+  \*************************************************************/
+/***/ (function(module) {
+
+"use strict";
+module.exports = JSON.parse('[{"name":"nodejs","version":"0.2.0","date":"2011-08-26","lts":false,"security":false,"v8":"2.3.8.0"},{"name":"nodejs","version":"0.3.0","date":"2011-08-26","lts":false,"security":false,"v8":"2.5.1.0"},{"name":"nodejs","version":"0.4.0","date":"2011-08-26","lts":false,"security":false,"v8":"3.1.2.0"},{"name":"nodejs","version":"0.5.0","date":"2011-08-26","lts":false,"security":false,"v8":"3.1.8.25"},{"name":"nodejs","version":"0.6.0","date":"2011-11-04","lts":false,"security":false,"v8":"3.6.6.6"},{"name":"nodejs","version":"0.7.0","date":"2012-01-17","lts":false,"security":false,"v8":"3.8.6.0"},{"name":"nodejs","version":"0.8.0","date":"2012-06-22","lts":false,"security":false,"v8":"3.11.10.10"},{"name":"nodejs","version":"0.9.0","date":"2012-07-20","lts":false,"security":false,"v8":"3.11.10.15"},{"name":"nodejs","version":"0.10.0","date":"2013-03-11","lts":false,"security":false,"v8":"3.14.5.8"},{"name":"nodejs","version":"0.11.0","date":"2013-03-28","lts":false,"security":false,"v8":"3.17.13.0"},{"name":"nodejs","version":"0.12.0","date":"2015-02-06","lts":false,"security":false,"v8":"3.28.73.0"},{"name":"nodejs","version":"4.0.0","date":"2015-09-08","lts":false,"security":false,"v8":"4.5.103.30"},{"name":"nodejs","version":"4.1.0","date":"2015-09-17","lts":false,"security":false,"v8":"4.5.103.33"},{"name":"nodejs","version":"4.2.0","date":"2015-10-12","lts":"Argon","security":false,"v8":"4.5.103.35"},{"name":"nodejs","version":"4.3.0","date":"2016-02-09","lts":"Argon","security":false,"v8":"4.5.103.35"},{"name":"nodejs","version":"4.4.0","date":"2016-03-08","lts":"Argon","security":false,"v8":"4.5.103.35"},{"name":"nodejs","version":"4.5.0","date":"2016-08-16","lts":"Argon","security":false,"v8":"4.5.103.37"},{"name":"nodejs","version":"4.6.0","date":"2016-09-27","lts":"Argon","security":true,"v8":"4.5.103.37"},{"name":"nodejs","version":"4.7.0","date":"2016-12-06","lts":"Argon","security":false,"v8":"4.5.103.43"},{"name":"nodejs","version":"4.8.0","date":"2017-02-21","lts":"Argon","security":false,"v8":"4.5.103.45"},{"name":"nodejs","version":"4.9.0","date":"2018-03-28","lts":"Argon","security":true,"v8":"4.5.103.53"},{"name":"nodejs","version":"5.0.0","date":"2015-10-29","lts":false,"security":false,"v8":"4.6.85.28"},{"name":"nodejs","version":"5.1.0","date":"2015-11-17","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.2.0","date":"2015-12-09","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.3.0","date":"2015-12-15","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.4.0","date":"2016-01-06","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.5.0","date":"2016-01-21","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.6.0","date":"2016-02-09","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.7.0","date":"2016-02-23","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.8.0","date":"2016-03-09","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.9.0","date":"2016-03-16","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.10.0","date":"2016-04-01","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.11.0","date":"2016-04-21","lts":false,"security":false,"v8":"4.6.85.31"},{"name":"nodejs","version":"5.12.0","date":"2016-06-23","lts":false,"security":false,"v8":"4.6.85.32"},{"name":"nodejs","version":"6.0.0","date":"2016-04-26","lts":false,"security":false,"v8":"5.0.71.35"},{"name":"nodejs","version":"6.1.0","date":"2016-05-05","lts":false,"security":false,"v8":"5.0.71.35"},{"name":"nodejs","version":"6.2.0","date":"2016-05-17","lts":false,"security":false,"v8":"5.0.71.47"},{"name":"nodejs","version":"6.3.0","date":"2016-07-06","lts":false,"security":false,"v8":"5.0.71.52"},{"name":"nodejs","version":"6.4.0","date":"2016-08-12","lts":false,"security":false,"v8":"5.0.71.60"},{"name":"nodejs","version":"6.5.0","date":"2016-08-26","lts":false,"security":false,"v8":"5.1.281.81"},{"name":"nodejs","version":"6.6.0","date":"2016-09-14","lts":false,"security":false,"v8":"5.1.281.83"},{"name":"nodejs","version":"6.7.0","date":"2016-09-27","lts":false,"security":true,"v8":"5.1.281.83"},{"name":"nodejs","version":"6.8.0","date":"2016-10-12","lts":false,"security":false,"v8":"5.1.281.84"},{"name":"nodejs","version":"6.9.0","date":"2016-10-18","lts":"Boron","security":false,"v8":"5.1.281.84"},{"name":"nodejs","version":"6.10.0","date":"2017-02-21","lts":"Boron","security":false,"v8":"5.1.281.93"},{"name":"nodejs","version":"6.11.0","date":"2017-06-06","lts":"Boron","security":false,"v8":"5.1.281.102"},{"name":"nodejs","version":"6.12.0","date":"2017-11-06","lts":"Boron","security":false,"v8":"5.1.281.108"},{"name":"nodejs","version":"6.13.0","date":"2018-02-10","lts":"Boron","security":false,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.14.0","date":"2018-03-28","lts":"Boron","security":true,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.15.0","date":"2018-11-27","lts":"Boron","security":true,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.16.0","date":"2018-12-26","lts":"Boron","security":false,"v8":"5.1.281.111"},{"name":"nodejs","version":"6.17.0","date":"2019-02-28","lts":"Boron","security":true,"v8":"5.1.281.111"},{"name":"nodejs","version":"7.0.0","date":"2016-10-25","lts":false,"security":false,"v8":"5.4.500.36"},{"name":"nodejs","version":"7.1.0","date":"2016-11-08","lts":false,"security":false,"v8":"5.4.500.36"},{"name":"nodejs","version":"7.2.0","date":"2016-11-22","lts":false,"security":false,"v8":"5.4.500.43"},{"name":"nodejs","version":"7.3.0","date":"2016-12-20","lts":false,"security":false,"v8":"5.4.500.45"},{"name":"nodejs","version":"7.4.0","date":"2017-01-04","lts":false,"security":false,"v8":"5.4.500.45"},{"name":"nodejs","version":"7.5.0","date":"2017-01-31","lts":false,"security":false,"v8":"5.4.500.48"},{"name":"nodejs","version":"7.6.0","date":"2017-02-21","lts":false,"security":false,"v8":"5.5.372.40"},{"name":"nodejs","version":"7.7.0","date":"2017-02-28","lts":false,"security":false,"v8":"5.5.372.41"},{"name":"nodejs","version":"7.8.0","date":"2017-03-29","lts":false,"security":false,"v8":"5.5.372.43"},{"name":"nodejs","version":"7.9.0","date":"2017-04-11","lts":false,"security":false,"v8":"5.5.372.43"},{"name":"nodejs","version":"7.10.0","date":"2017-05-02","lts":false,"security":false,"v8":"5.5.372.43"},{"name":"nodejs","version":"8.0.0","date":"2017-05-30","lts":false,"security":false,"v8":"5.8.283.41"},{"name":"nodejs","version":"8.1.0","date":"2017-06-08","lts":false,"security":false,"v8":"5.8.283.41"},{"name":"nodejs","version":"8.2.0","date":"2017-07-19","lts":false,"security":false,"v8":"5.8.283.41"},{"name":"nodejs","version":"8.3.0","date":"2017-08-08","lts":false,"security":false,"v8":"6.0.286.52"},{"name":"nodejs","version":"8.4.0","date":"2017-08-15","lts":false,"security":false,"v8":"6.0.286.52"},{"name":"nodejs","version":"8.5.0","date":"2017-09-12","lts":false,"security":false,"v8":"6.0.287.53"},{"name":"nodejs","version":"8.6.0","date":"2017-09-26","lts":false,"security":false,"v8":"6.0.287.53"},{"name":"nodejs","version":"8.7.0","date":"2017-10-11","lts":false,"security":false,"v8":"6.1.534.42"},{"name":"nodejs","version":"8.8.0","date":"2017-10-24","lts":false,"security":false,"v8":"6.1.534.42"},{"name":"nodejs","version":"8.9.0","date":"2017-10-31","lts":"Carbon","security":false,"v8":"6.1.534.46"},{"name":"nodejs","version":"8.10.0","date":"2018-03-06","lts":"Carbon","security":false,"v8":"6.2.414.50"},{"name":"nodejs","version":"8.11.0","date":"2018-03-28","lts":"Carbon","security":true,"v8":"6.2.414.50"},{"name":"nodejs","version":"8.12.0","date":"2018-09-10","lts":"Carbon","security":false,"v8":"6.2.414.66"},{"name":"nodejs","version":"8.13.0","date":"2018-11-20","lts":"Carbon","security":false,"v8":"6.2.414.72"},{"name":"nodejs","version":"8.14.0","date":"2018-11-27","lts":"Carbon","security":true,"v8":"6.2.414.72"},{"name":"nodejs","version":"8.15.0","date":"2018-12-26","lts":"Carbon","security":false,"v8":"6.2.414.75"},{"name":"nodejs","version":"8.16.0","date":"2019-04-16","lts":"Carbon","security":false,"v8":"6.2.414.77"},{"name":"nodejs","version":"8.17.0","date":"2019-12-17","lts":"Carbon","security":true,"v8":"6.2.414.78"},{"name":"nodejs","version":"9.0.0","date":"2017-10-31","lts":false,"security":false,"v8":"6.2.414.32"},{"name":"nodejs","version":"9.1.0","date":"2017-11-07","lts":false,"security":false,"v8":"6.2.414.32"},{"name":"nodejs","version":"9.2.0","date":"2017-11-14","lts":false,"security":false,"v8":"6.2.414.44"},{"name":"nodejs","version":"9.3.0","date":"2017-12-12","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.4.0","date":"2018-01-10","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.5.0","date":"2018-01-31","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.6.0","date":"2018-02-21","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.7.0","date":"2018-03-01","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.8.0","date":"2018-03-07","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.9.0","date":"2018-03-21","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.10.0","date":"2018-03-28","lts":false,"security":true,"v8":"6.2.414.46"},{"name":"nodejs","version":"9.11.0","date":"2018-04-04","lts":false,"security":false,"v8":"6.2.414.46"},{"name":"nodejs","version":"10.0.0","date":"2018-04-24","lts":false,"security":false,"v8":"6.6.346.24"},{"name":"nodejs","version":"10.1.0","date":"2018-05-08","lts":false,"security":false,"v8":"6.6.346.27"},{"name":"nodejs","version":"10.2.0","date":"2018-05-23","lts":false,"security":false,"v8":"6.6.346.32"},{"name":"nodejs","version":"10.3.0","date":"2018-05-29","lts":false,"security":false,"v8":"6.6.346.32"},{"name":"nodejs","version":"10.4.0","date":"2018-06-06","lts":false,"security":false,"v8":"6.7.288.43"},{"name":"nodejs","version":"10.5.0","date":"2018-06-20","lts":false,"security":false,"v8":"6.7.288.46"},{"name":"nodejs","version":"10.6.0","date":"2018-07-04","lts":false,"security":false,"v8":"6.7.288.46"},{"name":"nodejs","version":"10.7.0","date":"2018-07-18","lts":false,"security":false,"v8":"6.7.288.49"},{"name":"nodejs","version":"10.8.0","date":"2018-08-01","lts":false,"security":false,"v8":"6.7.288.49"},{"name":"nodejs","version":"10.9.0","date":"2018-08-15","lts":false,"security":false,"v8":"6.8.275.24"},{"name":"nodejs","version":"10.10.0","date":"2018-09-06","lts":false,"security":false,"v8":"6.8.275.30"},{"name":"nodejs","version":"10.11.0","date":"2018-09-19","lts":false,"security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.12.0","date":"2018-10-10","lts":false,"security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.13.0","date":"2018-10-30","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.14.0","date":"2018-11-27","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.15.0","date":"2018-12-26","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.16.0","date":"2019-05-28","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.17.0","date":"2019-10-22","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.18.0","date":"2019-12-17","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.19.0","date":"2020-02-05","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.20.0","date":"2020-03-26","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.21.0","date":"2020-06-02","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.22.0","date":"2020-07-21","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.23.0","date":"2020-10-27","lts":"Dubnium","security":false,"v8":"6.8.275.32"},{"name":"nodejs","version":"10.24.0","date":"2021-02-23","lts":"Dubnium","security":true,"v8":"6.8.275.32"},{"name":"nodejs","version":"11.0.0","date":"2018-10-23","lts":false,"security":false,"v8":"7.0.276.28"},{"name":"nodejs","version":"11.1.0","date":"2018-10-30","lts":false,"security":false,"v8":"7.0.276.32"},{"name":"nodejs","version":"11.2.0","date":"2018-11-15","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.3.0","date":"2018-11-27","lts":false,"security":true,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.4.0","date":"2018-12-07","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.5.0","date":"2018-12-18","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.6.0","date":"2018-12-26","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.7.0","date":"2019-01-17","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.8.0","date":"2019-01-24","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.9.0","date":"2019-01-30","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.10.0","date":"2019-02-14","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.11.0","date":"2019-03-05","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.12.0","date":"2019-03-14","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.13.0","date":"2019-03-28","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.14.0","date":"2019-04-10","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"11.15.0","date":"2019-04-30","lts":false,"security":false,"v8":"7.0.276.38"},{"name":"nodejs","version":"12.0.0","date":"2019-04-23","lts":false,"security":false,"v8":"7.4.288.21"},{"name":"nodejs","version":"12.1.0","date":"2019-04-29","lts":false,"security":false,"v8":"7.4.288.21"},{"name":"nodejs","version":"12.2.0","date":"2019-05-07","lts":false,"security":false,"v8":"7.4.288.21"},{"name":"nodejs","version":"12.3.0","date":"2019-05-21","lts":false,"security":false,"v8":"7.4.288.27"},{"name":"nodejs","version":"12.4.0","date":"2019-06-04","lts":false,"security":false,"v8":"7.4.288.27"},{"name":"nodejs","version":"12.5.0","date":"2019-06-26","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.6.0","date":"2019-07-03","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.7.0","date":"2019-07-23","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.8.0","date":"2019-08-06","lts":false,"security":false,"v8":"7.5.288.22"},{"name":"nodejs","version":"12.9.0","date":"2019-08-20","lts":false,"security":false,"v8":"7.6.303.29"},{"name":"nodejs","version":"12.10.0","date":"2019-09-04","lts":false,"security":false,"v8":"7.6.303.29"},{"name":"nodejs","version":"12.11.0","date":"2019-09-25","lts":false,"security":false,"v8":"7.7.299.11"},{"name":"nodejs","version":"12.12.0","date":"2019-10-11","lts":false,"security":false,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.13.0","date":"2019-10-21","lts":"Erbium","security":false,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.14.0","date":"2019-12-17","lts":"Erbium","security":true,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.15.0","date":"2020-02-05","lts":"Erbium","security":true,"v8":"7.7.299.13"},{"name":"nodejs","version":"12.16.0","date":"2020-02-11","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.17.0","date":"2020-05-26","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.18.0","date":"2020-06-02","lts":"Erbium","security":true,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.19.0","date":"2020-10-06","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.20.0","date":"2020-11-24","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.21.0","date":"2021-02-23","lts":"Erbium","security":true,"v8":"7.8.279.23"},{"name":"nodejs","version":"12.22.0","date":"2021-03-30","lts":"Erbium","security":false,"v8":"7.8.279.23"},{"name":"nodejs","version":"13.0.0","date":"2019-10-22","lts":false,"security":false,"v8":"7.8.279.17"},{"name":"nodejs","version":"13.1.0","date":"2019-11-05","lts":false,"security":false,"v8":"7.8.279.17"},{"name":"nodejs","version":"13.2.0","date":"2019-11-21","lts":false,"security":false,"v8":"7.9.317.23"},{"name":"nodejs","version":"13.3.0","date":"2019-12-03","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.4.0","date":"2019-12-17","lts":false,"security":true,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.5.0","date":"2019-12-18","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.6.0","date":"2020-01-07","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.7.0","date":"2020-01-21","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.8.0","date":"2020-02-05","lts":false,"security":true,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.9.0","date":"2020-02-18","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.10.0","date":"2020-03-04","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.11.0","date":"2020-03-12","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.12.0","date":"2020-03-26","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.13.0","date":"2020-04-14","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"13.14.0","date":"2020-04-29","lts":false,"security":false,"v8":"7.9.317.25"},{"name":"nodejs","version":"14.0.0","date":"2020-04-21","lts":false,"security":false,"v8":"8.1.307.30"},{"name":"nodejs","version":"14.1.0","date":"2020-04-29","lts":false,"security":false,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.2.0","date":"2020-05-05","lts":false,"security":false,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.3.0","date":"2020-05-19","lts":false,"security":false,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.4.0","date":"2020-06-02","lts":false,"security":true,"v8":"8.1.307.31"},{"name":"nodejs","version":"14.5.0","date":"2020-06-30","lts":false,"security":false,"v8":"8.3.110.9"},{"name":"nodejs","version":"14.6.0","date":"2020-07-20","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.7.0","date":"2020-07-29","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.8.0","date":"2020-08-11","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.9.0","date":"2020-08-27","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.10.0","date":"2020-09-08","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.11.0","date":"2020-09-15","lts":false,"security":true,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.12.0","date":"2020-09-22","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.13.0","date":"2020-09-29","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.14.0","date":"2020-10-15","lts":false,"security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.15.0","date":"2020-10-27","lts":"Fermium","security":false,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.16.0","date":"2021-02-23","lts":"Fermium","security":true,"v8":"8.4.371.19"},{"name":"nodejs","version":"14.17.0","date":"2021-05-11","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.18.0","date":"2021-09-28","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.19.0","date":"2022-02-01","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.20.0","date":"2022-07-07","lts":"Fermium","security":true,"v8":"8.4.371.23"},{"name":"nodejs","version":"14.21.0","date":"2022-11-01","lts":"Fermium","security":false,"v8":"8.4.371.23"},{"name":"nodejs","version":"15.0.0","date":"2020-10-20","lts":false,"security":false,"v8":"8.6.395.16"},{"name":"nodejs","version":"15.1.0","date":"2020-11-04","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.2.0","date":"2020-11-10","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.3.0","date":"2020-11-24","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.4.0","date":"2020-12-09","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.5.0","date":"2020-12-22","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.6.0","date":"2021-01-14","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.7.0","date":"2021-01-25","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.8.0","date":"2021-02-02","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.9.0","date":"2021-02-18","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.10.0","date":"2021-02-23","lts":false,"security":true,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.11.0","date":"2021-03-03","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.12.0","date":"2021-03-17","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.13.0","date":"2021-03-31","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"15.14.0","date":"2021-04-06","lts":false,"security":false,"v8":"8.6.395.17"},{"name":"nodejs","version":"16.0.0","date":"2021-04-20","lts":false,"security":false,"v8":"9.0.257.17"},{"name":"nodejs","version":"16.1.0","date":"2021-05-04","lts":false,"security":false,"v8":"9.0.257.24"},{"name":"nodejs","version":"16.2.0","date":"2021-05-19","lts":false,"security":false,"v8":"9.0.257.25"},{"name":"nodejs","version":"16.3.0","date":"2021-06-03","lts":false,"security":false,"v8":"9.0.257.25"},{"name":"nodejs","version":"16.4.0","date":"2021-06-23","lts":false,"security":false,"v8":"9.1.269.36"},{"name":"nodejs","version":"16.5.0","date":"2021-07-14","lts":false,"security":false,"v8":"9.1.269.38"},{"name":"nodejs","version":"16.6.0","date":"2021-07-29","lts":false,"security":true,"v8":"9.2.230.21"},{"name":"nodejs","version":"16.7.0","date":"2021-08-18","lts":false,"security":false,"v8":"9.2.230.21"},{"name":"nodejs","version":"16.8.0","date":"2021-08-25","lts":false,"security":false,"v8":"9.2.230.21"},{"name":"nodejs","version":"16.9.0","date":"2021-09-07","lts":false,"security":false,"v8":"9.3.345.16"},{"name":"nodejs","version":"16.10.0","date":"2021-09-22","lts":false,"security":false,"v8":"9.3.345.19"},{"name":"nodejs","version":"16.11.0","date":"2021-10-08","lts":false,"security":false,"v8":"9.4.146.19"},{"name":"nodejs","version":"16.12.0","date":"2021-10-20","lts":false,"security":false,"v8":"9.4.146.19"},{"name":"nodejs","version":"16.13.0","date":"2021-10-26","lts":"Gallium","security":false,"v8":"9.4.146.19"},{"name":"nodejs","version":"16.14.0","date":"2022-02-08","lts":"Gallium","security":false,"v8":"9.4.146.24"},{"name":"nodejs","version":"16.15.0","date":"2022-04-26","lts":"Gallium","security":false,"v8":"9.4.146.24"},{"name":"nodejs","version":"16.16.0","date":"2022-07-07","lts":"Gallium","security":true,"v8":"9.4.146.24"},{"name":"nodejs","version":"16.17.0","date":"2022-08-16","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"16.18.0","date":"2022-10-12","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"16.19.0","date":"2022-12-13","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"16.20.0","date":"2023-03-28","lts":"Gallium","security":false,"v8":"9.4.146.26"},{"name":"nodejs","version":"17.0.0","date":"2021-10-19","lts":false,"security":false,"v8":"9.5.172.21"},{"name":"nodejs","version":"17.1.0","date":"2021-11-09","lts":false,"security":false,"v8":"9.5.172.25"},{"name":"nodejs","version":"17.2.0","date":"2021-11-30","lts":false,"security":false,"v8":"9.6.180.14"},{"name":"nodejs","version":"17.3.0","date":"2021-12-17","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.4.0","date":"2022-01-18","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.5.0","date":"2022-02-10","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.6.0","date":"2022-02-22","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.7.0","date":"2022-03-09","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.8.0","date":"2022-03-22","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"17.9.0","date":"2022-04-07","lts":false,"security":false,"v8":"9.6.180.15"},{"name":"nodejs","version":"18.0.0","date":"2022-04-18","lts":false,"security":false,"v8":"10.1.124.8"},{"name":"nodejs","version":"18.1.0","date":"2022-05-03","lts":false,"security":false,"v8":"10.1.124.8"},{"name":"nodejs","version":"18.2.0","date":"2022-05-17","lts":false,"security":false,"v8":"10.1.124.8"},{"name":"nodejs","version":"18.3.0","date":"2022-06-02","lts":false,"security":false,"v8":"10.2.154.4"},{"name":"nodejs","version":"18.4.0","date":"2022-06-16","lts":false,"security":false,"v8":"10.2.154.4"},{"name":"nodejs","version":"18.5.0","date":"2022-07-06","lts":false,"security":true,"v8":"10.2.154.4"},{"name":"nodejs","version":"18.6.0","date":"2022-07-13","lts":false,"security":false,"v8":"10.2.154.13"},{"name":"nodejs","version":"18.7.0","date":"2022-07-26","lts":false,"security":false,"v8":"10.2.154.13"},{"name":"nodejs","version":"18.8.0","date":"2022-08-24","lts":false,"security":false,"v8":"10.2.154.13"},{"name":"nodejs","version":"18.9.0","date":"2022-09-07","lts":false,"security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.10.0","date":"2022-09-28","lts":false,"security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.11.0","date":"2022-10-13","lts":false,"security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.12.0","date":"2022-10-25","lts":"Hydrogen","security":false,"v8":"10.2.154.15"},{"name":"nodejs","version":"18.13.0","date":"2023-01-05","lts":"Hydrogen","security":false,"v8":"10.2.154.23"},{"name":"nodejs","version":"18.14.0","date":"2023-02-01","lts":"Hydrogen","security":false,"v8":"10.2.154.23"},{"name":"nodejs","version":"18.15.0","date":"2023-03-05","lts":"Hydrogen","security":false,"v8":"10.2.154.26"},{"name":"nodejs","version":"18.16.0","date":"2023-04-12","lts":"Hydrogen","security":false,"v8":"10.2.154.26"},{"name":"nodejs","version":"19.0.0","date":"2022-10-17","lts":false,"security":false,"v8":"10.7.193.13"},{"name":"nodejs","version":"19.1.0","date":"2022-11-14","lts":false,"security":false,"v8":"10.7.193.20"},{"name":"nodejs","version":"19.2.0","date":"2022-11-29","lts":false,"security":false,"v8":"10.8.168.20"},{"name":"nodejs","version":"19.3.0","date":"2022-12-14","lts":false,"security":false,"v8":"10.8.168.21"},{"name":"nodejs","version":"19.4.0","date":"2023-01-05","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.5.0","date":"2023-01-24","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.6.0","date":"2023-02-01","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.7.0","date":"2023-02-21","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.8.0","date":"2023-03-14","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"19.9.0","date":"2023-04-10","lts":false,"security":false,"v8":"10.8.168.25"},{"name":"nodejs","version":"20.0.0","date":"2023-04-17","lts":false,"security":false,"v8":"11.3.244.4"},{"name":"nodejs","version":"20.1.0","date":"2023-05-03","lts":false,"security":false,"v8":"11.3.244.8"},{"name":"nodejs","version":"20.2.0","date":"2023-05-16","lts":false,"security":false,"v8":"11.3.244.8"},{"name":"nodejs","version":"20.3.0","date":"2023-06-08","lts":false,"security":false,"v8":"11.3.244.8"},{"name":"nodejs","version":"20.4.0","date":"2023-07-04","lts":false,"security":false,"v8":"11.3.244.8"}]');
+
+/***/ }),
+
+/***/ "./node_modules/node-releases/data/release-schedule/release-schedule.json":
+/*!********************************************************************************!*\
+  !*** ./node_modules/node-releases/data/release-schedule/release-schedule.json ***!
+  \********************************************************************************/
+/***/ (function(module) {
+
+"use strict";
+module.exports = JSON.parse('{"v0.8":{"start":"2012-06-25","end":"2014-07-31"},"v0.10":{"start":"2013-03-11","end":"2016-10-31"},"v0.12":{"start":"2015-02-06","end":"2016-12-31"},"v4":{"start":"2015-09-08","lts":"2015-10-12","maintenance":"2017-04-01","end":"2018-04-30","codename":"Argon"},"v5":{"start":"2015-10-29","maintenance":"2016-04-30","end":"2016-06-30"},"v6":{"start":"2016-04-26","lts":"2016-10-18","maintenance":"2018-04-30","end":"2019-04-30","codename":"Boron"},"v7":{"start":"2016-10-25","maintenance":"2017-04-30","end":"2017-06-30"},"v8":{"start":"2017-05-30","lts":"2017-10-31","maintenance":"2019-01-01","end":"2019-12-31","codename":"Carbon"},"v9":{"start":"2017-10-01","maintenance":"2018-04-01","end":"2018-06-30"},"v10":{"start":"2018-04-24","lts":"2018-10-30","maintenance":"2020-05-19","end":"2021-04-30","codename":"Dubnium"},"v11":{"start":"2018-10-23","maintenance":"2019-04-22","end":"2019-06-01"},"v12":{"start":"2019-04-23","lts":"2019-10-21","maintenance":"2020-11-30","end":"2022-04-30","codename":"Erbium"},"v13":{"start":"2019-10-22","maintenance":"2020-04-01","end":"2020-06-01"},"v14":{"start":"2020-04-21","lts":"2020-10-27","maintenance":"2021-10-19","end":"2023-04-30","codename":"Fermium"},"v15":{"start":"2020-10-20","maintenance":"2021-04-01","end":"2021-06-01"},"v16":{"start":"2021-04-20","lts":"2021-10-26","maintenance":"2022-10-18","end":"2023-09-11","codename":"Gallium"},"v17":{"start":"2021-10-19","maintenance":"2022-04-01","end":"2022-06-01"},"v18":{"start":"2022-04-19","lts":"2022-10-25","maintenance":"2023-10-18","end":"2025-04-30","codename":"Hydrogen"},"v19":{"start":"2022-10-18","maintenance":"2023-04-01","end":"2023-06-01"},"v20":{"start":"2023-04-18","lts":"2023-10-24","maintenance":"2024-10-22","end":"2026-04-30","codename":""}}');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	!function() {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	!function() {
+/******/ 		var getProto = Object.getPrototypeOf ? function(obj) { return Object.getPrototypeOf(obj); } : function(obj) { return obj.__proto__; };
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach(function(key) { def[key] = function() { return value[key]; }; });
+/******/ 			}
+/******/ 			def['default'] = function() { return value; };
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	!function() {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = function(chunkId) {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce(function(promises, key) {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	!function() {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = function(chunkId) {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + "79c74fc9816e091bac97" + "";
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	!function() {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = function(url, done, key, chunkId) {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = function(prev, event) {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach(function(fn) { return fn(event); });
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nmd = function(module) {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	!function() {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	!function() {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"core-unsupported-browser": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = function(chunkId, promises) {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise(function(resolve, reject) { installedChunkData = installedChunks[chunkId] = [resolve, reject]; });
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = function(event) {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], function() { return __webpack_require__("./core/src/unsupported-browser.js"); })
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=core-unsupported-browser.js.map?v=2b10774c5d6a067d4ce5
