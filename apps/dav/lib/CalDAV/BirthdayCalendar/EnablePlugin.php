@@ -27,6 +27,7 @@ namespace OCA\DAV\CalDAV\BirthdayCalendar;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
+use OCP\IUser;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -56,15 +57,20 @@ class EnablePlugin extends ServerPlugin {
 	 */
 	protected $server;
 
+	/** @var IUser */
+	private $user;
+
 	/**
 	 * PublishPlugin constructor.
 	 *
 	 * @param IConfig $config
 	 * @param BirthdayService $birthdayService
+	 * @param IUser $user
 	 */
-	public function __construct(IConfig $config, BirthdayService $birthdayService) {
+	public function __construct(IConfig $config, BirthdayService $birthdayService, IUser $user) {
 		$this->config = $config;
 		$this->birthdayService = $birthdayService;
+		$this->user = $user;
 	}
 
 	/**
@@ -127,11 +133,14 @@ class EnablePlugin extends ServerPlugin {
 			return;
 		}
 
-		$principalUri = $node->getOwner();
-		$userId = substr($principalUri, 17);
+		$owner = substr($node->getOwner(), 17);
+		if($owner !== $this->user->getUID()) {
+			$this->server->httpResponse->setStatus(403);
+			return false;
+		}
 
-		$this->config->setUserValue($userId, 'dav', 'generateBirthdayCalendar', 'yes');
-		$this->birthdayService->syncUser($userId);
+		$this->config->setUserValue($this->user->getUID(), 'dav', 'generateBirthdayCalendar', 'yes');
+		$this->birthdayService->syncUser($this->user->getUID());
 
 		$this->server->httpResponse->setStatus(204);
 
