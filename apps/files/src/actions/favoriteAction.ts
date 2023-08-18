@@ -21,7 +21,7 @@
  */
 import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
-import { Permission, type Node, View } from '@nextcloud/files'
+import { Permission, type Node, View, registerFileAction, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
@@ -29,7 +29,6 @@ import Vue from 'vue'
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 
 // If any of the nodes is not favorited, we display the favorite action.

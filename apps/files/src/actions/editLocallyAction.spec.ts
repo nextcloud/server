@@ -21,8 +21,7 @@
  */
 import { action } from './editLocallyAction'
 import { expect } from '@jest/globals'
-import { File, Permission, View } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as ncDialogs from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 

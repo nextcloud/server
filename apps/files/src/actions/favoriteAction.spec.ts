@@ -21,8 +21,7 @@
  */
 import { action } from './favoriteAction'
 import { expect } from '@jest/globals'
-import { File, Permission, View } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
 import * as favoriteAction from './favoriteAction'
 import axios from '@nextcloud/axios'

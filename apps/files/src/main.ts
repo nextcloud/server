@@ -10,7 +10,6 @@ import './actions/openInFilesAction.js'
 import './actions/renameAction'
 import './actions/sidebarAction'
 import './actions/viewInFolderAction'
-import './newMenu/newFolder'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'

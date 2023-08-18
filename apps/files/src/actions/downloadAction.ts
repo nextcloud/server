@@ -19,12 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, Node, FileType, View } from '@nextcloud/files'
+import { generateUrl } from '@nextcloud/router'
+import { registerFileAction, FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
-
-import { registerFileAction, FileAction } from '../services/FileAction'
-import { generateUrl } from '@nextcloud/router'
 
 const triggerDownload = function(url: string) {
 	const hiddenElement = document.createElement('a')

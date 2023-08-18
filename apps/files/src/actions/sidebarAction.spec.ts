@@ -20,10 +20,9 @@
  *
  */
 import { expect } from '@jest/globals'
-import { File, Permission, View } from '@nextcloud/files'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 
 import { action } from './sidebarAction'
-import { FileAction } from '../services/FileAction'
 import logger from '../logger'
 
 const view = {

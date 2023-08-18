@@ -22,12 +22,12 @@
 import type { Node, View } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
+import { FileAction, registerFileAction } from '@nextcloud/files'
 import { generateOcsUrl } from '@nextcloud/router'
 import { translatePlural as n } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
 import ArrowULeftTopSvg from '@mdi/svg/svg/arrow-u-left-top.svg?raw'
+import axios from '@nextcloud/axios'
 
-import { FileAction, registerFileAction } from '../../../files/src/services/FileAction'
 import { deletedSharesViewId } from '../views/shares'
 
 export const action = new FileAction({

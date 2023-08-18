@@ -21,8 +21,7 @@
  */
 import { action } from './openInFilesAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission, View } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
+import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 
 const view = {
 	id: 'files',

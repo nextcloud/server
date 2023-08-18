@@ -22,12 +22,11 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { Permission, Node, View } from '@nextcloud/files'
+import { Permission, Node, View, registerFileAction, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
-import { registerFileAction, FileAction } from '../../../files/src/services/FileAction'
 import logger from '../../../files/src/logger.js'
 
 registerFileAction(new FileAction({

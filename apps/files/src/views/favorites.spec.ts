@@ -21,8 +21,7 @@
  */
 import { expect } from '@jest/globals'
 import * as initialState from '@nextcloud/initial-state'
-import { Folder, getNavigation } from '@nextcloud/files'
-import { basename } from 'path'
+import { Folder, getNavigation, basename } from 'path'
 import * as eventBus from '@nextcloud/event-bus'
 
 import { action } from '../actions/favoriteAction'

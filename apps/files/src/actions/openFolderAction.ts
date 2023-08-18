@@ -19,12 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, Node, FileType, View } from '@nextcloud/files'
+import { join } from 'path'
+import { Permission, Node, FileType, View, registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
-
-import { join } from 'path'
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 
 export const action = new FileAction({
 	id: 'open-folder',

@@ -21,8 +21,7 @@
  */
 import { action } from './deleteAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission, View } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import logger from '../logger'

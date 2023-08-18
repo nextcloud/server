@@ -57,9 +57,9 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import Vue from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'

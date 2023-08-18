@@ -32,8 +32,7 @@
 </template>
 
 <script lang="ts">
-import { File, Folder } from '@nextcloud/files'
-import { debounce } from 'debounce'
+import { File, Folder, debounce } from 'debounce'
 import Vue from 'vue'
 import logger from '../logger.js'
 

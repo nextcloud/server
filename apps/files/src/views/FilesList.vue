@@ -66,8 +66,7 @@
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
-import { Folder, Node, type View, type ContentsWithRoot } from '@nextcloud/files'
-import { join } from 'path'
+import { Folder, Node, type View, type ContentsWithRoot, join } from 'path'
 import { orderBy } from 'natural-orderby'
 import { translate } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'

@@ -24,8 +24,7 @@ import { File, Permission, View } from '@nextcloud/files'
 
 import '../main'
 import { action } from './openInFilesAction'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
-import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
+import { DefaultType, FileAction, deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
 
 const view = {
 	id: 'files',

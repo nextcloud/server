@@ -19,11 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Node, FileType, Permission, View } from '@nextcloud/files'
+import { Node, FileType, Permission, View, registerFileAction, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
-
-import { registerFileAction, FileAction } from '../services/FileAction'
 
 export const action = new FileAction({
 	id: 'view-in-folder',

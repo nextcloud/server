@@ -32,7 +32,7 @@ import '../css/fileEntryStatus.scss'
 import { getStatus, type StorageConfig } from '../services/externalStorage'
 import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils'
-import { registerFileAction, FileAction } from '../../../files/src/services/FileAction'
+import { registerFileAction, FileAction } from '@nextcloud/files'
 
 export const action = new FileAction({
 	id: 'check-external-storage',

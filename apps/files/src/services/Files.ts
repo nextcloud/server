@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { ContentsWithRoot } from './Navigation'
+import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
 import { File, Folder, davParsePermissions } from '@nextcloud/files'

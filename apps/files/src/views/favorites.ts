@@ -27,8 +27,7 @@ import { basename } from 'path'
 import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
 import { loadState } from '@nextcloud/initial-state'
-import { Node, FileType, View, getNavigation } from '@nextcloud/files'
-import { subscribe } from '@nextcloud/event-bus'
+import { Node, FileType, View, getNavigation, subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 
 export const generateFolderView = function(folder: string, index = 0): View {

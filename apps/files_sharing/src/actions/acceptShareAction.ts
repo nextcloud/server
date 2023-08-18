@@ -23,11 +23,11 @@ import type { Node, View } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
+import { registerFileAction, FileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import CheckSvg from '@mdi/svg/svg/check.svg?raw'
 
-import { FileAction, registerFileAction } from '../../../files/src/services/FileAction'
 import { pendingSharesViewId } from '../views/shares'
 
 export const action = new FileAction({

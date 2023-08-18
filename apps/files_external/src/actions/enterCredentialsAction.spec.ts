@@ -21,8 +21,7 @@
  */
 import { action } from './enterCredentialsAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission, View } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
+import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage'
 import { STORAGE_STATUS } from '../utils/credentialsUtils'
 

@@ -21,8 +21,7 @@
  */
 import { action } from './downloadAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission, View } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
 
 const view = {
 	id: 'files',
