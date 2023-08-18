@@ -102,17 +102,11 @@ class AjaxControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('MyAdminUid')
-			->willReturn(true);
 		$this->globalAuth
-			->expects($this->once())
-			->method('saveAuth')
-			->with('UidOfTestUser', 'test', 'password');
+			->expects($this->never())
+			->method('saveAuth');
 
-		$this->assertSame(true, $this->ajaxController->saveGlobalCredentials('UidOfTestUser', 'test', 'password'));
+		$this->assertSame(false, $this->ajaxController->saveGlobalCredentials('UidOfTestUser', 'test', 'password'));
 	}
 
 	public function testSaveGlobalCredentialsAsAdminForSelf() {
@@ -125,11 +119,6 @@ class AjaxControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('MyAdminUid')
-			->willReturn(true);
 		$this->globalAuth
 			->expects($this->once())
 			->method('saveAuth')
@@ -141,18 +130,13 @@ class AjaxControllerTest extends TestCase {
 	public function testSaveGlobalCredentialsAsNormalUserForSelf() {
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getUID')
 			->willReturn('MyUserUid');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('MyUserUid')
-			->willReturn(false);
 		$this->globalAuth
 			->expects($this->once())
 			->method('saveAuth')
@@ -164,18 +148,16 @@ class AjaxControllerTest extends TestCase {
 	public function testSaveGlobalCredentialsAsNormalUserForAnotherUser() {
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getUID')
 			->willReturn('MyUserUid');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->groupManager
-			->expects($this->once())
-			->method('isAdmin')
-			->with('MyUserUid')
-			->willReturn(false);
+		$this->globalAuth
+			->expects($this->never())
+			->method('saveAuth');
 
 		$this->assertSame(false, $this->ajaxController->saveGlobalCredentials('AnotherUserUid', 'test', 'password'));
 	}
