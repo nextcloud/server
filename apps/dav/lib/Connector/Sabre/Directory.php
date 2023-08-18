@@ -315,20 +315,22 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 	}
 
+	private function getLogger(): LoggerInterface {
+		return \OC::$server->get(LoggerInterface::class);
+	}
+
 	/**
 	 * Returns available diskspace information
 	 *
 	 * @return array
 	 */
 	public function getQuotaInfo() {
-		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->get(LoggerInterface::class);
 		if ($this->quotaInfo) {
 			return $this->quotaInfo;
 		}
 		$relativePath = $this->fileView->getRelativePath($this->info->getPath());
 		if ($relativePath === null) {
-			$logger->warning("error while getting quota as the relative path cannot be found");
+			$this->getLogger()->warning("error while getting quota as the relative path cannot be found");
 			return [0, 0];
 		}
 
@@ -345,13 +347,13 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			];
 			return $this->quotaInfo;
 		} catch (\OCP\Files\NotFoundException $e) {
-			$logger->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			$logger->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		} catch (NotPermittedException $e) {
-			$logger->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		}
 	}
