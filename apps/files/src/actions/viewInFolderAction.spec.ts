@@ -21,14 +21,13 @@
  */
 import { action } from './viewInFolderAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Node, Permission } from '@nextcloud/files'
+import { File, Folder, Node, Permission, View } from '@nextcloud/files'
 import { FileAction } from '../services/FileAction'
-import type { Navigation } from '../services/Navigation'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('View in folder action conditions tests', () => {
 	test('Default values', () => {

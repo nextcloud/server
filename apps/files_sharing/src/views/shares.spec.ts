@@ -23,19 +23,16 @@
 import { expect } from '@jest/globals'
 import axios from '@nextcloud/axios'
 
-import { type Navigation } from '../../../files/src/services/Navigation'
 import { type OCSResponse } from '../services/SharingService'
-import { NavigationService } from '../../../files/src/services/Navigation'
 import registerSharingViews from './shares'
 
 import '../main'
-import { Folder } from '@nextcloud/files'
+import { Folder, getNavigation } from '@nextcloud/files'
 
 describe('Sharing views definition', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
 	})
 
 	afterAll(() => {

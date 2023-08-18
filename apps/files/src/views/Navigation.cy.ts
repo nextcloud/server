@@ -2,13 +2,14 @@ import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
 import { createTestingPinia } from '@pinia/testing'
 
-import { NavigationService } from '../services/Navigation'
 import NavigationView from './Navigation.vue'
 import router from '../router/router'
 import { useViewConfigStore } from '../store/viewConfig'
+import { Folder, View, getNavigation } from '@nextcloud/files'
 
 describe('Navigation renders', () => {
-	const Navigation = new NavigationService() as NavigationService
+	delete window._nc_navigation
+	const Navigation = getNavigation()
 
 	before(() => {
 		cy.mockInitialState('files', 'storageStats', {
@@ -38,16 +39,17 @@ describe('Navigation renders', () => {
 })
 
 describe('Navigation API', () => {
-	const Navigation = new NavigationService() as NavigationService
+	delete window._nc_navigation
+	const Navigation = getNavigation()
 
 	it('Check API entries rendering', () => {
-		Navigation.register({
+		Navigation.register(new View({
 			id: 'files',
 			name: 'Files',
-			getContents: () => Promise.resolve(),
+			getContents: async () => ({ folder: {} as Folder, contents: [] }),
 			icon: FolderSvg,
 			order: 1,
-		})
+		}))
 
 		cy.mount(NavigationView, {
 			propsData: {
@@ -68,13 +70,13 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new entry and render', () => {
-		Navigation.register({
+		Navigation.register(new View({
 			id: 'sharing',
 			name: 'Sharing',
-			getContents: () => Promise.resolve(),
+			getContents: async () => ({ folder: {} as Folder, contents: [] }),
 			icon: ShareSvg,
 			order: 2,
-		})
+		}))
 
 		cy.mount(NavigationView, {
 			propsData: {
@@ -95,14 +97,14 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new children, render and open menu', () => {
-		Navigation.register({
+		Navigation.register(new View({
 			id: 'sharingin',
 			name: 'Shared with me',
-			getContents: () => Promise.resolve(),
+			getContents: async () => ({ folder: {} as Folder, contents: [] }),
 			parent: 'sharing',
 			icon: ShareSvg,
 			order: 1,
-		})
+		}))
 
 		cy.mount(NavigationView, {
 			propsData: {
@@ -142,19 +144,20 @@ describe('Navigation API', () => {
 
 	it('Throws when adding a duplicate entry', () => {
 		expect(() => {
-			Navigation.register({
+			Navigation.register(new View({
 				id: 'files',
 				name: 'Files',
-				getContents: () => Promise.resolve(),
+				getContents: async () => ({ folder: {} as Folder, contents: [] }),
 				icon: FolderSvg,
 				order: 1,
-			})
-		}).to.throw('Navigation id files is already registered')
+			}))
+		}).to.throw('View id files is already registered')
 	})
 })
 
 describe('Quota rendering', () => {
-	const Navigation = new NavigationService()
+	delete window._nc_navigation
+	const Navigation = getNavigation()
 
 	afterEach(() => cy.unmockInitialState())
 

@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { Node } from '@nextcloud/files'
-import type { Navigation } from '../../../files/src/services/Navigation'
+import type { Node, View } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -55,7 +54,7 @@ export const action = new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+	async execBatch(nodes: Node[], view: View, dir: string) {
 		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 

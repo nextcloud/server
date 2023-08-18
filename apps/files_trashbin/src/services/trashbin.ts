@@ -21,12 +21,11 @@
  */
 /* eslint-disable */
 import { getCurrentUser } from '@nextcloud/auth'
-import { File, Folder, davParsePermissions } from '@nextcloud/files'
+import { File, Folder, davParsePermissions, type ContentsWithRoot } from '@nextcloud/files'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import { getDavNameSpaces, getDavProperties } from '../../../files/src/services/DavProperties'
-import type { ContentsWithRoot } from '../../../files/src/services/Navigation.ts'
 
 import client, { rootPath } from './client'
 

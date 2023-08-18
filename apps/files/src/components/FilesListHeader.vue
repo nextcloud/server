@@ -50,7 +50,6 @@ export default {
 	},
 	computed: {
 		enabled() {
-			console.debug('Enabled', this.header.id)
 			return this.header.enabled(this.currentFolder, this.currentView)
 		},
 	},

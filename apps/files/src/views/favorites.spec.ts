@@ -21,13 +21,12 @@
  */
 import { expect } from '@jest/globals'
 import * as initialState from '@nextcloud/initial-state'
-import { Folder } from '@nextcloud/files'
+import { Folder, getNavigation } from '@nextcloud/files'
 import { basename } from 'path'
 import * as eventBus from '@nextcloud/event-bus'
 
 import { action } from '../actions/favoriteAction'
 import * as favoritesService from '../services/Favorites'
-import { NavigationService } from '../services/Navigation'
 import registerFavoritesView from './favorites'
 
 jest.mock('webdav/dist/node/request.js', () => ({
@@ -41,8 +40,7 @@ global.window.OC = {
 describe('Favorites view definition', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
 	})
 
 	afterAll(() => {
@@ -114,8 +112,7 @@ describe('Favorites view definition', () => {
 describe('Dynamic update of favourite folders', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
 	})
 
 	afterAll(() => {

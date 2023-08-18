@@ -21,10 +21,9 @@
  */
 // eslint-disable-next-line n/no-extraneous-import
 import type { AxiosResponse } from 'axios'
-import type { ContentsWithRoot } from '../../../files/src/services/Navigation'
 import type { OCSResponse } from '../../../files_sharing/src/services/SharingService'
 
-import { Folder, Permission } from '@nextcloud/files'
+import { Folder, Permission, type ContentsWithRoot } from '@nextcloud/files'
 import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'

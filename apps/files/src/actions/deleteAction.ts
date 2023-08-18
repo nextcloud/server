@@ -20,18 +20,17 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node } from '@nextcloud/files'
+import { Permission, Node, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
 
 import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
-import type { Navigation } from '../services/Navigation'
 
 export const action = new FileAction({
 	id: 'delete',
-	displayName(nodes: Node[], view: Navigation) {
+	displayName(nodes: Node[], view: View) {
 		return view.id === 'trashbin'
 			? t('files_trashbin', 'Delete permanently')
 			: t('files', 'Delete')
@@ -58,7 +57,7 @@ export const action = new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+	async execBatch(nodes: Node[], view: View, dir: string) {
 		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 

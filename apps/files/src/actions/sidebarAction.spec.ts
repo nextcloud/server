@@ -19,10 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { Navigation } from '../services/Navigation'
-
 import { expect } from '@jest/globals'
-import { File, Permission } from '@nextcloud/files'
+import { File, Permission, View } from '@nextcloud/files'
 
 import { action } from './sidebarAction'
 import { FileAction } from '../services/FileAction'
@@ -31,7 +29,7 @@ import logger from '../logger'
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
