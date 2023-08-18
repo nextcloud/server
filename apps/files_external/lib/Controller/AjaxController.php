@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -26,52 +30,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {
-	/** @var RSA */
-	private $rsaMechanism;
-	/** @var GlobalAuth  */
-	private $globalAuth;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param RSA $rsaMechanism
-	 * @param GlobalAuth $globalAuth
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								RSA $rsaMechanism,
-								GlobalAuth $globalAuth,
-								IUserSession $userSession,
-								IGroupManager $groupManager) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private RSA $rsaMechanism,
+		private GlobalAuth $globalAuth,
+		private IUserSession $userSession
+	) {
 		parent::__construct($appName, $request);
-		$this->rsaMechanism = $rsaMechanism;
-		$this->globalAuth = $globalAuth;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**
 	 * @param int $keyLength
 	 * @return array
 	 */
-	private function generateSshKeys($keyLength) {
+	private function generateSshKeys(int $keyLength): array {
 		$key = $this->rsaMechanism->createKey($keyLength);
 		// Replace the placeholder label with a more meaningful one
 		$key['publickey'] = str_replace('phpseclib-generated-key', gethostname(), $key['publickey']);
@@ -83,9 +67,11 @@ class AjaxController extends Controller {
 	 * Generates an SSH public/private key pair.
 	 *
 	 * @NoAdminRequired
+	 *
 	 * @param int $keyLength
+	 * @return JSONResponse
 	 */
-	public function getSshKeys($keyLength = 1024) {
+	public function getSshKeys(int $keyLength = 1024): JSONResponse {
 		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse(
 			['data' => [
@@ -104,17 +90,13 @@ class AjaxController extends Controller {
 	 * @param string $password
 	 * @return bool
 	 */
-	public function saveGlobalCredentials($uid, $user, $password) {
-		$currentUser = $this->userSession->getUser();
-
-		// Non-admins can only edit their own credentials
-		$allowedToEdit = ($currentUser->getUID() === $uid);
-
-		if ($allowedToEdit) {
-			$this->globalAuth->saveAuth($uid, $user, $password);
-			return true;
-		} else {
+	public function saveGlobalCredentials(string $uid, string $user, string $password): bool {
+		if ($this->userSession->getUser()->getUID() !== $uid) {
 			return false;
 		}
+
+		$this->globalAuth->saveAuth($uid, $user, $password);
+
+		return true;
 	}
 }
