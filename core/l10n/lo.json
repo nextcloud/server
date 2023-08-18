@@ -3,6 +3,8 @@
     "File is too big" : "ຟາຍໃຫຍ່ໂພດ",
     "The selected file is not an image." : "ຟາຍທີ່ເລືອກບໍ່ແມ່ນຮູບ",
     "The selected file cannot be read." : "ຟາຍທີ່ເລືອກບໍ່ສາມາດອ່ານໄດ້",
+    "The file was uploaded" : "ຟາຍຖຶກອັບໂຫລດສຳເລັດ",
+    "No file was uploaded" : "ບໍ່ມີການອັບໂຫລດຟາຍ",
     "Invalid file provided" : "ຟາຍບໍ່ຖືກຕ້ອງ",
     "No image or file provided" : "ບໍ່ມີຮູບພາບ ຫຼື ຟາຍ",
     "Unknown filetype" : "ບໍ່ຮູ້ປະເພດຂອງຟາຍ",
