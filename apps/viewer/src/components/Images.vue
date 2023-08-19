@@ -36,10 +36,10 @@
 		}"
 		:src="data"
 		:style="{
-			marginTop: (shiftY * 2) + 'px',
-			marginLeft: (shiftX * 2) + 'px',
-			maxHeight: zoomRatio * 100 + '%',
-			maxWidth: zoomRatio * 100 + '%',
+			marginTop: Math.round(shiftY * 2) + 'px',
+			marginLeft: Math.round(shiftX * 2) + 'px',
+			height: zoomHeight + 'px',
+			width: zoomWidth + 'px',
 		}"
 		@error.capture.prevent.stop.once="onFail"
 		@load="updateImgSize"
@@ -175,8 +175,8 @@ export default {
 			// scrolling position relative to the image
 			const scrollX = event.clientX - this.$el.x - (this.width * this.zoomRatio / 2)
 			const scrollY = event.clientY - this.$el.y - (this.height * this.zoomRatio / 2)
-			const scrollPercX = Math.round(scrollX / (this.width * this.zoomRatio) * 100) / 100
-			const scrollPercY = Math.round(scrollY / (this.height * this.zoomRatio) * 100) / 100
+			const scrollPercX = scrollX / (this.width * this.zoomRatio)
+			const scrollPercY = scrollY / (this.height * this.zoomRatio)
 			const isZoomIn = event.deltaY < 0
 
 			const newZoomRatio = isZoomIn
@@ -195,8 +195,8 @@ export default {
 
 			// compensate for existing margins
 			this.disableSwipe()
-			this.shiftX = this.shiftX + Math.round(-scrollPercX * growX)
-			this.shiftY = this.shiftY + Math.round(-scrollPercY * growY)
+			this.shiftX = this.shiftX - scrollPercX * growX
+			this.shiftY = this.shiftY - scrollPercY * growY
 			this.zoomRatio = newZoomRatio
 		},
 
@@ -278,11 +278,8 @@ img {
 	justify-self: center;
 	// black while loading
 	background-color: #000;
-	// animate zooming/resize
-	transition: height 100ms ease,
-		width 100ms ease,
-		margin-top 100ms ease,
-		margin-left 100ms ease;
+	// disable animations during zooming/resize
+	transition: none !important;
 	// show checkered bg on hover if not currently zooming (but ok if zoomed)
 	&:hover {
 		background-image: linear-gradient(45deg, #{$checkered-color} 25%, transparent 25%),
