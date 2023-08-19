@@ -26,7 +26,7 @@ jobs:
         run: curl --etag-compare build/ca-bundle-etag.txt --etag-save build/ca-bundle-etag.txt --output resources/config/ca-bundle.crt https://curl.se/ca/cacert.pem
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "fix(security): Update CA certificate bundle"
