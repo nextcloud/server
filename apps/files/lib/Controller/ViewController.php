@@ -255,7 +255,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 
 		// File sorting user config
-		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
+		$filesSortingConfig = $this->viewConfig->getConfigs();
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
 		// render the container content for every navigation item
@@ -301,8 +301,8 @@ class ViewController extends Controller {
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
 		$params['isPublic'] = false;
 		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
-		$params['defaultFileSorting'] = $filesSortingConfig['files']['mode'] ?? 'basename';
-		$params['defaultFileSortingDirection'] = $filesSortingConfig['files']['direction'] ?? 'asc';
+		$params['defaultFileSorting'] = $filesSortingConfig['files']['sorting_mode'] ?? 'basename';
+		$params['defaultFileSortingDirection'] = $filesSortingConfig['files']['sorting_direction'] ?? 'asc';
 		$params['showgridview'] = $this->config->getUserValue($userId, 'files', 'show_grid', false);
 		$showHidden = (bool) $this->config->getUserValue($userId, 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;

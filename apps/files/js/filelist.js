@@ -2185,11 +2185,22 @@
 			}
 
 			if (persist && OC.getCurrentUser().uid) {
-				$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
-					// Compatibility with new files-to-vue API
-					mode: sort === 'name' ? 'basename' : sort,
-					direction: direction,
-					view: 'files'
+				$.ajax({
+					type: 'PUT',
+					url: OC.generateUrl('apps/files/api/v1/views/files/sorting_mode'),
+					contentType: 'application/json',
+					data: JSON.stringify({
+						// Compatibility with new files-to-vue API
+						value: sort === 'name' ? 'basename' : sort,
+					})
+				});
+				$.ajax({
+					type: 'PUT',
+					url: OC.generateUrl('apps/files/api/v1/views/files/sorting_direction'),
+					contentType: 'application/json',
+					data: JSON.stringify({
+						value: direction,
+					})
 				});
 			}
 		},

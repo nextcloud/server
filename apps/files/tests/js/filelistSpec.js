@@ -2561,10 +2561,11 @@ describe('OCA.Files.FileList tests', function() {
 		});
 
 		it('Toggles the sort indicator when clicking on a column header', function() {
-			var ASC_CLASS = fileList.SORT_INDICATOR_ASC_CLASS;
-			var DESC_CLASS = fileList.SORT_INDICATOR_DESC_CLASS;
+			const ASC_CLASS = fileList.SORT_INDICATOR_ASC_CLASS;
+			const DESC_CLASS = fileList.SORT_INDICATOR_DESC_CLASS;
 			var request;
-			var sortingUrl = OC.generateUrl('/apps/files/api/v1/sorting');
+			const sortingDirectionUrl = OC.generateUrl('/apps/files/api/v1/views/files/sorting_direction');
+			const sortingModeUrl = OC.generateUrl('/apps/files/api/v1/views/files/sorting_mode');
 			fileList.$el.find('.column-size .columntitle').click();
 			// moves triangle to size column, check indicator on name is hidden
 			expect(
@@ -2578,9 +2579,9 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.$el.find('.column-size .sort-indicator').hasClass(DESC_CLASS)
 			).toEqual(true);
 			// check if changes are persisted
-			expect(fakeServer.requests.length).toEqual(1);
-			request = fakeServer.requests[0];
-			expect(request.url).toEqual(sortingUrl);
+			expect(fakeServer.requests.length).toEqual(2);
+			expect(fakeServer.requests.some((request) => request.url === sortingDirectionUrl)).toBe(true)
+			expect(fakeServer.requests.some((request) => request.url === sortingModeUrl)).toBe(true)
 
 			// click again on size column, reverses direction
 			fileList.$el.find('.column-size .columntitle').click();
@@ -2591,9 +2592,9 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS)
 			).toEqual(true);
 			// check if changes are persisted
-			expect(fakeServer.requests.length).toEqual(2);
-			request = fakeServer.requests[1];
-			expect(request.url).toEqual(sortingUrl);
+			expect(fakeServer.requests.length).toEqual(4);
+			expect(fakeServer.requests.slice(2).some((request) => request.url === sortingDirectionUrl)).toBe(true)
+			expect(fakeServer.requests.slice(2).some((request) => request.url === sortingModeUrl)).toBe(true)
 
 			// click again on size column, reverses direction
 			fileList.$el.find('.column-size .columntitle').click();
@@ -2603,9 +2604,9 @@ describe('OCA.Files.FileList tests', function() {
 			expect(
 				fileList.$el.find('.column-size .sort-indicator').hasClass(DESC_CLASS)
 			).toEqual(true);
-			expect(fakeServer.requests.length).toEqual(3);
-			request = fakeServer.requests[2];
-			expect(request.url).toEqual(sortingUrl);
+			expect(fakeServer.requests.length).toEqual(6);
+			expect(fakeServer.requests.slice(4).some((request) => request.url === sortingDirectionUrl)).toBe(true)
+			expect(fakeServer.requests.slice(4).some((request) => request.url === sortingModeUrl)).toBe(true)
 
 			// click on mtime column, moves indicator there
 			fileList.$el.find('.column-mtime .columntitle').click();
@@ -2618,10 +2619,11 @@ describe('OCA.Files.FileList tests', function() {
 			expect(
 				fileList.$el.find('.column-mtime .sort-indicator').hasClass(DESC_CLASS)
 			).toEqual(true);
-			expect(fakeServer.requests.length).toEqual(4);
-			request = fakeServer.requests[3];
-			expect(request.url).toEqual(sortingUrl);
+			expect(fakeServer.requests.length).toEqual(8);
+			expect(fakeServer.requests.slice(6).some((request) => request.url === sortingDirectionUrl)).toBe(true)
+			expect(fakeServer.requests.slice(6).some((request) => request.url === sortingModeUrl)).toBe(true)
 		});
+
 		it('Uses correct sort comparator when inserting files', function() {
 			testFiles.sort(OCA.Files.FileList.Comparators.size);
 			testFiles.reverse();	//default is descending

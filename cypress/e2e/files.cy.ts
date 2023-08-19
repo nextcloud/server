@@ -30,16 +30,10 @@ const startCopyMove = (file: string) => {
 }
 
 describe('Login with a new user and open the files app', function() {
-	let currentUser: User
-	beforeEach(function() {
+	before(function() {
 		cy.createRandomUser().then((user) => {
-			currentUser = user
 			cy.login(user)
 		})
-	})
-
-	afterEach(function() {
-		cy.deleteUser(currentUser)
 	})
 
 	Cypress.on('uncaught:exception', (err) => {
@@ -52,6 +46,40 @@ describe('Login with a new user and open the files app', function() {
 	it('See the default file welcome.txt in the files list', function() {
 		cy.visit('/apps/files')
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+	})
+
+	it('See the file list sorting order is saved', function() {
+		cy.intercept('PUT', /api\/v1\/views\/files\/sorting_direction$/).as('sorting_direction')
+
+		cy.visit('/apps/files')
+		// default to sorting by name
+		cy.get('.files-filestable th.column-name .sort-indicator').should('be.visible')
+		// change to size
+		cy.get('.files-filestable th').contains('Size').click()
+		// size sorting should be active
+		cy.get('.files-filestable th.column-name .sort-indicator').should('not.be.visible')
+		cy.get('.files-filestable th.column-size .sort-indicator').should('be.visible')
+		cy.wait('@sorting_direction')
+
+		// Re-visit
+		cy.visit('/apps/files')
+		// now sorting by name should be disabled and sorting by size should be enabled
+		cy.get('.files-filestable th.column-name .sort-indicator').should('not.be.visible')
+		cy.get('.files-filestable th.column-size .sort-indicator').should('be.visible')
+	})
+})
+
+describe('Testing the copy move action (FilePicker)', () => {
+	let currentUser: User
+	beforeEach(function() {
+		cy.createRandomUser().then((user) => {
+			currentUser = user
+			cy.login(user)
+		})
+	})
+
+	afterEach(function() {
+		cy.deleteUser(currentUser)
 	})
 
 	it('Copy a file in its same folder', () => {
