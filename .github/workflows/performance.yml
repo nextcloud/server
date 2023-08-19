@@ -86,7 +86,7 @@ jobs:
             before.json
             after.json
 
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
