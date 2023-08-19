@@ -167,7 +167,7 @@
     "node-polyfill-webpack-plugin": "^2.0.1",
     "puppeteer": "^21.0.3",
     "regextras": "^0.8.0",
-    "sass": "^1.62.1",
+    "sass": "^1.66.1",
     "sass-loader": "^13.2.2",
     "sinon": "<= 5.0.7",
     "style-loader": "^3.3.1",
