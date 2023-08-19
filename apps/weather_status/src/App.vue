@@ -56,14 +56,13 @@
 					{{ t('weather_status', 'Detect location') }}
 				</NcActionButton>
 				<NcActionInput ref="addressInput"
+					:label="t('weather_status', 'Set custom address')"
 					:disabled="false"
 					icon="icon-rename"
 					:aria-hidden="true"
 					type="text"
 					value=""
-					@submit="onAddressSubmit">
-					{{ t('weather_status', 'Set custom address') }}
-				</NcActionInput>
+					@submit="onAddressSubmit" />
 				<template v-if="favorites.length > 0">
 					<NcActionCaption :name="t('weather_status', 'Favorites')" />
 					<NcActionButton v-for="favorite in favorites"
