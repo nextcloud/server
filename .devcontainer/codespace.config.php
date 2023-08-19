@@ -8,7 +8,7 @@ $CONFIG = [
     'mail_smtpmode' => 'smtp',
     'mail_sendmailmode' => 'smtp',
     'mail_domain' => 'example.com',
-    'mail_smtphost' => 'localhost',
+    'mail_smtphost' => 'mailhog',
     'mail_smtpport' => '1025',
     'memcache.local' => '\OC\Memcache\APCu',
 ];

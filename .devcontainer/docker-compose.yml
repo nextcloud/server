@@ -6,11 +6,15 @@ services:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker-host.sock
       - ..:/var/www/html
+      - ../../customapps:/var/www/html/customapps
+      - ../../data:/var/www/html/data
+      - ../../config:/var/www/html/config
     command: /var/www/html/.devcontainer/entrypoint.sh
     ports:
       - 80:80
-      - 8080:8080
-      - 8025:8025
+    depends_on:
+      - db
+      - mailhog
 
   db:
     image: postgres
@@ -19,18 +23,22 @@ services:
       POSTGRES_PASSWORD: postgres
       PGDATA: /data/postgres
     volumes:
-      - db:/data/postgres
-    network_mode: service:nextclouddev
+      - ../../data/db:/data/postgres
+    expose:
+      - "5432"
 
   adminer:
     image: adminer
     restart: always
-    network_mode: service:nextclouddev
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
 
   mailhog:
     image: mailhog/mailhog
     restart: always
-    network_mode: service:nextclouddev
+    ports:
+      - 8025:8025
 
-volumes:
-  db:
+

@@ -57,6 +57,7 @@ RUN apt-get -y install \
     apt-transport-https \
     ca-certificates \
     curl \
+    jq \
     gnupg-agent \
     software-properties-common && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
