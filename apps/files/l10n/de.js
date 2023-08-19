@@ -258,7 +258,7 @@ OC.L10N.register(
     "Open folder {name}" : "Ordner {name} öffnen",
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn du durch die Liste navigierst.",
     "Search for an account" : "Nach einem Konto suchen",
-    "Choose" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Choose" : "Auswählen",
     "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },
 "nplurals=2; plural=(n != 1);");

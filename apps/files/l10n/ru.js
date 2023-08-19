@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Переместить",
     "Copy" : "Копировать",
     "Choose target folder" : "Выбор папки назначения",
+    "Set reminder" : "Установить напоминание",
     "Edit locally" : "Редактировать локально",
     "Open" : "Открыть",
     "Delete file" : "Удалить файл",
