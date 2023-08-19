@@ -169,7 +169,7 @@ export default {
 			if (modalWrapper && this.naturalHeight > 0 && this.naturalWidth > 0) {
 				const modalContainer = modalWrapper.querySelector('.modal-container')
 
-				const parentHeight = modalContainer.clientHeight - 50 // header height
+				const parentHeight = modalContainer.clientHeight
 				const parentWidth = modalContainer.clientWidth
 
 				const heightRatio = parentHeight / this.naturalHeight
