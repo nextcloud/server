@@ -193,6 +193,7 @@
     "Results from other categories" : "Resultados doutras categorías",
     "No apps found for your version" : "Non se atoparon aplicacións para a súa versión",
     "Disable all" : "Desactivar todo",
+    "Download and enable all" : "Descargar e activar todo",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicación ten unha actualización dispòñíbel.","%n aplicacións teñen unha actualización dispoñíbel."],
     "_Update_::_Update all_" : ["Actualizar","Actualizar todo"],
     "Marked for remote wipe" : "Marcado para limpeza remota",
