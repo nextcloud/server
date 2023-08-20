@@ -195,6 +195,7 @@ OC.L10N.register(
     "Results from other categories" : "其他分類的結果",
     "No apps found for your version" : "沒有找到適合您的版本的應用程式",
     "Disable all" : "全部停用",
+    "Download and enable all" : "下載並啟用所有",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n 個應用程式有可用的更新"],
     "_Update_::_Update all_" : ["更新全部"],
     "Marked for remote wipe" : "標記為可遠端抹除",

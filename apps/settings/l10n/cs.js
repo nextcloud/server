@@ -195,6 +195,7 @@ OC.L10N.register(
     "Results from other categories" : "Výsledky z ostatních kategorií",
     "No apps found for your version" : "Nebyly nalezeny aplikace pro vaši verzi",
     "Disable all" : "Zakázat vše",
+    "Download and enable all" : "Stáhnout si a zapnout vše",
     "_%n app has an update available_::_%n apps have an update available_" : ["pro %n aplikaci je k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace","pro %n aplikací jsou k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace"],
     "_Update_::_Update all_" : ["Aktualizovat","Aktualizovat vše","Aktualizovat vše","Aktualizovat vše"],
     "Marked for remote wipe" : "Označeno k vymazání obsahu na dálku",

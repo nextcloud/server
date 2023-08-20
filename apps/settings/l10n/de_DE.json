@@ -193,6 +193,7 @@
     "Results from other categories" : "Ergebnisse aus anderen Kategorien",
     "No apps found for your version" : "Es wurden keine Apps für Ihre Version gefunden",
     "Disable all" : "Alle deaktivieren",
+    "Download and enable all" : "Alle herunterladen und aktivieren",
     "_%n app has an update available_::_%n apps have an update available_" : ["Für %n App ist eine Aktualisierung verfügbar","Für %n Apps sind Aktualisierungen verfügbar"],
     "_Update_::_Update all_" : ["Aktualisieren","Alle aktualisieren"],
     "Marked for remote wipe" : "Für Fernlöschung markiert",
