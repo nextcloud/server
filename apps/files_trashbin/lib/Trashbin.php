@@ -198,7 +198,7 @@ class Trashbin {
 	 * @throws CopyRecursiveException
 	 * @throws InvalidPathException
 	 */
-	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp): void {
+	private static function copyFilesToUser(string $sourcePath, string $owner, string $targetPath, string $user, int $timestamp): void {
 		self::setUpTrash($owner);
 
 		$targetFilename = basename($targetPath);
