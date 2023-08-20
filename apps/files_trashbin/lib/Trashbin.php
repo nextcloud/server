@@ -91,7 +91,7 @@ class Trashbin {
 	 * @param string $filename
 	 * @return array
 	 */
-	public static function getUidAndFilename($filename): array {
+	public static function getUidAndFilename(string $filename): array {
 		$uid = Filesystem::getOwner($filename);
 		$userManager = \OC::$server->getUserManager();
 		// if the user with the UID doesn't exists, e.g. because the UID points
