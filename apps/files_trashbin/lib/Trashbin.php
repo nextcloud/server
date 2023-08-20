@@ -171,7 +171,7 @@ class Trashbin {
 	/**
 	 * @param string $user
 	 */
-	private static function setUpTrash($user): void {
+	private static function setUpTrash(string $user): void {
 		$view = new View('/' . $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
