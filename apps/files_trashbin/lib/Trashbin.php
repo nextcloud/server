@@ -123,7 +123,7 @@ class Trashbin {
 	 * @param string $user
 	 * @return array (filename => array (timestamp => original location))
 	 */
-	public static function getLocations($user): array {
+	public static function getLocations(string $user): array {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->select('id', 'timestamp', 'location')
 			->from('files_trash')
