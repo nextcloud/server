@@ -193,6 +193,7 @@
     "Results from other categories" : "Results from other categories",
     "No apps found for your version" : "No apps found for your version",
     "Disable all" : "Disable all",
+    "Download and enable all" : "Download and enable all",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n app has an update available","%n apps have an update available"],
     "_Update_::_Update all_" : ["Update","Update all"],
     "Marked for remote wipe" : "Marked for remote wipe",
