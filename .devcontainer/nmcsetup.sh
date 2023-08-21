@@ -35,3 +35,9 @@ sudo -u ${APACHE_RUN_USER} php occ config:app:set theming iOSClientUrl --value \
 # enable/disable apps
 sudo -u ${APACHE_RUN_USER} php occ app:enable nmctheme
 sudo -u ${APACHE_RUN_USER} php occ app:disable dashboard  # may remove as soon as dashboard CR is implemented
+
+# there are side effects when using devcontainer and
+# doing the main settings via webapp. For the moment, the best
+# workaround is to lock config and avoid overwrite by nextcloud
+# esp. on container rebuild
+cp .devcontainer/lock.config.php config/lock.config.php
