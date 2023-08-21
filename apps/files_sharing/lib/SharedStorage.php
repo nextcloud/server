@@ -44,6 +44,7 @@ use OCP\Files\IHomeStorage;
 use OCP\Files\Node;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
@@ -98,6 +99,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private string $sourcePath = '';
 
+	private static int $initDepth = 0;
+
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->getLogger();
@@ -137,8 +140,15 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if ($this->initialized) {
 			return;
 		}
+
 		$this->initialized = true;
+		self::$initDepth++;
+
 		try {
+			if (self::$initDepth > 10) {
+				throw new \Exception("Maximum share depth reached");
+			}
+
 			/** @var IRootFolder $rootFolder */
 			$rootFolder = \OC::$server->get(IRootFolder::class);
 			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
@@ -151,6 +161,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			} else {
+				if ($this->nonMaskedStorage instanceof Wrapper && $this->nonMaskedStorage->isWrapperOf($this)) {
+					throw new \Exception('recursive share detected');
+				}
 				$this->nonMaskedStorage = $ownerNode->getStorage();
 				$this->sourcePath = $ownerNode->getPath();
 				$this->rootPath = $ownerNode->getInternalPath();
@@ -179,6 +192,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$this->nonMaskedStorage) {
 			$this->nonMaskedStorage = $this->storage;
 		}
+		self::$initDepth--;
 	}
 
 	/**
