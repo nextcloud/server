@@ -43,7 +43,7 @@
 				@load="updateImgSize"
 				@wheel="updateZoom"
 				@dblclick.prevent="onDblclick"
-				@mousedown.prevent="dragStart">
+				@pointerdown.prevent="dragStart">
 
 			<template v-if="livePhoto">
 				<video v-show="livePhotoCanBePlayed"
@@ -63,7 +63,7 @@
 					@wheel="updateZoom"
 					@error.capture.prevent.stop.once="onFail"
 					@dblclick.prevent="onDblclick"
-					@mousedown.prevent="dragStart"
+					@pointerdown.prevent="dragStart"
 					@ended="stopLivePhoto" />
 				<button v-if="width !== 0"
 					class="live-photo_play_button"
@@ -203,11 +203,11 @@ export default {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
 				this.resetZoom()
-				// end the dragging if your mouse go out of the content
-				window.addEventListener('mouseout', this.dragEnd)
+				// end the dragging if your pointer (mouse or touch) go out of the content
+				window.addEventListener('pointerout', this.dragEnd)
 			// the item is not displayed
 			} else if (val === false) {
-				window.removeEventListener('mouseout', this.dragEnd)
+				window.removeEventListener('pointerout', this.dragEnd)
 			}
 		},
 	},
@@ -298,8 +298,8 @@ export default {
 			this.dragY = pageY
 			this.dragging = true
 			const element = this.$refs.image ?? this.$refs.video
-			element.onmouseup = this.dragEnd
-			element.onmousemove = this.dragHandler
+			element.onpointerup = this.dragEnd
+			element.onpointermove = this.dragHandler
 		},
 		/**
 		 * @param {DragEvent} event the event
@@ -310,8 +310,8 @@ export default {
 			this.dragging = false
 			const element = this.$refs.image ?? this.$refs.video
 			if (element) {
-				element.onmouseup = null
-				element.onmousemove = null
+				element.onpointerup = null
+				element.onpointermove = null
 			}
 		},
 		/**
