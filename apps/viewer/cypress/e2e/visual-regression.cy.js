@@ -37,15 +37,13 @@ describe('Visual regression tests ', function() {
 			cy.visit('/apps/files')
 		})
 	})
-	after(function() {
-		cy.logout()
-	})
 
 	it('See files in the list', function() {
-		cy.get('.files-fileList tr[data-file="test-card.mp4"]', { timeout: 10000 })
-			.should('contain', 'test-card.mp4')
-		cy.get('.files-fileList tr[data-file="test-card.png"]', { timeout: 10000 })
-			.should('contain', 'test-card.png')
+		// TODO: Do we care about the file name being split by a ' ' in the text property?
+		cy.getFile('test-card.mp4', { timeout: 10000 })
+			.should('contain', 'test-card .mp4')
+		cy.getFile('test-card.png', { timeout: 10000 })
+			.should('contain', 'test-card .png')
 	})
 
 	it('Open the viewer on file click', function() {

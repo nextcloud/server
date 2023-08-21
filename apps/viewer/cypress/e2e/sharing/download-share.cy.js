@@ -52,10 +52,10 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 
 	it('See shared files in the list', function() {
 		cy.openFile('Photos')
-		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
-			.should('contain', 'image1.jpg')
-		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
-			.should('contain', 'image2.jpg')
+		cy.getFile('image1.jpg', { timeout: 10000 })
+			.should('contain', 'image1 .jpg')
+		cy.getFile('image2.jpg', { timeout: 10000 })
+			.should('contain', 'image2 .jpg')
 	})
 
 	it('Share the Photos folder with a share link and access the share link', function() {

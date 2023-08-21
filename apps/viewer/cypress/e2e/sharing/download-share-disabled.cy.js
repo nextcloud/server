@@ -48,17 +48,17 @@ describe(`Download ${fileName} in viewer`, function() {
 
 	it('See shared files in the list', function() {
 		cy.openFile('Photos')
-		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
-			.should('contain', 'image1.jpg')
-		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
-			.should('contain', 'image2.jpg')
+		cy.getFile('image1.jpg', { timeout: 10000 })
+			.should('contain', 'image1 .jpg')
+		cy.getFile('image2.jpg', { timeout: 10000 })
+			.should('contain', 'image2 .jpg')
 	})
 
 	it('Share the Photos folder with a share link and access the share link', function() {
 		cy.createLinkShare('/Photos').then(token => {
 			// Open the sidebar
 			cy.visit('/apps/files')
-			cy.get('.files-fileList tr[data-file="Photos"] .fileactions .action-share', { timeout: 10000 }).click()
+			cy.getFile('Photos').find('.fileactions .action-share', { timeout: 10000 }).click()
 			cy.get('aside.app-sidebar').should('be.visible')
 
 			// Open the share menu

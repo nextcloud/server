@@ -41,14 +41,14 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 	})
 
 	it('See images in the list', function() {
-		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
-			.should('contain', 'image1.jpg')
-		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
-			.should('contain', 'image2.jpg')
-		cy.get('.files-fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
-			.should('contain', 'image3.jpg')
-		cy.get('.files-fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
-			.should('contain', 'image4.jpg')
+		cy.getFile('image1.jpg', { timeout: 10000 })
+			.should('contain', 'image1 .jpg')
+		cy.getFile('image2.jpg', { timeout: 10000 })
+			.should('contain', 'image2 .jpg')
+		cy.getFile('image3.jpg', { timeout: 10000 })
+			.should('contain', 'image3 .jpg')
+		cy.getFile('image4.jpg', { timeout: 10000 })
+			.should('contain', 'image4 .jpg')
 	})
 
 	it('Open the viewer on file click', function() {
@@ -130,7 +130,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('body > .viewer').should('not.exist')
 
 		// open the sidebar without viewer open
-		cy.get('.files-fileList tr[data-file="image1.jpg"] .date .modified').click()
+		cy.getFile('image1.jpg').find('[data-cy-files-list-row-mtime]').click()
 
 		cy.openFile('image1.jpg')
 		cy.get('body > .viewer', { timeout: 10000 })

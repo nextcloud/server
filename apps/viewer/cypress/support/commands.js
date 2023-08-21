@@ -87,20 +87,24 @@ Cypress.Commands.add('createFolder', (user, target) => {
 	})
 })
 
+Cypress.Commands.add('getFile', fileName => {
+	return cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${CSS.escape(fileName)}"]`)
+})
+
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
+	cy.getFile(fileName).click()
 	// eslint-disable-next-line
 	cy.wait(250)
 })
 
 Cypress.Commands.add('getFileId', fileName => {
-	return cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"]`)
-		.should('have.attr', 'data-id')
+	return cy.getFile(fileName)
+		.should('have.attr', 'data-cy-files-list-row-fileid')
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
-	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
+	cy.getFile(fileName).find('[data-cy-files-list-row-actions] button').click()
+	cy.get('[data-cy-files-list-row-action="delete"]').click()
 })
 
 /**
