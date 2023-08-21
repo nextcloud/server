@@ -781,14 +781,18 @@ class View {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->emit_file_hooks_pre($exists, $target, $run);
 				} elseif ($this->shouldEmitHooks($source)) {
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME, Filesystem::signal_rename,
-						[
-							Filesystem::signal_param_oldpath => $this->getHookPath($source),
-							Filesystem::signal_param_newpath => $this->getHookPath($target),
-							Filesystem::signal_param_run => &$run
-						]
-					);
+					$sourcePath = $this->getHookPath($source);
+					$targetPath = $this->getHookPath($target);
+					if ($sourcePath !== null && $targetPath !== null) {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME, Filesystem::signal_rename,
+							[
+								Filesystem::signal_param_oldpath => $sourcePath,
+								Filesystem::signal_param_newpath => $targetPath,
+								Filesystem::signal_param_run => &$run
+							]
+						);
+					}
 				}
 				if ($run) {
 					$this->verifyPath(dirname($target), basename($target));
@@ -853,15 +857,19 @@ class View {
 							$this->emit_file_hooks_post($exists, $target);
 						}
 					} elseif ($result) {
-						if ($this->shouldEmitHooks($source) and $this->shouldEmitHooks($target)) {
-							\OC_Hook::emit(
-								Filesystem::CLASSNAME,
-								Filesystem::signal_post_rename,
-								[
-									Filesystem::signal_param_oldpath => $this->getHookPath($source),
-									Filesystem::signal_param_newpath => $this->getHookPath($target)
-								]
-							);
+						if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
+							$sourcePath = $this->getHookPath($source);
+							$targetPath = $this->getHookPath($target);
+							if ($sourcePath !== null && $targetPath !== null) {
+								\OC_Hook::emit(
+									Filesystem::CLASSNAME,
+									Filesystem::signal_post_rename,
+									[
+										Filesystem::signal_param_oldpath => $sourcePath,
+										Filesystem::signal_param_newpath => $targetPath,
+									]
+								);
+							}
 						}
 					}
 				}
