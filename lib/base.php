@@ -1133,26 +1133,34 @@ class OC {
 	 * Check login: apache auth, auth token, basic auth
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
-		$userSession = Server::get(\OC\User\Session::class);
-		if (OC_User::handleApacheAuth()) {
-			return true;
+		try {
+			$userSession = Server::get(\OC\User\Session::class);
+			$session = Server::get(\OCP\ISession::class);
+			$reopened = $session->reopen();
+			if (OC_User::handleApacheAuth()) {
+				return true;
+			}
+			if (self::tryAppEcosystemV2Login($request)) {
+				return true;
+			}
+			if ($userSession->tryTokenLogin($request)) {
+				return true;
+			}
+			if (isset($_COOKIE['nc_username'])
+				&& isset($_COOKIE['nc_token'])
+				&& isset($_COOKIE['nc_session_id'])
+				&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
+				return true;
+			}
+			if ($userSession->tryBasicAuthLogin($request, Server::get(\OC\Security\Bruteforce\Throttler::class))) {
+				return true;
+			}
+			return false;
+		} finally {
+			if ($reopened) {
+				$session->close();
+			}
 		}
-		if (self::tryAppEcosystemV2Login($request)) {
-			return true;
-		}
-		if ($userSession->tryTokenLogin($request)) {
-			return true;
-		}
-		if (isset($_COOKIE['nc_username'])
-			&& isset($_COOKIE['nc_token'])
-			&& isset($_COOKIE['nc_session_id'])
-			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
-			return true;
-		}
-		if ($userSession->tryBasicAuthLogin($request, Server::get(\OC\Security\Bruteforce\Throttler::class))) {
-			return true;
-		}
-		return false;
 	}
 
 	protected static function handleAuthHeaders(): void {
