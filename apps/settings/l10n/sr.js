@@ -195,6 +195,7 @@ OC.L10N.register(
     "Results from other categories" : "Резултати из других категорија",
     "No apps found for your version" : "Нема апликација за вашу верзију",
     "Disable all" : "Искључи све",
+    "Download and enable all" : "Преузми и укључи све",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n апликација има доступно ажурирање","%n апликације имају доступна ажурирања","%n апликација имају доступна ажурирања"],
     "_Update_::_Update all_" : ["Ажурирај","Ажурирај све","Ажурирај све"],
     "Marked for remote wipe" : "Означено за удаљено брисање",
