@@ -130,11 +130,7 @@ class BruteForceMiddleware extends Middleware {
 		}
 
 		if ($this->delaySlept) {
-			$headers = $response->getHeaders();
-			if (!isset($headers['X-Nextcloud-Bruteforce-Throttled'])) {
-				$headers['X-Nextcloud-Bruteforce-Throttled'] = $this->delaySlept . 'ms';
-				$response->setHeaders($headers);
-			}
+			$response->addHeader('X-Nextcloud-Bruteforce-Throttled', $this->delaySlept . 'ms');
 		}
 
 		return parent::afterController($controller, $methodName, $response);
