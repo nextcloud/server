@@ -5,6 +5,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2023 Kate Döen <kate.doeen@nextcloud.com>
  *
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -34,6 +35,8 @@ namespace OCA\Dashboard;
  *     icon_url: string,
  *     widget_url: ?string,
  *     item_icons_round: bool,
+ *     item_api_versions: int[],
+ *     reload_interval: int,
  *     buttons?: array{
  *         type: string,
  *         text: string,
@@ -46,8 +49,15 @@ namespace OCA\Dashboard;
  *     title: string,
  *     link: string,
  *     iconUrl: string,
+ *     overlayIconUrl: string,
  *     sinceId: string,
  * }
+ *
+ * @psalm-type DashboardWidgetItems = array{
+ *     items: DashboardWidgetItem[],
+ *     emptyContentMessage: string,
+ *     halfEmptyContentMessage: string,
+ *  }
  */
 class ResponseDefinitions {
 }
