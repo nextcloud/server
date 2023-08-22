@@ -11,6 +11,6 @@
         }
     },
 	"require": {
-		"nextcloud/openapi-extractor": "dev-main"
+		"nextcloud/openapi-extractor": "dev-main#85b552a0c82ac71e1f5660109113b6235156e92e"
 	}
 }
