@@ -106,3 +106,9 @@ export interface RenamingStore {
 export interface UploaderStore {
 	queue: Upload[]
 }
+
+// Drag and drop store
+export interface DragAndDropStore {
+	dragging: FileId[]
+}
+

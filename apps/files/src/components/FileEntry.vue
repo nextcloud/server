@@ -45,10 +45,13 @@
 			<!-- Icon or preview -->
 			<span class="files-list__row-icon" @click="execDefaultAction">
 				<template v-if="source.type === 'folder'">
-					<FolderIcon />
-					<OverlayIcon :is="folderOverlay"
-						v-if="folderOverlay"
-						class="files-list__row-icon-overlay" />
+					<FolderOpenIcon v-if="dragover" />
+					<template v-else>
+						<FolderIcon />
+						<OverlayIcon :is="folderOverlay"
+							v-if="folderOverlay"
+							class="files-list__row-icon-overlay" />
+					</template>
 				</template>
 
 				<!-- Decorative image, should not be aria documented -->
@@ -194,6 +197,7 @@ import Vue from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import FolderOpenIcon from 'vue-material-design-icons/FolderOpen.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
@@ -209,6 +213,7 @@ import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useKeyboardStore } from '../store/keyboard.ts'
 import { useRenamingStore } from '../store/renaming.ts'
@@ -235,6 +240,7 @@ export default Vue.extend({
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
+		FolderOpenIcon,
 		KeyIcon,
 		LinkIcon,
 		NcActionButton,
@@ -279,6 +285,7 @@ export default Vue.extend({
 
 	setup() {
 		const actionsMenuStore = useActionsMenuStore()
+		const draggingStore = useDragAndDropStore()
 		const filesStore = useFilesStore()
 		const keyboardStore = useKeyboardStore()
 		const renamingStore = useRenamingStore()
@@ -286,6 +293,7 @@ export default Vue.extend({
 		const userConfigStore = useUserConfigStore()
 		return {
 			actionsMenuStore,
+			draggingStore,
 			filesStore,
 			keyboardStore,
 			renamingStore,
@@ -299,6 +307,7 @@ export default Vue.extend({
 			backgroundFailed: false,
 			backgroundImage: '',
 			loading: '',
+			dragover: false,
 		}
 	},
 
@@ -445,6 +454,9 @@ export default Vue.extend({
 			}
 		},
 
+		draggingFiles() {
+			return this.draggingStore.dragging
+		},
 		selectedFiles() {
 			return this.selectionStore.selected
 		},
@@ -566,6 +578,23 @@ export default Vue.extend({
 
 		isActive() {
 			return this.fileid === this.currentFileId?.toString?.()
+		},
+
+		canDrag() {
+			return (this.source.permissions & Permission.UPDATE) !== 0
+		},
+
+		canDrop() {
+			if (this.source.type !== FileType.Folder) {
+				return false
+			}
+
+			// If the current folder is also being dragged, we can't drop it on itself
+			if (this.draggingFiles.find(fileId => fileId === this.fileid)) {
+				return false
+			}
+
+			return (this.source.permissions & Permission.CREATE) !== 0
 		},
 	},
 
@@ -928,6 +957,46 @@ export default Vue.extend({
 				if (title) return title
 			}
 			return action.displayName([this.source], this.currentView)
+		},
+
+		onDragEnter() {
+			this.dragover = this.canDrop
+		},
+		onDragLeave() {
+			this.dragover = false
+		},
+
+		onDragStart(event) {
+			if (!this.canDrag) {
+				event.preventDefault()
+				event.stopPropagation()
+				return
+			}
+
+			logger.debug('Drag started')
+
+			// Dragging set of files
+			if (this.selectedFiles.length > 0) {
+				this.draggingStore.set(this.selectedFiles)
+				return
+			}
+
+			this.draggingStore.set([this.fileid])
+		},
+		onDragEnd() {
+			this.draggingStore.reset()
+			this.dragover = false
+			logger.debug('Drag ended')
+		},
+
+		onDrop(event) {
+			// If another button is pressed, cancel it
+			// This allows cancelling the drag with the right click
+			if (!this.canDrop || event.button !== 0) {
+				return
+			}
+
+			logger.debug('Dropped', { event, selection: this.draggingFiles })
 		},
 
 		t: translate,
