@@ -416,10 +416,6 @@ object-assign
 
 /*! For license information please see NcCounterBubble.js.LICENSE.txt */
 
-/*! For license information please see NcDashboardWidget.js.LICENSE.txt */
-
-/*! For license information please see NcDashboardWidgetItem.js.LICENSE.txt */
-
 /*! For license information please see NcDatetimePicker.js.LICENSE.txt */
 
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
