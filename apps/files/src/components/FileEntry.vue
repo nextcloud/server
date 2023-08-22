@@ -170,7 +170,7 @@ import { CancelablePromise } from 'cancelable-promise'
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
-import { formatFileSize, Permission } from '@nextcloud/files'
+import { formatFileSize, FileType, Permission } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
@@ -395,6 +395,10 @@ export default Vue.extend({
 			return this.userConfig.crop_image_previews
 		},
 		previewUrl() {
+			if (this.source.type === FileType.Folder) {
+				return null
+			}
+
 			try {
 				const previewUrl = this.source.attributes.previewUrl
 					|| generateUrl('/core/preview?fileId={fileid}', {
