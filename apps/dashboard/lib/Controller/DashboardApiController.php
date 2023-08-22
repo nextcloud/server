@@ -123,7 +123,7 @@ class DashboardApiController extends OCSController {
 	 * @param array<string, string> $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
 	 * @param int $limit Limit number of result items per widget
 	 * @param string[] $widgets Limit results to specific widgets
-	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItems>, array{}>
+	 * @return DataResponse
 	 */
 	public function getWidgetItemsV2(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
