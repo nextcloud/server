@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,9 +32,11 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\IButtonWidget;
+use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\Model\WidgetItem;
+use OCP\Dashboard\Model\WidgetItems;
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
@@ -48,7 +51,7 @@ use OCP\Util;
  *
  * @package OCA\UserStatus
  */
-class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
+class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOptionWidget {
 	private IL10N $l10n;
 	private IDateTimeFormatter $dateTimeFormatter;
 	private IURLGenerator $urlGenerator;
@@ -132,17 +135,6 @@ class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		Util::addScript(Application::APP_ID, 'dashboard');
-
-		$currentUser = $this->userSession->getUser();
-		if ($currentUser === null) {
-			$this->initialStateService->provideInitialState('dashboard_data', []);
-			return;
-		}
-		$currentUserId = $currentUser->getUID();
-
-		$widgetItemsData = $this->getWidgetData($currentUserId);
-		$this->initialStateService->provideInitialState('dashboard_data', $widgetItemsData);
 	}
 
 	private function getWidgetData(string $userId, ?string $since = null, int $limit = 7): array {
@@ -199,6 +191,17 @@ class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
 				(string) $widgetData['timestamp']
 			);
 		}, $widgetItemsData);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getItemsV2(string $userId, ?string $since = null, int $limit = 7): WidgetItems {
+		$items = $this->getItems($userId, $since, $limit);
+		return new WidgetItems(
+			$items,
+			count($items) === 0 ? $this->l10n->t('No recent status changes') : '',
+		);
 	}
 
 	public function getWidgetOptions(): WidgetOptions {
