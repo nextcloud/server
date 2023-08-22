@@ -61,6 +61,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -800,6 +801,10 @@ class AccountManager implements IAccountManager {
 			return $this->internalCache->get($user->getUID());
 		}
 		$account = $this->parseAccountData($user, $this->getUser($user));
+		if ($user->getBackend() instanceof IGetDisplayNameBackend) {
+			$property = $account->getProperty(self::PROPERTY_DISPLAYNAME);
+			$account->setProperty(self::PROPERTY_DISPLAYNAME, $user->getDisplayName(), $property->getScope(), $property->getVerified());
+		}
 		$this->internalCache->set($user->getUID(), $account);
 		return $account;
 	}
