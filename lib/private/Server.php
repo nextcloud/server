@@ -950,6 +950,18 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
 		$this->registerAlias(IThrottler::class, Throttler::class);
+
+		$this->registerService(\OC\Security\Bruteforce\Backend\IBackend::class, function ($c) {
+			$config = $c->get(\OCP\IConfig::class);
+			if (ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
+				$backend = $c->get(\OC\Security\Bruteforce\Backend\MemoryCacheBackend::class);
+			} else {
+				$backend = $c->get(\OC\Security\Bruteforce\Backend\DatabaseBackend::class);
+			}
+
+			return $backend;
+		});
+
 		$this->registerService('IntegrityCodeChecker', function (ContainerInterface $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.

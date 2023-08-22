@@ -51,6 +51,8 @@ use ReflectionMethod;
  * @package OC\AppFramework\Middleware\Security
  */
 class BruteForceMiddleware extends Middleware {
+	private int $delaySlept = 0;
+
 	public function __construct(
 		protected ControllerMethodReflector $reflector,
 		protected Throttler $throttler,
@@ -67,7 +69,7 @@ class BruteForceMiddleware extends Middleware {
 
 		if ($this->reflector->hasAnnotation('BruteForceProtection')) {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
-			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $action);
+			$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $action);
 		} else {
 			$reflectionMethod = new ReflectionMethod($controller, $methodName);
 			$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
@@ -79,7 +81,7 @@ class BruteForceMiddleware extends Middleware {
 					/** @var BruteForceProtection $protection */
 					$protection = $attribute->newInstance();
 					$action = $protection->getAction();
-					$this->throttler->sleepDelayOrThrowOnMax($remoteAddress, $action);
+					$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($remoteAddress, $action);
 				}
 			}
 		}
@@ -95,7 +97,7 @@ class BruteForceMiddleware extends Middleware {
 					$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 					$ip = $this->request->getRemoteAddress();
 					$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
-					$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+					$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($ip, $action);
 				} else {
 					$reflectionMethod = new ReflectionMethod($controller, $methodName);
 					$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
@@ -111,7 +113,7 @@ class BruteForceMiddleware extends Middleware {
 
 							if (!isset($metaData['action']) || $metaData['action'] === $action) {
 								$this->throttler->registerAttempt($action, $ip, $metaData);
-								$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+								$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($ip, $action);
 							}
 						}
 					} else {
@@ -124,6 +126,14 @@ class BruteForceMiddleware extends Middleware {
 				}
 
 				return new TooManyRequestsResponse();
+			}
+		}
+
+		if ($this->delaySlept) {
+			$headers = $response->getHeaders();
+			if (!isset($headers['X-Nextcloud-Bruteforce-Throttled'])) {
+				$headers['X-Nextcloud-Bruteforce-Throttled'] = $this->delaySlept . 'ms';
+				$response->setHeaders($headers);
 			}
 		}
 
