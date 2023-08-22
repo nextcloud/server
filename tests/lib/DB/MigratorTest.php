@@ -22,6 +22,8 @@ use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
 use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
+use OCA\WorkflowEngine\Entity\File;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
 
@@ -235,6 +237,61 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->migrate($endSchema);
 
 		$this->addToAssertionCount(1);
+	}
+
+	public function testAddingColumnWithBackslashInDefaultValue() {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true]);
+		$table->addColumn('createdempty', 'string', [
+			'default' => '',
+			'notnull' => true,
+			'length' => 256,
+		]);
+		$table->addColumn('createdfilled', 'string', [
+			'default' => File::class,
+			'notnull' => true,
+			'length' => 256,
+		]);
+		$table->setPrimaryKey(['id']);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true]);
+		$table->addColumn('createdempty', 'string', [
+			'default' => File::class,
+			'notnull' => true,
+			'length' => 256,
+		]);
+		$table->addColumn('createdfilled', 'string', [
+			'default' => File::class,
+			'notnull' => true,
+			'length' => 256,
+		]);
+		$table->addColumn('added', 'string', [
+			'default' => File::class,
+			'notnull' => true,
+			'length' => 256,
+		]);
+		$table->setPrimaryKey(['id']);
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+		$this->connection->insert($this->tableName, ['id' => 1]);
+
+		$migrator->migrate($endSchema);
+
+		$this->connection->insert($this->tableName, ['id' => 2]);
+
+		/** @var IQueryBuilder $query */
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from(substr($this->tableName, 3));
+		$result = $query->executeQuery();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		self::assertEquals([['id' => 1, 'createdempty' => '', 'createdfilled' => File::class, 'added' => File::class], ['id' => 2, 'createdempty' => File::class, 'createdfilled' => File::class, 'added' => File::class]], $rows);
 	}
 
 	/**
