@@ -119,13 +119,15 @@ export default {
 	}
 
 	&__input:checked + &__label,
-	&__input:focus + &__label,
-	&__label:hover {
-		background-color: var(--color-background-hover);
+	&__label:active {
+		outline: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 4px var(--color-main-background);
+		border-radius: var(--border-radius-large);
 	}
 
-	&__label:active {
-		background-color: var(--color-background-dark);
+	&__input:focus-visible + &__label {
+		outline: 2px solid var(--color-primary-element) !important;
+		border-radius: var(--border-radius-large);
 	}
 }
 </style>
