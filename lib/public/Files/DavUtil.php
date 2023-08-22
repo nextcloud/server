@@ -59,23 +59,24 @@ class DavUtil {
 	 * @since 25.0.0
 	 */
 	public static function getDavPermissions(FileInfo $info): string {
+		$permissions = $info->getPermissions();
 		$p = '';
 		if ($info->isShared()) {
 			$p .= 'S';
 		}
-		if ($info->isShareable()) {
+		if ($permissions & Constants::PERMISSION_SHARE) {
 			$p .= 'R';
 		}
 		if ($info->isMounted()) {
 			$p .= 'M';
 		}
-		if ($info->isReadable()) {
+		if ($permissions & Constants::PERMISSION_READ) {
 			$p .= 'G';
 		}
-		if ($info->isDeletable()) {
+		if ($permissions & Constants::PERMISSION_DELETE) {
 			$p .= 'D';
 		}
-		if ($info->isUpdateable()) {
+		if ($permissions & Constants::PERMISSION_UPDATE) {
 			$p .= 'NV'; // Renameable, Movable
 		}
 
@@ -86,7 +87,7 @@ class DavUtil {
 			$rootEntry = $storage->getCache()->get('');
 			$isWritable = $rootEntry->getPermissions() & Constants::PERMISSION_UPDATE;
 		} else {
-			$isWritable = $info->isUpdateable();
+			$isWritable = $permissions & Constants::PERMISSION_UPDATE;
 		}
 
 		if ($info->getType() === FileInfo::TYPE_FILE) {
@@ -94,7 +95,7 @@ class DavUtil {
 				$p .= 'W';
 			}
 		} else {
-			if ($info->isCreatable()) {
+			if ($permissions & Constants::PERMISSION_CREATE) {
 				$p .= 'CK';
 			}
 		}
