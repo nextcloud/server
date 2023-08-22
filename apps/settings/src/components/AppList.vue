@@ -38,7 +38,24 @@
 					{{ t('settings', 'All apps are up-to-date.') }}
 				</div>
 
-				<transition-group name="app-list" tag="div" class="apps-list-container">
+				<transition-group name="app-list" tag="table" class="apps-list-container">
+					<tr key="app-list-view-header" class="apps-header">
+						<th class="app-image">
+							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+						</th>
+						<th class="app-name">
+							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+						</th>
+						<th class="app-version">
+							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+						</th>
+						<th class="app-level">
+							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+						</th>
+						<th class="actions">
+							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+						</th>
+					</tr>
 					<AppItem v-for="app in apps"
 						:key="app.id"
 						:app="app"
@@ -46,27 +63,46 @@
 				</transition-group>
 			</template>
 
-			<transition-group v-if="useBundleView"
-				name="app-list"
-				tag="div"
+			<table v-if="useBundleView"
 				class="apps-list-container">
+				<tr key="app-list-view-header" class="apps-header">
+					<th id="app-table-col-icon" class="app-image">
+						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+					</th>
+					<th id="app-table-col-name" class="app-name">
+						<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+					</th>
+					<th id="app-table-col-version" class="app-version">
+						<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+					</th>
+					<th id="app-table-col-level" class="app-level">
+						<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+					</th>
+					<th id="app-table-col-actions" class="actions">
+						<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+					</th>
+				</tr>
 				<template v-for="bundle in bundles">
-					<div :key="bundle.id" class="apps-header">
-						<div class="app-image" />
-						<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" @click="toggleBundle(bundle.id)"></h2>
-						<div class="app-version" />
-						<div class="app-level" />
-						<div class="app-groups" />
-						<div class="actions">
-							&nbsp;
-						</div>
-					</div>
+					<tr :key="bundle.id">
+						<th :id="`app-table-rowgroup-${bundle.id}`" colspan="5" scope="rowgroup">
+							<div class="app-bundle-heading">
+								<span class="app-bundle-header">
+									{{ bundle.name }}
+								</span>
+								<NcButton type="secondary" @click="toggleBundle(bundle.id)">
+									{{ t('settings', bundleToggleText(bundle.id)) }}
+								</NcButton>
+							</div>
+						</th>
+					</tr>
 					<AppItem v-for="app in bundleApps(bundle.id)"
 						:key="bundle.id + app.id"
+						:use-bundle-view="true"
+						:headers="`app-table-rowgroup-${bundle.id}`"
 						:app="app"
 						:category="category" />
 				</template>
-			</transition-group>
+			</table>
 			<template v-if="useAppStoreView">
 				<AppItem v-for="app in apps"
 					:key="app.id"
@@ -88,8 +124,7 @@
 					<AppItem v-for="app in searchApps"
 						:key="app.id"
 						:app="app"
-						:category="category"
-						:list-view="true" />
+						:category="category" />
 				</template>
 			</div>
 		</div>
@@ -240,9 +275,24 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id }))
+				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
 				)
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+	.app-bundle-heading {
+		display: flex;
+		align-items: center;
+		margin: 20px 10px 20px 0;
+	}
+	.app-bundle-header {
+		margin: 0 10px 0 50px;
+		font-weight: bold;
+		font-size: 20px;
+		line-height: 30px;
+		color: var(--color-text-light);
+	}
+</style>
