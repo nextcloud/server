@@ -194,6 +194,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\AddAppPassword(\OC::$server->get(\OCP\IUserManager::class), \OC::$server->get(\OC\Authentication\Token\IProvider::class), \OC::$server->get(\OCP\Security\ISecureRandom::class), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class)));
 	$application->add(new OC\Core\Command\User\AuthTokens(\OC::$server->get(\OCP\IUserManager::class), \OC::$server->get(\OC\Authentication\Token\IProvider::class)));
+	$application->add(new OC\Core\Command\User\DeleteAuthToken(\OC::$server->get(\OC\Authentication\Token\IProvider::class)));
 
 	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\Delete(\OC::$server->getGroupManager()));
