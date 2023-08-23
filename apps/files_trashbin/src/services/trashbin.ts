@@ -19,14 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import { getCurrentUser } from '@nextcloud/auth'
-import { File, Folder, davParsePermissions } from '@nextcloud/files'
+import { File, Folder, davParsePermissions, type ContentsWithRoot } from '@nextcloud/files'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-
+import { getCurrentUser } from '@nextcloud/auth'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
+
 import { getDavNameSpaces, getDavProperties } from '../../../files/src/services/DavProperties'
-import type { ContentsWithRoot } from '../../../files/src/services/Navigation.ts'
 
 import client, { rootPath } from './client'
 
@@ -40,7 +38,6 @@ const data = `<?xml version="1.0"?>
 		${getDavProperties()}
 	</d:prop>
 </d:propfind>`
-
 
 const resultToNode = function(node: FileStat): File | Folder {
 	const permissions = davParsePermissions(node.props?.permissions)
@@ -73,7 +70,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 		: new Folder(nodeData)
 }
 
-export const getContents =  async (path: string = '/'): Promise<ContentsWithRoot> => {
+export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	// TODO: use only one request when webdav-client supports it
 	// @see https://github.com/perry-mitchell/webdav-client/pull/334
 	const rootResponse = await client.stat(path, {

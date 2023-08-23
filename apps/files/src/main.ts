@@ -13,9 +13,9 @@ import './actions/viewInFolderAction'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
+import { getNavigation } from '@nextcloud/files'
 
 import FilesListView from './views/FilesList.vue'
-import { NavigationService } from './services/Navigation'
 import NavigationView from './views/Navigation.vue'
 import registerFavoritesView from './views/favorites'
 import registerRecentView from './views/recent'
@@ -47,8 +47,7 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 // Init Navigation Service
-const Navigation = new NavigationService()
-Object.assign(window.OCP.Files, { Navigation })
+const Navigation = getNavigation()
 Vue.prototype.$navigation = Navigation
 
 // Init Files App Settings Service

@@ -23,14 +23,14 @@ import Vue from 'vue'
 
 import { mapState } from 'pinia'
 import { useViewConfigStore } from '../store/viewConfig'
-import type { NavigationService, Navigation } from '../services/Navigation'
+import { Navigation, View } from '@nextcloud/files'
 
 export default Vue.extend({
 	computed: {
 		...mapState(useViewConfigStore, ['getConfig', 'setSortingBy', 'toggleSortingDirection']),
 
-		currentView(): Navigation {
-			return (this.$navigation as NavigationService).active as Navigation
+		currentView(): View {
+			return (this.$navigation as Navigation).active as View
 		},
 
 		/**

@@ -21,22 +21,20 @@
  */
 import { action } from './acceptShareAction'
 import { expect } from '@jest/globals'
-import { File, Permission } from '@nextcloud/files'
-import { FileAction } from '../../../files/src/services/FileAction'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
-import type { Navigation } from '../../../files/src/services/Navigation'
 import '../main'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const pendingShareView = {
 	id: 'pendingshares',
 	name: 'Pending shares',
-} as Navigation
+} as View
 
 describe('Accept share action conditions tests', () => {
 	test('Default values', () => {

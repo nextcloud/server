@@ -19,13 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Node, FileType, Permission } from '@nextcloud/files'
+import { Node, FileType, Permission, View, registerFileAction, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
-
-import type { Navigation } from '../services/Navigation'
-import { join } from 'path'
-import { registerFileAction, FileAction } from '../services/FileAction'
 
 export const action = new FileAction({
 	id: 'view-in-folder',
@@ -53,7 +49,7 @@ export const action = new FileAction({
 		return node.type === FileType.File
 	},
 
-	async exec(node: Node, view: Navigation, dir: string) {
+	async exec(node: Node, view: View, dir: string) {
 		if (!node || node.type !== FileType.File) {
 			return false
 		}

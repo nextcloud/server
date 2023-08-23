@@ -21,12 +21,12 @@
  */
 /* eslint-disable camelcase, n/no-extraneous-import */
 import type { AxiosPromise } from 'axios'
-import type { ContentsWithRoot } from '../../../files/src/services/Navigation'
 
-import { Folder, File } from '@nextcloud/files'
-import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { Folder, File, type ContentsWithRoot } from '@nextcloud/files'
+import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+
 import logger from './logger'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`

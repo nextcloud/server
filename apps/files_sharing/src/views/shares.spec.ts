@@ -21,25 +21,28 @@
  */
 /* eslint-disable n/no-extraneous-import */
 import { expect } from '@jest/globals'
+import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
 import axios from '@nextcloud/axios'
 
-import { type Navigation } from '../../../files/src/services/Navigation'
+import '../main'
 import { type OCSResponse } from '../services/SharingService'
-import { NavigationService } from '../../../files/src/services/Navigation'
 import registerSharingViews from './shares'
 
-import '../main'
-import { Folder } from '@nextcloud/files'
+declare global {
+	interface Window {
+		_nc_navigation?: Navigation
+	}
+}
 
 describe('Sharing views definition', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
+		expect(window._nc_navigation).toBeDefined()
 	})
 
 	afterAll(() => {
-		delete window.OCP
+		delete window._nc_navigation
 	})
 
 	test('Default values', () => {
@@ -48,8 +51,8 @@ describe('Sharing views definition', () => {
 		expect(Navigation.views.length).toBe(0)
 
 		registerSharingViews()
-		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as Navigation
-		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as Navigation[]
+		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as View
+		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as View[]
 
 		expect(Navigation.register).toHaveBeenCalledTimes(6)
 
@@ -92,12 +95,12 @@ describe('Sharing views definition', () => {
 describe('Sharing views contents', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
+		expect(window._nc_navigation).toBeDefined()
 	})
 
 	afterAll(() => {
-		delete window.OCP
+		delete window._nc_navigation
 	})
 
 	test('Sharing overview get contents', async () => {
@@ -118,7 +121,7 @@ describe('Sharing views contents', () => {
 
 		registerSharingViews()
 		expect(Navigation.views.length).toBe(6)
-		Navigation.views.forEach(async (view: Navigation) => {
+		Navigation.views.forEach(async (view: View) => {
 			const content = await view.getContents('/')
 			expect(content.contents).toStrictEqual([])
 			expect(content.folder).toBeInstanceOf(Folder)
