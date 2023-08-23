@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "وضعیت های اخیر",
+    "No recent status changes" : "هیچ تغییر وضعیت جدیدی وجود ندارد",
     "In a meeting" : "در جلسه",
     "Commuting" : "در رفت و آمد",
     "Out sick" : "مرخصی استعلاجی",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "مشکلی در ذخیره سازی وضعیت پیش آمده",
     "There was an error clearing the status" : "مشکلی در پاک کردن وضعیت پیش آمده",
     "There was an error reverting the status" : "There was an error reverting the status",
-    "No recent status changes" : "هیچ تغییر وضعیت جدیدی وجود ندارد",
-    "Away" : "بیرون",
-    "Do not disturb" : "مزاحم نشوید",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "پاک نکن",
     "Today" : "امروز",
     "This week" : "این هفته",
     "Online" : "آنلاین",
+    "Away" : "بیرون",
+    "Do not disturb" : "مزاحم نشوید",
     "Invisible" : "غیر قابل مشاهده",
     "Offline" : "آفلاین",
     "There was an error saving the new status" : "مشکلی در ذخیره سازی وضعیت جدید پیش آمده",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "۱ ساعت",
     "4 hours" : "۴ ساعت",
     "Mute all notifications" : "خاموش کردن همه اعلانات",
-    "Appear offline" : "نمایش آفلاین"
+    "Appear offline" : "نمایش آفلاین",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n > 1);");

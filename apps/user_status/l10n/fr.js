@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Statuts récents",
+    "No recent status changes" : "Aucun changement de statut récent",
     "In a meeting" : "En réunion",
     "Commuting" : "Trajet",
     "Out sick" : "En congé de maladie",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Une erreur s'est produite lors de l'enregistrement de l'état",
     "There was an error clearing the status" : "Une erreur s'est produite lors de l'effacement de l'état",
     "There was an error reverting the status" : "Une erreur est survenue dans le rétablissement d'état",
-    "No recent status changes" : "Aucun changement de statut récent",
-    "Away" : "Absent(e)",
-    "Do not disturb" : "Ne pas déranger",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Ne pas effacer",
     "Today" : "Aujourd'hui",
     "This week" : "Cette semaine",
     "Online" : "En ligne",
+    "Away" : "Absent(e)",
+    "Do not disturb" : "Ne pas déranger",
     "Invisible" : "Invisible",
     "Offline" : "Hors-ligne",
     "There was an error saving the new status" : "Une erreur s'est produite lors de l'enregistrement du nouveau statut",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 heure",
     "4 hours" : "4 heures",
     "Mute all notifications" : "Désactiver les notifications",
-    "Appear offline" : "Apparaitre hors-ligne"
+    "Appear offline" : "Apparaitre hors-ligne",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
