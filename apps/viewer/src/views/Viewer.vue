@@ -195,6 +195,7 @@ import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
 import File from '../models/file.js'
 import filesActionHandler from '../services/FilesActionHandler.js'
+import legacyFilesActionHandler from '../services/LegacyFilesActionHandler.js'
 import getFileInfo from '../services/FileInfo.ts'
 import getFileList from '../services/FileList.ts'
 import Mime from '../mixins/Mime.js'
@@ -825,6 +826,8 @@ export default {
 						return
 					}
 
+					// register file action and groups
+					this.registerLegacyAction({ mime, group: handler.group })
 					// register groups
 					this.registerGroups({ mime, group: handler.group })
 
@@ -862,6 +865,8 @@ export default {
 						return
 					}
 
+					// register file action and groups if the request alias had a group
+					this.registerLegacyAction({ mime, group: this.mimeGroups[alias] })
 					// register groups if the request alias had a group
 					this.registerGroups({ mime, group: this.mimeGroups[alias] })
 
@@ -871,6 +876,29 @@ export default {
 					// set the handler as registered
 					this.registeredHandlers[mime] = handler
 				})
+			}
+		},
+
+		registerLegacyAction({ mime, group }) {
+			if (!this.isStandalone) {
+				// unregistered handler, let's go!
+				OCA.Files.fileActions.registerAction({
+					name: 'view',
+					displayName: t('viewer', 'View'),
+					mime,
+					permissions: OC.PERMISSION_READ,
+					actionHandler: legacyFilesActionHandler,
+				})
+				OCA.Files.fileActions.setDefault(mime, 'view')
+			}
+			// register groups
+			if (group) {
+				this.mimeGroups[mime] = group
+				// init if undefined
+				if (!this.mimeGroups[group]) {
+					this.mimeGroups[group] = []
+				}
+				this.mimeGroups[group].push(mime)
 			}
 		},
 

@@ -67,7 +67,7 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image1.jpg')
+		cy.openFileInShare('image1.jpg')
 		cy.get('body > .viewer').should('be.visible')
 	})
 

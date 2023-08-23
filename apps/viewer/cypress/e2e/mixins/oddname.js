@@ -152,7 +152,7 @@ export default function(file, type, sidebar = false) {
 		})
 
 		it('Open the viewer on file click (public)', function() {
-			cy.openFile(placedName)
+			cy.openFileInShare(placedName)
 			cy.get('body > .viewer').should('be.visible')
 		})
 

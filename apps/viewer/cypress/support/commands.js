@@ -97,6 +97,12 @@ Cypress.Commands.add('openFile', fileName => {
 	cy.wait(250)
 })
 
+Cypress.Commands.add('openFileInShare', fileName => {
+	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
+	// eslint-disable-next-line
+	cy.wait(250)
+})
+
 Cypress.Commands.add('getFileId', fileName => {
 	return cy.getFile(fileName)
 		.should('have.attr', 'data-cy-files-list-row-fileid')
