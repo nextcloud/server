@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Onlangse statusse",
+    "No recent status changes" : "Geen onlangse statusverandering nie",
     "In a meeting" : "In ’n vergadering",
     "Commuting" : "In die verkeer",
     "Out sick" : "Siek tuis",
@@ -16,14 +17,12 @@ OC.L10N.register(
     "Set status message" : "Stel statusboodskap",
     "There was an error saving the status" : "Daar was ’n fout toe status bewaar is",
     "There was an error clearing the status" : "Daar was ’n fout toe die status gewis is",
-    "No recent status changes" : "Geen onlangse statusverandering nie",
-    "Away" : "Weg",
-    "Do not disturb" : "Moenie pla nie",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Moenie wis nie",
     "Today" : "Vandag",
     "This week" : "Vandeesweek",
     "Online" : "Aanlyn",
+    "Away" : "Weg",
+    "Do not disturb" : "Moenie pla nie",
     "Invisible" : "Onsigbaar",
     "Offline" : "Vanlyn",
     "There was an error saving the new status" : "Daar was ’n fout toe nuwe status bewaar is",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "1 hour" : "1 uur",
     "4 hours" : "4 uur",
     "Mute all notifications" : "Demp alle kennisgewings",
-    "Appear offline" : "Toon as vanlyn"
+    "Appear offline" : "Toon as vanlyn",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

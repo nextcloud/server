@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Istados reghentes",
+    "No recent status changes" : "Perunu càmbiu de istadu reghente",
     "In a meeting" : "In riunione",
     "Commuting" : "Biagende",
     "Out sick" : "In maladia",
@@ -17,14 +18,12 @@ OC.L10N.register(
     "Set status message" : "Imposta messàgiu de istadu",
     "There was an error saving the status" : "B'at àpidu un'errore sarvende s'istadu",
     "There was an error clearing the status" : "B'at àpidu un'errore limpiende s'istadu",
-    "No recent status changes" : "Perunu càmbiu de istadu reghente",
-    "Away" : "Ausente",
-    "Do not disturb" : "No istorbes",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Non nche ddu lìmpies",
     "Today" : "Oe",
     "This week" : "Custa chida",
     "Online" : "In lìnia",
+    "Away" : "Ausente",
+    "Do not disturb" : "No istorbes",
     "Invisible" : "Invisìbile",
     "Offline" : "Fora de lìnia",
     "There was an error saving the new status" : "B'at àpidu un'errore sarvende s'istadu nou",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "1 hour" : "1 ora",
     "4 hours" : "4 oras",
     "Mute all notifications" : "Istuda totu is notìficas",
-    "Appear offline" : "Mustra•ti foras de lìnia"
+    "Appear offline" : "Mustra•ti foras de lìnia",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

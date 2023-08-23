@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Statusuri recente",
+    "No recent status changes" : "Nu există modificări recente ale statutului",
     "In a meeting" : "În cadrul unei întâlniri",
     "Commuting" : "În deplasare",
     "Out sick" : "Bolnav",
@@ -18,14 +19,12 @@ OC.L10N.register(
     "Set status message" : "Setează mesajul de status",
     "There was an error saving the status" : "S-a produs o eroare la salvarea stării",
     "There was an error clearing the status" : "S-a produs o eroare de ștergere a statutului",
-    "No recent status changes" : "Nu există modificări recente ale statutului",
-    "Away" : "Plecat",
-    "Do not disturb" : "Nu deranja",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Nu curăța",
     "Today" : "Azi",
     "This week" : "Săptămâna asta",
     "Online" : "Online",
+    "Away" : "Plecat",
+    "Do not disturb" : "Nu deranja",
     "Invisible" : "Invizibil",
     "Offline" : "Offline",
     "There was an error saving the new status" : "S-a produs o eroare de salvare a noului status",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "1 hour" : "1 oră",
     "4 hours" : "4 ore",
     "Mute all notifications" : "Dezactivați toate notificările",
-    "Appear offline" : "Apari deconectat"
+    "Appear offline" : "Apari deconectat",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

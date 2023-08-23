@@ -241,6 +241,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Impossible de créer un nouveau fichier à partir du modèle",
     "Delete permanently" : "Supprimer définitivement",
     "Open folder {displayName}" : "Ouvrir le dossier {displayName}",
+    "Open in Files" : "Ouvrir dans Fichiers",
     "Open details" : "Ouvrir les détails",
     "Set up templates folder" : "Configurer le dossier des modèles",
     "Templates" : "Modèles",
