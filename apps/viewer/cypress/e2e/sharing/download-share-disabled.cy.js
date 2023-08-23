@@ -42,8 +42,8 @@ describe(`Download ${fileName} in viewer`, function() {
 	})
 
 	it('See the default files list', function() {
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-		cy.get('.files-fileList tr').should('contain', 'Photos')
+		cy.getFile('welcome.txt').should('contain', 'welcome .txt')
+		cy.getFile('Photos').should('contain', 'Photos')
 	})
 
 	it('See shared files in the list', function() {
@@ -58,8 +58,9 @@ describe(`Download ${fileName} in viewer`, function() {
 		cy.createLinkShare('/Photos').then(token => {
 			// Open the sidebar
 			cy.visit('/apps/files')
-			cy.getFile('Photos').find('.fileactions .action-share', { timeout: 10000 }).click()
+			cy.getFile('Photos').clickAction('details')
 			cy.get('aside.app-sidebar').should('be.visible')
+			cy.get('[data-id="sharing"] label').click()
 
 			// Open the share menu
 			cy.get(`.sharing-link-list > .sharing-entry > .action-item[href*='/s/${token}'] + .sharing-entry__actions .action-item__menutoggle`).click()

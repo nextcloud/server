@@ -43,8 +43,8 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('See the default files list', function() {
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-		cy.get('.files-fileList tr').should('contain', 'Photos')
+		cy.getFile('welcome.txt').should('contain', 'welcome .txt')
+		cy.getFile('Photos').should('contain', 'Photos')
 	})
 
 	it('See shared files in the list', function() {

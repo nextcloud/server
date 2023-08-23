@@ -109,9 +109,17 @@ Cypress.Commands.add('getFileId', fileName => {
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.getFile(fileName).find('[data-cy-files-list-row-actions] button').click()
-	cy.get('[data-cy-files-list-row-action="delete"]').click()
+	cy.getFile(fileName).clickAction('delete')
 })
+
+Cypress.Commands.add(
+	'clickAction',
+	{ prevSubject: 'element' },
+	(subject, action) => {
+		subject.find('[data-cy-files-list-row-actions] button').click()
+		cy.get(`[data-cy-files-list-row-action="${action}"]`).click()
+	},
+)
 
 /**
  * Create a share link and return the share url
