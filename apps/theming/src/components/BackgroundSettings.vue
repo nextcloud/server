@@ -111,7 +111,6 @@ const defaultShippedBackground = loadState('theming', 'defaultShippedBackground'
 const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
 const picker = getFilePickerBuilder(t('theming', 'Select a background from your files'))
 	.setMultiSelect(false)
-	.setModal(true)
 	.setType(1)
 	.setMimeTypeFilter(['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml', 'image/svg'])
 	.build()
