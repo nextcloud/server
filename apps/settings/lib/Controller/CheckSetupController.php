@@ -86,6 +86,7 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -122,6 +123,8 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IThrottler */
+	private $throttler;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
@@ -148,6 +151,7 @@ class CheckSetupController extends Controller {
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
 								IDBConnection $connection,
+								IThrottler $throttler,
 								ITempManager $tempManager,
 								IManager $manager,
 								IAppManager $appManager,
@@ -163,6 +167,7 @@ class CheckSetupController extends Controller {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->dispatcher = $dispatcher;
 		$this->db = $db;
+		$this->throttler = $throttler;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
@@ -909,6 +914,8 @@ Raw output
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
+				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
+				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
 				'serverHasInternetConnectionProblems' => $this->hasInternetConnectivityProblems(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
