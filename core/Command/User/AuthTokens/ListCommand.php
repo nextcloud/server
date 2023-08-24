@@ -20,36 +20,59 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Core\Command\User;
+namespace OC\Core\Command\User\AuthTokens;
 
 use OC\Core\Command\Base;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\IToken;
+use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteAuthToken extends Base {
+class ListCommand extends Base {
 	public function __construct(
+		protected IUserManager $userManager,
 		protected IProvider $tokenProvider,
 	) {
 		parent::__construct();
 	}
 
 	protected function configure(): void {
+		parent::configure();
+
 		$this
-			->setName('user:delete-auth-token')
-			->setDescription('Deletes an authentication token')
+			->setName('user:auth-tokens:list')
+			->setDescription('List authentication tokens of an user')
 			->addArgument(
-				'id',
+				'user',
 				InputArgument::REQUIRED,
-				'ID of the auth token to delete'
+				'User to list auth tokens for'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$token = $this->tokenProvider->getTokenById($input->getArgument('id'));
+		$user = $this->userManager->get($input->getArgument('user'));
 
-		$this->tokenProvider->invalidateTokenById($token->getUID(), $token->getId());
+		if (is_null($user)) {
+			$output->writeln('<error>user not found</error>');
+			return 1;
+		}
+
+		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
+
+		$data = array_map(function (IToken $token): mixed {
+			$filtered = [
+				'password',
+				'password_hash',
+				'token',
+				'public_key',
+				'private_key',
+			];
+			return array_diff_key($token->jsonSerialize(), array_flip($filtered));
+		}, $tokens);
+
+		$this->writeArrayInOutputFormat($input, $output, $data);
 
 		return 0;
 	}

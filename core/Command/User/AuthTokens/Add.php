@@ -24,7 +24,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Core\Command\User;
+namespace OC\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
@@ -40,7 +40,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class AddAppPassword extends Command {
+class Add extends Command {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IProvider $tokenProvider,
@@ -52,7 +52,8 @@ class AddAppPassword extends Command {
 
 	protected function configure() {
 		$this
-			->setName('user:add-app-password')
+			->setName('user:auth-tokens:add')
+			->setAliases(['user:add-app-password'])
 			->setDescription('Add app password for the named user')
 			->addArgument(
 				'user',
