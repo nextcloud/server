@@ -1,0 +1,83 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": [
+    "every weekend"
+  ],
+  "reviewers": [
+    "skjnldsv"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "rangeStrategy": "bump",
+  "rebaseWhen": "conflicted",
+  "ignoreUnstable": false,
+  "baseBranches": [
+    "master",
+    "stable27",
+    "stable26",
+    "stable25"
+  ],
+  "enabledManagers": [
+    "npm"
+  ],
+  "ignoreDeps": [
+    "node",
+    "npm"
+  ],
+  "packageRules": [
+    {
+      "groupName": "cypress",
+      "matchPackageNames": [
+        "@cypress/",
+        "@nextcloud/cypress",
+        "cypress-visual-regression",
+        "cypress",
+        "eslint-plugin-cypress"
+      ]
+    },
+    {
+      "groupName": "nextcloud",
+      "matchPackageNames": [
+        "@nextcloud/"
+      ]
+    },
+    {
+      "groupName": "dockerode",
+      "matchPackageNames": [
+        "@types/dockerode",
+        "dockerode"
+      ]
+    },
+    {
+      "groupName": "typescript",
+      "matchPackageNames": [
+        "@vue/tsconfig",
+        "ts-node",
+        "tslib",
+        "typescript"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "matchBaseBranches": [
+        "stable27",
+        "stable26",
+        "stable25"
+      ],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "vue"
+      ],
+      "allowedVersions": "<3"
+    }
+  ]
+}
