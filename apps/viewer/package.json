@@ -84,7 +84,7 @@
     "@types/dockerode": "^3.3.19",
     "@vue/tsconfig": "^0.4.0",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
-    "cypress": "^12.17.3",
+    "cypress": "^12.17.4",
     "cypress-visual-regression": "^3.0.0",
     "dockerode": "^3.3.5",
     "eslint-plugin-cypress": "^2.14.0",
