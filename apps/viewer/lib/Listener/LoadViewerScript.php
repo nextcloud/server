@@ -34,6 +34,9 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IPreview;
 use OCP\Util;
 
+/**
+ * @template-implements IEventListener<Event>
+ */
 class LoadViewerScript implements IEventListener {
 	private IInitialState $initialStateService;
 	private IPreview $previewManager;
