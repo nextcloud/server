@@ -38,7 +38,7 @@ class AuthTokens extends Base {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -61,7 +61,7 @@ class AuthTokens extends Base {
 
 		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
 
-		$data = array_map(fn (IToken $token) => $token->jsonSerialize(), $tokens);
+		$data = array_map(fn (IToken $token): mixed => $token->jsonSerialize(), $tokens);
 
 		$this->writeArrayInOutputFormat($input, $output, $data);
 

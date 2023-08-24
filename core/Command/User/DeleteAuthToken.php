@@ -35,7 +35,7 @@ class DeleteAuthToken extends Base {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('user:delete-auth-token')
 			->setDescription('Deletes an authentication token')
