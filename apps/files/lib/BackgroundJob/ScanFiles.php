@@ -30,6 +30,7 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
++use OCP\ILogger;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -119,7 +120,7 @@ class ScanFiles extends TimedJob {
 			$usersScanned[] = $storageUsers[$scanningStrageId];
 		}
 
-		if ($this->config->getSystemValue('loglevel') > \OC\Log::WARN) {
+		if ($this->config->getSystemValue('loglevel') > ILogger::WARN) {
 			return;
 		}
 
