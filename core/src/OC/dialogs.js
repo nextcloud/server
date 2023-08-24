@@ -47,8 +47,12 @@
 import _ from 'underscore'
 import $ from 'jquery'
 
+import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
+import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
+
 import OC from './index.js'
-import { FilePickerVue, FilePickerType, spawnDialog } from '@nextcloud/dialogs'
+import { FilePickerType, getFilePickerBuilder } from '@nextcloud/dialogs'
+import { basename } from 'path'
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -290,7 +294,7 @@ const Dialogs = {
 			mimetype: node.mime || null,
 			mtime: node.mtime?.getTime() || null,
 			permissions: node.permissions,
-			name: node.attributes?.displayname || node.basename,
+			name: node.attributes?.displayName || node.basename,
 			etag: node.attributes?.etag || null,
 			hasPreview: node.attributes?.hasPreview || null,
 			mountType: node.attributes?.mountType || null,
@@ -299,52 +303,61 @@ const Dialogs = {
 			sharePermissions: null,
 		})
 
-		const buttons = []
-		if (type === FilePickerType.Choose) {
-			buttons.push({
-				label: t('core', 'Choose'),
-				type: 'primary',
-				callback: legacyCallback(callback, FilePickerType.Choose),
-			})
-		} else if (type === FilePickerType.Copy || type === FilePickerType.CopyMove) {
-			buttons.push({
-				label: t('core', 'Copy'),
-				callback: legacyCallback(callback, FilePickerType.Copy),
-			})
-		}
-		if (type === FilePickerType.CopyMove || type === FilePickerType.Move) {
-			buttons.push({
-				label: t('core', 'Move'),
-				type: 'primary',
-				callback: legacyCallback(callback, FilePickerType.Move),
-			})
-		}
-		if (type === FilePickerType.Custom) {
+		const builder = getFilePickerBuilder(title)
+
+		// Setup buttons
+		if (type === this.FILEPICKER_TYPE_CUSTOM) {
 			(options.buttons || []).forEach((button) => {
-				buttons.push({
+				builder.addButton({
 					callback: legacyCallback(callback, button.type),
 					label: button.text,
 					type: button.defaultButton ? 'primary' : 'secondary',
 				})
 			})
+		} else {
+			builder.setButtonFactory((nodes, path) => {
+				const buttons = []
+				const node = nodes?.[0]?.attributes?.displayName || nodes?.[0]?.basename
+				const target = node || basename(path)
+
+				if (type === FilePickerType.Choose) {
+					buttons.push({
+						callback: legacyCallback(callback, FilePickerType.Choose),
+						label: node && !this.multiSelect ? t('core', 'Choose {file}', { file: node }) : t('core', 'Choose'),
+						type: 'primary',
+					})
+				}
+				if (type === FilePickerType.CopyMove || type === FilePickerType.Copy) {
+					buttons.push({
+						callback: legacyCallback(callback, FilePickerType.Copy),
+						label: target ? t('core', 'Copy to {target}', { target }) : t('core', 'Copy'),
+						type: 'primary',
+						icon: IconCopy,
+					})
+				}
+				if (type === FilePickerType.Move || type === FilePickerType.CopyMove) {
+					buttons.push({
+						callback: legacyCallback(callback, FilePickerType.Move),
+						label: target ? t('core', 'Move to {target}', { target }) : t('core', 'Move'),
+						type: type === FilePickerType.Move ? 'primary' : 'secondary',
+						icon: IconMove,
+					})
+				}
+				return buttons
+			})
 		}
 
-		const filter = {}
+		if (mimetype) {
+			builder.setMimeTypeFilter(typeof mimetype === 'string' ? [mimetype] : (mimetype || []))
+		}
 		if (typeof options?.filter === 'function') {
-			filter.filterFn = (node) => options.filter(nodeToLegacyFile(node))
+			builder.setFilter((node) => options.filter(nodeToLegacyFile(node)))
 		}
-
-		const mimetypeFilter = typeof mimetype === 'string' ? [mimetype] : (mimetype || [])
-
-		spawnDialog(FilePickerVue, {
-			...filter,
-			name: title,
-			buttons,
-			multiselect,
-			path,
-			mimetypeFilter,
-			allowPickDirectory: options?.allowDirectoryChooser === true || mimetypeFilter.includes('httpd/unix-directory'),
-		})
+		builder.allowDirectories(options?.allowDirectoryChooser === true || mimetype?.includes('httpd/unix-directory') || false)
+			.setMultiSelect(multiselect)
+			.startAt(path)
+			.build()
+			.pick()
 	},
 
 	/**
