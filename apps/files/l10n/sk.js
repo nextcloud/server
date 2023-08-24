@@ -228,7 +228,7 @@ OC.L10N.register(
     "Shared with others" : "Sprístupnené ostatným",
     "Shared with you" : "Vám sprístupnené",
     "Shared by link" : "Sprístupnené prostredníctvom odkazu",
-    "Deleted shares" : "Vymazané zdieľania",
+    "Deleted shares" : "Zmazané sprístupnenia",
     "Pending shares" : "Čakajúce prístupy",
     "Choose" : "Vybrať"
 },

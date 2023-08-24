@@ -20,6 +20,8 @@
     "An unknown error has occurred" : "Produciuse un erro descoñecido",
     "File could not be uploaded" : "Non foi posíbel enviar o ficheiro",
     "Uploading …" : "Enviando…",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Enviando… ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Non se admite o envío deste elemento",
     "Target folder does not exist any more" : "O cartafol de destino xa non existe",

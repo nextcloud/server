@@ -22,6 +22,8 @@ OC.L10N.register(
     "An unknown error has occurred" : "حدث خطأ غير معروف",
     "File could not be uploaded" : "لا يمكن تحميل الملف ",
     "Uploading …" : "جاري الرفع...",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "التحديث جارٍ … ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} من {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "رفع هذا النوع الملفات غير مدعوم",
     "Target folder does not exist any more" : "المجلد المراد غير موجود بعد الان",
