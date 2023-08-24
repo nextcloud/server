@@ -29,15 +29,6 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'toastify-js',
 ])
 
-webpackRules.RULE_TS = {
-	test: /\.tsx?$/,
-	use: [
-		'babel-loader',
-		'ts-loader',
-	],
-	exclude: BabelLoaderExcludeNodeModulesExcept([]),
-}
-
 // Replaces rules array
 webpackConfig.module.rules = Object.values(webpackRules)
 
@@ -48,9 +39,6 @@ webpackConfig.plugins.push(...[
 		PLYR_ICONS: JSON.stringify(plyrIcons),
 	}),
 ])
-
-// Add proper typescript support
-webpackConfig.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.vue']
 
 // Clean dist folder
 webpackConfig.output.clean = true
