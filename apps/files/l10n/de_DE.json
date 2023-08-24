@@ -20,6 +20,8 @@
     "An unknown error has occurred" : "Es ist ein unbekannter Fehler aufgetreten",
     "File could not be uploaded" : "Datei konnte nicht hochgeladen werden",
     "Uploading …" : "Lade hoch …",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Lade hoch… ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} von {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Hochladen von Daten dieser Art wird nicht unterstützt.",
     "Target folder does not exist any more" : "Zielordner existiert nicht mehr",

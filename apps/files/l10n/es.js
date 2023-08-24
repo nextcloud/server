@@ -22,6 +22,8 @@ OC.L10N.register(
     "An unknown error has occurred" : "Ha ocurrido un error desconocido",
     "File could not be uploaded" : "No se ha podido subir el archivo",
     "Uploading …" : "Subiendo …",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Cargando… ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Subir este archivo no es compatible",
     "Target folder does not exist any more" : "La carpeta destino ya no existe",
