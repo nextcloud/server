@@ -61,7 +61,16 @@ class AuthTokens extends Base {
 
 		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
 
-		$data = array_map(fn (IToken $token): mixed => $token->jsonSerialize(), $tokens);
+		$data = array_map(function (IToken $token): mixed {
+			$filtered = [
+				'password',
+				'password_hash',
+				'token',
+				'public_key',
+				'private_key',
+			];
+			return array_diff_key($token->jsonSerialize(), array_flip($filtered));
+		}, $tokens);
 
 		$this->writeArrayInOutputFormat($input, $output, $data);
 
