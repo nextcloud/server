@@ -310,15 +310,21 @@ export default Vue.extend({
 		}
 
 		.files-list__row {
-			&:hover, &:focus, &:active, &--active {
+			&:hover, &:focus, &:active, &--active, &--dragover {
 				background-color: var(--color-background-dark);
 				> * {
 					--color-border: var(--color-border-dark);
 				}
+
 				// Hover state of the row should also change the favorite markers background
 				.favorite-marker-icon svg path {
 					stroke: var(--color-background-dark);
 				}
+			}
+
+			&--dragover * {
+				// Prevent dropping on row children
+				pointer-events: none;
 			}
 		}
 
@@ -351,7 +357,8 @@ export default Vue.extend({
 				}
 
 				// Slightly increase the size of the folder icon
-				&.folder-icon {
+				&.folder-icon,
+				&.folder-open-icon {
 					margin: -3px;
 					svg {
 						width: calc(var(--icon-preview-size) + 6px);

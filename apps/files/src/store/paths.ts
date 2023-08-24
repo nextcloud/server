@@ -19,12 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Node, getNavigation } from '@nextcloud/files'
 import type { FileId, PathsStore, PathOptions, ServicesState } from '../types'
 import { defineStore } from 'pinia'
+import { Node, getNavigation } from '@nextcloud/files'
+import { subscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import logger from '../logger'
-import { subscribe } from '@nextcloud/event-bus'
 
 export const usePathsStore = function(...args) {
 	const store = defineStore('paths', {

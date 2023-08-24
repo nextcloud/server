@@ -21,22 +21,27 @@
   -->
 
 <template>
-	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive}"
+	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
+		:draggable="canDrag"
 		class="files-list__row"
-		@contextmenu="onRightClick">
+		@contextmenu="onRightClick"
+		@dragover="onDragOver"
+		@dragleave="onDragLeave"
+		@dragstart="onDragStart"
+		@dragend="onDragEnd"
+		@drop="onDrop">
 		<!-- Failed indicator -->
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
 		<td class="files-list__row-checkbox">
-			<NcCheckboxRadioSwitch v-if="visible"
+			<NcLoadingIcon v-if="isLoading" />
+			<NcCheckboxRadioSwitch v-else-if="visible"
 				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
-				:checked="selectedFiles"
-				:value="fileid"
-				name="selectedFiles"
+				:checked="isSelected"
 				@update:checked="onSelectionChange" />
 		</td>
 
@@ -55,10 +60,11 @@
 				</template>
 
 				<!-- Decorative image, should not be aria documented -->
-				<span v-else-if="previewUrl && !backgroundFailed"
+				<img v-else-if="previewUrl && !backgroundFailed"
 					ref="previewImg"
 					class="files-list__row-icon-preview"
-					:style="{ backgroundImage }" />
+					:src="previewUrl"
+					@error="backgroundFailed = true">
 
 				<FileIcon v-else />
 
@@ -123,7 +129,7 @@
 				ref="actionsMenu"
 				:boundaries-element="getBoundariesElement()"
 				:container="getBoundariesElement()"
-				:disabled="source._loading"
+				:disabled="isLoading"
 				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 				:inline="enabledInlineActions.length"
@@ -178,17 +184,14 @@
 
 <script lang='ts'>
 import type { PropType } from 'vue'
-import type { Node } from '@nextcloud/files'
 
-import { CancelablePromise } from 'cancelable-promise'
-import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
 import { generateUrl } from '@nextcloud/router'
-import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File, Node, FileAction } from '@nextcloud/files'
-import { Type as ShareType } from '@nextcloud/sharing'
+import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File, FileAction, NodeStatus, Node } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { Type as ShareType } from '@nextcloud/sharing'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
@@ -210,8 +213,10 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { getDragAndDropPreview } from '../utils/dragUtils.ts'
+import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction.ts'
+import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
-import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -304,10 +309,12 @@ export default Vue.extend({
 
 	data() {
 		return {
+			dummyPreviewUrl: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>',
 			backgroundFailed: false,
-			backgroundImage: '',
 			loading: '',
 			dragover: false,
+
+			NodeStatus,
 		}
 	},
 
@@ -332,7 +339,7 @@ export default Vue.extend({
 			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
 		},
 		currentFileId() {
-			return this.$route.params.fileid || this.$route.query.fileid || null
+			return this.$route.params?.fileid || this.$route.query?.fileid || null
 		},
 		fileid() {
 			return this.source?.fileid?.toString?.()
@@ -472,10 +479,14 @@ export default Vue.extend({
 				return null
 			}
 
+			if (this.backgroundFailed === true) {
+				return null
+			}
+
 			try {
 				const previewUrl = this.source.attributes.previewUrl
-					|| generateUrl('/core/preview?fileId={fileid}', {
-						fileid: this.source.fileid,
+					|| generateUrl('/core/preview?fileid={fileid}', {
+						fileid: this.fileid,
 					})
 				const url = new URL(window.location.origin + previewUrl)
 
@@ -552,6 +563,9 @@ export default Vue.extend({
 		isFavorite() {
 			return this.source.attributes.favorite === 1
 		},
+		isLoading() {
+			return this.source.status === NodeStatus.LOADING
+		},
 
 		renameLabel() {
 			const matchLabel: Record<FileType, string> = {
@@ -581,7 +595,16 @@ export default Vue.extend({
 		},
 
 		canDrag() {
-			return (this.source.permissions & Permission.UPDATE) !== 0
+			const canDrag = (node: Node): boolean => {
+				return (node.permissions & Permission.UPDATE) !== 0
+			}
+
+			// If we're dragging a selection, we need to check all files
+			if (this.selectedFiles.length > 0) {
+				const nodes = this.selectedFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				return nodes.every(canDrag)
+			}
+			return canDrag(this.source)
 		},
 
 		canDrop() {
@@ -590,7 +613,7 @@ export default Vue.extend({
 			}
 
 			// If the current folder is also being dragged, we can't drop it on itself
-			if (this.draggingFiles.find(fileId => fileId === this.fileid)) {
+			if (this.draggingFiles.includes(this.fileid)) {
 				return false
 			}
 
@@ -605,7 +628,6 @@ export default Vue.extend({
 		 */
 		source() {
 			this.resetState()
-			this.debounceIfNotCached()
 		},
 
 		/**
@@ -619,98 +641,23 @@ export default Vue.extend({
 		},
 	},
 
-	/**
-	 * The row is mounted once and reused as we scroll.
-	 */
-	mounted() {
-		// ⚠ Init the debounce function on mount and
-		// not when the module is imported  to
-		// avoid sharing between recycled components
-		this.debounceGetPreview = debounce(function() {
-			this.fetchAndApplyPreview()
-		}, 150, false)
-
-		// Fetch the preview on init
-		this.debounceIfNotCached()
-	},
-
 	beforeDestroy() {
 		this.resetState()
 	},
 
 	methods: {
-		async debounceIfNotCached() {
-			if (!this.previewUrl) {
-				return
-			}
-
-			// Check if we already have this preview cached
-			const isCached = await isCachedPreview(this.previewUrl)
-			if (isCached) {
-				this.backgroundImage = `url(${this.previewUrl})`
-				this.backgroundFailed = false
-				return
-			}
-
-			// We don't have this preview cached or it expired, requesting it
-			this.debounceGetPreview()
-		},
-
-		fetchAndApplyPreview() {
-			// Ignore if no preview
-			if (!this.previewUrl) {
-				return
-			}
-
-			// If any image is being processed, reset it
-			if (this.previewPromise) {
-				this.clearImg()
-			}
-
-			// Store the promise to be able to cancel it
-			this.previewPromise = new CancelablePromise((resolve, reject, onCancel) => {
-				const img = new Image()
-				// If visible, load the preview with higher priority
-				img.fetchpriority = this.visible ? 'high' : 'auto'
-				img.onload = () => {
-					this.backgroundImage = `url(${this.previewUrl})`
-					this.backgroundFailed = false
-					resolve(img)
-				}
-				img.onerror = () => {
-					this.backgroundFailed = true
-					reject(img)
-				}
-				img.src = this.previewUrl
-
-				// Image loading has been canceled
-				onCancel(() => {
-					img.onerror = null
-					img.onload = null
-					img.src = ''
-				})
-			})
-		},
-
 		resetState() {
 			// Reset loading state
 			this.loading = ''
 
-			// Reset the preview
-			this.clearImg()
+			// Reset background state
+			this.backgroundFailed = false
+			if (this.$refs.previewImg) {
+				this.$refs.previewImg.src = ''
+			}
 
 			// Close menu
 			this.openedMenu = false
-		},
-
-		clearImg() {
-			this.backgroundImage = ''
-			this.backgroundFailed = false
-
-			if (this.previewPromise) {
-				this.previewPromise.cancel()
-				this.previewPromise = null
-			}
 		},
 
 		async onActionClick(action) {
@@ -718,7 +665,7 @@ export default Vue.extend({
 			try {
 				// Set the loading marker
 				this.loading = action.id
-				Vue.set(this.source, '_loading', true)
+				Vue.set(this.source, 'status', NodeStatus.LOADING)
 
 				const success = await action.exec(this.source, this.currentView, this.currentDir)
 
@@ -738,7 +685,7 @@ export default Vue.extend({
 			} finally {
 				// Reset the loading marker
 				this.loading = ''
-				Vue.set(this.source, '_loading', false)
+				Vue.set(this.source, 'status', undefined)
 			}
 		},
 		execDefaultAction(event) {
@@ -758,7 +705,7 @@ export default Vue.extend({
 			}
 		},
 
-		onSelectionChange(selection) {
+		onSelectionChange(selected: boolean) {
 			const newSelectedIndex = this.index
 			const lastSelectedIndex = this.selectionStore.lastSelectedIndex
 
@@ -776,13 +723,17 @@ export default Vue.extend({
 
 				// If already selected, update the new selection _without_ the current file
 				const selection = [...lastSelection, ...filesToSelect]
-					.filter(fileId => !isAlreadySelected || fileId !== this.fileid)
+					.filter(fileid => !isAlreadySelected || fileid !== this.fileid)
 
 				logger.debug('Shift key pressed, selecting all files in between', { start, end, filesToSelect, isAlreadySelected })
 				// Keep previous lastSelectedIndex to be use for further shift selections
 				this.selectionStore.set(selection)
 				return
 			}
+
+			const selection = selected
+				? [...this.selectedFiles, this.fileid]
+				: this.selectedFiles.filter(fileid => fileid !== this.fileid)
 
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)
@@ -894,7 +845,7 @@ export default Vue.extend({
 
 			// Set loading state
 			this.loading = 'renaming'
-			Vue.set(this.source, '_loading', true)
+			Vue.set(this.source, 'status', NodeStatus.LOADING)
 
 			// Update node
 			this.source.rename(newName)
@@ -936,7 +887,7 @@ export default Vue.extend({
 				showError(this.t('files', 'Could not rename "{oldName}"', { oldName }))
 			} finally {
 				this.loading = false
-				Vue.set(this.source, '_loading', false)
+				Vue.set(this.source, 'status', undefined)
 			}
 		},
 
@@ -959,14 +910,31 @@ export default Vue.extend({
 			return action.displayName([this.source], this.currentView)
 		},
 
-		onDragEnter() {
+		onDragOver(event: DragEvent) {
 			this.dragover = this.canDrop
+			if (!this.canDrop) {
+				event.preventDefault()
+				event.stopPropagation()
+				event.dataTransfer.dropEffect = 'none'
+				return
+			}
+
+			// Handle copy/move drag and drop
+			if (event.ctrlKey) {
+				event.dataTransfer.dropEffect = 'copy'
+			} else {
+				event.dataTransfer.dropEffect = 'move'
+			}
 		},
-		onDragLeave() {
+		onDragLeave(event: DragEvent) {
+			if (this.$el.contains(event.target) && event.target !== this.$el) {
+				return
+			}
 			this.dragover = false
 		},
 
-		onDragStart(event) {
+		async onDragStart(event: DragEvent) {
+			event.stopPropagation()
 			if (!this.canDrag) {
 				event.preventDefault()
 				event.stopPropagation()
@@ -975,13 +943,22 @@ export default Vue.extend({
 
 			logger.debug('Drag started')
 
-			// Dragging set of files
-			if (this.selectedFiles.length > 0) {
+			// Reset any renaming
+			this.renamingStore.$reset()
+
+			// Dragging set of files, if we're dragging a file
+			// that is already selected, we use the entire selection
+			if (this.selectedFiles.includes(this.fileid)) {
 				this.draggingStore.set(this.selectedFiles)
-				return
+			} else {
+				this.draggingStore.set([this.fileid])
 			}
 
-			this.draggingStore.set([this.fileid])
+			const nodes = this.draggingStore.dragging
+				.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+
+			const image = await getDragAndDropPreview(nodes)
+			event.dataTransfer.setDragImage(image, -10, -10)
 		},
 		onDragEnd() {
 			this.draggingStore.reset()
@@ -989,14 +966,42 @@ export default Vue.extend({
 			logger.debug('Drag ended')
 		},
 
-		onDrop(event) {
+		async onDrop(event) {
 			// If another button is pressed, cancel it
 			// This allows cancelling the drag with the right click
 			if (!this.canDrop || event.button !== 0) {
 				return
 			}
 
+			const isCopy = event.ctrlKey
+			this.dragover = false
+
 			logger.debug('Dropped', { event, selection: this.draggingFiles })
+
+			const nodes = this.draggingFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+			nodes.forEach(async (node: Node) => {
+				Vue.set(node, 'status', NodeStatus.LOADING)
+				try {
+					// TODO: resolve potential conflicts prior and force overwrite
+					await handleCopyMoveNodeTo(node, this.source, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE)
+				} catch (error) {
+					logger.error('Error while moving file', { error })
+					if (isCopy) {
+						showError(this.t('files', 'Could not copy {file}. {message}', { file: node.basename, message: error.message || '' }))
+					} else {
+						showError(this.t('files', 'Could not move {file}. {message}', { file: node.basename, message: error.message || '' }))
+					}
+				} finally {
+					Vue.set(node, 'status', undefined)
+				}
+			})
+
+			// Reset selection after we dropped the files
+			// if the dropped files are within the selection
+			if (this.draggingFiles.some(fileid => this.selectedFiles.includes(fileid))) {
+				logger.debug('Dropped selection, resetting select store...')
+				this.selectionStore.reset()
+			}
 		},
 
 		t: translate,

@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { getFileActions } from '@nextcloud/files'
+import { NodeStatus, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -121,7 +121,7 @@ export default Vue.extend({
 		},
 
 		areSomeNodesLoading() {
-			return this.nodes.some(node => node._loading)
+			return this.nodes.some(node => node.status === NodeStatus.LOADING)
 		},
 
 		openedMenu: {
@@ -165,7 +165,7 @@ export default Vue.extend({
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach(node => {
-					Vue.set(node, '_loading', true)
+					Vue.set(node, 'status', NodeStatus.LOADING)
 				})
 
 				// Dispatch action execution
@@ -199,7 +199,7 @@ export default Vue.extend({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach(node => {
-					Vue.set(node, '_loading', false)
+					Vue.set(node, 'status', undefined)
 				})
 			}
 		},

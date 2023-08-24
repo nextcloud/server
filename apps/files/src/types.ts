@@ -111,4 +111,3 @@ export interface UploaderStore {
 export interface DragAndDropStore {
 	dragging: FileId[]
 }
-

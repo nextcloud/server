@@ -87,6 +87,10 @@ export const useFilesStore = function(...args) {
 			onCreatedNode(node: Node) {
 				this.updateNodes([node])
 			},
+
+			onUpdatedNode(node: Node) {
+				this.updateNodes([node])
+			},
 		},
 	})
 
@@ -95,8 +99,7 @@ export const useFilesStore = function(...args) {
 	if (!fileStore._initialized) {
 		subscribe('files:node:created', fileStore.onCreatedNode)
 		subscribe('files:node:deleted', fileStore.onDeletedNode)
-		// subscribe('files:node:moved', fileStore.onMovedNode)
-		// subscribe('files:node:updated', fileStore.onUpdatedNode)
+		subscribe('files:node:updated', fileStore.onUpdatedNode)
 
 		fileStore._initialized = true
 	}
