@@ -87,21 +87,39 @@ Cypress.Commands.add('createFolder', (user, target) => {
 	})
 })
 
+Cypress.Commands.add('getFile', fileName => {
+	return cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${CSS.escape(fileName)}"]`)
+})
+
 Cypress.Commands.add('openFile', fileName => {
+	cy.getFile(fileName).click()
+	// eslint-disable-next-line
+	cy.wait(250)
+})
+
+Cypress.Commands.add('openFileInShare', fileName => {
 	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
 	// eslint-disable-next-line
 	cy.wait(250)
 })
 
 Cypress.Commands.add('getFileId', fileName => {
-	return cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"]`)
-		.should('have.attr', 'data-id')
+	return cy.getFile(fileName)
+		.should('have.attr', 'data-cy-files-list-row-fileid')
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
-	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
+	cy.getFile(fileName).clickAction('delete')
 })
+
+Cypress.Commands.add(
+	'clickAction',
+	{ prevSubject: 'element' },
+	(subject, action) => {
+		subject.find('[data-cy-files-list-row-actions] button').click()
+		cy.get(`[data-cy-files-list-row-action="${action}"]`).click()
+	},
+)
 
 /**
  * Create a share link and return the share url

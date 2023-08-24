@@ -28,7 +28,6 @@
  * @param {string} source the optional custom source to check against
  */
 export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source = null) {
-	let fileId
 	before(function() {
 		// Init user
 		cy.createRandomUser().then(user => {
@@ -45,19 +44,18 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source
 	})
 
 	it(`See ${fileName} in the list`, function() {
-		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
-			.should('contain', fileName)
-			.then(row => {
-				fileId = row[0].dataset.id
-			})
+		cy.getFile(fileName, { timeout: 10000 })
+			.should('contain', fileName.replace(/(.*)\./, '$1 .'))
 	})
 
 	it('Open the viewer on file click and wait for loading to end', function() {
 		// Match image request
-		const matchRoute = source
-			? `/remote.php/dav/files/*/${fileName}`
-			: `/index.php/core/preview*fileId=${fileId}*`
-		cy.intercept('GET', matchRoute).as('image')
+		cy.getFileId(fileName).then(fileId => {
+			const matchRoute = source
+				? `/remote.php/dav/files/*/${fileName}`
+				: `/index.php/core/preview*fileId=${fileId}*`
+			cy.intercept('GET', matchRoute).as('image')
+		})
 
 		// Open the file and check Viewer existence
 		cy.openFile(fileName)

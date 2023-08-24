@@ -57,9 +57,6 @@ Cypress.on('fail', (error, runnable) => {
 export default function(file, type, sidebar = false) {
 	const placedName = naughtyFileName(file)
 
-	// We'll escape all the characters in the name to match it with css
-	const placedNameCss = CSS.escape(placedName)
-
 	const folderName
 		= 'Nextcloud "%27%22%60%25%21%23" >`⛰️<' + file + "><` e*'rocks!#?#%~"
 
@@ -115,9 +112,9 @@ export default function(file, type, sidebar = false) {
 		}
 
 		it(`See ${file} as ${placedName} in the list`, function() {
-			cy.get(`.files-fileList tr[data-file="${placedNameCss}"]`, {
-				timeout: 10000,
-			}).should('contain', placedName)
+			// cy.getFile will escape all the characters in the name to match it with css
+			cy.getFile(placedName, { timeout: 10000 })
+				.should('contain', placedName.replace(/(.*)\./, '$1 .'))
 		})
 
 		it('Open the viewer on file click', function() {
@@ -155,7 +152,7 @@ export default function(file, type, sidebar = false) {
 		})
 
 		it('Open the viewer on file click (public)', function() {
-			cy.openFile(placedName)
+			cy.openFileInShare(placedName)
 			cy.get('body > .viewer').should('be.visible')
 		})
 

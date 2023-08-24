@@ -47,8 +47,8 @@ export default function(fileName = 'audio.ogg', mimeType = 'audio/ogg') {
 	})
 
 	it(`See ${fileName} in the list`, function() {
-		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
-			.should('contain', fileName)
+		cy.getFile(fileName, { timeout: 10000 })
+			.should('contain', fileName.replace(/(.*)\./, '$1 .'))
 	})
 
 	it('Open the viewer on file click and wait for loading to end', function() {

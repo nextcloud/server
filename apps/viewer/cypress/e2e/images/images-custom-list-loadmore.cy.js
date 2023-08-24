@@ -40,14 +40,14 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('See images in the list', function() {
-		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
-			.should('contain', 'image1.jpg')
-		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
-			.should('contain', 'image2.jpg')
-		cy.get('.files-fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
-			.should('contain', 'image3.jpg')
-		cy.get('.files-fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
-			.should('contain', 'image4.jpg')
+		cy.getFile('image1.jpg', { timeout: 10000 })
+			.should('contain', 'image1 .jpg')
+		cy.getFile('image2.jpg', { timeout: 10000 })
+			.should('contain', 'image2 .jpg')
+		cy.getFile('image3.jpg', { timeout: 10000 })
+			.should('contain', 'image3 .jpg')
+		cy.getFile('image4.jpg', { timeout: 10000 })
+			.should('contain', 'image4 .jpg')
 	})
 
 	it('Open the viewer with a specific list', function() {

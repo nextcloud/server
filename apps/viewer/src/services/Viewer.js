@@ -100,9 +100,13 @@ export default class Viewer {
 	 */
 	registerHandler(handler) {
 		this._state.handlers.push(handler)
-		this._mimetypes.push.apply(this._mimetypes, handler.mimes)
+		const handledMimes = [
+			...handler.mimes,
+			...Object.keys(handler.mimesAliases || {})
+		]
+		this._mimetypes.push.apply(this._mimetypes, handledMimes)
 		if (handler?.canCompare === true) {
-			this._mimetypesCompare.push.apply(this._mimetypesCompare, handler.mimes)
+			this._mimetypesCompare.push.apply(this._mimetypesCompare, handledMimes)
 		}
 	}
 
