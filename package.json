@@ -42,7 +42,7 @@
     "@nextcloud/browserslist-config": "^2.3.0",
     "@nextcloud/calendar-availability-vue": "^0.6.0-alpha1",
     "@nextcloud/capabilities": "^1.0.4",
-    "@nextcloud/dialogs": "^4.2.0-beta.3",
+    "@nextcloud/dialogs": "^4.2.0-beta.4",
     "@nextcloud/event-bus": "^3.0.2",
     "@nextcloud/files": "^3.0.0-beta.8",
     "@nextcloud/initial-state": "^2.0.0",
