@@ -20,6 +20,8 @@
     "An unknown error has occurred" : "Десила се непозната грешка",
     "File could not be uploaded" : "Фајл не може да се отпреми",
     "Uploading …" : "Отпремам…",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Отпремање … ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} од {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Отпремање те ставке није подржано",
     "Target folder does not exist any more" : "Одредишна фасцикла више не постоји",
