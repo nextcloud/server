@@ -226,7 +226,7 @@
     "Shared with others" : "Sprístupnené ostatným",
     "Shared with you" : "Vám sprístupnené",
     "Shared by link" : "Sprístupnené prostredníctvom odkazu",
-    "Deleted shares" : "Vymazané zdieľania",
+    "Deleted shares" : "Zmazané sprístupnenia",
     "Pending shares" : "Čakajúce prístupy",
     "Choose" : "Vybrať"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

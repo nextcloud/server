@@ -20,6 +20,8 @@
     "An unknown error has occurred" : "An unknown error has occurred",
     "File could not be uploaded" : "File could not be uploaded",
     "Uploading …" : "Uploading …",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Uploading … ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} of {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Uploading that item is not supported",
     "Target folder does not exist any more" : "Target folder does not exist any more",
