@@ -30,7 +30,7 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-+use OCP\ILogger;
+use OCP\ILogger;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
