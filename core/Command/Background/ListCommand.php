@@ -53,7 +53,7 @@ class ListCommand extends Base {
 				'l',
 				InputOption::VALUE_OPTIONAL,
 				'Number of jobs to retrieve',
-				'10'
+				'100'
 			)->addOption(
 				'offset',
 				'o',
@@ -67,6 +67,7 @@ class ListCommand extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$jobs = $this->jobList->getJobsIterator($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+		$output->writeln("Output is currently limited to first " .  $input->getOption('limit') . " jobs. Specify `-l, --limit[=LIMIT]` to override.");
 		$this->writeTableInOutputFormat($input, $output, $this->formatJobs($jobs));
 		return 0;
 	}
