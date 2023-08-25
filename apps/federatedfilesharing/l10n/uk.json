@@ -5,7 +5,7 @@
     "Cancel" : "Скасувати",
     "Add remote share" : "Додати віддалений каталог",
     "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор ",
-    "Server to server sharing is not enabled on this server" : "На даному сервері вимкнута можливість передачі даних між серверами",
+    "Server to server sharing is not enabled on this server" : "На цьому сервері вимкнута можливість передавання даних між серверами",
     "Couldn't establish a federated share." : "Не вдалося встановити об’єднаний спільний доступ.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Не вдалося встановити спільний доступ до об'єднаної хмари, можливо, пароль неправильний.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Запит на Federated Share надіслано, ви отримаєте запрошення. Перевірте сповіщення.",
