@@ -1506,6 +1506,7 @@ return array(
     'OC\\Preview\\Watcher' => $baseDir . '/lib/private/Preview/Watcher.php',
     'OC\\Preview\\WatcherConnector' => $baseDir . '/lib/private/Preview/WatcherConnector.php',
     'OC\\Preview\\WebP' => $baseDir . '/lib/private/Preview/WebP.php',
+    'OC\\Preview\\AVIF' => $baseDir . '/lib/private/Preview/AVIF.php',
     'OC\\Preview\\XBitmap' => $baseDir . '/lib/private/Preview/XBitmap.php',
     'OC\\Profile\\Actions\\EmailAction' => $baseDir . '/lib/private/Profile/Actions/EmailAction.php',
     'OC\\Profile\\Actions\\FediverseAction' => $baseDir . '/lib/private/Profile/Actions/FediverseAction.php',
