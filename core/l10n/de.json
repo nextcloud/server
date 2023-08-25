@@ -361,7 +361,7 @@
     "Confirm your password" : "Bestätige dein Passwort",
     "Connect to your account" : "Verbinde dich mit deinem Konto",
     "Please log in before granting %1$s access to your %2$s account." : "Bitte melde dich an, bevor du %1$s Zugriff auf dein %2$s-Konto gewährst.",
-    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Solltest du aktuell nicht versuchen, ein neues Gerät oder eine neue App einzurichten, dann kann es sein, dass jemand versucht, dich dazu zu bewegen, ihm Zugriff auf deine Daten zu gewähren. Fahre in diesem Fall nicht fort, sondern wende dich an deinen Administrator.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Solltest du aktuell nicht versuchen, ein neues Gerät oder eine neue App einzurichten, dann kann es sein, dass jemand versucht, dich dazu zu bewegen, ihm Zugriff auf deine Daten zu gewähren. Fahre in diesem Fall nicht fort, sondern wende dich an deine Administration.",
     "App token" : "App-Token",
     "Grant access" : "Zugriff gewähren",
     "Alternative log in using app token" : "Alternative Anmeldung via App-Token",
