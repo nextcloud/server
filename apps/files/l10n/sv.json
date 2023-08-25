@@ -20,6 +20,8 @@
     "An unknown error has occurred" : "Ett okänt fel uppstod",
     "File could not be uploaded" : "Filen kunde inte laddas upp",
     "Uploading …" : "Laddar upp ..",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Laddar upp … ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Uppladdning av det här objektet stöds inte",
     "Target folder does not exist any more" : "Målmapp existerar inte längre",
