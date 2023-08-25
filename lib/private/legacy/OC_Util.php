@@ -629,7 +629,9 @@ class OC_Util {
 				'openssl_verify' => 'OpenSSL',
 			],
 			'defined' => [
-				'PDO::ATTR_DRIVER_NAME' => 'PDO'
+				'PDO::ATTR_DRIVER_NAME' => 'PDO',
+				'PASSWORD_ARGON2I' => 'PASSWORD_ARGON2I',
+				'PASSWORD_ARGON2ID' => 'PASSWORD_ARGON2ID'
 			],
 			'ini' => [
 				'default_charset' => 'UTF-8',
