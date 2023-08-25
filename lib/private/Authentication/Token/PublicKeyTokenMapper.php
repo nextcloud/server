@@ -69,6 +69,15 @@ class PublicKeyTokenMapper extends QBMapper {
 			->execute();
 	}
 
+	public function invalidateLastUsedBefore(string $uid, int $before): int {
+		$qb = $this->db->getQueryBuilder();
+		return $qb->delete($this->tableName)
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->lt('last_activity', $qb->createNamedParameter($before, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+	}
+
 	/**
 	 * Get the user UID for the given token
 	 *

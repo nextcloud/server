@@ -110,6 +110,11 @@ interface IProvider {
 	public function invalidateOldTokens();
 
 	/**
+	 * Invalidate (delete) tokens last used before a given date
+	 */
+	public function invalidateLastUsedBefore(string $uid, int $before): void;
+
+	/**
 	 * Save the updated token
 	 *
 	 * @param IToken $token

@@ -22,10 +22,14 @@
  */
 namespace OC\Core\Command\User\AuthTokens;
 
+use DateTimeImmutable;
 use OC\Core\Command\Base;
 use OC\Authentication\Token\IProvider;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Delete extends Base {
@@ -40,17 +44,77 @@ class Delete extends Base {
 			->setName('user:auth-tokens:delete')
 			->setDescription('Deletes an authentication token')
 			->addArgument(
-				'id',
+				'uid',
 				InputArgument::REQUIRED,
+				'ID of the user to delete tokens for'
+			)
+			->addArgument(
+				'id',
+				InputArgument::OPTIONAL,
 				'ID of the auth token to delete'
+			)
+			->addOption(
+				'last-used-before',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Delete tokens last used before a given date.'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$token = $this->tokenProvider->getTokenById($input->getArgument('id'));
+		$uid = $input->getArgument('uid');
+		$id = $input->getArgument('id');
+		$before = $input->getOption('last-used-before');
 
-		$this->tokenProvider->invalidateTokenById($token->getUID(), $token->getId());
+		if ($before) {
+			if ($id) {
+				throw new RuntimeException('Option --last-used-before cannot be used with [<id>]');
+			}
 
-		return 0;
+			return $this->deleteLastUsedBefore($uid, $before);
+		}
+
+		if (!$id) {
+			throw new RuntimeException('Not enough arguments. Specify the token <id> or use the --last-used-before option.');
+		}
+		return $this->deleteById($uid, $id);
+	}
+
+	protected function deleteById(string $uid, string $id) {
+		$this->tokenProvider->invalidateTokenById($uid, $id);
+
+		return Command::SUCCESS;
+	}
+
+	protected function deleteLastUsedBefore(string $uid, string $before) {
+		$date = $this->parseDateOption($before);
+		if (!$date) {
+			throw new RuntimeException('Invalid date format. Acceptable formats are: ISO8601 (w/o fractions), "YYYY-MM-DD" and Unix time in seconds.');
+		}
+
+		$this->tokenProvider->invalidateLastUsedBefore($uid, $date->getTimestamp());
+
+		return Command::SUCCESS;
+	}
+
+	/**
+	 * @return \DateTimeImmutable|false
+	 */
+	protected function parseDateOption(string $input) {
+		$date = false;
+
+		// Handle Unix timestamp
+		if (filter_var($input, FILTER_VALIDATE_INT)) {
+			return new DateTimeImmutable('@' . $input);
+		}
+
+		// ISO8601
+		$date = DateTimeImmutable::createFromFormat(DateTimeImmutable::ATOM, $input);
+		if ($date) {
+			return $date;
+		}
+
+		// YYYY-MM-DD
+		return DateTimeImmutable::createFromFormat('!Y-m-d', $input);
 	}
 }
