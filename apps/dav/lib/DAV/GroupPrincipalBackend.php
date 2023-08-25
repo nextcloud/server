@@ -101,7 +101,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * getPrincipalsByPrefix.
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array|null
 	 */
 	public function getPrincipalByPath($path) {
 		$elements = explode('/', $path,  3);

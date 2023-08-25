@@ -53,7 +53,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 *
 	 * @param IUser $user
 	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint
+	 * @return \OCP\Files\Mount\IMountPoint|null
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$config = $this->getMultiBucketObjectStoreConfig($user);

@@ -342,7 +342,7 @@ class Database extends ABackend implements
 	 *
 	 * @param string $loginName The loginname
 	 * @param string $password The password
-	 * @return string
+	 * @return string|false
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false

@@ -159,7 +159,7 @@ class Principal implements BackendInterface {
 	 * getPrincipalsByPrefix.
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array|null
 	 */
 	public function getPrincipalByPath($path) {
 		[$prefix, $name] = \Sabre\Uri\split($path);

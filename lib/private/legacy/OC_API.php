@@ -135,7 +135,7 @@ class OC_API {
 
 	/**
 	 * @param integer $sc
-	 * @return int
+	 * @return int|null
 	 */
 	public static function mapStatusCodes($sc) {
 		switch ($sc) {

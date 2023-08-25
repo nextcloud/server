@@ -234,7 +234,7 @@ class OC_Defaults {
 	 */
 	public function getSlogan(?string $lang = null) {
 		if ($this->themeExist('getSlogan')) {
-			return $this->theme->getSlogan($lang);
+			return $this->theme->getSlogan();
 		} else {
 			if ($this->defaultSlogan === null) {
 				$l10n = \OC::$server->getL10N('lib', $lang);

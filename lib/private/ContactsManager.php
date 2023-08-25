@@ -92,7 +92,7 @@ class ContactsManager implements IManager {
 	 *
 	 * @param int $id the unique identifier to a contact
 	 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
-	 * @return bool successful or not
+	 * @return bool|null successful or not
 	 */
 	public function delete($id, $address_book_key) {
 		$addressBook = $this->getAddressBook($address_book_key);
@@ -113,7 +113,7 @@ class ContactsManager implements IManager {
 	 *
 	 * @param array $properties this array if key-value-pairs defines a contact
 	 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
-	 * @return array representing the contact just created or updated
+	 * @return array|null representing the contact just created or updated
 	 */
 	public function createOrUpdate($properties, $address_book_key) {
 		$addressBook = $this->getAddressBook($address_book_key);
@@ -194,7 +194,7 @@ class ContactsManager implements IManager {
 	 * Get (and load when needed) the address book for $key
 	 *
 	 * @param string $addressBookKey
-	 * @return IAddressBook
+	 * @return IAddressBook|null
 	 */
 	protected function getAddressBook($addressBookKey) {
 		$this->loadAddressBooks();

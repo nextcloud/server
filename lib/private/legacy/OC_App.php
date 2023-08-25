@@ -283,7 +283,7 @@ class OC_App {
 	/**
 	 * Get the path where to install apps
 	 *
-	 * @return string|false
+	 * @return string|false|null
 	 */
 	public static function getInstallPath() {
 		foreach (OC::$APPSROOTS as $dir) {

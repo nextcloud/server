@@ -65,7 +65,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * getPrincipalsByPrefix.
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array|null
 	 */
 	public function getPrincipalByPath($path) {
 		if ($path === 'principals/system/system') {

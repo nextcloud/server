@@ -158,7 +158,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * Returns tags for the given file id
 	 *
 	 * @param integer $fileId file id
-	 * @return array list of tags for that file
+	 * @return array|null list of tags for that file
 	 */
 	private function getTags($fileId) {
 		if (isset($this->cachedTags[$fileId])) {
