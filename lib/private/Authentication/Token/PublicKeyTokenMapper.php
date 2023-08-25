@@ -75,7 +75,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->lt('last_activity', $qb->createNamedParameter($before, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
-		return $query->executeStatement();
+		return $qb->executeStatement();
 	}
 
 	/**
