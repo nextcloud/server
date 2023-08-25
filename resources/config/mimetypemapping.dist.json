@@ -207,6 +207,7 @@
 	"webloc": ["application/internet-shortcut"],
 	"webm": ["video/webm"],
 	"webp": ["image/webp"],
+	"avif": ["image/avif"],
 	"wmv": ["video/x-ms-wmv"],
 	"woff": ["application/font-woff"],
 	"wpd": ["application/vnd.wordperfect"],
