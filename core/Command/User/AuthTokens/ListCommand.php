@@ -61,18 +61,24 @@ class ListCommand extends Base {
 
 		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
 
-		$data = array_map(function (IToken $token): mixed {
-			$filtered = [
+		$tokens = array_map(function (IToken $token) use ($input): mixed {
+			$sensitive = [
 				'password',
 				'password_hash',
 				'token',
 				'public_key',
 				'private_key',
 			];
-			return array_diff_key($token->jsonSerialize(), array_flip($filtered));
+			$data = array_diff_key($token->jsonSerialize(), array_flip($sensitive));
+
+			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
+				$data['scope'] = implode(', ', array_keys(array_filter($data['scope'])));
+			}
+
+			return $data;
 		}, $tokens);
 
-		$this->writeArrayInOutputFormat($input, $output, $data);
+		$this->writeTableInOutputFormat($input, $output, $tokens);
 
 		return 0;
 	}
