@@ -1539,6 +1539,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Watcher' => __DIR__ . '/../../..' . '/lib/private/Preview/Watcher.php',
         'OC\\Preview\\WatcherConnector' => __DIR__ . '/../../..' . '/lib/private/Preview/WatcherConnector.php',
         'OC\\Preview\\WebP' => __DIR__ . '/../../..' . '/lib/private/Preview/WebP.php',
+        'OC\\Preview\\AVIF' => __DIR__ . '/../../..' . '/lib/private/Preview/AVIF.php',
         'OC\\Preview\\XBitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/XBitmap.php',
         'OC\\Profile\\Actions\\EmailAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/EmailAction.php',
         'OC\\Profile\\Actions\\FediverseAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/FediverseAction.php',
