@@ -714,6 +714,20 @@ class OC_Image implements \OCP\IImage {
 					$this->logger->debug('OC_Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
+			case IMAGETYPE_AVIF:
+				if (imagetypes() & IMG_AVIF) {
+					if (!$this->checkImageSize($imagePath)) {
+						return false;
+					}
+					if (getimagesize($imagePath) !== false) {
+						$this->resource = @imagecreatefromavif($imagePath);
+					} else {
+						$this->logger->debug('OC_Image->loadFromFile, AVIF image not valid: ' . $imagePath, ['app' => 'core']);
+					}
+				} else {
+					$this->logger->debug('OC_Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
 			case IMAGETYPE_BMP:
 				$this->resource = imagecreatefrombmp($imagePath);
 				break;
