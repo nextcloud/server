@@ -51,7 +51,7 @@ registerFileAction(new FileAction({
 
 	async exec(node: Node) {
 		try {
-			const destination = generateRemoteUrl(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`)
+			const destination = generateRemoteUrl(encodeURI(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`))
 			await axios({
 				method: 'MOVE',
 				url: node.source,
