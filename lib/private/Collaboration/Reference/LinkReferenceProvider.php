@@ -51,7 +51,8 @@ class LinkReferenceProvider implements IReferenceProvider {
 		'image/jpeg',
 		'image/gif',
 		'image/svg+xml',
-		'image/webp'
+		'image/webp',
+		'image/avif'
 	];
 
 	private IClientService $clientService;
