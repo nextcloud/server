@@ -63,7 +63,7 @@ class Delete extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
-		$id = $input->getArgument('id');
+		$id = (int) $input->getArgument('id');
 		$before = $input->getOption('last-used-before');
 
 		if ($before) {
@@ -80,13 +80,13 @@ class Delete extends Base {
 		return $this->deleteById($uid, $id);
 	}
 
-	protected function deleteById(string $uid, string $id) {
+	protected function deleteById(string $uid, int $id): int {
 		$this->tokenProvider->invalidateTokenById($uid, $id);
 
 		return Command::SUCCESS;
 	}
 
-	protected function deleteLastUsedBefore(string $uid, string $before) {
+	protected function deleteLastUsedBefore(string $uid, string $before): int {
 		$date = $this->parseDateOption($before);
 		if (!$date) {
 			throw new RuntimeException('Invalid date format. Acceptable formats are: ISO8601 (w/o fractions), "YYYY-MM-DD" and Unix time in seconds.');
