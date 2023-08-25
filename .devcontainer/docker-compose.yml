@@ -13,9 +13,11 @@ services:
     ports:
       - 80:80
     depends_on:
-      - db
-      - mailhog
-
+      db:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+        
   db:
     image: postgres
     restart: always
@@ -26,14 +28,21 @@ services:
       - ../../data/db:/data/postgres
     expose:
       - "5432"
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  
+  
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   mailhog:
     image: mailhog/mailhog
