@@ -90,8 +90,8 @@
     "eslint-plugin-cypress": "^2.14.0",
     "jest": "^29.6.2",
     "ts-node": "^10.9.1",
-    "tslib": "^2.6.1",
-    "typescript": "^5.1.6",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
     "wait-on": "^7.0.1"
   }
 }
