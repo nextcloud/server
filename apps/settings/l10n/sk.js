@@ -298,6 +298,7 @@ OC.L10N.register(
     "Unable to delete additional email address" : "Nie je možné odstrániť ďalšiu e-mail adresu",
     "No email address set" : "Emailová adresa nie je nastavená",
     "Additional emails" : "Ďalšie e-maily",
+    "Your handle" : "Vaša rukoväť",
     "Your headline" : "Váš titulok",
     "Language" : "Jazyk",
     "Help translate" : "Pomôcť s prekladom",
