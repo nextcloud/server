@@ -57,7 +57,7 @@
     "@nextcloud/vue": "^8.0.0-beta.2",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "@skjnldsv/sanitize-svg": "^1.0.2",
-    "@vueuse/components": "^10.2.0",
+    "@vueuse/components": "^10.4.0",
     "autosize": "^6.0.1",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
