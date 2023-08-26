@@ -23,6 +23,10 @@
 import Vue from 'vue'
 import App from './AdminTheming.vue'
 import { refreshStyles } from './helpers/refreshStyles.js'
+import { getRequestToken } from '@nextcloud/auth'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 Vue.prototype.OC = OC
 Vue.prototype.t = t
