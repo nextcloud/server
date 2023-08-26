@@ -20,6 +20,8 @@
     "An unknown error has occurred" : "Um erro desconhecido ocorreu",
     "File could not be uploaded" : "Não foi possível enviar o arquivo",
     "Uploading …" : "Enviando...",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Enviando … ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "O envio deste item não é suportado",
     "Target folder does not exist any more" : "Pasta destino não existe mais",
