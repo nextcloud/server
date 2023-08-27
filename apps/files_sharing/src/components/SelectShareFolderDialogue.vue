@@ -71,7 +71,6 @@ export default {
 			const picker = getFilePickerBuilder(t('files', 'Choose a default folder for accepted shares'))
 				.startAt(this.readableDirectory)
 				.setMultiSelect(false)
-				.setModal(true)
 				.setType(1)
 				.setMimeTypeFilter(['httpd/unix-directory'])
 				.allowDirectories()
