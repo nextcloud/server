@@ -15,7 +15,6 @@ default:
         - DialogContext
         - FeatureContext
         - FileListContext
-        - FilePickerContext
         - FilesAppContext
         - FilesAppSharingContext
         - LoginPageContext
@@ -45,7 +44,6 @@ default:
         - DialogContext
         - FeatureContext
         - FileListContext
-        - FilePickerContext
         - FilesAppContext
         - FilesAppSharingContext
         - LoginPageContext
