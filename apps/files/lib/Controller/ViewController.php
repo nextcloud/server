@@ -172,7 +172,7 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @UseSession
-	 * 
+	 *
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
@@ -219,7 +219,6 @@ class ViewController extends Controller {
 		// Load the files we need
 		\OCP\Util::addInitScript('files', 'init');
 		\OCP\Util::addStyle('files', 'merged');
-		\OCP\Util::addScript('files', 'merged-index', 'files');
 		\OCP\Util::addScript('files', 'main');
 
 		$userId = $this->userSession->getUser()->getUID();
@@ -393,7 +392,7 @@ class ViewController extends Controller {
 			}
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
 		}
-	
+
 		throw new NotFoundException();
 	}
 }
