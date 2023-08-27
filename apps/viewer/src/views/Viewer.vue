@@ -183,7 +183,7 @@ import axios from '@nextcloud/axios'
 import '@nextcloud/dialogs/dist/index.css'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { registerFileAction, FileAction, Permission } from '@nextcloud/files'
+import { registerFileAction, FileAction, Permission, DefaultType } from '@nextcloud/files'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
@@ -921,7 +921,7 @@ export default {
 						return t('viewer', 'View')
 					},
 					iconSvgInline: () => '',
-					default: true,
+					default: DefaultType.DEFAULT,
 					enabled: (nodes) => {
 						return nodes.filter((node) => node.permissions & Permission.READ
 							&& this.Viewer.mimetypes.indexOf(node.mime) !== -1,
