@@ -35,12 +35,7 @@
 			zoomed: zoomRatio !== 1
 		}"
 		:src="data"
-		:style="{
-			marginTop: Math.round(shiftY * 2) + 'px',
-			marginLeft: Math.round(shiftX * 2) + 'px',
-			height: zoomHeight + 'px',
-			width: zoomWidth + 'px',
-		}"
+		:style="imgStyle"
 		@error.capture.prevent.stop.once="onFail"
 		@load="updateImgSize"
 		@wheel="updateZoom"
@@ -96,6 +91,17 @@ export default {
 		},
 		alt() {
 			return this.basename
+		},
+		imgStyle() {
+			if (this.zoomRatio === 1) {
+				return {}
+			}
+			return {
+				marginTop: Math.round(shiftY * 2) + 'px',
+				marginLeft: Math.round(shiftX * 2) + 'px',
+				height: zoomHeight + 'px',
+				width: zoomWidth + 'px',
+			}
 		},
 	},
 
