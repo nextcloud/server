@@ -76,7 +76,7 @@
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@nextcloud/babel-config": "^1.0.0",
-    "@nextcloud/browserslist-config": "^2.3.0",
+    "@nextcloud/browserslist-config": "^3.0.0",
     "@nextcloud/cypress": "^1.0.0-beta.2",
     "@nextcloud/eslint-config": "^8.3.0-beta.2",
     "@nextcloud/stylelint-config": "^2.3.1",
