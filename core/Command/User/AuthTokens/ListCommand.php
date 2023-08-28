@@ -72,7 +72,7 @@ class ListCommand extends Base {
 			$data = array_diff_key($token->jsonSerialize(), array_flip($sensitive));
 
 			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
-				$data['scope'] = implode(', ', array_keys(array_filter($data['scope'])));
+				$data = $this->formatTokenForPlainOutput($data);
 			}
 
 			return $data;
@@ -81,5 +81,20 @@ class ListCommand extends Base {
 		$this->writeTableInOutputFormat($input, $output, $tokens);
 
 		return 0;
+	}
+
+	public function formatTokenForPlainOutput(array $token): array {
+		$token['scope'] = implode(', ', array_keys(array_filter($token['scope'] ?? [])));
+
+		$token['lastActivity'] = date(DATE_ATOM, $token['lastActivity']);
+
+		$token['type'] = match ($token['type']) {
+			IToken::TEMPORARY_TOKEN => 'temporary',
+			IToken::PERMANENT_TOKEN => 'permanent',
+			IToken::WIPE_TOKEN => 'wipe',
+			default => $token['type'],
+		};
+
+		return $token;
 	}
 }
