@@ -1085,6 +1085,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\User\\Report' => __DIR__ . '/../../..' . '/core/Command/User/Report.php',
         'OC\\Core\\Command\\User\\ResetPassword' => __DIR__ . '/../../..' . '/core/Command/User/ResetPassword.php',
         'OC\\Core\\Command\\User\\Setting' => __DIR__ . '/../../..' . '/core/Command/User/Setting.php',
+        'OC\\Core\\Command\\User\\SyncAccountDataCommand' => __DIR__ . '/../../..' . '/core/Command/User/SyncAccountDataCommand.php',
         'OC\\Core\\Controller\\AppPasswordController' => __DIR__ . '/../../..' . '/core/Controller/AppPasswordController.php',
         'OC\\Core\\Controller\\AutoCompleteController' => __DIR__ . '/../../..' . '/core/Controller/AutoCompleteController.php',
         'OC\\Core\\Controller\\AvatarController' => __DIR__ . '/../../..' . '/core/Controller/AvatarController.php',

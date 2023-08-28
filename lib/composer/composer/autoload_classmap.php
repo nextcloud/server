@@ -1052,6 +1052,7 @@ return array(
     'OC\\Core\\Command\\User\\Report' => $baseDir . '/core/Command/User/Report.php',
     'OC\\Core\\Command\\User\\ResetPassword' => $baseDir . '/core/Command/User/ResetPassword.php',
     'OC\\Core\\Command\\User\\Setting' => $baseDir . '/core/Command/User/Setting.php',
+    'OC\\Core\\Command\\User\\SyncAccountDataCommand' => $baseDir . '/core/Command/User/SyncAccountDataCommand.php',
     'OC\\Core\\Controller\\AppPasswordController' => $baseDir . '/core/Controller/AppPasswordController.php',
     'OC\\Core\\Controller\\AutoCompleteController' => $baseDir . '/core/Controller/AutoCompleteController.php',
     'OC\\Core\\Controller\\AvatarController' => $baseDir . '/core/Controller/AvatarController.php',
