@@ -70,7 +70,7 @@
 				class="files-list__row-rename"
 				@submit.prevent.stop="onRename">
 				<NcTextField ref="renameInput"
-					:aria-label="t('files', 'File name')"
+					:label="renameLabel"
 					:autofocus="true"
 					:minlength="1"
 					:required="true"
@@ -477,6 +477,14 @@ export default Vue.extend({
 
 		isFavorite() {
 			return this.source.attributes.favorite === 1
+		},
+
+		renameLabel() {
+			const matchLabel: Record<FileType, string> = {
+				[FileType.File]: t('files', 'File name'),
+				[FileType.Folder]: t('files', 'Folder name'),
+			}
+			return matchLabel[this.source.type]
 		},
 
 		isRenaming() {
