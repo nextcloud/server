@@ -31,7 +31,6 @@ namespace OCA\OAuth2\Controller;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
-use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
@@ -41,6 +40,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -57,7 +57,7 @@ class OauthApiController extends Controller {
 		private ISecureRandom $secureRandom,
 		private ITimeFactory $time,
 		private LoggerInterface $logger,
-		private Throttler $throttler
+		private IThrottler $throttler
 	) {
 		parent::__construct($appName, $request);
 	}

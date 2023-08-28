@@ -29,7 +29,6 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -43,6 +42,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -74,7 +74,7 @@ class LoginControllerTest extends TestCase {
 	/** @var Defaults|MockObject */
 	private $defaults;
 
-	/** @var Throttler|MockObject */
+	/** @var IThrottler|MockObject */
 	private $throttler;
 
 	/** @var IInitialStateService|MockObject */
@@ -99,7 +99,7 @@ class LoginControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
 		$this->notificationManager = $this->createMock(IManager::class);

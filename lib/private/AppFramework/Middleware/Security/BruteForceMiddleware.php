@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -39,6 +38,7 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
@@ -55,7 +55,7 @@ class BruteForceMiddleware extends Middleware {
 
 	public function __construct(
 		protected ControllerMethodReflector $reflector,
-		protected Throttler $throttler,
+		protected IThrottler $throttler,
 		protected IRequest $request,
 		protected LoggerInterface $logger,
 	) {

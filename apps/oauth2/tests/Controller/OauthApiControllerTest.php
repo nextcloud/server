@@ -29,7 +29,6 @@ use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\Token\PublicKeyToken;
-use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
@@ -41,6 +40,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -66,7 +66,7 @@ class OauthApiControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $time;
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
@@ -83,7 +83,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->time = $this->createMock(ITimeFactory::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->oauthApiController = new OauthApiController(
