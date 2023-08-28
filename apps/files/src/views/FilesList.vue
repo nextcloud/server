@@ -64,11 +64,9 @@
 
 <script lang="ts">
 import type { Route } from 'vue-router'
-import type { Navigation, ContentsWithRoot } from '../services/Navigation.ts'
 import type { UserConfig } from '../types.ts'
 
-import { Folder, Node } from '@nextcloud/files'
-import { join } from 'path'
+import { Folder, Node, type View, type ContentsWithRoot, join } from 'path'
 import { orderBy } from 'natural-orderby'
 import { translate } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
@@ -132,9 +130,9 @@ export default Vue.extend({
 			return this.userConfigStore.userConfig
 		},
 
-		currentView(): Navigation {
+		currentView(): View {
 			return (this.$navigation.active
-				|| this.$navigation.views.find(view => view.id === 'files')) as Navigation
+				|| this.$navigation.views.find(view => view.id === 'files')) as View
 		},
 
 		/**

@@ -19,15 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { NavigationService, Navigation } from '../../../files/src/services/Navigation'
-
 import { translate as t } from '@nextcloud/l10n'
+import { View, getNavigation } from '@nextcloud/files'
 import AccountClockSvg from '@mdi/svg/svg/account-clock.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account.svg?raw'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 
 import { getContents } from '../services/SharingService'
 
@@ -39,8 +38,8 @@ export const deletedSharesViewId = 'deletedshares'
 export const pendingSharesViewId = 'pendingshares'
 
 export default () => {
-	const Navigation = window.OCP.Files.Navigation as NavigationService
-	Navigation.register({
+	const Navigation = getNavigation()
+	Navigation.register(new View({
 		id: sharesViewId,
 		name: t('files_sharing', 'Shares'),
 		caption: t('files_sharing', 'Overview of shared files.'),
@@ -54,9 +53,9 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(),
-	} as Navigation)
+	}))
 
-	Navigation.register({
+	Navigation.register(new View({
 		id: sharedWithYouViewId,
 		name: t('files_sharing', 'Shared with you'),
 		caption: t('files_sharing', 'List of files that are shared with you.'),
@@ -71,9 +70,9 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(true, false, false, false),
-	} as Navigation)
+	}))
 
-	Navigation.register({
+	Navigation.register(new View({
 		id: sharedWithOthersViewId,
 		name: t('files_sharing', 'Shared with others'),
 		caption: t('files_sharing', 'List of files that you shared with others.'),
@@ -88,9 +87,9 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(false, true, false, false),
-	} as Navigation)
+	}))
 
-	Navigation.register({
+	Navigation.register(new View({
 		id: sharingByLinksViewId,
 		name: t('files_sharing', 'Shared by link'),
 		caption: t('files_sharing', 'List of files that are shared by link.'),
@@ -105,9 +104,9 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(false, true, false, false, [window.OC.Share.SHARE_TYPE_LINK]),
-	} as Navigation)
+	}))
 
-	Navigation.register({
+	Navigation.register(new View({
 		id: deletedSharesViewId,
 		name: t('files_sharing', 'Deleted shares'),
 		caption: t('files_sharing', 'List of shares you left.'),
@@ -122,9 +121,9 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(false, false, false, true),
-	} as Navigation)
+	}))
 
-	Navigation.register({
+	Navigation.register(new View({
 		id: pendingSharesViewId,
 		name: t('files_sharing', 'Pending shares'),
 		caption: t('files_sharing', 'List of unapproved shares.'),
@@ -139,5 +138,5 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(false, false, true, false),
-	} as Navigation)
+	}))
 }

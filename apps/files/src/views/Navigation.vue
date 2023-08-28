@@ -83,7 +83,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
-import type { NavigationService, Navigation } from '../services/Navigation.ts'
+import type { Navigation, View } from '@nextcloud/files'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 
@@ -125,15 +125,15 @@ export default {
 			return this.$route?.params?.view || 'files'
 		},
 
-		currentView(): Navigation {
+		currentView(): View {
 			return this.views.find(view => view.id === this.currentViewId)
 		},
 
-		views(): Navigation[] {
+		views(): View[] {
 			return this.Navigation.views
 		},
 
-		parentViews(): Navigation[] {
+		parentViews(): View[] {
 			return this.views
 				// filter child views
 				.filter(view => !view.parent)
@@ -143,7 +143,7 @@ export default {
 				})
 		},
 
-		childViews(): Navigation[] {
+		childViews(): View[] {
 			return this.views
 				// filter parent views
 				.filter(view => !!view.parent)
@@ -165,7 +165,7 @@ export default {
 				this.Navigation.setActive(view)
 				logger.debug('Navigation changed', { id: view.id, view })
 
-				this.showView(view, oldView)
+				this.showView(view)
 			}
 		},
 	},
@@ -178,7 +178,7 @@ export default {
 	},
 
 	methods: {
-		showView(view: Navigation) {
+		showView(view: View) {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
 			this.Navigation.setActive(view)
@@ -190,7 +190,7 @@ export default {
 		 * Expand/collapse a a view with children and permanently
 		 * save this setting in the server.
 		 */
-		onToggleExpand(view: Navigation) {
+		onToggleExpand(view: View) {
 			// Invert state
 			const isExpanded = this.isExpanded(view)
 			// Update the view expanded state, might not be necessary
@@ -202,7 +202,7 @@ export default {
 		 * Check if a view is expanded by user config
 		 * or fallback to the default value.
 		 */
-		isExpanded(view: Navigation): boolean {
+		isExpanded(view: View): boolean {
 			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
 				? this.viewConfigStore.getConfig(view.id).expanded === true
 				: view.expanded === true
@@ -211,7 +211,7 @@ export default {
 		/**
 		 * Generate the route to a view
 		 */
-		generateToNavigation(view: Navigation) {
+		generateToNavigation(view: View) {
 			if (view.params) {
 				const { dir, fileid } = view.params
 				return { name: 'filelist', params: view.params, query: { dir, fileid } }

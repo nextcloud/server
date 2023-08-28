@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Последни състояния",
+    "No recent status changes" : "Няма скорошни промени в състоянието",
     "In a meeting" : "В среща",
     "Commuting" : "Работно пътуване",
     "Out sick" : "Болничен",
@@ -26,14 +27,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Възникна грешка при запазване на състоянието",
     "There was an error clearing the status" : "Възникна грешка при изчистване на състоянието",
     "There was an error reverting the status" : "Имаше грешка при връщане на състоянието",
-    "No recent status changes" : "Няма скорошни промени в състоянието",
-    "Away" : "Отсъстващ",
-    "Do not disturb" : "Не безпокойте",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Да не се изчиства",
     "Today" : "Днес",
     "This week" : "Тази седмица",
     "Online" : "На линия",
+    "Away" : "Отсъстващ",
+    "Do not disturb" : "Не безпокойте",
     "Invisible" : "Невидим",
     "Offline" : "Офлайн",
     "There was an error saving the new status" : "Възникна грешка при запазване на новото състояние",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "1 hour" : "1 час",
     "4 hours" : "4 часа",
     "Mute all notifications" : "Заглушаване на всички известия",
-    "Appear offline" : "Показване като офлайн"
+    "Appear offline" : "Показване като офлайн",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

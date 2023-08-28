@@ -192,6 +192,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\User\SyncAccountDataCommand(\OC::$server->getUserManager(), \OC::$server->get(\OCP\Accounts\IAccountManager::class)));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Add::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\ListCommand::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Delete::class));

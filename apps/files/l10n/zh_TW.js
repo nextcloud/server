@@ -22,6 +22,8 @@ OC.L10N.register(
     "An unknown error has occurred" : "發生未知的錯誤",
     "File could not be uploaded" : "檔案無法上傳",
     "Uploading …" : "正在上傳……",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "正在上傳…… ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{totalSize} 中的 {loadedSize} ({bitrate})",
     "Uploading that item is not supported" : "不支援上傳該項目",
     "Target folder does not exist any more" : "目標資料夾已經不存在了",

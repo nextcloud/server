@@ -231,10 +231,19 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
-		/** @var VCalendar $vObject */
+		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
 
 		// First, we check if the correct method is passed to us
 		if (strcasecmp('REPLY', $vObject->{'METHOD'}->getValue()) !== 0) {
@@ -306,9 +315,19 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
+		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
 
 		// First, we check if the correct method is passed to us
 		if (strcasecmp('CANCEL', $vObject->{'METHOD'}->getValue()) !== 0) {

@@ -42,6 +42,7 @@
 </template>
 
 <script lang="ts">
+import { getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -49,7 +50,6 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
-import { getFileActions } from '../services/FileAction.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'

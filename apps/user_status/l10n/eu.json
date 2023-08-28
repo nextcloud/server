@@ -1,5 +1,6 @@
 { "translations": {
     "Recent statuses" : "Azken egoerak",
+    "No recent status changes" : "Azken egoera-aldaketarik ez",
     "In a meeting" : "Bilera batean",
     "Commuting" : "Lanerako bidean",
     "Out sick" : "Gaixorik",
@@ -26,14 +27,12 @@
     "There was an error saving the status" : "Errore bat gertatu da egoera gordetzean",
     "There was an error clearing the status" : "Errore bat gertatu da egoera garbitzean",
     "There was an error reverting the status" : "Errore bat gertatu da egoera berrezartzean",
-    "No recent status changes" : "Azken egoera-aldaketarik ez",
-    "Away" : "Kanpoan",
-    "Do not disturb" : "Ez molestatu",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Ez garbitu",
     "Today" : "Gaur",
     "This week" : "Aste honetan",
     "Online" : "Linean",
+    "Away" : "Kanpoan",
+    "Do not disturb" : "Ez molestatu",
     "Invisible" : "Ikusezina",
     "Offline" : "Lineaz kanpo",
     "There was an error saving the new status" : "Errore bat gertatu da egoera berria gordetzean",
@@ -41,6 +40,7 @@
     "1 hour" : "Ordu 1",
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
-    "Appear offline" : "Lineaz kanpo agertu"
+    "Appear offline" : "Lineaz kanpo agertu",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

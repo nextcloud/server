@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Estats recents",
+    "No recent status changes" : "No hi ha cap canvi d'estat recent",
     "In a meeting" : "En una reunió",
     "Commuting" : "En desplaçament",
     "Out sick" : "No disponible per malaltia",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "S'ha produït un error en desar l'estat",
     "There was an error clearing the status" : "S'ha produït un error en esborrar l'estat",
     "There was an error reverting the status" : "S'ha produït un error en recuperar l'estat anterior",
-    "No recent status changes" : "No hi ha cap canvi d'estat recent",
-    "Away" : "Absent",
-    "Do not disturb" : "No molesteu",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "No l'esborris",
     "Today" : "Avui",
     "This week" : "Aquesta setmana",
     "Online" : "En línia",
+    "Away" : "Absent",
+    "Do not disturb" : "No molesteu",
     "Invisible" : "Invisible",
     "Offline" : "Fora de línia",
     "There was an error saving the new status" : "S'ha produït un error en desar l'estat nou",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 hores",
     "Mute all notifications" : "Silencieu totes les notificacions",
-    "Appear offline" : "Apareixeu fora de línia"
+    "Appear offline" : "Apareixeu fora de línia",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

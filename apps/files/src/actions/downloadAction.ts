@@ -19,13 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, Node, FileType } from '@nextcloud/files'
+import { generateUrl } from '@nextcloud/router'
+import { registerFileAction, FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
-
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
-import { generateUrl } from '@nextcloud/router'
-import type { Navigation } from '../services/Navigation'
 
 const triggerDownload = function(url: string) {
 	const hiddenElement = document.createElement('a')
@@ -55,7 +52,7 @@ export const action = new FileAction({
 			.every(permission => (permission & Permission.READ) !== 0)
 	},
 
-	async exec(node: Node, view: Navigation, dir: string) {
+	async exec(node: Node, view: View, dir: string) {
 		if (node.type === FileType.Folder) {
 			downloadNodes(dir, [node])
 			return null
@@ -65,7 +62,7 @@ export const action = new FileAction({
 		return null
 	},
 
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+	async execBatch(nodes: Node[], view: View, dir: string) {
 		if (nodes.length === 1) {
 			this.exec(nodes[0], view, dir)
 			return [null]

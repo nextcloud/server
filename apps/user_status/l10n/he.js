@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "מצבים אחרונים",
+    "No recent status changes" : "אין שינויים אחרונים למצב",
     "In a meeting" : "בפגישה",
     "Commuting" : "בדרכים",
     "Out sick" : "בחופשת מחלה",
@@ -17,14 +18,12 @@ OC.L10N.register(
     "Set status message" : "הגדרת הודעת מצב",
     "There was an error saving the status" : "אירעה שגיאה בשמירת המצב",
     "There was an error clearing the status" : "אירעה שגיאה בפינוי המצב",
-    "No recent status changes" : "אין שינויים אחרונים למצב",
-    "Away" : "לא פה",
-    "Do not disturb" : "לא להפריע",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "לא לפנות",
     "Today" : "היום",
     "This week" : "השבוע",
     "Online" : "מקוון",
+    "Away" : "לא פה",
+    "Do not disturb" : "לא להפריע",
     "Invisible" : "נסתרת",
     "Offline" : "בלתי מקוון",
     "There was an error saving the new status" : "אירעה שגיאה בשמירת המצב החדש",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "1 hour" : "שעה",
     "4 hours" : "4 שעות",
     "Mute all notifications" : "השתקת כל ההתראות",
-    "Appear offline" : "להופיע במצב בלתי מקוון"
+    "Appear offline" : "להופיע במצב בלתי מקוון",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

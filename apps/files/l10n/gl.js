@@ -22,6 +22,8 @@ OC.L10N.register(
     "An unknown error has occurred" : "Produciuse un erro descoñecido",
     "File could not be uploaded" : "Non foi posíbel enviar o ficheiro",
     "Uploading …" : "Enviando…",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Enviando… ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Non se admite o envío deste elemento",
     "Target folder does not exist any more" : "O cartafol de destino xa non existe",
@@ -280,7 +282,7 @@ OC.L10N.register(
     "Deleted shares" : "Comparticións eliminadas",
     "Pending shares" : "Comparticións pendentes",
     "Open folder {name}" : "Abrir o cartafol {name}",
-    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres navega pola lista.",
+    "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
     "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"

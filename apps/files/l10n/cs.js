@@ -22,6 +22,8 @@ OC.L10N.register(
     "An unknown error has occurred" : "Vyskytla se neznámá chyba",
     "File could not be uploaded" : "Soubor se nepodařilo nahrát",
     "Uploading …" : "Nahrávání…",
+    "{remainingTime} ({currentNumber}/{total})" : "{remainingTime} ({currentNumber}/{total})",
+    "Uploading … ({currentNumber}/{total})" : "Nahrávání… ({currentNumber}/{total})",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Nahrání této položky není podporováno",
     "Target folder does not exist any more" : "Cílová složka už neexistuje",

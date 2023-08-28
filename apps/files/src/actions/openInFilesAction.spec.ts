@@ -21,19 +21,17 @@
  */
 import { action } from './openInFilesAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
-import type { Navigation } from '../../../files/src/services/Navigation'
+import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const recentView = {
 	id: 'recent',
 	name: 'Recent',
-} as Navigation
+} as View
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {

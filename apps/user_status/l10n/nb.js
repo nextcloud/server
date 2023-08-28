@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Nylige statuser",
+    "No recent status changes" : "Ingen nylige statusendringer",
     "In a meeting" : "I et møte",
     "Commuting" : "Pendler",
     "Out sick" : "Syk",
@@ -19,14 +20,12 @@ OC.L10N.register(
     "Set status message" : "Velg statusmelding",
     "There was an error saving the status" : "Det oppsto en feil ved lagring av status",
     "There was an error clearing the status" : "Det oppsto en feil ved fjerning av status",
-    "No recent status changes" : "Ingen nylige statusendringer",
-    "Away" : "Borte",
-    "Do not disturb" : "Ikke forstyrr",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Ikke fjern",
     "Today" : "I dag",
     "This week" : "Denne uken",
     "Online" : "Pålogget",
+    "Away" : "Borte",
+    "Do not disturb" : "Ikke forstyrr",
     "Invisible" : "Usynlig",
     "Offline" : "Frakoblet",
     "There was an error saving the new status" : "Det oppsto en feil ved lagring av ny status",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
     "Mute all notifications" : "Demp alle varslinger",
-    "Appear offline" : "Vis som frakoblet"
+    "Appear offline" : "Vis som frakoblet",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

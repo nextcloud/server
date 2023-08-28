@@ -19,13 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { ContentsWithRoot } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
+
 import { File, Folder, davParsePermissions } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { getClient, rootPath } from './WebdavClient'
 import { getCurrentUser } from '@nextcloud/auth'
+
+import { getClient, rootPath } from './WebdavClient'
 import { getDavNameSpaces, getDavProperties, getDefaultPropfind } from './DavProperties'
-import type { ContentsWithRoot } from './Navigation'
-import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
 const client = getClient()
 

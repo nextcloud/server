@@ -19,13 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { Navigation } from '../services/Navigation'
-
-import { Permission, type Node } from '@nextcloud/files'
+import { Permission, type Node, View, registerFileAction, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
 
 export const ACTION_DETAILS = 'details'
@@ -54,7 +51,7 @@ export const action = new FileAction({
 		return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== Permission.NONE) ?? false
 	},
 
-	async exec(node: Node, view: Navigation) {
+	async exec(node: Node, view: View) {
 		try {
 			// TODO: migrate Sidebar to use a Node instead
 			await window.OCA.Files.Sidebar.open(node.path)

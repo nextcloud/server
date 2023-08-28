@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Nedávné stavy",
+    "No recent status changes" : "Žádné nedávné změny stavu",
     "In a meeting" : "Na poradě",
     "Commuting" : "Dojíždění",
     "Out sick" : "Nemoc",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Došlo k chybě při ukládání stavu",
     "There was an error clearing the status" : "Při čištění stavu došlo k chybě",
     "There was an error reverting the status" : "Při vracení stavu nazpět došlo k chybě",
-    "No recent status changes" : "Žádné nedávné změny stavu",
-    "Away" : "Pryč",
-    "Do not disturb" : "Nerušit",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Do odvolání",
     "Today" : "Dnes",
     "This week" : "Tento týden",
     "Online" : "Online",
+    "Away" : "Pryč",
+    "Do not disturb" : "Nerušit",
     "Invisible" : "Není vidět",
     "Offline" : "Offline",
     "There was an error saving the new status" : "Při ukládání nového stavu došlo k chybě",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 hodina",
     "4 hours" : "4 hodiny",
     "Mute all notifications" : "Ztlumit veškerá upozornění",
-    "Appear offline" : "Jevit se offline"
+    "Appear offline" : "Jevit se offline",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -195,6 +195,7 @@ OC.L10N.register(
     "Results from other categories" : "Diğer kategorilerden sonuçlar",
     "No apps found for your version" : "Sürümünüze uygun bir uygulama bulunamadı",
     "Disable all" : "Tümünü devre dışı bırak",
+    "Download and enable all" : "İndir ve tümünü etkinleştir",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n uygulama için güncelleme yayınlanmış","%n uygulama için güncelleme yayınlanmış"],
     "_Update_::_Update all_" : ["Güncelle","Tümünü güncelle"],
     "Marked for remote wipe" : "Uzaktan silme için işaretlendi",
