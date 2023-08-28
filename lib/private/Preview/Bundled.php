@@ -25,6 +25,7 @@ namespace OC\Preview;
 use OC\Archive\ZIP;
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\ITempManager;
 
 /**
  * Extracts a preview from files that embed them in an ZIP archive
@@ -35,8 +36,8 @@ abstract class Bundled extends ProviderV2 {
 			return null;
 		}
 
-		$sourceTmp = \OC::$server->getTempManager()->getTemporaryFile();
-		$targetTmp = \OC::$server->getTempManager()->getTemporaryFile();
+		$sourceTmp = \OC::$server->get(ITempManager::class)->getTemporaryFile();
+		$targetTmp = \OC::$server->get(ITempManager::class)->getTemporaryFile();
 		$this->tmpFiles[] = $sourceTmp;
 		$this->tmpFiles[] = $targetTmp;
 

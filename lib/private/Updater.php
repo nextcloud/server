@@ -48,6 +48,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
 use OC\App\AppManager;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\MigratorExecuteSqlEvent;
@@ -272,10 +273,10 @@ class Updater extends BasicEmitter {
 		$this->doAppUpgrade();
 
 		// Update the appfetchers version so it downloads the correct list from the appstore
-		\OC::$server->getAppFetcher()->setVersion($currentVersion);
+		\OC::$server->get(AppFetcher::class)->setVersion($currentVersion);
 
 		/** @var AppManager $appManager */
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps($appManager->getInstalledApps());
@@ -303,7 +304,7 @@ class Updater extends BasicEmitter {
 		$this->config->setAppValue('core', 'lastupdatedat', '0');
 
 		// Check for code integrity if not disabled
-		if (\OC::$server->getIntegrityCodeChecker()->isCodeCheckEnforced()) {
+		if (\OC::$server->get('IntegrityCodeChecker')->isCodeCheckEnforced()) {
 			$this->emit('\OC\Updater', 'startCheckCodeIntegrity');
 			$this->checker->runInstanceVerification();
 			$this->emit('\OC\Updater', 'finishedCheckCodeIntegrity');
@@ -382,7 +383,7 @@ class Updater extends BasicEmitter {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
 			$info = $appManager->getAppInfo($app);

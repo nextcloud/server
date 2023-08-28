@@ -108,7 +108,7 @@ class Application extends App implements IBootstrap {
 		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->query(IProvider::class);
+			return \OC::$server->get(IProvider::class);
 		});
 		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */

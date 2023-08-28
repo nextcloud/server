@@ -57,7 +57,7 @@ class OC_Defaults {
 	private $defaultProductName;
 
 	public function __construct() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(\OC\AllConfig::class);
 
 		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
@@ -237,7 +237,7 @@ class OC_Defaults {
 			return $this->theme->getSlogan($lang);
 		} else {
 			if ($this->defaultSlogan === null) {
-				$l10n = \OC::$server->getL10N('lib', $lang);
+				$l10n = \OC::$server->get(\OCP\L10N\IFactory::class)->get('lib', $lang);
 				$this->defaultSlogan = $l10n->t('a safe home for all your data');
 			}
 			return $this->defaultSlogan;
@@ -325,9 +325,9 @@ class OC_Defaults {
 		}
 
 		if ($useSvg) {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.svg');
+			$logo = \OC::$server->get(\OCP\IURLGenerator::class)->imagePath('core', 'logo/logo.svg');
 		} else {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.png');
+			$logo = \OC::$server->get(\OCP\IURLGenerator::class)->imagePath('core', 'logo/logo.png');
 		}
 		return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 	}

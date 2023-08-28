@@ -142,7 +142,7 @@ class Adapter {
 			foreach ($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
-			return $builder->execute();
+			return $builder->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			return 0;
 		}

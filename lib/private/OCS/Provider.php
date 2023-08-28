@@ -24,7 +24,12 @@
  */
 namespace OC\OCS;
 
-class Provider extends \OCP\AppFramework\Controller {
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\App\IAppManager;
+use OCP\IRequest;
+
+class Provider extends Controller {
 	/** @var \OCP\App\IAppManager */
 	private $appManager;
 
@@ -34,8 +39,8 @@ class Provider extends \OCP\AppFramework\Controller {
 	 * @param \OCP\App\IAppManager $appManager
 	 */
 	public function __construct($appName,
-								\OCP\IRequest $request,
-								\OCP\App\IAppManager $appManager) {
+								IRequest $request,
+								IAppManager $appManager) {
 		parent::__construct($appName, $request);
 		$this->appManager = $appManager;
 	}
@@ -108,7 +113,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			];
 		}
 
-		return new \OCP\AppFramework\Http\JSONResponse([
+		return new JSONResponse([
 			'version' => 2,
 			'services' => $services,
 		]);

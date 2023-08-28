@@ -77,7 +77,7 @@ class Install extends Command {
 
 		try {
 			/** @var Installer $installer */
-			$installer = \OC::$server->query(Installer::class);
+			$installer = \OC::$server->get(Installer::class);
 			$installer->downloadApp($appId, $input->getOption('allow-unstable'));
 			$result = $installer->installApp($appId, $forceEnable);
 		} catch (\Exception $e) {

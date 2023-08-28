@@ -44,6 +44,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -122,8 +123,8 @@ class Cache implements ICache {
 		}
 
 		$this->storageCache = new Storage($storage);
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->mimetypeLoader = \OC::$server->get(IMimeTypeLoader::class);
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$this->querySearchHelper = \OCP\Server::get(QuerySearchHelper::class);
 	}
@@ -131,7 +132,7 @@ class Cache implements ICache {
 	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
 			$this->connection,
-			\OC::$server->getSystemConfig(),
+			\OC::$server->get(SystemConfig::class),
 			\OC::$server->get(LoggerInterface::class)
 		);
 	}
@@ -312,7 +313,7 @@ class Cache implements ICache {
 				$builder->setValue($column, $builder->createNamedParameter($value));
 			}
 
-			if ($builder->execute()) {
+			if ($builder->executeStatement()) {
 				$fileId = $builder->getLastInsertId();
 
 				if (count($extensionValues)) {
@@ -323,7 +324,7 @@ class Cache implements ICache {
 					foreach ($extensionValues as $column => $value) {
 						$query->setValue($column, $query->createNamedParameter($value));
 					}
-					$query->execute();
+					$query->executeStatement();
 				}
 
 				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
@@ -709,7 +710,7 @@ class Cache implements ICache {
 				}
 
 				try {
-					$query->execute();
+					$query->executeStatement();
 				} catch (\OC\DatabaseException $e) {
 					$this->connection->rollBack();
 					throw $e;
@@ -761,7 +762,7 @@ class Cache implements ICache {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -1070,12 +1071,12 @@ class Cache implements ICache {
 	 * @deprecated use getPathById() instead
 	 */
 	public static function getById($id) {
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$query->select('path', 'storage')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 

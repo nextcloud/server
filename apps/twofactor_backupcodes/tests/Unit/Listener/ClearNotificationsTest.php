@@ -47,7 +47,7 @@ class ClearNotificationsTest extends TestCase {
 
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->notificationManager->method('createNotification')
-			->willReturn(\OC::$server->query(IManager::class)->createNotification());
+			->willReturn(\OC::$server->get(IManager::class)->createNotification());
 
 		$this->listener = new ClearNotifications($this->notificationManager);
 	}

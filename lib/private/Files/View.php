@@ -65,7 +65,10 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
+use OCP\ITempManager;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -103,9 +106,9 @@ class View {
 		}
 
 		$this->fakeRoot = $root;
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
-		$this->userManager = \OC::$server->getUserManager();
+		$this->userManager = \OC::$server->get(IUserManager::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
@@ -997,7 +1000,7 @@ class View {
 			$source = $this->fopen($path, 'r');
 			if ($source) {
 				$extension = pathinfo($path, PATHINFO_EXTENSION);
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
+				$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($extension);
 				file_put_contents($tmpFile, $source);
 				return $tmpFile;
 			} else {
@@ -1626,7 +1629,7 @@ class View {
 		$mount = $this->getMount('');
 		$mountPoint = $mount->getMountPoint();
 		$storage = $mount->getStorage();
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		if ($storage) {
 			$cache = $storage->getCache('');
 
@@ -1803,7 +1806,7 @@ class View {
 		$mount = $this->getMount($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
-		$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
+		$owner = \OC::$server->get(IUserManager::class)->get($storage->getOwner($internalPath));
 		return new FileInfo(
 			$this->getAbsolutePath($path),
 			$storage,
@@ -1834,19 +1837,19 @@ class View {
 			[$storage, $internalPath] = $this->resolvePath($path);
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('File name is too long'));
 		} catch (InvalidDirectoryException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
 		} catch (EmptyFileNameException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
 		}
 	}

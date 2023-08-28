@@ -44,7 +44,10 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
+use OC\SystemConfig;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
@@ -100,7 +103,7 @@ class FeedBackHandler {
 }
 
 if (\OCP\Util::needUpgrade()) {
-	$config = \OC::$server->getSystemConfig();
+	$config = \OC::$server->get(SystemConfig::class);
 	if ($config->getValue('upgrade.disable-web', false)) {
 		$eventSource->send('failure', $l->t('Please use the command line updater because updating via browser is disabled in your config.php.'));
 		$eventSource->close();
@@ -112,12 +115,12 @@ if (\OCP\Util::needUpgrade()) {
 	\OC_User::setIncognitoMode(true);
 
 	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
-	$config = \OC::$server->getConfig();
+	$config = \OC::$server->get(\OC\AllConfig::class);
 	$updater = new \OC\Updater(
 		$config,
-		\OC::$server->getIntegrityCodeChecker(),
+		\OC::$server->get('IntegrityCodeChecker'),
 		$logger,
-		\OC::$server->query(\OC\Installer::class)
+		\OC::$server->get(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 
@@ -186,8 +189,9 @@ if (\OCP\Util::needUpgrade()) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
-		\OC::$server->getLogger()->logException($e, [
-			'level' => ILogger::ERROR,
+		\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+			'exception' => $e,
+			'level' => LogLevel::ERROR,
 			'app' => 'update',
 		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());

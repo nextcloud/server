@@ -41,8 +41,8 @@ use phpseclib\Crypt\Hash;
  * it will use the secret defined in config.php as key. Additionally the message will be HMAC'd.
  *
  * Usage:
- * $encryptWithDefaultPassword = \OC::$server->getCrypto()->encrypt('EncryptedText');
- * $encryptWithCustompassword = \OC::$server->getCrypto()->encrypt('EncryptedText', 'password');
+ * $encryptWithDefaultPassword = \OC::$server->get(\OCP\Security\ICrypto::class)->encrypt('EncryptedText');
+ * $encryptWithCustompassword = \OC::$server->get(\OCP\Security\ICrypto::class)->encrypt('EncryptedText', 'password');
  *
  * @package OC\Security
  */

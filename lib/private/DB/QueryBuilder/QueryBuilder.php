@@ -277,7 +277,7 @@ class QueryBuilder implements IQueryBuilder {
 			]);
 		}
 
-		$result = $this->queryBuilder->execute();
+		$result = $this->queryBuilder->executeQuery();
 		if (is_int($result)) {
 			return $result;
 		}

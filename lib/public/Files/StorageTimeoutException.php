@@ -23,6 +23,8 @@
  */
 namespace OCP\Files;
 
+use OCP\L10N\IFactory;
+
 /**
  * Storage authentication exception
  * @since 9.0.0
@@ -36,7 +38,7 @@ class StorageTimeoutException extends StorageNotAvailableException {
 	 * @since 9.0.0
 	 */
 	public function __construct($message = '', \Exception $previous = null) {
-		$l = \OC::$server->getL10N('core');
+		$l = \OC::$server->get(IFactory::class)->get('core');
 		parent::__construct($l->t('Storage connection timeout. %s', [$message]), self::STATUS_TIMEOUT, $previous);
 	}
 }

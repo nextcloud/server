@@ -84,7 +84,7 @@ class ManagerTest extends TestCase {
 	public function testGetAdminSections() {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$section = \OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class);
 		$this->container->method('get')
 			->with(\OCA\WorkflowEngine\Settings\Section::class)
 			->willReturn($section);
@@ -97,7 +97,7 @@ class ManagerTest extends TestCase {
 	public function testGetPersonalSections() {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$section = \OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class);
 		$this->container->method('get')
 			->with(\OCA\WorkflowEngine\Settings\Section::class)
 			->willReturn($section);
@@ -227,7 +227,7 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
 
-		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$section = \OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class);
 		$this->container->method('get')
 			->with(\OCA\WorkflowEngine\Settings\Section::class)
 			->willReturn($section);

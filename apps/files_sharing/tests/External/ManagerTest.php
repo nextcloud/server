@@ -178,7 +178,7 @@ class ManagerTest extends TestCase {
 					new StorageFactory(),
 					$this->clientService,
 					\OC::$server->getNotificationManager(),
-					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+					\OC::$server->get(\OCP\OCS\IDiscoveryService::class),
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
 					$this->groupManager,

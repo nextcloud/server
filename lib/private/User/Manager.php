@@ -41,7 +41,9 @@ use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroup;
+use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -55,6 +57,7 @@ use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Manager
@@ -234,7 +237,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
 
 		if ($result === false) {
-			\OC::$server->getLogger()->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
+			\OC::$server->get(LoggerInterface::class)->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->get(IRequest::class)->getRemoteAddress(). '\')', ['app' => 'core']);
 		}
 
 		return $result;
@@ -415,7 +418,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 
 		$this->validateUserId($uid, true);
 
@@ -536,7 +539,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 12.0.0
 	 */
 	public function countDisabledUsers(): int {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
@@ -544,7 +547,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
 
-		$result = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -565,7 +568,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 14.0.0
 	 */
 	public function countDisabledUsersOfGroups(array $groups): int {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('COUNT(DISTINCT ' . $queryBuilder->getColumnName('uid') . ')'))
 			->from('preferences', 'p')
 			->innerJoin('p', 'group_user', 'g', $queryBuilder->expr()->eq('p.userid', 'g.uid'))
@@ -574,7 +577,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
 			->andWhere($queryBuilder->expr()->in('gid', $queryBuilder->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY)));
 
-		$result = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -594,13 +597,13 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 11.0.0
 	 */
 	public function countSeenUsers() {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')));
 
-		$query = $queryBuilder->execute();
+		$query = $queryBuilder->executeQuery();
 
 		$result = (int)$query->fetchOne();
 		$query->closeCursor();
@@ -644,7 +647,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return string[] with user ids
 	 */
 	private function getSeenUserIds($limit = null, $offset = null) {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select(['userid'])
 			->from('preferences')
 			->where($queryBuilder->expr()->eq(
@@ -662,7 +665,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		if ($offset !== null) {
 			$queryBuilder->setFirstResult($offset);
 		}
-		$query = $queryBuilder->execute();
+		$query = $queryBuilder->executeQuery();
 		$result = [];
 
 		while ($row = $query->fetch()) {

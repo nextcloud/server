@@ -24,12 +24,18 @@
  */
 namespace OC\Encryption;
 
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OCP\Encryption\IFile;
+use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -76,17 +82,17 @@ class EncryptionWrapper {
 		];
 
 		if (!$storage->instanceOfStorage(Storage\IDisableEncryptionStorage::class) && $mountPoint !== '/') {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->getEncryptionFilesHelper();
-			$keyStorage = \OC::$server->getEncryptionKeyStorage();
+			$fileHelper = \OC::$server->get(IFile::class);
+			$keyStorage = \OC::$server->get(IStorage::class);
 
 			$util = new Util(
 				new View(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
+				\OC::$server->get(IUserManager::class),
+				\OC::$server->get(IGroupManager::class),
+				\OC::$server->get(AllConfig::class)
 			);
 			$update = new Update(
 				new View(),

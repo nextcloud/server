@@ -209,7 +209,7 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
 			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function removeFromCache(ICachedMountInfo $mount) {
@@ -219,7 +219,7 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
 			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->eq('mount_point', $builder->createNamedParameter($mount->getMountPoint())));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function dbRowToMountInfo(array $row) {
@@ -254,7 +254,7 @@ class UserMountCache implements IUserMountCache {
 				->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 				->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$rows = $result->fetchAll();
 			$result->closeCursor();
 
@@ -279,7 +279,7 @@ class UserMountCache implements IUserMountCache {
 			$query->andWhere($builder->expr()->eq('user_id', $builder->createPositionalParameter($user)));
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 
@@ -297,7 +297,7 @@ class UserMountCache implements IUserMountCache {
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('root_id', $builder->createPositionalParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 
@@ -316,7 +316,7 @@ class UserMountCache implements IUserMountCache {
 				->from('filecache')
 				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 
@@ -355,7 +355,7 @@ class UserMountCache implements IUserMountCache {
 			$query->andWhere($builder->expr()->eq('user_id', $builder->createPositionalParameter($user)));
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 		// filter mounts that are from the same storage but a different directory
@@ -393,7 +393,7 @@ class UserMountCache implements IUserMountCache {
 
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function removeUserStorageMount($storageId, $userId) {
@@ -402,7 +402,7 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userId)))
 			->andWhere($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function remoteStorageMounts($storageId) {
@@ -410,7 +410,7 @@ class UserMountCache implements IUserMountCache {
 
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -441,7 +441,7 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('m.mount_point', $mountPoint))
 			->andWhere($builder->expr()->in('m.user_id', $builder->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$results = [];
 		while ($row = $result->fetch()) {

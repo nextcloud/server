@@ -68,6 +68,7 @@ declare(strict_types=1);
 
 use OC\Encryption\HookManager;
 use OC\Share20\Hooks;
+use OC\User\Session;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
@@ -753,7 +754,7 @@ class OC {
 
 		// User and Groups
 		if (!$systemConfig->getValue("installed", false)) {
-			self::$server->getSession()->set('user_id', '');
+			self::$server->get(Session::class)->getSession()->set('user_id', '');
 		}
 
 		OC_User::useBackend(new \OC\User\Database());
@@ -989,7 +990,7 @@ class OC {
 
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
-			\OC::$server->getSession()->clear();
+			\OC::$server->get(Session::class)->getSession()->clear();
 			$setupHelper = new OC\Setup(
 				$systemConfig,
 				Server::get(\bantu\IniGetWrapper\IniGetWrapper::class),

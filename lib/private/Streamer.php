@@ -32,6 +32,7 @@ use OC\Files\Filesystem;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IRequest;
@@ -118,13 +119,13 @@ class Streamer {
 		// prevent absolute dirs
 		$internalDir = ltrim($internalDir, '/');
 
-		$userFolder = \OC::$server->getRootFolder()->get(Filesystem::getRoot());
+		$userFolder = \OC::$server->get(IRootFolder::class)->get(Filesystem::getRoot());
 		/** @var Folder $dirNode */
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
 		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->query(LoggerInterface::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
 		foreach ($files as $file) {
 			if ($file instanceof File) {
 				try {

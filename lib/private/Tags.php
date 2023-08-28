@@ -37,8 +37,10 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\ITags;
+use OCP\L10N\IFactory;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 class Tags implements ITags {
 	/**
@@ -235,7 +237,7 @@ class Tags implements ITags {
 		}
 
 		if ($tagId === false) {
-			$l10n = \OC::$server->getL10N('core');
+			$l10n = \OC::$server->get(IFactory::class)->get('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', [$tag])
 			);
@@ -486,10 +488,11 @@ class Tags implements ITags {
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
-				'app' => 'core',
+				'level' => LogLevel::ERROR,
+				'app' => 'core'
 			]);
 			return [];
 		}
@@ -549,7 +552,7 @@ class Tags implements ITags {
 		try {
 			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->error($e->getMessage(), [
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
 				'app' => 'core',
 				'exception' => $e,
 			]);

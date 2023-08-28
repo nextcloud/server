@@ -44,6 +44,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use function array_diff;
@@ -257,7 +258,7 @@ class Manager {
 		if ($passed) {
 			if ($this->session->get(self::REMEMBER_LOGIN) === true) {
 				// TODO: resolve cyclic dependency and use DI
-				\OC::$server->getUserSession()->createRememberMeToken($user);
+				\OC::$server->get(IUserSession::class)->createRememberMeToken($user);
 			}
 			$this->session->remove(self::SESSION_UID_KEY);
 			$this->session->remove(self::REMEMBER_LOGIN);

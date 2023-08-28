@@ -27,7 +27,7 @@ $server = \OC::$server;
 
 $controller = new \OC\OCS\Provider(
 	'ocs_provider',
-	$server->getRequest(),
+	$server->get(\OCP\IRequest::class),
 	$server->getAppManager()
 );
 echo $controller->buildProviderList()->render();

@@ -58,6 +58,7 @@ use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Group\ISubAdmin;
@@ -130,7 +131,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService(IAppData::class, function (ContainerInterface $c) {
-			return $this->getServer()->getAppDataDir($c->get('AppName'));
+			return $this->getServer()->get(IAppDataFactory::class)->get($c->get('AppName'));
 		});
 
 		$this->registerService(IL10N::class, function (ContainerInterface $c) {

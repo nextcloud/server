@@ -40,6 +40,7 @@
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\AllConfig;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -53,6 +54,7 @@ use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\L10N\IFactory;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -113,7 +115,7 @@ class Installer {
 			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 		}
 
-		$l = \OC::$server->getL10N('core');
+		$l = \OC::$server->get(IFactory::class)->get('core');
 		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($basedir . '/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
@@ -165,15 +167,15 @@ class Installer {
 		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
 		//set the installed version
-		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
-		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
+		\OC::$server->get(AllConfig::class)->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
+		\OC::$server->get(AllConfig::class)->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
+			\OC::$server->get(AllConfig::class)->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
+			\OC::$server->get(AllConfig::class)->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -494,7 +496,7 @@ class Installer {
 	 */
 	public function removeApp($appId) {
 		if ($this->isDownloaded($appId)) {
-			if (\OC::$server->getAppManager()->isShipped($appId)) {
+			if (\OC::$server->get(IAppManager::class)->isShipped($appId)) {
 				return false;
 			}
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
@@ -537,8 +539,8 @@ class Installer {
 	 * @return array Array of error messages (appid => Exception)
 	 */
 	public static function installShippedApps($softErrors = false) {
-		$appManager = \OC::$server->getAppManager();
-		$config = \OC::$server->getConfig();
+		$appManager = \OC::$server->get(IAppManager::class);
+		$config = \OC::$server->get(AllConfig::class);
 		$errors = [];
 		foreach (\OC::$APPSROOTS as $app_dir) {
 			if ($dir = opendir($app_dir['path'])) {
@@ -585,7 +587,7 @@ class Installer {
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 
 		$ms = new MigrationService($app, \OC::$server->get(Connection::class));
 		$previousVersion = $config->getAppValue($app, 'installed_version', false);

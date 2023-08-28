@@ -26,6 +26,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\HomePropagator;
+use OCP\IDBConnection;
 
 /**
  * Specialized version of Local storage for home directory usage
@@ -83,7 +84,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->propagator)) {
-			$this->propagator = new HomePropagator($storage, \OC::$server->getDatabaseConnection());
+			$this->propagator = new HomePropagator($storage, \OC::$server->get(IDBConnection::class));
 		}
 		return $this->propagator;
 	}

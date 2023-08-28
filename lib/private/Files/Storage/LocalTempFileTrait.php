@@ -23,6 +23,8 @@
  */
 namespace OC\Files\Storage;
 
+use OCP\ITempManager;
+
 /**
  * Storage backend class for providing common filesystem operation methods
  * which are not storage-backend specific.
@@ -62,7 +64,7 @@ trait LocalTempFileTrait {
 		} else {
 			$extension = '';
 		}
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
+		$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($extension);
 		$target = fopen($tmpFile, 'w');
 		\OC_Helper::streamCopy($source, $target);
 		fclose($target);

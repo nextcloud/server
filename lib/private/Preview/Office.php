@@ -31,6 +31,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 abstract class Office extends ProviderV2 {
@@ -51,10 +52,10 @@ abstract class Office extends ProviderV2 {
 
 		$absPath = $this->getLocalFile($file);
 
-		$tmpDir = \OC::$server->getTempManager()->getTempBaseDir();
+		$tmpDir = \OC::$server->get(ITempManager::class)->getTempBaseDir();
 
 		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId() . '/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to png --outdir ';
-		$clParameters = \OC::$server->getConfig()->getSystemValue('preview_office_cl_parameters', $defaultParameters);
+		$clParameters = \OC::$server->get(\OC\AllConfig::class)->getSystemValue('preview_office_cl_parameters', $defaultParameters);
 
 		$cmd = $this->options['officeBinary'] . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
 

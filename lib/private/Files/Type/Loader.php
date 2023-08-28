@@ -160,7 +160,7 @@ class Loader implements IMimeTypeLoader {
 		$qb->select('id', 'mimetype')
 			->from('mimetypes');
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$results = $result->fetchAll();
 		$result->closeCursor();
 
@@ -192,6 +192,6 @@ class Loader implements IMimeTypeLoader {
 				$update->func()->lower('name'),
 				$update->createNamedParameter('%' . $this->dbConnection->escapeLikeParameter('.' . $ext))
 			));
-		return $update->execute();
+		return $update->executeStatement();
 	}
 }

@@ -44,11 +44,14 @@
  *
  */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\AllConfig;
 use OC\Files\Filesystem;
+use OC\SystemConfig;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -484,7 +487,7 @@ class OC_Helper {
 
 		// return storage info without adding mount points
 		if (self::$quotaIncludeExternalStorage === null) {
-			self::$quotaIncludeExternalStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+			self::$quotaIncludeExternalStorage = \OC::$server->get(SystemConfig::class)->getValue('quota_include_external_storage', false);
 		}
 
 		$view = Filesystem::getView();
@@ -526,7 +529,7 @@ class OC_Helper {
 				/** @var \OC\Files\Storage\Home $storage */
 				$user = $storage->getUser();
 			} else {
-				$user = \OC::$server->getUserSession()->getUser();
+				$user = \OC::$server->get(IUserSession::class)->getUser();
 			}
 			$quota = OC_Util::getUserQuota($user);
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -575,7 +578,7 @@ class OC_Helper {
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
 		if ($ownerId) {
-			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
+			$ownerDisplayName = \OC::$server->get(IUserManager::class)->getDisplayName($ownerId) ?? '';
 		}
 
 		if (substr_count($mount->getMountPoint(), '/') < 3) {
@@ -662,6 +665,6 @@ class OC_Helper {
 	 * @return bool
 	 */
 	public static function isReadOnlyConfigEnabled() {
-		return \OC::$server->getConfig()->getSystemValueBool('config_is_read_only', false);
+		return \OC::$server->get(AllConfig::class)->getSystemValueBool('config_is_read_only', false);
 	}
 }

@@ -70,7 +70,7 @@ class EtagTest extends \Test\TestCase {
 		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
-		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->get(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
 		$scanner->backgroundScan('/');
 
 		$newEtags = $this->getEtags($files);

@@ -58,7 +58,7 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
 
-		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class));
+		$groupBackend = new Group_LDAP($this->access, \OC::$server->get(GroupPluginManager::class));
 		$groupManger = \OC::$server->getGroupManager();
 		$groupManger->clearBackends();
 		$groupManger->addBackend($groupBackend);

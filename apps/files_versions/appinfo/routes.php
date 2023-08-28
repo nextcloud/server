@@ -28,7 +28,7 @@
 namespace OCA\Files_Versions\AppInfo;
 
 /** @var Application $application */
-$application = \OC::$server->query(Application::class);
+$application = \OC::$server->get(Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		[

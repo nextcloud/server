@@ -24,7 +24,10 @@
  */
 namespace OC\Log;
 
+use OC\AllConfig;
+use OC\SystemConfig;
 use OCP\Log\RotationTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * This rotates the current logfile to a new name, this way the total log usage
@@ -36,14 +39,14 @@ class Rotate extends \OCP\BackgroundJob\Job {
 	use RotationTrait;
 
 	public function run($dummy) {
-		$systemConfig = \OC::$server->getSystemConfig();
+		$systemConfig = \OC::$server->get(SystemConfig::class);
 		$this->filePath = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 
-		$this->maxSize = \OC::$server->getConfig()->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
+		$this->maxSize = \OC::$server->get(AllConfig::class)->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
 			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';
-			\OC::$server->getLogger()->warning($msg, ['app' => Rotate::class]);
+			\OC::$server->get(LoggerInterface::class)->warning($msg, ['app' => Rotate::class]);
 		}
 	}
 }

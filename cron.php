@@ -46,7 +46,7 @@ try {
 		\OC::$server->getLogger()->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
-	if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+	if ((bool) \OC::$server->get(\OC\SystemConfig::class)->getValue('maintenance', false)) {
 		\OC::$server->getLogger()->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}

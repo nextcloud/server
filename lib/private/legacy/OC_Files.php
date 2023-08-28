@@ -43,10 +43,15 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
+use OCP\IRequest;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IRootFolder;
 use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for file server access
@@ -80,7 +85,7 @@ class OC_Files {
 		header('Expires: 0');
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
-		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+		$type = \OC::$server->get(IMimeTypeDetector::class)->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
 			if (!empty($rangeArray)) {
 				http_response_code(206);
@@ -174,7 +179,7 @@ class OC_Files {
 				throw new \OC\ForbiddenException($event->getErrorMessage());
 			}
 
-			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);
+			$streamer = new Streamer(\OC::$server->get(IRequest::class), $fileSize, $numberOfFiles);
 			OC_Util::obEnd();
 
 			$streamer->sendHeaders($name);
@@ -188,7 +193,7 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
 						if ($file instanceof \OC\Files\Node\File) {
 							try {
@@ -200,7 +205,7 @@ class OC_Files {
 							$fileTime = $file->getMTime();
 						} else {
 							// File is not a file? …
-							\OC::$server->getLogger()->debug(
+							\OC::$server->get(LoggerInterface::class)->debug(
 								'File given, but no Node available. Name {file}',
 								[ 'app' => 'files', 'file' => $file ]
 							);
@@ -221,19 +226,19 @@ class OC_Files {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 		} catch (\OCP\Lock\LockedException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
+			OC::$server->get(LoggerInterface::class)->error($ex->getMessage());
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint, 200);
 		} catch (\OCP\Files\ForbiddenException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
+			OC::$server->get(LoggerInterface::class)->error($ex->getMessage());
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
+			OC::$server->get(LoggerInterface::class)->error($ex->getMessage());
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			if ($event && $event->getErrorMessage() !== null) {
 				$hint .= ' ' . $event->getErrorMessage();
@@ -304,7 +309,7 @@ class OC_Files {
 		$file = null;
 
 		try {
-			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+			$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 			$file = $userFolder->get($filename);
 			if (!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
 				http_response_code(403);
@@ -361,7 +366,7 @@ class OC_Files {
 					// we have to check it before body contents
 					$view->readfilePart($filename, $rangeArray[0]['size'], $rangeArray[0]['size']);
 
-					$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+					$type = \OC::$server->get(IMimeTypeDetector::class)->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 
 					foreach ($rangeArray as $range) {
 						echo "\r\n--".self::getBoundary()."\r\n".

@@ -76,6 +76,7 @@ use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
@@ -177,7 +178,7 @@ class Server {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), $logger));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
-				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+				$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
@@ -202,7 +203,7 @@ class Server {
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
 			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
-				\OC::$server->getAppDataDir('dav-photocache'),
+				\OC::$server->get(IAppDataFactory::class)->get('dav-photocache'),
 				$logger)
 			));
 		}
@@ -327,7 +328,7 @@ class Server {
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->get(BirthdayService::class)
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->getUserSession(),

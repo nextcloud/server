@@ -38,13 +38,13 @@ ignore_user_abort(true);
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
 /** @var ServerFactory $serverFactory */
-$serverFactory = \OC::$server->query(ServerFactory::class);
+$serverFactory = \OC::$server->get(ServerFactory::class);
 $server = $serverFactory->createServer(
 	$baseuri,
 	$requestUri,
 	\OC::$server->getRootFolder(),
-	\OC::$server->query(\OCA\DAV\Db\DirectMapper::class),
-	\OC::$server->query(\OCP\AppFramework\Utility\ITimeFactory::class),
+	\OC::$server->get(\OCA\DAV\Db\DirectMapper::class),
+	\OC::$server->get(\OCP\AppFramework\Utility\ITimeFactory::class),
 	\OC::$server->getBruteForceThrottler(),
 	\OC::$server->getRequest()
 );

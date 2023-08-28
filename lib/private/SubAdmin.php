@@ -89,7 +89,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 				'gid' => $qb->createNamedParameter($group->getGID()),
 				'uid' => $qb->createNamedParameter($user->getUID())
 			])
-			->execute();
+			->executeStatement();
 
 		/** @deprecated 21.0.0 - use type SubAdminAddedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
@@ -108,7 +108,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeStatement();
 
 		/** @deprecated 21.0.0 - use type SubAdminRemovedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
@@ -146,7 +146,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$result = $qb->select('gid')
 			->from('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeQuery();
 
 		$groups = [];
 		while ($row = $result->fetch()) {
@@ -179,7 +179,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$result = $qb->select('uid')
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
-			->execute();
+			->executeQuery();
 
 		$users = [];
 		while ($row = $result->fetch()) {
@@ -202,7 +202,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$result = $qb->select('*')
 			->from('group_admin')
-			->execute();
+			->executeQuery();
 
 		$subadmins = [];
 		while ($row = $result->fetch()) {
@@ -236,7 +236,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeQuery();
 
 		$fetch = $result->fetch();
 		$result->closeCursor();
@@ -262,7 +262,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->from('group_admin')
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->setMaxResults(1)
-			->execute();
+			->executeQuery();
 
 		$isSubAdmin = $result->fetch();
 		$result->closeCursor();
@@ -299,7 +299,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -311,6 +311,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
-			->execute();
+			->executeStatement();
 	}
 }

@@ -51,7 +51,7 @@ class QueuedJobTest extends \Test\TestCase {
 	}
 
 	public function testJobShouldBeRemovedNew() {
-		$job = new TestQueuedJobNew(\OC::$server->query(ITimeFactory::class));
+		$job = new TestQueuedJobNew(\OC::$server->get(ITimeFactory::class));
 		$job->setId(42);
 		$this->jobList->add($job);
 

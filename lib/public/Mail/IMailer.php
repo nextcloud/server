@@ -33,7 +33,7 @@ namespace OCP\Mail;
  *
  * Example usage:
  *
- * 	$mailer = \OC::$server->getMailer();
+ * 	$mailer = \OC::$server->get(\OCP\Mail\IMailer::class);
  * 	$message = $mailer->createMessage();
  * 	$message->setSubject('Your Subject');
  * 	$message->setFrom(['cloud@domain.org' => 'Nextcloud Notifier']);

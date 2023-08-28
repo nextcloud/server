@@ -42,11 +42,14 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
+use OCP\ITempManager;
+use Psr\Log\LoggerInterface;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
@@ -89,7 +92,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->validateWrites = (bool)$params['validateWrites'];
 		}
 
-		$this->logger = \OC::$server->getLogger();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	public function mkdir($path, bool $force = false) {
@@ -367,7 +370,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					return false;
 				}
 
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
 					$this->writeBack($tmpFile, $path);
@@ -381,7 +384,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
@@ -436,7 +439,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				//create a empty file, need to have at least on char to make it
 				// work with all object storage implementations
 				$this->file_put_contents($path, ' ');
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+				$mimeType = \OC::$server->get(IMimeTypeDetector::class)->detectPath($path);
 				$stat = [
 					'etag' => $this->getETag($path),
 					'mimetype' => $mimeType,
@@ -501,7 +504,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 
-		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
+		$mimetypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 		$mimetype = $mimetypeDetector->detectPath($path);
 
 		$stat['mimetype'] = $mimetype;

@@ -41,6 +41,8 @@ if (\OCP\Util::needUpgrade()
 	exit;
 }
 
+use OCP\IRequest;
+use OCP\IUserSession;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
@@ -57,15 +59,15 @@ try {
 	// side effects in existing apps
 	OC_App::loadApps();
 
-	if (!\OC::$server->getUserSession()->isLoggedIn()) {
-		OC::handleLogin(\OC::$server->getRequest());
+	if (!\OC::$server->get(IUserSession::class)->isLoggedIn()) {
+		OC::handleLogin(\OC::$server->get(IRequest::class));
 	}
 
-	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
+	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->get(IRequest::class)->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
 
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	$format = \OC::$server->get(IRequest::class)->getParam('format', 'xml');
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
@@ -80,10 +82,10 @@ try {
 	\OC::$server->getLogger()->logException($e);
 	OC_API::setContentType();
 
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	$format = \OC::$server->get(IRequest::class)->getParam('format', 'xml');
 	$txt = 'Internal Server Error'."\n";
 	try {
-		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {
+		if (\OC::$server->get(\OC\SystemConfig::class)->getValue('debug', false)) {
 			$txt .= $e->getMessage();
 		}
 	} catch (\Throwable $e) {

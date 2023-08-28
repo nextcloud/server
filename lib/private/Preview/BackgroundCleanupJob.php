@@ -99,7 +99,7 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setMaxResults(10);
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row['name'];
@@ -113,7 +113,7 @@ class BackgroundCleanupJob extends TimedJob {
 		$qb->select('path', 'mimetype')
 			->from('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -162,7 +162,7 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setMaxResults(10);
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row['name'];

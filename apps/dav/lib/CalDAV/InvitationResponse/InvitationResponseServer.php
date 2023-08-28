@@ -49,7 +49,7 @@ class InvitationResponseServer {
 		$baseUri = \OC::$WEBROOT . '/remote.php/dav/';
 		$logger = \OC::$server->get(LoggerInterface::class);
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));

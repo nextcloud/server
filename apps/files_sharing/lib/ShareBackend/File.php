@@ -54,7 +54,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
-			$this->federatedShareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$this->federatedShareProvider = \OC::$server->get(FederatedShareProvider::class);
 		}
 	}
 

@@ -38,6 +38,7 @@
 namespace OC\Files;
 
 use OCP\Cache\CappedMemoryCache;
+use OC\AllConfig;
 use OC\Files\Mount\MountPoint;
 use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -48,6 +49,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class Filesystem {
 	private static ?Mount\Manager $mounts = null;
@@ -200,7 +202,7 @@ class Filesystem {
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
 		if (self::$logWarningWhenAddingStorageWrapper) {
-			\OC::$server->getLogger()->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
+			\OC::$server->get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
 				'wrapper' => $wrapperName,
 				'app' => 'filesystem',
 			]);
@@ -465,7 +467,7 @@ class Filesystem {
 		$filename = self::normalizePath($filename);
 
 		if (self::$blacklist === null) {
-			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+			self::$blacklist = \OC::$server->get(AllConfig::class)->getSystemValue('blacklisted_files', ['.htaccess']);
 		}
 
 		$filename = strtolower(basename($filename));

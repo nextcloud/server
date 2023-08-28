@@ -229,7 +229,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		if ($tokenRow = $result->fetch(FetchMode::ASSOCIATIVE)) {
 			return new Token($this, $tokenRow);
 		}
@@ -240,7 +240,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->lt('timestamp', $query->createNamedParameter(time() - self::TOKEN_CLEANUP_TIME)));
-		return $query->execute();
+		return $query->executeStatement();
 	}
 
 	public function refreshToken(string $token): bool {
@@ -248,7 +248,7 @@ class Manager implements IManager {
 		$query->update(self::TABLE_TOKENS)
 			->set('timestamp', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -257,7 +257,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -267,7 +267,7 @@ class Manager implements IManager {
 			->set('accessed', $query->createNamedParameter(true, IQueryBuilder::PARAM_BOOL))
 			->set('timestamp', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -294,7 +294,7 @@ class Manager implements IManager {
 				'share_id' => $query->createNamedParameter($share !== null ? $share->getId(): null),
 				'timestamp' => $query->createNamedParameter(time())
 			]);
-		$query->execute();
+		$query->executeStatement();
 		return $token;
 	}
 

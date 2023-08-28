@@ -31,6 +31,7 @@
  */
 namespace OC\Files\Node;
 
+use OC\AllConfig;
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
@@ -314,7 +315,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	protected function getAppDataDirectoryName(): string {
-		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
+		$instanceId = \OC::$server->get(AllConfig::class)->getSystemValueString('instanceid');
 		return 'appdata_' . $instanceId;
 	}
 

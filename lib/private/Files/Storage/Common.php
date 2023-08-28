@@ -42,6 +42,7 @@
  */
 namespace OC\Files\Storage;
 
+use OC\AllConfig;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
@@ -50,10 +51,12 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\SystemConfig;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
@@ -61,6 +64,7 @@ use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -254,7 +258,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
-			return \OC::$server->getMimeTypeDetector()->detectPath($path);
+			return \OC::$server->get(IMimeTypeDetector::class)->detectPath($path);
 		} else {
 			return false;
 		}
@@ -364,7 +368,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
-			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
+			$globalPolicy = \OC::$server->get(AllConfig::class)->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
@@ -381,8 +385,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$storage = $this;
 		}
 		if (!isset($storage->propagator)) {
-			$config = \OC::$server->getSystemConfig();
-			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
+			$config = \OC::$server->get(SystemConfig::class);
+			$storage->propagator = new Propagator($storage, \OC::$server->get(IDBConnection::class), ['appdata_' . $config->getValue('instanceid')]);
 		}
 		return $storage->propagator;
 	}
@@ -536,7 +540,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			throw new InvalidDirectoryException();
 		}
 
-		if (!\OC::$server->getDatabaseConnection()->supports4ByteText()) {
+		if (!\OC::$server->get(IDBConnection::class)->supports4ByteText()) {
 			// verify database - e.g. mysql only 3-byte chars
 			if (preg_match('%(?:
       \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
@@ -840,7 +844,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	private function getLockLogger(): ?LoggerInterface {
 		if (is_null($this->shouldLogLocks)) {
-			$this->shouldLogLocks = \OC::$server->getConfig()->getSystemValueBool('filelocking.debug', false);
+			$this->shouldLogLocks = \OC::$server->get(AllConfig::class)->getSystemValueBool('filelocking.debug', false);
 			$this->logger = $this->shouldLogLocks ? \OC::$server->get(LoggerInterface::class) : null;
 		}
 		return $this->logger;

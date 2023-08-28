@@ -7,7 +7,7 @@
 if (!isset($_)) { //standalone  page is not supported anymore - redirect to /
 	require_once '../../lib/base.php';
 
-	$urlGenerator = \OC::$server->getURLGenerator();
+	$urlGenerator = \OC::$server->get(\OCP\IURLGenerator::class);
 	header('Location: ' . $urlGenerator->getAbsoluteURL('/'));
 	exit;
 }
@@ -20,7 +20,7 @@ if (!isset($_)) { //standalone  page is not supported anymore - redirect to /
 		<div class="icon-big icon-error"></div>
 		<h2><?php p($l->t('Profile not found')); ?></h2>
 		<p class="infogroup"><?php p($l->t('The profile does not exist.')); ?></p>
-		<p><a class="button primary" href="<?php p(\OC::$server->getURLGenerator()->linkTo('', 'index.php')) ?>">
+		<p><a class="button primary" href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkTo('', 'index.php')) ?>">
 				<?php p($l->t('Back to %s', [$theme->getName()])); ?>
 			</a></p>
 	</div>

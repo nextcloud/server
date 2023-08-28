@@ -32,6 +32,8 @@ use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
+use OCP\ICacheFactory;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 const SWIFT_SEGMENT_SIZE = 1073741824; // 1GB
@@ -47,7 +49,7 @@ class Swift implements IObjectStore {
 
 	public function __construct($params, SwiftFactory $connectionFactory = null) {
 		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(
-			\OC::$server->getMemCacheFactory()->createDistributed('swift::'),
+			\OC::$server->get(ICacheFactory::class)->createDistributed('swift::'),
 			$params,
 			\OC::$server->get(LoggerInterface::class)
 		);
@@ -75,7 +77,7 @@ class Swift implements IObjectStore {
 	}
 
 	public function writeObject($urn, $stream, string $mimetype = null) {
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
+		$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
 

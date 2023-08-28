@@ -181,6 +181,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IMimeTypeDetector;
@@ -365,7 +366,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Encryption\Manager(
 				$c->get(\OCP\IConfig::class),
 				$c->get(LoggerInterface::class),
-				$c->getL10N('core'),
+				$c->get(IFactory::class)->get('core'),
 				new View(),
 				$util,
 				new ArrayCache()
@@ -523,7 +524,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$provider,
 				$c->get(\OCP\IConfig::class),
 				$c->get(ISecureRandom::class),
-				$c->getLockdownManager(),
+				$c->get('LockdownManager'),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class)
 			);
@@ -627,7 +628,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
 				$c->get(\OCP\IConfig::class),
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(ICacheFactory::class),
 				\OC::$SERVERROOT
@@ -701,13 +702,13 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService('RedisFactory', function (Server $c) {
 			$systemConfig = $c->get(SystemConfig::class);
-			return new RedisFactory($systemConfig, $c->getEventLogger());
+			return new RedisFactory($systemConfig, $c->get(IEventLogger::class));
 		});
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
 			$l10n = $this->get(IFactory::class)->get('lib');
 			return new \OC\Activity\Manager(
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
@@ -719,7 +720,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OCP\Activity\IEventMerger::class, function (Server $c) {
 			return new \OC\Activity\EventMerger(
-				$c->getL10N('lib')
+				$c->get(IFactory::class)->get('lib')
 			);
 		});
 		$this->registerAlias(IValidator::class, Validator::class);
@@ -728,8 +729,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new AvatarManager(
 				$c->get(IUserSession::class),
 				$c->get(\OC\User\Manager::class),
-				$c->getAppDataDir('avatar'),
-				$c->getL10N('lib'),
+				$c->get(IAppDataFactory::class)->get('avatar'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(LoggerInterface::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IAccountManager::class),
@@ -890,7 +891,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new DateTimeFormatter(
 				$c->get(IDateTimeZone::class)->getTimeZone(),
-				$c->getL10N('lib', $language)
+				$c->get(IFactory::class)->get('lib', $language)
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -1033,7 +1034,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(Defaults::class),
 				$c->get(IURLGenerator::class),
-				$c->getL10N('lib'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(IEventDispatcher::class),
 				$c->get(IFactory::class)
 			);
@@ -1108,7 +1109,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('MimeTypeLoader', IMimeTypeLoader::class);
 		$this->registerService(BundleFetcher::class, function () {
-			return new BundleFetcher($this->getL10N('lib'));
+			return new BundleFetcher($this->get(IFactory::class)->get('lib'));
 		});
 		$this->registerAlias(\OCP\Notification\IManager::class, Manager::class);
 		/** @deprecated 19.0.0 */
@@ -1161,10 +1162,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->get(IRequest::class)->getInsecureServerHost())) {
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
-					$c->getAppDataDir('theming'),
+					$c->get(IAppDataFactory::class)->get('theming'),
 					$c->get(IURLGenerator::class),
 					$this->get(ICacheFactory::class),
 					$this->get(ILogger::class),
@@ -1172,11 +1173,11 @@ class Server extends ServerContainer implements IServerContainer {
 				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
-					$c->getL10N('theming'),
+					$c->get(IFactory::class)->get('theming'),
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
 					$c->get(ICacheFactory::class),
-					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
+					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->get(IAppDataFactory::class)->get('theming'), $imageManager),
 					$imageManager,
 					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class)
@@ -1186,7 +1187,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
 			return new JSCombiner(
-				$c->getAppDataDir('js'),
+				$c->get(IAppDataFactory::class)->get('js'),
 				$c->get(IURLGenerator::class),
 				$this->get(ICacheFactory::class),
 				$c->get(SystemConfig::class),
@@ -1242,7 +1243,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IHasher::class),
 				$c->get(IMountManager::class),
 				$c->get(IGroupManager::class),
-				$c->getL10N('lib'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(IFactory::class),
 				$factory,
 				$c->get(IUserManager::class),
@@ -1341,7 +1342,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Defaults::class, function (Server $c) {
 			return new Defaults(
-				$c->getThemingDefaults()
+				$c->get('ThemingDefaults')
 			);
 		});
 		/** @deprecated 19.0.0 */

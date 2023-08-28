@@ -30,7 +30,7 @@ $encryptionManager = \OC::$server->getEncryptionManager();
 $encryptionSystemReady = $encryptionManager->isReady();
 
 /** @var Application $app */
-$app = \OC::$server->query(Application::class);
+$app = \OC::$server->get(Application::class);
 if ($encryptionSystemReady) {
 	$app->registerEncryptionModule($encryptionManager);
 	$app->registerHooks(\OC::$server->getConfig());

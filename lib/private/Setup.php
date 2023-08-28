@@ -56,10 +56,18 @@ use OC\Authentication\Token\TokenCleanupJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
+use OC\AllConfig;
+use OC\SystemConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -226,7 +234,7 @@ class Setup {
 
 			try {
 				$util = new \OC_Util();
-				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->getConfig());
+				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->get(AllConfig::class));
 			} catch (\OCP\HintException $e) {
 				$errors[] = [
 					'error' => $e->getMessage(),
@@ -313,7 +321,7 @@ class Setup {
 			return $error;
 		}
 
-		$request = \OC::$server->getRequest();
+		$request = \OC::$server->get(IRequest::class);
 
 		//no errors, good
 		if (isset($options['trusted_domains'])
@@ -382,7 +390,7 @@ class Setup {
 		//create the user and group
 		$user = null;
 		try {
-			$user = \OC::$server->getUserManager()->createUser($username, $password);
+			$user = \OC::$server->get(IUserManager::class)->createUser($username, $password);
 			if (!$user) {
 				$error[] = "User <$username> could not be created.";
 			}
@@ -391,7 +399,7 @@ class Setup {
 		}
 
 		if (empty($error)) {
-			$config = \OC::$server->getConfig();
+			$config = \OC::$server->get(AllConfig::class);
 			$config->setAppValue('core', 'installedat', (string)microtime(true));
 			$config->setAppValue('core', 'lastupdatedat', (string)microtime(true));
 
@@ -401,7 +409,7 @@ class Setup {
 				$config->setSystemValue('updater.release.channel', $vendorData['channel']);
 			}
 
-			$group = \OC::$server->getGroupManager()->createGroup('admin');
+			$group = \OC::$server->get(IGroupManager::class)->createGroup('admin');
 			if ($group instanceof IGroup) {
 				$group->addUser($user);
 			}
@@ -431,7 +439,7 @@ class Setup {
 			// Create a session token for the newly created user
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */
-			$userSession = \OC::$server->getUserSession();
+			$userSession = \OC::$server->get(IUserSession::class);
 			$provider = \OCP\Server::get(PublicKeyTokenProvider::class);
 			$userSession->setTokenProvider($provider);
 			$userSession->login($username, $password);
@@ -450,7 +458,7 @@ class Setup {
 	}
 
 	public static function installBackgroundJobs() {
-		$jobList = \OC::$server->getJobList();
+		$jobList = \OC::$server->get(IJobList::class);
 		$jobList->add(TokenCleanupJob::class);
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
@@ -496,7 +504,7 @@ class Setup {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public static function updateHtaccess() {
-		$config = \OC::$server->getSystemConfig();
+		$config = \OC::$server->get(SystemConfig::class);
 
 		try {
 			$webRoot = self::findWebRoot($config);
@@ -507,10 +515,10 @@ class Setup {
 		$setupHelper = new \OC\Setup(
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
+			\OC::$server->get(IFactory::class)->get('lib'),
 			\OCP\Server::get(Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
+			\OC::$server->get(ISecureRandom::class),
 			\OCP\Server::get(Installer::class)
 		);
 
@@ -587,7 +595,7 @@ class Setup {
 		$content .= "  IndexIgnore *\n";
 		$content .= "</IfModule>";
 
-		$baseDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
+		$baseDir = \OC::$server->get(AllConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);
 		file_put_contents($baseDir . '/index.html', '');
 	}

@@ -43,12 +43,14 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OC\AllConfig;
 use OCP\IImage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for basic image manipulation
  */
-class OC_Image implements \OCP\IImage {
+class OC_Image implements IImage {
 	// Default memory limit for images to load (256 MBytes).
 	protected const DEFAULT_MEMORY_LIMIT = 256;
 
@@ -65,7 +67,7 @@ class OC_Image implements \OCP\IImage {
 	protected $filePath = null;
 	/** @var finfo */
 	private $fileInfo;
-	/** @var \OCP\ILogger */
+	/** @var \Psr\Log\LoggerInterface */
 	private $logger;
 	/** @var \OCP\IConfig */
 	private $config;
@@ -77,18 +79,18 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @param resource|string|\GdImage $imageRef The path to a local file, a base64 encoded string or a resource created by
 	 * an imagecreate* function.
-	 * @param \OCP\ILogger $logger
+	 * @param \Psr\Log\LoggerInterface $logger
 	 * @param \OCP\IConfig $config
 	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
 	 */
-	public function __construct($imageRef = null, \OCP\ILogger $logger = null, \OCP\IConfig $config = null) {
+	public function __construct($imageRef = null, LoggerInterface $logger = null, \OCP\IConfig $config = null) {
 		$this->logger = $logger;
 		if ($logger === null) {
-			$this->logger = \OC::$server->getLogger();
+			$this->logger = \OC::$server->get(LoggerInterface::class);
 		}
 		$this->config = $config;
 		if ($config === null) {
-			$this->config = \OC::$server->getConfig();
+			$this->config = \OC::$server->get(AllConfig::class);
 		}
 
 		if (\OC_Util::fileInfoLoaded()) {

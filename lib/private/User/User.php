@@ -35,20 +35,24 @@
 namespace OC\User;
 
 use InvalidArgumentException;
+use OC\AllConfig;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\Notification\IManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -107,12 +111,12 @@ class User implements IUser {
 		$this->backend = $backend;
 		$this->emitter = $emitter;
 		if (is_null($config)) {
-			$config = \OC::$server->getConfig();
+			$config = \OC::$server->get(AllConfig::class);
 		}
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
 		if (is_null($this->urlGenerator)) {
-			$this->urlGenerator = \OC::$server->getURLGenerator();
+			$this->urlGenerator = \OC::$server->get(IURLGenerator::class);
 		}
 		$this->dispatcher = $dispatcher;
 	}
@@ -277,7 +281,7 @@ class User implements IUser {
 		if ($result) {
 			// FIXME: Feels like an hack - suggestions?
 
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = \OC::$server->get(IGroupManager::class);
 			// We have to delete the user from all groups
 			foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 				$group = $groupManager->get($groupId);
@@ -288,18 +292,18 @@ class User implements IUser {
 				}
 			}
 			// Delete the user's keys in preferences
-			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
+			\OC::$server->get(AllConfig::class)->deleteAllUserValues($this->uid);
 
-			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
-			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
+			\OC::$server->get(ICommentsManager::class)->deleteReferencesOfActor('users', $this->uid);
+			\OC::$server->get(ICommentsManager::class)->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
 			$avatarManager = \OCP\Server::get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
-			$notification = \OC::$server->getNotificationManager()->createNotification();
+			$notification = \OC::$server->get(IManager::class)->createNotification();
 			$notification->setUser($this->uid);
-			\OC::$server->getNotificationManager()->markProcessed($notification);
+			\OC::$server->get(IManager::class)->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
 			$accountManager = \OCP\Server::get(AccountManager::class);
@@ -576,7 +580,7 @@ class User implements IUser {
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->getAvatarManager();
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);

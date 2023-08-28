@@ -83,7 +83,7 @@ class TrashbinTest extends \Test\TestCase {
 		//configure trashbin
 		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', \OCA\Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
 		/** @var \OCA\Files_Trashbin\Expiration $expiration */
-		$expiration = \OC::$server->query(\OCA\Files_Trashbin\Expiration::class);
+		$expiration = \OC::$server->get(\OCA\Files_Trashbin\Expiration::class);
 		$expiration->setRetentionObligation('auto, 2');
 
 		// register trashbin hooks
@@ -104,7 +104,7 @@ class TrashbinTest extends \Test\TestCase {
 		}
 
 		/** @var \OCA\Files_Trashbin\Expiration $expiration */
-		$expiration = \OC::$server->query(\OCA\Files_Trashbin\Expiration::class);
+		$expiration = \OC::$server->get(\OCA\Files_Trashbin\Expiration::class);
 		$expiration->setRetentionObligation(self::$rememberRetentionObligation);
 
 		\OC_Hook::clear();
@@ -174,7 +174,7 @@ class TrashbinTest extends \Test\TestCase {
 	public function testExpireOldFiles() {
 
 		/** @var \OCP\AppFramework\Utility\ITimeFactory $time */
-		$time = \OC::$server->query(\OCP\AppFramework\Utility\ITimeFactory::class);
+		$time = \OC::$server->get(\OCP\AppFramework\Utility\ITimeFactory::class);
 		$currentTime = $time->getTime();
 		$expireAt = $currentTime - 2 * 24 * 60 * 60;
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;

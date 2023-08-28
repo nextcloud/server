@@ -26,6 +26,7 @@ use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -190,20 +191,20 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	}
 
 	public function testOldPreviews() {
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = \OC::$server->get(IAppDataFactory::class)->get('preview');
 
 		$f1 = $appdata->newFolder('123456781');
 		$f1->newFile('foo.jpg', 'foo');
 		$f2 = $appdata->newFolder('123456782');
 		$f2->newFile('foo.jpg', 'foo');
 
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = \OC::$server->get(IAppDataFactory::class)->get('preview');
 		$this->assertSame(2, count($appdata->getDirectoryListing()));
 
 		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
 
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = \OC::$server->get(IAppDataFactory::class)->get('preview');
 		$this->assertSame(0, count($appdata->getDirectoryListing()));
 	}
 }

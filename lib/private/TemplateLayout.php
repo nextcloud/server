@@ -43,16 +43,25 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\CapabilitiesManager;
 use OC\Search\SearchQuery;
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
+use OC\SystemConfig;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
@@ -87,7 +96,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Add fallback theming variables if theming is disabled
 		if ($renderAs !== TemplateResponse::RENDER_AS_USER
-			|| !\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+			|| !\OC::$server->get(IAppManager::class)->isEnabledForUser('theming')) {
 			// TODO cache generated default theme if enabled for fallback if server is erroring ?
 			Util::addStyle('theming', 'default');
 		}
@@ -113,7 +122,7 @@ class TemplateLayout extends \OC_Template {
 
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
-			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+			if (\OC::$server->get(IAppManager::class)->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
 				/** @var \OCA\Theming\Service\ThemesService */
 				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
@@ -124,9 +133,9 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('logoUrl', $logoUrl);
 
 			// Set default app name
-			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
-			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
-			$l10n = \OC::$server->getL10NFactory()->get($defaultApp);
+			$defaultApp = \OC::$server->get(IAppManager::class)->getDefaultAppForUser();
+			$defaultAppInfo = \OC::$server->get(IAppManager::class)->getAppInfo($defaultApp);
+			$l10n = \OC::$server->get(IFactory::class)->get($defaultApp);
 			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
 
 			// Add navigation entry
@@ -200,14 +209,14 @@ class TemplateLayout extends \OC_Template {
 			parent::__construct('core', 'layout.base');
 		}
 		// Send the language and the locale to our layouts
-		$lang = \OC::$server->getL10NFactory()->findLanguage();
-		$locale = \OC::$server->getL10NFactory()->findLocale($lang);
+		$lang = \OC::$server->get(IFactory::class)->findLanguage();
+		$locale = \OC::$server->get(IFactory::class)->findLocale($lang);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
 		$this->assign('locale', $locale);
 
-		if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = implode('.', \OCP\Util::getVersion());
@@ -225,23 +234,23 @@ class TemplateLayout extends \OC_Template {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
-				\OC::$server->getL10N('lib'),
+				\OC::$server->get(IFactory::class)->get('lib'),
 				\OCP\Server::get(Defaults::class),
-				\OC::$server->getAppManager(),
-				\OC::$server->getSession(),
-				\OC::$server->getUserSession()->getUser(),
+				\OC::$server->get(IAppManager::class),
+				\OC::$server->get(Session::class)->getSession(),
+				\OC::$server->get(IUserSession::class)->getUser(),
 				$this->config,
-				\OC::$server->getGroupManager(),
+				\OC::$server->get(IGroupManager::class),
 				\OC::$server->get(IniGetWrapper::class),
-				\OC::$server->getURLGenerator(),
-				\OC::$server->getCapabilitiesManager(),
+				\OC::$server->get(IURLGenerator::class),
+				\OC::$server->get(CapabilitiesManager::class),
 				\OCP\Server::get(IInitialStateService::class)
 			);
 			$config = $jsConfigHelper->getConfig();
-			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
+			if (\OC::$server->get(ContentSecurityPolicyNonceManager::class)->browserSupportsCspV3()) {
 				$this->assign('inline_ocjs', $config);
 			} else {
-				$this->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
+				$this->append('jsfiles', \OC::$server->get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 			}
 		}
 		foreach ($jsFiles as $info) {
@@ -251,14 +260,14 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		try {
-			$pathInfo = \OC::$server->getRequest()->getPathInfo();
+			$pathInfo = \OC::$server->get(IRequest::class)->getPathInfo();
 		} catch (\Exception $e) {
 			$pathInfo = '';
 		}
 
 		// Do not initialise scss appdata until we have a fully installed instance
 		// Do not load scss for update, errors, installation or login page
-		if (\OC::$server->getSystemConfig()->getValue('installed', false)
+		if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)
@@ -312,7 +321,7 @@ class TemplateLayout extends \OC_Template {
 		$v = [];
 
 		if ($this->config->getSystemValueBool('installed', false)) {
-			if (\OC::$server->getAppManager()->isInstalled('theming')) {
+			if (\OC::$server->get(IAppManager::class)->isInstalled('theming')) {
 				$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 			}
 			$v = \OC_App::getAppVersions();

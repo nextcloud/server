@@ -38,7 +38,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$this->contentSecurityPolicyManager = new ContentSecurityPolicyManager($this->dispatcher);
 	}
 

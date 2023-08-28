@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  */
 //some strings that are used in /lib but won't be translatable unless they are in /core too
-$l = \OC::$server->getL10N('core');
+$l = \OC::$server->get(\OCP\L10N\IFactory::class)->get('core');
 $l->t("Personal");
 $l->t("Users");
 $l->t("Apps");

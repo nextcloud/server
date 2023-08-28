@@ -50,11 +50,11 @@ class BackupCodeStorageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = \OC::$server->query(BackupCodeStorage::class);
+		$this->storage = \OC::$server->get(BackupCodeStorage::class);
 
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->notificationManager->method('createNotification')
-			->willReturn(\OC::$server->query(IManager::class)->createNotification());
+			->willReturn(\OC::$server->get(IManager::class)->createNotification());
 		$this->overwriteService(IManager::class, $this->notificationManager);
 	}
 

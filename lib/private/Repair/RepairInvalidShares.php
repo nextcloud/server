@@ -67,7 +67,7 @@ class RepairInvalidShares implements IRepairStep {
 			->where($builder->expr()->eq('item_type', $builder->expr()->literal('file')))
 			->andWhere($builder->expr()->neq('permissions', $permsFunc));
 
-		$updatedEntries = $builder->execute();
+		$updatedEntries = $builder->executeStatement();
 		if ($updatedEntries > 0) {
 			$out->info('Fixed file share permissions for ' . $updatedEntries . ' shares');
 		}
@@ -95,11 +95,11 @@ class RepairInvalidShares implements IRepairStep {
 		$deletedInLastChunk = self::CHUNK_SIZE;
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
 			$deletedInLastChunk = 0;
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
 				$deletedInLastChunk++;
 				$deletedEntries += $deleteQuery->setParameter('parent', (int) $row['parent'])
-					->execute();
+					->executeStatement();
 			}
 			$result->closeCursor();
 		}

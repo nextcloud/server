@@ -49,7 +49,7 @@ class OC_FileChunking {
 	 */
 	public function __construct($info) {
 		$this->info = $info;
-		$this->ttl = \OC::$server->getConfig()->getSystemValueInt('cache_chunk_gc_ttl', 86400);
+		$this->ttl = \OC::$server->get(\OC\AllConfig::class)->getSystemValueInt('cache_chunk_gc_ttl', 86400);
 	}
 
 	public function getPrefix() {

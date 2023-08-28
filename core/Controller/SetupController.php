@@ -33,6 +33,7 @@ namespace OC\Core\Controller;
 
 use OC\Setup;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 
 class SetupController {
 	private string $autoConfigFile;
@@ -102,13 +103,13 @@ class SetupController {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
-		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
+		\OC::$server->get('IntegrityCodeChecker')->runInstanceVerification();
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
 			\OC_Template::printGuestPage('', 'installation_incomplete');
 		}
 
-		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
+		header('Location: ' . \OC::$server->get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
 		exit();
 	}
 

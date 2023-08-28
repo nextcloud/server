@@ -28,7 +28,7 @@ require_once __DIR__ . '/../lib/base.php';
 
 header('Content-type: application/xml');
 
-$request = \OC::$server->getRequest();
+$request = \OC::$server->get(\OCP\IRequest::class);
 
 $url = $request->getServerProtocol() . '://' . substr($request->getServerHost() . $request->getRequestUri(), 0, -17).'ocs/v1.php/';
 

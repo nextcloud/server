@@ -24,6 +24,7 @@ namespace OC\Lockdown\Filesystem;
 
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Search\SearchComparison;
+use OC\ForbiddenException;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -63,15 +64,15 @@ class NullCache implements ICache {
 	}
 
 	public function put($file, array $data) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function insert($file, array $data) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function update($id, array $data) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function getId($file) {
@@ -87,15 +88,15 @@ class NullCache implements ICache {
 	}
 
 	public function remove($file) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function move($source, $target) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function getStatus($file) {
@@ -127,7 +128,7 @@ class NullCache implements ICache {
 	}
 
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {

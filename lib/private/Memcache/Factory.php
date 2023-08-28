@@ -32,6 +32,7 @@
 namespace OC\Memcache;
 
 use OCP\Profiler\IProfiler;
+use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
@@ -88,12 +89,12 @@ class Factory implements ICacheFactory {
 		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
 		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!class_exists($localCacheClass) || !$localCacheClass::isAvailable()) {
-			throw new \OCP\HintException(strtr($missingCacheMessage, [
+			throw new HintException(strtr($missingCacheMessage, [
 				'{class}' => $localCacheClass, '{use}' => 'local'
 			]), $missingCacheHint);
 		}
 		if (!class_exists($distributedCacheClass) || !$distributedCacheClass::isAvailable()) {
-			throw new \OCP\HintException(strtr($missingCacheMessage, [
+			throw new HintException(strtr($missingCacheMessage, [
 				'{class}' => $distributedCacheClass, '{use}' => 'distributed'
 			]), $missingCacheHint);
 		}

@@ -53,6 +53,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Security\VerificationToken\InvalidTokenException;
@@ -239,7 +240,7 @@ class LostController extends Controller {
 			$this->twoFactorManager->clearTwoFactorPending($userId);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
-			@\OC::$server->getUserSession()->unsetMagicInCookie();
+			@\OC::$server->get(IUserSession::class)->unsetMagicInCookie();
 		} catch (HintException $e) {
 			$response = new JSONResponse($this->error($e->getHint()));
 			$response->throttle();

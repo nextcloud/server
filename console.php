@@ -90,11 +90,11 @@ try {
 	}
 
 	$application = new Application(
-		\OC::$server->getConfig(),
+		\OC::$server->get(\OC\AllConfig::class),
 		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
-		\OC::$server->getRequest(),
+		\OC::$server->get(\OCP\IRequest::class),
 		\OC::$server->get(\Psr\Log\LoggerInterface::class),
-		\OC::$server->query(\OC\MemoryInfo::class)
+		\OC::$server->get(\OC\MemoryInfo::class)
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();

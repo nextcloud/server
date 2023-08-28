@@ -26,6 +26,7 @@
 namespace OC\Log;
 
 use OC\SystemConfig;
+use OCP\IRequest;
 
 abstract class LogDetails {
 	/** @var SystemConfig */
@@ -51,7 +52,7 @@ abstract class LogDetails {
 			// apply timezone if $time is created from UNIX timestamp
 			$time->setTimezone($timezone);
 		}
-		$request = \OC::$server->getRequest();
+		$request = \OC::$server->get(IRequest::class);
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();
 		// remove username/passwords from URLs before writing the to the log file

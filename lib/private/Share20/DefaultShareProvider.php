@@ -41,6 +41,7 @@ use OC\Share20\Exception\ProviderException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IConfig;
@@ -55,6 +56,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
 /**
@@ -220,7 +222,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		// insert the data and fetch the id of the share
 		$this->dbConn->beginTransaction();
-		$qb->execute();
+		$qb->executeStatement();
 		$id = $this->dbConn->lastInsertId('*PREFIX*share');
 
 		// Now fetch the inserted share and create a complete share object
@@ -229,7 +231,7 @@ class DefaultShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$this->dbConn->commit();
 		$cursor->closeCursor();
@@ -276,7 +278,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('accepted', $qb->createNamedParameter($share->getStatus()))
-				->execute();
+				->executeStatement();
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
@@ -289,7 +291,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
-				->execute();
+				->executeStatement();
 
 			/*
 			 * Update all user defined group shares
@@ -304,7 +306,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
-				->execute();
+				->executeStatement();
 
 			/*
 			 * Now update the permissions for all children that have not set it to 0
@@ -315,7 +317,7 @@ class DefaultShareProvider implements IShareProvider {
 				->andWhere($qb->expr()->neq('permissions', $qb->createNamedParameter(0)))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->set('attributes', $qb->createNamedParameter($shareAttributes))
-				->execute();
+				->executeStatement();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
@@ -333,7 +335,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('label', $qb->createNamedParameter($share->getLabel()))
 				->set('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0), IQueryBuilder::PARAM_INT)
-				->execute();
+				->executeStatement();
 		}
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
@@ -376,7 +378,7 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 				))
-				->execute();
+				->executeQuery();
 
 			$data = $stmt->fetch();
 			$stmt->closeCursor();
@@ -404,7 +406,7 @@ class DefaultShareProvider implements IShareProvider {
 		$qb->update('share')
 			->set('accepted', $qb->createNamedParameter(IShare::STATUS_ACCEPTED))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->execute();
+			->executeStatement();
 
 		return $share;
 	}
@@ -439,7 +441,7 @@ class DefaultShareProvider implements IShareProvider {
 			))
 			->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			$children[] = $this->createShare($data);
 		}
@@ -466,7 +468,7 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->orWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())));
 		}
 
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -503,7 +505,7 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 				))
-				->execute();
+				->executeQuery();
 
 			$data = $stmt->fetch();
 
@@ -525,7 +527,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->update('share')
 					->set('permissions', $qb->createNamedParameter(0))
 					->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-					->execute();
+					->executeStatement();
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_USER) {
 			if ($share->getSharedWith() !== $recipient) {
@@ -556,7 +558,7 @@ class DefaultShareProvider implements IShareProvider {
 				'file_target' => $qb->createNamedParameter($share->getTarget()),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
-			])->execute();
+			])->executeStatement();
 
 		return $qb->getLastInsertId();
 	}
@@ -574,7 +576,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($share->getId()))
 			);
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -591,7 +593,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->eq('share_with', $qb->createNamedParameter($recipient))
 			);
 
-		$qb->execute();
+		$qb->executeStatement();
 
 		return $this->getShareById($share->getId(), $recipient);
 	}
@@ -606,7 +608,7 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->update('share')
 				->set('file_target', $qb->createNamedParameter($share->getTarget()))
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-				->execute();
+				->executeStatement();
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			// Check if there is a usergroup share
 			$qb = $this->dbConn->getQueryBuilder();
@@ -620,7 +622,7 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 				))
 				->setMaxResults(1)
-				->execute();
+				->executeQuery();
 
 			$data = $stmt->fetch();
 			$stmt->closeCursor();
@@ -646,14 +648,14 @@ class DefaultShareProvider implements IShareProvider {
 						'permissions' => $qb->createNamedParameter($share->getPermissions()),
 						'attributes' => $qb->createNamedParameter($shareAttributes),
 						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
-					])->execute();
+					])->executeStatement();
 			} else {
 				// Already a usergroup share. Update it.
 				$qb = $this->dbConn->getQueryBuilder();
 				$qb->update('share')
 					->set('file_target', $qb->createNamedParameter($share->getTarget()))
 					->where($qb->expr()->eq('id', $qb->createNamedParameter($data['id'])))
-					->execute();
+					->executeStatement();
 			}
 		}
 
@@ -781,7 +783,7 @@ class DefaultShareProvider implements IShareProvider {
 		$qb->setFirstResult($offset);
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShare($data);
@@ -815,7 +817,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -859,7 +861,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
-			->execute();
+			->executeQuery();
 
 		$shares = [];
 		while ($data = $cursor->fetch()) {
@@ -936,7 +938,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 			}
 
-			$cursor = $qb->execute();
+			$cursor = $qb->executeQuery();
 
 			while ($data = $cursor->fetch()) {
 				if ($data['fileid'] && $data['path'] === null) {
@@ -1000,7 +1002,7 @@ class DefaultShareProvider implements IShareProvider {
 						$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 					));
 
-				$cursor = $qb->execute();
+				$cursor = $qb->executeQuery();
 				while ($data = $cursor->fetch()) {
 					if ($offset > 0) {
 						$offset--;
@@ -1044,7 +1046,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
-			->execute();
+			->executeQuery();
 
 		$data = $cursor->fetch();
 
@@ -1119,7 +1121,7 @@ class DefaultShareProvider implements IShareProvider {
 			$entryData['permissions'] = $entryData['f_permissions'];
 			$entryData['parent'] = $entryData['f_parent'];
 			$share->setNodeCacheEntry(Cache::cacheEntryFromData($entryData,
-				\OC::$server->getMimeTypeLoader()));
+				\OC::$server->get(IMimeTypeLoader::class)));
 		}
 
 		$share->setProviderId($this->identifier());
@@ -1167,7 +1169,7 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 				));
 
-			$stmt = $query->execute();
+			$stmt = $query->executeQuery();
 
 			while ($data = $stmt->fetch()) {
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
@@ -1247,11 +1249,15 @@ class DefaultShareProvider implements IShareProvider {
 				)
 			);
 		} else {
-			\OC::$server->getLogger()->logException(new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType));
+			$ex = new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType);
+			\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+				'exception' => $ex,
+				'app' => DefaultShareProvider::class
+			]);
 			return;
 		}
 
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -1270,7 +1276,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
 			$ids[] = (int)$row['id'];
@@ -1283,7 +1289,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->delete('share')
 					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
 					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
-				$qb->execute();
+				$qb->executeStatement();
 			}
 		}
 
@@ -1294,7 +1300,7 @@ class DefaultShareProvider implements IShareProvider {
 		$qb->delete('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -1313,7 +1319,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
 			$ids[] = (int)$row['id'];
@@ -1330,7 +1336,7 @@ class DefaultShareProvider implements IShareProvider {
 					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
 					->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
 					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
-				$qb->execute();
+				$qb->executeStatement();
 			}
 		}
 	}
@@ -1366,7 +1372,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			));
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		$users = [];
 		$link = false;
@@ -1558,7 +1564,7 @@ class DefaultShareProvider implements IShareProvider {
 				)
 			);
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			try {
 				$share = $this->createShare($data);

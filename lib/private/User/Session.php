@@ -45,8 +45,10 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -59,6 +61,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
@@ -367,7 +370,7 @@ class Session implements IUserSession, Emitter {
 		if (!$user->isEnabled()) {
 			// disabled users can not log in
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OC::$server->getL10N('lib')->t('User disabled');
+			$message = \OC::$server->get(IFactory::class)->get('lib')->t('User disabled');
 			throw new LoginException($message);
 		}
 
@@ -406,7 +409,7 @@ class Session implements IUserSession, Emitter {
 			return true;
 		}
 
-		$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
+		$message = \OC::$server->get(IFactory::class)->get('lib')->t('Login canceled by app');
 		throw new LoginException($message);
 	}
 
@@ -514,7 +517,7 @@ class Session implements IUserSession, Emitter {
 			$user = $users[0];
 		}
 		// DI not possible due to cyclic dependencies :'-/
-		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
+		return OC::$server->get(TwoFactorAuthManager::class)->isTwoFactorAuthenticated($user);
 	}
 
 	/**
@@ -542,7 +545,7 @@ class Session implements IUserSession, Emitter {
 		if ($refreshCsrfToken) {
 			// TODO: mock/inject/use non-static
 			// Refresh the token
-			\OC::$server->getCsrfTokenManager()->refreshToken();
+			\OC::$server->get(CsrfTokenManager::class)->refreshToken();
 		}
 
 		if ($firstTimeLogin) {
@@ -954,7 +957,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 */
 	public function setMagicInCookie($username, $token) {
-		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = OC::$server->get(IRequest::class)->getServerProtocol() === 'https';
 		$webRoot = \OC::$WEBROOT;
 		if ($webRoot === '') {
 			$webRoot = '/';
@@ -1002,7 +1005,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function unsetMagicInCookie() {
 		//TODO: DI for cookies and IRequest
-		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = OC::$server->get(IRequest::class)->getServerProtocol() === 'https';
 
 		unset($_COOKIE['nc_username']); //TODO: DI
 		unset($_COOKIE['nc_token']);

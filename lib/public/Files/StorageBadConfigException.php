@@ -23,6 +23,8 @@
  */
 namespace OCP\Files;
 
+use OCP\L10N\IFactory;
+
 /**
  * Storage has bad or missing config params
  * @since 9.0.0
@@ -36,7 +38,7 @@ class StorageBadConfigException extends StorageNotAvailableException {
 	 * @since 9.0.0
 	 */
 	public function __construct($message = '', \Exception $previous = null) {
-		$l = \OC::$server->getL10N('core');
+		$l = \OC::$server->get(IFactory::class)->get('core');
 		parent::__construct($l->t('Storage incomplete configuration. %s', [$message]), self::STATUS_INCOMPLETE_CONF, $previous);
 	}
 }

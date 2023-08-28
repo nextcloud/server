@@ -56,7 +56,7 @@ class Capabilities implements ICapability {
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
 		if ($federatedFileSharingEnabled) {
 			/** @var FederatedShareProvider $shareProvider */
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$shareProvider = \OC::$server->get(FederatedShareProvider::class);
 			$publishedScopeEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 

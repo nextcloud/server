@@ -30,6 +30,7 @@
  */
 use OCP\API;
 use OCP\AppFramework\Http;
+use OCP\IRequest;
 
 class OC_API {
 	/**
@@ -44,7 +45,7 @@ class OC_API {
 	 * @psalm-taint-escape html
 	 */
 	public static function respond($result, $format = 'xml') {
-		$request = \OC::$server->getRequest();
+		$request = \OC::$server->get(IRequest::class);
 
 		// Send 401 headers if unauthorised
 		if ($result->getStatusCode() === \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED) {

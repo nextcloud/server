@@ -31,8 +31,8 @@ namespace OCP\Security;
  * it will use the secret defined in config.php as key. Additionally the message will be HMAC'd.
  *
  * Usage:
- * $encryptWithDefaultPassword = \OC::$server->getCrypto()->encrypt('EncryptedText');
- * $encryptWithCustomPassword = \OC::$server->getCrypto()->encrypt('EncryptedText', 'password');
+ * $encryptWithDefaultPassword = \OC::$server->get(\OCP\Security\ICrypto::class)->encrypt('EncryptedText');
+ * $encryptWithCustomPassword = \OC::$server->get(\OCP\Security\ICrypto::class)->encrypt('EncryptedText', 'password');
  *
  * @since 8.0.0
  */

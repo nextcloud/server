@@ -95,7 +95,7 @@ class TagManager implements ITagManager, IEventListener {
 			->andWhere($query->expr()->eq('c.type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('c.category', $query->createNamedParameter(ITags::TAG_FAVORITE)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$users = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 

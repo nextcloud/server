@@ -32,6 +32,7 @@ namespace OC\Cache;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\ICache;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -50,9 +51,9 @@ class File implements ICache {
 		if ($this->storage !== null) {
 			return $this->storage;
 		}
-		if (\OC::$server->getUserSession()->isLoggedIn()) {
+		if (\OC::$server->get(IUserSession::class)->isLoggedIn()) {
 			$rootView = new View();
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			Filesystem::initMountPoints($user->getUID());
 			if (!$rootView->file_exists('/' . $user->getUID() . '/cache')) {
 				$rootView->mkdir('/' . $user->getUID() . '/cache');
@@ -105,7 +106,7 @@ class File implements ICache {
 		$storage = $this->getStorage();
 		$result = false;
 		// unique id to avoid chunk collision, just in case
-		$uniqueId = \OC::$server->getSecureRandom()->generate(
+		$uniqueId = \OC::$server->get(ISecureRandom::class)->generate(
 			16,
 			ISecureRandom::CHAR_ALPHANUMERIC
 		);
@@ -192,11 +193,11 @@ class File implements ICache {
 						}
 					} catch (\OCP\Lock\LockedException $e) {
 						// ignore locked chunks
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						\OC::$server->get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\ForbiddenException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
+						\OC::$server->get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\LockNotAcquiredException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						\OC::$server->get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					}
 				}
 			}

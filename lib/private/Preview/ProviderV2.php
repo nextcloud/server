@@ -28,6 +28,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\ITempManager;
 use OCP\Preview\IProviderV2;
 
 abstract class ProviderV2 implements IProviderV2 {
@@ -85,7 +86,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 */
 	protected function getLocalFile(File $file, int $maxSize = null) {
 		if ($this->useTempFile($file)) {
-			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
+			$absPath = \OC::$server->get(ITempManager::class)->getTemporaryFile();
 
 			$content = $file->fopen('r');
 

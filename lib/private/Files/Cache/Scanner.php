@@ -36,9 +36,11 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
+use OC\AllConfig;
 use OC\Files\Storage\Wrapper\Encryption;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
@@ -95,8 +97,8 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->cacheActive = !\OC::$server->get(AllConfig::class)->getSystemValueBool('filesystem_cache_readonly', false);
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
 
@@ -500,7 +502,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			// inserted mimetypes but those weren't available yet inside the transaction
 			// To make sure to have the updated mime types in such cases,
 			// we reload them here
-			\OC::$server->getMimeTypeLoader()->reset();
+			\OC::$server->get(IMimeTypeLoader::class)->reset();
 		}
 		return $childQueue;
 	}

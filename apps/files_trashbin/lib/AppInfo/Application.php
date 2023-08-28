@@ -87,7 +87,7 @@ class Application extends App implements IBootstrap {
 					$for = $backend['@attributes']['for'];
 
 					try {
-						$backendObject = $serverContainer->query($class);
+						$backendObject = \OC::$server->get($class);
 						$trashManager->registerBackend($for, $backendObject);
 					} catch (\Exception $e) {
 						$logger->logException($e);

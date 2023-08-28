@@ -88,7 +88,7 @@ class LoginFlowV2Mapper extends QBMapper {
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter($this->timeFactory->getTime() - self::lifetime))
 			);
 
-		$qb->execute();
+		$qb->executeQuery();
 	}
 
 	/**

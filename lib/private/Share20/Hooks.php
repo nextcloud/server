@@ -21,12 +21,14 @@
  */
 namespace OC\Share20;
 
+use OCP\Share\IManager;
+
 class Hooks {
 	public static function post_deleteUser($arguments) {
-		\OC::$server->getShareManager()->userDeleted($arguments['uid']);
+		\OC::$server->get(IManager::class)->userDeleted($arguments['uid']);
 	}
 
 	public static function post_deleteGroup($arguments) {
-		\OC::$server->getShareManager()->groupDeleted($arguments['gid']);
+		\OC::$server->get(IManager::class)->groupDeleted($arguments['gid']);
 	}
 }

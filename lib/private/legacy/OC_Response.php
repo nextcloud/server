@@ -27,6 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+ use OC\Security\CSP\ContentSecurityPolicyNonceManager;
+
 class OC_Response {
 	/**
 	 * Sets the content disposition header (with possible workarounds)
@@ -34,7 +37,7 @@ class OC_Response {
 	 * @param string $type disposition type, either 'attachment' or 'inline'
 	 */
 	public static function setContentDispositionHeader($filename, $type = 'attachment') {
-		if (\OC::$server->getRequest()->isUserAgent(
+		if (\OC::$server->get(\OCP\IRequest::class)->isUserAgent(
 			[
 				\OC\AppFramework\Http\Request::USER_AGENT_IE,
 				\OC\AppFramework\Http\Request::USER_AGENT_ANDROID_MOBILE_CHROME,
@@ -81,7 +84,7 @@ class OC_Response {
 		 * @see \OCP\AppFramework\Http\Response::getHeaders
 		 */
 		$policy = 'default-src \'self\'; '
-			. 'script-src \'self\' \'nonce-'.\OC::$server->getContentSecurityPolicyNonceManager()->getNonce().'\'; '
+			. 'script-src \'self\' \'nonce-'.\OC::$server->get(ContentSecurityPolicyNonceManager::class)->getNonce().'\'; '
 			. 'style-src \'self\' \'unsafe-inline\'; '
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '

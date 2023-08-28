@@ -40,6 +40,7 @@ namespace OC\Files\Storage;
 use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
@@ -53,6 +54,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ITempManager;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
@@ -116,7 +118,7 @@ class DAV extends Common {
 	 */
 	public function __construct($params) {
 		$this->statCache = new ArrayCache();
-		$this->httpClientService = \OC::$server->getHTTPClientService();
+		$this->httpClientService = \OC::$server->get(IClientService::class);
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -154,7 +156,7 @@ class DAV extends Common {
 		$this->eventLogger = \OC::$server->get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
-		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
+		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	protected function init() {
@@ -172,7 +174,7 @@ class DAV extends Common {
 			$settings['authType'] = $this->authType;
 		}
 
-		$proxy = \OC::$server->getConfig()->getSystemValueString('proxy', '');
+		$proxy = \OC::$server->get(AllConfig::class)->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
@@ -400,7 +402,7 @@ class DAV extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				$tempManager = \OC::$server->getTempManager();
+				$tempManager = \OC::$server->get(ITempManager::class);
 				if (strrpos($path, '.') !== false) {
 					$ext = substr($path, strrpos($path, '.'));
 				} else {

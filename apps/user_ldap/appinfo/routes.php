@@ -52,7 +52,7 @@ $application->registerRoutes($this, [
 ]);
 
 /** @var \OCA\User_LDAP\AppInfo\Application $application */
-$application = \OC::$server->query(\OCA\User_LDAP\AppInfo\Application::class);
+$application = \OC::$server->get(\OCA\User_LDAP\AppInfo\Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		['name' => 'renewPassword#tryRenewPassword', 'url' => '/renewpassword', 'verb' => 'POST'],

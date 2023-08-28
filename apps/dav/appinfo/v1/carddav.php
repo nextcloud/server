@@ -39,6 +39,7 @@ use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\Files\AppData\IAppDataFactory;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
 
@@ -57,7 +58,7 @@ $principalBackend = new Principal(
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
-	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
 	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
 	\OC::$server->getL10NFactory(),
@@ -72,7 +73,7 @@ $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
+$pluginManager = new PluginManager(\OC::$server, \OC::$server->get(IAppManager::class));
 $addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager, \OC::$server->getUserSession()->getUser(), \OC::$server->get(\OCP\IGroupManager::class));
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
@@ -99,7 +100,7 @@ if ($debugging) {
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
 $server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(
-	\OC::$server->getAppDataDir('dav-photocache'),
+	\OC::$server->get(IAppDataFactory::class)->get('dav-photocache'),
 	\OC::$server->get(LoggerInterface::class)
 )));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->get(LoggerInterface::class)));

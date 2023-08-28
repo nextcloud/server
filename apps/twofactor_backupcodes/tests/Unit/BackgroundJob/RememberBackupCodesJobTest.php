@@ -165,7 +165,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		$date->setTimestamp($this->time->getTime());
 
 		$this->notificationManager->method('createNotification')
-			->willReturn(\OC::$server->query(IManager::class)->createNotification());
+			->willReturn(\OC::$server->get(IManager::class)->createNotification());
 
 		$this->notificationManager->expects($this->once())
 			->method('notify')

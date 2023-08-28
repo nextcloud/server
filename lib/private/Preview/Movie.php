@@ -32,6 +32,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
@@ -120,7 +121,7 @@ class Movie extends ProviderV2 {
 	}
 
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
-		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
+		$tmpPath = \OC::$server->get(ITempManager::class)->getTemporaryFile();
 
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 

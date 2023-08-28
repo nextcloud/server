@@ -32,6 +32,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Image;
 
 class TXT extends ProviderV2 {
 	/**
@@ -103,7 +104,7 @@ class TXT extends ProviderV2 {
 			}
 		}
 
-		$imageObject = new \OCP\Image();
+		$imageObject = new Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

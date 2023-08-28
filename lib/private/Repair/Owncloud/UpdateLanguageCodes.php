@@ -80,7 +80,7 @@ class UpdateLanguageCodes implements IRepairStep {
 				->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 				->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($oldCode), IQueryBuilder::PARAM_STR))
-				->execute();
+				->executeStatement();
 
 			$output->info('Changed ' . $affectedRows . ' setting(s) from "' . $oldCode . '" to "' . $newCode . '" in preferences table.');
 		}

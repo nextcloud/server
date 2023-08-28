@@ -27,10 +27,13 @@ declare(strict_types=1);
 namespace OC\SystemTag;
 
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use Psr\Container\ContainerInterface;
 
 /**
  * Default factory class for system tag managers
@@ -42,16 +45,16 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	/**
 	 * Server container
 	 *
-	 * @var IServerContainer
+	 * @var ContainerInterface
 	 */
 	private $serverContainer;
 
 	/**
 	 * Constructor for the system tag manager factory
 	 *
-	 * @param IServerContainer $serverContainer server container
+	 * @param ContainerInterface $serverContainer server container
 	 */
-	public function __construct(IServerContainer $serverContainer) {
+	public function __construct(ContainerInterface $serverContainer) {
 		$this->serverContainer = $serverContainer;
 	}
 
@@ -63,8 +66,8 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 */
 	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
-			$this->serverContainer->getDatabaseConnection(),
-			$this->serverContainer->getGroupManager(),
+			$this->serverContainer->get(IDBConnection::class),
+			$this->serverContainer->get(IGroupManager::class),
 			$this->serverContainer->get(IEventDispatcher::class),
 		);
 	}
@@ -78,7 +81,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 */
 	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
-			$this->serverContainer->getDatabaseConnection(),
+			$this->serverContainer->get(IDBConnection::class),
 			$this->getManager(),
 			$this->serverContainer->get(IEventDispatcher::class),
 		);

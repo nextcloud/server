@@ -45,11 +45,14 @@ declare(strict_types=1);
  */
 namespace OC\User;
 
+use OC\AllConfig;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
+use OCP\Security\IHasher;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
@@ -105,7 +108,7 @@ class Database extends ABackend implements
 	 */
 	private function fixDI() {
 		if ($this->dbConn === null) {
-			$this->dbConn = \OC::$server->getDatabaseConnection();
+			$this->dbConn = \OC::$server->get(IDBConnection::class);
 		}
 	}
 
@@ -130,7 +133,7 @@ class Database extends ABackend implements
 				$qb->insert($this->table)
 					->values([
 						'uid' => $qb->createNamedParameter($uid),
-						'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
+						'password' => $qb->createNamedParameter(\OC::$server->get(IHasher::class)->hash($password)),
 						'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
 					]);
 
@@ -163,7 +166,7 @@ class Database extends ABackend implements
 		$query = $this->dbConn->getQueryBuilder();
 		$query->delete($this->table)
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		if (isset($this->cache[$uid])) {
 			unset($this->cache[$uid]);
@@ -177,7 +180,7 @@ class Database extends ABackend implements
 		$query->update($this->table)
 			->set('password', $query->createNamedParameter($passwordHash))
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		return $result ? true : false;
 	}
@@ -197,7 +200,7 @@ class Database extends ABackend implements
 		if ($this->userExists($uid)) {
 			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
-			$hasher = \OC::$server->getHasher();
+			$hasher = \OC::$server->get(IHasher::class);
 			$hashedPassword = $hasher->hash($password);
 
 			$return = $this->updatePassword($uid, $hashedPassword);
@@ -235,7 +238,7 @@ class Database extends ABackend implements
 			$query->update($this->table)
 				->set('displayname', $query->createNamedParameter($displayName))
 				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-			$query->execute();
+			$query->executeStatement();
 
 			$this->cache[$uid]['displayname'] = $displayName;
 
@@ -328,7 +331,7 @@ class Database extends ABackend implements
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$displayNames = [];
 		while ($row = $result->fetch()) {
 			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
@@ -353,7 +356,7 @@ class Database extends ABackend implements
 		if ($found && is_array($this->cache[$loginName])) {
 			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
-			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
+			if (\OC::$server->get(IHasher::class)->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}
@@ -389,7 +392,7 @@ class Database extends ABackend implements
 						'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
 					)
 				);
-			$result = $qb->execute();
+			$result = $qb->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 
@@ -447,7 +450,7 @@ class Database extends ABackend implements
 	 */
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
-			return \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->get(AllConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;
@@ -504,7 +507,7 @@ class Database extends ABackend implements
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		$backends = \OC::$server->getUserManager()->getBackends();
+		$backends = \OC::$server->get(IUserManager::class)->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend instanceof Database) {
 				/** @var \OC\User\Database $backend */

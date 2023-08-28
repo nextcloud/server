@@ -48,7 +48,7 @@ class TimedJobTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->jobList = new DummyJobList();
-		$this->time = \OC::$server->query(ITimeFactory::class);
+		$this->time = \OC::$server->get(ITimeFactory::class);
 	}
 
 	public function testShouldRunAfterInterval() {

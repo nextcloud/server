@@ -444,7 +444,7 @@ class AppSettingsController extends Controller {
 
 				// Check if app is already downloaded
 				/** @var Installer $installer */
-				$installer = \OC::$server->query(Installer::class);
+				$installer = \OC::$server->get(Installer::class);
 				$isDownloaded = $installer->isDownloaded($appId);
 
 				if (!$isDownloaded) {

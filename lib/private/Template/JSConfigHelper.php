@@ -49,6 +49,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\ILogger;
 use OCP\IUser;
+use OCP\Share\IManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
 
@@ -260,7 +261,7 @@ class JSConfigHelper {
 					'resharingAllowed' => Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing(),
+					'allowGroupSharing' => \OC::$server->get(IManager::class)->allowGroupSharing(),
 					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
 					'defaultInternalExpireDate' => $defaultInternalExpireDate,
 					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,

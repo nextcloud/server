@@ -42,6 +42,7 @@ declare(strict_types=1);
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
@@ -311,7 +312,7 @@ class Detection implements IMimeTypeDetector {
 			return str_contains($info, ';') ? substr($info, 0, strpos($info, ';')) : $info;
 		}
 
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
+		$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile();
 		$fh = fopen($tmpFile, 'wb');
 		fwrite($fh, $data, 8024);
 		fclose($fh);

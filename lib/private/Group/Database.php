@@ -82,7 +82,7 @@ class Database extends ABackend implements
 	 */
 	private function fixDI() {
 		if ($this->dbConn === null) {
-			$this->dbConn = \OC::$server->getDatabaseConnection();
+			$this->dbConn = \OC::$server->get(IDBConnection::class);
 		}
 	}
 
@@ -103,7 +103,7 @@ class Database extends ABackend implements
 			$result = $builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
 				->setValue('displayname', $builder->createNamedParameter($gid))
-				->execute();
+				->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			$result = 0;
 		}
@@ -131,19 +131,19 @@ class Database extends ABackend implements
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('groups')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
-			->execute();
+			->executeStatement();
 
 		// Delete the group-user relation
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('group_user')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
-			->execute();
+			->executeStatement();
 
 		// Delete the group-groupadmin relation
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
-			->execute();
+			->executeStatement();
 
 		// Delete from cache
 		unset($this->groupCache[$gid]);
@@ -168,7 +168,7 @@ class Database extends ABackend implements
 			->from('group_user')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
-			->execute();
+			->executeQuery();
 
 		$result = $cursor->fetch();
 		$cursor->closeCursor();
@@ -193,7 +193,7 @@ class Database extends ABackend implements
 			$qb->insert('group_user')
 				->setValue('uid', $qb->createNamedParameter($uid))
 				->setValue('gid', $qb->createNamedParameter($gid))
-				->execute();
+				->executeStatement();
 			return true;
 		} else {
 			return false;
@@ -215,7 +215,7 @@ class Database extends ABackend implements
 		$qb->delete('group_user')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
-			->execute();
+			->executeStatement();
 
 		return true;
 	}
@@ -242,7 +242,7 @@ class Database extends ABackend implements
 			->from('group_user', 'gu')
 			->leftJoin('gu', 'groups', 'g', $qb->expr()->eq('gu.gid', 'g.gid'))
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
-			->execute();
+			->executeQuery();
 
 		$groups = [];
 		while ($row = $cursor->fetch()) {
@@ -289,7 +289,7 @@ class Database extends ABackend implements
 		if ($offset > 0) {
 			$query->setFirstResult($offset);
 		}
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$groups = [];
 		while ($row = $result->fetch()) {
@@ -317,7 +317,7 @@ class Database extends ABackend implements
 		$cursor = $qb->select('gid', 'displayname')
 			->from('groups')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
-			->execute();
+			->executeQuery();
 		$result = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -411,7 +411,7 @@ class Database extends ABackend implements
 			)));
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -443,7 +443,7 @@ class Database extends ABackend implements
 			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
 			->andWhere($query->expr()->eq('gid', $query->createNamedParameter($gid), IQueryBuilder::PARAM_STR));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -472,7 +472,7 @@ class Database extends ABackend implements
 			->from('groups')
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$displayName = $result->fetchOne();
 		$result->closeCursor();
 
@@ -504,7 +504,7 @@ class Database extends ABackend implements
 		$query->update('groups')
 			->set('displayname', $query->createNamedParameter($displayName))
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
-		$query->execute();
+		$query->executeStatement();
 
 		return true;
 	}

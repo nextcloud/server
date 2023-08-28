@@ -28,6 +28,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use Psr\Log\LoggerInterface;
+
 class OC_Hook {
 	public static $thrownExceptions = [];
 
@@ -105,7 +108,9 @@ class OC_Hook {
 				call_user_func([ $i["class"], $i["name"] ], $params);
 			} catch (Exception $e) {
 				self::$thrownExceptions[] = $e;
-				\OC::$server->getLogger()->logException($e);
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e
+				]);
 				if ($e instanceof \OCP\HintException) {
 					throw $e;
 				}

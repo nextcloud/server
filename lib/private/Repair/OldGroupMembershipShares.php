@@ -81,11 +81,11 @@ class OldGroupMembershipShares implements IRepairStep {
 		$deleteQuery->delete('share')
 			->where($query->expr()->eq('id', $deleteQuery->createParameter('share')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			if (!$this->isMember($row['group'], $row['user'])) {
 				$deletedEntries += $deleteQuery->setParameter('share', (int) $row['id'])
-					->execute();
+					->executeStatement();
 			}
 		}
 		$result->closeCursor();

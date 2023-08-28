@@ -23,7 +23,7 @@ $template = $_['template'];
 	<?php print_unescaped($template); ?>
 	<?php if (!is_null($_['backupProvider'])): ?>
 	<p>
-		<a class="two-factor-secondary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+		<a class="two-factor-secondary" href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $_['backupProvider']->getId(),
 				'redirect_url' => $_['redirect_url'],

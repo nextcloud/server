@@ -92,7 +92,7 @@ class CleanTags implements IRepairStep {
 			->orderBy('uid')
 			->setMaxResults(50)
 			->setFirstResult($offset);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$users = [];
 		$hadResults = false;
@@ -113,7 +113,7 @@ class CleanTags implements IRepairStep {
 			$query = $this->connection->getQueryBuilder();
 			$query->delete('vcategory')
 				->where($query->expr()->in('uid', $query->createNamedParameter($users, IQueryBuilder::PARAM_STR_ARRAY)));
-			$this->deletedTags += $query->execute();
+			$this->deletedTags += $query->executeStatement();
 		}
 		return true;
 	}
@@ -181,7 +181,7 @@ class CleanTags implements IRepairStep {
 			->andWhere(
 				$qb->expr()->isNull('s.' . $sourceNullColumn)
 			);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 
 		$orphanItems = [];
 		while ($row = $result->fetch()) {
@@ -197,7 +197,7 @@ class CleanTags implements IRepairStep {
 					)
 					->andWhere($qb->expr()->in($deleteId, $qb->createParameter('ids')));
 				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
-				$qb->execute();
+				$qb->executeStatement();
 			}
 		}
 

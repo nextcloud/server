@@ -52,6 +52,8 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
+use OCP\Security\ISecureRandom;
+use OC\AllConfig;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
@@ -103,7 +105,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
 
-		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->systemConfig = \OC::$server->get(SystemConfig::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 
 		/** @var \OCP\Profiler\IProfiler */
@@ -592,9 +594,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	private function getMigrator() {
 		// TODO properly inject those dependencies
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$platform = $this->getDatabasePlatform();
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);

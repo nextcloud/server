@@ -92,7 +92,7 @@ class ScanAppData extends Base {
 		$scanner = new \OC\Files\Utils\Scanner(
 			null,
 			new ConnectionAdapter($connection),
-			\OC::$server->query(IEventDispatcher::class),
+			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)
 		);
 

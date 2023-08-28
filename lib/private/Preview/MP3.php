@@ -30,6 +30,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 use wapmorgan\Mp3Info\Mp3Info;
 
@@ -62,7 +63,7 @@ class MP3 extends ProviderV2 {
 		}
 
 		if (is_string($picture)) {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData($picture);
 
 			if ($image->valid()) {

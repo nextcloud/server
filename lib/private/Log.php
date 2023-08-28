@@ -40,6 +40,7 @@ use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
@@ -48,6 +49,7 @@ use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Log\ExceptionSerializer;
+use OC\SystemConfig;
 use Throwable;
 use function array_merge;
 use function strtr;
@@ -83,7 +85,7 @@ class Log implements ILogger, IDataLogger {
 	) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
-			$config = \OC::$server->getSystemConfig();
+			$config = \OC::$server->get(SystemConfig::class);
 		}
 
 		$this->config = $config;
@@ -263,7 +265,7 @@ class Log implements ILogger, IDataLogger {
 			if (!empty($logCondition)) {
 				// check for secret token in the request
 				if (isset($logCondition['shared_secret'])) {
-					$request = \OC::$server->getRequest();
+					$request = \OC::$server->get(IRequest::class);
 
 					if ($request->getMethod() === 'PUT' &&
 						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&

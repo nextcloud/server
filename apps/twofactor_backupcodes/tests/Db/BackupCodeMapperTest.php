@@ -59,7 +59,7 @@ class BackupCodeMapperTest extends TestCase {
 		parent::setUp();
 
 		$this->db = \OC::$server->getDatabaseConnection();
-		$this->mapper = \OC::$server->query(BackupCodeMapper::class);
+		$this->mapper = \OC::$server->get(BackupCodeMapper::class);
 
 		$this->resetDB();
 	}

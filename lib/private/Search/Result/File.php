@@ -29,6 +29,7 @@ namespace OC\Search\Result;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\IPreview;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 
 /**
@@ -97,7 +98,7 @@ class File extends \OCP\Search\Result {
 
 		$this->id = $data->getId();
 		$this->name = $data->getName();
-		$this->link = \OC::$server->getURLGenerator()->linkToRoute(
+		$this->link = \OC::$server->get(IURLGenerator::class)->linkToRoute(
 			'files.view.index',
 			[
 				'dir' => dirname($path),

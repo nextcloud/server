@@ -65,12 +65,22 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\AllConfig;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
+use OC\SystemConfig;
+use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -83,7 +93,7 @@ class OC_Util {
 	private static $versionCache = null;
 
 	protected static function getAppManager() {
-		return \OC::$server->getAppManager();
+		return \OC::$server->get(IAppManager::class);
 	}
 
 	/**
@@ -183,8 +193,8 @@ class OC_Util {
 		/** @var LoggerInterface $logger */
 		$logger = \OC::$server->get(LoggerInterface::class);
 
-		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = \OC::$server->getL10NFactory()->findLanguage();
+		$plainSkeletonDirectory = \OC::$server->get(AllConfig::class)->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$userLang = \OC::$server->get(IFactory::class)->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
 		if (!file_exists($skeletonDirectory)) {
@@ -200,7 +210,7 @@ class OC_Util {
 			}
 		}
 
-		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
+		$instanceId = \OC::$server->get(AllConfig::class)->getSystemValue('instanceid', '');
 
 		if ($instanceId === null) {
 			throw new \RuntimeException('no instance id!');
@@ -230,7 +240,7 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function copyr($source, \OCP\Files\Folder $target) {
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 
 		// Verify if folder exists
 		$dir = opendir($source);
@@ -304,7 +314,7 @@ class OC_Util {
 	 */
 	public static function getChannel() {
 		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
+		return \OC::$server->get(AllConfig::class)->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
 	}
 
 	/**
@@ -403,7 +413,7 @@ class OC_Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -497,7 +507,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(\OC\SystemConfig $config) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -507,7 +517,7 @@ class OC_Util {
 		}
 
 		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (\OC::$server->getSession()->exists('checkServer_succeeded') && \OC::$server->getSession()->get('checkServer_succeeded')) {
+		if (\OC::$server->get(Session::class)->getSession()->exists('checkServer_succeeded') && \OC::$server->get(Session::class)->getSession()->get('checkServer_succeeded')) {
 			return $errors;
 		}
 
@@ -515,14 +525,14 @@ class OC_Util {
 		$setup = new \OC\Setup(
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
+			\OC::$server->get(IFactory::class)->get('lib'),
 			\OC::$server->get(\OCP\Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
+			\OC::$server->get(ISecureRandom::class),
 			\OC::$server->get(\OC\Installer::class)
 		);
 
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
@@ -715,7 +725,7 @@ class OC_Util {
 		}
 
 		// Cache the result of this function
-		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
+		\OC::$server->get(Session::class)->getSession()->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}
@@ -727,7 +737,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
+		if (!\OC::$server->get(AllConfig::class)->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
 
@@ -737,7 +747,7 @@ class OC_Util {
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
-				$l = \OC::$server->getL10N('lib');
+				$l = \OC::$server->get(IFactory::class)->get('lib');
 				return [[
 					'error' => $l->t('Your data directory is readable by other users.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
@@ -755,7 +765,7 @@ class OC_Util {
 	 * @return array errors found
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [
@@ -781,19 +791,19 @@ class OC_Util {
 	 */
 	public static function checkLoggedIn() {
 		// Check if we are a user
-		if (!\OC::$server->getUserSession()->isLoggedIn()) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
+		if (!\OC::$server->get(IUserSession::class)->isLoggedIn()) {
+			header('Location: ' . \OC::$server->get(IURLGenerator::class)->linkToRoute(
 				'core.login.showLoginForm',
 				[
-					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
+					'redirect_url' => \OC::$server->get(IRequest::class)->getRequestUri(),
 				]
 			)
 			);
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
+		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->get(IUserSession::class)->getUser())) {
+			header('Location: ' . \OC::$server->get(IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
 	}
@@ -842,11 +852,11 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
+		$id = \OC::$server->get(SystemConfig::class)->getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . \OC::$server->getSecureRandom()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
+			$id = 'oc' . \OC::$server->get(ISecureRandom::class)->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
+			\OC::$server->get(SystemConfig::class)->setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -940,9 +950,9 @@ class OC_Util {
 		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		// accessing the file via http
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
+		$url = \OC::$server->get(IURLGenerator::class)->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
-			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+			$content = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$content = false;
 		}
@@ -954,7 +964,7 @@ class OC_Util {
 		}
 
 		try {
-			$fallbackContent = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+			$fallbackContent = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$fallbackContent = false;
 		}
@@ -1053,7 +1063,7 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = \OC::$server->getSystemConfig()->getValue("theme", '');
+		$theme = \OC::$server->get(SystemConfig::class)->getValue("theme", '');
 
 		if ($theme === '') {
 			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
@@ -1077,7 +1087,7 @@ class OC_Util {
 
 		$normalizedValue = Normalizer::normalize($value);
 		if ($normalizedValue === null || $normalizedValue === false) {
-			\OC::$server->getLogger()->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
+			\OC::$server->get(LoggerInterface::class)->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
 			return $value;
 		}
 

@@ -38,7 +38,11 @@
  *
  */
 use OC\TemplateLayout;
+use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -72,10 +76,10 @@ class OC_Template extends \OC\Template\Base {
 	public function __construct($app, $name, $renderAs = TemplateResponse::RENDER_AS_BLANK, $registerCall = true) {
 		$theme = OC_Util::getTheme();
 
-		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
+		$requestToken = (OC::$server->get(Session::class)->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
-		$l10n = \OC::$server->getL10N($parts[0]);
+		$l10n = \OC::$server->get(IFactory::class)->get($parts[0]);
 		/** @var \OCP\Defaults $themeDefaults */
 		$themeDefaults = \OCP\Server::get(\OCP\Defaults::class);
 
@@ -240,7 +244,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printErrorPage($error_msg, $hint = '', $statusCode = 500) {
-		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
+		if (\OC::$server->get(IAppManager::class)->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}
 
@@ -257,9 +261,11 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('errors', $errors);
 			$content->printPage();
 		} catch (\Exception $e) {
-			$logger = \OC::$server->getLogger();
-			$logger->error("$error_msg $hint", ['app' => 'core']);
-			$logger->logException($e, ['app' => 'core']);
+			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger->error("$error_msg $hint", [
+				'exception' => $e,
+				'app' => 'core'
+			]);
 
 			header('Content-Type: text/plain; charset=utf-8');
 			print("$error_msg $hint");
@@ -277,7 +283,7 @@ class OC_Template extends \OC\Template\Base {
 	public static function printExceptionErrorPage($exception, $statusCode = 503) {
 		http_response_code($statusCode);
 		try {
-			$request = \OC::$server->getRequest();
+			$request = \OC::$server->get(IRequest::class);
 			$content = new \OC_Template('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));
 			$content->assign('errorMsg', $exception->getMessage());
@@ -285,15 +291,21 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('file', $exception->getFile());
 			$content->assign('line', $exception->getLine());
 			$content->assign('exception', $exception);
-			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('debugMode', \OC::$server->get(\OC\SystemConfig::class)->getValue('debug', false));
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
 			$content->printPage();
 		} catch (\Exception $e) {
 			try {
-				$logger = \OC::$server->getLogger();
-				$logger->logException($exception, ['app' => 'core']);
-				$logger->logException($e, ['app' => 'core']);
+				$logger = \OC::$server->get(LoggerInterface::class);
+				$logger->error($exception->getMessage(), [
+					'exception' => $exception,
+					'app' => 'core'
+				]);
+				$logger->error($e->getMessage(), [
+					'exception' => $e,
+					'app' => 'core'
+				]);
 			} catch (Throwable $e) {
 				// no way to log it properly - but to avoid a white page of death we send some output
 				header('Content-Type: text/plain; charset=utf-8');

@@ -36,6 +36,8 @@ use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
+use OCP\L10N\IFactory;
+use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -77,11 +79,11 @@ class Install extends Command {
 		$setupHelper = new Setup(
 			$this->config,
 			$this->iniGetWrapper,
-			$server->getL10N('lib'),
-			$server->query(Defaults::class),
+			$server->get(IFactory::class)->get('lib'),
+			$server->get(Defaults::class),
 			$server->get(LoggerInterface::class),
-			$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
+			$server->get(ISecureRandom::class),
+			\OC::$server->get(Installer::class)
 		);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];

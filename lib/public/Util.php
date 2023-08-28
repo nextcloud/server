@@ -48,6 +48,11 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OC\Security\CSRF\CsrfTokenManager;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -88,7 +93,7 @@ class Util {
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
-		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+		return \OC::$server->get(\OC\AllConfig::class)->getSystemValueBool('extendedSupport', false);
 	}
 
 	/**
@@ -97,7 +102,7 @@ class Util {
 	 * @since 8.1.0
 	 */
 	public static function setChannel($channel) {
-		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
+		\OC::$server->get(\OC\AllConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
@@ -150,7 +155,7 @@ class Util {
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
 	public static function getL10N($application, $language = null) {
-		return \OC::$server->getL10N($application, $language);
+		return \OC::$server->get(IFactory::class)->get($application, $language);
 	}
 
 	/**
@@ -235,7 +240,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -268,7 +273,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
 		);
@@ -281,7 +286,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(
 			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
@@ -294,7 +299,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = \OC::$server->getRequest()->getServerHost();
+		$host_name = \OC::$server->get(IRequest::class)->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
 		if ($colon_pos != false) {
@@ -320,13 +325,13 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress(string $user_part): string {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(\OC\AllConfig::class);
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		$mailer = \OC::$server->getMailer();
+		$mailer = \OC::$server->get(IMailer::class);
 		if ($mailer->validateMailAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
@@ -416,7 +421,7 @@ class Util {
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
-			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
+			self::$token = \OC::$server->get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 		}
 		return self::$token;
 	}
@@ -563,7 +568,7 @@ class Util {
 	 */
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->getSystemConfig());
+			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
 	}

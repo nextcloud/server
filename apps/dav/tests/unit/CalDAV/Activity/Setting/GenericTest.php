@@ -43,7 +43,7 @@ class GenericTest extends TestCase {
 	 * @param string $settingClass
 	 */
 	public function testImplementsInterface($settingClass): void {
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertInstanceOf(ISetting::class, $setting);
 	}
 
@@ -53,7 +53,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetIdentifier($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertIsString($setting->getIdentifier());
 	}
 
@@ -63,7 +63,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetName($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertIsString($setting->getName());
 	}
 
@@ -73,7 +73,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testGetPriority($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$priority = $setting->getPriority();
 		$this->assertIsInt($setting->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
@@ -86,7 +86,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testCanChangeStream($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertIsBool($setting->canChangeStream());
 	}
 
@@ -96,7 +96,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testIsDefaultEnabledStream($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledStream());
 	}
 
@@ -106,7 +106,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testCanChangeMail($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertIsBool($setting->canChangeMail());
 	}
 
@@ -116,7 +116,7 @@ class GenericTest extends TestCase {
 	 */
 	public function testIsDefaultEnabledMail($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = \OC::$server->get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledMail());
 	}
 }

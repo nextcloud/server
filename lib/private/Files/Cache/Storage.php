@@ -31,6 +31,7 @@ namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -55,7 +56,7 @@ class Storage {
 	 */
 	public static function getGlobalCache() {
 		if (is_null(self::$globalCache)) {
-			self::$globalCache = new StorageGlobal(\OC::$server->getDatabaseConnection());
+			self::$globalCache = new StorageGlobal(\OC::$server->get(IDBConnection::class));
 		}
 		return self::$globalCache;
 	}
@@ -76,7 +77,7 @@ class Storage {
 		if ($row = self::getStorageById($this->storageId)) {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
-			$connection = \OC::$server->getDatabaseConnection();
+			$connection = \OC::$server->get(IDBConnection::class);
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
 				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
@@ -174,12 +175,12 @@ class Storage {
 			\OC::$server->get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
 		}
 
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$query->update('storages')
 			->set('available', $query->createNamedParameter($available))
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -201,16 +202,16 @@ class Storage {
 		$storageId = self::adjustStorageId($storageId);
 		$numericId = self::getNumericStorageId($storageId);
 
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
-		$query->execute();
+		$query->executeStatement();
 
 		if (!is_null($numericId)) {
-			$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$query = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 			$query->delete('filecache')
 				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -220,7 +221,7 @@ class Storage {
 	 * @param int $mountId
 	 */
 	public static function cleanByMountId(int $mountId) {
-		$db = \OC::$server->getDatabaseConnection();
+		$db = \OC::$server->get(IDBConnection::class);
 
 		try {
 			$db->beginTransaction();

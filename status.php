@@ -33,10 +33,12 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use Psr\Log\LoggerInterface;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
-	$systemConfig = \OC::$server->getSystemConfig();
+	$systemConfig = \OC::$server->get(\OC\SystemConfig::class);
 
 	$installed = (bool) $systemConfig->getValue('installed', false);
 	$maintenance = (bool) $systemConfig->getValue('maintenance', false);
@@ -62,5 +64,8 @@ try {
 	}
 } catch (Exception $ex) {
 	http_response_code(500);
-	\OC::$server->getLogger()->logException($ex, ['app' => 'remote']);
+	\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+		'exception' => $ex,
+		'app' => 'remote'
+	]);
 }

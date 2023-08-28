@@ -33,6 +33,7 @@ use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -513,7 +514,7 @@ class Jail extends Wrapper {
 		if (!$storage) {
 			$storage = $this;
 		}
-		$this->propagator = new JailPropagator($storage, \OC::$server->getDatabaseConnection());
+		$this->propagator = new JailPropagator($storage, \OC::$server->get(IDBConnection::class));
 		return $this->propagator;
 	}
 

@@ -57,6 +57,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Events\NodeRemovedFromCache;
+use OCP\Notification\IManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -81,7 +82,7 @@ class Application extends App {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $server->get(IEventDispatcher::class);
 
-		$notificationManager = $server->getNotificationManager();
+		$notificationManager = $server->get(IManager::class);
 		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 

@@ -23,9 +23,15 @@
  */
 namespace OC\Encryption;
 
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\Files\SetupManager;
+use OCP\Encryption\IFile;
+use OCP\Encryption\IManager;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class HookManager {
@@ -52,9 +58,9 @@ class HookManager {
 
 	private static function getUpdate(?string $owner = null): Update {
 		if (is_null(self::$updater)) {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			if (!$user && $owner) {
-				$user = \OC::$server->getUserManager()->get($owner);
+				$user = \OC::$server->get(IUserManager::class)->get($owner);
 			}
 			if (!$user) {
 				throw new \Exception("Inconsistent data, File unshared, but owner not found. Should not happen");
@@ -74,12 +80,12 @@ class HookManager {
 				new View(),
 				new Util(
 					new View(),
-					\OC::$server->getUserManager(),
-					\OC::$server->getGroupManager(),
-					\OC::$server->getConfig()),
+					\OC::$server->get(IUserManager::class),
+					\OC::$server->get(IGroupManager::class),
+					\OC::$server->get(AllConfig::class)),
 				Filesystem::getMountManager(),
-				\OC::$server->getEncryptionManager(),
-				\OC::$server->getEncryptionFilesHelper(),
+				\OC::$server->get(IManager::class),
+				\OC::$server->get(IFile::class),
 				\OC::$server->get(LoggerInterface::class),
 				$uid
 			);

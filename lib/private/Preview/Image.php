@@ -29,6 +29,7 @@
  */
 namespace OC\Preview;
 
+use OC\AllConfig;
 use OCP\Files\File;
 use OCP\IImage;
 
@@ -37,7 +38,7 @@ abstract class Image extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		$maxSizeForImages = \OC::$server->getConfig()->getSystemValueInt('preview_max_filesize_image', 50);
+		$maxSizeForImages = \OC::$server->get(AllConfig::class)->getSystemValueInt('preview_max_filesize_image', 50);
 		$size = $file->getSize();
 
 		if ($maxSizeForImages !== -1 && $size > ($maxSizeForImages * 1024 * 1024)) {

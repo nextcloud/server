@@ -35,6 +35,7 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
+use OC\AllConfig;
 use OC\App\InfoParser;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
@@ -116,7 +117,7 @@ class MigrationService {
 			return false;
 		}
 
-		if ($this->connection->tableExists('migrations') && \OC::$server->getConfig()->getAppValue('core', 'vendor', '') !== 'owncloud') {
+		if ($this->connection->tableExists('migrations') && \OC::$server->get(AllConfig::class)->getAppValue('core', 'vendor', '') !== 'owncloud') {
 			$this->migrationTableCreated = true;
 			return false;
 		}

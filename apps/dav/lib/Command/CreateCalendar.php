@@ -88,7 +88,7 @@ class CreateCalendar extends Command {
 			\OC::$server->getShareManager(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
-			\OC::$server->query(ProxyMapper::class),
+			\OC::$server->get(ProxyMapper::class),
 			\OC::$server->get(KnownUserService::class),
 			\OC::$server->getConfig(),
 			\OC::$server->getL10NFactory(),

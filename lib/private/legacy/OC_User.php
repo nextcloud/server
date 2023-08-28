@@ -36,12 +36,19 @@
  *
  */
 
+use OC\SystemConfig;
 use OC\User\LoginException;
+use OC\User\Session;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
+
 
 /**
  * This class provides wrapper methods for user management. Multiple backends are
@@ -81,7 +88,7 @@ class OC_User {
 	public static function useBackend($backend = 'database') {
 		if ($backend instanceof \OCP\UserInterface) {
 			self::$_usedBackends[get_class($backend)] = $backend;
-			\OC::$server->getUserManager()->registerBackend($backend);
+			\OC::$server->get(IUserManager::class)->registerBackend($backend);
 		} else {
 			// You'll never know what happens
 			if (null === $backend or !is_string($backend)) {
@@ -95,17 +102,17 @@ class OC_User {
 				case 'sqlite':
 					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', ILogger::DEBUG);
 					self::$_usedBackends[$backend] = new \OC\User\Database();
-					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
+					\OC::$server->get(IUserManager::class)->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				case 'dummy':
 					self::$_usedBackends[$backend] = new \Test\Util\User\Dummy();
-					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
+					\OC::$server->get(IUserManager::class)->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
 					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', ILogger::DEBUG);
 					$className = 'OC_USER_' . strtoupper($backend);
 					self::$_usedBackends[$backend] = new $className();
-					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
+					\OC::$server->get(IUserManager::class)->registerBackend(self::$_usedBackends[$backend]);
 					break;
 			}
 		}
@@ -117,7 +124,7 @@ class OC_User {
 	 */
 	public static function clearBackends() {
 		self::$_usedBackends = [];
-		\OC::$server->getUserManager()->clearBackends();
+		\OC::$server->get(IUserManager::class)->clearBackends();
 	}
 
 	/**
@@ -126,7 +133,7 @@ class OC_User {
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(['prelogin']);
-		$backends = \OC::$server->getSystemConfig()->getValue('user_backends', []);
+		$backends = \OC::$server->get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
 			self::clearBackends();
@@ -172,17 +179,17 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				$userSession = \OC::$server->getUserSession();
+				$userSession = \OC::$server->get(IUserSession::class);
 
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					$message = \OC::$server->get(IFactory::class)->get('lib')->t('User disabled');
 					throw new LoginException($message);
 				}
 				$userSession->setLoginName($uid);
-				$request = OC::$server->getRequest();
+				$request = OC::$server->get(IRequest::class);
 				$password = null;
 				if ($backend instanceof \OCP\Authentication\IProvideUserSecretBackend) {
 					$password = $backend->getCurrentUserSecret();
@@ -238,7 +245,7 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			\OC::$server->getUserSession()->unsetMagicInCookie();
+			\OC::$server->get(IUserSession::class)->unsetMagicInCookie();
 
 			return self::loginWithApache($backend);
 		}
@@ -253,12 +260,12 @@ class OC_User {
 	 * @param string $uid
 	 */
 	public static function setUserId($uid) {
-		$userSession = \OC::$server->getUserSession();
-		$userManager = \OC::$server->getUserManager();
+		$userSession = \OC::$server->get(IUserSession::class);
+		$userManager = \OC::$server->get(IUserManager::class);
 		if ($user = $userManager->get($uid)) {
 			$userSession->setUser($user);
 		} else {
-			\OC::$server->getSession()->set('user_id', $uid);
+			\OC::$server->get(Session::class)->getSession()->set('user_id', $uid);
 		}
 	}
 
@@ -302,7 +309,7 @@ class OC_User {
 			return $backend->getLogoutUrl();
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = \OC::$server->get(IUserSession::class)->getUser();
 		if ($user instanceof \OCP\IUser) {
 			$backend = $user->getBackend();
 			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
@@ -323,8 +330,8 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isAdminUser($uid) {
-		$group = \OC::$server->getGroupManager()->get('admin');
-		$user = \OC::$server->getUserManager()->get($uid);
+		$group = \OC::$server->get(IGroupManager::class)->get('admin');
+		$user = \OC::$server->get(IUserManager::class)->get($uid);
 		if ($group && $user && $group->inGroup($user) && self::$incognitoMode === false) {
 			return true;
 		}
@@ -338,7 +345,7 @@ class OC_User {
 	 * @return string|false uid or false
 	 */
 	public static function getUser() {
-		$uid = \OC::$server->getSession() ? \OC::$server->getSession()->get('user_id') : null;
+		$uid = \OC::$server->get(Session::class)->getSession() ? \OC::$server->get(Session::class)->getSession()->get('user_id') : null;
 		if (!is_null($uid) && self::$incognitoMode === false) {
 			return $uid;
 		} else {
@@ -357,7 +364,7 @@ class OC_User {
 	 * Change the password of a user
 	 */
 	public static function setPassword($uid, $password, $recoveryPassword = null) {
-		$user = \OC::$server->getUserManager()->get($uid);
+		$user = \OC::$server->get(IUserManager::class)->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
 		} else {
@@ -373,11 +380,11 @@ class OC_User {
 	 * @deprecated Use \OC::$server->getUserManager->getHome()
 	 */
 	public static function getHome($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
+		$user = \OC::$server->get(IUserManager::class)->get($uid);
 		if ($user) {
 			return $user->getHome();
 		} else {
-			return \OC::$server->getSystemConfig()->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->get(SystemConfig::class)->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 	}
 
@@ -394,7 +401,7 @@ class OC_User {
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = [];
-		$users = \OC::$server->getUserManager()->searchDisplayName($search, $limit, $offset);
+		$users = \OC::$server->get(IUserManager::class)->searchDisplayName($search, $limit, $offset);
 		foreach ($users as $user) {
 			$displayNames[$user->getUID()] = $user->getDisplayName();
 		}

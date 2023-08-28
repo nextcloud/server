@@ -29,7 +29,10 @@ use OCP\IRequest;
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-class OC_EventSource implements \OCP\IEventSource {
+
+ use OCP\IEventSource;
+
+class OC_EventSource implements IEventSource {
 	/**
 	 * @var bool
 	 */

@@ -122,7 +122,7 @@ class ViewController extends Controller {
 	 */
 	protected function renderScript($appName, $scriptName) {
 		$content = '';
-		$appPath = \OC_App::getAppPath($appName);
+		$appPath = \OC::$server->get(IAppManager::class)->getAppPath($appName);
 		$scriptPath = $appPath . '/' . $scriptName;
 		if (file_exists($scriptPath)) {
 			// TODO: sanitize path / script name ?

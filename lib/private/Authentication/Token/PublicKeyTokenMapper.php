@@ -51,7 +51,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
-			->execute();
+			->executeQuery();
 	}
 
 	/**
@@ -66,7 +66,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
-			->execute();
+			->executeQuery();
 	}
 
 	/**
@@ -81,7 +81,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->from($this->tableName)
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
-			->execute();
+			->executeQuery();
 
 		$data = $result->fetch();
 		$result->closeCursor();
@@ -103,7 +103,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
-			->execute();
+			->executeQuery();
 
 		$data = $result->fetch();
 		$result->closeCursor();
@@ -130,7 +130,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$data = $result->fetchAll();
 		$result->closeCursor();
 
@@ -148,7 +148,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
-		$qb->execute();
+		$qb->executeQuery();
 	}
 
 	/**
@@ -161,7 +161,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
-		$qb->execute();
+		$qb->executeQuery();
 	}
 
 	public function deleteTempToken(PublicKeyToken $except) {
@@ -173,7 +173,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 
-		$qb->execute();
+		$qb->executeQuery();
 	}
 
 	public function hasExpiredTokens(string $uid): bool {
@@ -184,7 +184,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('password_invalid', $qb->createNamedParameter(true), IQueryBuilder::PARAM_BOOL))
 			->setMaxResults(1);
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetchAll();
 		$cursor->closeCursor();
 

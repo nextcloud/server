@@ -56,7 +56,7 @@ class PostgreSQL extends AbstractDatabase {
 					->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
 
 				try {
-					$result = $query->execute();
+					$result = $query->executeQuery();
 					$canCreateRoles = $result->rowCount() > 0;
 				} catch (DatabaseException $e) {
 					$canCreateRoles = false;
@@ -69,7 +69,7 @@ class PostgreSQL extends AbstractDatabase {
 					//add prefix to the postgresql user name to prevent collisions
 					$this->dbUser = 'oc_' . strtolower($username);
 					//create a new password so we don't need to store the admin config in the config file
-					$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+					$this->dbPassword = \OC::$server->get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 					$this->createDBUser($connection);
 
@@ -124,7 +124,7 @@ class PostgreSQL extends AbstractDatabase {
 			//The database does not exists... let's create it
 			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER \"" . addslashes($this->dbUser) . '"');
 			try {
-				$query->execute();
+				$query->executeStatement();
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to create database', [
 					'exception' => $e,
@@ -133,7 +133,7 @@ class PostgreSQL extends AbstractDatabase {
 		} else {
 			$query = $connection->prepare("REVOKE ALL PRIVILEGES ON DATABASE " . addslashes($this->dbName) . " FROM PUBLIC");
 			try {
-				$query->execute();
+				$query->executeStatement();
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to restrict database permissions', [
 					'exception' => $e,
@@ -148,7 +148,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('*')
 			->from('pg_roles')
 			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
@@ -158,7 +158,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('datname')
 			->from('pg_database')
 			->where($builder->expr()->eq('datname', $builder->createNamedParameter($this->dbName)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
@@ -173,10 +173,10 @@ class PostgreSQL extends AbstractDatabase {
 
 			// create the user
 			$query = $connection->prepare("CREATE USER \"" . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
-			$query->execute();
+			$query->executeStatement();
 			if ($this->databaseExists($connection)) {
 				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($this->dbUser) . '"');
-				$query->execute();
+				$query->executeStatement();
 			}
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user', [

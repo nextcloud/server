@@ -30,7 +30,7 @@ declare(strict_types=1);
 	<?php foreach ($_['providers'] as $provider): ?>
 		<li>
 			<a class="two-factor-provider"
-			   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.setupProvider',
+			   href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.setupProvider',
 			   	[
 			   		'providerId' => $provider->getId(),
 			   	]

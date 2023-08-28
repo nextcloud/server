@@ -37,7 +37,9 @@ namespace OCP\AppFramework;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Router;
 use OC\ServerContainer;
-use OCP\Route\IRouter;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class App
@@ -47,7 +49,7 @@ use OCP\Route\IRouter;
  * @since 6.0.0
  */
 class App {
-	/** @var IAppContainer */
+	/** @var ContainerInterface */
 	private $container;
 
 	/**
@@ -71,7 +73,7 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
-		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
+		$runIsSetupDirectly = \OC::$server->get(\OC\AllConfig::class)->getSystemValueBool('debug')
 			&& (PHP_VERSION_ID < 70400 || (PHP_VERSION_ID >= 70400 && !ini_get('zend.exception_ignore_args')));
 
 		if ($runIsSetupDirectly) {
@@ -98,7 +100,8 @@ class App {
 			}
 
 			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				\OC::$server->getLogger()->logException($e, [
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => $appName,
 				]);
 			}
@@ -106,16 +109,16 @@ class App {
 
 		try {
 			$this->container = \OC::$server->getRegisteredAppContainer($appName);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
 		}
 	}
 
 	/**
-	 * @return IAppContainer
+	 * @return ContainerInterface
 	 * @since 6.0.0
 	 */
-	public function getContainer(): IAppContainer {
+	public function getContainer(): ContainerInterface {
 		return $this->container;
 	}
 
@@ -133,13 +136,13 @@ class App {
 	 * $a = new TasksApp();
 	 * $a->registerRoutes($this, $routes);
 	 *
-	 * @param \OCP\Route\IRouter $router
+	 * @param \OC\Route\Router $router
 	 * @param array $routes
 	 * @since 6.0.0
 	 * @suppress PhanAccessMethodInternal
 	 * @deprecated 20.0.0 Just return an array from your routes.php
 	 */
-	public function registerRoutes(IRouter $router, array $routes) {
+	public function registerRoutes(Router $router, array $routes) {
 		if (!($router instanceof Router)) {
 			throw new \RuntimeException('Can only setup routes with real router');
 		}
@@ -166,7 +169,7 @@ class App {
 	 *		public function __construct($params){
 	 *			parent::__construct('tasks', $params);
 	 *
-	 *			$this->getContainer()->registerService('PageController', function(IAppContainer $c){
+	 *			$this->getContainer()->registerService('PageController', function(ContainerInterface $c){
 	 *				$a = $c->query('API');
 	 *				$r = $c->query('Request');
 	 *				return new PageController($a, $r);

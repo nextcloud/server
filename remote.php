@@ -33,7 +33,10 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\AllConfig;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCP\App\IAppManager;
+use OCP\IRequest;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Psr\Log\LoggerInterface;
@@ -51,7 +54,7 @@ class RemoteException extends Exception {
  */
 function handleException($e) {
 	try {
-		$request = \OC::$server->getRequest();
+		$request = \OC::$server->get(IRequest::class);
 		// in case the request content type is text/xml - we assume it's a WebDAV request
 		$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
 		if ($isXmlContentType === 0) {
@@ -112,7 +115,7 @@ function resolveService($service) {
 		return $services[$service];
 	}
 
-	return \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+	return \OC::$server->get(AllConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
 try {
@@ -129,7 +132,7 @@ try {
 		throw new RemoteException('Service unavailable', 503);
 	}
 
-	$request = \OC::$server->getRequest();
+	$request = \OC::$server->get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
 		throw new RemoteException('Path not found', 404);
@@ -161,7 +164,7 @@ try {
 			$file = OC::$SERVERROOT .'/'. $file;
 			break;
 		default:
-			if (!\OC::$server->getAppManager()->isInstalled($app)) {
+			if (!\OC::$server->get(IAppManager::class)->isInstalled($app)) {
 				throw new RemoteException('App not installed: ' . $app);
 			}
 			OC_App::loadApp($app);

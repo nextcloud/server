@@ -19,7 +19,7 @@ $noProviders = empty($_['providers']);
 				<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance.')) ?></strong>
 			<?php } else { ?>
 				<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Please continue to setup two-factor authentication.')) ?></strong>
-				<a class="button primary two-factor-primary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.setupProviders',
+				<a class="button primary two-factor-primary" href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.setupProviders',
 					[
 						'redirect_url' => $_['redirect_url'],
 					]
@@ -36,7 +36,7 @@ $noProviders = empty($_['providers']);
 	<?php foreach ($_['providers'] as $provider): ?>
 		<li>
 			<a class="two-factor-provider"
-			   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+			   href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
 			   	[
 			   		'challengeProviderId' => $provider->getId(),
 			   		'redirect_url' => $_['redirect_url'],
@@ -61,7 +61,7 @@ $noProviders = empty($_['providers']);
 	<?php endif ?>
 	<?php if (!is_null($_['backupProvider'])): ?>
 	<p>
-		<a class="<?php if ($noProviders): ?>button primary two-factor-primary<?php else: ?>two-factor-secondary<?php endif ?>" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+		<a class="<?php if ($noProviders): ?>button primary two-factor-primary<?php else: ?>two-factor-secondary<?php endif ?>" href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $_['backupProvider']->getId(),
 				'redirect_url' => $_['redirect_url'],

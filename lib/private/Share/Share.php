@@ -35,10 +35,16 @@
 
 namespace OC\Share;
 
+use OC\AllConfig;
 use OCA\Files_Sharing\ShareBackend\File;
+use OCP\Contacts\IManager;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
@@ -76,7 +82,7 @@ class Share extends Constants {
 	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
+		if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			if (!isset(self::$backendTypes[$itemType])) {
 				self::$backendTypes[$itemType] = [
 					'class' => $class,
@@ -195,10 +201,10 @@ class Share extends Constants {
 
 		// if we didn't found a result then let's look for a group share.
 		if (empty($shares) && $user !== null) {
-			$userObject = \OC::$server->getUserManager()->get($user);
+			$userObject = \OC::$server->get(IUserManager::class)->get($user);
 			$groups = [];
 			if ($userObject) {
-				$groups = \OC::$server->getGroupManager()->getUserGroupIds($userObject);
+				$groups = \OC::$server->get(IGroupManager::class)->getUserGroupIds($userObject);
 			}
 
 			if (!empty($groups)) {
@@ -256,7 +262,7 @@ class Share extends Constants {
 	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 		$logger = \OC::$server->get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
@@ -293,7 +299,7 @@ class Share extends Constants {
 	 */
 	public static function isResharingAllowed() {
 		if (!isset(self::$isResharingAllowed)) {
-			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+			if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
 				self::$isResharingAllowed = true;
 			} else {
 				self::$isResharingAllowed = false;
@@ -351,7 +357,7 @@ class Share extends Constants {
 	public static function getItems($itemType, ?string $item = null, ?int $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
 									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
+		if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return [];
 		}
 		$fileDependent = $itemType == 'file' || $itemType == 'folder';
@@ -392,7 +398,7 @@ class Share extends Constants {
 				$qb->where($qb->expr()->eq('item_type', $qb->createNamedParameter($itemType)));
 			}
 		}
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			$qb->andWhere($qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK, IQueryBuilder::PARAM_INT)));
 		}
 		if (isset($shareType)) {
@@ -403,10 +409,10 @@ class Share extends Constants {
 					$qb->expr()->eq('share_with', $qb->createNamedParameter($shareWith))
 				));
 
-				$user = \OC::$server->getUserManager()->get($shareWith);
+				$user = \OC::$server->get(IUserManager::class)->get($shareWith);
 				$groups = [];
 				if ($user) {
-					$groups = \OC::$server->getGroupManager()->getUserGroupIds($user);
+					$groups = \OC::$server->get(IGroupManager::class)->getUserGroupIds($user);
 				}
 				if (!empty($groups)) {
 					$qb->orWhere($qb->expr()->andX(
@@ -542,7 +548,7 @@ class Share extends Constants {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+					$query = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 					$query->select('file_target')
 						->from('share')
 						->where($query->expr()->eq('id', $query->createNamedParameter($row['parent'])));
@@ -592,11 +598,11 @@ class Share extends Constants {
 			$row['share_with_displayname'] = $row['share_with'];
 			if (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === IShare::TYPE_USER) {
-				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
+				$shareWithUser = \OC::$server->get(IUserManager::class)->get($row['share_with']);
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
 			} elseif (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === IShare::TYPE_REMOTE) {
-				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD'], [
+				$addressBookEntries = \OC::$server->get(IManager::class)->search($row['share_with'], ['CLOUD'], [
 					'limit' => 1,
 					'enumeration' => false,
 					'fullmatch' => false,
@@ -611,7 +617,7 @@ class Share extends Constants {
 				}
 			}
 			if (isset($row['uid_owner']) && $row['uid_owner'] != '') {
-				$ownerUser = \OC::$server->getUserManager()->get($row['uid_owner']);
+				$ownerUser = \OC::$server->get(IUserManager::class)->get($row['uid_owner']);
 				$row['displayname_owner'] = $ownerUser === null ? $row['uid_owner'] : $ownerUser->getDisplayName();
 			}
 
@@ -918,7 +924,7 @@ class Share extends Constants {
 			$statuses = [];
 			foreach ($items as $item) {
 				if ($item['share_type'] === IShare::TYPE_LINK) {
-					if ($item['uid_initiator'] !== \OC::$server->getUserSession()->getUser()->getUID()) {
+					if ($item['uid_initiator'] !== \OC::$server->get(IUserSession::class)->getUser()->getUID()) {
 						continue;
 					}
 					$statuses[$item[$column]]['link'] = true;
@@ -956,7 +962,7 @@ class Share extends Constants {
 	 * @return int
 	 */
 	public static function getExpireInterval() {
-		return (int)\OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int)\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 
 	/**
