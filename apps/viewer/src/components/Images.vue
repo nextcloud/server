@@ -97,10 +97,10 @@ export default {
 				return {}
 			}
 			return {
-				marginTop: Math.round(shiftY * 2) + 'px',
-				marginLeft: Math.round(shiftX * 2) + 'px',
-				height: zoomHeight + 'px',
-				width: zoomWidth + 'px',
+				marginTop: Math.round(this.shiftY * 2) + 'px',
+				marginLeft: Math.round(this.shiftX * 2) + 'px',
+				height: this.zoomHeight + 'px',
+				width: this.zoomWidth + 'px',
 			}
 		},
 	},
