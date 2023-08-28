@@ -2106,7 +2106,7 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return Throttler
+	 * @return IThrottler
 	 * @deprecated 20.0.0
 	 */
 	public function getBruteForceThrottler() {
