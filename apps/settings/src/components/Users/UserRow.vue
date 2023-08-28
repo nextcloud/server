@@ -39,24 +39,19 @@
 		<td class="row__cell row__cell--displayname"
 			:data-test="user.id">
 			<template v-if="idState.editing && user.backendCapabilities.setDisplayName">
-				<label class="hidden-visually"
-					:for="'displayName' + uniqueId">
-					{{ t('settings', 'Edit display name') }}
-				</label>
-				<NcTextField :id="'displayName' + uniqueId"
-					ref="displayNameField"
+				<NcTextField ref="displayNameField"
 					data-test="displayNameField"
-					:show-trailing-button="true"
 					class="user-row-text-field"
 					:class="{ 'icon-loading-small': idState.loading.displayName }"
+					:show-trailing-button="true"
 					:disabled="idState.loading.displayName || isLoadingField"
+					:label="t('settings', 'Change display name')"
 					trailing-button-icon="arrowRight"
 					:value.sync="idState.editedDisplayName"
 					autocapitalize="off"
 					autocomplete="off"
 					autocorrect="off"
 					spellcheck="false"
-					type="text"
 					@trailing-button-click="updateDisplayName" />
 			</template>
 			<template v-else>
@@ -71,18 +66,13 @@
 		<td class="row__cell"
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
 			<template v-if="idState.editing && settings.canChangePassword && user.backendCapabilities.setPassword">
-				<label class="hidden-visually"
-					:for="'password' + uniqueId">
-					{{ t('settings', 'Add new password') }}
-				</label>
-				<NcTextField :id="'password' + uniqueId"
-					:show-trailing-button="true"
-					class="user-row-text-field"
+				<NcTextField class="user-row-text-field"
 					:class="{'icon-loading-small': idState.loading.password}"
+					:show-trailing-button="true"
 					:disabled="idState.loading.password || isLoadingField"
 					:minlength="minPasswordLength"
 					maxlength="469"
-					:placeholder="t('settings', 'Add new password')"
+					:label="t('settings', 'Add new password')"
 					trailing-button-icon="arrowRight"
 					:value.sync="idState.editedPassword"
 					autocapitalize="off"
@@ -100,16 +90,11 @@
 
 		<td class="row__cell">
 			<template v-if="idState.editing">
-				<label class="hidden-visually"
-					:for="'mailAddress' + uniqueId">
-					{{ t('settings', 'Add new email address') }}
-				</label>
-				<NcTextField :id="'mailAddress' + uniqueId"
-					:show-trailing-button="true"
-					class="user-row-text-field"
+				<NcTextField class="user-row-text-field"
 					:class="{'icon-loading-small': idState.loading.mailAddress}"
+					:show-trailing-button="true"
 					:disabled="idState.loading.mailAddress || isLoadingField"
-					:placeholder="t('settings', 'Add new email address')"
+					:label="t('settings', 'Add new email address')"
 					trailing-button-icon="arrowRight"
 					:value.sync="idState.editedMail"
 					autocapitalize="off"
@@ -925,6 +910,12 @@ export default {
 			.input-field__main-wrapper,
 			.input-field__input {
 				height: 48px !important;
+			}
+
+			.input-field__input {
+				&:placeholder-shown:not(:focus) + .input-field__label {
+					inset-block-start: 16px !important;
+				}
 			}
 
 			.button-vue--icon-only {
