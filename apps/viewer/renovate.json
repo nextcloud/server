@@ -32,18 +32,16 @@
   "packageRules": [
     {
       "groupName": "cypress",
-      "matchPackageNames": [
-        "@cypress/",
-        "@nextcloud/cypress",
-        "cypress-visual-regression",
+      "matchPackagePatterns": [
+        "^@cypress/",
         "cypress",
         "eslint-plugin-cypress"
       ]
     },
     {
       "groupName": "nextcloud",
-      "matchPackageNames": [
-        "@nextcloud/"
+      "matchPackagePatterns": [
+        "^@nextcloud/"
       ]
     },
     {
@@ -56,8 +54,6 @@
     {
       "groupName": "typescript",
       "matchPackageNames": [
-        "@vue/tsconfig",
-        "ts-node",
         "tslib",
         "typescript"
       ]
