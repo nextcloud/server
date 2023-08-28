@@ -211,7 +211,6 @@ class UsersController extends AUserData {
 			$users = array_merge(...$users);
 		}
 
-		/** @var array<string, ProvisioningApiUserDetails|array{id: string}> $usersDetails */
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
@@ -277,7 +276,6 @@ class UsersController extends AUserData {
 			$users = array_slice($users, $offset);
 		}
 
-		/** @var array<string, ProvisioningApiUserDetails|array{id: string}> $usersDetails */
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userData = $this->getUserData($userId);
