@@ -30,6 +30,8 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
+use OCP\IRequest;
+
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
@@ -58,14 +60,14 @@ try {
 	OC_App::loadApps();
 
 	if (!\OC::$server->getUserSession()->isLoggedIn()) {
-		OC::handleLogin(\OC::$server->getRequest());
+		OC::handleLogin(\OC::$server->get(IRequest::class));
 	}
 
-	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
+	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->get(IRequest::class)->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
 
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	$format = \OC::$server->get(IRequest::class)->getParam('format', 'xml');
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
@@ -80,7 +82,7 @@ try {
 	\OC::$server->getLogger()->logException($e);
 	OC_API::setContentType();
 
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	$format = \OC::$server->get(IRequest::class)->getParam('format', 'xml');
 	$txt = 'Internal Server Error'."\n";
 	try {
 		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {

@@ -39,6 +39,7 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IRequest;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -277,7 +278,7 @@ class OC_Template extends \OC\Template\Base {
 	public static function printExceptionErrorPage($exception, $statusCode = 503) {
 		http_response_code($statusCode);
 		try {
-			$request = \OC::$server->getRequest();
+			$request = \OC::$server->get(IRequest::class);
 			$content = new \OC_Template('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));
 			$content->assign('errorMsg', $exception->getMessage());

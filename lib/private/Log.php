@@ -40,6 +40,7 @@ use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
@@ -263,7 +264,7 @@ class Log implements ILogger, IDataLogger {
 			if (!empty($logCondition)) {
 				// check for secret token in the request
 				if (isset($logCondition['shared_secret'])) {
-					$request = \OC::$server->getRequest();
+					$request = \OC::$server->get(IRequest::class);
 
 					if ($request->getMethod() === 'PUT' &&
 						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&

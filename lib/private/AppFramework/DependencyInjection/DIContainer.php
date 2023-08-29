@@ -179,7 +179,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService('Protocol', function (ContainerInterface $c) {
 			/** @var \OC\Server $server */
 			$server = $c->get(IServerContainer::class);
-			$protocol = $server->getRequest()->getHttpProtocol();
+			$protocol = $server->get(IRequest::class)->getHttpProtocol();
 			return new Http($_SERVER, $protocol);
 		});
 

@@ -39,6 +39,7 @@
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -182,7 +183,7 @@ class OC_User {
 					throw new LoginException($message);
 				}
 				$userSession->setLoginName($uid);
-				$request = OC::$server->getRequest();
+				$request = OC::$server->get(IRequest::class);
 				$password = null;
 				if ($backend instanceof \OCP\Authentication\IProvideUserSecretBackend) {
 					$password = $backend->getCurrentUserSecret();

@@ -47,6 +47,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IRequest;
 
 /**
  * Class for file server access
@@ -174,7 +175,7 @@ class OC_Files {
 				throw new \OC\ForbiddenException($event->getErrorMessage());
 			}
 
-			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);
+			$streamer = new Streamer(\OC::$server->get(IRequest::class), $fileSize, $numberOfFiles);
 			OC_Util::obEnd();
 
 			$streamer->sendHeaders($name);

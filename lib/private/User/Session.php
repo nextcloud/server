@@ -954,7 +954,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 */
 	public function setMagicInCookie($username, $token) {
-		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = OC::$server->get(IRequest::class)->getServerProtocol() === 'https';
 		$webRoot = \OC::$WEBROOT;
 		if ($webRoot === '') {
 			$webRoot = '/';
@@ -1002,7 +1002,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function unsetMagicInCookie() {
 		//TODO: DI for cookies and IRequest
-		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = OC::$server->get(IRequest::class)->getServerProtocol() === 'https';
 
 		unset($_COOKIE['nc_username']); //TODO: DI
 		unset($_COOKIE['nc_token']);

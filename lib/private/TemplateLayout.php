@@ -52,6 +52,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
@@ -251,7 +252,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		try {
-			$pathInfo = \OC::$server->getRequest()->getPathInfo();
+			$pathInfo = \OC::$server->get(IRequest::class)->getPathInfo();
 		} catch (\Exception $e) {
 			$pathInfo = '';
 		}

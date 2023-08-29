@@ -627,7 +627,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
 				$c->get(\OCP\IConfig::class),
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(ICacheFactory::class),
 				\OC::$SERVERROOT
@@ -707,7 +707,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
 			$l10n = $this->get(IFactory::class)->get('lib');
 			return new \OC\Activity\Manager(
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
@@ -1161,7 +1161,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->get(IRequest::class)->getInsecureServerHost())) {
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
 					$c->getAppDataDir('theming'),

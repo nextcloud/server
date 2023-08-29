@@ -32,6 +32,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OCP\IRequest;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
@@ -42,7 +44,7 @@ try {
 	}
 
 	OC::checkMaintenanceMode(\OC::$server->get(\OC\SystemConfig::class));
-	$request = \OC::$server->getRequest();
+	$request = \OC::$server->get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 
 	if (!$pathInfo && $request->getParam('service', '') === '') {

@@ -21,13 +21,15 @@
 
 require_once __DIR__ . '/../lib/base.php';
 
+use OCP\IRequest;
+
 header('Content-Type: application/json');
 
 $server = \OC::$server;
 
 $controller = new \OC\OCS\Provider(
 	'ocs_provider',
-	$server->getRequest(),
+	$server->get(IRequest::class),
 	$server->getAppManager()
 );
 echo $controller->buildProviderList()->render();

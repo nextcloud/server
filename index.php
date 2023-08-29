@@ -29,6 +29,8 @@
  *
  */
 require_once __DIR__ . '/lib/versioncheck.php';
+
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 try {
@@ -64,7 +66,7 @@ try {
 		OC_Template::printExceptionErrorPage($ex, 500);
 	}
 } catch (\OC\User\LoginException $ex) {
-	$request = \OC::$server->getRequest();
+	$request = \OC::$server->get(IRequest::class);
 	/**
 	 * Routes with the @CORS annotation and other API endpoints should
 	 * not return a webpage, so we only print the error page when html is accepted,

@@ -34,6 +34,7 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCP\IRequest;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Psr\Log\LoggerInterface;
@@ -51,7 +52,7 @@ class RemoteException extends Exception {
  */
 function handleException($e) {
 	try {
-		$request = \OC::$server->getRequest();
+		$request = \OC::$server->get(IRequest::class);
 		// in case the request content type is text/xml - we assume it's a WebDAV request
 		$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
 		if ($isXmlContentType === 0) {
@@ -129,7 +130,7 @@ try {
 		throw new RemoteException('Service unavailable', 503);
 	}
 
-	$request = \OC::$server->getRequest();
+	$request = \OC::$server->get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
 		throw new RemoteException('Path not found', 404);

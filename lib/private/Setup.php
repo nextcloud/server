@@ -60,6 +60,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -313,7 +314,7 @@ class Setup {
 			return $error;
 		}
 
-		$request = \OC::$server->getRequest();
+		$request = \OC::$server->get(IRequest::class);
 
 		//no errors, good
 		if (isset($options['trusted_domains'])

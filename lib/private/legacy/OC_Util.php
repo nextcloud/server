@@ -69,6 +69,7 @@ use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Share\IManager;
@@ -785,7 +786,7 @@ class OC_Util {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
 				'core.login.showLoginForm',
 				[
-					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
+					'redirect_url' => \OC::$server->get(IRequest::class)->getRequestUri(),
 				]
 			)
 			);

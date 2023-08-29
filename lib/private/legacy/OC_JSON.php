@@ -27,6 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IRequest;
+
 class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -64,12 +67,12 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function callCheck() {
-		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		if (!\OC::$server->get(IRequest::class)->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
 
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
+		if (!\OC::$server->get(IRequest::class)->passesCSRFCheck()) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' ]]);
 			exit();
