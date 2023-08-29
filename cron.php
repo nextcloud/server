@@ -39,6 +39,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\User\Session;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -54,7 +56,7 @@ try {
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
-	\OC::$server->getSession()->close();
+	\OC::$server->get(Session::class)->getSession()->close();
 
 	// initialize a dummy memory session
 	$session = new \OC\Session\Memory('');

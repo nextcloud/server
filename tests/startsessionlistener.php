@@ -7,6 +7,7 @@
  */
 
 use OC\Session\Memory;
+use OC\User\Session;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
@@ -19,9 +20,9 @@ class StartSessionListener implements TestListener {
 
 	public function endTest(Test $test, float $time): void {
 		// reopen the session - only allowed for memory session
-		if (\OC::$server->getSession() instanceof Memory) {
+		if (\OC::$server->get(Session::class)->getSession() instanceof Memory) {
 			/** @var $session Memory */
-			$session = \OC::$server->getSession();
+			$session = \OC::$server->get(Session::class)->getSession();
 			$session->reopen();
 		}
 	}

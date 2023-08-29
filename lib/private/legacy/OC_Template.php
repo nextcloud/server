@@ -38,6 +38,7 @@
  *
  */
 use OC\TemplateLayout;
+use OC\User\Session;
 use OCP\AppFramework\Http\TemplateResponse;
 
 require_once __DIR__.'/template/functions.php';
@@ -72,7 +73,7 @@ class OC_Template extends \OC\Template\Base {
 	public function __construct($app, $name, $renderAs = TemplateResponse::RENDER_AS_BLANK, $registerCall = true) {
 		$theme = OC_Util::getTheme();
 
-		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
+		$requestToken = (OC::$server->get(Session::class)->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = \OC::$server->getL10N($parts[0]);

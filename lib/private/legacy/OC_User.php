@@ -37,6 +37,7 @@
  */
 
 use OC\User\LoginException;
+use OC\User\Session;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
@@ -258,7 +259,7 @@ class OC_User {
 		if ($user = $userManager->get($uid)) {
 			$userSession->setUser($user);
 		} else {
-			\OC::$server->getSession()->set('user_id', $uid);
+			\OC::$server->get(Session::class)->getSession()->set('user_id', $uid);
 		}
 	}
 
@@ -338,7 +339,7 @@ class OC_User {
 	 * @return string|false uid or false
 	 */
 	public static function getUser() {
-		$uid = \OC::$server->getSession() ? \OC::$server->getSession()->get('user_id') : null;
+		$uid = \OC::$server->get(Session::class)->getSession() ? \OC::$server->get(Session::class)->getSession()->get('user_id') : null;
 		if (!is_null($uid) && self::$incognitoMode === false) {
 			return $uid;
 		} else {

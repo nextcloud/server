@@ -66,6 +66,7 @@
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\SetupManager;
+use OC\User\Session;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -507,7 +508,7 @@ class OC_Util {
 		}
 
 		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (\OC::$server->getSession()->exists('checkServer_succeeded') && \OC::$server->getSession()->get('checkServer_succeeded')) {
+		if (\OC::$server->get(Session::class)->getSession()->exists('checkServer_succeeded') && \OC::$server->get(Session::class)->getSession()->get('checkServer_succeeded')) {
 			return $errors;
 		}
 
@@ -715,7 +716,7 @@ class OC_Util {
 		}
 
 		// Cache the result of this function
-		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
+		\OC::$server->get(Session::class)->getSession()->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}

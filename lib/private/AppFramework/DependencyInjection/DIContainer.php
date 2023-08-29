@@ -50,6 +50,7 @@ use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Session;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
@@ -400,7 +401,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	private function getUserId() {
-		return $this->getServer()->getSession()->get('user_id');
+		return $this->getServer()->get(Session::class)->getSession()->get('user_id');
 	}
 
 	/**

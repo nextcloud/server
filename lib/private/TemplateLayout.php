@@ -47,6 +47,7 @@ use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OC\User\Session;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -228,7 +229,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->getL10N('lib'),
 				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),
-				\OC::$server->getSession(),
+				\OC::$server->get(Session::class)->getSession(),
 				\OC::$server->getUserSession()->getUser(),
 				$this->config,
 				\OC::$server->getGroupManager(),

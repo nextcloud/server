@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\User\Session;
 use OC_Util;
 
 /**
@@ -186,18 +187,18 @@ class UtilTest extends \Test\TestCase {
 	public function testNeedUpgradeCore() {
 		$config = \OC::$server->getConfig();
 		$oldConfigVersion = $config->getSystemValue('version', '0.0.0');
-		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
+		$oldSessionVersion = \OC::$server->get(Session::class)->getSession()->get('OC_Version');
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
 
 		$config->setSystemValue('version', '7.0.0.0');
-		\OC::$server->getSession()->set('OC_Version', [7, 0, 0, 1]);
+		\OC::$server->get(Session::class)->getSession()->set('OC_Version', [7, 0, 0, 1]);
 		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
 
 		$this->assertTrue(\OCP\Util::needUpgrade());
 
 		$config->setSystemValue('version', $oldConfigVersion);
-		\OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
+		\OC::$server->get(Session::class)->getSession()->set('OC_Version', $oldSessionVersion);
 		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
 
 		$this->assertFalse(\OCP\Util::needUpgrade());

@@ -8,6 +8,8 @@
 
 namespace Test;
 
+use OC\User\Session;
+
 /**
  * Tests for server check functions
  *
@@ -41,7 +43,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		$this->datadir = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		file_put_contents($this->datadir . '/.ocdata', '');
-		\OC::$server->getSession()->set('checkServer_succeeded', false);
+		\OC::$server->get(Session::class)->getSession()->set('checkServer_succeeded', false);
 	}
 
 	protected function tearDown(): void {
@@ -86,7 +88,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		// simulate old version that didn't have it
 		unlink($this->datadir . '/.ocdata');
 
-		$session = \OC::$server->getSession();
+		$session = \OC::$server->get(Session::class)->getSession();
 		$oldCurrentVersion = $session->get('OC_Version');
 
 		// upgrade condition to simulate needUpgrade() === true
