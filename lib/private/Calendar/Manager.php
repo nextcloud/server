@@ -45,7 +45,6 @@ use function array_map;
 use function array_merge;
 
 class Manager implements IManager {
-
 	/**
 	 * @var ICalendar[] holds all registered calendars
 	 */
@@ -239,11 +238,25 @@ class Manager implements IManager {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function handleIMipReply(string $principalUri, string $sender, string $recipient, string $calendarData): bool {
-		/** @var VCalendar $vObject */
+	public function handleIMipReply(
+		string $principalUri,
+		string $sender,
+		string $recipient,
+		string $calendarData
+	): bool {
+		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
 
 		// First, we check if the correct method is passed to us
 		if (strcasecmp('REPLY', $vObject->{'METHOD'}->getValue()) !== 0) {
@@ -308,10 +321,26 @@ class Manager implements IManager {
 	 * @since 25.0.0
 	 * @throws \OCP\DB\Exception
 	 */
-	public function handleIMipCancel(string $principalUri, string $sender, ?string $replyTo, string $recipient, string $calendarData): bool {
+	public function handleIMipCancel(
+		string $principalUri,
+		string $sender,
+		?string $replyTo,
+		string $recipient,
+		string $calendarData
+	): bool {
+		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
 
 		// First, we check if the correct method is passed to us
 		if (strcasecmp('CANCEL', $vObject->{'METHOD'}->getValue()) !== 0) {
