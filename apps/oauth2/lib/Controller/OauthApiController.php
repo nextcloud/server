@@ -128,6 +128,9 @@ class OauthApiController extends Controller {
 			$now = $this->timeFactory->now()->getTimestamp();
 			$tokenCreatedAt = $accessToken->getCreatedAt();
 			if ($tokenCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
+				// we know this token is not useful anymore
+				$this->accessTokenMapper->delete($accessToken);
+
 				$response = new JSONResponse([
 					'error' => 'invalid_request',
 				], Http::STATUS_BAD_REQUEST);
