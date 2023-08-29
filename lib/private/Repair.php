@@ -40,6 +40,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OC\DB\Connection;
@@ -192,7 +193,7 @@ class Repair implements IOutput {
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
-			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
+			new ClearFrontendCaches(\OC::$server->get(ICacheFactory::class), \OCP\Server::get(JSCombiner::class)),
 			\OCP\Server::get(ClearGeneratedAvatarCache::class),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),

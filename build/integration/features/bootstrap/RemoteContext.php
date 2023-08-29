@@ -23,6 +23,7 @@
  *
  */
 use Behat\Behat\Context\Context;
+use OCP\ICacheFactory;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -66,7 +67,7 @@ class RemoteContext implements Context {
 		}
 		$this->lastException = null;
 		try {
-			$this->remoteInstance = new \OC\Remote\Instance($baseUri, \OC::$server->getMemCacheFactory()->createLocal(), \OC::$server->getHTTPClientService());
+			$this->remoteInstance = new \OC\Remote\Instance($baseUri, \OC::$server->get(ICacheFactory::class)->createLocal(), \OC::$server->getHTTPClientService());
 			// trigger the status request
 			$this->remoteInstance->getProtocol();
 		} catch (\Exception $e) {

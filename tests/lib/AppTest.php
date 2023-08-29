@@ -14,6 +14,7 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -559,7 +560,7 @@ class AppTest extends \Test\TestCase {
 			\OC::$server->getConfig(),
 			$appConfig,
 			\OC::$server->getGroupManager(),
-			\OC::$server->getMemCacheFactory(),
+			\OC::$server->get(ICacheFactory::class),
 			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)
 		));
