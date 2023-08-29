@@ -19,14 +19,13 @@
 
 <template>
 	<div class="share-folder">
-		<span>{{ t('files_sharing', 'Set default folder for accepted shares') }} </span>
-
 		<!-- Folder picking form -->
 		<form class="share-folder__form" @reset.prevent.stop="resetFolder">
-			<input class="share-folder__picker"
+			<NcTextField class="share-folder__picker"
 				type="text"
+				:label="t('files_sharing', 'Set default folder for accepted shares')"
 				:placeholder="readableDirectory"
-				@click.prevent="pickFolder">
+				@click.prevent="pickFolder" />
 
 			<!-- Show reset button if folder is different -->
 			<input v-if="readableDirectory !== defaultDirectory"
@@ -44,12 +43,16 @@ import path from 'path'
 import { generateUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 const defaultDirectory = loadState('files_sharing', 'default_share_folder', '/')
 const directory = loadState('files_sharing', 'share_folder', defaultDirectory)
 
 export default {
 	name: 'SelectShareFolderDialogue',
+	components: {
+		NcTextField,
+	},
 	data() {
 		return {
 			directory,
@@ -109,7 +112,7 @@ export default {
 
 	&__picker {
 		cursor: pointer;
-		min-width: 266px;
+		max-width: 300px;
 	}
 
 	// Make the reset button looks like text
