@@ -83,7 +83,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	protected $timeFactory;
 
 	protected function setUp(): void {
-		$this->dbConn = \OC::$server->getDatabaseConnection();
+		$this->dbConn = \OC::$server->get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);

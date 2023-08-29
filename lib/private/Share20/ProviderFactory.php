@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -97,7 +98,7 @@ class ProviderFactory implements IProviderFactory {
 	protected function defaultShareProvider() {
 		if ($this->defaultProvider === null) {
 			$this->defaultProvider = new DefaultShareProvider(
-				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->get(IDBConnection::class),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->getLazyRootFolder(),
@@ -151,7 +152,7 @@ class ProviderFactory implements IProviderFactory {
 			);
 
 			$this->federatedProvider = new FederatedShareProvider(
-				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->get(IDBConnection::class),
 				$addressHandler,
 				$notifications,
 				$tokenHandler,
@@ -188,7 +189,7 @@ class ProviderFactory implements IProviderFactory {
 
 			$this->shareByMailProvider = new ShareByMailProvider(
 				$this->serverContainer->getConfig(),
-				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->get(IDBConnection::class),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),
@@ -230,7 +231,7 @@ class ProviderFactory implements IProviderFactory {
 
 		if ($this->shareByCircleProvider === null) {
 			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
-				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->get(IDBConnection::class),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),

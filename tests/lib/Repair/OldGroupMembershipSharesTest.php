@@ -9,6 +9,7 @@
 namespace Test\Repair;
 
 use OC\Repair\OldGroupMembershipShares;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Share\IShare;
 
@@ -36,7 +37,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 
 		$this->deleteAllShares();
 	}

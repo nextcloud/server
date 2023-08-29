@@ -31,7 +31,7 @@ class LoaderTest extends \Test\TestCase {
 	protected $loader;
 
 	protected function setUp(): void {
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 

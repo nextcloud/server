@@ -66,7 +66,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->pruneTagsTables();
 
 		$this->tagManager = $this->createMock(ISystemTagManager::class);

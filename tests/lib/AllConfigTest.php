@@ -25,7 +25,7 @@ class AllConfigTest extends \Test\TestCase {
 
 	protected function getConfig($systemConfig = null, $connection = null) {
 		if ($this->connection === null) {
-			$this->connection = \OC::$server->getDatabaseConnection();
+			$this->connection = \OC::$server->get(IDBConnection::class);
 		}
 		if ($connection === null) {
 			$connection = $this->connection;

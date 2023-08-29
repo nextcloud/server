@@ -50,7 +50,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dbConnection = OC::$server->getDatabaseConnection();
+		$this->dbConnection = OC::$server->get(IDBConnection::class);
 		$this->time = time();
 		$this->resetDatabase();
 

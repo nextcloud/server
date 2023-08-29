@@ -26,6 +26,7 @@ namespace Test\Repair\Owncloud;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use Test\TestCase;
 
@@ -46,7 +47,7 @@ class UpdateLanguageCodesTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 	}
 

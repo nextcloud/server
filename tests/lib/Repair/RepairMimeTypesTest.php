@@ -12,6 +12,7 @@ namespace Test\Repair;
 use OC\Files\Storage\Temporary;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -48,13 +49,13 @@ class RepairMimeTypesTest extends \Test\TestCase {
 
 		$this->storage = new \OC\Files\Storage\Temporary([]);
 
-		$this->repair = new \OC\Repair\RepairMimeTypes($config, \OC::$server->getDatabaseConnection());
+		$this->repair = new \OC\Repair\RepairMimeTypes($config, \OC::$server->get(IDBConnection::class));
 	}
 
 	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$qb->delete('storages')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($this->storage->getId())));
 		$qb->execute();
@@ -65,7 +66,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	}
 
 	private function clearMimeTypes() {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$qb->delete('mimetypes');
 		$qb->execute();
 

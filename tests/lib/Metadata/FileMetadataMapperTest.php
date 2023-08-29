@@ -24,6 +24,7 @@ namespace Test\Metadata;
 
 use OC\Metadata\FileMetadataMapper;
 use OC\Metadata\FileMetadata;
+use OCP\IDBConnection;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -43,7 +44,7 @@ class FileMetadataMapperTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->mapper = new FileMetadataMapper($this->connection);
 	}
 

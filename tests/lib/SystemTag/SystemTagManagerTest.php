@@ -50,7 +50,7 @@ class SystemTagManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);

@@ -24,6 +24,7 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use Test\TestCase;
 
 /**
@@ -49,7 +50,7 @@ class ExpressionBuilderTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->internalConnection = \OC::$server->get(\OC\DB\Connection::class);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);

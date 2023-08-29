@@ -82,7 +82,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->trashEnabled = $appManager->isEnabledForUser('files_trashbin', $user);
 		$appManager->disableApp('files_trashbin');
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->previewManager = \OC::$server->getPreviewManager();
 		$this->rootFolder = \OC::$server->getRootFolder();
 		$this->mimeTypeLoader = \OC::$server->getMimeTypeLoader();

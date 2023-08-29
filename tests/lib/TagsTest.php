@@ -67,7 +67,7 @@ class TagsTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$conn = \OC::$server->getDatabaseConnection();
+		$conn = \OC::$server->get(IDBConnection::class);
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
 
@@ -80,7 +80,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection(), \OC::$server->get(LoggerInterface::class));
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->get(IDBConnection::class), \OC::$server->get(LoggerInterface::class));
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 
@@ -206,7 +206,7 @@ class TagsTest extends \Test\TestCase {
 		$tagId = $tagData[0]['id'];
 		$tagType = $tagData[0]['type'];
 
-		$conn = \OC::$server->getDatabaseConnection();
+		$conn = \OC::$server->get(IDBConnection::class);
 		$statement = $conn->prepare(
 			'INSERT INTO `*PREFIX*vcategory_to_object` ' .
 			'(`objid`, `categoryid`, `type`) VALUES ' .

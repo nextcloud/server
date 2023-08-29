@@ -105,7 +105,7 @@ class Database extends ABackend implements
 	 */
 	private function fixDI() {
 		if ($this->dbConn === null) {
-			$this->dbConn = \OC::$server->getDatabaseConnection();
+			$this->dbConn = \OCP\Server::get(IDBConnection::class);
 		}
 	}
 

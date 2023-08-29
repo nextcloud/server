@@ -48,6 +48,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -107,7 +108,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(\OC::$server->get(OC\Core\Command\Info\Space::class));
 
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
-	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->get(LoggerInterface::class)));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Db\ConvertMysqlToMB4::class));
 	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->get(\OC\DB\Connection::class)));
 	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingColumns::class));
 	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingIndices::class));

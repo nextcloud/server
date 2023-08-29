@@ -9,6 +9,7 @@
 namespace Test\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 
@@ -46,7 +47,7 @@ class CleanTagsTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->repair = new \OC\Repair\CleanTags($this->connection, $this->userManager);
 		$this->cleanUpTables();
 	}

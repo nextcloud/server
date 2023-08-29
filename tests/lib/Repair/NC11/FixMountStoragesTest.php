@@ -45,7 +45,7 @@ class FixMountStoragesTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->get(IDBConnection::class);
 
 		$this->repair = new FixMountStorages(
 			$this->db

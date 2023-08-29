@@ -61,6 +61,7 @@ use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -382,7 +383,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 		if (!isset($storage->propagator)) {
 			$config = \OC::$server->getSystemConfig();
-			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
+			$storage->propagator = new Propagator($storage, \OCP\Server::get(IDBConnection::class), ['appdata_' . $config->getValue('instanceid')]);
 		}
 		return $storage->propagator;
 	}
@@ -536,7 +537,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			throw new InvalidDirectoryException();
 		}
 
-		if (!\OC::$server->getDatabaseConnection()->supports4ByteText()) {
+		if (!\OCP\Server::get(IDBConnection::class)->supports4ByteText()) {
 			// verify database - e.g. mysql only 3-byte chars
 			if (preg_match('%(?:
       \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3

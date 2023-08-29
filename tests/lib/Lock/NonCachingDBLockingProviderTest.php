@@ -21,6 +21,7 @@
 
 namespace Test\Lock;
 
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -33,7 +34,7 @@ class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	 * @return \OCP\Lock\ILockingProvider
 	 */
 	protected function getInstance() {
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
 	}
 

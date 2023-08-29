@@ -23,6 +23,7 @@ namespace Test\DB\QueryBuilder;
 
 use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use Test\TestCase;
 
 /**
@@ -35,11 +36,11 @@ class ExpressionBuilderDBTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
 
 	public function likeProvider() {
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = \OC::$server->get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -75,7 +76,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	public function ilikeProvider() {
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = \OC::$server->get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],

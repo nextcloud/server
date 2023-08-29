@@ -34,6 +34,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\IDBConnection;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -52,7 +53,7 @@ class CacheJail extends CacheWrapper {
 	public function __construct($cache, $root) {
 		parent::__construct($cache);
 		$this->root = $root;
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
 		if ($cache instanceof CacheJail) {

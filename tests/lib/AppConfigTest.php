@@ -12,6 +12,7 @@ namespace Test;
 use OC\AppConfig;
 use OC\DB\Connection;
 use OCP\IConfig;
+use OCP\IDBConnection;
 
 /**
  * Class AppConfigTest
@@ -234,7 +235,7 @@ class AppConfigTest extends TestCase {
 
 		$this->assertFalse($config->hasKey('testapp', 'deletethis'));
 
-		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$sql = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$sql->select('configvalue')
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
@@ -256,7 +257,7 @@ class AppConfigTest extends TestCase {
 
 		$this->assertFalse($config->hasKey('someapp', 'otherkey'));
 
-		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$sql = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$sql->select('configvalue')
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
@@ -278,7 +279,7 @@ class AppConfigTest extends TestCase {
 	public function testGetValues() {
 		$config = new \OC\AppConfig(\OC::$server->get(Connection::class));
 
-		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$sql = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$sql->select(['configkey', 'configvalue'])
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
@@ -293,7 +294,7 @@ class AppConfigTest extends TestCase {
 		$values = $config->getValues('testapp', false);
 		$this->assertEquals($expected, $values);
 
-		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$sql = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$sql->select(['appid', 'configvalue'])
 			->from('appconfig')
 			->where($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
@@ -352,7 +353,7 @@ class AppConfigTest extends TestCase {
 	 * @param string $expected
 	 */
 	protected function assertConfigKey($app, $key, $expected) {
-		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$sql = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$sql->select('configvalue')
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))

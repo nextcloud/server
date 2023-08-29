@@ -123,7 +123,7 @@ class Cache implements ICache {
 
 		$this->storageCache = new Storage($storage);
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$this->querySearchHelper = \OCP\Server::get(QuerySearchHelper::class);
 	}
@@ -1070,7 +1070,7 @@ class Cache implements ICache {
 	 * @deprecated use getPathById() instead
 	 */
 	public static function getById($id) {
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = \OCP\Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->select('path', 'storage')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));

@@ -40,6 +40,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OC\DB\Connection;
@@ -174,10 +175,10 @@ class Repair implements IOutput {
 	 */
 	public static function getRepairSteps(): array {
 		return [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
-			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
-			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OCP\Server::get(IDBConnection::class), false),
+			new RepairMimeTypes(\OC::$server->getConfig(), \OCP\Server::get(IDBConnection::class)),
+			new CleanTags(\OCP\Server::get(IDBConnection::class), \OC::$server->getUserManager()),
+			new RepairInvalidShares(\OC::$server->getConfig(), \OCP\Server::get(IDBConnection::class)),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
 				\OC::$server->getJobList(),
@@ -189,8 +190,8 @@ class Repair implements IOutput {
 				\OC::$server->getConfig()
 			),
 			new MigrateOauthTables(\OC::$server->get(Connection::class)),
-			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			\OCP\Server::get(FixMountStorages::class),
+			new UpdateLanguageCodes(\OCP\Server::get(IDBConnection::class), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
 			\OCP\Server::get(ClearGeneratedAvatarCache::class),
@@ -198,7 +199,7 @@ class Repair implements IOutput {
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
+			new RemoveLinkShares(\OCP\Server::get(IDBConnection::class), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
 			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
 			\OCP\Server::get(EncryptionLegacyCipher::class),
@@ -223,7 +224,7 @@ class Repair implements IOutput {
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new OldGroupMembershipShares(\OCP\Server::get(IDBConnection::class), \OC::$server->getGroupManager()),
 			\OC::$server->get(ValidatePhoneNumber::class),
 		];
 	}

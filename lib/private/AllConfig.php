@@ -87,7 +87,7 @@ class AllConfig implements IConfig {
 	 */
 	private function fixDIInit() {
 		if ($this->connection === null) {
-			$this->connection = \OC::$server->get(IDBConnection::class);
+			$this->connection = \OCP\Server::get(IDBConnection::class);
 		}
 	}
 

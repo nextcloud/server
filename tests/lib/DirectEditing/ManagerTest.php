@@ -121,7 +121,7 @@ class ManagerTest extends TestCase {
 		$this->editor = new Editor();
 
 		$this->random = $this->createMock(ISecureRandom::class);
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->userFolder = $this->createMock(Folder::class);

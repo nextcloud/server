@@ -10,6 +10,7 @@ namespace Test\Repair;
 
 use OC\Repair\RepairInvalidShares;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Share\IShare;
@@ -40,7 +41,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->with('version')
 			->willReturn('12.0.0.0');
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->deleteAllShares();
 
 		/** @var \OCP\IConfig $config */

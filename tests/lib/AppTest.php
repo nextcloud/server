@@ -14,6 +14,7 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -539,7 +540,7 @@ class AppTest extends \Test\TestCase {
 	private function setupAppConfigMock() {
 		$appConfig = $this->getMockBuilder(AppConfig::class)
 			->setMethods(['getValues'])
-			->setConstructorArgs([\OC::$server->getDatabaseConnection()])
+			->setConstructorArgs([\OC::$server->get(IDBConnection::class)])
 			->disableOriginalConstructor()
 			->getMock();
 

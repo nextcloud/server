@@ -134,7 +134,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if (!$this->IsDatabaseAccessAllowed()) {
 			self::$wasDatabaseAllowed = false;
 			if (is_null(self::$realDatabase)) {
-				self::$realDatabase = \OC::$server->getDatabaseConnection();
+				self::$realDatabase = \OC::$server->get(IDBConnection::class);
 			}
 			\OC::$server->registerService(IDBConnection::class, function () {
 				$this->fail('Your test case is not allowed to access the database.');
@@ -271,8 +271,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			});
 		}
 		$dataDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
-		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
-			$db = \OC::$server->getDatabaseConnection();
+		if (self::$wasDatabaseAllowed && \OC::$server->get(IDBConnection::class)) {
+			$db = \OC::$server->get(IDBConnection::class);
 			if ($db->inTransaction()) {
 				$db->rollBack();
 				throw new \Exception('There was a transaction still in progress and needed to be rolled back. Please fix this in your test.');

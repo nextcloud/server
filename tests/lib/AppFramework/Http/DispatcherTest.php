@@ -34,6 +34,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
@@ -154,7 +155,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
@@ -331,7 +332,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -364,7 +365,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -400,7 +401,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -435,7 +436,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -471,7 +472,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -509,7 +510,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OC::$server->get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container

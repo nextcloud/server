@@ -30,7 +30,7 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
 		$this->connection->prepare($sql)->execute();
@@ -104,7 +104,7 @@ class ManagerTest extends TestCase {
 		$creationDT = new \DateTime();
 		$latestChildDT = new \DateTime('yesterday');
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
 		$qb
 			->insert('comments')
 			->values([

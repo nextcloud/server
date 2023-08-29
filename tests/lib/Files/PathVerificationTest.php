@@ -10,6 +10,7 @@ namespace Test\Files;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCP\Files\InvalidPathException;
+use OCP\IDBConnection;
 
 /**
  * Class PathVerificationTest
@@ -83,7 +84,7 @@ class PathVerificationTest extends \Test\TestCase {
 	 * @dataProvider providesAstralPlane
 	 */
 	public function testPathVerificationAstralPlane($fileName) {
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = \OC::$server->get(IDBConnection::class);
 
 		if (!$connection->supports4ByteText()) {
 			$this->expectException(InvalidPathException::class);

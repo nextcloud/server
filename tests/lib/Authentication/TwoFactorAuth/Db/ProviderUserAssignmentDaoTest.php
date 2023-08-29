@@ -44,7 +44,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dbConn = OC::$server->getDatabaseConnection();
+		$this->dbConn = OC::$server->get(IDBConnection::class);
 		$qb = $this->dbConn->getQueryBuilder();
 		$q = $qb->delete(ProviderUserAssignmentDao::TABLE_NAME);
 		$q->execute();

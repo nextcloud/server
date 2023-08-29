@@ -48,6 +48,7 @@ use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -482,7 +483,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$this->subAdmin = new \OC\SubAdmin(
 				$this->userManager,
 				$this,
-				\OC::$server->getDatabaseConnection(),
+				\OCP\Server::get(IDBConnection::class),
 				$this->dispatcher
 			);
 		}

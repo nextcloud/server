@@ -55,7 +55,7 @@ class CacheWrapper extends Cache {
 			$this->querySearchHelper = $cache->querySearchHelper;
 		} else {
 			$this->mimetypeLoader = \OC::$server->get(IMimeTypeLoader::class);
-			$this->connection = \OC::$server->get(IDBConnection::class);
+			$this->connection = \OCP\Server::get(IDBConnection::class);
 			$this->querySearchHelper = \OC::$server->get(QuerySearchHelper::class);
 		}
 	}

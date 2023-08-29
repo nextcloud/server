@@ -542,7 +542,7 @@ class Share extends Constants {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+					$query = \OCP\Server::get(IDBConnection::class)->getQueryBuilder();
 					$query->select('file_target')
 						->from('share')
 						->where($query->expr()->eq('id', $query->createNamedParameter($row['parent'])));
@@ -763,7 +763,7 @@ class Share extends Constants {
 	 */
 	private static function getSelectStatement(int $format, bool $fileDependent, ?string $uidOwner = null): IQueryBuilder {
 		/** @var IDBConnection $connection */
-		$connection = \OC::$server->get(IDBConnection::class);
+		$connection = \OCP\Server::get(IDBConnection::class);
 		$qb = $connection->getQueryBuilder();
 		if ($format == self::FORMAT_STATUSES) {
 			if ($fileDependent) {

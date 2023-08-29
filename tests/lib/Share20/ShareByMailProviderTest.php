@@ -101,7 +101,7 @@ class ShareByMailProviderTest extends TestCase {
 	private $settingsManager;
 
 	protected function setUp(): void {
-		$this->dbConn = \OC::$server->getDatabaseConnection();
+		$this->dbConn = \OC::$server->get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->mailer = $this->createMock(IMailer::class);
