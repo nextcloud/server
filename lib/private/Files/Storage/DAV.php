@@ -116,7 +116,7 @@ class DAV extends Common {
 	 */
 	public function __construct($params) {
 		$this->statCache = new ArrayCache();
-		$this->httpClientService = \OC::$server->getHTTPClientService();
+		$this->httpClientService = \OC::$server->get(IClientService::class);
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
