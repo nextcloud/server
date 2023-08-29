@@ -370,6 +370,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	public function fopen($path, $mode) {
 		try {
 			$absPath = $this->absPath($path);
+			$connection = $this->getConnection();
 			switch ($mode) {
 				case 'r':
 				case 'rb':
@@ -377,13 +378,14 @@ class SFTP extends \OC\Files\Storage\Common {
 						return false;
 					}
 					SFTPReadStream::register();
-					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					$handle = fopen('sftpread://' . trim($absPath, '/'), 'r', false, $context);
 					return RetryWrapper::wrap($handle);
 				case 'w':
 				case 'wb':
 					SFTPWriteStream::register();
-					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					$connection->_remove_from_stat_cache($absPath);
+					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					return fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 				case 'a':
 				case 'ab':
@@ -395,7 +397,7 @@ class SFTP extends \OC\Files\Storage\Common {
 				case 'x+':
 				case 'c':
 				case 'c+':
-					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					$handle = fopen($this->constructUrl($path), $mode, false, $context);
 					return RetryWrapper::wrap($handle);
 			}
