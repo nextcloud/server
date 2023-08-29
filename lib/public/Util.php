@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OC\SystemConfig;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -563,7 +564,7 @@ class Util {
 	 */
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->getSystemConfig());
+			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->get(SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
 	}

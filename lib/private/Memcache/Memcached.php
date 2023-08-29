@@ -31,6 +31,7 @@
  */
 namespace OC\Memcache;
 
+use OC\SystemConfig;
 use OCP\HintException;
 use OCP\IMemcache;
 
@@ -84,9 +85,9 @@ class Memcached extends Cache implements IMemcache {
 				throw new HintException("Expected 'memcached_options' config to be an array, got $options");
 			}
 
-			$servers = \OC::$server->getSystemConfig()->getValue('memcached_servers');
+			$servers = \OC::$server->get(SystemConfig::class)->getValue('memcached_servers');
 			if (!$servers) {
-				$server = \OC::$server->getSystemConfig()->getValue('memcached_server');
+				$server = \OC::$server->get(SystemConfig::class)->getValue('memcached_server');
 				if ($server) {
 					$servers = [$server];
 				} else {

@@ -50,6 +50,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\SystemConfig;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\ForbiddenException;
@@ -381,7 +382,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$storage = $this;
 		}
 		if (!isset($storage->propagator)) {
-			$config = \OC::$server->getSystemConfig();
+			$config = \OC::$server->get(SystemConfig::class);
 			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
 		}
 		return $storage->propagator;

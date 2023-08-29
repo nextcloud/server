@@ -33,10 +33,12 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\SystemConfig;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
-	$systemConfig = \OC::$server->getSystemConfig();
+	$systemConfig = \OC::$server->get(SystemConfig::class);
 
 	$installed = (bool) $systemConfig->getValue('installed', false);
 	$maintenance = (bool) $systemConfig->getValue('maintenance', false);

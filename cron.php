@@ -39,6 +39,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\SystemConfig;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -46,7 +48,7 @@ try {
 		\OC::$server->getLogger()->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
-	if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+	if ((bool) \OC::$server->get(SystemConfig::class)->getValue('maintenance', false)) {
 		\OC::$server->getLogger()->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}

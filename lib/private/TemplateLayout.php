@@ -44,6 +44,7 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Search\SearchQuery;
+use OC\SystemConfig;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
@@ -207,7 +208,7 @@ class TemplateLayout extends \OC_Template {
 		$this->assign('language', $lang);
 		$this->assign('locale', $locale);
 
-		if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = implode('.', \OCP\Util::getVersion());
@@ -258,7 +259,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Do not initialise scss appdata until we have a fully installed instance
 		// Do not load scss for update, errors, installation or login page
-		if (\OC::$server->getSystemConfig()->getValue('installed', false)
+		if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)

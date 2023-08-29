@@ -20,6 +20,7 @@
 namespace Test\Log;
 
 use OC\Log\File;
+use OC\SystemConfig;
 use OCP\IConfig;
 use OCP\ILogger;
 use Test\TestCase;
@@ -36,7 +37,7 @@ class FileTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$config = \OC::$server->getSystemConfig();
+		$config = \OC::$server->get(SystemConfig::class);
 		$this->restore_logfile = $config->getValue("logfile");
 		$this->restore_logdateformat = $config->getValue('logdateformat');
 
@@ -44,7 +45,7 @@ class FileTest extends TestCase {
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
 	protected function tearDown(): void {
-		$config = \OC::$server->getSystemConfig();
+		$config = \OC::$server->get(SystemConfig::class);
 		if (isset($this->restore_logfile)) {
 			$config->getValue("logfile", $this->restore_logfile);
 		} else {

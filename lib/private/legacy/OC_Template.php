@@ -37,6 +37,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\SystemConfig;
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
 
@@ -285,7 +287,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('file', $exception->getFile());
 			$content->assign('line', $exception->getLine());
 			$content->assign('exception', $exception);
-			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('debugMode', \OC::$server->get(SystemConfig::class)->getValue('debug', false));
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
 			$content->printPage();

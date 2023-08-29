@@ -45,6 +45,7 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\Filesystem;
+use OC\SystemConfig;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
@@ -484,7 +485,7 @@ class OC_Helper {
 
 		// return storage info without adding mount points
 		if (self::$quotaIncludeExternalStorage === null) {
-			self::$quotaIncludeExternalStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+			self::$quotaIncludeExternalStorage = \OC::$server->get(SystemConfig::class)->getValue('quota_include_external_storage', false);
 		}
 
 		$view = Filesystem::getView();

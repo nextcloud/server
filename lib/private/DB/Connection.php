@@ -103,7 +103,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
 
-		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->systemConfig = \OC::$server->get(SystemConfig::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 
 		/** @var \OCP\Profiler\IProfiler */

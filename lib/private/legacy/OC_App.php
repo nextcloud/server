@@ -64,6 +64,7 @@ use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
+use OC\SystemConfig;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -119,7 +120,7 @@ class OC_App {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public static function loadApps(array $types = []): bool {
-		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (!\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 			// This should be done before calling this method so that appmanager can be used
 			return false;
 		}
@@ -216,7 +217,7 @@ class OC_App {
 	 * @return string[]
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
-		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (!\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 			return [];
 		}
 		// in incognito mode or when logged out, $user will be false,

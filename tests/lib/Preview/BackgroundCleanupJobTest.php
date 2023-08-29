@@ -25,6 +25,7 @@ namespace Test\Preview;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
+use OC\SystemConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
@@ -103,7 +104,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	private function getRoot(): Root {
 		return new Root(
 			\OC::$server->getRootFolder(),
-			\OC::$server->getSystemConfig()
+			\OC::$server->get(SystemConfig::class)
 		);
 	}
 

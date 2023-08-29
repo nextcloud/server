@@ -24,6 +24,7 @@
  */
 namespace OC\Log;
 
+use OC\SystemConfig;
 use OCP\Log\RotationTrait;
 
 /**
@@ -36,7 +37,7 @@ class Rotate extends \OCP\BackgroundJob\Job {
 	use RotationTrait;
 
 	public function run($dummy) {
-		$systemConfig = \OC::$server->getSystemConfig();
+		$systemConfig = \OC::$server->get(SystemConfig::class);
 		$this->filePath = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 
 		$this->maxSize = \OC::$server->getConfig()->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);

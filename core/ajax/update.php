@@ -44,6 +44,7 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
+use OC\SystemConfig;
 use OCP\L10N\IFactory;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
@@ -100,7 +101,7 @@ class FeedBackHandler {
 }
 
 if (\OCP\Util::needUpgrade()) {
-	$config = \OC::$server->getSystemConfig();
+	$config = \OC::$server->get(SystemConfig::class);
 	if ($config->getValue('upgrade.disable-web', false)) {
 		$eventSource->send('failure', $l->t('Please use the command line updater because updating via browser is disabled in your config.php.'));
 		$eventSource->close();

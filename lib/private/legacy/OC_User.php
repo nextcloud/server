@@ -36,6 +36,7 @@
  *
  */
 
+use OC\SystemConfig;
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
@@ -126,7 +127,7 @@ class OC_User {
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(['prelogin']);
-		$backends = \OC::$server->getSystemConfig()->getValue('user_backends', []);
+		$backends = \OC::$server->get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
 			self::clearBackends();
@@ -377,7 +378,7 @@ class OC_User {
 		if ($user) {
 			return $user->getHome();
 		} else {
-			return \OC::$server->getSystemConfig()->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->get(SystemConfig::class)->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 	}
 

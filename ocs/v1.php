@@ -30,6 +30,8 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
+use OC\SystemConfig;
+
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
@@ -83,7 +85,7 @@ try {
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Internal Server Error'."\n";
 	try {
-		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {
+		if (\OC::$server->get(SystemConfig::class)->getValue('debug', false)) {
 			$txt .= $e->getMessage();
 		}
 	} catch (\Throwable $e) {

@@ -56,6 +56,7 @@ use OC\Authentication\Token\TokenCleanupJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
+use OC\SystemConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
@@ -496,7 +497,7 @@ class Setup {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public static function updateHtaccess() {
-		$config = \OC::$server->getSystemConfig();
+		$config = \OC::$server->get(SystemConfig::class);
 
 		try {
 			$webRoot = self::findWebRoot($config);

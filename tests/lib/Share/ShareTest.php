@@ -22,6 +22,7 @@
 namespace Test\Share;
 
 use OC\Share\Share;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -94,7 +95,7 @@ class ShareTest extends \Test\TestCase {
 
 		Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(\OC::$server->get(SystemConfig::class));
 		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', 'yes');
 

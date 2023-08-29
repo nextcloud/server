@@ -48,11 +48,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::class), \OC::$server->get(\OCP\Defaults::class)));
-$application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
+$application->add(new OC\Core\Command\Check(\OC::$server->get(SystemConfig::class)));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
 	\OC::$server->getIntegrityCodeChecker(),
@@ -98,15 +100,15 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Config\App\GetConfig(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Config\App\SetConfig(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Config\Import(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\ListConfigs(\OC::$server->getSystemConfig(), \OC::$server->getAppConfig()));
-	$application->add(new OC\Core\Command\Config\System\DeleteConfig(\OC::$server->getSystemConfig()));
-	$application->add(new OC\Core\Command\Config\System\GetConfig(\OC::$server->getSystemConfig()));
-	$application->add(new OC\Core\Command\Config\System\SetConfig(\OC::$server->getSystemConfig()));
+	$application->add(new OC\Core\Command\Config\ListConfigs(\OC::$server->get(SystemConfig::class), \OC::$server->getAppConfig()));
+	$application->add(new OC\Core\Command\Config\System\DeleteConfig(\OC::$server->get(SystemConfig::class)));
+	$application->add(new OC\Core\Command\Config\System\GetConfig(\OC::$server->get(SystemConfig::class)));
+	$application->add(new OC\Core\Command\Config\System\SetConfig(\OC::$server->get(SystemConfig::class)));
 
 	$application->add(\OC::$server->get(OC\Core\Command\Info\File::class));
 	$application->add(\OC::$server->get(OC\Core\Command\Info\Space::class));
 
-	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
+	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->get(SystemConfig::class))));
 	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->get(LoggerInterface::class)));
 	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->get(\OC\DB\Connection::class)));
 	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingColumns::class));

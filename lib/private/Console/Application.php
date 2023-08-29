@@ -32,6 +32,7 @@ namespace OC\Console;
 
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
+use OC\SystemConfig;
 use OC_App;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
@@ -157,7 +158,7 @@ class Application {
 		}
 
 		if ($input->getFirstArgument() !== 'check') {
-			$errors = \OC_Util::checkServer(\OC::$server->getSystemConfig());
+			$errors = \OC_Util::checkServer(\OC::$server->get(SystemConfig::class));
 			if (!empty($errors)) {
 				foreach ($errors as $error) {
 					$output->writeln((string)$error['error']);
