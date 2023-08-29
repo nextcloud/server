@@ -79,6 +79,8 @@
     "Change color" : "Cambiar color",
     "No background" : "Sin imagen de fondo",
     "Select a background from your files" : "Seleccionar un fondo desde tus archivos",
+    "Select background" : "Seleccione fondo",
+    "No background have been selected" : "No se ha seleccionado un fondo",
     "Theme selection is enforced" : "La selección del tema es forzada",
     "Select a custom color" : "Seleccionar un color personalizado",
     "Reset to default" : "Vovler a configuración por defecto",
