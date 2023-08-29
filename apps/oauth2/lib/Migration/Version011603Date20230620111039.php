@@ -27,13 +27,16 @@ namespace OCA\OAuth2\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version011603Date20230620111039 extends SimpleMigrationStep {
 
 	public function __construct(
+		private IDBConnection $connection,
 	) {
 	}
 
@@ -43,15 +46,36 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('oauth2_access_tokens')) {
 			$table = $schema->getTable('oauth2_access_tokens');
+			$dbChanged = false;
+			if (!$table->hasColumn('created_at') || !$table->hasColumn('token_count')) {
+				$dbChanged = true;
+			}
 			if (!$table->hasColumn('created_at')) {
 				$table->addColumn('created_at', Types::BIGINT, [
 					'notnull' => true,
 					'default' => 0,
 				]);
+			}
+			if (!$table->hasColumn('token_count')) {
+				$table->addColumn('token_count', Types::BIGINT, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+			}
+			if ($dbChanged) {
 				return $schema;
 			}
 		}
 
 		return null;
+	}
+
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		// we consider that existing access_tokens have already produced at least one oauth token
+		// which prevents cleaning them up
+		$qbUpdate = $this->connection->getQueryBuilder();
+		$qbUpdate->update('oauth2_access_tokens')
+			->set('token_count', $qbUpdate->createNamedParameter(1, IQueryBuilder::PARAM_INT));
+		$qbUpdate->executeStatement();
 	}
 }

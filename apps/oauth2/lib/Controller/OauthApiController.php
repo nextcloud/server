@@ -194,6 +194,11 @@ class OauthApiController extends Controller {
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
+		// increase the number of delivered oauth token
+		// this helps with cleaning up DB access token when authorization code has expired
+		// and it never delivered any oauth token
+		$tokenCount = $accessToken->getTokenCount();
+		$accessToken->setTokenCount($tokenCount + 1);
 		$this->accessTokenMapper->update($accessToken);
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
