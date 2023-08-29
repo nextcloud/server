@@ -243,7 +243,7 @@ OC.L10N.register(
     "Creating file" : "Vytváření souboru",
     "Blank" : "Prázdný",
     "Unable to create new file from template" : "Nedaří se vytvořit soubor ze šablony",
-    "Delete permanently" : "Nadobro smazat",
+    "Delete permanently" : "Nevratně smazat",
     "Open folder {displayName}" : "Otevřít složku {displayName}",
     "Open in Files" : "Otevřít v Souborech",
     "Open details" : "Otevřít podorobnosti",

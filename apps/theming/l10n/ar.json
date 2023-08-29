@@ -79,6 +79,8 @@
     "Change color" : "غيّر اللون",
     "No background" : "لا خلفية",
     "Select a background from your files" : "إختر خلفية من ملفاتك",
+    "Select background" : "إختَر الخلفية",
+    "No background have been selected" : "لم يتم تحديد أي خلفية",
     "Theme selection is enforced" : "تمّ فرض اختيار الثيمة",
     "Select a custom color" : "إختر لوناً مُخصّصاً",
     "Reset to default" : "اعادة تعيين الافتراضيات",
