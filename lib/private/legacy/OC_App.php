@@ -56,6 +56,7 @@ use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\ILogger;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
@@ -731,7 +732,7 @@ class OC_App {
 		static $versions;
 
 		if (!$versions) {
-			$appConfig = \OC::$server->getAppConfig();
+			$appConfig = \OC::$server->get(IAppConfig::class);
 			$versions = $appConfig->getValues(false, 'installed_version');
 		}
 		return $versions;
