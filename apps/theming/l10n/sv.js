@@ -79,6 +79,8 @@ OC.L10N.register(
     "Change color" : "Ändra färg",
     "No background" : "Ingen bakgrund",
     "Select a background from your files" : "Välj en bakgrund från dina filer",
+    "Select background" : "Välj bakgrund",
+    "No background have been selected" : "Ingen bakgrund har valts",
     "Theme selection is enforced" : "Temaval är tvingande",
     "Select a custom color" : "Välj en anpassad färg",
     "Reset to default" : "Återställ till grundinställningar",
