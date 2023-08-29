@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\Mail\IMailer;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -100,7 +101,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->getLazyRootFolder(),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
@@ -193,7 +194,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->getLogger(),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,

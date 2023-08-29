@@ -65,7 +65,7 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  *
  * Example usage:
  *
- * 	$mailer = \OC::$server->getMailer();
+ * 	$mailer = \OC::$server->get(\OCP\Mail\IMailer::class);
  * 	$message = $mailer->createMessage();
  * 	$message->setSubject('Your Subject');
  * 	$message->setFrom(array('cloud@domain.org' => 'ownCloud Notifier'));
