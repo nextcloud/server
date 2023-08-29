@@ -41,6 +41,7 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
+use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
@@ -139,7 +140,7 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
-				$this->serverContainer->getJobList(),
+				$this->serverContainer->get(IJobList::class),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
 				$this->serverContainer->query(IEventDispatcher::class),

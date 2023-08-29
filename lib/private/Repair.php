@@ -38,6 +38,7 @@ use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanUpAbandonedApps;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
@@ -180,24 +181,24 @@ class Repair implements IOutput {
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
-				\OC::$server->getJobList(),
+				\OC::$server->get(IJobList::class),
 				\OC::$server->getConfig()
 			),
 			new CleanPreviews(
-				\OC::$server->getJobList(),
+				\OC::$server->get(IJobList::class),
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
 			new MigrateOauthTables(\OC::$server->get(Connection::class)),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new AddLogRotateJob(\OC::$server->getJobList()),
+			new AddLogRotateJob(\OC::$server->get(IJobList::class)),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
 			\OCP\Server::get(ClearGeneratedAvatarCache::class),
-			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
-			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
+			new AddPreviewBackgroundCleanupJob(\OC::$server->get(IJobList::class)),
+			new AddCleanupUpdaterBackupsJob(\OC::$server->get(IJobList::class)),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
-			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
+			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->get(IJobList::class)),
 			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
 			\OCP\Server::get(ResetGeneratedAvatarFlag::class),

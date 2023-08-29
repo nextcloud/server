@@ -48,6 +48,8 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\BackgroundJob\IJobList;
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -89,8 +91,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Background\Job(\OC::$server->getJobList(), \OC::$server->getLogger()));
-	$application->add(new OC\Core\Command\Background\ListCommand(\OC::$server->getJobList()));
+	$application->add(new OC\Core\Command\Background\Job(\OC::$server->get(IJobList::class), \OC::$server->getLogger()));
+	$application->add(new OC\Core\Command\Background\ListCommand(\OC::$server->get(IJobList::class)));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
 

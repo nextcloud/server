@@ -57,6 +57,7 @@ use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -450,7 +451,7 @@ class Setup {
 	}
 
 	public static function installBackgroundJobs() {
-		$jobList = \OC::$server->getJobList();
+		$jobList = \OC::$server->get(IJobList::class);
 		$jobList->add(TokenCleanupJob::class);
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);

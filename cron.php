@@ -39,6 +39,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OCP\BackgroundJob\IJobList;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -134,7 +136,7 @@ try {
 		}
 
 		// Work
-		$jobList = \OC::$server->getJobList();
+		$jobList = \OC::$server->get(IJobList::class);
 
 		// We only ask for jobs for 14 minutes, because after 5 minutes the next
 		// system cron task should spawn and we want to have at most three
@@ -170,7 +172,7 @@ try {
 			OC_JSON::error(['data' => ['message' => 'Backgroundjobs are using system cron!']]);
 		} else {
 			// Work and success :-)
-			$jobList = \OC::$server->getJobList();
+			$jobList = \OC::$server->get(IJobList::class);
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);

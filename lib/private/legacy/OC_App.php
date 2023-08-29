@@ -55,6 +55,7 @@ use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
+use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -838,7 +839,7 @@ class OC_App {
 	}
 
 	public static function setupBackgroundJobs(array $jobs) {
-		$queue = \OC::$server->getJobList();
+		$queue = \OC::$server->get(IJobList::class);
 		foreach ($jobs as $job) {
 			$queue->add($job);
 		}
@@ -849,7 +850,7 @@ class OC_App {
 	 * @param string[] $steps
 	 */
 	private static function setupLiveMigrations(string $appId, array $steps) {
-		$queue = \OC::$server->getJobList();
+		$queue = \OC::$server->get(IJobList::class);
 		foreach ($steps as $step) {
 			$queue->add('OC\Migration\BackgroundRepair', [
 				'app' => $appId,
