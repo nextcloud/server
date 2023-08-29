@@ -173,7 +173,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OC_Defaults', function (ContainerInterface $c) {
-			return $c->get(IServerContainer::class)->getThemingDefaults();
+			return $c->get(IServerContainer::class)->get('ThemingDefaults');
 		});
 
 		$this->registerService('Protocol', function (ContainerInterface $c) {

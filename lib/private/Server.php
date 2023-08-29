@@ -1341,7 +1341,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Defaults::class, function (Server $c) {
 			return new Defaults(
-				$c->getThemingDefaults()
+				$c->get('ThemingDefaults')
 			);
 		});
 		/** @deprecated 19.0.0 */

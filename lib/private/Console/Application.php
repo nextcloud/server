@@ -64,7 +64,7 @@ class Application {
 								IRequest $request,
 								LoggerInterface $logger,
 								MemoryInfo $memoryInfo) {
-		$defaults = \OC::$server->getThemingDefaults();
+		$defaults = \OC::$server->get('ThemingDefaults');
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;

@@ -217,7 +217,7 @@ class URLGenerator implements IURLGenerator {
 		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
 		$themingImagePath = false;
 		if ($themingEnabled) {
-			$themingDefaults = \OC::$server->getThemingDefaults();
+			$themingDefaults = \OC::$server->get('ThemingDefaults');
 			if ($themingDefaults instanceof ThemingDefaults) {
 				$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
 			}
@@ -290,7 +290,7 @@ class URLGenerator implements IURLGenerator {
 	 * @return string url to the online documentation
 	 */
 	public function linkToDocs(string $key): string {
-		$theme = \OC::$server->getThemingDefaults();
+		$theme = \OC::$server->get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
 	}
 
