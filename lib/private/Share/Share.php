@@ -36,6 +36,7 @@
 namespace OC\Share;
 
 use OCA\Files_Sharing\ShareBackend\File;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -596,7 +597,7 @@ class Share extends Constants {
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
 			} elseif (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === IShare::TYPE_REMOTE) {
-				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD'], [
+				$addressBookEntries = \OC::$server->get(IContactsManager::class)->search($row['share_with'], ['CLOUD'], [
 					'limit' => 1,
 					'enumeration' => false,
 					'fullmatch' => false,
