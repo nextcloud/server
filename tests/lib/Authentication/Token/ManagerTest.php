@@ -243,6 +243,14 @@ class ManagerTest extends TestCase {
 		$this->manager->invalidateOldTokens();
 	}
 
+	public function testInvalidateLastUsedBefore() {
+		$this->publicKeyTokenProvider->expects($this->once())
+			->method('invalidateLastUsedBefore')
+			->with('user', 946684800);
+
+		$this->manager->invalidateLastUsedBefore('user', 946684800);
+	}
+
 	public function testGetTokenByUser() {
 		$t1 = new PublicKeyToken();
 		$t2 = new PublicKeyToken();

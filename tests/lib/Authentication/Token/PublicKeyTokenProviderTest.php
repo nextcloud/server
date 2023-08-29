@@ -361,6 +361,14 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateOldTokens();
 	}
 
+	public function testInvalidateLastUsedBefore() {
+		$this->mapper->expects($this->once())
+			->method('invalidateLastUsedBefore')
+			->with('user', 946684800);
+
+		$this->tokenProvider->invalidateLastUsedBefore('user', 946684800);
+	}
+
 	public function testRenewSessionTokenWithoutPassword() {
 		$token = 'oldIdtokentokentokentoken';
 		$uid = 'user';
