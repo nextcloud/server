@@ -93,7 +93,7 @@ class Upgrade extends Command {
 			$self = $this;
 			$updater = new Updater(
 				$this->config,
-				\OC::$server->getIntegrityCodeChecker(),
+				\OC::$server->get('IntegrityCodeChecker'),
 				$this->logger,
 				$this->installer
 			);

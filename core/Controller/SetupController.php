@@ -102,7 +102,7 @@ class SetupController {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
-		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
+		\OC::$server->get('IntegrityCodeChecker')->runInstanceVerification();
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
 			\OC_Template::printGuestPage('', 'installation_incomplete');

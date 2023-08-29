@@ -115,7 +115,7 @@ if (\OCP\Util::needUpgrade()) {
 	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
 		$config,
-		\OC::$server->getIntegrityCodeChecker(),
+		\OC::$server->get('IntegrityCodeChecker'),
 		$logger,
 		\OC::$server->query(\OC\Installer::class)
 	);

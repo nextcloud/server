@@ -303,7 +303,7 @@ class Updater extends BasicEmitter {
 		$this->config->setAppValue('core', 'lastupdatedat', '0');
 
 		// Check for code integrity if not disabled
-		if (\OC::$server->getIntegrityCodeChecker()->isCodeCheckEnforced()) {
+		if (\OC::$server->get('IntegrityCodeChecker')->isCodeCheckEnforced()) {
 			$this->emit('\OC\Updater', 'startCheckCodeIntegrity');
 			$this->checker->runInstanceVerification();
 			$this->emit('\OC\Updater', 'finishedCheckCodeIntegrity');

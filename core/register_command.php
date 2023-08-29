@@ -55,19 +55,19 @@ $application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::cla
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
-	\OC::$server->getIntegrityCodeChecker(),
+	\OC::$server->get('IntegrityCodeChecker'),
 	new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
 	\OC::$server->getURLGenerator()
 ));
 $application->add(new \OC\Core\Command\Integrity\SignCore(
-	\OC::$server->getIntegrityCodeChecker(),
+	\OC::$server->get('IntegrityCodeChecker'),
 	new \OC\IntegrityCheck\Helpers\FileAccessHelper()
 ));
 $application->add(new \OC\Core\Command\Integrity\CheckApp(
-	\OC::$server->getIntegrityCodeChecker()
+	\OC::$server->get('IntegrityCodeChecker')
 ));
 $application->add(new \OC\Core\Command\Integrity\CheckCore(
-	\OC::$server->getIntegrityCodeChecker()
+	\OC::$server->get('IntegrityCodeChecker')
 ));
 
 
