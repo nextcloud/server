@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OCP\IUserSession;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -134,7 +135,7 @@ class Util {
 			self::$shareManager = \OC::$server->getShareManager();
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = \OC::$server->get(IUserSession::class)->getUser();
 		if ($user !== null) {
 			$user = $user->getUID();
 		}

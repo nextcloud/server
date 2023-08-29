@@ -49,6 +49,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -526,7 +527,7 @@ class OC_Helper {
 				/** @var \OC\Files\Storage\Home $storage */
 				$user = $storage->getUser();
 			} else {
-				$user = \OC::$server->getUserSession()->getUser();
+				$user = \OC::$server->get(IUserSession::class)->getUser();
 			}
 			$quota = OC_Util::getUserQuota($user);
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {

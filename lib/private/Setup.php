@@ -60,6 +60,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -431,7 +432,7 @@ class Setup {
 			// Create a session token for the newly created user
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */
-			$userSession = \OC::$server->getUserSession();
+			$userSession = \OC::$server->get(IUserSession::class);
 			$provider = \OCP\Server::get(PublicKeyTokenProvider::class);
 			$userSession->setTokenProvider($provider);
 			$userSession->login($username, $password);

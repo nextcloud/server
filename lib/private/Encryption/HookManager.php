@@ -26,6 +26,7 @@ namespace OC\Encryption;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\Files\SetupManager;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class HookManager {
@@ -52,7 +53,7 @@ class HookManager {
 
 	private static function getUpdate(?string $owner = null): Update {
 		if (is_null(self::$updater)) {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			if (!$user && $owner) {
 				$user = \OC::$server->getUserManager()->get($owner);
 			}

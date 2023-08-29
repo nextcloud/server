@@ -39,6 +39,7 @@ use OCA\Files_Sharing\ShareBackend\File;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IUserSession;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
@@ -918,7 +919,7 @@ class Share extends Constants {
 			$statuses = [];
 			foreach ($items as $item) {
 				if ($item['share_type'] === IShare::TYPE_LINK) {
-					if ($item['uid_initiator'] !== \OC::$server->getUserSession()->getUser()->getUID()) {
+					if ($item['uid_initiator'] !== \OC::$server->get(IUserSession::class)->getUser()->getUID()) {
 						continue;
 					}
 					$statuses[$item[$column]]['link'] = true;

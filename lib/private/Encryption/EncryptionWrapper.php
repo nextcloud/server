@@ -30,6 +30,7 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -76,7 +77,7 @@ class EncryptionWrapper {
 		];
 
 		if (!$storage->instanceOfStorage(Storage\IDisableEncryptionStorage::class) && $mountPoint !== '/') {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;
 			$fileHelper = \OC::$server->getEncryptionFilesHelper();

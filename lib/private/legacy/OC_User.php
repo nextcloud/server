@@ -40,6 +40,7 @@ use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 
@@ -172,7 +173,7 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				$userSession = \OC::$server->getUserSession();
+				$userSession = \OC::$server->get(IUserSession::class);
 
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -238,7 +239,7 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			\OC::$server->getUserSession()->unsetMagicInCookie();
+			\OC::$server->get(IUserSession::class)->unsetMagicInCookie();
 
 			return self::loginWithApache($backend);
 		}
@@ -253,7 +254,7 @@ class OC_User {
 	 * @param string $uid
 	 */
 	public static function setUserId($uid) {
-		$userSession = \OC::$server->getUserSession();
+		$userSession = \OC::$server->get(IUserSession::class);
 		$userManager = \OC::$server->getUserManager();
 		if ($user = $userManager->get($uid)) {
 			$userSession->setUser($user);
@@ -265,11 +266,11 @@ class OC_User {
 	/**
 	 * Check if the user is logged in, considers also the HTTP basic credentials
 	 *
-	 * @deprecated use \OC::$server->getUserSession()->isLoggedIn()
+	 * @deprecated use \OC::$server->get(IUserSession::class)->isLoggedIn()
 	 * @return bool
 	 */
 	public static function isLoggedIn() {
-		return \OC::$server->getUserSession()->isLoggedIn();
+		return \OC::$server->get(IUserSession::class)->isLoggedIn();
 	}
 
 	/**
@@ -302,7 +303,7 @@ class OC_User {
 			return $backend->getLogoutUrl();
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = \OC::$server->get(IUserSession::class)->getUser();
 		if ($user instanceof \OCP\IUser) {
 			$backend = $user->getBackend();
 			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {

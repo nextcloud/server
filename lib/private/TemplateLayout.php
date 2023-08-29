@@ -229,7 +229,7 @@ class TemplateLayout extends \OC_Template {
 				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),
 				\OC::$server->getSession(),
-				\OC::$server->getUserSession()->getUser(),
+				\OC::$server->get(IUserSession::class)->getUser(),
 				$this->config,
 				\OC::$server->getGroupManager(),
 				\OC::$server->get(IniGetWrapper::class),

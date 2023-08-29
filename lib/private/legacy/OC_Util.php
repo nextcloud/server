@@ -71,6 +71,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -781,7 +782,7 @@ class OC_Util {
 	 */
 	public static function checkLoggedIn() {
 		// Check if we are a user
-		if (!\OC::$server->getUserSession()->isLoggedIn()) {
+		if (!\OC::$server->get(IUserSession::class)->isLoggedIn()) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
 				'core.login.showLoginForm',
 				[
@@ -792,7 +793,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->get(IUserSession::class)->getUser())) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}

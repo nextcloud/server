@@ -16,6 +16,7 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\Encryption\IManager;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -52,7 +53,7 @@ trait EncryptionTrait {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		// needed for fully logout
-		\OC::$server->getUserSession()->setUser(null);
+		\OC::$server->get(IUserSession::class)->setUser(null);
 
 		$this->setupManager->tearDown();
 

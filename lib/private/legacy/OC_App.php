@@ -57,6 +57,7 @@ use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUserSession;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
@@ -225,7 +226,7 @@ class OC_App {
 		if ($all) {
 			$user = null;
 		} else {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = \OC::$server->get(IUserSession::class)->getUser();
 		}
 
 		if (is_null($user)) {
@@ -863,7 +864,7 @@ class OC_App {
 	 */
 	public static function getStorage(string $appId) {
 		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
+			if (\OC::$server->get(IUserSession::class)->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {
 					$view->mkdir($appId);

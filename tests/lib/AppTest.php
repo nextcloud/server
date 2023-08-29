@@ -14,6 +14,7 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -555,7 +556,7 @@ class AppTest extends \Test\TestCase {
 	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService(AppConfig::class, $appConfig);
 		$this->overwriteService(AppManager::class, new AppManager(
-			\OC::$server->getUserSession(),
+			\OC::$server->get(IUserSession::class),
 			\OC::$server->getConfig(),
 			$appConfig,
 			\OC::$server->getGroupManager(),

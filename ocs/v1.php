@@ -30,6 +30,8 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
+use OCP\IUserSession;
+
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
@@ -57,7 +59,7 @@ try {
 	// side effects in existing apps
 	OC_App::loadApps();
 
-	if (!\OC::$server->getUserSession()->isLoggedIn()) {
+	if (!\OC::$server->get(IUserSession::class)->isLoggedIn()) {
 		OC::handleLogin(\OC::$server->getRequest());
 	}
 

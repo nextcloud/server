@@ -38,6 +38,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -425,7 +426,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		// needed for fully logout
-		\OC::$server->getUserSession()->setUser(null);
+		\OC::$server->get(IUserSession::class)->setUser(null);
 	}
 
 	/**

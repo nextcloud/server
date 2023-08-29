@@ -27,6 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IUserSession;
+
 class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -49,8 +52,8 @@ class OC_JSON {
 	 */
 	public static function checkLoggedIn() {
 		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
-		if (!\OC::$server->getUserSession()->isLoggedIn()
-			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (!\OC::$server->get(IUserSession::class)->isLoggedIn()
+			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->get(IUserSession::class)->getUser())) {
 			$l = \OC::$server->getL10N('lib');
 			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
 			self::error([ 'data' => [ 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' ]]);

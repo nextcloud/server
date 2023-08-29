@@ -252,9 +252,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IURLGenerator::class),
 				$server->get(LoggerInterface::class),
 				$c->get('AppName'),
-				$server->getUserSession()->isLoggedIn(),
+				$server->get(IUserSession::class)->isLoggedIn(),
 				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
-				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
+				$server->get(IUserSession::class)->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->get(IUserSession::class)->getUser()),
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
@@ -387,7 +387,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return boolean
 	 */
 	public function isLoggedIn() {
-		return \OC::$server->getUserSession()->isLoggedIn();
+		return \OC::$server->get(IUserSession::class)->isLoggedIn();
 	}
 
 	/**
