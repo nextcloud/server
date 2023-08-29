@@ -15,6 +15,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use Test\TestCase;
 
 /**
@@ -218,7 +219,7 @@ class L10nTest extends TestCase {
 	public function testFindLanguageFromLocale($locale, $language) {
 		$this->assertEquals(
 			$language,
-			\OC::$server->getL10NFactory()->findLanguageFromLocale('lib', $locale)
+			\OC::$server->get(IFactory::class)->findLanguageFromLocale('lib', $locale)
 		);
 	}
 

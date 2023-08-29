@@ -71,6 +71,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -184,7 +185,7 @@ class OC_Util {
 		$logger = \OC::$server->get(LoggerInterface::class);
 
 		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = \OC::$server->getL10NFactory()->findLanguage();
+		$userLang = \OC::$server->get(IFactory::class)->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
 		if (!file_exists($skeletonDirectory)) {
@@ -403,7 +404,7 @@ class OC_Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
