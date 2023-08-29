@@ -84,7 +84,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->previewManager = \OC::$server->getPreviewManager();
-		$this->rootFolder = \OC::$server->getRootFolder();
+		$this->rootFolder = \OC::$server->get(IRootFolder::class);
 		$this->mimeTypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
 	}
@@ -102,7 +102,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 	private function getRoot(): Root {
 		return new Root(
-			\OC::$server->getRootFolder(),
+			\OC::$server->get(IRootFolder::class),
 			\OC::$server->getSystemConfig()
 		);
 	}
