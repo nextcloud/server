@@ -49,6 +49,7 @@ class SFTPReadStream implements File {
 	private $eof = false;
 
 	private $buffer = '';
+	private bool $pendingRead = false;
 
 	public static function register($protocol = 'sftpread') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
@@ -143,10 +144,12 @@ class SFTPReadStream implements File {
 
 	private function request_chunk($size) {
 		$packet = pack('Na*N3', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size);
+		$this->pendingRead = true;
 		return $this->sftp->_send_sftp_packet(NET_SFTP_READ, $packet);
 	}
 
 	private function read_chunk() {
+		$this->pendingRead = false;
 		$response = $this->sftp->_get_sftp_packet();
 
 		switch ($this->sftp->packet_type) {
@@ -195,6 +198,10 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_close() {
+		// we still have a read request incoming that needs to be handled before we can close
+		if ($this->pendingRead) {
+			$this->sftp->_get_sftp_packet();
+		}
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}
