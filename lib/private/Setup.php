@@ -510,7 +510,7 @@ class Setup {
 			\OC::$server->getL10N('lib'),
 			\OCP\Server::get(Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
+			\OC::$server->get(ISecureRandom::class),
 			\OCP\Server::get(Installer::class)
 		);
 

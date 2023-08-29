@@ -105,7 +105,7 @@ class File implements ICache {
 		$storage = $this->getStorage();
 		$result = false;
 		// unique id to avoid chunk collision, just in case
-		$uniqueId = \OC::$server->getSecureRandom()->generate(
+		$uniqueId = \OC::$server->get(ISecureRandom::class)->generate(
 			16,
 			ISecureRandom::CHAR_ALPHANUMERIC
 		);

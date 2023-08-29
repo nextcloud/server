@@ -24,6 +24,7 @@ use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\Security\ISecureRandom;
 
 /**
  * Class MigratorTest
@@ -61,7 +62,7 @@ class MigratorTest extends \Test\TestCase {
 
 	private function getMigrator(): Migrator {
 		$platform = $this->connection->getDatabasePlatform();
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);

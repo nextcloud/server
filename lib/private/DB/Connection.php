@@ -52,6 +52,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
+use OCP\Security\ISecureRandom;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
@@ -592,7 +593,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	private function getMigrator() {
 		// TODO properly inject those dependencies
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);

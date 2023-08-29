@@ -255,7 +255,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @return string
 	 */
 	protected static function getUniqueID($prefix = '', $length = 13) {
-		return $prefix . \OC::$server->getSecureRandom()->generate(
+		return $prefix . \OC::$server->get(ISecureRandom::class)->generate(
 			$length,
 			// Do not use dots and slashes as we use the value for file names
 			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
