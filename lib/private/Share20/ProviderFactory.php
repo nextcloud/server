@@ -45,6 +45,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\Security\IHasher;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -199,7 +200,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->getHasher(),
+				$this->serverContainer->get(IHasher::class),
 				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(IManager::class)
 			);
