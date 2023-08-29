@@ -26,6 +26,7 @@ namespace OC\Encryption;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\Files\SetupManager;
+use OCP\Encryption\IManager as IEncryptionManager;
 use Psr\Log\LoggerInterface;
 
 class HookManager {
@@ -78,7 +79,7 @@ class HookManager {
 					\OC::$server->getGroupManager(),
 					\OC::$server->getConfig()),
 				Filesystem::getMountManager(),
-				\OC::$server->getEncryptionManager(),
+				\OC::$server->get(IEncryptionManager::class),
 				\OC::$server->getEncryptionFilesHelper(),
 				\OC::$server->get(LoggerInterface::class),
 				$uid

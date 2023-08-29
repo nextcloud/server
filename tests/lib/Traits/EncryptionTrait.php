@@ -14,7 +14,7 @@ use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
-use OCP\Encryption\IManager;
+use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
@@ -74,7 +74,7 @@ trait EncryptionTrait {
 		/** @var Setup $userSetup */
 		$userSetup = $container->query(Setup::class);
 		$userSetup->setupUser($name, $password);
-		$encryptionManager = $container->query(IManager::class);
+		$encryptionManager = $container->query(IEncryptionManager::class);
 		$this->encryptionApp->setUp($encryptionManager);
 		$keyManager->init($name, $password);
 	}
@@ -82,7 +82,7 @@ trait EncryptionTrait {
 	protected function postLogin() {
 		$encryptionWrapper = new EncryptionWrapper(
 			new ArrayCache(),
-			\OC::$server->getEncryptionManager(),
+			\OC::$server->get(IEncryptionManager::class),
 			\OC::$server->get(LoggerInterface::class)
 		);
 
@@ -90,7 +90,7 @@ trait EncryptionTrait {
 	}
 
 	protected function setUpEncryptionTrait() {
-		$isReady = \OC::$server->getEncryptionManager()->isReady();
+		$isReady = \OC::$server->get(IEncryptionManager::class)->isReady();
 		if (!$isReady) {
 			$this->markTestSkipped('Encryption not ready');
 		}
@@ -107,7 +107,7 @@ trait EncryptionTrait {
 		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
 		$this->config->setAppValue('core', 'default_encryption_module', \OCA\Encryption\Crypto\Encryption::ID);
 		$this->config->setAppValue('core', 'encryption_enabled', 'yes');
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isEnabled());
+		$this->assertTrue(\OC::$server->get(IEncryptionManager::class)->isEnabled());
 	}
 
 	protected function tearDownEncryptionTrait() {
