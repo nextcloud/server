@@ -14,6 +14,7 @@ namespace Test\Security;
 use OC\Files\View;
 use OC\Security\CertificateManager;
 use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -64,7 +65,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$user = \OC::$server->getUserManager()->get($this->username);
+		$user = \OC::$server->get(IUserManager::class)->get($this->username);
 		if ($user !== null) {
 			$user->delete();
 		}

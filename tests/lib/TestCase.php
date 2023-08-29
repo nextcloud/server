@@ -38,6 +38,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -408,12 +409,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::logout();
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($user);
-		$userObject = \OC::$server->getUserManager()->get($user);
+		$userObject = \OC::$server->get(IUserManager::class)->get($user);
 		if (!is_null($userObject)) {
 			$userObject->updateLastLoginTimestamp();
 		}
 		\OC_Util::setupFS($user);
-		if (\OC::$server->getUserManager()->userExists($user)) {
+		if (\OC::$server->get(IUserManager::class)->userExists($user)) {
 			\OC::$server->getUserFolder($user);
 		}
 	}

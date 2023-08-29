@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -97,7 +98,7 @@ class ProviderFactory implements IProviderFactory {
 		if ($this->defaultProvider === null) {
 			$this->defaultProvider = new DefaultShareProvider(
 				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->getUserManager(),
+				$this->serverContainer->get(IUserManager::class),
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getMailer(),
@@ -157,7 +158,7 @@ class ProviderFactory implements IProviderFactory {
 				$l,
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getConfig(),
-				$this->serverContainer->getUserManager(),
+				$this->serverContainer->get(IUserManager::class),
 				$this->serverContainer->getCloudIdManager(),
 				$this->serverContainer->getGlobalScaleConfig(),
 				$this->serverContainer->getCloudFederationProviderManager(),
@@ -189,7 +190,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
-				$this->serverContainer->getUserManager(),
+				$this->serverContainer->get(IUserManager::class),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->getLogger(),
@@ -231,7 +232,7 @@ class ProviderFactory implements IProviderFactory {
 			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
-				$this->serverContainer->getUserManager(),
+				$this->serverContainer->get(IUserManager::class),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getL10N('circles'),
 				$this->serverContainer->getLogger(),

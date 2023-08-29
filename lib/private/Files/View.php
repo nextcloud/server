@@ -66,6 +66,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -105,7 +106,7 @@ class View {
 		$this->fakeRoot = $root;
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
-		$this->userManager = \OC::$server->getUserManager();
+		$this->userManager = \OC::$server->get(IUserManager::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
@@ -1626,7 +1627,7 @@ class View {
 		$mount = $this->getMount('');
 		$mountPoint = $mount->getMountPoint();
 		$storage = $mount->getStorage();
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		if ($storage) {
 			$cache = $storage->getCache('');
 
@@ -1803,7 +1804,7 @@ class View {
 		$mount = $this->getMount($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
-		$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
+		$owner = \OC::$server->get(IUserManager::class)->get($storage->getOwner($internalPath));
 		return new FileInfo(
 			$this->getAbsolutePath($path),
 			$storage,

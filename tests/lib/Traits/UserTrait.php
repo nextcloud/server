@@ -10,6 +10,7 @@ namespace Test\Traits;
 
 use OC\User\User;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class DummyUser extends User {
 	private string $uid;
@@ -39,10 +40,10 @@ trait UserTrait {
 
 	protected function setUpUserTrait() {
 		$this->userBackend = new \Test\Util\User\Dummy();
-		\OC::$server->getUserManager()->registerBackend($this->userBackend);
+		\OC::$server->get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
 	protected function tearDownUserTrait() {
-		\OC::$server->getUserManager()->removeBackend($this->userBackend);
+		\OC::$server->get(IUserManager::class)->removeBackend($this->userBackend);
 	}
 }

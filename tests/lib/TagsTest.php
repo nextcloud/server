@@ -24,6 +24,7 @@ namespace Test;
 
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -50,7 +51,7 @@ class TagsTest extends \Test\TestCase {
 		\OC_User::clearBackends();
 		\OC_User::useBackend('dummy');
 		$userId = $this->getUniqueID('user_');
-		\OC::$server->getUserManager()->createUser($userId, 'pass');
+		\OC::$server->get(IUserManager::class)->createUser($userId, 'pass');
 		\OC_User::setUserId($userId);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')

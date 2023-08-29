@@ -39,6 +39,7 @@ use OCA\Files_Sharing\ShareBackend\File;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
@@ -195,7 +196,7 @@ class Share extends Constants {
 
 		// if we didn't found a result then let's look for a group share.
 		if (empty($shares) && $user !== null) {
-			$userObject = \OC::$server->getUserManager()->get($user);
+			$userObject = \OC::$server->get(IUserManager::class)->get($user);
 			$groups = [];
 			if ($userObject) {
 				$groups = \OC::$server->getGroupManager()->getUserGroupIds($userObject);
@@ -403,7 +404,7 @@ class Share extends Constants {
 					$qb->expr()->eq('share_with', $qb->createNamedParameter($shareWith))
 				));
 
-				$user = \OC::$server->getUserManager()->get($shareWith);
+				$user = \OC::$server->get(IUserManager::class)->get($shareWith);
 				$groups = [];
 				if ($user) {
 					$groups = \OC::$server->getGroupManager()->getUserGroupIds($user);
@@ -592,7 +593,7 @@ class Share extends Constants {
 			$row['share_with_displayname'] = $row['share_with'];
 			if (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === IShare::TYPE_USER) {
-				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
+				$shareWithUser = \OC::$server->get(IUserManager::class)->get($row['share_with']);
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
 			} elseif (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === IShare::TYPE_REMOTE) {
@@ -611,7 +612,7 @@ class Share extends Constants {
 				}
 			}
 			if (isset($row['uid_owner']) && $row['uid_owner'] != '') {
-				$ownerUser = \OC::$server->getUserManager()->get($row['uid_owner']);
+				$ownerUser = \OC::$server->get(IUserManager::class)->get($row['uid_owner']);
 				$row['displayname_owner'] = $ownerUser === null ? $row['uid_owner'] : $ownerUser->getDisplayName();
 			}
 

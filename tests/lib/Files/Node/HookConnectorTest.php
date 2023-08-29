@@ -71,7 +71,7 @@ class HookConnectorTest extends TestCase {
 		$this->root = new Root(
 			Filesystem::getMountManager(),
 			$this->view,
-			\OC::$server->getUserManager()->get($this->userId),
+			\OC::$server->get(IUserManager::class)->get($this->userId),
 			\OC::$server->getUserMountCache(),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),

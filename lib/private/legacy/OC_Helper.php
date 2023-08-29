@@ -49,6 +49,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -575,7 +576,7 @@ class OC_Helper {
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
 		if ($ownerId) {
-			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
+			$ownerDisplayName = \OC::$server->get(IUserManager::class)->getDisplayName($ownerId) ?? '';
 		}
 
 		if (substr_count($mount->getMountPoint(), '/') < 3) {

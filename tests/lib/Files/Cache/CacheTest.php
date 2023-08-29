@@ -15,6 +15,7 @@ use OC\Files\Search\SearchQuery;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class LongId extends \OC\Files\Storage\Temporary {
 	public function getId() {
@@ -353,7 +354,7 @@ class CacheTest extends \Test\TestCase {
 
 	public function testSearchQueryByTag() {
 		$userId = static::getUniqueID('user');
-		\OC::$server->getUserManager()->createUser($userId, $userId);
+		\OC::$server->get(IUserManager::class)->createUser($userId, $userId);
 		static::loginAsUser($userId);
 		$user = new \OC\User\User($userId, null, \OC::$server->get(IEventDispatcher::class));
 
@@ -400,7 +401,7 @@ class CacheTest extends \Test\TestCase {
 		$tagManager->delete('tag2');
 
 		static::logout();
-		$user = \OC::$server->getUserManager()->get($userId);
+		$user = \OC::$server->get(IUserManager::class)->get($userId);
 		if ($user !== null) {
 			try {
 				$user->delete();

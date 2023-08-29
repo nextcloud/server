@@ -60,6 +60,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -382,7 +383,7 @@ class Setup {
 		//create the user and group
 		$user = null;
 		try {
-			$user = \OC::$server->getUserManager()->createUser($username, $password);
+			$user = \OC::$server->get(IUserManager::class)->createUser($username, $password);
 			if (!$user) {
 				$error[] = "User <$username> could not be created.";
 			}

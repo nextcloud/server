@@ -28,6 +28,7 @@ use OC\User\NoUserException;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class DummyMountProvider implements IMountProvider {
 	private $mounts = [];
@@ -81,7 +82,7 @@ class FilesystemTest extends \Test\TestCase {
 		$userBackend = new \Test\Util\User\Dummy();
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER2, self::TEST_FILESYSTEM_USER2);
-		\OC::$server->getUserManager()->registerBackend($userBackend);
+		\OC::$server->get(IUserManager::class)->registerBackend($userBackend);
 		$this->loginAsUser();
 	}
 
@@ -312,7 +313,7 @@ class FilesystemTest extends \Test\TestCase {
 			$backend = new \Test\Util\User\Dummy();
 			\OC_User::useBackend($backend);
 			$backend->createUser($user, $user);
-			$userObj = \OC::$server->getUserManager()->get($user);
+			$userObj = \OC::$server->get(IUserManager::class)->get($user);
 			\OC::$server->getUserSession()->setUser($userObj);
 			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
 		}
@@ -397,7 +398,7 @@ class FilesystemTest extends \Test\TestCase {
 	public function testHomeMount() {
 		$userId = $this->getUniqueID('user_');
 
-		\OC::$server->getUserManager()->createUser($userId, $userId);
+		\OC::$server->get(IUserManager::class)->createUser($userId, $userId);
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -410,7 +411,7 @@ class FilesystemTest extends \Test\TestCase {
 			$this->assertEquals('home::' . $userId, $homeMount->getId());
 		}
 
-		$user = \OC::$server->getUserManager()->get($userId);
+		$user = \OC::$server->get(IUserManager::class)->get($userId);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -431,7 +432,7 @@ class FilesystemTest extends \Test\TestCase {
 		// no cache path configured
 		$config->setSystemValue('cache_path', '');
 
-		\OC::$server->getUserManager()->createUser($userId, $userId);
+		\OC::$server->get(IUserManager::class)->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$this->assertEquals(
@@ -441,7 +442,7 @@ class FilesystemTest extends \Test\TestCase {
 		[$storage, $internalPath] = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
 		$this->assertTrue($storage->instanceOfStorage('\OCP\Files\IHomeStorage'));
 		$this->assertEquals('cache', $internalPath);
-		$user = \OC::$server->getUserManager()->get($userId);
+		$user = \OC::$server->get(IUserManager::class)->get($userId);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -462,7 +463,7 @@ class FilesystemTest extends \Test\TestCase {
 		$cachePath = \OC::$server->getTempManager()->getTemporaryFolder() . '/extcache';
 		$config->setSystemValue('cache_path', $cachePath);
 
-		\OC::$server->getUserManager()->createUser($userId, $userId);
+		\OC::$server->get(IUserManager::class)->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$this->assertEquals(
@@ -472,7 +473,7 @@ class FilesystemTest extends \Test\TestCase {
 		[$storage, $internalPath] = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
 		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('', $internalPath);
-		$user = \OC::$server->getUserManager()->get($userId);
+		$user = \OC::$server->get(IUserManager::class)->get($userId);
 		if ($user !== null) {
 			$user->delete();
 		}

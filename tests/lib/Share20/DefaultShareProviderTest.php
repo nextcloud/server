@@ -2511,7 +2511,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesInFolder() {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$groupManager = \OC::$server->getGroupManager();
 		$rootFolder = \OC::$server->getRootFolder();
 
@@ -2609,7 +2609,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetAccessListNoCurrentAccessRequired() {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$groupManager = \OC::$server->getGroupManager();
 		$rootFolder = \OC::$server->getRootFolder();
 
@@ -2705,7 +2705,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetAccessListCurrentAccessRequired() {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$groupManager = \OC::$server->getGroupManager();
 		$rootFolder = \OC::$server->getRootFolder();
 

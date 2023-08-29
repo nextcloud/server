@@ -14,6 +14,7 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -458,7 +459,7 @@ class AppTest extends \Test\TestCase {
 	 * @dataProvider appConfigValuesProvider
 	 */
 	public function testEnabledApps($user, $expectedApps, $forceAll) {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$groupManager = \OC::$server->getGroupManager();
 		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
 		$user2 = $userManager->createUser(self::TEST_USER2, self::TEST_USER2);
@@ -507,7 +508,7 @@ class AppTest extends \Test\TestCase {
 	 * enabled apps more than once when a user is set.
 	 */
 	public function testEnabledAppsCache() {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
 
 		\OC_User::setUserId(self::TEST_USER1);

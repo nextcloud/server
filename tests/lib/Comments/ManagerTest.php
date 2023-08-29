@@ -14,6 +14,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IInitialStateService;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -657,7 +658,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteReferencesOfActorWithUserManagement() {
-		$user = \OC::$server->getUserManager()->createUser('xenia', '123456');
+		$user = \OC::$server->get(IUserManager::class)->createUser('xenia', '123456');
 		$this->assertTrue($user instanceof IUser);
 
 		$manager = \OC::$server->getCommentsManager();

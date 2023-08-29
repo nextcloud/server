@@ -23,6 +23,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IShare;
@@ -98,7 +99,7 @@ class ViewTest extends \Test\TestCase {
 		\OC_User::useBackend(new \Test\Util\User\Dummy());
 
 		//login
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$groupManager = \OC::$server->getGroupManager();
 		$this->user = 'test';
 		$this->userObject = $userManager->createUser('test', 'test');
@@ -1679,7 +1680,7 @@ class ViewTest extends \Test\TestCase {
 		$view->mkdir('shareddir/sub2');
 
 		$fileId = $view->getFileInfo('shareddir')->getId();
-		$userObject = \OC::$server->getUserManager()->createUser('test2', 'IHateNonMockableStaticClasses');
+		$userObject = \OC::$server->get(IUserManager::class)->createUser('test2', 'IHateNonMockableStaticClasses');
 
 		$userFolder = \OC::$server->getUserFolder($this->user);
 		$shareDir = $userFolder->get('shareddir');

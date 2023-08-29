@@ -11,6 +11,7 @@ namespace Test\Files\Cache;
 use OC\Files\Filesystem as Filesystem;
 use OC\Files\View;
 use OCP\Files\Mount\IMountManager;
+use OCP\IUserManager;
 
 /**
  * Class UpdaterLegacyTest
@@ -57,7 +58,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 			self::$user = $this->getUniqueID();
 		}
 
-		\OC::$server->getUserManager()->createUser(self::$user, 'password');
+		\OC::$server->get(IUserManager::class)->createUser(self::$user, 'password');
 		$this->loginAsUser(self::$user);
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
@@ -77,7 +78,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		}
 
 		$result = false;
-		$user = \OC::$server->getUserManager()->get(self::$user);
+		$user = \OC::$server->get(IUserManager::class)->get(self::$user);
 		if ($user !== null) {
 			$result = $user->delete();
 		}

@@ -40,6 +40,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OC\DB\Connection;
@@ -176,7 +177,7 @@ class Repair implements IOutput {
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
 			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
+			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->get(IUserManager::class)),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
@@ -185,7 +186,7 @@ class Repair implements IOutput {
 			),
 			new CleanPreviews(
 				\OC::$server->getJobList(),
-				\OC::$server->getUserManager(),
+				\OC::$server->get(IUserManager::class),
 				\OC::$server->getConfig()
 			),
 			new MigrateOauthTables(\OC::$server->get(Connection::class)),

@@ -22,6 +22,7 @@
 namespace Test\Preview;
 
 use OC\Files\Node\File;
+use OCP\IUserManager;
 
 abstract class Provider extends \Test\TestCase {
 	/** @var string */
@@ -48,7 +49,7 @@ abstract class Provider extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OC::$server->get(IUserManager::class);
 		$userManager->clearBackends();
 		$backend = new \Test\Util\User\Dummy();
 		$userManager->registerBackend($backend);

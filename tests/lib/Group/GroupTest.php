@@ -12,6 +12,7 @@ namespace Test\Group;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class GroupTest extends \Test\TestCase {
@@ -65,7 +66,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
@@ -89,7 +90,7 @@ class GroupTest extends \Test\TestCase {
 		$backend2 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
@@ -117,7 +118,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder('\OC\User\Backend')
 			->disableOriginalConstructor()
 			->getMock();
@@ -138,7 +139,7 @@ class GroupTest extends \Test\TestCase {
 		$backend2 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -161,7 +162,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder('\OC\User\Backend')
 			->disableOriginalConstructor()
 			->getMock();
@@ -186,7 +187,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder('\OC\User\Backend')
 			->disableOriginalConstructor()
 			->getMock();
@@ -210,7 +211,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder('\OC\User\Backend')
 			->disableOriginalConstructor()
 			->getMock();
@@ -235,7 +236,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -262,7 +263,7 @@ class GroupTest extends \Test\TestCase {
 		$backend2 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$userBackend = $this->getMockBuilder('\OC\User\Backend')
 			->disableOriginalConstructor()
 			->getMock();
@@ -299,7 +300,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
@@ -321,7 +322,7 @@ class GroupTest extends \Test\TestCase {
 		$backend2 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
@@ -344,7 +345,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
@@ -366,7 +367,7 @@ class GroupTest extends \Test\TestCase {
 		$backend2 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
@@ -391,7 +392,7 @@ class GroupTest extends \Test\TestCase {
 		$backend1 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend1], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
@@ -415,7 +416,7 @@ class GroupTest extends \Test\TestCase {
 		$backend2 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
@@ -443,7 +444,7 @@ class GroupTest extends \Test\TestCase {
 		$backend1 = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend1], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->never())
@@ -461,7 +462,7 @@ class GroupTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('OC\Group\Database')
 			->disableOriginalConstructor()
 			->getMock();
-		$userManager = $this->getUserManager();
+		$userManager = $this->get(IUserManager::class);
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())

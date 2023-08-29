@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class TestScanner extends \OC\Files\Utils\Scanner {
@@ -52,13 +53,13 @@ class ScannerTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->userBackend = new \Test\Util\User\Dummy();
-		\OC::$server->getUserManager()->registerBackend($this->userBackend);
+		\OC::$server->get(IUserManager::class)->registerBackend($this->userBackend);
 		$this->loginAsUser();
 	}
 
 	protected function tearDown(): void {
 		$this->logout();
-		\OC::$server->getUserManager()->removeBackend($this->userBackend);
+		\OC::$server->get(IUserManager::class)->removeBackend($this->userBackend);
 		parent::tearDown();
 	}
 

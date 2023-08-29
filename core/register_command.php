@@ -48,6 +48,8 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -130,7 +132,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		\OC::$server->getEncryptionManager(),
 		\OC::$server->getAppManager(),
 		\OC::$server->getConfig(),
-		new \OC\Encryption\DecryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getUserManager(), new \OC\Files\View()),
+		new \OC\Encryption\DecryptAll(\OC::$server->getEncryptionManager(), \OC::$server->get(IUserManager::class), new \OC\Files\View()),
 		new \Symfony\Component\Console\Helper\QuestionHelper())
 	);
 
@@ -140,13 +142,13 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$view = new \OC\Files\View();
 	$util = new \OC\Encryption\Util(
 		$view,
-		\OC::$server->getUserManager(),
+		\OC::$server->get(IUserManager::class),
 		\OC::$server->getGroupManager(),
 		\OC::$server->getConfig()
 	);
 	$application->add(new OC\Core\Command\Encryption\ChangeKeyStorageRoot(
 		$view,
-		\OC::$server->getUserManager(),
+		\OC::$server->get(IUserManager::class),
 		\OC::$server->getConfig(),
 		$util,
 		new \Symfony\Component\Console\Helper\QuestionHelper()
@@ -155,7 +157,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Encryption\ShowKeyStorageRoot($util));
 	$application->add(new OC\Core\Command\Encryption\MigrateKeyStorage(
 		$view,
-		\OC::$server->getUserManager(),
+		\OC::$server->get(IUserManager::class),
 		\OC::$server->getConfig(),
 		$util,
 		\OC::$server->getCrypto()
@@ -182,26 +184,26 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
 
-	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\Add(\OC::$server->get(IUserManager::class), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\User\Delete(\OC::$server->get(IUserManager::class)));
+	$application->add(new OC\Core\Command\User\Disable(\OC::$server->get(IUserManager::class)));
+	$application->add(new OC\Core\Command\User\Enable(\OC::$server->get(IUserManager::class)));
+	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->get(IUserManager::class)));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\Report::class));
-	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager(), \OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\SyncAccountDataCommand(\OC::$server->getUserManager(), \OC::$server->get(\OCP\Accounts\IAccountManager::class)));
+	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->get(IUserManager::class), \OC::$server->getAppManager()));
+	$application->add(new OC\Core\Command\User\Setting(\OC::$server->get(IUserManager::class), \OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->get(IUserManager::class), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\User\Info(\OC::$server->get(IUserManager::class), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\User\SyncAccountDataCommand(\OC::$server->get(IUserManager::class), \OC::$server->get(\OCP\Accounts\IAccountManager::class)));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Add::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\ListCommand::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Delete::class));
-
+	
 	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\Delete(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\ListCommand(\OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\AddUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\RemoveUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\Group\AddUser(\OC::$server->get(IUserManager::class), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\Group\RemoveUser(\OC::$server->get(IUserManager::class), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\Info(\OC::$server->get(\OCP\IGroupManager::class)));
 
 	$application->add(new OC\Core\Command\SystemTag\ListCommand(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));

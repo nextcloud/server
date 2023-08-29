@@ -62,7 +62,7 @@ class ShareTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->groupManager = \OC::$server->getGroupManager();
-		$this->userManager = \OC::$server->getUserManager();
+		$this->userManager = \OC::$server->get(IUserManager::class);
 
 		$this->userManager->clearBackends();
 		$this->userManager->registerBackend(new \Test\Util\User\Dummy());

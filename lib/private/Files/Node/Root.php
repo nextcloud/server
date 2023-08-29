@@ -473,7 +473,7 @@ class Root extends Folder implements IRootFolder {
 			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
 			return $this->createNode($absolutePath, new FileInfo(
 				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
-				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
+				\OC::$server->get(IUserManager::class)->get($mount->getStorage()->getOwner($pathRelativeToMount))
 			));
 		}, $mountsContainingFile);
 

@@ -49,6 +49,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
@@ -504,7 +505,7 @@ class Database extends ABackend implements
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		$backends = \OC::$server->getUserManager()->getBackends();
+		$backends = \OC::$server->get(IUserManager::class)->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend instanceof Database) {
 				/** @var \OC\User\Database $backend */
