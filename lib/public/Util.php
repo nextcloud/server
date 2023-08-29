@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OC\Security\CSRF\CsrfTokenManager;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -416,7 +417,7 @@ class Util {
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
-			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
+			self::$token = \OC::$server->get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 		}
 		return self::$token;
 	}

@@ -47,6 +47,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -542,7 +543,7 @@ class Session implements IUserSession, Emitter {
 		if ($refreshCsrfToken) {
 			// TODO: mock/inject/use non-static
 			// Refresh the token
-			\OC::$server->getCsrfTokenManager()->refreshToken();
+			\OC::$server->get(CsrfTokenManager::class)->refreshToken();
 		}
 
 		if ($firstTimeLogin) {
