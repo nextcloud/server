@@ -154,7 +154,7 @@ class DAV extends Common {
 		$this->eventLogger = \OC::$server->get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
-		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
+		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	protected function init() {

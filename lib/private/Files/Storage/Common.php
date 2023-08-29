@@ -54,6 +54,7 @@ use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
@@ -254,7 +255,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
-			return \OC::$server->getMimeTypeDetector()->detectPath($path);
+			return \OC::$server->get(IMimeTypeDetector::class)->detectPath($path);
 		} else {
 			return false;
 		}

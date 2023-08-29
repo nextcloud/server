@@ -34,6 +34,9 @@ use OCP\Util;
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\Files\IMimeTypeDetector;
+
 function p($string) {
 	print(\OCP\Util::sanitizeHTML($string));
 }
@@ -255,7 +258,7 @@ function image_path($app, $image) {
  * @return string link to the image
  */
 function mimetype_icon($mimetype) {
-	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
+	return \OC::$server->get(IMimeTypeDetector::class)->mimeTypeIcon($mimetype);
 }
 
 /**

@@ -48,6 +48,8 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\Files\IMimeTypeDetector;
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -163,11 +165,11 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	);
 
 	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));
-	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->getMimeTypeLoader()));
-	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateJS(\OC::$server->getMimeTypeDetector()));
+	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->get(IMimeTypeDetector::class), \OC::$server->getMimeTypeLoader()));
+	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateJS(\OC::$server->get(IMimeTypeDetector::class)));
 	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
-	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
+	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->get(IMimeTypeDetector::class), \OC::$server->getMemCacheFactory()));
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(

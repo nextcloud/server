@@ -42,6 +42,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
@@ -436,7 +437,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				//create a empty file, need to have at least on char to make it
 				// work with all object storage implementations
 				$this->file_put_contents($path, ' ');
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+				$mimeType = \OC::$server->get(IMimeTypeDetector::class)->detectPath($path);
 				$stat = [
 					'etag' => $this->getETag($path),
 					'mimetype' => $mimeType,
@@ -501,7 +502,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 
-		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
+		$mimetypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 		$mimetype = $mimetypeDetector->detectPath($path);
 
 		$stat['mimetype'] = $mimetype;

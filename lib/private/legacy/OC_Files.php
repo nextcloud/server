@@ -44,6 +44,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -80,7 +81,7 @@ class OC_Files {
 		header('Expires: 0');
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
-		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+		$type = \OC::$server->get(IMimeTypeDetector::class)->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
 			if (!empty($rangeArray)) {
 				http_response_code(206);
@@ -361,7 +362,7 @@ class OC_Files {
 					// we have to check it before body contents
 					$view->readfilePart($filename, $rangeArray[0]['size'], $rangeArray[0]['size']);
 
-					$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+					$type = \OC::$server->get(IMimeTypeDetector::class)->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 
 					foreach ($rangeArray as $range) {
 						echo "\r\n--".self::getBoundary()."\r\n".
