@@ -43,6 +43,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\CapabilitiesManager;
 use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
@@ -258,7 +259,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->getGroupManager(),
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),
-				\OC::$server->getCapabilitiesManager(),
+				\OC::$server->get(CapabilitiesManager::class),
 				\OCP\Server::get(IInitialStateService::class)
 			);
 			$config = $jsConfigHelper->getConfig();
