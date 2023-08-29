@@ -21,6 +21,8 @@
 
 require_once __DIR__ . '/../lib/base.php';
 
+use OCP\App\IAppManager;
+
 header('Content-Type: application/json');
 
 $server = \OC::$server;
@@ -28,6 +30,6 @@ $server = \OC::$server;
 $controller = new \OC\OCS\Provider(
 	'ocs_provider',
 	$server->getRequest(),
-	$server->getAppManager()
+	$server->get(IAppManager::class)
 );
 echo $controller->buildProviderList()->render();

@@ -34,6 +34,7 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCP\App\IAppManager;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Psr\Log\LoggerInterface;
@@ -161,7 +162,7 @@ try {
 			$file = OC::$SERVERROOT .'/'. $file;
 			break;
 		default:
-			if (!\OC::$server->getAppManager()->isInstalled($app)) {
+			if (!\OC::$server->get(IAppManager::class)->isInstalled($app)) {
 				throw new RemoteException('App not installed: ' . $app);
 			}
 			OC_App::loadApp($app);

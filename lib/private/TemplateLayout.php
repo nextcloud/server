@@ -47,6 +47,7 @@ use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -87,7 +88,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Add fallback theming variables if theming is disabled
 		if ($renderAs !== TemplateResponse::RENDER_AS_USER
-			|| !\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+			|| !\OC::$server->get(IAppManager::class)->isEnabledForUser('theming')) {
 			// TODO cache generated default theme if enabled for fallback if server is erroring ?
 			Util::addStyle('theming', 'default');
 		}
@@ -113,7 +114,7 @@ class TemplateLayout extends \OC_Template {
 
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
-			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+			if (\OC::$server->get(IAppManager::class)->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
 				/** @var \OCA\Theming\Service\ThemesService */
 				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
@@ -124,8 +125,8 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('logoUrl', $logoUrl);
 
 			// Set default app name
-			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
-			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
+			$defaultApp = \OC::$server->get(IAppManager::class)->getDefaultAppForUser();
+			$defaultAppInfo = \OC::$server->get(IAppManager::class)->getAppInfo($defaultApp);
 			$l10n = \OC::$server->getL10NFactory()->get($defaultApp);
 			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
 
@@ -227,7 +228,7 @@ class TemplateLayout extends \OC_Template {
 			$jsConfigHelper = new JSConfigHelper(
 				\OC::$server->getL10N('lib'),
 				\OCP\Server::get(Defaults::class),
-				\OC::$server->getAppManager(),
+				\OC::$server->get(IAppManager::class),
 				\OC::$server->getSession(),
 				\OC::$server->getUserSession()->getUser(),
 				$this->config,
@@ -312,7 +313,7 @@ class TemplateLayout extends \OC_Template {
 		$v = [];
 
 		if ($this->config->getSystemValueBool('installed', false)) {
-			if (\OC::$server->getAppManager()->isInstalled('theming')) {
+			if (\OC::$server->get(IAppManager::class)->isInstalled('theming')) {
 				$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 			}
 			$v = \OC_App::getAppVersions();

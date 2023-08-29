@@ -27,6 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+ use OCP\App\IAppManager;
+
 class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -35,7 +38,7 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
-		if (!\OC::$server->getAppManager()->isEnabledForUser($app)) {
+		if (!\OC::$server->get(IAppManager::class)->isEnabledForUser($app)) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Application is not enabled'), 'error' => 'application_not_enabled' ]]);
 			exit();

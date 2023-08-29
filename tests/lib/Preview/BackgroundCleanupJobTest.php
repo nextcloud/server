@@ -25,6 +25,7 @@ namespace Test\Preview;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
@@ -78,7 +79,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->logout();
 		$this->loginAsUser($this->userId);
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		$this->trashEnabled = $appManager->isEnabledForUser('files_trashbin', $user);
 		$appManager->disableApp('files_trashbin');
 
@@ -91,7 +92,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		if ($this->trashEnabled) {
-			$appManager = \OC::$server->getAppManager();
+			$appManager = \OC::$server->get(IAppManager::class);
 			$appManager->enableApp('files_trashbin');
 		}
 

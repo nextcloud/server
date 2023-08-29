@@ -494,7 +494,7 @@ class Installer {
 	 */
 	public function removeApp($appId) {
 		if ($this->isDownloaded($appId)) {
-			if (\OC::$server->getAppManager()->isShipped($appId)) {
+			if (\OC::$server->get(IAppManager::class)->isShipped($appId)) {
 				return false;
 			}
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
@@ -537,7 +537,7 @@ class Installer {
 	 * @return array Array of error messages (appid => Exception)
 	 */
 	public static function installShippedApps($softErrors = false) {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		$config = \OC::$server->getConfig();
 		$errors = [];
 		foreach (\OC::$APPSROOTS as $app_dir) {

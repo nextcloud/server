@@ -275,7 +275,7 @@ class Updater extends BasicEmitter {
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
 		/** @var AppManager $appManager */
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps($appManager->getInstalledApps());
@@ -382,7 +382,7 @@ class Updater extends BasicEmitter {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
 			$info = $appManager->getAppInfo($app);

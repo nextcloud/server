@@ -51,6 +51,7 @@ use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
 use OCA\WorkflowEngine\Manager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
@@ -255,7 +256,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getUserSession()->isLoggedIn(),
 				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
-				$server->getAppManager(),
+				$server->get(IAppManager::class),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
 				$server->get(IUserSession::class)

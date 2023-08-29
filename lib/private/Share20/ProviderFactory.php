@@ -41,6 +41,7 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
+use OCP\App\IAppManager;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
@@ -121,7 +122,7 @@ class ProviderFactory implements IProviderFactory {
 			/*
 			 * Check if the app is enabled
 			 */
-			$appManager = $this->serverContainer->getAppManager();
+			$appManager = $this->serverContainer->get(IAppManager::class);
 			if (!$appManager->isEnabledForUser('federatedfilesharing')) {
 				return null;
 			}
@@ -178,7 +179,7 @@ class ProviderFactory implements IProviderFactory {
 			/*
 			 * Check if the app is enabled
 			 */
-			$appManager = $this->serverContainer->getAppManager();
+			$appManager = $this->serverContainer->get(IAppManager::class);
 			if (!$appManager->isEnabledForUser('sharebymail')) {
 				return null;
 			}
@@ -220,7 +221,7 @@ class ProviderFactory implements IProviderFactory {
 			return null;
 		}
 
-		if (!$this->serverContainer->getAppManager()->isEnabledForUser('circles') ||
+		if (!$this->serverContainer->get(IAppManager::class)->isEnabledForUser('circles') ||
 			!class_exists('\OCA\Circles\ShareByCircleProvider')
 		) {
 			$this->circlesAreNotAvailable = true;
@@ -252,7 +253,7 @@ class ProviderFactory implements IProviderFactory {
 			/*
 			 * Check if the app is enabled
 			 */
-			$appManager = $this->serverContainer->getAppManager();
+			$appManager = $this->serverContainer->get(IAppManager::class);
 			if (!$appManager->isEnabledForUser('spreed')) {
 				return null;
 			}

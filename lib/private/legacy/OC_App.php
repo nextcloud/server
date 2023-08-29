@@ -183,7 +183,7 @@ class OC_App {
 	 * read app types from info.xml and cache them in the database
 	 */
 	public static function setAppTypes(string $app) {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		$appData = $appManager->getAppInfo($app);
 		if (!is_array($appData)) {
 			return;
@@ -221,7 +221,7 @@ class OC_App {
 		}
 		// in incognito mode or when logged out, $user will be false,
 		// which is also the case during an upgrade
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		if ($all) {
 			$user = null;
 		} else {
@@ -264,7 +264,7 @@ class OC_App {
 
 		$installer->installApp($appId);
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		if ($groups !== []) {
 			$groupManager = \OC::$server->getGroupManager();
 			$groupsList = [];
@@ -354,7 +354,7 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $refreshAppPath should be set to true only during install/upgrade
 	 * @return string|false
-	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
+	 * @deprecated 11.0.0 use \OC::$server->get(\OCP\App\IAppManager::class)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
 		if ($appId === null || trim($appId) === '') {
@@ -373,7 +373,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
-	 * @deprecated 18.0.0 use \OC::$server->getAppManager()->getAppWebPath()
+	 * @deprecated 18.0.0 use \OC::$server->get(\OCP\App\IAppManager::class)->getAppWebPath()
 	 */
 	public static function getAppWebPath(string $appId) {
 		if (($dir = self::findAppInDirectories($appId)) != false) {
@@ -390,7 +390,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
+		$appData = \OC::$server->get(IAppManager::class)->getAppInfo($infoFile, true);
 		return isset($appData['version']) ? $appData['version'] : '';
 	}
 
@@ -556,7 +556,7 @@ class OC_App {
 	public function listAllApps(): array {
 		$installedApps = OC_App::getAllApps();
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = \OC::$server->get(IAppManager::class);
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
@@ -756,7 +756,7 @@ class OC_App {
 			return false;
 		}
 
-		\OC::$server->getAppManager()->clearAppsCache();
+		\OC::$server->get(IAppManager::class)->clearAppsCache();
 		$l = \OC::$server->getL10N('core');
 		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
@@ -778,8 +778,8 @@ class OC_App {
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
 		// update appversion in app manager
-		\OC::$server->getAppManager()->clearAppsCache();
-		\OC::$server->getAppManager()->getAppVersion($appId, false);
+		\OC::$server->get(IAppManager::class)->clearAppsCache();
+		\OC::$server->get(IAppManager::class)->getAppVersion($appId, false);
 
 		self::setupBackgroundJobs($appData['background-jobs']);
 
@@ -862,7 +862,7 @@ class OC_App {
 	 * @return \OC\Files\View|false
 	 */
 	public static function getStorage(string $appId) {
-		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
+		if (\OC::$server->get(IAppManager::class)->isEnabledForUser($appId)) { //sanity check
 			if (\OC::$server->getUserSession()->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {

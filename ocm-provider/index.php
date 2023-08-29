@@ -22,11 +22,13 @@
 
 require_once __DIR__ . '/../lib/base.php';
 
+use OCP\App\IAppManager;
+
 header('Content-Type: application/json');
 
 $server = \OC::$server;
 
-$isEnabled = $server->getAppManager()->isEnabledForUser('cloud_federation_api');
+$isEnabled = $server->get(IAppManager::class)->isEnabledForUser('cloud_federation_api');
 
 if ($isEnabled) {
 	// Make sure the routes are loaded

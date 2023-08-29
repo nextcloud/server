@@ -38,6 +38,7 @@
  *
  */
 use OC\TemplateLayout;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 
 require_once __DIR__.'/template/functions.php';
@@ -240,7 +241,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printErrorPage($error_msg, $hint = '', $statusCode = 500) {
-		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
+		if (\OC::$server->get(IAppManager::class)->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}
 

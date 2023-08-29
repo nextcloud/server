@@ -66,6 +66,7 @@
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\SetupManager;
+use OCP\App\IAppManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -83,7 +84,7 @@ class OC_Util {
 	private static $versionCache = null;
 
 	protected static function getAppManager() {
-		return \OC::$server->getAppManager();
+		return \OC::$server->get(IAppManager::class);
 	}
 
 	/**

@@ -48,7 +48,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use Psr\Log\LoggerInterface;
+
+ use OCP\App\IAppManager;
+ use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::class), \OC::$server->get(\OCP\Defaults::class)));
@@ -72,12 +74,12 @@ $application->add(new \OC\Core\Command\Integrity\CheckCore(
 
 
 if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
-	$application->add(new OC\Core\Command\App\Disable(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager(), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\App\Disable(\OC::$server->get(IAppManager::class)));
+	$application->add(new OC\Core\Command\App\Enable(\OC::$server->get(IAppManager::class), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\App\Install());
 	$application->add(new OC\Core\Command\App\GetPath());
-	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->query(\OC\Installer::class), \OC::$server->get(LoggerInterface::class)));
+	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->get(IAppManager::class)));
+	$application->add(new OC\Core\Command\App\Remove(\OC::$server->get(IAppManager::class), \OC::$server->query(\OC\Installer::class), \OC::$server->get(LoggerInterface::class)));
 	$application->add(\OC::$server->query(\OC\Core\Command\App\Update::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
@@ -116,7 +118,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	if (\OC::$server->getConfig()->getSystemValueBool('debug', false)) {
 		$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->get(\OC\DB\Connection::class)));
 		$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->get(\OC\DB\Connection::class)));
-		$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getAppManager()));
+		$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->get(IAppManager::class)));
 		$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getConfig()));
 	}
 
@@ -125,10 +127,10 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
-	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getAppManager(), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
+	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->get(IAppManager::class), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
 	$application->add(new OC\Core\Command\Encryption\DecryptAll(
 		\OC::$server->getEncryptionManager(),
-		\OC::$server->getAppManager(),
+		\OC::$server->get(IAppManager::class),
 		\OC::$server->getConfig(),
 		new \OC\Encryption\DecryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getUserManager(), new \OC\Files\View()),
 		new \Symfony\Component\Console\Helper\QuestionHelper())
@@ -174,7 +176,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		new \OC\Repair([], \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class)),
 		\OC::$server->getConfig(),
 		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
-		\OC::$server->getAppManager()
+		\OC::$server->get(IAppManager::class)
 	));
 	$application->add(\OC::$server->query(OC\Core\Command\Maintenance\RepairShareOwnership::class));
 
@@ -188,7 +190,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\Report::class));
-	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager(), \OC::$server->getAppManager()));
+	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager(), \OC::$server->get(IAppManager::class)));
 	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
