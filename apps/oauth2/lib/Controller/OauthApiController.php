@@ -113,8 +113,18 @@ class OauthApiController extends Controller {
 			return $response;
 		}
 
-		// check authorization code expiration
 		if ($grant_type === 'authorization_code') {
+			// check this token is in authorization code state
+			$deliveredTokenCount = $accessToken->getTokenCount();
+			if ($deliveredTokenCount > 0) {
+				$response = new JSONResponse([
+					'error' => 'invalid_request',
+				], Http::STATUS_BAD_REQUEST);
+				$response->throttle(['invalid_request' => 'authorization_code_received_for_active_token']);
+				return $response;
+			}
+
+			// check authorization code expiration
 			$now = $this->timeFactory->now()->getTimestamp();
 			$tokenCreatedAt = $accessToken->getCreatedAt();
 			if ($tokenCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
