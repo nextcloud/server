@@ -79,6 +79,8 @@
     "Change color" : "Промени боју",
     "No background" : "Без позадине",
     "Select a background from your files" : "Изаберите позадину међу вашим фајловима",
+    "Select background" : "Изаберите позадину",
+    "No background have been selected" : "Није изабрана ниједнс позадина",
     "Theme selection is enforced" : "Избор теме је форсиран",
     "Select a custom color" : "Изаберите прилагођену боју",
     "Reset to default" : "Врати на подразумевано",
