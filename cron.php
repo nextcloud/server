@@ -39,6 +39,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\AllConfig;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -63,7 +65,7 @@ try {
 	\OC::$server->setSession($session);
 
 	$logger = \OC::$server->getLogger();
-	$config = \OC::$server->getConfig();
+	$config = \OC::$server->get(AllConfig::class);
 	$tempManager = \OC::$server->getTempManager();
 
 	// Don't do anything if Nextcloud has not been installed

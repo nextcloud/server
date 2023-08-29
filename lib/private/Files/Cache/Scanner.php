@@ -43,6 +43,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OC\AllConfig;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
 use Psr\Log\LoggerInterface;
@@ -95,7 +96,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
+		$this->cacheActive = !\OC::$server->get(AllConfig::class)->getSystemValueBool('filesystem_cache_readonly', false);
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->connection = \OC::$server->get(IDBConnection::class);
 	}

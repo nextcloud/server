@@ -40,6 +40,7 @@
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\AllConfig;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -165,15 +166,15 @@ class Installer {
 		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
 		//set the installed version
-		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
-		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
+		\OC::$server->get(AllConfig::class)->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
+		\OC::$server->get(AllConfig::class)->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
+			\OC::$server->get(AllConfig::class)->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
+			\OC::$server->get(AllConfig::class)->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -538,7 +539,7 @@ class Installer {
 	 */
 	public static function installShippedApps($softErrors = false) {
 		$appManager = \OC::$server->getAppManager();
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$errors = [];
 		foreach (\OC::$APPSROOTS as $app_dir) {
 			if ($dir = opendir($app_dir['path'])) {
@@ -585,7 +586,7 @@ class Installer {
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 
 		$ms = new MigrationService($app, \OC::$server->get(Connection::class));
 		$previousVersion = $config->getAppValue($app, 'installed_version', false);

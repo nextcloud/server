@@ -21,6 +21,7 @@
 
 namespace Test\Share;
 
+use OC\AllConfig;
 use OC\Share\Share;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -95,8 +96,8 @@ class ShareTest extends \Test\TestCase {
 		Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
-		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', 'yes');
+		$this->resharing = \OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_allow_resharing', 'yes');
+		\OC::$server->get(AllConfig::class)->setAppValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// 20 Minutes in the past, 20 minutes in the future.
 		$now = time();
@@ -109,7 +110,7 @@ class ShareTest extends \Test\TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('share')->andWhere($query->expr()->eq('item_type', $query->createNamedParameter('test')));
 		$query->executeStatement();
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
+		\OC::$server->get(AllConfig::class)->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
 
 		$this->user1->delete();
 		$this->user2->delete();

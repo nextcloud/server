@@ -23,6 +23,7 @@
  *
  */
 use Behat\Behat\Context\Context;
+use OC\AllConfig;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -80,7 +81,7 @@ class RemoteContext implements Context {
 	 */
 	public function theRemoteVersionShouldBe($version) {
 		if ($version === '__current_version__') {
-			$version = \OC::$server->getConfig()->getSystemValue('version', '0.0.0.0');
+			$version = \OC::$server->get(AllConfig::class)->getSystemValue('version', '0.0.0.0');
 		}
 
 		Assert::assertEquals($version, $this->remoteInstance->getVersion());

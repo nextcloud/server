@@ -31,6 +31,7 @@
  */
 namespace OC\Memcache;
 
+use OC\AllConfig;
 use OCP\HintException;
 use OCP\IMemcache;
 
@@ -76,7 +77,7 @@ class Memcached extends Cache implements IMemcache {
 				$defaultOptions[\Memcached::OPT_SERIALIZER] =
 					\Memcached::SERIALIZER_IGBINARY;
 			}
-			$options = \OC::$server->getConfig()->getSystemValue('memcached_options', []);
+			$options = \OC::$server->get(AllConfig::class)->getSystemValue('memcached_options', []);
 			if (is_array($options)) {
 				$options = $options + $defaultOptions;
 				self::$cache->setOptions($options);

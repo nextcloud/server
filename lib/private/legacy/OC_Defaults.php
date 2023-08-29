@@ -37,6 +37,8 @@
  *
  */
 
+ use OC\AllConfig;
+
 class OC_Defaults {
 	private $theme;
 
@@ -57,7 +59,7 @@ class OC_Defaults {
 	private $defaultProductName;
 
 	public function __construct() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 
 		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */

@@ -26,6 +26,7 @@
  */
 namespace OC\Files\Storage\Wrapper;
 
+use OC\AllConfig;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
@@ -43,7 +44,7 @@ class Availability extends Wrapper {
 	protected $config;
 
 	public function __construct($parameters) {
-		$this->config = $parameters['config'] ?? \OC::$server->getConfig();
+		$this->config = $parameters['config'] ?? \OC::$server->get(AllConfig::class);
 		parent::__construct($parameters);
 	}
 

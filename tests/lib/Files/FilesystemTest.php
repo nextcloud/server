@@ -22,6 +22,7 @@
 
 namespace Test\Files;
 
+use OC\AllConfig;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 use OC\User\NoUserException;
@@ -426,7 +427,7 @@ class FilesystemTest extends \Test\TestCase {
 	 */
 	public function testMountDefaultCacheDir() {
 		$userId = $this->getUniqueID('user_');
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$oldCachePath = $config->getSystemValueString('cache_path', '');
 		// no cache path configured
 		$config->setSystemValue('cache_path', '');
@@ -456,7 +457,7 @@ class FilesystemTest extends \Test\TestCase {
 	public function testMountExternalCacheDir() {
 		$userId = $this->getUniqueID('user_');
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$oldCachePath = $config->getSystemValueString('cache_path', '');
 		// set cache path to temp dir
 		$cachePath = \OC::$server->getTempManager()->getTemporaryFolder() . '/extcache';

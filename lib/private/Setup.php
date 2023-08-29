@@ -51,6 +51,7 @@ namespace OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
 use InvalidArgumentException;
+use OC\AllConfig;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
@@ -226,7 +227,7 @@ class Setup {
 
 			try {
 				$util = new \OC_Util();
-				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->getConfig());
+				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->get(AllConfig::class));
 			} catch (\OCP\HintException $e) {
 				$errors[] = [
 					'error' => $e->getMessage(),
@@ -391,7 +392,7 @@ class Setup {
 		}
 
 		if (empty($error)) {
-			$config = \OC::$server->getConfig();
+			$config = \OC::$server->get(AllConfig::class);
 			$config->setAppValue('core', 'installedat', (string)microtime(true));
 			$config->setAppValue('core', 'lastupdatedat', (string)microtime(true));
 
@@ -587,7 +588,7 @@ class Setup {
 		$content .= "  IndexIgnore *\n";
 		$content .= "</IfModule>";
 
-		$baseDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
+		$baseDir = \OC::$server->get(AllConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);
 		file_put_contents($baseDir . '/index.html', '');
 	}

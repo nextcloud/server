@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\AllConfig;
 use OC\Files\Storage\Temporary;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
@@ -58,7 +59,7 @@ class HelperStorageTest extends \Test\TestCase {
 		\OC\Files\Filesystem::tearDown();
 
 		\OC_User::setUserId('');
-		\OC::$server->getConfig()->deleteAllUserValues($this->user);
+		\OC::$server->get(AllConfig::class)->deleteAllUserValues($this->user);
 
 		parent::tearDown();
 	}
@@ -174,7 +175,7 @@ class HelperStorageTest extends \Test\TestCase {
 
 		\OC\Files\Filesystem::mount($extStorage, [], '/' . $this->user . '/files/ext');
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$this->setIncludeExternalStorage(true);
 
 		$storageInfo = \OC_Helper::getStorageInfo('');

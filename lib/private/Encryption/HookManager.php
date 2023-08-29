@@ -23,6 +23,7 @@
  */
 namespace OC\Encryption;
 
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\Files\SetupManager;
@@ -76,7 +77,7 @@ class HookManager {
 					new View(),
 					\OC::$server->getUserManager(),
 					\OC::$server->getGroupManager(),
-					\OC::$server->getConfig()),
+					\OC::$server->get(AllConfig::class)),
 				Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),
 				\OC::$server->getEncryptionFilesHelper(),

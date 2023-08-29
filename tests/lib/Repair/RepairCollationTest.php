@@ -9,6 +9,7 @@
 namespace Test\Repair;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OC\AllConfig;
 use OC\Repair\Collation;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -61,7 +62,7 @@ class RepairCollationTest extends TestCase {
 
 		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->config = \OC::$server->getConfig();
+		$this->config = \OC::$server->get(AllConfig::class);
 		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			$this->markTestSkipped("Test only relevant on MySql");
 		}

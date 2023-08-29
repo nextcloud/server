@@ -9,6 +9,7 @@
 
 namespace Test;
 
+use OC\AllConfig;
 use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
@@ -556,7 +557,7 @@ class AppTest extends \Test\TestCase {
 		$this->overwriteService(AppConfig::class, $appConfig);
 		$this->overwriteService(AppManager::class, new AppManager(
 			\OC::$server->getUserSession(),
-			\OC::$server->getConfig(),
+			\OC::$server->get(AllConfig::class),
 			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),

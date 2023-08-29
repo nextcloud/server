@@ -32,6 +32,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\AllConfig;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
@@ -54,7 +56,7 @@ try {
 		$pathInfo = trim($pathInfo, '/');
 		[$service] = explode('/', $pathInfo);
 	}
-	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
+	$file = \OC::$server->get(AllConfig::class)->getAppValue('core', 'public_' . strip_tags($service));
 	if ($file === '') {
 		http_response_code(404);
 		exit;

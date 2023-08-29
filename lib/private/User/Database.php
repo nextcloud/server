@@ -45,6 +45,7 @@ declare(strict_types=1);
  */
 namespace OC\User;
 
+use OC\AllConfig;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -447,7 +448,7 @@ class Database extends ABackend implements
 	 */
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
-			return \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->get(AllConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;

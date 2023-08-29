@@ -57,6 +57,7 @@ use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OC\AllConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
@@ -196,7 +197,7 @@ class OC_App {
 			$appData['types'] = [];
 		}
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$config->setAppValue($app, 'types', $appTypes);
 
 		if ($appManager->hasProtectedAppType($appData['types'])) {
@@ -577,7 +578,7 @@ class OC_App {
 					continue;
 				}
 
-				$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'no');
+				$enabled = \OC::$server->get(AllConfig::class)->getAppValue($app, 'enabled', 'no');
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
@@ -760,10 +761,10 @@ class OC_App {
 		$l = \OC::$server->getL10N('core');
 		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
-		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
+		$ignoreMaxApps = \OC::$server->get(AllConfig::class)->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
 		\OC_App::checkAppDependencies(
-			\OC::$server->getConfig(),
+			\OC::$server->get(AllConfig::class),
 			$l,
 			$appData,
 			$ignoreMax
@@ -785,21 +786,21 @@ class OC_App {
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
-			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
-			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
+			\OC::$server->get(AllConfig::class)->setAppValue($appId, 'ocsid', $appData['ocsid']);
+		} elseif (\OC::$server->get(AllConfig::class)->getAppValue($appId, 'ocsid', null) !== null) {
+			\OC::$server->get(AllConfig::class)->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
+			\OC::$server->get(AllConfig::class)->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
 		foreach ($appData['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
+			\OC::$server->get(AllConfig::class)->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
 		self::setAppTypes($appId);
 
 		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
-		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
+		\OC::$server->get(AllConfig::class)->setAppValue($appId, 'installed_version', $version);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
 		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(

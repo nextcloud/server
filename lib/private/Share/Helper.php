@@ -25,13 +25,15 @@
  */
 namespace OC\Share;
 
+use OC\AllConfig;
+
 class Helper extends \OC\Share\Constants {
 	/**
 	 * get default expire settings defined by the admin
 	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 */
 	public static function getDefaultExpireSetting() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 
 		$defaultExpireSettings = ['defaultExpireDateSet' => false];
 

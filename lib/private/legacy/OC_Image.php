@@ -43,6 +43,8 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\AllConfig;
 use OCP\IImage;
 
 /**
@@ -88,7 +90,7 @@ class OC_Image implements \OCP\IImage {
 		}
 		$this->config = $config;
 		if ($config === null) {
-			$this->config = \OC::$server->getConfig();
+			$this->config = \OC::$server->get(AllConfig::class);
 		}
 
 		if (\OC_Util::fileInfoLoaded()) {

@@ -36,6 +36,7 @@ use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\ILogger;
+use OC\AllConfig;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
@@ -112,7 +113,7 @@ if (\OCP\Util::needUpgrade()) {
 	\OC_User::setIncognitoMode(true);
 
 	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
-	$config = \OC::$server->getConfig();
+	$config = \OC::$server->get(AllConfig::class);
 	$updater = new \OC\Updater(
 		$config,
 		\OC::$server->getIntegrityCodeChecker(),

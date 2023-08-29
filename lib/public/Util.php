@@ -46,6 +46,7 @@
 
 namespace OCP;
 
+use OC\AllConfig;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -88,7 +89,7 @@ class Util {
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
-		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+		return \OC::$server->get(AllConfig::class)->getSystemValueBool('extendedSupport', false);
 	}
 
 	/**
@@ -97,7 +98,7 @@ class Util {
 	 * @since 8.1.0
 	 */
 	public static function setChannel($channel) {
-		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
+		\OC::$server->get(AllConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
@@ -320,7 +321,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress(string $user_part): string {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);

@@ -8,6 +8,7 @@
 namespace Test\Files;
 
 use OCP\Cache\CappedMemoryCache;
+use OC\AllConfig;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -298,7 +299,7 @@ class ViewTest extends \Test\TestCase {
 		// Reset sharing disabled for users cache
 		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 		$oldExcludeGroupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		$config->setAppValue('core', 'shareapi_exclude_groups', $excludeGroups);

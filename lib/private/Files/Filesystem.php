@@ -38,6 +38,7 @@
 namespace OC\Files;
 
 use OCP\Cache\CappedMemoryCache;
+use OC\AllConfig;
 use OC\Files\Mount\MountPoint;
 use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -465,7 +466,7 @@ class Filesystem {
 		$filename = self::normalizePath($filename);
 
 		if (self::$blacklist === null) {
-			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+			self::$blacklist = \OC::$server->get(AllConfig::class)->getSystemValue('blacklisted_files', ['.htaccess']);
 		}
 
 		$filename = strtolower(basename($filename));

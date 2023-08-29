@@ -8,6 +8,7 @@
 
 namespace Test\Repair;
 
+use OC\AllConfig;
 use OC\DB\Connection;
 use OCP\Migration\IOutput;
 
@@ -41,7 +42,7 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
-		$this->config = \OC::$server->getConfig();
+		$this->config = \OC::$server->get(AllConfig::class);
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
 			$this->markTestSkipped("Test only relevant on Sqlite");
 		}

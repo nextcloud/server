@@ -8,6 +8,7 @@
 
 namespace Test\Files;
 
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCA\Files_Sharing\AppInfo\Application;
@@ -40,7 +41,7 @@ class EtagTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
 		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$this->datadir = $config->getSystemValueString('datadirectory');
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
@@ -50,7 +51,7 @@ class EtagTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getConfig()->setSystemValue('datadirectory', $this->datadir);
+		\OC::$server->get(AllConfig::class)->setSystemValue('datadirectory', $this->datadir);
 
 		$this->logout();
 		parent::tearDown();

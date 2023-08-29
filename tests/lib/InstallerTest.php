@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\AllConfig;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Archive\ZIP;
 use OC\Installer;
@@ -47,7 +48,7 @@ class InstallerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
 		$config->setSystemValue('appstoreenabled', true);
 		$installer = new Installer(
@@ -78,11 +79,11 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getConfig(),
+			\OC::$server->get(AllConfig::class),
 			false
 		);
 		$installer->removeApp(self::$appid);
-		\OC::$server->getConfig()->setSystemValue('appstoreenabled', $this->appstore);
+		\OC::$server->get(AllConfig::class)->setSystemValue('appstoreenabled', $this->appstore);
 
 		parent::tearDown();
 	}
@@ -102,13 +103,13 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getConfig(),
+			\OC::$server->get(AllConfig::class),
 			false
 		);
-		$this->assertNull(\OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
+		$this->assertNull(\OC::$server->get(AllConfig::class)->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
 		$this->assertSame('testapp', $installer->installApp(self::$appid));
-		$this->assertSame('no', \OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');
-		$this->assertSame('0.9', \OC::$server->getConfig()->getAppValue('testapp', 'installed_version'));
+		$this->assertSame('no', \OC::$server->get(AllConfig::class)->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');
+		$this->assertSame('0.9', \OC::$server->get(AllConfig::class)->getAppValue('testapp', 'installed_version'));
 		$installer->removeApp(self::$appid);
 	}
 

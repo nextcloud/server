@@ -24,6 +24,7 @@
 
 namespace Test;
 
+use OC\AllConfig;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 
@@ -180,7 +181,7 @@ class ServerTest extends \Test\TestCase {
 	}
 
 	public function testOverwriteDefaultCommentsManager() {
-		$config = $this->server->getConfig();
+		$config = $this->server->get(AllConfig::class);
 		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 
 		$config->setSystemValue('comments.managerFactory', '\Test\Comments\FakeFactory');

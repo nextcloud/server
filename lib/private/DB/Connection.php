@@ -53,6 +53,7 @@ use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\AllConfig;
 use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
 
@@ -594,7 +595,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		// TODO properly inject those dependencies
 		$random = \OC::$server->getSecureRandom();
 		$platform = $this->getDatabasePlatform();
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);

@@ -8,6 +8,7 @@
 
 namespace Test\Traits;
 
+use OC\AllConfig;
 use OC\Encryption\EncryptionWrapper;
 use OC\Files\SetupManager;
 use OC\Memcache\ArrayCache;
@@ -102,7 +103,7 @@ trait EncryptionTrait {
 
 		$this->encryptionApp = new Application([], $isReady);
 
-		$this->config = \OC::$server->getConfig();
+		$this->config = \OC::$server->get(AllConfig::class);
 		$this->encryptionWasEnabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
 		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
 		$this->config->setAppValue('core', 'default_encryption_module', \OCA\Encryption\Crypto\Encryption::ID);

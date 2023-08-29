@@ -35,6 +35,7 @@
 
 namespace OC\Share;
 
+use OC\AllConfig;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -76,7 +77,7 @@ class Share extends Constants {
 	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
+		if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			if (!isset(self::$backendTypes[$itemType])) {
 				self::$backendTypes[$itemType] = [
 					'class' => $class,
@@ -293,7 +294,7 @@ class Share extends Constants {
 	 */
 	public static function isResharingAllowed() {
 		if (!isset(self::$isResharingAllowed)) {
-			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+			if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
 				self::$isResharingAllowed = true;
 			} else {
 				self::$isResharingAllowed = false;
@@ -351,7 +352,7 @@ class Share extends Constants {
 	public static function getItems($itemType, ?string $item = null, ?int $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
 									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
+		if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return [];
 		}
 		$fileDependent = $itemType == 'file' || $itemType == 'folder';
@@ -392,7 +393,7 @@ class Share extends Constants {
 				$qb->where($qb->expr()->eq('item_type', $qb->createNamedParameter($itemType)));
 			}
 		}
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if (\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			$qb->andWhere($qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK, IQueryBuilder::PARAM_INT)));
 		}
 		if (isset($shareType)) {
@@ -956,7 +957,7 @@ class Share extends Constants {
 	 * @return int
 	 */
 	public static function getExpireInterval() {
-		return (int)\OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int)\OC::$server->get(AllConfig::class)->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 
 	/**

@@ -17,6 +17,7 @@ use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use OC\AllConfig;
 use OC\DB\Migrator;
 use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
@@ -52,7 +53,7 @@ class MigratorTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = \OC::$server->getConfig();
+		$this->config = \OC::$server->get(AllConfig::class);
 		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
 
 		$this->tableName = $this->getUniqueTableName();

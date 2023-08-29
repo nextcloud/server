@@ -44,6 +44,7 @@
  *
  */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
@@ -662,6 +663,6 @@ class OC_Helper {
 	 * @return bool
 	 */
 	public static function isReadOnlyConfigEnabled() {
-		return \OC::$server->getConfig()->getSystemValueBool('config_is_read_only', false);
+		return \OC::$server->get(AllConfig::class)->getSystemValueBool('config_is_read_only', false);
 	}
 }

@@ -36,6 +36,7 @@ namespace OC\User;
 
 use InvalidArgumentException;
 use OC\Accounts\AccountManager;
+use OC\AllConfig;
 use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
@@ -107,7 +108,7 @@ class User implements IUser {
 		$this->backend = $backend;
 		$this->emitter = $emitter;
 		if (is_null($config)) {
-			$config = \OC::$server->getConfig();
+			$config = \OC::$server->get(AllConfig::class);
 		}
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
@@ -288,7 +289,7 @@ class User implements IUser {
 				}
 			}
 			// Delete the user's keys in preferences
-			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
+			\OC::$server->get(AllConfig::class)->deleteAllUserValues($this->uid);
 
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);

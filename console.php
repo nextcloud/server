@@ -33,6 +33,7 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\AllConfig;
 use OC\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -90,7 +91,7 @@ try {
 	}
 
 	$application = new Application(
-		\OC::$server->getConfig(),
+		\OC::$server->get(AllConfig::class),
 		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getRequest(),
 		\OC::$server->get(\Psr\Log\LoggerInterface::class),

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Test\Security;
 
+use OC\AllConfig;
 use OC\Security\Crypto;
 
 class CryptoTest extends \Test\TestCase {
@@ -27,7 +28,7 @@ class CryptoTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->crypto = new Crypto(\OC::$server->getConfig());
+		$this->crypto = new Crypto(\OC::$server->get(AllConfig::class));
 	}
 
 	/**

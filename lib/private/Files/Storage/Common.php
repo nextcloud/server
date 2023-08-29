@@ -42,6 +42,7 @@
  */
 namespace OC\Files\Storage;
 
+use OC\AllConfig;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
@@ -364,7 +365,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
-			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
+			$globalPolicy = \OC::$server->get(AllConfig::class)->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
@@ -840,7 +841,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	private function getLockLogger(): ?LoggerInterface {
 		if (is_null($this->shouldLogLocks)) {
-			$this->shouldLogLocks = \OC::$server->getConfig()->getSystemValueBool('filelocking.debug', false);
+			$this->shouldLogLocks = \OC::$server->get(AllConfig::class)->getSystemValueBool('filelocking.debug', false);
 			$this->logger = $this->shouldLogLocks ? \OC::$server->get(LoggerInterface::class) : null;
 		}
 		return $this->logger;

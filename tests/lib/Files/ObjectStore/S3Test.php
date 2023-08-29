@@ -22,6 +22,7 @@
 namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
+use OC\AllConfig;
 use OC\Files\ObjectStore\S3;
 
 class MultiPartUploadS3 extends S3 {
@@ -67,7 +68,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
+		$config = \OC::$server->get(AllConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}

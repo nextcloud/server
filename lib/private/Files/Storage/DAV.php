@@ -40,6 +40,7 @@ namespace OC\Files\Storage;
 use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
@@ -172,7 +173,7 @@ class DAV extends Common {
 			$settings['authType'] = $this->authType;
 		}
 
-		$proxy = \OC::$server->getConfig()->getSystemValueString('proxy', '');
+		$proxy = \OC::$server->get(AllConfig::class)->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}

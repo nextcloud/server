@@ -34,6 +34,7 @@
  */
 namespace OC;
 
+use OC\AllConfig;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanUpAbandonedApps;
 use OCP\AppFramework\QueryException;
@@ -174,32 +175,32 @@ class Repair implements IOutput {
 	 */
 	public static function getRepairSteps(): array {
 		return [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
-			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new Collation(\OC::$server->get(AllConfig::class), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
+			new RepairMimeTypes(\OC::$server->get(AllConfig::class), \OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
-			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new MoveUpdaterStepFile(\OC::$server->getConfig()),
+			new RepairInvalidShares(\OC::$server->get(AllConfig::class), \OC::$server->getDatabaseConnection()),
+			new MoveUpdaterStepFile(\OC::$server->get(AllConfig::class)),
 			new MoveAvatars(
 				\OC::$server->getJobList(),
-				\OC::$server->getConfig()
+				\OC::$server->get(AllConfig::class)
 			),
 			new CleanPreviews(
 				\OC::$server->getJobList(),
 				\OC::$server->getUserManager(),
-				\OC::$server->getConfig()
+				\OC::$server->get(AllConfig::class)
 			),
 			new MigrateOauthTables(\OC::$server->get(Connection::class)),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->get(AllConfig::class)),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
 			\OCP\Server::get(ClearGeneratedAvatarCache::class),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
-			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
+			new CleanupCardDAVPhotoCache(\OC::$server->get(AllConfig::class), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
-			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->get(AllConfig::class), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
+			new ClearCollectionsAccessCache(\OC::$server->get(AllConfig::class), \OCP\Server::get(IManager::class)),
 			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
 			\OCP\Server::get(EncryptionLegacyCipher::class),
 			\OCP\Server::get(EncryptionMigration::class),
@@ -239,9 +240,9 @@ class Repair implements IOutput {
 		$connection = \OC::$server->get(Connection::class);
 		/** @var ConnectionAdapter $connectionAdapter */
 		$connectionAdapter = \OC::$server->get(ConnectionAdapter::class);
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$steps = [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), $connectionAdapter, true),
+			new Collation(\OC::$server->get(AllConfig::class), \OC::$server->get(LoggerInterface::class), $connectionAdapter, true),
 			new SqliteAutoincrement($connection),
 			new SaveAccountsTableData($connectionAdapter, $config),
 			new DropAccountTermsTable($connectionAdapter),

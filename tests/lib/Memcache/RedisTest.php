@@ -9,6 +9,8 @@
 
 namespace Test\Memcache;
 
+use OC\AllConfig;
+
 /**
  * @group Memcache
  * @group Redis
@@ -21,7 +23,7 @@ class RedisTest extends Cache {
 			self::markTestSkipped('The redis extension is not available.');
 		}
 
-		if (\OC::$server->getConfig()->getSystemValue('redis', []) === []) {
+		if (\OC::$server->get(AllConfig::class)->getSystemValue('redis', []) === []) {
 			self::markTestSkipped('Redis not configured in config.php');
 		}
 

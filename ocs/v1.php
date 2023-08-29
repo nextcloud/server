@@ -30,8 +30,10 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
+use OC\AllConfig;
+
 if (\OCP\Util::needUpgrade()
-	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
+	|| \OC::$server->get(AllConfig::class)->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	http_response_code(503);

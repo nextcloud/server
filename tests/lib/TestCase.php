@@ -24,6 +24,7 @@ namespace Test;
 
 use DOMDocument;
 use DOMNode;
+use OC\AllConfig;
 use OC\Command\QueueBus;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
@@ -270,7 +271,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				return self::$realDatabase;
 			});
 		}
-		$dataDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
+		$dataDir = \OC::$server->get(AllConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
 			$db = \OC::$server->getDatabaseConnection();
 			if ($db->inTransaction()) {

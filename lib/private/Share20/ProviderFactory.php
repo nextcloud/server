@@ -33,6 +33,7 @@
  */
 namespace OC\Share20;
 
+use OC\AllConfig;
 use OC\Share20\Exception\ProviderException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -104,7 +105,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getConfig()
+				$this->serverContainer->get(AllConfig::class)
 			);
 		}
 
@@ -156,7 +157,7 @@ class ProviderFactory implements IProviderFactory {
 				$tokenHandler,
 				$l,
 				$this->serverContainer->getLazyRootFolder(),
-				$this->serverContainer->getConfig(),
+				$this->serverContainer->get(AllConfig::class),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getCloudIdManager(),
 				$this->serverContainer->getGlobalScaleConfig(),
@@ -183,10 +184,10 @@ class ProviderFactory implements IProviderFactory {
 				return null;
 			}
 
-			$settingsManager = new SettingsManager($this->serverContainer->getConfig());
+			$settingsManager = new SettingsManager($this->serverContainer->get(AllConfig::class));
 
 			$this->shareByMailProvider = new ShareByMailProvider(
-				$this->serverContainer->getConfig(),
+				$this->serverContainer->get(AllConfig::class),
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),

@@ -19,6 +19,7 @@
 
 namespace Test\Log;
 
+use OC\AllConfig;
 use OC\Log\File;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -81,7 +82,7 @@ class FileTest extends TestCase {
 	}
 
 	public function testMicrosecondsLogTimestamp() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
 

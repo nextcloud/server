@@ -33,6 +33,7 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\AllConfig;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
@@ -112,7 +113,7 @@ function resolveService($service) {
 		return $services[$service];
 	}
 
-	return \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+	return \OC::$server->get(AllConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
 try {

@@ -34,6 +34,7 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework;
 
+use OC\AllConfig;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Router;
 use OC\ServerContainer;
@@ -71,7 +72,7 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
-		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
+		$runIsSetupDirectly = \OC::$server->get(AllConfig::class)->getSystemValueBool('debug')
 			&& (PHP_VERSION_ID < 70400 || (PHP_VERSION_ID >= 70400 && !ini_get('zend.exception_ignore_args')));
 
 		if ($runIsSetupDirectly) {

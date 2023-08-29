@@ -24,6 +24,7 @@
  */
 namespace OC\Encryption;
 
+use OC\AllConfig;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
@@ -86,7 +87,7 @@ class EncryptionWrapper {
 				new View(),
 				\OC::$server->getUserManager(),
 				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
+				\OC::$server->get(AllConfig::class)
 			);
 			$update = new Update(
 				new View(),

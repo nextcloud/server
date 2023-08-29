@@ -65,6 +65,7 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\AllConfig;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -183,7 +184,7 @@ class OC_Util {
 		/** @var LoggerInterface $logger */
 		$logger = \OC::$server->get(LoggerInterface::class);
 
-		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$plainSkeletonDirectory = \OC::$server->get(AllConfig::class)->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
 		$userLang = \OC::$server->getL10NFactory()->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
@@ -200,7 +201,7 @@ class OC_Util {
 			}
 		}
 
-		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
+		$instanceId = \OC::$server->get(AllConfig::class)->getSystemValue('instanceid', '');
 
 		if ($instanceId === null) {
 			throw new \RuntimeException('no instance id!');
@@ -304,7 +305,7 @@ class OC_Util {
 	 */
 	public static function getChannel() {
 		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
+		return \OC::$server->get(AllConfig::class)->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
 	}
 
 	/**
@@ -727,7 +728,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
+		if (!\OC::$server->get(AllConfig::class)->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
 

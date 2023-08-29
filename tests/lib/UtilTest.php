@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\AllConfig;
 use OC_Util;
 
 /**
@@ -97,7 +98,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetDefaultEmailAddressFromConfig() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$config->setSystemValue('mail_domain', 'example.com');
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@example.com', $email);
@@ -105,7 +106,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetConfiguredEmailAddressFromConfig() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
@@ -115,7 +116,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetInstanceIdGeneratesValidId() {
-		\OC::$server->getConfig()->deleteSystemValue('instanceid');
+		\OC::$server->get(AllConfig::class)->deleteSystemValue('instanceid');
 		$instanceId = OC_Util::getInstanceId();
 		$this->assertStringStartsWith('oc', $instanceId);
 		$matchesRegex = preg_match('/^[a-z0-9]+$/', $instanceId);
@@ -184,7 +185,7 @@ class UtilTest extends \Test\TestCase {
 	 * Test needUpgrade() when the core version is increased
 	 */
 	public function testNeedUpgradeCore() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->get(AllConfig::class);
 		$oldConfigVersion = $config->getSystemValue('version', '0.0.0');
 		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
 
