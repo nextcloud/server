@@ -14,6 +14,49 @@ updates:
   reviewers:
     - "nextcloud/server-dependabot"
 
+# cs-fixer
+- package-ecosystem: composer
+  directory: "/vendor-bin/cs-fixer"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:10"
+    timezone: Europe/Copenhagen
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
+# openapi-extractor
+- package-ecosystem: composer
+  directory: "/vendor-bin/openapi-extractor"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:20"
+    timezone: Europe/Brussels
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+    - "provokateurin"
+
+# psalm
+- package-ecosystem: composer
+  directory: "/vendor-bin/psalm"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:30"
+    timezone: Europe/Madrid
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
 # Main master npm
 - package-ecosystem: npm
   directory: "/"
