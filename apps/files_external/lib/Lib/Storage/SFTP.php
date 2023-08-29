@@ -36,15 +36,18 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
+use OC\Files\Filesystem;
+use OC\Files\Storage\Common;
 use phpseclib\Net\SFTP\Stream;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
  * provide access to SFTP servers.
  */
-class SFTP extends \OC\Files\Storage\Common {
+class SFTP extends Common {
 	private $host;
 	private $user;
 	private $root;
@@ -56,6 +59,8 @@ class SFTP extends \OC\Files\Storage\Common {
 	 * @var \phpseclib\Net\SFTP
 	 */
 	protected $client;
+
+	const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
 
 	/**
 	 * @param string $host protocol://server:port
@@ -477,5 +482,54 @@ class SFTP extends \OC\Files\Storage\Common {
 		// hostname because this might show up in logs (they are not used).
 		$url = 'sftp://' . urlencode($this->user) . '@' . $this->host . ':' . $this->port . $this->root . $path;
 		return $url;
+	}
+
+	public function file_put_contents($path, $data) {
+		$result = $this->getConnection()->put($this->absPath($path), $data);
+		if ($result) {
+			return strlen($data);
+		} else {
+			return false;
+		}
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		if ($size === null) {
+			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
+				$size = $writtenSize;
+			});
+		}
+		$result = $this->getConnection()->put($this->absPath($path), $stream);
+		fclose($stream);
+		if ($result) {
+			return $size;
+		} else {
+			throw new \Exception("Failed to write steam to sftp storage");
+		}
+	}
+
+	public function copy($source, $target) {
+		if ($this->is_dir($source) || $this->is_dir($target)) {
+			return parent::copy($source, $target);
+		} else {
+			$absSource = $this->absPath($source);
+			$absTarget = $this->absPath($target);
+
+			$connection = $this->getConnection();
+			$size = $connection->size($absSource);
+			if ($size === false) {
+				return false;
+			}
+			for ($i = 0; $i < $size; $i += self::COPY_CHUNK_SIZE) {
+				$chunk = $connection->get($absSource, false, $i, self::COPY_CHUNK_SIZE);
+				if ($chunk === false) {
+					return false;
+				}
+				if (!$connection->put($absTarget, $chunk, \phpseclib\Net\SFTP::SOURCE_STRING, $i)) {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 }
