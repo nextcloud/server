@@ -39,6 +39,7 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\L10N\IFactory;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -75,7 +76,7 @@ class OC_Template extends \OC\Template\Base {
 		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
-		$l10n = \OC::$server->getL10N($parts[0]);
+		$l10n = \OC::$server->get(IFactory::class)->get($parts[0]);
 		/** @var \OCP\Defaults $themeDefaults */
 		$themeDefaults = \OCP\Server::get(\OCP\Defaults::class);
 

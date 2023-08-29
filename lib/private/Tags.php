@@ -37,6 +37,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\ITags;
+use OCP\L10N\IFactory;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
 
@@ -235,7 +236,7 @@ class Tags implements ITags {
 		}
 
 		if ($tagId === false) {
-			$l10n = \OC::$server->getL10N('core');
+			$l10n = \OC::$server->get(IFactory::class)->get('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', [$tag])
 			);

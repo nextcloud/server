@@ -47,6 +47,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\L10N\IFactory;
 
 /**
  * Class for file server access
@@ -222,18 +223,18 @@ class OC_Files {
 		} catch (\OCP\Lock\LockedException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint, 200);
 		} catch (\OCP\Files\ForbiddenException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			if ($event && $event->getErrorMessage() !== null) {
 				$hint .= ' ' . $event->getErrorMessage();

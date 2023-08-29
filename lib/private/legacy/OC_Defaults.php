@@ -37,6 +37,8 @@
  *
  */
 
+use OCP\L10N\IFactory;
+
 class OC_Defaults {
 	private $theme;
 
@@ -237,7 +239,7 @@ class OC_Defaults {
 			return $this->theme->getSlogan($lang);
 		} else {
 			if ($this->defaultSlogan === null) {
-				$l10n = \OC::$server->getL10N('lib', $lang);
+				$l10n = \OC::$server->get(IFactory::class)->get('lib', $lang);
 				$this->defaultSlogan = $l10n->t('a safe home for all your data');
 			}
 			return $this->defaultSlogan;

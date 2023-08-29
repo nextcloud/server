@@ -60,6 +60,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -507,7 +508,7 @@ class Setup {
 		$setupHelper = new \OC\Setup(
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
+			\OC::$server->get(IFactory::class)->get('lib'),
 			\OCP\Server::get(Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getSecureRandom(),

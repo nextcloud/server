@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OCP\L10N\IFactory;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -150,7 +151,7 @@ class Util {
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
 	public static function getL10N($application, $language = null) {
-		return \OC::$server->getL10N($application, $language);
+		return \OC::$server->get(IFactory::class)->get($application, $language);
 	}
 
 	/**

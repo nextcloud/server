@@ -23,6 +23,7 @@
 namespace OCP\Federation\Exceptions;
 
 use OCP\HintException;
+use OCP\L10N\IFactory;
 
 /**
  * Class ActionNotSupportedException
@@ -38,7 +39,7 @@ class ActionNotSupportedException extends HintException {
 	 *
 	 */
 	public function __construct($action) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OC::$server->get(IFactory::class)->get('federation');
 		$message = 'Action "' . $action . '" not supported or implemented.';
 		$hint = $l->t('Action "%s" not supported or implemented.', [$action]);
 		parent::__construct($message, $hint);

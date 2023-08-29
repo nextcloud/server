@@ -57,6 +57,7 @@ use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\L10N\IFactory;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
@@ -560,7 +561,7 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
-		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
+		$langCode = \OC::$server->get(IFactory::class)->get('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
 		$supportedApps = $this->getSupportedApps();
 
@@ -757,7 +758,7 @@ class OC_App {
 		}
 
 		\OC::$server->getAppManager()->clearAppsCache();
-		$l = \OC::$server->getL10N('core');
+		$l = \OC::$server->get(IFactory::class)->get('core');
 		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);

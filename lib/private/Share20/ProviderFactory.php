@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -129,7 +130,7 @@ class ProviderFactory implements IProviderFactory {
 			/*
 			 * TODO: add factory to federated sharing app
 			 */
-			$l = $this->serverContainer->getL10N('federatedfilesharing');
+			$l = $this->serverContainer->get(IFactory::class)->get('federatedfilesharing');
 			$addressHandler = new AddressHandler(
 				$this->serverContainer->getURLGenerator(),
 				$l,
@@ -191,7 +192,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),
-				$this->serverContainer->getL10N('sharebymail'),
+				$this->serverContainer->get(IFactory::class)->get('sharebymail'),
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->getURLGenerator(),
@@ -233,7 +234,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),
-				$this->serverContainer->getL10N('circles'),
+				$this->serverContainer->get(IFactory::class)->get('circles'),
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getURLGenerator()
 			);

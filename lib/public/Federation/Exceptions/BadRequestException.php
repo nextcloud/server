@@ -24,6 +24,7 @@
 namespace OCP\Federation\Exceptions;
 
 use OCP\HintException;
+use OCP\L10N\IFactory;
 
 /**
  * Class BadRequestException
@@ -45,7 +46,7 @@ class BadRequestException extends HintException {
 	 * @param array $missingParameters
 	 */
 	public function __construct(array $missingParameters) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OC::$server->get(IFactory::class)->get('federation');
 		$this->parameterList = $missingParameters;
 		$parameterList = implode(',', $missingParameters);
 		$message = 'Parameters missing in order to complete the request. Missing Parameters: ' . $parameterList;

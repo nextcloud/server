@@ -53,6 +53,7 @@ use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\L10N\IFactory;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -113,7 +114,7 @@ class Installer {
 			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 		}
 
-		$l = \OC::$server->getL10N('core');
+		$l = \OC::$server->get(IFactory::class)->get('core');
 		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($basedir . '/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {

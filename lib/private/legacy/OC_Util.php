@@ -71,6 +71,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -497,7 +498,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(\OC\SystemConfig $config) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -515,7 +516,7 @@ class OC_Util {
 		$setup = new \OC\Setup(
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
+			\OC::$server->get(IFactory::class)->get('lib'),
 			\OC::$server->get(\OCP\Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getSecureRandom(),
@@ -737,7 +738,7 @@ class OC_Util {
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
-				$l = \OC::$server->getL10N('lib');
+				$l = \OC::$server->get(IFactory::class)->get('lib');
 				return [[
 					'error' => $l->t('Your data directory is readable by other users.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
@@ -755,7 +756,7 @@ class OC_Util {
 	 * @return array errors found
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [

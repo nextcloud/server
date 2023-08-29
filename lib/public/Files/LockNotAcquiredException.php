@@ -28,6 +28,8 @@
 
 namespace OCP\Files;
 
+use OCP\L10N\IFactory;
+
 /**
  * Exception for a file that is locked
  * @since 7.0.0
@@ -43,7 +45,7 @@ class LockNotAcquiredException extends \Exception {
 	 * @since 7.0.0
 	 */
 	public function __construct($path, $lockType, $code = 0, \Exception $previous = null) {
-		$message = \OC::$server->getL10N('core')->t('Could not obtain lock type %d on "%s".', [$lockType, $path]);
+		$message = \OC::$server->get(IFactory::class)->get('core')->t('Could not obtain lock type %d on "%s".', [$lockType, $path]);
 		parent::__construct($message, $code, $previous);
 	}
 

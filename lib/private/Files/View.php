@@ -66,6 +66,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -1834,19 +1835,19 @@ class View {
 			[$storage, $internalPath] = $this->resolvePath($path);
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('File name is too long'));
 		} catch (InvalidDirectoryException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
 		} catch (EmptyFileNameException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
 		}
 	}

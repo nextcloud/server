@@ -73,6 +73,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\L10N\IFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -135,7 +136,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService(IL10N::class, function (ContainerInterface $c) {
-			return $this->getServer()->getL10N($c->get('AppName'));
+			return $this->getServer()->get(IFactory::class)->get($c->get('AppName'));
 		});
 
 		// Log wrappers
@@ -256,7 +257,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getAppManager(),
-				$server->getL10N('lib'),
+				$server->get(IFactory::class)->get('lib'),
 				$c->get(AuthorizedGroupMapper::class),
 				$server->get(IUserSession::class)
 			);

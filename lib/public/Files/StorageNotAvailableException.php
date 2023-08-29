@@ -33,6 +33,7 @@
 namespace OCP\Files;
 
 use OCP\HintException;
+use OCP\L10N\IFactory;
 
 /**
  * Storage is temporarily not available
@@ -56,7 +57,7 @@ class StorageNotAvailableException extends HintException {
 	 * @since 6.0.0
 	 */
 	public function __construct($message = '', $code = self::STATUS_ERROR, \Exception $previous = null) {
-		$l = \OC::$server->getL10N('core');
+		$l = \OC::$server->get(IFactory::class)->get('core');
 		parent::__construct($message, $l->t('Storage is temporarily not available'), $code, $previous);
 	}
 

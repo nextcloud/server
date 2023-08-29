@@ -40,6 +40,7 @@ use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 
@@ -178,7 +179,7 @@ class OC_User {
 				$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					$message = \OC::$server->get(IFactory::class)->get('lib')->t('User disabled');
 					throw new LoginException($message);
 				}
 				$userSession->setLoginName($uid);

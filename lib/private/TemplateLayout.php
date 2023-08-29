@@ -53,6 +53,7 @@ use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
@@ -225,7 +226,7 @@ class TemplateLayout extends \OC_Template {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
-				\OC::$server->getL10N('lib'),
+				\OC::$server->get(IFactory::class)->get('lib'),
 				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),
 				\OC::$server->getSession(),

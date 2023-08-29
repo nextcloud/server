@@ -59,6 +59,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
@@ -367,7 +368,7 @@ class Session implements IUserSession, Emitter {
 		if (!$user->isEnabled()) {
 			// disabled users can not log in
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OC::$server->getL10N('lib')->t('User disabled');
+			$message = \OC::$server->get(IFactory::class)->get('lib')->t('User disabled');
 			throw new LoginException($message);
 		}
 
@@ -406,7 +407,7 @@ class Session implements IUserSession, Emitter {
 			return true;
 		}
 
-		$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
+		$message = \OC::$server->get(IFactory::class)->get('lib')->t('Login canceled by app');
 		throw new LoginException($message);
 	}
 

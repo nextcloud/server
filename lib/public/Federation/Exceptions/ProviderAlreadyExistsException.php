@@ -25,6 +25,7 @@
 namespace OCP\Federation\Exceptions;
 
 use OCP\HintException;
+use OCP\L10N\IFactory;
 
 /**
  * Class ProviderAlreadyExistsException
@@ -42,7 +43,7 @@ class ProviderAlreadyExistsException extends HintException {
 	 * @param string $existingProviderName name of cloud federation provider which already use the same ID
 	 */
 	public function __construct($newProviderId, $existingProviderName) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OC::$server->get(IFactory::class)->get('federation');
 		$message = 'ID "' . $newProviderId . '" already used by cloud federation provider "' . $existingProviderName . '"';
 		$hint = $l->t('ID "%1$s" already used by cloud federation provider "%2$s"', [$newProviderId, $existingProviderName]);
 		parent::__construct($message, $hint);

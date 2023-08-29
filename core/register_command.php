@@ -48,6 +48,8 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -209,7 +211,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\SystemTag\Add(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));
 	$application->add(new OC\Core\Command\SystemTag\Edit(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));
 
-	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(), \OC::$server->getL10N('core')));
+	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(), \OC::$server->get(IFactory::class)->get('core')));
 	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager()));
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));

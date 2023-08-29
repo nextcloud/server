@@ -23,6 +23,7 @@
 namespace OCP\Federation\Exceptions;
 
 use OCP\HintException;
+use OCP\L10N\IFactory;
 
 /**
  * Class AuthenticationFailedException
@@ -38,7 +39,7 @@ class AuthenticationFailedException extends HintException {
 	 *
 	 */
 	public function __construct() {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OC::$server->get(IFactory::class)->get('federation');
 		$message = 'Authentication failed, wrong token or provider ID given';
 		$hint = $l->t('Authentication failed, wrong token or provider ID given');
 		parent::__construct($message, $hint);

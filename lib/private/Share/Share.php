@@ -40,6 +40,7 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Share\IShare;
+use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -256,7 +257,7 @@ class Share extends Constants {
 	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OC::$server->get(IFactory::class)->get('lib');
 		$logger = \OC::$server->get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];

@@ -23,6 +23,7 @@
 namespace OCP\Federation\Exceptions;
 
 use OCP\HintException;
+use OCP\L10N\IFactory;
 
 /**
  * Class ProviderDoesNotExistsException
@@ -39,7 +40,7 @@ class ProviderDoesNotExistsException extends HintException {
 	 * @param string $providerId cloud federation provider ID
 	 */
 	public function __construct($providerId) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OC::$server->get(IFactory::class)->get('federation');
 		$message = 'Cloud Federation Provider with ID: "' . $providerId . '" does not exist.';
 		$hint = $l->t('Cloud Federation Provider with ID: "%s" does not exist.', [$providerId]);
 		parent::__construct($message, $hint);

@@ -27,6 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\L10N\IFactory;
+
 class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -36,7 +39,7 @@ class OC_JSON {
 	 */
 	public static function checkAppEnabled($app) {
 		if (!\OC::$server->getAppManager()->isEnabledForUser($app)) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Application is not enabled'), 'error' => 'application_not_enabled' ]]);
 			exit();
 		}
@@ -51,7 +54,7 @@ class OC_JSON {
 		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
 		if (!\OC::$server->getUserSession()->isLoggedIn()
 			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
 			self::error([ 'data' => [ 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' ]]);
 			exit();
@@ -70,7 +73,7 @@ class OC_JSON {
 		}
 
 		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' ]]);
 			exit();
 		}
@@ -83,7 +86,7 @@ class OC_JSON {
 	 */
 	public static function checkAdminUser() {
 		if (!OC_User::isAdminUser(OC_User::getUser())) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OC::$server->get(IFactory::class)->get('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' ]]);
 			exit();
 		}
