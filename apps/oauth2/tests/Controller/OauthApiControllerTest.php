@@ -151,6 +151,33 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
 	}
 
+	public function testGetTokenWithCodeForActiveToken() {
+		// if a token has already delivered oauth tokens,
+		// it should not be possible to get a new oauth token from a valid authorization code
+		$tokenCreatedAt = 100;
+
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_request' => 'authorization_code_received_for_active_token']);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCreatedAt($tokenCreatedAt);
+		$accessToken->setTokenCount(1);
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$tsNow = $tokenCreatedAt + 1;
+		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
+	}
+
 	public function testGetTokenClientDoesNotExist() {
 		// In this test, the token's authorization code is valid and has not expired
 		// and we check what happens when the associated Oauth client does not exist
