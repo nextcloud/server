@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -2540,7 +2541,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file1 = $folder1->newFile('bar');
 		$folder2 = $folder1->newFolder('baz');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share1 = $shareManager->newShare();
 		$share1->setNode($folder1)
 			->setSharedBy($u1->getUID())
@@ -2644,7 +2645,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(0, $result['users']);
 		$this->assertFalse($result['public']);
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share1 = $shareManager->newShare();
 		$share1->setNode($folder1)
 			->setSharedBy($u1->getUID())
@@ -2740,7 +2741,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(0, $result['users']);
 		$this->assertFalse($result['public']);
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share1 = $shareManager->newShare();
 		$share1->setNode($folder1)
 			->setSharedBy($u1->getUID())

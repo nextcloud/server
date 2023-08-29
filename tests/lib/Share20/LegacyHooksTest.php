@@ -35,6 +35,7 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -56,7 +57,7 @@ class LegacyHooksTest extends TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$this->eventDispatcher = new \OC\EventDispatcher\EventDispatcher($symfonyDispatcher, \OC::$server->get(IServerContainer::class), $logger);
 		$this->hooks = new LegacyHooks($this->eventDispatcher);
-		$this->manager = \OC::$server->getShareManager();
+		$this->manager = \OC::$server->get(IShareManager::class);
 	}
 
 	public function testPreUnshare() {
