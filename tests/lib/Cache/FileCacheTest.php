@@ -24,6 +24,7 @@ namespace Test\Cache;
 
 use OC\Files\Storage\Local;
 use OCP\Files\Mount\IMountManager;
+use OCP\ITempManager;
 use Test\Traits\UserTrait;
 
 /**
@@ -104,7 +105,7 @@ class FileCacheTest extends TestCache {
 	private function setupMockStorage() {
 		$mockStorage = $this->getMockBuilder(Local::class)
 			->setMethods(['filemtime', 'unlink'])
-			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
+			->setConstructorArgs([['datadir' => \OC::$server->get(ITempManager::class)->getTemporaryFolder()]])
 			->getMock();
 
 		\OC\Files\Filesystem::mount($mockStorage, [], '/test/cache');

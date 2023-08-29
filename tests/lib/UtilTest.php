@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC_Util;
+use OCP\ITempManager;
 
 /**
  * Class UtilTest
@@ -204,13 +205,13 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testCheckDataDirectoryValidity() {
-		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$dataDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		touch($dataDir . '/.ocdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);
 
-		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$dataDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		// no touch
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertNotEmpty($errors);

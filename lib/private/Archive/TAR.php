@@ -33,6 +33,7 @@
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
+use OCP\ITempManager;
 
 class TAR extends Archive {
 	public const PLAIN = 0;
@@ -91,7 +92,7 @@ class TAR extends Archive {
 	 * add an empty folder to the archive
 	 */
 	public function addFolder(string $path): bool {
-		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpBase = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$path = rtrim($path, '/') . '/';
 		if ($this->fileExists($path)) {
 			return false;
@@ -134,7 +135,7 @@ class TAR extends Archive {
 	 */
 	public function rename(string $source, string $dest): bool {
 		//no proper way to delete, rename entire archive, rename file and remake archive
-		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmp = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
 		$this->tar = null;
@@ -241,7 +242,7 @@ class TAR extends Archive {
 	 * extract a single file from the archive
 	 */
 	public function extractFile(string $path, string $dest): bool {
-		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmp = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		if (!$this->fileExists($path)) {
 			return false;
 		}
@@ -297,7 +298,7 @@ class TAR extends Archive {
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
-		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmp = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		\OCP\Files::rmdirr($tmp . $path);
 		$this->tar = null;
@@ -319,7 +320,7 @@ class TAR extends Archive {
 		} else {
 			$ext = '';
 		}
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+		$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
 		} elseif ($mode == 'r' or $mode == 'rb') {

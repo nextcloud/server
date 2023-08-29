@@ -52,6 +52,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
@@ -233,7 +234,7 @@ class TemplateLayout extends \OC_Template {
 				$this->config,
 				\OC::$server->getGroupManager(),
 				\OC::$server->get(IniGetWrapper::class),
-				\OC::$server->getURLGenerator(),
+				\OC::$server->get(IURLGenerator::class),
 				\OC::$server->getCapabilitiesManager(),
 				\OCP\Server::get(IInitialStateService::class)
 			);
@@ -241,7 +242,7 @@ class TemplateLayout extends \OC_Template {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$this->assign('inline_ocjs', $config);
 			} else {
-				$this->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
+				$this->append('jsfiles', \OC::$server->get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 			}
 		}
 		foreach ($jsFiles as $info) {

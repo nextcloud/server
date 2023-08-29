@@ -19,6 +19,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 use Test\Files\Storage\Storage;
 
@@ -758,7 +759,7 @@ class EncryptionTest extends Storage {
 		$storage2->expects($this->any())
 			->method('fopen')
 			->willReturnCallback(function ($path, $mode) {
-				$temp = \OC::$server->getTempManager();
+				$temp = \OC::$server->get(ITempManager::class);
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
 		$storage2->method('getId')
@@ -807,7 +808,7 @@ class EncryptionTest extends Storage {
 		$storage2->expects($this->any())
 			->method('fopen')
 			->willReturnCallback(function ($path, $mode) {
-				$temp = \OC::$server->getTempManager();
+				$temp = \OC::$server->get(ITempManager::class);
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
 		$storage2->method('getId')

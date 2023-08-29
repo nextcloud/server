@@ -22,6 +22,8 @@
 
 namespace Test\Files\Storage;
 
+use OCP\ITempManager;
+
 /**
  * Class LocalTest
  *
@@ -38,7 +40,7 @@ class LocalTest extends Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
 	}
 

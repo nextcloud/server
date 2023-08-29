@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\IURLGenerator;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -103,7 +104,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
-				$this->serverContainer->getURLGenerator(),
+				$this->serverContainer->get(IURLGenerator::class),
 				$this->serverContainer->getConfig()
 			);
 		}
@@ -131,7 +132,7 @@ class ProviderFactory implements IProviderFactory {
 			 */
 			$l = $this->serverContainer->getL10N('federatedfilesharing');
 			$addressHandler = new AddressHandler(
-				$this->serverContainer->getURLGenerator(),
+				$this->serverContainer->get(IURLGenerator::class),
 				$l,
 				$this->serverContainer->getCloudIdManager()
 			);
@@ -194,7 +195,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getMailer(),
-				$this->serverContainer->getURLGenerator(),
+				$this->serverContainer->get(IURLGenerator::class),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
@@ -235,7 +236,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getL10N('circles'),
 				$this->serverContainer->getLogger(),
-				$this->serverContainer->getURLGenerator()
+				$this->serverContainer->get(IURLGenerator::class)
 			);
 		}
 

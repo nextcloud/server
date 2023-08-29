@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC\Config;
+use OCP\ITempManager;
 
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
@@ -23,7 +24,7 @@ class ConfigTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->randomTmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->randomTmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->configFile = $this->randomTmpDir.'testconfig.php';
 		file_put_contents($this->configFile, self::TESTCONTENT);
 	}

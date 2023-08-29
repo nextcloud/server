@@ -8,6 +8,8 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OCP\ITempManager;
+
 class WrapperTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir
@@ -17,7 +19,7 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
 		$this->instance = new \OC\Files\Storage\Wrapper\Wrapper(['storage' => $storage]);
 	}

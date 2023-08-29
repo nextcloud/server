@@ -23,6 +23,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\ITempManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IShare;
@@ -826,7 +827,7 @@ class ViewTest extends \Test\TestCase {
 		 * 1024 is the max path length in mac
 		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$tmpdirLength = strlen(\OC::$server->getTempManager()->getTemporaryFolder());
+		$tmpdirLength = strlen(\OC::$server->get(ITempManager::class)->getTemporaryFolder());
 		if (\OC_Util::runningOnMac()) {
 			$depth = ((1024 - $tmpdirLength) / 57);
 		} else {

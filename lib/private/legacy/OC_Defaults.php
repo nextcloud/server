@@ -37,6 +37,8 @@
  *
  */
 
+use OCP\IURLGenerator;
+
 class OC_Defaults {
 	private $theme;
 
@@ -325,9 +327,9 @@ class OC_Defaults {
 		}
 
 		if ($useSvg) {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.svg');
+			$logo = \OC::$server->get(IURLGenerator::class)->imagePath('core', 'logo/logo.svg');
 		} else {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.png');
+			$logo = \OC::$server->get(IURLGenerator::class)->imagePath('core', 'logo/logo.png');
 		}
 		return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 	}

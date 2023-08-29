@@ -24,6 +24,7 @@ namespace Test\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\ITempManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -42,7 +43,7 @@ class CommonTest extends Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
 	}
 

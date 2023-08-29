@@ -11,6 +11,7 @@ namespace Test\Files\Storage\Wrapper;
 //ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
+use OCP\ITempManager;
 
 \OC::$loader->load('\OC\Files\Filesystem');
 
@@ -30,7 +31,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
 		$this->instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 10000000]);
 	}

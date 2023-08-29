@@ -112,7 +112,7 @@ class User implements IUser {
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
 		if (is_null($this->urlGenerator)) {
-			$this->urlGenerator = \OC::$server->getURLGenerator();
+			$this->urlGenerator = \OC::$server->get(IURLGenerator::class);
 		}
 		$this->dispatcher = $dispatcher;
 	}

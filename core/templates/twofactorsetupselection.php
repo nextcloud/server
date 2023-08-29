@@ -22,6 +22,8 @@ declare(strict_types=1);
  *
  */
 
+use OCP\IURLGenerator;
+
 ?>
 <div class="body-login-container update">
 	<h2 class="two-factor-header"><?php p($l->t('Set up two-factor authentication')) ?></h2>
@@ -30,7 +32,7 @@ declare(strict_types=1);
 	<?php foreach ($_['providers'] as $provider): ?>
 		<li>
 			<a class="two-factor-provider"
-			   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.setupProvider',
+			   href="<?php p(\OC::$server->get(IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.setupProvider',
 			   	[
 			   		'providerId' => $provider->getId(),
 			   	]

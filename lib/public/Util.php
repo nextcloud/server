@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OCP\IURLGenerator;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -268,7 +269,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
 		);
@@ -281,7 +282,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(
 			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')

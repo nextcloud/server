@@ -39,6 +39,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OCP\ITempManager;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -64,7 +66,7 @@ try {
 
 	$logger = \OC::$server->getLogger();
 	$config = \OC::$server->getConfig();
-	$tempManager = \OC::$server->getTempManager();
+	$tempManager = \OC::$server->get(ITempManager::class);
 
 	// Don't do anything if Nextcloud has not been installed
 	if (!$config->getSystemValue('installed', false)) {

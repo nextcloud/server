@@ -34,6 +34,9 @@ use OCP\Util;
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IURLGenerator;
+
 function p($string) {
 	print(\OCP\Util::sanitizeHTML($string));
 }
@@ -226,7 +229,7 @@ function component($app, $file) {
  * For further information have a look at \OCP\IURLGenerator::linkTo
  */
 function link_to($app, $file, $args = []) {
-	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
+	return \OC::$server->get(IURLGenerator::class)->linkTo($app, $file, $args);
 }
 
 /**
@@ -234,7 +237,7 @@ function link_to($app, $file, $args = []) {
  * @return string url to the online documentation
  */
 function link_to_docs($key) {
-	return \OC::$server->getURLGenerator()->linkToDocs($key);
+	return \OC::$server->get(IURLGenerator::class)->linkToDocs($key);
 }
 
 /**
@@ -246,7 +249,7 @@ function link_to_docs($key) {
  * For further information have a look at \OCP\IURLGenerator::imagePath
  */
 function image_path($app, $image) {
-	return \OC::$server->getURLGenerator()->imagePath($app, $image);
+	return \OC::$server->get(IURLGenerator::class)->imagePath($app, $image);
 }
 
 /**
@@ -265,7 +268,7 @@ function mimetype_icon($mimetype) {
  * @return string link to the preview
  */
 function preview_icon($path) {
-	return \OC::$server->getURLGenerator()->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
+	return \OC::$server->get(IURLGenerator::class)->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
 }
 
 /**
@@ -274,7 +277,7 @@ function preview_icon($path) {
  * @return string
  */
 function publicPreview_icon($path, $token) {
-	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 'token' => $token]);
+	return \OC::$server->get(IURLGenerator::class)->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 'token' => $token]);
 }
 
 /**

@@ -32,6 +32,7 @@
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class ZIP extends Archive {
@@ -224,7 +225,7 @@ class ZIP extends Archive {
 			} else {
 				$ext = '';
 			}
-			$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+			$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($ext);
 			if ($this->fileExists($path)) {
 				$this->extractFile($path, $tmpFile);
 			}

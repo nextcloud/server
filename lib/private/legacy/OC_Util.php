@@ -522,7 +522,7 @@ class OC_Util {
 			\OC::$server->get(\OC\Installer::class)
 		);
 
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
@@ -782,7 +782,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if (!\OC::$server->getUserSession()->isLoggedIn()) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
+			header('Location: ' . \OC::$server->get(IURLGenerator::class)->linkToRoute(
 				'core.login.showLoginForm',
 				[
 					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
@@ -793,7 +793,7 @@ class OC_Util {
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
 		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
+			header('Location: ' . \OC::$server->get(IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
 	}
@@ -940,7 +940,7 @@ class OC_Util {
 		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		// accessing the file via http
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
+		$url = \OC::$server->get(IURLGenerator::class)->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
 			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {

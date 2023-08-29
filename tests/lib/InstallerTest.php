@@ -53,7 +53,7 @@ class InstallerTest extends TestCase {
 		$installer = new Installer(
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
-			\OC::$server->getTempManager(),
+			\OC::$server->get(ITempManager::class),
 			\OC::$server->get(LoggerInterface::class),
 			$config,
 			false
@@ -76,7 +76,7 @@ class InstallerTest extends TestCase {
 		$installer = new Installer(
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
-			\OC::$server->getTempManager(),
+			\OC::$server->get(ITempManager::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getConfig(),
 			false
@@ -100,7 +100,7 @@ class InstallerTest extends TestCase {
 		$installer = new Installer(
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
-			\OC::$server->getTempManager(),
+			\OC::$server->get(ITempManager::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getConfig(),
 			false
@@ -338,7 +338,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
@@ -416,14 +416,14 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp1.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		mkdir($realTmpFolder . '/testfolder');
 		$this->tempManager
 			->expects($this->once())
@@ -500,14 +500,14 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp1.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFolder')
@@ -579,14 +579,14 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			->expects($this->atLeastOnce())
 			->method('get')
 			->willReturnOnConsecutiveCalls($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->atLeastOnce())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturnOnConsecutiveCalls($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->tempManager
 			->expects($this->atLeastOnce())
 			->method('getTemporaryFolder')
@@ -665,14 +665,14 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			->expects($this->at(1))
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.0.8.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->at(2))
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->tempManager
 			->expects($this->at(3))
 			->method('getTemporaryFolder')

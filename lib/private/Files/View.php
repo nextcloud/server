@@ -65,6 +65,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
+use OCP\ITempManager;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -997,7 +998,7 @@ class View {
 			$source = $this->fopen($path, 'r');
 			if ($source) {
 				$extension = pathinfo($path, PATHINFO_EXTENSION);
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
+				$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($extension);
 				file_put_contents($tmpFile, $source);
 				return $tmpFile;
 			} else {

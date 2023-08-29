@@ -22,6 +22,7 @@
 namespace Test\IntegrityCheck\Helpers;
 
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OCP\ITempManager;
 use Test\TestCase;
 
 class FileAccessHelperTest extends TestCase {
@@ -34,7 +35,7 @@ class FileAccessHelperTest extends TestCase {
 	}
 
 	public function testReadAndWrite() {
-		$tempManager = \OC::$server->getTempManager();
+		$tempManager = \OC::$server->get(ITempManager::class);
 		$filePath = $tempManager->getTemporaryFile();
 		$data = 'SomeDataGeneratedByIntegrityCheck';
 
@@ -52,7 +53,7 @@ class FileAccessHelperTest extends TestCase {
 
 	public function testIs_writable() {
 		$this->assertFalse($this->fileAccessHelper->is_writable('/anabsolutelynotexistingfolder/on/the/system.txt'));
-		$this->assertTrue($this->fileAccessHelper->is_writable(\OC::$server->getTempManager()->getTemporaryFile('MyFile')));
+		$this->assertTrue($this->fileAccessHelper->is_writable(\OC::$server->get(ITempManager::class)->getTemporaryFile('MyFile')));
 	}
 
 	
@@ -64,7 +65,7 @@ class FileAccessHelperTest extends TestCase {
 	}
 
 	public function testAssertDirectoryExists() {
-		$this->fileAccessHelper->assertDirectoryExists(\OC::$server->getTempManager()->getTemporaryFolder('/testfolder/'));
+		$this->fileAccessHelper->assertDirectoryExists(\OC::$server->get(ITempManager::class)->getTemporaryFolder('/testfolder/'));
 		$this->addToAssertionCount(1);
 	}
 }

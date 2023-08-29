@@ -57,6 +57,7 @@ use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
@@ -561,7 +562,7 @@ class OC_App {
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {

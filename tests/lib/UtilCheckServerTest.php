@@ -8,6 +8,8 @@
 
 namespace Test;
 
+use OCP\ITempManager;
+
 /**
  * Tests for server check functions
  *
@@ -38,7 +40,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->datadir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->datadir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 
 		file_put_contents($this->datadir . '/.ocdata', '');
 		\OC::$server->getSession()->set('checkServer_succeeded', false);

@@ -10,6 +10,7 @@ namespace Test;
 
 use OC\Files\View;
 use OC_Helper;
+use OCP\ITempManager;
 
 class LegacyHelperTest extends \Test\TestCase {
 	/** @var string */
@@ -241,7 +242,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	 * Tests recursive folder deletion with rmdirr()
 	 */
 	public function testRecursiveFolderDeletion() {
-		$baseDir = \OC::$server->getTempManager()->getTemporaryFolder() . '/';
+		$baseDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder() . '/';
 		mkdir($baseDir . 'a/b/c/d/e', 0777, true);
 		mkdir($baseDir . 'a/b/c1/d/e', 0777, true);
 		mkdir($baseDir . 'a/b/c2/d/e', 0777, true);

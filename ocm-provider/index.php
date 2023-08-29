@@ -22,6 +22,8 @@
 
 require_once __DIR__ . '/../lib/base.php';
 
+use OCP\IURLGenerator;
+
 header('Content-Type: application/json');
 
 $server = \OC::$server;
@@ -31,7 +33,7 @@ $isEnabled = $server->getAppManager()->isEnabledForUser('cloud_federation_api');
 if ($isEnabled) {
 	// Make sure the routes are loaded
 	\OC_App::loadApp('cloud_federation_api');
-	$capabilities = new OCA\CloudFederationAPI\Capabilities($server->getURLGenerator());
+	$capabilities = new OCA\CloudFederationAPI\Capabilities($server->get(IURLGenerator::class));
 	header('Content-Type: application/json');
 	echo json_encode($capabilities->getCapabilities()['ocm']);
 } else {

@@ -27,6 +27,7 @@ use OC\Files\Storage\Temporary;
 use OC\User\NoUserException;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\ITempManager;
 use OCP\IUser;
 
 class DummyMountProvider implements IMountProvider {
@@ -71,7 +72,7 @@ class FilesystemTest extends \Test\TestCase {
 	 * @return array
 	 */
 	private function getStorageData() {
-		$dir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$dir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->tmpDirs[] = $dir;
 		return ['datadir' => $dir];
 	}
@@ -329,7 +330,7 @@ class FilesystemTest extends \Test\TestCase {
 		\OC\Files\Filesystem::mkdir('/bar');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
 
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
+		$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
@@ -459,7 +460,7 @@ class FilesystemTest extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		$oldCachePath = $config->getSystemValueString('cache_path', '');
 		// set cache path to temp dir
-		$cachePath = \OC::$server->getTempManager()->getTemporaryFolder() . '/extcache';
+		$cachePath = \OC::$server->get(ITempManager::class)->getTemporaryFolder() . '/extcache';
 		$config->setSystemValue('cache_path', $cachePath);
 
 		\OC::$server->getUserManager()->createUser($userId, $userId);

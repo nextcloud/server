@@ -47,6 +47,7 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
+use OCP\ITempManager;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
@@ -367,7 +368,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					return false;
 				}
 
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
 					$this->writeBack($tmpFile, $path);
@@ -381,7 +382,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);

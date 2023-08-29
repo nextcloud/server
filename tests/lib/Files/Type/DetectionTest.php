@@ -32,7 +32,7 @@ class DetectionTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(
-			\OC::$server->getURLGenerator(),
+			\OC::$server->get(IURLGenerator::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$SERVERROOT . '/config/',
 			\OC::$SERVERROOT . '/resources/config/'

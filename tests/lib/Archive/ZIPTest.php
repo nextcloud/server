@@ -9,6 +9,7 @@
 namespace Test\Archive;
 
 use OC\Archive\ZIP;
+use OCP\ITempManager;
 
 class ZIPTest extends TestBase {
 	protected function getExisting() {
@@ -17,6 +18,6 @@ class ZIPTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new ZIP(\OC::$server->getTempManager()->getTempBaseDir().'/newArchive.zip');
+		return new ZIP(\OC::$server->get(ITempManager::class)->getTempBaseDir().'/newArchive.zip');
 	}
 }

@@ -8,6 +8,8 @@
 
 namespace Test\Archive;
 
+use OCP\ITempManager;
+
 abstract class TestBase extends \Test\TestCase {
 	/**
 	 * @var \OC\Archive\Archive
@@ -57,7 +59,7 @@ abstract class TestBase extends \Test\TestCase {
 		$textFile = $dir.'/lorem.txt';
 		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
+		$tmpFile = \OC::$server->get(ITempManager::class)->getTemporaryFile('.txt');
 		$this->instance->extractFile('lorem.txt', $tmpFile);
 		$this->assertEquals(file_get_contents($textFile), file_get_contents($tmpFile));
 	}
@@ -111,7 +113,7 @@ abstract class TestBase extends \Test\TestCase {
 	public function testExtract() {
 		$dir = \OC::$SERVERROOT.'/tests/data';
 		$this->instance = $this->getExisting();
-		$tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->instance->extract($tmpDir);
 		$this->assertEquals(true, file_exists($tmpDir.'lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir.'dir/lorem.txt'));

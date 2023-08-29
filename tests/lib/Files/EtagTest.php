@@ -10,6 +10,7 @@ namespace Test\Files;
 
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ITempManager;
 use OCA\Files_Sharing\AppInfo\Application;
 use Psr\Log\LoggerInterface;
 
@@ -42,7 +43,7 @@ class EtagTest extends \Test\TestCase {
 
 		$config = \OC::$server->getConfig();
 		$this->datadir = $config->getSystemValueString('datadirectory');
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 
 		$this->userBackend = new \Test\Util\User\Dummy();

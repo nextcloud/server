@@ -53,6 +53,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ITempManager;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
@@ -400,7 +401,7 @@ class DAV extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				$tempManager = \OC::$server->getTempManager();
+				$tempManager = \OC::$server->get(ITempManager::class);
 				if (strrpos($path, '.') !== false) {
 					$ext = substr($path, strrpos($path, '.'));
 				} else {

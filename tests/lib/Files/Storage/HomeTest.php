@@ -23,6 +23,7 @@
 namespace Test\Files\Storage;
 
 use OC\User\User;
+use OCP\ITempManager;
 
 class DummyUser extends User {
 	private $home;
@@ -70,7 +71,7 @@ class HomeTest extends Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OC::$server->get(ITempManager::class)->getTemporaryFolder();
 		$this->userId = $this->getUniqueID('user_');
 		$this->user = new DummyUser($this->userId, $this->tmpDir);
 		$this->instance = new \OC\Files\Storage\Home(['user' => $this->user]);
