@@ -38,6 +38,7 @@
 
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\User\Events\BeforeUserLoggedInEvent;
@@ -323,7 +324,7 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isAdminUser($uid) {
-		$group = \OC::$server->getGroupManager()->get('admin');
+		$group = \OC::$server->get(IGroupManager::class)->get('admin');
 		$user = \OC::$server->getUserManager()->get($uid);
 		if ($group && $user && $group->inGroup($user) && self::$incognitoMode === false) {
 			return true;

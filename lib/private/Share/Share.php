@@ -39,6 +39,7 @@ use OCA\Files_Sharing\ShareBackend\File;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
@@ -198,7 +199,7 @@ class Share extends Constants {
 			$userObject = \OC::$server->getUserManager()->get($user);
 			$groups = [];
 			if ($userObject) {
-				$groups = \OC::$server->getGroupManager()->getUserGroupIds($userObject);
+				$groups = \OC::$server->get(IGroupManager::class)->getUserGroupIds($userObject);
 			}
 
 			if (!empty($groups)) {
@@ -406,7 +407,7 @@ class Share extends Constants {
 				$user = \OC::$server->getUserManager()->get($shareWith);
 				$groups = [];
 				if ($user) {
-					$groups = \OC::$server->getGroupManager()->getUserGroupIds($user);
+					$groups = \OC::$server->get(IGroupManager::class)->getUserGroupIds($user);
 				}
 				if (!empty($groups)) {
 					$qb->orWhere($qb->expr()->andX(

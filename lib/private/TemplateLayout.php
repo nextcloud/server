@@ -50,6 +50,7 @@ use OC\Template\JSResourceLocator;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
 use OCP\IUserSession;
@@ -231,7 +232,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->getSession(),
 				\OC::$server->getUserSession()->getUser(),
 				$this->config,
-				\OC::$server->getGroupManager(),
+				\OC::$server->get(IGroupManager::class),
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),
 				\OC::$server->getCapabilitiesManager(),

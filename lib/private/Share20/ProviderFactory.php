@@ -43,6 +43,7 @@ use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -98,7 +99,7 @@ class ProviderFactory implements IProviderFactory {
 			$this->defaultProvider = new DefaultShareProvider(
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getGroupManager(),
+				$this->serverContainer->get(IGroupManager::class),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->query(Defaults::class),

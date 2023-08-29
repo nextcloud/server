@@ -40,6 +40,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OC\DB\Connection;
@@ -198,7 +199,7 @@ class Repair implements IOutput {
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->get(IGroupManager::class), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
 			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
 			\OCP\Server::get(EncryptionLegacyCipher::class),
@@ -223,7 +224,7 @@ class Repair implements IOutput {
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->get(IGroupManager::class)),
 			\OC::$server->get(ValidatePhoneNumber::class),
 		];
 	}

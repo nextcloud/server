@@ -24,6 +24,7 @@ namespace Test;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\SubAdminAddedEvent;
 use OCP\Group\Events\SubAdminRemovedEvent;
+use OCP\IGroupManager;
 
 /**
  * @group DB
@@ -54,7 +55,7 @@ class SubAdminTest extends \Test\TestCase {
 		$this->groups = [];
 
 		$this->userManager = \OC::$server->getUserManager();
-		$this->groupManager = \OC::$server->getGroupManager();
+		$this->groupManager = \OC::$server->get(IGroupManager::class);
 		$this->dbConn = \OC::$server->getDatabaseConnection();
 		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 

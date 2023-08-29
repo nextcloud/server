@@ -45,6 +45,7 @@ use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -277,7 +278,7 @@ class User implements IUser {
 		if ($result) {
 			// FIXME: Feels like an hack - suggestions?
 
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = \OC::$server->get(IGroupManager::class);
 			// We have to delete the user from all groups
 			foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 				$group = $groupManager->get($groupId);

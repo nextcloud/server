@@ -23,6 +23,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IShare;
@@ -99,7 +100,7 @@ class ViewTest extends \Test\TestCase {
 
 		//login
 		$userManager = \OC::$server->getUserManager();
-		$groupManager = \OC::$server->getGroupManager();
+		$groupManager = \OC::$server->get(IGroupManager::class);
 		$this->user = 'test';
 		$this->userObject = $userManager->createUser('test', 'test');
 

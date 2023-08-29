@@ -14,6 +14,7 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -459,7 +460,7 @@ class AppTest extends \Test\TestCase {
 	 */
 	public function testEnabledApps($user, $expectedApps, $forceAll) {
 		$userManager = \OC::$server->getUserManager();
-		$groupManager = \OC::$server->getGroupManager();
+		$groupManager = \OC::$server->get(IGroupManager::class);
 		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
 		$user2 = $userManager->createUser(self::TEST_USER2, self::TEST_USER2);
 		$user3 = $userManager->createUser(self::TEST_USER3, self::TEST_USER3);
@@ -558,7 +559,7 @@ class AppTest extends \Test\TestCase {
 			\OC::$server->getUserSession(),
 			\OC::$server->getConfig(),
 			$appConfig,
-			\OC::$server->getGroupManager(),
+			\OC::$server->get(IGroupManager::class),
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)

@@ -59,6 +59,7 @@ use OC\Preview\BackgroundCleanupJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -401,7 +402,7 @@ class Setup {
 				$config->setSystemValue('updater.release.channel', $vendorData['channel']);
 			}
 
-			$group = \OC::$server->getGroupManager()->createGroup('admin');
+			$group = \OC::$server->get(IGroupManager::class)->createGroup('admin');
 			if ($group instanceof IGroup) {
 				$group->addUser($user);
 			}

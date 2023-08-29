@@ -61,7 +61,7 @@ class ShareTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->groupManager = \OC::$server->getGroupManager();
+		$this->groupManager = \OC::$server->get(IGroupManager::class);
 		$this->userManager = \OC::$server->getUserManager();
 
 		$this->userManager->clearBackends();

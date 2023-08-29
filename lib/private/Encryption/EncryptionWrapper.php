@@ -30,6 +30,7 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
+use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -85,7 +86,7 @@ class EncryptionWrapper {
 			$util = new Util(
 				new View(),
 				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
+				\OC::$server->get(IGroupManager::class),
 				\OC::$server->getConfig()
 			);
 			$update = new Update(

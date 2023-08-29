@@ -56,6 +56,7 @@ use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
 use OCP\ILogger;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
@@ -266,7 +267,7 @@ class OC_App {
 
 		$appManager = \OC::$server->getAppManager();
 		if ($groups !== []) {
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = \OC::$server->get(IGroupManager::class);
 			$groupsList = [];
 			foreach ($groups as $group) {
 				$groupItem = $groupManager->get($group);
