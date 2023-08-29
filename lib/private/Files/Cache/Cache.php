@@ -122,7 +122,7 @@ class Cache implements ICache {
 		}
 
 		$this->storageCache = new Storage($storage);
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->mimetypeLoader = \OC::$server->get(IMimeTypeLoader::class);
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$this->querySearchHelper = \OCP\Server::get(QuerySearchHelper::class);

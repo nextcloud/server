@@ -85,7 +85,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->previewManager = \OC::$server->getPreviewManager();
 		$this->rootFolder = \OC::$server->getRootFolder();
-		$this->mimeTypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->mimeTypeLoader = \OC::$server->get(IMimeTypeLoader::class);
 		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
 	}
 

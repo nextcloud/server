@@ -35,7 +35,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->mimetypeLoader = \OC::$server->get(IMimeTypeLoader::class);
 
 		/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->getMockBuilder(IConfig::class)

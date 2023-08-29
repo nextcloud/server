@@ -48,6 +48,8 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\Files\IMimeTypeLoader;
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -163,7 +165,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	);
 
 	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));
-	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->getMimeTypeLoader()));
+	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->get(IMimeTypeLoader::class)));
 	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateJS(\OC::$server->getMimeTypeDetector()));
 	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());

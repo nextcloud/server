@@ -39,6 +39,7 @@ use Doctrine\DBAL\Exception;
 use OC\Files\Storage\Wrapper\Encryption;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
@@ -500,7 +501,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			// inserted mimetypes but those weren't available yet inside the transaction
 			// To make sure to have the updated mime types in such cases,
 			// we reload them here
-			\OC::$server->getMimeTypeLoader()->reset();
+			\OC::$server->get(IMimeTypeLoader::class)->reset();
 		}
 		return $childQueue;
 	}
