@@ -15,6 +15,7 @@ return array(
     'OCA\\AdminAudit\\Actions\\GroupManagement' => $baseDir . '/../lib/Actions/GroupManagement.php',
     'OCA\\AdminAudit\\Actions\\Security' => $baseDir . '/../lib/Actions/Security.php',
     'OCA\\AdminAudit\\Actions\\Sharing' => $baseDir . '/../lib/Actions/Sharing.php',
+    'OCA\\AdminAudit\\Actions\\TagManagement' => $baseDir . '/../lib/Actions/TagManagement.php',
     'OCA\\AdminAudit\\Actions\\Trashbin' => $baseDir . '/../lib/Actions/Trashbin.php',
     'OCA\\AdminAudit\\Actions\\UserManagement' => $baseDir . '/../lib/Actions/UserManagement.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',

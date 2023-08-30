@@ -30,6 +30,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Actions\\GroupManagement' => __DIR__ . '/..' . '/../lib/Actions/GroupManagement.php',
         'OCA\\AdminAudit\\Actions\\Security' => __DIR__ . '/..' . '/../lib/Actions/Security.php',
         'OCA\\AdminAudit\\Actions\\Sharing' => __DIR__ . '/..' . '/../lib/Actions/Sharing.php',
+        'OCA\\AdminAudit\\Actions\\TagManagement' => __DIR__ . '/..' . '/../lib/Actions/TagManagement.php',
         'OCA\\AdminAudit\\Actions\\Trashbin' => __DIR__ . '/..' . '/../lib/Actions/Trashbin.php',
         'OCA\\AdminAudit\\Actions\\UserManagement' => __DIR__ . '/..' . '/../lib/Actions/UserManagement.php',
         'OCA\\AdminAudit\\Actions\\Versions' => __DIR__ . '/..' . '/../lib/Actions/Versions.php',
