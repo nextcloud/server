@@ -35,7 +35,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
-use OCP\ILogger;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
@@ -45,6 +44,8 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
@@ -186,9 +187,10 @@ if (\OCP\Util::needUpgrade()) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
-		\OC::$server->getLogger()->logException($e, [
-			'level' => ILogger::ERROR,
+		\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+			'level' => LogLevel::ERROR,
 			'app' => 'update',
+			'exception' => $e
 		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
 		$eventSource->close();

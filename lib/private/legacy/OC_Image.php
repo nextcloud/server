@@ -44,6 +44,7 @@ declare(strict_types=1);
  *
  */
 use OCP\IImage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for basic image manipulation
@@ -84,7 +85,7 @@ class OC_Image implements \OCP\IImage {
 	public function __construct($imageRef = null, \OCP\ILogger $logger = null, \OCP\IConfig $config = null) {
 		$this->logger = $logger;
 		if ($logger === null) {
-			$this->logger = \OC::$server->getLogger();
+			$this->logger = \OC::$server->get(LoggerInterface::class);
 		}
 		$this->config = $config;
 		if ($config === null) {

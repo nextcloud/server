@@ -39,6 +39,7 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
+use Psr\Log\LoggerInterface;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -257,7 +258,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('errors', $errors);
 			$content->printPage();
 		} catch (\Exception $e) {
-			$logger = \OC::$server->getLogger();
+			$logger = \OC::$server->get(LoggerInterface::class);
 			$logger->error("$error_msg $hint", ['app' => 'core']);
 			$logger->logException($e, ['app' => 'core']);
 
@@ -291,7 +292,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->printPage();
 		} catch (\Exception $e) {
 			try {
-				$logger = \OC::$server->getLogger();
+				$logger = \OC::$server->get(LoggerInterface::class);
 				$logger->logException($exception, ['app' => 'core']);
 				$logger->logException($e, ['app' => 'core']);
 			} catch (Throwable $e) {

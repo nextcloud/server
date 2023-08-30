@@ -32,6 +32,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use Psr\Log\LoggerInterface;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
@@ -85,10 +87,16 @@ try {
 		$status = 503;
 	}
 	//show the user a detailed error page
-	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
+	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+		'app' => 'public',
+		'exception' => $ex
+	]);
 	OC_Template::printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
-	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
+	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+		'app' => 'public',
+		'exception' => $ex
+	]);
 	OC_Template::printExceptionErrorPage($ex, 500);
 }

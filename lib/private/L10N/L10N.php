@@ -30,6 +30,7 @@ namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
@@ -234,7 +235,7 @@ class L10N implements IL10N {
 		$json = json_decode(file_get_contents($translationFile), true);
 		if (!\is_array($json)) {
 			$jsonError = json_last_error();
-			\OC::$server->getLogger()->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
+			\OC::$server->get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 

@@ -28,6 +28,7 @@ namespace OC\BackgroundJob;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * @deprecated internal class, use \OCP\BackgroundJob\Job
@@ -45,7 +46,7 @@ abstract class Job implements IJob {
 	public function execute(IJobList $jobList, ILogger $logger = null) {
 		$jobList->setLastRun($this);
 		if ($logger === null) {
-			$logger = \OC::$server->getLogger();
+			$logger = \OC::$server->get(LoggerInterface::class);
 		}
 
 		try {

@@ -50,6 +50,7 @@ use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -119,7 +120,7 @@ class Util {
 	 */
 	public static function writeLog($app, $message, $level) {
 		$context = ['app' => $app];
-		\OC::$server->getLogger()->log($level, $message, $context);
+		\OC::$server->get(LoggerInterface::class)->log($level, $message, $context);
 	}
 
 	/**

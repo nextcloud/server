@@ -25,6 +25,7 @@
 namespace OC\Log;
 
 use OCP\Log\RotationTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * This rotates the current logfile to a new name, this way the total log usage
@@ -43,7 +44,7 @@ class Rotate extends \OCP\BackgroundJob\Job {
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
 			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';
-			\OC::$server->getLogger()->warning($msg, ['app' => Rotate::class]);
+			\OC::$server->get(LoggerInterface::class)->warning($msg, ['app' => Rotate::class]);
 		}
 	}
 }

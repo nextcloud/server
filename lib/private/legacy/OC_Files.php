@@ -47,6 +47,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for file server access
@@ -200,7 +201,7 @@ class OC_Files {
 							$fileTime = $file->getMTime();
 						} else {
 							// File is not a file? …
-							\OC::$server->getLogger()->debug(
+							\OC::$server->get(LoggerInterface::class)->debug(
 								'File given, but no Node available. Name {file}',
 								[ 'app' => 'files', 'file' => $file ]
 							);
@@ -221,18 +222,24 @@ class OC_Files {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 		} catch (\OCP\Lock\LockedException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
+			OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+				'exception' => $ex
+			]);
 			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint, 200);
 		} catch (\OCP\Files\ForbiddenException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
+			OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+				'exception' => $ex
+			]);
 			$l = \OC::$server->getL10N('lib');
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
+			OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+				'exception' => $ex
+			]);
 			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			if ($event && $event->getErrorMessage() !== null) {

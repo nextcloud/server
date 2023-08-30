@@ -26,6 +26,7 @@ namespace OC\Collaboration\AutoComplete;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\AutoComplete\ISorter;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 	/** @var string[] */
@@ -46,7 +47,7 @@ class Manager implements IManager {
 			if (isset($sorterInstances[$sorter])) {
 				$sorterInstances[$sorter]->sort($sortArray, $context);
 			} else {
-				$this->c->getLogger()->warning('No sorter for ID "{id}", skipping', [
+				$this->c->get(LoggerInterface::class)->warning('No sorter for ID "{id}", skipping', [
 					'app' => 'core', 'id' => $sorter
 				]);
 			}
@@ -63,13 +64,13 @@ class Manager implements IManager {
 				/** @var ISorter $instance */
 				$instance = $this->c->resolve($sorter);
 				if (!$instance instanceof ISorter) {
-					$this->c->getLogger()->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
+					$this->c->get(LoggerInterface::class)->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}
 				$sorterId = trim($instance->getId());
 				if (trim($sorterId) === '') {
-					$this->c->getLogger()->notice('Skipping sorter with empty ID. Class name: {class}',
+					$this->c->get(LoggerInterface::class)->notice('Skipping sorter with empty ID. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}

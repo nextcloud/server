@@ -230,7 +230,7 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function copyr($source, \OCP\Files\Folder $target) {
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 
 		// Verify if folder exists
 		$dir = opendir($source);
@@ -1077,7 +1077,7 @@ class OC_Util {
 
 		$normalizedValue = Normalizer::normalize($value);
 		if ($normalizedValue === null || $normalizedValue === false) {
-			\OC::$server->getLogger()->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
+			\OC::$server->get(LoggerInterface::class)->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
 			return $value;
 		}
 

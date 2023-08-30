@@ -30,6 +30,8 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
+use Psr\Log\LoggerInterface;
+
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
@@ -77,7 +79,9 @@ try {
 } catch (\OC\User\LoginException $e) {
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
-	\OC::$server->getLogger()->logException($e);
+	\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+		'exception' => $e
+	]);
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');

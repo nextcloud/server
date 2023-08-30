@@ -39,15 +39,17 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use Psr\Log\LoggerInterface;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
 	if (\OCP\Util::needUpgrade()) {
-		\OC::$server->getLogger()->debug('Update required, skipping cron', ['app' => 'cron']);
+		\OC::$server->get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
 	if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
-		\OC::$server->getLogger()->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
+		\OC::$server->get(LoggerInterface::class)->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}
 
@@ -62,7 +64,7 @@ try {
 	$session = $cryptoWrapper->wrapSession($session);
 	\OC::$server->setSession($session);
 
-	$logger = \OC::$server->getLogger();
+	$logger = \OC::$server->get(LoggerInterface::class);
 	$config = \OC::$server->getConfig();
 	$tempManager = \OC::$server->getTempManager();
 
@@ -185,11 +187,17 @@ try {
 	$config->setAppValue('core', 'lastcron', time());
 	exit();
 } catch (Exception $ex) {
-	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+		'app' => 'cron',
+		'exception' => $ex
+	]);
 	echo $ex . PHP_EOL;
 	exit(1);
 } catch (Error $ex) {
-	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+		'app' => 'cron',
+		'exception' => $ex
+	]);
 	echo $ex . PHP_EOL;
 	exit(1);
 }

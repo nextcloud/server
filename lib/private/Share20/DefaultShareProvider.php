@@ -55,6 +55,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
 /**
@@ -1247,7 +1248,9 @@ class DefaultShareProvider implements IShareProvider {
 				)
 			);
 		} else {
-			\OC::$server->getLogger()->logException(new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType));
+			\OC::$server->get(LoggerInterface::class)->error('Default share provider tried to delete all shares for type: ' . $shareType, [
+				'exception' => new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType)
+			]);
 			return;
 		}
 

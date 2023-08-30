@@ -39,6 +39,7 @@ use OCP\ILogger;
 use OCP\ITags;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 class Tags implements ITags {
 	/**
@@ -486,10 +487,11 @@ class Tags implements ITags {
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
 				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
+				'level' => LogLevel::ERROR,
 				'app' => 'core',
+				'exception' => $e
 			]);
 			return [];
 		}
@@ -549,7 +551,7 @@ class Tags implements ITags {
 		try {
 			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->error($e->getMessage(), [
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
 				'app' => 'core',
 				'exception' => $e,
 			]);
