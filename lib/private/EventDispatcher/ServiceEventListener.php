@@ -67,7 +67,7 @@ final class ServiceEventListener {
 				// TODO: fetch from the app containers, otherwise any custom services,
 				//       parameters and aliases won't be resolved.
 				//       See https://github.com/nextcloud/server/issues/27793 for details.
-				$this->service = $this->container->query($this->class);
+				$this->service = $this->container->get($this->class);
 			} catch (QueryException $e) {
 				$this->logger->error(
 					sprintf(

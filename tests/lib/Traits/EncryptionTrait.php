@@ -70,11 +70,11 @@ trait EncryptionTrait {
 
 		$container = $this->encryptionApp->getContainer();
 		/** @var KeyManager $keyManager */
-		$keyManager = $container->query(KeyManager::class);
+		$keyManager = $container->get(KeyManager::class);
 		/** @var Setup $userSetup */
-		$userSetup = $container->query(Setup::class);
+		$userSetup = $container->get(Setup::class);
 		$userSetup->setupUser($name, $password);
-		$encryptionManager = $container->query(IManager::class);
+		$encryptionManager = $container->get(IManager::class);
 		$this->encryptionApp->setUp($encryptionManager);
 		$keyManager->init($name, $password);
 	}

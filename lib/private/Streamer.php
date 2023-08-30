@@ -124,7 +124,7 @@ class Streamer {
 		$files = $dirNode->getDirectoryListing();
 
 		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->query(LoggerInterface::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
 		foreach ($files as $file) {
 			if ($file instanceof File) {
 				try {

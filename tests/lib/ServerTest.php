@@ -171,7 +171,7 @@ class ServerTest extends \Test\TestCase {
 	 * @param string $instanceOf
 	 */
 	public function testQuery($serviceName, $instanceOf) {
-		$this->assertInstanceOf($instanceOf, $this->server->query($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
+		$this->assertInstanceOf($instanceOf, $this->server->get($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
 	}
 
 	public function testGetCertificateManager() {

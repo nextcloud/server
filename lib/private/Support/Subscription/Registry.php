@@ -76,7 +76,7 @@ class Registry implements IRegistry {
 	private function getSubscription(): ?ISubscription {
 		if ($this->subscription === null && $this->subscriptionService !== null) {
 			try {
-				$this->subscription = $this->container->query($this->subscriptionService);
+				$this->subscription = $this->container->get($this->subscriptionService);
 			} catch (QueryException $e) {
 				// Ignore this
 			}

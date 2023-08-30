@@ -64,7 +64,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			return false;
 		}
 
-		$this->services[$name] = \OC::$server->query($name);
+		$this->services[$name] = \OC::$server->get($name);
 		$container = \OC::$server->getAppContainerForService($name);
 		$container = $container ?? \OC::$server;
 

@@ -132,7 +132,7 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new \OC\Files\Utils\Scanner($uid, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new \OC\Files\Utils\Scanner($uid, \OC::$server->getDatabaseConnection(), \OC::$server->get(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
 
 		$this->assertFalse($cache->inCache('folder/bar.txt'));
 		$scanner->scan('/' . $uid . '/files/foo');

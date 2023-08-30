@@ -167,8 +167,8 @@ class App {
 	 *			parent::__construct('tasks', $params);
 	 *
 	 *			$this->getContainer()->registerService('PageController', function(IAppContainer $c){
-	 *				$a = $c->query('API');
-	 *				$r = $c->query('Request');
+	 *				$a = $c->get('API');
+	 *				$r = $c->get('Request');
 	 *				return new PageController($a, $r);
 	 *			});
 	 *		}

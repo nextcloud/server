@@ -118,7 +118,7 @@ class InitialStateService implements IInitialStateService {
 		$initialStates = $context->getInitialStates();
 		foreach ($initialStates as $initialState) {
 			try {
-				$provider = $this->container->query($initialState->getService());
+				$provider = $this->container->get($initialState->getService());
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
 				$this->logger->error('Could not load initial state provider dynamically: ' . $e->getMessage(), [

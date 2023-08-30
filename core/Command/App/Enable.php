@@ -101,7 +101,7 @@ class Enable extends Command implements CompletionAwareInterface {
 
 		try {
 			/** @var Installer $installer */
-			$installer = \OC::$server->query(Installer::class);
+			$installer = \OC::$server->get(Installer::class);
 
 			if (false === $installer->isDownloaded($appId)) {
 				$installer->downloadApp($appId);

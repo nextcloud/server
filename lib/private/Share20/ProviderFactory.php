@@ -101,7 +101,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getMailer(),
-				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->get(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getConfig()
@@ -138,11 +138,11 @@ class ProviderFactory implements IProviderFactory {
 			$notifications = new Notifications(
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
-				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->get(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
-				$this->serverContainer->query(IEventDispatcher::class),
+				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(LoggerInterface::class),
 			);
 			$tokenHandler = new TokenHandler(
@@ -197,7 +197,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
-				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->get(Defaults::class),
 				$this->serverContainer->getHasher(),
 				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(IManager::class)

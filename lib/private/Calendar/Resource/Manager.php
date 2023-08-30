@@ -97,7 +97,7 @@ class Manager implements IManager {
 				continue;
 			}
 
-			$this->initializedBackends[$backend] = $this->server->query($backend);
+			$this->initializedBackends[$backend] = $this->server->get($backend);
 		}
 
 		return array_values($this->initializedBackends);

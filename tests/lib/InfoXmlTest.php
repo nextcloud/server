@@ -77,63 +77,63 @@ class InfoXmlTest extends TestCase {
 		if (isset($appInfo['background-jobs'])) {
 			foreach ($appInfo['background-jobs'] as $job) {
 				$this->assertTrue(class_exists($job), 'Asserting background job "' . $job . '" exists');
-				$this->assertInstanceOf($job, \OC::$server->query($job));
+				$this->assertInstanceOf($job, \OC::$server->get($job));
 			}
 		}
 
 		if (isset($appInfo['two-factor-providers'])) {
 			foreach ($appInfo['two-factor-providers'] as $provider) {
 				$this->assertTrue(class_exists($provider), 'Asserting two-factor providers "' . $provider . '" exists');
-				$this->assertInstanceOf($provider, \OC::$server->query($provider));
+				$this->assertInstanceOf($provider, \OC::$server->get($provider));
 			}
 		}
 
 		if (isset($appInfo['commands'])) {
 			foreach ($appInfo['commands'] as $command) {
 				$this->assertTrue(class_exists($command), 'Asserting command "' . $command . '" exists');
-				$this->assertInstanceOf($command, \OC::$server->query($command));
+				$this->assertInstanceOf($command, \OC::$server->get($command));
 			}
 		}
 
 		if (isset($appInfo['repair-steps']['pre-migration'])) {
 			foreach ($appInfo['repair-steps']['pre-migration'] as $migration) {
 				$this->assertTrue(class_exists($migration), 'Asserting pre-migration "' . $migration . '" exists');
-				$this->assertInstanceOf($migration, \OC::$server->query($migration));
+				$this->assertInstanceOf($migration, \OC::$server->get($migration));
 			}
 		}
 
 		if (isset($appInfo['repair-steps']['post-migration'])) {
 			foreach ($appInfo['repair-steps']['post-migration'] as $migration) {
 				$this->assertTrue(class_exists($migration), 'Asserting post-migration "' . $migration . '" exists');
-				$this->assertInstanceOf($migration, \OC::$server->query($migration));
+				$this->assertInstanceOf($migration, \OC::$server->get($migration));
 			}
 		}
 
 		if (isset($appInfo['repair-steps']['live-migration'])) {
 			foreach ($appInfo['repair-steps']['live-migration'] as $migration) {
 				$this->assertTrue(class_exists($migration), 'Asserting live-migration "' . $migration . '" exists');
-				$this->assertInstanceOf($migration, \OC::$server->query($migration));
+				$this->assertInstanceOf($migration, \OC::$server->get($migration));
 			}
 		}
 
 		if (isset($appInfo['repair-steps']['install'])) {
 			foreach ($appInfo['repair-steps']['install'] as $migration) {
 				$this->assertTrue(class_exists($migration), 'Asserting install-migration "' . $migration . '" exists');
-				$this->assertInstanceOf($migration, \OC::$server->query($migration));
+				$this->assertInstanceOf($migration, \OC::$server->get($migration));
 			}
 		}
 
 		if (isset($appInfo['repair-steps']['uninstall'])) {
 			foreach ($appInfo['repair-steps']['uninstall'] as $migration) {
 				$this->assertTrue(class_exists($migration), 'Asserting uninstall-migration "' . $migration . '" exists');
-				$this->assertInstanceOf($migration, \OC::$server->query($migration));
+				$this->assertInstanceOf($migration, \OC::$server->get($migration));
 			}
 		}
 
 		if (isset($appInfo['commands'])) {
 			foreach ($appInfo['commands'] as $command) {
 				$this->assertTrue(class_exists($command), 'Asserting command "'. $command . '"exists');
-				$this->assertInstanceOf($command, \OC::$server->query($command));
+				$this->assertInstanceOf($command, \OC::$server->get($command));
 			}
 		}
 	}

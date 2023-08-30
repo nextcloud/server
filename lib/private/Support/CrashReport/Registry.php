@@ -119,7 +119,7 @@ class Registry implements IRegistry {
 		while (($class = array_shift($this->lazyReporters)) !== null) {
 			try {
 				/** @var IReporter $reporter */
-				$reporter = $this->serverContainer->query($class);
+				$reporter = $this->serverContainer->get($class);
 			} catch (QueryException $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so

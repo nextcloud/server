@@ -37,7 +37,7 @@ declare(strict_types=1);
 use OC\Core\Application;
 
 /** @var Application $application */
-$application = \OC::$server->query(Application::class);
+$application = \OC::$server->get(Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		['name' => 'lost#email', 'url' => '/lostpassword/email', 'verb' => 'POST'],

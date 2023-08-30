@@ -145,7 +145,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 		$this->registerService(ILogger::class, function (ContainerInterface $c) {
-			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->get('AppName'));
+			return new OC\AppFramework\Logger($this->server->get(ILogger::class), $c->get('AppName'));
 		});
 
 		$this->registerService(IServerContainer::class, function () {
@@ -253,7 +253,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
 				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
-				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
+				$server->getUserSession()->getUser() !== null && $server->get(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
@@ -262,13 +262,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\CSPMiddleware(
-					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
-					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
-					$server->query(OC\Security\CSRF\CsrfTokenManager::class)
+					$server->get(OC\Security\CSP\ContentSecurityPolicyManager::class),
+					$server->get(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
+					$server->get(OC\Security\CSRF\CsrfTokenManager::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
-				$server->query(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
+				$server->get(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
@@ -459,14 +459,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
 		if ($isServerClass && !$this->has($name)) {
-			return $this->getServer()->query($name, $autoload);
+			return $this->getServer()->get($name, $autoload);
 		}
 
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
 			try {
-				return $this->getServer()->query($name, $autoload);
+				return $this->getServer()->get($name, $autoload);
 			} catch (QueryException $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;

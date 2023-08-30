@@ -104,7 +104,7 @@ class Manager implements IManager {
 			 * The backend might have services injected that can't be build from the
 			 * server container.
 			 */
-			$this->initializedBackends[$backend] = $this->server->query($backend);
+			$this->initializedBackends[$backend] = $this->server->get($backend);
 		}
 
 		return array_values($this->initializedBackends);
