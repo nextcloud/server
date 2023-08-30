@@ -1,11 +1,14 @@
 name: Trigger GitLab Image Pipeline
 
 on:
+  schedule:
+    - cron: "0 15 * * *"
+
   workflow_run:
     workflows: ["MCLOUD custom server release"]
     types:
       - completed
-  workflow_dispatch:  # Manual trigger option
+  workflow_dispatch: # manual
 
 jobs:
   trigger-pipeline:
@@ -18,6 +21,6 @@ jobs:
       run: |
         curl -X POST \
             --fail \
-            -F token=$GITLAB_IMAGE_TRIGGER_TOKEN \
+            -F token=$GITLAB_TOKEN \
             -F ref=master \
             https://gitlab.devops.telekom.de/api/v4/projects/37742/trigger/pipeline
