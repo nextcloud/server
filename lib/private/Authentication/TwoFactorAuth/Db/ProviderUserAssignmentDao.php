@@ -56,7 +56,7 @@ class ProviderUserAssignmentDao {
 		$query = $qb->select('provider_id', 'enabled')
 			->from(self::TABLE_NAME)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
 			$providers[(string)$row['provider_id']] = 1 === (int)$row['enabled'];
@@ -80,14 +80,14 @@ class ProviderUserAssignmentDao {
 				'enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_INT),
 			]);
 
-			$insertQuery->execute();
+			$insertQuery->executeStatement();
 		} catch (UniqueConstraintViolationException $ex) {
 			// There is already an entry -> update it
 			$updateQuery = $qb->update(self::TABLE_NAME)
 				->set('enabled', $qb->createNamedParameter($enabled))
 				->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
 				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-			$updateQuery->execute();
+			$updateQuery->executeStatement();
 		}
 	}
 
@@ -103,7 +103,7 @@ class ProviderUserAssignmentDao {
 		$selectQuery = $qb1->select('*')
 			->from(self::TABLE_NAME)
 			->where($qb1->expr()->eq('uid', $qb1->createNamedParameter($uid)));
-		$selectResult = $selectQuery->execute();
+		$selectResult = $selectQuery->executeQuery();
 		$rows = $selectResult->fetchAll();
 		$selectResult->closeCursor();
 
@@ -111,7 +111,7 @@ class ProviderUserAssignmentDao {
 		$deleteQuery = $qb2
 			->delete(self::TABLE_NAME)
 			->where($qb2->expr()->eq('uid', $qb2->createNamedParameter($uid)));
-		$deleteQuery->execute();
+		$deleteQuery->executeStatement();
 
 		return array_map(function (array $row) {
 			return [
@@ -128,6 +128,6 @@ class ProviderUserAssignmentDao {
 		$deleteQuery = $qb->delete(self::TABLE_NAME)
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)));
 
-		$deleteQuery->execute();
+		$deleteQuery->executeStatement();
 	}
 }

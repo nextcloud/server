@@ -122,14 +122,14 @@ class MySQL extends AbstractDatabase {
 
 			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
 				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 			} else {
 				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error('Database user creation failed.', [

@@ -92,7 +92,7 @@ class CredentialsManager implements ICredentialsManager {
 			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
 		}
 
-		$qResult = $qb->execute();
+		$qResult = $qb->executeQuery();
 		$result = $qResult->fetch();
 		$qResult->closeCursor();
 
@@ -122,7 +122,7 @@ class CredentialsManager implements ICredentialsManager {
 			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
 		}
 
-		return $qb->execute();
+		return $qb->executeStatement();
 	}
 
 	/**
@@ -136,6 +136,6 @@ class CredentialsManager implements ICredentialsManager {
 		$qb->delete(self::DB_TABLE)
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
 		;
-		return $qb->execute();
+		return $qb->executeStatement();
 	}
 }

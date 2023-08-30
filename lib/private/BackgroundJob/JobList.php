@@ -119,11 +119,11 @@ class JobList implements IJobList {
 			$query->setMaxResults($max);
 
 			do {
-				$deleted = $query->execute();
+				$deleted = $query->executeStatement();
 			} while ($deleted === $max);
 		} else {
 			// Dont use chunked delete - let the DB handle the large row count natively
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 

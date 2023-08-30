@@ -179,7 +179,7 @@ class Storage {
 			->set('available', $query->createNamedParameter($available))
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -204,13 +204,13 @@ class Storage {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
-		$query->execute();
+		$query->executeStatement();
 
 		if (!is_null($numericId)) {
 			$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 			$query->delete('filecache')
 				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 

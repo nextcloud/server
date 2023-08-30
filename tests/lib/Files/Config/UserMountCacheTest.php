@@ -73,14 +73,14 @@ class UserMountCacheTest extends TestCase {
 	protected function tearDown(): void {
 		$builder = $this->connection->getQueryBuilder();
 
-		$builder->delete('mounts')->execute();
+		$builder->delete('mounts')->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 
 		foreach ($this->fileIds as $fileId) {
 			$builder->delete('filecache')
 				->where($builder->expr()->eq('fileid', new Literal($fileId)))
-				->execute();
+				->executeStatement();
 		}
 	}
 

@@ -118,7 +118,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 
 		// Empty share table
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->provider = new ShareByMailProvider(
 			$this->config,
@@ -140,9 +140,9 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
-		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
 	}
 
 	/**
@@ -201,7 +201,7 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
 		}
 
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
 

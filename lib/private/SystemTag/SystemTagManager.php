@@ -94,7 +94,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('editable', 'ASC')
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$tag = $this->createSystemTagFromRow($row);
 			if ($user && !$this->canUserSeeTag($tag, $user)) {
@@ -143,7 +143,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('visibility', 'ASC')
 			->addOrderBy('editable', 'ASC');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$tags[$row['id']] = $this->createSystemTagFromRow($row);
 		}
@@ -163,7 +163,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('name', $truncatedTagName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
-			->execute();
+			->executeQuery();
 
 		$row = $result->fetch();
 		$result->closeCursor();
@@ -191,7 +191,7 @@ class SystemTagManager implements ISystemTagManager {
 			]);
 
 		try {
-			$query->execute();
+			$query->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
 				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
@@ -250,7 +250,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('tagid', $tagId);
 
 		try {
-			if ($query->execute() === 0) {
+			if ($query->executeStatement() === 0) {
 				throw new TagNotFoundException(
 					'Tag does not exist', 0, null, [$tagId]
 				);
@@ -299,13 +299,13 @@ class SystemTagManager implements ISystemTagManager {
 		$query->delete(SystemTagObjectMapper::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->execute();
+			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TAG_TABLE)
 			->where($query->expr()->in('id', $query->createParameter('tagids')))
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->execute();
+			->executeStatement();
 
 		foreach ($tags as $tag) {
 			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
@@ -377,7 +377,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query = $this->connection->getQueryBuilder();
 			$query->delete(self::TAG_GROUP_TABLE)
 				->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
-				->execute();
+				->executeStatement();
 
 			// add each group id
 			$query = $this->connection->getQueryBuilder();
@@ -391,7 +391,7 @@ class SystemTagManager implements ISystemTagManager {
 					continue;
 				}
 				$query->setParameter('gid', $groupId);
-				$query->execute();
+				$query->executeStatement();
 			}
 
 			$this->connection->commit();
@@ -412,7 +412,7 @@ class SystemTagManager implements ISystemTagManager {
 			->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
 			->orderBy('gid');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$groupIds[] = $row['gid'];
 		}

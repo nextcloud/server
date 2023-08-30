@@ -137,7 +137,7 @@ class ResetRenderedTexts extends Command {
 		$qb->select('path', 'mimetype')
 			->from('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -170,7 +170,7 @@ class ResetRenderedTexts extends Command {
 				)
 			);
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row;

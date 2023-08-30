@@ -270,7 +270,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
-		return parent::executeUpdate($sql, $params, $types);
+		return parent::executeStatement($sql, $params, $types);
 	}
 
 	/**

@@ -116,7 +116,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 		$objectIds = [];
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$objectIds[] = $row['objectid'];
 		}
@@ -147,7 +147,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
-				$query->execute();
+				$query->executeStatement();
 				$tagsAssigned[] = $tagId;
 			} catch (UniqueConstraintViolationException $e) {
 				// ignore existing relations
@@ -184,7 +184,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('objectid', $objId)
 			->setParameter('objecttype', $objectType)
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->execute();
+			->executeStatement();
 
 		$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
 			MapperEvent::EVENT_UNASSIGN,
@@ -223,7 +223,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('tagid', $tagId)
 			->setParameter('objecttype', $objectType);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch(\PDO::FETCH_NUM);
 		$result->closeCursor();
 

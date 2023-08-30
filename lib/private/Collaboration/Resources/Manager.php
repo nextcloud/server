@@ -73,7 +73,7 @@ class Manager implements IManager {
 		$query->select('*')
 			->from(self::TABLE_COLLECTIONS)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -105,7 +105,7 @@ class Manager implements IManager {
 				)
 			)
 			->where($query->expr()->eq('c.id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -151,7 +151,7 @@ class Manager implements IManager {
 			$query->andWhere($query->expr()->iLike('c.name', $query->createNamedParameter('%' . $this->connection->escapeLikeParameter($filter) . '%')));
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$collections = [];
 
 		$foundResults = 0;
@@ -183,7 +183,7 @@ class Manager implements IManager {
 			->values([
 				'name' => $query->createNamedParameter($name),
 			]);
-		$query->execute();
+		$query->executeStatement();
 
 		return new Collection($this, $this->connection, $query->getLastInsertId(), $name);
 	}
@@ -222,7 +222,7 @@ class Manager implements IManager {
 			)
 			->where($query->expr()->eq('r.resource_type', $query->createNamedParameter($type, IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('r.resource_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -261,7 +261,7 @@ class Manager implements IManager {
 			->where($query->expr()->eq('r.collection_id', $query->createNamedParameter($collection->getId(), IQueryBuilder::PARAM_INT)));
 
 		$resources = [];
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$access = $row['access'] === null ? null : (bool) $row['access'];
 			$resources[] = new Resource($this, $this->connection, $row['resource_type'], $row['resource_id'], $user, $access);
@@ -363,7 +363,7 @@ class Manager implements IManager {
 			->setMaxResults(1);
 
 		$hasAccess = null;
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		if ($row = $result->fetch()) {
 			$hasAccess = (bool) $row['access'];
 		}
@@ -383,7 +383,7 @@ class Manager implements IManager {
 			->setMaxResults(1);
 
 		$hasAccess = null;
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		if ($row = $result->fetch()) {
 			$hasAccess = (bool) $row['access'];
 		}
@@ -404,7 +404,7 @@ class Manager implements IManager {
 				'access' => $query->createNamedParameter($access, IQueryBuilder::PARAM_BOOL),
 			]);
 		try {
-			$query->execute();
+			$query->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 		}
 	}
@@ -420,7 +420,7 @@ class Manager implements IManager {
 				'access' => $query->createNamedParameter($access, IQueryBuilder::PARAM_BOOL),
 			]);
 		try {
-			$query->execute();
+			$query->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 		}
 	}
@@ -431,7 +431,7 @@ class Manager implements IManager {
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function invalidateAccessCacheForResource(IResource $resource): void {
@@ -440,7 +440,7 @@ class Manager implements IManager {
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())))
 			->andWhere($query->expr()->eq('resource_type', $query->createNamedParameter($resource->getType(), IQueryBuilder::PARAM_STR)));
-		$query->execute();
+		$query->executeStatement();
 
 		foreach ($resource->getCollections() as $collection) {
 			$this->invalidateAccessCacheForCollection($collection);
@@ -452,7 +452,7 @@ class Manager implements IManager {
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->neq('collection_id', $query->createNamedParameter(0)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function invalidateAccessCacheForCollection(ICollection $collection): void {
@@ -460,7 +460,7 @@ class Manager implements IManager {
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function invalidateAccessCacheForProvider(IProvider $provider): void {
@@ -468,7 +468,7 @@ class Manager implements IManager {
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_type', $query->createNamedParameter($provider->getType(), IQueryBuilder::PARAM_STR)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function invalidateAccessCacheForResourceByUser(IResource $resource, ?IUser $user): void {
@@ -478,7 +478,7 @@ class Manager implements IManager {
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
-		$query->execute();
+		$query->executeStatement();
 
 		foreach ($resource->getCollections() as $collection) {
 			$this->invalidateAccessCacheForCollectionByUser($collection, $user);
@@ -492,7 +492,7 @@ class Manager implements IManager {
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function invalidateAccessCacheForProviderByUser(IProvider $provider, ?IUser $user): void {
@@ -502,7 +502,7 @@ class Manager implements IManager {
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_type', $query->createNamedParameter($provider->getType(), IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**

@@ -50,7 +50,7 @@ class ChangesMapper extends QBMapper {
 		$result = $qb->select('*')
 			->from(self::TABLE_NAME)
 			->where($qb->expr()->eq('version', $qb->createNamedParameter($version)))
-			->execute();
+			->executeQuery();
 
 		$data = $result->fetch();
 		$result->closeCursor();

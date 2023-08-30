@@ -66,7 +66,7 @@ class ManagerTest extends TestCase {
 				'object_id' => $qb->createNamedParameter($objectId),
 				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
 			])
-			->execute();
+			->executeStatement();
 
 		return $qb->getLastInsertId();
 	}
@@ -120,7 +120,7 @@ class ManagerTest extends TestCase {
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter('file64'),
 			])
-			->execute();
+			->executeStatement();
 
 		$id = strval($qb->getLastInsertId());
 
@@ -337,7 +337,7 @@ class ManagerTest extends TestCase {
 		$fileIds = [];
 		for ($i = 0; $i < 4; $i++) {
 			$query->setParameter('path', 'path_' . $i);
-			$query->execute();
+			$query->executeStatement();
 			$fileIds[] = $query->getLastInsertId();
 		}
 

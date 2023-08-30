@@ -306,7 +306,7 @@ class AppConfig implements IAppConfig {
 			}
 		}
 
-		$changedRow = (bool) $sql->execute();
+		$changedRow = (bool) $sql->executeStatement();
 
 		$this->cache[$app][$key] = $value;
 
@@ -329,7 +329,7 @@ class AppConfig implements IAppConfig {
 			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
 			->setParameter('app', $app)
 			->setParameter('configkey', $key);
-		$sql->execute();
+		$sql->executeStatement();
 
 		unset($this->cache[$app][$key]);
 		return false;
@@ -350,7 +350,7 @@ class AppConfig implements IAppConfig {
 		$sql->delete('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
 			->setParameter('app', $app);
-		$sql->execute();
+		$sql->executeStatement();
 
 		unset($this->cache[$app]);
 		return false;
@@ -415,7 +415,7 @@ class AppConfig implements IAppConfig {
 		$sql = $this->conn->getQueryBuilder();
 		$sql->select('*')
 			->from('appconfig');
-		$result = $sql->execute();
+		$result = $sql->executeQuery();
 
 		// we are going to store the result in memory anyway
 		$rows = $result->fetchAll();

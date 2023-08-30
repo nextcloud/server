@@ -341,7 +341,7 @@ class ScannerTest extends TestCase {
 		$query = OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($oldFolderId)));
-		$query->execute();
+		$query->executeStatement();
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);
@@ -367,7 +367,7 @@ class ScannerTest extends TestCase {
 		$query = OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($oldFolderId)));
-		$query->execute();
+		$query->executeStatement();
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);

@@ -57,7 +57,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('storages')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($this->storage->getId())));
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->clearMimeTypes();
 
@@ -67,7 +67,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	private function clearMimeTypes() {
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('mimetypes');
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->mimetypeLoader->reset();
 	}

@@ -77,19 +77,19 @@ class SubAdminTest extends \Test\TestCase {
 				'gid' => $qb->createNamedParameter($this->groups[0]->getGID()),
 				'uid' => $qb->createNamedParameter('orphanedUser')
 			])
-			->execute();
+			->executeStatement();
 		$qb->insert('group_admin')
 			->values([
 				'gid' => $qb->createNamedParameter('orphanedGroup'),
 				'uid' => $qb->createNamedParameter('orphanedUser')
 			])
-			->execute();
+			->executeStatement();
 		$qb->insert('group_admin')
 			->values([
 				'gid' => $qb->createNamedParameter('orphanedGroup'),
 				'uid' => $qb->createNamedParameter($this->users[0]->getUID())
 			])
-			->execute();
+			->executeStatement();
 	}
 
 	protected function tearDown(): void {
@@ -105,7 +105,7 @@ class SubAdminTest extends \Test\TestCase {
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter('orphanedUser')))
 			->orWhere($qb->expr()->eq('gid', $qb->createNamedParameter('orphanedGroup')))
-			->execute();
+			->executeStatement();
 	}
 
 	public function testCreateSubAdmin() {
@@ -118,7 +118,7 @@ class SubAdminTest extends \Test\TestCase {
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($this->groups[0]->getGID())))
 			->andWHere($qb->expr()->eq('uid', $qb->createNamedParameter($this->users[0]->getUID())))
-			->execute()
+			->executeQuery()
 			->fetch();
 		$this->assertEquals(
 			[
@@ -130,7 +130,7 @@ class SubAdminTest extends \Test\TestCase {
 		$result = $qb->delete('*PREFIX*group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($this->groups[0]->getGID())))
 			->andWHere($qb->expr()->eq('uid', $qb->createNamedParameter($this->users[0]->getUID())))
-			->execute();
+			->executeQuery();
 	}
 
 	public function testDeleteSubAdmin() {
@@ -144,7 +144,7 @@ class SubAdminTest extends \Test\TestCase {
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($this->groups[0]->getGID())))
 			->andWHere($qb->expr()->eq('uid', $qb->createNamedParameter($this->users[0]->getUID())))
-			->execute()
+			->executeQuery()
 			->fetch();
 		$this->assertEmpty($result);
 	}

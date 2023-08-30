@@ -58,12 +58,12 @@ class FixMountStorages implements IRepairStep {
 			->set('storage_id', $update->createParameter('storage'))
 			->where($query->expr()->eq('id', $update->createParameter('mount')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$entriesUpdated = 0;
 		while ($row = $result->fetch()) {
 			$update->setParameter('storage', $row['storage'], IQueryBuilder::PARAM_INT)
 				->setParameter('mount', $row['id'], IQueryBuilder::PARAM_INT);
-			$update->execute();
+			$update->executeStatement();
 			$entriesUpdated++;
 		}
 		$result->closeCursor();

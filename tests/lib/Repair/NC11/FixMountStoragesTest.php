@@ -97,7 +97,7 @@ class FixMountStoragesTest extends TestCase {
 				'size' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
 				'unencrypted_size' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
 			]);
-		$query->execute();
+		$query->executeStatement();
 
 		return $query->getLastInsertId();
 	}
@@ -112,7 +112,7 @@ class FixMountStoragesTest extends TestCase {
 				'user_id' => $query->createNamedParameter(static::getUniqueID(), IQueryBuilder::PARAM_STR),
 				'mount_point' => $query->createNamedParameter(static::getUniqueID(), IQueryBuilder::PARAM_STR),
 			]);
-		$query->execute();
+		$query->executeStatement();
 
 		return $query->getLastInsertId();
 	}
@@ -122,7 +122,7 @@ class FixMountStoragesTest extends TestCase {
 		$query->select('storage_id')
 			->from('mounts')
 			->where($query->expr()->eq('id', $query->createNamedParameter($mount, IQueryBuilder::PARAM_INT)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 

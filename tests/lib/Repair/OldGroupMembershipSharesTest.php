@@ -49,7 +49,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 
 	protected function deleteAllShares() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('share')->execute();
+		$qb->delete('share')->executeStatement();
 	}
 
 	public function testRun() {
@@ -77,7 +77,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
+			->executeQuery();
 		$rows = $result->fetchAll();
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
@@ -93,7 +93,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
+			->executeQuery();
 		$rows = $result->fetchAll();
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member]], $rows);
 		$result->closeCursor();
@@ -128,7 +128,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values($shareValues)
-			->execute();
+			->executeStatement();
 
 		return $this->connection->lastInsertId('*PREFIX*share');
 	}

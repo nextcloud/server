@@ -413,7 +413,7 @@ class ExpressionBuilderTest extends TestCase {
 			$query->andWhere(call_user_func([$query->expr(), $function], 'configkey', 'configvalue', IQueryBuilder::PARAM_STR));
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$this->assertEquals(['count' => $expected], $result->fetch());
 		$result->closeCursor();
@@ -421,7 +421,7 @@ class ExpressionBuilderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
-			->execute();
+			->executeStatement();
 	}
 
 	protected function createConfig($appId, $key, $value) {
@@ -432,6 +432,6 @@ class ExpressionBuilderTest extends TestCase {
 				'configkey' => $query->createNamedParameter((string) $key),
 				'configvalue' => $query->createNamedParameter((string) $value),
 			])
-			->execute();
+			->executeStatement();
 	}
 }

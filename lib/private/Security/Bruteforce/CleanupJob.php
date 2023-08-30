@@ -51,6 +51,6 @@ class CleanupJob extends TimedJob {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('bruteforce_attempts')
 			->where($qb->expr()->lt('occurred', $qb->createNamedParameter($time), IQueryBuilder::PARAM_INT));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }

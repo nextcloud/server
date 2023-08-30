@@ -81,7 +81,7 @@ class RepairDavShares implements IRepairStep {
 			->set('principaluri', $updateQuery->createParameter('updatedPrincipalUri'))
 			->where($updateQuery->expr()->eq('id', $updateQuery->createParameter('shareId')));
 
-		$statement = $qb->execute();
+		$statement = $qb->executeQuery();
 		while ($share = $statement->fetch()) {
 			$gid = substr($share['principaluri'], strlen(self::GROUP_PRINCIPAL_PREFIX));
 			$decodedGid = urldecode($gid);
@@ -110,7 +110,7 @@ class RepairDavShares implements IRepairStep {
 				$updateQuery
 					->setParameter('updatedPrincipalUri', $fixedPrincipal)
 					->setParameter('shareId', $share['id'])
-					->execute();
+					->executeStatement();
 				$this->logger->info('Repaired principal for dav share {id} from {old} to {new}', $logParameters);
 			} catch (Exception $e) {
 				$logParameters['message'] = $e->getMessage();

@@ -139,7 +139,7 @@ class SaveAccountsTableData implements IRepairStep {
 			$query->setFirstResult($offset);
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$update = $this->db->getQueryBuilder();
 		$update->update('users')
@@ -193,7 +193,7 @@ class SaveAccountsTableData implements IRepairStep {
 		if ($userdata['display_name'] !== null) {
 			$update->setParameter('displayname', $userdata['display_name'])
 				->setParameter('userid', $userdata['user_id']);
-			$update->execute();
+			$update->executeStatement();
 		}
 	}
 }

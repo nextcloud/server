@@ -77,7 +77,7 @@ class UpdateLanguageCodesTest extends TestCase {
 				'appid' => 'core',
 				'configkey' => 'lang',
 				'configvalue' => $user['configvalue'],
-			])->execute();
+			])->executeStatement();
 		}
 
 		// check if test data is written to DB
@@ -87,7 +87,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 			->orderBy('userid')
-			->execute();
+			->executeQuery();
 
 		$rows = $result->fetchAll();
 		$result->closeCursor();
@@ -124,7 +124,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 			->orderBy('userid')
-			->execute();
+			->executeQuery();
 
 		$rows = $result->fetchAll();
 		$result->closeCursor();
@@ -144,7 +144,7 @@ class UpdateLanguageCodesTest extends TestCase {
 				->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 				->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($user['configvalue']), IQueryBuilder::PARAM_STR))
-				->execute();
+				->executeStatement();
 		}
 	}
 

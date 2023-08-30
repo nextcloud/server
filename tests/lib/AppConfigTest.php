@@ -36,13 +36,13 @@ class AppConfigTest extends TestCase {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->select('*')
 			->from('appconfig');
-		$result = $sql->execute();
+		$result = $sql->executeQuery();
 		$this->originalConfig = $result->fetchAll();
 		$result->closeCursor();
 
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('appconfig');
-		$sql->execute();
+		$sql->executeStatement();
 
 		$this->overwriteService(AppConfig::class, new \OC\AppConfig($this->connection));
 
@@ -58,66 +58,66 @@ class AppConfigTest extends TestCase {
 			'appid' => 'testapp',
 			'configkey' => 'enabled',
 			'configvalue' => 'true',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => 'testapp',
 			'configkey' => 'installed_version',
 			'configvalue' => '1.2.3',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => 'testapp',
 			'configkey' => 'depends_on',
 			'configvalue' => 'someapp',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => 'testapp',
 			'configkey' => 'deletethis',
 			'configvalue' => 'deletethis',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => 'testapp',
 			'configkey' => 'key',
 			'configvalue' => 'value',
-		])->execute();
+		])->executeStatement();
 
 		$sql->setParameters([
 			'appid' => 'someapp',
 			'configkey' => 'key',
 			'configvalue' => 'value',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => 'someapp',
 			'configkey' => 'otherkey',
 			'configvalue' => 'othervalue',
-		])->execute();
+		])->executeStatement();
 
 		$sql->setParameters([
 			'appid' => '123456',
 			'configkey' => 'key',
 			'configvalue' => 'value',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => '123456',
 			'configkey' => 'enabled',
 			'configvalue' => 'false',
-		])->execute();
+		])->executeStatement();
 
 		$sql->setParameters([
 			'appid' => 'anotherapp',
 			'configkey' => 'key',
 			'configvalue' => 'value',
-		])->execute();
+		])->executeStatement();
 		$sql->setParameters([
 			'appid' => 'anotherapp',
 			'configkey' => 'enabled',
 			'configvalue' => 'false',
-		])->execute();
+		])->executeStatement();
 	}
 
 	protected function tearDown(): void {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('appconfig');
-		$sql->execute();
+		$sql->executeStatement();
 
 		$sql = $this->connection->getQueryBuilder();
 		$sql->insert('appconfig')
@@ -131,7 +131,7 @@ class AppConfigTest extends TestCase {
 			$sql->setParameter('appid', $configs['appid'])
 				->setParameter('configkey', $configs['configkey'])
 				->setParameter('configvalue', $configs['configvalue']);
-			$sql->execute();
+			$sql->executeStatement();
 		}
 
 		$this->restoreService(AppConfig::class);
@@ -241,7 +241,7 @@ class AppConfigTest extends TestCase {
 			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
 			->setParameter('appid', 'testapp')
 			->setParameter('configkey', 'deletethis');
-		$query = $sql->execute();
+		$query = $sql->executeQuery();
 		$result = $query->fetch();
 		$query->closeCursor();
 		$this->assertFalse($result);
@@ -261,7 +261,7 @@ class AppConfigTest extends TestCase {
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
 			->setParameter('appid', 'someapp');
-		$query = $sql->execute();
+		$query = $sql->executeQuery();
 		$result = $query->fetch();
 		$query->closeCursor();
 		$this->assertFalse($result);
@@ -283,7 +283,7 @@ class AppConfigTest extends TestCase {
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
 			->setParameter('appid', 'testapp');
-		$query = $sql->execute();
+		$query = $sql->executeQuery();
 		$expected = [];
 		while ($row = $query->fetch()) {
 			$expected[$row['configkey']] = $row['configvalue'];
@@ -298,7 +298,7 @@ class AppConfigTest extends TestCase {
 			->from('appconfig')
 			->where($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
 			->setParameter('configkey', 'enabled');
-		$query = $sql->execute();
+		$query = $sql->executeQuery();
 		$expected = [];
 		while ($row = $query->fetch()) {
 			$expected[$row['appid']] = $row['configvalue'];
@@ -359,7 +359,7 @@ class AppConfigTest extends TestCase {
 			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
 			->setParameter('appid', $app)
 			->setParameter('configkey', $key);
-		$query = $sql->execute();
+		$query = $sql->executeQuery();
 		$actual = $query->fetch();
 		$query->closeCursor();
 

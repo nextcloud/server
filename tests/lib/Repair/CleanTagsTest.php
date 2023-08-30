@@ -60,13 +60,13 @@ class CleanTagsTest extends \Test\TestCase {
 	protected function cleanUpTables() {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('vcategory')
-			->execute();
+			->executeStatement();
 
 		$qb->delete('vcategory_to_object')
-			->execute();
+			->executeStatement();
 
 		$qb->delete('filecache')
-			->execute();
+			->executeStatement();
 	}
 
 	public function testRun() {
@@ -119,7 +119,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb->select($qb->func()->count('*'))
 			->from($tableName)
-			->execute();
+			->executeQuery();
 
 		$this->assertEquals($expected, $result->fetchOne(), $message);
 	}
@@ -140,7 +140,7 @@ class CleanTagsTest extends \Test\TestCase {
 				'category' => $qb->createNamedParameter($category),
 				'type' => $qb->createNamedParameter($type),
 			])
-			->execute();
+			->executeStatement();
 
 		return (int) $this->getLastInsertID('vcategory', 'id');
 	}
@@ -159,7 +159,7 @@ class CleanTagsTest extends \Test\TestCase {
 				'categoryid' => $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT),
 				'type' => $qb->createNamedParameter($type),
 			])
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -180,14 +180,14 @@ class CleanTagsTest extends \Test\TestCase {
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
-			->execute();
+			->executeStatement();
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
-			->execute();
+			->executeStatement();
 
 		$this->createdFile = (int) $this->getLastInsertID('filecache', 'fileid');
 		return $this->createdFile;

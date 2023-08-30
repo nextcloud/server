@@ -55,7 +55,7 @@ class RepairInvalidSharesTest extends TestCase {
 
 	protected function deleteAllShares() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('share')->execute();
+		$qb->delete('share')->executeStatement();
 	}
 
 	/**
@@ -81,7 +81,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values($shareValues)
-			->execute();
+			->executeStatement();
 		$parent = $this->getLastShareId();
 
 		// share with existing parent
@@ -89,7 +89,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$qb->insert('share')
 			->values(array_merge($shareValues, [
 				'parent' => $qb->expr()->literal($parent),
-			]))->execute();
+			]))->executeStatement();
 		$validChild = $this->getLastShareId();
 
 		// share with non-existing parent
@@ -97,14 +97,14 @@ class RepairInvalidSharesTest extends TestCase {
 		$qb->insert('share')
 			->values(array_merge($shareValues, [
 				'parent' => $qb->expr()->literal($parent + 100),
-			]))->execute();
+			]))->executeStatement();
 		$invalidChild = $this->getLastShareId();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
+			->executeQuery();
 		$rows = $result->fetchAll();
 		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
 		$result->closeCursor();
@@ -120,7 +120,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
+			->executeQuery();
 		$rows = $result->fetchAll();
 		$this->assertEquals([['id' => $parent], ['id' => $validChild]], $rows);
 		$result->closeCursor();
@@ -168,7 +168,7 @@ class RepairInvalidSharesTest extends TestCase {
 				'permissions' => $qb->expr()->literal($testPerms),
 				'stime' => $qb->expr()->literal(time()),
 			])
-			->execute();
+			->executeStatement();
 
 		$shareId = $this->getLastShareId();
 
@@ -183,7 +183,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->select('*')
 			->from('share')
 			->orderBy('permissions', 'ASC')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(1, $results);

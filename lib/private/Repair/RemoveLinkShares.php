@@ -95,7 +95,7 @@ class RemoveLinkShares implements IRepairStep {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -128,7 +128,7 @@ class RemoveLinkShares implements IRepairStep {
 			->from('share')
 			->where($query->expr()->in('id', $query->createFunction($subQuery->getSQL())));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = $result->fetch();
 		$result->closeCursor();
 
@@ -158,7 +158,7 @@ class RemoveLinkShares implements IRepairStep {
 			))
 			->andWhere($query->expr()->eq('s1.item_source', 's2.item_source'));
 		/** @var IResult $result */
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result;
 	}
 

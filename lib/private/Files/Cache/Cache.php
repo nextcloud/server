@@ -312,7 +312,7 @@ class Cache implements ICache {
 				$builder->setValue($column, $builder->createNamedParameter($value));
 			}
 
-			if ($builder->execute()) {
+			if ($builder->executeStatement()) {
 				$fileId = $builder->getLastInsertId();
 
 				if (count($extensionValues)) {
@@ -709,7 +709,7 @@ class Cache implements ICache {
 				}
 
 				try {
-					$query->execute();
+					$query->executeStatement();
 				} catch (\OC\DatabaseException $e) {
 					$this->connection->rollBack();
 					throw $e;
@@ -761,7 +761,7 @@ class Cache implements ICache {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -1075,7 +1075,7 @@ class Cache implements ICache {
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 

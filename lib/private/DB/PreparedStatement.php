@@ -83,7 +83,7 @@ class PreparedStatement implements IPreparedStatement {
 	}
 
 	public function execute($params = null): IResult {
-		return ($this->result = new ResultAdapter($this->statement->execute($params)));
+		return ($this->result = new ResultAdapter($this->statement->executeQuery($params)));
 	}
 
 	public function rowCount(): int {

@@ -42,7 +42,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
-		$this->connection->executeUpdate(
+		$this->connection->executeStatement(
 			'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
 			'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 			['userDelete', 'appDelete', 'keyDelete', 'valueDelete']
@@ -231,7 +231,7 @@ class AllConfigTest extends \Test\TestCase {
 		], $result[0]);
 
 		// drop data from database - but the config option should be cached in the config object
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?', ['userGet']);
+		$this->connection->executeStatement('DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?', ['userGet']);
 
 		// testing the caching mechanism
 		$value = $config->getUserValue('userGet', 'appGet', 'keyGet');
@@ -260,7 +260,7 @@ class AllConfigTest extends \Test\TestCase {
 			['userFetch2', 'appFetch', 'keyFetch1', 'value7']
 		];
 		foreach ($data as $entry) {
-			$this->connection->executeUpdate(
+			$this->connection->executeStatement(
 				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
 				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
@@ -274,7 +274,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(['keyFetch1'], $value);
 
 		// cleanup
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+		$this->connection->executeStatement('DELETE FROM `*PREFIX*preferences`');
 	}
 
 	public function testGetUserValueDefault() {
@@ -299,7 +299,7 @@ class AllConfigTest extends \Test\TestCase {
 			['userFetch7', 'appFetch2', 'keyFetch1', 'value7']
 		];
 		foreach ($data as $entry) {
-			$this->connection->executeUpdate(
+			$this->connection->executeStatement(
 				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
 				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
@@ -323,7 +323,7 @@ class AllConfigTest extends \Test\TestCase {
 		], $value, 'userFetch9 is an non-existent user and should not be shown.');
 
 		// cleanup
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+		$this->connection->executeStatement('DELETE FROM `*PREFIX*preferences`');
 	}
 
 	public function testDeleteAllUserValues() {
@@ -340,7 +340,7 @@ class AllConfigTest extends \Test\TestCase {
 			['userFetch4', 'appFetch2', 'keyFetch1', 'value7']
 		];
 		foreach ($data as $entry) {
-			$this->connection->executeUpdate(
+			$this->connection->executeStatement(
 				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
 				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
@@ -357,7 +357,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(1, $actualCount, 'After removing `userFetch3` there should be exactly 1 entry left.');
 
 		// cleanup
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+		$this->connection->executeStatement('DELETE FROM `*PREFIX*preferences`');
 	}
 
 	public function testDeleteAppFromAllUsers() {
@@ -374,7 +374,7 @@ class AllConfigTest extends \Test\TestCase {
 			['userFetch6', 'appFetch2', 'keyFetch1', 'value7']
 		];
 		foreach ($data as $entry) {
-			$this->connection->executeUpdate(
+			$this->connection->executeStatement(
 				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
 				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
@@ -400,7 +400,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(2, $actualCount, 'After removing `appFetch2` there should be exactly 2 entries left.');
 
 		// cleanup
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+		$this->connection->executeStatement('DELETE FROM `*PREFIX*preferences`');
 	}
 
 	public function testGetUsersForUserValue() {
@@ -420,7 +420,7 @@ class AllConfigTest extends \Test\TestCase {
 			['user6', 'appFetch9', 'keyFetch9', 'value9'],
 		];
 		foreach ($data as $entry) {
-			$this->connection->executeUpdate(
+			$this->connection->executeStatement(
 				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
 				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
@@ -431,7 +431,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(['user1', 'user2', 'user6'], $value);
 
 		// cleanup
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+		$this->connection->executeStatement('DELETE FROM `*PREFIX*preferences`');
 	}
 
 	public function testGetUsersForUserValueCaseInsensitive() {

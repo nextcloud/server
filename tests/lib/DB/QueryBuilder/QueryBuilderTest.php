@@ -70,7 +70,7 @@ class QueryBuilderTest extends \Test\TestCase {
 					'configkey' => $qB->expr()->literal('testing' . $i),
 					'configvalue' => $qB->expr()->literal(100 - $i),
 				])
-				->execute();
+				->executeStatement();
 		}
 	}
 
@@ -98,7 +98,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$qB->delete('*PREFIX*appconfig')
 			->where($qB->expr()->eq('appid', $qB->expr()->literal($appId)))
-			->execute();
+			->executeStatement();
 	}
 
 	public function dataFirstResult() {
@@ -1190,7 +1190,7 @@ class QueryBuilderTest extends \Test\TestCase {
 				'propertyname' => $qB->expr()->literal('testing'),
 				'propertyvalue' => $qB->expr()->literal('testing'),
 			])
-			->execute();
+			->executeStatement();
 
 		$actual = $qB->getLastInsertId();
 
@@ -1200,7 +1200,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$qB->delete('properties')
 			->where($qB->expr()->eq('userid', $qB->expr()->literal('testFirstResult')))
-			->execute();
+			->executeStatement();
 
 		try {
 			$qB->getLastInsertId();

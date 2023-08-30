@@ -59,7 +59,7 @@ class StorageGlobal {
 			->from('storages')
 			->where($builder->expr()->in('id', $builder->createNamedParameter(array_values($storageIds), IQueryBuilder::PARAM_STR_ARRAY)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$this->cache[$row['id']] = $row;
 		}
@@ -77,7 +77,7 @@ class StorageGlobal {
 				->from('storages')
 				->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 
@@ -100,7 +100,7 @@ class StorageGlobal {
 				->from('storages')
 				->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 

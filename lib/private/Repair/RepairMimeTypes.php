@@ -69,7 +69,7 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (empty($this->folderMimeTypeId)) {
 			$query->setParameter('mimetype', 'httpd/unix-directory');
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$this->folderMimeTypeId = (int)$result->fetchOne();
 			$result->closeCursor();
 		}
@@ -86,21 +86,21 @@ class RepairMimeTypes implements IRepairStep {
 		foreach ($updatedMimetypes as $extension => $mimetype) {
 			// get target mimetype id
 			$query->setParameter('mimetype', $mimetype);
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$mimetypeId = (int)$result->fetchOne();
 			$result->closeCursor();
 
 			if (!$mimetypeId) {
 				// insert mimetype
 				$insert->setParameter('mimetype', $mimetype);
-				$insert->execute();
+				$insert->executeStatement();
 				$mimetypeId = $insert->getLastInsertId();
 			}
 
 			// change mimetype for files with x extension
 			$update->setParameter('mimetype', $mimetypeId)
 				->setParameter('name', '%' . $this->connection->escapeLikeParameter('.' . $extension));
-			$count += $update->execute();
+			$count += $update->executeStatement();
 		}
 
 		return $count;

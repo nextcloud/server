@@ -91,7 +91,7 @@ class SearchBuilderTest extends TestCase {
 		$builder->delete('filecache')
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($this->numericStorageId, IQueryBuilder::PARAM_INT)));
 
-		$builder->execute();
+		$builder->executeStatement();
 	}
 
 	private function addCacheEntry(array $data) {
@@ -128,7 +128,7 @@ class SearchBuilderTest extends TestCase {
 
 		$builder->insert('filecache')
 			->values($values)
-			->execute();
+			->executeStatement();
 
 		return $builder->getLastInsertId();
 	}
@@ -137,7 +137,7 @@ class SearchBuilderTest extends TestCase {
 		$dbOperator = $this->searchBuilder->searchOperatorToDBExpr($this->builder, $operator);
 		$this->builder->andWhere($dbOperator);
 
-		$result = $this->builder->execute();
+		$result = $this->builder->executeQuery();
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
