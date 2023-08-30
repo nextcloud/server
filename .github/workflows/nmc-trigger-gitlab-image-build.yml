@@ -1,0 +1,20 @@
+name: Trigger GitLab Image Pipeline
+
+on:
+  workflow_run:
+    workflows: ["MCLOUD custom server release"]
+    types:
+      - completed
+
+jobs:
+  trigger-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Nmc deployment image building
+      env:
+        GITLAB_TOKEN: ${{ secrets.GITLAB_IMAGE_BUILD }}
+      run: |
+        curl --request POST \
+          --header "PRIVATE-TOKEN: $GITLAB_IMAGE_BUILD" \
+          "https://gitlab.com/api/v4/projects/37742/trigger/pipeline?ref=main"
