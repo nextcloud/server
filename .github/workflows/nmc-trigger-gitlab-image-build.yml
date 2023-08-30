@@ -5,6 +5,7 @@ on:
     workflows: ["MCLOUD custom server release"]
     types:
       - completed
+  workflow_dispatch:  # Manual trigger option
 
 jobs:
   trigger-pipeline:
@@ -15,6 +16,8 @@ jobs:
       env:
         GITLAB_TOKEN: ${{ secrets.GITLAB_IMAGE_BUILD }}
       run: |
-        curl --request POST \
-          --header "PRIVATE-TOKEN: $GITLAB_IMAGE_BUILD" \
-          "https://gitlab.com/api/v4/projects/37742/trigger/pipeline?ref=main"
+        curl -X POST \
+            --fail \
+            -F token=$GITLAB_IMAGE_BUILD \
+            -F ref=master \
+            https://gitlab.devops.telekom.de/api/v4/projects/37742/trigger/pipeline
