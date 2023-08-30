@@ -382,7 +382,6 @@ OC.L10N.register(
     "User actions" : "إجراءات المستخدِم",
     "Password or insufficient permissions message" : "رسالة حول كلمة المرور أو عدم كفاية الأُذُونات",
     "Loading user …" : "تحميل المستخدم جارٍ ...",
-    "Edit display name" : "عَدِّل اسم العرض",
     "Add new password" : "إضافة كلمة مرور جديدة",
     "You do not have permissions to see the details of this user" : "ليس لديك الأذونات اللازمة لمشاهدة بيانات هذا المستخدم",
     "Add new email address" : "إضافة عنوان بريد إلكتروني جديد",
@@ -569,6 +568,7 @@ OC.L10N.register(
     "Authentication method" : "أسلوب التحقُّق من الهويّة",
     "Allow username autocompletion in share dialog" : "السماح بالإكمال التلقائي لاسم المستخدم في حوار المشاركة",
     "Allow username autocompletion to users within the same groups" : "السماح بالإكمال التلقائي لاسم المستخدم بالنسبة لأعضاء المجموعة الواحدة",
+    "Edit display name" : "عَدِّل اسم العرض",
     "Select manager" : "إختَر المُدير",
     "User's table" : "جدول المستخدِمين",
     "Select user manager" : "إختَر مدير المستخدِم user manager"

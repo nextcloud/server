@@ -132,6 +132,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Millifærslu eignarhalds er lokið",
     "in %s" : "í %s",
     "File Management" : "Skráastjórnun",
+    "Folder name" : "Nafn möppu",
     "Name cannot be empty" : "Heiti má ekki vera tómt",
     "Select all" : "Velja allt",
     "File not found" : "Skrá finnst ekki",

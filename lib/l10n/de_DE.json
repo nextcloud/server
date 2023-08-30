@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Ihnen geteilt.",
     "Click the button below to open it." : "Klicken Sie zum Öffnen auf die untere Schaltfläche.",
     "The requested share does not exist anymore" : "Die angeforderte Freigabe existiert nicht mehr",
+    "The requested share comes from a disabled user" : "Die angeforderte Freigabe stammt von einem deaktivierten Benutzer",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Der Benutzer wurde nicht erstellt, da das Benutzerlimit erreicht wurde. Überprüfen Sie Ihre Benachrichtigungen, um mehr zu erfahren.",
     "Could not find category \"%s\"" : "Die Kategorie \"%s“ konnte nicht gefunden werden",
     "Sunday" : "Sonntag",

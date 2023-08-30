@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s compartiu «%2$s» con Vde.",
     "Click the button below to open it." : "Prema no botón de embaixo para abrilo.",
     "The requested share does not exist anymore" : "A compartición solicitada xa non existe",
+    "The requested share comes from a disabled user" : "A compartición solicitada procede dun usuario desactivado",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Non se creou o usuario porque acadouse o límite de usuarios. Consulte as súas notificacións para obter máis información.",
     "Could not find category \"%s\"" : "Non foi posíbel atopar a categoría «%s»",
     "Sunday" : "domingo",

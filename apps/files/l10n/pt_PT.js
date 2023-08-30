@@ -139,6 +139,7 @@ OC.L10N.register(
     "Accept" : "Aceitar",
     "in %s" : "em %s",
     "File name" : "Nome do ficheiro",
+    "Folder name" : "Nome da pasta",
     "Name cannot be empty" : "O Nome não pode estar vazio",
     "Select all" : "Selecionar todos",
     "File not found" : "Ficheiro não encontrado",

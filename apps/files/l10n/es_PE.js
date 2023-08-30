@@ -128,6 +128,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
     "in %s" : "en %s",
+    "Folder name" : "Nombre de la carpeta",
     "Select all" : "Seleccionar todo",
     "File not found" : "Archivo no encontrado",
     "Change" : "Cambiar",

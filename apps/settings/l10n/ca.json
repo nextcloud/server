@@ -378,7 +378,6 @@
     "User actions" : "Accions de l'usuari",
     "Password or insufficient permissions message" : "Contrasenya o missatge de permisos insuficients",
     "Loading user …" : "S'està carregant l'usuari …",
-    "Edit display name" : "Edició del nom a mostrar",
     "Add new password" : "Afegeix una nova contrasenya",
     "You do not have permissions to see the details of this user" : "No teniu els permisos necessaris per veure els detalls d'aquest usuari",
     "Add new email address" : "Afegeix una nova adreça de correu electrònic",
@@ -564,6 +563,7 @@
     "Authentication method" : "Mètode d'autenticació",
     "Allow username autocompletion in share dialog" : "Permet l'emplenament automàtic del nom d'usuari al diàleg de compartir",
     "Allow username autocompletion to users within the same groups" : "Permet l'emplenament automàtic del nom d'usuari als usuaris dels mateixos grups",
+    "Edit display name" : "Edició del nom a mostrar",
     "Select manager" : "Seleccioneu el gestor",
     "User's table" : "Taula d'usuaris",
     "Select user manager" : "Seleccioneu el gestor d'usuaris"

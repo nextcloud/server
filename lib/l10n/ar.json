@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s شَارَكَ »%2$s« معك.",
     "Click the button below to open it." : "أنقر على الزر أدناه لفتحه.",
     "The requested share does not exist anymore" : "المشاركة المطلوبة لم تعد موجودةً",
+    "The requested share comes from a disabled user" : "المستخدم الذي طلب المشاركة تمّ تجميد حسابه بعد طلبه للمشاركة",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "لم يتم إنشاء المستخدم بسبب وصول عدد المستخدمين إلى الحد الأقصى المسموح به. رجاءً، راجع إشعاراتك للمزيد من المعلومات.",
     "Could not find category \"%s\"" : "تعذر العثور على المجلد \"%s\"",
     "Sunday" : "الأحد",

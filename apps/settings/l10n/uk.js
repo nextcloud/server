@@ -380,7 +380,6 @@ OC.L10N.register(
     "User actions" : "Дії користувачів",
     "Password or insufficient permissions message" : "Повідомлення про потребу ввести пароль або недостатній рівень доступу",
     "Loading user …" : "Завантаження користувачів ...",
-    "Edit display name" : "Редагувати ім'я для показу",
     "Add new password" : "Встановити новий пароль",
     "You do not have permissions to see the details of this user" : "Ви не маєте прав для перегляду деталей про цього користувача",
     "Add new email address" : "Додати нову адресу електронної пошти",
@@ -566,6 +565,7 @@ OC.L10N.register(
     "Authentication method" : "Спосіб авторизації",
     "Allow username autocompletion in share dialog" : "Дозволити автозаповнення імени користувача в діалоговому вікні спільного доступу",
     "Allow username autocompletion to users within the same groups" : "Дозволити автозавершення імен користувачів для користувачів у тих самих групах",
+    "Edit display name" : "Редагувати ім'я для показу",
     "Select manager" : "Виберіть менеджера",
     "User's table" : "Таблиця користувача",
     "Select user manager" : "Виберіть менеджера користувача"

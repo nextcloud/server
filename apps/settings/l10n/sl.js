@@ -347,7 +347,6 @@ OC.L10N.register(
     "User backend" : "Uporabniški ozadnji program",
     "Storage location" : "Mesto shrambe",
     "Last login" : "Zadnja prijava",
-    "Edit display name" : "Uredi prikazno ime",
     "Add new password" : "Vpis gesla",
     "You do not have permissions to see the details of this user" : "Ni ustreznih dovoljenj za pregled podatkov uporabnika",
     "Add new email address" : "Vpis elektronskega naslova",
@@ -515,6 +514,7 @@ OC.L10N.register(
     "Authentication method" : "Način overitve",
     "Allow username autocompletion in share dialog" : "Dovoli samodejno dopolnjevanje uporabniških imen v oknu omogočanja souporabe",
     "Allow username autocompletion to users within the same groups" : "Dovoli samodejno dopolnjevanje uporabniških imen znotraj iste skupine",
+    "Edit display name" : "Uredi prikazno ime",
     "Select manager" : "Izbor upravljalnika",
     "User's table" : "Uporabniška razpredelnica",
     "Select user manager" : "Izbor upravljalnika uporabnikov"

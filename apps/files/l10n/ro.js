@@ -161,6 +161,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "Transferul de proprietate de {path} către {user} s-a finalizat.",
     "in %s" : "în %s",
     "File Management" : "Management fișiere",
+    "Folder name" : "Denumire director",
     "Name cannot be empty" : "Numele nu poate fi gol",
     "Select all" : "Selectează tot",
     "File not found" : "Fișierul nu a fost găsit",

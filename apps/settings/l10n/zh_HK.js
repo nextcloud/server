@@ -382,7 +382,6 @@ OC.L10N.register(
     "User actions" : "用戶操作",
     "Password or insufficient permissions message" : "密碼或權限不足訊息",
     "Loading user …" : "用戶加載中 …",
-    "Edit display name" : "編輯顯示名稱",
     "Add new password" : "新增密碼",
     "You do not have permissions to see the details of this user" : "您沒有檢視此用戶詳細資料的權限",
     "Add new email address" : "新增電郵地址",
@@ -569,6 +568,7 @@ OC.L10N.register(
     "Authentication method" : "認證方式",
     "Allow username autocompletion in share dialog" : "在共享對話框中允許用戶名自動完成",
     "Allow username autocompletion to users within the same groups" : "允許對同一群組中的用戶自動完成用戶名",
+    "Edit display name" : "編輯顯示名稱",
     "Select manager" : "選擇管理者",
     "User's table" : "用戶的表格",
     "Select user manager" : "選擇用戶管理者"

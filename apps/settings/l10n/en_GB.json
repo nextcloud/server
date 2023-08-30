@@ -380,7 +380,6 @@
     "User actions" : "User actions",
     "Password or insufficient permissions message" : "Password or insufficient permissions message",
     "Loading user …" : "Loading user …",
-    "Edit display name" : "Edit display name",
     "Add new password" : "Add new password",
     "You do not have permissions to see the details of this user" : "You do not have permissions to see the details of this user",
     "Add new email address" : "Add new email address",
@@ -567,6 +566,7 @@
     "Authentication method" : "Authentication method",
     "Allow username autocompletion in share dialog" : "Allow username autocompletion in share dialogue",
     "Allow username autocompletion to users within the same groups" : "Allow username autocompletion to users within the same groups",
+    "Edit display name" : "Edit display name",
     "Select manager" : "Select manager",
     "User's table" : "User's table",
     "Select user manager" : "Select user manager"

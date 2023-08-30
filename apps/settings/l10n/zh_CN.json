@@ -359,7 +359,6 @@
     "User backend" : "用户来源",
     "Storage location" : "存储位置",
     "Last login" : "最后登录",
-    "Edit display name" : "编辑显示名称",
     "Add new password" : "添加新的密码",
     "You do not have permissions to see the details of this user" : "您没有权限查看该用户的详细信息",
     "Add new email address" : "添加新的电子邮件地址",
@@ -540,6 +539,7 @@
     "Authentication method" : "认证方法",
     "Allow username autocompletion in share dialog" : "在分享对话框中允许用户名自动完成",
     "Allow username autocompletion to users within the same groups" : "允许自动完成同一组内的用户的用户名",
+    "Edit display name" : "编辑显示名称",
     "Select manager" : "选择管理者",
     "User's table" : "用户的表格",
     "Select user manager" : "选择用户管理者"

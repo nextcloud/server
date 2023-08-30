@@ -114,6 +114,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
     "in %s" : "en %s",
+    "Folder name" : "Nombre de la carpeta",
     "Name cannot be empty" : "El nombre no puede estar en blanco",
     "Select all" : "Seleccionar todo",
     "Change" : "Cambiar",

@@ -166,6 +166,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "Se ha completado la transferencia de propiedad de {path} a {user}.",
     "in %s" : "en %s",
     "File Management" : "Administración de Archivos",
+    "Folder name" : "Nombre de la carpeta",
     "Name cannot be empty" : "El nombre no puede estar en blanco",
     "Select all" : "Seleccionar todo",
     "File not found" : "Archivo no encontrado",
