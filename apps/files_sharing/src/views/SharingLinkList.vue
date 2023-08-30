@@ -39,7 +39,8 @@
 				:file-info="fileInfo"
 				@add:share="addShare(...arguments)"
 				@update:share="awaitForShare(...arguments)"
-				@remove:share="removeShare" />
+				@remove:share="removeShare"
+				@open-sharing-details="openSharingDetails(share)" />
 		</template>
 	</ul>
 </template>
@@ -49,6 +50,7 @@
 import Share from '../models/Share.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryLink from '../components/SharingEntryLink.vue'
+import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingLinkList',
@@ -57,7 +59,7 @@ export default {
 		SharingEntryLink,
 	},
 
-	mixins: [ShareTypes],
+	mixins: [ShareTypes, ShareDetails],
 
 	props: {
 		fileInfo: {
