@@ -30,6 +30,7 @@
 
 # Security team
 /resources/config/ca-bundle.crt     @ChristophWurst @miaulalala @nickvergessen
+/.drone.yml                         @nickvergessen
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members
