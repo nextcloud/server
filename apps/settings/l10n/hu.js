@@ -347,7 +347,6 @@ OC.L10N.register(
     "Storage location" : "Háttértár helye",
     "Last login" : "Utolsó bejelentkezés",
     "User actions" : "Felhasználói műveletek",
-    "Edit display name" : "Megjelenítendő név szerkesztése",
     "Add new password" : "Új jelszó hozzáadása",
     "You do not have permissions to see the details of this user" : "Nincs jogosultsága megnézni a felhasználó részletes adatait",
     "Add new email address" : "Új e-mail-cím hozzáadása",
@@ -523,6 +522,7 @@ OC.L10N.register(
     "Authentication method" : "Hitelesítési mód",
     "Allow username autocompletion in share dialog" : "A felhasználónév automatikus kiegészítésének engedélyezése a megosztás párbeszédpanelen ",
     "Allow username autocompletion to users within the same groups" : "A felhasználónév automatikus kiegészítésének engedélyezése az azonos csoportokba tartozó felhasználók számára ",
+    "Edit display name" : "Megjelenítendő név szerkesztése",
     "Select manager" : "Kezelő kiválasztása",
     "User's table" : "A felhasználó táblázata",
     "Select user manager" : "Felhasználókezelő kiválasztása"

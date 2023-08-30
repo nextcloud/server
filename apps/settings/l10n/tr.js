@@ -381,7 +381,6 @@ OC.L10N.register(
     "User actions" : "Kullanıcı işlemleri",
     "Password or insufficient permissions message" : "Parola ya da izinler yetersiz iletisi",
     "Loading user …" : "Kullanıcı yükleniyor…",
-    "Edit display name" : "Görüntülenecek adı düzenle",
     "Add new password" : "Yeni parola ekle",
     "You do not have permissions to see the details of this user" : "Bu kullanıcının ayrıntılarını görüntüleme izniniz yok",
     "Add new email address" : "Yeni e-posta adresi ekle",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "Authentication method" : "Kimlik doğrulama yöntemi",
     "Allow username autocompletion in share dialog" : "Paylaşım penceresinde kullanıcı adı otomatik olarak tamamlanabilsin",
     "Allow username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adları otomatik olarak tamamlanabilsin",
+    "Edit display name" : "Görüntülenecek adı düzenle",
     "Select manager" : "Yönetici seçin",
     "User's table" : "Kullanıcının tablosu",
     "Select user manager" : "Kullanıcı yöneticisini seçin"

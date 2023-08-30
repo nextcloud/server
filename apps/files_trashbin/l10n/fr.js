@@ -16,7 +16,7 @@ OC.L10N.register(
     "Select all" : "Tout sélectionner",
     "Name" : "Nom",
     "Actions" : "Actions",
-    "Delete permanently" : "Supprimer de façon définitive",
+    "Delete permanently" : "Supprimer définitivement",
     "Error while restoring file from trash bin" : "Erreur à la restauration du fichier depuis la corbeille",
     "Error while removing file from trash bin" : "Erreur à la suppression du fichier de la corbeille",
     "Error while restoring files from trash bin" : "Erreur à la restauration de fichiers depuis la corbeille",

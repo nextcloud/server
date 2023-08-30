@@ -151,6 +151,7 @@ OC.L10N.register(
     "Reload current directory" : "Värskenda jooksvat kataloogi",
     "Go to the \"{dir}\" directory" : "Mine kataloogi \"{dir}\"",
     "Download file {name}" : "Laadi fail {name} alla",
+    "Folder name" : "Kausta nimi",
     "Select all" : "Vali kõik",
     "File not found" : "Faili ei leitud",
     "{usedQuotaByte} used" : "{usedQuotaByte} kasutusel",

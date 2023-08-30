@@ -156,6 +156,7 @@ OC.L10N.register(
     "in %s" : "in %s",
     "File Management" : "Gestione archìvios",
     "File name" : "Nùmene de archìviu",
+    "Folder name" : "Nùmene de sa cartella",
     "Name cannot be empty" : "Su nùmene non podet èssere isbòidu",
     "Select all" : "Seletziona totu",
     "File not found" : "Archìviu no agatadu",

@@ -161,6 +161,7 @@ OC.L10N.register(
     "in %s" : "per %s",
     "File Management" : "Failų tvarkymas",
     "File name" : "Failo pavadinimas",
+    "Folder name" : "Aplanko pavadinimas",
     "Name cannot be empty" : "Pavadinimas negali būti tuščias",
     "Select all" : "Pažymėti viską",
     "File not found" : "Failas nerastas",

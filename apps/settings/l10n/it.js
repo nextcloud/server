@@ -143,6 +143,7 @@ OC.L10N.register(
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Sono presenti alcuni certificati SSL importati dagli utenti, che non vengono più utilizzati con Nextcloud 21. Possono essere importati dalla riga di comando tramite il comando \"occ security:certificates:import\". I loro percorsi all'interno della cartella dei dati sono mostrati di seguito.",
     "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Trovati UUID di utenti o gruppi LDAP non validi. Controlla le tue impostazioni \"Sovrascrivi rilevazione UUID\" nella sezione Esperto della configurazione LDAP ed usa \"occ ldap:update-uuid\" per aggiornarle.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Il vecchio formato di cifratura lato server è abilitato. Ti consigliamo di disabilitarlo.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occured. Please run it manually by calling occ dav:sync-system-addressbook." : "La sincronizzazione della rubrica del sistema DAV non è ancora stata eseguita poiché la tua istanza ha più di 1000 utenti o perché si è verificato un errore. Eseguila a mano chiamando occ dav:sync-system-addressbook.",
     "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "Stai usando la versione \"%s\" di MariaDB. Nextcloud 21 e successivi non supportano questa versione e richiedono MariaDB 10.2 o successivi.",
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "Stai usando la versione \"%s\" di MySQL. Nextcloud 21 e successivi non supportano questa versione e richiedono MySQL 8.0 o MariaDB 10.2 o successivi.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "Stai usando la versione \"%s\" di PostgreSQL. Nextcloud 21 e successivi non supportano questa versione e richiedono PostgreSQL 9.6 o successivi.",
@@ -381,7 +382,6 @@ OC.L10N.register(
     "User actions" : "Azioni utente",
     "Password or insufficient permissions message" : "Messaggio password o permessi insufficienti",
     "Loading user …" : "Caricamento utente …",
-    "Edit display name" : "Modifica nome visualizzato",
     "Add new password" : "Aggiungi nuova password",
     "You do not have permissions to see the details of this user" : "Non hai i permessi per vedere i dettagli di questo utente",
     "Add new email address" : "Aggiungi nuovo indirizzo email",
@@ -568,6 +568,7 @@ OC.L10N.register(
     "Authentication method" : "Metodo di autenticazione",
     "Allow username autocompletion in share dialog" : "Consenti il completamento del nome utente nella finestra di condivisione",
     "Allow username autocompletion to users within the same groups" : "Consenti il completamento del nome utente agli utenti degli stessi gruppi",
+    "Edit display name" : "Modifica nome visualizzato",
     "Select manager" : "Seleziona responsabile",
     "User's table" : "Tabella dell'utente",
     "Select user manager" : "Seleziona responsabile utente"

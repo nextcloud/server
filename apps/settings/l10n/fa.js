@@ -380,7 +380,6 @@ OC.L10N.register(
     "User actions" : "User actions",
     "Password or insufficient permissions message" : "Password or insufficient permissions message",
     "Loading user …" : "Loading user …",
-    "Edit display name" : "Edit display name",
     "Add new password" : "رمزعبور جدید اضافه کنید",
     "You do not have permissions to see the details of this user" : "شما مجوز دیدن جزئیات این کاربر را ندارید",
     "Add new email address" : "آدرس ایمیل جدید اضافه کنید",
@@ -567,6 +566,7 @@ OC.L10N.register(
     "Authentication method" : "روش احراز هویت",
     "Allow username autocompletion in share dialog" : "Allow username autocompletion in share dialog",
     "Allow username autocompletion to users within the same groups" : "Allow username autocompletion to users within the same groups",
+    "Edit display name" : "Edit display name",
     "Select manager" : "Select manager",
     "User's table" : "User's table",
     "Select user manager" : "Select user manager"
