@@ -362,7 +362,6 @@ OC.L10N.register(
     "Storage location" : "Расположение хранилища",
     "Last login" : "Последний вход",
     "User actions" : "Действия пользователя",
-    "Edit display name" : "Редактировать отображаемое имя",
     "Add new password" : "Добавить пароль",
     "You do not have permissions to see the details of this user" : "У вас нет прав на просмотр данных об этом пользователе",
     "Add new email address" : "Добавить адрес электронной почты",
@@ -542,6 +541,7 @@ OC.L10N.register(
     "Authentication method" : "Метод проверки подлинности",
     "Allow username autocompletion in share dialog" : "Разрешить автозаполнение имени пользователя в диалоговом окне общего доступа",
     "Allow username autocompletion to users within the same groups" : "Разрешить автозаполнение имени пользователя для пользователей в тех же группах",
+    "Edit display name" : "Редактировать отображаемое имя",
     "Select manager" : "Менеджер выделений",
     "User's table" : "Таблица пользователя",
     "Select user manager" : "Выбрать менеджер выделений"

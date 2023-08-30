@@ -110,6 +110,7 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "in %s" : "en %s",
     "File Management" : "Administración de Archivos",
+    "Folder name" : "Nombre de la carpeta",
     "Select all" : "Seleccionar todo",
     "File not found" : "Archivo no encontrado",
     "Change" : "Cambiar",

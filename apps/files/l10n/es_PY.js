@@ -119,6 +119,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
     "in %s" : "en %s",
+    "Folder name" : "Nombre de la carpeta",
     "Select all" : "Seleccionar todo",
     "Change" : "Cambiar",
     "Unknown error" : "Se presentó un error desconocido",

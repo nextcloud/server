@@ -154,6 +154,7 @@ OC.L10N.register(
     "in %s" : "za %s",
     "File Management" : "Upravljanje datotekama",
     "File name" : "Naziv datoteke",
+    "Folder name" : "Naziv mape",
     "Name cannot be empty" : "Naziv ne može biti prazan",
     "Select all" : "Odaberi sve",
     "File not found" : "Datoteka nije pronađena",

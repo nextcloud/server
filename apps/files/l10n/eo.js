@@ -129,6 +129,7 @@ OC.L10N.register(
     "in %s" : "en %s",
     "File Management" : "Dosieradministrado",
     "File name" : "Dosiernomo",
+    "Folder name" : "Dosierujnomo",
     "Name cannot be empty" : "Nomo ne povas mapleni",
     "Select all" : "Elekti ĉion",
     "File not found" : "Netrovita dosiero",

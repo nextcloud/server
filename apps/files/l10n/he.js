@@ -144,6 +144,7 @@ OC.L10N.register(
     "in %s" : "ב־%s",
     "File Management" : "ניהול קבצים",
     "File name" : "שם קובץ",
+    "Folder name" : "שם התיקייה",
     "Name cannot be empty" : "השם לא יכול להישאר ריק",
     "Select all" : "לבחור הכול",
     "File not found" : "קובץ לא נמצא",

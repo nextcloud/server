@@ -113,6 +113,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "ატვირთვა (მაქს. %s)",
     "Accept" : "მიღება",
     "in %s" : "%s-ში",
+    "Folder name" : "დირექტორიის სახელი",
     "Name cannot be empty" : "სახელი ვერ იქნება ცარიელი",
     "Select all" : "ყველას არჩევა",
     "File not found" : "ფაილი ვერ იქნა ნაპოვნი",

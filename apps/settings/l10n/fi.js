@@ -314,7 +314,6 @@ OC.L10N.register(
     "Last login" : "Viimeisin kirjautuminen",
     "User actions" : "Käyttäjätoiminnot",
     "Loading user …" : "Ladataan käyttäjää…",
-    "Edit display name" : "Muokkaa näyttönimeä",
     "Add new password" : "Lisää uusi salasana",
     "You do not have permissions to see the details of this user" : "Käyttöoikeutesi eivät riitä tämän käyttäjän tietojen näkemiseen",
     "Add new email address" : "Lisää uusi sähköpostiosoite",
@@ -477,6 +476,7 @@ OC.L10N.register(
     "STARTTLS" : "STARTTLS",
     "Authentication method" : "Tunnistautumistapa",
     "Allow username autocompletion in share dialog" : "Ota käyttöön käyttäjänimen automaattitäyttö jakolomakkeessa",
-    "Allow username autocompletion to users within the same groups" : "Ota käyttöön käyttäjänimen automaattitäyttö saman ryhmän käyttäjille"
+    "Allow username autocompletion to users within the same groups" : "Ota käyttöön käyttäjänimen automaattitäyttö saman ryhmän käyttäjille",
+    "Edit display name" : "Muokkaa näyttönimeä"
 },
 "nplurals=2; plural=(n != 1);");

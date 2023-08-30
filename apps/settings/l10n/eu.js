@@ -372,7 +372,6 @@ OC.L10N.register(
     "User actions" : "Erabiltzaile-ekintzak",
     "Password or insufficient permissions message" : "Pasahitz edo baimen gutxiegiko mezua",
     "Loading user …" : "Erabiltzailea kargatzen ...",
-    "Edit display name" : "Editatu erakutsiko den izena",
     "Add new password" : "Gehitu pasahitz berria",
     "You do not have permissions to see the details of this user" : "Ez duzu baimenik erabiltzaile honen xehetasunak ikusteko",
     "Add new email address" : "Gehitu e-mail helbide berria",
@@ -556,6 +555,7 @@ OC.L10N.register(
     "Authentication method" : "Autentifikazio metodoa",
     "Allow username autocompletion in share dialog" : "Baimendu erabiltzaile-izenaren osatze automatikoa partekatze elkarrizketan",
     "Allow username autocompletion to users within the same groups" : "Baimendu erabiltzaile-izenen osatze automatikoa talde bereko erabiltzaileei",
+    "Edit display name" : "Editatu erakutsiko den izena",
     "Select manager" : "Aukeratu kudeatzailea",
     "User's table" : "Erabiltzailearen mahaia",
     "Select user manager" : "Aukeratu erabiltzaile kudeatzailea"

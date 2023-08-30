@@ -170,6 +170,7 @@ OC.L10N.register(
     "File Management" : "Filhåndtering",
     "Reload current directory" : "Genindlæs den aktuelle mappe",
     "Go to the \"{dir}\" directory" : "Gå til mappen \"{dir}\"",
+    "Folder name" : "Mappenavn",
     "Name cannot be empty" : "Navn må ikke være tomt",
     "Select all" : "Vælg alle",
     "File not found" : "Filen blev ikke fundet",

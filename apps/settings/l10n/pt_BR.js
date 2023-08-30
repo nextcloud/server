@@ -381,7 +381,6 @@ OC.L10N.register(
     "User actions" : "Ações do usuário",
     "Password or insufficient permissions message" : "Mensagem de senha ou permissões insuficientes",
     "Loading user …" : "Carregando usuário…",
-    "Edit display name" : "Editar nome de exibição",
     "Add new password" : "Adicionar nova senha",
     "You do not have permissions to see the details of this user" : "Você não tem permissão para ver os detalhes deste usuário",
     "Add new email address" : "Adicionar novo endereço de e-mail",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "Authentication method" : "Método de autenticação",
     "Allow username autocompletion in share dialog" : "Permitir autocompletar o nome de usuário na caixa de compartilhamento",
     "Allow username autocompletion to users within the same groups" : "Permitir autocompletar o nome de usuário para usuários dentro dos mesmos grupos",
+    "Edit display name" : "Editar nome de exibição",
     "Select manager" : "Selecione o gerente",
     "User's table" : "Selecione o gerente",
     "Select user manager" : "Selecione o gerenciador de usuários"
