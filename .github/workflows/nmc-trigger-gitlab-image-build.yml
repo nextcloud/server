@@ -14,10 +14,10 @@ jobs:
     steps:
     - name: Trigger Nmc deployment image building
       env:
-        GITLAB_TOKEN: ${{ secrets.GITLAB_IMAGE_BUILD }}
+        GITLAB_TOKEN: ${{ secrets.GITLAB_IMAGE_TRIGGER_TOKEN }}
       run: |
         curl -X POST \
             --fail \
-            -F token=$GITLAB_IMAGE_BUILD \
+            -F token=$GITLAB_IMAGE_TRIGGER_TOKEN \
             -F ref=master \
             https://gitlab.devops.telekom.de/api/v4/projects/37742/trigger/pipeline
