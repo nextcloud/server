@@ -167,6 +167,7 @@ OC.L10N.register(
     "in %s" : "во %s",
     "File Management" : "Датотеки",
     "File name" : "Име на датотека",
+    "Folder name" : "Име на папка",
     "Name cannot be empty" : "Името неможе да биде празно",
     "Select all" : "Избери се",
     "File not found" : "Датотеката не е пронајдена",

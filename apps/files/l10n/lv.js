@@ -107,6 +107,7 @@ OC.L10N.register(
     "Accept" : "Akceptēt",
     "Reject" : "Noraidīt",
     "in %s" : "iekš %s",
+    "Folder name" : "Mapes nosaukums",
     "Select all" : "Atzīmēt visu",
     "File not found" : "Datne nav atrasta",
     "Change" : "Mainīt",

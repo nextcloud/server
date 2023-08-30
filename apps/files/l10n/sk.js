@@ -166,6 +166,7 @@ OC.L10N.register(
     "in %s" : "v %s",
     "File Management" : "Správa súborov",
     "File name" : "Názov súboru",
+    "Folder name" : "Názov priečinka",
     "Name cannot be empty" : "Názov nemôže byť prázdny",
     "Select all" : "Vybrať všetko",
     "File not found" : "Súbor nenájdený",

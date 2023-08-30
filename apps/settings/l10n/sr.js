@@ -382,7 +382,6 @@ OC.L10N.register(
     "User actions" : "Корисникове акције",
     "Password or insufficient permissions message" : "Порука о лозинки или недовољним дозволама",
     "Loading user …" : "Учитава се корисник...",
-    "Edit display name" : "Уреди име за приказ",
     "Add new password" : "Додај нову лозинку",
     "You do not have permissions to see the details of this user" : "Немате дозволе да видите детаље о овом кориснику",
     "Add new email address" : "Додај нову адресу е-поште",
@@ -569,6 +568,7 @@ OC.L10N.register(
     "Authentication method" : "Начин провере идентитета",
     "Allow username autocompletion in share dialog" : "Дозволи аутоматско довршавање корисничког имена у дијалогу за дељење",
     "Allow username autocompletion to users within the same groups" : "Дозволи аутоматско довршавање корисничког корисницима из исте групе",
+    "Edit display name" : "Уреди име за приказ",
     "Select manager" : "Избор менаџера",
     "User's table" : "Корисникова табела",
     "Select user manager" : "Избор менаџера корисника"

@@ -370,7 +370,6 @@ OC.L10N.register(
     "Last login" : "Senaste inloggning",
     "User actions" : "Användaråtgärder",
     "Loading user …" : "Laddar användare …",
-    "Edit display name" : "Ändra visningsnamn",
     "Add new password" : "Lägg till nytt lösenord",
     "You do not have permissions to see the details of this user" : "Du har inte behörighet att se detaljerna för den här användaren",
     "Add new email address" : "Lägg till ny e-postadress",
@@ -552,6 +551,7 @@ OC.L10N.register(
     "Authentication method" : "Autentiseringsmetod",
     "Allow username autocompletion in share dialog" : "Tillåt autokomplettering av användarnamn i delningsdialogen",
     "Allow username autocompletion to users within the same groups" : "Tillåt autokomplettering av användarnamn till användare inom samma grupper",
+    "Edit display name" : "Ändra visningsnamn",
     "Select manager" : "Välj chef"
 },
 "nplurals=2; plural=(n != 1);");

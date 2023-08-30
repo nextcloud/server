@@ -166,6 +166,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "การโอนย้ายความเป็นเจ้าของของ {path} จาก {user} สำเร็จแล้ว",
     "in %s" : "ใน %s",
     "File Management" : "การจัดการไฟล์",
+    "Folder name" : "ชื่อโฟลเดอร์",
     "Select all" : "เลือกทั้งหมด",
     "File not found" : "ไม่พบไฟล์",
     "Storage informations" : "ข้อมูลพื้นที่จัดเก็บ",

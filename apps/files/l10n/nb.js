@@ -166,6 +166,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "Eierskapsoverføring av {path} fra {user} er ferdig.",
     "in %s" : "om %s",
     "File Management" : "Filbehandling",
+    "Folder name" : "Mappenavn",
     "Name cannot be empty" : "Navn kan ikke være tom",
     "Select all" : "Velg alle",
     "File not found" : "Finner ikke filen",

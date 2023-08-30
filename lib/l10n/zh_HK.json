@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s 與您分享了 %2$s",
     "Click the button below to open it." : "點下方連結開啟",
     "The requested share does not exist anymore" : "該分享已經不存在",
+    "The requested share comes from a disabled user" : "請求的分享來自已停用的用戶",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "未創建用戶因為已達到用戶上限。請查看您的通知以了解更多信息。",
     "Could not find category \"%s\"" : "找不到分類：\"%s\"",
     "Sunday" : "星期日",

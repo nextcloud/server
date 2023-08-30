@@ -164,6 +164,7 @@ OC.L10N.register(
     "in %s" : "in %s",
     "File Management" : "Bestandsbeheer",
     "File name" : "Bestandsnaam",
+    "Folder name" : "Mapnaam",
     "Name cannot be empty" : "Naam mag niet leeg zijn",
     "Select all" : "Alles selecteren",
     "File not found" : "Bestand niet gevonden",

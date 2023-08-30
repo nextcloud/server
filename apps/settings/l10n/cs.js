@@ -381,7 +381,6 @@ OC.L10N.register(
     "User actions" : "Akce ohledně uživatele",
     "Password or insufficient permissions message" : "Zpráva o heslu nebo nedostatečném oprávnění",
     "Loading user …" : "Načítání uživatelů…",
-    "Edit display name" : "Upravit zobrazovaný název",
     "Add new password" : "Přidat nové heslo",
     "You do not have permissions to see the details of this user" : "Nemáte oprávnění zobrazit si podrobností o tomto uživateli",
     "Add new email address" : "Přidat novou e-mailovou adresu",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "Authentication method" : "Metoda ověření",
     "Allow username autocompletion in share dialog" : "Povolit automatické dokončování uživatelského jména v dialogu pro sdílení",
     "Allow username autocompletion to users within the same groups" : "Umožnit automatické dokončování uživatelského jména uživatelům v rámci stejných skupin",
+    "Edit display name" : "Upravit zobrazovaný název",
     "Select manager" : "Vybrat nástroj pro správu",
     "User's table" : "Tabulka uživatele",
     "Select user manager" : "Vyberte nástroj pro správu uživatelů"
