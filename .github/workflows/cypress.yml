@@ -13,6 +13,8 @@ env:
   APP_NAME: ${{ github.event.repository.name }}
   # Server requires head_ref instead of base_ref, as we want to test the PR branch
   BRANCH: ${{ github.head_ref || github.ref_name }}
+  # Easier to get forks refs
+  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   init:
@@ -41,19 +43,6 @@ jobs:
         with:
           fallbackNode: "^14"
           fallbackNpm: "^7"
-
-      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
-        with:
-          node-version: ${{ steps.versions.outputs.nodeVersion }}
-
-      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
-
-      - name: Install node dependencies & build app
-        run: |
-          npm ci
-          TESTING=true npm run build --if-present
 
       - name: Save context
         uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
@@ -104,6 +93,7 @@ jobs:
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
+          CYPRESS_PR_NUMBER: ${{ env.PR_NUMBER }}
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           # Needed for some specific code workarounds

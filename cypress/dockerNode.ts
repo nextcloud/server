@@ -108,6 +108,19 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 	}
 }
 
+export const gitPullRef = async function(prNumber: string) {
+	if (!prNumber) {
+		console.log('\nNo PR ref to pull...')
+		return
+	}
+
+	console.log('\nPulling PR ref...')
+	const container = docker.getContainer(CONTAINER_NAME)
+	await runExec(container, ['git', 'fetch'], true)
+	await runExec(container, ['git', 'checkout', 'https://github.com/nextcloud/server/pull/' + prNumber], true)
+	console.log('└─ Successfully pulled PR ref ' + prNumber)
+}
+
 /**
  * Configure Nextcloud
  */
