@@ -381,11 +381,12 @@ class SFTP extends Common {
 			switch ($mode) {
 				case 'r':
 				case 'rb':
-					if (!$this->file_exists($path)) {
+					$stat = $this->stat($path);
+					if (!$stat) {
 						return false;
 					}
 					SFTPReadStream::register();
-					$context = stream_context_create(['sftp' => ['session' => $connection]]);
+					$context = stream_context_create(['sftp' => ['session' => $connection, 'size' => $stat['size']]]);
 					$handle = fopen('sftpread://' . trim($absPath, '/'), 'r', false, $context);
 					return RetryWrapper::wrap($handle);
 				case 'w':
