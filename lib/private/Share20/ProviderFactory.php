@@ -114,7 +114,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * Create the federated share provider
 	 *
-	 * @return FederatedShareProvider
+	 * @return FederatedShareProvider|null
 	 */
 	protected function federatedShareProvider() {
 		if ($this->federatedProvider === null) {
@@ -171,7 +171,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * Create the federated share provider
 	 *
-	 * @return ShareByMailProvider
+	 * @return ShareByMailProvider|null
 	 */
 	protected function getShareByMailProvider() {
 		if ($this->shareByMailProvider === null) {
@@ -211,7 +211,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * Create the circle share provider
 	 *
-	 * @return FederatedShareProvider
+	 * @return FederatedShareProvider|null
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
@@ -245,7 +245,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * Create the room share provider
 	 *
-	 * @return RoomShareProvider
+	 * @return RoomShareProvider|null
 	 */
 	protected function getRoomShareProvider() {
 		if ($this->roomShareProvider === null) {

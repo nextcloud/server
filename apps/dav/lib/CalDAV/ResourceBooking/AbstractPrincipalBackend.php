@@ -157,7 +157,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 *
 	 * @param string $prefixPath
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	public function getPrincipalByPath($path) {
 		if (strpos($path, $this->principalPrefix) !== 0) {

@@ -1066,7 +1066,7 @@ class Cache implements ICache {
 	 * instead does a global search in the cache table
 	 *
 	 * @param int $id
-	 * @return array first element holding the storage id, second the path
+	 * @return array|null first element holding the storage id, second the path
 	 * @deprecated use getPathById() instead
 	 */
 	public static function getById($id) {

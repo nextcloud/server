@@ -235,7 +235,7 @@ class InfoParser {
 
 	/**
 	 * @param \SimpleXMLElement $xml
-	 * @return array
+	 * @return array|string
 	 */
 	public function xmlToArray($xml) {
 		if (!$xml->children()) {

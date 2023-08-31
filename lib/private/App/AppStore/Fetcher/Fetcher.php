@@ -187,7 +187,7 @@ abstract class Fetcher {
 
 		// Refresh the file content
 		try {
-			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
+			$responseJson = $this->fetch($ETag, $content);
 
 			if (empty($responseJson)) {
 				return [];

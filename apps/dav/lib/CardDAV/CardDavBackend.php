@@ -543,7 +543,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
-	 * @return array
+	 * @return array|false
 	 */
 	public function getCard($addressBookId, $cardUri) {
 		$query = $this->db->getQueryBuilder();

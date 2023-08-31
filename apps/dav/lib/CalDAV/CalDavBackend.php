@@ -2602,7 +2602,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @param string $principalUri
 	 * @param string $objectUri
-	 * @return array
+	 * @return array|null
 	 */
 	public function getSchedulingObject($principalUri, $objectUri) {
 		$query = $this->db->getQueryBuilder();

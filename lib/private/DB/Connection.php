@@ -321,7 +321,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 *
 	 * @param string $seqName Name of the sequence object from which the ID should be returned.
 	 *
-	 * @return string the last inserted ID.
+	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
 	public function lastInsertId($seqName = null) {
