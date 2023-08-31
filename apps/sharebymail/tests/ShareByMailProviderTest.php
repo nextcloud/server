@@ -198,6 +198,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testCreate() {
+		$expectedShare = $this->createMock(IShare::class);
+
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('user1');
 
@@ -210,13 +212,13 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
-		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($this->createMock(IShare::class));
+		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$instance->expects($this->any())->method('sendPassword')->willReturn(true);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 		$this->shareManager->expects($this->any())->method('shareApiLinkEnforcePassword')->willReturn(false);
 		$this->settingsManager->expects($this->any())->method('sendPasswordByMail')->willReturn(true);
 
-		$this->assertInstanceOf(IShare::class, $instance->create($share));
+		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
 	public function testCreateSendPasswordByMailWithoutEnforcedPasswordProtection() {
@@ -250,6 +252,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testCreateSendPasswordByMailWithPasswordAndWithoutEnforcedPasswordProtectionWithPermanentPassword() {
+		$expectedShare = $this->createMock(IShare::class);
+
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
@@ -264,7 +268,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
-		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($this->createMock(IShare::class));
+		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
 		$share->expects($this->once())->method('getPassword')->willReturn('password');
@@ -277,10 +281,12 @@ class ShareByMailProviderTest extends TestCase {
 		$this->config->expects($this->once())->method('getSystemValue')->with('sharing.enable_mail_link_password_expiration')->willReturn(false);
 		$instance->expects($this->never())->method('autoGeneratePassword');
 
-		$this->assertInstanceOf(IShare::class, $instance->create($share));
+		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
 	public function testCreateSendPasswordByMailWithPasswordAndWithoutEnforcedPasswordProtectionWithoutPermanentPassword() {
+		$expectedShare = $this->createMock(IShare::class);
+
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
@@ -295,7 +301,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
-		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($this->createMock(IShare::class));
+		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
 		$share->expects($this->once())->method('getPassword')->willReturn('password');
@@ -316,10 +322,12 @@ class ShareByMailProviderTest extends TestCase {
 			3600
 		);
 
-		$this->assertInstanceOf(IShare::class, $instance->create($share));
+		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
 	public function testCreateSendPasswordByMailWithEnforcedPasswordProtectionWithPermanentPassword() {
+		$expectedShare = $this->createMock(IShare::class);
+
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
@@ -342,7 +350,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
-		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($this->createMock(IShare::class));
+		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
 		$share->expects($this->once())->method('getPassword')->willReturn(null);
@@ -366,10 +374,12 @@ class ShareByMailProviderTest extends TestCase {
 		]);
 		$this->mailer->expects($this->once())->method('send');
 
-		$this->assertInstanceOf(IShare::class, $instance->create($share));
+		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
 	public function testCreateSendPasswordByMailWithPasswordAndWithEnforcedPasswordProtectionWithPermanentPassword() {
+		$expectedShare = $this->createMock(IShare::class);
+
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
@@ -384,7 +394,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
-		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($this->createMock(IShare::class));
+		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
 		$share->expects($this->once())->method('getPassword')->willReturn('password');
@@ -410,10 +420,12 @@ class ShareByMailProviderTest extends TestCase {
 		]);
 		$this->mailer->expects($this->once())->method('send');
 
-		$this->assertInstanceOf(IShare::class, $instance->create($share));
+		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
 	public function testCreateSendPasswordByTalkWithEnforcedPasswordProtectionWithPermanentPassword() {
+		$expectedShare = $this->createMock(IShare::class);
+
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(true);
@@ -428,7 +440,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
 		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
-		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($this->createMock(IShare::class));
+		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
 		$share->expects($this->once())->method('getPassword')->willReturn(null);
@@ -458,7 +470,7 @@ class ShareByMailProviderTest extends TestCase {
 		$user->expects($this->once())->method('getDisplayName')->willReturn('Owner display name');
 		$user->expects($this->once())->method('getEMailAddress')->willReturn('owner@example.com');
 
-		$this->assertInstanceOf(IShare::class, $instance->create($share));
+		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
 
