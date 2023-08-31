@@ -372,6 +372,7 @@ OC.L10N.register(
     "User actions" : "Erabiltzaile-ekintzak",
     "Password or insufficient permissions message" : "Pasahitz edo baimen gutxiegiko mezua",
     "Loading user …" : "Erabiltzailea kargatzen ...",
+    "Change display name" : "Aldatu erakutsiko den izena",
     "Add new password" : "Gehitu pasahitz berria",
     "You do not have permissions to see the details of this user" : "Ez duzu baimenik erabiltzaile honen xehetasunak ikusteko",
     "Add new email address" : "Gehitu e-mail helbide berria",

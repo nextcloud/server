@@ -382,6 +382,7 @@ OC.L10N.register(
     "User actions" : "Корисникове акције",
     "Password or insufficient permissions message" : "Порука о лозинки или недовољним дозволама",
     "Loading user …" : "Учитава се корисник...",
+    "Change display name" : "Промени име за приказ",
     "Add new password" : "Додај нову лозинку",
     "You do not have permissions to see the details of this user" : "Немате дозволе да видите детаље о овом кориснику",
     "Add new email address" : "Додај нову адресу е-поште",
