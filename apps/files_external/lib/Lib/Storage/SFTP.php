@@ -41,6 +41,8 @@ use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
+use OCP\Constants;
+use OCP\Files\FileInfo;
 use phpseclib\Net\SFTP\Stream;
 
 /**
@@ -532,4 +534,46 @@ class SFTP extends Common {
 			return true;
 		}
 	}
+
+	public function getPermissions($path) {
+		$stat = $this->getConnection()->stat($this->absPath($path));
+		if (!$stat) {
+			return 0;
+		}
+		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			return Constants::PERMISSION_ALL;
+		} else {
+			return Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
+	}
+
+	public function getMetaData($path) {
+		$stat = $this->getConnection()->stat($this->absPath($path));
+		if (!$stat) {
+			return null;
+		}
+
+		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			$permissions = Constants::PERMISSION_ALL;
+		} else {
+			$permissions = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
+
+		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			$stat['size'] = -1;
+			$stat['mimetype'] = FileInfo::MIMETYPE_FOLDER;
+		} else {
+			$stat['mimetype'] = \OC::$server->getMimeTypeDetector()->detectPath($path);
+		}
+
+		$stat['etag'] = $this->getETag($path);
+		$stat['storage_mtime'] = $stat['mtime'];
+		$stat['permissions'] = $permissions;
+		$stat['name'] = basename($path);
+
+		$keys = ['size', 'mtime', 'mimetype', 'etag', 'storage_mtime', 'permissions', 'name'];
+		return array_intersect_key($stat, array_flip($keys));
+	}
+
+
 }
