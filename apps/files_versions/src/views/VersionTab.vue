@@ -39,6 +39,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.js'
 import Version from '../components/Version.vue'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 export default {
 	name: 'VersionTab',
@@ -56,6 +57,12 @@ export default {
 			versions: [],
 			loading: false,
 		}
+	},
+	mounted() {
+		subscribe('files_versions:restore:restored', this.fetchVersions)
+	},
+	beforeUnmount() {
+		unsubscribe('files_versions:restore:restored', this.fetchVersions)
 	},
 	computed: {
 		/**
@@ -163,6 +170,16 @@ export default {
 				mtime: version.mtime,
 			}
 
+			const restoreStartedEventState = {
+				preventDefault: false,
+				fileInfo: this.fileInfo,
+				version,
+			}
+			emit('files_versions:restore:requested', restoreStartedEventState)
+			if (restoreStartedEventState.preventDefault) {
+				return
+			}
+
 			try {
 				await restoreVersion(version)
 				if (version.label !== '') {
@@ -172,10 +189,11 @@ export default {
 				} else {
 					showSuccess(t('files_versions', 'Version restored'))
 				}
-				await this.fetchVersions()
+				emit('files_versions:restore:restored', version)
 			} catch (exception) {
 				this.fileInfo = oldFileInfo
 				showError(t('files_versions', 'Could not restore version'))
+				emit('files_versions:restore:failed', version)
 			}
 		},
 
