@@ -315,8 +315,8 @@ $comment-padding: 10px;
 
 	&__submit {
 		position: absolute !important;
-		right: 0;
-		bottom: 0;
+		right: 10px;
+		bottom: 5px;
 		// Align with input border
 		margin: 1px;
 	}
@@ -332,12 +332,20 @@ $comment-padding: 10px;
 			overflow: visible;
 		}
 	}
-}
 
-.rich-contenteditable__input {
-	min-height: 44px;
-	margin: 0;
-	padding: $comment-padding;
+	div.rich-contenteditable__input {
+		padding: 8px 35px 8px 8px;
+		min-height: 69px;
+		margin: 0;
+    	position: relative;
+	}
+
+	div.rich-contenteditable__input:before {
+		width: calc(100% - 40px);
+		top: 10px;
+		left: 10px;
+	}
+
 }
 
 </style>
