@@ -29,8 +29,8 @@
 				{{ subtitle }}
 			</p>
 		</div>
-		<NcActions v-if="$slots['default']"
-			ref="actionsComponent"
+		<NcActions ref="actionsComponent"
+			v-if="$slots['default']"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:aria-expanded="ariaExpandedValue">

@@ -27,15 +27,15 @@
 			:file-info="fileInfo"
 			:share="share"
 			:is-unique="isUnique(share)"
-			@open-sharing-details="openSharingDetails(share)" />
+			@remove:share="removeShare" />
 	</ul>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
+import Share from '../models/Share.js'
 import SharingEntry from '../components/SharingEntry.vue'
 import ShareTypes from '../mixins/ShareTypes.js'
-import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingList',
@@ -44,12 +44,12 @@ export default {
 		SharingEntry,
 	},
 
-	mixins: [ShareTypes, ShareDetails],
+	mixins: [ShareTypes],
 
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => { },
+			default: () => {},
 			required: true,
 		},
 		shares: {
@@ -58,6 +58,7 @@ export default {
 			required: true,
 		},
 	},
+
 	computed: {
 		hasShares() {
 			return this.shares.length === 0
@@ -68,6 +69,19 @@ export default {
 					return share.type === this.SHARE_TYPES.SHARE_TYPE_USER && share.shareWithDisplayName === item.shareWithDisplayName
 				}).length <= 1
 			}
+		},
+	},
+
+	methods: {
+		/**
+		 * Remove a share from the shares list
+		 *
+		 * @param {Share} share the share to remove
+		 */
+		removeShare(share) {
+			const index = this.shares.findIndex(item => item === share)
+			// eslint-disable-next-line vue/no-mutating-props
+			this.shares.splice(index, 1)
 		},
 	},
 }
