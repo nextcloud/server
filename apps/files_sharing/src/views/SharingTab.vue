@@ -29,7 +29,7 @@
 		</div>
 
 		<!-- shares content -->
-		<div v-if="!showSharingDetailsView" class="sharingTab__content">
+		<div v-else class="sharingTab__content">
 			<!-- shared with me information -->
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
@@ -46,22 +46,20 @@
 				:link-shares="linkShares"
 				:reshare="reshare"
 				:shares="shares"
-				@open-sharing-details="toggleShareDetailsView" />
+				@add:share="addShare" />
 
 			<!-- link shares list -->
 			<SharingLinkList v-if="!loading"
 				ref="linkShareList"
 				:can-reshare="canReshare"
 				:file-info="fileInfo"
-				:shares="linkShares"
-				@open-sharing-details="toggleShareDetailsView" />
+				:shares="linkShares" />
 
 			<!-- other shares list -->
 			<SharingList v-if="!loading"
 				ref="shareList"
 				:shares="shares"
-				:file-info="fileInfo"
-				@open-sharing-details="toggleShareDetailsView" />
+				:file-info="fileInfo" />
 
 			<!-- inherited shares -->
 			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
@@ -74,15 +72,6 @@
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
-		</div>
-
-		<!-- share details -->
-		<div v-else>
-			<SharingDetailsTab :file-info="shareDetailsData.fileInfo"
-				:share="shareDetailsData.share"
-				@close-sharing-details="toggleShareDetailsView"
-				@add:share="addShare"
-				@remove:share="removeShare" />
 		</div>
 
 		<!-- additional entries, use it with cautious -->
@@ -113,7 +102,6 @@ import SharingInput from '../components/SharingInput.vue'
 import SharingInherited from './SharingInherited.vue'
 import SharingLinkList from './SharingLinkList.vue'
 import SharingList from './SharingList.vue'
-import SharingDetailsTab from './SharingDetailsTab.vue'
 
 export default {
 	name: 'SharingTab',
@@ -127,7 +115,6 @@ export default {
 		SharingInput,
 		SharingLinkList,
 		SharingList,
-		SharingDetailsTab,
 	},
 
 	mixins: [ShareTypes],
@@ -135,7 +122,7 @@ export default {
 	data() {
 		return {
 			config: new Config(),
-			deleteEvent: null,
+
 			error: '',
 			expirationInterval: null,
 			loading: true,
@@ -150,8 +137,6 @@ export default {
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
 			projectsEnabled: loadState('core', 'projects_enabled', false),
-			showSharingDetailsView: false,
-			shareDetailsData: {},
 		}
 	},
 
@@ -240,8 +225,6 @@ export default {
 			this.sharedWithMe = {}
 			this.shares = []
 			this.linkShares = []
-			this.showSharingDetailsView = false
-			this.shareDetailsData = {}
 		},
 
 		/**
@@ -324,7 +307,7 @@ export default {
 						'Shared with you by {owner}',
 						{ owner: this.fileInfo.shareOwner },
 						undefined,
-						{ escape: false },
+						{ escape: false }
 					),
 					user: this.fileInfo.shareOwnerId,
 				}
@@ -338,7 +321,7 @@ export default {
 		 * @param {Share} share the share to add to the array
 		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
 		 */
-		addShare(share, resolve = () => { }) {
+		addShare(share, resolve = () => {}) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
 			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
@@ -348,16 +331,7 @@ export default {
 			}
 			this.awaitForShare(share, resolve)
 		},
-		/**
-		 * Remove a share from the shares list
-		 *
-		 * @param {Share} share the share to remove
-		 */
-		removeShare(share) {
-			const index = this.shares.findIndex(item => item.id === share.id)
-			// eslint-disable-next-line vue/no-mutating-props
-			this.shares.splice(index, 1)
-		},
+
 		/**
 		 * Await for next tick and render after the list updated
 		 * Then resolve with the matched vue component of the
@@ -381,12 +355,6 @@ export default {
 				}
 			})
 		},
-		toggleShareDetailsView(eventData) {
-			if (eventData) {
-				this.shareDetailsData = eventData
-			}
-			this.showSharingDetailsView = !this.showSharingDetailsView
-		},
 	},
 }
 </script>
@@ -400,7 +368,6 @@ export default {
 	&__content {
 		padding: 0 6px;
 	}
-
 	&__additionalContent {
 		margin: 44px 0;
 	}

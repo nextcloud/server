@@ -36,17 +36,13 @@ import SharesRequests from './ShareRequests.js'
 import ShareTypes from './ShareTypes.js'
 import Config from '../services/ConfigService.js'
 
-import {
-	BUNDLED_PERMISSIONS,
-} from '../lib/SharePermissionsToolBox.js'
-
 export default {
 	mixins: [SharesRequests, ShareTypes],
 
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => { },
+			default: () => {},
 			required: true,
 		},
 		share: {
@@ -125,24 +121,11 @@ export default {
 				monthFormat: 'MMM',
 			}
 		},
-		isFolder() {
-			return this.fileInfo.type === 'dir'
-		},
-		isPublicShare() {
-			const shareType = this.share.shareType ?? this.share.type
-			return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
-		},
+
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
 		},
-		hasCustomPermissions() {
-			const bundledPermissions = [
-				BUNDLED_PERMISSIONS.ALL,
-				BUNDLED_PERMISSIONS.READ_ONLY,
-				BUNDLED_PERMISSIONS.FILE_DROP,
-			]
-			return !bundledPermissions.includes(this.share.permissions)
-		},
+
 	},
 
 	methods: {
@@ -197,7 +180,8 @@ export default {
 		 * @param {Date} date
 		 */
 		onExpirationChange(date) {
-			this.share.expireDate = this.formatDateToString(new Date(date))
+			this.share.expireDate = this.formatDateToString(date)
+			this.queueUpdate('expireDate')
 		},
 
 		/**
@@ -208,6 +192,7 @@ export default {
 		 */
 		onExpirationDisable() {
 			this.share.expireDate = ''
+			this.queueUpdate('expireDate')
 		},
 
 		/**
@@ -350,6 +335,7 @@ export default {
 			}
 			}
 		},
+
 		/**
 		 * Debounce queueUpdate to avoid requests spamming
 		 * more importantly for text data
