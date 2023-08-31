@@ -382,6 +382,7 @@ OC.L10N.register(
     "User actions" : "إجراءات المستخدِم",
     "Password or insufficient permissions message" : "رسالة حول كلمة المرور أو عدم كفاية الأُذُونات",
     "Loading user …" : "تحميل المستخدم جارٍ ...",
+    "Change display name" : "عدِّل الاسم المعروض",
     "Add new password" : "إضافة كلمة مرور جديدة",
     "You do not have permissions to see the details of this user" : "ليس لديك الأذونات اللازمة لمشاهدة بيانات هذا المستخدم",
     "Add new email address" : "إضافة عنوان بريد إلكتروني جديد",

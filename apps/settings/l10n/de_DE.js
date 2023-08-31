@@ -382,6 +382,7 @@ OC.L10N.register(
     "User actions" : "Benutzeraktionen",
     "Password or insufficient permissions message" : "Passwort oder unzureichende Berechtigungen Nachricht",
     "Loading user …" : "Lade Benutzer…",
+    "Change display name" : "Anzeigename ändern",
     "Add new password" : "Neues Passwort hinzufügen",
     "You do not have permissions to see the details of this user" : "Sie haben keine Berechtigung, um auf die Details dieses Benutzers zu sehen",
     "Add new email address" : "Neue E-Mail-Adresse hinzufügen",

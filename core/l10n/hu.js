@@ -41,7 +41,7 @@ OC.L10N.register(
     "Reset your password" : "Jelszó visszaállítása",
     "Requested task type does not exist" : "A kért feladattípus nem létezik",
     "Necessary language model provider is not available" : "A szükséges nyelvimodell-szolgáltató nem érhető el",
-    "Task not found" : "A feladat nem találhat",
+    "Task not found" : "A feladat nem található",
     "Internal error" : "Belső hiba",
     "No translation provider available" : "Nem érhető el fordítási szolgáltató",
     "Could not detect language" : "Nem sikerült észlelni a nyelvet",
