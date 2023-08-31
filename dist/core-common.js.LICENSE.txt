@@ -372,8 +372,6 @@ object-assign
 
 /*! For license information please see NcActionText.js.LICENSE.txt */
 
-/*! For license information please see NcActionTextEditable.js.LICENSE.txt */
-
 /*! For license information please see NcActions.js.LICENSE.txt */
 
 /*! For license information please see NcAppContent.js.LICENSE.txt */
