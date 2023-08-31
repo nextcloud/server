@@ -4,6 +4,7 @@ import {
 	startNextcloud,
 	stopNextcloud,
 	waitOnNextcloud,
+	gitPullRef,
 } from './cypress/dockerNode'
 import { defineConfig } from 'cypress'
 import webpackPreprocessor from '@cypress/webpack-preprocessor'
@@ -83,6 +84,7 @@ export default defineConfig({
 					return ip
 				})
 				.then(waitOnNextcloud)
+				.then(() => gitPullRef(process.env.PR_NUMBER)))
 				.then(configureNextcloud)
 				.then(applyChangesToNextcloud)
 				.then(() => {

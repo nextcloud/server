@@ -13,6 +13,8 @@ env:
   APP_NAME: ${{ github.event.repository.name }}
   # Server requires head_ref instead of base_ref, as we want to test the PR branch
   BRANCH: ${{ github.head_ref || github.ref_name }}
+  # Easier to get forks refs
+  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   init:
@@ -104,6 +106,7 @@ jobs:
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
+          CYPRESS_PR_NUMBER: ${{ env.PR_NUMBER }}
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           # Needed for some specific code workarounds
