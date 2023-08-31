@@ -382,6 +382,7 @@ OC.L10N.register(
     "User actions" : "使用者動作",
     "Password or insufficient permissions message" : "密碼或權限不足訊息",
     "Loading user …" : "正在載入使用者……",
+    "Change display name" : "變更顯示名稱",
     "Add new password" : "新增密碼",
     "You do not have permissions to see the details of this user" : "您沒有檢視此使用者詳細資料的權限",
     "Add new email address" : "新增電子郵件",

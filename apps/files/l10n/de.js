@@ -179,7 +179,7 @@ OC.L10N.register(
     "This node is unavailable" : "Dieser Knoten ist nicht verfügbar.",
     "Download file {name}" : "Datei {name} herunterladen",
     "File name" : "Dateiname",
-    "Folder name" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Folder name" : "Ordnername",
     "\"{displayName}\" action executed successfully" : "Aktion \"{displayName}\" erfolgreich ausgeführt",
     "\"{displayName}\" action failed" : "Aktion \"{displayName}\" fehlgeschlagen",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ist kein zulässiger Dateityp.",
