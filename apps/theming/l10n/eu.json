@@ -79,6 +79,8 @@
     "Change color" : "Aldatu kolorea",
     "No background" : "atzeko planorik ez",
     "Select a background from your files" : "Hautatu atzeko plano bat zure fitxategietatik",
+    "Select background" : "Hautatu atzeko planoa",
+    "No background have been selected" : "Ez da atzeko planorik hautatu",
     "Theme selection is enforced" : "Gaiaren hautaketa behartuta dago",
     "Select a custom color" : "Hautatu kolore pertsonalizatu bat",
     "Reset to default" : "Berezarri balio lehenetsira",
