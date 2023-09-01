@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Node;
 
+use OC\Files\Filesystem;
 use OC\Files\Utils\PathHelper;
 use OCP\Files\Folder;
 use OCP\Constants;
@@ -418,19 +419,12 @@ class LazyFolder implements Folder {
 	public function getFullPath($path) {
 		if (isset($this->data['path'])) {
 			$path = PathHelper::normalizePath($path);
-			if (!$this->isValidPath($path)) {
+			if (!Filesystem::isValidPath($path)) {
 				throw new NotPermittedException('Invalid path "' . $path . '"');
 			}
 			return $this->data['path'] . $path;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
-	public function isValidPath($path) {
-		if (!str_starts_with($path, '/')) {
-			$path = '/' . $path;
-		}
-		return !(str_contains($path, '/../') || strrchr($path, '/') === '/..');
 	}
 
 	/**

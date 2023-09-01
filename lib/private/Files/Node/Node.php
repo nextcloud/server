@@ -334,13 +334,7 @@ class Node implements INode {
 	 * @return bool
 	 */
 	public function isValidPath($path) {
-		if (!$path || $path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		if (strstr($path, '/../') || strrchr($path, '/') === '/..') {
-			return false;
-		}
-		return true;
+		return Filesystem::isValidPath($path);
 	}
 
 	public function isMounted() {
