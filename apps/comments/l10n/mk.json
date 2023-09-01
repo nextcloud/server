@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "Сеуште нема коментари, започнете разговор!",
     "No more messages" : "Нема повеќе пораки",
     "Retry" : "Обидете се повторно",
+    "Failed to mark comments as read" : "Неуспешно означување на коментарот како прочитан",
     "Unable to load the comments list" : "Неможе да се вчита листата на коментари",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитан коментар","%n непрочитани коментари"],
     "_1 new comment_::_{unread} new comments_" : ["1 нов коментар","{unread} нови коментари"],
