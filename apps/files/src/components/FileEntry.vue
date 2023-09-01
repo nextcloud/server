@@ -44,7 +44,12 @@
 		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
 			<span class="files-list__row-icon" @click="execDefaultAction">
-				<FolderIcon v-if="source.type === 'folder'" />
+				<template v-if="source.type === 'folder'">
+					<FolderIcon />
+					<OverlayIcon :is="folderOverlay"
+						v-if="folderOverlay"
+						class="files-list__row-icon-overlay" />
+				</template>
 
 				<!-- Decorative image, should not be aria documented -->
 				<span v-else-if="previewUrl && !backgroundFailed"
@@ -167,27 +172,33 @@
 
 <script lang='ts'>
 import type { PropType } from 'vue'
-import type { Node } from '@nextcloud/files'
 
 import { CancelablePromise } from 'cancelable-promise'
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
 import { generateUrl } from '@nextcloud/router'
-import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File } from '@nextcloud/files'
+import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File, Node } from '@nextcloud/files'
+import { Type as ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
+import Vue from 'vue'
+
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import moment from '@nextcloud/moment'
+import KeyIcon from 'vue-material-design-icons/Key.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import NetworkIcon from 'vue-material-design-icons/Network.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import Vue from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
@@ -212,16 +223,21 @@ export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
+		AccountGroupIcon,
+		AccountPlusIcon,
 		CustomElementRender,
 		CustomSvgIconRender,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
+		KeyIcon,
+		LinkIcon,
 		NcActionButton,
 		NcActions,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcTextField,
+		NetworkIcon,
 	},
 
 	props: {
@@ -354,6 +370,38 @@ export default Vue.extend({
 				return moment(this.source.mtime).format('LLL')
 			}
 			return ''
+		},
+
+		folderOverlay() {
+			if (this.source.type !== FileType.Folder) {
+				return null
+			}
+
+			// Encrypted folders
+			if (this.source?.attributes?.['is-encrypted'] === 1) {
+				return KeyIcon
+			}
+
+			// Link and mail shared folders
+			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
+			if (shareTypes.some(type => type === ShareType.SHARE_TYPE_LINK || type === ShareType.SHARE_TYPE_EMAIL)) {
+				return LinkIcon
+			}
+
+			// Shared folders
+			if (shareTypes.length > 0) {
+				return AccountPlusIcon
+			}
+
+			switch (this.source?.attributes?.['mount-type']) {
+			case 'external':
+			case 'external-session':
+				return NetworkIcon
+			case 'group':
+				return AccountGroupIcon
+			}
+
+			return null
 		},
 
 		linkTo() {
@@ -871,10 +919,19 @@ export default Vue.extend({
 /* Hover effect on tbody lines only */
 tr {
 	&:hover,
-	&:focus,
-	&:visible {
+	&:focus {
 		background-color: var(--color-background-dark);
 	}
+}
+
+// Folder overlay
+.files-list__row-icon-overlay {
+	position: absolute;
+	max-height: 18px;
+	max-width: 18px;
+	color: var(--color-main-background);
+	// better alignment with the folder icon
+	margin-top: 2px;
 }
 
 /* Preview not loaded animation effect */
