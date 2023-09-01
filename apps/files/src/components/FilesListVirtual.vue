@@ -67,11 +67,13 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+import type { Node } from '@nextcloud/files'
+
 import { translate, translatePlural } from '@nextcloud/l10n'
-import { getFileListHeaders, type Node } from '@nextcloud/files'
+import { getFileListHeaders, Folder, View } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import Vue from 'vue'
-import VirtualList from './VirtualList.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import FileEntry from './FileEntry.vue'
@@ -80,6 +82,7 @@ import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.js'
+import VirtualList from './VirtualList.vue'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
@@ -97,15 +100,15 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
-			type: Object,
+			type: View,
 			required: true,
 		},
 		currentFolder: {
-			type: Object,
+			type: Folder,
 			required: true,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 	},
@@ -179,7 +182,7 @@ export default Vue.extend({
 			const node = this.nodes.find(n => n.fileid === this.fileId) as Node
 			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
-				sidebarAction.exec(node, this.currentView, this.currentFolder)
+				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
 			}
 		}
 	},
