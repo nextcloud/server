@@ -33,5 +33,7 @@ describe('Login with a new user and open the files app', function() {
 	it('See the default file welcome.txt in the files list', function() {
 		cy.visit('/apps/files')
 		cy.get('[data-cy-files-list] [data-cy-files-list-row-name="welcome.txt"]').should('be.visible')
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- Wait for all to finish loading
+		cy.wait(500)
 	})
 })
