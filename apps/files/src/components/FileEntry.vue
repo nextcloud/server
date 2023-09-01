@@ -175,6 +175,7 @@
 
 <script lang='ts'>
 import type { PropType } from 'vue'
+import type { Node } from '@nextcloud/files'
 
 import { CancelablePromise } from 'cancelable-promise'
 import { debounce } from 'debounce'
