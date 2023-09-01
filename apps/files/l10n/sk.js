@@ -183,7 +183,7 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you do not own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Select file or folder to link to" : "Vyberte súbor alebo priečinok na ktorý odkazovať",
     "No files in here" : "Nie sú tu žiadne súbory",
-    "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",
+    "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte so svojimi zariadeniami!",
     "Go back" : "Ísť späť",
     "Files settings" : "Nastavenia súborov",
     "Show hidden files" : "Zobraziť skryté súbory",
@@ -192,6 +192,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Skopírovať do schránky",
     "Use this address to access your Files via WebDAV" : "Táto adresa sa používa na prístup k vašim súborom prostredníctvom WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Ak ste povolili 2FA, musíte kliknutím sem vytvoriť a použiť nové heslo pre aplikáciu.",
     "Clipboard is not available" : "Schránka nie je prístupná",
     "Unable to change the favourite state of the file" : "Nie je možné zmeniť stav „obľúbené“ daného súboru",
     "Error while loading the file data" : "Chyba pri načítaní údajov súboru",
@@ -231,6 +232,7 @@ OC.L10N.register(
     "Shared by link" : "Sprístupnené prostredníctvom odkazu",
     "Deleted shares" : "Zmazané sprístupnenia",
     "Pending shares" : "Čakajúce prístupy",
+    "Search for an account" : "Vyhľadajte účet",
     "Choose" : "Vybrať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
