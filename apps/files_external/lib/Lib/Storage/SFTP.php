@@ -488,6 +488,7 @@ class SFTP extends Common {
 	}
 
 	public function file_put_contents($path, $data) {
+		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $data);
 		if ($result) {
 			return strlen($data);
@@ -502,6 +503,7 @@ class SFTP extends Common {
 				$size = $writtenSize;
 			});
 		}
+		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
 		fclose($stream);
 		if ($result) {
@@ -524,10 +526,12 @@ class SFTP extends Common {
 				return false;
 			}
 			for ($i = 0; $i < $size; $i += self::COPY_CHUNK_SIZE) {
+				/** @psalm-suppress InvalidArgument */
 				$chunk = $connection->get($absSource, false, $i, self::COPY_CHUNK_SIZE);
 				if ($chunk === false) {
 					return false;
 				}
+				/** @psalm-suppress InternalMethod */
 				if (!$connection->put($absTarget, $chunk, \phpseclib\Net\SFTP::SOURCE_STRING, $i)) {
 					return false;
 				}
