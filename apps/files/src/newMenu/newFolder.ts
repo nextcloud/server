@@ -69,7 +69,7 @@ const entry = {
 	iconSvgInline: FolderPlusSvg,
 	async handler(context: Folder, content: Node[]) {
 		const contentNames = content.map((node: Node) => node.basename)
-		const name = getUniqueName(t('files', 'New Folder'), contentNames)
+		const name = getUniqueName(t('files', 'New folder'), contentNames)
 		const { fileid, source } = await createNewFolder(context.source, name)
 
 		// Create the folder in the store
