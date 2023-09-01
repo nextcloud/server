@@ -543,6 +543,11 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_ENABLE, $appId
 		));
 		$this->clearAppsCache();
+
+		if (function_exists('apcu_delete') && class_exists(\APCUIterator::class)) {
+			$apcuPrefix = 'composer_autoload_' . md5(\OC::$SERVERROOT . '_' . \OC::$VERSION_MTIME);
+			apcu_delete(new \APCUIterator('#^' . $apcuPrefix . '#'));
+		}
 	}
 
 	/**
