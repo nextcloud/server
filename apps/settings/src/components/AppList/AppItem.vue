@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<component :is="listView ? `tr` : `div`"
+	<component :is="listView ? `tr` : `li`"
 		class="section"
 		:class="{ selected: isSelected }"
 		@click="showAppDetails">
