@@ -49,7 +49,8 @@ class LazyUserFolder extends LazyFolder {
 			}
 		}, [
 			'path' => $this->path,
-			'permissions' => Constants::PERMISSION_ALL,
+			// Sharing user root folder is not allowed
+			'permissions' => Constants::PERMISSION_ALL ^ Constants::PERMISSION_SHARE,
 			'type' => FileInfo::TYPE_FOLDER,
 			'mimetype' => FileInfo::MIMETYPE_FOLDER,
 		]);
