@@ -186,7 +186,7 @@ class MailPlugin implements ISearchPlugin {
 							return false;
 						}
 
-						if ($this->shareeEnumeration) {
+						if ($this->shareeEnumeration && isset($contact['CLOUD'])) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
 							} catch (\InvalidArgumentException $e) {
