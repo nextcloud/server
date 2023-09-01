@@ -10,10 +10,12 @@ import './actions/openInFilesAction.js'
 import './actions/renameAction'
 import './actions/sidebarAction'
 import './actions/viewInFolderAction'
+import './newMenu/newFolder'
 
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import { getNavigation } from '@nextcloud/files'
+import { getRequestToken } from '@nextcloud/auth'
 
 import FilesListView from './views/FilesList.vue'
 import NavigationView from './views/Navigation.vue'
@@ -25,6 +27,9 @@ import router from './router/router'
 import RouterService from './services/RouterService'
 import SettingsModel from './models/Setting.js'
 import SettingsService from './services/Settings.js'
+
+// @ts-expect-error __webpack_nonce__ is injected by webpack
+__webpack_nonce__ = btoa(getRequestToken())
 
 declare global {
 	interface Window {

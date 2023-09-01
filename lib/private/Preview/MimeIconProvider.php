@@ -82,7 +82,7 @@ class MimeIconProvider implements IMimeIconProvider {
 			}
 		}
 		
-		// Previously, we used to pass thi through Theming
+		// Previously, we used to pass this through Theming
 		// But it was only used to colour icons containing
 		// 0082c9. Since with vue we moved to inline svg icons,
 		// we can just use the default core icons.

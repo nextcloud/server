@@ -171,7 +171,7 @@ import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
 import { generateUrl } from '@nextcloud/router'
-import { getFileActions, DefaultType, FileType, formatFileSize, Permission } from '@nextcloud/files'
+import { getFileActions, DefaultType, FileType, formatFileSize, Permission, NodeStatus } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
@@ -521,8 +521,10 @@ export default Vue.extend({
 		 * If renaming starts, select the file name
 		 * in the input, without the extension.
 		 */
-		isRenaming() {
-			this.startRenaming()
+		isRenaming(renaming) {
+			if (renaming) {
+				this.startRenaming()
+			}
 		},
 	},
 
@@ -718,9 +720,10 @@ export default Vue.extend({
 		 * input validity using browser's native validation.
 		 * @param event the keyup event
 		 */
-		checkInputValidity(event: KeyboardEvent) {
-			const input = event?.target as HTMLInputElement
+		checkInputValidity(event?: KeyboardEvent) {
+			const input = event.target as HTMLInputElement
 			const newName = this.newName.trim?.() || ''
+			logger.debug('Checking input validity', { newName })
 			try {
 				this.isFileNameValid(newName)
 				input.setCustomValidity('')
@@ -753,10 +756,10 @@ export default Vue.extend({
 		},
 
 		startRenaming() {
-			this.checkInputValidity()
 			this.$nextTick(() => {
-				const extLength = (this.source.extension || '').length
-				const length = this.source.basename.length - extLength
+				// Using split to get the true string length
+				const extLength = (this.source.extension || '').split('').length
+				const length = this.source.basename.split('').length - extLength
 				const input = this.$refs.renameInput?.$refs?.inputField?.$refs?.input
 				if (!input) {
 					logger.error('Could not find the rename input')
@@ -764,6 +767,9 @@ export default Vue.extend({
 				}
 				input.setSelectionRange(0, length)
 				input.focus()
+
+				// Trigger a keyup event to update the input validity
+				input.dispatchEvent(new Event('keyup'))
 			})
 		},
 		stopRenaming() {
@@ -816,6 +822,8 @@ export default Vue.extend({
 				emit('files:node:updated', this.source)
 				emit('files:node:renamed', this.source)
 				showSuccess(this.t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
+
+				// Reset the renaming store
 				this.stopRenaming()
 				this.$nextTick(() => {
 					this.$refs.basename.focus()

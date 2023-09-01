@@ -23,7 +23,16 @@
 	<NcAppContent data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="dir" @reload="fetchContent" />
+			<BreadCrumbs :path="dir" @reload="fetchContent">
+				<template #actions>
+					<!-- Uploader -->
+					<UploadPicker v-if="currentFolder"
+						:content="dirContents"
+						:destination="currentFolder"
+						:multiple="true"
+						@uploaded="onUpload" />
+				</template>
+			</BreadCrumbs>
 
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
@@ -64,11 +73,15 @@
 
 <script lang="ts">
 import type { Route } from 'vue-router'
+import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
+import type { View, ContentsWithRoot } from '@nextcloud/files'
 
-import { Folder, Node, type View, type ContentsWithRoot, join } from 'path'
+import { Folder, Node } from '@nextcloud/files'
+import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
 import { translate } from '@nextcloud/l10n'
+import { UploadPicker } from '@nextcloud/upload'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -79,6 +92,7 @@ import Vue from 'vue'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
@@ -97,6 +111,7 @@ export default Vue.extend({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
+		UploadPicker,
 	},
 
 	mixins: [
@@ -107,12 +122,14 @@ export default Vue.extend({
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
+		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 		return {
 			filesStore,
 			pathsStore,
 			selectionStore,
+			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
 		}
@@ -273,6 +290,7 @@ export default Vue.extend({
 				this.filesStore.updateNodes(contents)
 
 				// Define current directory children
+				// TODO: make it more official
 				folder._children = contents.map(node => node.fileid)
 
 				// If we're in the root dir, define the root
@@ -308,8 +326,26 @@ export default Vue.extend({
 		 * @param {number} fileId the file id to get
 		 * @return {Folder|File}
 		 */
-		 getNode(fileId) {
+		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
+		},
+
+		/**
+		 * The upload manager have finished handling the queue
+		 * @param {Upload} upload the uploaded data
+		 */
+		onUpload(upload: Upload) {
+			// Let's only refresh the current Folder
+			// Navigating to a different folder will refresh it anyway
+			const destinationSource = dirname(upload.source)
+			const needsRefresh = destinationSource === this.currentFolder?.source
+
+			// TODO: fetch uploaded files data only
+			// Use parseInt(upload.response?.headers?.['oc-fileid']) to get the fileid
+			if (needsRefresh) {
+				// fetchContent will cancel the previous ongoing promise
+				this.fetchContent()
+			}
 		},
 
 		t: translate,

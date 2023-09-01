@@ -21,6 +21,13 @@
  */
 
 /*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
  * pinia v2.1.6
  * (c) 2023 Eduardo San Martin Morote
  * @license MIT

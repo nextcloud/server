@@ -22,6 +22,7 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
+import { cancelable, CancelablePromise } from 'cancelable-promise'
 import { File, Folder, davParsePermissions } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -73,30 +74,39 @@ const resultToNode = function(node: FileStat): File | Folder {
 		: new Folder(nodeData)
 }
 
-export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
+export const getContents = (path = '/'): Promise<ContentsWithRoot> => {
+	const controller = new AbortController()
 	const propfindPayload = getDefaultPropfind()
 
-	const contentsResponse = await client.getDirectoryContents(path, {
-		details: true,
-		data: propfindPayload,
-		includeSelf: true,
-	}) as ResponseDataDetailed<FileStat[]>
+	return new CancelablePromise(async (resolve, reject, onCancel) => {
+		onCancel(() => controller.abort())
+		try {
+			const contentsResponse = await client.getDirectoryContents(path, {
+				details: true,
+				data: propfindPayload,
+				includeSelf: true,
+				signal: controller.signal,
+			}) as ResponseDataDetailed<FileStat[]>
 
-	const root = contentsResponse.data[0]
-	const contents = contentsResponse.data.slice(1)
-	if (root.filename !== path) {
-		throw new Error('Root node does not match requested path')
-	}
-
-	return {
-		folder: resultToNode(root) as Folder,
-		contents: contents.map(result => {
-			try {
-				return resultToNode(result)
-			} catch (error) {
-				logger.error(`Invalid node detected '${result.basename}'`, { error })
-				return null
+			const root = contentsResponse.data[0]
+			const contents = contentsResponse.data.slice(1)
+			if (root.filename !== path) {
+				throw new Error('Root node does not match requested path')
 			}
-		}).filter(Boolean) as File[],
-	}
+
+			resolve({
+				folder: resultToNode(root) as Folder,
+				contents: contents.map(result => {
+					try {
+						return resultToNode(result)
+					} catch (error) {
+						logger.error(`Invalid node detected '${result.basename}'`, { error })
+						return null
+					}
+				}).filter(Boolean) as File[],
+			})
+		} catch (error) {
+			reject(error)
+		}
+	})
 }
