@@ -187,6 +187,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Nije moguće stvoriti novu datoteku iz predloška",
     "Delete permanently" : "Trajno izbrišite",
     "Open details" : "Otvori pojedinosti",
+    "New Folder" : "Nova mapa",
     "Set up templates folder" : "Postavi mapu predložaka",
     "Templates" : "Predlošci",
     "Unable to initialize the templates directory" : "Nije moguće inicijalizirati direktorij predložaka",

@@ -220,6 +220,7 @@ OC.L10N.register(
     "Delete permanently" : "Διαγραφή οριστικά",
     "Open folder {displayName}" : "Άνοιγμα φακέλου {displayName}",
     "Open details" : "Άνοιγμα λεπτομερειών",
+    "New Folder" : "Νέος φάκελος",
     "Set up templates folder" : "Ρύθμιση φακέλου προτύπων",
     "Templates" : "Πρότυπα",
     "Create new templates folder" : "Δημιουργία νέου φακέλου προτύπων",

@@ -161,6 +161,7 @@ OC.L10N.register(
     "Error while loading the file data" : "Ur fazi zo bet en ur gargañ roadennoùar restr",
     "Create" : "Krouiñ",
     "Delete permanently" : "Lamet da viken",
+    "New Folder" : "Teuliad nevez",
     "No favorites yet" : "Pennroll ebet evit ar poent",
     "Files and folders you mark as favorite will show up here" : "Ar restroù ha teuliadoù ouzhpennet en ho pennrolloù a vo diskwelet amañ",
     "All files" : "An holl restroù",

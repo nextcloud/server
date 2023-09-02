@@ -206,6 +206,7 @@ OC.L10N.register(
     "Blank" : "Vacío",
     "Unable to create new file from template" : "No se ha podido crear un nuevo archivo desde la plantilla",
     "Delete permanently" : "Borrar permanentemente",
+    "New Folder" : "Carpeta Nueva",
     "Set up templates folder" : "Configura una carpeta para plantillas",
     "Templates" : "Plantillas",
     "Unable to initialize the templates directory" : "No se ha podido iniciar la carpeta de plantillas",

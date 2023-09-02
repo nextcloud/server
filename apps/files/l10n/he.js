@@ -173,6 +173,7 @@ OC.L10N.register(
     "Create" : "יצירה",
     "Delete permanently" : "מחיקה לצמיתות",
     "Open details" : "פתיחת פרטים",
+    "New Folder" : "תיקייה חדשה",
     "No favorites yet" : "אין מועדפים עדיין",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "All files" : "כל הקבצים",

@@ -149,6 +149,7 @@ OC.L10N.register(
     "Creating file" : "Kreante dosieron",
     "Delete permanently" : "Forigi por ĉiam",
     "Open details" : "Montri detalojn",
+    "New Folder" : "Nova dosierujo",
     "Templates" : "Ŝablonoj",
     "No favorites yet" : "Ankoraŭ neniu pliŝataĵo",
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas kiel pliŝataĵoj, aperos ĉi tie",

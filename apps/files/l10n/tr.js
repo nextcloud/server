@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "{displayName} klasörünü aç",
     "Open in Files" : "Dosyalar uygulamasında aç",
     "Open details" : "Ayrıntıları aç",
+    "New Folder" : "Yeni klasör",
     "Set up templates folder" : "Kalıp klasörünü ayarlayın",
     "Templates" : "Kalıplar",
     "Create new templates folder" : "Yeni kalıp klasörü oluştur",

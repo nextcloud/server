@@ -202,6 +202,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Kan geen nieuw bestand maken vanuit het sjabloon",
     "Delete permanently" : "Permanent verwijderen",
     "Open details" : "Details openen",
+    "New Folder" : "Nieuwe map",
     "Set up templates folder" : "Instellen sjablonenmap",
     "Templates" : "Sjablonen",
     "Unable to initialize the templates directory" : "Kon de sjablonenmap niet instellen",

@@ -231,6 +231,7 @@ OC.L10N.register(
     "Delete permanently" : "Végleges törlés",
     "Open folder {displayName}" : "A(z) {displayName} mappa megnyitása",
     "Open details" : "Részletek megnyitása",
+    "New Folder" : "Új mappa",
     "Set up templates folder" : "Személyes sablonmappa beállítása",
     "Templates" : "Sablonok",
     "Create new templates folder" : "Új sablonmappa létrehozása",

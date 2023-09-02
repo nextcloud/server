@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "打開資料夾 {displayName}",
     "Open in Files" : "在「檔案」應用程式中打開",
     "Open details" : "開啟細節",
+    "New Folder" : "新資料夾",
     "Set up templates folder" : "設定範本資料夾",
     "Templates" : "模板",
     "Create new templates folder" : "創建新範本資料夾",
