@@ -204,6 +204,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Nemôžem vytvoriť nový súbor zo šablóny",
     "Delete permanently" : "Zmazať  natrvalo",
     "Open details" : "Otvoriť detaily",
+    "New Folder" : "Nový priečinok",
     "Set up templates folder" : "Nastaviť priečinok pre šablóny",
     "Templates" : "Šablóny",
     "Unable to initialize the templates directory" : "Nemôžem inicializovať priečinok so šablónami",

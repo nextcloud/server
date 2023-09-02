@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Abrir o cartafol  {displayName}",
     "Open in Files" : "Abrir en Ficheiros",
     "Open details" : "Abrir detalles",
+    "New Folder" : "Novo cartafol",
     "Set up templates folder" : "Estabelecer un cartafol de modelos",
     "Templates" : "Modelos",
     "Create new templates folder" : "Crear un novo cartafol de modelos",

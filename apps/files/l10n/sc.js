@@ -188,6 +188,7 @@ OC.L10N.register(
     "Blank" : "Isbòidu",
     "Unable to create new file from template" : "Non faghet a creare un'archìviu nou dae su modellu",
     "Delete permanently" : "Cantzella in manera definitiva",
+    "New Folder" : "Cartella noa",
     "Set up templates folder" : "Imposta cartella de is modellos",
     "Templates" : "Modellos",
     "Unable to initialize the templates directory" : "Non faghet a initzializare sa cartella de is modellos",

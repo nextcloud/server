@@ -219,6 +219,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "テンプレートから新しいファイルを作成できません",
     "Delete permanently" : "永久に削除",
     "Open details" : "詳細を開く",
+    "New Folder" : "フォルダーを作成する",
     "Set up templates folder" : "テンプレートフォルダーを設定",
     "Templates" : "テンプレート",
     "Create new templates folder" : "新しいテンプレートフォルダーを作成",

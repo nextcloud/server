@@ -197,6 +197,7 @@
     "Download and enable all" : "Download and enable all",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n app has an update available","%n apps have an update available"],
     "_Update_::_Update all_" : ["Update","Update all"],
+    "Device name" : "Device name",
     "Marked for remote wipe" : "Marked for remote wipe",
     "Device settings" : "Device settings",
     "Allow filesystem access" : "Allow filesystem access",

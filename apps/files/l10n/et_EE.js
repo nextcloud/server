@@ -177,6 +177,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Faili loomine mallist ebaõnnestus",
     "Delete permanently" : "Kustuta jäädavalt",
     "Open folder {displayName}" : "Ava kaust {displayName}",
+    "New Folder" : "Uus kaust",
     "Set up templates folder" : "Seadista mallide kaust",
     "Templates" : "Mallid",
     "Create new templates folder" : "Loo uus mallide kaust",

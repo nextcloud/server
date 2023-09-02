@@ -194,6 +194,7 @@ OC.L10N.register(
     "Blank" : "Gol",
     "Unable to create new file from template" : "Nu s-a putut creea un fisier nou pentru acest șablon",
     "Delete permanently" : "Șterge permanent",
+    "New Folder" : "Director nou",
     "Set up templates folder" : "Setează un dosar pentru șabloane",
     "Templates" : "Șabloane",
     "Unable to initialize the templates directory" : "Nu s-a putut inițializa dosarul cu șabloane",

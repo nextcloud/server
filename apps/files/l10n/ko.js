@@ -236,6 +236,7 @@ OC.L10N.register(
     "Delete permanently" : "영구히 삭제",
     "Open folder {displayName}" : "{displayName} 폴더 열기",
     "Open details" : "자세한 정보 열기",
+    "New Folder" : "새 폴더",
     "Set up templates folder" : "템플릿 폴더 설정",
     "Templates" : "템플릿",
     "Create new templates folder" : "새로운 템플릿 폴더 만들기",

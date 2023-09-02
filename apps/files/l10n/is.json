@@ -161,6 +161,7 @@
     "Unable to create new file from template" : "Tekst ekki að búa til nýja skrá út frá sniðmáti",
     "Delete permanently" : "Eyða varanlega",
     "Open details" : "Opna nánari upplýsingar",
+    "New Folder" : "Ný mappa",
     "Set up templates folder" : "Setja upp sniðmátamöppu",
     "Templates" : "Sniðmát",
     "Unable to initialize the templates directory" : "Tókst ekki að frumstilla sniðmátamöppuna",

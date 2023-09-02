@@ -245,6 +245,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Відкрити каталог {displayName}",
     "Open in Files" : "Відкрити у Файлах",
     "Open details" : "Показати деталі",
+    "New Folder" : "Новий каталог",
     "Set up templates folder" : "Встановити каталог з шаблонами",
     "Templates" : "Шаблони",
     "Create new templates folder" : "Створіть нову папку шаблонів",

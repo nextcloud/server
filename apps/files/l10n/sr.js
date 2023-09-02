@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Отвори фолдер {displayName}",
     "Open in Files" : "Отвори у Фајловима",
     "Open details" : "Отвори детаље",
+    "New Folder" : "Нова фасцикла",
     "Set up templates folder" : "Постављање фолдера са шаблонима",
     "Templates" : "Шаблони",
     "Create new templates folder" : "Креирај нови фолдер шаблона",
