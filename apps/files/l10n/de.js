@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Ordner {displayName} öffnen",
     "Open in Files" : "In App \"Dateien\" öffnen",
     "Open details" : "Details öffnen",
+    "New Folder" : "Neuer Ordner",
     "Set up templates folder" : "Vorlagenordner einrichten",
     "Templates" : "Vorlagen",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",

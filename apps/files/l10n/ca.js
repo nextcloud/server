@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Obre la carpeta {displayName}",
     "Open in Files" : "Obre a Fitxers",
     "Open details" : "Obre els detalls",
+    "New Folder" : "Nova carpeta",
     "Set up templates folder" : "Configura la carpeta de plantilles",
     "Templates" : "Plantilles",
     "Create new templates folder" : "Crea la carpeta de plantilles",

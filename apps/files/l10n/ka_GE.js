@@ -128,6 +128,7 @@ OC.L10N.register(
     "Copy to clipboard" : "კოპირება ბუფერში",
     "Create" : "შექმნა",
     "Delete permanently" : "სამუდამოდ წაშლა",
+    "New Folder" : "ახალი დირექტორია",
     "No favorites yet" : "ჯერ რჩეულები არაა",
     "Files and folders you mark as favorite will show up here" : "აქ გამოჩნდებიან ფაილები და დირექტორიები, რომლებსაც მონიშნავთ რჩეულებად",
     "All files" : "ყველა ფაილი",

@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Open folder {displayName}",
     "Open in Files" : "Open in Files",
     "Open details" : "Open details",
+    "New Folder" : "New Folder",
     "Set up templates folder" : "Set up templates folder",
     "Templates" : "Templates",
     "Create new templates folder" : "Create new templates folder",

@@ -241,6 +241,7 @@ OC.L10N.register(
     "Delete permanently" : "Borrar permanentemente",
     "Open folder {displayName}" : "Abrir carpeta {displayName}.",
     "Open details" : "Abrir detalles.",
+    "New Folder" : "Carpeta Nueva",
     "Set up templates folder" : "Configurar carpeta de plantillas.",
     "Templates" : "Plantillas",
     "Create new templates folder" : "Crear nueva carpeta de plantillas.",

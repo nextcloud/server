@@ -155,6 +155,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar para área de transferência",
     "Create" : "Criar",
     "Delete permanently" : "Eliminar permanentemente",
+    "New Folder" : "Nova Pasta",
     "Templates" : "Modelos",
     "No favorites yet" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",

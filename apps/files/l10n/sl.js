@@ -231,6 +231,7 @@ OC.L10N.register(
     "Delete permanently" : "Trajno izbriši",
     "Open folder {displayName}" : "Odpri mapo {displayName}",
     "Open details" : "Odpri podrobnosti",
+    "New Folder" : "Nova mapa",
     "Set up templates folder" : "Nastavitev mape predlog",
     "Templates" : "Predloge",
     "Create new templates folder" : "Ustvari novo začasno mapo",

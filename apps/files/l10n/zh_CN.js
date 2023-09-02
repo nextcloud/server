@@ -241,6 +241,7 @@ OC.L10N.register(
     "Delete permanently" : "彻底删除",
     "Open folder {displayName}" : "打开文件夹{displayName}",
     "Open details" : "打开详情",
+    "New Folder" : "新建文件夹",
     "Set up templates folder" : "设置模板文件夹",
     "Templates" : "模板",
     "Create new templates folder" : "新建模板文件夹",

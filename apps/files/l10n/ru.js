@@ -243,6 +243,7 @@ OC.L10N.register(
     "Delete permanently" : "Удалить навсегда",
     "Open folder {displayName}" : "Открыть каталог {displayName}",
     "Open details" : "Открыть подробности",
+    "New Folder" : "Новая папка",
     "Set up templates folder" : "Указать папку шаблонов",
     "Templates" : "Шаблоны",
     "Create new templates folder" : "Создать новую папку шаблонов",

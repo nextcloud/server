@@ -245,6 +245,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "باز کردن پوشه {displayName}",
     "Open in Files" : "در فایل باز کنید",
     "Open details" : "باز کردن جزئیات",
+    "New Folder" : "پوشه جدید",
     "Set up templates folder" : "پوشه قالب ها را تنظیم کنید",
     "Templates" : "قالب‌ها",
     "Create new templates folder" : "پوشه قالب های جدید ایجاد کنید",

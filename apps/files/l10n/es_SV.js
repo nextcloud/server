@@ -129,6 +129,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar al portapapeles",
     "Create" : "Crear",
     "Delete permanently" : "Borrar permanentemente",
+    "New Folder" : "Carpeta Nueva",
     "No favorites yet" : "Aún no hay favoritos",
     "Files and folders you mark as favorite will show up here" : "Los archivos y carpetas que marques como favoritos se mostrarán aquí. ",
     "All files" : "Todos los archivos",

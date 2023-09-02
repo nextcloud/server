@@ -208,6 +208,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Kan ikke opprette ny fil fra malen",
     "Delete permanently" : "Slett for godt",
     "Open details" : "Åpne detaljer",
+    "New Folder" : "Ny mappe",
     "Set up templates folder" : "Sett opp mal-mappen",
     "Templates" : "Maler",
     "Unable to initialize the templates directory" : "Kan ikke initialisere mal-mappen",
