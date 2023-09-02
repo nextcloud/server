@@ -171,8 +171,8 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function setActiveEntry($id) {
-		$this->activeEntry = $id;
+	public function setActiveEntry($appId) {
+		$this->activeEntry = $appId;
 	}
 
 	/**
