@@ -91,7 +91,7 @@ jobs:
         run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@d69252d52b9a31bad4f418f05ba2bc83687a02eb # v5.8.3
+        uses: cypress-io/github-action@7215fc1624803790752b15000c55f71354592d84 # v6.4.0
         with:
           record: true
           parallel: true
