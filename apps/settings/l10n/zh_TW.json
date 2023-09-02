@@ -197,6 +197,7 @@
     "Download and enable all" : "下載並啟用全部",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n 個應用程式有可用的更新"],
     "_Update_::_Update all_" : ["更新全部"],
+    "Device name" : "裝置名稱",
     "Marked for remote wipe" : "標記為可遠端抹除",
     "Device settings" : "裝置設定",
     "Allow filesystem access" : "允許檔案系統的存取",

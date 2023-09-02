@@ -125,6 +125,7 @@ OC.L10N.register(
     "Create" : "Izveidot",
     "Delete permanently" : "Dzēst pavisam",
     "Open details" : "Atvērt detaļas",
+    "New Folder" : "Jauna mape",
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
     "All files" : "Visas datnes",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",

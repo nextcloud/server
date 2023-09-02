@@ -203,6 +203,7 @@
     "Blank" : "ว่าง",
     "Unable to create new file from template" : "ไม่สามารถสร้างไฟล์ใหม่จากเทมเพลต",
     "Delete permanently" : "ลบแบบถาวร",
+    "New Folder" : "โฟลเดอร์ใหม่",
     "Set up templates folder" : "ตั้งค่าโฟลเดอร์เทมเพลต",
     "Templates" : "เทมเพลต",
     "Unable to initialize the templates directory" : "ไม่สามารถเตรียมไดเรกทอรีเทมเพลต",

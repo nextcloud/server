@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Apri la cartella {displayName}",
     "Open in Files" : "Apri in File",
     "Open details" : "Apri i dettagli",
+    "New Folder" : "Nuova cartella",
     "Set up templates folder" : "Configura la cartella dei modelli",
     "Templates" : "Modelli",
     "Create new templates folder" : "Crea una nuova cartella dei templates",

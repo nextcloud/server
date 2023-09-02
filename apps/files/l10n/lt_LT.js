@@ -195,6 +195,7 @@ OC.L10N.register(
     "Creating file" : "Sukuriamas failas",
     "Unable to create new file from template" : "Nepavyko sukurti naujo failo iš šablono",
     "Delete permanently" : "Ištrinti negrįžtamai",
+    "New Folder" : "Naujas aplankas",
     "Templates" : "Šablonai",
     "Unable to initialize the templates directory" : "Nepavyko inicijuoti šablonų katalogo",
     "No favorites yet" : "Kol kas nėra mėgstamų",

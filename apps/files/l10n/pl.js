@@ -230,6 +230,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Nie można utworzyć nowego pliku z szablonu",
     "Delete permanently" : "Usuń bezpowrotnie",
     "Open details" : "Otwórz szczegóły",
+    "New Folder" : "Nowy katalog",
     "Set up templates folder" : "Skonfiguruj katalog szablonów",
     "Templates" : "Szablony",
     "Create new templates folder" : "Stwórz nowy folder z szablonami",

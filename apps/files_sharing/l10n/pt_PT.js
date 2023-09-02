@@ -7,6 +7,7 @@ OC.L10N.register(
     "Download" : "Transferir",
     "Delete" : "Apagar",
     "You can upload into this folder" : "Pode enviar para esta pasta",
+    "Terms of service" : "Termos de serviço",
     "Show list view" : "Mostrar visualização em lista",
     "Show grid view" : "Mostrar visualização em grelha",
     "No compatible server found at {remote}" : "Nenhum servidor compatível encontrado em {remote}",

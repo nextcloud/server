@@ -238,6 +238,7 @@ OC.L10N.register(
     "Delete permanently" : "Poista pysyvästi",
     "Open folder {displayName}" : "Avaa kansio {displayName}",
     "Open details" : "Avaa yksityiskohdat",
+    "New Folder" : "Uusi kansio",
     "Set up templates folder" : "Aseta mallipohjien kansio",
     "Templates" : "Mallipohjat",
     "Create new templates folder" : "Luo uusi mallipohjien kansio",

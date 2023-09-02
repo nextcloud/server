@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Abrir carpeta {displayName}",
     "Open in Files" : "Abrir en Archivos",
     "Open details" : "Abrir detalles",
+    "New Folder" : "Nueva carpeta",
     "Set up templates folder" : "Configura una carpeta para plantillas",
     "Templates" : "Plantillas",
     "Create new templates folder" : "Crear nueva carpeta de plantillas",

@@ -248,6 +248,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Abra a pasta {displayName}",
     "Open in Files" : "Abrir em arquivos",
     "Open details" : "Abrir detalhes",
+    "New Folder" : "Nova pasta",
     "Set up templates folder" : "Configurar pasta de modelos",
     "Templates" : "Modelos",
     "Create new templates folder" : "Criar nova pasta de modelos",

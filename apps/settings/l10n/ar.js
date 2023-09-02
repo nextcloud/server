@@ -199,6 +199,7 @@ OC.L10N.register(
     "Download and enable all" : "تحميل و تمكين الكُل",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n تطبيقات لها تحديث متاح","%n تطبيق له تحديث متاح","%n تطبيقات لها تحديث متاح","%n تطبيقات لها تحديث متاح","%n تطبيقات لها تحديث متاح","%n تطبيقات لها تحديث متاح"],
     "_Update_::_Update all_" : ["تحديث الكل","تحديث","تحديث الكل","تحديث الكل","تحديث الكل","تحديث الكل"],
+    "Device name" : "اسم الجهاز",
     "Marked for remote wipe" : "مُعلَّمٌ ليتم مَحوُه عن بُعدٍ",
     "Device settings" : "إعدادات الجهاز",
     "Allow filesystem access" : "السماح بالنفاذ إلى نظام الملفات",

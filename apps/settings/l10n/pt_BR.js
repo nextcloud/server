@@ -199,6 +199,7 @@ OC.L10N.register(
     "Download and enable all" : "Baixe e habilite todos",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicativo tem atualização disponível","%n aplicativos tem atualização disponível","%n aplicativos tem atualização disponível"],
     "_Update_::_Update all_" : ["Atualizar","Atualize tudo","Atualize tudo"],
+    "Device name" : "Nome do dispositivo",
     "Marked for remote wipe" : "Marcado para limpeza remota",
     "Device settings" : "Configuração dos dispositivos",
     "Allow filesystem access" : "Permitir acesso ao sistema de arquivos",
