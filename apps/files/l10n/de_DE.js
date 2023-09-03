@@ -249,6 +249,7 @@ OC.L10N.register(
     "Open in Files" : "In Dateien öffnen",
     "Open details" : "Details öffnen",
     "New Folder" : "Neuer Ordner",
+    "Created new folder \"{name}\"" : "Neuer Ordner \"{name}\" wurde erstellt",
     "Set up templates folder" : "Vorlagenordner einrichten",
     "Templates" : "Vorlagen",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
