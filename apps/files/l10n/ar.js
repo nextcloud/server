@@ -249,6 +249,7 @@ OC.L10N.register(
     "Open in Files" : "إفتَح في \"الملفات\"",
     "Open details" : "افتح التفاصيل",
     "New Folder" : "مجلد جديد",
+    "Created new folder \"{name}\"" : "تمّ إنشاء مجلد جديد باسم \"{name}\"",
     "Set up templates folder" : "إعداد مجلد القوالب",
     "Templates" : "القوالب",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",
