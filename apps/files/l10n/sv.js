@@ -249,6 +249,7 @@ OC.L10N.register(
     "Open in Files" : "Öppna i Filer",
     "Open details" : "Öppna detaljer",
     "New Folder" : "Ny mapp",
+    "Created new folder \"{name}\"" : "Skapat ny mapp \"{name}\"",
     "Set up templates folder" : "Skapa en mapp för mallar",
     "Templates" : "Mallar",
     "Create new templates folder" : "Skapa ny mallmapp",
