@@ -1430,12 +1430,6 @@
       <code><![CDATA[$share->getId()]]></code>
       <code>(int)$data['id']</code>
     </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code>$nodes[0]</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\File|\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
     <InvalidArgument>
@@ -3135,11 +3129,6 @@
     <MissingTemplateParam>
       <code>\ArrayAccess</code>
     </MissingTemplateParam>
-  </file>
-  <file src="lib/private/NavigationManager.php">
-    <ParamNameMismatch>
-      <code>$id</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>
