@@ -56,7 +56,7 @@ class ProfileApiController extends OCSController {
 	 * @PasswordConfirmationRequired
 	 * @UserRateThrottle(limit=40, period=600)
 	 *
-	 * Update the visiblity of a parameter
+	 * Update the visibility of a parameter
 	 *
 	 * @param string $targetUserId ID of the user
 	 * @param string $paramId ID of the parameter

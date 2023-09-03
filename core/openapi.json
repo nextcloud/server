@@ -3617,7 +3617,7 @@
         "/ocs/v2.php/profile/{targetUserId}": {
             "put": {
                 "operationId": "profile_api-set-visibility",
-                "summary": "Update the visiblity of a parameter",
+                "summary": "Update the visibility of a parameter",
                 "tags": [
                     "profile_api"
                 ],
