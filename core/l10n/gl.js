@@ -422,7 +422,7 @@ OC.L10N.register(
     "{newName} already exists" : "Xa existe {newName}",
     "Error loading file picker template: {error}" : "Produciuse un erro ao cargar o modelo do selector: {error}",
     "Show list view" : "Amosar a vista de lista",
-    "Show grid view" : "Amosar a vista de grella",
+    "Show grid view" : "Amosar a vista de grade",
     "Pending" : "Pendentes",
     "Home" : "Inicio",
     "Copy to {folder}" : "Copiar en {folder}",
