@@ -53,6 +53,7 @@ use OC\User\LazyUser;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -496,7 +497,7 @@ class View {
 	private function checkConnectionStatus(): void {
 		$connectionStatus = \connection_status();
 		if ($connectionStatus !== 0) {
-			throw new \RuntimeException("Connection lost. Status: $connectionStatus");
+			throw new ConnectionLostException("Connection lost. Status: $connectionStatus");
 		}
 	}
 
