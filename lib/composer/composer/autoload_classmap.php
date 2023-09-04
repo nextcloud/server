@@ -271,6 +271,7 @@ return array(
     'OCP\\Files\\Config\\IMountProviderCollection' => $baseDir . '/lib/public/Files/Config/IMountProviderCollection.php',
     'OCP\\Files\\Config\\IRootMountProvider' => $baseDir . '/lib/public/Files/Config/IRootMountProvider.php',
     'OCP\\Files\\Config\\IUserMountCache' => $baseDir . '/lib/public/Files/Config/IUserMountCache.php',
+    'OCP\\Files\\ConnectionLostException' => $baseDir . '/lib/public/Files/ConnectionLostException.php',
     'OCP\\Files\\DavUtil' => $baseDir . '/lib/public/Files/DavUtil.php',
     'OCP\\Files\\EmptyFileNameException' => $baseDir . '/lib/public/Files/EmptyFileNameException.php',
     'OCP\\Files\\EntityTooLargeException' => $baseDir . '/lib/public/Files/EntityTooLargeException.php',
