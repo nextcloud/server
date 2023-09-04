@@ -41,7 +41,6 @@
  */
 namespace OC\Share20;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
@@ -106,8 +105,6 @@ class Manager implements IManager {
 	private $userManager;
 	/** @var IRootFolder */
 	private $rootFolder;
-	/** @var CappedMemoryCache */
-	private $sharingDisabledForUsersCache;
 	/** @var LegacyHooks */
 	private $legacyHooks;
 	/** @var IMailer */
@@ -122,6 +119,7 @@ class Manager implements IManager {
 	private $userSession;
 	/** @var KnownUserService */
 	private $knownUserService;
+	private ShareDisableChecker $shareDisableChecker;
 
 	public function __construct(
 		LoggerInterface $logger,
@@ -140,7 +138,8 @@ class Manager implements IManager {
 		\OC_Defaults $defaults,
 		IEventDispatcher $dispatcher,
 		IUserSession $userSession,
-		KnownUserService $knownUserService
+		KnownUserService $knownUserService,
+		ShareDisableChecker $shareDisableChecker
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -153,7 +152,6 @@ class Manager implements IManager {
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
-		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated
 		$this->legacyHooks = new LegacyHooks($dispatcher);
@@ -163,6 +161,7 @@ class Manager implements IManager {
 		$this->dispatcher = $dispatcher;
 		$this->userSession = $userSession;
 		$this->knownUserService = $knownUserService;
+		$this->shareDisableChecker = $shareDisableChecker;
 	}
 
 	/**
@@ -2025,37 +2024,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function sharingDisabledForUser($userId) {
-		if ($userId === null) {
-			return false;
-		}
-
-		if (isset($this->sharingDisabledForUsersCache[$userId])) {
-			return $this->sharingDisabledForUsersCache[$userId];
-		}
-
-		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
-			if (is_null($excludedGroups)) {
-				$excludedGroups = explode(',', $groupsList);
-				$newValue = json_encode($excludedGroups);
-				$this->config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
-			}
-			$user = $this->userManager->get($userId);
-			$usersGroups = $this->groupManager->getUserGroupIds($user);
-			if (!empty($usersGroups)) {
-				$remainingGroups = array_diff($usersGroups, $excludedGroups);
-				// if the user is only in groups which are disabled for sharing then
-				// sharing is also disabled for the user
-				if (empty($remainingGroups)) {
-					$this->sharingDisabledForUsersCache[$userId] = true;
-					return true;
-				}
-			}
-		}
-
-		$this->sharingDisabledForUsersCache[$userId] = false;
-		return false;
+		return $this->shareDisableChecker->sharingDisabledForUser($userId);
 	}
 
 	/**
