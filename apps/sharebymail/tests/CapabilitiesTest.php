@@ -27,6 +27,7 @@ namespace OCA\ShareByMail\Tests;
 
 use OCA\ShareByMail\Capabilities;
 use OCA\ShareByMail\Settings\SettingsManager;
+use OCP\App\IAppManager;
 use OCP\Share\IManager;
 use Test\TestCase;
 
@@ -40,13 +41,17 @@ class CapabilitiesTest extends TestCase {
 	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $settingsManager;
 
+	/** @var IAppManager | \PHPUnit\Framework\MockObject\MockObject */
+	private $appManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 
 		$this->manager = $this::createMock(IManager::class);
 		$this->settingsManager = $this::createMock(SettingsManager::class);
-		$this->capabilities = new Capabilities($this->manager, $this->settingsManager);
+		$this->appManager = $this::createMock(IAppManager::class);
+		$this->capabilities = new Capabilities($this->manager, $this->settingsManager, $this->appManager);
 	}
 
 	public function testGetCapabilities() {
@@ -57,6 +62,8 @@ class CapabilitiesTest extends TestCase {
 		$this->manager->method('shareApiLinkDefaultExpireDateEnforced')
 			->willReturn(false);
 		$this->settingsManager->method('sendPasswordByMail')
+			->willReturn(true);
+		$this->appManager->method('isEnabledForUser')
 			->willReturn(true);
 
 		$capabilities = [

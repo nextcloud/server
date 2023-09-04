@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, type Node, View, registerFileAction, FileAction } from '@nextcloud/files'
+import { Permission, type Node, View, registerFileAction, FileAction, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
@@ -51,7 +51,7 @@ export const action = new FileAction({
 		return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== Permission.NONE) ?? false
 	},
 
-	async exec(node: Node, view: View) {
+	async exec(node: Node, view: View, dir: string) {
 		try {
 			// TODO: migrate Sidebar to use a Node instead
 			await window.OCA.Files.Sidebar.open(node.path)
@@ -60,7 +60,7 @@ export const action = new FileAction({
 			window.OCP.Files.Router.goToRoute(
 				null,
 				{ view: view.id, fileid: node.fileid },
-				{ dir: node.dirname },
+				{ dir },
 				true,
 			)
 

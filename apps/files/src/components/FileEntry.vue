@@ -166,12 +166,15 @@
 </template>
 
 <script lang='ts'>
+import type { PropType } from 'vue'
+import type { Node } from '@nextcloud/files'
+
 import { CancelablePromise } from 'cancelable-promise'
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
 import { generateUrl } from '@nextcloud/router'
-import { getFileActions, DefaultType, FileType, formatFileSize, Permission, NodeStatus } from '@nextcloud/files'
+import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
@@ -186,7 +189,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import Vue from 'vue'
 
-import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -235,7 +238,7 @@ export default Vue.extend({
 			default: false,
 		},
 		source: {
-			type: Object,
+			type: [Folder, File, Node] as PropType<Node>,
 			required: true,
 		},
 		index: {
@@ -243,7 +246,7 @@ export default Vue.extend({
 			required: true,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		filesListWidth: {
@@ -295,7 +298,7 @@ export default Vue.extend({
 
 		currentDir() {
 			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
 		},
 		currentFileId() {
 			return this.$route.params.fileid || this.$route.query.fileid || null
@@ -660,11 +663,10 @@ export default Vue.extend({
 		},
 
 		openDetailsIfAvailable(event) {
-			const detailsAction = this.enabledActions.find(action => action.id === ACTION_DETAILS)
-			if (detailsAction) {
-				event.preventDefault()
-				event.stopPropagation()
-				detailsAction.exec(this.source, this.currentView)
+			event.preventDefault()
+			event.stopPropagation()
+			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
+				sidebarAction.exec(this.source, this.currentView, this.currentDir)
 			}
 		},
 
