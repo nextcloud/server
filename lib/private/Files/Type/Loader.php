@@ -117,13 +117,15 @@ class Loader implements IMimeTypeLoader {
 	 */
 	protected function store($mimetype) {
 		try {
-			$insert = $this->dbConnection->getQueryBuilder();
-			$insert->insert('mimetypes')
-				->values([
-					'mimetype' => $insert->createNamedParameter($mimetype)
-				])
-				->executeStatement();
-			$mimetypeId = $insert->getLastInsertId();
+			$mimetypeId = $this->atomic(function () use ($mimetype) {
+				$insert = $this->dbConnection->getQueryBuilder();
+				$insert->insert('mimetypes')
+					->values([
+						'mimetype' => $insert->createNamedParameter($mimetype)
+					])
+					->executeStatement();
+				return $insert->getLastInsertId();
+			}, $this->dbConnection);
 		} catch (DbalException $e) {
 			if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				throw $e;
