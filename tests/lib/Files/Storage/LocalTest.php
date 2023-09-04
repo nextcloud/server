@@ -139,4 +139,15 @@ class LocalTest extends Storage {
 		umask($oldMask);
 		$this->assertTrue($this->instance->isUpdatable('test.txt'));
 	}
+
+	public function testUnavailableExternal() {
+		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
+		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist', 'isExternal' => true]);
+	}
+
+	public function testUnavailableNonExternal() {
+		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist']);
+		// no exception thrown
+		$this->assertNotNull($this->instance);
+	}
 }
