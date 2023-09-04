@@ -24,22 +24,48 @@ declare(strict_types=1);
 namespace OCA\Files_External\Lib;
 
 use Icewind\SMB\KerberosTicket;
+use OCA\Files_External\Controller\UserGlobalStoragesController;
+use OCA\Files_External\Lib\Auth\SMB\KerberosSsoSession;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
+use OCP\IUserSession;
 
 class TicketSaveMiddleware extends Middleware {
 	private ISession $session;
+	private IUserSession $userSession;
+	private UserGlobalStoragesService $storagesService;
 
-	public function __construct(ISession $session) {
+	public function __construct(
+		ISession $session,
+		IUserSession $userSession,
+		UserGlobalStoragesService $storagesService
+	) {
 		$this->session = $session;
+		$this->userSession = $userSession;
+		$this->storagesService = $storagesService;
 	}
 
 	public function afterController($controller, $methodName, Response $response) {
 		$ticket = KerberosTicket::fromEnv();
-		if ($ticket && $ticket->isValid()) {
+		if ($ticket && $ticket->isValid() && $this->needToSaveTicket()) {
 			$this->session->set('kerberos_ticket', base64_encode($ticket->save()));
 		}
 		return $response;
+	}
+
+	private function needToSaveTicket(): bool {
+		$user = $this->userSession->getUser();
+		if (!$user) {
+			return false;
+		}
+		$storages = $this->storagesService->getAllStoragesForUser($user);
+		foreach ($storages as $storage) {
+			if ($storage->getAuthMechanism() instanceof KerberosSsoSession) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
