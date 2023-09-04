@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'active': showDropdown, 'share-select': true }">
+	<div :class="{ 'active': showDropdown, 'share-select': true }" ref="quickShareDropdown">
 		<span class="trigger-text" @click="toggleDropdown">
 			{{ selectedOption }}
 			<DropdownIcon :size="15" />
@@ -110,7 +110,12 @@ export default {
 	},
 	mounted() {
 		this.initializeComponent()
+		window.addEventListener('click', this.handleClickOutside);
 	},
+	beforeDestroy() {
+    // Remove the global click event listener to prevent memory leaks
+    window.removeEventListener('click', this.handleClickOutside);
+    },
 	methods: {
 		toggleDropdown() {
 			this.showDropdown = !this.showDropdown
@@ -128,6 +133,13 @@ export default {
 		initializeComponent() {
 			this.selectedOption = this.preSelectedOption
 		},
+		handleClickOutside(event) {
+			const dropdownElement = this.$refs.quickShareDropdown;
+
+			if (dropdownElement && !dropdownElement.contains(event.target)) {
+				this.showDropdown = false;
+			}
+       },
 	},
 
 }
