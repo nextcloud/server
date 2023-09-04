@@ -197,6 +197,7 @@
     "Download and enable all" : "Descargar e activar todo",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicación ten unha actualización dispòñíbel.","%n aplicacións teñen unha actualización dispoñíbel."],
     "_Update_::_Update all_" : ["Actualizar","Actualizar todo"],
+    "Device name" : "Nome do dispositivo",
     "Marked for remote wipe" : "Marcado para limpeza remota",
     "Device settings" : "Axustes do dispositivo",
     "Allow filesystem access" : "Permitir o acceso aos  sistema de ficheiros",
