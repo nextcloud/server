@@ -137,7 +137,7 @@ class SFTPReadStream implements File {
 		return true;
 	}
 
-	private function seekTo(int $offset) {
+	private function seekTo(int $offset): void {
 		$this->internalPosition = $offset;
 		$this->readPosition = $offset;
 		$this->buffer = '';

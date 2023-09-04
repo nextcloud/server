@@ -43,6 +43,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
 use OCP\Constants;
 use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
 use phpseclib\Net\SFTP\Stream;
 
 /**
@@ -61,6 +62,7 @@ class SFTP extends Common {
 	 * @var \phpseclib\Net\SFTP
 	 */
 	protected $client;
+	private IMimeTypeDetector $mimeTypeDetector;
 
 	const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
 
@@ -118,6 +120,7 @@ class SFTP extends Common {
 
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
+		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	/**
@@ -392,6 +395,7 @@ class SFTP extends Common {
 				case 'w':
 				case 'wb':
 					SFTPWriteStream::register();
+					// the SFTPWriteStream doesn't go through the "normal" methods so it doesn't clear the stat cache.
 					$connection->_remove_from_stat_cache($absPath);
 					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					return fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
@@ -460,14 +464,14 @@ class SFTP extends Common {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return array{mtime: int, size: int, ctime: int}|false
 	 */
 	public function stat($path) {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
 
-			$mtime = $stat ? $stat['mtime'] : -1;
-			$size = $stat ? $stat['size'] : 0;
+			$mtime = $stat ? (int)$stat['mtime'] : -1;
+			$size = $stat ? (int)$stat['size'] : 0;
 
 			return ['mtime' => $mtime, 'size' => $size, 'ctime' => -1];
 		} catch (\Exception $e) {
@@ -499,9 +503,12 @@ class SFTP extends Common {
 
 	public function writeStream(string $path, $stream, int $size = null): int {
 		if ($size === null) {
-			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
+			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
 				$size = $writtenSize;
 			});
+			if (!$stream) {
+				throw new \Exception("Failed to wrap stream");
+			}
 		}
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
@@ -559,26 +566,23 @@ class SFTP extends Common {
 		}
 
 		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
-			$permissions = Constants::PERMISSION_ALL;
+			$stat['permissions'] = Constants::PERMISSION_ALL;
 		} else {
-			$permissions = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+			$stat['permissions'] = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
 		}
 
 		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
 			$stat['size'] = -1;
 			$stat['mimetype'] = FileInfo::MIMETYPE_FOLDER;
 		} else {
-			$stat['mimetype'] = \OC::$server->getMimeTypeDetector()->detectPath($path);
+			$stat['mimetype'] = $this->mimeTypeDetector->detectPath($path);
 		}
 
 		$stat['etag'] = $this->getETag($path);
 		$stat['storage_mtime'] = $stat['mtime'];
-		$stat['permissions'] = $permissions;
 		$stat['name'] = basename($path);
 
 		$keys = ['size', 'mtime', 'mimetype', 'etag', 'storage_mtime', 'permissions', 'name'];
 		return array_intersect_key($stat, array_flip($keys));
 	}
-
-
 }
