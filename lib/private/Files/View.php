@@ -430,6 +430,7 @@ class View {
 			$chunkSize = 524288; // 512 kB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
+				$this->checkConnectionStatus();
 				flush();
 			}
 			fclose($handle);
@@ -482,6 +483,7 @@ class View {
 						$len = $chunkSize;
 					}
 					echo fread($handle, $len);
+					$this->checkConnectionStatus();
 					flush();
 				}
 				return ftell($handle) - $from;
@@ -490,6 +492,14 @@ class View {
 			throw new \OCP\Files\UnseekableException('fseek error');
 		}
 		return false;
+	}
+
+
+	private function checkConnectionStatus(): void {
+		$connectionStatus = \connection_status();
+		if ($connectionStatus !== 0) {
+			throw new \RuntimeException("Connection lost. Status: $connectionStatus");
+		}
 	}
 
 	/**

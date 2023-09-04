@@ -235,9 +235,6 @@ class OC_Files {
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			if ($event && $event->getErrorMessage() !== null) {
-				$hint .= ' ' . $event->getErrorMessage();
-			}
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $hint, 200);
 		}
 	}
