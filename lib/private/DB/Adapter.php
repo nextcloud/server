@@ -30,6 +30,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 
 /**
  * This handles the way we use to write queries, into something that can be
@@ -143,8 +144,11 @@ class Adapter {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
 			return $builder->executeStatement();
-		} catch (UniqueConstraintViolationException $e) {
-			return 0;
+		} catch (DbalException $e) {
+			if ($e->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return 0;
+			}
+			throw $e;
 		}
 	}
 }
