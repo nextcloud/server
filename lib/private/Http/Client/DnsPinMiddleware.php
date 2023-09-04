@@ -128,6 +128,10 @@ class DnsPinMiddleware {
 
 				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
 
+				if (empty($targetIps)) {
+					throw new LocalServerException('No DNS record found for ' . $hostName);
+				}
+
 				$curlResolves = [];
 
 				foreach ($ports as $port) {
