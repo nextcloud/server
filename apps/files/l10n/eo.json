@@ -137,6 +137,8 @@
     "No files in here" : "Neniu dosiero ĉi tie",
     "Upload some content or sync with your devices!" : "Alŝutu iom da enhavo aŭ sinkronigu kun viaj aparatoj!",
     "Go back" : "Reveni",
+    "Shared by link" : "Kunhavata per ligilo",
+    "Shared" : "Kunhavigita",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Additional settings" : "Plia agordo",
     "WebDAV" : "WebDAV",
@@ -147,7 +149,6 @@
     "Creating file" : "Kreante dosieron",
     "Delete permanently" : "Forigi por ĉiam",
     "Open details" : "Montri detalojn",
-    "New Folder" : "Nova dosierujo",
     "Templates" : "Ŝablonoj",
     "No favorites yet" : "Ankoraŭ neniu pliŝataĵo",
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas kiel pliŝataĵoj, aperos ĉi tie",
@@ -169,7 +170,6 @@
     "Shares" : "Kunhavigoj",
     "Shared with others" : "Kunhavata kun aliaj",
     "Shared with you" : "Kunhavata kun vi",
-    "Shared by link" : "Kunhavata per ligilo",
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Choose" : "Elekti"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
