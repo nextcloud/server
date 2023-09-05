@@ -34,7 +34,6 @@
 			:clear-search-on-blur="() => false"
 			:user-select="true"
 			:options="options"
-			@open="handleOpen"
 			@search="asyncFind"
 			@option:selected="openSharingDetails">
 			<template #no-options="{ search }">
@@ -47,7 +46,6 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { emit } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
@@ -156,11 +154,6 @@ export default {
 	},
 
 	methods: {
-		handleOpen() {
-			// Fix dropdown not opening when viewer is open, see https://github.com/nextcloud/viewer/pull/1319
-			emit('viewer:trapElements:changed', this.$refs.select.$el)
-		},
-
 		async asyncFind(query) {
 			// save current query to check if we display
 			// recommendations or search results
