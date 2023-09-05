@@ -412,4 +412,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function getUploadTime(): int {
 		return (int) $this->data['upload_time'];
 	}
+
+	public function getParentId(): int {
+		return $this->data['parent'] ?? -1;
+	}
 }

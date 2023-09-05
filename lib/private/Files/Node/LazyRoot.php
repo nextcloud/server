@@ -33,9 +33,18 @@ use OCP\Files\IRootFolder;
  * @package OC\Files\Node
  */
 class LazyRoot extends LazyFolder implements IRootFolder {
-	/**
-	 * @inheritDoc
-	 */
+	public function __construct(\Closure $folderClosure, array $data = []) {
+		parent::__construct($this, $folderClosure, $data);
+	}
+
+	protected function getRootFolder(): IRootFolder {
+		$folder = $this->getRealFolder();
+		if (!$folder instanceof IRootFolder) {
+			throw new \Exception('Lazy root folder closure didn\'t return a root folder');
+		}
+		return $folder;
+	}
+
 	public function getUserFolder($userId) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
