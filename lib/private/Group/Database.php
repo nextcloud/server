@@ -359,11 +359,11 @@ class Database extends ABackend implements
 				->where($qb->expr()->in('gid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
 				->executeQuery();
 			while ($row = $result->fetch()) {
-				$this->groupCache[$row['gid']] = [
-					'displayname' => $row['displayname'],
-					'gid' => $row['gid'],
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
 				];
-				$existingGroups[] = $gid;
+				$existingGroups[] = (string)$row['gid'];
 			}
 			$result->closeCursor();
 		}
@@ -553,10 +553,10 @@ class Database extends ABackend implements
 
 			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
-				$details[$row['gid']] = ['displayName' => $row['displayname']];
-				$this->groupCache[$row['gid']] = [
-					'displayname' => $row['displayname'],
-					'gid' => $row['gid'],
+				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
 				];
 			}
 			$result->closeCursor();
