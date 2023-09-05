@@ -113,7 +113,7 @@
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Надградбата не беше успешна. За повеќе информации <a href=\"{url}\">проверете го нашиот форум</a> што го покрива овој проблем.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Надградбата не беше успешна. Ве молиме овој проблем да го пријавите во <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">заедницата</a>.",
     "Continue to {productName}" : "Продолжи кон {productName}",
-    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Ажурирањето беше успешно. Пренасочување кон {productName} за 1 секунда.","Ажурирањето беше успешно. Пренасочување кон {productName} за %n секунди."],
+    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Ажурирањето беше успешно. Пренасочување кон {productName} за %n секунда.","Ажурирањето беше успешно. Пренасочување кон {productName} за %n секунди."],
     "More apps" : "Повеќе апликации",
     "Currently open" : "Моментално отворено",
     "_{count} notification_::_{count} notifications_" : ["Едно исзестување","{count} известувања"],
