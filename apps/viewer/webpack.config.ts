@@ -29,6 +29,11 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'toastify-js',
 ])
 
+webpackRules.RULE_SVG = {
+	resourceQuery: /raw/,
+	type: 'asset/source',
+}
+
 // Replaces rules array
 webpackConfig.module.rules = Object.values(webpackRules)
 
