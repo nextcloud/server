@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OC\Http\Client;
 
+use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
 
 class DnsPinMiddleware {
@@ -126,6 +127,10 @@ class DnsPinMiddleware {
 				}
 
 				$targetIps = $this->dnsResolve(idn_to_utf8($hostName, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46), 0);
+
+				if (empty($targetIps)) {
+					throw new LocalServerException('No DNS record found for ' . $hostName);
+				}
 
 				$curlResolves = [];
 
