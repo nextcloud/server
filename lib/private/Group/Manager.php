@@ -42,6 +42,7 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
@@ -212,7 +213,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param array<string, string> $displayNames Array containing already know display name for a groupId
 	 * @return array<string, IGroup>
 	 */
-	protected function getGroupsObject(array $gids, array $displayNames = []): array {
+	protected function getGroupsObjects(array $gids, array $displayNames = []): array {
 		$backends = [];
 		$groups = [];
 		foreach ($gids as $gid) {
@@ -224,7 +225,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
 				/** @var IGroupDetailsBackend $backend */
-				$groupDatas = $backend->getGroupsDetails($gids);
+				if ($backend instanceof IBatchMethodsBackend) {
+					$groupDatas = $backend->getGroupsDetails($gids);
+				} else {
+					$groupDatas = [];
+					foreach ($gids as $gid) {
+						$groupDatas[$gid] = $backend->getGroupDetails($gid);
+					}
+				}
 				foreach ($groupDatas as $gid => $groupData) {
 					if (!empty($groupData)) {
 						// take the display name from the last backend that has a non-null one
@@ -235,7 +243,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 					}
 				}
 			} else {
-				$existingGroups = $backend->groupsExists($gids);
+				if ($backend instanceof IBatchMethodsBackend) {
+					$existingGroups = $backend->groupsExists($gids);
+				} else {
+					$existingGroups = array_filter($gids, fn (string $gid): bool => $backend->groupExists($gid));
+				}
 				foreach ($existingGroups as $group) {
 					$backends[$group][] = $backend;
 				}
@@ -243,7 +255,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 		foreach ($gids as $gid) {
 			if (count($backends[$gid]) === 0) {
-				 continue;
+				continue;
 			}
 			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this, $displayNames[$gid]);
 			$groups[$gid] = $this->cachedGroups[$gid];
@@ -295,7 +307,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit ?? -1, $offset ?? 0);
-			$newGroups = $this->getGroupsObject($groupIds);
+			$newGroups = $this->getGroupsObjects($groupIds);
 			foreach ($newGroups as $groupId => $group) {
 				$groups[$groupId] = $group;
 			}

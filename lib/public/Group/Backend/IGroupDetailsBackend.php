@@ -41,19 +41,4 @@ interface IGroupDetailsBackend {
 	 * @since 14.0.0
 	 */
 	public function getGroupDetails(string $gid): array;
-
-
-	/**
-	 * @brief Batch method to get the group details of a list of groups
-	 *
-	 * The default implementation in ABackend will just call getGroupDetail in
-	 * a loop. But a GroupBackend implementation should provides a more optimized
-	 * override this method to provide a more optimized way to execute this operation.
-	 *
-	 * @throw \RuntimeException if called on a backend that doesn't implements IGroupDetailsBackend
-	 *
-	 * @return array<string, array{displayName: string}>
-	 * @since 26.0.0
-	 */
-	public function getGroupsDetails(array $gids): array;
 }

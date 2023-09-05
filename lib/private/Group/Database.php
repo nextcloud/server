@@ -33,6 +33,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
@@ -61,6 +62,7 @@ class Database extends ABackend implements
 	IRemoveFromGroupBackend,
 	ISetDisplayNameBackend,
 	ISearchableGroupBackend,
+	IBatchMethodsBackend,
 	INamedBackend {
 	/** @var array<string, array{gid: string, displayname: string}> */
 	private $groupCache = [];

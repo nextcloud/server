@@ -29,13 +29,14 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\GroupInterface;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend {
 	private $backends = [];
 	private ?Group_LDAP $refBackend = null;
 	private Helper $helper;
