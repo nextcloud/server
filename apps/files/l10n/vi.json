@@ -196,6 +196,9 @@
     "No files in here" : "Không có tệp nào",
     "Upload some content or sync with your devices!" : "Tải lên một số nội dung hoặc đồng bộ với thiết bị của bạn!",
     "Go back" : "Quay lại",
+    "Share" : "Chia sẽ",
+    "Shared by link" : "Được chia sẻ bởi liên kết",
+    "Shared" : "Chia sẻ",
     "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
     "Additional settings" : "Cài đặt bổ sung",
@@ -233,7 +236,6 @@
     "Shares" : "Chia sẻ",
     "Shared with others" : "Chia sẻ với người khác",
     "Shared with you" : "Đã chia sẻ với bạn",
-    "Shared by link" : "Được chia sẻ bởi liên kết",
     "Deleted shares" : "‎Chia sẻ đã xóa‎",
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Choose" : "Chọn"

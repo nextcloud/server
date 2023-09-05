@@ -124,13 +124,14 @@
     "No files in here" : "No hay archivos aquí",
     "Upload some content or sync with your devices!" : "¡Carga algún contenido o sincroniza con tus dispositivos!",
     "Go back" : "Regresar",
+    "Shared by link" : "Compartido por liga",
+    "Shared" : "Compartido",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Additional settings" : "Configuraciones adicionales",
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Create" : "Crear",
     "Delete permanently" : "Borrar permanentemente",
-    "New Folder" : "Carpeta Nueva",
     "No favorites yet" : "Aún no hay favoritos",
     "Files and folders you mark as favorite will show up here" : "Los archivos y carpetas que marques como favoritos se mostrarán aquí. ",
     "All files" : "Todos los archivos",
@@ -148,7 +149,6 @@
     "Shares" : "Elementos compartidos",
     "Shared with others" : "Compartido con otros",
     "Shared with you" : "Compartido con usted",
-    "Shared by link" : "Compartido por liga",
     "Choose" : "Seleccionar"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
