@@ -53,6 +53,7 @@ use OC\User\LazyUser;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -425,10 +426,11 @@ class View {
 		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 524288; // 512 kB chunks
+			$chunkSize = 524288; // 512 kiB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();
+				$this->checkConnectionStatus();
 			}
 			fclose($handle);
 			return $this->filesize($path);
@@ -481,6 +483,7 @@ class View {
 					}
 					echo fread($handle, $len);
 					flush();
+					$this->checkConnectionStatus();
 				}
 				return ftell($handle) - $from;
 			}
@@ -488,6 +491,14 @@ class View {
 			throw new \OCP\Files\UnseekableException('fseek error');
 		}
 		return false;
+	}
+
+
+	private function checkConnectionStatus(): void {
+		$connectionStatus = \connection_status();
+		if ($connectionStatus !== CONNECTION_NORMAL) {
+			throw new ConnectionLostException("Connection lost. Status: $connectionStatus");
+		}
 	}
 
 	/**
@@ -1053,7 +1064,6 @@ class View {
 	public function fromTmpFile($tmpFile, $path) {
 		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
-
 			// Get directory that the file is going into
 			$filePath = dirname($path);
 
@@ -1809,7 +1819,6 @@ class View {
 	 * @return boolean
 	 */
 	private function targetIsNotShared(IStorage $targetStorage, string $targetInternalPath) {
-
 		// note: cannot use the view because the target is already locked
 		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
 		if ($fileId === -1) {
