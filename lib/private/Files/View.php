@@ -426,11 +426,11 @@ class View {
 		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 524288; // 512 kB chunks
+			$chunkSize = 524288; // 512 kiB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
-				$this->checkConnectionStatus();
 				flush();
+				$this->checkConnectionStatus();
 			}
 			fclose($handle);
 			return $this->filesize($path);
@@ -482,8 +482,8 @@ class View {
 						$len = $chunkSize;
 					}
 					echo fread($handle, $len);
-					$this->checkConnectionStatus();
 					flush();
+					$this->checkConnectionStatus();
 				}
 				return ftell($handle) - $from;
 			}
@@ -496,7 +496,7 @@ class View {
 
 	private function checkConnectionStatus(): void {
 		$connectionStatus = \connection_status();
-		if ($connectionStatus !== 0) {
+		if ($connectionStatus !== CONNECTION_NORMAL) {
 			throw new ConnectionLostException("Connection lost. Status: $connectionStatus");
 		}
 	}
