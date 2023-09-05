@@ -4988,6 +4988,10 @@
         {
             "name": "guest_avatar",
             "description": "This controller handles guest avatar requests."
+        },
+        {
+            "name": "ocm",
+            "description": "Controller about the endpoint /ocm-provider/"
         }
     ]
 }

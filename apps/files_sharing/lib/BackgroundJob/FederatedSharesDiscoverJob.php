@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -29,21 +30,19 @@ namespace OCA\Files_Sharing\BackgroundJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
+use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCS\IDiscoveryService;
 
 class FederatedSharesDiscoverJob extends TimedJob {
-	/** @var IDBConnection */
-	private $connection;
-	/** @var IDiscoveryService */
-	private $discoveryService;
 
-	public function __construct(ITimeFactory $time,
-								IDBConnection $connection,
-								IDiscoveryService $discoveryService) {
+	public function __construct(
+		ITimeFactory $time,
+		private IDBConnection $connection,
+		private IDiscoveryService $discoveryService,
+		private IOCMDiscoveryService $ocmDiscoveryService
+	) {
 		parent::__construct($time);
-		$this->connection = $connection;
-		$this->discoveryService = $discoveryService;
-
 		$this->setInterval(86400);
 	}
 
@@ -56,6 +55,10 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		$result = $qb->execute();
 		while ($row = $result->fetch()) {
 			$this->discoveryService->discover($row['remote'], 'FEDERATED_SHARING', true);
+			try {
+				$this->ocmDiscoveryService->discover($row['remote'], true);
+			} catch (OCMProviderException $e) {
+			}
 		}
 		$result->closeCursor();
 	}

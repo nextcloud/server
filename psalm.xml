@@ -43,7 +43,6 @@
 		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>
-		<directory name="ocm-provider"/>
 		<directory name="ocs"/>
 		<directory name="ocs-provider"/>
 		<file name="index.php"/>

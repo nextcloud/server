@@ -43,6 +43,11 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
+  <file src="apps/cloud_federation_api/lib/Capabilities.php">
+    <LessSpecificImplementedReturnType>
+      <code>array</code>
+    </LessSpecificImplementedReturnType>
+  </file>
   <file src="apps/comments/lib/Listener/CommentsEntityEventListener.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
