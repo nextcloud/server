@@ -237,6 +237,7 @@ export default {
 
 	&__headline {
 		text-align: center;
+		overflow-wrap: anywhere;
 	}
 }
 </style>
