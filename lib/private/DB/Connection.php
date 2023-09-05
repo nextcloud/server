@@ -220,7 +220,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
-	public function prepare($statement, $limit = null, $offset = null): Statement {
+	public function prepare($sql, $limit = null, $offset = null): Statement {
 		if ($limit === -1 || $limit === null) {
 			$limit = null;
 		} else {
@@ -231,9 +231,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 		}
 		if (!is_null($limit)) {
 			$platform = $this->getDatabasePlatform();
-			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
+			$sql = $platform->modifyLimitQuery($sql, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->replaceTablePrefix($sql);
 		$statement = $this->adapter->fixupStatement($statement);
 
 		return parent::prepare($statement);
@@ -321,14 +321,14 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 *
 	 * @param string $seqName Name of the sequence object from which the ID should be returned.
 	 *
-	 * @return string the last inserted ID.
+	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
-	public function lastInsertId($seqName = null) {
-		if ($seqName) {
-			$seqName = $this->replaceTablePrefix($seqName);
+	public function lastInsertId($name = null): int {
+		if ($name) {
+			$name = $this->replaceTablePrefix($name);
 		}
-		return $this->adapter->lastInsertId($seqName);
+		return $this->adapter->lastInsertId($name);
 	}
 
 	/**

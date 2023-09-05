@@ -87,7 +87,7 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function lastInsertId(string $table): int {
 		try {
-			return (int)$this->inner->lastInsertId($table);
+			return $this->inner->lastInsertId($table);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
