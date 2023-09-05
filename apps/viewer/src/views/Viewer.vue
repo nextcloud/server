@@ -203,6 +203,7 @@ import logger from '../services/logger.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import EyeSvg from '@mdi/svg/svg/eye.svg?raw'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
@@ -920,7 +921,7 @@ export default {
 					displayName() {
 						return t('viewer', 'View')
 					},
-					iconSvgInline: () => '',
+					iconSvgInline: () => EyeSvg,
 					default: DefaultType.DEFAULT,
 					enabled: (nodes) => {
 						return nodes.filter((node) => node.permissions & Permission.READ
