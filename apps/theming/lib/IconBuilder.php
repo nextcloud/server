@@ -60,6 +60,7 @@ class IconBuilder {
 	 * @return string|false image blob
 	 */
 	public function getFavicon($app) {
+		return $this->renderAppIcon($app, 128);
 		if (!$this->imageManager->shouldReplaceIcons()) {
 			return false;
 		}
@@ -156,6 +157,7 @@ class IconBuilder {
 			} else {
 				$svg = $appIconContent;
 			}
+			return imagecreatefromstring($svg);
 			$tmp = new Imagick();
 			$tmp->readImageBlob($svg);
 			$x = $tmp->getImageWidth();
