@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import imageTest from '../mixins/image.js'
+import imageTest from '../mixins/image'
 
 describe('Open image.gif in viewer', function() {
 	imageTest('image.gif', 'image/gif', '/remote.php/dav/files')

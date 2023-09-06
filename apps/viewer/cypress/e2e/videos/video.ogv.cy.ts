@@ -20,8 +20,8 @@
  *
  */
 
-import imageTest from '../mixins/image.js'
+import videoTest from '../mixins/video'
 
-describe('Open image.ico in viewer', function() {
-	imageTest('image.ico', 'image/x-icon', '/remote.php/dav/files')
+describe('Open video.ogv in viewer', function() {
+	videoTest('video.ogv', 'video/ogv')
 })

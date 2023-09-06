@@ -20,8 +20,8 @@
  *
  */
 
-import imageTest from '../mixins/image.js'
+import videoTest from '../mixins/video'
 
-describe('Open image.webp in viewer', function() {
-	imageTest('image.webp', 'image/webp')
+describe('Open video.mkv in viewer', function() {
+	videoTest('video.mkv', 'image/mkv')
 })

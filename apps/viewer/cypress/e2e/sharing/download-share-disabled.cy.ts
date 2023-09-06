@@ -64,6 +64,7 @@ describe(`Download ${fileName} in viewer`, function() {
 
 			// Open the share menu
 			cy.get(`.sharing-link-list > .sharing-entry > .action-item[href*='/s/${token}'] + .sharing-entry__actions .action-item__menutoggle`).click()
+			cy.get('.action-button:contains(\'Customize link\')').click()
 			cy.get('label:contains(\'Hide download\')').as('hideDownloadBtn').click()
 			cy.get('@hideDownloadBtn').prev('input[type=checkbox]').should('be.checked')
 

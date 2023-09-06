@@ -20,8 +20,8 @@
  *
  */
 
-import videoTest from '../mixins/video.js'
+import videoTest from '../mixins/video'
 
-describe('Open video.mkv in viewer', function() {
-	videoTest('video.mkv', 'image/mkv')
+describe('Open video1.mp4 in viewer', function() {
+	videoTest('video1.mp4', 'video/mp4')
 })

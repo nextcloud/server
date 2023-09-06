@@ -20,7 +20,7 @@
  *
  */
 
-import imageTest from '../mixins/image.js'
+import imageTest from '../mixins/image'
 
 describe('Open image-apng.png in viewer', function() {
 	imageTest('image-apng.png', 'image/png')

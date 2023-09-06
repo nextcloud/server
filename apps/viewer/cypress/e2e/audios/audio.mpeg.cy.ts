@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 Daniel Kesselberg <mail@danielkesselberg.de>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  *
  * @license AGPL-3.0-or-later
  *
@@ -20,8 +20,8 @@
  *
  */
 
-import imageTest from '../mixins/image.js'
+import audioTest from '../mixins/audio'
 
-describe('Open image.png in viewer', function() {
-	imageTest('image.png', 'image/png')
+describe('Open audio.mp3 in viewer', function() {
+	audioTest('audio.mp3', 'audio/mpeg')
 })
