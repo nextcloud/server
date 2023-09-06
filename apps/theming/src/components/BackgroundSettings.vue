@@ -271,7 +271,7 @@ export default {
 		async applyFile(path) {
 			if (!path || typeof path !== 'string' || path.trim().length === 0 || path === '/') {
 				console.error('No valid background have been selected', { path })
-				showError(t('theming', 'No background have been selected'))
+				showError(t('theming', 'No background has been selected'))
 				return
 			}
 
