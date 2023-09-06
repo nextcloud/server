@@ -888,7 +888,7 @@ export default Vue.extend({
 					showError(this.t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
 					return
 				} else if (error?.response?.status === 412) {
-					showError(this.t('files', 'The name "{newName}"" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
+					showError(this.t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
 					return
 				}
 
