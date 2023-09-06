@@ -34,6 +34,7 @@ use Icewind\SMB\KerberosTicket;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth as KerberosApacheAuthMechanism;
+use OCA\Files_External\Lib\Auth\SMB\KerberosSsoDatabase;
 use OCA\Files_External\Lib\Auth\SMB\KerberosSsoSession;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
@@ -90,6 +91,13 @@ class SMB extends Backend {
 			switch ($auth->getIdentifier()) {
 				case 'smb::kerberos':
 					$smbAuth = new KerberosAuth();
+					break;
+				case 'smb::kerberos_sso_database':
+					if (!$auth instanceof KerberosSsoDatabase) {
+						throw new \InvalidArgumentException('invalid authentication backend');
+					}
+					$smbAuth = new KerberosAuth();
+					$smbAuth->setTicket($auth->getTicket($user));
 					break;
 				case 'smb::kerberos_sso_session':
 					if (!$auth instanceof KerberosSsoSession) {

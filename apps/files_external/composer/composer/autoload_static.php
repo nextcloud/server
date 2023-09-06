@@ -69,6 +69,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\Auth\\PublicKey\\RSAPrivateKey' => __DIR__ . '/..' . '/../lib/Lib/Auth/PublicKey/RSAPrivateKey.php',
         'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosApacheAuth' => __DIR__ . '/..' . '/../lib/Lib/Auth/SMB/KerberosApacheAuth.php',
         'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosAuth' => __DIR__ . '/..' . '/../lib/Lib/Auth/SMB/KerberosAuth.php',
+        'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosSsoDatabase' => __DIR__ . '/..' . '/../lib/Lib/Auth/SMB/KerberosSsoDatabase.php',
         'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosSsoSession' => __DIR__ . '/..' . '/../lib/Lib/Auth/SMB/KerberosSsoSession.php',
         'OCA\\Files_External\\Lib\\Backend\\AmazonS3' => __DIR__ . '/..' . '/../lib/Lib/Backend/AmazonS3.php',
         'OCA\\Files_External\\Lib\\Backend\\Backend' => __DIR__ . '/..' . '/../lib/Lib/Backend/Backend.php',

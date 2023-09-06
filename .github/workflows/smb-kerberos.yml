@@ -100,3 +100,47 @@ jobs:
           FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
           echo "$FILEPATH:"
           docker exec --user 33 apache cat $FILEPATH
+
+  smb-kerberos-database-tests:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    name: smb-kerberos-sso
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Checkout user_saml
+        uses: actions/checkout@v3
+        with:
+          repository: nextcloud/user_saml
+          path: apps/user_saml
+          ref: event-dispatcher
+      - name: Pull images
+        run: |
+          docker pull ghcr.io/icewind1991/samba-krb-test-dc
+          docker pull ghcr.io/icewind1991/samba-krb-test-apache
+          docker pull ghcr.io/icewind1991/samba-krb-test-client
+          docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
+          docker tag ghcr.io/icewind1991/samba-krb-test-apache icewind1991/samba-krb-test-apache
+          docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
+      - name: Setup AD-DC
+        run: |
+          DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD -v $PWD/apps/files_external/tests/sso-setup/apache-session.conf:/etc/apache2/sites-enabled/000-default.conf
+          echo "DC_IP=$DC_IP" >> $GITHUB_ENV
+      - name: Set up Nextcloud
+        run: |
+          apps/files_external/tests/sso-setup/setup-sso-nc.sh smb::kerberos_sso_database
+      - name: Test SSO
+        run: |
+          apps/files_external/tests/sso-setup/test-sso-smb-session.sh ${{ env.DC_IP }}
+      - name: Show logs
+        if: failure()
+        run: |
+          FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
+          echo "$FILEPATH:"
+          docker exec --user 33 apache cat $FILEPATH
