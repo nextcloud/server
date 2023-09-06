@@ -103,13 +103,13 @@
 						:category="category" />
 				</template>
 			</table>
-			<template v-if="useAppStoreView">
+			<ul v-if="useAppStoreView" class="apps-store-view">
 				<AppItem v-for="app in apps"
 					:key="app.id"
 					:app="app"
 					:category="category"
 					:list-view="false" />
-			</template>
+			</ul>
 		</div>
 
 		<div id="apps-list-search" class="apps-list installed">
@@ -294,5 +294,9 @@ export default {
 		font-size: 20px;
 		line-height: 30px;
 		color: var(--color-text-light);
+	}
+	.apps-store-view {
+		display: flex;
+		flex-wrap: wrap;
 	}
 </style>
