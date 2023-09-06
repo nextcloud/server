@@ -257,12 +257,12 @@ export default {
 
 		/** @return {boolean} */
 		enableLabeling() {
-			return this.capabilities.files.version_labeling === true && this.fileInfo.mountType !== 'group'
+			return this.capabilities.files.version_labeling === true
 		},
 
 		/** @return {boolean} */
 		enableDeletion() {
-			return this.capabilities.files.version_deletion === true && this.fileInfo.mountType !== 'group'
+			return this.capabilities.files.version_deletion === true
 		},
 	},
 	methods: {
