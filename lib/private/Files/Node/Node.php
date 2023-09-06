@@ -297,10 +297,19 @@ class Node implements INode {
 				return $this->root;
 			}
 
+			// Manually fetch the parent if the current node doesn't have a file info yet
+			try {
+				$fileInfo = $this->getFileInfo();
+			} catch (NotFoundException) {
+				$this->parent = $this->root->get($newPath);
+				/** @var \OCP\Files\Folder $this->parent */
+				return $this->parent;
+			}
+
 			// gather the metadata we already know about our parent
 			$parentData = [
 				'path' => $newPath,
-				'fileid' => $this->getFileInfo()->getParentId(),
+				'fileid' => $fileInfo->getParentId(),
 			];
 
 			// and create lazy folder with it instead of always querying
