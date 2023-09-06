@@ -20,7 +20,7 @@
  *
  */
 
-import videoTest from '../mixins/video.js'
+import videoTest from '../mixins/video'
 
 describe('Open video.webm in viewer', function() {
 	videoTest('video.webm', 'video/webm')

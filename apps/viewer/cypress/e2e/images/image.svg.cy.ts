@@ -20,8 +20,8 @@
  *
  */
 
-import videoTest from '../mixins/video.js'
+import imageTest from '../mixins/image'
 
-describe('Open video1.mp4 in viewer', function() {
-	videoTest('video1.mp4', 'video/mp4')
+describe('Open image.svg in viewer', function() {
+	imageTest('image.svg', 'image/svg+xml', 'data:image/svg+xml;base64')
 })

@@ -20,8 +20,8 @@
  *
  */
 
-import videoTest from '../mixins/video.js'
+import imageTest from '../mixins/image'
 
-describe('Open video.ogv in viewer', function() {
-	videoTest('video.ogv', 'video/ogv')
+describe('Open image.png in viewer', function() {
+	imageTest('image.png', 'image/png')
 })

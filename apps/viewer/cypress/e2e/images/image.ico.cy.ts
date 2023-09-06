@@ -20,8 +20,8 @@
  *
  */
 
-import imageTest from '../mixins/image.js'
+import imageTest from '../mixins/image'
 
-describe('Open image.svg in viewer', function() {
-	imageTest('image.svg', 'image/svg+xml', 'data:image/svg+xml;base64')
+describe('Open image.ico in viewer', function() {
+	imageTest('image.ico', 'image/x-icon', '/remote.php/dav/files')
 })

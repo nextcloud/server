@@ -1,4 +1,4 @@
-import runTest from '../mixins/oddname.js'
+import runTest from '../mixins/oddname'
 
 for (const [file, type] of [
 	['audio.mp3', 'audio/mpeg'],
