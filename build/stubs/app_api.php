@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\AppEcosystemV2\Service;
+namespace OCA\AppAPI\Service;
 
 use OCP\IRequest;
 
-class AppEcosystemV2Service {
+class AppAPIService {
 	/**
 	 * @param IRequest $request
 	 * @param bool $isDav
