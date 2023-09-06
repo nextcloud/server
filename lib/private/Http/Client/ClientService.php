@@ -27,8 +27,8 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
@@ -65,7 +65,9 @@ class ClientService implements IClientService {
 	public function newClient(): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
-		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		if ($this->config->getSystemValueBool('dns_pinning', true)) {
+			$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		}
 
 		$client = new GuzzleClient(['handler' => $stack]);
 
