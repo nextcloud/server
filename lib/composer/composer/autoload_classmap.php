@@ -583,6 +583,8 @@ return array(
     'OCP\\Security\\IRemoteHostValidator' => $baseDir . '/lib/public/Security/IRemoteHostValidator.php',
     'OCP\\Security\\ISecureRandom' => $baseDir . '/lib/public/Security/ISecureRandom.php',
     'OCP\\Security\\ITrustedDomainHelper' => $baseDir . '/lib/public/Security/ITrustedDomainHelper.php',
+    'OCP\\Security\\RateLimiting\\ILimiter' => $baseDir . '/lib/public/Security/RateLimiting/ILimiter.php',
+    'OCP\\Security\\RateLimiting\\IRateLimitExceededException' => $baseDir . '/lib/public/Security/RateLimiting/IRateLimitExceededException.php',
     'OCP\\Security\\VerificationToken\\IVerificationToken' => $baseDir . '/lib/public/Security/VerificationToken/IVerificationToken.php',
     'OCP\\Security\\VerificationToken\\InvalidTokenException' => $baseDir . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
     'OCP\\Server' => $baseDir . '/lib/public/Server.php',
