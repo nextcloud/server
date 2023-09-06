@@ -54,6 +54,7 @@ return array(
     'OCA\\Files_External\\Lib\\Auth\\PublicKey\\RSAPrivateKey' => $baseDir . '/../lib/Lib/Auth/PublicKey/RSAPrivateKey.php',
     'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosApacheAuth' => $baseDir . '/../lib/Lib/Auth/SMB/KerberosApacheAuth.php',
     'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosAuth' => $baseDir . '/../lib/Lib/Auth/SMB/KerberosAuth.php',
+    'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosSsoDatabase' => $baseDir . '/../lib/Lib/Auth/SMB/KerberosSsoDatabase.php',
     'OCA\\Files_External\\Lib\\Auth\\SMB\\KerberosSsoSession' => $baseDir . '/../lib/Lib/Auth/SMB/KerberosSsoSession.php',
     'OCA\\Files_External\\Lib\\Backend\\AmazonS3' => $baseDir . '/../lib/Lib/Backend/AmazonS3.php',
     'OCA\\Files_External\\Lib\\Backend\\Backend' => $baseDir . '/../lib/Lib/Backend/Backend.php',

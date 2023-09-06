@@ -49,6 +49,7 @@ use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Lib\Auth\PublicKey\RSAPrivateKey;
 use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth;
 use OCA\Files_External\Lib\Auth\SMB\KerberosAuth;
+use OCA\Files_External\Lib\Auth\SMB\KerberosSsoDatabase;
 use OCA\Files_External\Lib\Auth\SMB\KerberosSsoSession;
 use OCA\Files_External\Lib\Backend\AmazonS3;
 use OCA\Files_External\Lib\Backend\DAV;
@@ -186,6 +187,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->get(KerberosAuth::class),
 			$container->get(KerberosApacheAuth::class),
 			$container->get(KerberosSsoSession::class),
+			$container->get(KerberosSsoDatabase::class),
 		];
 	}
 }

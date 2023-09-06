@@ -25,47 +25,67 @@ namespace OCA\Files_External\Lib;
 
 use Icewind\SMB\KerberosTicket;
 use OCA\Files_External\Controller\UserGlobalStoragesController;
+use OCA\Files_External\Lib\Auth\SMB\KerberosSsoDatabase;
 use OCA\Files_External\Lib\Auth\SMB\KerberosSsoSession;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
+use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Security\ICredentialsManager;
 
 class TicketSaveMiddleware extends Middleware {
+	const SAVE_SESSION = 1;
+	const SAVE_DB = 2;
+
 	private ISession $session;
 	private IUserSession $userSession;
 	private UserGlobalStoragesService $storagesService;
+	private ICredentialsManager $credentialsManager;
 
 	public function __construct(
 		ISession $session,
+		ICredentialsManager $credentialsManager,
 		IUserSession $userSession,
 		UserGlobalStoragesService $storagesService
 	) {
 		$this->session = $session;
+		$this->credentialsManager = $credentialsManager;
 		$this->userSession = $userSession;
 		$this->storagesService = $storagesService;
 	}
 
 	public function afterController($controller, $methodName, Response $response) {
+		$user = $this->userSession->getUser();
+		if (!$user) {
+			return $response;
+		}
 		$ticket = KerberosTicket::fromEnv();
-		if ($ticket && $ticket->isValid() && $this->needToSaveTicket()) {
-			$this->session->set('kerberos_ticket', base64_encode($ticket->save()));
+		if ($ticket && $ticket->isValid()) {
+			$save = $this->needToSaveTicket($user);
+			if ($save & self::SAVE_SESSION) {
+				$this->session->set('kerberos_ticket', base64_encode($ticket->save()));
+			}
+			if ($save & self::SAVE_DB) {
+				$this->credentialsManager->store($user->getUID(), 'kerberos_ticket', base64_encode($ticket->save()));
+			}
 		}
 		return $response;
 	}
 
-	private function needToSaveTicket(): bool {
-		$user = $this->userSession->getUser();
-		if (!$user) {
-			return false;
-		}
+	private function needToSaveTicket(IUser $user): int {
+		$save = 0;
 		$storages = $this->storagesService->getAllStoragesForUser($user);
 		foreach ($storages as $storage) {
-			if ($storage->getAuthMechanism() instanceof KerberosSsoSession) {
-				return true;
+			$auth = $storage->getAuthMechanism();
+			if ($auth instanceof KerberosSsoSession) {
+				$save = $save | self::SAVE_SESSION;
+			}
+			if ($auth instanceof KerberosSsoDatabase) {
+				$save = $save | self::SAVE_DB;
 			}
 		}
-		return false;
+		return $save;
 	}
 }
