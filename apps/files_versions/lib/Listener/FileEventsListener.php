@@ -36,9 +36,9 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\View;
-use OCA\Files_Versions\Db\VersionEntity;
-use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
+use OCA\Files_Versions\Versions\INeedSyncVersionBackend;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\Event;
@@ -54,6 +54,7 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -62,7 +63,7 @@ use Psr\Log\LoggerInterface;
 
 class FileEventsListener implements IEventListener {
 	private IRootFolder $rootFolder;
-	private VersionsMapper $versionsMapper;
+	private IVersionManager $versionManager;
 	/**
 	 * @var array<int, array>
 	 */
@@ -80,12 +81,12 @@ class FileEventsListener implements IEventListener {
 
 	public function __construct(
 		IRootFolder $rootFolder,
-		VersionsMapper $versionsMapper,
+		IVersionManager $versionManager,
 		IMimeTypeLoader $mimeTypeLoader,
 		LoggerInterface $logger,
 	) {
 		$this->rootFolder = $rootFolder;
-		$this->versionsMapper = $versionsMapper;
+		$this->versionManager = $versionManager;
 		$this->mimeTypeLoader = $mimeTypeLoader;
 		$this->logger = $logger;
 	}
@@ -160,11 +161,10 @@ class FileEventsListener implements IEventListener {
 		unset($this->nodesTouched[$node->getId()]);
 
 		try {
-			// We update the timestamp of the version entity associated with the previousNode.
-			$versionEntity = $this->versionsMapper->findVersionForFileId($previousNode->getId(), $previousNode->getMTime());
-			// Create a version in the DB for the current content.
-			$versionEntity->setTimestamp($node->getMTime());
-			$this->versionsMapper->update($versionEntity);
+			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				// We update the timestamp of the version entity associated with the previousNode.
+				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
 			// Where the previous node would temporary have the mtime of the old version, so the rollback touches it to fix it.
@@ -179,17 +179,9 @@ class FileEventsListener implements IEventListener {
 
 	public function created(Node $node): void {
 		// Do not handle folders.
-		if ($node instanceof Folder) {
-			return;
+		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+			$this->versionManager->createVersionEntity($node);
 		}
-
-		$versionEntity = new VersionEntity();
-		$versionEntity->setFileId($node->getId());
-		$versionEntity->setTimestamp($node->getMTime());
-		$versionEntity->setSize($node->getSize());
-		$versionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-		$versionEntity->setMetadata([]);
-		$this->versionsMapper->insert($versionEntity);
 	}
 
 	/**
@@ -242,11 +234,17 @@ class FileEventsListener implements IEventListener {
 			try {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
-				$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
-				$currentVersionEntity->setTimestamp($node->getMTime());
-				$currentVersionEntity->setSize($node->getSize());
-				$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-				$this->versionsMapper->update($currentVersionEntity);
+				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$this->versionManager->updateVersionEntity(
+						$node,
+						$writeHookInfo['previousNode']->getMtime(),
+						[
+							'timestamp' => $node->getMTime(),
+							'size' => $node->getSize(),
+							'mimetype' => $this->mimeTypeLoader->getId($node->getMimetype()),
+						],
+					);
+				}
 			} catch (Exception $e) {
 				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
 					'exception' => $e,
@@ -283,7 +281,11 @@ class FileEventsListener implements IEventListener {
 		$relativePath = $this->getPathForNode($node);
 		unset($this->versionsDeleted[$path]);
 		Storage::delete($relativePath);
-		$this->versionsMapper->deleteAllVersionsForFileId($node->getId());
+		// If no new version was stored in the FS, no new version should be added in the DB.
+		// So we simply update the associated version.
+		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+			$this->versionManager->deleteVersionsEntity($node);
+		}
 	}
 
 	/**

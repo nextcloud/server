@@ -42,7 +42,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
 
-class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend {
+class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
 	private IRootFolder $rootFolder;
 	private IUserManager $userManager;
 	private VersionsMapper $versionsMapper;
@@ -99,6 +99,8 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 		$versions = $this->getVersionsForFileFromDB($file, $user);
 
+		// Early exit if we find any version in the database.
+		// Else we continue to populate the DB from what's on disk.
 		if (count($versions) > 0) {
 			return $versions;
 		}
@@ -220,5 +222,37 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 			$version->getTimestamp(),
 		);
 		$this->versionsMapper->delete($versionEntity);
+	}
+
+	public function createVersionEntity(File $file): void {
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($file->getId());
+		$versionEntity->setTimestamp($file->getMTime());
+		$versionEntity->setSize($file->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
+	}
+
+	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
+		$versionEntity = $this->versionsMapper->findVersionForFileId($sourceFile->getId(), $revision);
+
+		if (isset($properties['timestamp'])) {
+			$versionEntity->setTimestamp($properties['timestamp']);
+		}
+
+		if (isset($properties['size'])) {
+			$versionEntity->setSize($properties['size']);
+		}
+
+		if (isset($properties['mimetype'])) {
+			$versionEntity->setMimetype($properties['mimetype']);
+		}
+
+		$this->versionsMapper->update($versionEntity);
+	}
+
+	public function deleteVersionsEntity(File $file): void {
+		$this->versionsMapper->deleteAllVersionsForFileId($file->getId());
 	}
 }
