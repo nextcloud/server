@@ -350,7 +350,7 @@ class Storage {
 				// move each version one by one to the target directory
 				$rootView->$operation(
 					'/' . $sourceOwner . '/files_versions/' . $sourcePath.'.v' . $v['version'],
-					'/' . $targetOwner . '/files_versions/' . $targetPath.'.v'.$v['version']
+					'/' . $targetOwner . '/files_versions/' . $targetPath.'.v' . $v['version']
 				);
 			}
 		}
