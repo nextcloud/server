@@ -122,6 +122,8 @@ class EventTest extends TestCase {
 				->willReturn($calendarAppEnabled);
 			if ($calendarAppEnabled) {
 				$this->url->expects($this->once())
+					->method('getWebroot');
+				$this->url->expects($this->once())
 					->method('linkToRouteAbsolute')
 					->with('calendar.view.indexview.timerange.edit', $generatedLink)
 					->willReturn('fullLink');
