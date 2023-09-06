@@ -71,17 +71,17 @@ describe('Inline system tags action render tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				'system-tags': {
-					'system-tag': 'Confidential'
-				}
-			}
+					'system-tag': 'Confidential',
+				},
+			},
 		})
 
 		const result = await action.renderInline!(file, view)
 		expect(result).toBeInstanceOf(HTMLElement)
 		expect(result!.outerHTML).toBe(
-			'<ul class="files-list__system-tags" aria-label="This file has the tag Confidential">' + 
-				'<li class="files-list__system-tag">Confidential</li>' +
-			'</ul>'
+			'<ul class="files-list__system-tags" aria-label="This file has the tag Confidential">'
+				+ '<li class="files-list__system-tag">Confidential</li>'
+			+ '</ul>',
 		)
 	})
 
@@ -96,19 +96,19 @@ describe('Inline system tags action render tests', () => {
 				'system-tags': {
 					'system-tag': [
 						'Important',
-						'Confidential'
-					]
-				}
-			}
+						'Confidential',
+					],
+				},
+			},
 		})
 
 		const result = await action.renderInline!(file, view)
 		expect(result).toBeInstanceOf(HTMLElement)
 		expect(result!.outerHTML).toBe(
-			'<ul class="files-list__system-tags" aria-label="This file has the tags Important and Confidential">' + 
-				'<li class="files-list__system-tag">Important</li>' +
-				'<li class="files-list__system-tag files-list__system-tag--more" title="Confidential">+1</li>' +
-			'</ul>'
+			'<ul class="files-list__system-tags" aria-label="This file has the tags Important and Confidential">'
+				+ '<li class="files-list__system-tag">Important</li>'
+				+ '<li class="files-list__system-tag files-list__system-tag--more" title="Confidential">+1</li>'
+			+ '</ul>',
 		)
 	})
 
@@ -125,19 +125,19 @@ describe('Inline system tags action render tests', () => {
 						'Important',
 						'Confidential',
 						'Secret',
-						'Classified'
-					]
-				}
-			}
+						'Classified',
+					],
+				},
+			},
 		})
 
 		const result = await action.renderInline!(file, view)
 		expect(result).toBeInstanceOf(HTMLElement)
 		expect(result!.outerHTML).toBe(
-			'<ul class="files-list__system-tags" aria-label="This file has the tags Important, Confidential, Secret and Classified">' + 
-				'<li class="files-list__system-tag">Important</li>' +
-				'<li class="files-list__system-tag files-list__system-tag--more" title="Confidential, Secret, Classified">+3</li>' +
-			'</ul>'
+			'<ul class="files-list__system-tags" aria-label="This file has the tags Important, Confidential, Secret and Classified">'
+				+ '<li class="files-list__system-tag">Important</li>'
+				+ '<li class="files-list__system-tag files-list__system-tag--more" title="Confidential, Secret, Classified">+3</li>'
+			+ '</ul>',
 		)
 	})
 })

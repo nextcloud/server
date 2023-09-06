@@ -24,6 +24,6 @@
 import './app.js'
 import './systemtagsfilelist.js'
 import './css/systemtagsfilelist.scss'
-import './actions/inlineSystemTagsAction'
+import './actions/inlineSystemTagsAction.ts'
 
 window.OCA.SystemTags = OCA.SystemTags
