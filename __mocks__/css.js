@@ -19,35 +19,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-.files-list__system-tags {
-    --min-size: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: calc(var(--min-size) * 2);
-    max-width: 300px;
-}
-
-.files-list__system-tag {
-    padding: 5px 10px;
-    border: 1px solid;
-    border-radius: var(--border-radius-pill);
-    border-color: var(--color-border);
-    color: var(--color-text-maxcontrast);
-    height: var(--min-size);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 22px; // min-size - 2 * 5px padding
-    text-align: center;
-
-    &--more {
-        overflow: visible;
-        text-overflow: initial;
-    }
-
-    // Proper spacing if multiple shown
-    & + .files-list__system-tag {
-        margin-left: 5px;
-    }
-}
+export default {}

@@ -37,7 +37,7 @@ const getNodeSystemTags = function (node: Node): string[] {
 const renderTag = function (tag: string, isMore: boolean = false): HTMLElement {
 	const tagElement = document.createElement('li')
 	tagElement.classList.add('files-list__system-tag')
-	tagElement.innerText = tag
+	tagElement.textContent = tag
 
 	if (isMore) {
 		tagElement.classList.add('files-list__system-tag--more')
@@ -81,7 +81,9 @@ export const action = new FileAction({
 		}
 
 		return systemTagsElement
-	}
+	},
+
+	order: 0
 })
 
 registerDavProperty('nc:system-tags')
