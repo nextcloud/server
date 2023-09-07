@@ -1138,7 +1138,7 @@ class OC {
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
-		if (self::tryAppEcosystemV2Login($request)) {
+		if (self::tryAppAPILogin($request)) {
 			return true;
 		}
 		if ($userSession->tryTokenLogin($request)) {
@@ -1179,17 +1179,17 @@ class OC {
 		}
 	}
 
-	protected static function tryAppEcosystemV2Login(OCP\IRequest $request): bool {
+	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
 		$appManager = Server::get(OCP\App\IAppManager::class);
-		if (!$request->getHeader('AE-SIGNATURE')) {
+		if (!$request->getHeader('AUTHORIZATION-APP-API')) {
 			return false;
 		}
-		if (!$appManager->isInstalled('app_ecosystem_v2')) {
+		if (!$appManager->isInstalled('app_api')) {
 			return false;
 		}
 		try {
-			$appEcosystemV2Service = Server::get(OCA\AppEcosystemV2\Service\AppEcosystemV2Service::class);
-			return $appEcosystemV2Service->validateExAppRequestToNC($request);
+			$appAPIService = Server::get(OCA\AppAPI\Service\AppAPIService::class);
+			return $appAPIService->validateExAppRequestToNC($request);
 		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			return false;
 		}
