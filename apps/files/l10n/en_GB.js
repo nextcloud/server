@@ -222,6 +222,7 @@ OC.L10N.register(
     "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
     "Go to the previous folder" : "Go to the previous folder",
     "Go back" : "Go back",
+    "Share" : "Share",
     "Shared by link" : "Shared by link",
     "Shared" : "Shared",
     "Open the files app settings" : "Open the files app settings",
