@@ -35,11 +35,15 @@
 </template>
 
 <script>
+import path from 'path'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
+
 import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.js'
 import Version from '../components/Version.vue'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 export default {
 	name: 'VersionTab',
@@ -249,7 +253,13 @@ export default {
 
 			// Versions previews are too small for our use case, so we override hasPreview and previewUrl
 			// which makes the viewer render the original file.
-			const versions = this.versions.map(version => ({ ...version, hasPreview: false, previewUrl: undefined }))
+			// We also point to the original filename if the version is the current one.
+			const versions = this.versions.map(version => ({
+				...version,
+				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', fileInfo.path, fileInfo.name) : version.filename,
+				hasPreview: false,
+				previewUrl: undefined,
+			}))
 
 			OCA.Viewer.open({
 				fileInfo: versions.find(v => v.source === version.source),
