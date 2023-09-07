@@ -82,7 +82,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * This class is the communication hub for all sharing related operations.
  */
 class Manager implements IManager {
-
 	/** @var IProviderFactory */
 	private $factory;
 	private LoggerInterface $logger;
@@ -668,7 +667,6 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 */
 	protected function setLinkParent(IShare $share) {
-
 		// No sense in checking if the method is not there.
 		if (method_exists($share, 'setParent')) {
 			$storage = $share->getNode()->getStorage();
@@ -1565,7 +1563,7 @@ class Manager implements IManager {
 			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
-				if ($user?->isEnabled() === false) {
+				if (($user !== null) && ($user->isEnabled() === false)) {
 					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
 				}
 			}
