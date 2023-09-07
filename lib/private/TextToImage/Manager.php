@@ -130,7 +130,6 @@ class Manager implements IManager {
 				}
 				$file = $folder->newFile((string) $task->getId());
 				$provider->generate($task->getInput(), $file->write());
-				$task->setResultPath($file->getName());
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				return;
@@ -184,7 +183,7 @@ class Manager implements IManager {
 	 * @param int $id The id of the task
 	 * @return Task
 	 * @throws RuntimeException If the query failed
-	 * @throws NotFoundException If the task could not be found
+	 * @throws TaskNotFoundException If the task could not be found
 	 */
 	public function getTask(int $id): Task {
 		try {
@@ -207,7 +206,7 @@ class Manager implements IManager {
 	 * @param string|null $userId The user id that scheduled the task
 	 * @return Task
 	 * @throws RuntimeException If the query failed
-	 * @throws NotFoundException If the task could not be found
+	 * @throws TaskNotFoundException If the task could not be found
 	 */
 	public function getUserTask(int $id, ?string $userId): Task {
 		try {
