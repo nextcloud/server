@@ -49,6 +49,7 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Versions\\IDeletableVersionBackend' => __DIR__ . '/..' . '/../lib/Versions/IDeletableVersionBackend.php',
         'OCA\\Files_Versions\\Versions\\INameableVersion' => __DIR__ . '/..' . '/../lib/Versions/INameableVersion.php',
         'OCA\\Files_Versions\\Versions\\INameableVersionBackend' => __DIR__ . '/..' . '/../lib/Versions/INameableVersionBackend.php',
+        'OCA\\Files_Versions\\Versions\\INeedSyncVersionBackend' => __DIR__ . '/..' . '/../lib/Versions/INeedSyncVersionBackend.php',
         'OCA\\Files_Versions\\Versions\\IVersion' => __DIR__ . '/..' . '/../lib/Versions/IVersion.php',
         'OCA\\Files_Versions\\Versions\\IVersionBackend' => __DIR__ . '/..' . '/../lib/Versions/IVersionBackend.php',
         'OCA\\Files_Versions\\Versions\\IVersionManager' => __DIR__ . '/..' . '/../lib/Versions/IVersionManager.php',

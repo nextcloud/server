@@ -34,6 +34,7 @@ return array(
     'OCA\\Files_Versions\\Versions\\IDeletableVersionBackend' => $baseDir . '/../lib/Versions/IDeletableVersionBackend.php',
     'OCA\\Files_Versions\\Versions\\INameableVersion' => $baseDir . '/../lib/Versions/INameableVersion.php',
     'OCA\\Files_Versions\\Versions\\INameableVersionBackend' => $baseDir . '/../lib/Versions/INameableVersionBackend.php',
+    'OCA\\Files_Versions\\Versions\\INeedSyncVersionBackend' => $baseDir . '/../lib/Versions/INeedSyncVersionBackend.php',
     'OCA\\Files_Versions\\Versions\\IVersion' => $baseDir . '/../lib/Versions/IVersion.php',
     'OCA\\Files_Versions\\Versions\\IVersionBackend' => $baseDir . '/../lib/Versions/IVersionBackend.php',
     'OCA\\Files_Versions\\Versions\\IVersionManager' => $baseDir . '/../lib/Versions/IVersionManager.php',

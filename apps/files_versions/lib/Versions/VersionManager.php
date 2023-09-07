@@ -31,11 +31,12 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Lock\LockContext;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
 
-class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend {
+class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -136,6 +137,27 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
 		if ($backend instanceof IDeletableVersionBackend) {
 			$backend->deleteVersion($version);
+		}
+	}
+
+	public function createVersionEntity(File $file): void {
+		$backend = $this->getBackendForStorage($file->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->createVersionEntity($file);
+		}
+	}
+
+	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
+		$backend = $this->getBackendForStorage($sourceFile->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->updateVersionEntity($sourceFile, $revision, $properties);
+		}
+	}
+
+	public function deleteVersionsEntity(File $file): void {
+		$backend = $this->getBackendForStorage($file->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->deleteVersionsEntity($file);
 		}
 	}
 
