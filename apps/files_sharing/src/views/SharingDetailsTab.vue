@@ -952,6 +952,9 @@ export default {
 
 				::v-deep label {
 
+					display: flex;
+					flex-direction: column;
+
 					span {
 						display: flex;
 						flex-direction: column;
@@ -999,7 +1002,6 @@ export default {
             */
 			span {
 				::v-deep label {
-					padding-left: 0 !important;
 					background-color: initial !important;
 					border: none !important;
 				}
