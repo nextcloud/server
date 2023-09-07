@@ -162,7 +162,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, output: ?string, identifier: string}
+	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: string}
 	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
@@ -172,7 +172,6 @@ final class Task implements \JsonSerializable {
 			'userId' => $this->getUserId(),
 			'appId' => $this->getAppId(),
 			'input' => $this->getInput(),
-			'result' => $this->getOutput(),
 			'identifier' => $this->getIdentifier(),
 		];
 	}

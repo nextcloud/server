@@ -77,10 +77,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextToImageTask}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextToImageTask}, array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
-	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
 	 */
 	#[PublicPage]
@@ -122,9 +121,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (TaskNotFoundException $e) {
+		} catch (TaskNotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-		} catch (\RuntimeException $e) {
+		} catch (\RuntimeException) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -184,9 +183,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (TaskNotFoundException $e) {
+		} catch (TaskNotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-		} catch (\RuntimeException $e) {
+		} catch (\RuntimeException) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -214,7 +213,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'tasks' => $json,
 			]);
-		} catch (\RuntimeException $e) {
+		} catch (\RuntimeException) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
