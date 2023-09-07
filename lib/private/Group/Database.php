@@ -352,12 +352,13 @@ class Database extends ABackend implements
 			}
 		}
 
-		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
-			$qb = $this->dbConn->getQueryBuilder();
-			$result = $qb->select('gid', 'displayname')
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('gid', 'displayname')
 				->from('groups')
-				->where($qb->expr()->in('gid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
-				->executeQuery();
+				->where($qb->expr()->in('gid', $qb->createParameter('ids')));
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $qb->executeQuery();
 			while ($row = $result->fetch()) {
 				$this->groupCache[(string)$row['gid']] = [
 					'displayname' => (string)$row['displayname'],
