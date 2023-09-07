@@ -256,7 +256,7 @@ export default {
 			// We also point to the original filename if the version is the current one.
 			const versions = this.versions.map(version => ({
 				...version,
-				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', fileInfo.path, fileInfo.name) : version.filename,
+				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', this.fileInfo.path, this.fileInfo.name) : version.filename,
 				hasPreview: false,
 				previewUrl: undefined,
 			}))
