@@ -62,12 +62,6 @@ export default {
 			loading: false,
 		}
 	},
-	mounted() {
-		subscribe('files_versions:restore:restored', this.fetchVersions)
-	},
-	beforeUnmount() {
-		unsubscribe('files_versions:restore:restored', this.fetchVersions)
-	},
 	computed: {
 		/**
 		 * Order versions by mtime.
@@ -128,6 +122,12 @@ export default {
 		canCompare() {
 			return !this.isMobile
 		},
+	},
+	mounted() {
+		subscribe('files_versions:restore:restored', this.fetchVersions)
+	},
+	beforeUnmount() {
+		unsubscribe('files_versions:restore:restored', this.fetchVersions)
 	},
 	methods: {
 		/**
@@ -256,7 +256,7 @@ export default {
 			// We also point to the original filename if the version is the current one.
 			const versions = this.versions.map(version => ({
 				...version,
-				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', fileInfo.path, fileInfo.name) : version.filename,
+				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', this.fileInfo.path, this.fileInfo.name) : version.filename,
 				hasPreview: false,
 				previewUrl: undefined,
 			}))
