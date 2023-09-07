@@ -335,6 +335,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Config\\IMountProviderCollection' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IMountProviderCollection.php',
         'OCP\\Files\\Config\\IRootMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IRootMountProvider.php',
         'OCP\\Files\\Config\\IUserMountCache' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IUserMountCache.php',
+        'OCP\\Files\\ConnectionLostException' => __DIR__ . '/../../..' . '/lib/public/Files/ConnectionLostException.php',
         'OCP\\Files\\DavUtil' => __DIR__ . '/../../..' . '/lib/public/Files/DavUtil.php',
         'OCP\\Files\\EmptyFileNameException' => __DIR__ . '/../../..' . '/lib/public/Files/EmptyFileNameException.php',
         'OCP\\Files\\EntityTooLargeException' => __DIR__ . '/../../..' . '/lib/public/Files/EntityTooLargeException.php',
