@@ -303,23 +303,27 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			case 'rb':
 				$stat = $this->stat($path);
 				if (is_array($stat)) {
+					$urn = $this->getURN($stat['fileid']);
+
 					// Reading 0 sized files is a waste of time
 					if (isset($stat['size']) && $stat['size'] === 0) {
 						return fopen('php://memory', $mode);
 					}
 
 					try {
-						return $this->objectStore->readObject($this->getURN($stat['fileid']));
+						return $this->objectStore->readObject($urn);
 					} catch (NotFoundException $e) {
 						$this->logger->logException($e, [
 							'app' => 'objectstore',
-							'message' => 'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+							'message' => 'Could not get object ' . $urn . ' for file ' . $path,
 						]);
+						$this->logger->warning("removing filecache entry for object that doesn't seem to exist on the object store. " . json_encode($stat));
+						$this->getCache()->remove((int)$stat['fileid']);
 						throw $e;
 					} catch (\Exception $ex) {
 						$this->logger->logException($ex, [
 							'app' => 'objectstore',
-							'message' => 'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+							'message' => 'Could not get object ' . $urn . ' for file ' . $path,
 						]);
 						return false;
 					}
