@@ -30,7 +30,10 @@ export const rootPath = `/files/${getCurrentUser()?.uid}`
 export const defaultRootUrl = generateRemoteUrl('dav' + rootPath)
 
 export const getClient = (rootUrl = defaultRootUrl) => {
-	const client = createClient(rootUrl, {
+	// Encode valid user id characters
+	const encodedUrl = encodeURI(rootUrl)
+		.replaceAll('\'', '%27')
+	const client = createClient(encodedUrl, {
 		headers: {
 			requesttoken: getRequestToken() || '',
 		},
