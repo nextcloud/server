@@ -251,6 +251,7 @@ OC.L10N.register(
     "Open folder {displayName}" : "Otevřít složku {displayName}",
     "Open in Files" : "Otevřít v Souborech",
     "Open details" : "Otevřít podorobnosti",
+    "Created new folder \"{name}\"" : "Vytvořena nová složka „{name}“",
     "Set up templates folder" : "Vytvořit složku pro šablony",
     "Templates" : "Šablony",
     "Create new templates folder" : "Vytvořit novou složku šablon",
