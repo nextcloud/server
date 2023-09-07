@@ -213,6 +213,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Wygasa {relativetime}",
     "this share just expired." : "te udostępnienie właśnie wygasło.",
     "Shared with you by {owner}" : "Udostępnione Tobie przez {owner}",
+    "Open in Files" : "Otwórz w Plikach",
     "Link to a file" : "Link do pliku",
     "Error creating the share: {errorMessage}" : "Błąd podczas tworzenia udostępnienia: {errorMessage}",
     "Error creating the share" : "Błąd podczas tworzenia udostępnienia",
