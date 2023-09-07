@@ -109,6 +109,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'host' => $host,
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
+				'authType' => \Sabre\DAV\Client::AUTH_BASIC,
 				'password' => (string)$options['password']
 			]
 		);
