@@ -61,7 +61,7 @@
 					name="sharing_permission_radio"
 					type="radio"
 					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
+					@update:checked="expandCustomPermissions">
 					{{ t('files_sharing', 'Custom permissions') }}
 					<small>{{ t('files_sharing', customPermissionsList) }}</small>
 					<template #icon>
@@ -666,16 +666,14 @@ export default {
 				this.$set(this.share, 'hasDownloadPermission', isDownloadChecked)
 			}
 		},
-
-		toggleCustomPermissions(selectedPermission) {
-			if (this.sharingPermission === 'custom') {
+		expandCustomPermissions() {
+			if (!this.advancedSectionAccordionExpanded)	{
 				this.advancedSectionAccordionExpanded = true
-				this.setCustomPermissions = true
-			} else {
-				this.advancedSectionAccordionExpanded = false
-				this.revertSharingPermission = selectedPermission
-				this.setCustomPermissions = false
 			}
+			this.toggleCustomPermissions()
+		},
+		toggleCustomPermissions() {
+			this.setCustomPermissions = this.sharingPermission === 'custom'
 		},
 		initializeAttributes() {
 
