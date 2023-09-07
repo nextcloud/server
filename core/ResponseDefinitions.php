@@ -144,6 +144,15 @@ namespace OCA\Core;
  *     output: ?string,
  *     identifier: string,
  * }
+ *
+ * @psalm-type CoreTextToImageTask = array{
+ *      id: ?int,
+ *      status: 0|1|2|3|4,
+ *      userId: ?string,
+ *      appId: string,
+ *      input: string,
+ *      identifier: string,
+ *  }
  */
 class ResponseDefinitions {
 }

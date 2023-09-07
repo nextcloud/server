@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023 Marcel Klehr <mklehr@gmx.net>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
  * @author Marcel Klehr <mklehr@gmx.net>
  *
@@ -23,27 +23,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Repair;
 
-use OC\TextProcessing\RemoveOldTasksBackgroundJob as RemoveOldTextProcessingTasksBackgroundJob;
-use OC\TextToImage\RemoveOldTasksBackgroundJob as RemoveOldTextToImageTasksBackgroundJob;
-use OCP\BackgroundJob\IJobList;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+namespace OCP\TextToImage\Events;
 
-class AddRemoveOldTasksBackgroundJob implements IRepairStep {
-	private IJobList $jobList;
-
-	public function __construct(IJobList $jobList) {
-		$this->jobList = $jobList;
-	}
-
-	public function getName(): string {
-		return 'Add AI tasks cleanup job';
-	}
-
-	public function run(IOutput $output) {
-		$this->jobList->add(RemoveOldTextProcessingTasksBackgroundJob::class);
-		$this->jobList->add(RemoveOldTextToImageTasksBackgroundJob::class);
-	}
+/**
+ * @since 27.1.0
+ */
+class TaskSuccessfulEvent extends AbstractTextToImageEvent {
 }
