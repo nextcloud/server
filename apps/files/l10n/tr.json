@@ -249,6 +249,7 @@
     "Open folder {displayName}" : "{displayName} klasörünü aç",
     "Open in Files" : "Dosyalar uygulamasında aç",
     "Open details" : "Ayrıntıları aç",
+    "Created new folder \"{name}\"" : "\"{name}\" yeni klasörü oluşturuldu",
     "Set up templates folder" : "Kalıp klasörünü ayarlayın",
     "Templates" : "Kalıplar",
     "Create new templates folder" : "Yeni kalıp klasörü oluştur",
