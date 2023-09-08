@@ -297,7 +297,8 @@ class Server {
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->query(BirthdayService::class),
+					$user
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->getUserSession(),
