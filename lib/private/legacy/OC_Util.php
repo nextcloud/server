@@ -325,9 +325,10 @@ class OC_Util {
 			return;
 		}
 
+		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
+		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
