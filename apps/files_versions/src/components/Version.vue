@@ -19,7 +19,7 @@
 	<div>
 		<NcListItem class="version"
 			:title="versionLabel"
-			:href="downloadURL"
+			@click="openVersion"
 			:force-display-actions="true"
 			data-files-versions-version>
 			<template #icon>
@@ -122,6 +122,7 @@ import { translate } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
+import { emit } from '@nextcloud/event-bus'
 
 export default {
 	name: 'Version',
@@ -238,6 +239,19 @@ export default {
 		},
 	},
 	methods: {
+		openVersion(e) {
+			e.preventDefault()
+			const openVersionEvent = {
+				preventDefault: false,
+				fileInfo: this.fileInfo,
+				version: this.version,
+			}
+			emit('files_versions:view:open', openVersionEvent)
+			if (openVersionEvent.preventDefault) {
+				return
+			}
+			window.location.href = this.downloadURL
+		},
 		openVersionLabelModal() {
 			this.showVersionLabelForm = true
 			this.$nextTick(() => {
