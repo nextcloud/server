@@ -176,6 +176,7 @@ OC.L10N.register(
     "File name" : "ファイル名",
     "Folder name" : "フォルダー名",
     "Name cannot be empty" : "名前は空にできません",
+    "Total rows summary" : "総行数のサマリー",
     "Select all" : "すべて選択",
     "File not found" : "ファイルが見つかりません",
     "Storage informations" : "ストレージ情報",
