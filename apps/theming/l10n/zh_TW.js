@@ -82,6 +82,7 @@ OC.L10N.register(
     "No background" : "無背景",
     "Select a background from your files" : "從您的檔案中選取背景",
     "Select background" : "選取背景",
+    "No background has been selected" : "未選取背景",
     "Theme selection is enforced" : "強制佈景主題選取",
     "Select a custom color" : "選取自訂色彩",
     "Reset to default" : "恢復預設值",

@@ -82,6 +82,7 @@ OC.L10N.register(
     "No background" : "Arka plan olmasın",
     "Select a background from your files" : "Dosyalarınızdan bir arka plan seçin",
     "Select background" : "Arka planı seçin",
+    "No background has been selected" : "Herhangi bir arka plan seçilmemiş",
     "Theme selection is enforced" : "Tema seçimi zorunludur",
     "Select a custom color" : "Özel bir renk seçin",
     "Reset to default" : "Varsayılanlara dön",

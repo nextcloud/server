@@ -204,6 +204,7 @@ OC.L10N.register(
     "Download and enable all" : "İndir ve tümünü etkinleştir",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n uygulama için güncelleme yayınlanmış","%n uygulama için güncelleme yayınlanmış"],
     "_Update_::_Update all_" : ["Güncelle","Tümünü güncelle"],
+    "Device name" : "Aygıt adı",
     "Marked for remote wipe" : "Uzaktan silme için işaretlendi",
     "Device settings" : "Aygıt ayarları",
     "Allow filesystem access" : "Dosya sistemine erişilebilsin",

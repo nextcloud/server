@@ -82,6 +82,7 @@ OC.L10N.register(
     "No background" : "لا خلفية",
     "Select a background from your files" : "إختر خلفية من ملفاتك",
     "Select background" : "إختَر الخلفية",
+    "No background has been selected" : "لم يتم اختيار أي خلفية بعد",
     "Theme selection is enforced" : "تمّ فرض اختيار الثيمة",
     "Select a custom color" : "إختر لوناً مُخصّصاً",
     "Reset to default" : "اعادة تعيين الافتراضيات",
