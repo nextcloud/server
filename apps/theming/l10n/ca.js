@@ -82,6 +82,7 @@ OC.L10N.register(
     "No background" : "Sense fons",
     "Select a background from your files" : "Seleccioneu un fons dels fitxers",
     "Select background" : "Selecciona un fons",
+    "No background has been selected" : "No s'ha seleccionat cap fons",
     "Theme selection is enforced" : "Es força la selecció de tema",
     "Select a custom color" : "Selecciona un color personalitzat",
     "Reset to default" : "Reinicialitza els valors per defecte",
