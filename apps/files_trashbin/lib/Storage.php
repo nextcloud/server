@@ -66,7 +66,7 @@ class Storage extends Wrapper {
 	 * Storage constructor.
 	 *
 	 * @param array $parameters
-	 * @param ITrashManager $trashManager
+	 * @param ITrashManager|null $trashManager
 	 * @param IUserManager|null $userManager
 	 * @param ILogger|null $logger
 	 * @param EventDispatcherInterface|null $eventDispatcher
@@ -208,19 +208,27 @@ class Storage extends Wrapper {
 	}
 
 	/**
-	 * Setup the storate wrapper callback
+	 * Setup the storage wrapper callback
 	 */
 	public static function setupStorage() {
-		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
-			return new \OCA\Files_Trashbin\Storage(
-				['storage' => $storage, 'mountPoint' => $mountPoint],
-				\OC::$server->query(ITrashManager::class),
-				\OC::$server->getUserManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getEventDispatcher(),
-				\OC::$server->getLazyRootFolder()
-			);
-		}, 1);
+		$trashManager = \OC::$server->get(ITrashManager::class);
+		$userManager = \OC::$server->get(IUserManager::class);
+		$logger = \OC::$server->get(ILogger::class);
+		$eventDispatcher = \OC::$server->get(EventDispatcherInterface::class);
+		$rootFolder = \OC::$server->get(IRootFolder::class);
+		Filesystem::addStorageWrapper(
+			'oc_trashbin',
+			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder) {
+				return new Storage(
+					['storage' => $storage, 'mountPoint' => $mountPoint],
+					$trashManager,
+					$userManager,
+					$logger,
+					$eventDispatcher,
+					$rootFolder,
+				);
+			},
+		1);
 	}
 
 	public function getMountPoint() {
