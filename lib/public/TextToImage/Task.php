@@ -26,9 +26,6 @@ declare(strict_types=1);
 namespace OCP\TextToImage;
 
 use OCP\IImage;
-use OCP\Image;
-use OCP\TextProcessing\IProvider as P;
-use OCP\TextProcessing\ITaskType;
 
 /**
  * This is a text to image task
