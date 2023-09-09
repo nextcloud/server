@@ -188,7 +188,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "En annan post med samma namn finns redan",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Bytte namn på \"{oldName}\" till \"{newName}\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "Kunde inte byta namn på \"{oldName}\", den finns inte längre",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "Namnet \"{newName}\"\" används redan i mappen \"{dir}\". Välj ett annat namn.",
     "Could not rename \"{oldName}\"" : "Kunde inte byta namn på \"{oldName}\"",
     "Total rows summary" : "Sammanfattning antal rader",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" misslyckades med vissa element",

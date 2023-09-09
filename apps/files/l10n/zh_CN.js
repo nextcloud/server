@@ -184,7 +184,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "已经存在另一个使用该名称的条目",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已将“{oldName}”重命名为“{newName}”",
     "Could not rename \"{oldName}\", it does not exist any more" : "无法重命名“{fileName}”，此文件已经不存在",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "文件夹“{dir}”中已经存在“{targetName}”。请尝试其它名称。",
     "Could not rename \"{oldName}\"" : "无法重命名“{fileName}”",
     "Total rows summary" : "总行摘要",
     "\"{displayName}\" failed on some elements " : "“{displayName}”在某些元素上失败",

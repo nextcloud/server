@@ -186,7 +186,6 @@
     "Another entry with the same name already exists" : "Xa existe outra entrada co mesmo nome",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Cambiouse o nome de «{oldName}» a «{newName}»",
     "Could not rename \"{oldName}\", it does not exist any more" : "Non foi posíbel renomear «{oldName}», xa non existe",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "O nome «{newName}» xa se utiliza no cartafol «{dir}». Escolla outro nome.",
     "Could not rename \"{oldName}\"" : "Non foi posíbel renomear «{oldName}»",
     "Total rows summary" : "Resumo total de filas",
     "\"{displayName}\" failed on some elements " : "Produciuse un fallo nalgúns elementos de «{displayName}» ",
