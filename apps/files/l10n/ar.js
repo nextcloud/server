@@ -188,7 +188,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "إدخال آخر بنفس الاسم موجود بالفعل",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تمت إعادة تسمية \"{oldName}\" إلى \"{newName}\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "تعذر إعادة تسمية \"{oldName}\"، لم يعد موجودًا",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "الاسم \"{newName}\" مستخدم بالفعل في المجلد \"{dir}\" الرجاء اختيار اسم مختلف.",
     "Could not rename \"{oldName}\"" : "تعذرت إعادة تسمية \"{oldName}\"",
     "Total rows summary" : "ملخص مجموع الأسطر",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" فشل في بعض العناصر",

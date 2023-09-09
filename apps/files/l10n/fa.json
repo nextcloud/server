@@ -183,7 +183,6 @@
     "Another entry with the same name already exists" : "ورودی دیگری با همین نام در حال حاضر وجود دارد",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تغییر نام \"{oldName}\" به \"{newName}\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "نمی‌توان نام «{oldName}» را تغییر داد، دیگر وجود ندارد",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "نام \"{newName}\" قبلاً در پوشه \"{dir}\" استفاده شده است. لطفاً نام دیگری انتخاب کنید.",
     "Could not rename \"{oldName}\"" : "تغییر نام \"{oldName}\" ممکن نیست",
     "Total rows summary" : "خلاصه کل ردیف ها",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" در برخی از عناصر ناموفق بود",

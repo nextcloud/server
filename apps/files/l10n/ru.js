@@ -185,7 +185,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "Другая запись с таким названием уже существует",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Переименовано \"{oldName}\" в \"{newName}\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "Не удалось переименовать \"{oldName}\", его больше не существует",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "Имя \"{newName}\" уже используется в каталоге \"{dir}\". Выберите другое имя.",
     "Could not rename \"{oldName}\"" : "Не удалось переименовать \"{oldName}\"",
     "Total rows summary" : "Количество строк в общем",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" неудачно для некоторых элементов",

@@ -186,7 +186,6 @@
     "Another entry with the same name already exists" : "已存在另一個同名條目",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已將「{oldName}」重新命名為「{newName}」",
     "Could not rename \"{oldName}\", it does not exist any more" : "無法命名檔案「{oldName}」，因為此檔案已經不存在",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "此名稱「{newName}」在這資料夾「{dir}」已經被使用。請選擇其他名稱。",
     "Could not rename \"{oldName}\"" : "無法重新命名「{oldName}」",
     "Total rows summary" : "總列摘要",
     "\"{displayName}\" failed on some elements " : "「{displayName}」在某些元素上失敗",

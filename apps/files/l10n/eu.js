@@ -188,7 +188,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "Badago izen hori duen beste sarrera bat",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" \"{newName}\"(e)ra berrizendatu da.",
     "Could not rename \"{oldName}\", it does not exist any more" : "Ezin izan da \"{oldName}\" berrizendatu, ez da existitzen dagoeneko",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" izena \"{dir}\" karpetan dagoeneko erabiltzen da. Mesedez aukeratu beste izen bat.",
     "Could not rename \"{oldName}\"" : "Ezin izan da \"{oldName}\" berrizendatu ",
     "Total rows summary" : "Errenkaden guztirako laburpena",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\"-k huts egin du elementu batzuetan",
