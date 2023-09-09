@@ -186,7 +186,6 @@
     "Another entry with the same name already exists" : "Inny wpis o tej samej nazwie już istnieje",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Zmieniono nazwę \"{oldName}\" na \"{newName}\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "Nie można zmienić nazwy \"{oldName}\", już nie istnieje",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "Nazwa \"{newName}\" jest już używana w katalogu \"{dir}\". Wybierz inną nazwę.",
     "Could not rename \"{oldName}\"" : "Nie można zmienić nazwy \"{oldName}\"",
     "Total rows summary" : "Podsumowanie wszystkich wierszy",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" nie powiodło się w przypadku niektórych elementów",

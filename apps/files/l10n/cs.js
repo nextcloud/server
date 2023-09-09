@@ -188,7 +188,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "Už existuje jiná položka se stejným názevm",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Přejmenováno „{oldName}“ na „{newName}",
     "Could not rename \"{oldName}\", it does not exist any more" : "Není možné přejmenovat „{oldName}“ – už neexistuje",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "Název „{newtName}“ je už použitý ve složce „{dir}“. Zvolte jiný název.",
     "Could not rename \"{oldName}\"" : "„{oldName}“ se nepodařilo přejmenovat",
     "Total rows summary" : "Celkový souhrn řádek",
     "\"{displayName}\" failed on some elements " : "„{displayName}“ se pro některé prvky nezdařilo",
