@@ -188,7 +188,6 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "Aynı adlı bir kayıt zaten var",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" adı \"{newName}\" olarak değiştirildi",
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" adı artık olmadığından değiştirilemedi. ",
-    "The name \"{newName}\"\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\"\" adı \"{dir}\" klasöründe zaten kullanılmış. Lütfen başka bir ad seçin.",
     "Could not rename \"{oldName}\"" : "\"{oldName}\" adı değiştirilemedi",
     "Total rows summary" : "Toplam satır özeti",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" toplu işlemi bazı bileşenlerde tamamlanamadı",
