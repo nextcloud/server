@@ -188,6 +188,7 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "Another entry with the same name already exists",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "Could not rename \"{oldName}\", it does not exist any more",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name.",
     "Could not rename \"{oldName}\"" : "Could not rename \"{oldName}\"",
     "Total rows summary" : "Total rows summary",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" failed on some elements ",
