@@ -273,9 +273,6 @@ class OC_Image implements \OCP\IImage {
 				case 'image/jpeg':
 					$imageType = IMAGETYPE_JPEG;
 					break;
-				case 'image/avif':
-					$imageType = IMAGETYPE_AVIF;
-					break;
 				case 'image/png':
 					$imageType = IMAGETYPE_PNG;
 					break;
@@ -388,12 +385,6 @@ class OC_Image implements \OCP\IImage {
 				$res = imagepng($this->resource);
 				break;
 			case "image/jpeg":
-				/** @psalm-suppress InvalidScalarArgument */
-				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
-				$quality = $this->getJpegQuality();
-				$res = imagejpeg($this->resource, null, $quality);
-				break;
-			case "image/avif":
 				/** @psalm-suppress InvalidScalarArgument */
 				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$quality = $this->getJpegQuality();
