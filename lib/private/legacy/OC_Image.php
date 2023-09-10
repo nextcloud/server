@@ -273,6 +273,9 @@ class OC_Image implements \OCP\IImage {
 				case 'image/jpeg':
 					$imageType = IMAGETYPE_JPEG;
 					break;
+				case 'image/avif':
+					$imageType = IMAGETYPE_AVIF;
+					break;
 				case 'image/png':
 					$imageType = IMAGETYPE_PNG;
 					break;
@@ -363,6 +366,8 @@ class OC_Image implements \OCP\IImage {
 		switch ($this->mimeType) {
 			case 'image/png':
 			case 'image/jpeg':
+			case 'image/avif':
+				return 'image/jpeg';
 			case 'image/gif':
 				return $this->mimeType;
 			default:
@@ -383,6 +388,12 @@ class OC_Image implements \OCP\IImage {
 				$res = imagepng($this->resource);
 				break;
 			case "image/jpeg":
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
+				$quality = $this->getJpegQuality();
+				$res = imagejpeg($this->resource, null, $quality);
+				break;
+			case "image/avif":
 				/** @psalm-suppress InvalidScalarArgument */
 				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$quality = $this->getJpegQuality();
@@ -719,11 +730,7 @@ class OC_Image implements \OCP\IImage {
 					if (!$this->checkImageSize($imagePath)) {
 						return false;
 					}
-					if (getimagesize($imagePath) !== false) {
-						$this->resource = @imagecreatefromavif($imagePath);
-					} else {
-						$this->logger->debug('OC_Image->loadFromFile, AVIF image not valid: ' . $imagePath, ['app' => 'core']);
-					}
+					$this->resource = @imagecreatefromavif($imagePath);
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
