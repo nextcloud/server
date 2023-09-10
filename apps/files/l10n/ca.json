@@ -186,6 +186,7 @@
     "Another entry with the same name already exists" : "Ja existeix una altra entrada amb aquest nom",
     "Renamed \"{oldName}\" to \"{newName}\"" : "S'ha canviat el nom de «{oldName}» a «{newName}»",
     "Could not rename \"{oldName}\", it does not exist any more" : "No s'ha pogut canviar el nom de «{oldName}», ja no existeix",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "El nom «{newName}» ja està en ús en la carpeta «{dir}». Trieu un nom diferent.",
     "Could not rename \"{oldName}\"" : "No s'ha pogut canviar el nom de «{oldName}»",
     "Total rows summary" : "Resum de totes les files",
     "\"{displayName}\" failed on some elements " : "S'ha produït un error en l'acció «{displayName}» per a alguns elements",
