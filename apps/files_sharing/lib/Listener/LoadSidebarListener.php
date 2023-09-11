@@ -23,6 +23,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files_Sharing\AppInfo\Application;
@@ -30,13 +31,31 @@ use OCA\Files\Event\LoadSidebar;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Share\IManager;
 
-class LoadSidebarListener implements IEventListener {
-	public function handle(Event $event): void {
+/**
+ * @template-implements IEventListener<Event>
+ */
+class LoadSidebarListener implements IEventListener
+{
+
+	public function __construct(private IInitialState $initialState, private IManager $shareManager)
+	{
+	}
+
+	public function handle(Event $event): void
+	{
 		if (!($event instanceof LoadSidebar)) {
 			return;
 		}
 
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
+
+		$shareConfig = [
+			'allowPublicUploads' => $this->shareManager->shareApiLinkAllowPublicUpload(),
+		];
+
+		$this->initialState->provideInitialState('shareConfig', $shareConfig);
 	}
 }
