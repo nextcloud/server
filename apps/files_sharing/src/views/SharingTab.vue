@@ -28,53 +28,63 @@
 			<h2>{{ error }}</h2>
 		</div>
 
-		<!-- shares content -->
-		<div v-if="!showSharingDetailsView" class="sharingTab__content">
-			<!-- shared with me information -->
-			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
-				<template #avatar>
-					<NcAvatar :user="sharedWithMe.user"
-						:display-name="sharedWithMe.displayName"
-						class="sharing-entry__avatar" />
-				</template>
-			</SharingEntrySimple>
+		<template v-if="!showSharingDetailsView">
+			<!-- shares content -->
+			<div class="sharingTab__content">
+				<!-- shared with me information -->
+				<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
+					<template #avatar>
+						<NcAvatar :user="sharedWithMe.user"
+							:display-name="sharedWithMe.displayName"
+							class="sharing-entry__avatar" />
+					</template>
+				</SharingEntrySimple>
 
-			<!-- add new share input -->
-			<SharingInput v-if="!loading"
-				:can-reshare="canReshare"
-				:file-info="fileInfo"
-				:link-shares="linkShares"
-				:reshare="reshare"
-				:shares="shares"
-				@open-sharing-details="toggleShareDetailsView" />
+				<!-- add new share input -->
+				<SharingInput v-if="!loading"
+					:can-reshare="canReshare"
+					:file-info="fileInfo"
+					:link-shares="linkShares"
+					:reshare="reshare"
+					:shares="shares"
+					@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- link shares list -->
-			<SharingLinkList v-if="!loading"
-				ref="linkShareList"
-				:can-reshare="canReshare"
-				:file-info="fileInfo"
-				:shares="linkShares"
-				@open-sharing-details="toggleShareDetailsView" />
+				<!-- link shares list -->
+				<SharingLinkList v-if="!loading"
+					ref="linkShareList"
+					:can-reshare="canReshare"
+					:file-info="fileInfo"
+					:shares="linkShares"
+					@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- other shares list -->
-			<SharingList v-if="!loading"
-				ref="shareList"
-				:shares="shares"
-				:file-info="fileInfo"
-				@open-sharing-details="toggleShareDetailsView" />
+				<!-- other shares list -->
+				<SharingList v-if="!loading"
+					ref="shareList"
+					:shares="shares"
+					:file-info="fileInfo"
+					@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- inherited shares -->
-			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
+				<!-- inherited shares -->
+				<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
 
-			<!-- internal link copy -->
-			<SharingEntryInternal :file-info="fileInfo" />
+				<!-- internal link copy -->
+				<SharingEntryInternal :file-info="fileInfo" />
 
-			<!-- projects -->
-			<CollectionList v-if="projectsEnabled && fileInfo"
-				:id="`${fileInfo.id}`"
-				type="file"
-				:name="fileInfo.name" />
-		</div>
+				<!-- projects -->
+				<CollectionList v-if="projectsEnabled && fileInfo"
+					:id="`${fileInfo.id}`"
+					type="file"
+					:name="fileInfo.name" />
+			</div>
+
+			<!-- additional entries, use it with cautious -->
+			<div v-for="(section, index) in sections"
+				:ref="'section-' + index"
+				:key="index"
+				class="sharingTab__additionalContent">
+				<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+			</div>
+		</template>
 
 		<!-- share details -->
 		<div v-else>
@@ -83,14 +93,6 @@
 				@close-sharing-details="toggleShareDetailsView"
 				@add:share="addShare"
 				@remove:share="removeShare" />
-		</div>
-
-		<!-- additional entries, use it with cautious -->
-		<div v-for="(section, index) in sections"
-			:ref="'section-' + index"
-			:key="index"
-			class="sharingTab__additionalContent">
-			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
 		</div>
 	</div>
 </template>
