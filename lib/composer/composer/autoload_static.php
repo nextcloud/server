@@ -455,6 +455,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\GroupInterface' => __DIR__ . '/../../..' . '/lib/public/GroupInterface.php',
         'OCP\\Group\\Backend\\ABackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ABackend.php',
         'OCP\\Group\\Backend\\IAddToGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IAddToGroupBackend.php',
+        'OCP\\Group\\Backend\\IBatchMethodsBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IBatchMethodsBackend.php',
         'OCP\\Group\\Backend\\ICountDisabledInGroup' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICountDisabledInGroup.php',
         'OCP\\Group\\Backend\\ICountUsersBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICountUsersBackend.php',
         'OCP\\Group\\Backend\\ICreateGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICreateGroupBackend.php',

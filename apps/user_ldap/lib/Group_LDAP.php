@@ -48,11 +48,12 @@ use Exception;
 use OC\ServerNotAvailableException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\GroupInterface;
+use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
-class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
+class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
 	protected bool $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
@@ -63,6 +64,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected CappedMemoryCache $cachedNestedGroups;
 	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
+	protected Access $access;
 
 	/**
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
@@ -70,7 +72,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected string $ldapGroupMemberAssocAttr;
 
 	public function __construct(Access $access, GroupPluginManager $groupPluginManager) {
-		parent::__construct($access);
+		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gAssoc = $this->access->connection->ldapGroupMemberAssocAttr;
 		if (!empty($filter) && !empty($gAssoc)) {

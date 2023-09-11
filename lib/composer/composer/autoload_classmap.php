@@ -422,6 +422,7 @@ return array(
     'OCP\\GroupInterface' => $baseDir . '/lib/public/GroupInterface.php',
     'OCP\\Group\\Backend\\ABackend' => $baseDir . '/lib/public/Group/Backend/ABackend.php',
     'OCP\\Group\\Backend\\IAddToGroupBackend' => $baseDir . '/lib/public/Group/Backend/IAddToGroupBackend.php',
+    'OCP\\Group\\Backend\\IBatchMethodsBackend' => $baseDir . '/lib/public/Group/Backend/IBatchMethodsBackend.php',
     'OCP\\Group\\Backend\\ICountDisabledInGroup' => $baseDir . '/lib/public/Group/Backend/ICountDisabledInGroup.php',
     'OCP\\Group\\Backend\\ICountUsersBackend' => $baseDir . '/lib/public/Group/Backend/ICountUsersBackend.php',
     'OCP\\Group\\Backend\\ICreateGroupBackend' => $baseDir . '/lib/public/Group/Backend/ICreateGroupBackend.php',

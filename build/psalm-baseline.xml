@@ -2905,16 +2905,6 @@
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Group/Database.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$this->groupCache[$gid]['displayname']]]></code>
-    </InvalidArrayOffset>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->groupCache]]></code>
-      <code><![CDATA[$this->groupCache]]></code>
-      <code><![CDATA[$this->groupCache]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/private/Group/DisplayNameCache.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
