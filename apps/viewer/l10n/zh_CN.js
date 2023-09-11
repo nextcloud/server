@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Viewer" : "查看器",
     "Simple file viewer with slideshow for media" : "带媒体幻灯片的简单文件查看器",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "以电影的形式显示您最新的假日照片与影片，直接从您的 Nextcloud 看看您最新的小说，借助您最爱的文件与更多东西的直接预览，选择最佳的 GIF！",
     "Your browser does not support audio." : "您的浏览器不支持音频。",
     "Error loading {name}" : "加载 {name} 出错",
     "Image saved" : "图片已保存",
@@ -11,9 +12,12 @@ OC.L10N.register(
     "Drop changes" : "取消更改",
     "Your browser does not support videos." : "您的浏览器不支持视频。",
     "Edit" : "编辑",
+    "Exit full screen" : "退出全屏",
+    "Full screen" : "全屏",
     "Open sidebar" : "打开侧边栏",
     "Download" : "下载",
     "Delete" : "删除",
+    "This file no longer exists" : "此文件不存在",
     "There is no plugin available to display this file type" : "没有可用于显示此文件类型的插件",
     "View" : "查看",
     "Name" : "名称",
@@ -104,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "已保存的图像大小（宽度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "请注意，选择的裁剪面积低于应用的调整大小，这可能会导致质量下降",
     "Actual size (100%)" : "实际尺寸（100%）",
-    "Fit size" : "适合尺寸"
+    "Fit size" : "适合尺寸",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=1; plural=0;");
