@@ -39,13 +39,14 @@ use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Home;
 use OC\User\DisplayNameCache;
+use OCA\Files_External\Config\ConfigAdapter;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Node;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\User\NoUserException;
-use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
@@ -431,21 +432,29 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	public function getWatcher($path = '', $storage = null): Watcher {
-		$mountManager = \OC::$server->getMountManager();
+		if ($this->watcher) {
+			return $this->watcher;
+		}
 
 		// Get node information
 		$node = $this->getShare()->getNodeCacheEntry();
 		if ($node) {
-			$mount = $mountManager->findByNumericId($node->getStorageId());
-			// If the share is originating from an external storage
-			if (count($mount) > 0 && $mount[0] instanceof ExternalMountPoint) {
-				// Propagate original storage scan
-				return parent::getWatcher($path, $storage);
+			/** @var IUserMountCache $userMountCache */
+			$userMountCache = \OC::$server->get(IUserMountCache::class);
+			$mounts = $userMountCache->getMountsForStorageId($node->getStorageId());
+			foreach ($mounts as $mount) {
+				// If the share is originating from an external storage
+				if ($mount->getMountProvider() === ConfigAdapter::class) {
+					// Propagate original storage scan
+					$this->watcher = parent::getWatcher($path, $storage);
+					return $this->watcher;
+				}
 			}
 		}
 
 		// cache updating is handled by the share source
-		return new NullWatcher();
+		$this->watcher = new NullWatcher();
+		return $this->watcher;
 	}
 
 	/**
