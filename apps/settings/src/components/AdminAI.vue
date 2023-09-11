@@ -38,7 +38,7 @@
 		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
-			<template v-for="type in Object.keys(settings['ai.textprocessing_provider_preferences'])">
+			<template v-for="type in tpTaskTypes">
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
 					<p>{{ getTaskType(type).description }}</p>
@@ -109,6 +109,9 @@ export default {
 		},
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
+		},
+		tpTaskTypes() {
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type))
 		},
 	},
 	methods: {
