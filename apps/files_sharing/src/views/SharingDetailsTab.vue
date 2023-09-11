@@ -453,7 +453,7 @@ export default {
 			return this.share.id === null || this.share.id === undefined
 		},
 		allowsFileDrop() {
-			if (this.isFolder) {
+			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
 					return true
 				}
