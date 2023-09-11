@@ -279,7 +279,7 @@ class OC_Image implements \OCP\IImage {
 					$imageType = IMAGETYPE_WEBP;
 					break;
 				case 'image/avif':
-					$imageType = IMAGETYPE_AVIF;
+					$imageType = IMAGETYPE_JPEG;
 					break;
 				case 'image/png':
 					$imageType = IMAGETYPE_PNG;
@@ -296,6 +296,19 @@ class OC_Image implements \OCP\IImage {
 			}
 		}
 
+		if ($this->mimeType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					$imageType = IMAGETYPE_WEBP;
+					break;
+				case 'avif':
+					$imageType = IMAGETYPE_AVIF;
+					break;
+				default:
+			}
+		}
+
 		switch ($imageType) {
 			case IMAGETYPE_GIF:
 				$retVal = imagegif($this->resource, $filePath);
@@ -307,7 +320,7 @@ class OC_Image implements \OCP\IImage {
 				break;
 			case "image/webp":
 				/** @psalm-suppress InvalidScalarArgument */
-				imageinterlace($this->resource, (PHP_VERSION_ID >= 80100 ? true : 1));
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$retVal = imagewebp($this->resource, $filePath, $this->getWebpQuality());
 				break;
 			case "image/avif":
@@ -379,15 +392,12 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		if ($this->mimeType !== 'image/gif') {
-		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
-
-			switch ($preview_format) { // Change the format to the correct one
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
 				case 'webp':
 					return 'image/webp';
-					break;
 				case 'avif':
 					return 'image/avif';
-					break;
 				default:
 			}
 		}
@@ -413,7 +423,23 @@ class OC_Image implements \OCP\IImage {
 			return null;
 		}
 		ob_start();
-		switch ($this->mimeType) {
+		$imageType = $this->imageType;
+		if ($imageType == 'image/avif') {
+			$imageType = 'image/jpeg';
+		}
+		if ($imageType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					$imageType = 'image/webp';
+					break;
+				case 'avif':
+					$imageType = 'image/avif';
+					break;
+				default:
+			}
+		}
+		switch ($imageType) {
 			case "image/png":
 				$res = imagepng($this->resource);
 				break;
@@ -425,7 +451,7 @@ class OC_Image implements \OCP\IImage {
 				break;
 			case "image/webp":
 				/** @psalm-suppress InvalidScalarArgument */
-				imageinterlace($this->resource, (PHP_VERSION_ID >= 80100 ? true : 1));
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$res = imagewebp($this->resource, null, $this->getWebpQuality());
 				break;
 			case "image/avif":
