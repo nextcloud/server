@@ -236,6 +236,7 @@
     "Unable to create new file from template" : "템플릿으로 새 파일을 만들 수 없음",
     "Delete permanently" : "영구히 삭제",
     "Open folder {displayName}" : "{displayName} 폴더 열기",
+    "Open in Files" : "파일에서 열기",
     "Open details" : "자세한 정보 열기",
     "Set up templates folder" : "템플릿 폴더 설정",
     "Templates" : "템플릿",
