@@ -1018,7 +1018,6 @@ export default {
 		align-items: flex-start;
 
 		>button:first-child {
-			font-size: 12px;
 			color: rgb(223, 7, 7);
 			background-color: #f5f5f5;
 		}
