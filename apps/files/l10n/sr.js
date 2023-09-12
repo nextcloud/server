@@ -188,6 +188,7 @@ OC.L10N.register(
     "Another entry with the same name already exists" : "Већ постоји ставка са истим именом.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}” је променњено на „{newName}”",
     "Could not rename \"{oldName}\", it does not exist any more" : "Не може да се промени име фајла „{fileName}” јер фајл више не постоји",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Назив „{targetName}” се већ користи у директоријуму „{dir}”. Молимо вас да изаберете неко друго име.",
     "Could not rename \"{oldName}\"" : "Не може да се промени име фајла „{fileName}”",
     "Total rows summary" : "Резиме укупног броја редова",
     "\"{displayName}\" failed on some elements " : "„{displayName}” није успело на неким елементима",

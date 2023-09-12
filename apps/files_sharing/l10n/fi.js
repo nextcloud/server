@@ -202,6 +202,7 @@ OC.L10N.register(
     "this share just expired." : "tämä jako vanheni juuri.",
     "Shared with you by {owner}" : "{owner} jakoi tämän kanssasi",
     "_Accept share_::_Accept shares_" : ["Hyväksy jako","Hyväksy jaot"],
+    "Open in Files" : "Avaa tiedostosovelluksessa",
     "_Reject share_::_Reject shares_" : ["Hylkää jako","Hylkää jaot"],
     "_Restore share_::_Restore shares_" : ["Palauta jako","Palauta jaot"],
     "Link to a file" : "Linkki tiedostoon",
