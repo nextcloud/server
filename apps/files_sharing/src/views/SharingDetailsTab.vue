@@ -24,10 +24,8 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="toggleCustomPermissions">
-					{{ t('files_sharing', 'View only') }}
-					<template #icon>
-						<ViewIcon :size="20" />
-					</template>
+					<ViewIcon :size="20" />
+					<span>{{ t('files_sharing', 'View only') }}</span>
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :button-variant="true"
 					:checked.sync="sharingPermission"
@@ -36,10 +34,8 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="toggleCustomPermissions">
-					{{ t('files_sharing', 'Allow upload and editing') }}
-					<template #icon>
-						<EditIcon :size="20" />
-					</template>
+					<EditIcon :size="20" />
+					<span>{{ t('files_sharing', 'Allow upload and editing') }}</span>
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch v-if="allowsFileDrop"
 					:button-variant="true"
@@ -49,11 +45,9 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="toggleCustomPermissions">
-					{{ t('files_sharing', 'File drop') }}
+					<UploadIcon :size="20" />
+					<span>{{ t('files_sharing', 'File drop') }}</span>
 					<small>{{ t('files_sharing', 'Upload only') }}</small>
-					<template #icon>
-						<UploadIcon :size="20" />
-					</template>
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :button-variant="true"
 					:checked.sync="sharingPermission"
@@ -62,11 +56,9 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="expandCustomPermissions">
-					{{ t('files_sharing', 'Custom permissions') }}
+					<DotsHorizontalIcon :size="20" />
+					<span>{{ t('files_sharing', 'Custom permissions') }}</span>
 					<small>{{ t('files_sharing', customPermissionsList) }}</small>
-					<template #icon>
-						<DotsHorizontalIcon :size="20" />
-					</template>
 				</NcCheckboxRadioSwitch>
 			</div>
 		</div>
@@ -142,7 +134,8 @@
 					{{ t('file_sharing', 'Custom permissions') }}
 				</NcCheckboxRadioSwitch>
 				<section v-if="setCustomPermissions" class="custom-permissions-group">
-					<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK" :checked.sync="hasRead">
+					<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
+						:checked.sync="hasRead">
 						{{ t('file_sharing', 'Read') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
@@ -151,7 +144,9 @@
 					<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
 						{{ t('file_sharing', 'Update') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK" :disabled="!canSetReshare" :checked.sync="canReshare">
+					<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
+						:disabled="!canSetReshare"
+						:checked.sync="canReshare">
 						{{ t('file_sharing', 'Share') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
@@ -667,7 +662,7 @@ export default {
 			}
 		},
 		expandCustomPermissions() {
-			if (!this.advancedSectionAccordionExpanded)	{
+			if (!this.advancedSectionAccordionExpanded) {
 				this.advancedSectionAccordionExpanded = true
 			}
 			this.toggleCustomPermissions()
@@ -951,11 +946,26 @@ export default {
 				}
 
 				::v-deep label {
+					display: flex;
+					flex-wrap: wrap;
 
 					span {
 						display: flex;
-						flex-direction: column;
+
+						&:first-of-type {
+							flex: 10%;
+						}
+
+						&:last-of-type {
+							flex: 90%
+						}
 					}
+
+					small {
+						padding-left: 10%;
+						flex-basis: 100% !important;
+					}
+
 				}
 			}
 
@@ -999,7 +1009,6 @@ export default {
             */
 			span {
 				::v-deep label {
-					padding-left: 0 !important;
 					background-color: initial !important;
 					border: none !important;
 				}
