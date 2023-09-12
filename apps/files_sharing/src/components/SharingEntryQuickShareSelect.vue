@@ -100,7 +100,7 @@ export default {
 			return options
 		},
 		supportsFileDrop() {
-			if (this.isFolder) {
+			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				const shareType = this.share.type ?? this.share.shareType
 				return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
 			}

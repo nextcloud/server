@@ -22,7 +22,13 @@
  *
  */
 
+import { loadState } from '@nextcloud/initial-state'
+
 export default class Config {
+
+	constructor() {
+		this._shareConfig = loadState('files_sharing', 'shareConfig', {})
+	}
 
 	/**
 	 * Is public upload allowed on link shares ?
@@ -32,8 +38,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPublicUploadEnabled() {
-		return document.getElementsByClassName('files-filestable')[0]
-			&& document.getElementsByClassName('files-filestable')[0].dataset.allowPublicUpload === 'yes'
+		return this._shareConfig.allowPublicUploads
 	}
 
 	/**

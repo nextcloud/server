@@ -453,7 +453,7 @@ export default {
 			return this.share.id === null || this.share.id === undefined
 		},
 		allowsFileDrop() {
-			if (this.isFolder) {
+			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
 					return true
 				}
@@ -784,7 +784,7 @@ export default {
 					incomingShare.password = this.share.password
 				}
 
-				const share = await this.addShare(incomingShare, this.fileInfo, this.config)
+				const share = await this.addShare(incomingShare, this.fileInfo)
 				this.share = share
 				this.$emit('add:share', this.share)
 			} else {
@@ -796,36 +796,33 @@ export default {
 		/**
 		 * Process the new share request
 		 *
-		 * @param {object} value the multiselect option
+		 * @param {Share} share incoming share object
 		 * @param {object} fileInfo file data
-		 * @param {Config} config instance configs
 		 */
-		async addShare(value, fileInfo, config) {
-			// Clear the displayed selection
-			this.value = null
+		async addShare(share, fileInfo) {
 
 			// handle externalResults from OCA.Sharing.ShareSearch
-			if (value.handler) {
-				const share = await value.handler(this)
-				this.$emit('add:share', new Share(share))
+			if (share.handler) {
+				const shareFromHandler = await share.handler(this)
+				this.$emit('add:share', new Share(shareFromHandler))
 				return true
 			}
 
 			// this.loading = true // Are we adding loaders the new share flow?
-			console.debug('Adding a new share from the input for', value)
+			console.debug('Adding a new share from the input for', share)
 			try {
 				const path = (fileInfo.path + '/' + fileInfo.name).replace('//', '/')
-				const share = await this.createShare({
+				const resultingShare = await this.createShare({
 					path,
-					shareType: value.shareType,
-					shareWith: value.shareWith,
-					permissions: value.permissions,
+					shareType: share.shareType,
+					shareWith: share.shareWith,
+					permissions: share.permissions,
 					attributes: JSON.stringify(fileInfo.shareAttributes),
-					...(value.note ? { note: value.note } : {}),
-					...(value.password ? { password: value.password } : {}),
-					...(value.expireDate ? { expireDate: value.expireDate } : {}),
+					...(share.note ? { note: share.note } : {}),
+					...(share.password ? { password: share.password } : {}),
+					...(share.expireDate ? { expireDate: share.expireDate } : {}),
 				})
-				return share
+				return resultingShare
 			} catch (error) {
 				console.error('Error while adding new share', error)
 			} finally {
@@ -1021,7 +1018,6 @@ export default {
 		align-items: flex-start;
 
 		>button:first-child {
-			font-size: 12px;
 			color: rgb(223, 7, 7);
 			background-color: #f5f5f5;
 		}
