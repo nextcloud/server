@@ -29,7 +29,11 @@
 					button-class="icon-add"
 					@click="showNewUserMenu"
 					@keyup.enter="showNewUserMenu"
-					@keyup.space="showNewUserMenu" />
+					@keyup.space="showNewUserMenu">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcAppNavigationNew>
 
 				<template #list>
 					<NcAppNavigationNewItem id="addgroup"
