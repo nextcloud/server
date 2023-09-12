@@ -93,7 +93,7 @@ class LoginListener implements IEventListener {
 				continue;
 			}
 			$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $groupId,'userid' => $userId]));
-			// TODO: empty cache to avoid crash
+			$this->groupBackend->addRelationshipToCaches($userId, null, $groupId);
 			$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
 			$this->logger->info(
 				__CLASS__ . ' – {user} added to {group}',
