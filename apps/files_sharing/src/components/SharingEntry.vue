@@ -35,12 +35,11 @@
 				:aria-label="tooltip"
 				:href="share.shareWithLink"
 				class="sharing-entry__desc">
-				<span>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{
-					share.shareWithDisplayNameUnique }})</span></span>
-				<p v-if="hasStatus">
-					<span>{{ share.status.icon || '' }}</span>
-					<span>{{ share.status.message || '' }}</span>
-				</p>
+				<span>{{ title }}
+					<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{
+						share.shareWithDisplayNameUnique }})</span>
+					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
+				</span>
 			</component>
 			<QuickShareSelect :share="share"
 				:file-info="fileInfo"
@@ -168,6 +167,10 @@ export default {
 		&-unique {
 			color: var(--color-text-maxcontrast);
 		}
+
+		small {
+			color: var(--color-text-maxcontrast);
+		}
 	}
 
 	&__actions {
@@ -176,6 +179,7 @@ export default {
 
 	&__summary {
 		padding: 8px;
+		padding-left: 10px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
