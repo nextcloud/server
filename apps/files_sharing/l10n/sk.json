@@ -204,6 +204,7 @@
     "Expires {relativetime}" : "Platnosť končí {relativetime}",
     "this share just expired." : "platnosť tohto zdieľania práve skončila.",
     "Shared with you by {owner}" : "Zdieľané s vami používateľom {owner}",
+    "Open in Files" : "Otvoriť v súboroch",
     "Link to a file" : "Odkaz na súbor",
     "Error creating the share: {errorMessage}" : "Chyba pri vytváraní zdieľania: {errorMessage}",
     "Error creating the share" : "Chyba pri vytváraní zdieľania",
