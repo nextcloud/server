@@ -1,8 +1,7 @@
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2023 Lucas Azevedo <lhs_azevedo@hotmail.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Lucas Azevedo <lhs_azevedo@hotmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -20,10 +19,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import './app.js'
-import './systemtagsfilelist.js'
-import './css/systemtagsfilelist.scss'
-import './actions/inlineSystemTagsAction.ts'
-
-window.OCA.SystemTags = OCA.SystemTags
+export default {}
