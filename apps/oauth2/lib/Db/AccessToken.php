@@ -34,8 +34,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setEncryptedToken(string $token)
  * @method string getHashedCode()
  * @method void setHashedCode(string $token)
- * @method int getCreatedAt()
- * @method void setCreatedAt(int $createdAt)
+ * @method int getCodeCreatedAt()
+ * @method void setCodeCreatedAt(int $createdAt)
  * @method int getTokenCount()
  * @method void setTokenCount(int $tokenCount)
  */
@@ -49,7 +49,7 @@ class AccessToken extends Entity {
 	/** @var string */
 	protected $encryptedToken;
 	/** @var int */
-	protected $createdAt;
+	protected $codeCreatedAt;
 	/** @var int */
 	protected $tokenCount;
 
@@ -59,7 +59,7 @@ class AccessToken extends Entity {
 		$this->addType('clientId', 'int');
 		$this->addType('hashedCode', 'string');
 		$this->addType('encryptedToken', 'string');
-		$this->addType('created_at', 'int');
+		$this->addType('code_created_at', 'int');
 		$this->addType('token_count', 'int');
 	}
 }

@@ -289,7 +289,7 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
 			$accessToken->setHashedCode(hash('sha512', $code));
 			$accessToken->setTokenId($generatedToken->getId());
-			$accessToken->setCreatedAt($this->timeFactory->now()->getTimestamp());
+			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
 			$this->accessTokenMapper->insert($accessToken);
 
 			$redirectUri = $client->getRedirectUri();

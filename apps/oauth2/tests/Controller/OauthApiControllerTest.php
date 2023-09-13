@@ -127,7 +127,7 @@ class OauthApiControllerTest extends TestCase {
 	}
 
 	public function testGetTokenExpiredCode() {
-		$tokenCreatedAt = 100;
+		$codeCreatedAt = 100;
 		$expiredSince = 123;
 
 		$expected = new JSONResponse([
@@ -137,13 +137,13 @@ class OauthApiControllerTest extends TestCase {
 
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
-		$accessToken->setCreatedAt($tokenCreatedAt);
+		$accessToken->setCodeCreatedAt($codeCreatedAt);
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
 			->willReturn($accessToken);
 
-		$tsNow = $tokenCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER + $expiredSince;
+		$tsNow = $codeCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER + $expiredSince;
 		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
 		$this->timeFactory->method('now')
 			->willReturn($dateNow);
@@ -154,7 +154,7 @@ class OauthApiControllerTest extends TestCase {
 	public function testGetTokenWithCodeForActiveToken() {
 		// if a token has already delivered oauth tokens,
 		// it should not be possible to get a new oauth token from a valid authorization code
-		$tokenCreatedAt = 100;
+		$codeCreatedAt = 100;
 
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
@@ -163,14 +163,14 @@ class OauthApiControllerTest extends TestCase {
 
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
-		$accessToken->setCreatedAt($tokenCreatedAt);
+		$accessToken->setCodeCreatedAt($codeCreatedAt);
 		$accessToken->setTokenCount(1);
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
 			->willReturn($accessToken);
 
-		$tsNow = $tokenCreatedAt + 1;
+		$tsNow = $codeCreatedAt + 1;
 		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
 		$this->timeFactory->method('now')
 			->willReturn($dateNow);
@@ -181,7 +181,7 @@ class OauthApiControllerTest extends TestCase {
 	public function testGetTokenClientDoesNotExist() {
 		// In this test, the token's authorization code is valid and has not expired
 		// and we check what happens when the associated Oauth client does not exist
-		$tokenCreatedAt = 100;
+		$codeCreatedAt = 100;
 
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
@@ -190,14 +190,14 @@ class OauthApiControllerTest extends TestCase {
 
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
-		$accessToken->setCreatedAt($tokenCreatedAt);
+		$accessToken->setCodeCreatedAt($codeCreatedAt);
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
 			->willReturn($accessToken);
 
 		// 'now' is before the token's authorization code expiration
-		$tsNow = $tokenCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER - 1;
+		$tsNow = $codeCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER - 1;
 		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
 		$this->timeFactory->method('now')
 			->willReturn($dateNow);

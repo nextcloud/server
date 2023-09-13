@@ -99,7 +99,7 @@ class AccessTokenMapper extends QBMapper {
 		$qb
 			->delete($this->tableName)
 			->where($qb->expr()->eq('token_count', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->lt('created_at', $qb->createNamedParameter($maxTokenCreationTs, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->lt('code_created_at', $qb->createNamedParameter($maxTokenCreationTs, IQueryBuilder::PARAM_INT)));
 		$qb->executeStatement();
 	}
 }

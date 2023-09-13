@@ -47,8 +47,8 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 		if ($schema->hasTable('oauth2_access_tokens')) {
 			$table = $schema->getTable('oauth2_access_tokens');
 			$dbChanged = false;
-			if (!$table->hasColumn('created_at')) {
-				$table->addColumn('created_at', Types::BIGINT, [
+			if (!$table->hasColumn('code_created_at')) {
+				$table->addColumn('code_created_at', Types::BIGINT, [
 					'notnull' => true,
 					'default' => 0,
 				]);
@@ -62,7 +62,7 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 				$dbChanged = true;
 			}
 			if (!$table->hasIndex('oauth2_tk_c_created_idx')) {
-				$table->addIndex(['token_count', 'created_at'], 'oauth2_tk_c_created_idx');
+				$table->addIndex(['token_count', 'code_created_at'], 'oauth2_tk_c_created_idx');
 				$dbChanged = true;
 			}
 			if ($dbChanged) {
