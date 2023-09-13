@@ -27,8 +27,6 @@ declare(strict_types=1);
 namespace OCA\Settings\Search;
 
 use OCP\Accounts\IAccountManager;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -37,8 +35,6 @@ use OCP\IUserManager;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-use OCP\Search\SearchResultEntry;
-use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 
 class UserSearch implements IProvider {
