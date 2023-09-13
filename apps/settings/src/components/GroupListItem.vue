@@ -84,7 +84,7 @@ export default {
 		 */
 		count: {
 			type: Number,
-			required: true,
+			default: null,
 		},
 		/**
 		 * Identifier of this group
