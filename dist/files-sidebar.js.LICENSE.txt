@@ -1,3 +1,9 @@
+/*! For license information please see NcAppSidebar.js.LICENSE.txt */
+
+/*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
+
+/*! For license information please see NcSelectTags.js.LICENSE.txt */
+
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 /**

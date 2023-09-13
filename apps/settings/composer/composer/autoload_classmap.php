@@ -42,6 +42,7 @@ return array(
     'OCA\\Settings\\Middleware\\SubadminMiddleware' => $baseDir . '/../lib/Middleware/SubadminMiddleware.php',
     'OCA\\Settings\\Search\\AppSearch' => $baseDir . '/../lib/Search/AppSearch.php',
     'OCA\\Settings\\Search\\SectionSearch' => $baseDir . '/../lib/Search/SectionSearch.php',
+    'OCA\\Settings\\Search\\UserSearch' => $baseDir . '/../lib/Search/UserSearch.php',
     'OCA\\Settings\\Sections\\Admin\\Additional' => $baseDir . '/../lib/Sections/Admin/Additional.php',
     'OCA\\Settings\\Sections\\Admin\\ArtificialIntelligence' => $baseDir . '/../lib/Sections/Admin/ArtificialIntelligence.php',
     'OCA\\Settings\\Sections\\Admin\\Delegation' => $baseDir . '/../lib/Sections/Admin/Delegation.php',
