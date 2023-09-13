@@ -101,37 +101,9 @@ class UserSearch implements IProvider {
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 
-		$users = $this->userManager->search($query->getTerm(), $query->getLimit(), 0);
-
-		if (!$this->groupManager->isAdmin($user->getUID())) {
-			return SearchResult::complete(
-				$this->l->t('Users'),
-				[]
-			);
-		}
-
-		foreach ($users as $user) {
-			$targetUserObject = $this->userManager->get($user->getUid());
-
-			if ($targetUserObject === null) {
-				throw new OCSNotFoundException('User does not exist');
-			}
-
-			$userAccount = $this->accountManager->getAccount($targetUserObject);
-			$avatar = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
-
-			$result[] = new SearchResultEntry(
-				'',
-				$targetUserObject->getDisplayName(),
-				$user->getUid(),
-				$this->urlGenerator->linkToRouteAbsolute('settings.Users.usersList'),
-				'icon-user-dark'
-			);
-		}
-
 		return SearchResult::complete(
 			$this->l->t('Users'),
-			$result
+			[]
 		);
 	}
 }
