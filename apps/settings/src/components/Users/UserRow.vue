@@ -255,6 +255,7 @@
 					:options="idState.possibleManagers"
 					:placeholder="managerLabel"
 					class="select-vue"
+					@open="searchUserManager"
 					@search="searchUserManager"
 					@option:selected="updateUserManager"
 					@input="updateUserManager" />
@@ -502,8 +503,6 @@ export default {
 	},
 
 	async beforeMount() {
-		await this.searchUserManager()
-
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
