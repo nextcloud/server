@@ -169,6 +169,11 @@ const mutations = {
 	},
 	// update active/disabled counts, groups counts
 	updateUserCounts(state, { user, actionType }) {
+		// 0 is a special value
+		if (state.userCount === 0) {
+			return
+		}
+
 		const disabledGroup = state.groups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
