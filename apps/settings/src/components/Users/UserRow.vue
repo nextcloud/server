@@ -506,6 +506,10 @@ export default {
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
+
+		// Reset loading state before mounting the component.
+		// This is useful when we disable a user as the loading state cannot be properly reset upon promise resolution.
+		Object.keys(this.idState.loading).forEach(key => (this.idState.loading[key] = false))
 	},
 
 	methods: {
