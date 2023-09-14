@@ -21,35 +21,36 @@
   -->
 
 <template>
-	<li :class="{'sharing-entry--share': share}" class="sharing-entry sharing-entry__link">
+	<li :class="{ 'sharing-entry--share': share }" class="sharing-entry sharing-entry__link">
 		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
-		<div class="sharing-entry__desc" @click.prevent="toggleQuickShareSelect">
-			<span class="sharing-entry__title" :title="title">
-				{{ title }}
-			</span>
-			<p v-if="subtitle">
-				{{ subtitle }}
-			</p>
-			<QuickShareSelect v-if="share && share.permissions !== undefined"
-				:share="share"
-				:file-info="fileInfo"
-				:toggle="showDropdown"
-				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
-		</div>
 
-		<!-- clipboard -->
-		<NcActions v-if="share && !isEmailShareType && share.token"
-			ref="copyButton"
-			class="sharing-entry__copy">
-			<NcActionLink :href="shareLink"
-				target="_blank"
-				:title="copyLinkTooltip"
-				:aria-label="copyLinkTooltip"
-				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.stop.prevent="copyLink" />
-		</NcActions>
+		<div class="sharing-entry__summary">
+			<div class="sharing-entry__desc" @click.prevent="toggleQuickShareSelect">
+				<span class="sharing-entry__title" :title="title">
+					{{ title }}
+				</span>
+				<p v-if="subtitle">
+					{{ subtitle }}
+				</p>
+				<QuickShareSelect v-if="share && share.permissions !== undefined"
+					:share="share"
+					:file-info="fileInfo"
+					:toggle="showDropdown"
+					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
+			</div>
+
+			<!-- clipboard -->
+			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
+				<NcActionLink :href="shareLink"
+					target="_blank"
+					:title="copyLinkTooltip"
+					:aria-label="copyLinkTooltip"
+					:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
+					@click.stop.prevent="copyLink" />
+			</NcActions>
+		</div>
 
 		<!-- pending actions -->
 		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
@@ -59,9 +60,7 @@
 			:open.sync="open"
 			@close="onNewLinkShare">
 			<!-- pending data menu -->
-			<NcActionText v-if="errors.pending"
-				icon="icon-error"
-				:class="{ error: errors.pending}">
+			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
 				{{ errors.pending }}
 			</NcActionText>
 			<NcActionText v-else icon="icon-info">
@@ -128,8 +127,7 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
-					<NcActionButton :disabled="saving"
-						@click.prevent="openSharingDetails">
+					<NcActionButton :disabled="saving" @click.prevent="openSharingDetails">
 						<template #icon>
 							<Tune />
 						</template>
@@ -148,7 +146,7 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
+				<NcActionLink v-for="({ icon, url, name }, index) in externalLegacyLinkActions"
 					:key="index"
 					:href="url(shareLink)"
 					:icon="icon"
@@ -568,7 +566,7 @@ export default {
 				this.pending = false
 				component.open = true
 
-			// Nothing is enforced, creating share directly
+				// Nothing is enforced, creating share directly
 			} else {
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
@@ -774,21 +772,33 @@ export default {
 	align-items: center;
 	min-height: 44px;
 
+	&__summary {
+		padding: 8px;
+		padding-left: 10px;
+		display: flex;
+		justify-content: space-between;
+		width: 80%;
+		min-width: 80%;
+
 	&__desc {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		padding: 8px;
 		line-height: 1.2em;
 
 		p {
 			color: var(--color-text-maxcontrast);
 		}
-	}
-	&__title {
-		text-overflow: ellipsis;
-		overflow: hidden;
-		white-space: nowrap;
+
+		&__title {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	  }
+
+	  &__copy {
+
+	  }
 	}
 
 	&:not(.sharing-entry--share) &__actions {
@@ -816,9 +826,9 @@ export default {
 	// put menus to the left
 	// but only the first one
 	.action-item {
-		margin-left: auto;
-		~ .action-item,
-		~ .sharing-entry__loading {
+
+		~.action-item,
+		~.sharing-entry__loading {
 			margin-left: 0;
 		}
 	}

@@ -777,6 +777,7 @@ export default {
 					shareWith: this.share.shareWith,
 					attributes: this.share.attributes,
 					note: this.share.note,
+					fileInfo: this.fileInfo,
 				}
 
 				if (this.hasExpirationDate) {
@@ -803,15 +804,6 @@ export default {
 		 * @param {object} fileInfo file data
 		 */
 		async addShare(share, fileInfo) {
-
-			// handle externalResults from OCA.Sharing.ShareSearch
-			if (share.handler) {
-				const shareFromHandler = await share.handler(this)
-				this.$emit('add:share', new Share(shareFromHandler))
-				return true
-			}
-
-			// this.loading = true // Are we adding loaders the new share flow?
 			console.debug('Adding a new share from the input for', share)
 			try {
 				const path = (fileInfo.path + '/' + fileInfo.name).replace('//', '/')
