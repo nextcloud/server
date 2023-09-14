@@ -34,9 +34,9 @@
 				:title="tooltip"
 				:aria-label="tooltip"
 				:href="share.shareWithLink"
-				class="sharing-entry__desc">
+				class="sharing-entry__summary__desc">
 				<span>{{ title }}
-					<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{
+					<span v-if="!isUnique" class="sharing-entry__summary__desc-unique"> ({{
 						share.shareWithDisplayNameUnique }})</span>
 					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
 				</span>
@@ -150,32 +150,9 @@ export default {
 <style lang="scss" scoped>
 .sharing-entry {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	height: 44px;
-
-	&__desc {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding-bottom: 0;
-		line-height: 1.2em;
-
-		p {
-			color: var(--color-text-maxcontrast);
-		}
-
-		&-unique {
-			color: var(--color-text-maxcontrast);
-		}
-
-		small {
-			color: var(--color-text-maxcontrast);
-		}
-	}
-
-	&__actions {
-		margin-left: auto;
-	}
 
 	&__summary {
 		padding: 8px;
@@ -183,7 +160,28 @@ export default {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		width: 100%;
+		width: 75%;
+		min-width: 75%;
+
+		&__desc {
+			display: inline-block;
+			flex-direction: column;
+			justify-content: space-between;
+			padding-bottom: 0;
+			line-height: 1.2em;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			p,
+			small {
+				color: var(--color-text-maxcontrast);
+			}
+
+			&-unique {
+				color: var(--color-text-maxcontrast);
+			}
+		}
 	}
 
 }
