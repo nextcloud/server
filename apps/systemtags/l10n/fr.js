@@ -57,6 +57,8 @@ OC.L10N.register(
     "Failed to select tag" : "Impossible de sélectionner l'étiquette",
     "Failed to create tag" : "Impossible de créer l'étiquette",
     "Failed to delete tag" : "Impossible de supprimer l'étiquette",
+    "This file has the tag {tag}" : "Ce fichier a l'étiquette {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier a les étiquettes {firstTags} et {lastTag}",
     "Failed to load last used tags" : "Impossible de charger les dernières étiquettes utilisées",
     "Missing \"Content-Location\" header" : "Entête \"Contenu-Localisation\" manquant",
     "Tagged files" : "Fichiers étiquetés",

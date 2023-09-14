@@ -108,8 +108,6 @@ OC.L10N.register(
     "Create new folder" : "Opret ny mappe",
     "Upload file" : "Upload fil",
     "Recent" : "Seneste",
-    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}",
     "Not favorited" : "Ingen foretrukne",
     "Remove from favorites" : "Fjern fra favoritter",
     "Add to favorites" : "Tilføj til favoritter",
@@ -245,6 +243,8 @@ OC.L10N.register(
     "Shared with you" : "Delt med dig",
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Afventende delinger",
+    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}",
     "Choose" : "Vælg"
 },
 "nplurals=2; plural=(n != 1);");

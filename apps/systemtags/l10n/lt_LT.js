@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to select tag" : "Nepavyko parinkti žymios",
     "Failed to create tag" : "Nepavyko įkelti žymios",
     "Failed to delete tag" : "Nepavyko pervadinti žymės",
+    "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
     "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
     "Tagged files" : "Pažymėti failai",
     "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",

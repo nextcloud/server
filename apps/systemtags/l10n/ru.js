@@ -57,6 +57,8 @@ OC.L10N.register(
     "Failed to select tag" : "Не удалось выбрать тег",
     "Failed to create tag" : "Не удалось создать тег",
     "Failed to delete tag" : "Не удалось удалить тег",
+    "This file has the tag {tag}" : "У этого файла есть тэг: {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}",
     "Failed to load last used tags" : "Не удалось загрузить последние использованные метки",
     "Missing \"Content-Location\" header" : "Отсутствует заголовок «Content-Location»",
     "Tagged files" : "Помеченные файлы",

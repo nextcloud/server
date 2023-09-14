@@ -55,6 +55,8 @@
     "Failed to select tag" : "Seçilmiş etiket yüklenemedi",
     "Failed to create tag" : "Etiket eklenemedi",
     "Failed to delete tag" : "Etiket silinemedi",
+    "This file has the tag {tag}" : "Dosya {tag} olarak etiketlenmiş",
+    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş",
     "Failed to load last used tags" : "Son kullanılan etiketler yüklenemedi",
     "Missing \"Content-Location\" header" : "\"Content-Location\" üst bilgisi eksik",
     "Tagged files" : "Etiketli dosyalar",

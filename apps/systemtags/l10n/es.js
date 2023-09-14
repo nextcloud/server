@@ -57,6 +57,8 @@ OC.L10N.register(
     "Failed to select tag" : "Fallo al seleccionar etiqueta",
     "Failed to create tag" : "Fallo al crear etiqueta",
     "Failed to delete tag" : "Fallo al borrar etiqueta",
+    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}",
     "Failed to load last used tags" : "Fallo al cargar las etiquetas recientemente utilizadas",
     "Missing \"Content-Location\" header" : "No existe la cabecera \"Content-Location\"",
     "Tagged files" : "Archivos etiquetados",

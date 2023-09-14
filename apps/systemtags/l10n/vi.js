@@ -46,6 +46,8 @@ OC.L10N.register(
     "Collaborative tags" : "Thẻ cộng tác",
     "Collaborative tagging functionality which shares tags among users." : "Chức năng gắn thẻ mang tính hợp tác, chia sẻ thẻ giữa những người dùng.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Chức năng gắn thẻ mang tính hợp tác, chia sẻ thẻ giữa những người dùng. Rất tuyệt đối với các nhóm.\n\t(Nếu bạn là người cung cấp có bản sao có nhiều người thuê, chúng tôi khuyên bạn vô hiệu hóa ứng dụng này vì các thẻ được chia sẻ.)",
+    "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
     "Tagged files" : "Các tệp được dán nhãn",
     "Select tags to filter by" : "Chọn nhãn để lọc theo",
     "No tags found" : "Không tìm thấy nhãn",

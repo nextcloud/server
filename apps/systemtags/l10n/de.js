@@ -56,6 +56,8 @@ OC.L10N.register(
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
     "Failed to create tag" : "Schlagwort konnte nicht erstellt werden",
     "Failed to delete tag" : "Fehler beim Löschen des Schlagwortes",
+    "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}.",
+    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}.",
     "Failed to load last used tags" : "Zuletzt verwendete Schlagworte konnten nicht geladen werden",
     "Missing \"Content-Location\" header" : "Fehlender \"Content-Location\"-Header",
     "Tagged files" : "Mit Tags versehene Dateien",
