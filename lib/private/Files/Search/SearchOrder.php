@@ -68,6 +68,7 @@ class SearchOrder implements ISearchOrder {
 			case 'mimetype':
 				return $a->getMimetype() <=> $b->getMimetype();
 			case 'mtime':
+			case 'enforce_mtime':
 				return $a->getMtime() <=> $b->getMtime();
 			case 'size':
 				return $a->getSize() <=> $b->getSize();

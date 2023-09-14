@@ -127,7 +127,7 @@ class TagSearchProvider implements IProvider {
 			$query->getLimit(),
 			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [
-				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'enforce_mtime'),
 			] : [],
 			$user
 		);

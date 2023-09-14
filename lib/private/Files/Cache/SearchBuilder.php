@@ -236,6 +236,7 @@ class SearchBuilder {
 				$field = 'file.fileid';
 			}
 
+			// The mtime hack:
 			// Mysql really likes to pick an index for sorting if it can't fully satisfy the where
 			// filter with an index, since search queries pretty much never are fully filtered by index
 			// mysql often picks an index for sorting instead of the much more useful index for filtering.
@@ -244,6 +245,12 @@ class SearchBuilder {
 			// use the index, so it instead picks an index for the filtering
 			if ($field === 'mtime') {
 				$field = $query->func()->add($field, $query->createNamedParameter(0));
+			}
+
+			// The index on mtime might be useful for ordering a result set by mtime.
+			// Use "enforce_mtime" as search order to skip the mtime hack.
+			if ($field === 'enforce_mtime') {
+				$field = 'mtime';
 			}
 
 			$query->addOrderBy($field, $order->getDirection());
