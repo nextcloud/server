@@ -2,12 +2,29 @@ import Share from '../models/Share.js'
 
 export default {
 	methods: {
-		openSharingDetails(share) {
-			const shareRequestObject = {
-				fileInfo: this.fileInfo,
-				share: this.mapShareRequestToShareObject(share),
+		async openSharingDetails(shareRequestObject) {
+			let share = {}
+			// handle externalResults from OCA.Sharing.ShareSearch
+			// TODO : Better name/interface for handler required
+			// For example `externalAppCreateShareHook` with proper documentation
+			if (shareRequestObject.handler) {
+				if (this.suggestions) {
+					shareRequestObject.suggestions = this.suggestions
+					shareRequestObject.fileInfo = this.fileInfo
+					shareRequestObject.query = this.query
+				}
+				share = await shareRequestObject.handler(shareRequestObject)
+				share = new Share(share)
+			} else {
+				share = this.mapShareRequestToShareObject(shareRequestObject)
 			}
-			this.$emit('open-sharing-details', shareRequestObject)
+
+			const shareDetails = {
+				fileInfo: this.fileInfo,
+				share,
+			}
+
+			this.$emit('open-sharing-details', shareDetails)
 		},
 		openShareDetailsForCustomSettings(share) {
 			share.setCustomPermissions = true
