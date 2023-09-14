@@ -641,7 +641,7 @@ Raw output
 
 	protected function hasValidTransactionIsolationLevel(): bool {
 		try {
-			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
+			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 				return true;
 			}
 
@@ -839,7 +839,7 @@ Raw output
 		];
 
 		$schema = new SchemaWrapper($this->db);
-		$isSqlite = $this->db->getDatabasePlatform() instanceof SqlitePlatform;
+		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
 		$pendingColumns = [];
 
 		foreach ($tables as $tableName => $columns) {
