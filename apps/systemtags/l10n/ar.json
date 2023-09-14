@@ -55,6 +55,8 @@
     "Failed to select tag" : "إخفاق في اختيار وسم",
     "Failed to create tag" : "إخفاق في إنشا وسم",
     "Failed to delete tag" : "إخفاق في حذف وسم",
+    "This file has the tag {tag}" : "هذا الملف له واصفة {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}",
     "Failed to load last used tags" : "إخفاق في تحميل آخر الوسوم استعمالاً",
     "Missing \"Content-Location\" header" : "ترويسة موقع المحتوى  \"Content-Location\" مفقودة",
     "Tagged files" : "الملفات الموسومة",

@@ -82,6 +82,7 @@ OC.L10N.register(
     "No background" : "Sem fundo",
     "Select a background from your files" : "Selecione o papel de parede de seus arquivos",
     "Select background" : "Selecione o plano de fundo",
+    "No background has been selected" : "Nenhum plano de fundo foi selecionado",
     "Theme selection is enforced" : "A seleção do tema é aplicada",
     "Select a custom color" : "Selecione uma cor personalizada",
     "Reset to default" : "Redefinir para o padrão",

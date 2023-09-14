@@ -57,6 +57,8 @@ OC.L10N.register(
     "Failed to select tag" : "Det gick inte att välja tagg",
     "Failed to create tag" : "Det gick inte att skapa tagg",
     "Failed to delete tag" : "Det gick inte att ta bort tagg",
+    "This file has the tag {tag}" : "Den här filen har taggen {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Den här filen har taggarna {firstTags} och {lastTag}",
     "Failed to load last used tags" : "Det gick inte att läsa in senast använda taggar",
     "Missing \"Content-Location\" header" : "\"Content-Location\" header saknas",
     "Tagged files" : "Taggade filer",
