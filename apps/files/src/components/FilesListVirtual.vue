@@ -70,7 +70,7 @@
 import type { PropType } from 'vue'
 import type { Node } from '@nextcloud/files'
 
-import { translate, translatePlural } from '@nextcloud/l10n'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { getFileListHeaders, Folder, View } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import Vue from 'vue'
@@ -132,14 +132,14 @@ export default Vue.extend({
 
 		summaryFile() {
 			const count = this.files.length
-			return translatePlural('files', '{count} file', '{count} files', count, { count })
+			return n('files', '{count} file', '{count} files', count, { count })
 		},
 		summaryFolder() {
 			const count = this.nodes.length - this.files.length
-			return translatePlural('files', '{count} folder', '{count} folders', count, { count })
+			return n('files', '{count} folder', '{count} folders', count, { count })
 		},
 		summary() {
-			return translate('files', '{summaryFile} and {summaryFolder}', this)
+			return t('files', '{summaryFile} and {summaryFolder}', this)
 		},
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
@@ -192,7 +192,7 @@ export default Vue.extend({
 			return node.fileid
 		},
 
-		t: translate,
+		t,
 	},
 })
 </script>
