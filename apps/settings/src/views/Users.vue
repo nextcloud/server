@@ -56,7 +56,7 @@
 							<AccountGroup :size="20" />
 						</template>
 						<template #counter>
-							<NcCounterBubble :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
 								{{ userCount }}
 							</NcCounterBubble>
 						</template>
