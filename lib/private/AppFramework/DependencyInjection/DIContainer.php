@@ -220,10 +220,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c->get(OC\AppFramework\Middleware\NotModifiedMiddleware::class));
 
 			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class)
-			);
-
-			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class)
