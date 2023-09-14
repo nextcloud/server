@@ -55,6 +55,8 @@
     "Failed to select tag" : "Ознака није могла да се изабере",
     "Failed to create tag" : "Ознака није могла да се креира",
     "Failed to delete tag" : "Ознака није могла да се обрише",
+    "This file has the tag {tag}" : "Овај фајл има ознаку {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}",
     "Failed to load last used tags" : "Последње коришћена ознака није могла да се учита",
     "Missing \"Content-Location\" header" : "Недостаје Content-Location” заглавље",
     "Tagged files" : "Означени фајлови",

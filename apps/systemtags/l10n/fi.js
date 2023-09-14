@@ -47,6 +47,8 @@ OC.L10N.register(
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
     "Collaborative tagging functionality which shares tags among users." : "Yhteisöllistä tunnistetoiminnallisuutta, lopputuloksena tunnisteet jaetaan käyttäjien kesken.",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
+    "This file has the tag {tag}" : "Tällä tiedostolla on tunniste {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}",
     "Tagged files" : "Tunnisteella merkityt tiedostot",
     "Select tags to filter by" : "Valitse suodatettavat tunnisteet",
     "No tags found" : "Tunnisteita ei löytynyt",

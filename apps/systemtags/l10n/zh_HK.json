@@ -55,6 +55,8 @@
     "Failed to select tag" : "無法選擇標籤",
     "Failed to create tag" : "創建標籤失敗",
     "Failed to delete tag" : "刪除標籤失敗",
+    "This file has the tag {tag}" : "此檔案有標籤 {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "此檔案有標籤 {firstTags} 與 {lastTag}",
     "Failed to load last used tags" : "無法加載上次使用的標籤",
     "Missing \"Content-Location\" header" : "缺少 “Content-Location” 標頭",
     "Tagged files" : "已標籤檔案",

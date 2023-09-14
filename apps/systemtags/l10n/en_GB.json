@@ -55,6 +55,8 @@
     "Failed to select tag" : "Failed to select tag",
     "Failed to create tag" : "Failed to create tag",
     "Failed to delete tag" : "Failed to delete tag",
+    "This file has the tag {tag}" : "This file has the tag {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "This file has the tags {firstTags} and {lastTag}",
     "Failed to load last used tags" : "Failed to load last used tags",
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
     "Tagged files" : "Tagged files",
