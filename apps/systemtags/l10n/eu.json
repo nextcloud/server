@@ -55,6 +55,8 @@
     "Failed to select tag" : "Etiketa hautatzeak huts egin du",
     "Failed to create tag" : "Etiketa sortzeak huts egin du",
     "Failed to delete tag" : "Etiketa ezabatzeak huts egin du",
+    "This file has the tag {tag}" : "Fitxategi honek {tag} etiketa dauka",
+    "This file has the tags {firstTags} and {lastTag}" : "Fitxategi honek {firstTags} eta {lastTag} etiketak ditu",
     "Failed to load last used tags" : "Ezin izan dira azken erabilitako etiketak kargatu",
     "Missing \"Content-Location\" header" : "\"Content-Location\" goiburua falta",
     "Tagged files" : "Etiketatutako fitxategiak",

@@ -57,6 +57,8 @@ OC.L10N.register(
     "Failed to select tag" : "Failed to select tag",
     "Failed to create tag" : "Failed to create tag",
     "Failed to delete tag" : "Failed to delete tag",
+    "This file has the tag {tag}" : "این فایل دارای تگ {tag} است",
+    "This file has the tags {firstTags} and {lastTag}" : "این فایل دارای تگ‌های {firstTags} و {lastTag} است.",
     "Failed to load last used tags" : "Failed to load last used tags",
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
     "Tagged files" : "Tagged files",

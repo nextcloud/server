@@ -107,8 +107,6 @@ OC.L10N.register(
     "Create new folder" : "Tạo thư mục mới",
     "Upload file" : "Tải lên tập tin",
     "Recent" : "Gần đây",
-    "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
     "Not favorited" : "‎Không được yêu thích‎",
     "Remove from favorites" : "Xóa khỏi ưa thích",
     "Add to favorites" : "Thêm vào ưa thích",
@@ -240,6 +238,8 @@ OC.L10N.register(
     "Shared with you" : "Đã chia sẻ với bạn",
     "Deleted shares" : "‎Chia sẻ đã xóa‎",
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
+    "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
     "Choose" : "Chọn"
 },
 "nplurals=1; plural=0;");

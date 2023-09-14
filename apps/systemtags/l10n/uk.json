@@ -55,6 +55,8 @@
     "Failed to select tag" : "Не вдалося вибрати мітку",
     "Failed to create tag" : "Не вдалося створити мітку",
     "Failed to delete tag" : "Не вдалося видалити мітку",
+    "This file has the tag {tag}" : "Цей файл має мітку {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Цей файл має мітку {firstTags} та {lastTag}",
     "Failed to load last used tags" : "Не вдалося завантажити останні мітки",
     "Missing \"Content-Location\" header" : "Відсутній заголовок \"Content-Location\"",
     "Tagged files" : "Файли з мітками",

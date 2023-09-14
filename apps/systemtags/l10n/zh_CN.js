@@ -47,6 +47,8 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among users." : "协作标签功能在用户间共享标签。",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "协作标签功能在用户间共享标签。适合团队使用。\n\n\t（如果您是一个多租户安装实例的提供者，建议在标签共享时禁用此应用）",
     "Failed to load tags" : "加载标签失败",
+    "This file has the tag {tag}" : "这个文件有 {tag} 标签",
+    "This file has the tags {firstTags} and {lastTag}" : "这个文件有 {firstTags} 和 {lastTag} 标签",
     "Tagged files" : "标签文件",
     "Select tags to filter by" : "选择标签来筛选",
     "No tags found" : "标签未找到",

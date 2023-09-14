@@ -55,6 +55,8 @@
     "Failed to select tag" : "Štítek se nepodařilo načíst",
     "Failed to create tag" : "Štítek se nepodařilo vytvořit",
     "Failed to delete tag" : "Štítek se nepodařilo smazat",
+    "This file has the tag {tag}" : "Tento soubor má štítek {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}",
     "Failed to load last used tags" : "Nepodařilo se načíst nedávno použité štítky",
     "Missing \"Content-Location\" header" : "Chybí hlavička „Content-Location“",
     "Tagged files" : "Oštítkované soubory",
