@@ -46,6 +46,8 @@ OC.L10N.register(
     "Collaborative tags" : "협업 태그",
     "Collaborative tagging functionality which shares tags among users." : "사용자간 태그를 공유하는 협업 태그 기능입니다.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "사용자간 태그를 공유하는 협업 태그 기능입니다. 팀에 유용합니다.\n\t(여러 사람이 공유하도록 시스템을 설치한 공급자라면 태그가 공유되기 때문에 이 앱을 비활성화하는 것을 추천합니다.)",
+    "This file has the tag {tag}" : "이 파일에 {tag} 태그가 있음",
+    "This file has the tags {firstTags} and {lastTag}" : "이 파일에 {firstTags}와 {lastTag} 태그가 있음",
     "Tagged files" : "태그 된 파일",
     "Select tags to filter by" : "필터링할 태그 선택",
     "No tags found" : "태그를 찾을 수 없음",

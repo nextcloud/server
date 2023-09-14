@@ -55,6 +55,8 @@
     "Failed to select tag" : "No s'ha pogut seleccionar l'etiqueta",
     "Failed to create tag" : "No s'ha pogut crear l'etiqueta",
     "Failed to delete tag" : "No s'ha pogut suprimir l'etiqueta",
+    "This file has the tag {tag}" : "Aquest fitxer té l'etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Aquest fitxer té les etiquetes {firstTags} i {lastTag}",
     "Failed to load last used tags" : "No s'han pogut carregar les etiquetes utilitzades recentment",
     "Missing \"Content-Location\" header" : "Falta la capçalera «Content-Location»",
     "Tagged files" : "Fitxers etiquetats",

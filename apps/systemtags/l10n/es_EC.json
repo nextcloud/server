@@ -55,6 +55,8 @@
     "Failed to select tag" : "Error al seleccionar la etiqueta",
     "Failed to create tag" : "Error al crear la etiqueta",
     "Failed to delete tag" : "Error al eliminar la etiqueta",
+    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}.",
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}.",
     "Failed to load last used tags" : "Error al cargar las últimas etiquetas utilizadas",
     "Missing \"Content-Location\" header" : "Falta el encabezado \"Content-Location\"",
     "Tagged files" : "Archivos etiquetados",

@@ -49,6 +49,8 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among users." : "ユーザー間でタグを共有するコラボレーティブタグ機能。",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ユーザー間でタグを共有する共同タグ機能。 チームに最適です。\n（マルチテナンシーインストールのプロバイダーの場合は、タグが共有されているため、このアプリを非アクティブ化することをお勧めします。）",
     "Failed to load tags" : "タグの読込に失敗しました",
+    "This file has the tag {tag}" : "このファイルには {tag} タグがあります。",
+    "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります",
     "Tagged files" : "タグ済ファイル",
     "Select tags to filter by" : "フィルターするタグを選択してください",
     "No tags found" : "タグが見つかりません",

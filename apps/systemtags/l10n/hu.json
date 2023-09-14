@@ -55,6 +55,8 @@
     "Failed to select tag" : "A címke kiválasztása sikertelen",
     "Failed to create tag" : "A címke létrehozása sikertelen",
     "Failed to delete tag" : "A címke törlése sikertelen",
+    "This file has the tag {tag}" : "Ennek a fájlnak ez a címkéje: {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Ennek a fájlnak ezek a címkéi: {firstTags} és {lastTag}",
     "Failed to load last used tags" : "A legutóbb használt címkék betöltése sikertelen",
     "Missing \"Content-Location\" header" : "Hiányzó „Content-Location” fejléc",
     "Tagged files" : "Címkézett fájlok",

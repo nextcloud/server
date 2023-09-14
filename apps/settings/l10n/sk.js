@@ -339,6 +339,7 @@ OC.L10N.register(
     "Display name" : "Zobrazované meno",
     "Email" : "Email",
     "Quota" : "Kvóta",
+    "Total rows summary" : "Súčet všetkých riadkov",
     "Avatar" : "Avatar",
     "Group admin for" : "Administrátor skupiny pre",
     "User backend" : "Backend používateľa",

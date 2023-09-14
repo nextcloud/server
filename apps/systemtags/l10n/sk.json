@@ -47,6 +47,8 @@
     "Collaborative tagging functionality which shares tags among users." : "Funkcie spoločného označovania, ktoré zdieľajú štítky medzi používateľmi.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcie spoločného označovania, ktoré zdieľajú štítky medzi používateľmi. Skvelé pre tímy.\n\t (Ak ste poskytovateľom inštalácie pre viacero subjektov, odporúča sa túto aplikáciu deaktivovať, pretože štítky sú zdieľané.)",
     "Failed to load tags" : "Nepodarilo sa načítať štítky",
+    "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}",
     "Tagged files" : "Súbory so štítkom",
     "Select tags to filter by" : "Vybrať štítky pre filter",
     "No tags found" : "Štítky sa nenašli",

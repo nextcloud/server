@@ -38,6 +38,8 @@ OC.L10N.register(
     "Tags" : "Mærker",
     "Collaborative tags" : "Kollaborativ tags",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
+    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}",
     "Tagged files" : "Mærkede filer",
     "Select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
     "No tags found" : "Ingen tags fundet",
