@@ -250,11 +250,12 @@
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
 					:disabled="isLoadingField"
-					:loading="idState.loading.manager"
+					:loading="idState.loadingPossibleManagers || idState.loading.manager"
 					label="displayname"
 					:options="idState.possibleManagers"
 					:placeholder="managerLabel"
 					class="select-vue"
+					@open="searchInitialUserManager"
 					@search="searchUserManager"
 					@option:selected="updateUserManager"
 					@input="updateUserManager" />
@@ -359,6 +360,7 @@ export default {
 		return {
 			selectedQuota: false,
 			rand: Math.random().toString(36).substring(2),
+			loadingPossibleManagers: false,
 			possibleManagers: [],
 			currentManager: '',
 			editing: false,
@@ -502,11 +504,13 @@ export default {
 	},
 
 	async beforeMount() {
-		await this.searchUserManager()
-
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
+
+		// Reset loading state before mounting the component.
+		// This is useful when we disable a user as the loading state cannot be properly reset upon promise resolution.
+		Object.keys(this.idState.loading).forEach(key => (this.idState.loading[key] = false))
 	},
 
 	methods: {
@@ -545,6 +549,12 @@ export default {
 			await this.$store.dispatch('getUser', userId).then(response => {
 				this.idState.currentManager = response?.data.ocs.data
 			})
+		},
+
+		async searchInitialUserManager() {
+			this.idState.loadingPossibleManagers = true
+			await this.searchUserManager()
+			this.idState.loadingPossibleManagers = false
 		},
 
 		async searchUserManager(query) {
