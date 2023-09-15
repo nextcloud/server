@@ -263,7 +263,7 @@ export default {
 		return {
 			writeNoteToRecipientIsChecked: false,
 			sharingPermission: BUNDLED_PERMISSIONS.ALL.toString(),
-			revertSharingPermission: null,
+			revertSharingPermission: BUNDLED_PERMISSIONS.ALL.toString(),
 			setCustomPermissions: false,
 			passwordError: false,
 			advancedSectionAccordionExpanded: false,
@@ -675,8 +675,10 @@ export default {
 			}
 			this.toggleCustomPermissions()
 		},
-		toggleCustomPermissions() {
-			this.setCustomPermissions = this.sharingPermission === 'custom'
+		toggleCustomPermissions(selectedPermission) {
+			const isCustomPermissions = this.sharingPermission === 'custom'
+			this.revertSharingPermission = !isCustomPermissions ? selectedPermission : 'custom'
+			this.setCustomPermissions = isCustomPermissions
 		},
 		initializeAttributes() {
 
