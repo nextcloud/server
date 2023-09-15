@@ -209,7 +209,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if ($includeMounts) {
 			$this->updateEntryfromSubMounts();
 
-			if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+			if ($this->isEncrypted() && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
 				return $this->data['unencrypted_size'];
 			} else {
 				return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
@@ -231,7 +231,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isEncrypted() {
-		return $this->data['encrypted'];
+		return $this->data['encrypted'] ?? false;
 	}
 
 	/**
