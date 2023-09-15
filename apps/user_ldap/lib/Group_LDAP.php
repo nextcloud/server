@@ -46,12 +46,16 @@ namespace OCA\User_LDAP;
 
 use Exception;
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\User\OfflineUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\GroupInterface;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
+use function json_decode;
 
 class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
 	protected bool $enabled = false;
@@ -83,7 +87,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
 	}
 
@@ -664,15 +668,28 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
-	public function getUserGroups($uid) {
+	public function getUserGroups($uid): array {
 		if (!$this->enabled) {
 			return [];
 		}
+		$ncUid = $uid;
+
 		$cacheKey = 'getUserGroups' . $uid;
 		$userGroups = $this->access->connection->getFromCache($cacheKey);
 		if (!is_null($userGroups)) {
 			return $userGroups;
 		}
+
+		$user = $this->access->userManager->get($uid);
+		if ($user instanceof OfflineUser) {
+			// We load known group memberships from configuration for remnants,
+			// because LDAP server does not contain them anymore
+			/** @var IConfig $config */
+			$config = Server::get(IConfig::class);
+			$groupStr = $config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
+			return json_decode($groupStr) ?? [];
+		}
+
 		$userDN = $this->access->username2dn($uid);
 		if (!$userDN) {
 			$this->access->connection->writeToCache($cacheKey, []);
@@ -786,6 +803,10 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 
 		$groups = array_unique($groups, SORT_LOCALE_STRING);
 		$this->access->connection->writeToCache($cacheKey, $groups);
+		/** @var IConfig $config */
+		$config = Server::get(IConfig::class);
+		$groupStr = \json_encode($groups);
+		$config->setUserValue($ncUid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), $groupStr);
 
 		return $groups;
 	}
