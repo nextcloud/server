@@ -356,9 +356,16 @@ export default {
 		 * @param {Share} share the share to remove
 		 */
 		removeShare(share) {
-			const index = this.shares.findIndex(item => item.id === share.id)
-			// eslint-disable-next-line vue/no-mutating-props
-			this.shares.splice(index, 1)
+			// Get reference for this.linkShares or this.shares
+			const shareList
+				= share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+					|| share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+					? this.linkShares
+					: this.shares
+			const index = shareList.findIndex(item => item.id === share.id)
+			if (index !== -1) {
+				shareList.splice(index, 1)
+			}
 		},
 		/**
 		 * Await for next tick and render after the list updated
