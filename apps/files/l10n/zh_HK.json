@@ -168,7 +168,7 @@
     "in %s" : "在 %s",
     "File Management" : "檔案管理",
     "Reload current directory" : "重新加載目前目錄",
-    "Go to the \"{dir}\" directory" : "轉到 \"{dir}\" 目錄",
+    "Go to the \"{dir}\" directory" : "前往「{dir}」目錄",
     "Select the row for {displayName}" : "選擇 {displayName} 的行",
     "Rename file" : "重新命名檔案",
     "A long time ago" : "很久以前",
