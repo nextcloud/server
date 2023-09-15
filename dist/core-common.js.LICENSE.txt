@@ -94,18 +94,6 @@
 
 /*! @license DOMPurify 3.0.5 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.0.5/LICENSE */
 
-/*! For license information please see NcActionInput.js.LICENSE.txt */
-
-/*! For license information please see NcActions.js.LICENSE.txt */
-
-/*! For license information please see NcAppContent.js.LICENSE.txt */
-
-/*! For license information please see NcAppNavigation.js.LICENSE.txt */
-
-/*! For license information please see NcAppNavigationItem.js.LICENSE.txt */
-
-/*! For license information please see NcAvatar.js.LICENSE.txt */
-
 /*! For license information please see NcButton.js.LICENSE.txt */
 
 /*! For license information please see NcModal.js.LICENSE.txt */
@@ -113,10 +101,6 @@
 /*! For license information please see NcNoteCard.js.LICENSE.txt */
 
 /*! For license information please see NcPasswordField.js.LICENSE.txt */
-
-/*! For license information please see NcSelect.js.LICENSE.txt */
-
-/*! For license information please see NcTextField.js.LICENSE.txt */
 
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
