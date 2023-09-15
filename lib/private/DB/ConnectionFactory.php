@@ -33,6 +33,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
 use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
+use OC\AppFramework\App;
 use OC\SystemConfig;
 
 /**
@@ -93,6 +94,21 @@ class ConnectionFactory {
 		if ($collationOverride) {
 			$this->defaultConnectionParams['mysql']['collation'] = $collationOverride;
 		}
+
+		$connectionParams = $this->config->getValue('dbconnectionparams', array()) ?: array();
+
+		foreach ($connectionParams as $type) {
+			foreach ($type as $key => $param) {
+				switch ($key) {
+					case 'adapter':
+					case 'wrapperClass':
+						\OC::$server->get(App::class)::registerAppClass($param);
+						break;
+				}
+			}
+		}
+
+		$this->defaultConnectionParams = array_replace_recursive($this->defaultConnectionParams, $connectionParams);
 	}
 
 	/**
@@ -158,9 +174,40 @@ class ConnectionFactory {
 				break;
 		}
 		/** @var Connection $connection */
+		$configuration = new Configuration();
+
+		foreach ($this->config->getValue('dbconfigurationparams', array()) as $param => $value) {
+			switch ($param) {
+				case "sqllogger":
+					\OC::$server->get(App::class)::registerAppClass($value);
+					$configuration->setSQLLogger(new $value());
+					break;
+				case "resultcache":
+					\OC::$server->get(App::class)::registerAppClass($value);
+					$configuration->setResultCache(new $value());
+					break;
+				case "schemaassetsfilter":
+					$configuration->setSchemaAssetsFilter($value);
+					break;
+				case "autocommit":
+					$configuration->setAutoCommit($value);
+					break;
+				case "middlewares":
+					$middlewares = array();
+
+					foreach ($value as $middleware) {
+						\OC::$server->get(App::class)::registerAppClass($middleware);
+						array_push($middlewares, new $middleware());
+					}
+
+					$configuration->setMiddlewares($value);
+					break;
+			}
+		}
+
 		$connection = DriverManager::getConnection(
 			array_merge($this->getDefaultConnectionParams($type), $additionalConnectionParams),
-			new Configuration(),
+			$configuration,
 			$eventManager
 		);
 		return $connection;

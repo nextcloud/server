@@ -302,7 +302,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @param bool $ignoreCache ignore cache and rebuild it
-	 * @return false|string
+	 * @return false|array
 	 */
 	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
 		$sanitizedAppId = self::cleanAppId($appId);

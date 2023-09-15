@@ -1825,6 +1825,34 @@ $CONFIG = [
 ],
 
 /**
+ * Allows defining custom DB types and options as well as the ability to override
+ * the default connection parameters as defined by
+ * OC\DB\ConnectionFactory::defaultConnectionParams.
+ */
+'dbconnectionparams' => [
+	'dbtype' => [
+		'adapter' => AdapterMySQL::class,
+		'charset' => 'UTF8',
+		'driver' => 'pdo_dbtype',
+		'wrapperClass' => Doctrine\DBAL\Connection::class,
+	],
+],
+
+/**
+ * Allows additional configuration options to be provided for the database
+ * connection as defined by Doctrine\DBAL\Configuration::class. This is useful
+ * for specifying a custom logger, middlewares, etc.
+ */
+'dbconfigurationparams' => [
+	"sqllogger" => 'Doctrine\DBAL\Logging\SQLLogger',
+	"resultcache" => 'Psr\Cache\CacheItemPoolInterface',
+	"schemaassetsfilter" => 'callable',
+	"autocommit" => true,
+	"middlewares" => array(
+		'Doctrine\DBAL\Driver\Middleware',
+	),
+],
+/**
  * sqlite3 journal mode can be specified using this configuration parameter -
  * can be 'WAL' or 'DELETE' see for more details https://www.sqlite.org/wal.html
  */
