@@ -14,6 +14,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именоване верзије су постојане и изузете су из аутоматског чишћења када се испуни ваша диск квота.",
     "Remove version name" : "Уклони назив верзије",
     "Save version name" : "Сачувај назив верзије",
+    "Current version" : "Тренутна верзија",
     "Initial version restored" : "Рестаурирана је почетна верзија",
     "Version restored" : "Верзија је рестаурирана",
     "Could not restore version" : "Верзија није могла да се рестаурира",

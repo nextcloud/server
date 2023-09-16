@@ -9,6 +9,7 @@
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Pomenované verzie sa zachovajú a po naplnení kvóty úložiska sa vylúčia z automatického čistenia.",
     "Remove version name" : "Odstráňte názov verzie",
     "Save version name" : "Uložiť názov verzie",
+    "Current version" : "Aktuálna verzia",
     "Version restored" : "Verzia bola obnovená",
     "Could not restore version" : "Nepodarilo sa obnoviť verziu",
     "Failed to revert {file} to revision {timestamp}." : "Zlyhalo obnovenie súboru {file} na verziu {timestamp}.",
