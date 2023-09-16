@@ -14,6 +14,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "النُّسخ المُسمّاة محفوظة و مُستثناة من التنظيف التلقائي عند تضاؤل المٌتاح من الحصة التخزينية.",
     "Remove version name" : "إلغ اسم النسخة",
     "Save version name" : "إحفظ اسم النسخة",
+    "Current version" : "الإصدار الحالي",
     "Initial version restored" : "استعادة النسخة الأساسية",
     "Version restored" : "تمّت استعادة النسخة",
     "Could not restore version" : "لم يُمكن استعادة النسخة",

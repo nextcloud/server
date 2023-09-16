@@ -14,6 +14,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Výslovně verze jsou trvalé a vynechány z automatického čištění při vyčerpání vaší kvóty na úložišti.",
     "Remove version name" : "Odebrat název verze",
     "Save version name" : "Uložit název verze",
+    "Current version" : "Stávající verze",
     "Initial version restored" : "Počáteční verze obnovena",
     "Version restored" : "Verze obnovena",
     "Could not restore version" : "Verzi se nedaří obnovit",

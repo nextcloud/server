@@ -12,6 +12,7 @@
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именуваните верзии опстојуваат и се исклучени од автоматско чистење кога вашата квота за складирање е полна.",
     "Remove version name" : "Избриши име на верзијата",
     "Save version name" : "Зачувај име на верзија",
+    "Current version" : "Моментална верзија",
     "Initial version restored" : "Почетната верзијата е вратена",
     "Version restored" : "Верзијата е вратена",
     "Could not restore version" : "Неможе да се врати верзијата",
