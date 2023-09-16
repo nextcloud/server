@@ -14,6 +14,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Adlandırılmış sürümler kalıcı olur ve depolama alanı kotanız dolduğunda otomatik temizleme işlemine katılmaz.",
     "Remove version name" : "Sürüm adını kaldır",
     "Save version name" : "Sürüm adını kaydet",
+    "Current version" : "Geçerli sürüm",
     "Initial version restored" : "İlk sürüm geri yüklendi",
     "Version restored" : "Sürüm geri yüklendi",
     "Could not restore version" : "Sürüm geri yüklenemedi",

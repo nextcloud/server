@@ -11,6 +11,7 @@
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "A nevesített verziók meg lesznek őrizve, és ki lesznek zárva az automatikus takarítás alól, ha a tárkvóta betelik.",
     "Remove version name" : "Verziónév eltávolítása",
     "Save version name" : "Verziónév mentése",
+    "Current version" : "Jelenlegi verzió",
     "Initial version restored" : "Kezdeti verzió helyreállítva",
     "Version restored" : "Verzió helyreállítva",
     "Could not restore version" : "Nem sikerült helyreállítani a verziót",
