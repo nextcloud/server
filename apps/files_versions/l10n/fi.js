@@ -11,6 +11,7 @@ OC.L10N.register(
     "Version name" : "Version nimi",
     "Remove version name" : "Poista version nimi",
     "Save version name" : "Tallenna version nimi",
+    "Current version" : "Nykyinen versio",
     "Initial version restored" : "Ensimmäinen versio palautettu",
     "Version restored" : "Versio palautettu",
     "Could not restore version" : "Versiota ei voitu palauttaa",

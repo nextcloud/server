@@ -13,6 +13,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Las versiones con nombre se conservan y se excluyen de las limpiezas automáticas cuando tu cuota de almacenamiento está llena.",
     "Remove version name" : "Eliminar nombre de versión",
     "Save version name" : "Guardar nombre de versión",
+    "Current version" : "Versión actual",
     "Initial version restored" : "Versión inicial restaurada",
     "Version restored" : "Versión restaurada",
     "Could not restore version" : "No se pudo restaurar la versión",
