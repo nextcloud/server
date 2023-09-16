@@ -119,7 +119,6 @@
 				:boundaries-element="getBoundariesElement()"
 				:container="getBoundariesElement()"
 				:disabled="source._loading"
-				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
