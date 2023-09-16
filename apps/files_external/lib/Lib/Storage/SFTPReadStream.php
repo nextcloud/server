@@ -112,8 +112,6 @@ class SFTPReadStream implements File {
 				return false;
 		}
 
-		$this->request_chunk(256 * 1024);
-
 		return true;
 	}
 
@@ -126,12 +124,10 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_read($count) {
-		if (!$this->eof && strlen($this->buffer) < $count) {
+		while (strlen($this->buffer) < $count && !$this->eof) {
+			$this->request_chunk(256 * 1024);
 			$chunk = $this->read_chunk();
 			$this->buffer .= $chunk;
-			if (!$this->eof) {
-				$this->request_chunk(256 * 1024);
-			}
 		}
 
 		$data = substr($this->buffer, 0, $count);
