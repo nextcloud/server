@@ -164,7 +164,7 @@
 			</section>
 		</div>
 
-		<div class="sharingTabDetailsView__delete">
+		<div class="sharingTabDetailsView__footer">
 			<NcButton v-if="!isNewShare"
 				:aria-label="t('files_sharing', 'Delete share')"
 				:disabled="false"
@@ -176,9 +176,6 @@
 				</template>
 				{{ t('files_sharing', 'Delete share') }}
 			</NcButton>
-		</div>
-
-		<div class="sharingTabDetailsView__footer">
 			<div class="button-group">
 				<NcButton @click="$emit('close-sharing-details')">
 					{{ t('file_sharing', 'Cancel') }}
@@ -1005,12 +1002,6 @@ export default {
 		}
 	}
 
-	&__delete {
-		>button:first-child {
-			color: rgb(223, 7, 7);
-		}
-	}
-
 	&__footer {
 		width: 100%;
 		display: flex;
@@ -1019,6 +1010,11 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: flex-start;
+
+		>button:first-child {
+			color: rgb(223, 7, 7);
+			background-color: #f5f5f5;
+		}
 
 		.button-group {
 			display: flex;
