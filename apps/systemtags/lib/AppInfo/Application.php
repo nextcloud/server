@@ -56,7 +56,7 @@ class Application extends App implements IBootstrap {
 				LoadAdditionalScriptsEvent::class,
 				function () {
 					\OCP\Util::addScript('core', 'systemtags');
-					\OCP\Util::addScript(self::APP_ID, 'systemtags');
+					\OCP\Util::addInitScript(self::APP_ID, 'init');
 				}
 			);
 

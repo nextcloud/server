@@ -40,7 +40,7 @@ interface ResponseProps extends DAVResultResponseProps {
 	size: number,
 }
 
-const resultToNode = function(node: FileStat): File | Folder {
+export const resultToNode = function(node: FileStat): File | Folder {
 	const props = node.props as ResponseProps
 	const permissions = davParsePermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string

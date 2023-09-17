@@ -20,10 +20,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import './actions/inlineSystemTagsAction.js'
 
-import './app.js'
-import './systemtagsfilelist.js'
-import './css/systemtagsfilelist.scss'
-import './actions/inlineSystemTagsAction.ts'
+import { translate as t } from '@nextcloud/l10n'
+import { Column, Node, View, getNavigation } from '@nextcloud/files'
+import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 
-window.OCA.SystemTags = OCA.SystemTags
+import { getContents } from './services/systemtags.js'
+
+const Navigation = getNavigation()
+Navigation.register(new View({
+	id: 'systemtags',
+	name: t('systemtags', 'Tags'),
+	caption: t('systemtags', 'List of tags and their associated files and folders.'),
+
+	emptyTitle: t('systemtags', 'No tags found'),
+	emptyCaption: t('systemtags', 'Tags you have created will show up here.'),
+
+	icon: TagMultipleSvg,
+	order: 25,
+
+	getContents,
+}))
