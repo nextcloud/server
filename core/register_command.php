@@ -214,6 +214,12 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceResetAttempts::class));
+
+	$application->add(\OC::$server->get(OC\Core\Command\Profiler\Clear::class));
+	$application->add(\OC::$server->get(OC\Core\Command\Profiler\Disable::class));
+	$application->add(\OC::$server->get(OC\Core\Command\Profiler\Enable::class));
+	$application->add(\OC::$server->get(OC\Core\Command\Profiler\Export::class));
+	$application->add(\OC::$server->get(OC\Core\Command\Profiler\ListCommand::class));
 } else {
 	$application->add(\OC::$server->get(\OC\Core\Command\Maintenance\Install::class));
 }
