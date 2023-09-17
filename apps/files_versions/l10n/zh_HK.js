@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "移除版本名稱",
     "Save version name" : "儲存版本名稱",
     "Current version" : "目前版本",
+    "Initial version" : "初始版本",
     "Initial version restored" : "初始版本已還原",
     "Version restored" : "版本已還原",
     "Could not restore version" : "無法還原版本",

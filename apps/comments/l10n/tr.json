@@ -19,13 +19,13 @@
     "Retry" : "Yeniden dene",
     "Failed to mark comments as read" : "Yorumlar okunmuş olarak işaretlenemedi",
     "Unable to load the comments list" : "Yorum listesi yüklenemedi",
-    "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"],
     "_1 new comment_::_{unread} new comments_" : ["1 yeni yorum","{unread} yeni yorum"],
     "Comment" : "Yorum",
     "An error occurred while trying to edit the comment" : "Yorum düzenlenmeye çalışılırken bir sorun çıktı",
     "Comment deleted" : "Yorum silindi",
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
     "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
-    "%1$s commented" : "%1$s yorumlanmış"
+    "%1$s commented" : "%1$s yorumlanmış",
+    "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

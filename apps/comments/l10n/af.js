@@ -14,8 +14,8 @@ OC.L10N.register(
     "Delete comment" : "Skrap kommentaar",
     "No comments yet, start the conversation!" : "Nog geen kommentaar, begin die gesprek!",
     "Retry" : "Herprobeer",
-    "_%n unread comment_::_%n unread comments_" : ["%n ongelese kommentaar","%n ongelese kommentare"],
     "Comment" : "Kommentaar",
-    "%1$s commented" : "%1$s het kommentaar gelewer"
+    "%1$s commented" : "%1$s het kommentaar gelewer",
+    "_%n unread comment_::_%n unread comments_" : ["%n ongelese kommentaar","%n ongelese kommentare"]
 },
 "nplurals=2; plural=(n != 1);");

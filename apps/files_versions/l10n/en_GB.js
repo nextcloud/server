@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "Remove version name",
     "Save version name" : "Save version name",
     "Current version" : "Current version",
+    "Initial version" : "Initial version",
     "Initial version restored" : "Initial version restored",
     "Version restored" : "Version restored",
     "Could not restore version" : "Could not restore version",

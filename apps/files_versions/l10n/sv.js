@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "Ta bort versionsnamn",
     "Save version name" : "Spara versionsnamn",
     "Current version" : "Aktuell version",
+    "Initial version" : "Första versionen",
     "Initial version restored" : "Ursprunglig version återställd",
     "Version restored" : "Version återställd",
     "Could not restore version" : "Kunde inte återställa versionen",

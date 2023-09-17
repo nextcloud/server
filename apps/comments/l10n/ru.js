@@ -21,13 +21,13 @@ OC.L10N.register(
     "Retry" : "Повторить",
     "Failed to mark comments as read" : "Не удалось пометить комментарии как прочитанные",
     "Unable to load the comments list" : "Невозможно загрузить список комментариев",
-    "_%n unread comment_::_%n unread comments_" : ["%n непрочитанный комментарий","%n непрочитанных комментариев","%n непрочитанных комментариев","%n непрочитанных комментариев"],
     "_1 new comment_::_{unread} new comments_" : ["1 новый комментарий","{unread} новых комментариев","{unread} новых комментариев","{unread} новых комментариев"],
     "Comment" : "Комментарий",
     "An error occurred while trying to edit the comment" : "Попытка редактирования комментария завершилась ошибкой",
     "Comment deleted" : "Комментарий удалён",
     "An error occurred while trying to delete the comment" : "Попытка удаления комментария завершилась ошибкой",
     "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой",
-    "%1$s commented" : "%1$s прокомментировано"
+    "%1$s commented" : "%1$s прокомментировано",
+    "_%n unread comment_::_%n unread comments_" : ["%n непрочитанный комментарий","%n непрочитанных комментариев","%n непрочитанных комментариев","%n непрочитанных комментариев"]
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
