@@ -21,6 +21,7 @@
 
 namespace Test\Diagnostics;
 
+use OCP\Profiler\IProfiler;
 use Psr\Log\LoggerInterface;
 use OC\Diagnostics\EventLogger;
 use OC\Log;
@@ -37,7 +38,8 @@ class EventLoggerTest extends TestCase {
 		$this->logger = new EventLogger(
 			$this->createMock(SystemConfig::class),
 			$this->createMock(LoggerInterface::class),
-			$this->createMock(Log::class)
+			$this->createMock(Log::class),
+			$this->createMock(IProfiler::class),
 		);
 	}
 
