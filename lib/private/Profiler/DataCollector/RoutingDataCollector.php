@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Profiler;
+namespace OC\Profiler\DataCollector;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\Response;

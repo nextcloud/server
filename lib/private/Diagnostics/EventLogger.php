@@ -25,6 +25,7 @@
 namespace OC\Diagnostics;
 
 use OC\Log;
+use OC\Profiler\DataCollector\EventLoggerDataProvider;
 use OC\SystemConfig;
 use OCP\Diagnostics\IEvent;
 use OCP\Diagnostics\IEventLogger;
@@ -119,6 +120,9 @@ class EventLogger implements IEventLogger {
 	 * @inheritdoc
 	 */
 	public function activate() {
+		if (!$this->activated) {
+			$this->profiler->add(new EventLoggerDataProvider($this));
+		}
 		$this->activated = true;
 	}
 

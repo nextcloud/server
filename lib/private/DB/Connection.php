@@ -47,13 +47,14 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OC\DB\QueryBuilder\QueryBuilder;
+use OC\Profiler\DataCollector\DbDataCollector;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
-use OC\DB\QueryBuilder\QueryBuilder;
-use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
 
 class Connection extends \Doctrine\DBAL\Connection {

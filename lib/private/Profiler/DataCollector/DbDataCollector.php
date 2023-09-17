@@ -23,14 +23,18 @@ declare(strict_types = 1);
  *
  */
 
-namespace OC\DB;
+namespace OC\Profiler\DataCollector;
 
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use OC\AppFramework\Http\Request;
+use OC\DB\BacktraceDebugStack;
+use OC\DB\Connection;
+use OC\DB\ObjectParameter;
 use OCP\AppFramework\Http\Response;
+use OCP\DataCollector\AbstractDataCollector;
 
-class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
+class DbDataCollector extends AbstractDataCollector {
 	protected ?BacktraceDebugStack $debugStack = null;
 	private Connection $connection;
 

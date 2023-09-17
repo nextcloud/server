@@ -28,8 +28,12 @@ namespace OC\Profiler;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestVars;
+use OC\Profiler\DataCollector\EventLoggerDataProvider;
+use OC\Profiler\DataCollector\HttpDataCollector;
+use OC\Profiler\DataCollector\MemoryDataCollector;
 use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\IDataCollector;
+use OCP\Diagnostics\IEventLogger;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\Profiler\IProfile;
@@ -48,7 +52,7 @@ class Profiler implements IProfiler {
 	 * we inject the container, else we get a loop with the IRequest
 	 */
 	public function __construct(SystemConfig $config, RequestVars $request) {
-		$this->enabled = $this->shouldProfilerBeEnabled($config, $request);
+		$this->setEnabled($this->shouldProfilerBeEnabled($config, $request));
 		$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/profiler');
 	}
 
@@ -141,6 +145,10 @@ class Profiler implements IProfiler {
 
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
+		if ($enabled) {
+			$this->add(new HttpDataCollector());
+			$this->add(new MemoryDataCollector());
+		}
 	}
 
 	public function clear(): void {
