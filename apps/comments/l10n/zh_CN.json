@@ -19,13 +19,13 @@
     "Retry" : "重试",
     "Failed to mark comments as read" : "将评论标记为已读失败",
     "Unable to load the comments list" : "无法加载评论列表",
-    "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} 条新评论"],
     "Comment" : "评论",
     "An error occurred while trying to edit the comment" : "编辑评论时出错",
     "Comment deleted" : "评论已删除",
     "An error occurred while trying to delete the comment" : "删除评论时出错",
     "An error occurred while trying to create the comment" : "创建评论时出错",
-    "%1$s commented" : "%1$s 已评论"
+    "%1$s commented" : "%1$s 已评论",
+    "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

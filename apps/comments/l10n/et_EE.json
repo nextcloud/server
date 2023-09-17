@@ -19,13 +19,13 @@
     "Retry" : "Proovi uuesti",
     "Failed to mark comments as read" : "Kommentaaride loetuks märkimine ebaõnnestus",
     "Unable to load the comments list" : "Kommentaaride loendi laadimine ebaõnnestus",
-    "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"],
     "_1 new comment_::_{unread} new comments_" : ["1 uus kommentaar","{unread} uus kommentaar"],
     "Comment" : "Kommentaar",
     "An error occurred while trying to edit the comment" : "Kommentaari muutmisel tekkis tõrge",
     "Comment deleted" : "Kommentaar kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis tõrge",
     "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge",
-    "%1$s commented" : "%1$s kommenteeris"
+    "%1$s commented" : "%1$s kommenteeris",
+    "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

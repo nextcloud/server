@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "إلغ اسم النسخة",
     "Save version name" : "إحفظ اسم النسخة",
     "Current version" : "الإصدار الحالي",
+    "Initial version" : "النسخة الأساسية",
     "Initial version restored" : "استعادة النسخة الأساسية",
     "Version restored" : "تمّت استعادة النسخة",
     "Could not restore version" : "لم يُمكن استعادة النسخة",
