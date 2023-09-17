@@ -83,7 +83,7 @@ class ProfilerPlugin extends ServerPlugin {
 
 		$this->eventLogger->end('runtime');
 		if ($this->profiler->isEnabled()) {
-			$profile = $this->profiler->collect($this->request, new Response($status));
+			$profile = $this->profiler->collect($this->request, new Response($status ?? 0));
 			$this->profiler->saveProfile($profile);
 		}
 	}
