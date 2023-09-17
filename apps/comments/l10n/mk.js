@@ -21,13 +21,13 @@ OC.L10N.register(
     "Retry" : "Обидете се повторно",
     "Failed to mark comments as read" : "Неуспешно означување на коментарот како прочитан",
     "Unable to load the comments list" : "Неможе да се вчита листата на коментари",
-    "_%n unread comment_::_%n unread comments_" : ["%n непрочитан коментар","%n непрочитани коментари"],
     "_1 new comment_::_{unread} new comments_" : ["1 нов коментар","{unread} нови коментари"],
     "Comment" : "Коментар",
     "An error occurred while trying to edit the comment" : "Настана грешка при обид за ажурирање на коментар",
     "Comment deleted" : "Коментарот е избришан",
     "An error occurred while trying to delete the comment" : "Настана грешка при обидот за бришење на коментар",
     "An error occurred while trying to create the comment" : "Настана грешка при обидот за креирање на коментар",
-    "%1$s commented" : "%1$s коментиран"
+    "%1$s commented" : "%1$s коментиран",
+    "_%n unread comment_::_%n unread comments_" : ["%n непрочитан коментар","%n непрочитани коментари"]
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

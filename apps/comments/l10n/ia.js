@@ -12,8 +12,8 @@ OC.L10N.register(
     "Edit comment" : "Modificar commentario",
     "Delete comment" : "Deler commentario",
     "No comments yet, start the conversation!" : "Il ha nulle commentarios ancora, initia le conversation!",
-    "_%n unread comment_::_%n unread comments_" : ["%n commentario non legite","%n commentarios non legite"],
     "Comment" : "Commentario",
-    "%1$s commented" : "%1$s commentava"
+    "%1$s commented" : "%1$s commentava",
+    "_%n unread comment_::_%n unread comments_" : ["%n commentario non legite","%n commentarios non legite"]
 },
 "nplurals=2; plural=(n != 1);");
