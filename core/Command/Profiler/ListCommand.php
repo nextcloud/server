@@ -24,7 +24,7 @@ class ListCommand extends Base {
 		$this->profiler = $profiler;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 		$this
 			->setName('profiler:list')
@@ -45,10 +45,13 @@ class ListCommand extends Base {
 		$profiles = array_reverse($profiles);
 		foreach ($profiles as &$profile) {
 			$info = $this->profiler->loadProfile($profile['token']);
+			if (!$info) {
+				continue;
+			}
 
-			/** @var DbDataCollector $dbCollector */
+			/** @var ?DbDataCollector $dbCollector */
 			$dbCollector = $info->getCollector('db');
-			/** @var MemoryDataCollector $memoryCollector */
+			/** @var ?MemoryDataCollector $memoryCollector */
 			$memoryCollector = $info->getCollector('memory');
 
 			if ($dbCollector) {

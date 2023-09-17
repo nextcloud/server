@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Profiler;
 
-use _HumbugBox1cb33d1f20f1\LanguageServerProtocol\PackageDescriptor;
 use OC\Core\Command\Base;
 use OCP\Profiler\IProfiler;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +21,7 @@ class Export extends Base {
 		$this->profiler = $profiler;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('profiler:export')
 			->setDescription('Export captured profiles as json')

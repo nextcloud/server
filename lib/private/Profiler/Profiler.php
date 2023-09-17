@@ -103,7 +103,7 @@ class Profiler implements IProfiler {
 		}
 	}
 
-	public function collect(Request $request, Response $response): IProfile {
+	public function collect(IRequest $request, Response $response): IProfile {
 		$profile = new Profile($request->getId());
 		$profile->setTime(time());
 		$profile->setUrl($request->getRequestUri());

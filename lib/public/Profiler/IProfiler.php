@@ -29,6 +29,7 @@ namespace OCP\Profiler;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\IDataCollector;
+use OCP\IRequest;
 
 /**
  * This interface allows to interact with the built-in Nextcloud profiler.
@@ -97,7 +98,7 @@ interface IProfiler {
 	 * a IProfile from it.
 	 * @since 24.0.0
 	 */
-	public function collect(Request $request, Response $response): IProfile;
+	public function collect(IRequest $request, Response $response): IProfile;
 
 	/**
 	 * Clear the stored profiles

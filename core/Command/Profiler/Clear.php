@@ -20,7 +20,7 @@ class Clear extends Base {
 		$this->profiler = $profiler;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('profiler:clear')
 			->setDescription('Remove all saved profiles');

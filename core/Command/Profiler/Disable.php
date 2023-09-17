@@ -20,7 +20,7 @@ class Disable extends Command {
 		$this->config = $config;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('profiler:disable')
 			->setDescription('Disable profiling');
