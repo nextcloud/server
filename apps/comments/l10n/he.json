@@ -18,13 +18,13 @@
     "No more messages" : "אין יותר הודעות",
     "Retry" : "ניסיון חוזר",
     "Unable to load the comments list" : "לא ניתן לטעון את רשימת התגובות",
-    "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו","%n תגובות שלא נקראו","%n תגובות שלא נקראו"],
     "_1 new comment_::_{unread} new comments_" : ["הערה חדשה אחת","{unread} הערות חדשות","{unread} הערות חדשות","{unread} הערות חדשות"],
     "Comment" : "תגובה",
     "An error occurred while trying to edit the comment" : "אירעה שגיאה בניסיון לערוך את התגובה",
     "Comment deleted" : "נמחקה הערה",
     "An error occurred while trying to delete the comment" : "אירעה שגיאה בניסיון למחוק את התגובה",
     "An error occurred while trying to create the comment" : "אירעה שגיאה בניסיון ליצור את התגובה",
-    "%1$s commented" : "התקבלו תגובות %1$s"
+    "%1$s commented" : "התקבלו תגובות %1$s",
+    "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו","%n תגובות שלא נקראו","%n תגובות שלא נקראו"]
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

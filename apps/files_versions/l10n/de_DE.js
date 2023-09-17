@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "Versionsnamen entfernen",
     "Save version name" : "Versionsnamen speichern",
     "Current version" : "Aktuelle Version",
+    "Initial version" : "Initiale Version",
     "Initial version restored" : "Ursprüngliche Version wiederhergestellt",
     "Version restored" : "Version wiederhergestellt",
     "Could not restore version" : "Version konnte nicht wiederhergestellt werden",

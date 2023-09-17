@@ -18,13 +18,13 @@
     "No more messages" : "Δεν υπάρχουν άλλα μηνύματα",
     "Retry" : "Δοκιμή ξανά",
     "Unable to load the comments list" : "Δεν είναι δυνατή η μεταφόρτωση της λίστας σχολίων.",
-    "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"],
     "_1 new comment_::_{unread} new comments_" : ["1 νέο σχόλιο","{unread} νέα σχόλια"],
     "Comment" : "Σχόλιο",
     "An error occurred while trying to edit the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επεξεργασίας του σχολίου",
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
     "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "%1$s commented" : "%1$s σχολίασε"
+    "%1$s commented" : "%1$s σχολίασε",
+    "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
