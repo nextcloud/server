@@ -28,17 +28,14 @@ namespace OC\Profiler;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestVars;
-use OC\Profiler\DataCollector\EventLoggerDataProvider;
 use OC\Profiler\DataCollector\HttpDataCollector;
 use OC\Profiler\DataCollector\MemoryDataCollector;
 use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\IDataCollector;
-use OCP\Diagnostics\IEventLogger;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\Profiler\IProfile;
 use OC\SystemConfig;
-use Psr\Container\ContainerInterface;
 
 class Profiler implements IProfiler {
 	/** @var array<string, IDataCollector> */

@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Profiler;
 
+use _HumbugBox1cb33d1f20f1\LanguageServerProtocol\PackageDescriptor;
 use OC\Core\Command\Base;
 use OCP\Profiler\IProfiler;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,23 +26,30 @@ class Export extends Base {
 		$this
 			->setName('profiler:export')
 			->setDescription('Export captured profiles as json')
-			->addOption('limit', null, InputOption::VALUE_REQUIRED, 'Maximum number of profiles to return')
-			->addOption('url', null, InputOption::VALUE_REQUIRED, 'Url to list profiles for')
-			->addOption('since', null, InputOption::VALUE_REQUIRED, 'Minimum date for listed profiles, as unix timestamp')
-			->addOption('before', null, InputOption::VALUE_REQUIRED, 'Maximum date for listed profiles, as unix timestamp');
+			->addOption('limit', null, InputOption::VALUE_REQUIRED, 'Maximum number of profiles to export')
+			->addOption('url', null, InputOption::VALUE_REQUIRED, 'Url to export profiles for')
+			->addOption('since', null, InputOption::VALUE_REQUIRED, 'Minimum date for exported profiles, as unix timestamp')
+			->addOption('before', null, InputOption::VALUE_REQUIRED, 'Maximum date for exported profiles, as unix timestamp')
+			->addOption('token', null, InputOption::VALUE_REQUIRED, 'Export only profile for a single request token');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$since = $input->getOption('since') ? (int)$input->getOption('since') : null;
 		$before = $input->getOption('before') ? (int)$input->getOption('before') : null;
 		$limit = $input->getOption('limit') ? (int)$input->getOption('limit') : 1000;
+		$token = $input->getOption('token') ? $input->getOption('token') : null;
 		$url = $input->getOption('url');
 
-		$profiles = $this->profiler->find($url, $limit, null, $since, $before);
-		$profiles = array_reverse($profiles);
-		$profiles = array_map(function (array $profile) {
-			return $this->profiler->loadProfile($profile['token']);
-		}, $profiles);
+		if ($token) {
+			$profiles = [$this->profiler->loadProfile($token)];
+			$profiles = array_filter($profiles);
+		} else {
+			$profiles = $this->profiler->find($url, $limit, null, $since, $before);
+			$profiles = array_reverse($profiles);
+			$profiles = array_map(function (array $profile) {
+				return $this->profiler->loadProfile($profile['token']);
+			}, $profiles);
+		}
 
 		$output->writeln(json_encode($profiles));
 

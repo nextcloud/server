@@ -55,11 +55,11 @@ class MemoryDataCollector extends AbstractDataCollector {
 
 		switch (substr($memoryLimit, -1)) {
 			case 't': $max *= 1024;
-			// no break
+				// no break
 			case 'g': $max *= 1024;
-			// no break
+				// no break
 			case 'm': $max *= 1024;
-			// no break
+				// no break
 			case 'k': $max *= 1024;
 		}
 		return $max;

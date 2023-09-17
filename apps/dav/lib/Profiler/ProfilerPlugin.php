@@ -42,20 +42,18 @@ class ProfilerPlugin extends ServerPlugin {
 		$a = 1;
 	}
 
-	/** @return void */
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 1);
 		$server->on('afterMethod:*', [$this, 'afterMethod'], 9999);
 		$server->on('afterResponse', [$this, 'afterResponse'], 9999);
 		$server->on('exception', [$this, 'exception']);
 	}
 
-	public function beforeMethod() {
+	public function beforeMethod(): void {
 		$this->eventLogger->start('dav:server:method', 'Processing dav request');
 	}
 
-	/** @return void */
-	public function afterMethod(RequestInterface $request, ResponseInterface $response) {
+	public function afterMethod(RequestInterface $request, ResponseInterface $response): void {
 		$this->eventLogger->end('dav:server:method');
 		$this->eventLogger->start('dav:server:response', 'Sending dav response');
 		if ($this->profiler->isEnabled()) {
@@ -63,7 +61,7 @@ class ProfilerPlugin extends ServerPlugin {
 		}
 	}
 
-	public function afterResponse(RequestInterface $request, ResponseInterface $response) {
+	public function afterResponse(RequestInterface $request, ResponseInterface $response): void {
 		$this->eventLogger->end('dav:server:response');
 		$this->finalize($response->getStatus());
 	}
