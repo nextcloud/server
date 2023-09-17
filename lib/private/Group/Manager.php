@@ -371,7 +371,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
-		return array_search($group, $this->getUserIdGroupIds($userId)) !== false;
+		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
 	/**
