@@ -122,7 +122,7 @@ class SystemAddressbook extends AddressBook {
 		$children = parent::getChildren();
 		return array_filter($children, function (Card $child) {
 			// check only for URIs that begin with Guests:
-			return strpos($child->getName(), 'Guests:') !== 0;
+			return !str_starts_with($child->getName(), 'Guests:');
 		});
 	}
 

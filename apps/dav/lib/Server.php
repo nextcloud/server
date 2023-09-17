@@ -376,7 +376,7 @@ class Server {
 	private function requestIsForSubtree(array $subTrees): bool {
 		foreach ($subTrees as $subTree) {
 			$subTree = trim($subTree, ' /');
-			if (strpos($this->server->getRequestUri(), $subTree.'/') === 0) {
+			if (str_starts_with($this->server->getRequestUri(), $subTree . '/')) {
 				return true;
 			}
 		}

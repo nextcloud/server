@@ -1015,7 +1015,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// Micro optimisation
 		// don't loop through
-		if (strpos($cardData, 'PHOTO:data:') === 0) {
+		if (str_starts_with($cardData, 'PHOTO:data:')) {
 			return $cardData;
 		}
 
@@ -1024,8 +1024,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$cardDataFiltered = [];
 		$removingPhoto = false;
 		foreach ($cardDataArray as $line) {
-			if (strpos($line, 'PHOTO:data:') === 0
-				&& strpos($line, 'PHOTO:data:image/') !== 0) {
+			if (str_starts_with($line, 'PHOTO:data:')
+				&& !str_starts_with($line, 'PHOTO:data:image/')) {
 				// Filter out PHOTO data of non-images
 				$removingPhoto = true;
 				$modified = true;
@@ -1033,7 +1033,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			}
 
 			if ($removingPhoto) {
-				if (strpos($line, ' ') === 0) {
+				if (str_starts_with($line, ' ')) {
 					continue;
 				}
 				// No leading space means this is a new property
@@ -1133,7 +1133,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$propertyOr = $query2->expr()->orX();
 		foreach ($searchProperties as $property) {
 			if ($escapePattern) {
-				if ($property === 'EMAIL' && strpos($pattern, ' ') !== false) {
+				if ($property === 'EMAIL' && str_contains($pattern, ' ')) {
 					// There can be no spaces in emails
 					continue;
 				}
