@@ -382,8 +382,7 @@ export default Vue.extend({
 					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid, path: join(dir, node.basename) })
 				})
 			} catch (error) {
-				throw error
-				// logger.error('Error while fetching content', { error })
+				logger.error('Error while fetching content', { error })
 			} finally {
 				this.loading = false
 			}

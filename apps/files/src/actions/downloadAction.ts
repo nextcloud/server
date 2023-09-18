@@ -55,7 +55,7 @@ export const action = new FileAction({
 		// some folders, we need to use the /apps/files/ajax/download.php
 		// endpoint, which only supports user root folder.
 		if (nodes.some(node => node.type === FileType.Folder)
-			&& !nodes.every(node => node.root?.startsWith('/files'))) {
+			&& nodes.some(node => !node.root?.startsWith('/files'))) {
 			return false
 		}
 

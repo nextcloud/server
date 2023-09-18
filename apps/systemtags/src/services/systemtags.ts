@@ -30,8 +30,6 @@ import { fetchTags } from './api'
 import { getClient } from '../../../files/src/services/WebdavClient'
 import { resultToNode } from '../../../files/src/services/Files'
 
-let tagsCache = [] as TagWithId[]
-
 const formatReportPayload = (tagId: number) => `<?xml version="1.0"?>
 <oc:filter-files ${getDavNameSpaces()}>
 	<d:prop>
@@ -58,7 +56,7 @@ const tagToNode = function(tag: TagWithId): Folder {
 
 export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	// List tags in the root
-	tagsCache = await fetchTags()
+	const tagsCache = (await fetchTags()).filter(tag => tag.userVisible) as TagWithId[]
 
 	if (path === '/') {
 		return {
@@ -67,6 +65,7 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 				source: generateRemoteUrl('dav/systemtags'),
 				owner: getCurrentUser()?.uid as string,
 				root: '/systemtags',
+				permissions: Permission.NONE,
 			}),
 			contents: tagsCache.map(tagToNode),
 		}
