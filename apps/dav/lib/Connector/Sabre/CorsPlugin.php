@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
- *
  * @copyright Copyright (c) 2018, ownCloud GmbH
+ *
+ * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -15,12 +17,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Util;
 use Sabre\DAV\ServerPlugin;
@@ -33,53 +36,18 @@ use Sabre\HTTP\ResponseInterface;
 class CorsPlugin extends ServerPlugin {
 	/**
 	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
 	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 
-	/**
-	 * Reference to logged in user's session
-	 *
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/** @var array */
-	private $extraHeaders;
-	/**
-	 * @var bool
-	 */
-	private $alreadyExecuted = false;
+	private bool $alreadyExecuted = false;
 
 	/**
 	 * @param IUserSession $userSession
 	 */
-	public function __construct(IUserSession $userSession) {
-		$this->userSession = $userSession;
-	}
-
-	private function getExtraHeaders(RequestInterface $request) {
-		if ($this->extraHeaders === null) {
-			if ($this->userSession->getUser() === null) {
-				$this->extraHeaders['Access-Control-Allow-Methods'] = [
-					'OPTIONS',
-					'GET',
-					'HEAD',
-					'DELETE',
-					'PROPFIND',
-					'PUT',
-					'PROPPATCH',
-					'COPY',
-					'MOVE',
-					'REPORT',
-					'SEARCH',
-				];
-			} else {
-				$this->extraHeaders['Access-Control-Allow-Methods'] = $this->server->getAllowedMethods($request->getPath());
-			}
-		}
-		return $this->extraHeaders;
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
+		) {
 	}
 
 	/**
@@ -104,7 +72,12 @@ class CorsPlugin extends ServerPlugin {
 		if ($this->ignoreOriginHeader($originHeader)) {
 			return;
 		}
-		if (Util::isSameDomain($originHeader, $request->getAbsoluteUrl())) {
+		try {
+			if (Util::isSameDomain($originHeader, $request->getAbsoluteUrl())) {
+				return;
+			}
+		} catch (\InvalidArgumentException $e) {
+			\OC::$server->getLogger()->debug('Invalid origin header was passed', ['Origin' => $originHeader, 'exception' => $e]);
 			return;
 		}
 
@@ -125,24 +98,30 @@ class CorsPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function setCorsHeaders(RequestInterface $request, ResponseInterface $response) {
-		if ($request->getHeader('origin') === null) {
+		$requesterDomain = $request->getHeader('Origin');
+		if ($requesterDomain === null) {
 			return;
 		}
+
 		if ($this->alreadyExecuted) {
 			return;
 		}
+
 		$this->alreadyExecuted = true;
-		$requesterDomain = $request->getHeader('origin');
+
 		// unauthenticated request shall add cors headers as well
 		$userId = null;
 		if ($this->userSession->getUser() !== null) {
 			$userId = $this->userSession->getUser()->getUID();
 		}
 
-		$headers = \OC_Response::setCorsHeaders($userId, $requesterDomain, null, $this->getExtraHeaders($request));
-		foreach ($headers as $key => $value) {
-			$response->addHeader($key, \implode(',', $value));
-		}
+		\OC_Response::setCorsHeaders(
+			$response,
+			$userId,
+			$requesterDomain,
+			$this->config,
+			$this->server->getAllowedMethods($request->getPath())
+		);
 	}
 
 	/**
@@ -159,7 +138,11 @@ class CorsPlugin extends ServerPlugin {
 		if ($authorization === null || $authorization === '') {
 			// Set the proper response
 			$response->setStatus(200);
-			$response = \OC_Response::setOptionsRequestHeaders($response, $this->getExtraHeaders($request));
+			\OC_Response::setOptionsRequestHeaders(
+				$response,
+				$this->config,
+				$this->server->getAllowedMethods($request->getPath())
+			);
 
 			// Since All OPTIONS requests are unauthorized, we will have to return false from here
 			// If we don't return false, due to no authorization, a 401-Unauthorized will be thrown
@@ -173,8 +156,7 @@ class CorsPlugin extends ServerPlugin {
 	/**
 	 * in addition to schemas used by extensions we ignore empty origin header
 	 * values as well as 'null' which is not valid by the specification but used
-	 * by some clients.
-	 * @link https://github.com/owncloud/core/pull/32120#issuecomment-407008243
+	 * by some clients (Buttercup and Tusk)
 	 *
 	 * @param string $originHeader
 	 * @return bool

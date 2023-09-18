@@ -131,7 +131,7 @@ class Server {
 		$this->server->addPlugin(new ProfilerPlugin($this->request));
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
-		$this->server->addPlugin(new CorsPlugin(\OC::$server->getUserSession()));
+		$this->server->addPlugin(new CorsPlugin(\OC::$server->getUserSession(), \OC::$server->getConfig()));
 
 		$authPlugin = new Plugin();
 		$authPlugin->addBackend(new PublicAuth());

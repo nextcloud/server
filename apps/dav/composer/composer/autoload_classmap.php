@@ -156,6 +156,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\ChecksumUpdatePlugin' => $baseDir . '/../lib/Connector/Sabre/ChecksumUpdatePlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\CommentPropertiesPlugin' => $baseDir . '/../lib/Connector/Sabre/CommentPropertiesPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\CopyEtagHeaderPlugin' => $baseDir . '/../lib/Connector/Sabre/CopyEtagHeaderPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\CorsPlugin' => $baseDir . '/../lib/Connector/Sabre/CorsPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\DavAclPlugin' => $baseDir . '/../lib/Connector/Sabre/DavAclPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\Directory' => $baseDir . '/../lib/Connector/Sabre/Directory.php',
     'OCA\\DAV\\Connector\\Sabre\\DummyGetResponsePlugin' => $baseDir . '/../lib/Connector/Sabre/DummyGetResponsePlugin.php',

@@ -8,6 +8,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -68,22 +69,21 @@ class CORSMiddleware extends Middleware {
 	 */
 	public function afterController($controller, $methodName, Response $response) {
 		$userId = !is_null($this->session->getUser()) ? $this->session->getUser()->getUID() : null;
+		$requesterDomain = $this->request->getHeader("Origin");
 
-		// only react if it's a CORS request and if the request sends origin and
+		// only react if it's a CORS request and if the request sends origin and user is logged in
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		if ($this->request->getHeader("Origin") !== null
-			&& $this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)
-			&& !is_null($userId)) {
-			$requesterDomain = $this->request->getHeader("Origin");
-			\OC_Response::setCorsHeaders($userId, $requesterDomain, $this->config);
+		if ($requesterDomain !== ''
+			&& !is_null($userId)
+			&& $this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)) {
+			\OC_Response::setCorsHeaders($response, $userId, $requesterDomain, $this->config);
 
 			// allow credentials headers must not be true or CSRF is possible
 			// otherwise
 			foreach ($response->getHeaders() as $header => $value) {
 				if (strtolower($header) === 'access-control-allow-credentials' &&
 					strtolower(trim($value)) === 'true') {
-					$msg = 'Access-Control-Allow-Credentials must not be '.
-							'set to true in order to prevent CSRF';
+					$msg = 'Access-Control-Allow-Credentials must not be set to true in order to prevent CSRF';
 					throw new SecurityException($msg);
 				}
 			}

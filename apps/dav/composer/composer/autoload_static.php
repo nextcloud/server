@@ -171,6 +171,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\ChecksumUpdatePlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ChecksumUpdatePlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\CommentPropertiesPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/CommentPropertiesPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\CopyEtagHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/CopyEtagHeaderPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\CorsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/CorsPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\DavAclPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/DavAclPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\Directory' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Directory.php',
         'OCA\\DAV\\Connector\\Sabre\\DummyGetResponsePlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/DummyGetResponsePlugin.php',

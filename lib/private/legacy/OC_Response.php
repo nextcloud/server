@@ -11,6 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -107,10 +108,11 @@ class OC_Response {
 	/**
 	 * This function adds the CORS headers if the requester domain is white-listed
 	 *
+	 * @param \OCP\AppFramework\Http\Response|Sabre\HTTP\ResponseInterface $response
 	 * @param string $userId
 	 * @param string $domain
-	 * @param \OCP\IConfig $config
-	 * @param array $headers
+	 * @param \OCP\IConfig|null $config
+	 * @param array $headers Additional CORS headers to merge when setting
 	 *
 	 * Format of $headers:
 	 * Array [
@@ -118,44 +120,47 @@ class OC_Response {
 	 *     "Access-Control-Allow-Origin": ["a", "b", "c"],
 	 *     "Access-Control-Allow-Methods": ["a", "b", "c"]
 	 * ]
-	 *
-	 * @return array
 	 */
-	public static function setCorsHeaders($userId, $domain, \OCP\IConfig $config = null, array $headers = []) {
-		if ($config === null) {
+	public static function setCorsHeaders($response, ?string $userId, string $domain, $config = null, array|null $methods = null) {
+		if (is_null($config)) {
 			$config = \OC::$server->getConfig();
 		}
+
 		// first check if any of the global CORS domains matches
 		$globalAllowedDomains = $config->getSystemValue('cors.allowed-domains', []);
 		$isCorsRequest = (\is_array($globalAllowedDomains) && \in_array($domain, $globalAllowedDomains, true));
-		if (!$isCorsRequest && $userId !== null) {
-			// check if any of the user specific CORS domains matches
-			$allowedDomains = \json_decode($config->getUserValue($userId, 'core', 'domains'), true);
+		// check if user defined CORS domains are enabled
+		$isUserCorsEnabled = $config->getSystemValueBool('cors.allow-user-domains', false);
+
+		// if not a global CORS domain, but user defined ones are enabled, check if one matches
+		if (!$isCorsRequest && $isUserCorsEnabled && $userId !== null) {
+			$allowedDomains = \json_decode($config->getUserValue($userId, 'core', 'cors.allowed-domains'), true);
 			$isCorsRequest = (\is_array($allowedDomains) && \in_array($domain, $allowedDomains, true));
 		}
+
+		// Global or user domain matches so set headers
 		if ($isCorsRequest) {
-			// TODO: infer allowed verbs from existing known routes
-			$allHeaders['Access-Control-Allow-Headers'] = self::getAllowedCorsHeaders($config);
-			$allHeaders['Access-Control-Expose-Headers'] = self::getExposeCorsHeaders();
-			$allHeaders['Access-Control-Allow-Origin'] = [$domain];
-			$allHeaders['Access-Control-Allow-Methods'] = ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'MKCOL', 'PROPFIND', 'PATCH', 'PROPPATCH', 'REPORT'];
+			$allHeaders = [
+				'Access-Control-Allow-Origin' => [$domain],
+				'Access-Control-Allow-Headers' => self::getAllowedCorsHeaders($config),
+				'Access-Control-Expose-Headers' => self::getExposeCorsHeaders(),
+				'Access-Control-Allow-Methods' => $methods ?? self::getAllowedCorsMethods(),
+				// Indicate that the response might change depending on the origin
+				'Vary' => ['Origin'],
+			];
 
-			foreach ($headers as $key => $value) {
-				if (\array_key_exists($key, $allHeaders)) {
-					$allHeaders[$key] = \array_unique(\array_merge($allHeaders[$key], $value));
-				}
+			foreach ($allHeaders as $key => $value) {
+				$response->addHeader($key, \join(',', $value));
 			}
-
-			return $allHeaders;
 		}
-		return [];
 	}
 
 	/**
 	 * This function adds the CORS headers for all domains
 	 *
-	 * @param Sabre\HTTP\ResponseInterface $response
-	 * @param array $headers
+	 * @param \OCP\AppFramework\Http\Response|Sabre\HTTP\ResponseInterface $response
+	 * @param \OCP\IConfig|null $config
+	 * @param array $headers Additional cors headers to merge when setting
 	 *
 	 * Format of $headers:
 	 * Array [
@@ -164,26 +169,18 @@ class OC_Response {
 	 *     "Access-Control-Allow-Methods": ["a", "b", "c"]
 	 * ]
 	 *
-	 * @param \OCP\IConfig|null $config
-	 * @return Sabre\HTTP\ResponseInterface $response
+	 * @return void
 	 */
-	public static function setOptionsRequestHeaders($response, $headers = [], \OCP\IConfig $config = null) {
-		// TODO: infer allowed verbs from existing known routes
-		$allHeaders['Access-Control-Allow-Headers'] = self::getAllowedCorsHeaders($config);
-		$allHeaders['Access-Control-Allow-Origin'] = ['*'];
-		$allHeaders['Access-Control-Allow-Methods'] = self::getAllowedCorsMethods();
-
-		foreach ($headers as $key => $value) {
-			if (\array_key_exists($key, $allHeaders)) {
-				$allHeaders[$key] = \array_unique(\array_merge($allHeaders[$key], $value));
-			}
-		}
+	public static function setOptionsRequestHeaders($response, \OCP\IConfig $config = null, ?array $methods = null) {
+		$allHeaders = [
+			'Access-Control-Allow-Headers' => self::getAllowedCorsHeaders($config),
+			'Access-Control-Allow-Origin' => ['*'],
+			'Access-Control-Allow-Methods' => $methods ?? self::getAllowedCorsMethods(),
+		];
 
 		foreach ($allHeaders as $key => $value) {
-			$response->addHeader($key, \implode(',', $value));
+			$response->addHeader($key, \join(',', $value));
 		}
-
-		return $response;
 	}
 
 	/**
@@ -203,7 +200,10 @@ class OC_Response {
 			'PATCH',
 			'PROPPATCH',
 			'REPORT',
-			'SEARCH'
+			'SEARCH',
+			'COPY',
+			'MOVE',
+			'HEAD',
 		];
 	}
 

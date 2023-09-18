@@ -635,6 +635,7 @@ class Util {
 	 *
 	 * @param string $url full url
 	 * @return string protocol, domain and port as string
+	 * @throws \InvalidArgumentException On invalid URL
 	 * @since 28.0.0
 	 */
 	public static function getFullDomain(string $url): string {
@@ -647,17 +648,16 @@ class Util {
 		}
 		$protocol = \strtolower($parts['scheme']);
 		$host = \strtolower($parts['host']);
-		$port = null;
-		if ($protocol === 'http') {
-			$port = 80;
-		} elseif ($protocol === 'https') {
-			$port = 443;
-		} else {
-			throw new \InvalidArgumentException('Only http based URLs supported');
-		}
 
-		if (isset($parts['port']) && $port !== '') {
-			$port = $parts['port'];
+		$port = $parts['port'] ?? null;
+		if ($port === null || $port === '') {
+			if ($protocol === 'http') {
+				$port = 80;
+			} elseif ($protocol === 'https') {
+				$port = 443;
+			} else {
+				throw new \InvalidArgumentException('Only http based URLs supported');
+			}
 		}
 
 		return $protocol . '://' . \strtolower($host) . ':' . $port;
@@ -673,6 +673,7 @@ class Util {
 	 * @param string $url2
 	 *
 	 * @return bool true if both URLs have the same protocol, domain and port
+	 * @throws \InvalidArgumentException On invalid URL
 	 *
 	 * @since 28.0.0
 	 */

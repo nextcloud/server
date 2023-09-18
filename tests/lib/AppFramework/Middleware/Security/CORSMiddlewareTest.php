@@ -1,12 +1,25 @@
 <?php
 /**
- * ownCloud - App Framework
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @copyright Bernhard Posselt 2014
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 namespace Test\AppFramework\Middleware\Security;
@@ -20,6 +33,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -59,17 +73,6 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			['testSetCORSAPIHeader'],
 			['testSetCORSAPIHeaderAttribute'],
 		];
-
-		$this->session = $this->getMockBuilder('\OC\User\Session')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('user');
-		$userSession = $this->createMock(IUserSession::class);
-		$userSession->method('getUser')->willReturn($user);
-
-		$this->session = $userSession;
 	}
 
 	/**
@@ -85,6 +88,19 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
+
+		/** @var MockObject */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$this->session->expects($this->exactly(2))->method('getUser')->willReturn($user);
+
+		$this->config
+			->method('getSystemValue')
+			->willReturnCallback(fn (string $key, mixed $default) => match (true) {
+				$key === 'cors.allowed-domains' => ['http://www.test.com'],
+				default => $default,
+			});
+
 		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware(
 			$request,
@@ -163,6 +179,19 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 		$this->reflector->reflect($this->controller, $method);
+
+		/** @var MockObject */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$this->session->expects($this->exactly(2))->method('getUser')->willReturn($user);
+
+		$this->config
+			->method('getSystemValue')
+			->willReturnCallback(fn (string $key, mixed $default) => match (true) {
+				$key === 'cors.allowed-domains' => ['http://www.test.com'],
+				default => $default,
+			});
+
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->config);
 
 		$response = new Response();
