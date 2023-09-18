@@ -549,6 +549,22 @@ class Manager implements ICommentsManager {
 					)
 				);
 			}
+		} elseif ($lastKnownCommentId > 0) {
+			// We didn't find the "$lastKnownComment" but we still use the ID as an offset.
+			// This is required as a fall-back for expired messages in talk and deleted comments in other apps.
+			if ($sortDirection === 'desc') {
+				if ($includeLastKnown) {
+					$query->andWhere($query->expr()->lte('id', $query->createNamedParameter($lastKnownCommentId)));
+				} else {
+					$query->andWhere($query->expr()->lt('id', $query->createNamedParameter($lastKnownCommentId)));
+				}
+			} else {
+				if ($includeLastKnown) {
+					$query->andWhere($query->expr()->gte('id', $query->createNamedParameter($lastKnownCommentId)));
+				} else {
+					$query->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastKnownCommentId)));
+				}
+			}
 		}
 
 		$resultStatement = $query->execute();
