@@ -30,7 +30,7 @@ import { getContents } from './services/systemtags.js'
 
 const Navigation = getNavigation()
 Navigation.register(new View({
-	id: 'systemtags',
+	id: 'tags',
 	name: t('systemtags', 'Tags'),
 	caption: t('systemtags', 'List of tags and their associated files and folders.'),
 
