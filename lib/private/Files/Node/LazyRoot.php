@@ -22,7 +22,10 @@
  */
 namespace OC\Files\Node;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node as INode;
 
 /**
  * Class LazyRoot
@@ -51,5 +54,9 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 
 	public function getByIdInPath(int $id, string $path) {
 		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
+		return $this->getRootFolder()->getNodeFromCacheEntryAndMount($cacheEntry, $mountPoint);
 	}
 }

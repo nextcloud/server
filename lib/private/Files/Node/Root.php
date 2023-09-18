@@ -41,6 +41,7 @@ use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
@@ -486,5 +487,30 @@ class Root extends Folder implements IRootFolder {
 			return $b->getPath() <=> $a->getPath();
 		});
 		return $folders;
+	}
+
+	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
+		$path = $cacheEntry->getPath();
+		$fullPath = $mountPoint->getMountPoint() . $path;
+		// todo: LazyNode?
+		$info = new FileInfo($fullPath, $mountPoint->getStorage(), $path, $cacheEntry, $mountPoint);
+		$parentPath = dirname($fullPath);
+		$parent = new LazyFolder($this, function () use ($parentPath) {
+			$parent = $this->get($parentPath);
+			if ($parent instanceof \OCP\Files\Folder) {
+				return $parent;
+			} else {
+				throw new \Exception("parent $parentPath is not a folder");
+			}
+		}, [
+			'path' => $parentPath,
+		]);
+		$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
+		$view = new View('');
+		if ($isDir) {
+			return new Folder($this, $view, $path, $info, $parent);
+		} else {
+			return new File($this, $view, $path, $info, $parent);
+		}
 	}
 }

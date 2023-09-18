@@ -69,7 +69,7 @@ class Node implements INode {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
