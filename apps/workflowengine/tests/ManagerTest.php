@@ -26,6 +26,7 @@
  */
 namespace OCA\WorkflowEngine\Tests;
 
+use OC\Files\Config\UserMountCache;
 use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
@@ -403,10 +404,10 @@ class ManagerTest extends TestCase {
 							$this->l,
 							$this->createMock(IURLGenerator::class),
 							$this->createMock(IRootFolder::class),
-							$this->createMock(\OCP\Share\IManager::class),
 							$this->createMock(IUserSession::class),
 							$this->createMock(ISystemTagManager::class),
 							$this->createMock(IUserManager::class),
+							$this->createMock(UserMountCache::class),
 						])
 						->setMethodsExcept(['getEvents'])
 						->getMock();
