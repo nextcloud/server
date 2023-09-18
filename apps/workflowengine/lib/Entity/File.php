@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\WorkflowEngine\Entity;
 
+use OC\Files\Config\UserMountCache;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\InvalidPathException;
@@ -38,7 +39,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share\IManager as ShareManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
@@ -65,8 +65,6 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	protected $eventName;
 	/** @var Event */
 	protected $event;
-	/** @var ShareManager */
-	private $shareManager;
 	/** @var IUserSession */
 	private $userSession;
 	/** @var ISystemTagManager */
@@ -77,25 +75,27 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	private $actingUser = null;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var UserMountCache */
+	private $userMountCache;
 
 	public function __construct(
 		IL10N $l10n,
 		IURLGenerator $urlGenerator,
 		IRootFolder $root,
 		ILogger $logger,
-		ShareManager $shareManager,
 		IUserSession $userSession,
 		ISystemTagManager $tagManager,
-		IUserManager $userManager
+		IUserManager $userManager,
+		UserMountCache $userMountCache
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 		$this->root = $root;
 		$this->logger = $logger;
-		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->tagManager = $tagManager;
 		$this->userManager = $userManager;
+		$this->userMountCache = $userMountCache;
 	}
 
 	public function getName(): string {
@@ -140,8 +140,22 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 			if ($node->getOwner()->getUID() === $uid) {
 				return true;
 			}
-			$acl = $this->shareManager->getAccessList($node, true, true);
-			return isset($acl['users']) && array_key_exists($uid, $acl['users']);
+
+			if ($this->eventName === self::EVENT_NAMESPACE . 'postDelete') {
+				// At postDelete, the file no longer exists. Check for parent folder instead.
+				$fileId = $node->getParent()->getId();
+			} else {
+				$fileId = $node->getId();
+			}
+
+			$mounts = $this->userMountCache->getMountsForFileId($fileId, $uid);
+			foreach ($mounts as $mount) {
+				$userFolder = $this->root->getUserFolder($uid);
+				if (!empty($userFolder->getById($fileId))) {
+					return true;
+				}
+			}
+			return false;
 		} catch (NotFoundException $e) {
 			return false;
 		}
