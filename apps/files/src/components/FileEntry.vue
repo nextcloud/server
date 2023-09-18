@@ -25,7 +25,7 @@
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
-		class="list__row"
+		class="files-list__row"
 		@contextmenu="onRightClick">
 		<!-- Failed indicator -->
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />

@@ -43,8 +43,26 @@ describe('Inline system tags action conditions tests', () => {
 		expect(action.displayName([file], view)).toBe('')
 		expect(action.iconSvgInline([], view)).toBe('')
 		expect(action.default).toBeUndefined()
-		expect(action.enabled).toBeUndefined()
+		expect(action.enabled).toBeDefined()
 		expect(action.order).toBe(0)
+		expect(action.enabled!([file], view)).toBe(false)
+	})
+
+	test('Enabled with valid system tags', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.ALL,
+			attributes: {
+				'system-tags': {
+					'system-tag': 'Confidential',
+				},
+			},
+		})
+
+		expect(action.enabled!([file], view)).toBe(true)
 	})
 })
 

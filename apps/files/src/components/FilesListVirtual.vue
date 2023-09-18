@@ -309,9 +309,12 @@ export default Vue.extend({
 			}
 		}
 
-		.files-list__row{
+		.files-list__row {
 			&:hover, &:focus, &:active, &--active {
 				background-color: var(--color-background-dark);
+				> * {
+					--color-border: var(--color-border-dark);
+				}
 				// Hover state of the row should also change the favorite markers background
 				.favorite-marker-icon svg path {
 					stroke: var(--color-background-dark);
