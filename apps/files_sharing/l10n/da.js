@@ -86,6 +86,7 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Offentlige uploads er slået fra af administratoren",
     "Public upload is only possible for publicly shared folders" : "Offentligt upload er kun muligt i mapper der er delt offentligt",
     "Invalid date, date format must be YYYY-MM-DD" : "Ugyldig dato. Brug formatet ÅÅÅ-MM-DD",
+    "Unknown share type" : "Ukendt deletype",
     "Not a directory" : "Ikke en mappe",
     "Could not lock path" : "Stien kunne ikke låses",
     "Wrong or no update parameter given" : "Forkert eller manglende opdateringsparameter",
