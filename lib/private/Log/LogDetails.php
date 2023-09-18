@@ -28,11 +28,9 @@ namespace OC\Log;
 use OC\SystemConfig;
 
 abstract class LogDetails {
-	/** @var SystemConfig */
-	private $config;
-
-	public function __construct(SystemConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private SystemConfig $config,
+	) {
 	}
 
 	public function logDetails(string $app, $message, int $level): array {

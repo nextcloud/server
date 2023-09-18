@@ -36,14 +36,12 @@ use function array_key_exists;
 use function array_merge;
 
 final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
-	/** @var Log */
-	private $logger;
-
-	public function __construct(Log $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		private Log $logger,
+	) {
 	}
 
-	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
 		$this->logger->setEventDispatcher($eventDispatcher);
 	}
 
@@ -55,9 +53,6 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * System is unusable.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
 	public function emergency($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
@@ -80,11 +75,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * trigger the SMS alerts and wake you up.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function alert($message, array $context = []) {
+	public function alert($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -104,11 +96,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Application component unavailable, unexpected exception.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function critical($message, array $context = []) {
+	public function critical($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -127,11 +116,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * be logged and monitored.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function error($message, array $context = []) {
+	public function error($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -152,11 +138,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * that are not necessarily wrong.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function warning($message, array $context = []) {
+	public function warning($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -174,11 +157,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Normal but significant events.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function notice($message, array $context = []) {
+	public function notice($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -198,11 +178,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: User logs in, SQL logs.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function info($message, array $context = []) {
+	public function info($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -220,11 +197,8 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Detailed debug information.
 	 *
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 */
-	public function debug($message, array $context = []) {
+	public function debug($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
@@ -243,13 +217,10 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed $level
 	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	public function log($level, $message, array $context = []) {
+	public function log($level, $message, array $context = []): void {
 		if (!is_int($level) || $level < ILogger::DEBUG || $level > ILogger::FATAL) {
 			throw new InvalidArgumentException('Nextcloud allows only integer log levels');
 		}
