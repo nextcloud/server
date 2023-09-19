@@ -154,6 +154,10 @@ class Cache extends CacheJail {
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);
 			}
+
+			if ($this->storage->getShare()->getNodeId() === $entry['fileid']) {
+				$entry['name'] = basename($this->storage->getShare()->getTarget());
+			}
 		} catch (StorageNotAvailableException $e) {
 			// thrown by FailedStorage e.g. when the sharer does not exist anymore
 			// (IDE may say the exception is never thrown – false negative)
