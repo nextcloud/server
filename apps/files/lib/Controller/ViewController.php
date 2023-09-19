@@ -231,6 +231,19 @@ class ViewController extends Controller {
 			$favElements['folders'] = [];
 		}
 
+		// If the file doesn't exists in the folder and
+		// exists in only one occurrence, redirect to that file
+		// in the correct folder
+		if ($fileid && $dir !== '') {
+			$baseFolder = $this->rootFolder->getUserFolder($userId);
+			$nodes = $baseFolder->getById((int) $fileid);
+			$relativePath = dirname($baseFolder->getRelativePath($nodes[0]->getPath()));
+			// If the requested path is different from the file path
+			if (count($nodes) === 1 && $relativePath !== $dir) {
+				return $this->redirectToFile((int) $fileid);
+			}
+		}
+
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
 			$storageInfo =  $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
@@ -380,7 +393,7 @@ class ViewController extends Controller {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$nodes = $baseFolder->getById($fileId);
-		$params = [];
+		$params = ['view' => 'files'];
 
 		try {
 			$this->redirectToFileIfInTrashbin($fileId);
