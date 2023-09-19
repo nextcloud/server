@@ -1284,6 +1284,7 @@ return array(
     'OC\\Files\\Storage\\Wrapper\\EncodingDirectoryWrapper' => $baseDir . '/lib/private/Files/Storage/Wrapper/EncodingDirectoryWrapper.php',
     'OC\\Files\\Storage\\Wrapper\\Encryption' => $baseDir . '/lib/private/Files/Storage/Wrapper/Encryption.php',
     'OC\\Files\\Storage\\Wrapper\\Jail' => $baseDir . '/lib/private/Files/Storage/Wrapper/Jail.php',
+    'OC\\Files\\Storage\\Wrapper\\KnownMtime' => $baseDir . '/lib/private/Files/Storage/Wrapper/KnownMtime.php',
     'OC\\Files\\Storage\\Wrapper\\PermissionsMask' => $baseDir . '/lib/private/Files/Storage/Wrapper/PermissionsMask.php',
     'OC\\Files\\Storage\\Wrapper\\Quota' => $baseDir . '/lib/private/Files/Storage/Wrapper/Quota.php',
     'OC\\Files\\Storage\\Wrapper\\Wrapper' => $baseDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',

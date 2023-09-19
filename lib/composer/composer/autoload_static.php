@@ -1317,6 +1317,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Storage\\Wrapper\\EncodingDirectoryWrapper' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/EncodingDirectoryWrapper.php',
         'OC\\Files\\Storage\\Wrapper\\Encryption' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Encryption.php',
         'OC\\Files\\Storage\\Wrapper\\Jail' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Jail.php',
+        'OC\\Files\\Storage\\Wrapper\\KnownMtime' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/KnownMtime.php',
         'OC\\Files\\Storage\\Wrapper\\PermissionsMask' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/PermissionsMask.php',
         'OC\\Files\\Storage\\Wrapper\\Quota' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Quota.php',
         'OC\\Files\\Storage\\Wrapper\\Wrapper' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
