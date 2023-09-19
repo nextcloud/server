@@ -32,18 +32,16 @@ use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\EventDispatcher\Event;
-use OCP\ILogger;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActivityPublisherTest extends TestCase {
-
 	/** @var IManager|MockObject */
 	private $activityManager;
 
-	/** @var ILogger */
-
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var ActivityPublisher */
@@ -53,7 +51,7 @@ class ActivityPublisherTest extends TestCase {
 		parent::setUp();
 
 		$this->activityManager = $this->createMock(IManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new ActivityPublisher($this->activityManager, $this->logger);
 	}

@@ -30,20 +30,13 @@ use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCP\Activity\IManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class ActivityPublisher implements IEventListener {
-
-	/** @var IManager */
-	private $activityManager;
-
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct(IManager $activityManager,
-								ILogger $logger) {
-		$this->activityManager = $activityManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IManager $activityManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -60,8 +53,7 @@ class ActivityPublisher implements IEventListener {
 			try {
 				$this->activityManager->publish($activity);
 			} catch (BadMethodCallException $e) {
-				$this->logger->warning('could not publish backup code creation activity', ['app' => 'twofactor_backupcodes']);
-				$this->logger->logException($e, ['app' => 'twofactor_backupcodes']);
+				$this->logger->error('Could not publish backup code creation activity', ['exception' => $e]);
 			}
 		}
 	}
