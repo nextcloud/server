@@ -29,9 +29,8 @@ namespace OC\Core\Controller;
 use Exception;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\Response;
+use OCP\Capabilities\ICapability;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
@@ -58,11 +57,14 @@ class OCMController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @psalm-suppress MoreSpecificReturnType
+	 * @psalm-suppress LessSpecificReturnStatement
+	 * @return DataResponse<Http::STATUS_OK, array{enabled: bool, apiVersion: string, endPoint: string, resourceTypes: array{array{name: string, shareTypes: string[], protocols: array{webdav: string}}}}, array{X-NEXTCLOUD-OCM-PROVIDERS: true, Content-Type: 'application/json'}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 * @return Response
+	 * 200: OCM Provider details returned
+	 * 500: OCM not supported
 	 */
-	#[IgnoreOpenAPI]
-	public function discovery(): Response {
+	public function discovery(): DataResponse {
 		try {
 			$cap = Server::get(
 				$this->config->getAppValue(
@@ -71,6 +73,10 @@ class OCMController extends Controller {
 					'\OCA\CloudFederationAPI\Capabilities'
 				)
 			);
+
+			if (!($cap instanceof ICapability)) {
+				throw new Exception('loaded class does not implements OCP\Capabilities\ICapability');
+			}
 
 			return new DataResponse(
 				$cap->getCapabilities()['ocm'] ?? ['enabled' => false],

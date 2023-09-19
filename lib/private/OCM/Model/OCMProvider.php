@@ -196,7 +196,7 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	 *   }
 	 */
 	public function jsonSerialize(): array {
-		$resourceTypes = []; // this is needed for psalm
+		$resourceTypes = [];
 		foreach ($this->getResourceTypes() as $res) {
 			$resourceTypes[] = $res->jsonSerialize();
 		}

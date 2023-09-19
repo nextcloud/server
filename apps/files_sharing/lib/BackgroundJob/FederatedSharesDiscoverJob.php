@@ -33,6 +33,7 @@ use OCP\IDBConnection;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCS\IDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 class FederatedSharesDiscoverJob extends TimedJob {
 
@@ -40,7 +41,8 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		ITimeFactory $time,
 		private IDBConnection $connection,
 		private IDiscoveryService $discoveryService,
-		private IOCMDiscoveryService $ocmDiscoveryService
+		private IOCMDiscoveryService $ocmDiscoveryService,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 		$this->setInterval(86400);
@@ -58,6 +60,7 @@ class FederatedSharesDiscoverJob extends TimedJob {
 			try {
 				$this->ocmDiscoveryService->discover($row['remote'], true);
 			} catch (OCMProviderException $e) {
+				$this->logger->info('exception while running files_sharing/lib/BackgroundJob/FederatedSharesDiscoverJob', ['exception' => $e]);
 			}
 		}
 		$result->closeCursor();
