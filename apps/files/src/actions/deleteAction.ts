@@ -31,7 +31,7 @@ export const action = new FileAction({
 	id: 'delete',
 	displayName(nodes: Node[], view: View) {
 		return view.id === 'trashbin'
-			? t('files_trashbin', 'Delete permanently')
+			? t('files', 'Delete permanently')
 			: t('files', 'Delete')
 	},
 	iconSvgInline: () => TrashCanSvg,

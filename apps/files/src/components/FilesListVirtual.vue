@@ -461,6 +461,10 @@ export default Vue.extend({
 			}
 		}
 
+		.files-list__row-action--inline {
+			margin-right: 7px;
+		}
+
 		.files-list__row-mtime,
 		.files-list__row-size {
 			// Right align text
