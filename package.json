@@ -121,7 +121,7 @@
     "@babel/node": "^7.22.10",
     "@babel/preset-typescript": "^7.22.11",
     "@cypress/vue2": "^2.0.1",
-    "@cypress/webpack-preprocessor": "^5.17.1",
+    "@cypress/webpack-preprocessor": "^6.0.0",
     "@jest/globals": "^29.5.0",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/cypress": "^1.0.0-beta.2",
