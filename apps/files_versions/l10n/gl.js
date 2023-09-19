@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "Retirar o nome da versión",
     "Save version name" : "Gardar o nome da versión",
     "Current version" : "Versión actual",
+    "Initial version" : "Versión inicial",
     "Initial version restored" : "A versión inicial foi restaurada",
     "Version restored" : "A versión foi restaurada",
     "Could not restore version" : "Non foi posíbel restaurar a versión",

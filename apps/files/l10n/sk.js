@@ -237,7 +237,7 @@ OC.L10N.register(
     "Pick a template for {name}" : "Vyberte šablónu pre {name}",
     "Create" : "Vytvoriť",
     "Create a new file with the selected template" : "Vytvoriť nový súbor pomocou vybranej šablóny",
-    "Creating file" : "Vyváram súbor",
+    "Creating file" : "Vytvára sa súbor",
     "Blank" : "Prázdne",
     "Unable to create new file from template" : "Nemôžem vytvoriť nový súbor zo šablóny",
     "Delete permanently" : "Zmazať  natrvalo",
@@ -281,7 +281,7 @@ OC.L10N.register(
     "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}",
     "Open folder {name}" : "Otvoriť súbor {name}",
-    "Search for an account" : "Vyhľadajte účet",
+    "Search for an account" : "Vyhľadať účet",
     "Choose" : "Vybrať",
     "No files or folders have been deleted yet" : "Žiadne súbory alebo adresáre neboli ešte vymazané"
 },
