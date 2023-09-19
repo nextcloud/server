@@ -28,6 +28,7 @@ const ignorePatterns = [
 	'@mdi/svg',
 	'@nextcloud/vue',
 	'ansi-regex',
+	'camelcase',
 	'char-regex',
 	'hot-patcher',
 	'is-svg',
