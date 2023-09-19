@@ -40,7 +40,7 @@
     "@nextcloud/auth": "^2.1.0",
     "@nextcloud/axios": "^2.3.0",
     "@nextcloud/browser-storage": "^0.2.0",
-    "@nextcloud/browserslist-config": "^2.3.0",
+    "@nextcloud/browserslist-config": "^3.0.0",
     "@nextcloud/calendar-availability-vue": "^2.0.0-beta.1",
     "@nextcloud/capabilities": "^1.0.4",
     "@nextcloud/dialogs": "^5.0.0-beta.2",
