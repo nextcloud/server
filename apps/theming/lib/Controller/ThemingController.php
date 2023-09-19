@@ -407,6 +407,8 @@ class ThemingController extends Controller {
 	 * @param string $app ID of the app
 	 * @psalm-suppress LessSpecificReturnStatement The content of the Manifest doesn't need to be described in the return type
 	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>
+	 *
+	 * 200: Manifest returned
 	 */
 	public function getManifest(string $app) {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');

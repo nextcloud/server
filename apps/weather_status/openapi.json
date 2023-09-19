@@ -348,7 +348,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Weather status mode updated",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -416,7 +416,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Address updated",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -501,7 +501,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Location returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -611,7 +611,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Location updated",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -797,7 +797,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Favorites returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -870,7 +870,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Favorites updated",
                         "content": {
                             "application/json": {
                                 "schema": {

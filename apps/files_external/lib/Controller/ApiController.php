@@ -101,6 +101,8 @@ class ApiController extends OCSController {
 	 * Get the mount points visible for this user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesExternalMount[], array{}>
+	 *
+	 * 200: User mounts returned
 	 */
 	public function getUserMounts(): DataResponse {
 		$entries = [];

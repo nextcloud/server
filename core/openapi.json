@@ -858,7 +858,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Login flow init returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1423,7 +1423,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Capabilities returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1787,7 +1787,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Autocomplete results returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3322,7 +3322,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Reference returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3414,7 +3414,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "References returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3514,7 +3514,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "References returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3586,7 +3586,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Providers returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3668,7 +3668,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Provider touched",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3860,7 +3860,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Providers returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4070,7 +4070,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Supported languages returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4393,7 +4393,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Task types returned",
                         "content": {
                             "application/json": {
                                 "schema": {

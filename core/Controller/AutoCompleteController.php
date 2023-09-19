@@ -68,6 +68,8 @@ class AutoCompleteController extends OCSController {
 	 * @param int $limit Maximum number of results to return
 	 *
 	 * @return DataResponse<Http::STATUS_OK, CoreAutocompleteResult[], array{}>
+	 *
+	 * 200: Autocomplete results returned
 	 */
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty

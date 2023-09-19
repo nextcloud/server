@@ -243,7 +243,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Statuses returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -315,7 +315,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The status was found successfully",
+                        "description": "Status returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -721,7 +721,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Message cleared successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -853,7 +853,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Predefined statuses returned",
                         "content": {
                             "application/json": {
                                 "schema": {

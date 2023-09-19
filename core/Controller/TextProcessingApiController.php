@@ -66,6 +66,8 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * This endpoint returns all available LanguageModel task types
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{types: array{id: string, name: string, description: string}[]}, array{}>
+	 *
+	 * 200: Task types returned
 	 */
 	#[PublicPage]
 	public function taskTypes(): DataResponse {

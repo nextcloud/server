@@ -62,6 +62,8 @@ class RemoteController extends OCSController {
 	 * Get list of pending remote shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesSharingRemoteShare[], array{}>
+	 *
+	 * 200: Pending remote shares returned
 	 */
 	public function getOpenShares() {
 		return new DataResponse($this->externalManager->getOpenShares());
@@ -138,6 +140,8 @@ class RemoteController extends OCSController {
 	 * Get a list of accepted remote shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesSharingRemoteShare[], array{}>
+	 *
+	 * 200: Accepted remote shares returned
 	 */
 	public function getShares() {
 		$shares = $this->externalManager->getAcceptedShares();

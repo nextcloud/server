@@ -198,7 +198,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User mounts returned",
                         "content": {
                             "application/json": {
                                 "schema": {

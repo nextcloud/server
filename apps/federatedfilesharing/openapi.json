@@ -243,7 +243,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Share created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -629,7 +629,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Share declined successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -707,7 +707,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Share unshared successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
