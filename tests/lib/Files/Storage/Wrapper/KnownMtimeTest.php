@@ -10,7 +10,6 @@ namespace lib\Files\Storage\Wrapper;
 
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\KnownMtime;
-use OCP\Constants;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Clock\ClockInterface;
 use Test\Files\Storage\Storage;
