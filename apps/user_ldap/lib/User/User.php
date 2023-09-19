@@ -32,7 +32,6 @@
  */
 namespace OCA\User_LDAP\User;
 
-use Exception;
 use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
@@ -40,7 +39,6 @@ use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
 use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -256,11 +254,11 @@ class User {
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
 			if (isset($ldapEntry[$attr])) {
-				$cutPosition = strpos($ldapEntry[$attr][0]," ");
+				$cutPosition = strpos($ldapEntry[$attr][0], " ");
 				if ($cutPosition) {
 					// drop appended label
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
-						= substr($ldapEntry[$attr][0],0,$cutPosition);
+						= substr($ldapEntry[$attr][0], 0, $cutPosition);
 				} else {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
 						= $ldapEntry[$attr][0];
@@ -271,7 +269,7 @@ class User {
 			//User Profile Field - Address
 			$attr = strtolower($this->connection->ldapAttributeAddress);
 			if (isset($ldapEntry[$attr])) {
-				if (str_contains($ldapEntry[$attr][0],'$')) {
+				if (str_contains($ldapEntry[$attr][0], '$')) {
 					// basic format conversion from postalAddress syntax to commata delimited
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
 						= str_replace('$', ", ", $ldapEntry[$attr][0]);
@@ -315,7 +313,7 @@ class User {
 			//User Profile Field - biography
 			$attr = strtolower($this->connection->ldapAttributeBiography);
 			if (isset($ldapEntry[$attr])) {
-				if (str_contains($ldapEntry[$attr][0],'\r')) {
+				if (str_contains($ldapEntry[$attr][0], '\r')) {
 					// convert line endings
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
 						= str_replace(array("\r\n","\r"), "\n", $ldapEntry[$attr][0]);
@@ -328,23 +326,19 @@ class User {
 			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));
-			$this->connection->writeToCache($cacheKey
-				, $checksum // write array to cache. is waste of cache space
+			$this->connection->writeToCache($cacheKey, $checksum // write array to cache. is waste of cache space
 				, null); // use ldapCacheTTL from configuration
 			// Update user profile
 			if ($this->config->getUserValue($username, 'user_ldap', 'lastProfileChecksum', null) !== $checksum) {
 				$this->config->setUserValue($username, 'user_ldap', 'lastProfileChecksum', $checksum);
 				$this->updateProfile($profileValues);
-				$this->logger->info("updated profile uid=$username"
-					, ['app' => 'user_ldap']);
+				$this->logger->info("updated profile uid=$username", ['app' => 'user_ldap']);
 			} else {
-				$this->logger->debug("profile data from LDAP unchanged"
-					, ['app' => 'user_ldap', 'uid' => $username]);
+				$this->logger->debug("profile data from LDAP unchanged", ['app' => 'user_ldap', 'uid' => $username]);
 			}
 			unset($attr);
 		} elseif ($profileCached !== null) { // message delayed, to declutter log
-			$this->logger->debug("skipping profile check, while cached data exist"
-				, ['app' => 'user_ldap', 'uid' => $username]);
+			$this->logger->debug("skipping profile check, while cached data exist", ['app' => 'user_ldap', 'uid' => $username]);
 		}
 
 		//Avatar
@@ -408,7 +402,7 @@ class User {
 				   && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
-						\OC::$SERVERROOT.'/data') . '/' . $path;
+					\OC::$SERVERROOT.'/data') . '/' . $path;
 			}
 			//we need it to store it in the DB as well in case a user gets
 			//deleted so we can clean up afterwards
@@ -650,7 +644,7 @@ class User {
 		$defaultScopes = array_merge(AccountManager::DEFAULT_SCOPES,
 			$this->config->getSystemValue('account_manager.default_property_scope', []));
 		// loop through the properties and handle them
-		foreach($profileValues as $property => $valueFromLDAP) {
+		foreach ($profileValues as $property => $valueFromLDAP) {
 			// check and update profile properties
 			$value = (is_array($valueFromLDAP) ? $valueFromLDAP[0] : $valueFromLDAP); // take ONLY the first value, if multiple values specified
 			try {
@@ -658,17 +652,15 @@ class User {
 				$currentValue = $accountProperty->getValue();
 				$scope = ($accountProperty->getScope() ? $accountProperty->getScope()
 					: $defaultScopes[$property]);
-			}
-			catch (PropertyDoesNotExistException $e) { // thrown at getProperty
+			} catch (PropertyDoesNotExistException $e) { // thrown at getProperty
 				$this->logger->error('property does not exist: '.$property
-					.' for uid='.$this->uid.''
-					, ['app' => 'user_ldap', 'exception' => $e]);
+					.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
 				$currentValue = '';
 				$scope = $defaultScopes[$property];
 			}
 			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what he put there
 			if ($currentValue !== $value) {
-				$account->setProperty($property,$value,$scope,$verified);
+				$account->setProperty($property, $value, $scope, $verified);
 				$this->logger->debug('update user profile: '.$property.'='.$value
 					.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
 			}
@@ -676,8 +668,7 @@ class User {
 		try {
 			$accountManager->updateAccount($account); // may throw InvalidArgumentException
 		} catch (\InvalidArgumentException $e) {
-			$this->logger->error('invalid data from LDAP: for uid='.$this->uid.''
-				, ['app' => 'user_ldap', 'func' => 'updateProfile'
+			$this->logger->error('invalid data from LDAP: for uid='.$this->uid.'', ['app' => 'user_ldap', 'func' => 'updateProfile'
 				, 'exception' => $e]);
 		}
 	}
@@ -764,11 +755,7 @@ class User {
 			$avatar->set($this->image);
 			return true;
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'Could not set avatar for ' . $this->dn,
-				'level' => ILogger::INFO,
-				'app' => 'user_ldap',
-			]);
+			$this->logger->info('Could not set avatar for ' . $this->dn, ['exception' => $e]);
 		}
 		return false;
 	}
@@ -858,10 +845,10 @@ class User {
 					&& count($pwdGraceUseTime) < (int)$pwdGraceAuthNLimit[0]) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
+						'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				} else { //no more grace login available
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
+						'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
 				}
 				exit();
 			}
@@ -869,7 +856,7 @@ class User {
 			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change his password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-				'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
+					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				exit();
 			}
 			//handle password expiry warning
