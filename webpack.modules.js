@@ -99,7 +99,7 @@ module.exports = {
 		'vue-settings-admin-sharebymail': path.join(__dirname, 'apps/sharebymail/src', 'main-admin.js'),
 	},
 	systemtags: {
-		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
+		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
 	},
 	theming: {
 		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),

@@ -190,6 +190,7 @@ import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
+import TagIcon from 'vue-material-design-icons/Tag.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
@@ -237,6 +238,7 @@ export default Vue.extend({
 		NcLoadingIcon,
 		NcTextField,
 		NetworkIcon,
+		TagIcon,
 	},
 
 	props: {
@@ -379,6 +381,11 @@ export default Vue.extend({
 			// Encrypted folders
 			if (this.source?.attributes?.['is-encrypted'] === 1) {
 				return KeyIcon
+			}
+
+			// System tags
+			if (this.source?.attributes?.['is-tag']) {
+				return TagIcon
 			}
 
 			// Link and mail shared folders

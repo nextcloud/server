@@ -65,7 +65,6 @@ module.exports = function(config) {
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
-			'systemtags',
 			'files_trashbin',
 		];
 	}

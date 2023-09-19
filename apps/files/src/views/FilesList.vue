@@ -328,11 +328,20 @@ export default Vue.extend({
 		},
 	},
 
+	mounted() {
+		this.fetchContent()
+	},
+
 	methods: {
 		async fetchContent() {
 			this.loading = true
 			const dir = this.dir
 			const currentView = this.currentView
+
+			if (!currentView) {
+				logger.debug('The current view doesn\'t exists or is not ready.', { currentView })
+				return
+			}
 
 			// If we have a cancellable promise ongoing, cancel it
 			if (typeof this.promise?.cancel === 'function') {
