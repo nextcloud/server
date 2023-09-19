@@ -159,7 +159,7 @@ OC.L10N.register(
     "to" : "за",
     "Delete slot" : "Обриши прорез",
     "No working hours set" : "Нису подешени радни сати",
-    "Add slot" : "Додај прорез",
+    "Add slot" : "Додај термин",
     "Monday" : "Понедељак",
     "Tuesday" : "Уторак",
     "Wednesday" : "Среда",
