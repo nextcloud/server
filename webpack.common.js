@@ -5,8 +5,12 @@ const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-m
 const webpack = require('webpack')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const modules = require('./webpack.modules.js')
+
+const buildMode = process.env.NODE_ENV
+const isDev = buildMode === 'development'
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -141,20 +145,21 @@ module.exports = {
 	},
 
 	optimization: {
+		chunkIds: 'named',
 		splitChunks: {
 			automaticNameDelimiter: '-',
-			minChunks: 3, // minimum number of chunks that must share the module
-			cacheGroups: {
-				vendors: {
-					// split every dependency into one bundle
-					test: /[\\/]node_modules[\\/]/,
-					// necessary to keep this name to properly inject it
-					// see OC_Template.php
-					name: 'core-common',
-					chunks: 'all',
-				},
-			},
 		},
+		minimize: !isDev,
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					output: {
+						comments: false,
+					},
+				},
+				extractComments: true,
+			}),
+		],
 	},
 
 	plugins: [

@@ -96,6 +96,7 @@
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
     "strengthify": "github:nextcloud/strengthify#0.5.9",
+    "terser-webpack-plugin": "^5.3.9",
     "throttle-debounce": "^5.0.0",
     "underscore": "1.13.6",
     "url-search-params-polyfill": "^8.1.1",
