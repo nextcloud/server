@@ -192,7 +192,6 @@ class OC_User {
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
 				$userSession->createSessionToken($request, $uid, $uid, $password);
-				$userSession->createRememberMeToken($userSession->getUser());
 				// setup the filesystem
 				OC_Util::setupFS($uid);
 				// first call the post_login hooks, the login-process needs to be

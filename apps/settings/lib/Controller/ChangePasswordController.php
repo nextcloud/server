@@ -113,7 +113,10 @@ class ChangePasswordController extends Controller {
 			]);
 		}
 
-		$this->userSession->updateSessionTokenPassword($newpassword);
+		$this->userSession->updateSessionTokenPassword(
+			$this->request->getCookie(Session::COOKIE_SESSION_ID),
+			$newpassword,
+		);
 
 		return new JSONResponse([
 			'status' => 'success',

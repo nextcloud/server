@@ -256,8 +256,7 @@ class Manager {
 		$passed = $provider->verifyChallenge($user, $challenge);
 		if ($passed) {
 			if ($this->session->get(self::REMEMBER_LOGIN) === true) {
-				// TODO: resolve cyclic dependency and use DI
-				\OC::$server->getUserSession()->createRememberMeToken($user);
+				// TODO: finish login here? don't set cookies earlier
 			}
 			$this->session->remove(self::SESSION_UID_KEY);
 			$this->session->remove(self::REMEMBER_LOGIN);

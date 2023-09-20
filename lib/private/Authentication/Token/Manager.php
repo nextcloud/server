@@ -160,22 +160,6 @@ class Manager implements IProvider, OCPIProvider {
 	}
 
 	/**
-	 * @param string $oldSessionId
-	 * @param string $sessionId
-	 * @throws InvalidTokenException
-	 * @return IToken
-	 */
-	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
-		try {
-			return $this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
-		} catch (ExpiredTokenException $e) {
-			throw $e;
-		} catch (InvalidTokenException $e) {
-			throw $e;
-		}
-	}
-
-	/**
 	 * @param IToken $savedToken
 	 * @param string $tokenId session token
 	 * @throws InvalidTokenException

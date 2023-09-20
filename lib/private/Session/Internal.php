@@ -148,14 +148,7 @@ class Internal extends Session {
 			// Get the new id to update the token
 			$newId = $this->getId();
 
-			/** @var IProvider $tokenProvider */
-			$tokenProvider = \OCP\Server::get(IProvider::class);
-
-			try {
-				$tokenProvider->renewSessionToken($oldId, $newId);
-			} catch (InvalidTokenException $e) {
-				// Just ignore
-			}
+			// TODO: refresh cookie?!
 		}
 	}
 

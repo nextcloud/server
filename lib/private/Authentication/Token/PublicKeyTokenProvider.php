@@ -218,37 +218,6 @@ class PublicKeyTokenProvider implements IProvider {
 		return $token;
 	}
 
-	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
-		$this->cache->clear();
-
-		return $this->atomic(function () use ($oldSessionId, $sessionId) {
-			$token = $this->getToken($oldSessionId);
-
-			if (!($token instanceof PublicKeyToken)) {
-				throw new InvalidTokenException("Invalid token type");
-			}
-
-			$password = null;
-			if (!is_null($token->getPassword())) {
-				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
-				$password = $this->decryptPassword($token->getPassword(), $privateKey);
-			}
-			$newToken = $this->generateToken(
-				$sessionId,
-				$token->getUID(),
-				$token->getLoginName(),
-				$password,
-				$token->getName(),
-				IToken::TEMPORARY_TOKEN,
-				$token->getRemember()
-			);
-
-			$this->mapper->delete($token);
-
-			return $newToken;
-		}, $this->db);
-	}
-
 	public function invalidateToken(string $token) {
 		$this->cache->clear();
 

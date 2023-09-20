@@ -91,6 +91,10 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
+	const COOKIE_SESSION_ID = 'nc_session_id';
+	const COOKIE_TEST = 'cookie_test';
+	const COOKIE_USERNAME = 'nc_username';
+
 	/** @var Manager $manager */
 	private $manager;
 
@@ -246,16 +250,12 @@ class Session implements IUserSession, Emitter {
 		$appPassword = $this->session->get('app_password');
 
 		if (is_null($appPassword)) {
-			try {
-				$token = $this->session->getId();
-			} catch (SessionNotAvailableException $ex) {
-				return;
-			}
+			$token = \OCP\Server::get(IRequest::class)->getCookie(self::COOKIE_SESSION_ID);
 		} else {
 			$token = $appPassword;
 		}
 
-		if (!$this->validateToken($token)) {
+		if ($token === null || !$this->validateToken($token)) {
 			// Session was invalidated
 			$this->logout();
 		}
@@ -485,10 +485,10 @@ class Session implements IUserSession, Emitter {
 	}
 
 	protected function supportsCookies(IRequest $request) {
-		if (!is_null($request->getCookie('cookie_test'))) {
+		if (!is_null($request->getCookie(self::COOKIE_TEST))) {
 			return true;
 		}
-		setcookie('cookie_test', 'test', $this->timeFactory->getTime() + 3600);
+		setcookie(self::COOKIE_TEST, 'test', $this->timeFactory->getTime() + 3600);
 		return false;
 	}
 
@@ -680,18 +680,10 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? mb_convert_encoding($request->server['HTTP_USER_AGENT'], 'UTF-8', 'ISO-8859-1') : 'unknown browser';
-		try {
-			$sessionId = $this->session->getId();
-			$pwd = $this->getPassword($password);
-			// Make sure the current sessionId has no leftover tokens
-			$this->tokenProvider->invalidateToken($sessionId);
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
-			return true;
-		} catch (SessionNotAvailableException $ex) {
-			// This can happen with OCC, where a memory session is used
-			// if a memory session is used, we shouldn't create a session token anyway
-			return false;
-		}
+		$token = $this->random->generate(32);
+		$pwd = $this->getPassword($password);
+		$this->tokenProvider->generateToken($token, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+		$this->setMagicInCookie($uid, $token);		return true;
 	}
 
 	/**
@@ -775,11 +767,10 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * Invalidates the token if checks fail
 	 *
-	 * @param string $token
 	 * @param string $user login name
 	 * @return boolean
 	 */
-	private function validateToken($token, $user = null) {
+	private function validateToken(string $token, $user = null) {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
@@ -858,11 +849,10 @@ class Session implements IUserSession, Emitter {
 	 * perform login using the magic cookie (remember login)
 	 *
 	 * @param string $uid the username
-	 * @param string $currentToken
-	 * @param string $oldSessionId
+	 * @param string $sessionId
 	 * @return bool
 	 */
-	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
+	public function loginWithCookie($uid, $sessionId) {
 		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
 		$user = $this->manager->get($uid);
@@ -871,36 +861,17 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// get stored tokens
-		$tokens = $this->config->getUserKeys($uid, 'login_token');
-		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in {uid} but could not verify token', [
-				'app' => 'core',
-				'uid' => $uid,
-			]);
-			return false;
-		}
-		// replace successfully used token with a new one
-		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
-
 		try {
-			$sessionId = $this->session->getId();
-			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
-		} catch (SessionNotAvailableException $ex) {
-			$this->logger->warning('Could not renew session token for {uid} because the session is unavailable', [
-				'app' => 'core',
-				'uid' => $uid,
-			]);
-			return false;
+			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (InvalidTokenException $ex) {
-			$this->logger->warning('Renewing session token failed', ['app' => 'core']);
+			$this->logger->warning('Could not find token for web session: ' . $ex->getMessage(), [
+				'app' => 'core',
+				'exception' => $ex,
+			]);
 			return false;
 		}
 
-		$this->setMagicInCookie($user->getUID(), $newToken);
+		$this->setMagicInCookie($user->getUID(), $sessionId);
 
 		//login
 		$this->setUser($user);
@@ -923,8 +894,6 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function createRememberMeToken(IUser $user) {
 		$token = $this->random->generate(32);
-		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string)$this->timeFactory->getTime());
-		$this->setMagicInCookie($user->getUID(), $token);
 	}
 
 	/**
@@ -962,7 +931,7 @@ class Session implements IUserSession, Emitter {
 
 		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		\OC\Http\CookieHelper::setCookie(
-			'nc_username',
+			self::COOKIE_USERNAME,
 			$username,
 			$maxAge,
 			$webRoot,
@@ -972,7 +941,7 @@ class Session implements IUserSession, Emitter {
 			\OC\Http\CookieHelper::SAMESITE_LAX
 		);
 		\OC\Http\CookieHelper::setCookie(
-			'nc_token',
+			self::COOKIE_SESSION_ID,
 			$token,
 			$maxAge,
 			$webRoot,
@@ -981,20 +950,6 @@ class Session implements IUserSession, Emitter {
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
 		);
-		try {
-			\OC\Http\CookieHelper::setCookie(
-				'nc_session_id',
-				$this->session->getId(),
-				$maxAge,
-				$webRoot,
-				'',
-				$secureCookie,
-				true,
-				\OC\Http\CookieHelper::SAMESITE_LAX
-			);
-		} catch (SessionNotAvailableException $ex) {
-			// ignore
-		}
 	}
 
 	/**
@@ -1004,17 +959,14 @@ class Session implements IUserSession, Emitter {
 		//TODO: DI for cookies and IRequest
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
 
-		unset($_COOKIE['nc_username']); //TODO: DI
-		unset($_COOKIE['nc_token']);
-		unset($_COOKIE['nc_session_id']);
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		unset($_COOKIE[self::COOKIE_USERNAME]); //TODO: DI
+		unset($_COOKIE[self::COOKIE_SESSION_ID]);
+		setcookie(self::COOKIE_USERNAME, '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie(self::COOKIE_SESSION_ID, '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie(self::COOKIE_USERNAME, '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie(self::COOKIE_SESSION_ID, '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
 	}
 
 	/**
@@ -1022,14 +974,11 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param string $password
 	 */
-	public function updateSessionTokenPassword($password) {
+	public function updateSessionTokenPassword($sessionId, $password) {
 		try {
-			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
 			$this->tokenProvider->setPassword($token, $sessionId, $password);
-		} catch (SessionNotAvailableException $ex) {
-			// Nothing to do
-		} catch (InvalidTokenException $ex) {
+		} catch (InvalidTokenException) {
 			// Nothing to do
 		}
 	}

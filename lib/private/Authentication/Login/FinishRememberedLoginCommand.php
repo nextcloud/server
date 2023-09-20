@@ -42,7 +42,7 @@ class FinishRememberedLoginCommand extends ALoginCommand {
 
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->isRememberLogin() && !$this->config->getSystemValueBool('auto_logout', false)) {
-			$this->userSession->createRememberMeToken($loginData->getUser());
+			// TODO: finish login here? don't set cookies earlier
 		}
 
 		return $this->processNextOrFinishSuccessfully($loginData);

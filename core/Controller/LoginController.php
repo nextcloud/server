@@ -90,10 +90,6 @@ class LoginController extends Controller {
 	 */
 	#[UseSession]
 	public function logout() {
-		$loginToken = $this->request->getCookie('nc_token');
-		if (!is_null($loginToken)) {
-			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
-		}
 		$this->userSession->logout();
 
 		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(

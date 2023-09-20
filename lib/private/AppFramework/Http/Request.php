@@ -490,7 +490,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if ($this->getHeader('OCS-APIREQUEST')) {
 			return false;
 		}
-		if ($this->getCookie(session_name()) === null && $this->getCookie('nc_token') === null) {
+		if ($this->getCookie(session_name()) === null) {
 			return false;
 		}
 
