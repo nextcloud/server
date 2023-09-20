@@ -49,11 +49,7 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among users." : "תכונת תיוג שיתופים שמשתפת תגיות בין המשתמשים.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "תכונת התיוג השיתופי שמשתפת תגיות בין משתמשים. מעולה לעבודת צוות.\n\t(אם בבעלותך התקנה עם מגוון מערכות נפרדות, מוטב להשבית את היישומון הזה כיוון שהתגיות משותפות.)",
     "Failed to load tags" : "טעינת התגיות נכשלה",
-    "Tagged files" : "קבצים שתויגו",
-    "Select tags to filter by" : "תגיות נבחרות מסוננות על ידי",
     "No tags found" : "לא נמצאו תגיות",
-    "Please select tags to filter by" : "יש לבחור תגיות שיסוננו על ידי",
-    "No files found for the selected tags" : "לא אותרו קבצים לתגיות הנבחרות",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "תגיות שיתופיות זמינות לכל המשתמשים. תגיות מוגבלות חשופות למשתמשים אך אין להם אפשרות להקצות אותן. תגיות בלתי נראות הן לשימוש פנימי כיוון שמשתמשים לא יכולים לראות אות להקצות אותן.",
     "Create a new tag" : "יצירת תגית חדשה",
     "Name" : "שם",
@@ -65,6 +61,10 @@ OC.L10N.register(
     "No files in here" : "אין כאן קבצים",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Size" : "גודל",
-    "Modified" : "זמן שינוי"
+    "Modified" : "זמן שינוי",
+    "Tagged files" : "קבצים שתויגו",
+    "Select tags to filter by" : "תגיות נבחרות מסוננות על ידי",
+    "Please select tags to filter by" : "יש לבחור תגיות שיסוננו על ידי",
+    "No files found for the selected tags" : "לא אותרו קבצים לתגיות הנבחרות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

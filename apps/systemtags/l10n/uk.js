@@ -59,13 +59,9 @@ OC.L10N.register(
     "Failed to delete tag" : "Не вдалося видалити мітку",
     "This file has the tag {tag}" : "Цей файл має мітку {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Цей файл має мітку {firstTags} та {lastTag}",
+    "No tags found" : "Відсутні мітки",
     "Failed to load last used tags" : "Не вдалося завантажити останні мітки",
     "Missing \"Content-Location\" header" : "Відсутній заголовок \"Content-Location\"",
-    "Tagged files" : "Файли з мітками",
-    "Select tags to filter by" : "Фільтр вибору мітки за",
-    "No tags found" : "Відсутні мітки",
-    "Please select tags to filter by" : "Виберіть мітки для подальшого фільтрування",
-    "No files found for the selected tags" : "Не знайдено файлів з такими мітками",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Спільні мітки доступні для всіх користувачів. Заборонені мітки видимі для користувачів, але вони не можуть їх призначити. Невидимі мітки призначені для внутрішнього використання, оскільки користувачі не можуть бачити або призначати їх.",
     "Create a new tag" : "Додати нову мітку",
     "Name" : "Ім’я",
@@ -77,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "Тут немає файлів",
     "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
     "Size" : "Розмір",
-    "Modified" : "Змінено"
+    "Modified" : "Змінено",
+    "Tagged files" : "Файли з мітками",
+    "Select tags to filter by" : "Фільтр вибору мітки за",
+    "Please select tags to filter by" : "Виберіть мітки для подальшого фільтрування",
+    "No files found for the selected tags" : "Не знайдено файлів з такими мітками"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

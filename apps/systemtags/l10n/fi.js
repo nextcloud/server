@@ -52,12 +52,8 @@ OC.L10N.register(
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "This file has the tag {tag}" : "Tällä tiedostolla on tunniste {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}",
-    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
-    "Tagged files" : "Tunnisteella merkityt tiedostot",
-    "Select tags to filter by" : "Valitse suodatettavat tunnisteet",
     "No tags found" : "Tunnisteita ei löytynyt",
-    "Please select tags to filter by" : "Valitse suodatettavat tunnisteet",
-    "No files found for the selected tags" : "Tiedostoja ei löytynyt valituilla tunnisteilla",
+    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
     "Create a new tag" : "Luo uusi tunniste",
     "Name" : "Nimi",
     "Public" : "Julkinen",
@@ -68,6 +64,10 @@ OC.L10N.register(
     "No files in here" : "Täällä ei ole tiedostoja",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Size" : "Koko",
-    "Modified" : "Muokattu"
+    "Modified" : "Muokattu",
+    "Tagged files" : "Tunnisteella merkityt tiedostot",
+    "Select tags to filter by" : "Valitse suodatettavat tunnisteet",
+    "Please select tags to filter by" : "Valitse suodatettavat tunnisteet",
+    "No files found for the selected tags" : "Tiedostoja ei löytynyt valituilla tunnisteilla"
 },
 "nplurals=2; plural=(n != 1);");
