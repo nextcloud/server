@@ -27,6 +27,7 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3MultipartUploadException;
+use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
 use GuzzleHttp\Psr7;
@@ -189,9 +190,16 @@ trait S3ObjectTrait {
 		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
 	}
 
-	public function copyObject($from, $to) {
-		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', [
-			'params' => $this->getSSECParameters() + $this->getSSECParameters(true)
-		]);
+	public function copyObject($from, $to, array $options = []) {
+		$copy = new MultipartCopy($this->getConnection(), [
+			"source_bucket" => $this->getBucket(),
+			"source_key" => $from
+		], array_merge([
+			"bucket" => $this->getBucket(),
+			"key" => $to,
+			"acl" => "private",
+			"params" => $this->getSSECParameters() + $this->getSSECParameters(true)
+		], $options));
+		$copy->copy();
 	}
 }
