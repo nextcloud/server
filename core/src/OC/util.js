@@ -21,7 +21,7 @@
  *
  */
 
-import moment from 'moment'
+import moment from '@nextcloud/moment'
 
 import History from './util-history.js'
 import logger from './logger.js'

@@ -24,7 +24,7 @@
 
 import _ from 'underscore'
 import $ from 'jquery'
-import moment from 'moment'
+import moment from '@nextcloud/moment'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import dialogs from './dialogs.js'
@@ -61,7 +61,7 @@ export default {
 			title: t('core', 'Authentication required'),
 			text: t(
 				'core',
-				'This action requires you to confirm your password'
+				'This action requires you to confirm your password',
 			),
 			confirm: t('core', 'Confirm'),
 			label: t('core', 'Password'),
@@ -85,7 +85,7 @@ export default {
 				},
 				true,
 				config.label,
-				true
+				true,
 			).then(function() {
 				const $dialog = $('.oc-dialog:visible')
 				$dialog.find('.ui-icon').remove()

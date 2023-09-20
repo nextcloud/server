@@ -27,7 +27,7 @@
 /* globals Snap */
 import _ from 'underscore'
 import $ from 'jquery'
-import moment from 'moment'
+import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
 
 import { initSessionHeartBeat } from './session-heartbeat.js'
