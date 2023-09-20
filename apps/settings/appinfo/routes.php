@@ -76,6 +76,8 @@ return [
 		['name' => 'TwoFactorSettings#index', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'TwoFactorSettings#update', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'PUT' , 'root' => ''],
 		['name' => 'AISettings#update', 'url' => '/settings/api/admin/ai', 'verb' => 'PUT' , 'root' => ''],
+		['name' => 'CORSSettings#updateUserEnabled', 'url' => '/settings/api/admin/cors/allowusers', 'verb' => 'PUT' , 'root' => ''],
+		['name' => 'CORSSettings#allowedDomains', 'url' => '/settings/api/admin/cors/domains', 'verb' => 'PUT' , 'root' => ''],
 
 		['name' => 'Help#help', 'url' => '/settings/help/{mode}', 'verb' => 'GET', 'defaults' => ['mode' => ''] , 'root' => ''],
 
