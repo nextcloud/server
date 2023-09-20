@@ -150,7 +150,7 @@ class DashboardApiController extends OCSController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse<Http::STATUS_OK, DashboardWidget[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidget>, array{}>
 	 */
 	public function getWidgets(): DataResponse {
 		$widgets = $this->dashboardManager->getWidgets();
