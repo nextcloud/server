@@ -28,7 +28,7 @@ import logger from './logger.js'
 /**
  * Returns the capabilities
  *
- * @return {Array} capabilities
+ * @return {object} capabilities
  *
  * @since 14.0.0
  */

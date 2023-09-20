@@ -75,7 +75,7 @@ export default {
 	 * Inspired by computerFileSize in helper.php
 	 *
 	 * @param  {string} string file size in human-readable format
-	 * @return {number} or null if string could not be parsed
+	 * @return {number|null} or null if string could not be parsed
 	 *
 	 *
 	 */
