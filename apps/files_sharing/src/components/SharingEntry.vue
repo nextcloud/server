@@ -150,23 +150,19 @@ export default {
 <style lang="scss" scoped>
 .sharing-entry {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	height: 44px;
 
 	&__summary {
 		padding: 8px;
-		padding-left: 10px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		width: 75%;
-		min-width: 75%;
+		width: 80%;
+		min-width: 80%;
 
 		&__desc {
 			display: inline-block;
-			flex-direction: column;
-			justify-content: space-between;
 			padding-bottom: 0;
 			line-height: 1.2em;
 			white-space: nowrap;
