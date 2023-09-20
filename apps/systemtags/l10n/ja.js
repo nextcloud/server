@@ -51,11 +51,7 @@ OC.L10N.register(
     "Failed to load tags" : "タグの読込に失敗しました",
     "This file has the tag {tag}" : "このファイルには {tag} タグがあります。",
     "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります",
-    "Tagged files" : "タグ済ファイル",
-    "Select tags to filter by" : "フィルターするタグを選択してください",
     "No tags found" : "タグが見つかりません",
-    "Please select tags to filter by" : "フィルターするタグを入力してください",
-    "No files found for the selected tags" : "そのタグに割りあてられているファイルはありません",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "コラボタグはすべてのユーザーで利用できます。制限付きタグは、ユーザーから見えますが、ユーザーが割り当てることはできません。不可視タグは、ユーザーが見ることも割り当てることもできず、内部利用のためのものです。",
     "Create a new tag" : "新しいタグを作成する",
     "Name" : "名前",
@@ -67,6 +63,10 @@ OC.L10N.register(
     "No files in here" : "ファイルがありません",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Size" : "サイズ",
-    "Modified" : "更新日時"
+    "Modified" : "更新日時",
+    "Tagged files" : "タグ済ファイル",
+    "Select tags to filter by" : "フィルターするタグを選択してください",
+    "Please select tags to filter by" : "フィルターするタグを入力してください",
+    "No files found for the selected tags" : "そのタグに割りあてられているファイルはありません"
 },
 "nplurals=1; plural=0;");
