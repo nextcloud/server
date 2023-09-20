@@ -20,6 +20,7 @@
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -1938,8 +1939,18 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		});
 		$result->closeCursor();
 
-		return array_map(function ($o) {
+		return array_map(function ($o) use ($options) {
 			$calendarData = Reader::read($o['calendardata']);
+
+			// Expand recurrences if an explicit time range is requested
+			if ($calendarData instanceof VCalendar
+				&& isset($options['timerange']['start'], $options['timerange']['end'])) {
+				$calendarData = $calendarData->expand(
+					$options['timerange']['start'],
+					$options['timerange']['end'],
+				);
+			}
+
 			$comps = $calendarData->getComponents();
 			$objects = [];
 			$timezones = [];
