@@ -9,6 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Private Maker <privatemaker@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -133,28 +134,41 @@ trait CommonSettingsTrait {
 		return ['content' => $html];
 	}
 
-	private function getIndexResponse(string $type, string $section): TemplateResponse {
-		if ($type === 'personal') {
-			if ($section === 'theming') {
-				$this->navigationManager->setActiveEntry('accessibility_settings');
-			} else {
-				$this->navigationManager->setActiveEntry('settings');
-			}
-		} elseif ($type === 'admin') {
-			$this->navigationManager->setActiveEntry('admin_settings');
-		}
-
-		$templateParams = [];
-		$templateParams = array_merge($templateParams, $this->getNavigationParameters($type, $section));
+	private function getPersonalResponse(string $section): TemplateResponse {
+        $templateParams = [];
+		$templateParams = array_merge($templateParams, $this->getNavigationParameters('personal', $section));
 		$templateParams = array_merge($templateParams, $this->getSettings($section));
-		$activeSection = $this->settingsManager->getSection($type, $section);
-		if ($activeSection) {
+		$activeSection = $this->settingsManager->getSection('personal', $section);
+
+        if ($activeSection) {
 			$templateParams['pageTitle'] = $activeSection->getName();
 			$templateParams['activeSectionId'] = $activeSection->getID();
 		}
 
-		return new TemplateResponse('settings', 'settings/frame', $templateParams);
-	}
+        if ($section === 'theming') {
+            $this->navigationManager->setActiveEntry('accessibility_settings');
+        } else {
+            $this->navigationManager->setActiveEntry('settings');
+        }
+
+		return new TemplateResponse('settings', 'settings/personal', $templateParams);
+    }
+
+	private function getAdminResponse(string $section): TemplateResponse {
+        $templateParams = [];
+		$templateParams = array_merge($templateParams, $this->getNavigationParameters('admin', $section));
+		$templateParams = array_merge($templateParams, $this->getSettings($section));
+		$activeSection = $this->settingsManager->getSection('admin', $section);
+
+        if ($activeSection) {
+			$templateParams['pageTitle'] = $activeSection->getName();
+			$templateParams['activeSectionId'] = $activeSection->getID();
+        }
+
+        $this->navigationManager->setActiveEntry('admin_settings');
+
+		return new TemplateResponse('settings', 'settings/admin', $templateParams);
+    }
 
 	abstract protected function getSettings($section);
 }

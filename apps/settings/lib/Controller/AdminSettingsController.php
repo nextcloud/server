@@ -7,6 +7,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Private Maker <privatemaker@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -68,7 +69,7 @@ class AdminSettingsController extends Controller {
 	 * settings for the given section. The user will be gretted by an error message.
 	 */
 	public function index(string $section): TemplateResponse {
-		return $this->getIndexResponse('admin', $section);
+		return $this->getAdminResponse($section);
 	}
 
 	/**
