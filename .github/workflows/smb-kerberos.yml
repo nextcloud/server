@@ -41,6 +41,7 @@ jobs:
       - name: Setup AD-DC
         run: |
           DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          sleep 1
           apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
       - name: Set up Nextcloud
