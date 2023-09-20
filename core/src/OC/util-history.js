@@ -22,7 +22,11 @@
  */
 
 import _ from 'underscore'
-import OC from './index.js'
+
+import {
+	build as buildQueryString,
+	parse as parseQueryString,
+} from './query-string.js'
 
 /**
  * Utility class for the history API,
@@ -45,14 +49,14 @@ export default {
 	 * or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
-	 * @param {boolean} [replace=false] whether to replace instead of pushing
+	 * @param {boolean} [replace] whether to replace instead of pushing
 	 */
 	_pushState(params, url, replace) {
 		let strParams
 		if (typeof (params) === 'string') {
 			strParams = params
 		} else {
-			strParams = OC.buildQueryString(params)
+			strParams = buildQueryString(params)
 		}
 
 		if (window.history.pushState) {
@@ -157,10 +161,10 @@ export default {
 		let params
 		// try and parse from URL hash first
 		if (query) {
-			params = OC.parseQueryString(this._decodeQuery(query))
+			params = parseQueryString(this._decodeQuery(query))
 		}
 		// else read from query attributes
-		params = _.extend(params || {}, OC.parseQueryString(this._decodeQuery(location.search)))
+		params = _.extend(params || {}, parseQueryString(this._decodeQuery(location.search)))
 		return params || {}
 	},
 
@@ -175,7 +179,7 @@ export default {
 		}
 		params = (e && e.state)
 		if (_.isString(params)) {
-			params = OC.parseQueryString(params)
+			params = parseQueryString(params)
 		} else if (!params) {
 			params = this.parseUrlQuery() || {}
 		}

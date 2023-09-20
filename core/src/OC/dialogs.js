@@ -50,8 +50,10 @@ import $ from 'jquery'
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 
-import OC from './index.js'
 import { FilePickerType, getFilePickerBuilder } from '@nextcloud/dialogs'
+import moment from '@nextcloud/moment'
+import { formatFileSize } from '@nextcloud/files'
+import { generateFilePath } from '@nextcloud/router'
 import { basename } from 'path'
 
 /**
@@ -608,12 +610,12 @@ const Dialogs = {
 			$conflict.data('data', data)
 
 			$conflict.find('.filename').text(original.name)
-			$originalDiv.find('.size').text(OC.Util.humanFileSize(original.size))
-			$originalDiv.find('.mtime').text(OC.Util.formatDate(original.mtime))
+			$originalDiv.find('.size').text(formatFileSize(original.size))
+			$originalDiv.find('.mtime').text(moment(original.mtime).format('LLL'))
 			// ie sucks
 			if (replacement.size && replacement.lastModified) {
-				$replacementDiv.find('.size').text(OC.Util.humanFileSize(replacement.size))
-				$replacementDiv.find('.mtime').text(OC.Util.formatDate(replacement.lastModified))
+				$replacementDiv.find('.size').text(formatFileSize(replacement.size))
+				$replacementDiv.find('.mtime').text(moment(replacement.lastModified).format('LLL'))
 			}
 			var path = original.directory + '/' + original.name
 			var urlSpec = {
@@ -833,7 +835,7 @@ const Dialogs = {
 		var defer = $.Deferred()
 		if (!this.$messageTemplate) {
 			var self = this
-			$.get(OC.filePath('core', 'templates', 'message.html'), function(tmpl) {
+			$.get(generateFilePath('core', 'templates', 'message.html'), function(tmpl) {
 				self.$messageTemplate = $(tmpl)
 				defer.resolve(self.$messageTemplate)
 			})
@@ -849,7 +851,7 @@ const Dialogs = {
 		var defer = $.Deferred()
 		if (!this.$fileexistsTemplate) {
 			var self = this
-			$.get(OC.filePath('files', 'templates', 'fileexists.html'), function(tmpl) {
+			$.get(generateFilePath('files', 'templates', 'fileexists.html'), function(tmpl) {
 				self.$fileexistsTemplate = $(tmpl)
 				defer.resolve(self.$fileexistsTemplate)
 			})

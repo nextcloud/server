@@ -26,11 +26,11 @@
 import $ from 'jquery'
 import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { getCurrentUser } from '@nextcloud/auth'
+import { getCurrentUser, getRequestToken } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
 import OC from './OC/index.js'
-import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken.js'
+import { setToken as setRequestToken } from './OC/requesttoken.js'
 
 let config = null
 /**
@@ -72,8 +72,8 @@ const getInterval = () => {
 		24 * 3600,
 		Math.max(
 			60,
-			isNaN(interval) ? 900 : interval
-		)
+			isNaN(interval) ? 900 : interval,
+		),
 	)
 }
 

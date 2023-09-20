@@ -26,8 +26,8 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import { Collection, Model, View } from 'backbone'
-
-import OC from './index.js'
+import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
 
 /**
  * @class Contact
@@ -361,9 +361,9 @@ const ContactsMenuView = View.extend({
 			contacts: viewData.contacts,
 			searchTerm: searchTerm,
 			contactsAppEnabled: viewData.contactsAppEnabled,
-			contactsAppURL: OC.generateUrl('/apps/contacts'),
-			canInstallApp: OC.isUserAdmin(),
-			contactsAppMgmtURL: OC.generateUrl('/settings/apps/social/contacts')
+			contactsAppURL: generateUrl('/apps/contacts'),
+			canInstallApp: getCurrentUser()?.isAdmin,
+			contactsAppMgmtURL: generateUrl('/settings/apps/social/contacts')
 		}))
 		this.$('#contactsmenu-contacts').html(list.$el)
 	},
@@ -427,7 +427,7 @@ ContactsMenu.prototype = {
 	 * @returns {Promise}
 	 */
 	_getContacts: function(searchTerm) {
-		var url = OC.generateUrl('/contactsmenu/contacts')
+		var url = generateUrl('/contactsmenu/contacts')
 		return Promise.resolve($.ajax(url, {
 			method: 'POST',
 			data: {

@@ -28,6 +28,7 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
+import { getLocale } from '@nextcloud/l10n'
 
 import { initSessionHeartBeat } from './session-heartbeat.js'
 import OC from './OC/index.js'
@@ -65,7 +66,7 @@ const localeAliases = {
 	zh_Hant_MO: 'zh-mo',
 	zh_Hant_TW: 'zh-tw',
 }
-let locale = OC.getLocale()
+let locale = getLocale()
 if (Object.prototype.hasOwnProperty.call(localeAliases, locale)) {
 	locale = localeAliases[locale]
 }

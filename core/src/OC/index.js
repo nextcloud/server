@@ -58,7 +58,7 @@ import {
 	TAG_FAVORITE,
 } from './constants.js'
 import ContactsMenu from './contactsmenu.js'
-import { currentUser, getCurrentUser } from './currentuser.js'
+import { getCurrentUser } from '@nextcloud/auth'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
 import { get, set } from './get_set.js'
@@ -78,7 +78,6 @@ import {
 	showMenu,
 	unregisterMenu,
 } from './menu.js'
-import { isUserAdmin } from './admin.js'
 import L10N from './l10n.js'
 import {
 	getCanonicalLocale,
@@ -146,10 +145,13 @@ export default {
 	/**
 	 * Currently logged in user or null if none
 	 *
-	 * @type {string}
-	 * @deprecated use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
+	 * @type {string|undefined}
+	 * @deprecated 28.0.0 use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
 	 */
-	currentUser,
+	currentUser: getCurrentUser()?.uid,
+	/**
+	 * @deprecated 28.0.0 https://www.npmjs.com/package/@nextcloud/dialogs
+	 */
 	dialogs: Dialogs,
 	EventSource,
 	/**
@@ -160,7 +162,10 @@ export default {
 	 * @deprecated 19.0.0 use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
 	 */
 	getCurrentUser,
-	isUserAdmin,
+	/**
+	 * @deprecated 19.0.0 use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
+	 */
+	isUserAdmin: () => getCurrentUser()?.isAdmin,
 	L10N,
 
 	/**

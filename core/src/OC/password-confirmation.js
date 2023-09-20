@@ -26,8 +26,8 @@ import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
 import { generateUrl } from '@nextcloud/router'
-
-import OC from './index.js'
+import { translate as t } from '@nextcloud/l10n'
+import dialogs from './dialogs.js'
 
 /**
  * @namespace OC.PasswordConfirmation
@@ -73,7 +73,7 @@ export default {
 		const self = this
 
 		if (this.requiresPasswordConfirmation()) {
-			OC.dialogs.prompt(
+			dialogs.prompt(
 				config.text,
 				config.title,
 				function(result, password) {
@@ -124,7 +124,7 @@ export default {
 			},
 			error() {
 				config.error = t('core', 'Failed to authenticate, try again')
-				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback, config)
+				self.requirePasswordConfirmation(self.callback, config)
 			},
 		})
 	},

@@ -25,6 +25,7 @@ import moment from 'moment'
 
 import History from './util-history.js'
 import OC from './index.js'
+import { getLanguage } from '@nextcloud/l10n'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
 /**
@@ -219,7 +220,7 @@ export default {
 				} else {
 					// Note: This locale setting isn't supported by all browsers but for the ones
 					// that do there will be more consistency between client-server sorting
-					return aa[x].localeCompare(bb[x], OC.getLanguage())
+					return aa[x].localeCompare(bb[x], getLanguage())
 				}
 			}
 		}
