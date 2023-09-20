@@ -47,11 +47,7 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among users." : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers. Perfect voor teams\n(als je een provider met een multi-tenancy installatie bent, adviseren we om deze app uit te schakelen omdat tags worden gedeeld.)",
     "Failed to load tags" : "Kon tags niet laden",
-    "Tagged files" : "Gemarkeerde bestanden",
-    "Select tags to filter by" : "Selecteer markering om op te filteren",
     "No tags found" : "Geen tags gevonden",
-    "Please select tags to filter by" : "Selecteer markeringen om op te filteren",
-    "No files found for the selected tags" : "Geen bestanden gevonden voor de geselecteerde markeringen",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samenwerkingstags zijn beschikbaar voor alle gebruikers. Beperkte tags zijn zichtbaar voor gebruikers, maar kunnen niet door hen worden toegewezen. Onzichtbare tags zijn er alleen voor intern gebruik, aangezien gebruikers ze niet kunnen zien of toewijzen.",
     "Create a new tag" : "Creëren nieuw tag",
     "Name" : "Tag",
@@ -63,6 +59,10 @@ OC.L10N.register(
     "No files in here" : "Hier geen bestanden",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Size" : "Grootte",
-    "Modified" : "Aangepast"
+    "Modified" : "Aangepast",
+    "Tagged files" : "Gemarkeerde bestanden",
+    "Select tags to filter by" : "Selecteer markering om op te filteren",
+    "Please select tags to filter by" : "Selecteer markeringen om op te filteren",
+    "No files found for the selected tags" : "Geen bestanden gevonden voor de geselecteerde markeringen"
 },
 "nplurals=2; plural=(n != 1);");

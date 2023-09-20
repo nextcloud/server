@@ -59,13 +59,9 @@ OC.L10N.register(
     "Failed to delete tag" : "إخفاق في حذف وسم",
     "This file has the tag {tag}" : "هذا الملف له واصفة {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}",
+    "No tags found" : "لم يُعثَر على أي وسم",
     "Failed to load last used tags" : "إخفاق في تحميل آخر الوسوم استعمالاً",
     "Missing \"Content-Location\" header" : "ترويسة موقع المحتوى  \"Content-Location\" مفقودة",
-    "Tagged files" : "الملفات الموسومة",
-    "Select tags to filter by" : "حدد الوسوم للترشيح بواسطتها",
-    "No tags found" : "لم يُعثَر على أي وسم",
-    "Please select tags to filter by" : "الرجاء تحديد الوسوم لترشيح بواسطتها",
-    "No files found for the selected tags" : "لم يتم العثور على ملفات مع الوسوم المختارة",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "الوسوم التعاونية مُتاحة لكل المستخدمين. الوسوم المُقيّدة restricted يمكن للمستخدمين رؤيتها لكن لا يمكنهم اسنادها. الوسوم المخفية invisible للاستعمال الداخلي فقط حيث لا يستطيع المستخدمون رؤيتها و لا إسنادها.",
     "Create a new tag" : "أنشئ وسما جديدا",
     "Name" : "اسم",
@@ -77,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "لا يوجد ملفات هنا ",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Size" : "حجم",
-    "Modified" : "معدل"
+    "Modified" : "معدل",
+    "Tagged files" : "الملفات الموسومة",
+    "Select tags to filter by" : "حدد الوسوم للترشيح بواسطتها",
+    "Please select tags to filter by" : "الرجاء تحديد الوسوم لترشيح بواسطتها",
+    "No files found for the selected tags" : "لم يتم العثور على ملفات مع الوسوم المختارة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

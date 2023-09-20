@@ -39,11 +39,7 @@ OC.L10N.register(
     "Collaborative tags" : "Koostöö sildid",
     "This file has the tag {tag}" : "Sellel failil on silt {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Sellel failil on sildid {firstTags} and {lastTag}",
-    "Tagged files" : "Sildistatud failid",
-    "Select tags to filter by" : "Vali sildid, mille järgi filtreerida",
     "No tags found" : "Silte ei leitud",
-    "Please select tags to filter by" : "Palun vali sildid, mille järgi filtreerida",
-    "No files found for the selected tags" : "Valitud siltidega ei leitud ühtegi faili",
     "Name" : "Nimi",
     "Public" : "Avalik",
     "Restricted" : "Piiratud",
@@ -53,6 +49,10 @@ OC.L10N.register(
     "No files in here" : "Siin ei ole faile",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
     "Size" : "Suurus",
-    "Modified" : "Muudetud"
+    "Modified" : "Muudetud",
+    "Tagged files" : "Sildistatud failid",
+    "Select tags to filter by" : "Vali sildid, mille järgi filtreerida",
+    "Please select tags to filter by" : "Palun vali sildid, mille järgi filtreerida",
+    "No files found for the selected tags" : "Valitud siltidega ei leitud ühtegi faili"
 },
 "nplurals=2; plural=(n != 1);");

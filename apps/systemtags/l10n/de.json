@@ -56,13 +56,9 @@
     "Failed to delete tag" : "Fehler beim Löschen des Schlagwortes",
     "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}.",
     "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}.",
+    "No tags found" : "Keine Tags gefunden",
     "Failed to load last used tags" : "Zuletzt verwendete Schlagworte konnten nicht geladen werden",
     "Missing \"Content-Location\" header" : "Fehlender \"Content-Location\"-Header",
-    "Tagged files" : "Mit Tags versehene Dateien",
-    "Select tags to filter by" : "Wähle Tags nach denen gefilter werden soll",
-    "No tags found" : "Keine Tags gefunden",
-    "Please select tags to filter by" : "Bitte wähle die Tags nach denen gefiltert werden soll",
-    "No files found for the selected tags" : "Keine Dateien für die ausgewählten Tags gefunden",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Öffentliche Schlagworte sind für alle Benutzer verfügbar. Eingeschränkte Schlagworte sind für alle Benutzer sichtbar, können jedoch nicht zugewiesen werden. Nicht sichtbare Schlagworte sind für interne Verwendung und können vom Benutzer nicht eingesehen und nicht zugewiesen werden.",
     "Create a new tag" : "Neues Schlagwort erstellen",
     "Name" : "Name",
@@ -74,6 +70,10 @@
     "No files in here" : "Keine Dateien vorhanden",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Size" : "Größe",
-    "Modified" : "Geändert"
+    "Modified" : "Geändert",
+    "Tagged files" : "Mit Tags versehene Dateien",
+    "Select tags to filter by" : "Wähle Tags nach denen gefilter werden soll",
+    "Please select tags to filter by" : "Bitte wähle die Tags nach denen gefiltert werden soll",
+    "No files found for the selected tags" : "Keine Dateien für die ausgewählten Tags gefunden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
