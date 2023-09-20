@@ -287,7 +287,7 @@ class Router implements IRouter {
 
 				// Reach here if it's valid
 				$response = new \OC\OCS\Result(null, 100, 'OPTIONS request successful');
-				$response = \OC_Response::setOptionsRequestHeaders($response);
+				\OC_Response::setOptionsRequestHeaders($response, $this->config);
 				\OC_API::respond($response, \OC_API::requestedFormat());
 
 				// Return since no more processing for an OPTIONS request is required

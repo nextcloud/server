@@ -69,9 +69,10 @@ class CorsPlugin extends ServerPlugin {
 			return;
 		}
 		$originHeader = $request->getHeader('Origin');
-		if ($this->ignoreOriginHeader($originHeader)) {
+		if ($originHeader === null || $this->ignoreOriginHeader($originHeader)) {
 			return;
 		}
+
 		try {
 			if (Util::isSameDomain($originHeader, $request->getAbsoluteUrl())) {
 				return;
@@ -86,6 +87,10 @@ class CorsPlugin extends ServerPlugin {
 		$this->server->on('beforeMethod:OPTIONS', [$this, 'setOptionsRequestHeaders'], 5);
 	}
 
+	/**
+	 * @param \Throwable $ex The thrown exception
+	 * @return void
+	 */
 	public function onException(\Throwable $ex) {
 		$this->setCorsHeaders($this->server->httpRequest, $this->server->httpResponse);
 	}

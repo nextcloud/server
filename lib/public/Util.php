@@ -650,7 +650,7 @@ class Util {
 		$host = \strtolower($parts['host']);
 
 		$port = $parts['port'] ?? null;
-		if ($port === null || $port === '') {
+		if ($port === null || $port === 0) {
 			if ($protocol === 'http') {
 				$port = 80;
 			} elseif ($protocol === 'https') {
