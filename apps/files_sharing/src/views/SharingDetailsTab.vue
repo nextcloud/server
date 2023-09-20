@@ -675,11 +675,17 @@ export default {
 			this.revertSharingPermission = !isCustomPermissions ? selectedPermission : 'custom'
 			this.setCustomPermissions = isCustomPermissions
 		},
-		initializeAttributes() {
-
-			if (this.isNewShare) return
-
+		async initializeAttributes() {
 			let hasAdvancedAttributes = false
+
+			if (this.isNewShare) {
+				if (this.isPasswordEnforced && this.isPublicShare) {
+					this.share.newPassword = await GeneratePassword()
+					this.advancedSectionAccordionExpanded = true
+				}
+				return
+			}
+
 			if (this.isValidShareAttribute(this.share.note)) {
 				this.writeNoteToRecipientIsChecked = true
 				hasAdvancedAttributes = true
