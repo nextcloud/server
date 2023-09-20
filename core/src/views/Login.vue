@@ -2,6 +2,7 @@
   - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -203,33 +204,6 @@ body {
 		font-size: var(--default-font-size);
 		text-align: center;
 		font-weight: normal !important;
-	}
-}
-
-// Same look like a dashboard panel
-.login-box.guest-box, footer {
-	color: var(--color-main-text);
-	background-color: var(--color-main-background-blur);
-	-webkit-backdrop-filter: var(--filter-background-blur);
-	backdrop-filter: var(--filter-background-blur);
-}
-
-footer {
-	// Usually the same size as the login box, but allow longer texts
-	min-width: 320px;
-	box-sizing: border-box;
-	// align with login box
-	box-shadow: 0 0 10px var(--color-box-shadow);
-	// set border to pill style and adjust padding for it
-	border-radius: var(--border-radius-pill);
-	padding: 6px 24px;
-	// always show above bottom
-	margin-bottom: 1rem;
-	min-height: unset;
-
-	// reset margin to reduce height of pill
-	p.info {
-		margin: auto 0px;
 	}
 }
 
