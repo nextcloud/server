@@ -59,13 +59,9 @@ OC.L10N.register(
     "Failed to delete tag" : "Etiket silinemedi",
     "This file has the tag {tag}" : "Dosya {tag} olarak etiketlenmiş",
     "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş",
+    "No tags found" : "Herhangi bir etiket bulunamadı",
     "Failed to load last used tags" : "Son kullanılan etiketler yüklenemedi",
     "Missing \"Content-Location\" header" : "\"Content-Location\" üst bilgisi eksik",
-    "Tagged files" : "Etiketli dosyalar",
-    "Select tags to filter by" : "Süzülecek etiketleri seçin",
-    "No tags found" : "Herhangi bir etiket bulunamadı",
-    "Please select tags to filter by" : "Lütfen süzülecek etiketleri seçin",
-    "No files found for the selected tags" : "Seçilmiş etiketlere uyan bir dosya bulunamadı",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "İş birlikli etiketleri tüm kullanıcılar kullanabilir. Kısıtlanmış etiketleri kullanıcılar görebilir ancak atayamaz. Görünmeyen etiketler iç kullanım içindir ve kullanıcılar tarafından görülüp ve atanamaz.",
     "Create a new tag" : "Etiket ekle",
     "Name" : "Ad",
@@ -77,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "Burada henüz bir dosya yok",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
     "Size" : "Boyut",
-    "Modified" : "Değiştirilme"
+    "Modified" : "Değiştirilme",
+    "Tagged files" : "Etiketli dosyalar",
+    "Select tags to filter by" : "Süzülecek etiketleri seçin",
+    "Please select tags to filter by" : "Lütfen süzülecek etiketleri seçin",
+    "No files found for the selected tags" : "Seçilmiş etiketlere uyan bir dosya bulunamadı"
 },
 "nplurals=2; plural=(n > 1);");

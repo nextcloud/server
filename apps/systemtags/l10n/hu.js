@@ -59,13 +59,9 @@ OC.L10N.register(
     "Failed to delete tag" : "A címke törlése sikertelen",
     "This file has the tag {tag}" : "Ennek a fájlnak ez a címkéje: {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Ennek a fájlnak ezek a címkéi: {firstTags} és {lastTag}",
+    "No tags found" : "Nem találhatók címkék",
     "Failed to load last used tags" : "A legutóbb használt címkék betöltése sikertelen",
     "Missing \"Content-Location\" header" : "Hiányzó „Content-Location” fejléc",
-    "Tagged files" : "Címkézett fájlok",
-    "Select tags to filter by" : "Válasszon címkéket a szűréshez:",
-    "No tags found" : "Nem találhatók címkék",
-    "Please select tags to filter by" : "Válasszon címkéket a szűréshez:",
-    "No files found for the selected tags" : "Nem található fájl a kiválasztott címkéhez",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Az együttműködési címkék elérhetők az összes felhasználó számára. A korlátozott címkék láthatók a felhasználók által, de nem rendelhetik azt semmihez. A láthatatlan címkék belső használatra vannak fenntartva, mivel a felhasználók nem látják ezeket, és nem is tudják semmihez hozzárendelni őket.",
     "Create a new tag" : "Új címke létrehozása",
     "Name" : "Név",
@@ -77,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "Itt nincsenek fájlok",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Size" : "Méret",
-    "Modified" : "Módosítva"
+    "Modified" : "Módosítva",
+    "Tagged files" : "Címkézett fájlok",
+    "Select tags to filter by" : "Válasszon címkéket a szűréshez:",
+    "Please select tags to filter by" : "Válasszon címkéket a szűréshez:",
+    "No files found for the selected tags" : "Nem található fájl a kiválasztott címkéhez"
 },
 "nplurals=2; plural=(n != 1);");

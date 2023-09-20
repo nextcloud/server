@@ -46,11 +46,7 @@ OC.L10N.register(
     "Collaborative tags" : "แท็กแบบทำงานร่วมกัน",
     "Collaborative tagging functionality which shares tags among users." : "คุณสมบัติแท็กแบบทำงานร่วมกัน ซึ่งใช้แท็กร่วมกันระหว่างผู้ใช้หลายคน",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "คุณสมบัติแท็กแบบทำงานร่วมกัน ซึ่งใช้แท็กร่วมกันระหว่างผู้ใช้หลายคน ดีสำหรับทีม\n\t(หากคุณเป็นผู้ให้บริการที่มีการติดตั้งแบบเช่าหลายคน ควรปิดใช้งานแอปนี้ เนื่องจากมีการใช้แท็กร่วมกันอยู่แล้ว)",
-    "Tagged files" : "ไฟล์ที่ติดแท็ก",
-    "Select tags to filter by" : "เลือกแท็กที่จะกรอง",
     "No tags found" : "ไม่พบแท็ก",
-    "Please select tags to filter by" : "กรุณาเลือกแท็กที่จะกรอง",
-    "No files found for the selected tags" : "ไม่พบไฟล์สำหรับแท็กที่เลือก",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "ผู้ใช้ทุกคนสามารถใช้แท็กแบบทำงานร่วมกันได้ แท็กที่ถูกจำกัดสามารถมองเห็นได้โดยผู้ใช้ แต่ผู้ใช้ไม่สามารถจัดสรรได้ แท็กที่มองไม่เห็นใช้สำหรับภายใน เนื่องจากผู้ใช้ไม่สามารถเห็นหรือจัดสรรแท็กเหล่านั้น",
     "Create a new tag" : "สร้างแท็กใหม่",
     "Name" : "ชื่อ",
@@ -62,6 +58,10 @@ OC.L10N.register(
     "No files in here" : "ไม่มีไฟล์ที่นี่",
     "No entries found in this folder" : "ไม่พบรายการในโฟลเดอร์นี้",
     "Size" : "ขนาด",
-    "Modified" : "แก้ไขเมื่อ"
+    "Modified" : "แก้ไขเมื่อ",
+    "Tagged files" : "ไฟล์ที่ติดแท็ก",
+    "Select tags to filter by" : "เลือกแท็กที่จะกรอง",
+    "Please select tags to filter by" : "กรุณาเลือกแท็กที่จะกรอง",
+    "No files found for the selected tags" : "ไม่พบไฟล์สำหรับแท็กที่เลือก"
 },
 "nplurals=1; plural=0;");

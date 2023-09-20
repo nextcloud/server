@@ -51,11 +51,7 @@ OC.L10N.register(
     "Failed to load tags" : "Απέτυχε η φόρτωση ετικετών",
     "This file has the tag {tag}" : "Αυτό το αρχείο έχει την ετικέτα {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Αυτό το αρχείο έχει τις ετικέτες {firstTags} και {lastTag}",
-    "Tagged files" : "Αρχεία με ετικέτες",
-    "Select tags to filter by" : "Επιλογή ετικετών για φιλτράρισμα με",
     "No tags found" : "Δεν βρέθηκαν ετικέτες",
-    "Please select tags to filter by" : "Παρακαλώ επιλέξτε ετικέτες για να φιλτραριστούν ",
-    "No files found for the selected tags" : "Δεν βρέθηκαν αρχεία για τις επιλεγμένες ετικέτες",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Οι ετικέτες σε συνεργασία είναι διαθέσιμες για όλους τους χρήστες. Οι περιορισμένες ετικέτες είναι ορατές στους χρήστες, αλλά δεν μπορούν να τους ανατεθούν. Οι κρυφές ετικέτες είναι για εσωτερική χρήση, όμως οι χρήστες δεν μπορούν να τις δουν ή να τις αναθέσουν.",
     "Create a new tag" : "Δημιουργήστε νέα ετικέτα",
     "Name" : "Όνομα",
@@ -67,6 +63,10 @@ OC.L10N.register(
     "No files in here" : "Δεν υπάρχουν αρχεία",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Size" : "Μέγεθος",
-    "Modified" : "Τροποποιήθηκε"
+    "Modified" : "Τροποποιήθηκε",
+    "Tagged files" : "Αρχεία με ετικέτες",
+    "Select tags to filter by" : "Επιλογή ετικετών για φιλτράρισμα με",
+    "Please select tags to filter by" : "Παρακαλώ επιλέξτε ετικέτες για να φιλτραριστούν ",
+    "No files found for the selected tags" : "Δεν βρέθηκαν αρχεία για τις επιλεγμένες ετικέτες"
 },
 "nplurals=2; plural=(n != 1);");
