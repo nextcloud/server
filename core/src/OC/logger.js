@@ -1,9 +1,7 @@
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2023 Louis Chmn <louis@chmn.me>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author 2023 Louis Chmn <louis@chmn.me>
  *
  * @license AGPL-3.0-or-later
  *
@@ -22,17 +20,9 @@
  *
  */
 
-import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
-import logger from './logger.js'
+import { getLoggerBuilder } from '@nextcloud/logger'
 
-/**
- * Returns the capabilities
- *
- * @return {Array} capabilities
- *
- * @since 14.0.0
- */
-export const getCapabilities = () => {
-	logger.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')
-	return realGetCapabilities()
-}
+export default getLoggerBuilder()
+	.setApp('core')
+	.detectUser()
+	.build()
